@@ -1,0 +1,98 @@
+
+\subsection{Green's theorem}
+Green's theorem tells us that
+
+$$\oint P\,dx+Q\,dy=\int\!\!\!\int
+\left({\partial Q\over\partial x}-{\partial P\over\partial y}\right)
+dx\,dy$$
+
+In other words, a line integral and a surface integral can yield
+the same result.
+
+Example 1.
+The following exercise is from {\it Advanced Calculus}
+by Wilfred Kaplan, p.~287.
+Evaluate $\oint (2x^3-y^3)\,dx+(x^3+y^3)\,dy$ around the circle
+$x^2+y^2=1$ using Green's theorem.
+
+It turns out that Eigenmath cannot solve the double integral over
+$x$ and $y$ directly.
+Polar coordinates are used instead.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+P = 2x^3-y^3
+Q = x^3+y^3
+f = d(Q,x)-d(P,y)
+x = r*cos(theta)
+y = r*sin(theta)
+defint(f*r,r,0,1,theta,0,2pi)
+\end{Verbatim}
+
+$\displaystyle \frac{3}{2}\pi$
+
+The $defint$ integrand is $f{*}r$ because $r\,dr\,d\theta=dx\,dy$.
+
+Now let us try computing the line integral side of Green's theorem
+and see if we get the same result.
+We need to use the trick of converting sine and cosine to exponentials
+so that Eigenmath can find a solution.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+x = cos(t)
+y = sin(t)
+P = 2x^3-y^3
+Q = x^3+y^3
+f = P*d(x,t)+Q*d(y,t)
+f = circexp(f)
+defint(f,t,0,2pi)
+\end{Verbatim}
+
+$\displaystyle \frac{3}{2}\pi$
+
+Example 2.
+Compute both sides of Green's theorem for
+$F=(1-y,x)$ over the disk $x^2+y^2\le4$.
+
+First compute the line integral along the boundary of the disk.
+Note that the radius of the disk is 2.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+-- Line integral
+P = 1-y
+Q = x
+x = 2*cos(t)
+y = 2*sin(t)
+defint(P*d(x,t)+Q*d(y,t),t,0,2pi)
+\end{Verbatim}
+
+$\displaystyle 8\pi$
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+-- Surface integral
+x = quote(x) --clear x
+y = quote(y) --clear y
+h = sqrt(4-x^2)
+defint(d(Q,x)-d(P,y),y,-h,h,x,-2,2)
+\end{Verbatim}
+
+$\displaystyle 8\pi$
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+-- Try computing the surface integral using polar coordinates.
+f = d(Q,x)-d(P,y) --do before change of coordinates
+x = r*cos(theta)
+y = r*sin(theta)
+defint(f*r,r,0,2,theta,0,2pi)
+\end{Verbatim}
+
+$\displaystyle 8\pi$
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+defint(f*r,theta,0,2pi,r,0,2) --try integrating over theta first
+\end{Verbatim}
+
+$\displaystyle 8\pi$
+
+In this case, Eigenmath solved both forms of the polar integral.
+However, in cases where Eigenmath fails to solve a double integral, try
+changing the order of integration.

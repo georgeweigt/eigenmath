@@ -1,0 +1,50 @@
+
+\section{Tricks}
+\begin{enumerate}
+
+\item
+The Eigenmath result field can be copied to the pasteboard by
+click, drag, then release.
+
+\item
+The last result is stored in the symbol {\tt last}.
+
+\item
+In a script, setting {\tt trace=1}
+causes each line to be printed just before it is evaluated.
+Useful for debugging.
+
+\item
+Use {\tt contract(A)} to get the mathematical trace of matrix $A$.
+
+\item
+Calculations in a script can span multiple lines.
+The trick is to arrange things so the parser will keep going.
+For example, if a calculation ends with a plus sign, the parser will go to the next line to get another term.
+Also, the parser will keep going when it expects a close parenthesis.
+
+\item
+Normally a function body is not evaluated when a function is defined.
+However, in some cases it is required that the function body be the result of something.
+The trick is to use eval.
+For example, the following code causes the function body to be a sixth order Taylor series expansion of $cos(x)$.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+f(x) = eval(taylor(cos(x),x,6))
+\end{Verbatim}
+
+\item
+Use {\tt binding} to see the unevaluated binding of a symbol.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+binding(f)
+\end{Verbatim}
+
+\item
+This is how to clear a symbol.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+f = quote(f)
+\end{Verbatim}
+
+\end{enumerate}

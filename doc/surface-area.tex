@@ -1,0 +1,58 @@
+
+\subsection{Surface area}
+Let $S$ be a surface parameterized by $x$ and $y$.
+That is, let $S=(x,y,z)$ where $z=f(x,y)$.
+The tangent lines at a point on $S$ form a tiny parallelogram.
+The area $a$ of the parallelogram is given by the magnitude of the cross product.
+$$a=\left|{\partial S\over\partial x}\times{\partial S\over\partial y}\right|$$
+By summing over all the parallelograms we obtain the total surface area $A$.
+Hence
+$$A=\int\!\!\!\int dA=\int\!\!\!\int a\,dx\,dy$$
+The following example computes the surface area of a unit disk
+parallel to the $xy$ plane.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+z = 2
+S = (x,y,z)
+a = abs(cross(d(S,x),d(S,y)))
+defint(a,y,-sqrt(1-x^2),sqrt(1-x^2),x,-1,1)
+\end{Verbatim}
+
+$\displaystyle \pi$
+
+The result is $\pi$, the area of a unit circle, which is what we expect.
+The following example computes the surface area of $z=x^2+2y$ over
+a unit square.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+z = x^2+2y
+S = (x,y,z)
+a = abs(cross(d(S,x),d(S,y)))
+defint(a,x,0,1,y,0,1)
+\end{Verbatim}
+
+$\displaystyle \frac{3}{2}+\frac{5}{8}\log(5)$
+
+The following exercise is from
+{\it Multivariable Mathematics} by Williamson and Trotter, p. 598.
+Find the area of the spiral ramp defined by
+$$S=\begin{bmatrix}u\cos v\\\ u\sin v\\ v\end{bmatrix},\qquad 0\le u\le1,\qquad 0\le v\le3\pi$$
+%The coordinates $x$, $y$ and $z$ are
+%functions of the parameter space $(u,v)$.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+x = u*cos(v)
+y = u*sin(v)
+z = v
+S = (x,y,z)
+a = abs(cross(d(S,u),d(S,v)))
+defint(a,u,0,1,v,0,3pi)
+\end{Verbatim}
+
+$\displaystyle \frac{3}{2}\pi\log(1+2^{1/2})+\frac{3\pi}{2^{1/2}}$
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+float
+\end{Verbatim}
+
+$\displaystyle 10.8177$

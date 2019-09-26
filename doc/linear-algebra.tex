@@ -1,0 +1,115 @@
+
+\subsection{Linear algebra}
+The function $dot$ is used to multiply vectors and matrices.
+Let
+
+\[
+A=\begin{pmatrix}1&2\\3&4\end{pmatrix}
+\quad{\rm and}\quad x=\begin{pmatrix}x_1\\x_2\end{pmatrix}
+\]
+
+The following example computes $Ax$.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+A = ((1,2),(3,4))
+x = (x1,x2)
+dot(A,x)
+\end{Verbatim}
+
+$\displaystyle \begin{bmatrix}x_1+2x_2\\3x_1+4x_2\end{bmatrix}$
+
+The following example shows how to use $dot$ and $inv$ to solve for
+the vector $X$ in $AX=B$.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+A = ((3,7),(1,-9))
+B = (16,-22)
+X = dot(inv(A),B)
+X
+\end{Verbatim}
+
+$\displaystyle X=\begin{bmatrix}-\frac{5}{17}\\ \frac{41}{17}\end{bmatrix}$
+
+%One might wonder why the $dot$ function is necessary.
+%Why not simply use $X=inv(A)*B$ like scalar multiplication?
+%The reason is that the software normally reorders factors internally to
+%optimize processing.
+%For example, $inv(A)*B$ in symbolic form is changed to $B*inv(A)$
+%internally.
+%Since the dot product is not commutative, this reordering would give the
+%wrong result.
+%Using a function to do the multiply avoids the problem because
+%function arguments are not reordered.
+
+The $dot$ function can have more than two arguments.
+For example, $dot(A,B,C)$ can be used for the dot product of three tensors.
+
+Square brackets are used for component access.
+Index numbering starts with 1.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+A = ((a,b),(c,d))
+A[1,2] = -A[1,1]
+A
+\end{Verbatim}
+
+$\displaystyle \begin{bmatrix}a&-a\\c&d\end{bmatrix}$
+
+The following example demonstrates the relation
+$A^{-1}=\mathop{\rm adj}{A}/\mathop{\rm det}{A}$.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+A = ((a,b),(c,d))
+inv(A)
+\end{Verbatim}
+
+$\displaystyle \begin{bmatrix}\frac{d}{ad-bc} & -\frac{b}{ad-bc}\\-\frac{c}{ad-bc} & \frac{a}{ad-bc}\end{bmatrix}$
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+adj(A)
+\end{Verbatim}
+
+$\displaystyle \begin{bmatrix}d & -b\\-c & a\end{bmatrix}$
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+det(A)
+\end{Verbatim}
+
+$\displaystyle ad-bc$
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+inv(A) - adj(A)/det(A)
+\end{Verbatim}
+
+$\displaystyle \begin{bmatrix}0 & 0\\0 & 0\end{bmatrix}$
+
+Sometimes a calculation will be simpler if it can be reorganized to use
+$adj$ instead of $inv$.
+The main idea is to try to prevent the determinant from appearing as a
+divisor.
+For example, suppose for matrices $A$ and $B$ you want to check that
+$${A}-{B}^{-1}=0$$
+Depending on the complexity of $\mathop{\rm det}B$, the software
+may not be able to find a simplification that yields zero.
+Should that occur, the following alternative formulation can be tried.
+$$(\mathop{\rm det}{B})\cdot{A}-\mathop{\rm adj}{B}=0$$
+
+The adjunct of a matrix is related to the cofactors as follows.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+A = ((a,b),(c,d))
+C = ((0,0),(0,0))
+C[1,1] = cofactor(A,1,1)
+C[1,2] = cofactor(A,1,2)
+C[2,1] = cofactor(A,2,1)
+C[2,2] = cofactor(A,2,2)
+C
+\end{Verbatim}
+
+$\displaystyle C=\begin{bmatrix}d&-c\\-b&a\end{bmatrix}$
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+adj(A) - transpose(C)
+\end{Verbatim}
+
+$\displaystyle \begin{bmatrix}0&0\\0&0\end{bmatrix}$

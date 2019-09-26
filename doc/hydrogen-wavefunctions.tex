@@ -1,0 +1,51 @@
+
+\subsection{Hydrogen wavefunctions}
+Hydrogen wavefunctions $\psi$ are solutions to the differential equation
+$${\psi\over n^2}=\nabla^2\psi+{2\psi\over r}$$
+where $n$ is an integer representing the quantization of total energy and
+$r$ is the radial distance of the electron.
+The Laplacian operator in spherical coordinates is
+
+$$\nabla^2={1\over r^2}{\partial\over\partial r}
+\left(r^2{\partial\over\partial r}\right)
++{1\over r^2\sin\theta}{\partial\over\partial\theta}
+\left(\sin\theta{\partial\over\partial\theta}\right)
++{1\over r^2\sin^2\theta}{\partial^2\over\partial\phi^2}$$
+
+The general form of $\psi$ is
+
+$$\psi=r^le^{-r/n}L_{n-l-1}^{2l+1}(2r/n)
+P_l^{|m|}(\cos\theta)e^{im\phi}$$
+
+where $L$ is a Laguerre polynomial, $P$ is a Legendre polynomial and
+$l$ and $m$ are integers such that
+
+$$1\le l\le n-1,\qquad -l\le m\le l$$
+
+The general form can be expressed as the product of a radial
+wavefunction $R$ and a spherical harmonic $Y$.
+
+$$\psi=RY,\qquad R=r^le^{-r/n}L_{n-l-1}^{2l+1}(2r/n),\qquad
+Y=P_l^{|m|}(\cos\theta)e^{im\phi}$$
+
+The following script checks $E=K+V$ for $n,l,m=7,3,1$.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+laplacian(f) = 1/r^2*d(r^2*d(f,r),r)+
+  1/(r^2*sin(theta))*d(sin(theta)*d(f,theta),theta)+
+  1/(r*sin(theta))^2*d(f,phi,phi)
+n = 7
+l = 3
+m = 1
+R = r^l*exp(-r/n)*laguerre(2*r/n,n-l-1,2*l+1)
+Y = legendre(cos(theta),l,abs(m))*exp(i*m*phi)
+psi = R*Y
+E = psi/n^2
+K = laplacian(psi)
+V = 2*psi/r
+simplify(E-K-V)
+\end{Verbatim}
+
+This is the result when the script runs.
+
+$\displaystyle 0$

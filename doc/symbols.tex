@@ -1,0 +1,133 @@
+
+\subsection{Symbols}
+As we saw earlier, symbols are defined using an equals sign.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+N = 212^17
+\end{Verbatim}
+
+No result is printed when a symbol is defined.
+To see the value of a symbol, just evaluate it.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+N
+\end{Verbatim}
+
+$\displaystyle N=3529471145760275132301897342055866171392$
+
+Symbols can have more that one letter.
+Everything after the first letter is displayed as a subscript.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+NA = 6.02214*10^23
+NA
+\end{Verbatim}
+
+$\displaystyle N_A=6.02214\times10^{23}$
+
+A symbol can be the name of a Greek letter.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+xi = 1/2
+xi
+\end{Verbatim}
+
+$\displaystyle \xi=\frac{1}{2}$
+
+Greek letters can appear in subscripts.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+Amu = 2.0
+Amu
+\end{Verbatim}
+
+$\displaystyle A_\mu=2.0$
+
+The following example shows how
+Eigenmath scans the entire symbol to find Greek letters.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+alphamunu = 1
+alphamunu
+\end{Verbatim}
+
+$\displaystyle \alpha_{\mu\nu}=1$
+
+When a symbolic chain is defined,
+Eigenmath follows the chain as far as possible.
+The following example sets $A=B$ followed by $B=C$.
+Then when $A$ is evaluated, the result is $C$.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+A = B
+B = C
+A
+\end{Verbatim}
+
+$\displaystyle A=C$
+
+Although $A=C$ is printed,
+inside the program the binding of $A$ is still $B$, as can be seen with
+the $binding$ function.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+binding(A)
+\end{Verbatim}
+
+$\displaystyle B$
+
+The {\it quote} function returns its argument unevaluated
+and can be used to clear a symbol.
+The following example clears $A$ so that its evaluation goes back to
+being $A$ instead of $C$.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+A = quote(A)
+A
+\end{Verbatim}
+
+$\displaystyle A$
+
+\subsection{User-defined functions}
+The following example shows
+a user-defined function with a single argument.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+f(x) = sin(x)/x
+f(pi/2)
+\end{Verbatim}
+
+$\displaystyle \frac{2}{\pi}$
+
+The following example defines a function with two arguments.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+g(x,y) = abs(x) + abs(y)
+g(1,-2)
+\end{Verbatim}
+
+$\displaystyle 3$
+
+User-defined functions can be evaluated without an argument list.
+The binding of the function name is returned when there is no
+argument list.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+f(x) = sin(x)/x
+f
+\end{Verbatim}
+
+$\displaystyle f=\frac{\sin(x)}{x}$
+
+Normally a function body is not evaluated when a function is defined.
+However, in some cases it is required that the function body be the
+result of something.
+The $eval$ function is used to accomplish this.
+For example, the following code causes the function body to be a sixth order Taylor series expansion of $\cos x$.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+f(x) = eval(taylor(cos(x),x,6))
+f
+\end{Verbatim}
+
+$\displaystyle f=-\frac{1}{720}x^6+\frac{1}{24}x^4-\frac{1}{2}x^2+1$

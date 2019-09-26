@@ -1,0 +1,507 @@
+\section{Built-in functions}
+
+\section*{abs}
+abs($x$) returns the absolute value or vector length of $x$.
+The mag function should be used for complex $x$.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+P = (x,y)
+abs(P)
+\end{Verbatim}
+
+$\displaystyle (x^2+y^2)^{1/2}$
+
+\section*{adj}
+adj($m$) returns the adjunct of matrix $m$.
+
+\section*{and}
+and($a,b,\ldots$) returns the logical ``and'' of predicate expressions.
+
+\section*{arccos}
+arccos($x$) returns the inverse cosine of $x$.
+
+\section*{arccosh}
+arccosh($x$) returns the inverse hyperbolic cosine of $x$.
+
+\section*{arcsin}
+arcsin($x$) returns the inverse sine of $x$.
+
+\section*{arcsinh}
+arcsinh($x$) returns the inverse hyperbolic sine of $x$.
+
+\section*{arctan}
+arcttan($x$) returns the inverse tangent of $x$.
+
+\section*{arctanh}
+arctanh($x$) returns the inverse hyperbolic tangent of $x$.
+
+\section*{arg}
+arg($z$) returns the angle of complex $z$.
+
+\section*{ceiling}
+ceiling($x$) returns the smallest integer not less than $x$.
+
+\section*{check}
+check($x$) In a script, if the predicate $x$ is true then continue, else stop.
+
+\section*{choose}
+choose($n,k$) returns $\displaystyle\binom{n}{k}$
+
+\section*{circexp}
+circexp($x$) returns expression $x$ with circular functions converted
+to exponential forms.
+Sometimes this will simplify an expression.
+
+\section*{coeff}
+coeff($p,x,n$) returns the coefficient of $x^n$ in polynomial $p$.
+
+\section*{cofactor}
+cofactor($m,i,j$) returns of the cofactor of matrix $m$ with respect to row $i$ and column $j$.
+
+\section*{conj}
+conj($z$) returns the complex conjugate of $z$.
+
+\section*{contract}
+\index{trace}
+contract($a,i,j$) returns tensor $a$ summed over indices $i$ and $j$.
+If $i$ and $j$ are omitted then indices 1 and 2 are used.
+contract($m$) is equivalent to the trace of matrix $m$.
+
+\section*{cos}
+cos($x$) returns the cosine of $x$.
+%If $x$ is a floating point number then $\cos(x)$ is evaluated numerically.
+
+\section*{cosh}
+cosh($x$) returns the hyperbolic cosine of $x$.
+
+\section*{cross}
+cross($u,v$) returns the cross product of vectors $u$ and $v$.
+
+\section*{curl}
+curl($u$) returns the curl of vector $u$.
+
+\section*{d}
+d($f,x$) returns the derivative of $f$ with respect to $x$.
+
+\section*{defint}
+defint($f,x,a,b,\ldots$)
+returns the definite integral of $f$ with respect to $x$ evaluated from $a$ to $b$.
+The argument list can be extended for multiple integrals.
+For example, $d(f,x,a,b,y,c,d)$.
+
+\section*{deg}
+deg($p,x$) returns the degree of polynomial $p$ in $x$.
+
+\section*{denominator}
+denominator($x$) returns the denominator of expression $x$.
+
+\section*{det}
+det($m$) returns the determinant of matrix $m$.
+
+\section*{do}
+do($a,b,\ldots$) evaluates the argument list from left to right.
+Returns the result of the last argument.
+
+\section*{dot}
+dot($a,b,\ldots$) returns the dot product of tensors.
+
+\section*{draw}
+draw($f,x$) draws the function $f$ with respect to $x$.
+
+\section*{erf}
+erf($x$) returns the error function of $x$.
+
+\section*{erfc}
+erf($x$) returns the complementary error function of $x$.
+
+\section*{eval}
+eval($f,x,n$) returns $f$ evaluated at $x=n$.
+
+\section*{exp}
+exp($x$) returns $e^x$.
+
+\section*{expand}
+expand($r,x$) returns the partial fraction expansion of the ratio of
+polynomials $r$ in $x$.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+expand(1/(x^3+x^2),x)
+\end{Verbatim}
+
+$\displaystyle \frac{1}{x^2}-\frac{1}{x}+\frac{1}{x+1}$
+
+\section*{expcos}
+expcos($x$) returns the cosine of $x$ in exponential form.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+expcos(x)
+\end{Verbatim}
+
+$\displaystyle \frac{1}{2}\exp(-ix)+\frac{1}{2}\exp(ix)$
+
+\section*{expsin}
+expsin($x$) returns the sine of $x$ in exponential form.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+expsin(x)
+\end{Verbatim}
+
+$\displaystyle \frac{1}{2}i\exp(-ix)-\frac{1}{2}i\exp(ix)$
+
+\section*{factor}
+factor($n$) factors the integer $n$.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+factor(12345)
+\end{Verbatim}
+
+$\displaystyle 3\times 5\times 823$
+
+$factor(p,x)$ factors polynomial $p$ in $x$.
+The last argument can be omitted for polynomials in $x$.
+The argument list can be extended for multivariate polynomials.
+For example, factor($p,x,y$) factors $p$ over $x$ and then over $y$.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+factor(125*x^3-1)
+\end{Verbatim}
+
+$\displaystyle (5x-1)(25x^2+5x+1)$
+
+\section*{factorial}
+Example:
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+10!
+\end{Verbatim}
+
+$\displaystyle 3628800$
+
+\section*{filter}
+filter($f,a,b,\ldots$) returns $f$ with terms involving $a$, $b$, etc. removed.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+1/a+1/b+1/c
+\end{Verbatim}
+
+$\displaystyle \frac{1}{a}+\frac{1}{b}+\frac{1}{c}$
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+filter(last,a)
+\end{Verbatim}
+
+$\displaystyle \frac{1}{b}+\frac{1}{c}$
+
+\section*{float}
+float($x$) converts $x$ to a floating point value.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+sum(n,0,20,(-1/2)^n)
+\end{Verbatim}
+
+$\displaystyle \frac{699051}{1048576}$
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+float(last)
+\end{Verbatim}
+
+$\displaystyle 0.666667$
+
+\section*{floor}
+floor($x$) returns the largest integer not greater than $x$.
+
+\section*{for}
+for($i,j,k,a,b,\ldots$) For $i$ equals $j$ through $k$ evaluate $a$, $b$, etc.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+x = 0
+y = 2
+for(k,1,9,x=sqrt(2+x),y=2*y/x)
+float(y)
+\end{Verbatim}
+
+$\displaystyle 3.14159$
+
+\section*{gcd}
+gcd($a,b,\ldots$) returns the greatest common divisor.
+
+\section*{hermite}
+hermite($x,n$) returns the $n$th Hermite polynomial in $x$.
+
+\section*{hilbert}
+hilbert($n$) returns a Hilbert matrix of order $n$.
+
+\section*{imag}
+imag($z$) returns the imaginary part of complex $z$.
+
+\section*{inner}
+inner($a,b,\ldots$) returns the inner product of tensors.
+Same as the dot product.
+
+\section*{integral}
+integral($f,x$) returns the integral of $f$ with respect to $x$.
+
+\section*{inv}
+inv($m$) returns the inverse of matrix $m$.
+
+\section*{isprime}
+isprime($n$) returns 1 if $n$ is prime, zero otherwise.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+isprime(2^53-111)
+\end{Verbatim}
+
+$\displaystyle 1$
+
+\section*{laguerre}
+laguerre($x,n,a$) returns the $n$th Laguerre polynomial in $x$.
+If $a$ is omitted then $a=0$ is used.
+
+\section*{lcm}
+lcm($a,b,\ldots$) returns the least common multiple.
+
+\section*{leading}
+leading($p,x$) returns the leading coefficient of polynomial $p$ in $x$.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+leading(5x^2+x+1,x)
+\end{Verbatim}
+
+$\displaystyle 5$
+
+\section*{legendre}
+legendre($x,n,m$) returns the $n$th Legendre polynomial in $x$.
+If $m$ is omitted then $m=0$ is used.
+
+\section*{log}
+log($x$) returns the natural logarithm of $x$.
+
+\section*{mag}
+mag($z$) returns the magnitude of complex $z$.
+
+\section*{mod}
+mod($a,b$) returns the remainder of $a$ divided by $b$.
+
+\section*{not}
+not($x$) negates the result of predicate expression $x$.
+
+\section*{nroots}
+nroots($p,x$) returns all of the roots, both real and complex, of
+polynomial $p$ in $x$.
+The roots are computed numerically.
+The coefficients of $p$ can be real or complex.
+
+\section*{numerator}
+numerator($x$) returns the numerator of expression $x$.
+%\begin{itemize}
+%\item[$\scriptstyle1$]{\tt numerator(a/b+b/a)}
+%\item[$\scriptstyle2$]\hspace{50pt} $a^2+b^2$
+%\end{itemize}
+
+\section*{or}
+or($a,b,\ldots$) returns the logical ``or'' of predicate expressions.
+
+\section*{outer}
+outer($a,b,\ldots$) returns the outer product of tensors.
+
+Example 1.
+\[
+\begin{pmatrix}
+1\\
+0
+\end{pmatrix}
+\otimes
+\begin{pmatrix}
+1\\
+0
+\end{pmatrix}
+=\begin{pmatrix}
+1 & 0\\
+0 & 0
+\end{pmatrix}
+\]
+
+\begin{Verbatim}[formatcom=\color{blue}]
+outer((1,0),(1,0))
+\end{Verbatim}
+
+$\displaystyle
+\begin{pmatrix}
+1 & 0\\
+0 & 0
+\end{pmatrix}
+$
+
+\bigskip
+Example 2. From the identity
+\[
+|A\rangle=\sum_i|i\rangle\langle i|A\rangle
+\]
+it follows that
+\[
+\sum_i|i\rangle\langle i|=\bf I
+\]
+For a two-state system with basis vectors
+\[
+|1\rangle=\begin{pmatrix}1/\sqrt2\\i/\sqrt2\end{pmatrix},
+\hbox{\quad and\quad}
+|2\rangle=\begin{pmatrix}1/\sqrt2\\-i/\sqrt2\end{pmatrix}
+\]
+the following code computes $\sum|i\rangle\langle i|$.
+\begin{Verbatim}[formatcom=\color{blue}]
+X1 = (1/sqrt(2),i/sqrt(2))
+X2 = (1/sqrt(2),-i/sqrt(2))
+outer(conj(X1),X1) + outer(conj(X2),X2)
+\end{Verbatim}
+$\displaystyle
+\begin{pmatrix}
+1 & 0\\
+0 & 1
+\end{pmatrix}
+$
+
+\bigskip
+The following code uses a different approach.
+First, tensor $T$ is computed such that
+\[
+T=\begin{pmatrix}
+|1\rangle\langle1| & |1\rangle\langle2| \\
+|2\rangle\langle1| & |2\rangle\langle2|
+\end{pmatrix}
+\]
+Then contraction is used to sum the diagonal elements.
+\begin{Verbatim}[formatcom=\color{blue}]
+X1 = (1/sqrt(2),i/sqrt(2))
+X2 = (1/sqrt(2),-i/sqrt(2))
+X = (X1,X2)
+T = outer(conj(X),X)
+T = transpose(T,2,3)
+contract(T)
+\end{Verbatim}
+$\displaystyle
+\begin{pmatrix}
+1 & 0\\
+0 & 1
+\end{pmatrix}
+$
+\begin{Verbatim}[formatcom=\color{blue}]
+-- verify components of T
+T[1,1] == outer(conj(X1),X1)
+T[1,2] == outer(conj(X1),X2)
+T[2,1] == outer(conj(X2),X1)
+T[2,2] == outer(conj(X2),X2)
+\end{Verbatim}
+$1$\\
+$1$\\
+$1$\\
+$1$
+
+\section*{polar}
+polar($z$) converts complex $z$ to polar form.
+
+\section*{prime}
+prime($n$) returns the $n$th prime number, $1\le n\le10{,}000$.
+
+\section*{print}
+print($a,b,\ldots$) evaluates expressions and prints the results..
+Useful for printing from inside a ``for'' loop.
+
+\section*{product}
+product($i,j,k,f$) returns $\displaystyle\prod_{i=j}^k f$
+
+\section*{quote}
+quote($x$) returns expression $x$ unevaluated.
+
+\section*{quotient}
+quotient($p,q,x$) returns the quotient of polynomials in $x$.
+
+\section*{rank}
+rank($a$) returns the number of indices that tensor $a$ has.
+A scalar has no indices so its rank is zero.
+
+\section*{rationalize}
+rationalize($x$) puts everything over a common denominator.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+rationalize(a/b+b/a)
+\end{Verbatim}
+
+$\displaystyle \frac{a^2+b^2}{ab}$
+
+\section*{real}
+real($z$) returns the real part of complex $z$.
+
+\section*{rect}
+rect($z$) returns complex $z$ in rectangular form.
+
+\section*{roots}
+roots($p,x$) returns the values of $x$ such that the polynomial $p(x)=0$.
+The polynomial should be factorable over integers.
+
+\section*{simplify}
+simplify($x$) returns $x$ in a simpler form.
+
+\section*{sin}
+sin($x$) returns the sine of $x$.
+
+\section*{sinh}
+sinh($x$) returns the hyperbolic sine of $x$.
+
+\section*{sqrt}
+sqrt($x$) returns the square root of $x$.
+
+\section*{stop}
+In a script, it does what it says.
+
+\section*{subst}
+subst($a,b,c$) substitutes $a$ for $b$ in $c$ and returns the result.
+
+\section*{sum}
+sum($i,j,k,f$) returns $\displaystyle\sum_{i=j}^k f$
+
+\section*{tan}
+tan($x$) returns the tangent of $x$.
+
+\section*{tanh}
+tanh($x$) returns the hyperbolic tangent of $x$.
+
+\section*{taylor}
+taylor($f,x,n,a$) returns the Taylor expansion of $f$ of $x$ at $a$.
+The argument $n$ is the degree of the expansion.
+If $a$ is omitted then $a=0$ is used.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+taylor(1/cos(x),x,4)
+\end{Verbatim}
+
+$\displaystyle \frac{5}{24}x^4+\frac{1}{2}x^2+1$
+
+\section*{test}
+test($a,b,c,d,\ldots$)
+If $a$ is true then $b$ is returned else if $c$ is true then $d$ is returned, etc.
+If the number of arguments is odd then the last argument is returned when all else fails.
+
+\section*{transpose}
+transpose($a,i,j$) returns the transpose of tensor $a$ with respect to indices $i$ and $j$.
+If $i$ and $j$ are omitted then 1 and 2 are used.
+Hence a matrix can be transposed with a single argument.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+A = ((a,b),(c,d))
+transpose(A)
+\end{Verbatim}
+
+$\displaystyle \begin{bmatrix}a & c\\ b & d\end{bmatrix}$
+
+\section*{unit}
+unit($n$) returns an $n\times n$ identity matrix.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+unit(2)
+\end{Verbatim}
+
+$\displaystyle \begin{bmatrix}1&0\\0&1\end{bmatrix}$
+
+\section*{zero}
+zero($i,j,\ldots$) returns a null tensor with dimensions $i$, $j$, etc.
+Useful for creating a tensor and then setting the component values.

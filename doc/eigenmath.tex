@@ -1,0 +1,128 @@
+\documentclass[11pt]{article}
+\usepackage{fancyvrb,amsmath,amsfonts,amssymb,graphicx,parskip,listings}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{tikz}
+
+% change margins
+\addtolength{\oddsidemargin}{-.875in}
+\addtolength{\evensidemargin}{-.875in}
+\addtolength{\textwidth}{1.75in}
+\addtolength{\topmargin}{-.875in}
+\addtolength{\textheight}{1.75in}
+
+\hyphenpenalty=10000
+
+\begin{document}
+
+\begin{center}
+{\LARGE Eigenmath Manual}
+
+George Weigt
+
+March 17, 2019
+\end{center}
+
+\tableofcontents
+
+\newpage
+
+\input{nabokov}
+
+\input{arithmetic}
+
+\input{exponents}
+
+\input{symbols}
+
+\input{scripting}
+
+\input{draw}
+
+\input{complex}
+
+\input{linear-algebra}
+
+\input{derivative}
+
+\input{integrals}
+
+\input{integral-trick}
+
+\input{fund-thm-of-calculus}
+
+\input{line-integral}
+
+\input{surface-area}
+
+\input{surface-integral}
+
+\input{greens-theorem}
+
+\input{stokes-theorem}
+
+%%%%%
+
+\section{Examples}
+
+\input{francois-viete}
+
+\input{curl-in-tensor-form}
+
+\input{qho}
+
+\input{hydrogen-wavefunctions}
+
+\input{space-shuttle-and-corvette}
+
+\input{avogadro}
+
+\input{zerozero}
+
+\subsection{Euler's identity}
+It is easy to ``believe'' that $e^{i\pi}=-1$ by looking at Taylor series expansions.
+
+First, consider the Taylor series expansion of $e^y$.
+\[
+e^y=1+y+\frac{y^2}{2!}+\frac{y^3}{3!}+\frac{y^4}{4!}
++\frac{y^5}{5!}+\frac{y^6}{6!}+\frac{y^7}{7!}+\cdots
+\]
+Next, substitute $ix$ for $y$.
+\begin{align*}
+e^{ix}&=1+ix+\frac{(ix)^2}{2!}+\frac{(ix)^3}{3!}+\frac{(ix)^4}{4!}
++\frac{(ix)^5}{5!}+\frac{(ix)^6}{6!}+\frac{(ix)^7}{7!}+\cdots\\
+&=1+ix-\frac{x^2}{2!}-i\frac{x^3}{3!}+\frac{x^4}{4!}
++i\frac{x^5}{5!}-\frac{x^6}{6!}-i\frac{x^7}{7!}+\cdots
+\end{align*}
+Next, collect the real and imaginary terms.
+\begin{align*}
+e^{ix}&=\left(1-\frac{x^2}{2!}+\frac{x^4}{4!}-\frac{x^6}{6!}+\cdots\right)
++i\left(x-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!}+\cdots\right)\\
+&=\cos x+i\sin x
+\end{align*}
+Finally, substitute $\pi$ for $x$.
+\[
+e^{i\pi}=\cos\pi+i\sin\pi=-1
+\]
+The following script checks the identity $e^{ix}=\cos x+i\sin x$ for order $n$.
+\begin{Verbatim}[formatcom=\color{blue}]
+n = 7
+E = taylor(e^y,y,n)
+E = eval(E,y,i*x)
+C = taylor(cos(x),x,n)
+S = taylor(sin(x),x,n)
+test(E=C+i*S,"true","false")
+\end{Verbatim}
+
+\newpage
+
+\input{list-of-functions}
+
+\newpage
+
+\input{syntax}
+
+\newpage
+
+\input{tricks}
+
+\end{document}

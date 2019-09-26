@@ -1,0 +1,63 @@
+
+\subsection{Curl in tensor form}
+The curl of a vector function can be expressed in tensor form as
+$$\mathop{\rm curl}{\bf F}=\epsilon_{ijk}\,{\partial F_k\over\partial x_j}$$
+where $\epsilon_{ijk}$ is the Levi-Civita tensor.
+The following script demonstrates that this formula is equivalent
+to computing curl the old fashioned way.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+-- Define epsilon
+epsilon = zero(3,3,3)
+epsilon[1,2,3] = 1
+epsilon[2,3,1] = 1
+epsilon[3,1,2] = 1
+epsilon[3,2,1] = -1
+epsilon[1,3,2] = -1
+epsilon[2,1,3] = -1
+-- F is a generic vector function
+F = (FX(),FY(),FZ())
+-- A is the curl of F
+A = outer(epsilon,d(F,(x,y,z)))
+A = contract(A,3,4) --sum across k
+A = contract(A,2,3) --sum across j
+-- B is the curl of F computed the old fashioned way
+BX = d(F[3],y)-d(F[2],z)
+BY = d(F[1],z)-d(F[3],x)
+BZ = d(F[2],x)-d(F[1],y)
+B = (BX,BY,BZ)
+-- Are A and B equal? Subtract to find out.
+A-B
+\end{Verbatim}
+
+Here is the result when the script runs.
+
+$\displaystyle \begin{bmatrix}0\\0\\0\end{bmatrix}$
+
+The following is a variation on the previous script.
+The product $\epsilon_{ijk}\,\partial F_k/\partial x_j$
+is computed in just one line of code.
+In addition, the outer product and the contraction across $k$
+are now computed with a dot product.
+
+\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+F = (FX(),FY(),FZ())
+epsilon = zero(3,3,3)
+epsilon[1,2,3] = 1
+epsilon[2,3,1] = 1
+epsilon[3,1,2] = 1
+epsilon[3,2,1] = -1
+epsilon[1,3,2] = -1
+epsilon[2,1,3] = -1
+A = contract(dot(epsilon,d(F,(x,y,z))),2,3)
+BX = d(F[3],y)-d(F[2],z)
+BY = d(F[1],z)-d(F[3],x)
+BZ = d(F[2],x)-d(F[1],y)
+B = (BX,BY,BZ)
+-- Are A and B equal? Subtract to find out.
+A-B
+\end{Verbatim}
+
+This is the result when the script runs.
+
+$\displaystyle \begin{bmatrix}0\\0\\0\end{bmatrix}$
