@@ -1,13 +1,13 @@
 To build and run:
 
-	$ cd src
-	$ make
-	$ ./eigenmath
+	cd src
+	make
+	./eigenmath
 
 Press control-C to exit.
 
 To run a script:
 
-	$ ./eigenmath scriptfilename
+	./eigenmath scriptfilename
 
 Sample scripts are available at www.eigenmath.org
