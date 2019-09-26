@@ -7,7 +7,6 @@ CFLAGS = -Wall -O0
 CC = gcc
 
 objects = \
-selftest.o \
 abs.o \
 add.o \
 adj.o \
