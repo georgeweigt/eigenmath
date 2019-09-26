@@ -1,0 +1,11 @@
+To build and run:
+
+	$ cd src
+	$ gcc -O0 -o eigenmath eigenmath.c -lm
+	$ ./eigenmath
+
+Press control-C to exit.
+
+To run a script:
+
+	$ ./eigenmath scriptfilename
