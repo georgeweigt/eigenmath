@@ -9,3 +9,5 @@ Press control-C to exit.
 To run a script:
 
 	$ ./eigenmath scriptfilename
+
+Sample scripts are available at www.eigenmath.org
