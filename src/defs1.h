@@ -10,15 +10,15 @@
 #include <errno.h>
 #include <pthread.h>
 
-#define STACKSIZE 100000 // evaluation stack
+#define STACKSIZE 1000000 // evaluation stack
 #define FRAMESIZE 10000 // limits recursion depth, prevents seg fault
 #define BLOCKSIZE 100000
-#define MAXBLOCKS 100
+#define MAXBLOCKS 1000
 #define NSYM 1000
 
 // Symbolic expressions are built by linking structs of type "atom".
 //
-// For example, the expression "a * b + c" is built like this:
+// For example, the expression "a b + c" is built like this:
 //
 //  _______      _______                                _______      _______
 // |CONS   |    |CONS   |                              |CONS   |    |SYM    |
