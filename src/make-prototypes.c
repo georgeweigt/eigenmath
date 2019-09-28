@@ -9,7 +9,19 @@
 #include <dirent.h>
 #include <string.h>
 
-void g(char *);
+int filter(const struct dirent *p);
+void scan(char *s);
+
+int
+main()
+{
+	int i, n, x;
+	struct dirent **p;
+	n = scandir(".", &p, filter, alphasort);
+	for (i = 0; i < n; i++)
+		scan(p[i]->d_name);
+	return 0;
+}
 
 int
 filter(const struct dirent *p)
@@ -25,21 +37,14 @@ filter(const struct dirent *p)
 		return 0;
 }
 
-int
-main()
-{
-	int i, n, x;
-	struct dirent **p;
-	n = scandir(".", &p, filter, alphasort);
-	for (i = 0; i < n; i++)
-		g(p[i]->d_name);
-	return 0;
-}
+#define BUFLEN 10000
 
-char str1[10000], str2[10000], str3[10000];
+char buf1[BUFLEN];
+char buf2[BUFLEN];
+char buf3[BUFLEN];
 
 void
-g(char *s)
+scan(char *s)
 {
 	char *a, *b, *c, *t;
 	FILE *f;
@@ -48,9 +53,9 @@ g(char *s)
 		printf("cannot open %s\n", s);
 		exit(1);
 	}
-	a = fgets(str1, sizeof str1, f);
-	b = fgets(str2, sizeof str2, f);
-	c = fgets(str3, sizeof str3, f);
+	a = fgets(buf1, BUFLEN, f);
+	b = fgets(buf2, BUFLEN, f);
+	c = fgets(buf3, BUFLEN, f);
 	while (1) {
 		if (c == NULL)
 			break;
@@ -62,7 +67,7 @@ g(char *s)
 		t = a;
 		a = b;
 		b = c;
-		c = fgets(t, 1000, f);
+		c = fgets(t, BUFLEN, f);
 	}
 	fclose(f);
 }
