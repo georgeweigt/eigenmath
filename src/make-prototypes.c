@@ -32,31 +32,25 @@ main()
 	struct dirent **p;
 	n = scandir(".", &p, filter, alphasort);
 	for (i = 0; i < n; i++)
-		//printf("<a href=\"%s\">%s</a><br>\n", p[i]->d_name, p[i]->d_name);
 		g(p[i]->d_name);
 	return 0;
 }
 
-char str1[1000], str2[1000], str3[1000];
+char str1[10000], str2[10000], str3[10000];
 
 void
 g(char *s)
 {
 	char *a, *b, *c, *t;
 	FILE *f;
-	if (strcmp(s, "MainOSX.c") == 0 || strcmp(s, "MainXP.c") == 0
-	|| strcmp(s, "prototype-tool.c") == 0
-	|| strcmp(s, "html-tool.c") == 0)
-		return;
-//	printf("\n// %s\n", s);
 	f = fopen(s, "r");
 	if (f == NULL) {
 		printf("cannot open %s\n", s);
 		exit(1);
 	}
-	a = fgets(str1, 1000, f);
-	b = fgets(str2, 1000, f);
-	c = fgets(str3, 1000, f);
+	a = fgets(str1, sizeof str1, f);
+	b = fgets(str2, sizeof str2, f);
+	c = fgets(str3, sizeof str3, f);
 	while (1) {
 		if (c == NULL)
 			break;
