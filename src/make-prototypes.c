@@ -56,9 +56,7 @@ scan(char *s)
 	a = fgets(buf1, BUFLEN, f);
 	b = fgets(buf2, BUFLEN, f);
 	c = fgets(buf3, BUFLEN, f);
-	while (1) {
-		if (c == NULL)
-			break;
+	while (c) {
 		if (*c == '{' && strncmp(a, "static", 5) != 0) {
 			a[strlen(a) - 1] = 0; // erase newline
 			b[strlen(b) - 1] = 0;
