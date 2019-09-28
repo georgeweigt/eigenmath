@@ -15,7 +15,7 @@ void scan(char *s);
 int
 main()
 {
-	int i, n, x;
+	int i, n;
 	struct dirent **p;
 	n = scandir(".", &p, filter, alphasort);
 	for (i = 0; i < n; i++)
