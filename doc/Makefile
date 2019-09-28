@@ -5,4 +5,4 @@ default:
 	pdflatex eigenmath.tex
 
 clean:
-	rm -f *.log *.aux *.toc *.synctex.gz
+	rm -f eigenmath.pdf *.log *.aux *.toc *.synctex.gz
