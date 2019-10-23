@@ -30,7 +30,6 @@ circexp.o \
 clock.o \
 coeff.o \
 cofactor.o \
-condense.o \
 conj.o \
 contract.o \
 core.o \
