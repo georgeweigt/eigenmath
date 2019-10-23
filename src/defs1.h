@@ -13,8 +13,10 @@
 #define STACKSIZE 1000000 // evaluation stack
 #define FRAMESIZE 10000 // limits recursion depth, prevents seg fault
 #define BLOCKSIZE 100000
-#define MAXBLOCKS 1000
+#define MAXBLOCKS 250
 #define NSYM 1000
+
+// MAXBLOCKS * BLOCKSIZE * sizeof (struct atom) = 600,000,000 bytes
 
 // Symbolic expressions are built by linking structs of type "atom".
 //
