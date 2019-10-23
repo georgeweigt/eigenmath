@@ -142,7 +142,6 @@ eval_cons(void)
 	case CLOCK:		eval_clock();		break;
 	case COEFF:		eval_coeff();		break;
 	case COFACTOR:		eval_cofactor();	break;
-	case CONDENSE:		eval_condense();	break;
 	case CONJ:		eval_conj();		break;
 	case CONTRACT:		eval_contract();	break;
 	case COS:		eval_cos();		break;

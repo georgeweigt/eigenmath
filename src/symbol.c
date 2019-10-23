@@ -145,7 +145,6 @@ init_symbol_table(void)
 	std_symbol("clock", CLOCK);
 	std_symbol("coeff", COEFF);
 	std_symbol("cofactor", COFACTOR);
-	std_symbol("condense", CONDENSE);
 	std_symbol("conj", CONJ);
 	std_symbol("contract", CONTRACT);
 	std_symbol("cos", COS);
