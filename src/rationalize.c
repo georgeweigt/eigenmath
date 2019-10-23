@@ -12,102 +12,31 @@ void
 rationalize(void)
 {
 	int t = expanding;
+	expanding = 0;
+
 	save();
-	rationalize_nib();
-	restore();
-	expanding = t;
-}
-
-#undef NUM
-#undef DEN
-
-#define NUM p5
-#define DEN p6
-
-void
-rationalize_nib(void)
-{
-	int i, h;
 
 	p1 = pop();
 
-	if (istensor(p1)) {
+	if (istensor(p1))
 		rationalize_tensor();
-		return;
-	}
+	else
+		rationalize_scalar();
 
-	expanding = 0;
+	restore();
 
-	NUM = p1;
-	DEN = one;
-
-	// stop after 10 tries
-
-	for (i = 0; i < 10; i++) {
-
-		if (car(NUM) != symbol(ADD))
-			break;
-
-		// compute least common multiple of denominators
-
-		push(cadr(NUM));
-		denominator();
-
-		p2 = cddr(NUM);
-
-		while (iscons(p2)) {
-
-			push(car(p2));
-			denominator();
-
-			p4 = pop();
-			p3 = pop();
-
-			push(p3);
-			push(p4);
-			multiply();
-
-			push(p3);
-			push(p4);
-			gcd();
-
-			divide();
-
-			p2 = cdr(p2);
-		}
-
-		p3 = pop();
-
-		if (equaln(p3, 1))
-			break; // numerator has no denominators
-
-		// update numerator
-
-		expanding = 1;
-		h = tos;
-		p2 = cdr(NUM);
-		while (iscons(p2)) {
-			push(car(p2));
-			push(p3);
-			multiply();
-			p2 = cdr(p2);
-		}
-		add_terms(tos - h);
-		NUM = pop();
-		expanding = 0;
-
-		// update denominator
-
-		push(DEN);
-		push(p3);
-		multiply();
-		DEN = pop();
-	}
-
-	push(NUM);
-	push(DEN);
-	divide();
+	expanding = t;
 }
+
+#undef T
+#undef NUM
+#undef DEN
+#undef DIV
+
+#define T p3
+#define NUM p4
+#define DEN p5
+#define DIV p6
 
 void
 rationalize_tensor(void)
@@ -116,15 +45,144 @@ rationalize_tensor(void)
 
 	push(p1);
 	copy_tensor();
-	p1 = pop();
+	T = pop();
 
-	n = p1->u.tensor->nelem;
+	n = T->u.tensor->nelem;
 
 	for (i = 0; i < n; i++) {
-		push(p1->u.tensor->elem[i]);
-		rationalize();
-		p1->u.tensor->elem[i] = pop();
+		p1 = T->u.tensor->elem[i];
+		rationalize_scalar();
+		T->u.tensor->elem[i] = pop();
 	}
 
-	push(p1);
+	push(T);
+}
+
+void
+rationalize_scalar(void)
+{
+	NUM = p1;
+	DEN = one;
+
+	move_divisors_num_to_den();
+	move_divisors_den_to_num();
+
+	push(NUM);
+	expand_expr();
+	push(DEN);
+	divide();
+}
+
+void
+move_divisors_num_to_den(void)
+{
+	int h;
+
+	while (get_divisor(NUM)) {
+
+		if (car(NUM) == symbol(ADD)) {
+			p1 = cdr(NUM);
+			h = tos;
+			while (iscons(p1)) {
+				push(car(p1));
+				push(DIV);
+				multiply();
+				p1 = cdr(p1);
+			}
+			add_terms(tos - h);
+		} else {
+			push(NUM);
+			push(DIV);
+			multiply();
+		}
+
+		NUM = pop();
+
+		push(DEN);
+		push(DIV);
+		multiply();
+		DEN = pop();
+	}
+}
+
+void
+move_divisors_den_to_num(void)
+{
+	int h;
+
+	while (get_divisor(DEN)) {
+
+		push(NUM);
+		push(DIV);
+		multiply();
+		NUM = pop();
+
+		if (car(DEN) == symbol(ADD)) {
+			p1 = cdr(DEN);
+			h = tos;
+			while (iscons(p1)) {
+				push(car(p1));
+				push(DIV);
+				multiply();
+				p1 = cdr(p1);
+			}
+			add_terms(tos - h);
+		} else {
+			push(DEN);
+			push(DIV);
+			multiply();
+		}
+
+		DEN = pop();
+	}
+}
+
+int
+get_divisor(struct atom *p)
+{
+	if (car(p) == symbol(ADD)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (get_divisor_from_term(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return get_divisor_from_term(p);
+}
+
+int
+get_divisor_from_term(struct atom *p)
+{
+	if (car(p) == symbol(MULTIPLY)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (get_divisor_from_factor(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+	}
+
+	return get_divisor_from_factor(p);
+}
+
+int
+get_divisor_from_factor(struct atom *p)
+{
+	if (isfraction(p)) {
+		push_rational_number(MPLUS, mcopy(p->u.q.b), mint(1));
+		DIV = pop();
+		return 1;
+	}
+
+	if (car(p) == symbol(POWER) && isnegativeterm(caddr(p))) {
+		push(p);
+		reciprocate();
+		DIV = pop();
+		return 1;
+	}
+
+	return 0;
 }
