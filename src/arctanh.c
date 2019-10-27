@@ -28,9 +28,14 @@ arctanh_nib(void)
 		return;
 	}
 
+	if (isdouble(p1)) {
+		push_double(atanh(p1->u.d));
+		return;
+	}
+
 	// arctanh(z) = 1/2 (log(1 + z) - log(1 - z))
 
-	if (isdouble(p1) || isdoublez(p1)) {
+	if (isdoublez(p1)) {
 		push_double(1.0);
 		push(p1);
 		add();

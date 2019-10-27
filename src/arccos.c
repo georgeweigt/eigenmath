@@ -23,9 +23,14 @@ arccos_nib(void)
 
 	p1 = pop();
 
+	if (isdouble(p1)) {
+		push_double(acos(p1->u.d));
+		return;
+	}
+
 	// arccos(z) = -i log(z + sqrt(z^2 - 1))
 
-	if (isdouble(p1) || isdoublez(p1)) {
+	if (isdoublez(p1)) {
 		push(imaginaryunit);
 		negate();
 		push(p1);

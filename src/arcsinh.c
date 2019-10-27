@@ -21,9 +21,14 @@ arcsinh_nib(void)
 {
 	p1 = pop();
 
+	if (isdouble(p1)) {
+		push_double(asinh(p1->u.d));
+		return;
+	}
+
 	// arcsinh(z) = log(z + (z^2 + 1)^(1/2))
 
-	if (isdouble(p1) || isdoublez(p1)) {
+	if (isdoublez(p1)) {
 		push(p1);
 		push(p1);
 		multiply();
