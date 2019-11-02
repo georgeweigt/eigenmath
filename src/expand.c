@@ -40,7 +40,7 @@ eval_expand(void)
 void
 expand(void)
 {
-	int h, t;
+	int h;
 
 	save();
 
@@ -118,16 +118,14 @@ expand(void)
 	// remove numeric factor if there is one
 
 	if (car(A) == symbol(MULTIPLY) && isnum(cadr(A))) {
-		push(cadr(A)); // save numeric factor
-		push(A);
+		push(cadr(A)); // save numeric factor on stack
 		push(cadr(A));
-		t = expanding;
-		expanding = 0;
-		divide(); // remove numeric factor
-		expanding = t;
+		reciprocate();
+		push(A);
+		multiply_noexpand(); // remove numeric factor
 		A = pop();
 	} else
-		push(one); // numeric factor
+		push(one); // numeric factor on stack
 
 	expand_get_C();
 	expand_get_B();
