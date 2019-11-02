@@ -1,30 +1,16 @@
-// Partial fraction expansion
-//
-// Example
-//
-//      expand(1/(x^3+x^2),x)
-//
-//        1      1       1
-//      ---- - --- + -------
-//        2     x     x + 1
-//       x
-
 #include "defs.h"
 
 void
 eval_expand(void)
 {
-	// 1st arg
-
 	push(cadr(p1));
 	eval();
-
-	// 2nd arg
 
 	push(caddr(p1));
 	eval();
 
 	p2 = pop();
+
 	if (p2 == symbol(NIL))
 		guess();
 	else
@@ -54,6 +40,8 @@ eval_expand(void)
 void
 expand(void)
 {
+	int h, t;
+
 	save();
 
 	X = pop();
@@ -68,15 +56,15 @@ expand(void)
 	// if sum of terms then sum over the expansion of each term
 
 	if (car(F) == symbol(ADD)) {
-		push_integer(0);
+		h = tos;
 		p1 = cdr(F);
 		while (iscons(p1)) {
 			push(car(p1));
 			push(X);
 			expand();
-			add();
 			p1 = cdr(p1);
 		}
+		add_terms(tos - h);
 		restore();
 		return;
 	}
@@ -127,6 +115,20 @@ expand(void)
 	factorpoly();
 	A = pop();
 
+	// remove numeric factor if there is one
+
+	if (car(A) == symbol(MULTIPLY) && isnum(cadr(A))) {
+		push(cadr(A)); // save numeric factor
+		push(A);
+		push(cadr(A));
+		t = expanding;
+		expanding = 0;
+		divide(); // remove numeric factor
+		expanding = t;
+		A = pop();
+	} else
+		push(one); // numeric factor
+
 	expand_get_C();
 	expand_get_B();
 	expand_get_A();
@@ -145,6 +147,9 @@ expand(void)
 		push(A);
 		multiply();
 	}
+
+	swap();
+	divide(); // divide by numeric factor
 
 	push(Q);
 	add();
