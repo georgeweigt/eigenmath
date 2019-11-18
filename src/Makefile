@@ -1,6 +1,5 @@
 # To build a new prototypes.h:
 #
-#	cd src
 #	gcc make-prototypes.c
 #	./a.out >prototypes.h
 

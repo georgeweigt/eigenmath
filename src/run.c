@@ -4,23 +4,6 @@ char *trace_ptr;
 char *trace_ptr0;
 
 void
-run_as_thread(char *s)
-{
-	pthread_t thread;
-	pthread_create(&thread, NULL, run1, s);
-	pthread_detach(thread);
-}
-
-void *
-run1(void *s)
-{
-	running = 1;
-	run((char *) s);
-	running = 0;
-	return NULL;
-}
-
-void
 run(char *s)
 {
 	trace_ptr = s;
