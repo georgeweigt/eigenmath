@@ -8,7 +8,6 @@
 #include <setjmp.h>
 #include <math.h>
 #include <errno.h>
-#include <pthread.h>
 
 #define STACKSIZE 1000000 // evaluation stack
 #define FRAMESIZE 10000 // limits recursion depth, prevents seg fault

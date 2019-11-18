@@ -33,7 +33,6 @@ struct atom *minusone;
 struct atom *imaginaryunit;
 
 int expanding;
-int running;
 
 int stop_flag;
 int draw_flag;
