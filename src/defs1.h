@@ -242,20 +242,6 @@ struct tensor {
 	struct atom *elem[1];
 };
 
-struct display {
-	struct display *next;
-	uint8_t type, attr;
-	int h, w;
-	int tot_h, tot_w;
-	int len;
-	uint8_t buf[0];
-};
-
-struct text_metric {
-	float size;
-	int ascent, descent, width, xheight, em;
-};
-
 #define symbol(x) (symtab + (x))
 #define push_symbol(x) push(symbol(x))
 #define iscons(p) ((p)->k == CONS)
