@@ -205,10 +205,8 @@ print_term(struct atom *p)
 
 		// coeff -1?
 
-		if (isminusone(car(p))) {
-//			print_char('-');
+		if (isminusone(car(p)))
 			p = cdr(p);
-		}
 
 		print_factor(car(p));
 		p = cdr(p);
@@ -284,9 +282,7 @@ print_factor(struct atom *p)
 	}
 
 	if (isstr(p)) {
-		//print_str("\"");
 		print_str(p->u.str);
-		//print_str("\"");
 		return;
 	}
 
@@ -353,22 +349,6 @@ print_factor(struct atom *p)
 		return;
 	}
 
-//	if (car(p) == _list) {
-//		print_str("{");
-//		p = cdr(p);
-//		if (iscons(p)) {
-//			print_expr(car(p));
-//			p = cdr(p);
-//		}
-//		while (iscons(p)) {
-//			print_str(",");
-//			print_expr(car(p));
-//			p = cdr(p);
-//		}
-//		print_str("}");
-//		return;
-//	}
-
 	if (car(p) == symbol(INDEX) && issymbol(cadr(p))) {
 		print_index_function(p);
 		return;
@@ -380,10 +360,6 @@ print_factor(struct atom *p)
 	}
 
 	if (iscons(p)) {
-		//if (car(p) == symbol(FORMAL) && cadr(p)->k == SYM) {
-		//	print_str(((struct symbol *) cadr(p))->name);
-		//	return;
-		//}
 		print_factor(car(p));
 		p = cdr(p);
 		print_str("(");
@@ -436,10 +412,10 @@ void
 print_factorial_function(struct atom *p)
 {
 	p = cadr(p);
-	if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY) || car(p) == symbol(POWER) || car(p) == symbol(FACTORIAL))
-		print_subexpr(p);
-	else
+	if (isposint(p) || issymbol(p))
 		print_expr(p);
+	else
+		print_subexpr(p);
 	print_char('!');
 }
 
@@ -509,17 +485,11 @@ is_denominator(struct atom *p)
 		return 0;
 }
 
-// don't consider the leading fraction
-
-// we want 2/3*a*b*c instead of 2*a*b*c/3
-
 int
 any_denominators(struct atom *p)
 {
 	struct atom *q;
 	p = cdr(p);
-//	if (isfraction(car(p)))
-//		return 1;
 	while (iscons(p)) {
 		q = car(p);
 		if (is_denominator(q))

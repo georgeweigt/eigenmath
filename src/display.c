@@ -706,10 +706,10 @@ void
 emit_factorial_function(struct atom *p)
 {
 	p = cadr(p);
-	if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY) || car(p) == symbol(POWER) || car(p) == symbol(FACTORIAL))
-		emit_subexpr(p);
-	else
+	if (isposint(p) || issymbol(p))
 		emit_expr(p);
+	else
+		emit_subexpr(p);
 	emit_char('!');
 }
 
