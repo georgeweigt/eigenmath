@@ -131,3 +131,16 @@ f
 \end{Verbatim}
 
 $\displaystyle f=-\frac{1}{720}x^6+\frac{1}{24}x^4-\frac{1}{2}x^2+1$
+
+When a function body is evaluated the function arguments
+are passed to symbol definitions.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+f(x) = A + B
+A = a x
+B = b x
+f(2)
+\end{Verbatim}
+
+$\displaystyle 2a+2b$
+
