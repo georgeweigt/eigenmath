@@ -117,7 +117,6 @@ transform.o \
 transpose.o \
 userfunc.o \
 variables.o \
-vectorize.o \
 zero.o
 
 eigenmath : $(objects)
