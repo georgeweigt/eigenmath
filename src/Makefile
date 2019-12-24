@@ -116,7 +116,6 @@ test.o \
 transform.o \
 transpose.o \
 userfunc.o \
-variables.o \
 zero.o
 
 eigenmath : $(objects)
