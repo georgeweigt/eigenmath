@@ -674,6 +674,6 @@ void eval_transpose(void);
 void transpose(void);
 void transpose_nib(void);
 void eval_user_function(void);
-int rewrite_args(void);
-int rewrite_args_tensor(void);
+void rewrite(void);
+void rewrite_nib(void);
 void eval_zero(void);
