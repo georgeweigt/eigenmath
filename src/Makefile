@@ -95,7 +95,6 @@ quotient.o \
 rationalize.o \
 real.o \
 rect.o \
-rewrite.o \
 roots.o \
 run.o \
 scan.o \
