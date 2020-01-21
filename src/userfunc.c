@@ -1,5 +1,3 @@
-// Evaluate a user defined function
-
 #include "defs.h"
 
 #undef F
@@ -11,9 +9,6 @@
 #define A p4 // A is the formal argument list
 #define B p5 // B is the calling argument list
 #define S p6 // S is the argument substitution list
-
-int rewrite_args(void);
-int rewrite_args_tensor(void);
 
 void
 eval_user_function(void)
