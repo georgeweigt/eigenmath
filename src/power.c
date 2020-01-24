@@ -13,6 +13,10 @@ eval_power(void)
 		expanding = 0;
 		push(cadr(p1)); // base
 		eval();
+		p1 = pop();
+		if (car(p1) == symbol(POWER))
+			expanding = t; // expand product of exponents
+		push(p1);
 		push(p2);
 		power();
 		expanding = t;
