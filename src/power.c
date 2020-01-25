@@ -13,10 +13,6 @@ eval_power(void)
 		expanding = 0;
 		push(cadr(p1)); // base
 		eval();
-		p1 = pop();
-		if (car(p1) == symbol(POWER))
-			expanding = t; // expand product of exponents
-		push(p1);
 		push(p2);
 		power();
 		expanding = t;
@@ -45,7 +41,7 @@ power(void)
 void
 power_nib(void)
 {
-	int h;
+	int h, t;
 
 	EXPO = pop();
 	BASE = pop();
@@ -133,7 +129,10 @@ power_nib(void)
 		push(cadr(BASE));
 		push(caddr(BASE));
 		push(EXPO);
+		t = expanding;
+		expanding = 1; // expand products of exponents
 		multiply();
+		expanding = t;
 		power();
 		return;
 	}
