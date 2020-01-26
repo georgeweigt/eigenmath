@@ -1,0 +1,1695 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Eigenmath Help</title>
+<style type="text/css">
+pre {font-family:courier;font-size:14pt}
+</style>
+</head>
+<body style="font-size:14pt">
+
+<p>
+The Eigenmath manual and additional support materials are available at
+<a href="http://www.eigenmath.org">www.eigenmath.org</a>
+
+<p>
+<table style="font-family:courier;width:100%">
+<tr>
+
+<td valign="top">
+<a href="#abs">abs</a><br>
+<a href="#adj">adj</a><br>
+<a href="#and">and</a><br>
+<a href="#arccos">arccos</a><br>
+<a href="#arccosh">arccosh</a><br>
+<a href="#arcsin">arcsin</a><br>
+<a href="#arcsinh">arcsinh</a><br>
+<a href="#arctan">arctan</a><br>
+<a href="#arctanh">arctanh</a><br>
+<a href="#arg">arg</a><br>
+<a href="#besselj">besselj</a><br>
+<a href="#binding">binding</a><br>
+<a href="#binomial">binomial</a><br>
+<a href="#ceiling">ceiling</a><br>
+<a href="#check">check</a><br>
+<a href="#choose">choose</a><br>
+<a href="#circexp">circexp</a><br>
+<a href="#clear">clear</a><br>
+<a href="#clock">clock</a><br>
+</td>
+
+<td valign="top">
+<a href="#coeff">coeff</a><br>
+<a href="#cofactor">cofactor</a><br>
+<a href="#conj">conj</a><br>
+<a href="#contract">contract</a><br>
+<a href="#cos">cos</a><br>
+<a href="#cosh">cosh</a><br>
+<a href="#cross">cross</a><br>
+<a href="#curl">curl</a><br>
+<a href="#d">d</a><br>
+<a href="#defint">defint</a><br>
+<a href="#deg">deg</a><br>
+<a href="#denominator">denominator</a><br>
+<a href="#det">det</a><br>
+<a href="#dim">dim</a><br>
+<a href="#div">div</a><br>
+<a href="#do">do</a><br>
+<a href="#dot">dot</a><br>
+<a href="#draw">draw</a><br>
+<a href="#e">e</a><br>
+</td>
+
+<td valign="top">
+<a href="#eigen">eigen</a><br>
+<a href="#erf">erf</a><br>
+<a href="#erfc">erfc</a><br>
+<a href="#eval">eval</a><br>
+<a href="#exp">exp</a><br>
+<a href="#expand">expand</a><br>
+<a href="#expcos">expcos</a><br>
+<a href="#expcosh">expcosh</a><br>
+<a href="#expsin">expsin</a><br>
+<a href="#expsinh">expsinh</a><br>
+<a href="#exptan">exptan</a><br>
+<a href="#exptanh">exptanh</a><br>
+<a href="#factor">factor</a><br>
+<a href="#factorial">factorial</a><br>
+<a href="#filter">filter</a><br>
+<a href="#float">float</a><br>
+<a href="#floor">floor</a><br>
+<a href="#for">for</a><br>
+<a href="#gcd">gcd</a><br>
+</td>
+
+<td valign="top">
+<a href="#hermite">hermite</a><br>
+<a href="#hilbert">hilbert</a><br>
+<a href="#i">i</a><br>
+<a href="#imag">imag</a><br>
+<a href="#inner">inner</a><br>
+<a href="#integral">integral</a><br>
+<a href="#inv">inv</a><br>
+<a href="#isprime">isprime</a><br>
+<a href="#j">j</a><br>
+<a href="#laguerre">laguerre</a><br>
+<a href="#last">last</a><br>
+<a href="#lcm">lcm</a><br>
+<a href="#leading">leading</a><br>
+<a href="#legendre">legendre</a><br>
+<a href="#lisp">lisp</a><br>
+<a href="#log">log</a><br>
+<a href="#mag">mag</a><br>
+<a href="#mod">mod</a><br>
+<a href="#not">not</a><br>
+</td>
+
+<td valign="top">
+<a href="#nroots">nroots</a><br>
+<a href="#number">number</a><br>
+<a href="#numerator">numerator</a><br>
+<a href="#or">or</a><br>
+<a href="#outer">outer</a><br>
+<a href="#pi">pi</a><br>
+<a href="#polar">polar</a><br>
+<a href="#power">power</a><br>
+<a href="#prime">prime</a><br>
+<a href="#print">print</a><br>
+<a href="#product">product</a><br>
+<a href="#quote">quote</a><br>
+<a href="#quotient">quotient</a><br>
+<a href="#rank">rank</a><br>
+<a href="#rationalize">rationalize</a><br>
+<a href="#real">real</a><br>
+<a href="#rect">rect</a><br>
+<a href="#roots">roots</a><br>
+<a href="#simplify">simplify</a><br>
+</td>
+
+<td valign="top">
+<a href="#sin">sin</a><br>
+<a href="#sinh">sinh</a><br>
+<a href="#sqrt">sqrt</a><br>
+<a href="#status">status</a><br>
+<a href="#stop">stop</a><br>
+<a href="#string">string</a><br>
+<a href="#subst">subst</a><br>
+<a href="#sum">sum</a><br>
+<a href="#tan">tan</a><br>
+<a href="#tanh">tanh</a><br>
+<a href="#taylor">taylor</a><br>
+<a href="#test">test</a><br>
+<a href="#trace">trace</a><br>
+<a href="#transpose">transpose</a><br>
+<a href="#tty">tty</a><br>
+<a href="#unit">unit</a><br>
+<a href="#zero">zero</a><br>
+</td>
+
+</tr>
+</table>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="abs">abs(<i>x</i>)</a>
+<p>
+Returns the absolute value or vector length of <i>x</i>.
+<pre style="color:blue">
+X = (x,y,z)
+abs(X)
+</pre>
+<pre>
+              1/2
+  2    2    2
+(x  + y  + z )
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="adj">adj(<i>m</i>)</a>
+<p>
+Returns the adjunct of matrix <i>m</i>.
+Adjunct is equal to determinant times inverse.
+</p>
+<pre style="color:blue">
+A = ((a,b),(c,d))
+adj(A) == det(A) inv(A)
+</pre>
+<pre>
+1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="and">and(<i>a,b,...</i>)</a>
+<p>
+Returns 1 if all arguments are true (nonzero).
+Returns 0 otherwise.
+<pre style="color:blue">
+and(1=1,2=2)
+</pre>
+<pre>
+1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="arccos">arccos(<i>x</i>)</a>
+<p>
+Returns the arc cosine of <i>x</i>.
+<pre style="color:blue">
+arccos(1/2)
+</pre>
+<pre>
+ 1
+--- pi
+ 3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="arccosh">arccosh(<i>x</i>)</a>
+<p>
+Returns the arc hyperbolic cosine of <i>x</i>.
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="arcsin">arcsin(<i>x</i>)</a>
+<p>
+Returns the arc sine of <i>x</i>.
+<pre style="color:blue">
+arcsin(1/2)
+</pre>
+<pre>
+ 1
+--- pi
+ 6
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="arcsinh">arcsinh(<i>x</i>)</a>
+<p>
+Returns the arc hyperbolic sine of <i>x</i>.
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="arctan">arctan(<i>y,x</i>)</a>
+<p>
+Returns the arc tangent of <i>y</i> over <i>x</i>.
+If <i>x</i> is omitted then 1 is used.
+<pre style="color:blue">
+arctan(1,0)
+</pre>
+<pre>
+ 1
+--- pi
+ 2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="arctanh">arctanh(<i>x</i>)</a>
+<p>
+Returns the arc hyperbolic tangent of <i>x</i>.
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="arg">arg(<i>z</i>)</a>
+<p>
+Returns the angle of complex <i>z</i>.
+<pre style="color:blue">
+arg(2 - 3i)
+</pre>
+<pre>
+arctan(-3,2)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="besselj">besselj(<i>x,n</i>)</a>
+<p>
+Returns a solution to the Bessel differential equation.
+<pre style="color:blue">
+besselj(x,1/2)
+</pre>
+<pre>
+  1/2
+ 2    sin(x)
+-------------
+   1/2  1/2
+ pi    x
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="binding">binding(<i>s</i>)</a>
+<p>
+The result of evaluating a symbol can differ from the symbol's binding.
+For example, the result may be expanded.
+The <tt>binding</tt> function returns the actual binding of a symbol.
+<pre style="color:blue">
+p = quote((x + 1)^2)
+p
+</pre>
+<pre>
+     2
+p = x  + 2 x + 1
+</pre>
+<pre style="color:blue">
+binding(p)
+</pre>
+<pre>
+       2
+(x + 1)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="binomial">binomial(<i>n,k</i>)</a>
+<p>
+Returns the coefficient of <i>x<sup>k</sup> y<sup>n-k</sup></i>
+in (<i>x</i> + <i>y</i>)<sup><i>n</i></sup>.
+Binomial and <tt>choose</tt> are the same function.
+<pre style="color:blue">
+binomial(52,5)
+</pre>
+<pre>
+2598960
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="ceiling">ceiling(<i>x</i>)</a>
+<p>
+Returns the smallest integer greater than or equal to <i>x</i>.
+<pre style="color:blue">
+ceiling(1/2)
+</pre>
+<pre>
+1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="check">check(<i>x</i>)</a>
+<p>
+If <i>x</i> is true (nonzero) then continue in a script, else stop.
+Use A=B or A==B to test for A equals B.
+<pre style="color:blue">
+A = 1
+B = 1
+check(A=B) -- script stops here if A not equal to B
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="choose">choose(<i>n,k</i>)</a>
+<p>
+Returns the number of combinations of <i>n</i> items taken <i>k</i> at a time.
+The following example computes the number of poker hands.
+<pre style="color:blue">
+choose(52,5)
+</pre>
+<pre>
+2598960
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="circexp">circexp(<i>x</i>)</a>
+<p>
+Returns expression <i>x</i> with circular and hyperbolic functions
+converted to exponentials.
+<pre style="color:blue">
+circexp(cos(x) + i sin(x))
+</pre>
+<pre>
+exp(i x)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="clear">clear</a>
+<p>
+Clears all symbol definitions.
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="clock">clock(z)</a>
+<p>
+Returns complex <i>z</i> in polar form with base of negative 1 instead of <i>e</i>.
+<pre style="color:blue">
+clock(2 - 3i)
+</pre>
+<pre>
+  1/2     arctan(-3,2)/pi
+13    (-1)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="coeff">coeff(<i>p,x,n</i>)</a>
+<p>
+Returns the coefficient of <i>x<sup>n</sup></i> in polynomial <i>p</i>.
+<pre style="color:blue">
+p = x^3 + 6x^2 + 12x + 8
+coeff(p,x,2)
+</pre>
+<pre>
+6
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="cofactor">cofactor(<i>m,i,j</i>)</a>
+<p>
+Returns a cofactor of matrix <i>m</i>.
+The cofactor matrix is the transpose of the adjunct of <i>m</i>.
+This function returns the cofactor component
+at row <i>i</i> and column <i>j</i>.
+<pre style="color:blue">
+A = ((a,b),(c,d))
+cofactor(A,1,2) == transpose(adj(A))[1,2]
+</pre>
+<pre>
+1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="conj">conj(<i>z</i>)</a>
+<p>
+Returns the complex conjugate of <i>z</i>.
+<pre style="color:blue">
+conj(2 - 3i)
+</pre>
+<pre>
+2 + 3 i
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="contract">contract(<i>a,i,j</i>)</a>
+<p>
+Returns tensor <i>a</i> summed over indices <i>i</i> and <i>j</i>.
+If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
+The expression <tt>contract(m)</tt> computes the trace of matrix <i>m</i>.
+<pre style="color:blue">
+A = ((a,b),(c,d))
+contract(A)
+</pre>
+<pre>
+a + d
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="cos">cos(<i>x</i>)</a>
+<p>
+Returns the cosine of <i>x</i>.
+<pre style="color:blue">
+cos(pi/4)
+</pre>
+<pre>
+  1
+------
+  1/2
+ 2
+</pre>
+<pre style="color:blue">
+cos(arctan(y,x))
+</pre>
+<pre>
+      x
+--------------
+          1/2
+   2    2
+ (x  + y )
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="cosh">cosh(<i>x</i>)</a>
+<p>
+Returns the hyperbolic cosine of <i>x</i>.
+<pre style="color:blue">
+circexp(cosh(x))
+</pre>
+<pre>
+ 1             1
+--- exp(-x) + --- exp(x)
+ 2             2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="cross">cross(<i>u,v</i>)</a>
+<p>
+Returns the cross product of vectors <i>u</i> and <i>v</i>.
+It is OK to redefine <tt>cross</tt>.
+This is the default definition.
+<pre style="color:blue">
+cross(u,v) = (u[2] v[3] - u[3] v[2],
+              u[3] v[1] - u[1] v[3],
+              u[1] v[2] - u[2] v[1])
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="curl">curl(<i>u</i>)</a>
+<p>
+Returns the curl of vector <i>u</i>.
+It is OK to redefine <tt>curl</tt>.
+This is the default definition.
+<pre style="color:blue">
+curl(u) = (d(u[3],y) - d(u[2],z),
+           d(u[1],z) - d(u[3],x),
+           d(u[2],x) - d(u[1],y))
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="d">d(<i>f,x</i>)</a>
+
+<p>
+Returns the partial derivative of <i>f</i> with respect to <i>x</i>.
+<pre style="color:blue">
+d(x^2,x)
+</pre>
+<pre>
+2 x
+</pre>
+
+<p>
+Argument <i>f</i> can be a tensor of any rank.
+Argument <i>x</i> can be a vector.
+When <i>x</i> is a vector the result is the gradient of <i>f</i>.
+<pre style="color:blue">
+F = (f(),g(),h())
+X = (x,y,z)
+d(F,X)
+</pre>
+<pre>
+d(f(),x)   d(f(),y)   d(f(),z)
+
+d(g(),x)   d(g(),y)   d(g(),z)
+
+d(h(),x)   d(h(),y)   d(h(),z)
+</pre>
+
+<p>
+It is OK to use <tt>d</tt> as a variable name.
+It will not conflict with function <tt>d</tt>.
+
+<p>
+It is OK to redefine <tt>d</tt> as a different function.
+The function <tt>derivative</tt>, a synonym for <tt>d</tt>, can still be used to obtain a partial derivative.
+<pre style="color:blue">
+d(x,y) = x - y
+derivative(x^2,x)
+</pre>
+<pre>
+2 x
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="defint">defint(<i>f,x,a,b</i>)</a>
+<p>
+Returns the definite integral of <i>f</i> with respect to <i>x</i>
+evaluated from <i>a</i> to <i>b</i>.
+The argument list can be extended for multiple integrals
+as shown in the following example.
+<pre style="color:blue">
+f = (1 + cos(theta)^2) sin(theta)
+defint(f, theta, 0, pi, phi, 0, 2pi) -- integrate over theta then over phi
+</pre>
+<pre>
+ 16
+---- pi
+ 3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="deg">deg(<i>p,x</i>)</a>
+<p>
+Returns the degree of polynomial <i>p</i>(<i>x</i>).
+<pre style="color:blue">
+deg(x^3,x)
+</pre>
+<pre>
+3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="denominator">denominator(<i>x</i>)</a>
+<p>
+Returns the denominator of expression <i>x</i>.
+<pre style="color:blue">
+denominator(a/b)
+</pre>
+<pre>
+b
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="det">det(<i>m</i>)</a>
+<p>
+Returns the determinant of matrix <i>m</i>.
+<pre style="color:blue">
+A = ((a,b),(c,d))
+det(A)
+</pre>
+<pre>
+a d - b c
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="dim">dim(<i>a,n</i>)</a>
+<p>
+Returns the dimension of the <i>n</i>th index of tensor <i>a</i>.
+Index numbering starts with 1.
+<pre style="color:blue">
+A = ((1,2),(3,4),(5,6))
+dim(A,1)
+</pre>
+<pre>
+3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="div">div(<i>u</i>)</a>
+<p>
+Returns the divergence of vector <i>u</i>.
+It is OK to redefine <tt>div</tt>.
+This is the default definition.
+<pre style="color:blue">
+div(u) = d(u[1],x) + d(u[2],y) + d(u[3],z)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="do">do(<i>a,b,...</i>)</a>
+<p>
+Evaluates each argument from left to right.
+Returns the result of the last argument.
+<pre style="color:blue">
+do(A=1,B=2,A+B)
+</pre>
+<pre>
+3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="dot">dot(<i>a,b,...</i>)</a>
+<p>
+Returns the dot or matrix product of vectors, matrices, and tensors.
+<pre style="color:blue">
+-- solve for X in AX=B
+A = ((1,2),(3,4))
+B = (5,6)
+X = dot(inv(A),B)
+X
+</pre>
+<pre>
+    -4
+
+X = 
+     9
+    ---
+     2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="draw">draw(<i>f,x</i>)</a>
+<p>
+Draws a graph of <i>f</i>(<i>x</i>).
+Drawing ranges can be set with <tt>xrange</tt> and <tt>yrange</tt>.
+<pre style="color:blue">
+xrange = (0,1)
+yrange = (0,1)
+draw(x^2,x)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="e">e</a>
+<p>
+Symbol <tt>e</tt> is initialized to the natural number <i>e</i>.
+It is OK to clear or redefine <tt>e</tt> and use the symbol for something else.
+<pre style="color:blue">
+e^x
+</pre>
+<pre>
+exp(x)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="eigen">eigen(<i>m</i>)</a>
+<p>
+Computes eigenvalues and eigenvectors numerically.
+Matrix <i>m</i> is required to be both numerical and symmetric.
+Eigenvectors are returned in Q and eigenvalues are returned in D.
+Each row of Q is an eigenvector.
+Each diagonal element of D is an eigenvalue.
+<pre style="color:blue">
+A = ((1,2),(2,1))
+eigen(A)
+dot(transpose(Q),D,Q)
+</pre>
+<pre>
+1.0   2.0
+
+2.0   1.0
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="erf">erf(<i>x</i>)</a>
+<p>
+Error function of <i>x</i>.
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="erfc">erfc(<i>x</i>)</a>
+<p>
+Complementary error function of <i>x</i>.
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="eval">eval(<i>f,x,a</i>)</a>
+<p>
+Returns <i>f</i> evaluated at <i>x</i> equals <i>a</i>.
+<pre style="color:blue">
+eval(x^2 + 3,x,0)
+</pre>
+<pre>
+3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="exp">exp(<i>x</i>)</a>
+<p>
+Returns the exponential of <i>x</i>.
+<pre style="color:blue">
+exp(i pi)
+</pre>
+<pre>
+-1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="expand">expand(<i>r,x</i>)</a>
+<p>
+Returns the partial fraction expansion of the ratio of polynomials <i>r</i> in <i>x</i>.
+<pre style="color:blue">
+p = (x + 1)^2
+q = (x + 2)^2
+expand(p/q,x)
+</pre>
+<pre>
+     2            1
+- ------- + -------------- + 1
+   x + 2      2
+             x  + 4 x + 4
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="expcos">expcos(<i>z</i>)</a>
+<p>
+Returns the cosine of <i>z</i> in exponential form.
+<pre style="color:blue">
+expcos(z)
+</pre>
+<pre>
+ 1              1
+--- exp(i z) + --- exp(-i z)
+ 2              2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="expcosh">expcosh(<i>z</i>)</a>
+<p>
+Returns the hyperbolic cosine of <i>z</i> in exponential form.
+<pre style="color:blue">
+expcosh(z)
+</pre>
+<pre>
+ 1             1
+--- exp(-z) + --- exp(z)
+ 2             2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="expsin">expsin(<i>z</i>)</a>
+<p>
+Returns the sine of <i>z</i> in exponential form.
+<pre style="color:blue">
+expsin(z)
+</pre>
+<pre>
+   1                1
+- --- i exp(i z) + --- i exp(-i z)
+   2                2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="expsinh">expsinh(<i>z</i>)</a>
+<p>
+Returns the hyperbolic sine of <i>z</i> in exponential form.
+<pre style="color:blue">
+expsinh(z)
+</pre>
+<pre>
+   1             1
+- --- exp(-z) + --- exp(z)
+   2             2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="exptan">exptan(<i>z</i>)</a>
+<p>
+Returns the tangent of <i>z</i> in exponential form.
+<pre style="color:blue">
+exptan(z)
+</pre>
+<pre>
+       i             i exp(2 i z)
+---------------- - ----------------
+ exp(2 i z) + 1     exp(2 i z) + 1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="exptanh">exptanh(<i>z</i>)</a>
+<p>
+Returns the hyperbolic tangent of <i>z</i> in exponential form.
+<pre style="color:blue">
+exptanh(z)
+</pre>
+<pre>
+        1             exp(2 z)
+- -------------- + --------------
+   exp(2 z) + 1     exp(2 z) + 1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="factor">factor(<i>n</i>)</a>
+<p>
+Factors integer <i>n</i>.
+<pre style="color:blue">
+factor(10!)
+</pre>
+<pre>
+ 8  4  2  1
+2  3  5  7
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">factor(<i>p,x</i>)
+<p>
+Factors polynomial <i>p</i>(<i>x</i>).
+The polynomial should be factorable over integers.
+The argument list can be extended for multivariate polynomials.
+<pre style="color:blue">
+p = 2x + x y + y + 2
+factor(p,x,y)
+</pre>
+<pre>
+(x + 1) (y + 2)
+</pre>
+<p>
+Note: Factor returns an unexpanded expression.
+If the result is assigned to a symbol, evaluating
+the symbol will expand the result.
+Use <tt>binding</tt> to retrieve the unexpanded expression.
+<pre style="color:blue">
+q = factor(p,x)
+binding(q)
+</pre>
+<pre>
+(x + 1) (y + 2)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="factorial">factorial(<i>n</i>)</a>
+<p>
+Returns the factorial of <i>n</i>. The expression <tt>n!</tt> can also be used.
+<pre style="color:blue">
+100!
+</pre>
+<pre>
+93326215443944152681699238856266700490715968264381621468592963895217599993229915
+608941463976156518286253697920827223758251185210916864000000000000000000000000
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="filter">filter(<i>f,a,b,...</i>)</a>
+<p>
+Returns <i>f</i> excluding any terms containing <i>a</i>, <i>b</i>, etc.
+<pre style="color:blue">
+p = x^2 + 3x + 2
+filter(p,x^2)
+</pre>
+<pre>
+3 x + 2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="float">float(<i>x</i>)</a>
+<p>
+Returns expression <i>x</i> with rational numbers and integers converted to
+floating point values.
+The symbol <tt>pi</tt> and the natural number are also converted.
+<pre style="color:blue">
+float(212^17)
+</pre>
+<pre>
+          39
+3.52947 10
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="floor">floor(<i>x</i>)</a>
+<p>
+Returns the largest integer less than or equal to <i>x</i>.
+<pre style="color:blue">
+floor(1/2)
+</pre>
+<pre>
+0
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="for">for(<i>i,j,k,a,b,...</i>)</a>
+<p>
+For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>a</i>, <i>b</i>, etc.
+The previous value of symbol <i>i</i> is restored after <tt>for</tt> completes.
+<pre style="color:blue">
+for(k,1,3,A=k,print(A))
+</pre>
+<pre>
+A = 1
+A = 2
+A = 3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="gcd">gcd(<i>a,b,...</i>)</a>
+<p>
+Returns the greatest common divisor of expressions.
+<pre style="color:blue">
+gcd(x,x y)
+</pre>
+<pre>
+x
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="hermite">hermite(<i>x,n</i>)</a>
+<p>
+Returns the <i>n</i>th Hermite polynomial in <i>x</i>.
+<pre style="color:blue">
+hermite(x,3)
+</pre>
+<pre>
+   3
+8 x  - 12 x
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="hilbert">hilbert(<i>n</i>)</a>
+<p>
+Returns an <i>n</i> by <i>n</i> Hilbert matrix.
+<pre style="color:blue">
+hilbert(3)
+</pre>
+<pre>
+       1     1
+ 1    ---   ---
+       2     3
+
+ 1     1     1
+---   ---   ---
+ 2     3     4
+
+ 1     1     1
+---   ---   ---
+ 3     4     5
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="i">i</a>
+<p>
+Symbol <tt>i</tt> is initialized to the imaginary unit (&minus;1)<sup>1/2</sup>.
+It is OK to clear or redefine <tt>i</tt> and use the symbol for something else.
+<pre style="color:blue">
+exp(i pi)
+</pre>
+<pre>
+-1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="imag">imag(<i>z</i>)</a>
+<p>
+Returns the imaginary part of complex <i>z</i>.
+<pre style="color:blue">
+imag(2 - 3i)
+</pre>
+<pre>
+-3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="inner">inner(<i>a,b,...</i>)</a>
+<p>
+Returns the inner product of tensors.
+Inner and <tt>dot</tt> are the same function.
+<pre style="color:blue">
+A = ((a,b),(c,d))
+B = (x,y)
+inner(A,B)
+</pre>
+<pre>
+a x + b y
+
+c x + d y
+</pre>
+<p>
+Note: Inner product is equivalent to an outer product followed by contraction.
+<pre style="color:blue">
+contract(outer(A,B),2,3)
+</pre>
+<pre>
+a x + b y
+
+c x + d y
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="integral">integral(<i>f,x</i>)</a>
+<p>
+Returns the integral of <i>f</i> with respect to <i>x</i>.
+<pre style="color:blue">
+integral(x^2,x)
+</pre>
+<pre>
+ 1   3
+--- x
+ 3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="inv">inv(<i>m</i>)</a>
+<p>
+Returns the inverse of matrix <i>m</i>.
+<pre style="color:blue">
+A = ((1,2),(3,4))
+inv(A)
+</pre>
+<pre>
+ -2       1
+
+
+  3        1
+ ---    - ---
+  2        2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="isprime">isprime(<i>n</i>)</a>
+<p>
+Returns 1 if <i>n</i> is a prime number. Returns zero otherwise.
+<pre style="color:blue">
+isprime(2^31 - 1)
+</pre>
+<pre>
+1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="j">j</a>
+<p>
+Set <tt>j=sqrt(-1)</tt> to use <tt>j</tt> for the imaginary unit instead of <tt>i</tt>.
+<pre style="color:blue">
+j = sqrt(-1)
+1/sqrt(-1)
+</pre>
+<pre>
+-j
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="laguerre">laguerre(<i>x,n,a</i>)</a>
+<p>
+Returns the <i>n</i>th Laguerre polynomial in <i>x</i>.
+If argument <i>a</i> is omitted then zero is used.
+<pre style="color:blue">
+laguerre(x,3)
+</pre>
+<pre>
+   1   3    3   2
+- --- x  + --- x  - 3 x + 1
+   6        2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="last">last</a>
+<p>
+The result of the previous calculation is stored in <tt>last</tt>.
+<pre style="color:blue">
+212^17
+</pre>
+<pre>
+3529471145760275132301897342055866171392
+</pre>
+<pre style="color:blue">
+last^(1/17)
+</pre>
+<pre>
+212
+</pre>
+<p>
+Note: Symbol <tt>last</tt> is an implied argument when a function has no
+argument list.
+<pre style="color:blue">
+212^17
+</pre>
+<pre>
+3529471145760275132301897342055866171392
+</pre>
+<pre style="color:blue">
+float
+</pre>
+<pre>
+          39
+3.52947 10
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="lcm">lcm(<i>a,b,...</i>)</a>
+<p>
+Returns the least common multiple of expressions.
+<pre style="color:blue">
+lcm(x,x y)
+</pre>
+<pre>
+x y
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="leading">leading(<i>p,x</i>)</a>
+<p>
+Returns the leading coefficient of polynomial <i>p</i>(<i>x</i>).
+<pre style="color:blue">
+leading(3x^2 + 1,x)
+</pre>
+<pre>
+3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="legendre">legendre(<i>x,n,m</i>)</a>
+<p>
+Returns the <i>n</i>th Legendre polynomial in <i>x</i>.
+If <i>m</i> is omitted then zero is used.
+<pre style="color:blue">
+legendre(x,3)
+</pre>
+<pre>
+ 5   3    3
+--- x  - --- x
+ 2        2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="lisp">lisp(<i>x</i>)</a>
+<p>
+Evaluates expression <i>x</i> and returns the result as a
+string in prefix notation.
+Useful for debugging scripts.
+<pre style="color:blue">
+lisp(x^2 + 1)
+</pre>
+<pre>
+(+ (^ x 2) 1)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="log">log(<i>x</i>)</a>
+<p>
+Returns the natural logarithm of <i>x</i>.
+<pre style="color:blue">
+log(x^y)
+</pre>
+<pre>
+y log(x)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="mag">mag(<i>z</i>)</a>
+<p>
+Returns the magnitude of complex <i>z</i>.
+Mag treats undefined symbols as real while <tt>abs</tt> does not.
+<pre style="color:blue">
+mag(x + i y)
+</pre>
+<pre>
+         1/2
+  2    2
+(x  + y )
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="mod">mod(<i>a,b</i>)</a>
+<p>
+Returns the remainder of integer <i>a</i> divided by integer <i>b</i>.
+<pre style="color:blue">
+mod(10,7)
+</pre>
+<pre>
+3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="not">not(<i>x</i>)</a>
+<p>
+Returns 0 if <i>x</i> is true (nonzero).
+Returns 1 otherwise.
+<pre style="color:blue">
+not(1=1)
+</pre>
+<pre>
+0
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="nroots">nroots(<i>p,x</i>)</a>
+<p>
+Returns all roots, both real and complex,
+of polynomial <i>p</i>(<i>x</i>).
+The roots are computed numerically.
+The coefficients of <i>p</i> can be real or complex.
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="number">number(<i>x</i>)</a>
+<p>
+Returns 1 if <i>x</i> is a rational or floating point number.
+Returns 0 otherwise.
+<pre style="color:blue">
+number(1/2)
+</pre>
+<pre>
+1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="numerator">numerator(<i>x</i>)</a>
+<p>
+Returns the numerator of expression <i>x</i>.
+<pre style="color:blue">
+numerator(a/b)
+</pre>
+<pre>
+a
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="or">or(<i>a,b,...</i>)</a>
+<p>
+Returns 1 if at least one argument is true (nonzero).
+Returns 0 otherwise.
+<pre style="color:blue">
+or(1=1,2=2)
+</pre>
+<pre>
+1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="outer">outer(<i>a,b,...</i>)</a>
+<p>
+Returns the outer product of tensors.
+Also known as the tensor product.
+<pre style="color:blue">
+A = (a,b,c)
+B = (x,y,z)
+outer(A,B)
+</pre>
+<pre>
+a x   a y   a z
+
+b x   b y   b z
+
+c x   c y   c z
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="pi">pi</a>
+<p>
+Symbol for &#960;.
+<pre style="color:blue">
+exp(i pi)
+</pre>
+<pre>
+-1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="polar">polar(<i>z</i>)</a>
+<p>
+Returns complex <i>z</i> in polar form.
+<pre style="color:blue">
+polar(x - i y)
+</pre>
+<pre>
+         1/2
+  2    2
+(x  + y )    exp(i arctan(-y,x))
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="power">power</a>
+<p>
+Use <tt>^</tt> to raise something to a power.
+Use parentheses for negative powers.
+<pre style="color:blue">
+x^(-2)
+</pre>
+<pre>
+ 1
+----
+  2
+ x
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="prime">prime(<i>n</i>)</a>
+<p>
+Returns the <i>n</i>th prime number.
+The domain of <i>n</i> is 1 to 10000.
+<pre style="color:blue">
+prime(100)
+</pre>
+<pre>
+541
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="print">print(<i>a,b,...</i>)</a>
+<p>
+Evaluate expressions and print the results.
+Useful for printing from inside a <tt>for</tt> loop.
+<pre style="color:blue">
+for(j,1,3,print(j))
+</pre>
+<pre>
+j = 1
+j = 2
+j = 3
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="product">product(<i>i,j,k,f</i>)</a>
+<p>
+For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
+Returns the product of all <i>f</i>.
+<pre style="color:blue">
+product(j,1,3,x + j)
+</pre>
+<pre>
+ 3      2
+x  + 6 x  + 11 x + 6
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="quote">quote(<i>x</i>)</a>
+<p>
+Returns expression <i>x</i> without evaluating it first.
+<pre style="color:blue">
+p = quote((x + 1)^2)
+binding(p)
+</pre>
+<pre>
+       2
+(x + 1)
+</pre>
+<pre style="color:blue">
+p = quote(p) -- clear symbol p
+binding(p)
+</pre>
+<pre>
+p
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="quotient">quotient(<i>p,q,x</i>)</a>
+<p>
+Returns the quotient of polynomial <i>p</i>(<i>x</i>) over <i>q</i>(<i>x</i>).
+<pre style="color:blue">
+p = x^2 + 1
+q = x + 3
+quotient(p,q,x)
+</pre>
+<pre>
+x - 3
+</pre>
+<pre style="color:blue">
+p - q quotient(p,q,x) -- remainder of p/q
+</pre>
+<pre>
+10
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="rank">rank(<i>a</i>)</a>
+<p>
+Returns the number of indices that tensor <i>a</i> has.
+<pre style="color:blue">
+A = ((1,0),(0,1))
+rank(outer(A,A,A))
+</pre>
+<pre>
+6
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="rationalize">rationalize(<i>x</i>)</a>
+<p>
+Returns expression <i>x</i> with everything over a common denominator.
+<pre style="color:blue">
+rationalize(1/a + 1/b + 1/2)
+</pre>
+<pre>
+ 2 a + a b + 2 b
+-----------------
+      2 a b
+</pre>
+<p>
+Note: Rationalize returns an unexpanded expression.
+If the result is assigned to a symbol,
+evaluating the symbol will expand the result.
+Use <tt>binding</tt> to retrieve the unexpanded expression.
+<pre style="color:blue">
+f = rationalize(1/a + 1/b + 1/2)
+binding(f)
+</pre>
+<pre>
+ 2 a + a b + 2 b
+-----------------
+      2 a b
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="real">real(<i>z</i>)</a>
+<p>
+Returns the real part of complex <i>z</i>.
+<pre style="color:blue">
+real(2 - 3i)
+</pre>
+<pre>
+2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="rect">rect(<i>z</i>)</a>
+<p>
+Returns complex <i>z</i> in rectangular form.
+<pre style="color:blue">
+rect(exp(i x))
+</pre>
+<pre>
+cos(x) + i sin(x)
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="roots">roots(<i>p,x</i>)</a>
+<p>
+Returns the values of <i>x</i> such that polynomial
+<i>p</i>(<i>x</i>) equals zero.
+The polynomial should be factorable over integers.
+Returns a vector for multiple roots.
+<pre style="color:blue">
+roots(x^2 + 3x + 2,x)
+</pre>
+<pre>
+-2
+
+-1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="simplify">simplify(<i>x</i>)</a>
+<p>
+Returns expression <i>x</i> in a simpler form.
+<pre style="color:blue">
+simplify(sin(x)^2 + cos(x)^2)
+</pre>
+<pre>
+1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="sin">sin(<i>x</i>)</a>
+<p>
+Returns the sine of <i>x</i>.
+<pre style="color:blue">
+sin(pi/4)
+</pre>
+<pre>
+  1
+------
+  1/2
+ 2
+</pre>
+<pre style="color:blue">
+sin(arctan(y,x))
+</pre>
+<pre>
+      y
+--------------
+          1/2
+   2    2
+ (x  + y )
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="sinh">sinh(<i>x</i>)</a>
+<p>
+Returns the hyperbolic sine of <i>x</i>.
+<pre style="color:blue">
+circexp(sinh(x))
+</pre>
+<pre>
+   1             1
+- --- exp(-x) + --- exp(x)
+   2             2
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="sqrt">sqrt(<i>x</i>)</a>
+<p>
+Returns the square root of <i>x</i>.
+<pre style="color:blue">
+sqrt(10!)
+</pre>
+<pre>
+     1/2
+720 7
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="status">status</a>
+<p>
+Prints memory statistics.
+<pre style="color:blue">
+status
+</pre>
+<pre>
+block_count 1
+free_count 99258
+gc_count 1
+bignum_count 370
+string_count 0
+tensor_count 5
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="stop">stop</a>
+<p>
+In a script, it does what it says.
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="string">string(<i>x</i>)</a>
+<p>
+Evaluates expression <i>x</i> and returns the result as a string.
+Useful for testing scripts.
+<pre style="color:blue">
+string((x + 1)^2) == "x^2 + 2 x + 1"
+</pre>
+<pre>
+1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="subst">subst(<i>a,b,c</i>)</a>
+<p>
+Substitutes <i>a</i> for <i>b</i> in <i>c</i> and returns the result.
+<pre style="color:blue">
+subst(x,y,y^2)
+</pre>
+<pre>
+ 2
+x
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="sum">sum(<i>i,j,k,f</i>)</a>
+<p>
+For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
+Returns the sum of all <i>f</i>.
+<pre style="color:blue">
+sum(j,1,5,x^j)
+</pre>
+<pre>
+ 5    4    3    2
+x  + x  + x  + x  + x
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="tan">tan(<i>x</i>)</a>
+<p>
+Returns the tangent of <i>x</i>.
+<pre style="color:blue">
+simplify(tan(x) - sin(x)/cos(x))
+</pre>
+<pre>
+0
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="tanh">tanh(<i>x</i>)</a>
+<p>
+Returns the hyperbolic tangent of <i>x</i>.
+<pre style="color:blue">
+circexp(tanh(x))
+</pre>
+<pre>
+        1             exp(2 x)
+- -------------- + --------------
+   exp(2 x) + 1     exp(2 x) + 1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="taylor">taylor(<i>f,x,n,a</i>)</a>
+<p>
+Returns the Taylor expansion of <i>f</i>(<i>x</i>) near <i>x</i> equals <i>a</i>.
+If argument <i>a</i> is omitted then zero is used.
+Argument <i>n</i> is the degree of the expansion.
+<pre style="color:blue">
+taylor(sin(x),x,5)
+</pre>
+<pre>
+  1    5    1   3
+----- x  - --- x  + x
+ 120        6
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="test">test(<i>a,b,c,d,...</i>)</a>
+<p>
+If argument <i>a</i> is true (nonzero) then <i>b</i> is returned,
+else if <i>c</i> is true then <i>d</i> is returned, etc.
+If the number of arguments is odd then the last argument is returned
+if all else fails.
+Use A=B or A==B to test for A equals B.
+<pre style="color:blue">
+A = 1
+B = 1
+test(A=B,"yes","no")
+</pre>
+<pre>
+yes
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="trace">trace</a>
+<p>
+Set <tt>trace=1</tt> in a script to print the script as it is evaluated.
+Useful for debugging.
+<pre style="color:blue">
+trace = 1
+</pre>
+<p>
+Note: The <tt>contract</tt> function is used to obtain the trace of a matrix.
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="transpose">transpose(<i>a,i,j</i>)</a>
+<p>
+Returns the transpose of tensor <i>a</i> with respect to indices <i>i</i> and <i>j</i>.
+If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
+Hence a matrix can be transposed with a single argument.
+<pre style="color:blue">
+A = ((a,b),(c,d))
+transpose(A)
+</pre>
+<pre>
+a   c
+
+b   d
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="tty">tty</a>
+<p>
+Set <tt>tty=1</tt> to print results in a flat format.
+<pre style="color:blue">
+tty = 1
+(x + 1/2)^2
+</pre>
+<pre>
+x^2 + x + 1/4
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="unit">unit(<i>n</i>)</a>
+<p>
+Returns an <i>n</i> by <i>n</i> identity matrix.
+<pre style="color:blue">
+unit(3)
+</pre>
+<pre>
+1   0   0
+
+0   1   0
+
+0   0   1
+</pre>
+
+<p style="font-family:courier;font-size:20pt;font-weight:bold">
+<a name="zero">zero(<i>i,j,...</i>)</a>
+<p>
+Returns a null tensor with dimensions <i>i</i>, <i>j</i>, etc.
+Useful for creating a tensor and then setting the component values.
+<pre style="color:blue">
+A = zero(3,3)
+for(k,1,3,A[k,k]=k)
+A
+</pre>
+<pre>
+    1   0   0
+
+A = 0   2   0
+
+    0   0   3
+</pre>
+
+</body>
+</html>

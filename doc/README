@@ -5,3 +5,5 @@ To build:
 	make
 
 The result is eigenmath.pdf
+
+See also help.html in this directory.
