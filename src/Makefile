@@ -1,3 +1,7 @@
+# To build Eigenmath:
+#
+#	make
+#
 # To build a new prototypes.h:
 #
 #	gcc make-prototypes.c
@@ -123,4 +127,4 @@ eigenmath : $(objects)
 $(objects) : defs.h defs1.h prototypes.h
 
 clean :
-	rm -f eigenmath a.out *.o
+	rm -f eigenmath a.out *.o eigenmath.c
