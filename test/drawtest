@@ -1,0 +1,62 @@
+draw((0,0))
+draw(x)
+draw(-x)
+draw(25*x)
+draw(-25*x)
+draw(100*x)
+draw(-100*x)
+draw(x^2)
+draw(1/x)
+draw(5*(sin(x),cos(x)))
+draw(10*(sin(x),cos(x)))
+draw(5*sin(x)/x)
+draw(5*cos(x)/x)
+
+-- lemniscate
+X = cos(t)/(1+sin(t)^2)
+Y = sin(t)*cos(t)/(1+sin(t)^2)
+f = (X,Y)
+draw(5*f,t)
+
+-- cardioid
+r = (1+cos(t))/2
+u = (cos(t),sin(t))
+xrange = (-1,1)
+yrange = (-1,1)
+trange = (0,2*pi)
+draw(r*u,t)
+
+-- smiley face
+
+xrange = (-10,10)
+yrange = (-10,10)
+trange = (-pi,pi)
+
+f(t) = test(
+  t < 0, 5 * (cos(2*t),sin(2*t)),
+  t < pi/4, (cos(8*t)/2,sin(8*t)) + (-2,2),
+  t < pi/2, (cos(8*t)/2,sin(8*t)) + (2,2),
+  3 * (cos(2*t),sin(2*t))
+)
+
+draw(f,t)
+
+f = abs(x^x)
+xrange = (-2,2)
+yrange = (-2,2)
+draw(f,x)
+
+f(t) = (real(t^t),imag(t^t))
+xrange = (-2,2)
+yrange = (-2,2)
+trange = (-4,2)
+draw(f,t)
+
+-- fundamental theorem of calculus
+
+xrange = (-1,1)
+yrange = (-1,1)
+f = d(x^2/2)
+draw(f,x)
+f = integral(d(x^2/2))
+draw(f,x)

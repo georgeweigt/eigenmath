@@ -1,0 +1,941 @@
+trace=1
+tty=1
+
+-- string function
+
+check(string(0.0)="0.0")
+check(string(1.2*10^10)="(1.2 10^10)")
+check(string(-1.2*10^(-10))="-(1.2 10^(-10))")
+
+-- lisp function
+
+check(lisp(0.0)="0.0")
+check(lisp(1.2*10^10)="(* 1.2 (^ 10 10))")
+check(lisp(-1.2*10^(-10))="(* -1.2 (^ 10 -10))")
+ 
+-- check sort order
+
+3+4*i
+check(string(last)="3 + 4 i")
+x^2*y
+check(string(last)="x^2 y")
+y*x^2
+check(string(last)="x^2 y")
+x*y^2
+check(string(last)="x y^2")
+y^2*x
+check(string(last)="x y^2")
+(x+1)^2
+check(string(last)="x^2 + 2 x + 1")
+(a+b)^2
+check(string(last)="a^2 + 2 a b + b^2")
+(a+b)^3
+check(string(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
+x*cos(x)
+check(string(last)="x cos(x)")
+cos(x)*x
+check(string(last)="x cos(x)")
+
+-- test add.c
+
+A=((0,0),(0,0))
+B=((0,0),(0,0))
+A+B
+check(string(last)="((0,0),(0,0))")
+
+A=2
+B=3
+check(A-B=-1)
+check(B-A=1)
+A=-2
+B=3
+check(A-B=-5)
+check(B-A=5)
+A=2
+B=-3
+check(A-B=5)
+check(B-A=-5)
+A=-2
+B=-3
+check(A-B=1)
+check(B-A=-1)
+A=quote(A)
+B=quote(B)
+
+-- term sort ignores coeff
+check(lisp(a-b)="(+ a (* -1 b))")
+check(lisp(b-a)="(+ (* -1 a) b)")
+
+-- test multiply.c
+
+check(string(x * 0 * 0) = "0")
+check(string(x * 0 * 0.0) = "0.0")
+check(string(x * 0.0 * 0) = "0.0")
+check(string(x * 0.0 * 0.0) = "0.0")
+
+check(string(2^x * 2^y) = "2^(x + y)")
+check(string(2^x * 2.0^y) = "2.0^(x + y)")
+check(string(2.0^x * 2^y) = "2.0^(x + y)")
+check(string(2.0^x * 2.0^y) = "2.0^(x + y)")
+
+N = 2*3^100
+M = N/sqrt(2)
+check(M^2=N^2/2)
+check(string(M) = "515377520732011331036461129765621272702107522001 2^(1/2)")
+M = sqrt(2)/N
+check(M^2=2/N^2)
+check(string(M) = "1 / (515377520732011331036461129765621272702107522001 2^(1/2))")
+M = N/2^(2/3)
+check(M^3=N^3/4)
+check(string(M) = "515377520732011331036461129765621272702107522001 2^(1/3)")
+M = 2^(2/3)/N
+check(M^3=4/N^3)
+check(string(M) = "1 / (515377520732011331036461129765621272702107522001 2^(1/3))")
+
+N = -2^10 * 3^10 / 5^10 / 7^10 * x * y
+M = 2^(2/3) * 3^(2/3) / 5^(2/3) / 7^(2/3)
+check(N/M = -2^(10-2/3) * 3^(10-2/3) / 5^(10-2/3) / 7^(10-2/3) * x * y)
+check(N*M = -2^(10+2/3) * 3^(10+2/3) / 5^(10+2/3) / 7^(10+2/3) * x * y)
+
+A = 1.0 * sqrt(2) * sqrt(3) * x * y
+B = sqrt(2.0) * sqrt(3.0) * x * y
+check(string(A) = "2.44949 x y")
+check(string(B) = "2.44949 x y")
+
+clear
+trace=1
+
+0^a
+check(string(last)="0^a")
+
+2^(3/2)
+check(string(last)="2 2^(1/2)")
+
+858/sqrt(2)
+check(string(last)="429 2^(1/2)")
+
+(-3)^(3/2)
+check(string(last)="-3 3^(1/2) i")
+
+(10^10)^(4/3)
+check(string(last)="10000000000 10000000000^(1/3)")
+
+check(exp(i*pi)=-1)
+check(lisp(exp(i*pi+a))="(* -1 (^ .e a))")
+
+6*sqrt(2)*sqrt(3)
+check(string(last)="6 2^(1/2) 3^(1/2)")
+
+(a+b)*(a+b)
+check(string(last)="a^2 + 2 a b + b^2")
+
+(a+b)*(a+b)*(a+b)
+check(string(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
+
+1/(a+b)^2
+check(string(last)="(a + b)^(-2)")
+
+(a+b*i)/(c+d*i)
+check(string(last)="a / (c + i d) + i b / (c + i d)")
+
+((2+3*i)^2)^(-1)
+check(string(last)="-5/169 - 12/169 i")
+
+((2+3*i)^(-1))^2
+check(string(last)="-5/169 - 12/169 i")
+
+s^(-8*pi*i)
+check(string(last)="s^(-8 i pi)")
+
+e^(-8*pi*i)
+check(last=1)
+
+N = 102/2^64
+M = sqrt(N)
+N - M^2
+check(last=0)
+
+N = 2^64/102
+M = sqrt(N)
+N - M^2
+check(last=0)
+
+(-1)^(1/2)
+check(string(last)="i")
+(-1)^(3/2)
+check(string(last)="-i")
+(-1)^(5/2)
+check(string(last)="i")
+(-1)^(7/2)
+check(string(last)="-i")
+
+(-1)^(-1/2)
+check(string(last)="-i")
+(-1)^(-3/2)
+check(string(last)="i")
+(-1)^(-5/2)
+check(string(last)="-i")
+(-1)^(-7/2)
+check(string(last)="i")
+
+(-1)^(1/8)
+check(lisp(last)="(^ -1 1/8)")
+(-1)^(3/8)
+check(lisp(last)="(^ -1 3/8)")
+(-1)^(5/8)
+check(lisp(last)="(* -1 (^ -1 -3/8))")
+(-1)^(7/8)
+check(lisp(last)="(* -1 (^ -1 -1/8))")
+(-1)^(9/8)
+check(lisp(last)="(* -1 (^ -1 1/8))")
+(-1)^(11/8)
+check(lisp(last)="(* -1 (^ -1 3/8))")
+(-1)^(13/8)
+check(lisp(last)="(^ -1 -3/8)")
+(-1)^(15/8)
+check(lisp(last)="(^ -1 -1/8)")
+
+(-1)^(-1/8)
+check(lisp(last)="(^ -1 -1/8)")
+(-1)^(-3/8)
+check(lisp(last)="(^ -1 -3/8)")
+(-1)^(-5/8)
+check(lisp(last)="(* -1 (^ -1 3/8))")
+(-1)^(-7/8)
+check(lisp(last)="(* -1 (^ -1 1/8))")
+(-1)^(-9/8)
+check(lisp(last)="(* -1 (^ -1 -1/8))")
+(-1)^(-11/8)
+check(lisp(last)="(* -1 (^ -1 -3/8))")
+(-1)^(-13/8)
+check(lisp(last)="(^ -1 3/8)")
+(-1)^(-15/8)
+check(lisp(last)="(^ -1 1/8)")
+
+(2+3*i)^c
+check(string(last)="(2 + 3 i)^c")
+
+(a+b)^c
+check(string(last)="(a + b)^c")
+
+(1+i)^2
+check(lisp(last)="(* 2 (^ -1 1/2))")
+
+(2*i)^2
+check(last=-4)
+
+(2+3*i)^2
+check(lisp(last)="(+ -5 (* 12 (^ -1 1/2)))")
+
+(2+3*i)^(-2)
+check(lisp(last)"(+ -5/169 (* -12/169 (^ -1 1/2)))")
+
+(2+3*i)^(1/2)
+check(string(last)="13^(1/4) (-1)^(arctan(3,2) / (2 pi))")
+
+(2+3*i)^(-1/2)
+check(string(last)="1 / (13^(1/4) (-1)^(arctan(3,2) / (2 pi)))")
+
+i^0
+check(last=1)
+
+i^1
+check(lisp(last)="(^ -1 1/2)")
+
+i^2
+check(last=-1)
+
+i^3
+check(lisp(last)="(* -1 (^ -1 1/2))")
+
+i^4
+check(last=1)
+
+i^5
+check(lisp(last)="(^ -1 1/2)")
+
+i^6
+check(last=-1)
+
+i^7
+check(lisp(last)="(* -1 (^ -1 1/2))")
+
+i^(-1)
+check(lisp(last)="(* -1 (^ -1 1/2))")
+
+i^(-2)
+check(last=-1)
+
+i^(-3)
+check(lisp(last)="(^ -1 1/2)")
+
+i^(-4)
+check(last=1)
+
+i^(-5)
+check(lisp(last)="(* -1 (^ -1 1/2))")
+
+i^(-6)
+check(last=-1)
+
+i^(-7)
+check(lisp(last)="(^ -1 1/2)")
+
+sqrt(102)
+check(string(last)="2^(1/2) 3^(1/2) 17^(1/2)")
+
+sqrt(204)
+check(string(last)="2 3^(1/2) 17^(1/2)")
+
+sqrt(408)
+check(string(last)="2 2^(1/2) 3^(1/2) 17^(1/2)")
+
+sqrt(816)
+check(string(last)="4 3^(1/2) 17^(1/2)")
+
+sqrt(2^32-5)
+check(string(last)="4294967291^(1/2)")
+check(2^32-5=4294967291)
+
+sqrt(2^32-4)
+check(string(last)="6 7^(1/2) 11^(1/2) 31^(1/2) 151^(1/2) 331^(1/2)")
+check(2^32-4=36*7*11*31*151*331)
+
+sqrt(2^32-3)
+check(string(last)="9241^(1/2) 464773^(1/2)")
+check(2^32-3=9241*464773)
+
+sqrt(2^32-2)
+check(string(last)="2^(1/2) 2147483647^(1/2)")
+check(2^32-2=2*2147483647)
+
+sqrt(2^32-1)
+check(string(last)="3^(1/2) 5^(1/2) 17^(1/2) 257^(1/2) 65537^(1/2)")
+check(2^32-1=3*5*17*257*65537)
+
+for(k,1,100,
+N=2^32-k,
+M=sqrt(N),
+check(N/M=M))
+
+A = ((A11,A12),(A21,A22))
+simplify(dot(A,inv(A)))
+check(last=unit(2))
+
+A = ((A11,A12,A13),(A21,A22,A23),(A31,A32,A33))
+simplify(dot(A,inv(A)))
+check(last=unit(3))
+
+A = ((A11,A12,A13,A14),(A21,A22,A23,A24),(A31,A32,A33,A34),(A41,A42,A43,A44))
+simplify(dot(A,inv(A)))
+check(last=unit(4))
+
+A = (A1,A2,A3)
+B = (B1,B2,B3,B4)
+C = (C1,C2,C3,C4,C5)
+D = (D1,D2,D3,D4,D5)
+E = (E1,E2,E3,E4,E5,E6)
+F = (F1,F2,F3,F4,F5,F6,F7)
+
+G = dot(outer(A,B,C),outer(D,E,F))
+H = contract(outer(A,B,C,D,E,F),3,4)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F))
+H = outer(B,A,C,D,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),1,2)
+H = outer(B,A,C,D,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),1,3)
+H = outer(C,B,A,D,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),1,4)
+H = outer(D,B,C,A,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),1,5)
+H = outer(E,B,C,D,A,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),1,6)
+H = outer(F,B,C,D,E,A)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),2,3)
+H = outer(A,C,B,D,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),2,4)
+H = outer(A,D,C,B,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),2,5)
+H = outer(A,E,C,D,B,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),2,6)
+H = outer(A,F,C,D,E,B)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),3,4)
+H = outer(A,B,D,C,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),3,5)
+H = outer(A,B,E,D,C,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),3,6)
+H = outer(A,B,F,D,E,C)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),4,5)
+H = outer(A,B,C,E,D,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),4,6)
+H = outer(A,B,C,F,E,D)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),5,6)
+H = outer(A,B,C,D,F,E)
+check(G=H)
+
+A = (A1,A2,A3)
+B = (B1,B2,B3)
+check(contract(outer(A,B))=dot(A,B))
+
+A = (A1,A2,A3,A4)
+B = (B1,B2,B3)
+C = (C1,C2,C3)
+check(contract(outer(A,B,C),2,3)=dot(B,C)*A)
+
+A = (A1,A2,A3)
+B = (B1,B2,B3)
+C = (C1,C2,C3,C4)
+check(contract(outer(A,B,C))=dot(A,B)*C)
+
+-- test simplify
+
+clear
+trace=1
+
+-3*x*A/(A-B) + 3*x*B/(A-B)
+simplify
+check(last=-3*x)
+
+-y/(x^2*(y^2/x^2+1))
+simplify
+check(last=-y/(x^2+y^2))
+
+1/(x*(y^2/x^2+1))
+simplify
+check(last=x/(x^2+y^2))
+
+-i * exp(i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x)))
+simplify
+check(last=-i * exp(2 * i * x) / (exp(2 * i * x) + 1))
+
+i * exp(-i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x)))
+simplify
+check(last=i / (exp(2 * i * x) + 1))
+
+simplify(tan(x) - sin(x)/cos(x))
+check(last=0)
+
+simplify(sin(x)^2 + cos(x)^2)
+check(last=1)
+
+simplify(sinh(x)^2 - cosh(x)^2)
+check(last=-1)
+
+-- numerator and denominator had an infinite loop
+numerator(-(-i + i * exp(2 * i * x)) / (exp(2 * i * x) + 1))
+check(last=i - i * exp(2 * i * x))
+denominator(-(-i + i * exp(2 * i * x)) / (exp(2 * i * x) + 1))
+check(last=exp(2 * i * x) + 1)
+
+check(exptan(z)=(exp(2*i*z)-1)/(i*(exp(2*i*z)+1)))
+check(simplify(expsin(z)/expcos(z)-exptan(z))=0)
+
+2 * M / (-2 * M * r^2 + r^3) + r^(-2) - 1 / (-2 * M * r + r^2)
+simplify
+check(last=0)
+
+2 * M / (-2 * M * r^2 + r^3) + r^(-2) - 1 / (-2 * M * r + r^2) + 1
+rationalize
+check(last = (4 * M^2 * r^3 - 4 * M * r^4 + r^5) / ((-2 * M * r + r^2) * (-2 * M * r^2 + r^3)))
+simplify
+check(last = 1)
+
+-- test arctan
+
+check(string(arctan(0,0))="arctan(0,0)")
+
+check(string(arctan(x))="arctan(x,1)")
+
+check(arctan(1,1)=pi/4)
+check(arctan(1,-1)=3*pi/4)
+check(arctan(-1,1)=-pi/4)
+check(arctan(-1,-1)=-3*pi/4)
+
+check(arctan(0,3)=0)
+check(arctan(0,-3)=-pi)
+check(arctan(3,0)=pi/2)
+check(arctan(-3,0)=-pi/2)
+
+check(arctan(3,3)=pi/4)
+check(arctan(3,-3)=3*pi/4)
+check(arctan(-3,3)=-pi/4)
+check(arctan(-3,-3)=-3*pi/4)
+
+check(string(arctan(2,4))="arctan(1,2)")
+check(string(arctan(2,-4))="arctan(1,-2)")
+check(string(arctan(-2,4))="arctan(-1,2)")
+check(string(arctan(-2,-4))="arctan(-1,-2)")
+
+check(string(arctan(1/2))="arctan(1,2)")
+
+-- complex numbers (after arctan)
+
+z1 = 1+i     -- z1 does not have arctan in polar form
+z2 = 2+3*i   -- z2 does have arctan in polar form
+
+check(arg(z1)=pi/4)
+check(mag(z1)=sqrt(2))
+
+check(arg(z2)=arctan(3,2))
+check(mag(z2)=sqrt(13))
+
+check(arg(polar(z1))=pi/4)
+check(arg(clock(z1))=pi/4)
+
+check(arg(polar(z2))=arctan(3,2))
+check(arg(clock(z2))=arctan(3,2))
+
+check(mag(polar(z1))=sqrt(2))
+check(mag(clock(z1))=sqrt(2))
+
+check(mag(polar(z2))=sqrt(13))
+check(mag(clock(z2))=sqrt(13))
+
+check(z1*z2=rect(clock(z1)*clock(z2)))
+check(z1*z2=rect(clock(z1)*polar(z2)))
+check(z1*z2=rect(polar(z1)*clock(z2)))
+check(z1*z2=rect(polar(z1)*polar(z2)))
+
+z = sqrt(1+i)
+check(rect(z^2)=1+i)
+z = sqrt(1-i)
+check(rect(z^2)=1-i)
+z = sqrt(-1+i)
+check(rect(z^2)=-1+i)
+z = sqrt(-1-i)
+check(rect(z^2)=-1-i)
+
+z = sqrt(2+3*i)
+check(rect(z^2)=2+3*i)
+z = sqrt(2-3*i)
+check(rect(z^2)=2-3*i)
+z = sqrt(-2+3*i)
+check(rect(z^2)=-2+3*i)
+z = sqrt(-2-3*i)
+check(rect(z^2)=-2-3*i)
+
+z1 = sqrt(2+3*i)
+z2 = sqrt(4+5*i)
+check(sqrt(z1*z2)=sqrt(z1)*sqrt(z2))
+check(sqrt(z1/z2)=sqrt(z1)/sqrt(z2))
+
+z1 = 1+i     -- z1 does not have arctan
+z2 = 2+3*i   -- z2 does have arctan
+check(z1*z2=rect(clock(z1)*clock(z2)))
+check(z1*z2=rect(polar(z1)*polar(z2)))
+
+check(arg(z1)=pi/4)
+check(arg(polar(z1))=pi/4)
+check(arg(clock(z1))=pi/4)
+
+check(arg(z2)=arctan(3,2))
+check(arg(polar(z2))=arctan(3,2))
+check(arg(clock(z2))=arctan(3,2))
+
+check(mag(z1)=sqrt(2))
+check(mag(polar(z1))=sqrt(2))
+check(mag(clock(z1))=sqrt(2))
+
+check(mag(z2)=sqrt(13))
+check(mag(polar(z2))=sqrt(13))
+check(mag(clock(z2))=sqrt(13))
+
+clock(2+3*i) - clock(2+3*i)
+check(last=0)
+
+-- test float
+
+float(x + pi)
+check(string(last)="x + 3.14159")
+float(x + e)
+check(string(last)="x + 2.71828")
+float(x + y + 1/4)
+check(string(last)="x + y + 0.25")
+float(1/4 x y)
+check(string(last)="0.25 x y")
+float(((1,2),(3,4)))
+check(string(last)="((1.0,2.0),(3.0,4.0))")
+float((-1)^a) -- (-1) should not get floated
+check(lisp(last)="(* 1.0 (^ -1 a))")
+float(sqrt(2))
+check(string(last)="1.41421")
+
+-- test bug fixes Sept. 23, 2019
+
+2.0 * 1/2 -- root cause: result was 1, now is 1.0
+check(string(last)="1.0")
+1.0^(1/2) -- root cause: result was 1, now is 1.0
+check(string(last)="1.0")
+sqrt(1.0)
+check(string(last)="1.0")
+mag(1.0 + 3 i)
+check(string(last)="3.16228")
+real(1.0 + 3 i)
+check(string(last)="1.0")
+imag(1.0 i)
+check(string(last)="1.0")
+imag(-1.0 i)
+check(string(last)="-1.0")
+1.0 i
+check(lisp(last)="(* 1.0 (^ -1 1/2))")
+-1.0 i
+check(lisp(last)="(* -1.0 (^ -1 1/2))")
+
+-- test log of zero
+
+log(0)
+check(string(last)="log(0)")
+
+log(0.0)
+check(string(last)="log(0.0)")
+
+-- test log of complex number
+
+log(1 + i)
+check(string(last)="log(1 + i)")
+
+float(log(1 + i))
+check(string(last)="0.346574 + 0.785398 i")
+
+log(0.5)
+check(string(last)="-0.693147")
+
+log(-0.5)
+check(string(last)="-0.693147 + 3.14159 i")
+
+log(1.0 i)
+check(string(last)="1.5708 i")
+
+log(-1.0 i)
+check(string(last)="-1.5708 i")
+
+-- check arg function
+
+arg(-1)
+check(lisp(last)="(* -1 pi)")
+
+arg(-1.0)
+check(lisp(last)="-3.14159")
+
+arg(1.0 i)
+check(lisp(last)="1.5708")
+
+arg(-1.0 i)
+check(lisp(last)="-1.5708")
+
+-- check scanner
+
+lisp(quote(-3.0))
+check(last="-3.0")
+
+lisp(quote(-a b))
+check(last="(* -1 a b)")
+
+lisp(quote(-1.0 a b))
+check(last="(* -1.0 a b)")
+
+lisp(quote(-a 3 b))
+check(last="(* -1 a 3 b)")
+
+-- check arccosh
+
+lisp(arccosh(x))
+check(last="(arccosh x)")
+
+lisp(arccosh(cosh(x)))
+check(last="x")
+
+lisp(arccosh(0))
+check(last="(arccosh 0)")
+
+lisp(arccosh(0.0))
+check(last="(* 1.5708 (^ -1 1/2))")
+
+lisp(arccosh(1))
+check(last="0")
+
+lisp(arccosh(1.0))
+check(last="0.0")
+
+lisp(arccosh(-1))
+check(last="(arccosh -1)")
+
+lisp(arccosh(-1.0))
+check(last="(* 3.14159 (^ -1 1/2))")
+
+lisp(float(arccosh(1+i)))
+check(last="(+ 1.06128 (* 0.904557 (^ -1 1/2)))")
+
+-- check arcsinh
+
+lisp(arcsinh(x))
+check(last="(arcsinh x)")
+
+lisp(arcsinh(sinh(x)))
+check(last="x")
+
+lisp(arcsinh(0))
+check(last="0")
+
+lisp(arcsinh(0.0))
+check(last="0.0")
+
+lisp(arcsinh(1))
+check(last="(arcsinh 1)")
+
+lisp(arcsinh(1.0))
+check(last="0.881374")
+
+lisp(arcsinh(-1))
+check(last="(* -1 (arcsinh 1))")
+
+lisp(arcsinh(-1.0))
+check(last="-0.881374")
+
+lisp(float(arcsinh(1+i)))
+check(last="(+ 1.06128 (* 0.666239 (^ -1 1/2)))")
+
+-- check arctanh
+
+lisp(arctanh(x))
+check(last="(arctanh x)")
+
+lisp(arctanh(tanh(x)))
+check(last="x")
+
+lisp(arctanh(0))
+check(last="0")
+
+lisp(arctanh(0.0))
+check(last="0.0")
+
+lisp(arctanh(1))
+check(last="(arctanh 1)")
+
+lisp(arctanh(1.0))
+check(last="(arctanh 1.0)")
+
+lisp(arctanh(-1))
+check(last="(arctanh -1)")
+
+lisp(arctanh(-1.0))
+check(last="(arctanh -1.0)")
+
+lisp(arctanh(0.5))
+check(last="0.549306")
+
+lisp(arctanh(-0.5))
+check(last="-0.549306")
+
+lisp(float(arctanh(1+i)))
+check(last="(+ 0.402359 (* 1.01722 (^ -1 1/2)))")
+
+-- check exp
+
+lisp(float(exp(x)))
+check(last="(^ .e x)")
+
+lisp(exp(0))
+check(last="1")
+
+lisp(exp(0.0))
+check(last="1.0")
+
+lisp(exp(1))
+check(last=".e")
+
+lisp(exp(1.0))
+check(last="2.71828")
+
+lisp(e^1.0)
+check(last="2.71828")
+
+lisp(exp(2.0))
+check(last="7.38906")
+
+lisp(e^2.0)
+check(last="7.38906")
+
+lisp(float(e))
+check(last="2.71828")
+
+lisp(float(exp(i)))
+check(last="(+ 0.540302 (* 0.841471 (^ -1 1/2)))")
+
+lisp(float(exp(-i)))
+check(last="(+ 0.540302 (* -0.841471 (^ -1 1/2)))")
+
+lisp(float(exp(-2 + 3 i)))
+check(last="(+ -0.133981 (* 0.0190985 (^ -1 1/2)))")
+
+-- check power
+
+lisp(0^0)
+check(last="1")
+
+lisp(0^0.0)
+check(last="1.0")
+
+lisp(0.0^0)
+check(last="1.0")
+
+lisp(0.0^0.0)
+check(last="1.0")
+
+((1,2),(3,4))^0
+check(string(last)="((1,0),(0,1))")
+
+((1,2),(3,4))^1
+check(string(last)="((1,2),(3,4))")
+
+lisp(sqrt(-1.0))
+check(last="(* 1.0 (^ -1 1/2))")
+
+lisp((-1.0)^(1/3))
+check(last="(* 1.0 (^ -1 1/3))")
+
+lisp((-1.0)^(-1/3))
+check(last="(* 1.0 (^ -1 -1/3))")
+
+-- test sin function
+
+float(sin(1+i))
+check(string(last)="1.29846 + 0.634964 i")
+
+-- test cos function
+
+float(cos(1+i))
+check(string(last)="0.83373 - 0.988898 i")
+
+-- test tan function
+
+float(tan(1+i))
+check(string(last)="0.271753 + 1.08392 i")
+
+-- test sinh function
+
+float(sinh(1+i))
+check(string(last)="0.634964 + 1.29846 i")
+
+-- test cosh function
+
+float(cosh(1+i))
+check(string(last)="0.83373 + 0.988898 i")
+
+-- test tanh function
+
+float(tanh(1+i))
+check(string(last)="1.08392 + 0.271753 i")
+
+-- test arcsin function
+
+float(arcsin(1+i))
+check(string(last)="0.666239 + 1.06128 i")
+
+-- test arccos function
+
+float(arccos(1+i))
+check(string(last)="0.904557 - 1.06128 i")
+
+-- test arctan function
+
+float(arctan(1+i))
+check(string(last)="1.01722 + 0.402359 i")
+
+-- test rationalize function (this used to get stuck)
+
+clear
+trace=1
+
+s = 4 E^2
+t = -2 E^2 + E^2 exp(i theta) + E^2 exp(-i theta)
+u = -2 E^2 - E^2 exp(i theta) - E^2 exp(-i theta)
+
+A = (s^2 + u^2)/t^2
+B = 2 s^2/(t u)
+C = (s^2 + t^2)/u^2
+
+X = (1 + expcos(theta/2)^4) / expsin(theta/2)^4
+Y = 8 / expsin(theta)^2
+Z = (1 + expsin(theta/2)^4) / expcos(theta/2)^4
+
+check(rationalize(A + B + C - X - Y - Z) == 0)
+
+-- this was broken, returned a comple number
+
+arccos(0.4529)
+check(string(last)="1.10078")
+
+-- this was broken, now fixed
+
+expand((x^2+5*x+2)/(2*(x+1)),x)
+check(string(last) == "1/2 x - 1 / (x + 1) + 2")
+
+f = x / 2 / (x + 1)
+expand(f)
+check(rationalize(last) == f)
+
+f = x / 2 / (x + 1) / (x + 2)
+expand(f)
+check(rationalize(last) == f)
+
+f = x / 2 / (x + 1) / (x + 2) / (x + 3)
+expand(f)
+check(rationalize(last) == f)
+
+-- implied arguments
+
+clear
+trace = 1
+f(x) = A + B
+A = a x
+B = b x
+f(2)
+check(string(last) == "2 a + 2 b")
+
+-- exponentials are expanded
+
+psi = exp(i k z - i omega t)
+1/psi
+check(lisp(last)=="(^ .e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+psi^(-1)
+check(lisp(last)=="(^ .e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+psi/psi
+check(lisp(last)=="1")
+
+trace=0
+clear
+status
+"all tests passed"

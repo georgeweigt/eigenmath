@@ -1,0 +1,1212 @@
+trace=1
+tty=1
+
+-- bondi metric
+guu=V(u,r,theta)*1/r*exp(2*beta(u,r,theta))-U(u,r,theta)^2*r^2*exp(2*gamma(u,r,theta))
+gur=2*exp(2*beta(u,r,theta))
+gutheta=2*U(u,r,theta)*r^2*exp(2*gamma(u,r,theta))
+gthetatheta=-1*r^2*exp(2*gamma(u,r,theta))
+gphiphi=-1*r^2*exp(-2*gamma(u,r,theta))*sin(theta)^2
+gdd=((guu,gur,gutheta,0),(gur,0,0,0),(gutheta,0,gthetatheta,0),(0,0,0,gphiphi))
+g=det(gdd)
+guu=adj(gdd)/g
+tmp=d(gdd,(u,r,theta,phi))
+GAMUDD=contract(1/2*outer(guu,tmp+transpose(tmp,2,3)-transpose(transpose(tmp,2,3),1,2)),2,3)
+tmp1=d(GAMUDD,(u,r,theta,phi))
+tmp2=contract(outer(GAMUDD,GAMUDD),2,4)
+RUDDD=transpose(tmp1,3,4)-tmp1+transpose(tmp2,2,3)-transpose(transpose(tmp2,2,3),3,4)
+RDD=contract(RUDDD,1,3)
+R=contract(contract(outer(guu,RDD),2,3),1,2)
+GDD=RDD-1/2*gdd*R
+GUD=contract(outer(guu,GDD),2,3)
+GUU=contract(outer(GUD,guu),2,3)
+tmp=outer(GUU,GAMUDD)
+tmp=d(GUU,(u,r,theta,phi))+transpose(contract(tmp,1,4),1,2)+contract(tmp,2,4)
+contract(tmp,2,3)
+check(last=(0,0,0,0))
+
+clear
+trace=1
+
+--Simple example of clockwise (right hand) circular polarization.
+--Both E and B rotate clockwise while remaining at right angles to each other.
+--To see the rotation, suppose you are standing at location z=0 at time t=0.
+--You observe E=(0,1,0), that is, E pointing to 12 o'clock.
+--Now increase t a little bit by just waiting.
+--What happens is the y component decreases and the x component increases.
+--So now, instead of pointing straight up, E points to the right a little.
+--Keep waiting and eventually observe E=(1,0,0), E pointing to 3 o'clock.
+--E has rotated a quarter turn.
+--Let t run freely and the rotation continues.
+E = (sin(t+z), cos(t+z), 0)
+B = (cos(t+z), -sin(t+z), 0)
+--Check Maxwell's equations.
+check(div(E) = 0)
+check(curl(E) + d(B,t) = 0)
+check(div(B) = 0)
+check(curl(B) - d(E,t) = 0)
+check(dot(E,B) = 0)
+--Already shown to be true by Maxwell above but do this anyway...
+check(dot(E,B) = 0)              --Check right angle
+check(dot(E,E) - dot(B,B) = 0)   --Check equal length
+
+clear
+trace=1
+
+--Can complex number multiplication be simulated using real vectors?
+--Yes, if a rank-3 tensor is used to do the multiply.
+A = (AX, AY)
+B = (BX, BY)
+P = (AX BX - AY BY, AX BY + AY BX) --Complex number product in vector form
+T11 = (1, 0)
+T12 = (0, 1)
+T21 = (0, -1)
+T22 = (1, 0)
+T = ((T11, T12), (T21, T22))
+check(dot(A,T,B) - P = 0)
+
+clear
+trace=1
+
+--Simple example of clockwise (right hand) elliptical polarization.
+--As in "circular polarization" except E and B trace out ellipses.
+--Becomes linear polarization for EX=0 or EY=0.
+--Becomes circular polarization for EX=EY.
+--Note that at any given time E and B have the same length.
+E = (EX sin(t+z), EY cos(t+z), 0)
+B = (EY cos(t+z), -EX sin(t+z), 0)
+--Check Maxwell's equations.
+check(div(E) = 0)
+check(curl(E) + d(B,t) = 0)
+check(div(B) = 0)
+check(curl(B) - d(E,t) = 0)
+check(dot(E,B) = 0)
+--Already shown to be true by Maxwell above but do this anyway...
+check(dot(E,B) = 0)              --Check right angle
+check(dot(E,E) - dot(B,B) = 0)   --Check equal length
+
+clear
+trace=1
+
+-- This script does a few of the exercises from Feynman's book "Quantum Electrodynamics."
+
+-- Define the spacetime metric (for multiplying spacetime vectors).
+
+metric = ((-1, 0, 0, 0),
+          ( 0,-1, 0, 0),
+          ( 0, 0,-1, 0),
+          ( 0, 0, 0, 1))
+
+-- Define I, the identity matrix.
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+-- Define the gamma matrices.
+
+gammax = (( 0, 0, 0, 1),
+          ( 0, 0, 1, 0),
+          ( 0,-1, 0, 0),
+          (-1, 0, 0, 0))
+
+gammay = (( 0, 0, 0,-i),
+          ( 0, 0, i, 0),
+          ( 0, i, 0, 0),
+          (-i, 0, 0, 0))
+
+gammaz = (( 0, 0, 1, 0),
+          ( 0, 0, 0,-1),
+          (-1, 0, 0, 0),
+          ( 0, 1, 0, 0))
+
+gammat = (( 1, 0, 0, 0),
+          ( 0, 1, 0, 0),
+          ( 0, 0,-1, 0),
+          ( 0, 0, 0,-1))
+
+-- Define the gamma vector.
+--
+-- The gamma vector has gamma matrices for its components. We express it here
+-- as a rank 3 tensor. We set up the tensor so that the vector component index
+-- is the last (rightmost) index. With this configuration we can left-multiply
+-- with a Feynman slash matrix using the dot function.
+--
+-- For example, in component notation, this is how we want to multiply with a
+-- Feynman slash matrix:
+--
+--     aslash[a,b] gamma[b,c,d]
+--
+-- (summation over the repeated index b)
+--
+-- The summation over b is exactly what the dot function does so we can do the
+-- above multiply with dot(aslash,gamma).
+--
+-- In the following outer products, placing the basis vector operands on the
+-- right-hand side results in the desired index ordering.
+
+gamma = outer(gammax,(1,0,0,0)) +
+        outer(gammay,(0,1,0,0)) +
+        outer(gammaz,(0,0,1,0)) +
+        outer(gammat,(0,0,0,1))
+
+-- DOT is for multiplying gamma vectors. This is a special multiply because we
+-- have to dot the individual vector components (the gamma matrices) then we
+-- have to sum over all the results. In component notation, this is how we want
+-- to do the multiply:
+--
+--     T[a,c] = A[a,b,d] * B[b,c,d]
+--
+-- To do this, we start with an outer product which results in the following
+-- rank 6 tensor:
+--
+--     T[a,b,d,b,c,d]
+--
+-- Next we sum over b (indices 2 and 4) to get the following:
+--
+--     T[a,d,c,d]
+--
+-- Then we sum over d (indices 2 and 4 again) to get
+--
+--     T[a,c]
+--
+-- One final note, dot(B,metric) applies the spacetime metric to the rightmost
+-- index of B, the vector index.
+
+DOT(A,B) = contract(contract(outer(A,dot(B,metric)),2,4),2,4)
+
+-- Define arbitrary spacetime vectors a, b and c.
+
+a = (ax,ay,az,at)
+b = (bx,by,bz,bt)
+c = (cx,cy,cz,ct)
+
+-- Define generic Feynman slash matrices.
+-- Note: The order of dot operands here is different from the book. This is
+-- because we defined gamma to have its vector index on the right. Therefore
+-- we have to right-multiply with the spacetime vector so that dot contracts
+-- over the correct indices. In component notation we have
+--
+--     aslash[u,v] = gamma[u,v,w] * a[w]
+--
+-- where summation is over the repeated index w.
+
+aslash = dot(gamma,metric,a)
+bslash = dot(gamma,metric,b)
+cslash = dot(gamma,metric,c)
+
+-- The Feynman slash matrices are 4x4 matrices. For example, aslash looks like
+-- this:
+--
+--     at           0           -az       -ax + i ay
+--
+--     0            at       -ax - i ay       az
+--
+--     az       ax - i ay       -at           0
+--
+-- ax + i ay       -az           0           -at
+
+-- Now we are ready to try the exercises. We want to show that each of the
+-- following identities is true.
+
+"Checking the following identities:"
+
+--------------------------------------------------------------------------------
+--
+--     aslash = at gammat - ax gammax - ay gammay - az gammaz
+--
+--------------------------------------------------------------------------------
+
+quote(aslash = at gammat - ax gammax - ay gammay - az gammaz)
+
+A = aslash
+
+B = at gammat - ax gammax - ay gammay - az gammaz
+
+check(A = B) -- if A = B then continue, else stop
+
+--------------------------------------------------------------------------------
+--
+--     aslash bslash = -bslash aslash + 2 a b
+--
+--------------------------------------------------------------------------------
+
+quote(aslash bslash = -bslash aslash + 2 a b)
+
+A = dot(aslash,bslash)
+
+B = -dot(bslash,aslash) + 2 dot(a,metric,b) I
+
+check(A = B)
+
+--------------------------------------------------------------------------------
+--
+--     gamma gamma = 4
+--
+--------------------------------------------------------------------------------
+
+quote(gamma gamma = 4)
+
+A = DOT(gamma,gamma)
+
+B = 4 I
+
+check(A = B)
+
+--------------------------------------------------------------------------------
+--
+--     gamma aslash gamma = -2 aslash
+--
+--------------------------------------------------------------------------------
+
+quote(gamma aslash gamma = -2 aslash)
+
+A = DOT(gamma,dot(aslash,gamma))
+
+B = -2 aslash
+
+check(A = B)
+
+--------------------------------------------------------------------------------
+--
+--     gamma aslash bslash gamma = 4 a b
+--
+--------------------------------------------------------------------------------
+
+quote(gamma aslash bslash gamma = 4 a b)
+
+A = DOT(gamma,dot(aslash,bslash,gamma))
+
+B = 4 dot(a,metric,b) I
+
+check(A = B)
+
+--------------------------------------------------------------------------------
+--
+--     gamma aslash bslash cslash gamma = -2 cslash bslash aslash
+--
+--------------------------------------------------------------------------------
+
+quote(gamma aslash bslash cslash gamma = -2 cslash bslash aslash)
+
+A = DOT(gamma,dot(aslash,bslash,cslash,gamma))
+
+B = -2 dot(cslash,bslash,aslash)
+
+check(A = B)
+
+--------------------------------------------------------------------------------
+--
+--     If we get here then everything worked.
+--
+--------------------------------------------------------------------------------
+
+clear
+trace=1
+
+# Generate hydrogen wavefunctions and check that they solve the Schroedinger
+# equation for the hydrogen atom:
+#
+#     psi(n,L,m)      2              2 psi(n,L,m)
+#     ---------- = del  psi(n,L,m) + ------------
+#          2                              r
+#         n
+#
+# Use upper case L to avoid confusion with the numeral 1.
+
+# Define the Laplacian operator for spherical coordinates (del-squared).
+
+delsq(x) = 1/r^2 d(r^2 d(x,r),r) +
+  1/(r^2 sin(theta)) d(sin(theta) d(x,theta),theta) +
+  1/(r sin(theta))^2 d(d(x,phi),phi)
+
+# psi is the product of radial wavefunction R and spherical harmonic Y
+
+R(n,L) = r^L exp(-r/n) laguerre(2r/n,n-L-1,2L+1)
+
+Y(L,m) = legendre(cos(theta),L,abs(m)) exp(i m phi)
+
+psi(n,L,m) = R(n,L) Y(L,m)
+
+# Define the energy functions E, K and V (from the Schroedinger equation).
+
+E(n,L,m) = psi(n,L,m) / n^2
+
+K(n,L,m) = delsq(psi(n,L,m))
+
+V(n,L,m) = 2 psi(n,L,m) / r
+
+"Checking E = K + V for n = 1..5, L = 0..n-1, m = -L..L"
+
+F(n,L,m) = simplify(E(n,L,m) - K(n,L,m) - V(n,L,m))
+
+for(n,1,5,
+  for(L,0,n-1,
+    for(m,-L,L,
+      check(F(n,L,m) = 0)
+)))
+
+clear
+trace=1
+
+# Mandl and Shaw problem 5.1
+#
+#    g    Spacetime metric
+#    x    Coordinate system
+#    A    Vector potential
+#    F    Electromagnetic field
+
+g = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+x = (x0,x1,x2,x3)
+
+A =(A0(x0,x1,x2,x3),
+    A1(x0,x1,x2,x3),
+    A2(x0,x1,x2,x3),
+    A3(x0,x1,x2,x3))
+
+#                                    mu
+# Note: d(A,x) is equivalent to d   A
+#                                nu
+#
+# where mu is the 1st index of tensor T = d(A,x)
+
+T = dot(d(A,x),g) # g raises 2nd index (nu)
+
+#  mu nu    nu  mu    mu  nu
+# F      = d   A   - d   A
+
+F = T - transpose(T)
+
+#        1         mu nu   1      mu      nu
+# L  = - - F      F      - - d   A   d   A
+#  1     4  mu nu          2  mu      nu
+
+T = outer(dot(g,F,g),F)
+T = contract(T,1,3) # sum over mu
+T = contract(T)     # sum over nu
+
+L1 = -1/4 * T - 1/2 * contract(d(A,x))^2
+
+#        1            nu  mu
+# L  = - - (d   A  )(d   A  )
+#  2     2   nu  mu
+
+T = d(A,x)
+T1 = dot(g,T) # lower 1st index (mu)
+T2 = dot(T,g) # raise 2nd index (nu)
+T = outer(T1,T2)
+T = contract(T,1,3) # sum over mu
+T = contract(T)     # sum over nu
+
+L2 = -1/2 * T
+
+# Show that
+#         _                _
+#        |   d (L1 - L2)    |
+# d      | ---------------- | = 0
+#  alpha |            beta  |
+#        | d (d      A    ) |
+#        |_    alpha       _|
+#
+# for each beta.
+
+L = L1 - L2
+
+"beta = 0"
+dA = d(A[1],x)
+T = d(d(L,dA),x)
+contract(T) # sum over alpha
+
+"beta = 1"
+dA = d(A[2],x)
+T = d(d(L,dA),x)
+contract(T) # sum over alpha
+
+"beta = 2"
+dA = d(A[3],x)
+T = d(d(L,dA),x)
+contract(T) # sum over alpha
+
+"beta = 3"
+dA = d(A[4],x)
+T = d(d(L,dA),x)
+contract(T) # sum over alpha
+
+clear
+trace=1
+
+--Maxwell equations in tensor form.
+--See the book Gravitation p. 81.
+--
+--   F     + F     + F     = 0
+--    ab,c    bc,a    ca,b
+--
+--    ab           a
+--   F     = 4 pi J
+--      ,b
+--
+--For this demo, use circular polarized light.
+--
+EX = sin(t+z)
+EY = cos(t+z)
+EZ = 0
+BX = cos(t+z)
+BY = -sin(t+z)
+BZ = 0
+FDD = ((  0, -EX, -EY, -EZ),
+       ( EX,   0,  BZ, -BY),
+       ( EY, -BZ,   0,  BX),
+       ( EZ,  BY, -BX,   0))   --See p. 74. Here, DD means "down down" indices.
+X = (t,x,y,z)   --Coordinate system
+FDDD = d(FDD,X)   --Gradient of F
+T1 = transpose(transpose(FDDD,2,3),1,2)   --Transpose bca to abc
+T2 = transpose(transpose(FDDD,1,2),2,3)   --Transpose cab to abc
+check(FDDD + T1 + T2 = 0)
+guu = ((-1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+FDDU = contract(outer(FDDD,guu),3,4)   --Easier to make FDDU than FUUD.
+check(contract(FDDU,2,3) = 0)   --For light J is zero.
+
+clear
+trace=1
+
+# Ref. "Quantum harmonic oscillator" in Wikipedia
+
+# Compute psi_n(x) for n = 3
+
+n = 3
+m = hbar / omega
+X = sqrt(m * omega / hbar) * x
+H = (-1)^n * exp(X^2) * d(exp(-X^2),n)
+C = (m * omega / pi / hbar)^(1/4) / sqrt(2^n * n!)
+psi = C * exp(-m * omega * x^2 / 2 / hbar) * H
+
+# Define a function to integrate f(x) numerically
+
+d = 1/10
+summa(f) = float(d*sum(k,-50,50,eval(f,x,d*k)))
+
+"Check normalization"
+summa(psi * psi)
+
+"Expectation value for position"
+summa(psi * x * psi)
+
+"Expectation value for momentum"
+summa(psi * (-i * hbar) * d(psi,x))
+
+"Expectation value for kinetic energy"
+K = psi * (-hbar^2 / 2 / m) * d(psi,x,2)
+summa(K)
+
+"Expectation value for potential energy"
+V = psi * (m * omega^2 / 2) * x^2 * psi
+summa(V)
+
+"Expectation value for Hamiltonian (total energy)"
+summa(K + V)
+
+"Energy eigenvalue"
+hbar * omega * (n + 0.5)
+
+clear
+trace=1
+
+-- This script demonstrates some properties of a rotation matrix.
+
+-- These are the matrix components.
+
+R11 = expcos(phi2) expcos(phi1) - expcos(theta) expsin(phi1) expsin(phi2)
+R12 = -expcos(phi2) expsin(phi1) - expcos(theta) expcos(phi1) expsin(phi2)
+R13 = expsin(phi2) expsin(theta)
+
+R21 = expsin(phi2) expcos(phi1) + expcos(theta) expsin(phi1) expcos(phi2)
+R22 = -expsin(phi2) expsin(phi1) + expcos(theta) expcos(phi1) expcos(phi2)
+R23 = -expcos(phi2) expsin(theta)
+
+R31 = expsin(theta) expsin(phi1)
+R32 = expsin(theta) expcos(phi1)
+R33 = expcos(theta)
+
+-- R is a rotation matrix.
+
+R = ((R11,R12,R13),(R21,R22,R23),(R31,R32,R33))
+
+-- Inverse and transpose are equivalent.
+
+check(inv(R) = transpose(R))
+
+-- Determinant is 1.
+
+check(det(R) = 1)
+
+-- Does not change the length of a vector.
+
+U = (U1,U2,U3)
+
+check(U^2 = dot(R,U)^2)
+
+clear
+trace=1
+
+# This script calculates the Einstein tensor for a static spherically symmetric
+# metric.
+#
+# Cf. "A first course in general relativity," Bernard F. Schutz, p. 255.
+#
+# This is the line element for the metric (Equation 10.7)
+#
+#   2     2 Phi   2    2 Lambda   2    2        2
+# ds  = -e      dt  + e         dr  + r  d Omega
+#
+# where
+#
+#  2        2    2         2      2            2
+# r  d Omega  = r  (d theta  + sin  theta d phi )
+#
+# Note: Phi and Lambda are both functions of r.
+
+gdd = ((-exp(2 Phi(r)),                0,   0,                0),
+       (             0, exp(2 Lambda(r)),   0,                0),
+       (             0,                0, r^2,                0),
+       (             0,                0,   0, r^2 sin(theta)^2))
+
+# Note: "dd" stands for two "down" indices, "uu" stands for two "up" indices.
+
+# X is our coordinate system. We need this for computing gradients.
+
+X = (t,r,theta,phi)
+
+# Step 1: Calculate guu.
+
+guu = inv(gdd)
+
+# Step 2: Calculate the connection coefficients. Cf. Gravitation, p. 210.
+#
+# Gamma    = 1/2 (g     + g     - g    )
+#      abc         ab,c    ac,b    bc,a
+#
+# Note: The comma means gradient which increases the rank of gdd by 1.
+
+gddd = d(gdd,X)
+
+# Note: We transpose indices so they match up with Gamma, i.e., we put them in
+# alphabetical order.
+
+GAMDDD = 1/2 (gddd +                # indices are already in correct order
+transpose(gddd,2,3) -               # transpose c and b
+transpose(transpose(gddd,2,3),1,2)) # transpose c and a, then b and a
+
+# Raise first index.
+#
+#      a      au
+# Gamma    = g   Gamma
+#       bc            ubc
+#
+# Note: Sum over index u means contraction.
+
+GAMUDD = contract(outer(guu,GAMDDD),2,3)
+
+# Step 3. Calculate the Riemann tensor. Cf. Gravitation, p. 219.
+#
+# a is alpha
+# b is beta
+# c is gamma
+# d is delta
+# u is mu
+#
+#  a           a            a            a        u          a        u
+# R     = Gamma      - Gamma      + Gamma    Gamma    - Gamma    Gamma
+#   bcd         bd,c         bc,d         uc       bd         ud       bc
+#
+# Do the gradient once and save in a temporary variable.
+
+T1 = d(GAMUDD,X)
+
+# The Gamma Gamma product is a rank 6 tensor with dim 4 per rank.
+# That works out to 4 to the 6th or 4,096 elements.
+# Of course, we'll do the outer product and contract over u just once and save
+# the result in a second temporary variable.
+
+T2 = contract(outer(GAMUDD,GAMUDD),2,4)
+
+# Now put it all together. Do the transpositions so the indices get matched up
+# with R on the left, i.e., put them in alphabetical order.
+
+RUDDD = transpose(T1,3,4) -             # transpose d and c
+  T1 +                                  # already in correct order
+  transpose(T2,2,3) -                   # transpose c and b
+  transpose(transpose(T2,2,3),3,4)      # transpose d and b, then d and c
+
+# Step 4: Calculate the Ricci tensor. Cf. Gravitation, p. 343.
+#
+#        a
+# R   = R
+#  uv     uav
+#
+# Contract over "a" (1st and 3rd indices).
+
+RDD = contract(RUDDD,1,3)
+
+# Step 5: Calculate the Ricci scalar. Cf. Gravitation, p. 343.
+#
+#      uv
+# R = g   R
+#          vu  ...the book has uv, does it give the same result?
+#              Yes because the metric tensor is symmetric so it's ok to
+#              transpose.
+
+R = contract(contract(outer(guu,RDD),2,3),1,2)
+
+# Step 6: Finally, calculate the Einstein tensor. Cf. Gravitation, p. 343.
+#
+# G   = R   - 1/2 g   R
+#  uv    uv        uv
+
+GDD = RDD - 1/2 gdd R
+
+# Next we compare this result with Schutz' book. Schutz p. 255 gives the
+# following Einstein tensor components (all other components are zero):
+#
+#        1                d
+# G   = ----  exp(2 Phi) ---- [r (1 - exp(-2 Lambda))]
+#  tt     2               dr
+#        r
+#
+#          1                                         2
+# G   = - ---- exp(2 Lambda) (1 - exp(-2 Lambda)) + --- Phi'
+#  rr       2                                        r
+#          r
+#
+#                 2                               2
+# G            = r  exp(-2 Lambda) [Phi'' + (Phi')  + Phi'/r
+#  theta theta
+#
+#                                                   - Phi' Lambda' - Lamda'/r]
+#
+#               2
+# G        = sin  theta G
+#  phi phi               theta theta
+
+Gtt = 1/r^2 exp(2 Phi(r)) d(r (1 - exp(-2 Lambda(r))),r)
+
+Grr = -1/r^2 exp(2 Lambda(r)) (1 - exp(-2 Lambda(r))) + 2/r d(Phi(r),r)
+
+Gthetatheta = r^2 exp(-2 Lambda(r)) (
+  d(d(Phi(r),r),r) +
+  d(Phi(r),r)^2 +
+  d(Phi(r),r) / r -
+  d(Phi(r),r) d(Lambda(r),r) -
+  d(Lambda(r),r) / r)
+
+Gphiphi = sin(theta)^2 Gthetatheta
+
+# Put together the expected tensor:
+
+T = ((Gtt,   0,           0,       0),
+     (  0, Grr,           0,       0),
+     (  0,   0, Gthetatheta,       0),
+     (  0,   0,           0, Gphiphi))
+
+# Check that GDD is correct.
+
+check(GDD = T)
+
+# Display the non-zero components of GDD.
+
+Gtt
+Grr
+Gthetatheta
+Gphiphi
+
+clear
+trace=1
+
+# This script tests 10 vector calculus identities.
+
+# Define the cross product, div, grad, curl and laplacian for
+# rectangular coordinates.
+
+cross(u,v) = (
+  u[2] v[3] - u[3] v[2],
+  u[3] v[1] - u[1] v[3],
+  u[1] v[2] - u[2] v[1]
+)
+
+div(v) = contract(d(v,(x,y,z)),1,2)
+
+grad(v) = d(v,(x,y,z))
+
+curl(f) = (
+  d(f[3],y) - d(f[2],z),
+  d(f[1],z) - d(f[3],x),
+  d(f[2],x) - d(f[1],y)
+)
+
+laplacian(f) = d(d(f,x),x) + d(d(f,y),y) + d(d(f,z),z)
+
+# Note: Functions can be left undefined, such as FX(), FY(), etc.
+# These "generic" functions, when evaluated by the derivative function d(),
+# are considered to be dependent on all variables.
+# Basically what this means is that d() does no evaluation at all.
+# For example, d(FX(),x) returns the expression d(FX(),x).
+
+# Define generic vector functions F and G.
+
+F = (FX(),FY(),FZ())
+G = (GX(),GY(),GZ())
+
+# Now check the 10 identities.
+
+"Checking the following identities:"
+
+"1. div(curl F) = 0"
+
+A = div(curl(F))
+
+check(A = 0)
+
+"2. curl(grad f) = 0"
+
+A = curl(grad(f())) # Note the use of generic scalar function f() here.
+
+check(A = 0)
+
+"3. div(grad f) = laplacian f"
+
+A = div(grad(f()))
+
+B = laplacian(f())
+
+check(A = B)
+
+"4. curl(curl F) = grad(div F) - laplacian F"
+
+A = curl(curl(F))
+
+B = grad(div(F)) - laplacian(F)
+
+check(A = B)
+
+"5. grad(fg) = f grad g + g grad(f)"
+
+A = grad(f() g())
+
+B = f() grad(g()) + g() grad(f())
+
+check(A = B)
+
+"6. grad(F . G) = (G . grad)F + (F . grad)G + G x curl F + F x curl G"
+
+A = grad(dot(F,G))
+
+B = dot(grad(F),G)+dot(grad(G),F)+cross(G,curl(F))+cross(F,curl(G))
+
+check(A = B)
+
+# Note: It turns out that (G . grad)F actually means (grad F) . G
+
+"7. div(fF) = f div F + grad f . F"
+
+A = div(f() F)
+
+B = f() div(F) + dot(grad(f()),F)
+
+check(A = B)
+
+"8. div(F x G) = G . curl F - F . curl G"
+
+A = div(cross(F,G))
+
+B = dot(G,curl(F)) - dot(F,curl(G))
+
+check(A = B)
+
+"9. curl(fF) = f curl F + grad f x F"
+
+A = curl(f() F)
+
+B = f() curl(F) + cross(grad(f()),F)
+
+check(A = B)
+
+"10. curl(F x G) = F div G - G div F + (G . grad)F - (F . grad)G"
+
+A = curl(cross(F,G))
+
+B = F div(G) - G div(F) + dot(grad(F),G) - dot(grad(G),F)
+
+check(A = B)
+
+clear
+trace=1
+
+-- www.eigenmath.org/birthday.txt
+"Product method"
+p = product(k,1,23,(365-k+1)/365)
+float(p)
+"Factorial method"
+p = 365! / (365 - 23)! / 365^23
+float(p)
+"Probability of at least one shared birthday"
+1.0 - p
+
+clear
+trace=1
+
+-- www.eigenmath.org/casimir.txt (15 seconds)
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
+E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
+E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
+p1 = (E1,p1x,p1y,p1z)
+p2 = (E2,p2x,p2y,p2z)
+p3 = (E3,p3x,p3y,p3z)
+p4 = (E4,p4x,p4y,p4z)
+u11 = (E1+m1,0,p1z,p1x+i*p1y)
+u12 = (0,E1+m1,p1x-i*p1y,-p1z)
+v21 = (p2z,p2x+i*p2y,E2+m2,0)
+v22 = (p2x-i*p2y,-p2z,0,E2+m2)
+u31 = (E3+m3,0,p3z,p3x+i*p3y)
+u32 = (0,E3+m3,p3x-i*p3y,-p3z)
+v41 = (p4z,p4x+i*p4y,E4+m4,0)
+v42 = (p4x-i*p4y,-p4z,0,E4+m4)
+u1 = (u11,u12)
+v2 = (v21,v22)
+u3 = (u31,u32)
+v4 = (v41,v42)
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+pslash1 = dot(gmunu,p1,gamma)
+pslash2 = dot(gmunu,p2,gamma)
+pslash3 = dot(gmunu,p3,gamma)
+pslash4 = dot(gmunu,p4,gamma)
+gammaT = transpose(gamma)
+bar(u) = dot(conj(u),gamma0)
+-- A is the sum over spins
+A = sum(s1,1,2,sum(s2,1,2,sum(s3,1,2,sum(s4,1,2,
+mag(dot(dot(bar(u3[s3]),gammaT,v4[s4]),gmunu,dot(bar(v2[s2]),gammaT,u1[s1])))^2
+))))
+-- T1 is the first trace matrix
+T1 = contract(dot(pslash1+m1*I,gammaT,pslash2-m2*I,gammaT),1,4)
+-- T2 is the second trace matrix
+T2 = contract(dot(pslash4-m4*I,gammaT,pslash3+m3*I,gammaT),1,4)
+T2 = dot(gmunu,T2,gmunu)
+-- B is the product of T1 and T2
+B = contract(dot(T1,transpose(T2)))
+-- N is the normalization constant
+N = (E1+m1)*(E2+m2)*(E3+m3)*(E4+m4)
+-- this difference should be zero
+A-N*B
+check(last=0)
+
+clear
+trace=1
+
+-- www.eigenmath.org/dirac.txt
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+omega = sqrt(kx^2 + ky^2 + kz^2 + m^2)
+psi1 = (omega+m, 0, kz, kx+i*ky) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi2 = (0, omega+m, kx-i*ky, -kz) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi3 = (kz, kx+i*ky, omega-m, 0) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi4 = (kx-i*ky, -kz, 0, omega-m) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi5 = (omega-m, 0, kz, kx+i*ky) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+psi6 = (0, omega-m, kx-i*ky, -kz) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+psi7 = (kz, kx+i*ky, omega+m, 0) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+psi8 = (kx-i*ky, -kz, 0, omega+m) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+D(psi) = i*dot(gamma0,d(psi,t)) +
+         i*dot(gamma1,d(psi,x)) +
+         i*dot(gamma2,d(psi,y)) +
+         i*dot(gamma3,d(psi,z)) - m*psi
+check(D(psi1)=0)
+check(D(psi2)=0)
+check(D(psi3)=0)
+check(D(psi4)=0)
+check(D(psi5)=0)
+check(D(psi6)=0)
+check(D(psi7)=0)
+check(D(psi8)=0)
+
+clear
+trace=1
+
+-- www.eigenmath.org/spinors.txt
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
+E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
+E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
+p1 = (E1,p1x,p1y,p1z)
+p2 = (E2,p2x,p2y,p2z)
+p3 = (E3,p3x,p3y,p3z)
+p4 = (E4,p4x,p4y,p4z)
+u11 = (E1+m1,0,p1z,p1x+i*p1y)
+u12 = (0,E1+m1,p1x-i*p1y,-p1z)
+v21 = (p2z,p2x+i*p2y,E2+m2,0)
+v22 = (p2x-i*p2y,-p2z,0,E2+m2)
+u31 = (E3+m3,0,p3z,p3x+i*p3y)
+u32 = (0,E3+m3,p3x-i*p3y,-p3z)
+v41 = (p4z,p4x+i*p4y,E4+m4,0)
+v42 = (p4x-i*p4y,-p4z,0,E4+m4)
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+pslash1 = dot(gmunu,p1,gamma)
+pslash2 = dot(gmunu,p2,gamma)
+pslash3 = dot(gmunu,p3,gamma)
+pslash4 = dot(gmunu,p4,gamma)
+"dirac equation"
+dot(pslash1-m1*I,u11)
+dot(pslash1-m1*I,u12)
+dot(pslash2+m2*I,v21)
+dot(pslash2+m2*I,v22)
+dot(pslash3-m3*I,u31)
+dot(pslash3-m3*I,u32)
+dot(pslash4+m4*I,v41)
+dot(pslash4+m4*I,v42)
+"completeness"
+outer(u11,dot(conj(u11),gamma0))+outer(u12,dot(conj(u12),gamma0))-
+  (E1+m1)*(pslash1+m1*I)
+outer(v21,dot(conj(v21),gamma0))+outer(v22,dot(conj(v22),gamma0))-
+  (E2+m2)*(pslash2-m2*I)
+outer(u31,dot(conj(u31),gamma0))+outer(u32,dot(conj(u32),gamma0))-
+  (E3+m3)*(pslash3+m3*I)
+outer(v41,dot(conj(v41),gamma0))+outer(v42,dot(conj(v42),gamma0))-
+  (E4+m4)*(pslash4-m4*I)
+
+clear
+trace=1
+
+-- www.eigenmath.org/gordon.txt
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m^2)
+p1 = (E1,p1x,p1y,p1z)
+p2 = (E2,p2x,p2y,p2z)
+u11 = (E1+m,0,p1z,p1x+i*p1y)
+u12 = (0,E1+m,p1x-i*p1y,-p1z)
+u21 = (E2+m,0,p2z,p2x+i*p2y)
+u22 = (0,E2+m,p2x-i*p2y,-p2z)
+u1 = (u11,u12)
+u2 = (u21,u22)
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+T = transpose(dot(gamma,transpose(gamma)),2,3)
+sigmamunu = i/2 * (T - transpose(T))
+for(s1,1,2,for(s2,1,2,for(mu,1,4,
+  T = 1/(2*m) * ((p2+p1)[mu]*I + i*dot(gmunu,p2-p1,sigmamunu[mu])),
+  A = dot(conj(u2[s2]),gamma0,T,u1[s1]),
+  B = dot(conj(u2[s2]),gamma0,gamma[mu],u1[s1]),
+  check(A=B)
+)))
+
+clear
+trace=1
+
+-- www.eigenmath.org/muon.txt
+p = sqrt(E^2 - m^2)
+rho = sqrt(E^2 - M^2)
+p1 = (E,0,0,p)
+p2 = (E,0,0,-p)
+p3 = (E,
+      rho*expsin(theta)*expcos(phi),
+      rho*expsin(theta)*expsin(phi),
+      rho*expcos(theta))
+p4 = (E,
+      -rho*expsin(theta)*expcos(phi),
+      -rho*expsin(theta)*expsin(phi),
+      -rho*expcos(theta))
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+pslash1 = dot(gmunu,p1,gamma)
+pslash2 = dot(gmunu,p2,gamma)
+pslash3 = dot(gmunu,p3,gamma)
+pslash4 = dot(gmunu,p4,gamma)
+gammaT = transpose(gamma)
+-- T1 is the first trace matrix
+T1 = contract(dot(pslash1+m*I,gammaT,pslash2-m*I,gammaT),1,4)
+-- T2 is the second trace matrix
+T2 = contract(dot(pslash4-M*I,gammaT,pslash3+M*I,gammaT),1,4)
+T2 = dot(gmunu,T2,gmunu)
+-- A is the product of T1 and T2
+A = contract(dot(T1,transpose(T2)))
+-- B is the expression in theta
+B = 1 + expcos(theta)^2 +
+    (m^2+M^2)/E^2 * expsin(theta)^2 +
+    m^2*M^2/E^4 * expcos(theta)^2
+-- this difference should be zero
+A/(64*E^4)-B
+check(last=0)
+
+clear
+trace=1
+
+-- www.eigenmath.org/rutherford.txt
+p = sqrt(E^2 - m^2)
+p1 = (E,0,0,p)
+p2 = (E,
+      p*expsin(theta)*expcos(phi),
+      p*expsin(theta)*expsin(phi),
+      p*expcos(theta))
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+pslash1 = dot(gmunu,p1,gamma)
+pslash2 = dot(gmunu,p2,gamma)
+A = contract(dot(pslash1+m*I,gamma0,pslash2+m*I,gamma0))
+B = E^2 + m^2 + p^2*expcos(theta)
+-- this difference should be zero
+A/4-B
+check(last=0)
+
+clear
+trace=1
+
+-- www.eigenmath.org/quantum-electric-field.txt
+-- derived units
+joule = kilogram * meter^2 * second^(-2)
+volt = kilogram * meter^2 * second^(-3) * ampere^(-1)
+farad = kilogram^(-1) * meter^(-2) * second^4 * ampere^2
+-- physical values
+hbar = 1.054572 * 10^(-34) * joule * second
+epsilon0 = 8.854188 * 10^(-12) * farad * meter^(-1)
+c = 299792458 * meter * second^(-1)
+lambda = 600 * 10^(-9) * meter
+omega = 2 * float(pi) * c / lambda
+-- conversion constant
+C = sqrt(0.5 * hbar * omega * epsilon0^(-1) * meter^(-3))
+C
+volt * meter^(-1)
+
+-- www.eigenmath.org/schwarzchild-metric.txt
+
+gdd = ((-F(r),      0,   0,                0),
+       (    0, 1/F(r),   0,                0),
+       (    0,      0, r^2,                0),
+       (    0,      0,   0, r^2*sin(theta)^2))
+
+-- Note: "dd" stands for two "down" indices, "uu" stands for two "up" indices.
+
+-- X is for computing gradients.
+
+X = (t,r,theta,phi)
+
+-- Step 1: Calculate guu.
+
+guu = inv(gdd)
+
+-- Step 2: Calculate the connection coefficients. ("Gravitation" by MTW p. 210)
+--
+-- Gamma    = 1/2 (g     + g     - g    )
+--      abc         ab,c    ac,b    bc,a
+--
+-- Note: The comma means gradient which increases the rank of gdd by 1.
+
+gddd = d(gdd,X)
+
+-- Transpose indices to match abc.
+
+GAMDDD = 1/2 * (gddd +              -- indices are already in correct order
+transpose(gddd,2,3) -               -- transpose c and b
+transpose(transpose(gddd,2,3),1,2)) -- transpose c and a, then b and a
+
+-- Raise first index.
+--
+--      a      au
+-- Gamma    = g   Gamma
+--       bc            ubc
+--
+-- Note: Sum over index u means contraction.
+
+GAMUDD = dot(guu,GAMDDD)
+
+-- Step 3. Calculate the Riemann tensor. ("Gravitation" by MTW p. 219)
+--
+-- a is alpha
+-- b is beta
+-- c is gamma
+-- d is delta
+-- u is mu
+--
+--  a           a            a            a        u          a        u
+-- R     = Gamma      - Gamma      + Gamma    Gamma    - Gamma    Gamma
+--   bcd         bd,c         bc,d         uc       bd         ud       bc
+--
+-- Do the gradient once and save in a temporary variable.
+
+T1 = d(GAMUDD,X)
+
+-- T2 is the product Gamma Gamma contracted over u.
+
+T2 = dot(transpose(GAMUDD,2,3),GAMUDD)
+
+-- Now put it all together. Transpose indices to match abcd.
+
+RUDDD = transpose(T1,3,4) -             -- transpose d and c
+  T1 +                                  -- already in correct order
+  transpose(T2,2,3) -                   -- transpose c and b
+  transpose(transpose(T2,2,3),3,4)      -- transpose d and b, then d and c
+
+-- Step 4: Calculate the Ricci tensor. ("Gravitation" by MTW p. 343)
+--
+--        a
+-- R   = R
+--  uv     uav
+--
+-- Contract over "a" (1st and 3rd indices).
+
+RDD = contract(RUDDD,1,3)
+
+-- Step 5: Calculate the Ricci scalar. ("Gravitation" by MTW p. 343)
+--
+--      uv
+-- R = g   R
+--          uv
+
+R = contract(dot(guu,transpose(RDD)))
+
+-- Step 6: Finally, calculate the Einstein tensor. ("Gravitation" by MTW p. 343)
+--
+-- G   = R   - 1/2 g   R
+--  uv    uv        uv
+
+GDD = RDD - 1/2 * gdd * R
+
+GDD[1,1]
+GDD[2,2]
+GDD[3,3]
+GDD[4,4]
+
+-- Define F(r) and simplify.
+
+F(r) = 1 - 2*M/r
+
+GDD = simplify(GDD)
+GDD
+
+check(GDD=0)
+
+clear
+status
+"all tests passed"

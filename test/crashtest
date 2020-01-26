@@ -1,0 +1,4 @@
+-- circular definition should cause frame error, not seg fault
+
+x = x + 1
+x
