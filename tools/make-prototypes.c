@@ -1,8 +1,3 @@
-// To build a new prototypes.h:
-//
-//	gcc make-prototypes.c
-//	./a.out >../src/prototypes.h
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
