@@ -1,6 +1,6 @@
-To build a new prototypes.h:
+To build a new prototypes.h
 
-	gcc make-prototypes.h
+	gcc make-prototypes.c
 	./a.out >../src/prototypes.h
 
 To build eigenmath.c
