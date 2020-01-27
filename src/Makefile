@@ -1,12 +1,3 @@
-# To build Eigenmath:
-#
-#	make
-#
-# To build a new prototypes.h:
-#
-#	gcc make-prototypes.c
-#	./a.out >prototypes.h
-
 CFLAGS = -Wall -O0
 CC = gcc
 
@@ -127,4 +118,4 @@ eigenmath : $(objects)
 $(objects) : defs.h defs1.h prototypes.h
 
 clean :
-	rm -f eigenmath a.out *.o eigenmath.c
+	rm -f eigenmath *.o
