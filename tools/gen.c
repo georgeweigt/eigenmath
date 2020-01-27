@@ -2,134 +2,136 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define PATH "../src/"
-
-int prev = '\n';
-
 void emit_file(char *);
 void emit_line(char *);
 void check_line(char *, int, char *);
 
+int prev = '\n';
+
+#define PATH "../src/"
+
+char *filename[] = {
+	PATH "defs1.h",
+	PATH "prototypes.h",
+	PATH "globals.c",
+	PATH "main.c",
+	PATH "run.c",
+	PATH "scan.c",
+	PATH "eval.c",
+	PATH "display.c",
+	PATH "abs.c",
+	PATH "add.c",
+	PATH "adj.c",
+	PATH "arccos.c",
+	PATH "arccosh.c",
+	PATH "arcsin.c",
+	PATH "arcsinh.c",
+	PATH "arctan.c",
+	PATH "arctanh.c",
+	PATH "arg.c",
+	PATH "atomize.c",
+	PATH "bake.c",
+	PATH "besselj.c",
+	PATH "bessely.c",
+	PATH "binomial.c",
+	PATH "ceiling.c",
+	PATH "choose.c",
+	PATH "circexp.c",
+	PATH "clock.c",
+	PATH "coeff.c",
+	PATH "cofactor.c",
+	PATH "conj.c",
+	PATH "contract.c",
+	PATH "cos.c",
+	PATH "cosh.c",
+	PATH "defint.c",
+	PATH "degree.c",
+	PATH "denominator.c",
+	PATH "derivative.c",
+	PATH "det.c",
+	PATH "distill.c",
+	PATH "divisors.c",
+	PATH "eigen.c",
+	PATH "erf.c",
+	PATH "erfc.c",
+	PATH "exp.c",
+	PATH "expand.c",
+	PATH "expcos.c",
+	PATH "expsin.c",
+	PATH "factor.c",
+	PATH "factorial.c",
+	PATH "factorpoly.c",
+	PATH "factors.c",
+	PATH "filter.c",
+	PATH "float.c",
+	PATH "floor.c",
+	PATH "for.c",
+	PATH "gcd.c",
+	PATH "guess.c",
+	PATH "hermite.c",
+	PATH "hilbert.c",
+	PATH "imag.c",
+	PATH "index.c",
+	PATH "inner.c",
+	PATH "integral.c",
+	PATH "inv.c",
+	PATH "is.c",
+	PATH "isprime.c",
+	PATH "itab.c",
+	PATH "laguerre.c",
+	PATH "lcm.c",
+	PATH "leading.c",
+	PATH "legendre.c",
+	PATH "log.c",
+	PATH "mag.c",
+	PATH "mod.c",
+	PATH "multiply.c",
+	PATH "nroots.c",
+	PATH "numerator.c",
+	PATH "outer.c",
+	PATH "partition.c",
+	PATH "polar.c",
+	PATH "pollard.c",
+	PATH "power.c",
+	PATH "prime.c",
+	PATH "primetab.c",
+	PATH "print.c",
+	PATH "product.c",
+	PATH "quotient.c",
+	PATH "rationalize.c",
+	PATH "real.c",
+	PATH "rect.c",
+	PATH "roots.c",
+	PATH "setq.c",
+	PATH "sgn.c",
+	PATH "simfac.c",
+	PATH "simplify.c",
+	PATH "sin.c",
+	PATH "sinh.c",
+	PATH "sum.c",
+	PATH "tan.c",
+	PATH "tanh.c",
+	PATH "taylor.c",
+	PATH "tensor.c",
+	PATH "test.c",
+	PATH "transform.c",
+	PATH "transpose.c",
+	PATH "userfunc.c",
+	PATH "zero.c",
+	PATH "core.c",
+	PATH "symbol.c",
+	PATH "stack.c",
+	PATH "bignum.c",
+	NULL
+};
+
 int
 main()
 {
+	int i = 0;
 	system("cat preamble.h");
-
-	emit_file(PATH "defs1.h");
-	emit_file(PATH "prototypes.h");
-
-	emit_file(PATH "globals.c");
-	emit_file(PATH "main.c");
-	emit_file(PATH "run.c");
-	emit_file(PATH "scan.c");
-	emit_file(PATH "eval.c");
-	emit_file(PATH "display.c");
-
-	emit_file(PATH "abs.c");
-	emit_file(PATH "add.c");
-	emit_file(PATH "adj.c");
-	emit_file(PATH "arccos.c");
-	emit_file(PATH "arccosh.c");
-	emit_file(PATH "arcsin.c");
-	emit_file(PATH "arcsinh.c");
-	emit_file(PATH "arctan.c");
-	emit_file(PATH "arctanh.c");
-	emit_file(PATH "arg.c");
-	emit_file(PATH "atomize.c");
-	emit_file(PATH "bake.c");
-	emit_file(PATH "besselj.c");
-	emit_file(PATH "bessely.c");
-	emit_file(PATH "binomial.c");
-	emit_file(PATH "ceiling.c");
-	emit_file(PATH "choose.c");
-	emit_file(PATH "circexp.c");
-	emit_file(PATH "clock.c");
-	emit_file(PATH "coeff.c");
-	emit_file(PATH "cofactor.c");
-	emit_file(PATH "conj.c");
-	emit_file(PATH "contract.c");
-	emit_file(PATH "cos.c");
-	emit_file(PATH "cosh.c");
-	emit_file(PATH "defint.c");
-	emit_file(PATH "degree.c");
-	emit_file(PATH "denominator.c");
-	emit_file(PATH "derivative.c");
-	emit_file(PATH "det.c");
-	emit_file(PATH "distill.c");
-	emit_file(PATH "divisors.c");
-	emit_file(PATH "eigen.c");
-	emit_file(PATH "erf.c");
-	emit_file(PATH "erfc.c");
-	emit_file(PATH "exp.c");
-	emit_file(PATH "expand.c");
-	emit_file(PATH "expcos.c");
-	emit_file(PATH "expsin.c");
-	emit_file(PATH "factor.c");
-	emit_file(PATH "factorial.c");
-	emit_file(PATH "factorpoly.c");
-	emit_file(PATH "factors.c");
-	emit_file(PATH "filter.c");
-	emit_file(PATH "float.c");
-	emit_file(PATH "floor.c");
-	emit_file(PATH "for.c");
-	emit_file(PATH "gcd.c");
-	emit_file(PATH "guess.c");
-	emit_file(PATH "hermite.c");
-	emit_file(PATH "hilbert.c");
-	emit_file(PATH "imag.c");
-	emit_file(PATH "index.c");
-	emit_file(PATH "inner.c");
-	emit_file(PATH "integral.c");
-	emit_file(PATH "inv.c");
-	emit_file(PATH "is.c");
-	emit_file(PATH "isprime.c");
-	emit_file(PATH "itab.c");
-	emit_file(PATH "laguerre.c");
-	emit_file(PATH "lcm.c");
-	emit_file(PATH "leading.c");
-	emit_file(PATH "legendre.c");
-	emit_file(PATH "log.c");
-	emit_file(PATH "mag.c");
-	emit_file(PATH "mod.c");
-	emit_file(PATH "multiply.c");
-	emit_file(PATH "nroots.c");
-	emit_file(PATH "numerator.c");
-	emit_file(PATH "outer.c");
-	emit_file(PATH "partition.c");
-	emit_file(PATH "polar.c");
-	emit_file(PATH "pollard.c");
-	emit_file(PATH "power.c");
-	emit_file(PATH "prime.c");
-	emit_file(PATH "primetab.c");
-	emit_file(PATH "print.c");
-	emit_file(PATH "product.c");
-	emit_file(PATH "quotient.c");
-	emit_file(PATH "rationalize.c");
-	emit_file(PATH "real.c");
-	emit_file(PATH "rect.c");
-	emit_file(PATH "roots.c");
-	emit_file(PATH "setq.c");
-	emit_file(PATH "sgn.c");
-	emit_file(PATH "simfac.c");
-	emit_file(PATH "simplify.c");
-	emit_file(PATH "sin.c");
-	emit_file(PATH "sinh.c");
-	emit_file(PATH "sum.c");
-	emit_file(PATH "tan.c");
-	emit_file(PATH "tanh.c");
-	emit_file(PATH "taylor.c");
-	emit_file(PATH "tensor.c");
-	emit_file(PATH "test.c");
-	emit_file(PATH "transform.c");
-	emit_file(PATH "transpose.c");
-	emit_file(PATH "userfunc.c");
-	emit_file(PATH "zero.c");
-
-	emit_file(PATH "core.c");
-	emit_file(PATH "symbol.c");
-	emit_file(PATH "stack.c");
-	emit_file(PATH "bignum.c");
-
+	while (filename[i])
+		emit_file(filename[i++]);
 	return 0;
 }
 
