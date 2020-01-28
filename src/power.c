@@ -41,7 +41,7 @@ power(void)
 void
 power_nib(void)
 {
-	int h, t;
+	int h;
 
 	EXPO = pop();
 	BASE = pop();
@@ -129,10 +129,9 @@ power_nib(void)
 		push(cadr(BASE));
 		push(caddr(BASE));
 		push(EXPO);
-		t = expanding;
-		expanding = 1; // expand products of exponents
+		expanding++; // expand products of exponents
 		multiply();
-		expanding = t;
+		expanding--;
 		power();
 		return;
 	}
