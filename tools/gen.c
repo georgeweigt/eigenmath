@@ -22,11 +22,11 @@ main()
 	emit_file(PATH "defs1.h");
 	emit_file(PATH "prototypes.h");
 	emit_file(PATH "globals.c");
-	n = scandir("../src", &p, filter, alphasort);
+	n = scandir(PATH, &p, filter, alphasort);
 	for (i = 0; i < n; i++) {
 		if (strcmp(p[i]->d_name, "globals.c") == 0)
 			continue;
-		strcpy(filename, "../src/");
+		strcpy(filename, PATH);
 		strcat(filename, p[i]->d_name);
 		emit_file(filename);
 	}
