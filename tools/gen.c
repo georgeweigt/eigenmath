@@ -15,19 +15,24 @@ main()
 {
 	int i, n;
 	struct dirent **p;
-	static char filename[100];
+	static char s[100];
+
 	system("cat preamble.h");
+
 	emit_file(PATH "defs1.h");
 	emit_file(PATH "prototypes.h");
 	emit_file(PATH "globals.c");
+
 	n = scandir(PATH, &p, filter, alphasort);
+
 	for (i = 0; i < n; i++) {
 		if (strcmp(p[i]->d_name, "globals.c") == 0)
 			continue;
-		strcpy(filename, PATH);
-		strcat(filename, p[i]->d_name);
-		emit_file(filename);
+		strcpy(s, PATH);
+		strcat(s, p[i]->d_name);
+		emit_file(s);
 	}
+
 	return 0;
 }
 
@@ -119,9 +124,9 @@ check_line(char *filename, int line_number, char *line)
 void
 emit_line(char *line)
 {
-	static int prev;
-	if (prev == '\n' && *line == '\n')
+	static int c;
+	if (c == '\n' && *line == '\n')
 		return; // don't print more than one blank line in a row
 	printf("%s", line);
-	prev = *line;
+	c = *line;
 }
