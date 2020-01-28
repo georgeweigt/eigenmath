@@ -8,9 +8,6 @@ void emit_file(char *);
 void emit_line(char *);
 void check_line(char *, int, char *);
 
-int prev = '\n';
-char filename[100];
-
 #define PATH "../src/"
 
 int
@@ -18,6 +15,7 @@ main()
 {
 	int i, n;
 	struct dirent **p;
+	static char filename[100];
 	system("cat preamble.h");
 	emit_file(PATH "defs1.h");
 	emit_file(PATH "prototypes.h");
@@ -121,6 +119,7 @@ check_line(char *filename, int line_number, char *line)
 void
 emit_line(char *line)
 {
+	static int prev;
 	if (prev == '\n' && *line == '\n')
 		return; // don't print more than one blank line in a row
 	printf("%s", line);
