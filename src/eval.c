@@ -212,6 +212,7 @@ eval_cons(void)
 	case REAL:		eval_real();		break;
 	case RECTF:		eval_rect();		break;
 	case ROOTS:		eval_roots();		break;
+	case RUN:		eval_run();		break;
 	case SETQ:		eval_setq();		break;
 	case SGN:		eval_sgn();		break;
 	case SIMPLIFY:		eval_simplify();	break;

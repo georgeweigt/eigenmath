@@ -543,6 +543,8 @@ void init_globals(void);
 void print_status(void);
 void trace_input(char *s);
 void trace_error(void);
+void eval_run(void);
+void run_file(char *filename);
 char * scan(char *s, int mode);
 void scan_stmt(void);
 void scan_comparison(void);

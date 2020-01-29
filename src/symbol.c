@@ -215,6 +215,7 @@ init_symbol_table(void)
 	std_symbol("real", REAL);
 	std_symbol("rect", RECTF);
 	std_symbol("roots", ROOTS);
+	std_symbol("run", RUN);
 	std_symbol("=", SETQ);
 	std_symbol("sgn", SGN);
 	std_symbol("simplify", SIMPLIFY);

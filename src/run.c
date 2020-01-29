@@ -213,3 +213,88 @@ trace_error(void)
 		trace_input(s);
 	}
 }
+
+void
+eval_run(void)
+{
+
+	push(cadr(p1));
+	eval();
+	p1 = pop();
+
+	if (!isstr(p1))
+		stop("string expected");
+
+	run_file(p1->u.str);
+
+	push_symbol(NIL);
+}
+
+void
+run_file(char *filename)
+{
+	int fd, n;
+	char *buf, *ptr, *ptr0, *s;
+
+	fd = open(filename, O_RDONLY, 0);
+
+	if (fd == -1)
+		stop("cannot open file");
+
+	// get file size
+
+	n = (int) lseek(fd, 0, SEEK_END);
+
+	if (n == -1) {
+		close(fd);
+		stop("lseek error");
+	}
+
+	lseek(fd, 0, SEEK_SET);
+
+	buf = malloc(n + 1);
+
+	if (buf == NULL) {
+		close(fd);
+		malloc_kaput();
+	}
+
+	push_string(buf); // for gc
+
+	if (read(fd, buf, n) != n) {
+		close(fd);
+		stop("read error");
+	}
+
+	close(fd);
+
+	buf[n] = 0;
+
+	s = buf;
+
+	ptr = trace_ptr;
+	ptr0 = trace_ptr0;
+
+	trace_ptr = s;
+	trace_ptr0 = s;
+
+	while (1) {
+
+		s = scan(s, 0);
+
+		if (s == NULL)
+			break; // end of input
+
+		trace_input(s);
+
+		eval_and_print_result(1);
+
+		if (clear_flag)
+			stop("clear not allowed in run file");
+	}
+
+	trace_ptr = ptr;
+	trace_ptr0 = ptr0;
+
+	pop(); // buf is freed on next gc
+}

@@ -178,6 +178,7 @@ enum {
 	REAL,
 	RECTF,
 	ROOTS,
+	RUN,
 	SETQ,
 	SGN,
 	SIMPLIFY,
