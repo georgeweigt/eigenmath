@@ -6,7 +6,7 @@
 int filter(const struct dirent *p);
 void emit_file(char *);
 void emit_line(char *);
-void check_line(char *, int, char *);
+int check_line(char *);
 
 #define PATH "../src/"
 
@@ -50,9 +50,9 @@ filter(const struct dirent *p)
 void
 emit_file(char *filename)
 {
-	int line = 1, state = 0;
+	int line = 0, state = 0;
 	FILE *f;
-	static char str[1000];
+	static char s[1000];
 
 	emit_line("\n");
 
@@ -63,70 +63,89 @@ emit_file(char *filename)
 		exit(1);
 	}
 
-	while (fgets(str, sizeof str, f)) {
+	while (fgets(s, sizeof s, f)) {
 
-		check_line(filename, line++, str);
+		line++;
 
-		if (strcmp(str, "#include \"defs.h\"\n") == 0)
+		if (check_line(s)) {
+			fprintf(stderr, "file %s, line %d\n", filename, line);
+			exit(1);
+		}
+
+		if (strcmp(s, "#include \"defs.h\"\n") == 0)
 			continue;
 
-		if (state && *str == '\n')
+		if (state && *s == '\n')
 			continue; // skip blank lines in functions
 
-		emit_line(str);
+		emit_line(s);
 
-		if (*str == '{')
+		if (*s == '{')
 			state = 1;
 
-		if (*str == '}')
+		if (*s == '}')
 			state = 0;
 	}
 
 	fclose(f);
 }
 
-void
-check_line(char *filename, int line_number, char *line)
+int
+check_line(char *line)
 {
 	int i, n;
+
 	n = strlen(line);
+
 	if (n < 1 || line[n - 1] != '\n') {
-		fprintf(stderr, "file %s line %d: line error\n", filename, line_number);
-		exit(1);
+		fprintf(stderr, "missing newline\n");
+		return -1;
 	}
-	if (n < 2)
-		return;
-	// check for weird ascii
+
+	if (n == 1)
+		return 0; // ok
+
+	// check for weird ascii chars
+
 	for (i = 0; i < n; i++) {
 		if (line[i] >= ' ' && line[i] < 0x7f)
 			continue;
 		if (line[i] == '\t' || line[i] == '\n')
 			continue;
-		fprintf(stderr, "%s line %d: ascii error\n", filename, line_number);
-		exit(1);
+		fprintf(stderr, "ascii error\n");
+		return -1;
 	}
+
 	// check leading space
+
 	for (i = 0; i < n; i++) {
 		if (line[i] > ' ')
 			break;
 		if (line[i] == '\t')
 			continue;
-		fprintf(stderr, "%s line %d: leading space\n", filename, line_number);
-		// exit(1);
+		fprintf(stderr, "leading space\n");
+		return -1;
 	}
+
 	// check trailing space
+
 	if (line[n - 2] <= ' ') {
-		fprintf(stderr, "%s line %d: trailing space\n", filename, line_number);
-		exit(1);
+		fprintf(stderr, "trailing space\n");
+		return -1;
 	}
+
+	return 0; // ok
 }
 
 void
 emit_line(char *line)
 {
-	static int c;
+	static int c = '\n';
+
 	if (c == '\n' && *line == '\n')
 		return; // don't print more than one blank line in a row
+
 	printf("%s", line);
+
 	c = *line;
 }
