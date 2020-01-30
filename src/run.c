@@ -71,6 +71,7 @@ stop(char *s)
 			printstr("\n");
 		}
 		term_flag = BLACK;
+		gc();
 		longjmp(stop_return, 1);
 	}
 }
@@ -258,7 +259,8 @@ run_file(char *filename)
 		malloc_kaput();
 	}
 
-	push_string(buf); // for gc
+	push_string(buf);
+	p1 = pop();
 
 	if (read(fd, buf, n) != n) {
 		close(fd);
@@ -295,5 +297,10 @@ run_file(char *filename)
 	trace_ptr = ptr;
 	trace_ptr0 = ptr0;
 
-	pop(); // buf is freed on next gc
+	p1->u.str = strdup("NULL");
+
+	if (p1->u.str == NULL)
+		malloc_kaput();
+
+	free(buf);
 }
