@@ -658,6 +658,6 @@ void eval_transpose(void);
 void transpose(void);
 void transpose_nib(void);
 void eval_user_function(void);
-void rewrite(void);
-void rewrite_nib(void);
+int rewrite(void);
+int rewrite_nib(void);
 void eval_zero(void);

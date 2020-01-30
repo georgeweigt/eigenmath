@@ -9,7 +9,7 @@ eval_setq(void)
 		setq_userfunc();
 	else {
 		if (!issymbol(cadr(p1)))
-			stop("symbol expected");
+			stop("assignment: symbol expected");
 		push(caddr(p1));
 		eval();
 		p2 = pop();
@@ -36,7 +36,7 @@ setq_indexed(void)
 	int h;
 	p4 = cadadr(p1);
 	if (!issymbol(p4))
-		stop("symbol expected");
+		stop("indexed assignment: symbol expected");
 	h = tos;
 	push(caddr(p1));
 	eval();

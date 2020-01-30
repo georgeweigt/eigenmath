@@ -935,6 +935,13 @@ check(lisp(last)=="(^ .e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
 psi/psi
 check(lisp(last)=="1")
 
+-- loop indices are not rewritten
+
+A = zero(3)
+f(x) = for(i,1,3,A[i] = x)
+f(1)
+check(A==(1,1,1))
+
 trace=0
 clear
 status
