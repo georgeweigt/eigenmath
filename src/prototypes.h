@@ -219,7 +219,6 @@ void fixup_fraction(int x, int k1, int k2);
 void fixup_power(int k1, int k2);
 void move(int j, int k, int dx, int dy);
 void get_size(int j, int k, int *h, int *w, int *y);
-void displaychar(int c);
 void emit_char(int c);
 void emit_str(char *s);
 void emit_number(struct atom *p, int emit_sign);

@@ -834,12 +834,6 @@ get_size(int j, int k, int *h, int *w, int *y)
 }
 
 void
-displaychar(int c)
-{
-	emit_char(c);
-}
-
-void
 emit_char(int c)
 {
 	if (yindex == YMAX)
