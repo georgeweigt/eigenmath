@@ -54,4 +54,28 @@ gmunu^2
 check(mathml(last)=="<math><mrow><msup><msub><mi>g</mi><mrow><mi>&mu;</mi><mi>&nu;</mi></mrow></msub><mrow><mn>2</mn></mrow></msup></mrow></math>")
 
 
+-- fractions
 
+a/b
+check(mathml(last)=="<math><mrow><mfrac><mrow><mi>a</mi></mrow><mrow><mi>b</mi></mrow></mfrac></mrow></math>")
+
+-a/b
+check(mathml(last)=="<math><mrow><mo prefix='true'>-</mo><mfrac><mrow><mi>a</mi></mrow><mrow><mi>b</mi></mrow></mfrac></mrow></math>")
+
+1/(x - 1)
+check(mathml(last)=="<math><mrow><mfrac><mn>1</mn><mrow><mi>x</mi><mo>-</mo><mn>1</mn></mrow></mfrac></mrow></math>")
+
+1/(1 - x)
+check(mathml(last)=="<math><mrow><mfrac><mn>1</mn><mrow><mo prefix='true'>-</mo><mi>x</mi><mo>+</mo><mn>1</mn></mrow></mfrac></mrow></math>")
+
+1/(x - 1)/(1 - x)
+check(mathml(last)=="<math><mrow><mfrac><mrow><mn>1</mn></mrow><mrow><mrow><mo>(</mo><mrow><mi>x</mi><mo>-</mo><mn>1</mn></mrow><mo>)</mo></mrow><mrow><mo>(</mo><mrow><mo prefix='true'>-</mo><mi>x</mi><mo>+</mo><mn>1</mn></mrow><mo>)</mo></mrow></mrow></mfrac></mrow></math>")
+
+1/(x - 1)^2/(1 - x)
+check(mathml(last)=="<math><mrow><mfrac><mrow><mn>1</mn></mrow><mrow><msup><mrow><mrow><mo>(</mo><mrow><mi>x</mi><mo>-</mo><mn>1</mn></mrow><mo>)</mo></mrow></mrow><mrow><mn>2</mn></mrow></msup><mrow><mo>(</mo><mrow><mo prefix='true'>-</mo><mi>x</mi><mo>+</mo><mn>1</mn></mrow><mo>)</mo></mrow></mrow></mfrac></mrow></math>")
+
+1/x/(x - 1)
+check(mathml(last)=="<math><mrow><mfrac><mrow><mn>1</mn></mrow><mrow><mi>x</mi><mrow><mo>(</mo><mrow><mi>x</mi><mo>-</mo><mn>1</mn></mrow><mo>)</mo></mrow></mrow></mfrac></mrow></math>")
+
+x^(-1/3)/(1 - x)
+check(mathml(last)=="<math><mrow><mfrac><mrow><mn>1</mn></mrow><mrow><msup><mrow><mi>x</mi></mrow><mrow><mfrac><mn>1</mn><mn>3</mn></mfrac></mrow></msup><mrow><mo>(</mo><mrow><mo prefix='true'>-</mo><mi>x</mi><mo>+</mo><mn>1</mn></mrow><mo>)</mo></mrow></mrow></mfrac></mrow></math>")

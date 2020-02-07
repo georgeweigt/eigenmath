@@ -7,21 +7,27 @@ eval_mathml(void)
 {
 	push(cadr(p1));
 	eval();
-	p1 = pop();
 
-	mml(p1);
+	mml();
 
 	push_string(outbuf);
 }
 
 void
-mml(struct atom *p)
+mml(void)
 {
+	save();
+
 	outbuf_index = 0;
 	print_str("<math><mrow>");
-	mml_expr(p);
+
+	p1 = pop();
+	mml_expr(p1);
+
 	print_str("</mrow></math>");
 	print_char('\0');
+
+	restore();
 }
 
 void

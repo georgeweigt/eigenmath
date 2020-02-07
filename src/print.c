@@ -21,7 +21,7 @@ print(struct atom *p)
 	print_nib(p);
 	print_char('\n');
 	print_char('\0');
-	printstr(outbuf);
+	printbuf(outbuf, BLACK);
 }
 
 void
@@ -571,7 +571,7 @@ print_lisp(struct atom *p)
 	print_lisp_nib(p);
 	print_char('\n');
 	print_char('\0');
-	printstr(outbuf);
+	printbuf(outbuf, BLACK);
 }
 
 void

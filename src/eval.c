@@ -24,14 +24,6 @@ eval_and_print_result_nib(int update)
 	if (update)
 		binding[LAST] = p2;
 
-	// print string result in small font
-
-	if (isstr(p2)) {
-		printstr(p2->u.str);
-		printstr("\n");
-		return;
-	}
-
 	if (issymbol(p1) && !iskeyword(p1) && p1 != p2) // keyword like "float"
 		prep_symbol_equals();
 

@@ -47,32 +47,25 @@ check_stack(void)
 }
 
 void
-echo_input(char *s)
-{
-	term_flag = BLUE;
-	printstr(s);
-	printstr("\n");
-	term_flag = BLACK;
-}
-
-void
 stop(char *s)
 {
 	if (draw_flag == 2)
 		longjmp(draw_stop_return, 1);
+
+	trace_error(); // print line on which error occurred
+
+	if (s == NULL)
+		printbuf("Stop\n", RED);
 	else {
-		trace_error();
-		term_flag = RED;
-		if (s == NULL)
-			printstr("Stop\n");
-		else {
-			printstr("Stop: ");
-			printstr(s);
-			printstr("\n");
-		}
-		term_flag = BLACK;
-		longjmp(stop_return, 1);
+		outbuf_index = 0;
+		print_str("Stop: ");
+		print_str(s);
+		print_char('\n');
+		print_char('\0');
+		printbuf(outbuf, RED);
 	}
+
+	longjmp(stop_return, 1);
 }
 
 char *init_script[] = {
@@ -131,7 +124,6 @@ init_globals(void)
 {
 	stop_flag = 0;
 	draw_flag = 0;
-	term_flag = BLACK;
 	clear_flag = 0;
 
 	tos = 0;
@@ -154,22 +146,35 @@ init_globals(void)
 void
 print_status(void)
 {
+	outbuf_index = 0;
+
 	sprintf(tbuf, "block_count %d\n", block_count);
-	printstr(tbuf);
+	print_str(tbuf);
+
 	sprintf(tbuf, "free_count %d\n", free_count);
-	printstr(tbuf);
+	print_str(tbuf);
+
 	sprintf(tbuf, "gc_count %d\n", gc_count);
-	printstr(tbuf);
+	print_str(tbuf);
+
 	sprintf(tbuf, "bignum_count %d\n", bignum_count);
-	printstr(tbuf);
+	print_str(tbuf);
+
 	sprintf(tbuf, "string_count %d\n", string_count);
-	printstr(tbuf);
+	print_str(tbuf);
+
 	sprintf(tbuf, "tensor_count %d\n", tensor_count);
-	printstr(tbuf);
+	print_str(tbuf);
+
 	sprintf(tbuf, "max_stack %d (%d%%)\n", max_stack, 100 * max_stack / STACKSIZE);
-	printstr(tbuf);
+	print_str(tbuf);
+
 	sprintf(tbuf, "max_frame %d (%d%%)\n", max_frame, 100 * max_frame / FRAMESIZE);
-	printstr(tbuf);
+	print_str(tbuf);
+
+	print_char('\0');
+
+	printbuf(outbuf, BLACK);
 }
 
 void
@@ -193,13 +198,19 @@ trace_input(char *s)
 
 	t = trace_ptr0;
 
+	outbuf_index = 0;
+
 	while (t < trace_ptr) {
 		c = *t++;
-		printchar(c);
+		print_char(c);
 	}
 
 	if (c != '\n')
-		printchar('\n');
+		print_char('\n');
+
+	print_char('\0');
+
+	printbuf(outbuf, BLUE);
 }
 
 void

@@ -36,7 +36,6 @@ int expanding;
 
 int stop_flag;
 int draw_flag;
-int term_flag;
 int clear_flag;
 
 jmp_buf stop_return;

@@ -462,13 +462,15 @@ void
 scan_error(char *errmsg)
 {
 	trace_input(scan_str);
-	trace_error();
-	printstr("Input error at '");
+	trace_error(); // print line on which error occurred
+	outbuf_index = 0;
+	print_str("Input error at '");
 	while (*token_str && token_str < scan_str)
-		printchar(*token_str++);
-	printstr("', ");
-	printstr(errmsg);
-	printchar('\n');
+		print_char(*token_str++);
+	print_str("', ");
+	print_str(errmsg);
+	print_char('\n');
+	printbuf(outbuf, RED);
 	stop(NULL);
 }
 
