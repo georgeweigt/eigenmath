@@ -73,6 +73,7 @@ legendre.o \
 log.o \
 mag.o \
 main.o \
+mathml.o \
 mod.o \
 multiply.o \
 nroots.o \

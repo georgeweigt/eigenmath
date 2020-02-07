@@ -195,6 +195,7 @@ init_symbol_table(void)
 	std_symbol("lisp", LISP);
 	std_symbol("log", LOG);
 	std_symbol("mag", MAG);
+	std_symbol("mathml", MATHML);
 	std_symbol("mod", MOD);
 	std_symbol("*", MULTIPLY);
 	std_symbol("not", NOT);

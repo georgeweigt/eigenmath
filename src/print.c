@@ -1,10 +1,4 @@
-// tty style printing
-
 #include "defs.h"
-
-char *strbuf;
-int strbuf_size;
-int strbuf_index;
 
 char *power_str = "^";
 
@@ -18,7 +12,7 @@ eval_string(void)
 	print_nib(p1);
 	print_char('\0');
 
-	push_string(strbuf);
+	push_string(outbuf);
 }
 
 void
@@ -27,13 +21,13 @@ print(struct atom *p)
 	print_nib(p);
 	print_char('\n');
 	print_char('\0');
-	printstr(strbuf);
+	printstr(outbuf);
 }
 
 void
 print_nib(struct atom *p)
 {
-	strbuf_index = 0;
+	outbuf_index = 0;
 	if (car(p) == symbol(SETQ)) {
 		print_expr(cadr(p));
 		print_str(" = ");
@@ -557,46 +551,27 @@ print_number(struct atom *p)
 }
 
 void
-print_str(char *s)
-{
-	while (*s)
-		print_char(*s++);
-}
-
-void
-print_char(int c)
-{
-	if (strbuf_index == strbuf_size) {
-		strbuf_size += 10000;
-		strbuf = (char *) realloc(strbuf, strbuf_size);
-		if (strbuf == NULL)
-			malloc_kaput();
-	}
-	strbuf[strbuf_index++] = c;
-}
-
-void
 eval_lisp(void)
 {
 	push(cadr(p1));
 	eval();
 	p1 = pop();
 
-	strbuf_index = 0;
+	outbuf_index = 0;
 	print_lisp_nib(p1);
 	print_char('\0');
 
-	push_string(strbuf);
+	push_string(outbuf);
 }
 
 void
 print_lisp(struct atom *p)
 {
-	strbuf_index = 0;
+	outbuf_index = 0;
 	print_lisp_nib(p);
 	print_char('\n');
 	print_char('\0');
-	printstr(strbuf);
+	printstr(outbuf);
 }
 
 void
@@ -691,11 +666,20 @@ print_lisp_nib(struct atom *p)
 }
 
 void
-print_stack(int n)
+print_str(char *s)
 {
-	int i;
-	for (i = 0; i < n; i++) {
-		printf("stack[%d]: ", tos - n + i);
-		print(stack[tos - n + i]);
+	while (*s)
+		print_char(*s++);
+}
+
+void
+print_char(int c)
+{
+	if (outbuf_index == outbuf_length) {
+		outbuf_length += 10000;
+		outbuf = (char *) realloc(outbuf, outbuf_length);
+		if (outbuf == NULL)
+			malloc_kaput();
 	}
+	outbuf[outbuf_index++] = c;
 }

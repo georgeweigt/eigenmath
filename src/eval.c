@@ -192,6 +192,7 @@ eval_cons(void)
 	case LISP:		eval_lisp();		break;
 	case LOG:		eval_log();		break;
 	case MAG:		eval_mag();		break;
+	case MATHML:		eval_mathml();		break;
 	case MOD:		eval_mod();		break;
 	case MULTIPLY:		eval_multiply();	break;
 	case NOT:		eval_not();		break;
