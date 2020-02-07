@@ -481,8 +481,6 @@ void eval_numerator(void);
 void numerator(void);
 void numerator1(void);
 void numerator1_nib(void);
-void print_str(char *s);
-void print_char(int c);
 void eval_outer(void);
 void outer(void);
 void outer_nib(void);
