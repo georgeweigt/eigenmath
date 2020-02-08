@@ -80,11 +80,14 @@ mml_term(struct atom *p)
 		}
 
 		if (iscons(q)) {
-			print_str("<mfrac><mrow>");
+			print_str("<mfrac>");
+			print_str("<mrow>");
 			mml_numerators(p);
-			print_str("</mrow><mrow>");
+			print_str("</mrow>");
+			print_str("<mrow>");
 			mml_denominators(p);
-			print_str("</mrow></mfrac>");
+			print_str("</mrow>");
+			print_str("</mfrac>");
 			return;
 		}
 
@@ -172,18 +175,22 @@ mml_denominators(struct atom *p)
 
 		if (car(q) != symbol(POWER) || !isnegativenumber(caddr(q))) {
 			p = cdr(p);
-			continue; // printed in numerator
+			continue;
 		}
 
 		// example (-1)^(-1/4)
 
 		if (isminusone(cadr(q))) {
 			print_str("<msup>");
-			mml_mo("(");
-			print_str(MML_MINUS);
-			mml_mn("1");
-			mml_mo(")");
-			mml_number(caddr(q)); // sign not printed
+			print_str("<mrow>");
+			mml_mo("(");		//
+			print_str(MML_MINUS);	// (-1)
+			mml_mn("1");		//
+			mml_mo(")");		//
+			print_str("</mrow>");
+			print_str("<mrow>");
+			mml_number(caddr(q));	// -1/4 (sign not printed)
+			print_str("</mrow>");
 			print_str("</msup>");
 			n++;
 			p = cdr(p);
@@ -193,26 +200,29 @@ mml_denominators(struct atom *p)
 		// example 1/x
 
 		if (isminusone(caddr(q))) {
-			mml_factor(cadr(q));
+			mml_factor(cadr(q));	// x
 			n++;
 			p = cdr(p);
 			continue;
 		}
 
-		// default
+		// example 1/x^2
 
-		print_str("<msup><mrow>");
-		mml_factor(cadr(q));
-		print_str("</mrow><mrow>");
-		mml_number(caddr(q)); // sign not printed
-		print_str("</mrow></msup>");
+		print_str("<msup>");
+		print_str("<mrow>");
+		mml_factor(cadr(q));	// x
+		print_str("</mrow>");
+		print_str("<mrow>");
+		mml_number(caddr(q));	// -2 (sign not printed)
+		print_str("</mrow>");
+		print_str("</msup>");
 
 		n++;
 		p = cdr(p);
 	}
 
 	if (n == 0)
-		mml_mn("1"); // there were no denominators
+		mml_mn("1"); // no denominators were printed
 }
 
 void
@@ -318,13 +328,10 @@ mml_double(struct atom *p)
 
 	*e = '\0';
 
-	print_str("<mrow><mn>");
-
+	print_str("<mn>");
 	print_str(s);
-
 	if (strchr(s, '.') == NULL)
 		print_str(".0");
-
 	print_str("</mn>");
 
 	mml_mo("&times;");
@@ -339,7 +346,7 @@ mml_double(struct atom *p)
 		s++;
 	else if (*s == '-') {
 		s++;
-		print_str("<mo form='prefix'>-</mo>");
+		print_str(MML_MINUS);
 	}
 
 	while (*s == '0')
@@ -347,25 +354,26 @@ mml_double(struct atom *p)
 
 	mml_mn(s);
 
-	print_str("</mrow></msup></mrow>");
+	print_str("</mrow>");
+	print_str("</msup>");
 }
 
 void
 mml_power(struct atom *p)
 {
-	// case (-1)^x
+	// (-1)^x
 
 	if (isminusone(cadr(p))) {
 		mml_imaginary(p);
 		return;
 	}
 
-	// case e^x
+	// e^x
 
 	if (cadr(p) == symbol(EXP1)) {
 		mml_mi("exp");
 		mml_mo("(");
-		mml_expr(caddr(p));
+		mml_expr(caddr(p));	// x
 		mml_mo(")");
 		return;
 	}
@@ -374,10 +382,11 @@ mml_power(struct atom *p)
 
 	if (isminusone(caddr(p))) {
 		print_str("<mfrac>");
-		mml_mn("1");
+		mml_mn("1");		// 1
 		print_str("<mrow>");
-		mml_expr(cadr(p));
-		print_str("</mrow></mfrac>");
+		mml_expr(cadr(p));	// x
+		print_str("</mrow>");
+		print_str("</mfrac>");
 		return;
 	}
 
@@ -385,21 +394,29 @@ mml_power(struct atom *p)
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("<mfrac>");
-		mml_mn("1");
+		mml_mn("1");		// 1
 		print_str("<msup>");
-		mml_factor(cadr(p));
-		mml_number(caddr(p));
-		print_str("</msup></mfrac>");
+		print_str("<mrow>");
+		mml_factor(cadr(p));	// x
+		print_str("</mrow>");
+		print_str("<mrow>");
+		mml_number(caddr(p));	// -2 (sign not printed)
+		print_str("</mrow>");
+		print_str("</msup>");
+		print_str("/mfrac>");
 		return;
 	}
 
-	// default case
+	// example x^y
 
 	print_str("<msup>");
-	mml_factor(cadr(p));
 	print_str("<mrow>");
-	mml_expr(caddr(p));
-	print_str("</mrow></msup>");
+	mml_factor(cadr(p));	// x
+	print_str("</mrow");
+	print_str("<mrow>");
+	mml_expr(caddr(p));	// y
+	print_str("</mrow>");
+	print_str("</msup>");
 }
 
 // case (-1)^x
@@ -424,28 +441,32 @@ mml_imaginary(struct atom *p)
 		print_str("<mfrac>");
 		mml_mn("1");
 		print_str("<msup>");
-		mml_mo("(");
-		print_str(MML_MINUS);
-		mml_mn("1");
-		mml_mo(")");
-		mml_number(caddr(p));
-		print_str("</msup></mfrac>");
+		print_str("<mrow>");
+		mml_mo("(");		//
+		print_str(MML_MINUS);	// (-1)
+		mml_mn("1");		//
+		mml_mo(")");		//
+		print_str("</mrow>");
+		print_str("<mrow>");
+		mml_number(caddr(p));	// -1/4 (sign not printed)
+		print_str("</mrow>");
+		print_str("</msup>");
+		print_str("</mfrac>");
 		return;
 	}
 
-	// default case
+	// example (-1)^x
 
 	print_str("<msup>");
-
-	mml_mo("(");
-	print_str(MML_MINUS);
-	mml_mn("1");
-	mml_mo(")");
-
 	print_str("<mrow>");
-	mml_expr(caddr(p));
+	mml_mo("(");		//
+	print_str(MML_MINUS);	// (-1)
+	mml_mn("1");		//
+	mml_mo(")");		//
 	print_str("</mrow>");
-
+	print_str("<mrow>");
+	mml_expr(caddr(p));	// x
+	print_str("</mrow>");
 	print_str("</msup>");
 }
 
@@ -482,7 +503,6 @@ mml_function(struct atom *p)
 			mml_symbol(car(p));
 		else
 			mml_subexpr(car(p));
-
 		mml_mo("[");
 		mml_arglist(p);
 		mml_mo("]");
@@ -593,7 +613,7 @@ mml_symbol(struct atom *p)
 		return;
 	}
 
-	// subscripted
+	// print symbol with subscript
 
 	print_str("<msub>");
 
@@ -608,7 +628,8 @@ mml_symbol(struct atom *p)
 		s += n;
 	}
 
-	print_str("</mrow></msub>");
+	print_str("</mrow>");
+	print_str("</msub>");
 }
 
 char *mml_greek_tab[46] = {
