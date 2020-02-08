@@ -167,6 +167,7 @@ cmdisplay(void)
 	} else if (latex_flag) {
 		latex();
 		ffputs(outbuf);
+		ffputs("\n\n");
 	} else
 		display();
 }

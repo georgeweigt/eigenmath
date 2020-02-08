@@ -189,6 +189,7 @@ init_symbol_table(void)
 	std_symbol("inv", INV);
 	std_symbol("isprime", ISPRIME);
 	std_symbol("laguerre", LAGUERRE);
+	std_symbol("latex", LATEX);
 	std_symbol("lcm", LCM);
 	std_symbol("leading", LEADING);
 	std_symbol("legendre", LEGENDRE);

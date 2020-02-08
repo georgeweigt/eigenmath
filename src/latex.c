@@ -17,12 +17,12 @@ latex(void)
 	save();
 
 	outbuf_index = 0;
-	print_str("\\begin{equation}\n");
+	print_str("\\begin{equation} ");
 
 	p1 = pop();
 	latex_expr(p1);
 
-	print_str("\n\\end{equation}\n\n");
+	print_str(" \\end{equation}");
 	print_char('\0');
 
 	restore();
