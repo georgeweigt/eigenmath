@@ -169,7 +169,18 @@ latex_denominators(struct atom *p)
 			continue; // printed in numerator
 		}
 
-		// 1 over expr ?
+		// example (-1)^(-1/4)
+
+		if (isminusone(cadr(p))) {
+			print_str("(-1)^{");
+			latex_number(caddr(p)); // sign not printed
+			print_str("}");
+			n++;
+			p = cdr(p);
+			continue;
+		}
+
+		// example 1/x
 
 		if (isminusone(caddr(q))) {
 			latex_factor(cadr(q));
@@ -182,7 +193,7 @@ latex_denominators(struct atom *p)
 
 		latex_factor(cadr(q));
 		print_str("^{");
-		latex_number(caddr(q));
+		latex_number(caddr(q)); // sign not printed
 		print_str("}");
 
 		n++;
@@ -341,7 +352,7 @@ latex_power(struct atom *p)
 		return;
 	}
 
-	// case 1/x
+	// example 1/x
 
 	if (isminusone(caddr(p))) {
 		print_str("\\frac{1}{");
@@ -350,7 +361,7 @@ latex_power(struct atom *p)
 		return;
 	}
 
-	// case 1/x^2
+	// example 1/x^2
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("\\frac{1}{");
@@ -361,7 +372,7 @@ latex_power(struct atom *p)
 		return;
 	}
 
-	// default case x^y
+	// default case
 
 	latex_factor(cadr(p));
 	print_str("^{");
@@ -384,6 +395,8 @@ latex_imaginary(struct atom *p)
 			return;
 		}
 	}
+
+	// example (-1)^(-1/4)
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("\\frac{1}{(-1)^{");

@@ -175,7 +175,24 @@ mml_denominators(struct atom *p)
 			continue; // printed in numerator
 		}
 
-		// 1 over expr ?
+		// example (-1)^(-1/4)
+
+		if (isminusone(cadr(p))) {
+			print_str("<mfrac>");
+			mml_mn("1");
+			print_str("<msup>");
+			mml_mo("(");
+			print_str(MML_MINUS);
+			mml_mn("1");
+			mml_mo(")");
+			mml_number(caddr(p)); // sign not printed
+			print_str("</msup></mfrac>");
+			n++;
+			p = cdr(p);
+			continue;
+		}
+
+		// example 1/x
 
 		if (isminusone(caddr(q))) {
 			mml_factor(cadr(q));
@@ -189,7 +206,7 @@ mml_denominators(struct atom *p)
 		print_str("<msup><mrow>");
 		mml_factor(cadr(q));
 		print_str("</mrow><mrow>");
-		mml_number(caddr(q));
+		mml_number(caddr(q)); // sign not printed
 		print_str("</mrow></msup>");
 
 		n++;
@@ -355,7 +372,7 @@ mml_power(struct atom *p)
 		return;
 	}
 
-	// case 1/x
+	// example 1/x
 
 	if (isminusone(caddr(p))) {
 		print_str("<mfrac>");
@@ -366,7 +383,7 @@ mml_power(struct atom *p)
 		return;
 	}
 
-	// case 1/x^2
+	// example 1/x^2
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("<mfrac>");
@@ -378,7 +395,7 @@ mml_power(struct atom *p)
 		return;
 	}
 
-	// default case x^y
+	// default case
 
 	print_str("<msup>");
 	mml_factor(cadr(p));
@@ -387,7 +404,7 @@ mml_power(struct atom *p)
 	print_str("</mrow></msup>");
 }
 
-// (-1)^x
+// case (-1)^x
 
 void
 mml_imaginary(struct atom *p)
@@ -403,7 +420,7 @@ mml_imaginary(struct atom *p)
 		}
 	}
 
-	// case (-1)^(-n)
+	// example (-1)^(-1/4)
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("<mfrac>");
