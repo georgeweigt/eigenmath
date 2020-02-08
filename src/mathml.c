@@ -38,11 +38,9 @@ mml_expr(struct atom *p)
 	if (car(p) == symbol(ADD)) {
 		p = cdr(p);
 		q = car(p);
-		if (isnegativenumber(q) || (car(q) == symbol(MULTIPLY) && isnegativenumber(cadr(q)))) {
+		if (isnegativenumber(q) || (car(q) == symbol(MULTIPLY) && isnegativenumber(cadr(q))))
 			print_str(MML_MINUS);
-			mml_term(q);
-		} else
-			mml_term(q);
+		mml_term(q);
 		p = cdr(p);
 		while (iscons(p)) {
 			q = car(p);
@@ -54,11 +52,9 @@ mml_expr(struct atom *p)
 			p = cdr(p);
 		}
 	} else {
-		if (isnegativenumber(p) || (car(p) == symbol(MULTIPLY) && isnegativenumber(cadr(p)))) {
+		if (isnegativenumber(p) || (car(p) == symbol(MULTIPLY) && isnegativenumber(cadr(p))))
 			print_str(MML_MINUS);
-			mml_term(p);
-		} else
-			mml_term(p);
+		mml_term(p);
 	}
 }
 
@@ -175,7 +171,7 @@ mml_denominators(struct atom *p)
 
 		if (car(q) != symbol(POWER) || !isnegativenumber(caddr(q))) {
 			p = cdr(p);
-			continue;
+			continue; // not a denominator
 		}
 
 		// example (-1)^(-1/4)
@@ -222,7 +218,7 @@ mml_denominators(struct atom *p)
 	}
 
 	if (n == 0)
-		mml_mn("1"); // no denominators were printed
+		mml_mn("1"); // there were no denominators
 }
 
 void

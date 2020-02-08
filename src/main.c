@@ -3,12 +3,12 @@
 int html_flag;
 int latex_flag;
 char *infile;
+char inbuf[1000];
 
 int
 main(int argc, char *argv[])
 {
 	int i;
-	static char buf[1000];
 
 	for (i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "--html") == 0)
@@ -26,22 +26,11 @@ main(int argc, char *argv[])
 	else if (latex_flag)
 		begin_document();
 
-	if (infile)
-		run_infile();
-	else {
-		for (;;) {
-			if (html_flag)
-				printf("<!--? ");
-			else if (latex_flag)
-				printf("%%? ");
-			else
-				printf("? ");
-			fgets(buf, sizeof buf, stdin);
-			if (html_flag)
-				printf("-->\n");
-			run(buf);
-		}
-	}
+	if (infile == NULL)
+		for (;;)
+			eval_stdin();
+
+	run_infile();
 
 	if (html_flag)
 		printf("</body></html>\n");
@@ -49,6 +38,24 @@ main(int argc, char *argv[])
 		end_document();
 
 	return 0;
+}
+
+void
+eval_stdin(void)
+{
+	if (html_flag)
+		printf("<!--? ");
+	else if (latex_flag)
+		printf("%%? ");
+	else
+		printf("? ");
+
+	fgets(inbuf, sizeof inbuf, stdin);
+
+	if (html_flag)
+		printf("-->\n");
+
+	run(inbuf);
 }
 
 void
