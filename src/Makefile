@@ -67,6 +67,7 @@ is.o \
 isprime.o \
 itab.o \
 laguerre.o \
+latex.o \
 lcm.o \
 leading.o \
 legendre.o \

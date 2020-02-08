@@ -373,7 +373,7 @@ mml_power(struct atom *p)
 		mml_mn("1");
 		print_str("<msup>");
 		mml_factor(cadr(p));
-		mml_factor(caddr(p));
+		mml_number(caddr(p));
 		print_str("</msup></mfrac>");
 		return;
 	}
