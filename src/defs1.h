@@ -128,6 +128,7 @@ enum {
 	ERF,
 	ERFC,
 	EVAL,
+	EXIT,
 	EXP,
 	EXPAND,
 	EXPCOS,

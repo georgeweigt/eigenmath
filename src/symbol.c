@@ -165,6 +165,7 @@ init_symbol_table(void)
 	std_symbol("eigenval", EIGENVAL);
 	std_symbol("eigenvec", EIGENVEC);
 	std_symbol("eval", EVAL);
+	std_symbol("exit", EXIT);
 	std_symbol("exp", EXP);
 	std_symbol("expand", EXPAND);
 	std_symbol("expcos", EXPCOS);

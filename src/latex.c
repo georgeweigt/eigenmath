@@ -17,12 +17,12 @@ latex(void)
 	save();
 
 	outbuf_index = 0;
-	print_str("\\begin{equation} ");
+	print_str("\\begin{equation}\n");
 
 	p1 = pop();
 	latex_expr(p1);
 
-	print_str(" \\end{equation}");
+	print_str("\n\\end{equation}");
 	print_char('\0');
 
 	restore();
@@ -415,18 +415,38 @@ latex_imaginary(struct atom *p)
 void
 latex_function(struct atom *p)
 {
-	if (car(p) == symbol(SYMBOL_D) && get_arglist(symbol(SYMBOL_D)) == symbol(NIL)) { // no user func d
-		latex_derivative_function(p);
+	// d(f(x),x)
+
+	if (car(p) == symbol(DERIVATIVE)) {
+		print_str("\\operatorname{d}\\left(");
+		latex_arglist(p);
+		print_str("\\right)");
 		return;
 	}
+
+	// n!
 
 	if (car(p) == symbol(FACTORIAL)) {
-		latex_factorial_function(p);
+		p = cadr(p);
+		if (isposint(p) || issymbol(p))
+			latex_expr(p);
+		else
+			latex_subexpr(p);
+		print_str("!");
 		return;
 	}
 
+	// A[1,2]
+
 	if (car(p) == symbol(INDEX)) {
-		latex_index_function(p);
+		p = cdr(p);
+		if (issymbol(car(p)))
+			latex_symbol(car(p));
+		else
+			latex_subexpr(car(p));
+		print_str("\\left[");
+		latex_arglist(p);
+		print_str("\\right]");
 		return;
 	}
 
@@ -472,54 +492,15 @@ latex_function(struct atom *p)
 		return;
 	}
 
-	// function name
+	// default
 
 	if (issymbol(car(p)))
 		latex_symbol(car(p));
 	else
 		latex_subexpr(car(p));
-
-	// function arglist
-
 	print_str("\\left(");
 	latex_arglist(p);
 	print_str("\\right)");
-}
-
-void
-latex_derivative_function(struct atom *p)
-{
-	print_str("\\mathop{\\rm d}}");
-
-	print_str("\\left(");
-	latex_arglist(p);
-	print_str("\\right)");
-}
-
-void
-latex_factorial_function(struct atom *p)
-{
-	p = cadr(p);
-	if (isposint(p) || issymbol(p))
-		latex_expr(p);
-	else
-		latex_subexpr(p);
-	print_str("!");
-}
-
-void
-latex_index_function(struct atom *p)
-{
-	p = cdr(p);
-
-	if (issymbol(car(p)))
-		latex_symbol(car(p));
-	else
-		latex_subexpr(car(p));
-
-	print_str("\\left[");
-	latex_arglist(p);
-	print_str("\\right]");
 }
 
 void
@@ -552,7 +533,7 @@ latex_symbol(struct atom *p)
 	char *s;
 
 	if (iskeyword(p) || p == symbol(AUTOEXPAND) || p == symbol(LAST) || p == symbol(TRACE) || p == symbol(TTY)) {
-		print_str("\\mathop{\\rm ");
+		print_str("\\operatorname{");
 		print_str(p->u.printname);
 		print_str("}");
 		return;

@@ -30,7 +30,10 @@ main(int argc, char *argv[])
 		run_infile();
 	else {
 		for (;;) {
-			printf("? ");
+			if (latex_flag)
+				printf("%%? ");
+			else
+				printf("? ");
 			fgets(buf, sizeof buf, stdin);
 			run(buf);
 		}
@@ -170,4 +173,15 @@ cmdisplay(void)
 		ffputs("\n\n");
 	} else
 		display();
+}
+
+void
+eval_exit(void)
+{
+	if (html_flag)
+		printf("</body></html>\n");
+	else if (latex_flag)
+		end_document();
+
+	exit(0);
 }
