@@ -55,6 +55,9 @@ eval_stdin(void)
 	if (html_flag)
 		printf("-->\n");
 
+	if (html_flag || latex_flag)
+		printbuf(inbuf, BLUE);
+
 	run(inbuf);
 }
 
