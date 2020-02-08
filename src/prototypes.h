@@ -433,7 +433,7 @@ void eval_draw(void);
 void cmdisplay(void);
 void eval_exit(void);
 void eval_mathml(void);
-void mml(void);
+void mathml(void);
 void mml_expr(struct atom *p);
 void mml_term(struct atom *p);
 void mml_numerators(struct atom *p);

@@ -8,13 +8,13 @@ eval_mathml(void)
 	push(cadr(p1));
 	eval();
 
-	mml();
+	mathml();
 
 	push_string(outbuf);
 }
 
 void
-mml(void)
+mathml(void)
 {
 	save();
 
@@ -452,18 +452,40 @@ mml_imaginary(struct atom *p)
 void
 mml_function(struct atom *p)
 {
-	if (car(p) == symbol(SYMBOL_D) && get_arglist(symbol(SYMBOL_D)) == symbol(NIL)) { // no user func d
-		mml_derivative_function(p);
+	// d(f(x),x)
+
+	if (car(p) == symbol(DERIVATIVE)) {
+		print_str("<mi mathvariant='normal'>d</mi>");
+		mml_mo("(");
+		mml_arglist(p);
+		mml_mo(")");
 		return;
 	}
+
+	// n!
 
 	if (car(p) == symbol(FACTORIAL)) {
-		mml_factorial_function(p);
+		p = cadr(p);
+		if (isposint(p) || issymbol(p))
+			mml_expr(p);
+		else
+			mml_subexpr(p);
+		mml_mo("!");
 		return;
 	}
 
+	// A[1,2]
+
 	if (car(p) == symbol(INDEX)) {
-		mml_index_function(p);
+		p = cdr(p);
+		if (issymbol(car(p)))
+			mml_symbol(car(p));
+		else
+			mml_subexpr(car(p));
+
+		mml_mo("[");
+		mml_arglist(p);
+		mml_mo("]");
 		return;
 	}
 
@@ -509,53 +531,16 @@ mml_function(struct atom *p)
 		return;
 	}
 
-	// function name
+	// default
 
 	if (issymbol(car(p)))
 		mml_symbol(car(p));
 	else
 		mml_subexpr(car(p));
 
-	// function arglist
-
 	mml_mo("(");
 	mml_arglist(p);
 	mml_mo(")");
-}
-
-void
-mml_derivative_function(struct atom *p)
-{
-	print_str("<mi mathvariant=\"normal\">d</mi>");
-	mml_mo("(");
-	mml_arglist(p);
-	mml_mo(")");
-}
-
-void
-mml_factorial_function(struct atom *p)
-{
-	p = cadr(p);
-	if (isposint(p) || issymbol(p))
-		mml_expr(p);
-	else
-		mml_subexpr(p);
-	mml_mo("!");
-}
-
-void
-mml_index_function(struct atom *p)
-{
-	p = cdr(p);
-
-	if (issymbol(car(p)))
-		mml_symbol(car(p));
-	else
-		mml_subexpr(car(p));
-
-	mml_mo("[");
-	mml_arglist(p);
-	mml_mo("]");
 }
 
 void
@@ -698,28 +683,6 @@ mml_mn(char *s)
 void
 mml_mo(char *s)
 {
-	// extra <mrow> needed so any MML_MINUS does not bind to ( or ]
-
-	if (strcmp(s, "(") == 0) {
-		print_str("<mrow><mo>(</mo><mrow>");
-		return;
-	}
-
-	if (strcmp(s, ")") == 0) {
-		print_str("</mrow><mo>)</mo></mrow>");
-		return;
-	}
-
-	if (strcmp(s, "[") == 0) {
-		print_str("<mrow><mo>[</mo><mrow>");
-		return;
-	}
-
-	if (strcmp(s, "]") == 0) {
-		print_str("</mrow><mo>]</mo></mrow>");
-		return;
-	}
-
 	print_str("<mo>");
 	print_str(s);
 	print_str("</mo>");

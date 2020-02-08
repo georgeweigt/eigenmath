@@ -470,6 +470,7 @@ scan_error(char *errmsg)
 	print_str("', ");
 	print_str(errmsg);
 	print_char('\n');
+	print_char('\0');
 	printbuf(outbuf, RED);
 	stop(NULL);
 }
