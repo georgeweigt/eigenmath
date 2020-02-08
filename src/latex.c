@@ -325,15 +325,14 @@ latex_double(struct atom *p)
 void
 latex_power(struct atom *p)
 {
-	if (isminusone(cadr(p)) && isnum(caddr(p))) {
-		if (isnegativenumber(caddr(p))) {
-			print_str("\\frac{1}{");
-			latex_imaginary(p);
-			print_str("}");
-		} else
-			latex_imaginary(p);
+	// case (-1)^x
+
+	if (isminusone(cadr(p))) {
+		latex_imaginary(p);
 		return;
 	}
+
+	// case e^x
 
 	if (cadr(p) == symbol(EXP1)) {
 		print_str("\\exp\\left(");
@@ -342,7 +341,7 @@ latex_power(struct atom *p)
 		return;
 	}
 
-	// 1 over expr?
+	// case 1/x
 
 	if (isminusone(caddr(p))) {
 		print_str("\\frac{1}{");
@@ -350,6 +349,8 @@ latex_power(struct atom *p)
 		print_str("}");
 		return;
 	}
+
+	// case 1/x^2
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("\\frac{1}{");
@@ -360,7 +361,7 @@ latex_power(struct atom *p)
 		return;
 	}
 
-	// default case
+	// default case x^y
 
 	latex_factor(cadr(p));
 	print_str("^{");
@@ -368,7 +369,7 @@ latex_power(struct atom *p)
 	print_str("}");
 }
 
-// base = -1 and exponent is numerical
+// case (-1)^x
 
 void
 latex_imaginary(struct atom *p)
@@ -384,8 +385,17 @@ latex_imaginary(struct atom *p)
 		}
 	}
 
+	if (isnegativenumber(caddr(p))) {
+		print_str("\\frac{1}{(-1)^{");
+		latex_number(caddr(p));
+		print_str("}}");
+		return;
+	}
+
+	// default case
+
 	print_str("(-1)^{");
-	latex_number(caddr(p));
+	latex_expr(caddr(p));
 	print_str("}");
 }
 

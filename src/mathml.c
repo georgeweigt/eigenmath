@@ -338,16 +338,14 @@ mml_double(struct atom *p)
 void
 mml_power(struct atom *p)
 {
-	if (isminusone(cadr(p)) && isnum(caddr(p))) {
-		if (isnegativenumber(caddr(p))) {
-			print_str("<mfrac>");
-			mml_mn("1");
-			mml_imaginary(p);
-			print_str("</mfrac>");
-		} else
-			mml_imaginary(p);
+	// case (-1)^x
+
+	if (isminusone(cadr(p))) {
+		mml_imaginary(p);
 		return;
 	}
+
+	// case e^x
 
 	if (cadr(p) == symbol(EXP1)) {
 		mml_mi("exp");
@@ -357,7 +355,7 @@ mml_power(struct atom *p)
 		return;
 	}
 
-	// 1 over expr?
+	// case 1/x
 
 	if (isminusone(caddr(p))) {
 		print_str("<mfrac>");
@@ -367,6 +365,8 @@ mml_power(struct atom *p)
 		print_str("</mrow></mfrac>");
 		return;
 	}
+
+	// case 1/x^2
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("<mfrac>");
@@ -378,7 +378,7 @@ mml_power(struct atom *p)
 		return;
 	}
 
-	// default case
+	// default case x^y
 
 	print_str("<msup>");
 	mml_factor(cadr(p));
@@ -387,7 +387,7 @@ mml_power(struct atom *p)
 	print_str("</mrow></msup>");
 }
 
-// base = -1 and exponent is numerical
+// (-1)^x
 
 void
 mml_imaginary(struct atom *p)
@@ -403,18 +403,33 @@ mml_imaginary(struct atom *p)
 		}
 	}
 
-	print_str("<msup>");
+	// case (-1)^(-n)
 
-	// base
+	if (isnegativenumber(caddr(p))) {
+		print_str("<mfrac>");
+		mml_mn("1");
+		print_str("<msup>");
+		mml_mo("(");
+		print_str(MML_MINUS);
+		mml_mn("1");
+		mml_mo(")");
+		mml_number(caddr(p));
+		print_str("</msup></mfrac>");
+		return;
+	}
+
+	// default case
+
+	print_str("<msup>");
 
 	mml_mo("(");
 	print_str(MML_MINUS);
 	mml_mn("1");
 	mml_mo(")");
 
-	// exponent
-
-	mml_number(caddr(p));
+	print_str("<mrow>");
+	mml_expr(caddr(p));
+	print_str("</mrow>");
 
 	print_str("</msup>");
 }
