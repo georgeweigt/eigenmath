@@ -405,6 +405,7 @@ void latex_symbol(struct atom *p);
 int latex_symbol_scan(char *s);
 void latex_symbol_shipout(char *s, int n);
 void latex_tensor(struct atom *p);
+void latex_tensor_matrix(struct tensor *t, int d, int *k);
 void begin_document(void);
 void end_document(void);
 void eval_lcm(void);

@@ -212,28 +212,8 @@ latex_factor(struct atom *p)
 		return;
 	}
 
-	if (isrational(p)) {
-		latex_rational(p);
-		return;
-	}
-
-	if (isdouble(p)) {
-		latex_double(p);
-		return;
-	}
-
-	if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY)) {
-		latex_subexpr(p);
-		return;
-	}
-
-	if (car(p) == symbol(POWER)) {
-		latex_power(p);
-		return;
-	}
-
-	if (iscons(p)) {
-		latex_function(p);
+	if (isnum(p)) {
+		latex_number(p);
 		return;
 	}
 
@@ -246,6 +226,21 @@ latex_factor(struct atom *p)
 		print_str("\\text{");
 		print_str(p->u.str);
 		print_str("}");
+		return;
+	}
+
+	if (car(p) == symbol(POWER)) {
+		latex_power(p);
+		return;
+	}
+
+	if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY)) {
+		latex_subexpr(p);
+		return;
+	}
+
+	if (iscons(p)) {
+		latex_function(p);
 		return;
 	}
 }
@@ -612,8 +607,53 @@ latex_symbol_shipout(char *s, int n)
 void
 latex_tensor(struct atom *p)
 {
-	fprintf(stderr, "latex: tensors not supported yet\n");
-	exit(1);
+	int i, n, k = 0;
+	struct tensor *t;
+
+	t = p->u.tensor;
+
+	// if odd dimension then vector
+
+	if (t->ndim % 2 == 1) {
+		print_str("\\begin{pmatrix}");
+		n = t->dim[0];
+		for (i = 0; i < n; i++) {
+			latex_tensor_matrix(t, 1, &k);
+			if (i < n - 1)
+				print_str("\\cr "); // row separator
+		}
+		print_str("\\end{pmatrix}");
+	} else
+		latex_tensor_matrix(t, 0, &k);
+}
+
+void
+latex_tensor_matrix(struct tensor *t, int d, int *k)
+{
+	int i, j, ni, nj;
+
+	if (d == t->ndim) {
+		latex_expr(t->elem[*k]);
+		*k = *k + 1;
+		return;
+	}
+
+	ni = t->dim[d];
+	nj = t->dim[d + 1];
+
+	print_str("\\begin{pmatrix}");
+
+	for (i = 0; i < ni; i++) {
+		for (j = 0; j < nj; j++) {
+			latex_tensor_matrix(t, d + 2, k);
+			if (j < nj - 1)
+				print_str(" & "); // column separator
+		}
+		if (i < ni - 1)
+			print_str("\\cr "); // row separator
+	}
+
+	print_str("\\end{pmatrix}");
 }
 
 char *begin_document_str =
