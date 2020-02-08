@@ -223,7 +223,7 @@ latex_factor(struct atom *p)
 	}
 
 	if (isstr(p)) {
-		print_str("\\text{");
+		print_str("\\,\\text{");
 		print_str(p->u.str);
 		print_str("}");
 		return;
