@@ -177,16 +177,14 @@ mml_denominators(struct atom *p)
 
 		// example (-1)^(-1/4)
 
-		if (isminusone(cadr(p))) {
-			print_str("<mfrac>");
-			mml_mn("1");
+		if (isminusone(cadr(q))) {
 			print_str("<msup>");
 			mml_mo("(");
 			print_str(MML_MINUS);
 			mml_mn("1");
 			mml_mo(")");
-			mml_number(caddr(p)); // sign not printed
-			print_str("</msup></mfrac>");
+			mml_number(caddr(q)); // sign not printed
+			print_str("</msup>");
 			n++;
 			p = cdr(p);
 			continue;

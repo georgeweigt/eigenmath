@@ -171,9 +171,9 @@ latex_denominators(struct atom *p)
 
 		// example (-1)^(-1/4)
 
-		if (isminusone(cadr(p))) {
+		if (isminusone(cadr(q))) {
 			print_str("(-1)^{");
-			latex_number(caddr(p)); // sign not printed
+			latex_number(caddr(q)); // sign not printed
 			print_str("}");
 			n++;
 			p = cdr(p);
