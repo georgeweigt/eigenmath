@@ -199,7 +199,7 @@ mml_denominators(struct atom *p)
 
 		print_str("<msup>");
 		print_str("<mrow>");
-		mml_factor(cadr(q));	// y
+		mml_base(cadr(q));	// y
 		print_str("</mrow>");
 		print_str("<mrow>");
 		mml_number(caddr(q));	// -2 (sign not printed)
@@ -217,46 +217,36 @@ mml_denominators(struct atom *p)
 void
 mml_factor(struct atom *p)
 {
-	if (istensor(p)) {
-		mml_tensor(p);
-		return;
-	}
+	switch (p->k) {
 
-	if (isrational(p)) {
+	case RATIONAL:
 		mml_rational(p);
-		return;
-	}
+		break;
 
-	if (isdouble(p)) {
+	case DOUBLE:
 		mml_double(p);
-		return;
-	}
+		break;
 
-	if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY)) {
-		mml_subexpr(p);
-		return;
-	}
-
-	if (car(p) == symbol(POWER)) {
-		mml_power(p);
-		return;
-	}
-
-	if (iscons(p)) {
-		mml_function(p);
-		return;
-	}
-
-	if (issymbol(p)) {
+	case SYM:
 		mml_symbol(p);
-		return;
-	}
+		break;
 
-	if (isstr(p)) {
-		print_str("<ms>");
-		print_str(p->u.str);
-		print_str("</ms>");
-		return;
+	case STR:
+		mml_string(p);
+		break;
+
+	case TENSOR:
+		mml_tensor(p);
+		break;
+
+	case CONS:
+		if (car(p) == symbol(POWER))
+			mml_power(p);
+		else if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY))
+			mml_subexpr(p);
+		else
+			mml_function(p);
+		break;
 	}
 }
 
@@ -386,7 +376,7 @@ mml_power(struct atom *p)
 		mml_mn("1");		// 1
 		print_str("<msup>");
 		print_str("<mrow>");
-		mml_factor(cadr(p));	// y
+		mml_base(cadr(p));	// y
 		print_str("</mrow>");
 		print_str("<mrow>");
 		mml_number(caddr(p));	// -2 (sign not printed)
@@ -400,12 +390,30 @@ mml_power(struct atom *p)
 
 	print_str("<msup>");
 	print_str("<mrow>");
-	mml_factor(cadr(p));	// y
+	mml_base(cadr(p));	// y
 	print_str("</mrow");
 	print_str("<mrow>");
-	mml_expr(caddr(p));	// x
+	mml_exponent(caddr(p));	// x
 	print_str("</mrow>");
 	print_str("</msup>");
+}
+
+void
+mml_base(struct atom *p)
+{
+	if (isfraction(p) || isdouble(p) || car(p) == symbol(POWER))
+		mml_subexpr(p);
+	else
+		mml_factor(p);
+}
+
+void
+mml_exponent(struct atom *p)
+{
+	if (car(p) == symbol(POWER))
+		mml_subexpr(p);
+	else
+		mml_factor(p);
 }
 
 // case (-1)^x
@@ -672,6 +680,61 @@ mml_symbol_shipout(char *s, int n)
 void
 mml_tensor(struct atom *p)
 {
+	int i, n, k = 0;
+	struct tensor *t;
+
+	t = p->u.tensor;
+
+	// if odd rank then vector
+
+	if (t->ndim % 2 == 1) {
+		print_str("<mtable>");
+		n = t->dim[0];
+		for (i = 0; i < n; i++) {
+			print_str("<mtr><mtd>");
+			mml_matrix(t, 1, &k);
+			print_str("</mtd></mtr>");
+		}
+		print_str("</mtable>");
+	} else
+		mml_matrix(t, 0, &k);
+}
+
+void
+mml_matrix(struct tensor *t, int d, int *k)
+{
+	int i, j, ni, nj;
+
+	if (d == t->ndim) {
+		mml_expr(t->elem[*k]);
+		*k = *k + 1;
+		return;
+	}
+
+	ni = t->dim[d];
+	nj = t->dim[d + 1];
+
+	print_str("<mtable>");
+
+	for (i = 0; i < ni; i++) {
+		print_str("<mtr>");
+		for (j = 0; j < nj; j++) {
+			print_str("<mtd>");
+			mml_matrix(t, d + 2, k);
+			print_str("</mtd>");
+		}
+		print_str("</mtr>");
+	}
+
+	print_str("</mtable>");
+}
+
+void
+mml_string(struct atom *p)
+{
+	print_str("<mtext>");
+	print_str(p->u.str);
+	print_str("</mtext>");
 }
 
 void
