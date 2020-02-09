@@ -362,7 +362,7 @@ latex_power(struct atom *p)
 
 	// example y^x
 
-	latex_factor(cadr(p));			// y
+	latex_base(cadr(p));			// y
 	print_str("^{");
 	latex_expr(caddr(p));			// x
 	print_str("}");
@@ -398,6 +398,15 @@ latex_imaginary(struct atom *p)
 	print_str("(-1)^{");
 	latex_expr(caddr(p));			// x
 	print_str("}");
+}
+
+void
+latex_base(struct atom *p)
+{
+	if (isfraction(p) || isdouble(p) || car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY) || car(p) == symbol(POWER))
+		latex_subexpr(p);
+	else
+		latex_factor(p);
 }
 
 void

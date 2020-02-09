@@ -398,6 +398,7 @@ void latex_rational(struct atom *p);
 void latex_double(struct atom *p);
 void latex_power(struct atom *p);
 void latex_imaginary(struct atom *p);
+void latex_base(struct atom *p);
 void latex_function(struct atom *p);
 void latex_arglist(struct atom *p);
 void latex_subexpr(struct atom *p);

@@ -115,26 +115,19 @@ mml_numerators(struct atom *p)
 
 		q = car(p);
 
+		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q))) {
+			p = cdr(p);
+			continue; // printed in denominator
+		}
+
 		if (isrational(q)) {
 			if (!MEQUAL(q->u.q.a, 1)) {
-				s = mstr(q->u.q.a);
+				s = mstr(q->u.q.a); // numerator
 				mml_mn(s);
 				n++;
 			}
 			p = cdr(p);
 			continue;
-		}
-
-		if (isdouble(q)) {
-			mml_double(q);
-			n++;
-			p = cdr(p);
-			continue;
-		}
-
-		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q))) {
-			p = cdr(p);
-			continue; // printed in denominator
 		}
 
 		mml_factor(q);
@@ -161,7 +154,7 @@ mml_denominators(struct atom *p)
 
 		if (isrational(q)) {
 			if (!MEQUAL(q->u.q.b, 1)) {
-				s = mstr(q->u.q.b);
+				s = mstr(q->u.q.b); // denominator
 				mml_mn(s);
 				n++;
 			}
@@ -193,20 +186,20 @@ mml_denominators(struct atom *p)
 			continue;
 		}
 
-		// example 1/x
+		// example 1/y
 
 		if (isminusone(caddr(q))) {
-			mml_factor(cadr(q));	// x
+			mml_factor(cadr(q));	// y
 			n++;
 			p = cdr(p);
 			continue;
 		}
 
-		// example 1/x^2
+		// example 1/y^2
 
 		print_str("<msup>");
 		print_str("<mrow>");
-		mml_factor(cadr(q));	// x
+		mml_factor(cadr(q));	// y
 		print_str("</mrow>");
 		print_str("<mrow>");
 		mml_number(caddr(q));	// -2 (sign not printed)
@@ -374,26 +367,26 @@ mml_power(struct atom *p)
 		return;
 	}
 
-	// example 1/x
+	// example 1/y
 
 	if (isminusone(caddr(p))) {
 		print_str("<mfrac>");
 		mml_mn("1");		// 1
 		print_str("<mrow>");
-		mml_expr(cadr(p));	// x
+		mml_expr(cadr(p));	// y
 		print_str("</mrow>");
 		print_str("</mfrac>");
 		return;
 	}
 
-	// example 1/x^2
+	// example 1/y^2
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("<mfrac>");
 		mml_mn("1");		// 1
 		print_str("<msup>");
 		print_str("<mrow>");
-		mml_factor(cadr(p));	// x
+		mml_factor(cadr(p));	// y
 		print_str("</mrow>");
 		print_str("<mrow>");
 		mml_number(caddr(p));	// -2 (sign not printed)
@@ -403,14 +396,14 @@ mml_power(struct atom *p)
 		return;
 	}
 
-	// example x^y
+	// example y^x
 
 	print_str("<msup>");
 	print_str("<mrow>");
-	mml_factor(cadr(p));	// x
+	mml_factor(cadr(p));	// y
 	print_str("</mrow");
 	print_str("<mrow>");
-	mml_expr(caddr(p));	// y
+	mml_expr(caddr(p));	// x
 	print_str("</mrow>");
 	print_str("</msup>");
 }
