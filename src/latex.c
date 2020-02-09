@@ -569,14 +569,6 @@ latex_symbol(struct atom *p)
 	print_str("}");
 }
 
-void
-latex_string(struct atom *p)
-{
-	print_str("\\,\\text{");
-	print_str(p->u.str);
-	print_str("}");
-}
-
 char *latex_greek_tab[46] = {
 	"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta","Iota",
 	"Kappa","Lambda","Mu","Nu","Xi","Pi","Rho","Sigma","Tau","Upsilon",
@@ -616,6 +608,14 @@ latex_symbol_shipout(char *s, int n)
 		print_char(*s++);
 
 	print_str(" ");
+}
+
+void
+latex_string(struct atom *p)
+{
+	print_str("\\,\\text{");
+	print_str(p->u.str);
+	print_str("}");
 }
 
 void
