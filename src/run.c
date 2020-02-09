@@ -194,11 +194,14 @@ trace_input(char *s)
 	if (iszero(binding[TRACE]))
 		return;
 
-	c = '\n';
-
 	t = trace_ptr0;
 
+	while (t < trace_ptr && isspace(*t))
+		t++;
+
 	outbuf_index = 0;
+
+	c = 0;
 
 	while (t < trace_ptr) {
 		c = *t++;

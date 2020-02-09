@@ -43,3 +43,5 @@ quote(a (x^y)^(-2))
 quote(x^y^z)
 
 3 "meter" "second"
+
+"hello world"
