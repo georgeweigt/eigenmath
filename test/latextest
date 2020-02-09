@@ -41,3 +41,5 @@ quote((x^y)^(-2))
 quote(a (x^y)^(-2))
 
 quote(x^y^z)
+
+3 "meter" "second"

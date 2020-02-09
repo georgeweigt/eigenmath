@@ -736,8 +736,25 @@ mml_matrix(struct tensor *t, int d, int *k)
 void
 mml_string(struct atom *p)
 {
-	print_str("<mtext>");
-	print_str(p->u.str);
+	char *s = p->u.str;
+	print_str("<mtext>&nbsp;");
+	while (*s) {
+		switch (*s) {
+		case '&':
+			print_str("&amp;");
+			break;
+		case '<':
+			print_str("&lt;");
+			break;
+		case '>':
+			print_str("&gt;");
+			break;
+		default:
+			print_char(*s);
+			break;
+		}
+		s++;
+	}
 	print_str("</mtext>");
 }
 
