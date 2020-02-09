@@ -614,7 +614,7 @@ mml_symbol(struct atom *p)
 	s = p->u.printname;
 	n = mml_symbol_scan(s);
 
-	if (strlen(s) == n) {
+	if ((int) strlen(s) == n) {
 		mml_symbol_shipout(s, n);
 		return;
 	}
@@ -652,7 +652,7 @@ mml_symbol_scan(char *s)
 {
 	int i, n;
 	for (i = 0; i < 46; i++) {
-		n = strlen(mml_greek_tab[i]);
+		n = (int) strlen(mml_greek_tab[i]);
 		if (strncmp(s, mml_greek_tab[i], n) == 0)
 			return n;
 	}

@@ -947,22 +947,22 @@ print_it(void)
 	for (i = 0; i < yindex; i++) {
 
 		while (chartab[i].y > y) {
-			ffputc('\n');
+			fputc('\n', stdout);
 			x = 0;
 			y++;
 		}
 
 		while (chartab[i].x > x) {
-			ffputc(' ');
+			fputc(' ', stdout);
 			x++;
 		}
 
-		ffputc(chartab[i].c);
+		fputc(chartab[i].c, stdout);
 
 		x++;
 	}
 
-	ffputc('\n');
+	fputc('\n', stdout);
 }
 
 char print_buffer[10000];

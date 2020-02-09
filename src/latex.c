@@ -559,7 +559,7 @@ latex_symbol(struct atom *p)
 	s = p->u.printname;
 	n = latex_symbol_scan(s);
 
-	if (strlen(s) == n) {
+	if ((int) strlen(s) == n) {
 		latex_symbol_shipout(s, n);
 		return;
 	}
@@ -594,7 +594,7 @@ latex_symbol_scan(char *s)
 {
 	int i, n;
 	for (i = 0; i < 46; i++) {
-		n = strlen(latex_greek_tab[i]);
+		n = (int) strlen(latex_greek_tab[i]);
 		if (strncmp(s, latex_greek_tab[i], n) == 0)
 			return n;
 	}
@@ -679,29 +679,4 @@ latex_string(struct atom *p)
 	print_str("\\,\\text{");
 	print_str(p->u.str);
 	print_str("}");
-}
-
-char *begin_document_str =
-"\\documentclass[12pt]{article}\n"
-"\\usepackage{amsmath,amsfonts,amssymb}\n"
-"\% change margins\n"
-"\\addtolength{\\oddsidemargin}{-.875in}\n"
-"\\addtolength{\\evensidemargin}{-.875in}\n"
-"\\addtolength{\\textwidth}{1.75in}\n"
-"\\addtolength{\\topmargin}{-.875in}\n"
-"\\addtolength{\\textheight}{1.75in}\n"
-"\\begin{document}\n\n";
-
-char *end_document_str = "\\end{document}\n";
-
-void
-begin_document(void)
-{
-	ffputs(begin_document_str);
-}
-
-void
-end_document(void)
-{
-	ffputs(end_document_str);
 }

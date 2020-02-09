@@ -116,55 +116,43 @@ printbuf(char *s, int color)
 
 		switch (color) {
 		case BLACK:
-			ffputs("<p style='color:black;font-family:courier'>\n");
+			fputs("<p style='color:black;font-family:courier'>\n", stdout);
 			break;
 		case BLUE:
-			ffputs("<p style='color:blue;font-family:courier'>\n");
+			fputs("<p style='color:blue;font-family:courier'>\n", stdout);
 			break;
 		case RED:
-			ffputs("<p style='color:red;font-family:courier'>\n");
+			fputs("<p style='color:red;font-family:courier'>\n", stdout);
 			break;
 		default:
-			ffputs("<p style='font-family:courier'>\n");
+			fputs("<p style='font-family:courier'>\n", stdout);
 			break;
 		}
 
 		while (*s) {
 			if (*s == '\n')
-				ffputs("<br>\n");
+				fputs("<br>\n", stdout);
 			else if (*s == '&')
-				ffputs("&amp;");
+				fputs("&amp;", stdout);
 			else if (*s == '<')
-				ffputs("&lt;");
+				fputs("&lt;", stdout);
 			else if (*s == '>')
-				ffputs("&gt;");
+				fputs("&gt;", stdout);
 			else
-				ffputc(*s);
+				fputc(*s, stdout);
 			s++;
 		}
 
-		ffputc('\n');
+		fputc('\n', stdout);
 
 	} else if (latex_flag) {
 
-		ffputs("\\begin{verbatim}\n");
-		ffputs(s);
-		ffputs("\\end{verbatim}\n\n");
+		fputs("\\begin{verbatim}\n", stdout);
+		fputs(s, stdout);
+		fputs("\\end{verbatim}\n\n", stdout);
 
 	} else
-		ffputs(s);
-}
-
-void
-ffputs(char *s)
-{
-	fputs(s, stdout);
-}
-
-void
-ffputc(int c)
-{
-	fputc(c, stdout);
+		fputs(s, stdout);
 }
 
 void
@@ -177,14 +165,14 @@ void
 cmdisplay(void)
 {
 	if (html_flag) {
-		ffputs("<p>\n");
+		fputs("<p>\n", stdout);
 		mathml();
-		ffputs(outbuf);
-		ffputs("\n\n");
+		fputs(outbuf, stdout);
+		fputs("\n\n", stdout);
 	} else if (latex_flag) {
 		latex();
-		ffputs(outbuf);
-		ffputs("\n\n");
+		fputs(outbuf, stdout);
+		fputs("\n\n", stdout);
 	} else
 		display();
 }
@@ -198,4 +186,29 @@ eval_exit(void)
 		end_document();
 
 	exit(0);
+}
+
+char *begin_document_str =
+"\\documentclass[12pt]{article}\n"
+"\\usepackage{amsmath,amsfonts,amssymb}\n"
+"\% change margins\n"
+"\\addtolength{\\oddsidemargin}{-.875in}\n"
+"\\addtolength{\\evensidemargin}{-.875in}\n"
+"\\addtolength{\\textwidth}{1.75in}\n"
+"\\addtolength{\\topmargin}{-.875in}\n"
+"\\addtolength{\\textheight}{1.75in}\n"
+"\\begin{document}\n\n";
+
+char *end_document_str = "\\end{document}\n";
+
+void
+begin_document(void)
+{
+	fputs(begin_document_str, stdout);
+}
+
+void
+end_document(void)
+{
+	fputs(end_document_str, stdout);
 }
