@@ -39,3 +39,5 @@ quote((x^y)^z)
 quote((x^y)^(-2))
 
 quote(a (x^y)^(-2))
+
+quote(x^y^z)

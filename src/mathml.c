@@ -382,7 +382,7 @@ mml_power(struct atom *p)
 		mml_number(caddr(p));	// -2 (sign not printed)
 		print_str("</mrow>");
 		print_str("</msup>");
-		print_str("/mfrac>");
+		print_str("</mfrac>");
 		return;
 	}
 
@@ -391,7 +391,7 @@ mml_power(struct atom *p)
 	print_str("<msup>");
 	print_str("<mrow>");
 	mml_base(cadr(p));	// y
-	print_str("</mrow");
+	print_str("</mrow>");
 	print_str("<mrow>");
 	mml_exponent(caddr(p));	// x
 	print_str("</mrow>");
