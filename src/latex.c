@@ -15,17 +15,28 @@ void
 latex(void)
 {
 	save();
+	latex_nib();
+	restore();
+}
 
+void
+latex_nib(void)
+{
 	outbuf_index = 0;
-	print_str("\\begin{equation}\n");
 
 	p1 = pop();
-	latex_expr(p1);
 
-	print_str("\n\\end{equation}");
+	if (isstr(p1)) {
+		print_str("\\begin{verbatim}\n");
+		print_str(p1->u.str);
+		print_str("\n\\end{verbatim}");
+	} else {
+		print_str("\\begin{equation}\n");
+		latex_expr(p1);
+		print_str("\n\\end{equation}");
+	}
+
 	print_char('\0');
-
-	restore();
 }
 
 void
@@ -611,14 +622,6 @@ latex_symbol_shipout(char *s, int n)
 }
 
 void
-latex_string(struct atom *p)
-{
-	print_str("\\,\\text{");
-	print_str(p->u.str);
-	print_str("}");
-}
-
-void
 latex_tensor(struct atom *p)
 {
 	int i, n, k = 0;
@@ -668,6 +671,14 @@ latex_tensor_matrix(struct tensor *t, int d, int *k)
 	}
 
 	print_str("\\end{pmatrix}");
+}
+
+void
+latex_string(struct atom *p)
+{
+	print_str("\\,\\text{");
+	print_str(p->u.str);
+	print_str("}");
 }
 
 char *begin_document_str =

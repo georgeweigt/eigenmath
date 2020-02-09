@@ -17,17 +17,26 @@ void
 mathml(void)
 {
 	save();
+	mathml_nib();
+	restore();
+}
 
+void
+mathml_nib(void)
+{
 	outbuf_index = 0;
-	print_str("<math><mrow>");
 
 	p1 = pop();
-	mml_expr(p1);
 
-	print_str("</mrow></math>");
+	if (isstr(p1))
+		mml_string(p1, 0);
+	else {
+		print_str("<math><mrow>");
+		mml_expr(p1);
+		print_str("</mrow></math>");
+	}
+
 	print_char('\0');
-
-	restore();
 }
 
 void
@@ -232,7 +241,7 @@ mml_factor(struct atom *p)
 		break;
 
 	case STR:
-		mml_string(p);
+		mml_string(p, 1);
 		break;
 
 	case TENSOR:
@@ -734,12 +743,18 @@ mml_matrix(struct tensor *t, int d, int *k)
 }
 
 void
-mml_string(struct atom *p)
+mml_string(struct atom *p, int mathmode)
 {
 	char *s = p->u.str;
-	print_str("<mtext>&nbsp;");
+
+	if (mathmode)
+		print_str("<mtext>&nbsp;");
+
 	while (*s) {
 		switch (*s) {
+		case '\n':
+			print_str("<br>");
+			break;
 		case '&':
 			print_str("&amp;");
 			break;
@@ -755,7 +770,9 @@ mml_string(struct atom *p)
 		}
 		s++;
 	}
-	print_str("</mtext>");
+
+	if (mathmode)
+		print_str("</mtext>");
 }
 
 void
