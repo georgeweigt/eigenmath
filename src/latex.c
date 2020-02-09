@@ -363,6 +363,24 @@ latex_power(struct atom *p)
 	print_str("}");
 }
 
+void
+latex_base(struct atom *p)
+{
+	if (isfraction(p) || isdouble(p) || car(p) == symbol(POWER))
+		latex_subexpr(p);
+	else
+		latex_factor(p);
+}
+
+void
+latex_exponent(struct atom *p)
+{
+	if (car(p) == symbol(POWER))
+		latex_subexpr(p);
+	else
+		latex_factor(p);
+}
+
 // case (-1)^x
 
 void
@@ -393,24 +411,6 @@ latex_imaginary(struct atom *p)
 	print_str("(-1)^{");
 	latex_expr(caddr(p));			// x
 	print_str("}");
-}
-
-void
-latex_base(struct atom *p)
-{
-	if (isfraction(p) || isdouble(p) || car(p) == symbol(POWER))
-		latex_subexpr(p);
-	else
-		latex_factor(p);
-}
-
-void
-latex_exponent(struct atom *p)
-{
-	if (car(p) == symbol(POWER))
-		latex_subexpr(p);
-	else
-		latex_factor(p);
 }
 
 void
