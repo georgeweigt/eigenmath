@@ -688,6 +688,7 @@ mml_tensor(struct atom *p)
 	// if odd rank then vector
 
 	if (t->ndim % 2 == 1) {
+		mml_mo("(");
 		print_str("<mtable>");
 		n = t->dim[0];
 		for (i = 0; i < n; i++) {
@@ -696,6 +697,7 @@ mml_tensor(struct atom *p)
 			print_str("</mtd></mtr>");
 		}
 		print_str("</mtable>");
+		mml_mo(")");
 	} else
 		mml_matrix(t, 0, &k);
 }
@@ -714,6 +716,7 @@ mml_matrix(struct tensor *t, int d, int *k)
 	ni = t->dim[d];
 	nj = t->dim[d + 1];
 
+	mml_mo("(");
 	print_str("<mtable>");
 
 	for (i = 0; i < ni; i++) {
@@ -727,6 +730,7 @@ mml_matrix(struct tensor *t, int d, int *k)
 	}
 
 	print_str("</mtable>");
+	mml_mo(")");
 }
 
 void
