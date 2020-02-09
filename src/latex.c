@@ -184,7 +184,7 @@ latex_denominators(struct atom *p)
 
 		// example 1/y^2
 
-		latex_factor(cadr(q));		// y
+		latex_base(cadr(q));		// y
 		print_str("^{");
 		latex_number(caddr(q));		// -2 (sign not printed)
 		print_str("}");
@@ -200,41 +200,36 @@ latex_denominators(struct atom *p)
 void
 latex_factor(struct atom *p)
 {
-	if (istensor(p)) {
-		latex_tensor(p);
-		return;
-	}
+	switch (p->k) {
 
-	if (isnum(p)) {
-		latex_number(p);
-		return;
-	}
+	case RATIONAL:
+		latex_rational(p);
+		break;
 
-	if (issymbol(p)) {
+	case DOUBLE:
+		latex_double(p);
+		break;
+
+	case SYM:
 		latex_symbol(p);
-		return;
-	}
+		break;
 
-	if (isstr(p)) {
-		print_str("\\,\\text{");
-		print_str(p->u.str);
-		print_str("}");
-		return;
-	}
+	case STR:
+		latex_string(p);
+		break;
 
-	if (car(p) == symbol(POWER)) {
-		latex_power(p);
-		return;
-	}
+	case TENSOR:
+		latex_tensor(p);
+		break;
 
-	if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY)) {
-		latex_subexpr(p);
-		return;
-	}
-
-	if (iscons(p)) {
-		latex_function(p);
-		return;
+	case CONS:
+		if (car(p) == symbol(POWER))
+			latex_power(p);
+		else if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY))
+			latex_subexpr(p);
+		else
+			latex_function(p);
+		break;
 	}
 }
 
@@ -353,7 +348,7 @@ latex_power(struct atom *p)
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("\\frac{1}{");
-		latex_factor(cadr(p));		// y
+		latex_base(cadr(p));		// y
 		print_str("^{");
 		latex_number(caddr(p));		// -2 (sign not printed)
 		print_str("}}");
@@ -364,7 +359,7 @@ latex_power(struct atom *p)
 
 	latex_base(cadr(p));			// y
 	print_str("^{");
-	latex_expr(caddr(p));			// x
+	latex_exponent(caddr(p));		// x
 	print_str("}");
 }
 
@@ -403,7 +398,16 @@ latex_imaginary(struct atom *p)
 void
 latex_base(struct atom *p)
 {
-	if (isfraction(p) || isdouble(p) || car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY) || car(p) == symbol(POWER))
+	if (isfraction(p) || isdouble(p) || car(p) == symbol(POWER))
+		latex_subexpr(p);
+	else
+		latex_factor(p);
+}
+
+void
+latex_exponent(struct atom *p)
+{
+	if (car(p) == symbol(POWER))
 		latex_subexpr(p);
 	else
 		latex_factor(p);
@@ -562,6 +566,14 @@ latex_symbol(struct atom *p)
 		s += n;
 	}
 
+	print_str("}");
+}
+
+void
+latex_string(struct atom *p)
+{
+	print_str("\\,\\text{");
+	print_str(p->u.str);
 	print_str("}");
 }
 

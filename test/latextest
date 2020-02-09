@@ -33,3 +33,9 @@ sqrt(i)
 (2/3)^x
 
 0.000001^x
+
+quote((x^y)^z)
+
+quote((x^y)^(-2))
+
+quote(a (x^y)^(-2))
