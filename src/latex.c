@@ -478,7 +478,7 @@ latex_function(struct atom *p)
 
 	if (car(p) == symbol(TESTGE)) {
 		latex_expr(cadr(p));
-		print_str("\\geq");
+		print_str("\\geq ");
 		latex_expr(caddr(p));
 		return;
 	}
@@ -492,7 +492,7 @@ latex_function(struct atom *p)
 
 	if (car(p) == symbol(TESTLE)) {
 		latex_expr(cadr(p));
-		print_str("\\leq");
+		print_str("\\leq ");
 		latex_expr(caddr(p));
 		return;
 	}
@@ -522,7 +522,7 @@ latex_arglist(struct atom *p)
 	if (iscons(p)) {
 		latex_expr(car(p));
 		p = cdr(p);
-		while(iscons(p)) {
+		while (iscons(p)) {
 			print_str(",");
 			latex_expr(car(p));
 			p = cdr(p);
