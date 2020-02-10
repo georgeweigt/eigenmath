@@ -1,19 +1,25 @@
-/* February 6, 2020
+/* February 10, 2020
 
 To build and run:
 
 	gcc -O0 -o eigenmath eigenmath.c -lm
 	./eigenmath
 
-Press control-C to exit.
+Press control-C or type exit to exit.
 
 To run a script:
 
 	./eigenmath scriptfilename
 
-A test script is available here:
+To generate LaTeX output:
 
-	www.eigenmath.org/selftest1
+        ./eigenmath --latex scriptfilename >foo.tex
+
+To generate MathML output:
+
+        ./eigenmath --html scriptfilename >foo.html
+
+Sample scripts are available at www.eigenmath.org
 
 
 BSD 2-Clause License
