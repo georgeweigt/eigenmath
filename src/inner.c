@@ -3,6 +3,12 @@
 void
 eval_inner(void)
 {
+	eval_dot();
+}
+
+void
+eval_dot(void)
+{
 	p1 = cdr(p1);
 	push(car(p1));
 	eval();
