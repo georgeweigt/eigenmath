@@ -87,3 +87,5 @@ f(x,y)
 -(x+1)^2
 
 d(f(x),x)
+
+cos(theta)^2 sin(phi)
