@@ -180,7 +180,8 @@ print_status(void)
 void
 trace_input(char *s)
 {
-	char i, n, *t;
+	int c;
+	char *t;
 
 	trace_ptr0 = trace_ptr;
 
@@ -194,28 +195,20 @@ trace_input(char *s)
 	if (iszero(binding[TRACE]))
 		return;
 
-	t = trace_ptr0;
-
-	// skip leading newlines
-
-	while (t < trace_ptr && isspace(*t))
-		t++;
-
-	// skip trailing newlines
-
-	n = (int) (trace_ptr - t);
-
-	while (n > 0 && isspace(t[n - 1]))
-		n--;
-
-	// write to outbuf
-
 	outbuf_index = 0;
 
-	for (i = 0; i < n; i++)
-		print_char(*t++);
+	c = 0;
 
-	print_char('\n');
+	t = trace_ptr0;
+
+	while (t < trace_ptr) {
+		c = *t++;
+		print_char(c);
+	}
+
+	if (c != '\n')
+		print_char('\n');
+
 	print_char('\0');
 
 	printbuf(outbuf, BLUE);

@@ -1099,6 +1099,9 @@ C = sqrt(0.5 * hbar * omega * epsilon0^(-1) * meter^(-3))
 C
 volt * meter^(-1)
 
+clear
+trace=1
+
 -- www.eigenmath.org/schwarzchild-metric.txt
 
 gdd = ((-F(r),      0,   0,                0),
