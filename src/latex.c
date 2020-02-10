@@ -340,7 +340,7 @@ latex_power(struct atom *p)
 	// case e^x
 
 	if (cadr(p) == symbol(EXP1)) {
-		print_str("\\exp\\left(");
+		print_str("\\operatorname{exp}\\left(");
 		latex_expr(caddr(p));		// x
 		print_str("\\right)");
 		return;
@@ -552,7 +552,7 @@ latex_symbol(struct atom *p)
 	}
 
 	if (p == symbol(EXP1)) {
-		print_str("\\exp(1)");
+		print_str("\\operatorname{exp}(1)");
 		return;
 	}
 

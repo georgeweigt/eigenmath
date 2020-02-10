@@ -47,3 +47,43 @@ quote(x^y^z)
 "hello world"
 
 status
+
+e
+
+e^x
+
+quote(a = b)
+
+quote(a == b)
+
+quote(a < b)
+
+quote(a <= b)
+
+quote(a > b)
+
+quote(a >= b)
+
+A[1]
+
+A[1,2]
+
+(a,b,c)
+
+((a,b),(c,d))
+
+A = (a1,a2,a3)
+B = ((b11,b12),(b21,b22))
+outer(A,B)
+
+A = ((a11,a12),(a21,a22))
+B = ((b11,b12),(b21,b22))
+outer(A,B)
+
+f(x)
+
+f(x,y)
+
+-(x+1)^2
+
+d(f(x),x)

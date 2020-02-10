@@ -1,6 +1,11 @@
 #include "defs.h"
 
-#define MML_MINUS "<mo prefix='true'>-</mo>"
+#define MML_MINUS "<mo rspace='0'>-</mo>"
+#define MML_MINUS_1 "<mo>(</mo><mo rspace='0'>-</mo><mn>1</mn><mo>)</mo>"
+#define MML_LP "<mo form='prefix'>(</mo>"
+#define MML_RP "<mo form='postfix'>)</mo>"
+#define MML_LB "<mo form='prefix'>[</mo>"
+#define MML_RB "<mo form='postfix'>]</mo>"
 
 void
 eval_mathml(void)
@@ -31,9 +36,9 @@ mathml_nib(void)
 	if (isstr(p1))
 		mml_string(p1, 0);
 	else {
-		print_str("<math><mrow>");
+		print_str("<math>");
 		mml_expr(p1);
-		print_str("</mrow></math>");
+		print_str("</math>");
 	}
 
 	print_char('\0');
@@ -181,13 +186,10 @@ mml_denominators(struct atom *p)
 		if (isminusone(cadr(q))) {
 			print_str("<msup>");
 			print_str("<mrow>");
-			mml_mo("(");		//
-			print_str(MML_MINUS);	// (-1)
-			mml_mn("1");		//
-			mml_mo(")");		//
+			print_str(MML_MINUS_1); // (-1)
 			print_str("</mrow>");
 			print_str("<mrow>");
-			mml_number(caddr(q));	// -1/4 (sign not printed)
+			mml_number(caddr(q)); // -1/4 (sign not printed)
 			print_str("</mrow>");
 			print_str("</msup>");
 			n++;
@@ -198,7 +200,7 @@ mml_denominators(struct atom *p)
 		// example 1/y
 
 		if (isminusone(caddr(q))) {
-			mml_factor(cadr(q));	// y
+			mml_factor(cadr(q)); // y
 			n++;
 			p = cdr(p);
 			continue;
@@ -360,9 +362,9 @@ mml_power(struct atom *p)
 
 	if (cadr(p) == symbol(EXP1)) {
 		mml_mi("exp");
-		mml_mo("(");
-		mml_expr(caddr(p));	// x
-		mml_mo(")");
+		print_str(MML_LP);
+		mml_expr(caddr(p)); // x
+		print_str(MML_RP);
 		return;
 	}
 
@@ -448,13 +450,10 @@ mml_imaginary(struct atom *p)
 		mml_mn("1");
 		print_str("<msup>");
 		print_str("<mrow>");
-		mml_mo("(");		//
-		print_str(MML_MINUS);	// (-1)
-		mml_mn("1");		//
-		mml_mo(")");		//
+		print_str(MML_MINUS_1); // (-1)
 		print_str("</mrow>");
 		print_str("<mrow>");
-		mml_number(caddr(p));	// -1/4 (sign not printed)
+		mml_number(caddr(p)); // -1/4 (sign not printed)
 		print_str("</mrow>");
 		print_str("</msup>");
 		print_str("</mfrac>");
@@ -465,13 +464,10 @@ mml_imaginary(struct atom *p)
 
 	print_str("<msup>");
 	print_str("<mrow>");
-	mml_mo("(");		//
-	print_str(MML_MINUS);	// (-1)
-	mml_mn("1");		//
-	mml_mo(")");		//
+	print_str(MML_MINUS_1); // (-1)
 	print_str("</mrow>");
 	print_str("<mrow>");
-	mml_expr(caddr(p));	// x
+	mml_expr(caddr(p)); // x
 	print_str("</mrow>");
 	print_str("</msup>");
 }
@@ -483,9 +479,9 @@ mml_function(struct atom *p)
 
 	if (car(p) == symbol(DERIVATIVE)) {
 		print_str("<mi mathvariant='normal'>d</mi>");
-		mml_mo("(");
+		print_str(MML_LP);
 		mml_arglist(p);
-		mml_mo(")");
+		print_str(MML_RP);
 		return;
 	}
 
@@ -509,9 +505,9 @@ mml_function(struct atom *p)
 			mml_symbol(car(p));
 		else
 			mml_subexpr(car(p));
-		mml_mo("[");
+		print_str(MML_LB);
 		mml_arglist(p);
-		mml_mo("]");
+		print_str(MML_RB);
 		return;
 	}
 
@@ -564,9 +560,9 @@ mml_function(struct atom *p)
 	else
 		mml_subexpr(car(p));
 
-	mml_mo("(");
+	print_str(MML_LP);
 	mml_arglist(p);
-	mml_mo(")");
+	print_str(MML_RP);
 }
 
 void
@@ -587,9 +583,9 @@ mml_arglist(struct atom *p)
 void
 mml_subexpr(struct atom *p)
 {
-	mml_mo("(");
+	print_str(MML_LP);
 	mml_expr(p);
-	mml_mo(")");
+	print_str(MML_RP);
 }
 
 void
@@ -605,9 +601,9 @@ mml_symbol(struct atom *p)
 
 	if (p == symbol(EXP1)) {
 		mml_mi("exp");
-		mml_mo("(");
+		print_str(MML_LP);
 		mml_mn("1");
-		mml_mo(")");
+		print_str(MML_RP);
 		return;
 	}
 
@@ -697,16 +693,14 @@ mml_tensor(struct atom *p)
 	// if odd rank then vector
 
 	if (t->ndim % 2 == 1) {
-		mml_mo("(");
-		print_str("<mtable>");
+		print_str("<mfenced><mtable>");
 		n = t->dim[0];
 		for (i = 0; i < n; i++) {
 			print_str("<mtr><mtd>");
 			mml_matrix(t, 1, &k);
 			print_str("</mtd></mtr>");
 		}
-		print_str("</mtable>");
-		mml_mo(")");
+		print_str("</mtable></mfenced>");
 	} else
 		mml_matrix(t, 0, &k);
 }
@@ -725,8 +719,7 @@ mml_matrix(struct tensor *t, int d, int *k)
 	ni = t->dim[d];
 	nj = t->dim[d + 1];
 
-	mml_mo("(");
-	print_str("<mtable>");
+	print_str("<mfenced><mtable>");
 
 	for (i = 0; i < ni; i++) {
 		print_str("<mtr>");
@@ -738,8 +731,7 @@ mml_matrix(struct tensor *t, int d, int *k)
 		print_str("</mtr>");
 	}
 
-	print_str("</mtable>");
-	mml_mo(")");
+	print_str("</mtable></mfenced>");
 }
 
 void
