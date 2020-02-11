@@ -41,7 +41,7 @@ main(int argc, char *argv[])
 void
 eval_stdin(void)
 {
-	if (html_flag)
+	if (html_flag || mathjax_flag)
 		printf("<!--? ");
 	else if (latex_flag)
 		printf("%%? ");
@@ -50,10 +50,10 @@ eval_stdin(void)
 
 	fgets(inbuf, sizeof inbuf, stdin);
 
-	if (html_flag)
+	if (html_flag || mathjax_flag)
 		printf("-->\n");
 
-	if (html_flag || latex_flag)
+	if (html_flag || latex_flag || mathjax_flag)
 		printbuf(inbuf, BLUE);
 
 	run(inbuf);
