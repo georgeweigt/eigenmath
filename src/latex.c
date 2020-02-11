@@ -689,7 +689,7 @@ latex_tensor_matrix(struct tensor *t, int d, int *k)
 void
 latex_string(struct atom *p)
 {
-	print_str("{\\rm ");
+	print_str("\\text{");
 	print_str(p->u.str);
 	print_str("}");
 }
