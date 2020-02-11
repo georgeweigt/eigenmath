@@ -100,7 +100,12 @@ latex_term(struct atom *p)
 		if (isrational(car(p)) && isminusone(car(p)))
 			p = cdr(p); // skip -1
 
+		latex_factor(car(p));
+
+		p = cdr(p);
+
 		while (iscons(p)) {
+			print_str("\\,");
 			latex_factor(car(p));
 			p = cdr(p);
 		}
@@ -135,6 +140,9 @@ latex_numerators(struct atom *p)
 			p = cdr(p);
 			continue;
 		}
+
+		if (n)
+			print_str("\\,");
 
 		latex_factor(q);
 		n++;
@@ -172,6 +180,9 @@ latex_denominators(struct atom *p)
 			p = cdr(p);
 			continue; // not a denominator
 		}
+
+		if (n)
+			print_str("\\,");
 
 		// example (-1)^(-1/4)
 
@@ -676,7 +687,7 @@ latex_tensor_matrix(struct tensor *t, int d, int *k)
 void
 latex_string(struct atom *p)
 {
-	print_str("\\,\\text{");
+	print_str("\\text{");
 	print_str(p->u.str);
 	print_str("}");
 }
