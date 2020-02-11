@@ -50,35 +50,25 @@ prep_symbol_equals(void)
 	p2 = pop();
 }
 
-// evaluate tos
-
 void
 eval(void)
 {
+	save();
+
 	if (stop_flag)
 		stop(NULL);
-	save();
+
 	p1 = pop();
-	switch (p1->k) {
-	case CONS:
+
+	if (p1->k == CONS)
 		eval_cons();
-		break;
-	case RATIONAL:
-		push(p1);
-		break;
-	case DOUBLE:
-		push(p1);
-		break;
-	case STR:
-		push(p1);
-		break;
-	case TENSOR:
-		eval_tensor();
-		break;
-	case SYM:
+	else if (p1->k == SYM)
 		eval_sym();
-		break;
-	}
+	else if (p1->k == TENSOR)
+		eval_tensor();
+	else
+		push(p1);
+
 	restore();
 }
 
