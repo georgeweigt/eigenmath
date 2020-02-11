@@ -257,7 +257,6 @@ void prep_symbol_equals(void);
 void eval(void);
 void eval_sym(void);
 void eval_cons(void);
-void eval_cons(void);
 void eval_binding(void);
 void eval_check(void);
 void eval_clear(void);
