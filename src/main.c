@@ -174,10 +174,9 @@ cmdisplay(void)
 {
 	if (html_flag) {
 
-		fputs("<p>\n", stdout);
-
 		mathml();
 
+		fputs("<p>\n", stdout);
 		fputs(outbuf, stdout);
 		fputs("\n\n", stdout);
 
@@ -185,15 +184,14 @@ cmdisplay(void)
 
 	} else if (latex_flag) {
 
-		if (latex_state) {
-			fputs("\\end{verbatim}\n\n", stdout);
-			latex_state = 0;
-		}
-
 		latex();
 
+		if (latex_state)
+			fputs("\\end{verbatim}\n\n", stdout);
 		fputs(outbuf, stdout);
 		fputs("\n\n", stdout);
+
+		latex_state = 0;
 
 	} else
 		display();
@@ -260,6 +258,5 @@ end_latex(void)
 {
 	if (latex_state)
 		fputs("\\end{verbatim}\n\n", stdout);
-
 	fputs(end_document_str, stdout);
 }
