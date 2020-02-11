@@ -1,10 +1,9 @@
 #include "defs.h"
 
 int html_flag;
-int html_state;
 int latex_flag;
-int latex_state;
 int mathjax_flag;
+int doc_state;
 char *infile;
 char inbuf[1000];
 
@@ -109,23 +108,23 @@ printbuf(char *s, int color)
 		switch (color) {
 
 		case BLACK:
-			if (html_state != 1) {
+			if (doc_state != 1) {
 				fputs("<p style='color:black;font-family:courier'>\n", stdout);
-				html_state = 1;
+				doc_state = 1;
 			}
 			break;
 
 		case BLUE:
-			if (html_state != 2) {
+			if (doc_state != 2) {
 				fputs("<p style='color:blue;font-family:courier'>\n", stdout);
-				html_state = 2;
+				doc_state = 2;
 			}
 			break;
 
 		case RED:
-			if (html_state != 3) {
+			if (doc_state != 3) {
 				fputs("<p style='color:red;font-family:courier'>\n", stdout);
-				html_state = 3;
+				doc_state = 3;
 			}
 			break;
 		}
@@ -148,9 +147,9 @@ printbuf(char *s, int color)
 
 	} else if (latex_flag) {
 
-		if (latex_state == 0) {
+		if (doc_state == 0) {
 			fputs("\\begin{verbatim}\n", stdout);
-			latex_state = 1;
+			doc_state = 1;
 		}
 
 		fputs(s, stdout);
@@ -170,18 +169,14 @@ cmdisplay(void)
 		fputs(outbuf, stdout);
 		fputs("\n\n", stdout);
 
-		html_state = 0;
-
 	} else if (latex_flag) {
 
 		latex();
 
-		if (latex_state)
+		if (doc_state)
 			fputs("\\end{verbatim}\n\n", stdout);
 		fputs(outbuf, stdout);
 		fputs("\n\n", stdout);
-
-		latex_state = 0;
 
 	} else if (mathjax_flag) {
 
@@ -191,10 +186,10 @@ cmdisplay(void)
 		fputs(outbuf, stdout);
 		fputs("\n\n", stdout);
 
-		html_state = 0;
-
 	} else
 		display();
+
+	doc_state = 0;
 }
 
 void
@@ -250,7 +245,7 @@ begin_latex(void)
 void
 end_latex(void)
 {
-	if (latex_state)
+	if (doc_state)
 		fputs("\\end{verbatim}\n\n", stdout);
 	fputs("\\end{document}\n", stdout);
 }
