@@ -99,13 +99,6 @@ run_infile(void)
 }
 
 void
-malloc_kaput(void)
-{
-	printf("malloc kaput\n");
-	exit(1);
-}
-
-void
 printbuf(char *s, int color)
 {
 	if (html_flag) {
@@ -164,12 +157,6 @@ printbuf(char *s, int color)
 }
 
 void
-eval_draw(void)
-{
-	push_symbol(NIL);
-}
-
-void
 cmdisplay(void)
 {
 	if (html_flag) {
@@ -195,13 +182,6 @@ cmdisplay(void)
 
 	} else
 		display();
-}
-
-void
-eval_exit(void)
-{
-	end_document();
-	exit(0);
 }
 
 void
@@ -259,4 +239,24 @@ end_latex(void)
 	if (latex_state)
 		fputs("\\end{verbatim}\n\n", stdout);
 	fputs(end_document_str, stdout);
+}
+
+void
+eval_draw(void)
+{
+	push_symbol(NIL);
+}
+
+void
+eval_exit(void)
+{
+	end_document();
+	exit(0);
+}
+
+void
+malloc_kaput(void)
+{
+	fprintf(stderr, "malloc kaput\n");
+	exit(1);
 }
