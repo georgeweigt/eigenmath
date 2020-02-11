@@ -76,15 +76,16 @@ latex_term(struct atom *p)
 
 		// any denominators?
 
-		q = cdr(p);
-		while (iscons(q)) {
-			t = car(q);
-			if (car(t) == symbol(POWER) && isnegativenumber(caddr(t)))
+		t = cdr(p);
+
+		while (iscons(t)) {
+			q = car(t);
+			if (car(q) == symbol(POWER) && isnegativenumber(caddr(q)))
 				break;
-			q = cdr(q);
+			t = cdr(t);
 		}
 
-		if (iscons(q)) {
+		if (iscons(t)) {
 			print_str("\\frac{");
 			latex_numerators(p);
 			print_str("}{");
@@ -96,8 +97,9 @@ latex_term(struct atom *p)
 		// no denominators
 
 		p = cdr(p);
+		q = car(p);
 
-		if (isrational(car(p)) && isminusone(car(p)))
+		if (isrational(q) && isminusone(q))
 			p = cdr(p); // skip -1
 
 		latex_factor(car(p));
@@ -105,7 +107,7 @@ latex_term(struct atom *p)
 		p = cdr(p);
 
 		while (iscons(p)) {
-			print_str("\\,");
+			print_str("\\,"); // thin space between factors
 			latex_factor(car(p));
 			p = cdr(p);
 		}
@@ -121,6 +123,16 @@ latex_numerators(struct atom *p)
 	struct atom *q;
 
 	p = cdr(p);
+	q = car(p);
+
+	if (isrational(q)) {
+		if (!MEQUAL(q->u.q.a, 1)) {
+			s = mstr(q->u.q.a); // numerator
+			print_str(s);
+			n++;
+		}
+		p = cdr(p);
+	}
 
 	while (iscons(p)) {
 
@@ -131,18 +143,8 @@ latex_numerators(struct atom *p)
 			continue; // printed in denominator
 		}
 
-		if (isrational(q)) {
-			if (!MEQUAL(q->u.q.a, 1)) {
-				s = mstr(q->u.q.a); // numerator
-				print_str(s);
-				n++;
-			}
-			p = cdr(p);
-			continue;
-		}
-
 		if (n)
-			print_str("\\,");
+			print_str("\\,"); // thin space between factors
 
 		latex_factor(q);
 		n++;
@@ -161,20 +163,20 @@ latex_denominators(struct atom *p)
 	struct atom *q;
 
 	p = cdr(p);
+	q = car(p);
+
+	if (isrational(q)) {
+		if (!MEQUAL(q->u.q.b, 1)) {
+			s = mstr(q->u.q.b); // denominator
+			print_str(s);
+			n++;
+		}
+		p = cdr(p);
+	}
 
 	while (iscons(p)) {
 
 		q = car(p);
-
-		if (isrational(q)) {
-			if (!MEQUAL(q->u.q.b, 1)) {
-				s = mstr(q->u.q.b); // denominator
-				print_str(s);
-				n++;
-			}
-			p = cdr(p);
-			continue;
-		}
 
 		if (car(q) != symbol(POWER) || !isnegativenumber(caddr(q))) {
 			p = cdr(p);
@@ -182,7 +184,7 @@ latex_denominators(struct atom *p)
 		}
 
 		if (n)
-			print_str("\\,");
+			print_str("\\,"); // thin space between factors
 
 		// example (-1)^(-1/4)
 
@@ -198,7 +200,7 @@ latex_denominators(struct atom *p)
 		// example 1/y
 
 		if (isminusone(caddr(q))) {
-			latex_factor(cadr(q));	// y
+			latex_factor(cadr(q)); // y
 			n++;
 			p = cdr(p);
 			continue;
@@ -206,9 +208,9 @@ latex_denominators(struct atom *p)
 
 		// example 1/y^2
 
-		latex_base(cadr(q));		// y
+		latex_base(cadr(q)); // y
 		print_str("^{");
-		latex_number(caddr(q));		// -2 (sign not printed)
+		latex_number(caddr(q)); // -2 (sign not printed)
 		print_str("}");
 
 		n++;
@@ -352,7 +354,7 @@ latex_power(struct atom *p)
 
 	if (cadr(p) == symbol(EXP1)) {
 		print_str("\\operatorname{exp}\\left(");
-		latex_expr(caddr(p));		// x
+		latex_expr(caddr(p)); // x
 		print_str("\\right)");
 		return;
 	}
@@ -361,7 +363,7 @@ latex_power(struct atom *p)
 
 	if (isminusone(caddr(p))) {
 		print_str("\\frac{1}{");
-		latex_expr(cadr(p));		// y
+		latex_expr(cadr(p)); // y
 		print_str("}");
 		return;
 	}
@@ -370,18 +372,18 @@ latex_power(struct atom *p)
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("\\frac{1}{");
-		latex_base(cadr(p));		// y
+		latex_base(cadr(p)); // y
 		print_str("^{");
-		latex_number(caddr(p));		// -2 (sign not printed)
+		latex_number(caddr(p)); // -2 (sign not printed)
 		print_str("}}");
 		return;
 	}
 
 	// example y^x
 
-	latex_base(cadr(p));			// y
+	latex_base(cadr(p)); // y
 	print_str("^{");
-	latex_exponent(caddr(p));		// x
+	latex_exponent(caddr(p)); // x
 	print_str("}");
 }
 
@@ -423,7 +425,7 @@ latex_imaginary(struct atom *p)
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("\\frac{1}{(-1)^{");
-		latex_number(caddr(p));		// -1/4 (sign not printed)
+		latex_number(caddr(p)); // -1/4 (sign not printed)
 		print_str("}}");
 		return;
 	}
@@ -431,7 +433,7 @@ latex_imaginary(struct atom *p)
 	// example (-1)^x
 
 	print_str("(-1)^{");
-	latex_expr(caddr(p));			// x
+	latex_expr(caddr(p)); // x
 	print_str("}");
 }
 
@@ -496,7 +498,7 @@ latex_function(struct atom *p)
 
 	if (car(p) == symbol(TESTGT)) {
 		latex_expr(cadr(p));
-		print_str(">");
+		print_str(" > ");
 		latex_expr(caddr(p));
 		return;
 	}
@@ -510,7 +512,7 @@ latex_function(struct atom *p)
 
 	if (car(p) == symbol(TESTLT)) {
 		latex_expr(cadr(p));
-		print_str("<");
+		print_str(" < ");
 		latex_expr(caddr(p));
 		return;
 	}
@@ -687,7 +689,7 @@ latex_tensor_matrix(struct tensor *t, int d, int *k)
 void
 latex_string(struct atom *p)
 {
-	print_str("\\text{");
+	print_str("{\\rm ");
 	print_str(p->u.str);
 	print_str("}");
 }

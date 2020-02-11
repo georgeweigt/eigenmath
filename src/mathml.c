@@ -36,7 +36,7 @@ mathml_nib(void)
 	if (isstr(p1))
 		mml_string(p1, 0);
 	else {
-		print_str("<math>");
+		print_str("<math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>");
 		mml_expr(p1);
 		print_str("</math>");
 	}
@@ -81,15 +81,16 @@ mml_term(struct atom *p)
 
 		// any denominators?
 
-		q = cdr(p);
-		while (iscons(q)) {
-			t = car(q);
-			if (car(t) == symbol(POWER) && isnegativenumber(caddr(t)))
+		t = cdr(p);
+
+		while (iscons(t)) {
+			q = car(t);
+			if (car(q) == symbol(POWER) && isnegativenumber(caddr(q)))
 				break;
-			q = cdr(q);
+			t = cdr(t);
 		}
 
-		if (iscons(q)) {
+		if (iscons(t)) {
 			print_str("<mfrac>");
 			print_str("<mrow>");
 			mml_numerators(p);
@@ -104,8 +105,9 @@ mml_term(struct atom *p)
 		// no denominators
 
 		p = cdr(p);
+		q = car(p);
 
-		if (isrational(car(p)) && isminusone(car(p)))
+		if (isrational(q) && isminusone(q))
 			p = cdr(p); // skip -1
 
 		while (iscons(p)) {
@@ -124,6 +126,16 @@ mml_numerators(struct atom *p)
 	struct atom *q;
 
 	p = cdr(p);
+	q = car(p);
+
+	if (isrational(q)) {
+		if (!MEQUAL(q->u.q.a, 1)) {
+			s = mstr(q->u.q.a); // numerator
+			mml_mn(s);
+			n++;
+		}
+		p = cdr(p);
+	}
 
 	while (iscons(p)) {
 
@@ -132,16 +144,6 @@ mml_numerators(struct atom *p)
 		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q))) {
 			p = cdr(p);
 			continue; // printed in denominator
-		}
-
-		if (isrational(q)) {
-			if (!MEQUAL(q->u.q.a, 1)) {
-				s = mstr(q->u.q.a); // numerator
-				mml_mn(s);
-				n++;
-			}
-			p = cdr(p);
-			continue;
 		}
 
 		mml_factor(q);
@@ -161,20 +163,20 @@ mml_denominators(struct atom *p)
 	struct atom *q;
 
 	p = cdr(p);
+	q = car(p);
+
+	if (isrational(q)) {
+		if (!MEQUAL(q->u.q.b, 1)) {
+			s = mstr(q->u.q.b); // denominator
+			mml_mn(s);
+			n++;
+		}
+		p = cdr(p);
+	}
 
 	while (iscons(p)) {
 
 		q = car(p);
-
-		if (isrational(q)) {
-			if (!MEQUAL(q->u.q.b, 1)) {
-				s = mstr(q->u.q.b); // denominator
-				mml_mn(s);
-				n++;
-			}
-			p = cdr(p);
-			continue;
-		}
 
 		if (car(q) != symbol(POWER) || !isnegativenumber(caddr(q))) {
 			p = cdr(p);
@@ -210,10 +212,10 @@ mml_denominators(struct atom *p)
 
 		print_str("<msup>");
 		print_str("<mrow>");
-		mml_base(cadr(q));	// y
+		mml_base(cadr(q)); // y
 		print_str("</mrow>");
 		print_str("<mrow>");
-		mml_number(caddr(q));	// -2 (sign not printed)
+		mml_number(caddr(q)); // -2 (sign not printed)
 		print_str("</mrow>");
 		print_str("</msup>");
 
@@ -372,9 +374,9 @@ mml_power(struct atom *p)
 
 	if (isminusone(caddr(p))) {
 		print_str("<mfrac>");
-		mml_mn("1");		// 1
+		mml_mn("1"); // 1
 		print_str("<mrow>");
-		mml_expr(cadr(p));	// y
+		mml_expr(cadr(p)); // y
 		print_str("</mrow>");
 		print_str("</mfrac>");
 		return;
@@ -384,13 +386,13 @@ mml_power(struct atom *p)
 
 	if (isnegativenumber(caddr(p))) {
 		print_str("<mfrac>");
-		mml_mn("1");		// 1
+		mml_mn("1"); // 1
 		print_str("<msup>");
 		print_str("<mrow>");
-		mml_base(cadr(p));	// y
+		mml_base(cadr(p)); // y
 		print_str("</mrow>");
 		print_str("<mrow>");
-		mml_number(caddr(p));	// -2 (sign not printed)
+		mml_number(caddr(p)); // -2 (sign not printed)
 		print_str("</mrow>");
 		print_str("</msup>");
 		print_str("</mfrac>");
@@ -401,10 +403,10 @@ mml_power(struct atom *p)
 
 	print_str("<msup>");
 	print_str("<mrow>");
-	mml_base(cadr(p));	// y
+	mml_base(cadr(p)); // y
 	print_str("</mrow>");
 	print_str("<mrow>");
-	mml_exponent(caddr(p));	// x
+	mml_exponent(caddr(p)); // x
 	print_str("</mrow>");
 	print_str("</msup>");
 }

@@ -170,6 +170,7 @@ void (*functab[])(void) = {
 	eval_lisp,
 	eval_log,
 	eval_mag,
+	eval_mathjax,
 	eval_mathml,
 	eval_mod,
 	eval_multiply,

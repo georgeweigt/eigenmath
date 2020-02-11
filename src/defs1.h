@@ -160,6 +160,7 @@ enum {
 	LISP,
 	LOG,
 	MAG,
+	MATHJAX,
 	MATHML,
 	MOD,
 	MULTIPLY,

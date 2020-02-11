@@ -74,6 +74,7 @@ legendre.o \
 log.o \
 mag.o \
 main.o \
+mathjax.o \
 mathml.o \
 mod.o \
 multiply.o \

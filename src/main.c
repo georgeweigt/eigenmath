@@ -4,6 +4,7 @@ int html_flag;
 int html_state;
 int latex_flag;
 int latex_state;
+int mathjax_flag;
 char *infile;
 char inbuf[1000];
 
@@ -17,6 +18,8 @@ main(int argc, char *argv[])
 			html_flag = 1;
 		else if (strcmp(argv[i], "--latex") == 0)
 			latex_flag = 1;
+		else if (strcmp(argv[i], "--mathjax") == 0)
+			mathjax_flag = 1;
 		else
 			infile = argv[i];
 	}
@@ -101,7 +104,7 @@ run_infile(void)
 void
 printbuf(char *s, int color)
 {
-	if (html_flag) {
+	if (html_flag || mathjax_flag) {
 
 		switch (color) {
 
@@ -180,6 +183,16 @@ cmdisplay(void)
 
 		latex_state = 0;
 
+	} else if (mathjax_flag) {
+
+		mathjax();
+
+		fputs("<p>\n", stdout);
+		fputs(outbuf, stdout);
+		fputs("\n\n", stdout);
+
+		html_state = 0;
+
 	} else
 		display();
 }
@@ -191,6 +204,8 @@ begin_document(void)
 		begin_html();
 	else if (latex_flag)
 		begin_latex();
+	else if (mathjax_flag)
+		begin_mathjax();
 }
 
 void
@@ -200,37 +215,36 @@ end_document(void)
 		end_html();
 	else if (latex_flag)
 		end_latex();
+	else if (mathjax_flag)
+		end_mathjax();
 }
 
 void
 begin_html(void)
 {
-	fputs("<html><head></head><body style='font-size:20pt'>\n\n", stdout);
+	fputs("<html>\n<head>\n</head>\n<body style='font-size:20pt'>\n\n", stdout);
 }
 
 void
 end_html(void)
 {
-	fputs("</body></html>\n", stdout);
+	fputs("</body>\n</html>\n", stdout);
 }
-
-char *begin_document_str =
-"\\documentclass[12pt]{article}\n"
-"\\usepackage{amsmath,amsfonts,amssymb}\n"
-"\% change margins\n"
-"\\addtolength{\\oddsidemargin}{-.875in}\n"
-"\\addtolength{\\evensidemargin}{-.875in}\n"
-"\\addtolength{\\textwidth}{1.75in}\n"
-"\\addtolength{\\topmargin}{-.875in}\n"
-"\\addtolength{\\textheight}{1.75in}\n"
-"\\begin{document}\n\n";
-
-char *end_document_str = "\\end{document}\n";
 
 void
 begin_latex(void)
 {
-	fputs(begin_document_str, stdout);
+	fputs(
+	"\\documentclass[12pt]{article}\n"
+	"\\usepackage{amsmath,amsfonts,amssymb}\n"
+	"\% change margins\n"
+	"\\addtolength{\\oddsidemargin}{-.875in}\n"
+	"\\addtolength{\\evensidemargin}{-.875in}\n"
+	"\\addtolength{\\textwidth}{1.75in}\n"
+	"\\addtolength{\\topmargin}{-.875in}\n"
+	"\\addtolength{\\textheight}{1.75in}\n"
+	"\\begin{document}\n\n",
+	stdout);
 }
 
 void
@@ -238,7 +252,28 @@ end_latex(void)
 {
 	if (latex_state)
 		fputs("\\end{verbatim}\n\n", stdout);
-	fputs(end_document_str, stdout);
+	fputs("\\end{document}\n", stdout);
+}
+
+void
+begin_mathjax(void)
+{
+	fputs(
+	"<!DOCTYPE html>\n"
+	"<html>\n"
+	"<head>\n"
+	"<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script>\n"
+	"<script type='text/javascript' id='MathJax-script' async\n"
+	"src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'></script>\n"
+	"</head>\n"
+	"<body>\n",
+	stdout);
+}
+
+void
+end_mathjax(void)
+{
+	fputs("</body>\n</html>\n", stdout);
 }
 
 void
