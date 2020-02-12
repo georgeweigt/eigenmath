@@ -27,11 +27,12 @@ main(int argc, char *argv[])
 
 	begin_document();
 
-	if (infile == NULL)
+	if (infile)
+		run_infile();
+
+	if (isatty(fileno(stdout)))
 		for (;;)
 			eval_stdin();
-
-	run_infile();
 
 	end_document();
 
@@ -68,7 +69,7 @@ run_infile(void)
 	fd = open(infile, O_RDONLY, 0);
 
 	if (fd == -1) {
-		printf("cannot open %s\n", infile);
+		fprintf(stderr, "cannot open %s\n", infile);
 		exit(1);
 	}
 
@@ -77,7 +78,7 @@ run_infile(void)
 	n = lseek(fd, 0, SEEK_END);
 
 	if (n == -1) {
-		printf("lseek err\n");
+		fprintf(stderr, "lseek err\n");
 		exit(1);
 	}
 
@@ -89,7 +90,7 @@ run_infile(void)
 		malloc_kaput();
 
 	if (read(fd, buf, n) != n) {
-		printf("read err\n");
+		fprintf(stderr, "read err\n");
 		exit(1);
 	}
 
