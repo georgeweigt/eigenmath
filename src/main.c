@@ -5,9 +5,9 @@ int doc_state;
 char *infile;
 char inbuf[1000];
 
-#define LATEX 1
-#define MATHML 2
-#define MATHJAX 3
+#define DOC_LATEX 1
+#define DOC_MATHML 2
+#define DOC_MATHJAX 3
 
 int
 main(int argc, char *argv[])
@@ -16,11 +16,11 @@ main(int argc, char *argv[])
 
 	for (i = 1; i < argc; i++) {
 		if (strcmp(argv[i], "--latex") == 0)
-			doc_type = LATEX;
+			doc_type = DOC_LATEX;
 		else if (strcmp(argv[i], "--mathml") == 0)
-			doc_type = MATHML;
+			doc_type = DOC_MATHML;
 		else if (strcmp(argv[i], "--mathjax") == 0)
-			doc_type = MATHJAX;
+			doc_type = DOC_MATHJAX;
 		else
 			infile = argv[i];
 	}
@@ -56,12 +56,12 @@ prompt(void)
 {
 	switch (doc_type) {
 
-	case LATEX:
+	case DOC_LATEX:
 		printf("%%? ");
 		break;
 
-	case MATHML:
-	case MATHJAX:
+	case DOC_MATHML:
+	case DOC_MATHJAX:
 		printf("<!--? ");
 		break;
 
@@ -76,12 +76,12 @@ unprompt(void)
 {
 	switch (doc_type) {
 
-	case LATEX:
+	case DOC_LATEX:
 		printbuf(inbuf, BLUE);
 		break;
 
-	case MATHML:
-	case MATHJAX:
+	case DOC_MATHML:
+	case DOC_MATHJAX:
 		printf("-->\n");
 		printbuf(inbuf, BLUE);
 		break;
@@ -137,7 +137,7 @@ printbuf(char *s, int color)
 {
 	switch (doc_type) {
 
-	case LATEX:
+	case DOC_LATEX:
 
 		if (doc_state == 0) {
 			fputs("\\begin{verbatim}\n", stdout);
@@ -148,8 +148,8 @@ printbuf(char *s, int color)
 
 		break;
 
-	case MATHML:
-	case MATHJAX:
+	case DOC_MATHML:
+	case DOC_MATHJAX:
 
 		switch (color) {
 
@@ -204,7 +204,7 @@ cmdisplay(void)
 {
 	switch (doc_type) {
 
-	case LATEX:
+	case DOC_LATEX:
 
 		latex();
 
@@ -216,7 +216,7 @@ cmdisplay(void)
 
 		break;
 
-	case MATHML:
+	case DOC_MATHML:
 
 		mathml();
 
@@ -226,7 +226,7 @@ cmdisplay(void)
 
 		break;
 
-	case MATHJAX:
+	case DOC_MATHJAX:
 
 		mathjax();
 
@@ -249,15 +249,15 @@ begin_document(void)
 {
 	switch (doc_type) {
 
-	case LATEX:
+	case DOC_LATEX:
 		begin_latex();
 		break;
 
-	case MATHML:
+	case DOC_MATHML:
 		begin_mathml();
 		break;
 
-	case MATHJAX:
+	case DOC_MATHJAX:
 		begin_mathjax();
 		break;
 
@@ -271,15 +271,15 @@ end_document(void)
 {
 	switch (doc_type) {
 
-	case LATEX:
+	case DOC_LATEX:
 		end_latex();
 		break;
 
-	case MATHML:
+	case DOC_MATHML:
 		end_mathml();
 		break;
 
-	case MATHJAX:
+	case DOC_MATHJAX:
 		end_mathjax();
 		break;
 
