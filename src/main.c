@@ -1,11 +1,13 @@
 #include "defs.h"
 
-int html_flag;
-int latex_flag;
-int mathjax_flag;
+int doc_type;
 int doc_state;
 char *infile;
 char inbuf[1000];
+
+#define LATEX 1
+#define MATHML 2
+#define MATHJAX 3
 
 int
 main(int argc, char *argv[])
@@ -13,12 +15,12 @@ main(int argc, char *argv[])
 	int i;
 
 	for (i = 1; i < argc; i++) {
-		if (strcmp(argv[i], "--html") == 0)
-			html_flag = 1;
-		else if (strcmp(argv[i], "--latex") == 0)
-			latex_flag = 1;
+		if (strcmp(argv[i], "--latex") == 0)
+			doc_type = LATEX;
+		else if (strcmp(argv[i], "--mathml") == 0)
+			doc_type = MATHML;
 		else if (strcmp(argv[i], "--mathjax") == 0)
-			mathjax_flag = 1;
+			doc_type = MATHJAX;
 		else
 			infile = argv[i];
 	}
@@ -42,22 +44,51 @@ main(int argc, char *argv[])
 void
 eval_stdin(void)
 {
-	if (html_flag || mathjax_flag)
-		printf("<!--? ");
-	else if (latex_flag)
-		printf("%%? ");
-	else
-		printf("? ");
-
+	prompt();
 	fgets(inbuf, sizeof inbuf, stdin);
-
-	if (html_flag || mathjax_flag)
-		printf("-->\n");
-
-	if (html_flag || latex_flag || mathjax_flag)
-		printbuf(inbuf, BLUE);
+	unprompt();
 
 	run(inbuf);
+}
+
+void
+prompt(void)
+{
+	switch (doc_type) {
+
+	case LATEX:
+		printf("%%? ");
+		break;
+
+	case MATHML:
+	case MATHJAX:
+		printf("<!--? ");
+		break;
+
+	default:
+		printf("? ");
+		break;
+	}
+}
+
+void
+unprompt(void)
+{
+	switch (doc_type) {
+
+	case LATEX:
+		printbuf(inbuf, BLUE);
+		break;
+
+	case MATHML:
+	case MATHJAX:
+		printf("-->\n");
+		printbuf(inbuf, BLUE);
+		break;
+
+	default:
+		break;
+	}
 }
 
 void
@@ -104,27 +135,41 @@ run_infile(void)
 void
 printbuf(char *s, int color)
 {
-	if (html_flag || mathjax_flag) {
+	switch (doc_type) {
+
+	case LATEX:
+
+		if (doc_state == 0) {
+			fputs("\\begin{verbatim}\n", stdout);
+			doc_state = 1;
+		}
+
+		fputs(s, stdout);
+
+		break;
+
+	case MATHML:
+	case MATHJAX:
 
 		switch (color) {
 
 		case BLACK:
 			if (doc_state != 1) {
-				fputs("<p style='color:black;font-family:courier'>\n", stdout);
+				fputs("<p style='color:black;font-family:courier;font-size:20pt'>\n", stdout);
 				doc_state = 1;
 			}
 			break;
 
 		case BLUE:
 			if (doc_state != 2) {
-				fputs("<p style='color:blue;font-family:courier'>\n", stdout);
+				fputs("<p style='color:blue;font-family:courier;font-size:20pt'>\n", stdout);
 				doc_state = 2;
 			}
 			break;
 
 		case RED:
 			if (doc_state != 3) {
-				fputs("<p style='color:red;font-family:courier'>\n", stdout);
+				fputs("<p style='color:red;font-family:courier;font-size:20pt'>\n", stdout);
 				doc_state = 3;
 			}
 			break;
@@ -146,49 +191,55 @@ printbuf(char *s, int color)
 
 		fputc('\n', stdout);
 
-	} else if (latex_flag) {
+		break;
 
-		if (doc_state == 0) {
-			fputs("\\begin{verbatim}\n", stdout);
-			doc_state = 1;
-		}
-
+	default:
 		fputs(s, stdout);
-
-	} else
-		fputs(s, stdout);
+		break;
+	}
 }
 
 void
 cmdisplay(void)
 {
-	if (html_flag) {
+	switch (doc_type) {
 
-		mathml();
-
-		fputs("<p>\n", stdout);
-		fputs(outbuf, stdout);
-		fputs("\n\n", stdout);
-
-	} else if (latex_flag) {
+	case LATEX:
 
 		latex();
 
 		if (doc_state)
 			fputs("\\end{verbatim}\n\n", stdout);
+
 		fputs(outbuf, stdout);
 		fputs("\n\n", stdout);
 
-	} else if (mathjax_flag) {
+		break;
+
+	case MATHML:
+
+		mathml();
+
+		fputs("<p style='font-size:20pt'>\n", stdout);
+		fputs(outbuf, stdout);
+		fputs("\n\n", stdout);
+
+		break;
+
+	case MATHJAX:
 
 		mathjax();
 
-		fputs("<p>\n", stdout);
+		fputs("<p style='font-size:20pt'>\n", stdout);
 		fputs(outbuf, stdout);
 		fputs("\n\n", stdout);
 
-	} else
+		break;
+
+	default:
 		display();
+		break;
+	}
 
 	doc_state = 0;
 }
@@ -196,35 +247,45 @@ cmdisplay(void)
 void
 begin_document(void)
 {
-	if (html_flag)
-		begin_html();
-	else if (latex_flag)
+	switch (doc_type) {
+
+	case LATEX:
 		begin_latex();
-	else if (mathjax_flag)
+		break;
+
+	case MATHML:
+		begin_mathml();
+		break;
+
+	case MATHJAX:
 		begin_mathjax();
+		break;
+
+	default:
+		break;
+	}
 }
 
 void
 end_document(void)
 {
-	if (html_flag)
-		end_html();
-	else if (latex_flag)
+	switch (doc_type) {
+
+	case LATEX:
 		end_latex();
-	else if (mathjax_flag)
+		break;
+
+	case MATHML:
+		end_mathml();
+		break;
+
+	case MATHJAX:
 		end_mathjax();
-}
+		break;
 
-void
-begin_html(void)
-{
-	fputs("<html>\n<head>\n</head>\n<body style='font-size:20pt'>\n\n", stdout);
-}
-
-void
-end_html(void)
-{
-	fputs("</body>\n</html>\n", stdout);
+	default:
+		break;
+	}
 }
 
 void
@@ -252,6 +313,18 @@ end_latex(void)
 }
 
 void
+begin_mathml(void)
+{
+	fputs("<html>\n<head>\n</head>\n<body>\n\n", stdout);
+}
+
+void
+end_mathml(void)
+{
+	fputs("</body>\n</html>\n", stdout);
+}
+
+void
 begin_mathjax(void)
 {
 	fputs(
@@ -262,7 +335,7 @@ begin_mathjax(void)
 	"<script type='text/javascript' id='MathJax-script' async\n"
 	"src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'></script>\n"
 	"</head>\n"
-	"<body>\n",
+	"<body>\n\n",
 	stdout);
 }
 

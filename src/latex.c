@@ -70,6 +70,7 @@ latex_expr(struct atom *p)
 void
 latex_term(struct atom *p)
 {
+	int n = 0;
 	struct atom *q, *t;
 
 	if (car(p) == symbol(MULTIPLY)) {
@@ -102,12 +103,9 @@ latex_term(struct atom *p)
 		if (isrational(q) && isminusone(q))
 			p = cdr(p); // skip -1
 
-		latex_factor(car(p));
-
-		p = cdr(p);
-
 		while (iscons(p)) {
-			print_str("\\,"); // thin space between factors
+			if (++n > 1)
+				print_str("\\,"); // thin space between factors
 			latex_factor(car(p));
 			p = cdr(p);
 		}
@@ -557,7 +555,7 @@ latex_symbol(struct atom *p)
 	int n;
 	char *s;
 
-	if (iskeyword(p) || p == symbol(AUTOEXPAND) || p == symbol(LAST) || p == symbol(TRACE) || p == symbol(TTY)) {
+	if (iskeyword(p) || p == symbol(LAST) || p == symbol(NIL) || p == symbol(TRACE) || p == symbol(TTY)) {
 		print_str("\\operatorname{");
 		print_str(p->u.printname);
 		print_str("}");

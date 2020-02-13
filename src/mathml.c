@@ -2,10 +2,10 @@
 
 #define MML_MINUS "<mo rspace='0'>-</mo>"
 #define MML_MINUS_1 "<mo>(</mo><mo rspace='0'>-</mo><mn>1</mn><mo>)</mo>"
-#define MML_LP "<mo form='prefix'>(</mo>"
-#define MML_RP "<mo form='postfix'>)</mo>"
-#define MML_LB "<mo form='prefix'>[</mo>"
-#define MML_RB "<mo form='postfix'>]</mo>"
+#define MML_LP "<mrow><mo>(</mo>"
+#define MML_RP "<mo>)</mo></mrow>"
+#define MML_LB "<mrow><mo>[</mo>"
+#define MML_RB "<mo>]</mo></mrow>"
 
 void
 eval_mathml(void)
@@ -596,7 +596,7 @@ mml_symbol(struct atom *p)
 	int n;
 	char *s;
 
-	if (iskeyword(p) || p == symbol(AUTOEXPAND) || p == symbol(LAST) || p == symbol(TRACE) || p == symbol(TTY)) {
+	if (iskeyword(p) || p == symbol(LAST) || p == symbol(NIL) || p == symbol(TRACE) || p == symbol(TTY)) {
 		mml_mi(p->u.printname);
 		return;
 	}
@@ -695,14 +695,16 @@ mml_tensor(struct atom *p)
 	// if odd rank then vector
 
 	if (t->ndim % 2 == 1) {
-		print_str("<mfenced><mtable>");
+		print_str(MML_LP);
+		print_str("<mtable>");
 		n = t->dim[0];
 		for (i = 0; i < n; i++) {
 			print_str("<mtr><mtd>");
 			mml_matrix(t, 1, &k);
 			print_str("</mtd></mtr>");
 		}
-		print_str("</mtable></mfenced>");
+		print_str("</mtable>");
+		print_str(MML_RP);
 	} else
 		mml_matrix(t, 0, &k);
 }
@@ -721,7 +723,8 @@ mml_matrix(struct tensor *t, int d, int *k)
 	ni = t->dim[d];
 	nj = t->dim[d + 1];
 
-	print_str("<mfenced><mtable>");
+	print_str(MML_LP);
+	print_str("<mtable>");
 
 	for (i = 0; i < ni; i++) {
 		print_str("<mtr>");
@@ -733,7 +736,8 @@ mml_matrix(struct tensor *t, int d, int *k)
 		print_str("</mtr>");
 	}
 
-	print_str("</mtable></mfenced>");
+	print_str("</mtable>");
+	print_str(MML_RP);
 }
 
 void

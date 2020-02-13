@@ -2627,3 +2627,5 @@ check(last=123456789123456789)
 clear
 status
 "all tests passed"
+
+exit

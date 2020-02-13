@@ -1213,3 +1213,5 @@ check(GDD=0)
 clear
 status
 "all tests passed"
+
+exit

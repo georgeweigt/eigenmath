@@ -1,4 +1,4 @@
-/* February 12, 2020
+/* February 13, 2020
 
 To build and run:
 
@@ -11,15 +11,21 @@ To run a script:
 
 	./eigenmath scriptfilename
 
+Sample scripts are available at www.eigenmath.org
+
 To generate LaTeX output:
 
         ./eigenmath --latex scriptfilename >foo.tex
 
 To generate MathML output:
 
-        ./eigenmath --html scriptfilename >foo.html
+        ./eigenmath --mathml scriptfilename >foo.html
 
-Sample scripts are available at www.eigenmath.org
+To generate MathJax output:
+
+        ./eigenmath --mathjax scriptfilename >foo.html
+
+MathML and MathJax results look best on Firefox.
 
 
 BSD 2-Clause License
