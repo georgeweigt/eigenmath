@@ -430,7 +430,7 @@ void mag_nib(void);
 int main(int argc, char *argv[]);
 void run_stdin(void);
 void prompt(void);
-void unprompt(void);
+void echo(void);
 void run_infile(void);
 void printbuf(char *s, int color);
 void cmdisplay(void);

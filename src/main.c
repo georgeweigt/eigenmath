@@ -31,8 +31,7 @@ main(int argc, char *argv[])
 		run_infile();
 
 	if (isatty(fileno(stdout)))
-		for (;;)
-			run_stdin();
+		run_stdin();
 
 	end_document();
 
@@ -42,11 +41,12 @@ main(int argc, char *argv[])
 void
 run_stdin(void)
 {
-	prompt();
-	fgets(inbuf, sizeof inbuf, stdin);
-	unprompt();
-
-	run(inbuf);
+	for (;;) {
+		prompt();
+		fgets(inbuf, sizeof inbuf, stdin);
+		echo();
+		run(inbuf);
+	}
 }
 
 void
@@ -70,7 +70,7 @@ prompt(void)
 }
 
 void
-unprompt(void)
+echo(void)
 {
 	switch (doc_type) {
 
