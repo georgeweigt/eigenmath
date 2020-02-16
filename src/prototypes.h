@@ -428,7 +428,7 @@ void eval_mag(void);
 void mag(void);
 void mag_nib(void);
 int main(int argc, char *argv[]);
-void eval_stdin(void);
+void run_stdin(void);
 void prompt(void);
 void unprompt(void);
 void run_infile(void);

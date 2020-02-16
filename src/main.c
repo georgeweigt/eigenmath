@@ -32,7 +32,7 @@ main(int argc, char *argv[])
 
 	if (isatty(fileno(stdout)))
 		for (;;)
-			eval_stdin();
+			run_stdin();
 
 	end_document();
 
@@ -40,7 +40,7 @@ main(int argc, char *argv[])
 }
 
 void
-eval_stdin(void)
+run_stdin(void)
 {
 	prompt();
 	fgets(inbuf, sizeof inbuf, stdin);
