@@ -292,12 +292,7 @@ begin_latex(void)
 	fputs(
 	"\\documentclass[12pt]{article}\n"
 	"\\usepackage{amsmath,amsfonts,amssymb}\n"
-	"\% change margins\n"
-	"\\addtolength{\\oddsidemargin}{-.875in}\n"
-	"\\addtolength{\\evensidemargin}{-.875in}\n"
-	"\\addtolength{\\textwidth}{1.75in}\n"
-	"\\addtolength{\\topmargin}{-.875in}\n"
-	"\\addtolength{\\textheight}{1.75in}\n"
+	"\\usepackage[margin=2cm]{geometry}\n"
 	"\\begin{document}\n\n",
 	stdout);
 }
