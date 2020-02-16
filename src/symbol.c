@@ -257,7 +257,6 @@ init_symbol_table(void)
 	std_symbol("$x", METAX);
 	std_symbol("$X", SPECX);
 
-	std_symbol("autoexpand", AUTOEXPAND);
 	std_symbol("last", LAST);
 	std_symbol("trace", TRACE);
 	std_symbol("tty", TTY);

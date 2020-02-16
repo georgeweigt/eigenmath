@@ -220,7 +220,6 @@ enum {
 	METAX,
 	SPECX,
 
-	AUTOEXPAND,
 	LAST,
 	TRACE,
 	TTY,

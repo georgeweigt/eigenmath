@@ -599,7 +599,6 @@ void roots2(void);
 void roots3(void);
 void mini_solve(void);
 void run(char *s);
-void check_stack(void);
 void stop(char *s);
 void clear(int init);
 void print_status(void);
