@@ -25,8 +25,6 @@ main(int argc, char *argv[])
 			infile = argv[i];
 	}
 
-	clear();
-
 	begin_document();
 
 	if (infile)

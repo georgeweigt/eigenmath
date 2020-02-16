@@ -12,7 +12,7 @@ run(char *s)
 	if (setjmp(stop_return))
 		return;
 
-	init_globals();
+	clear(0);
 
 	while (1) {
 
@@ -33,7 +33,7 @@ run(char *s)
 		check_stack();
 
 		if (clear_flag)
-			clear();
+			clear(1);
 	}
 }
 
@@ -85,13 +85,34 @@ char *init_script[] = {
 };
 
 void
-clear(void)
+clear(int init)
 {
 	int i, n;
 
-	init_symbol_table();
+	stop_flag = 0;
+	draw_flag = 0;
+	clear_flag = 0;
 
-	init_globals();
+	tos = 0;
+	tof = 0;
+
+	p0 = symbol(NIL);
+	p1 = symbol(NIL);
+	p2 = symbol(NIL);
+	p3 = symbol(NIL);
+	p4 = symbol(NIL);
+	p5 = symbol(NIL);
+	p6 = symbol(NIL);
+	p7 = symbol(NIL);
+	p8 = symbol(NIL);
+	p9 = symbol(NIL);
+
+	if (symtab[0].u.printname && init == 0) {
+		set_binding(symbol(TRACE), zero);
+		return;
+	}
+
+	init_symbol_table();
 
 	push_integer(0);
 	zero = pop();
@@ -117,30 +138,6 @@ clear(void)
 	}
 
 	gc();
-}
-
-void
-init_globals(void)
-{
-	stop_flag = 0;
-	draw_flag = 0;
-	clear_flag = 0;
-
-	tos = 0;
-	tof = 0;
-
-	p0 = symbol(NIL);
-	p1 = symbol(NIL);
-	p2 = symbol(NIL);
-	p3 = symbol(NIL);
-	p4 = symbol(NIL);
-	p5 = symbol(NIL);
-	p6 = symbol(NIL);
-	p7 = symbol(NIL);
-	p8 = symbol(NIL);
-	p9 = symbol(NIL);
-
-	set_binding(symbol(TRACE), zero); // start with trace disabled
 }
 
 void
