@@ -600,7 +600,7 @@ void roots3(void);
 void mini_solve(void);
 void run(char *s);
 void stop(char *s);
-void clear(int init);
+void init(int level);
 void print_status(void);
 void trace_input(char *s);
 void trace_error(void);
