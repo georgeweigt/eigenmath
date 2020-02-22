@@ -1053,6 +1053,8 @@ gcd(12,18,9)
 check(last = 3)
 hermite(x,n)
 check(last = hermite(x,n))
+hermite(x,-1)
+check(last = 0)
 hermite(x,0)-1
 check(last = 0)
 hermite(x,1)-2*x
