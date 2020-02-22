@@ -335,7 +335,6 @@ void guess(void);
 void eval_hermite(void);
 void hermite(void);
 void hermite_nib(void);
-void hermite2(int n);
 void eval_hilbert(void);
 void hilbert(void);
 void push_zero_matrix(int i, int j);
