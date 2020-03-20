@@ -1,7 +1,9 @@
 CFLAGS = -Wall -O0
 CC = gcc
 
-objects = $(shell ls -m *.c | sed "s/,//g;s/\.c/\.o/g")
+# := means evaluate then assign
+
+objects := $(shell ls -m *.c | sed "s/,//g;s/\.c/\.o/g")
 
 eigenmath : $(objects)
 	gcc -o eigenmath $(objects) -lm
