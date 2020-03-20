@@ -1,4 +1,4 @@
--- ./eigenmath --latex latextest >foo.tex
+-- ./eigenmath --latex latextest | tee foo.tex
 
 trace = 1
 

@@ -15,15 +15,15 @@ Sample scripts are available at www.eigenmath.org
 
 To generate LaTeX output:
 
-        ./eigenmath --latex scriptfilename >foo.tex
+        ./eigenmath --latex scriptfilename | tee foo.tex
 
 To generate MathML output:
 
-        ./eigenmath --mathml scriptfilename >foo.html
+        ./eigenmath --mathml scriptfilename | tee foo.html
 
 To generate MathJax output:
 
-        ./eigenmath --mathjax scriptfilename >foo.html
+        ./eigenmath --mathjax scriptfilename | tee foo.html
 
 MathML and MathJax results look best on Firefox.
 
