@@ -1,8 +1,9 @@
+# sed removes commas
 # pdflatex twice for table of contents
 
-default:
+eigenmath.pdf: $(shell ls -m *.tex | sed "s/,//g")
 	pdflatex eigenmath.tex
 	pdflatex eigenmath.tex
 
 clean:
-	rm -f eigenmath.pdf *.log *.aux *.toc *.synctex.gz
+	rm -f *.aux *.log *.synctex.gz *.toc
