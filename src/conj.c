@@ -48,7 +48,7 @@ conjugate_subst_nib(void)
 
 	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
 		push_symbol(POWER);
-		push(cadr(p1));
+		push(minusone);
 		push(caddr(p1));
 		negate();
 		list(3);
