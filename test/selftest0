@@ -942,7 +942,19 @@ f(x) = for(i,1,3,A[i] = x)
 f(1)
 check(A==(1,1,1))
 
-trace=0
+-- this was broken, now fixed
+
+clear
+trace = 1
+
+z = sqrt(i)
+z conj(z)
+check(last == 1)
+
+z = (-1)^a
+z conj(z)
+check(last == 1)
+
 clear
 status
 "all tests passed"

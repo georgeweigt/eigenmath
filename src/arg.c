@@ -42,32 +42,42 @@ arg_nib(void)
 
 	p1 = pop();
 
-	if (isnegativenumber(p1)) {
-		if (isdouble(p1))
-			push_double(M_PI);
-		else
-			push(symbol(PI));
-		negate();
+	if (isrational(p1)) {
+		if (p1->sign == MPLUS)
+			push(zero);
+		else {
+			push_symbol(PI);
+			negate();
+		}
 		return;
 	}
 
+	if (isdouble(p1)) {
+		if (p1->u.d >= 0.0)
+			push_double(0.0);
+		else
+			push_double(-M_PI);
+		return;
+	}
+
+	// (-1) ^ expr
+
 	if (car(p1) == symbol(POWER) && equaln(cadr(p1), -1)) {
-		// -1 to a power
 		push(symbol(PI));
 		push(caddr(p1));
 		multiply();
 		return;
 	}
 
+	// e ^ expr
+
 	if (car(p1) == symbol(POWER) && cadr(p1) == symbol(EXP1)) {
-		// exponential
 		push(caddr(p1));
 		imag();
 		return;
 	}
 
 	if (car(p1) == symbol(MULTIPLY)) {
-		// product of factors
 		h = tos;
 		p1 = cdr(p1);
 		while (iscons(p1)) {
@@ -86,7 +96,6 @@ arg_nib(void)
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		// sum of terms
 		push(p1);
 		rect(); // convert polar and clock forms
 		p1 = pop();
@@ -102,10 +111,5 @@ arg_nib(void)
 		return;
 	}
 
-	// pure real
-
-	if (isdouble(p1))
-		push_double(0.0);
-	else
-		push(zero);
+	push(zero);
 }

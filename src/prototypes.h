@@ -121,6 +121,8 @@ int coeff(void);
 void eval_cofactor(void);
 void eval_conj(void);
 void conjugate(void);
+void conjugate_subst(void);
+void conjugate_subst_nib(void);
 void eval_contract(void);
 void contract(void);
 void contract_nib(void);
