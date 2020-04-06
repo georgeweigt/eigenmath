@@ -69,11 +69,6 @@ sine_nib(void)
 		return;
 	}
 
-	if (car(p1) == symbol(ARCSIN)) {
-		push(cadr(p1));
-		return;
-	}
-
 	// sin(arctan(y,x)) = y (x^2 + y^2)(-1/2)
 
 	if (car(p1) == symbol(ARCTAN)) {

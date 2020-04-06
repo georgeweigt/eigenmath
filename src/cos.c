@@ -66,11 +66,6 @@ cosine_nib(void)
 		return;
 	}
 
-	if (car(p1) == symbol(ARCCOS)) {
-		push(cadr(p1));
-		return;
-	}
-
 	// cos(arctan(y,x)) = x (x^2 + y^2)^(-1/2)
 
 	if (car(p1) == symbol(ARCTAN)) {

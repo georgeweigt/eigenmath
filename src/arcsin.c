@@ -49,11 +49,6 @@ arcsin_nib(void)
 		return;
 	}
 
-	if (car(p1) == symbol(SIN)) {
-		push(cadr(p1));
-		return;
-	}
-
 	// if p1 == 1/sqrt(2) then return 1/4*pi (45 degrees)
 
 	if (isoneoversqrttwo(p1)) {

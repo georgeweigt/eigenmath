@@ -91,5 +91,4 @@ absval_tensor(void)
 	push_rational(1, 2);
 	power();
 	simplify();
-	eval();
 }
