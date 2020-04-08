@@ -11,13 +11,20 @@ eval_abs(void)
 void
 absval(void)
 {
-	int h;
 	save();
+	absval_nib();
+	restore();
+}
+
+void
+absval_nib(void)
+{
+	int h;
+
 	p1 = pop();
 
 	if (istensor(p1)) {
 		absval_tensor();
-		restore();
 		return;
 	}
 
@@ -25,7 +32,6 @@ absval(void)
 		push(p1);
 		if (isnegativenumber(p1))
 			negate();
-		restore();
 		return;
 	}
 
@@ -36,7 +42,6 @@ absval(void)
 		multiply();
 		push_rational(1, 2);
 		power();
-		restore();
 		return;
 	}
 
@@ -47,7 +52,6 @@ absval(void)
 		reciprocate();
 		absval();
 		reciprocate();
-		restore();
 		return;
 	}
 
@@ -62,7 +66,6 @@ absval(void)
 			p1 = cdr(p1);
 		}
 		multiply_factors(tos - h);
-		restore();
 		return;
 	}
 
@@ -75,8 +78,6 @@ absval(void)
 	push_symbol(ABS);
 	push(p1);
 	list(2);
-
-	restore();
 }
 
 void
