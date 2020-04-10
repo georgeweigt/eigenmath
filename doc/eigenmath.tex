@@ -1,15 +1,19 @@
 \documentclass[11pt]{article}
-\usepackage{fancyvrb,amsmath,amsfonts,amssymb,graphicx,parskip,listings}
+% amssymb load amsfonts
+\usepackage{fancyvrb,amsmath,amssymb,graphicx}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \usepackage{tikz}
 \usepackage[margin=2cm]{geometry}
+
+\raggedbottom
 
 \begin{document}
 
 \begin{center}
 {\LARGE Eigenmath Manual}
 
-December 19, 2019
+\bigskip
+April 8, 2019
 \end{center}
 
 \tableofcontents
@@ -50,63 +54,6 @@ December 19, 2019
 
 \input{stokes-theorem}
 
-%%%%%
-
-\section{Examples}
-
-\input{francois-viete}
-
-\input{curl-in-tensor-form}
-
-\input{qho}
-
-\input{hydrogen-wavefunctions}
-
-\input{space-shuttle-and-corvette}
-
-\input{avogadro}
-
-\input{zerozero}
-
-\subsection{Euler's identity}
-It is easy to ``believe'' that $e^{i\pi}=-1$ by looking at Taylor series expansions.
-
-First, consider the Taylor series expansion of $e^y$.
-\[
-e^y=1+y+\frac{y^2}{2!}+\frac{y^3}{3!}+\frac{y^4}{4!}
-+\frac{y^5}{5!}+\frac{y^6}{6!}+\frac{y^7}{7!}+\cdots
-\]
-Next, substitute $ix$ for $y$.
-\begin{align*}
-e^{ix}&=1+ix+\frac{(ix)^2}{2!}+\frac{(ix)^3}{3!}+\frac{(ix)^4}{4!}
-+\frac{(ix)^5}{5!}+\frac{(ix)^6}{6!}+\frac{(ix)^7}{7!}+\cdots\\
-&=1+ix-\frac{x^2}{2!}-i\frac{x^3}{3!}+\frac{x^4}{4!}
-+i\frac{x^5}{5!}-\frac{x^6}{6!}-i\frac{x^7}{7!}+\cdots
-\end{align*}
-Next, collect the real and imaginary terms.
-\begin{align*}
-e^{ix}&=\left(1-\frac{x^2}{2!}+\frac{x^4}{4!}-\frac{x^6}{6!}+\cdots\right)
-+i\left(x-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!}+\cdots\right)\\
-&=\cos x+i\sin x
-\end{align*}
-Finally, substitute $\pi$ for $x$.
-\[
-e^{i\pi}=\cos\pi+i\sin\pi=-1
-\]
-The following script checks the identity $e^{ix}=\cos x+i\sin x$ for order $n$.
-\begin{Verbatim}[formatcom=\color{blue}]
-n = 7
-E = taylor(e^y,y,n)
-E = eval(E,y,i*x)
-C = taylor(cos(x),x,n)
-S = taylor(sin(x),x,n)
-test(E=C+i*S,"true","false")
-\end{Verbatim}
-
-\newpage
-
-\input{list-of-functions}
-
 \newpage
 
 \input{syntax}
@@ -114,5 +61,9 @@ test(E=C+i*S,"true","false")
 \newpage
 
 \input{tricks}
+
+\newpage
+
+\input{help}
 
 \end{document}

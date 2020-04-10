@@ -1,5 +1,5 @@
-
 \subsection{Scripts}
+
 Scripting is a way of automatically running a sequence of calculations.
 A script is entered in the left-hand field of the Eigenmath window.
 
@@ -10,12 +10,15 @@ A script is entered in the left-hand field of the Eigenmath window.
 \end{tikzpicture}
 \end{center}
 
+\noindent
 To create a script, enter one calculation per line in the script field.
 Nothing happens until the Run button is clicked. When the Run button is
 clicked, Eigenmath evaluates the script line by line. After a script runs,
 all of its symbols are available for immediate mode calculation.
 Scripts can be saved and loaded using the File menu.
 
+\bigskip
+\noindent
 Here is an example script that can be pasted into the script field
 and then run by clicking the Run button.
 
@@ -27,12 +30,19 @@ X = dot(inv(A),B)
 X
 \end{Verbatim}
 
+\noindent
 After clicking the Run button, the following result is displayed.
 
+\bigskip
+\noindent
 \verb$Solve for vector X in AX = B$
 
+\bigskip
+\noindent
 $\displaystyle X=\begin{bmatrix}-4\\ \frac{9}{2}\end{bmatrix}$
 
+\bigskip
+\noindent
 A handy debugging aid is to include the line $trace=1$ in the script.
 When $trace=1$ each line of the script is displayed as it is evaluated.
 For example, here is the previous script with the addition of
@@ -47,6 +57,7 @@ X = dot(inv(A),B)
 X
 \end{Verbatim}
 
+\noindent
 The result is
 
 \begin{Verbatim}
@@ -57,4 +68,5 @@ X = dot(inv(A),B)
 X
 \end{Verbatim}
 
+\noindent
 $X=\begin{bmatrix}-4\\ \frac{9}{2}\end{bmatrix}$

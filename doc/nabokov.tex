@@ -1,5 +1,6 @@
-
 \section{Introduction}
+
+\noindent
 The field at the bottom of the Eigenmath window is for entering
 calculations that get evaluated right away.
 
@@ -10,8 +11,9 @@ calculations that get evaluated right away.
 \end{tikzpicture}
 \end{center}
 
+\noindent
 For example, let us check the following
-arithmetic from Vladimir Nabokov's autobiography {\it Speak, Memory.}
+arithmetic from Vladimir Nabokov's autobiography ``Speak,~Memory.''
 
 \begin{quote}
 A foolish tutor had explained logarithms to me much too early, and I had
@@ -22,39 +24,59 @@ seventeenth root of, say,
 (I am not sure I have got this right; anyway the root was 212).
 \end{quote}
 
+\noindent
 We can check Nabokov's arithmetic by entering the following calculation.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 212^17
-\end{Verbatim}
+\end{verbatim}
+}
 
+\noindent
 After pressing the return key, Eigenmath displays the following result.
 
+\bigskip
+\noindent
 $3529471145760275132301897342055866171392$
 
+\bigskip
+\noindent
 So Nabokov did get it right after all.
 Now let us see if Eigenmath can find the
 seventeenth root of this number, like the Hindu calculator could.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 N = 212^17
 N^(1/17)
-\end{Verbatim}
+\end{verbatim}
+}
 
+\noindent
 Eigenmath displays the following result.
 
+\bigskip
+\noindent
 $212$
 
+\bigskip
+\noindent
 When a symbol is assigned a value, such as $N$ above,
 no result is printed.
 To see the value of a symbol, just evaluate it.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 N
-\end{Verbatim}
+\end{verbatim}
+}
 
+\noindent
 $N=3529471145760275132301897342055866171392$
 
+\bigskip
+\noindent
 The previous example shows a convention that will be used throughout
 this manual.
 That is, the color blue indicates something that the user should type.

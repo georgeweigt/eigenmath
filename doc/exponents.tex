@@ -1,5 +1,5 @@
-
 \subsection{Exponents}
+
 Eigenmath requires parentheses around negative exponents.
 For example,
 
@@ -7,12 +7,14 @@ For example,
 10^(-3)
 \end{Verbatim}
 
+\noindent
 instead of
 
 \begin{Verbatim}[formatcom=\color{blue}]
 10^-3
 \end{Verbatim}
 
+\noindent
 The reason for this is that the binding of the negative sign is not always
 obvious.
 For example, consider
@@ -21,6 +23,7 @@ For example, consider
 x^-1/2
 \end{Verbatim}
 
+\noindent
 It is not clear whether the exponent should be $-1$ or $-1/2$.
 So Eigenmath requires
 
@@ -28,7 +31,11 @@ So Eigenmath requires
 x^(-1/2)
 \end{Verbatim}
 
+\noindent
 which is unambiguous.
+
+\bigskip
+\noindent
 In general, parentheses are always required when the exponent
 is an expression.
 For example, \verb$x^1/2$ is evaluated as $(x^1)/2$ which
@@ -38,12 +45,16 @@ is probably not the desired result.
 x^1/2
 \end{Verbatim}
 
+\noindent
 $\displaystyle \frac{1}{2}x$
 
+\bigskip
+\noindent
 Using \verb$x^(1/2)$ yields the desired result.
 
 \begin{Verbatim}[formatcom=\color{blue}]
 x^(1/2)
 \end{Verbatim}
 
+\noindent
 $\displaystyle x^{1/2}$

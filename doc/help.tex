@@ -1,905 +1,812 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Eigenmath Help</title>
-<style type="text/css">
-pre {font-family:courier;font-size:14pt}
-</style>
-</head>
-<body style="font-size:14pt">
+\section{Function Reference}
 
-<p>
-The Eigenmath manual and additional support materials are available at
-<a href="http://www.eigenmath.org">www.eigenmath.org</a>
+\subsection*{abs($x$)}
 
-<p>
-<table style="font-family:courier;width:100%">
-<tr>
+Returns the absolute value or vector length of $x$.
 
-<td valign="top">
-<a href="#abs">abs</a><br>
-<a href="#adj">adj</a><br>
-<a href="#and">and</a><br>
-<a href="#arccos">arccos</a><br>
-<a href="#arccosh">arccosh</a><br>
-<a href="#arcsin">arcsin</a><br>
-<a href="#arcsinh">arcsinh</a><br>
-<a href="#arctan">arctan</a><br>
-<a href="#arctanh">arctanh</a><br>
-<a href="#arg">arg</a><br>
-<a href="#besselj">besselj</a><br>
-<a href="#binding">binding</a><br>
-<a href="#binomial">binomial</a><br>
-<a href="#ceiling">ceiling</a><br>
-<a href="#check">check</a><br>
-<a href="#choose">choose</a><br>
-<a href="#circexp">circexp</a><br>
-<a href="#clear">clear</a><br>
-<a href="#clock">clock</a><br>
-</td>
-
-<td valign="top">
-<a href="#coeff">coeff</a><br>
-<a href="#cofactor">cofactor</a><br>
-<a href="#conj">conj</a><br>
-<a href="#contract">contract</a><br>
-<a href="#cos">cos</a><br>
-<a href="#cosh">cosh</a><br>
-<a href="#cross">cross</a><br>
-<a href="#curl">curl</a><br>
-<a href="#d">d</a><br>
-<a href="#defint">defint</a><br>
-<a href="#deg">deg</a><br>
-<a href="#denominator">denominator</a><br>
-<a href="#det">det</a><br>
-<a href="#dim">dim</a><br>
-<a href="#div">div</a><br>
-<a href="#do">do</a><br>
-<a href="#dot">dot</a><br>
-<a href="#draw">draw</a><br>
-<a href="#e">e</a><br>
-</td>
-
-<td valign="top">
-<a href="#eigen">eigen</a><br>
-<a href="#erf">erf</a><br>
-<a href="#erfc">erfc</a><br>
-<a href="#eval">eval</a><br>
-<a href="#exp">exp</a><br>
-<a href="#expand">expand</a><br>
-<a href="#expcos">expcos</a><br>
-<a href="#expcosh">expcosh</a><br>
-<a href="#expsin">expsin</a><br>
-<a href="#expsinh">expsinh</a><br>
-<a href="#exptan">exptan</a><br>
-<a href="#exptanh">exptanh</a><br>
-<a href="#factor">factor</a><br>
-<a href="#factorial">factorial</a><br>
-<a href="#filter">filter</a><br>
-<a href="#float">float</a><br>
-<a href="#floor">floor</a><br>
-<a href="#for">for</a><br>
-<a href="#gcd">gcd</a><br>
-</td>
-
-<td valign="top">
-<a href="#hermite">hermite</a><br>
-<a href="#hilbert">hilbert</a><br>
-<a href="#i">i</a><br>
-<a href="#imag">imag</a><br>
-<a href="#inner">inner</a><br>
-<a href="#integral">integral</a><br>
-<a href="#inv">inv</a><br>
-<a href="#isprime">isprime</a><br>
-<a href="#j">j</a><br>
-<a href="#laguerre">laguerre</a><br>
-<a href="#last">last</a><br>
-<a href="#lcm">lcm</a><br>
-<a href="#leading">leading</a><br>
-<a href="#legendre">legendre</a><br>
-<a href="#lisp">lisp</a><br>
-<a href="#log">log</a><br>
-<a href="#mag">mag</a><br>
-<a href="#mod">mod</a><br>
-<a href="#not">not</a><br>
-</td>
-
-<td valign="top">
-<a href="#nroots">nroots</a><br>
-<a href="#number">number</a><br>
-<a href="#numerator">numerator</a><br>
-<a href="#or">or</a><br>
-<a href="#outer">outer</a><br>
-<a href="#pi">pi</a><br>
-<a href="#polar">polar</a><br>
-<a href="#power">power</a><br>
-<a href="#prime">prime</a><br>
-<a href="#print">print</a><br>
-<a href="#product">product</a><br>
-<a href="#quote">quote</a><br>
-<a href="#quotient">quotient</a><br>
-<a href="#rank">rank</a><br>
-<a href="#rationalize">rationalize</a><br>
-<a href="#real">real</a><br>
-<a href="#rect">rect</a><br>
-<a href="#roots">roots</a><br>
-<a href="#run">run</a><br>
-</td>
-
-<td valign="top">
-<a href="#simplify">simplify</a><br>
-<a href="#sin">sin</a><br>
-<a href="#sinh">sinh</a><br>
-<a href="#sqrt">sqrt</a><br>
-<a href="#status">status</a><br>
-<a href="#stop">stop</a><br>
-<a href="#string">string</a><br>
-<a href="#subst">subst</a><br>
-<a href="#sum">sum</a><br>
-<a href="#tan">tan</a><br>
-<a href="#tanh">tanh</a><br>
-<a href="#taylor">taylor</a><br>
-<a href="#test">test</a><br>
-<a href="#trace">trace</a><br>
-<a href="#transpose">transpose</a><br>
-<a href="#tty">tty</a><br>
-<a href="#unit">unit</a><br>
-<a href="#zero">zero</a><br>
-</td>
-
-</tr>
-</table>
-
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="abs">abs(<i>x</i>)</a>
-<p>
-Returns the absolute value or vector length of <i>x</i>.
-<pre style="color:blue">
+{\color{blue}
+\begin{verbatim}
 X = (x,y,z)
 abs(X)
-</pre>
-<pre>
-              1/2
-  2    2    2
-(x  + y  + z )
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="adj">adj(<i>m</i>)</a>
-<p>
-Returns the adjunct of matrix <i>m</i>.
+\noindent
+$\left(x^2+y^2+z^2\right)^{1/2}$
+
+\subsection*{adj($m$)}
+
+Returns the adjunct of matrix $m$.
 Adjunct is equal to determinant times inverse.
-</p>
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 A = ((a,b),(c,d))
 adj(A) == det(A) inv(A)
-</pre>
-<pre>
-1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="and">and(<i>a,b,...</i>)</a>
-<p>
+\noindent
+$1$
+
+\subsection*{and($a,b,\ldots$)}
+
 Returns 1 if all arguments are true (nonzero).
 Returns 0 otherwise.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 and(1=1,2=2)
-</pre>
-<pre>
-1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="arccos">arccos(<i>x</i>)</a>
-<p>
-Returns the arc cosine of <i>x</i>.
-<pre style="color:blue">
+\noindent
+$1$
+
+\subsection*{arccos($x$)}
+
+Returns the arc cosine of $x$.
+
+{\color{blue}
+\begin{verbatim}
 arccos(1/2)
-</pre>
-<pre>
- 1
---- pi
- 3
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="arccosh">arccosh(<i>x</i>)</a>
-<p>
-Returns the arc hyperbolic cosine of <i>x</i>.
+\noindent
+$\tfrac{1}{3}\pi$
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="arcsin">arcsin(<i>x</i>)</a>
-<p>
-Returns the arc sine of <i>x</i>.
-<pre style="color:blue">
+\subsection*{arccosh($x$)}
+
+Returns the arc hyperbolic cosine of $x$.
+
+\subsection*{arcsin($x$)}
+
+Returns the arc sine of $x$.
+
+{\color{blue}
+\begin{verbatim}
 arcsin(1/2)
-</pre>
-<pre>
- 1
---- pi
- 6
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="arcsinh">arcsinh(<i>x</i>)</a>
-<p>
-Returns the arc hyperbolic sine of <i>x</i>.
+\noindent
+$\tfrac{1}{6}\pi$
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="arctan">arctan(<i>y,x</i>)</a>
-<p>
-Returns the arc tangent of <i>y</i> over <i>x</i>.
-If <i>x</i> is omitted then <i>x</i> = 1 is used.
-<pre style="color:blue">
+\subsection*{arcsinh($x$)}
+
+Returns the arc hyperbolic sine of $x$.
+
+\subsection*{arctan($y,x$)}
+
+Returns the arc tangent of $y$ over $x$.
+If $x$ is omitted then $x=1$ is used.
+
+{\color{blue}
+\begin{verbatim}
 arctan(1,0)
-</pre>
-<pre>
- 1
---- pi
- 2
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="arctanh">arctanh(<i>x</i>)</a>
-<p>
-Returns the arc hyperbolic tangent of <i>x</i>.
+\noindent
+$\tfrac{1}{2}\pi$
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="arg">arg(<i>z</i>)</a>
-<p>
-Returns the angle of complex <i>z</i>.
-<pre style="color:blue">
+\subsection*{arctanh($x$)}
+
+Returns the arc hyperbolic tangent of $x$.
+
+\subsection*{arg($z$)}
+
+Returns the angle of complex $z$.
+
+{\color{blue}
+\begin{verbatim}
 arg(2 - 3i)
-</pre>
-<pre>
-arctan(-3,2)
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="besselj">besselj(<i>x,n</i>)</a>
-<p>
+\noindent
+$\arctan(-3,2)$
+
+\subsection*{besselj($x,n$)}
+
 Returns a solution to the Bessel differential equation.
-<pre style="color:blue">
-besselj(x,1/2)
-</pre>
-<pre>
-  1/2
- 2    sin(x)
--------------
-   1/2  1/2
- pi    x
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="binding">binding(<i>s</i>)</a>
-<p>
+{\color{blue}
+\begin{verbatim}
+besselj(x,1/2)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{2^{1/2}\sin(x)}{\pi^{1/2}\,x^{1/2}}$
+
+\subsection*{binding($s$)}
+
 The result of evaluating a symbol can differ from the symbol's binding.
 For example, the result may be expanded.
-The <tt>binding</tt> function returns the actual binding of a symbol.
-<pre style="color:blue">
+The {\tt binding} function returns the actual binding of a symbol.
+
+{\color{blue}
+\begin{verbatim}
 p = quote((x + 1)^2)
 p
-</pre>
-<pre>
-     2
-p = x  + 2 x + 1
-</pre>
-<pre style="color:blue">
+\end{verbatim}
+}
+
+\noindent
+$p=x^2+2x+1$
+
+{\color{blue}
+\begin{verbatim}
 binding(p)
-</pre>
-<pre>
-       2
-(x + 1)
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="binomial">binomial(<i>n,k</i>)</a>
-<p>
-Returns the coefficient of <i>x<sup>k</sup> y<sup>n-k</sup></i>
-in (<i>x</i> + <i>y</i>)<sup><i>n</i></sup>.
-Binomial and <tt>choose</tt> are the same function.
-<pre style="color:blue">
+\noindent
+$(x+1)^2$
+
+\subsection*{binomial($n,k$)}
+
+Returns the coefficient of $x^ky^{n-k}$ in $(x+y)^n$.
+Binomial and {\tt choose} are the same function.
+
+{\color{blue}
+\begin{verbatim}
 binomial(52,5)
-</pre>
-<pre>
-2598960
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="ceiling">ceiling(<i>x</i>)</a>
-<p>
-Returns the smallest integer greater than or equal to <i>x</i>.
-<pre style="color:blue">
+\noindent
+$2598960$
+
+\subsection*{ceiling($x$)}
+
+Returns the smallest integer greater than or equal to $x$.
+
+{\color{blue}
+\begin{verbatim}
 ceiling(1/2)
-</pre>
-<pre>
-1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="check">check(<i>x</i>)</a>
-<p>
-If <i>x</i> is true (nonzero) then continue in a script, else stop.
-Use A=B or A==B to test for A equals B.
-<pre style="color:blue">
+\noindent
+$1$
+
+\subsection*{check($x$)}
+
+If $x$ is true (nonzero) then continue in a script, else stop.
+Use {\tt A=B} or {\tt A==B} to test for A equals B.
+
+{\color{blue}
+\begin{verbatim}
 A = 1
 B = 1
 check(A=B) -- script stops here if A not equal to B
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="choose">choose(<i>n,k</i>)</a>
-<p>
-Returns the number of combinations of <i>n</i> items taken <i>k</i> at a time.
+\subsection*{choose($n,k$)}
+
+Returns the number of combinations of $n$ items taken $k$ at a time.
 The following example computes the number of poker hands.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 choose(52,5)
-</pre>
-<pre>
-2598960
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="circexp">circexp(<i>x</i>)</a>
-<p>
-Returns expression <i>x</i> with circular and hyperbolic functions
+\noindent
+$2598960$
+
+\subsection*{circexp($x$)}
+
+Returns expression $x$ with circular and hyperbolic functions
 converted to exponentials.
-<pre style="color:blue">
-circexp(cos(x) + i sin(x))
-</pre>
-<pre>
-exp(i x)
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="clear">clear</a>
-<p>
+{\color{blue}
+\begin{verbatim}
+circexp(cos(x) + i sin(x))
+\end{verbatim}
+}
+
+\noindent
+$\exp(ix)$
+
+\subsection*{clear}
+
 Clears all symbol definitions.
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="clock">clock(z)</a>
-<p>
-Returns complex <i>z</i> in polar form with base of negative 1 instead of <i>e</i>.
-<pre style="color:blue">
-clock(2 - 3i)
-</pre>
-<pre>
-  1/2     arctan(-3,2)/pi
-13    (-1)
-</pre>
+\subsection*{clock($z$)}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="coeff">coeff(<i>p,x,n</i>)</a>
-<p>
-Returns the coefficient of <i>x<sup>n</sup></i> in polynomial <i>p</i>.
-<pre style="color:blue">
+Returns complex $z$ in polar form with base of negative 1 instead of $e$.
+
+{\color{blue}
+\begin{verbatim}
+clock(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+$13^{1/2}\,(-1)^{\arctan(-3,2)/\pi}$
+
+\subsection*{coeff($p,x,n$)}
+
+Returns the coefficient of $x^n$ in polynomial $p$.
+
+{\color{blue}
+\begin{verbatim}
 p = x^3 + 6x^2 + 12x + 8
 coeff(p,x,2)
-</pre>
-<pre>
-6
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="cofactor">cofactor(<i>m,i,j</i>)</a>
-<p>
-Returns a cofactor of matrix <i>m</i>.
-The cofactor matrix is the transpose of the adjunct of <i>m</i>.
+\noindent
+$6$
+
+\subsection*{cofactor($m,i,j$)}
+
+Returns a cofactor of matrix $m$.
+The cofactor matrix is the transpose of the adjunct of $m$.
 This function returns the cofactor component
-at row <i>i</i> and column <i>j</i>.
-<pre style="color:blue">
+at row $i$ and column $j$.
+
+{\color{blue}
+\begin{verbatim}
 A = ((a,b),(c,d))
 cofactor(A,1,2) == transpose(adj(A))[1,2]
-</pre>
-<pre>
-1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="conj">conj(<i>z</i>)</a>
-<p>
-Returns the complex conjugate of <i>z</i>.
-<pre style="color:blue">
+\noindent
+$1$
+
+\subsection*{conj($z$)}
+
+Returns the complex conjugate of $z$.
+
+{\color{blue}
+\begin{verbatim}
 conj(2 - 3i)
-</pre>
-<pre>
-2 + 3 i
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="contract">contract(<i>a,i,j</i>)</a>
-<p>
-Returns tensor <i>a</i> summed over indices <i>i</i> and <i>j</i>.
-If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
-The expression <tt>contract(m)</tt> computes the trace of matrix <i>m</i>.
-<pre style="color:blue">
+\noindent
+$2 + 3 i$
+
+\subsection*{contract($a,i,j$)}
+
+Returns tensor $a$ summed over indices $i$ and $j$.
+If $i$ and $j$ are omitted then 1 and 2 are used.
+The expression {\tt contract(m)} computes the trace of matrix $m$.
+
+{\color{blue}
+\begin{verbatim}
 A = ((a,b),(c,d))
 contract(A)
-</pre>
-<pre>
-a + d
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="cos">cos(<i>x</i>)</a>
-<p>
-Returns the cosine of <i>x</i>.
-<pre style="color:blue">
+\noindent
+$a + d$
+
+\subsection*{cos($x$)}
+
+Returns the cosine of $x$.
+
+{\color{blue}
+\begin{verbatim}
 cos(pi/4)
-</pre>
-<pre>
-  1
-------
-  1/2
- 2
-</pre>
-<pre style="color:blue">
-cos(arctan(y,x))
-</pre>
-<pre>
-      x
---------------
-          1/2
-   2    2
- (x  + y )
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="cosh">cosh(<i>x</i>)</a>
-<p>
-Returns the hyperbolic cosine of <i>x</i>.
-<pre style="color:blue">
+\noindent
+$\displaystyle \frac{1}{2^{1/2}}$
+
+\subsection*{cosh($x$)}
+
+Returns the hyperbolic cosine of $x$.
+
+{\color{blue}
+\begin{verbatim}
 circexp(cosh(x))
-</pre>
-<pre>
- 1             1
---- exp(-x) + --- exp(x)
- 2             2
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="cross">cross(<i>u,v</i>)</a>
-<p>
-Returns the cross product of vectors <i>u</i> and <i>v</i>.
-It is OK to redefine <tt>cross</tt>.
+\noindent
+$\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
+
+
+\subsection*{cross($u,v$)}
+
+Returns the cross product of vectors $u$ and $v$.
+It is OK to redefine \verb$cross$.
 This is the default definition.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 cross(u,v) = (u[2] v[3] - u[3] v[2],
               u[3] v[1] - u[1] v[3],
               u[1] v[2] - u[2] v[1])
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="curl">curl(<i>u</i>)</a>
-<p>
-Returns the curl of vector <i>u</i>.
-It is OK to redefine <tt>curl</tt>.
+\subsection*{curl($u$)}
+
+Returns the curl of vector $u$.
+It is OK to redefine {\tt curl}.
 This is the default definition.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 curl(u) = (d(u[3],y) - d(u[2],z),
            d(u[1],z) - d(u[3],x),
            d(u[2],x) - d(u[1],y))
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="d">d(<i>f,x</i>)</a>
+\subsection*{d($f,x$)}
 
-<p>
-Returns the partial derivative of <i>f</i> with respect to <i>x</i>.
-<pre style="color:blue">
+Returns the partial derivative of $f$ with respect to $x$.
+
+{\color{blue}
+\begin{verbatim}
 d(x^2,x)
-</pre>
-<pre>
-2 x
-</pre>
+\end{verbatim}
+}
 
-<p>
-Argument <i>f</i> can be a tensor of any rank.
-Argument <i>x</i> can be a vector.
-When <i>x</i> is a vector the result is the gradient of <i>f</i>.
-<pre style="color:blue">
+\noindent
+$2x$
+
+\bigskip
+\noindent
+Argument $f$ can be a tensor of any rank.
+Argument $x$ can be a vector.
+When $x$ is a vector the result is the gradient of $f$.
+
+{\color{blue}
+\begin{verbatim}
 F = (f(),g(),h())
 X = (x,y,z)
 d(F,X)
-</pre>
-<pre>
-d(f(),x)   d(f(),y)   d(f(),z)
+\end{verbatim}
+}
 
-d(g(),x)   d(g(),y)   d(g(),z)
+\noindent
+$\displaystyle \begin{bmatrix}
+\operatorname{d}(f(),x) & \operatorname{d}(f(),y) &  \operatorname{d}(f(),z)\\
+\operatorname{d}(g(),x) & \operatorname{d}(g(),y) &  \operatorname{d}(g(),z)\\
+\operatorname{d}(h(),x) & \operatorname{d}(h(),y) &  \operatorname{d}(h(),z)
+\end{bmatrix}
+$
 
-d(h(),x)   d(h(),y)   d(h(),z)
-</pre>
+\bigskip
+\noindent
+It is OK to use {\tt d} as a variable name.
+It will not conflict with function {\tt d}.
 
-<p>
-It is OK to use <tt>d</tt> as a variable name.
-It will not conflict with function <tt>d</tt>.
+\bigskip
+\noindent
+It is OK to redefine {\tt d} as a different function.
+The function {\tt derivative}, a synonym for {\tt d},
+can still be used to obtain a partial derivative.
 
-<p>
-It is OK to redefine <tt>d</tt> as a different function.
-The function <tt>derivative</tt>, a synonym for <tt>d</tt>, can still be used to obtain a partial derivative.
-<pre style="color:blue">
+{\color{blue}
+\begin{verbatim}
 d(x,y) = x - y
 derivative(x^2,x)
-</pre>
-<pre>
-2 x
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="defint">defint(<i>f,x,a,b</i>)</a>
-<p>
-Returns the definite integral of <i>f</i> with respect to <i>x</i>
-evaluated from <i>a</i> to <i>b</i>.
+\noindent
+$2x$
+
+\subsection*{defint($f,x,a,b$)}
+
+Returns the definite integral of $f$ with respect to $x$
+evaluated from $a$ to $b$.
 The argument list can be extended for multiple integrals
 as shown in the following example.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 f = (1 + cos(theta)^2) sin(theta)
 defint(f, theta, 0, pi, phi, 0, 2pi) -- integrate over theta then over phi
-</pre>
-<pre>
- 16
----- pi
- 3
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="deg">deg(<i>p,x</i>)</a>
-<p>
-Returns the degree of polynomial <i>p</i>(<i>x</i>).
-<pre style="color:blue">
-deg(x^3,x)
-</pre>
-<pre>
-3
-</pre>
+\noindent
+$\tfrac{16}{3}\pi$
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="denominator">denominator(<i>x</i>)</a>
-<p>
-Returns the denominator of expression <i>x</i>.
-<pre style="color:blue">
+\subsection*{deg($p,x$)}
+
+Returns the degree of polynomial $p(x)$.
+
+{\color{blue}
+\begin{verbatim}
+p = (2x + 1)^3
+deg(p,x)
+\end{verbatim}
+}
+
+\noindent
+$3$
+
+\subsection*{denominator($x$)}
+
+Returns the denominator of expression $x$.
+
+{\color{blue}
+\begin{verbatim}
 denominator(a/b)
-</pre>
-<pre>
-b
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="det">det(<i>m</i>)</a>
-<p>
-Returns the determinant of matrix <i>m</i>.
-<pre style="color:blue">
+\noindent
+$b$
+
+\subsection*{det($m$)}
+
+Returns the determinant of matrix $m$.
+
+{\color{blue}
+\begin{verbatim}
 A = ((a,b),(c,d))
 det(A)
-</pre>
-<pre>
-a d - b c
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="dim">dim(<i>a,n</i>)</a>
-<p>
-Returns the dimension of the <i>n</i>th index of tensor <i>a</i>.
+\noindent
+$a d - b c$
+
+\subsection*{dim($a,n$)}
+
+Returns the dimension of the $n$th index of tensor $a$.
 Index numbering starts with 1.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 A = ((1,2),(3,4),(5,6))
 dim(A,1)
-</pre>
-<pre>
-3
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="div">div(<i>u</i>)</a>
-<p>
-Returns the divergence of vector <i>u</i>.
-It is OK to redefine <tt>div</tt>.
+\noindent
+$3$
+
+\subsection*{div($u$)}
+
+Returns the divergence of vector $u$.
+It is OK to redefine {\tt div}.
 This is the default definition.
-<pre style="color:blue">
-div(u) = d(u[1],x) + d(u[2],y) + d(u[3],z)
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="do">do(<i>a,b,...</i>)</a>
-<p>
+{\color{blue}
+\begin{verbatim}
+div(u) = d(u[1],x) + d(u[2],y) + d(u[3],z)
+\end{verbatim}
+}
+
+\subsection*{do($a,b,\ldots$)}
+
 Evaluates each argument from left to right.
 Returns the result of the last argument.
-<pre style="color:blue">
-do(A=1,B=2,A+B)
-</pre>
-<pre>
-3
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="dot">dot(<i>a,b,...</i>)</a>
-<p>
+{\color{blue}
+\begin{verbatim}
+do(A=1,B=2,A+B)
+\end{verbatim}
+}
+
+\noindent
+$3$
+
+\subsection*{dot($a,b,\ldots$)}
+
 Returns the dot or matrix product of vectors, matrices, and tensors.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 -- solve for X in AX=B
 A = ((1,2),(3,4))
 B = (5,6)
 X = dot(inv(A),B)
 X
-</pre>
-<pre>
-    -4
+\end{verbatim}
+}
 
-X = 
-     9
-    ---
-     2
-</pre>
+\noindent
+$\displaystyle \begin{bmatrix}-4\\ \tfrac{9}{2}\end{bmatrix}$
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="draw">draw(<i>f,x</i>)</a>
-<p>
-Draws a graph of <i>f</i>(<i>x</i>).
-Drawing ranges can be set with <tt>xrange</tt> and <tt>yrange</tt>.
-<pre style="color:blue">
-xrange = (0,1)
-yrange = (0,1)
-draw(x^2,x)
-</pre>
+\subsection*{draw($f,x$)}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="e">e</a>
-<p>
-Symbol <tt>e</tt> is initialized to the natural number <i>e</i>.
-It is OK to clear or redefine <tt>e</tt> and use the symbol for something else.
-<pre style="color:blue">
+Draws a graph of $f(x)$.
+Drawing ranges can be set with {\tt xrange} and {\tt yrange}.
+
+\subsection*{e}
+
+Symbol {\tt e} is initialized to the natural number $e$.
+It is OK to clear or redefine {\tt e} and use the symbol for something else.
+
+{\color{blue}
+\begin{verbatim}
 e^x
-</pre>
-<pre>
-exp(x)
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="eigen">eigen(<i>m</i>)</a>
-<p>
+\noindent
+$\exp(x)$
+
+\subsection*{eigen($m$)}
+
 Computes eigenvalues and eigenvectors numerically.
-Matrix <i>m</i> is required to be both numerical and symmetric.
+Matrix $m$ is required to be both numerical and symmetric.
 Eigenvectors are returned in Q and eigenvalues are returned in D.
 Each row of Q is an eigenvector.
 Each diagonal element of D is an eigenvalue.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 A = ((1,2),(2,1))
 eigen(A)
 dot(transpose(Q),D,Q)
-</pre>
-<pre>
-1.0   2.0
+\end{verbatim}
+}
 
-2.0   1.0
-</pre>
+\noindent
+$\displaystyle \begin{bmatrix}
+1.0 & 2.0\\
+2.0 & 1.0
+\end{bmatrix}
+$
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="erf">erf(<i>x</i>)</a>
-<p>
-Error function of <i>x</i>.
+\subsection*{erf($x$)}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="erfc">erfc(<i>x</i>)</a>
-<p>
-Complementary error function of <i>x</i>.
+Error function of $x$.
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="eval">eval(<i>f,x,a</i>)</a>
-<p>
-Returns <i>f</i> evaluated at <i>x</i> equals <i>a</i>.
-<pre style="color:blue">
+\subsection*{erfc($x$)}
+
+Complementary error function of $x$.
+
+\subsection*{eval($f,x,a$)}
+
+Returns $f$ evaluated at $x$ equals $a$.
+
+{\color{blue}
+\begin{verbatim}
 eval(x^2 + 3,x,0)
-</pre>
-<pre>
-3
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="exp">exp(<i>x</i>)</a>
-<p>
-Returns the exponential of <i>x</i>.
-<pre style="color:blue">
+\noindent
+$3$
+
+\subsection*{exp($x$)}
+
+Returns the exponential of $x$.
+
+{\color{blue}
+\begin{verbatim}
 exp(i pi)
-</pre>
-<pre>
--1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="expand">expand(<i>r,x</i>)</a>
-<p>
-Returns the partial fraction expansion of the ratio of polynomials <i>r</i> in <i>x</i>.
-<pre style="color:blue">
+\noindent
+$-1$
+
+\subsection*{expand($r,x$)}
+
+Returns the partial fraction expansion of the ratio of polynomials $r$ in $x$.
+
+{\color{blue}
+\begin{verbatim}
 p = (x + 1)^2
 q = (x + 2)^2
 expand(p/q,x)
-</pre>
-<pre>
-     2            1
-- ------- + -------------- + 1
-   x + 2      2
-             x  + 4 x + 4
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="expcos">expcos(<i>z</i>)</a>
-<p>
-Returns the cosine of <i>z</i> in exponential form.
-<pre style="color:blue">
+\noindent
+$\displaystyle -\frac{2}{x+2}+\frac{1}{x^2+4x+4}+1$
+
+\subsection*{expcos($z$)}
+
+Returns the cosine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
 expcos(z)
-</pre>
-<pre>
- 1              1
---- exp(i z) + --- exp(-i z)
- 2              2
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="expcosh">expcosh(<i>z</i>)</a>
-<p>
-Returns the hyperbolic cosine of <i>z</i> in exponential form.
-<pre style="color:blue">
+\noindent
+$\displaystyle \tfrac{1}{2}\exp(iz)+\tfrac{1}{2}\exp(-iz)$
+
+\subsection*{expcosh($z$)}
+
+Returns the hyperbolic cosine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
 expcosh(z)
-</pre>
-<pre>
- 1             1
---- exp(-z) + --- exp(z)
- 2             2
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="expsin">expsin(<i>z</i>)</a>
-<p>
-Returns the sine of <i>z</i> in exponential form.
-<pre style="color:blue">
+\noindent
+$\displaystyle \tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
+
+\subsection*{expsin($z$)}
+
+Returns the sine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
 expsin(z)
-</pre>
-<pre>
-   1                1
-- --- i exp(i z) + --- i exp(-i z)
-   2                2
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="expsinh">expsinh(<i>z</i>)</a>
-<p>
-Returns the hyperbolic sine of <i>z</i> in exponential form.
-<pre style="color:blue">
+\noindent
+$\displaystyle -\tfrac{1}{2}i\exp(iz)+\tfrac{1}{2}i\exp(-iz)$
+
+\subsection*{expsinh($z$)}
+
+Returns the hyperbolic sine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
 expsinh(z)
-</pre>
-<pre>
-   1             1
-- --- exp(-z) + --- exp(z)
-   2             2
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="exptan">exptan(<i>z</i>)</a>
-<p>
-Returns the tangent of <i>z</i> in exponential form.
-<pre style="color:blue">
+\noindent
+$\displaystyle -\tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
+
+\subsection*{exptan($z$)}
+
+Returns the tangent of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
 exptan(z)
-</pre>
-<pre>
-       i             i exp(2 i z)
----------------- - ----------------
- exp(2 i z) + 1     exp(2 i z) + 1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="exptanh">exptanh(<i>z</i>)</a>
-<p>
-Returns the hyperbolic tangent of <i>z</i> in exponential form.
-<pre style="color:blue">
+\noindent
+$\displaystyle \frac{i}{\exp(2iz)+1}-\frac{i\exp(2iz)}{\exp(2iz)+1}$
+
+\subsection*{exptanh($z$)}
+
+Returns the hyperbolic tangent of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
 exptanh(z)
-</pre>
-<pre>
-        1             exp(2 z)
-- -------------- + --------------
-   exp(2 z) + 1     exp(2 z) + 1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="factor">factor(<i>n</i>)</a>
-<p>
-Factors integer <i>n</i>.
-<pre style="color:blue">
+\noindent
+$\displaystyle -\frac{1}{\exp(2z)+1}+\frac{\exp(2z)}{\exp(2z)+1}$
+
+\subsection*{factor($n$)}
+
+Factors integer $n$.
+
+{\color{blue}
+\begin{verbatim}
 factor(10!)
-</pre>
-<pre>
- 8  4  2  1
-2  3  5  7
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">factor(<i>p,x</i>)
-<p>
-Factors polynomial <i>p</i>(<i>x</i>).
-The polynomial should be factorable over integers.
+\noindent
+$\displaystyle 2^8\times 3^4\times 5^2\times 7^1$
+
+\subsection*{factor($p,x$)}
+
+Factors polynomial $p(x)$.
 The argument list can be extended for multivariate polynomials.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 p = 2x + x y + y + 2
 factor(p,x,y)
-</pre>
-<pre>
-(x + 1) (y + 2)
-</pre>
-<p>
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle (x+1)(y+2)$
+
+\bigskip
+\noindent
 Note: Factor returns an unexpanded expression.
 If the result is assigned to a symbol, evaluating
 the symbol will expand the result.
-Use <tt>binding</tt> to retrieve the unexpanded expression.
-<pre style="color:blue">
+Use {\tt binding} to retrieve the unexpanded expression.
+
+{\color{blue}
+\begin{verbatim}
 q = factor(p,x)
 binding(q)
-</pre>
-<pre>
-(x + 1) (y + 2)
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="factorial">factorial(<i>n</i>)</a>
-<p>
-Returns the factorial of <i>n</i>. The expression <tt>n!</tt> can also be used.
-<pre style="color:blue">
+\noindent
+$\displaystyle (x+1)(y+2)$
+
+\subsection*{factorial($n$)}
+
+Returns the factorial of $n$.
+The expression {\tt n!} can also be used.
+
+{\color{blue}
+\begin{verbatim}
 100!
-</pre>
-<pre>
-93326215443944152681699238856266700490715968264381621468592963895217599993229915
-608941463976156518286253697920827223758251185210916864000000000000000000000000
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="filter">filter(<i>f,a,b,...</i>)</a>
-<p>
-Returns <i>f</i> excluding any terms containing <i>a</i>, <i>b</i>, etc.
-<pre style="color:blue">
+\noindent
+$93326215443944152681699238856266700490715968264381621468592963895217599993229915$\\
+$608941463976156518286253697920827223758251185210916864000000000000000000000000$
+
+\subsection*{filter($f,a,b,\ldots$)}
+
+Returns $f$ excluding any terms containing $a$, $b$, etc.
+
+{\color{blue}
+\begin{verbatim}
 p = x^2 + 3x + 2
 filter(p,x^2)
-</pre>
-<pre>
-3 x + 2
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="float">float(<i>x</i>)</a>
-<p>
-Returns expression <i>x</i> with rational numbers and integers converted to
+\noindent
+$3x+2$
+
+\subsection*{float($x$)}
+
+Returns expression $x$ with rational numbers and integers converted to
 floating point values.
-The symbol <tt>pi</tt> and the natural number are also converted.
-<pre style="color:blue">
+The symbol {\tt pi} and the natural number are also converted.
+
+{\color{blue}
+\begin{verbatim}
 float(212^17)
-</pre>
-<pre>
-          39
-3.52947 10
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="floor">floor(<i>x</i>)</a>
-<p>
-Returns the largest integer less than or equal to <i>x</i>.
-<pre style="color:blue">
+\noindent
+$\displaystyle 3.52947\times 10^{39}$
+
+\subsection*{floor($x$)}
+
+Returns the largest integer less than or equal to $x$.
+
+\par
+{\color{blue}
+\begin{verbatim}
 floor(1/2)
-</pre>
-<pre>
-0
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="for">for(<i>i,j,k,a,b,...</i>)</a>
-<p>
-For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>a</i>, <i>b</i>, etc.
-The previous value of symbol <i>i</i> is restored after <tt>for</tt> completes.
-<pre style="color:blue">
+\noindent
+$0$
+
+\subsection*{for($i,j,k,a,b,\ldots$)}
+
+For $i$ equals $j$ through $k$ evaluate $a$, $b$, etc.
+The original value of symbol $i$ is restored after {\tt for} completes.
+
+{\color{blue}
+\begin{verbatim}
 for(k,1,3,A=k,print(A))
-</pre>
-<pre>
-A = 1
-A = 2
-A = 3
-</pre>
+\end{verbatim}
+}
+
+\noindent
+$A=1$\\
+$A=2$\\
+$A=3$
+
+\iffalse
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a name="gcd">gcd(<i>a,b,...</i>)</a>
@@ -1703,5 +1610,4 @@ A = 0   2   0
     0   0   3
 </pre>
 
-</body>
-</html>
+\fi

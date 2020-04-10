@@ -1,17 +1,22 @@
-
 \section{Calculus}
+
 \subsection{Derivative}
-\index{derivative}
+
 $d(f,x)$ returns the derivative of $f$ with respect to $x$.
 The $x$ can be omitted for expressions in $x$.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 d(x^2)
-\end{Verbatim}
+\end{verbatim}
+}
 
-$\displaystyle 2x$
+\noindent
+$2x$
 
-The following table summarizes the various ways to obtain multiderivatives.
+\bigskip
+\noindent
+The following table summarizes the various ways to obtain multi-derivatives.
 
 \begin{center}
 \begin{tabular}{cllllll}
@@ -25,71 +30,100 @@ $\displaystyle{\frac{\partial^{m+n+\cdot\cdot\cdot} f}{\partial x^m\,\partial y^
 \end{center}
 
 \subsection{Gradient}
+
 The gradient of $f$ is obtained by using a vector for $x$ in $d(f,x)$.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
-r = sqrt(x^2+y^2)
+{\color{blue}
+\begin{verbatim}
+r = sqrt(x^2 + y^2)
 d(r,(x,y))
-\end{Verbatim}
+\end{verbatim}
+}
 
-$\displaystyle \begin{bmatrix}\frac{x}{(x^2+y^2)^{1/2}}\\ \frac{y}{(x^2+y^2)^{1/2}}\end{bmatrix}$
+\noindent
+$\begin{bmatrix}\frac{x}{(x^2+y^2)^{1/2}}\\ \frac{y}{(x^2+y^2)^{1/2}}\end{bmatrix}$
 
+\bigskip
+\noindent
 The $f$ in $d(f,x)$ can be a tensor function.
 Gradient raises the rank by one.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
-F = (x+2y,3x+4y)
+{\color{blue}
+\begin{verbatim}
+F = (x + 2 y,3 x + 4 y)
 X = (x,y)
 d(F,X)
-\end{Verbatim}
+\end{verbatim}
+}
 
-$\displaystyle \begin{bmatrix}1&2\\3&4\end{bmatrix}$
+\noindent
+$\begin{bmatrix}1&2\\3&4\end{bmatrix}$
 
 \subsection{Template functions}
+
 The function $f$ in $d(f)$ does not have to be defined.
 It can be a template function with just a name and an argument list.
 Eigenmath checks the argument list to figure out what to do.
 For example, $d(f(x),x)$ evaluates to itself because $f$ depends on $x$.
 However, $d(f(x),y)$ evaluates to zero because $f$ does not depend on $y$.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 d(f(x),x)
-\end{Verbatim}
+\end{verbatim}
+}
 
-$\displaystyle {\rm d}(f(x),x)$
+\noindent
+$\operatorname{d}(f(x),x)$
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 d(f(x),y)
-\end{Verbatim}
+\end{verbatim}
+}
 
-$\displaystyle 0$
+\noindent
+$0$
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 d(f(x,y),y)
-\end{Verbatim}
+\end{verbatim}
+}
 
-$\displaystyle {\rm d}(f(x,y),y)$
+\noindent
+$\operatorname{d}(f(x,y),y)$
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 d(f(),t)
-\end{Verbatim}
+\end{verbatim}
+}
 
-$\displaystyle {\rm d}(f(),t)$
+\noindent
+$\operatorname{d}(f(),t)$
 
+\bigskip
+\noindent
 As the final example shows, an empty argument list causes
 $d(f)$ to always evaluate to itself, regardless
 of the second argument.
 
+\bigskip
+\noindent
 Template functions are useful for experimenting with differential forms.
 For example, let us check the identity
-$$\mathop{\rm div}(\mathop{\rm curl}{F})=0$$
+$$\operatorname{div}(\operatorname{curl}{F})=0$$
 for an arbitrary vector function $F$.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 F = (F1(x,y,z),F2(x,y,z),F3(x,y,z))
-curl(U) = (d(U[3],y)-d(U[2],z),d(U[1],z)-d(U[3],x),d(U[2],x)-d(U[1],y))
-div(U) = d(U[1],x)+d(U[2],y)+d(U[3],z)
+curl(U) = (d(U[3],y) - d(U[2],z),d(U[1],z) - d(U[3],x),d(U[2],x) - d(U[1],y))
+div(U) = d(U[1],x) + d(U[2],y) + d(U[3],z)
 div(curl(F))
-\end{Verbatim}
+\end{verbatim}
+}
 
-$\displaystyle 0$
+\noindent
+$0$
