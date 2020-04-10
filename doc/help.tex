@@ -806,51 +806,53 @@ $A=1$\\
 $A=2$\\
 $A=3$
 
-\iffalse
+\subsection*{gcd($a,b,\ldots$)}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="gcd">gcd(<i>a,b,...</i>)</a>
-<p>
 Returns the greatest common divisor of expressions.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 gcd(x,x y)
-</pre>
-<pre>
-x
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="hermite">hermite(<i>x,n</i>)</a>
-<p>
-Returns the <i>n</i>th Hermite polynomial in <i>x</i>.
-<pre style="color:blue">
+\noindent
+$x$
+
+\subsection*{hermite($x,n$)}
+
+Returns the $n$th Hermite polynomial in $x$.
+
+{\color{blue}
+\begin{verbatim}
 hermite(x,3)
-</pre>
-<pre>
-   3
-8 x  - 12 x
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="hilbert">hilbert(<i>n</i>)</a>
-<p>
-Returns an <i>n</i> by <i>n</i> Hilbert matrix.
-<pre style="color:blue">
+\noindent
+$\displaystyle 8x^3-12x$
+
+
+\subsection*{hilbert($n$)}
+
+Returns an $n$ by $n$ Hilbert matrix.
+
+{\color{blue}
+\begin{verbatim}
 hilbert(3)
-</pre>
-<pre>
-       1     1
- 1    ---   ---
-       2     3
+\end{verbatim}
+}
 
- 1     1     1
----   ---   ---
- 2     3     4
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1 & \tfrac{1}{2} & \tfrac{1}{3}\\ \\
+\tfrac{1}{2} & \tfrac{1}{3} & \tfrac{1}{4}\\ \\
+\tfrac{1}{3} & \tfrac{1}{4} & \tfrac{1}{5}
+\end{bmatrix}
+$
 
- 1     1     1
----   ---   ---
- 3     4     5
-</pre>
+\iffalse
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a name="i">i</a>
