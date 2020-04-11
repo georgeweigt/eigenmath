@@ -321,7 +321,7 @@ $\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
 \subsection*{cross($u,v$)}
 
 Returns the cross product of vectors $u$ and $v$.
-It is OK to redefine \verb$cross$.
+It is OK to redefine {\tt cross}.
 This is the default definition.
 
 {\color{blue}
@@ -525,8 +525,7 @@ Drawing ranges can be set with {\tt xrange} and {\tt yrange}.
 
 \subsection*{e}
 
-Symbol {\tt e} is initialized to the natural number $e$.
-It is OK to clear or redefine {\tt e} and use the symbol for something else.
+Symbol {\tt e} is initialized to the natural number $e=\exp(1)$.
 
 {\color{blue}
 \begin{verbatim}
@@ -536,6 +535,10 @@ e^x
 
 \noindent
 $\exp(x)$
+
+\bigskip
+\noindent
+Note: It is OK to clear or redefine {\tt e} and use the symbol for something else.
 
 \subsection*{eigen($m$)}
 
@@ -852,241 +855,273 @@ $\displaystyle
 \end{bmatrix}
 $
 
-\iffalse
+\subsection*{i}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="i">i</a>
-<p>
-Symbol <tt>i</tt> is initialized to the imaginary unit (&minus;1)<sup>1/2</sup>.
-It is OK to clear or redefine <tt>i</tt> and use the symbol for something else.
-<pre style="color:blue">
+Symbol {\tt i} is initialized to the imaginary unit $\sqrt{-1}$.
+
+{\color{blue}
+\begin{verbatim}
 exp(i pi)
-</pre>
-<pre>
--1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="imag">imag(<i>z</i>)</a>
-<p>
-Returns the imaginary part of complex <i>z</i>.
-<pre style="color:blue">
+\noindent
+$-1$
+
+\bigskip
+\noindent
+Note: It is OK to clear or redefine {\tt i} and use the symbol for something else.
+
+\subsection*{imag($z$)}
+
+Returns the imaginary part of complex $z$.
+
+{\color{blue}
+\begin{verbatim}
 imag(2 - 3i)
-</pre>
-<pre>
--3
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="inner">inner(<i>a,b,...</i>)</a>
-<p>
+\noindent
+$-3$
+
+\subsection*{inner($a,b,\ldots$)}
+
 Returns the inner product of tensors.
-Inner and <tt>dot</tt> are the same function.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 A = ((a,b),(c,d))
 B = (x,y)
 inner(A,B)
-</pre>
-<pre>
-a x + b y
+\end{verbatim}
+}
 
-c x + d y
-</pre>
-<p>
-Note: Inner product is equivalent to an outer product followed by contraction.
-<pre style="color:blue">
-contract(outer(A,B),2,3)
-</pre>
-<pre>
-a x + b y
+\noindent
+$\displaystyle
+\begin{bmatrix}
+ax+by\\
+cx+dy
+\end{bmatrix}
+$
 
-c x + d y
-</pre>
+\bigskip
+\noindent
+Note: {\tt inner} and {\tt dot} are the same function.
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="integral">integral(<i>f,x</i>)</a>
-<p>
-Returns the integral of <i>f</i> with respect to <i>x</i>.
-<pre style="color:blue">
+\subsection*{integral($f,x$)}
+
+Returns the integral of $f$ with respect to $x$.
+
+{\color{blue}
+\begin{verbatim}
 integral(x^2,x)
-</pre>
-<pre>
- 1   3
---- x
- 3
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="inv">inv(<i>m</i>)</a>
-<p>
-Returns the inverse of matrix <i>m</i>.
-<pre style="color:blue">
+\noindent
+$\displaystyle \tfrac{1}{3}x^3$
+
+\subsection*{inv($m$)}
+
+Returns the inverse of matrix $m$.
+
+{\color{blue}
+\begin{verbatim}
 A = ((1,2),(3,4))
 inv(A)
-</pre>
-<pre>
- -2       1
+\end{verbatim}
+}
 
+\noindent
+$\displaystyle
+\begin{bmatrix}
+-2 & 1\\
+\tfrac{3}{2} & -\tfrac{1}{2}
+\end{bmatrix}
+$
 
-  3        1
- ---    - ---
-  2        2
-</pre>
+\subsection*{isprime($n$)}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="isprime">isprime(<i>n</i>)</a>
-<p>
-Returns 1 if <i>n</i> is a prime number. Returns zero otherwise.
-<pre style="color:blue">
+Returns 1 if $n$ is a prime number. Returns zero otherwise.
+
+{\color{blue}
+\begin{verbatim}
 isprime(2^31 - 1)
-</pre>
-<pre>
-1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="j">j</a>
-<p>
-Set <tt>j=sqrt(-1)</tt> to use <tt>j</tt> for the imaginary unit instead of <tt>i</tt>.
-<pre style="color:blue">
+\noindent
+1
+
+\subsection*{j}
+
+Set {\tt j=sqrt(-1)} to use {\tt j} for the imaginary unit instead of {\tt i}.
+
+{\color{blue}
+\begin{verbatim}
 j = sqrt(-1)
 1/sqrt(-1)
-</pre>
-<pre>
--j
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="laguerre">laguerre(<i>x,n,a</i>)</a>
-<p>
-Returns the <i>n</i>th Laguerre polynomial in <i>x</i>.
-If argument <i>a</i> is omitted then zero is used.
-<pre style="color:blue">
+\noindent
+$-j$
+
+\subsection*{laguerre($x,n,a$)}
+
+Returns the $n$th Laguerre polynomial in $x$.
+If argument $a$ is omitted then $a=0$ is used.
+
+{\color{blue}
+\begin{verbatim}
 laguerre(x,3)
-</pre>
-<pre>
-   1   3    3   2
-- --- x  + --- x  - 3 x + 1
-   6        2
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="last">last</a>
-<p>
-The result of the previous calculation is stored in <tt>last</tt>.
-<pre style="color:blue">
+\noindent
+$\displaystyle -\tfrac{1}{6}x^3+\tfrac{3}{2}x^2-3x+1$
+
+\subsection*{last}
+
+The result of the previous calculation is stored in {\tt last}.
+
+{\color{blue}
+\begin{verbatim}
 212^17
-</pre>
-<pre>
-3529471145760275132301897342055866171392
-</pre>
-<pre style="color:blue">
+\end{verbatim}
+}
+
+\noindent
+$3529471145760275132301897342055866171392$
+
+{\color{blue}
+\begin{verbatim}
 last^(1/17)
-</pre>
-<pre>
-212
-</pre>
-<p>
-Note: Symbol <tt>last</tt> is an implied argument when a function has no
-argument list.
-<pre style="color:blue">
+\end{verbatim}
+}
+
+\noindent
+$212$
+
+\bigskip
+\noindent
+Symbol {\tt last} is an implied argument when a function has no argument list.
+
+{\color{blue}
+\begin{verbatim}
 212^17
-</pre>
-<pre>
-3529471145760275132301897342055866171392
-</pre>
-<pre style="color:blue">
+\end{verbatim}
+}
+
+\noindent
+$3529471145760275132301897342055866171392$
+
+{\color{blue}
+\begin{verbatim}
 float
-</pre>
-<pre>
-          39
-3.52947 10
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="lcm">lcm(<i>a,b,...</i>)</a>
-<p>
+\noindent
+$\displaystyle 3.52947\times10^{39}$
+
+\subsection*{lcm($a,b,\ldots$)}
+
 Returns the least common multiple of expressions.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 lcm(x,x y)
-</pre>
-<pre>
-x y
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="leading">leading(<i>p,x</i>)</a>
-<p>
-Returns the leading coefficient of polynomial <i>p</i>(<i>x</i>).
-<pre style="color:blue">
+\noindent
+$xy$
+
+\subsection*{leading($p,x$)}
+
+Returns the leading coefficient of polynomial $p(x)$.
+
+{\color{blue}
+\begin{verbatim}
 leading(3x^2 + 1,x)
-</pre>
-<pre>
-3
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="legendre">legendre(<i>x,n,m</i>)</a>
-<p>
-Returns the <i>n</i>th Legendre polynomial in <i>x</i>.
-If <i>m</i> is omitted then zero is used.
-<pre style="color:blue">
+\noindent
+$3$
+
+\subsection*{legendre($x,n,m$)}
+
+Returns the $n$th Legendre polynomial in $x$.
+If $m$ is omitted then $m=0$ is used.
+
+{\color{blue}
+\begin{verbatim}
 legendre(x,3)
-</pre>
-<pre>
- 5   3    3
---- x  - --- x
- 2        2
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="lisp">lisp(<i>x</i>)</a>
-<p>
-Evaluates expression <i>x</i> and returns the result as a
+\noindent
+$\displaystyle \tfrac{5}{2}x^3-\tfrac{3}{2}x$
+
+\subsection*{lisp($x$)}
+
+Evaluates expression $x$ and returns the result as a
 string in prefix notation.
 Useful for debugging scripts.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 lisp(x^2 + 1)
-</pre>
-<pre>
-(+ (^ x 2) 1)
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="log">log(<i>x</i>)</a>
-<p>
-Returns the natural logarithm of <i>x</i>.
-<pre style="color:blue">
+\noindent
+\verb$(+ (^ x 2) 1)$
+
+\subsection*{log($x$)}
+
+Returns the natural logarithm of $x$.
+
+{\color{blue}
+\begin{verbatim}
 log(x^y)
-</pre>
-<pre>
-y log(x)
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="mag">mag(<i>z</i>)</a>
-<p>
-Returns the magnitude of complex <i>z</i>.
-Mag treats undefined symbols as real while <tt>abs</tt> does not.
-<pre style="color:blue">
+\noindent
+$y\log(x)$
+
+\subsection*{mag($z$)}
+
+Returns the magnitude of complex $z$.
+Function {\tt mag} treats undefined symbols as real while {\tt abs} does not.
+
+{\color{blue}
+\begin{verbatim}
 mag(x + i y)
-</pre>
-<pre>
-         1/2
-  2    2
-(x  + y )
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="mod">mod(<i>a,b</i>)</a>
-<p>
-Returns the remainder of integer <i>a</i> divided by integer <i>b</i>.
-<pre style="color:blue">
+\noindent
+$\displaystyle \left[x^2+y^2\right]^{1/2}$
+
+\subsection*{mod($a,b$)}
+
+Returns the remainder of integer $a$ divided by integer $b$.
+
+{\color{blue}
+\begin{verbatim}
 mod(10,7)
-</pre>
-<pre>
-3
-</pre>
+\end{verbatim}
+}
+
+\noindent
+$3$
+
+\iffalse
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a name="not">not(<i>x</i>)</a>
