@@ -1,5 +1,5 @@
-
 \subsection{Stokes' theorem}
+
 Stokes' theorem says that in typical problems a surface integral can be
 computed using a line integral.
 (There is some fine print regarding continuity and boundary conditions.)
@@ -7,32 +7,18 @@ This is a useful theorem because usually the line integral is easier to
 compute.
 In rectangular coordinates the equivalence between a line integral
 on the left and a surface integral on the right is
-%\bigskip
-%\noindent
-%$\displaystyle{\oint_C P\,dx+Q\,dy+R\,dz}$
-%$$=
-%\int\!\!\!\int_S
-%\left({\partial Q\over\partial x}-{\partial P\over\partial y}\right)\,dx\,dy
-%+
-%\left({\partial R\over\partial y}-{\partial Q\over\partial z}\right)\,dy\,dz
-%+
-%\left({\partial P\over\partial z}-{\partial R\over\partial x}\right)\,dz\,dx
-%$$
 %
-%\noindent
-%Curve $C$ is the perimeter around $S$.
-%The theorem can be also be written as
-
 $$\oint P\,dx+Q\,dy+R\,dz
 =\int\!\!\!\int_S(\mathop{\rm curl}{\bf F})\cdot{\bf n}\,d\sigma
 $$
-
+%
 where ${\bf F}=(P,Q,R)$.
 For $S$ parametrized by $x$ and $y$ we have
 $${\bf n}\,d\sigma=\left(
 {\partial S\over\partial x}\times{\partial S\over\partial y}
 \right)dx\,dy$$
 
+\noindent
 Example:
 Let ${\bf F}=(y,z,x)$ and let $S$ be the part of the paraboloid
 $z=4-x^2-y^2$
@@ -63,10 +49,15 @@ f = circexp(f)
 defint(f,t,0,2pi)
 \end{Verbatim}
 
+\noindent
 This is the result when the script runs.
 Both the surface integral and the line integral
 yield the same result.
 
+\bigskip
+\noindent
 $\displaystyle -4\pi$
 
+\bigskip
+\noindent
 $\displaystyle -4\pi$

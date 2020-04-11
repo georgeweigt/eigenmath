@@ -1,4 +1,6 @@
 
+\bigskip
+\noindent
 Here is a useful trick.
 Difficult integrals involving sine and cosine
 can often be solved by using exponentials.
@@ -15,8 +17,11 @@ f = circexp(f)
 defint(f,t,0,2*pi)
 \end{Verbatim}
 
+\noindent
 $\displaystyle -\frac{16}{5}+\frac{3}{4}\pi$
 
+\bigskip
+\noindent
 Here is a check of the result.
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
@@ -24,4 +29,5 @@ g = integral(f,t)
 f-d(g,t)
 \end{Verbatim}
 
+\noindent
 $\displaystyle 0$

@@ -8,14 +8,18 @@ The argument list can be extended for multiple integrals.
 integral(x^2)
 \end{Verbatim}
 
+\noindent
 $\displaystyle \frac{1}{3}x^3$
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
 integral(x*y,x,y)
 \end{Verbatim}
 
+\noindent
 $\displaystyle \frac{1}{4}x^2y^2$
 
+\bigskip
+\noindent
 $defint(f,x,a,b,\ldots)$
 computes the definite integral of $f$ with respect to $x$ evaluated from
 $a$ to $b$.
@@ -28,8 +32,11 @@ For each $x$ along the abscissa, $y$ ranges from 0 to $\sqrt{1-x^2}$.
 defint(x^2,y,0,sqrt(1-x^2),x,-1,1)
 \end{Verbatim}
 
+\noindent
 $\displaystyle \frac{1}{8}\pi$
 
+\bigskip
+\noindent
 As an alternative, the $eval$ function can be used to compute a definite integral step by step.
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
@@ -39,4 +46,5 @@ I = integral(I,x)
 eval(I,x,1)-eval(I,x,-1)
 \end{Verbatim}
 
+\noindent
 $\displaystyle \frac{1}{8}\pi$

@@ -1,20 +1,24 @@
 
 \subsection{Green's theorem}
 Green's theorem tells us that
-
 $$\oint P\,dx+Q\,dy=\int\!\!\!\int
 \left({\partial Q\over\partial x}-{\partial P\over\partial y}\right)
 dx\,dy$$
 
+\noindent
 In other words, a line integral and a surface integral can yield
 the same result.
 
+\bigskip
+\noindent
 Example 1.
 The following exercise is from {\it Advanced Calculus}
 by Wilfred Kaplan, p.~287.
 Evaluate $\oint (2x^3-y^3)\,dx+(x^3+y^3)\,dy$ around the circle
 $x^2+y^2=1$ using Green's theorem.
 
+\bigskip
+\noindent
 It turns out that Eigenmath cannot solve the double integral over
 $x$ and $y$ directly.
 Polar coordinates are used instead.
@@ -28,10 +32,15 @@ y = r*sin(theta)
 defint(f*r,r,0,1,theta,0,2pi)
 \end{Verbatim}
 
+\noindent
 $\displaystyle \frac{3}{2}\pi$
 
+\bigskip
+\noindent
 The $defint$ integrand is $f{*}r$ because $r\,dr\,d\theta=dx\,dy$.
 
+\bigskip
+\noindent
 Now let us try computing the line integral side of Green's theorem
 and see if we get the same result.
 We need to use the trick of converting sine and cosine to exponentials
@@ -47,12 +56,17 @@ f = circexp(f)
 defint(f,t,0,2pi)
 \end{Verbatim}
 
+\noindent
 $\displaystyle \frac{3}{2}\pi$
 
+\bigskip
+\noindent
 Example 2.
 Compute both sides of Green's theorem for
 $F=(1-y,x)$ over the disk $x^2+y^2\le4$.
 
+\bigskip
+\noindent
 First compute the line integral along the boundary of the disk.
 Note that the radius of the disk is 2.
 
@@ -65,6 +79,7 @@ y = 2*sin(t)
 defint(P*d(x,t)+Q*d(y,t),t,0,2pi)
 \end{Verbatim}
 
+\noindent
 $\displaystyle 8\pi$
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
@@ -75,6 +90,7 @@ h = sqrt(4-x^2)
 defint(d(Q,x)-d(P,y),y,-h,h,x,-2,2)
 \end{Verbatim}
 
+\noindent
 $\displaystyle 8\pi$
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
@@ -85,14 +101,18 @@ y = r*sin(theta)
 defint(f*r,r,0,2,theta,0,2pi)
 \end{Verbatim}
 
+\noindent
 $\displaystyle 8\pi$
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
 defint(f*r,theta,0,2pi,r,0,2) --try integrating over theta first
 \end{Verbatim}
 
+\noindent
 $\displaystyle 8\pi$
 
+\bigskip
+\noindent
 In this case, Eigenmath solved both forms of the polar integral.
 However, in cases where Eigenmath fails to solve a double integral, try
 changing the order of integration.

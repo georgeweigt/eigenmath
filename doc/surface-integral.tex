@@ -16,18 +16,24 @@ Hence
 $$\int\!\!\!\int{\bf F\cdot n}\,dA=\int\!\!\!\int{\bf F}\cdot
 \left({{\partial S\over\partial x}\times{\partial S\over\partial y}}\right)\,dx\,dy$$
 
+\bigskip
+\noindent
 The following exercise is from
 {\it Advanced Calculus} by Wilfred Kaplan, p.~313.
 Evaluate the surface integral
-
 $$\int\!\!\!\int_S{\bf F\cdot n}\,d\sigma$$
 
+\noindent
 where ${\bf F}=xy^2z{\bf i}-2x^3{\bf j}+yz^2{\bf k}$, $S$ is the surface
 $z=1-x^2-y^2$, $x^2+y^2\le1$ and $\bf n$ is upper.
 
+\bigskip
+\noindent
 Note that the surface intersects the $xy$ plane in a circle.
 By the right hand rule, crossing $x$ into $y$ yields $\bf n$ pointing upwards hence
 $${\bf n}\,d\sigma=\left({{\partial S\over\partial x}\times{\partial S\over\partial y}}\right)\,dx\,dy$$
+
+\noindent
 The following Eigenmath code computes the surface integral.
 The symbols $f$ and $h$ are used as temporary variables.
 
@@ -40,4 +46,5 @@ h = sqrt(1-x^2)
 defint(f,y,-h,h,x,-1,1)
 \end{Verbatim}
 
+\noindent
 $\displaystyle \frac{1}{48}\pi$
