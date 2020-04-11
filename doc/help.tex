@@ -175,14 +175,13 @@ $1$
 
 \subsection*{check($x$)}
 
-If $x$ is true (nonzero) then continue in a script, else stop.
-Use {\tt A=B} or {\tt A==B} to test for A equals B.
+If $x$ is true (nonzero) then continue, else stop.
 
 {\color{blue}
 \begin{verbatim}
 A = 1
 B = 1
-check(A=B) -- script stops here if A not equal to B
+check(A=B) -- stop here if A not equal to B
 \end{verbatim}
 }
 
@@ -796,7 +795,6 @@ $0$
 \subsection*{for($i,j,k,a,b,\ldots$)}
 
 For $i$ equals $j$ through $k$ evaluate $a$, $b$, etc.
-The original value of symbol $i$ is restored after {\tt for} completes.
 
 {\color{blue}
 \begin{verbatim}
@@ -808,6 +806,10 @@ for(k,1,3,A=k,print(A))
 $A=1$\\
 $A=2$\\
 $A=3$
+
+\bigskip
+\noindent
+Note: The original value of $i$ is restored after {\tt for} completes.
 
 \subsection*{gcd($a,b,\ldots$)}
 
@@ -1106,7 +1108,7 @@ mag(x + i y)
 }
 
 \noindent
-$\displaystyle \left[x^2+y^2\right]^{1/2}$
+$\displaystyle (x^2+y^2)^{1/2}$
 
 \subsection*{mod($a,b$)}
 
@@ -1121,530 +1123,555 @@ mod(10,7)
 \noindent
 $3$
 
-\iffalse
+\subsection*{not($x$)}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="not">not(<i>x</i>)</a>
-<p>
-Returns 0 if <i>x</i> is true (nonzero).
+Returns 0 if $x$ is true (nonzero).
 Returns 1 otherwise.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 not(1=1)
-</pre>
-<pre>
-0
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="nroots">nroots(<i>p,x</i>)</a>
-<p>
+\noindent
+$0$
+
+\subsection*{nroots($p,x$)}
+
 Returns all roots, both real and complex,
-of polynomial <i>p</i>(<i>x</i>).
+of polynomial $p(x)$.
 The roots are computed numerically.
-The coefficients of <i>p</i> can be real or complex.
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="number">number(<i>x</i>)</a>
-<p>
-Returns 1 if <i>x</i> is a rational or floating point number.
+\subsection*{number($x$)}
+
+Returns 1 if $x$ is a rational or floating point number.
 Returns 0 otherwise.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 number(1/2)
-</pre>
-<pre>
-1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="numerator">numerator(<i>x</i>)</a>
-<p>
-Returns the numerator of expression <i>x</i>.
-<pre style="color:blue">
+\noindent
+$1$
+
+\subsection*{numerator($x$)}
+
+Returns the numerator of expression $x$.
+
+{\color{blue}
+\begin{verbatim}
 numerator(a/b)
-</pre>
-<pre>
-a
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="or">or(<i>a,b,...</i>)</a>
-<p>
+\noindent
+$a$
+
+\subsection*{or($a,b,\ldots$)}
+
 Returns 1 if at least one argument is true (nonzero).
 Returns 0 otherwise.
-<pre style="color:blue">
-or(1=1,2=2)
-</pre>
-<pre>
-1
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="outer">outer(<i>a,b,...</i>)</a>
-<p>
+{\color{blue}
+\begin{verbatim}
+or(1=1,2=2)
+\end{verbatim}
+}
+
+\noindent
+$1$
+
+\subsection*{outer($a,b,\ldots$)}
+
 Returns the outer product of tensors.
 Also known as the tensor product.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 A = (a,b,c)
 B = (x,y,z)
 outer(A,B)
-</pre>
-<pre>
-a x   a y   a z
+\end{verbatim}
+}
 
-b x   b y   b z
+\noindent
+$\displaystyle
+\begin{bmatrix}
+a x & a y & a z\\
+b x & b y & b z\\
+c x & c y & c z
+\end{bmatrix}
+$
 
-c x   c y   c z
-</pre>
+\subsection*{pi}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="pi">pi</a>
-<p>
-Symbol for &#960;.
-<pre style="color:blue">
+Symbol for $\pi$.
+
+{\color{blue}
+\begin{verbatim}
 exp(i pi)
-</pre>
-<pre>
--1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="polar">polar(<i>z</i>)</a>
-<p>
-Returns complex <i>z</i> in polar form.
-<pre style="color:blue">
+\noindent
+$-1$
+
+\subsection*{polar($z$)}
+
+Returns complex $z$ in polar form.
+
+{\color{blue}
+\begin{verbatim}
 polar(x - i y)
-</pre>
-<pre>
-         1/2
-  2    2
-(x  + y )    exp(i arctan(-y,x))
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="power">power</a>
-<p>
-Use <tt>^</tt> to raise something to a power.
+\noindent
+$\displaystyle (x^2+y^2)^{1/2}\exp(i\arctan(-y,x))$
+
+\subsection*{power}
+
+Use \verb$^$ to raise something to a power.
 Use parentheses for negative powers.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 x^(-2)
-</pre>
-<pre>
- 1
-----
-  2
- x
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="prime">prime(<i>n</i>)</a>
-<p>
-Returns the <i>n</i>th prime number.
-The domain of <i>n</i> is 1 to 10000.
-<pre style="color:blue">
+\noindent
+$\displaystyle \frac{1}{x^2}$
+
+\subsection*{prime($n$)}
+
+Returns the $n$th prime number.
+The domain of $n$ is 1 to 10000.
+{\color{blue}
+\begin{verbatim}
 prime(100)
-</pre>
-<pre>
-541
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="print">print(<i>a,b,...</i>)</a>
-<p>
+\noindent
+$541$
+
+\subsection*{print($a,b,\ldots$)}
+
 Evaluate expressions and print the results.
-Useful for printing from inside a <tt>for</tt> loop.
-<pre style="color:blue">
+Useful for printing from inside a {\tt for} loop.
+
+{\color{blue}
+\begin{verbatim}
 for(j,1,3,print(j))
-</pre>
-<pre>
-j = 1
-j = 2
-j = 3
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="product">product(<i>i,j,k,f</i>)</a>
-<p>
-For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
-Returns the product of all <i>f</i>.
-<pre style="color:blue">
+\noindent
+$j=1$\newline
+$j=2$\newline
+$j=3$
+
+\section*{product($i,j,k,f$)}
+
+For $i$ equals $j$ through $k$ evaluate $f$.
+Returns the product of all $f$.
+
+{\color{blue}
+\begin{verbatim}
 product(j,1,3,x + j)
-</pre>
-<pre>
- 3      2
-x  + 6 x  + 11 x + 6
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="quote">quote(<i>x</i>)</a>
-<p>
-Returns expression <i>x</i> without evaluating it first.
-<pre style="color:blue">
-p = quote((x + 1)^2)
-binding(p)
-</pre>
-<pre>
-       2
-(x + 1)
-</pre>
-<pre style="color:blue">
-p = quote(p) -- clear symbol p
-binding(p)
-</pre>
-<pre>
-p
-</pre>
+\noindent
+$\displaystyle x^3+6x^2+11x+6$
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="quotient">quotient(<i>p,q,x</i>)</a>
-<p>
-Returns the quotient of polynomial <i>p</i>(<i>x</i>) over <i>q</i>(<i>x</i>).
-<pre style="color:blue">
+\bigskip
+\noindent
+Note: The original value of $i$ is restored after {\tt product} completes.
+
+\subsection*{quote($x$)}
+
+Returns expression $x$ without evaluating it first.
+
+{\color{blue}
+\begin{verbatim}
+quote((x + 1)^2)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle (x+1)^2$
+
+\subsection*{quotient($p,q,x$)}
+
+Returns the quotient of polynomial $p(x)$ over $q(x)$.
+
+{\color{blue}
+\begin{verbatim}
 p = x^2 + 1
 q = x + 3
 quotient(p,q,x)
-</pre>
-<pre>
-x - 3
-</pre>
-<pre style="color:blue">
-p - q quotient(p,q,x) -- remainder of p/q
-</pre>
-<pre>
-10
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="rank">rank(<i>a</i>)</a>
-<p>
-Returns the number of indices that tensor <i>a</i> has.
-<pre style="color:blue">
-A = ((1,0),(0,1))
-rank(outer(A,A,A))
-</pre>
-<pre>
-6
-</pre>
+\noindent
+$x-3$
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="rationalize">rationalize(<i>x</i>)</a>
-<p>
-Returns expression <i>x</i> with everything over a common denominator.
-<pre style="color:blue">
+\subsection*{rank($a$)}
+
+Returns the number of indices that tensor $a$ has.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+rank(A)
+\end{verbatim}
+}
+
+\noindent
+2
+
+\subsection*{rationalize($x$)}
+
+Returns expression $x$ with everything over a common denominator.
+
+{\color{blue}
+\begin{verbatim}
 rationalize(1/a + 1/b + 1/2)
-</pre>
-<pre>
- 2 a + a b + 2 b
------------------
-      2 a b
-</pre>
-<p>
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{2a+ab+2b}{2ab}$
+
+\bigskip
+\noindent
 Note: Rationalize returns an unexpanded expression.
 If the result is assigned to a symbol,
 evaluating the symbol will expand the result.
-Use <tt>binding</tt> to retrieve the unexpanded expression.
-<pre style="color:blue">
-f = rationalize(1/a + 1/b + 1/2)
-binding(f)
-</pre>
-<pre>
- 2 a + a b + 2 b
------------------
-      2 a b
-</pre>
+Use {\tt binding} to retrieve the unexpanded expression.
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="real">real(<i>z</i>)</a>
-<p>
-Returns the real part of complex <i>z</i>.
-<pre style="color:blue">
+\subsection*{real($z$)}
+
+Returns the real part of complex $z$.
+
+{\color{blue}
+\begin{verbatim}
 real(2 - 3i)
-</pre>
-<pre>
+\end{verbatim}
+}
+
+\noindent
 2
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="rect">rect(<i>z</i>)</a>
-<p>
-Returns complex <i>z</i> in rectangular form.
-<pre style="color:blue">
+\subsection*{rect($z$)}
+
+Returns complex $z$ in rectangular form.
+
+{\color{blue}
+\begin{verbatim}
 rect(exp(i x))
-</pre>
-<pre>
-cos(x) + i sin(x)
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="roots">roots(<i>p,x</i>)</a>
-<p>
-Returns the values of <i>x</i> such that polynomial
-<i>p</i>(<i>x</i>) equals zero.
-The polynomial should be factorable over integers.
+\noindent
+$\displaystyle \cos(x)+i\sin(x)$
+
+\subsection*{roots($p,x$)}
+
+Returns the $x$ such that $p(x)=0$.
+Polynomial $p(x)$ should be factorable over integers.
 Returns a vector for multiple roots.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 roots(x^2 + 3x + 2,x)
-</pre>
-<pre>
--2
+\end{verbatim}
+}
 
+\noindent
+$\displaystyle
+\begin{bmatrix}
+-2\\
 -1
-</pre>
+\end{bmatrix}
+$
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="run">run(<i>file</i>)</a>
-<p>
-Run script <i>file</i>.
+\subsection*{run({\it file})}
+
+Run script {\it file}.
 Useful for importing function libraries.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 run("Downloads/EVA.txt")
-</pre>
-<p>
-<i>file</i> must be in the Downloads folder due to security requirements for apps distributed on the Mac App Store.
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="simplify">simplify(<i>x</i>)</a>
-<p>
-Returns expression <i>x</i> in a simpler form.
-<pre style="color:blue">
+\noindent
+Note: {\it file} must be in the Downloads folder due to security requirements for apps distributed on the Mac App Store.
+
+\subsection*{simplify($x$)}
+
+Returns expression $x$ in a simpler form.
+
+{\color{blue}
+\begin{verbatim}
 simplify(sin(x)^2 + cos(x)^2)
-</pre>
-<pre>
+\end{verbatim}
+}
+
+\noindent
 1
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="sin">sin(<i>x</i>)</a>
-<p>
-Returns the sine of <i>x</i>.
-<pre style="color:blue">
+\subsection*{sin($x$)}
+
+Returns the sine of $x$.
+
+{\color{blue}
+\begin{verbatim}
 sin(pi/4)
-</pre>
-<pre>
-  1
-------
-  1/2
- 2
-</pre>
-<pre style="color:blue">
-sin(arctan(y,x))
-</pre>
-<pre>
-      y
---------------
-          1/2
-   2    2
- (x  + y )
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="sinh">sinh(<i>x</i>)</a>
-<p>
-Returns the hyperbolic sine of <i>x</i>.
-<pre style="color:blue">
+\noindent
+$\displaystyle \frac{1}{2^{1/2}}$
+
+\subsection*{sinh($x$)}
+
+Returns the hyperbolic sine of $x$.
+
+{\color{blue}
+\begin{verbatim}
 circexp(sinh(x))
-</pre>
-<pre>
-   1             1
-- --- exp(-x) + --- exp(x)
-   2             2
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="sqrt">sqrt(<i>x</i>)</a>
-<p>
-Returns the square root of <i>x</i>.
-<pre style="color:blue">
+\noindent
+$\displaystyle -\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
+
+\subsection*{sqrt($x$)}
+
+Returns the square root of $x$.
+
+{\color{blue}
+\begin{verbatim}
 sqrt(10!)
-</pre>
-<pre>
-     1/2
-720 7
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="status">status</a>
-<p>
+\noindent
+$\displaystyle 720\; 7^{1/2}$
+
+\subsection*{status}
+
 Prints memory statistics.
-<pre style="color:blue">
-status
-</pre>
-<pre>
-block_count 1
-free_count 99258
-gc_count 1
-bignum_count 370
-string_count 0
-tensor_count 5
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="stop">stop</a>
-<p>
+\bigskip
+\noindent
+{\color{blue}
+\verb$status$
+}
+
+\bigskip
+\noindent
+\verb$block_count 1$\\
+\verb$free_count 99258$\\
+\verb$gc_count 1$\\
+\verb$bignum_count 370$\\
+\verb$string_count 0$\\
+\verb$tensor_count 5$
+
+\subsection*{stop}
+
 In a script, it does what it says.
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="string">string(<i>x</i>)</a>
-<p>
-Evaluates expression <i>x</i> and returns the result as a string.
+\subsection*{string($x$)}
+
+Evaluates expression $x$ and returns the result as a string.
 Useful for testing scripts.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 string((x + 1)^2) == "x^2 + 2 x + 1"
-</pre>
-<pre>
+\end{verbatim}
+}
+
+\noindent
 1
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="subst">subst(<i>a,b,c</i>)</a>
-<p>
-Substitutes <i>a</i> for <i>b</i> in <i>c</i> and returns the result.
-<pre style="color:blue">
+\subsection*{subst($a,b,c$)}
+
+Substitutes $a$ for $b$ in $c$ and returns the result.
+
+{\color{blue}
+\begin{verbatim}
 subst(x,y,y^2)
-</pre>
-<pre>
- 2
-x
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="sum">sum(<i>i,j,k,f</i>)</a>
-<p>
-For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
-Returns the sum of all <i>f</i>.
-<pre style="color:blue">
+\noindent
+$\displaystyle x^2$
+
+\subsection*{sum($i,j,k,f$)}
+
+For $i$ equals $j$ through $k$ evaluate $f$.
+Returns the sum of all $f$.
+
+{\color{blue}
+\begin{verbatim}
 sum(j,1,5,x^j)
-</pre>
-<pre>
- 5    4    3    2
-x  + x  + x  + x  + x
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="tan">tan(<i>x</i>)</a>
-<p>
-Returns the tangent of <i>x</i>.
-<pre style="color:blue">
+\noindent
+$\displaystyle x^5+x^4+x^3+x^2+x$
+
+\bigskip
+\noindent
+Note: The original value of $i$ is restored after {\tt sum} completes.
+
+\subsection*{tan($x$)}
+
+Returns the tangent of $x$.
+
+{\color{blue}
+\begin{verbatim}
 simplify(tan(x) - sin(x)/cos(x))
-</pre>
-<pre>
+\end{verbatim}
+}
+
+\noindent
 0
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="tanh">tanh(<i>x</i>)</a>
-<p>
-Returns the hyperbolic tangent of <i>x</i>.
-<pre style="color:blue">
+\subsection*{tanh($x$)}
+
+Returns the hyperbolic tangent of $x$.
+
+{\color{blue}
+\begin{verbatim}
 circexp(tanh(x))
-</pre>
-<pre>
-        1             exp(2 x)
-- -------------- + --------------
-   exp(2 x) + 1     exp(2 x) + 1
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="taylor">taylor(<i>f,x,n,a</i>)</a>
-<p>
-Returns the Taylor expansion of <i>f</i>(<i>x</i>) near <i>x</i> equals <i>a</i>.
-If argument <i>a</i> is omitted then zero is used.
-Argument <i>n</i> is the degree of the expansion.
-<pre style="color:blue">
+\noindent
+$\displaystyle -\frac{1}{\exp(2x)+1}+\frac{\exp(2x)}{\exp(2x)+1}$
+
+\subsection*{taylor($f,x,n,a$)}
+
+Returns the Taylor expansion of $f(x)$ near $x=a$.
+If argument $a$ is omitted then $a=0$ is used.
+Argument $n$ is the degree of the expansion.
+
+{\color{blue}
+\begin{verbatim}
 taylor(sin(x),x,5)
-</pre>
-<pre>
-  1    5    1   3
------ x  - --- x  + x
- 120        6
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="test">test(<i>a,b,c,d,...</i>)</a>
-<p>
-If argument <i>a</i> is true (nonzero) then <i>b</i> is returned,
-else if <i>c</i> is true then <i>d</i> is returned, etc.
+\noindent
+$\displaystyle \tfrac{1}{120}x^5-\tfrac{1}{6}x^3+x$
+
+\subsection*{test($a,b,c,d,\ldots$)}
+
+If argument $a$ is true (nonzero) then $b$ is returned,
+else if $c$ is true then $d$ is returned, etc.
 If the number of arguments is odd then the last argument is returned
 if all else fails.
-Use A=B or A==B to test for A equals B.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 A = 1
 B = 1
 test(A=B,"yes","no")
-</pre>
-<pre>
+\end{verbatim}
+}
+
+\noindent
 yes
-</pre>
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="trace">trace</a>
-<p>
-Set <tt>trace=1</tt> in a script to print the script as it is evaluated.
+\subsection*{trace}
+
+Set {\tt trace=1} in a script to print the script as it is evaluated.
 Useful for debugging.
-<pre style="color:blue">
-trace = 1
-</pre>
-<p>
-Note: The <tt>contract</tt> function is used to obtain the trace of a matrix.
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="transpose">transpose(<i>a,i,j</i>)</a>
-<p>
-Returns the transpose of tensor <i>a</i> with respect to indices <i>i</i> and <i>j</i>.
-If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
+\subsection*{transpose($a,i,j$)}
+
+Returns the transpose of tensor $a$ with respect to indices $i$ and $j$.
+If $i$ and $j$ are omitted then 1 and 2 are used.
 Hence a matrix can be transposed with a single argument.
-<pre style="color:blue">
+
+{\color{blue}
+\begin{verbatim}
 A = ((a,b),(c,d))
 transpose(A)
-</pre>
-<pre>
-a   c
+\end{verbatim}
+}
 
-b   d
-</pre>
+\noindent
+$\displaystyle
+\begin{bmatrix}
+a & c\\
+b & d
+\end{bmatrix}
+$
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="tty">tty</a>
-<p>
-Set <tt>tty=1</tt> to print results in a flat format.
-<pre style="color:blue">
+\subsection*{tty}
+
+Set {\tt tty=1} to print results in text format.
+
+{\color{blue}
+\begin{verbatim}
 tty = 1
 (x + 1/2)^2
-</pre>
-<pre>
-x^2 + x + 1/4
-</pre>
+\end{verbatim}
+}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="unit">unit(<i>n</i>)</a>
-<p>
-Returns an <i>n</i> by <i>n</i> identity matrix.
-<pre style="color:blue">
+\noindent
+\verb$x^2 + x + 1/4$
+
+\subsection*{unit($n$)}
+
+Returns an $n$ by $n$ identity matrix.
+
+{\color{blue}
+\begin{verbatim}
 unit(3)
-</pre>
-<pre>
-1   0   0
+\end{verbatim}
+}
 
-0   1   0
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
+\end{bmatrix}
+$
 
-0   0   1
-</pre>
+\subsection*{zero($i,j,\ldots$)}
 
-<p style="font-family:courier;font-size:20pt;font-weight:bold">
-<a name="zero">zero(<i>i,j,...</i>)</a>
-<p>
-Returns a null tensor with dimensions <i>i</i>, <i>j</i>, etc.
-Useful for creating a tensor and then setting the component values.
-<pre style="color:blue">
+Returns a null tensor with dimensions $i$, $j$, etc.
+Useful for creating a tensor and then setting component values.
+
+{\color{blue}
+\begin{verbatim}
 A = zero(3,3)
 for(k,1,3,A[k,k]=k)
 A
-</pre>
-<pre>
-    1   0   0
+\end{verbatim}
+}
 
-A = 0   2   0
-
-    0   0   3
-</pre>
-
-\fi
+\noindent
+$\displaystyle
+A=
+\begin{bmatrix}
+1 & 0 & 0\\
+0 & 2 & 0\\
+0 & 0 & 3
+\end{bmatrix}
+$
