@@ -391,16 +391,6 @@ It is OK to redefine {\tt d} as a different function.
 The function {\tt derivative}, a synonym for {\tt d},
 can still be used to obtain a partial derivative.
 
-{\color{blue}
-\begin{verbatim}
-d(x,y) = x - y
-derivative(x^2,x)
-\end{verbatim}
-}
-
-\noindent
-$2x$
-
 \subsection*{defint($f,x,a,b$)}
 
 Returns the definite integral of $f$ with respect to $x$
@@ -723,16 +713,6 @@ Note: Factor returns an unexpanded expression.
 If the result is assigned to a symbol, evaluating
 the symbol will expand the result.
 Use {\tt binding} to retrieve the unexpanded expression.
-
-{\color{blue}
-\begin{verbatim}
-q = factor(p,x)
-binding(q)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle (x+1)(y+2)$
 
 \subsection*{factorial($n$)}
 
