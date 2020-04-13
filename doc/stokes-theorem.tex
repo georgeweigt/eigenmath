@@ -29,7 +29,8 @@ It turns out that we need to use polar coordinates for the
 line integral so that {\it defint} can succeed.
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
--- Surface integral
+-- www.eigenmath.org/stokes-theorem.txt
+"Surface integral"
 z = 4 - x^2 - y^2
 F = (y,z,x)
 S = (x,y,z)
@@ -37,7 +38,7 @@ f = dot(curl(F),cross(d(S,x),d(S,y)))
 x = r cos(theta)
 y = r sin(theta)
 defint(f r,r,0,2,theta,0,2pi)
--- Line integral
+"Line integral"
 x = 2 cos(t)
 y = 2 sin(t)
 z = 4 - x^2 - y^2
@@ -56,8 +57,7 @@ yield the same result.
 
 \bigskip
 \noindent
-$\displaystyle -4\pi$
-
-\bigskip
-\noindent
+Surface integral\\
+$\displaystyle -4\pi$\\
+Line integral\\
 $\displaystyle -4\pi$
