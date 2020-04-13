@@ -30,21 +30,21 @@ line integral so that {\it defint} can succeed.
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
 -- Surface integral
-z = 4-x^2-y^2
+z = 4 - x^2 - y^2
 F = (y,z,x)
 S = (x,y,z)
 f = dot(curl(F),cross(d(S,x),d(S,y)))
-x = r*cos(theta)
-y = r*sin(theta)
-defint(f*r,r,0,2,theta,0,2pi)
+x = r cos(theta)
+y = r sin(theta)
+defint(f r,r,0,2,theta,0,2pi)
 -- Line integral
-x = 2*cos(t)
-y = 2*sin(t)
-z = 4-x^2-y^2
+x = 2 cos(t)
+y = 2 sin(t)
+z = 4 - x^2 - y^2
 P = y
 Q = z
 R = x
-f = P*d(x,t)+Q*d(y,t)+R*d(z,t)
+f = P d(x,t) + Q d(y,t) + R d(z,t)
 f = circexp(f)
 defint(f,t,0,2pi)
 \end{Verbatim}

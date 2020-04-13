@@ -24,20 +24,20 @@ $x$ and $y$ directly.
 Polar coordinates are used instead.
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
-P = 2x^3-y^3
-Q = x^3+y^3
-f = d(Q,x)-d(P,y)
-x = r*cos(theta)
-y = r*sin(theta)
-defint(f*r,r,0,1,theta,0,2pi)
+P = 2x^3 - y^3
+Q = x^3 + y^3
+f = d(Q,x) - d(P,y)
+x = r cos(theta)
+y = r sin(theta)
+defint(f r,r,0,1,theta,0,2pi)
 \end{Verbatim}
 
 \noindent
-$\displaystyle \frac{3}{2}\pi$
+$\displaystyle \tfrac{3}{2}\pi$
 
 \bigskip
 \noindent
-The $defint$ integrand is $f{*}r$ because $r\,dr\,d\theta=dx\,dy$.
+The $defint$ integrand is $f\,r$ because $r\,dr\,d\theta=dx\,dy$.
 
 \bigskip
 \noindent
@@ -49,15 +49,15 @@ so that Eigenmath can find a solution.
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
 x = cos(t)
 y = sin(t)
-P = 2x^3-y^3
-Q = x^3+y^3
-f = P*d(x,t)+Q*d(y,t)
+P = 2x^3 - y^3
+Q = x^3 + y^3
+f = P d(x,t) + Q d(y,t)
 f = circexp(f)
 defint(f,t,0,2pi)
 \end{Verbatim}
 
 \noindent
-$\displaystyle \frac{3}{2}\pi$
+$\displaystyle \tfrac{3}{2}\pi$
 
 \bigskip
 \noindent
@@ -72,11 +72,11 @@ Note that the radius of the disk is 2.
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
 -- Line integral
-P = 1-y
+P = 1 - y
 Q = x
-x = 2*cos(t)
-y = 2*sin(t)
-defint(P*d(x,t)+Q*d(y,t),t,0,2pi)
+x = 2 cos(t)
+y = 2 sin(t)
+defint(P d(x,t) + Q d(y,t),t,0,2pi)
 \end{Verbatim}
 
 \noindent
@@ -95,17 +95,17 @@ $\displaystyle 8\pi$
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
 -- Try computing the surface integral using polar coordinates.
-f = d(Q,x)-d(P,y) --do before change of coordinates
-x = r*cos(theta)
-y = r*sin(theta)
-defint(f*r,r,0,2,theta,0,2pi)
+f = d(Q,x) - d(P,y) --do before change of coordinates
+x = r cos(theta)
+y = r sin(theta)
+defint(f r,r,0,2,theta,0,2pi)
 \end{Verbatim}
 
 \noindent
 $\displaystyle 8\pi$
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
-defint(f*r,theta,0,2pi,r,0,2) --try integrating over theta first
+defint(f r,theta,0,2pi,r,0,2) --try integrating over theta first
 \end{Verbatim}
 
 \noindent
