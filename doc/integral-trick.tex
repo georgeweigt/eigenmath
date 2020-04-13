@@ -12,9 +12,9 @@ $$\int_0^{2\pi}\left(\sin^4t-2\cos^3(t/2)\sin t\right)dt$$
 can be solved as follows.
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
-f = sin(t)^4-2*cos(t/2)^3*sin(t)
+f = sin(t)^4 - 2 cos(t/2)^3 sin(t)
 f = circexp(f)
-defint(f,t,0,2*pi)
+defint(f,t,0,2pi)
 \end{Verbatim}
 
 \noindent
@@ -26,7 +26,7 @@ Here is a check of the result.
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
 g = integral(f,t)
-f-d(g,t)
+f - d(g,t)
 \end{Verbatim}
 
 \noindent

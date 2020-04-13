@@ -96,7 +96,7 @@ As expected, the discrete result matches the analytic result.
 \bigskip
 \noindent
 Find the length of the curve $y=x^{3/2}$ from the origin to
-$x={4\over3}$.
+$x=\tfrac{4}{3}$.
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
 x = t
@@ -158,11 +158,11 @@ Line integral, vector field
 
 \noindent
 For the vector field form, the symbol $u$ is the unit tangent vector
-$$u={g'(t)\over|g'(t)|}$$
+$$u=\frac{g'(t)}{|g'(t)|}$$
 The length of the tangent vector cancels with $ds$
 as follows.
 $$\int_C(F\cdot u)\,ds
-=\int_a^b\bigg(F(g(t))\cdot{g'(t)\over|g'(t)|}\bigg)\,\bigg(|g'(t)|\,dt\bigg)
+=\int_a^b\bigg(F(g(t))\cdot\frac{g'(t)}{|g'(t)|}\bigg)\,\bigg(|g'(t)|\,dt\bigg)
 =\int_a^b F(g(t))\cdot g'(t)\,dt
 $$
 
@@ -177,8 +177,6 @@ What a difference the measure makes.
 The first integral is over a scalar field and the second is over a vector field.
 This can be understood when we recall that
 $$ds=|g'(t)|\,dt
-%\quad\hbox{and}\quad
-%\int_Cx\,dx=\int_Cx\,dx+0\,dy
 $$
 Hence for $\int_Cx\,ds$ we have
 
@@ -186,7 +184,7 @@ Hence for $\int_Cx\,ds$ we have
 x = t
 y = t
 g = (x,y)
-defint(x*abs(d(g,t)),t,0,1)
+defint(x abs(d(g,t)),t,0,1)
 \end{Verbatim}
 
 \noindent
