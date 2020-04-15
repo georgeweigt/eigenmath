@@ -1,12 +1,4 @@
-// 'product' function
-
 #include "defs.h"
-
-#undef I
-#undef X
-
-#define I p5
-#define X p6
 
 void
 eval_product(void)
@@ -15,13 +7,15 @@ eval_product(void)
 
 	// 1st arg (quoted)
 
-	X = cadr(p1);
-	if (!issymbol(X))
+	p1 = cdr(p1);
+	p2 = car(p1);
+	if (!issymbol(p2))
 		stop("product: 1st arg?");
 
 	// 2nd arg
 
-	push(caddr(p1));
+	p1 = cdr(p1);
+	push(car(p1));
 	eval();
 	j = pop_integer();
 	if (j == ERR)
@@ -29,32 +23,35 @@ eval_product(void)
 
 	// 3rd arg
 
-	push(cadddr(p1));
+	p1 = cdr(p1);
+	push(car(p1));
 	eval();
 	k = pop_integer();
 	if (k == ERR)
 		stop("product: 3rd arg?");
 
+	if (k - j < 0) {
+		push(one);
+		return;
+	}
+
 	// 4th arg
 
-	p1 = caddddr(p1);
+	p1 = cadr(p1);
 
-	push_binding(X);
-
-	push_integer(1);
+	push_binding(p2);
 
 	for (i = j; i <= k; i++) {
 		push_integer(i);
-		I = pop();
-		set_binding(X, I);
+		p3 = pop();
+		set_binding(p2, p3);
 		push(p1);
 		eval();
-		multiply();
 	}
 
+	multiply_factors(k - j + 1);
+
 	p1 = pop();
-
-	pop_binding(X);
-
+	pop_binding(p2);
 	push(p1);
 }

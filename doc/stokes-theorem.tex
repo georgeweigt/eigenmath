@@ -28,7 +28,8 @@ The following script computes both the line and surface integrals.
 It turns out that we need to use polar coordinates for the
 line integral so that {\it defint} can succeed.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 -- www.eigenmath.org/stokes-theorem.txt
 "Surface integral"
 z = 4 - x^2 - y^2
@@ -48,7 +49,8 @@ R = x
 f = P d(x,t) + Q d(y,t) + R d(z,t)
 f = circexp(f)
 defint(f,t,0,2pi)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 This is the result when the script runs.
