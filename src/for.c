@@ -1,12 +1,4 @@
-// 'for' function
-
 #include "defs.h"
-
-#undef I
-#undef X
-
-#define I p5
-#define X p6
 
 void
 eval_for(void)
@@ -15,13 +7,15 @@ eval_for(void)
 
 	// 1st arg (quoted)
 
-	X = cadr(p1);
-	if (!issymbol(X))
+	p1 = cdr(p1);
+	p2 = car(p1);
+	if (!issymbol(p2))
 		stop("for: 1st arg?");
 
 	// 2nd arg
 
-	push(caddr(p1));
+	p1 = cdr(p1);
+	push(car(p1));
 	eval();
 	j = pop_integer();
 	if (j == ERR)
@@ -29,7 +23,8 @@ eval_for(void)
 
 	// 3rd arg
 
-	push(cadddr(p1));
+	p1 = cdr(p1);
+	push(car(p1));
 	eval();
 	k = pop_integer();
 	if (k == ERR)
@@ -37,24 +32,24 @@ eval_for(void)
 
 	// remaining args
 
-	p1 = cddddr(p1);
+	p1 = cdr(p1);
 
-	save_binding(X);
+	save_binding(p2);
 
 	for (i = j; i <= k; i++) {
 		push_integer(i);
-		I = pop();
-		set_binding(X, I);
-		p2 = p1;
-		while (iscons(p2)) {
-			push(car(p2));
+		p3 = pop();
+		set_binding(p2, p3);
+		p3 = p1;
+		while (iscons(p3)) {
+			push(car(p3));
 			eval();
 			pop();
-			p2 = cdr(p2);
+			p3 = cdr(p3);
 		}
 	}
 
-	restore_binding(X);
+	restore_binding(p2);
 
 	// return value
 
