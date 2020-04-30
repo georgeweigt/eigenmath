@@ -39,7 +39,7 @@ eval_for(void)
 
 	p1 = cddddr(p1);
 
-	push_binding(X);
+	save_binding(X);
 
 	for (i = j; i <= k; i++) {
 		push_integer(i);
@@ -54,7 +54,7 @@ eval_for(void)
 		}
 	}
 
-	pop_binding(X);
+	restore_binding(X);
 
 	// return value
 

@@ -39,7 +39,7 @@ eval_product(void)
 
 	p1 = cadr(p1);
 
-	push_binding(p2);
+	save_binding(p2);
 
 	for (i = j; i <= k; i++) {
 		push_integer(i);
@@ -51,7 +51,5 @@ eval_product(void)
 
 	multiply_factors(k - j + 1);
 
-	p1 = pop();
-	pop_binding(p2);
-	push(p1);
+	restore_binding(p2);
 }

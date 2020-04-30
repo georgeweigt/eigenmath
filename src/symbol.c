@@ -89,24 +89,6 @@ symnum(struct atom *p)
 }
 
 void
-push_binding(struct atom *p)
-{
-	if (p->k != SYM)
-		stop("symbol expected");
-	push(binding[p - symtab]);
-	push(arglist[p - symtab]);
-}
-
-void
-pop_binding(struct atom *p)
-{
-	if (p->k != SYM)
-		stop("symbol expected");
-	arglist[p - symtab] = pop();
-	binding[p - symtab] = pop();
-}
-
-void
 init_symbol_table(void)
 {
 	int i;

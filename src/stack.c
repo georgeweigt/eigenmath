@@ -26,7 +26,7 @@ save(void)
 	if (tof < 0 || tof > FRAMESIZE)
 		stop("frame error 1");
 	if (tof + 10 > FRAMESIZE)
-		stop("out of memory, perhaps due to a circular definition");
+		stop("frame error, circular definition?");
 	frame[tof + 0] = p0;
 	frame[tof + 1] = p1;
 	frame[tof + 2] = p2;
@@ -58,6 +58,30 @@ restore(void)
 	p7 = frame[tof + 7];
 	p8 = frame[tof + 8];
 	p9 = frame[tof + 9];
+}
+
+void
+save_binding(struct atom *p)
+{
+	if (tof < 0 || tof > FRAMESIZE)
+		stop("frame error 3");
+	if (tof + 2 > FRAMESIZE)
+		stop("frame error, circular definition?");
+	frame[tof + 0] = binding[p - symtab];
+	frame[tof + 1] = arglist[p - symtab];
+	tof += 2;
+	if (tof > max_frame)
+		max_frame = tof;
+}
+
+void
+restore_binding(struct atom *p)
+{
+	if (tof < 2 || tof > FRAMESIZE)
+		stop("frame error 4");
+	tof -= 2;
+	binding[p - symtab] = frame[tof + 0];
+	arglist[p - symtab] = frame[tof + 1];
 }
 
 void
