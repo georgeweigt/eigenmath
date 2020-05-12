@@ -41,5 +41,4 @@ erf_symbolic_nib(void)
 	push_symbol(ERF);
 	push(p1);
 	list(2);
-	return;
 }
