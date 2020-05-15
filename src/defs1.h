@@ -297,4 +297,5 @@ struct tensor {
 
 #define Trace printf("%s %d\n", __func__, __LINE__);
 
+extern char *itab[];
 extern int primetab[MAXPRIMETAB];
