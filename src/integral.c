@@ -61,64 +61,56 @@ void
 integral(void)
 {
 	save();
-	p2 = pop();
-	p1 = pop();
+
+	p2 = pop(); // x
+	p1 = pop(); // f(x)
+
 	if (car(p1) == symbol(ADD))
 		integral_of_sum();
 	else if (car(p1) == symbol(MULTIPLY))
 		integral_of_product();
 	else
 		integral_of_form();
-	p1 = pop();
-	if (find(p1, symbol(INTEGRAL)))
-		stop("integral could not find a solution");
-	push(p1);
-	eval();		// normalize the result
+
 	restore();
 }
 
 void
 integral_of_sum(void)
 {
+	int h = tos;
+
 	p1 = cdr(p1);
-	push(car(p1));
-	push(p2);
-	integral();
-	p1 = cdr(p1);
+
 	while (iscons(p1)) {
 		push(car(p1));
 		push(p2);
 		integral();
-		add();
 		p1 = cdr(p1);
 	}
+
+	add_terms(tos - h);
 }
 
 void
 integral_of_product(void)
 {
-	push(p1);
-	push(p2);
-	partition();
-	p1 = pop();			// pop variable part
+	push(p1); // f(x)
+	push(p2); // x
+	partition(); // pushes const part, then pushes var part
+	p1 = pop(); // pop var part
 	integral_of_form();
-	multiply();			// multiply constant part
+	multiply(); // multiply by const part
 }
-
-extern char *itab[];
 
 void
 integral_of_form(void)
 {
+	push(p1); // f(x)
+	push(p2); // x
+	transform();
+	p1 = pop();
+	if (p1 == symbol(NIL))
+		stop("integral could not find a solution");
 	push(p1);
-	push(p2);
-	transform(itab);
-	p3 = pop();
-	if (p3 == symbol(NIL)) {
-		push_symbol(INTEGRAL);
-		push(p1);
-		push(p2);
-		list(3);
-	} else
-		push(p3);
 }

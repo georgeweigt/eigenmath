@@ -2,8 +2,6 @@
 
 The expression and free variable are on the stack.
 
-The argument s is a null terminated list of transform rules.
-
 Internally, the following symbols are used:
 
 	F	input expression
@@ -34,9 +32,10 @@ Internally, the following symbols are used:
 #define C p7
 
 void
-transform(char **s)
+transform(void)
 {
 	int h;
+	char **s;
 
 	save();
 
@@ -45,9 +44,9 @@ transform(char **s)
 
 	// save symbol context in case eval(B) below calls transform
 
-	push(get_binding(symbol(METAA)));
-	push(get_binding(symbol(METAB)));
-	push(get_binding(symbol(METAX)));
+	save_binding(symbol(METAA));
+	save_binding(symbol(METAB));
+	save_binding(symbol(METAX));
 
 	set_binding(symbol(METAX), X);
 
@@ -60,6 +59,8 @@ transform(char **s)
 	transform_terms(); // collect coefficients of x, x^2, etc.
 	push(X);
 	decomp_nib();
+
+	s = itab;
 
 	while (*s) {
 
@@ -76,20 +77,17 @@ transform(char **s)
 		s++;
 	}
 
-	tos = h;
+	tos = h; // pop all
 
 	if (*s) {
 		push(B);
 		eval();
-		p1 = pop();
 	} else
-		p1 = symbol(NIL);
+		push_symbol(NIL);
 
-	set_binding(symbol(METAX), pop());
-	set_binding(symbol(METAB), pop());
-	set_binding(symbol(METAA), pop());
-
-	push(p1);
+	restore_binding(symbol(METAX));
+	restore_binding(symbol(METAB));
+	restore_binding(symbol(METAA));
 
 	restore();
 }

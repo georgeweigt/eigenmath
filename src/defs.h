@@ -33,6 +33,8 @@ extern struct atom *zero;
 extern struct atom *one;
 extern struct atom *minusone;
 extern struct atom *imaginaryunit;
+
+extern char *itab[];
  
 extern int expanding;
 extern int running;

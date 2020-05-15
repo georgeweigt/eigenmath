@@ -707,7 +707,7 @@ void eval_not(void);
 void eval_and(void);
 void eval_or(void);
 int cmp_args(void);
-void transform(char **s);
+void transform(void);
 int f_equals_a(int h);
 void decomp_nib(void);
 void decomp_sum(void);
