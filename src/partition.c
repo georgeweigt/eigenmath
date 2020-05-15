@@ -23,10 +23,8 @@ partition(void)
 	p2 = pop();
 	p1 = pop();
 
-	push_integer(1);
-
-	p3 = pop();
-	p4 = p3;
+	p3 = one;
+	p4 = one;
 
 	p1 = cdr(p1);
 

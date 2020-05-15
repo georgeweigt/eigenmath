@@ -54,10 +54,10 @@ transform(char **s)
 	// put constants in F(X) on the stack
 
 	h = tos;
-	push_integer(1);
+	push(one);
 	push(F);
 	push(X);
-	polyform(); // collect coefficients of x, x^2, etc.
+	transform_terms(); // collect coefficients of x, x^2, etc.
 	push(X);
 	decomp_nib();
 
@@ -245,4 +245,116 @@ decomp_product(void)
 
 	if (tos - h)
 		multiply_factors(tos - h);
+}
+
+// for example,  a x + b x  ->  (a + b) x
+
+void
+transform_terms(void)
+{
+	save();
+	transform_terms_nib();
+	restore();
+}
+
+void
+transform_terms_nib(void)
+{
+	int h, i, j, n;
+	struct atom **s;
+
+	p2 = pop(); // x
+	p1 = pop(); // expr
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	h = tos;
+	s = stack + tos;
+
+	// depth first
+
+	push(car(p1));
+	p3 = cdr(p1);
+	while (iscons(p3)) {
+		push(car(p3));
+		push(p2);
+		transform_terms();
+		p3 = cdr(p3);
+	}
+	list(tos - h);
+	p1 = pop();
+
+	if (car(p1) != symbol(ADD)) {
+		push(p1);
+		return;
+	}
+
+	// partition terms
+
+	p3 = cdr(p1);
+	while (iscons(p3)) {
+		p4 = car(p3);
+		if (car(p4) == symbol(MULTIPLY)) {
+			push(p4);
+			push(p2);
+			partition(); // pushes const part then pushes var part
+		} else if (find(p4, p2)) {
+			push(one); // const part
+			push(p4); // var part
+		} else {
+			push(p4); // const part
+			push(one); // var part
+		}
+		p3 = cdr(p3);
+	}
+
+	// sort by var part
+
+	n = tos - h;
+
+	qsort(s, n / 2, 2 * sizeof (struct atom *), transform_sort_func);
+
+	// combine const parts of matching var parts
+
+	for (i = 0; i < n - 2; i += 2) {
+		if (equal(s[i + 1], s[i + 3])) {
+			push(s[0]);
+			push(s[2]);
+			add();
+			s[0] = pop();
+			for (j = i + 2; j < n; j++)
+				s[j] = s[j + 2];
+			n -= 2;
+			tos -= 2;
+			i -= 2; // use the same index again
+		}
+	}
+
+	// combine all the parts
+
+	n = tos - h;
+
+	expanding = 0;
+
+	for (i = 0; i < n; i += 2) {
+		push(s[i]); // const part
+		push(s[i + 1]); // var part
+		multiply();
+		s[i / 2] = pop();
+	}
+
+	tos -= n / 2;
+
+	add_terms(tos - h);
+
+	expanding = 1;
+}
+
+int
+transform_sort_func(const void *q1, const void *q2)
+{
+	return cmp_terms(((struct atom **) q1)[1], ((struct atom **) q2)[1]);
 }
