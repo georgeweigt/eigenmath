@@ -109,8 +109,4 @@ integral_of_form(void)
 	push(p1); // f(x)
 	push(p2); // x
 	transform();
-	p1 = pop();
-	if (p1 == symbol(NIL))
-		stop("integral could not find a solution");
-	push(p1);
 }

@@ -62,9 +62,13 @@ transform(void)
 
 	s = itab;
 
-	while (*s) {
+	for (;;) {
 
-		scan(*s, 1);
+		if (*s == NULL)
+			stop("integral could not find a solution");
+
+		scan(*s++, 1);
+
 		p1 = pop();
 
 		A = cadr(p1);
@@ -73,17 +77,12 @@ transform(void)
 
 		if (f_equals_a(h))
 			break;
-
-		s++;
 	}
 
 	tos = h; // pop all
 
-	if (*s) {
-		push(B);
-		eval();
-	} else
-		push_symbol(NIL);
+	push(B);
+	eval();
 
 	restore_binding(symbol(METAX));
 	restore_binding(symbol(METAB));
