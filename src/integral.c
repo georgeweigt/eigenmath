@@ -118,7 +118,7 @@ integral_of_product(void)
 {
 	push(F);
 	push(X);
-	partition(); // pushes const part, then pushes var part
+	partition_integrand(); // push const part then push var part
 	F = pop(); // pop var part
 	integral_of_form();
 	multiply(); // multiply by const part
@@ -387,7 +387,7 @@ collect_coeffs_nib(void)
 		if (car(p3) == symbol(MULTIPLY)) {
 			push(p3);
 			push(p2);
-			partition(); // pushes const part then pushes var part
+			partition_integrand(); // push const part then push var part
 		} else if (find(p3, p2)) {
 			push(one); // const part
 			push(p3); // var part
@@ -444,4 +444,47 @@ int
 collect_coeffs_sort_func(const void *q1, const void *q2)
 {
 	return cmp_terms(((struct atom **) q1)[1], ((struct atom **) q2)[1]);
+}
+
+void
+partition_integrand(void)
+{
+	int h;
+
+	save();
+
+	p2 = pop(); // x
+	p1 = pop(); // expr
+
+	// push const part
+
+	h = tos;
+	p3 = cdr(p1);
+	while (iscons(p3)) {
+		if (!find(car(p3), p2))
+			push(car(p3));
+		p3 = cdr(p3);
+	}
+
+	if (h == tos)
+		push(one);
+	else
+		multiply_factors(tos - h);
+
+	// push var part
+
+	h = tos;
+	p3 = cdr(p1);
+	while (iscons(p3)) {
+		if (find(car(p3), p2))
+			push(car(p3));
+		p3 = cdr(p3);
+	}
+
+	if (h == tos)
+		push(one);
+	else
+		multiply_factors(tos - h);
+
+	restore();
 }
