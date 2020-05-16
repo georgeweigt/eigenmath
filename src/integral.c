@@ -5,7 +5,7 @@ eval_integral(void)
 {
 	int i, n;
 
-	// evaluate 1st arg to get function F
+	// 1st arg
 
 	p1 = cdr(p1);
 	push(car(p1));
@@ -13,13 +13,13 @@ eval_integral(void)
 
 	// check for single arg
 
-	if (cdr(p1) == symbol(NIL)) {
+	p1 = cdr(p1);
+
+	if (!iscons(p1)) {
 		guess();
 		integral();
 		return;
 	}
-
-	p1 = cdr(p1);
 
 	while (iscons(p1)) {
 
@@ -27,9 +27,9 @@ eval_integral(void)
 
 		push(car(p1)); // have to eval in case of $METAX
 		eval();
-		p3 = pop();
+		p2 = pop();
 
-		if (!issymbol(p3))
+		if (!issymbol(p2))
 			stop("integral: symbol expected");
 
 		p1 = cdr(p1);
@@ -47,64 +47,10 @@ eval_integral(void)
 		}
 
 		for (i = 0; i < n; i++) {
-			push(p3);
+			push(p2);
 			integral();
 		}
 	}
-}
-
-void
-integral(void)
-{
-	save();
-
-	p2 = pop(); // x
-	p1 = pop(); // f(x)
-
-	if (car(p1) == symbol(ADD))
-		integral_of_sum();
-	else if (car(p1) == symbol(MULTIPLY))
-		integral_of_product();
-	else
-		integral_of_form();
-
-	restore();
-}
-
-void
-integral_of_sum(void)
-{
-	int h = tos;
-
-	p1 = cdr(p1);
-
-	while (iscons(p1)) {
-		push(car(p1));
-		push(p2);
-		integral();
-		p1 = cdr(p1);
-	}
-
-	add_terms(tos - h);
-}
-
-void
-integral_of_product(void)
-{
-	push(p1); // f(x)
-	push(p2); // x
-	partition(); // pushes const part, then pushes var part
-	p1 = pop(); // pop var part
-	integral_of_form();
-	multiply(); // multiply by const part
-}
-
-void
-integral_of_form(void)
-{
-	push(p1); // f(x)
-	push(p2); // x
-	transform();
 }
 
 /*	F	input expression
@@ -133,17 +79,58 @@ integral_of_form(void)
 #define C p7
 
 void
-transform(void)
+integral(void)
 {
-	int h;
-	char **s;
-
 	save();
 
 	X = pop();
 	F = pop();
 
-	// save symbol context in case eval(B) below calls transform
+	if (car(F) == symbol(ADD))
+		integral_of_sum();
+	else if (car(F) == symbol(MULTIPLY))
+		integral_of_product();
+	else
+		integral_of_form();
+
+	restore();
+}
+
+void
+integral_of_sum(void)
+{
+	int h = tos;
+
+	p1 = cdr(F);
+
+	while (iscons(p1)) {
+		push(car(p1));
+		push(X);
+		integral();
+		p1 = cdr(p1);
+	}
+
+	add_terms(tos - h);
+}
+
+void
+integral_of_product(void)
+{
+	push(F);
+	push(X);
+	partition(); // pushes const part, then pushes var part
+	F = pop(); // pop var part
+	integral_of_form();
+	multiply(); // multiply by const part
+}
+
+void
+integral_of_form(void)
+{
+	int h;
+	char **s;
+
+	// save bindings in case eval(B) calls integral
 
 	save_binding(symbol(METAA));
 	save_binding(symbol(METAB));
@@ -154,12 +141,14 @@ transform(void)
 	// put constants in F(X) on the stack
 
 	h = tos;
-	push(one);
+
+	push(one); // 1 is a candidate for a or b
+
 	push(F);
 	push(X);
-	transform_terms(); // collect coefficients of x, x^2, etc.
+	collect_coeffs();
 	push(X);
-	decomp_nib();
+	decomp();
 
 	s = itab;
 
@@ -188,8 +177,6 @@ transform(void)
 	restore_binding(symbol(METAX));
 	restore_binding(symbol(METAB));
 	restore_binding(symbol(METAA));
-
-	restore();
 }
 
 // search for a METAA and METAB such that F = A
@@ -228,26 +215,30 @@ f_equals_a(int h)
 // returns constant expresions on the stack
 
 void
-decomp_nib(void)
+decomp(void)
 {
 	save();
+	decomp_nib();
+	restore();
+}
 
-	p2 = pop();
-	p1 = pop();
+void
+decomp_nib(void)
+{
+	p2 = pop(); // x
+	p1 = pop(); // expr
 
 	// is the entire expression constant?
 
-	if (find(p1, p2) == 0) {
+	if (!find(p1, p2)) {
 		push(p1);
-		restore();
 		return;
 	}
 
 	// sum?
 
-	if (isadd(p1)) {
+	if (car(p1) == symbol(ADD)) {
 		decomp_sum();
-		restore();
 		return;
 	}
 
@@ -255,7 +246,6 @@ decomp_nib(void)
 
 	if (car(p1) == symbol(MULTIPLY)) {
 		decomp_product();
-		restore();
 		return;
 	}
 
@@ -265,11 +255,9 @@ decomp_nib(void)
 	while (iscons(p3)) {
 		push(car(p3));
 		push(p2);
-		decomp_nib();
+		decomp();
 		p3 = cdr(p3);
 	}
-
-	restore();
 }
 
 void
@@ -285,7 +273,7 @@ decomp_sum(void)
 		if (find(car(p3), p2)) {
 			push(car(p3));
 			push(p2);
-			decomp_nib();
+			decomp();
 		}
 		p3 = cdr(p3);
 	}
@@ -324,7 +312,7 @@ decomp_product(void)
 		if (find(car(p3), p2)) {
 			push(car(p3));
 			push(p2);
-			decomp_nib();
+			decomp();
 		}
 		p3 = cdr(p3);
 	}
@@ -345,18 +333,18 @@ decomp_product(void)
 		multiply_factors(tos - h);
 }
 
-// for example,  a x + b x  ->  (a + b) x
+// for example,  exp(a x + b x)  ->  exp((a + b) x)
 
 void
-transform_terms(void)
+collect_coeffs(void)
 {
 	save();
-	transform_terms_nib();
+	collect_coeffs_nib();
 	restore();
 }
 
 void
-transform_terms_nib(void)
+collect_coeffs_nib(void)
 {
 	int h, i, j, n;
 	struct atom **s;
@@ -379,7 +367,7 @@ transform_terms_nib(void)
 	while (iscons(p1)) {
 		push(car(p1));
 		push(p2);
-		transform_terms();
+		collect_coeffs();
 		p1 = cdr(p1);
 	}
 	list(tos - h);
@@ -414,7 +402,7 @@ transform_terms_nib(void)
 
 	n = tos - h;
 
-	qsort(s, n / 2, 2 * sizeof (struct atom *), transform_sort_func);
+	qsort(s, n / 2, 2 * sizeof (struct atom *), collect_coeffs_sort_func);
 
 	// combine const parts of matching var parts
 
@@ -453,7 +441,7 @@ transform_terms_nib(void)
 }
 
 int
-transform_sort_func(const void *q1, const void *q2)
+collect_coeffs_sort_func(const void *q1, const void *q2)
 {
 	return cmp_terms(((struct atom **) q1)[1], ((struct atom **) q2)[1]);
 }
