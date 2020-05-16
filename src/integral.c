@@ -420,11 +420,11 @@ collect_coeffs_nib(void)
 		}
 	}
 
-	// combine all the parts
-
-	n = tos - h;
+	// combine all the parts without expanding
 
 	expanding = 0;
+
+	n = tos - h;
 
 	for (i = 0; i < n; i += 2) {
 		push(s[i]); // const part
