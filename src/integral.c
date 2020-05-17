@@ -972,7 +972,7 @@ decomp_product(void)
 		multiply_factors(tos - h);
 }
 
-// for example,  exp(a x + b x)  ->  exp((a + b) x)
+// for example, exp(a x + b x) -> exp((a + b) x)
 
 void
 collect_coeffs(void)
