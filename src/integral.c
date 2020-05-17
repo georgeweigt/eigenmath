@@ -934,7 +934,7 @@ decomp_sum(void)
 		p3 = pop();
 		push(p3);
 		push(p3);
-		negate();	// need both +a, -a for some integrals
+		negate(); // need both +a, -a for some integrals
 	}
 }
 
