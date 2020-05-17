@@ -710,19 +710,6 @@ eval_integral(void)
 	}
 }
 
-/*	F	input expression
-
-	X	free variable, i.e. F of X
-
-	A	template expression
-
-	B	result expression
-
-	C	list of conditional expressions
-*/
-
-// p1 and p2 are tmps
-
 #undef F
 #undef X
 #undef A
@@ -775,10 +762,10 @@ integral_of_product(void)
 {
 	push(F);
 	push(X);
-	partition_integrand(); // push const part then push var part
-	F = pop(); // pop var part
+	partition_integrand();	// push const part then push var part
+	F = pop();		// pop var part
 	integral_of_form();
-	multiply(); // multiply by const part
+	multiply();		// multiply by const part
 }
 
 void
@@ -1039,13 +1026,13 @@ collect_coeffs_nib(void)
 		if (car(p3) == symbol(MULTIPLY)) {
 			push(p3);
 			push(p2);
-			partition_integrand(); // push const part then push var part
+			partition_integrand();	// push const part then push var part
 		} else if (find(p3, p2)) {
-			push(one); // const part
-			push(p3); // var part
+			push(one);		// const part
+			push(p3);		// var part
 		} else {
-			push(p3); // const part
-			push(one); // var part
+			push(p3);		// const part
+			push(one);		// var part
 		}
 		p1 = cdr(p1);
 	}
@@ -1079,8 +1066,8 @@ collect_coeffs_nib(void)
 	n = tos - h;
 
 	for (i = 0; i < n; i += 2) {
-		push(s[i]); // const part
-		push(s[i + 1]); // var part
+		push(s[i]);		// const part
+		push(s[i + 1]);		// var part
 		multiply();
 		s[i / 2] = pop();
 	}
