@@ -217,11 +217,11 @@ init_symbol_table(void)
 	std_symbol("tanh", TANH);
 	std_symbol("taylor", TAYLOR);
 	std_symbol("test", TEST);
-	std_symbol("test.eq", TESTEQ);
-	std_symbol("test.ge", TESTGE);
-	std_symbol("test.gt", TESTGT);
-	std_symbol("test.le", TESTLE);
-	std_symbol("test.lt", TESTLT);
+	std_symbol("testeq", TESTEQ);
+	std_symbol("testge", TESTGE);
+	std_symbol("testgt", TESTGT);
+	std_symbol("testle", TESTLE);
+	std_symbol("testlt", TESTLT);
 	std_symbol("transpose", TRANSPOSE);
 	std_symbol("unit", UNIT);
 	std_symbol("zero", ZERO);
