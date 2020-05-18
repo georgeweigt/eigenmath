@@ -924,7 +924,7 @@ decomp_sum(void)
 	p3 = cdr(p1);
 
 	while (iscons(p3)) {
-		if (find(car(p3), p2) == 0)
+		if (!find(car(p3), p2))
 			push(car(p3));
 		p3 = cdr(p3);
 	}
@@ -963,7 +963,7 @@ decomp_product(void)
 	p3 = cdr(p1);
 
 	while (iscons(p3)) {
-		if (find(car(p3), p2) == 0)
+		if (!find(car(p3), p2))
 			push(car(p3));
 		p3 = cdr(p3);
 	}
