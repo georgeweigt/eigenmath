@@ -256,7 +256,6 @@ struct tensor {
 #define istensor(p) ((p)->k == TENSOR)
 #define issymbol(p) ((p)->k == SYM)
 #define iskeyword(p) ((p)->k == SYM && (p) - symtab < MARK1)
-#define isadd(p) (car(p) == symbol(ADD))
 
 #define car(p) (iscons(p) ? (p)->u.cons.car : symbol(NIL))
 #define cdr(p) (iscons(p) ? (p)->u.cons.cdr : symbol(NIL))

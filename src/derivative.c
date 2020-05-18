@@ -183,7 +183,7 @@ d_scalar_scalar_1(void)
 		return;
 	}
 
-	if (isadd(p1)) {
+	if (car(p1) == symbol(ADD)) {
 		dsum();
 		return;
 	}

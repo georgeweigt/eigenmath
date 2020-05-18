@@ -47,7 +47,7 @@ print_subexpr(struct atom *p)
 void
 print_expr(struct atom *p)
 {
-	if (isadd(p)) {
+	if (car(p) == symbol(ADD)) {
 		p = cdr(p);
 		if (sign_of_term(car(p)) == '-')
 			print_str("-");
@@ -285,7 +285,7 @@ print_factor(struct atom *p)
 		return;
 	}
 
-	if (isadd(p) || car(p) == symbol(MULTIPLY)) {
+	if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY)) {
 		print_str("(");
 		print_expr(p);
 		print_str(")");
@@ -323,7 +323,7 @@ print_factor(struct atom *p)
 			return;
 		}
 
-		if (isadd(cadr(p)) || caadr(p) == symbol(MULTIPLY) || caadr(p) == symbol(POWER) || isnegativenumber(cadr(p))) {
+		if (caadr(p) == symbol(ADD) || caadr(p) == symbol(MULTIPLY) || caadr(p) == symbol(POWER) || isnegativenumber(cadr(p))) {
 			print_str("(");
 			print_expr(cadr(p));
 			print_str(")");

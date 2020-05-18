@@ -10,9 +10,9 @@ char *itab[] = {
 	"log(x)",
 	"1",
 
-	"x^a",
-	"x^(a + 1) / (a + 1)",
-	"test(a = -1,0,1)",
+	"x^a",			// integrand
+	"x^(a + 1) / (a + 1)",	// answer
+	"not(a = -1)",		// condition
 
 	"exp(a x)",
 	"exp(a x) / a",
