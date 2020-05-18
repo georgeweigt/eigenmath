@@ -907,7 +907,6 @@ decomp_sum(void)
 	// decomp terms involving x
 
 	p3 = cdr(p1);
-
 	while (iscons(p3)) {
 		if (find(car(p3), p2)) {
 			push(car(p3));
@@ -920,9 +919,7 @@ decomp_sum(void)
 	// add together all constant terms
 
 	h = tos;
-
 	p3 = cdr(p1);
-
 	while (iscons(p3)) {
 		if (!find(car(p3), p2))
 			push(car(p3));
@@ -946,7 +943,6 @@ decomp_product(void)
 	// decomp factors involving x
 
 	p3 = cdr(p1);
-
 	while (iscons(p3)) {
 		if (find(car(p3), p2)) {
 			push(car(p3));
@@ -959,9 +955,7 @@ decomp_product(void)
 	// multiply together all constant factors
 
 	h = tos;
-
 	p3 = cdr(p1);
-
 	while (iscons(p3)) {
 		if (!find(car(p3), p2))
 			push(car(p3));
