@@ -346,7 +346,7 @@ void integral(void);
 void integral_of_sum(void);
 void integral_of_product(void);
 void integral_of_form(void);
-int f_equals_a(int h);
+int find_integral(int h);
 void decomp(void);
 void decomp_nib(void);
 void decomp_sum(void);
