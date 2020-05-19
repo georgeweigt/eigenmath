@@ -33,10 +33,23 @@ char *token_str;
 char *token_buf;
 
 char *
-scan(char *s, int mode)
+scan(char *s)
+{
+	scan_mode = 0;
+	return scan_nib(s);
+}
+
+char *
+scan1(char *s)
+{
+	scan_mode = 1; // mode for table of integrals
+	return scan_nib(s);
+}
+
+char *
+scan_nib(char *s)
 {
 	scan_str = s;
-	scan_mode = mode;
 	scan_level = 0;
 	get_token_skip_newlines();
 	if (token == T_END)

@@ -801,13 +801,13 @@ integral_of_form(void)
 		if (*s == NULL)
 			stop("integral: could not find a solution");
 
-		scan(*s++, 1); // integrand
+		scan1(*s++); // integrand
 		I = pop();
 
-		scan(*s++, 1); // answer
+		scan1(*s++); // answer
 		A = pop();
 
-		scan(*s++, 1); // condition
+		scan1(*s++); // condition
 		C = pop();
 
 		if (find_integral(h))

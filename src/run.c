@@ -16,7 +16,7 @@ run(char *s)
 
 	for (;;) {
 
-		s = scan(s, 0);
+		s = scan(s);
 
 		if (s == NULL)
 			break; // end of input
@@ -119,7 +119,7 @@ init(int level)
 	n = sizeof init_script / sizeof (char *);
 
 	for (i = 0; i < n; i++) {
-		scan(init_script[i], 0);
+		scan(init_script[i]);
 		eval();
 		pop();
 	}
@@ -275,7 +275,7 @@ run_file(char *filename)
 
 	while (1) {
 
-		s = scan(s, 0);
+		s = scan(s);
 
 		if (s == NULL)
 			break; // end of input
