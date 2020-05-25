@@ -183,9 +183,6 @@ cmp_args(void)
 	p2 = pop();
 	p1 = pop();
 
-	if (iszero(p1) && iszero(p2))
-		return 0;
-
 	if (istensor(p1) || istensor(p2))
 		stop("tensor comparison");
 

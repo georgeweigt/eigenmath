@@ -960,21 +960,6 @@ check(last == 1)
 (0,0) == (0,0,0) -- both are equal to scalar zero
 check(last = 1)
 
-(1,0) == (1,0,0)
-check(last = 0)
-
-(0,0) < (0,0,0)
-check(last = 0)
-
-(0,0) <= (0,0,0)
-check(last = 1)
-
-(0,0) > (0,0,0)
-check(last = 0)
-
-(0,0) >= (0,0,0)
-check(last = 1)
-
 -- done
 
 clear
