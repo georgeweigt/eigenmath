@@ -960,7 +960,7 @@ check(last == 1)
 (0,0) == (0,0,0) -- both are equal to scalar zero
 check(last = 1)
 
-(1,0) == (1,0,0) -- should not cause a stop
+(1,0) == (1,0,0) -- should not cause a stop like (1,0) - (1,0,0) does
 check(last = 0)
 
 -- done
