@@ -23,66 +23,7 @@ eval_tensor(void)
 void
 tensor_plus_tensor(void)
 {
-	int i, ndim, nelem;
-	struct atom **a, **b, **c;
-
-	save();
-
-	p2 = pop();
-	p1 = pop();
-
-	// are the dimension lists equal?
-
-	ndim = p1->u.tensor->ndim;
-
-	if (ndim != p2->u.tensor->ndim) {
-		push_symbol(NIL);
-		restore();
-		return;
-	}
-
-	for (i = 0; i < ndim; i++)
-		if (p1->u.tensor->dim[i] != p2->u.tensor->dim[i]) {
-			push_symbol(NIL);
-			restore();
-			return;
-		}
-
-	// create a new tensor for the result
-
-	nelem = p1->u.tensor->nelem;
-
-	p3 = alloc_tensor(nelem);
-
-	p3->u.tensor->ndim = ndim;
-
-	for (i = 0; i < ndim; i++)
-		p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
-
-	// c = a + b
-
-	a = p1->u.tensor->elem;
-	b = p2->u.tensor->elem;
-	c = p3->u.tensor->elem;
-
-	for (i = 0; i < nelem; i++) {
-		push(a[i]);
-		push(b[i]);
-		add();
-		c[i] = pop();
-	}
-
-	// push the result
-
-	push(p3);
-
-	restore();
-}
-
-void
-scalar_times_tensor(void)
-{
-	int i, ndim, nelem;
+	int i, nelem;
 	struct atom **a, **b;
 
 	save();
@@ -90,27 +31,67 @@ scalar_times_tensor(void)
 	p2 = pop();
 	p1 = pop();
 
-	ndim = p2->u.tensor->ndim;
-	nelem = p2->u.tensor->nelem;
+	if (!compatible_tensors(p1, p2))
+		stop("incompatible tensor arithmetic");
 
-	p3 = alloc_tensor(nelem);
+	push(p1);
+	copy_tensor();
+	p1 = pop();
 
-	p3->u.tensor->ndim = ndim;
+	a = p1->u.tensor->elem;
+	b = p2->u.tensor->elem;
 
-	for (i = 0; i < ndim; i++)
-		p3->u.tensor->dim[i] = p2->u.tensor->dim[i];
+	nelem = p1->u.tensor->nelem;
+
+	for (i = 0; i < nelem; i++) {
+		push(a[i]);
+		push(b[i]);
+		add();
+		a[i] = pop();
+	}
+
+	push(p1);
+
+	restore();
+}
+
+int
+compatible_tensors(struct atom *q1, struct atom *q2)
+{
+	int i, n;
+	n = q1->u.tensor->ndim;
+	if (n != q2->u.tensor->ndim)
+		return 0;
+	for (i = 0; i < n; i++)
+		if (q1->u.tensor->dim[i] != q2->u.tensor->dim[i])
+			return 0;
+	return 1;
+}
+
+void
+scalar_times_tensor(void)
+{
+	int i, nelem;
+	struct atom **a;
+
+	save();
+
+	copy_tensor();
+
+	p2 = pop();
+	p1 = pop();
 
 	a = p2->u.tensor->elem;
-	b = p3->u.tensor->elem;
+	nelem = p2->u.tensor->nelem;
 
 	for (i = 0; i < nelem; i++) {
 		push(p1);
 		push(a[i]);
 		multiply();
-		b[i] = pop();
+		a[i] = pop();
 	}
 
-	push(p3);
+	push(p2);
 
 	restore();
 }

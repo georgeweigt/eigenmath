@@ -241,17 +241,6 @@ eval_binding(void)
 }
 
 void
-eval_check(void)
-{
-	push(cadr(p1));
-	evalp();
-	p1 = pop();
-	if (iszero(p1))
-		stop("check");
-	push_symbol(NIL); // no result is printed
-}
-
-void
 eval_clear(void)
 {
 	clear_flag = 1;
@@ -272,7 +261,7 @@ eval_dim(void)
 	} else
 		n = 1;
 	if (!istensor(p2))
-		push_integer(1); // dim of scalar is 1
+		push(one); // dim of scalar is 1
 	else if (n < 1 || n > p2->u.tensor->ndim)
 		push(p1);
 	else
@@ -290,7 +279,7 @@ eval_divisors(void)
 void
 eval_do(void)
 {
-	push(car(p1));
+	push(zero);
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		pop();
@@ -325,10 +314,10 @@ eval_number(void)
 	push(cadr(p1));
 	eval();
 	p1 = pop();
-	if (p1->k == RATIONAL || p1->k == DOUBLE)
-		push_integer(1);
+	if (isnum(p1))
+		push(one);
 	else
-		push_integer(0);
+		push(zero);
 }
 
 void
@@ -414,22 +403,6 @@ eval_unit(void)
 	for (i = 0; i < n; i++)
 		p1->u.tensor->elem[n * i + i] = one;
 	push(p1);
-}
-
-// like eval() except "=" is evaluated as "=="
-
-void
-evalp(void)
-{
-	save();
-	p1 = pop();
-	if (car(p1) == symbol(SETQ))
-		eval_testeq();
-	else {
-		push(p1);
-		eval();
-	}
-	restore();
 }
 
 void

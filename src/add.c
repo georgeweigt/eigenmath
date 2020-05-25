@@ -151,20 +151,17 @@ combine_adjacent_terms(struct atom **s)
 		push(p1);
 		push(p2);
 		tensor_plus_tensor();
-		p1 = pop();
-		if (p1 == symbol(NIL))
-			return 0;
-		s[0] = p1;
-		return 1; // added tensors
+		s[0] = pop();
+		return 1;
 	}
 
 	if (istensor(p1) || istensor(p2))
-		return 0; // cannot add tensor and something else
+		stop("incompatible tensor arithmetic");
 
 	if (isnum(p1) && isnum(p2)) {
 		add_numbers();
 		s[0] = pop();
-		return 1; // added numbers
+		return 1;
 	}
 
 	if (isnum(p1) || isnum(p2))

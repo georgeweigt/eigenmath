@@ -1,5 +1,3 @@
-// If the number of args is odd then the last arg is the default result.
-
 #include "defs.h"
 
 void
@@ -23,6 +21,17 @@ eval_test(void)
 		p1 = cddr(p1);
 	}
 	push(zero);
+}
+
+void
+eval_check(void)
+{
+	push(cadr(p1));
+	evalp();
+	p1 = pop();
+	if (iszero(p1))
+		stop("check");
+	push_symbol(NIL); // no result is printed
 }
 
 void
@@ -52,6 +61,11 @@ eval_testeq(void)
 		return;
 	}
 
+	if (istensor(p1) && istensor(p2) && !compatible_tensors(p1, p2)) {
+		push(zero);
+		return;
+	}
+
 	// try this first
 
 	if (equal(p1, p2)) {
@@ -73,42 +87,40 @@ eval_testeq(void)
 		push(zero);
 }
 
-// Relational operators expect a numeric result for operand difference.
-
 void
 eval_testge(void)
 {
 	if (cmp_args() >= 0)
-		push_integer(1);
+		push(one);
 	else
-		push_integer(0);
+		push(zero);
 }
 
 void
 eval_testgt(void)
 {
 	if (cmp_args() > 0)
-		push_integer(1);
+		push(one);
 	else
-		push_integer(0);
+		push(zero);
 }
 
 void
 eval_testle(void)
 {
 	if (cmp_args() <= 0)
-		push_integer(1);
+		push(one);
 	else
-		push_integer(0);
+		push(zero);
 }
 
 void
 eval_testlt(void)
 {
 	if (cmp_args() < 0)
-		push_integer(1);
+		push(one);
 	else
-		push_integer(0);
+		push(zero);
 }
 
 void
@@ -118,9 +130,9 @@ eval_not(void)
 	evalp();
 	p1 = pop();
 	if (iszero(p1))
-		push_integer(1);
+		push(one);
 	else
-		push_integer(0);
+		push(zero);
 }
 
 void
@@ -132,12 +144,12 @@ eval_and(void)
 		evalp();
 		p2 = pop();
 		if (iszero(p2)) {
-			push_integer(0);
+			push(zero);
 			return;
 		}
 		p1 = cdr(p1);
 	}
-	push_integer(1);
+	push(one);
 }
 
 void
@@ -149,15 +161,13 @@ eval_or(void)
 		evalp();
 		p2 = pop();
 		if (!iszero(p2)) {
-			push_integer(1);
+			push(one);
 			return;
 		}
 		p1 = cdr(p1);
 	}
-	push_integer(0);
+	push(zero);
 }
-
-// use subtract for cases like A < A + 1
 
 int
 cmp_args(void)
@@ -166,39 +176,51 @@ cmp_args(void)
 
 	push(cadr(p1));
 	eval();
+
 	push(caddr(p1));
 	eval();
+
+	p2 = pop();
+	p1 = pop();
+
+	if (istensor(p1) || istensor(p2))
+		stop("tensor comparison");
+
+	push(p1);
+	push(p2);
 	subtract();
 	p1 = pop();
 
-	// try floating point if necessary
-
-	if (p1->k != RATIONAL && p1->k != DOUBLE) {
+	if (!isnum(p1)) {
 		push(p1);
-		float_expr();
+		float_expr(); // try converting pi and e
 		p1 = pop();
+		if (!isnum(p1))
+			stop("non-numerical comparison");
 	}
 
 	if (iszero(p1))
-		return 0;
-
-	switch (p1->k) {
-	case RATIONAL:
-		if (p1->sign == MMINUS)
-			t = -1;
-		else
-			t = 1;
-		break;
-	case DOUBLE:
-		if (p1->u.d < 0.0)
-			t = -1;
-		else
-			t = 1;
-		break;
-	default:
-		stop("relational operator: cannot determine due to non-numerical comparison");
 		t = 0;
-	}
+	else if (isrational(p1))
+		t = (p1->sign == MMINUS) ? -1 : 1;
+	else
+		t = (p1->u.d < 0.0) ? -1 : 1;
 
 	return t;
+}
+
+// like eval() except '=' is evaluated as '=='
+
+void
+evalp(void)
+{
+	save();
+	p1 = pop();
+	if (car(p1) == symbol(SETQ))
+		eval_testeq();
+	else {
+		push(p1);
+		eval();
+	}
+	restore();
 }

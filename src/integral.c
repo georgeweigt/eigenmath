@@ -726,46 +726,42 @@ void
 integral(void)
 {
 	save();
-
-	X = pop();
-	F = pop();
-
-	if (car(F) == symbol(ADD))
-		integral_of_sum();
-	else if (car(F) == symbol(MULTIPLY))
-		integral_of_product();
-	else
-		integral_of_form();
-
+	integral_nib();
 	restore();
 }
 
 void
-integral_of_sum(void)
+integral_nib(void)
 {
-	int h = tos;
+	int h;
 
-	p1 = cdr(F);
+	X = pop();
+	F = pop();
 
-	while (iscons(p1)) {
-		push(car(p1));
-		push(X);
-		integral();
-		p1 = cdr(p1);
+	if (car(F) == symbol(ADD)) {
+		h = tos;
+		p1 = cdr(F);
+		while (iscons(p1)) {
+			push(car(p1));
+			push(X);
+			integral();
+			p1 = cdr(p1);
+		}
+		add_terms(tos - h);
+		return;
 	}
 
-	add_terms(tos - h);
-}
+	if (car(F) == symbol(MULTIPLY)) {
+		push(F);
+		push(X);
+		partition_integrand();	// push const part then push var part
+		F = pop();		// pop var part
+		integral_of_form();
+		multiply();		// multiply by const part
+		return;
+	}
 
-void
-integral_of_product(void)
-{
-	push(F);
-	push(X);
-	partition_integrand();	// push const part then push var part
-	F = pop();		// pop var part
 	integral_of_form();
-	multiply();		// multiply by const part
 }
 
 void

@@ -955,6 +955,16 @@ z = (-1)^a
 z conj(z)
 check(last == 1)
 
+-- tensor comparison
+
+(0,0) == (0,0,0) -- both are equal to scalar zero
+check(last = 1)
+
+(1,0) == (1,0,0)
+check(last = 0)
+
+-- done
+
 clear
 status
 "all tests passed"
