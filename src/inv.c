@@ -16,15 +16,15 @@ inv(void)
 	p1 = pop();
 
 	if (!istensor(p1) || p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
-		stop("square matrix expected");
+		stop("inv: square matrix expected");
 
 	push(p1);
 	adj();
 	push(p1);
 	det();
 	p2 = pop();
-	if (equaln(p2, 0))
-		stop("singular matrix");
+	if (iszero(p2))
+		stop("inv: singular matrix");
 	push(p2);
 	divide();
 
