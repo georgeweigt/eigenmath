@@ -28,19 +28,19 @@ det_nib(void)
 
 	n = p1->u.tensor->dim[0];
 
-	if (n == 1) {
+	switch (n) {
+	case 1:
 		push(p1->u.tensor->elem[0]);
 		return;
-	}
-
-	if (n == 2) {
+	case 2:
 		push(p1->u.tensor->elem[0]);
 		push(p1->u.tensor->elem[3]);
 		multiply();
+		push(minusone);
 		push(p1->u.tensor->elem[1]);
 		push(p1->u.tensor->elem[2]);
-		multiply();
-		subtract();
+		multiply_factors(3);
+		add();
 		return;
 	}
 
