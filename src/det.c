@@ -28,6 +28,11 @@ det_nib(void)
 
 	n = p1->u.tensor->dim[0];
 
+	if (n == 1) {
+		push(p1->u.tensor->elem[0]);
+		return;
+	}
+
 	if (n == 2) {
 		push(p1->u.tensor->elem[0]);
 		push(p1->u.tensor->elem[3]);
