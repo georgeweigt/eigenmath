@@ -67,7 +67,7 @@ det_nib(void)
 			negate();
 	}
 
-	if (tos - h == 0)
+	if (h == tos)
 		push(zero);
 	else
 		add_terms(tos - h);
