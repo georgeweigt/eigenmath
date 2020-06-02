@@ -30,9 +30,7 @@ adj_nib(void)
 
 	// p3 is the adjunct matrix
 
-	push(p1);
-	copy_tensor();
-	p3 = pop();
+	p3 = alloc_matrix(n, n);
 
 	if (n == 2) {
 		p3->u.tensor->elem[0] = p1->u.tensor->elem[3];
@@ -49,10 +47,7 @@ adj_nib(void)
 
 	// p2 is for computing cofactors
 
-	p2 = alloc_tensor((n - 1) * (n - 1));
-	p2->u.tensor->ndim = 2;
-	p2->u.tensor->dim[0] = n - 1;
-	p2->u.tensor->dim[1] = n - 1;
+	p2 = alloc_matrix(n - 1, n - 1);
 
 	for (i = 0; i < n; i++)
 		for (j = 0; j < n; j++) {

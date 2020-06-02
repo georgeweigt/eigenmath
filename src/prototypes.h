@@ -124,6 +124,7 @@ void eval_contract(void);
 void contract(void);
 void contract_nib(void);
 struct atom * alloc(void);
+struct atom * alloc_matrix(int nrow, int ncol);
 struct atom * alloc_tensor(int nelem);
 void gc(void);
 void untag(struct atom *p);

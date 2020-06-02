@@ -44,10 +44,7 @@ det_nib(void)
 		return;
 	}
 
-	p2 = alloc_tensor((n - 1) * (n - 1));
-	p2->u.tensor->ndim = 2;
-	p2->u.tensor->dim[0] = n - 1;
-	p2->u.tensor->dim[1] = n - 1;
+	p2 = alloc_matrix(n - 1, n - 1);
 
 	h = tos;
 
@@ -63,7 +60,7 @@ det_nib(void)
 		det();
 		push(p1->u.tensor->elem[m]);
 		multiply();
-		if (m % 2 == 1)
+		if (m % 2)
 			negate();
 	}
 

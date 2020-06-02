@@ -36,10 +36,7 @@ eval_cofactor(void)
 		return;
 	}
 
-	p3 = alloc_tensor((n - 1) * (n - 1));
-	p3->u.tensor->ndim = 2;
-	p3->u.tensor->dim[0] = n - 1;
-	p3->u.tensor->dim[1] = n - 1;
+	p3 = alloc_matrix(n - 1, n - 1);
 
 	k = 0;
 
