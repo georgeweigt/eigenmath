@@ -29,10 +29,22 @@ eval_cofactor(void)
 	col--;
 
 	if (n == 2) {
-		push(p2);
-		adj();
-		p3 = pop();
-		push(p3->u.tensor->elem[n * col + row]);
+		switch (2 * row + col) {
+		case 0:
+			push(p2->u.tensor->elem[3]);
+			break;
+		case 1:
+			push(p2->u.tensor->elem[2]);
+			negate();
+			break;
+		case 2:
+			push(p2->u.tensor->elem[1]);
+			negate();
+			break;
+		case 3:
+			push(p2->u.tensor->elem[0]);
+			break;
+		}
 		return;
 	}
 
