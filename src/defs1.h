@@ -118,7 +118,6 @@ enum {
 	DERIVATIVE,
 	DET,
 	DIM,
-	DIVISORS,
 	DO,
 	DOT,
 	DRAW,

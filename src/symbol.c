@@ -137,7 +137,6 @@ init_symbol_table(void)
 	std_symbol("derivative", DERIVATIVE);
 	std_symbol("det", DET);
 	std_symbol("dim", DIM);
-	std_symbol("divisors", DIVISORS);
 	std_symbol("do", DO);
 	std_symbol("dot", DOT);
 	std_symbol("draw", DRAW);

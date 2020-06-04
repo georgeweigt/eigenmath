@@ -128,7 +128,6 @@ void (*functab[])(void) = {
 	eval_derivative,
 	eval_det,
 	eval_dim,
-	eval_divisors,
 	eval_do,
 	eval_dot,
 	eval_draw,
@@ -266,14 +265,6 @@ eval_dim(void)
 		push(p1);
 	else
 		push_integer(p2->u.tensor->dim[n - 1]);
-}
-
-void
-eval_divisors(void)
-{
-	push(cadr(p1));
-	eval();
-	divisors();
 }
 
 void
