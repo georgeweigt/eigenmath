@@ -21,7 +21,6 @@ void subtract(void);
 void eval_adj(void);
 void adj(void);
 void adj_nib(void);
-void adj_cofactor(int n, int row, int col);
 void eval_arccos(void);
 void arccos(void);
 void arccos_nib(void);

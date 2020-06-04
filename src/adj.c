@@ -19,7 +19,7 @@ adj(void)
 void
 adj_nib(void)
 {
-	int i, j, n;
+	int col, i, j, k, n, row;
 
 	p1 = pop();
 
@@ -28,46 +28,41 @@ adj_nib(void)
 
 	n = p1->u.tensor->dim[0];
 
-	// p3 is the adjunct matrix
+	// p2 is the adjunct matrix
 
-	p3 = alloc_matrix(n, n);
+	p2 = alloc_matrix(n, n);
 
 	if (n == 2) {
-		p3->u.tensor->elem[0] = p1->u.tensor->elem[3];
-		p3->u.tensor->elem[3] = p1->u.tensor->elem[0];
+		p2->u.tensor->elem[0] = p1->u.tensor->elem[3];
 		push(p1->u.tensor->elem[1]);
 		negate();
-		p3->u.tensor->elem[1] = pop();
+		p2->u.tensor->elem[1] = pop();
 		push(p1->u.tensor->elem[2]);
 		negate();
-		p3->u.tensor->elem[2] = pop();
-		push(p3);
+		p2->u.tensor->elem[2] = pop();
+		p2->u.tensor->elem[3] = p1->u.tensor->elem[0];
+		push(p2);
 		return;
 	}
 
-	// p2 is for computing cofactors
+	// p3 is for computing cofactors
 
-	p2 = alloc_matrix(n - 1, n - 1);
+	p3 = alloc_matrix(n - 1, n - 1);
 
-	for (i = 0; i < n; i++)
-		for (j = 0; j < n; j++) {
-			adj_cofactor(n, i, j);
-			p3->u.tensor->elem[n * j + i] = pop(); // transpose
+	for (row = 0; row < n; row++) {
+		for (col = 0; col < n; col++) {
+			k = 0;
+			for (i = 0; i < n; i++)
+				for (j = 0; j < n; j++)
+					if (i != row && j != col)
+						p3->u.tensor->elem[k++] = p1->u.tensor->elem[n * i + j];
+			push(p3);
+			det();
+			if ((row + col) % 2)
+				negate();
+			p2->u.tensor->elem[n * col + row] = pop(); // transpose
 		}
+	}
 
-	push(p3);
-}
-
-void
-adj_cofactor(int n, int row, int col)
-{
-	int i, j, k = 0;
-	for (i = 0; i < n; i++)
-		for (j = 0; j < n; j++)
-			if (i != row && j != col)
-				p2->u.tensor->elem[k++] = p1->u.tensor->elem[n * i + j];
 	push(p2);
-	det();
-	if ((row + col) % 2)
-		negate();
 }
