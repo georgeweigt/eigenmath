@@ -980,11 +980,9 @@ check(B = transpose(adj(A)))
 x = quote(x)
 
 for(i,0,10,
- for(j,i + 1,10,
-  check(eval(factor(x + 1.0 i/j)) == x + i/j),
-  check(eval(factor(x - 1.0 i/j)) == x - i/j),
-  check(eval(factor(x - 10.0 i/j)) == x - 10 i/j),
-  check(eval(factor(x - 0.1 i/j)) == x - 1/10 i/j)
+ for(j,1,10,
+  check(factor(1.0 i/j x) = i/j x),
+  check(factor(-1.0 i/j x) = -i/j x)
 ))
 
 -- done
