@@ -979,10 +979,9 @@ check(B = transpose(adj(A)))
 
 x = quote(x)
 
-for(a,0,10,
+for(a,-10,10,
  for(b,1,10,
-  check(factor(1.0 a/b x) = a/b x),
-  check(factor(-1.0 a/b x) = -a/b x)
+  check(factor(1.0 a/b x) = a/b x)
 ))
 
 -- done
