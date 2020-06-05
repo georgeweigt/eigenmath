@@ -824,7 +824,8 @@ factor(p,x,y)
 (x + 1) (y + 2)
 </pre>
 <p>
-Note: Factor returns an unexpanded expression.
+Note:
+Factor returns an unexpanded expression.
 If the result is assigned to a symbol, evaluating
 the symbol will expand the result.
 Use <span style="font-family:monospace">binding</span> to retrieve the unexpanded expression.
@@ -889,9 +890,6 @@ floor(1/2)
 <a id="for">for(<i>i,j,k,a,b,...</i>)</a>
 <p>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>a</i>, <i>b</i>, etc.
-The previous value of <i>i</i> is restored after <span style="font-family:monospace">for</span> completes.
-Note that if symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
-then the imaginary unit is overridden in the scope of <span style="font-family:monospace">for</span>.
 <pre style="color:blue">
 for(k,1,3,A=k,print(A))
 </pre>
@@ -900,6 +898,11 @@ A = 1
 A = 2
 A = 3
 </pre>
+<p>
+Note:
+The previous value of <i>i</i> is restored after <span style="font-family:monospace">for</span> completes.
+If symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
+then the imaginary unit is overridden in the scope of <span style="font-family:monospace">for</span>.
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a id="gcd">gcd(<i>a,b,...</i>)</a>
@@ -984,7 +987,8 @@ a x + b y
 c x + d y
 </pre>
 <p>
-Note: Inner product is equivalent to an outer product followed by contraction.
+Note:
+Inner product is equivalent to an outer product followed by contraction.
 <pre style="color:blue">
 contract(outer(A,B),2,3)
 </pre>
@@ -1078,7 +1082,8 @@ last^(1/17)
 212
 </pre>
 <p>
-Note: Symbol <span style="font-family:monospace">last</span> is an implied argument when a function has no
+Note:
+Symbol <span style="font-family:monospace">last</span> is an implied argument when a function has no
 argument list.
 <pre style="color:blue">
 212^17
@@ -1322,9 +1327,6 @@ j = 3
 <p>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
 Returns the product of all <i>f</i>.
-The previous value of <i>i</i> is restored after <span style="font-family:monospace">product</span> completes.
-Note that if symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
-then the imaginary unit is overridden in the scope of <span style="font-family:monospace">product</span>.
 <pre style="color:blue">
 product(j,1,3,x + j)
 </pre>
@@ -1332,6 +1334,11 @@ product(j,1,3,x + j)
  3      2
 x  + 6 x  + 11 x + 6
 </pre>
+<p>
+Note:
+The previous value of <i>i</i> is restored after <span style="font-family:monospace">product</span> completes.
+If symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
+then the imaginary unit is overridden in the scope of <span style="font-family:monospace">product</span>.
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a id="quote">quote(<i>x</i>)</a>
@@ -1397,7 +1404,8 @@ rationalize(1/a + 1/b + 1/2)
       2 a b
 </pre>
 <p>
-Note: Rationalize returns an unexpanded expression.
+Note:
+Rationalize returns an unexpanded expression.
 If the result is assigned to a symbol,
 evaluating the symbol will expand the result.
 Use <span style="font-family:monospace">binding</span> to retrieve the unexpanded expression.
@@ -1570,9 +1578,6 @@ x
 <p>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
 Returns the sum of all <i>f</i>.
-The previous value of <i>i</i> is restored after <span style="font-family:monospace">sum</span> completes.
-Note that if symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
-then the imaginary unit is overridden in the scope of <span style="font-family:monospace">sum</span>.
 <pre style="color:blue">
 sum(j,1,5,x^j)
 </pre>
@@ -1580,6 +1585,11 @@ sum(j,1,5,x^j)
  5    4    3    2
 x  + x  + x  + x  + x
 </pre>
+<p>
+Note:
+The previous value of <i>i</i> is restored after <span style="font-family:monospace">sum</span> completes.
+If symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
+then the imaginary unit is overridden in the scope of <span style="font-family:monospace">sum</span>.
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a id="tan">tan(<i>x</i>)</a>
@@ -1646,7 +1656,8 @@ Useful for debugging.
 trace = 1
 </pre>
 <p>
-Note: The <span style="font-family:monospace">contract</span> function is used to obtain the trace of a matrix.
+Note:
+The <span style="font-family:monospace">contract</span> function is used to obtain the trace of a matrix.
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a id="transpose">transpose(<i>a,i,j</i>)</a>
