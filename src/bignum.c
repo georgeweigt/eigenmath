@@ -185,7 +185,7 @@ convert_double_to_rational(double d)
 		s++;
 	s++; // skip 'e' or 'E'
 	n = atoi(s) + 1;
-	best_rational_approximation(fabs(d) / pow(10.0, n));
+	best_rational_approximation(fabs(d) / pow(10.0, (double) n));
 	push_integer(10);
 	push_integer(n);
 	power();
@@ -200,35 +200,34 @@ convert_double_to_rational(double d)
 void
 best_rational_approximation(double x)
 {
-	double a = 0.0, b = 1.0, c = 1.0, d = 1.0, m;
+	int a = 0, b = 1, c = 1, d = 1;
+	double m;
 	for (;;) {
-		if (b > N) {
-			push_rational((int) c, (int) d);
-			return;
-		}
-		if (d > N) {
-			push_rational((int) a, (int) b);
-			return;
-		}
-		m = (a + c) / (b + d);
+		m = (double) (a + c) / (double) (b + d);
+		if (m == x)
+			break;
 		if (x < m) {
 			c += a;
 			d += b;
-			continue;
-		}
-		if (x > m) {
+			if (d > N) {
+				push_rational(a, b);
+				return;
+			}
+		} else {
 			a += c;
 			b += d;
-			continue;
+			if (b > N) {
+				push_rational(c, d);
+				return;
+			}
 		}
-		if (b + d <= N)
-			push_rational((int) (a + c), (int) (b + d));
-		else if (d > b)
-			push_rational((int) c, (int) d); // largest denominator is most accurate
-		else
-			push_rational((int) a, (int) b);
-		return;
 	}
+	if (b + d <= N)
+		push_rational(a + c, b + d);
+	else if (d > b)
+		push_rational(c, d); // largest denominator is most accurate
+	else
+		push_rational(a, b);
 }
 
 void
