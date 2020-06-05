@@ -21,8 +21,8 @@ push_rational(int a, int b)
 void
 push_rational_number(int sign, uint32_t *a, uint32_t *b)
 {
-	struct atom *p; // ok, no gc before push
-	if (stop_flag) {
+	struct atom *p;
+	if (stop_flag) { // alloc() will check stop_flag, check now to avoid memory leak
 		mfree(a);
 		mfree(b);
 		stop(NULL);
@@ -34,7 +34,7 @@ push_rational_number(int sign, uint32_t *a, uint32_t *b)
 			b = mint(1);
 		}
 	}
-	p = alloc(); // might stop, that's why stop_flag was checked above
+	p = alloc();
 	p->k = RATIONAL;
 	p->sign = sign;
 	p->u.q.a = a;
