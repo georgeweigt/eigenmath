@@ -975,6 +975,18 @@ B = A
 for(i,1,3,for(j,1,3,B[i,j] = cofactor(A,i,j)))
 check(B = transpose(adj(A)))
 
+-- best rational approximation
+
+x = quote(x)
+
+for(i,0,10,
+ for(j,i + 1,10,
+  check(eval(factor(x + 1.0 i/j)) == x + i/j),
+  check(eval(factor(x - 1.0 i/j)) == x - i/j),
+  check(eval(factor(x - 10.0 i/j)) == x - 10 i/j),
+  check(eval(factor(x - 0.1 i/j)) == x - 1/10 i/j)
+))
+
 -- done
 
 clear

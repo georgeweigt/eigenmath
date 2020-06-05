@@ -47,7 +47,7 @@ int tensor_count;
 int max_stack;
 int max_frame;
 
-char tbuf[100];
+char tbuf[1000];
 
 char *outbuf;
 int outbuf_index;

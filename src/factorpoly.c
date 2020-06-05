@@ -72,9 +72,6 @@ factorpoly_nib(void)
 
 	h = tos;
 
-	if (isfloating(POLY))
-		stop("floating point numbers in polynomial");
-
 	polycoeff = stack + tos;
 
 	push(POLY);
@@ -103,17 +100,6 @@ factorpoly_nib(void)
 		add();
 		YFACTOR = pop();
 
-		// factor out negative sign (not req'd because A > 1)
-#if 0
-		if (isnegativeterm(A)) {
-			push(FACTOR);
-			negate();
-			FACTOR = pop();
-			push(RESULT);
-			negate_noexpand();
-			RESULT = pop();
-		}
-#endif
 		push(RESULT);
 		push(YFACTOR);
 		multiply_noexpand();
@@ -170,6 +156,10 @@ rationalize_coefficients(int h)
 
 	RESULT = one;
 	for (i = h; i < tos; i++) {
+		if (isdouble(stack[i])) {
+			convert_double_to_rational(stack[i]->u.d);
+			stack[i] = pop();
+		}
 		push(stack[i]);
 		denominator();
 		push(RESULT);

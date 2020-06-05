@@ -323,19 +323,6 @@ isminusoneoversqrttwo(struct atom *p)
 }
 
 int
-isfloating(struct atom *p)
-{
-	if (p->k == DOUBLE)
-		return 1;
-	while (iscons(p)) {
-		if (isfloating(car(p)))
-			return 1;
-		p = cdr(p);
-	}
-	return 0;
-}
-
-int
 isimaginaryunit(struct atom *p)
 {
 	if (car(p) == symbol(POWER) && equaln(cadr(p), -1) && equalq(caddr(p), 1, 2))

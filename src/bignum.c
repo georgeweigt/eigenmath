@@ -169,6 +169,69 @@ convert_rational_to_double(struct atom *p)
 }
 
 void
+convert_double_to_rational(double d)
+{
+	int n;
+	char *s;
+	if (d == 0.0) {
+		push(zero);
+		return;
+	}
+	if (!isnormal(d))
+		stop("cannot convert non-normal floating point to rational number");
+	sprintf(tbuf, "%e", fabs(d));
+	s = tbuf + 2; // skip first digit and decimal point
+	while (isdigit(*s))
+		s++;
+	s++; // skip 'e' or 'E'
+	n = atoi(s) + 1;
+	best_rational_approximation(fabs(d) / pow(10.0, n));
+	push_integer(10);
+	push_integer(n);
+	power();
+	multiply();
+	if (d < 0.0)
+		negate();
+}
+
+#undef N
+#define N 1000
+
+void
+best_rational_approximation(double x)
+{
+	double a = 0.0, b = 1.0, c = 1.0, d = 1.0, m;
+	for (;;) {
+		if (b > N) {
+			push_rational((int) c, (int) d);
+			return;
+		}
+		if (d > N) {
+			push_rational((int) a, (int) b);
+			return;
+		}
+		m = (a + c) / (b + d);
+		if (x < m) {
+			c += a;
+			d += b;
+			continue;
+		}
+		if (x > m) {
+			a += c;
+			b += d;
+			continue;
+		}
+		if (b + d <= N)
+			push_rational((int) (a + c), (int) (b + d));
+		else if (d > b)
+			push_rational((int) c, (int) d); // largest denominator is most accurate
+		else
+			push_rational((int) a, (int) b);
+		return;
+	}
+}
+
+void
 bignum_scan_integer(char *s)
 {
 	int sign;
