@@ -171,23 +171,18 @@ convert_rational_to_double(struct atom *p)
 void
 convert_double_to_rational(double d)
 {
-	int n;
-	char *s;
+	double e, x;
 	if (d == 0.0) {
 		push(zero);
 		return;
 	}
 	if (!isnormal(d))
 		stop("cannot convert non-normal floating point to rational number");
-	sprintf(tbuf, "%e", fabs(d));
-	s = tbuf + 2; // skip first digit and decimal point
-	while (isdigit(*s))
-		s++;
-	s++; // skip 'e' or 'E'
-	n = atoi(s) + 1;
-	best_rational_approximation(fabs(d) / pow(10.0, (double) n));
+	x = fabs(d);
+	e = floor(log10(x)) + 1.0;
+	best_rational_approximation(x / pow(10.0, e));
 	push_integer(10);
-	push_integer(n);
+	push_integer((int) e);
 	power();
 	multiply();
 	if (d < 0.0)
