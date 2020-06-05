@@ -762,7 +762,6 @@ $\displaystyle 3.52947\times 10^{39}$
 
 Returns the largest integer less than or equal to $x$.
 
-\par
 {\color{blue}
 \begin{verbatim}
 floor(1/2)
@@ -790,6 +789,8 @@ $A=3$
 \bigskip
 \noindent
 Note: The original value of $i$ is restored after {\tt for} completes.
+If symbol {\tt i} is used for index variable $i$
+then the imaginary unit is overridden in the scope of {\tt for}.
 
 \subsection*{gcd($a,b,\ldots$)}
 
@@ -1263,6 +1264,8 @@ $\displaystyle x^3+6x^2+11x+6$
 \bigskip
 \noindent
 Note: The original value of $i$ is restored after {\tt product} completes.
+If symbol {\tt i} is used for index variable $i$
+then the imaginary unit is overridden in the scope of {\tt product}.
 
 \subsection*{quote($x$)}
 
@@ -1505,6 +1508,8 @@ $\displaystyle x^5+x^4+x^3+x^2+x$
 \bigskip
 \noindent
 Note: The original value of $i$ is restored after {\tt sum} completes.
+If symbol {\tt i} is used for index variable $i$
+then the imaginary unit is overridden in the scope of {\tt sum}.
 
 \subsection*{tan($x$)}
 
