@@ -55,9 +55,6 @@ eval(void)
 {
 	save();
 
-	if (stop_flag)
-		stop(NULL);
-
 	p1 = pop();
 
 	if (p1->k == CONS)

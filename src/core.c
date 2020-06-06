@@ -4,8 +4,6 @@ struct atom *
 alloc(void)
 {
 	struct atom *p;
-	if (stop_flag)
-		stop(NULL);
 	if (block_count == 0)
 		alloc_block();
 	if (free_count == 0) {

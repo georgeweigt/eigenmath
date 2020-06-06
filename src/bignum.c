@@ -22,11 +22,6 @@ void
 push_rational_number(int sign, uint32_t *a, uint32_t *b)
 {
 	struct atom *p;
-	if (stop_flag) { // alloc() will check stop_flag, check now to avoid memory leak
-		mfree(a);
-		mfree(b);
-		stop(NULL);
-	}
 	if (MZERO(a)) {
 		sign = MPLUS;
 		if (!MEQUAL(b, 1)) {
@@ -177,7 +172,7 @@ convert_double_to_rational(double d)
 		return;
 	}
 	if (!isnormal(d))
-		stop("cannot convert non-normal floating point to rational number");
+		stop("floating point value is nan or inf, cannot convert to rational number");
 	x = fabs(d);
 	e = floor(log10(x)) + 1.0;
 	best_rational_approximation(x / pow(10.0, e));
