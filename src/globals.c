@@ -1,12 +1,5 @@
 #include "defs.h"
 
-struct atom symtab[NSYM];
-struct atom *binding[NSYM];
-struct atom *arglist[NSYM];
-
-int block_count;
-int free_count;
-int gc_count;
 struct atom *mem[MAXBLOCKS];
 struct atom *free_list;
 
@@ -15,6 +8,10 @@ int tof; // top of frame
 
 struct atom *stack[STACKSIZE];
 struct atom *frame[FRAMESIZE];
+
+struct atom symtab[NSYM];
+struct atom *binding[NSYM];
+struct atom *arglist[NSYM];
 
 struct atom *p0;
 struct atom *p1;
@@ -33,14 +30,16 @@ struct atom *minusone;
 struct atom *imaginaryunit;
 
 int expanding;
-
-int stop_flag;
+int interrupt;
 int draw_flag;
 int clear_flag;
 
 jmp_buf stop_return;
 jmp_buf draw_stop_return;
 
+int block_count;
+int free_count;
+int gc_count;
 int bignum_count;
 int string_count;
 int tensor_count;

@@ -390,7 +390,7 @@ get_token_nib(void)
 			while (isdigit(*scan_str))
 				scan_str++;
 			if (token_str + 1 == scan_str)
-				scan_error("expected decimal"); // only a decimal point
+				scan_error("expected decimal digit"); // only a decimal point
 			token = T_DOUBLE;
 		} else
 			token = T_INTEGER;
@@ -416,8 +416,10 @@ get_token_nib(void)
 	if (*scan_str == '"') {
 		scan_str++;
 		while (*scan_str != '"') {
-			if (*scan_str == '\0' || *scan_str == '\n')
+			if (*scan_str == '\0' || *scan_str == '\n') {
+				token_str = scan_str;
 				scan_error("runaway string");
+			}
 			scan_str++;
 		}
 		scan_str++;
@@ -474,14 +476,16 @@ update_token_buf(char *a, char *b)
 void
 scan_error(char *errmsg)
 {
-	trace_input(scan_str);
-	trace_error(); // print line on which error occurred
+	print_scan_line(scan_str);
 	outbuf_index = 0;
-	print_str("Input error at '");
-	while (*token_str && token_str < scan_str)
-		print_char(*token_str++);
-	print_str("', ");
+	print_str("Stop: Syntax error, ");
 	print_str(errmsg);
+	if (token_str < scan_str) {
+		print_str(" instead of '");
+		while (*token_str && token_str < scan_str)
+			print_char(*token_str++);
+		print_str("'");
+	}
 	print_char('\n');
 	print_char('\0');
 	printbuf(outbuf, RED);
@@ -568,25 +572,32 @@ static_reciprocate_nib(void)
 	p2 = pop();
 	p1 = pop();
 
+	push(p1);
+
+	// save divide by zero error for runtime
+
+	if (iszero(p2)) {
+		push_symbol(POWER);
+		push(p2);
+		push(minusone);
+		list(3);
+		return;
+	}
+
 	if (isnum(p1) && isnum(p2)) {
-		push(p1);
 		push(p2);
 		divide();
 		return;
 	}
 
-	push(p1);
-
-	p1 = p2;
-
-	if (isnum(p1)) {
-		push(p1);
+	if (isnum(p2)) {
+		push(p2);
 		reciprocate();
 		return;
 	}
 
 	push_symbol(POWER);
-	push(p1);
-	push_integer(-1);
+	push(p2);
+	push(minusone);
 	list(3);
 }

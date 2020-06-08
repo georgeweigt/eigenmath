@@ -145,12 +145,12 @@ factor_b(void)
 
 		while (1) {
 
-			if (stop_flag) {
+			if (interrupt) {
 				mfree(k1);
 				mfree(global_n);
 				mfree(x);
 				mfree(xprime);
-				stop(NULL);
+				stop("Interrupt");
 			}
 
 			// g = gcd(x' - x, n)

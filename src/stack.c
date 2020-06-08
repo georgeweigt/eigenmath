@@ -23,8 +23,8 @@ pop(void)
 void
 save(void)
 {
-	if (stop_flag)
-		stop(NULL);
+	if (interrupt)
+		stop("Interrupt");
 	if (tof < 0 || tof > FRAMESIZE)
 		stop("frame error 1");
 	if (tof + 10 > FRAMESIZE)

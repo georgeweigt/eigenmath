@@ -1,22 +1,18 @@
 #include "defs1.h"
 #include "prototypes.h"
 
-extern struct atom symtab[NSYM];
-extern struct atom *binding[NSYM];
-extern struct atom *arglist[NSYM];
- 
-extern int block_count;
-extern int free_count;
-extern int gc_count;
 extern struct atom *mem[MAXBLOCKS];
 extern struct atom *free_list;
 
-extern int tos;
-extern int tof;
-extern int depth;
+extern int tos; // top of stack
+extern int tof; // top of frame
  
 extern struct atom *stack[STACKSIZE];
 extern struct atom *frame[FRAMESIZE];
+ 
+extern struct atom symtab[NSYM];
+extern struct atom *binding[NSYM];
+extern struct atom *arglist[NSYM];
  
 extern struct atom *p0;
 extern struct atom *p1;
@@ -35,16 +31,16 @@ extern struct atom *minusone;
 extern struct atom *imaginaryunit;
 
 extern int expanding;
-extern int running;
- 
-extern int stop_flag;
+extern int interrupt;
 extern int draw_flag;
-extern int term_flag;
 extern int clear_flag;
 
 extern jmp_buf stop_return;
 extern jmp_buf draw_stop_return;
 
+extern int block_count;
+extern int free_count;
+extern int gc_count;
 extern int bignum_count;
 extern int string_count;
 extern int tensor_count;
