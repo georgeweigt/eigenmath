@@ -43,7 +43,7 @@ numerator1_nib(void)
 	}
 
 	if (car(p1) == symbol(POWER) && isnegativeterm(caddr(p1))) {
-		push(one);
+		push_integer(1);
 		return;
 	}
 

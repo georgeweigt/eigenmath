@@ -49,7 +49,7 @@ add_terms_nib(int n)
 	n = tos - h;
 	switch (n) {
 	case 0:
-		push(zero);
+		push_integer(0);
 		break;
 	case 1:
 		break;
@@ -385,7 +385,7 @@ add_rationals(void)
 			sign = p1->sign;
 			break;
 		case 0:
-			push(zero);
+			push_integer(0);
 			mfree(ab);
 			mfree(ba);
 			return;

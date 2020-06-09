@@ -104,7 +104,7 @@ simfac_term_nib(int h)
 			&& isminusone(caddr(p2))
 			&& equal(cadr(p1), cadr(p2))) {
 				push(cadr(p1));
-				push(one);
+				push_integer(1);
 				subtract();
 				factorial();
 				stack[i] = pop();

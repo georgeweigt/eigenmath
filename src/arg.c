@@ -44,7 +44,7 @@ arg_nib(void)
 
 	if (isrational(p1)) {
 		if (p1->sign == MPLUS)
-			push(zero);
+			push_integer(0);
 		else {
 			push_symbol(PI);
 			negate();
@@ -111,5 +111,5 @@ arg_nib(void)
 		return;
 	}
 
-	push(zero);
+	push_integer(0);
 }

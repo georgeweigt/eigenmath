@@ -64,7 +64,7 @@ multiply_factors_nib(int n)
 	n = tos - h;
 	switch (n) {
 	case 0:
-		push(one);
+		push_integer(1);
 		break;
 	case 1:
 		break;
@@ -449,7 +449,7 @@ multiply_rationals(void)
 	uint32_t *a, *b, *c;
 
 	if (equaln(p1, 0) || equaln(p2, 0)) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 
@@ -740,7 +740,7 @@ reduce_radical_factors(int h)
 				NUMER = pop();
 				push_symbol(POWER);
 				push(BASE1);
-				push(one);
+				push_integer(1);
 				push(EXPO1);
 				add();
 				list(3);
@@ -759,7 +759,7 @@ reduce_radical_factors(int h)
 				DENOM = pop();
 				push_symbol(POWER);
 				push(BASE1);
-				push(minusone);
+				push_integer(-1);
 				push(EXPO1);
 				add();
 				list(3);

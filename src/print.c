@@ -71,9 +71,7 @@ print_expr(struct atom *p)
 int
 sign_of_term(struct atom *p)
 {
-	if (car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && lessp(cadr(p), zero))
-		return '-';
-	else if (isnum(p) && lessp(p, zero))
+	if (isnegativenumber(p) || (car(p) == symbol(MULTIPLY) && isnegativenumber(cadr(p))))
 		return '-';
 	else
 		return '+';
@@ -236,7 +234,7 @@ print_denom(struct atom *p, int d)
 	if (d == 1 && !isminusone(EXPO))
 		print_char('(');
 
-	if (isfraction(BASE) || car(BASE) == symbol(ADD) || car(BASE) == symbol(MULTIPLY) || car(BASE) == symbol(POWER) || lessp(BASE, zero)) {
+	if (isfraction(BASE) || car(BASE) == symbol(ADD) || car(BASE) == symbol(MULTIPLY) || car(BASE) == symbol(POWER) || isnegativenumber(BASE)) {
 			print_char('(');
 			print_expr(BASE);
 			print_char(')');

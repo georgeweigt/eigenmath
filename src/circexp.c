@@ -139,7 +139,7 @@ exptan(void)
 	subtract();
 
 	push(p1);
-	push(one);
+	push_integer(1);
 	add();
 
 	divide();

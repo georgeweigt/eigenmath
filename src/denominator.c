@@ -60,5 +60,5 @@ denominator1_nib(void)
 		return;
 	}
 
-	push(one);
+	push_integer(1);
 }

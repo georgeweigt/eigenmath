@@ -1,12 +1,36 @@
 #include "defs.h"
 
 void
+init_bignums(void)
+{
+	push_rational_number(MPLUS, mint(0), mint(1));
+	zero = pop();
+	push_rational_number(MPLUS, mint(1), mint(1));
+	one = pop();
+	push_rational_number(MMINUS, mint(1), mint(1));
+	minusone = pop();
+}
+
+void
 push_integer(int n)
 {
-	if (n < 0)
-		push_rational_number(MMINUS, mint(-n), mint(1));
-	else
-		push_rational_number(MPLUS, mint(n), mint(1));
+	switch (n) {
+	case 0:
+		push(zero);
+		break;
+	case 1:
+		push(one);
+		break;
+	case -1:
+		push(minusone);
+		break;
+	default:
+		if (n < 0)
+			push_rational_number(MMINUS, mint(-n), mint(1));
+		else
+			push_rational_number(MPLUS, mint(n), mint(1));
+		break;
+	}
 }
 
 void
@@ -168,7 +192,7 @@ convert_double_to_rational(double d)
 {
 	double e, x;
 	if (d == 0.0) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 	if (!isnormal(d))

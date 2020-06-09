@@ -50,11 +50,11 @@ hermite_nib(void)
 	}
 
 	if (n < 0) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 
-	push(one);
+	push_integer(1);
 
 	Y1 = zero;
 

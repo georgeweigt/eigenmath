@@ -9,7 +9,7 @@ run(char *s)
 	if (setjmp(stop_return))
 		return;
 
-	init(0);
+	init();
 
 	for (;;) {
 
@@ -29,8 +29,10 @@ run(char *s)
 		if (tos || tof)
 			stop("internal error 1");
 
-		if (clear_flag)
-			init(1);
+		if (clear_flag) {
+			zero = NULL; // force full init
+			init();
+		}
 	}
 }
 
@@ -66,7 +68,7 @@ char *init_script[] = {
 };
 
 void
-init(int level)
+init(void)
 {
 	int i, n;
 
@@ -89,21 +91,14 @@ init(int level)
 	p8 = symbol(NIL);
 	p9 = symbol(NIL);
 
-	if (symtab[0].u.printname && level < 1) {
+	if (zero) {
 		set_binding(symbol(TRACE), zero);
 		return;
 	}
 
+	init_bignums();
+
 	init_symbol_table();
-
-	push_integer(0);
-	zero = pop();
-
-	push_integer(1);
-	one = pop();
-
-	push_integer(-1);
-	minusone = pop();
 
 	push_symbol(POWER);
 	push_integer(-1);

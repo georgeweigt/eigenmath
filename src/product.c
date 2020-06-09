@@ -31,7 +31,7 @@ eval_product(void)
 		stop("product: 3rd arg?");
 
 	if (k - j < 0) {
-		push(one);
+		push_integer(1);
 		return;
 	}
 

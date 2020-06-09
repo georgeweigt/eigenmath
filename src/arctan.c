@@ -6,7 +6,7 @@ eval_arctan(void)
 	push(cadr(p1));
 	eval();
 	if (caddr(p1) == symbol(NIL))
-		push(one);
+		push_integer(1);
 	else {
 		push(caddr(p1));
 		eval();
@@ -83,8 +83,8 @@ arctan_numerical_args(void)
 
 	if (iszero(X) && iszero(Y)) {
 		push_symbol(ARCTAN);
-		push(zero);
-		push(zero);
+		push_integer(0);
+		push_integer(0);
 		list(3);
 		return;
 	}
@@ -102,7 +102,7 @@ arctan_numerical_args(void)
 
 	if (iszero(Y)) {
 		if (X->sign == MPLUS)
-			push(zero);
+			push_integer(0);
 		else
 			push_integer(-1);
 		push_symbol(PI);

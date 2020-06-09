@@ -94,7 +94,7 @@ arcsin_nib(void)
 		break;
 
 	case 0:
-		push(zero);
+		push_integer(0);
 		break;
 
 	case 1:

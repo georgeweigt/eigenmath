@@ -538,17 +538,17 @@ static_negate_nib(void)
 	}
 
 	if (car(p1) == symbol(MULTIPLY)) {
-		push_symbol(MULTIPLY);
+		push(car(p1));
 		if (isnum(cadr(p1))) {
 			push(cadr(p1));
-			negate();	// number
-			push(cddr(p1));	// factors
+			negate();
+			push(cddr(p1));
 		} else {
-			push(minusone);	// number
-			push(cdr(p1));	// factors
+			push_integer(-1);
+			push(cdr(p1));
 		}
-		cons(); // after cons, the list (number factors) is on the stack
-		cons(); // after cons, the list (MULTIPLY number factors) is on the stack
+		cons();
+		cons();
 		return;
 	}
 
@@ -579,7 +579,7 @@ static_reciprocate_nib(void)
 	if (iszero(p2)) {
 		push_symbol(POWER);
 		push(p2);
-		push(minusone);
+		push_integer(-1);
 		list(3);
 		return;
 	}
@@ -598,6 +598,6 @@ static_reciprocate_nib(void)
 
 	push_symbol(POWER);
 	push(p2);
-	push(minusone);
+	push_integer(-1);
 	list(3);
 }

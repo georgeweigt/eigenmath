@@ -20,7 +20,7 @@ eval_test(void)
 		}
 		p1 = cddr(p1);
 	}
-	push(zero);
+	push_integer(0);
 }
 
 void
@@ -50,26 +50,26 @@ eval_testeq(void)
 
 	if (iszero(p1)) {
 		if (iszero(p2))
-			push(one);
+			push_integer(1);
 		else
-			push(zero);
+			push_integer(0);
 		return;
 	}
 
 	if (iszero(p2)) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 
 	if (istensor(p1) && istensor(p2) && !compatible_tensors(p1, p2)) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 
 	// try this first
 
 	if (equal(p1, p2)) {
-		push(one);
+		push_integer(1);
 		return;
 	}
 
@@ -82,45 +82,45 @@ eval_testeq(void)
 	p1 = pop();
 
 	if (iszero(p1))
-		push(one);
+		push_integer(1);
 	else
-		push(zero);
+		push_integer(0);
 }
 
 void
 eval_testge(void)
 {
 	if (cmp_args() >= 0)
-		push(one);
+		push_integer(1);
 	else
-		push(zero);
+		push_integer(0);
 }
 
 void
 eval_testgt(void)
 {
 	if (cmp_args() > 0)
-		push(one);
+		push_integer(1);
 	else
-		push(zero);
+		push_integer(0);
 }
 
 void
 eval_testle(void)
 {
 	if (cmp_args() <= 0)
-		push(one);
+		push_integer(1);
 	else
-		push(zero);
+		push_integer(0);
 }
 
 void
 eval_testlt(void)
 {
 	if (cmp_args() < 0)
-		push(one);
+		push_integer(1);
 	else
-		push(zero);
+		push_integer(0);
 }
 
 void
@@ -130,9 +130,9 @@ eval_not(void)
 	evalp();
 	p1 = pop();
 	if (iszero(p1))
-		push(one);
+		push_integer(1);
 	else
-		push(zero);
+		push_integer(0);
 }
 
 void
@@ -144,12 +144,12 @@ eval_and(void)
 		evalp();
 		p2 = pop();
 		if (iszero(p2)) {
-			push(zero);
+			push_integer(0);
 			return;
 		}
 		p1 = cdr(p1);
 	}
-	push(one);
+	push_integer(1);
 }
 
 void
@@ -161,12 +161,12 @@ eval_or(void)
 		evalp();
 		p2 = pop();
 		if (!iszero(p2)) {
-			push(one);
+			push_integer(1);
 			return;
 		}
 		p1 = cdr(p1);
 	}
-	push(zero);
+	push_integer(0);
 }
 
 int

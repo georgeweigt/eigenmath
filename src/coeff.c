@@ -69,7 +69,7 @@ coeff(void)
 
 		push(p1);
 		push(p2);
-		push(zero);
+		push_integer(0);
 		subst();
 		eval();
 
@@ -82,7 +82,7 @@ coeff(void)
 
 		p1 = pop();
 
-		if (equal(p1, zero)) {
+		if (iszero(p1)) {
 			n = tos - h;
 			restore();
 			return n;

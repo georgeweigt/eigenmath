@@ -782,7 +782,7 @@ integral_of_form(void)
 
 	h = tos;
 
-	push(one); // 1 is a candidate for a or b
+	push_integer(1); // 1 is a candidate for a or b
 
 	push(F);
 	push(X);
@@ -1018,11 +1018,11 @@ collect_coeffs_nib(void)
 			push(p2);
 			partition_integrand();	// push const part then push var part
 		} else if (find(p3, p2)) {
-			push(one);		// const part
+			push_integer(1);	// const part
 			push(p3);		// var part
 		} else {
 			push(p3);		// const part
-			push(one);		// var part
+			push_integer(1);	// var part
 		}
 		p1 = cdr(p1);
 	}
@@ -1096,7 +1096,7 @@ partition_integrand(void)
 	}
 
 	if (h == tos)
-		push(one);
+		push_integer(1);
 	else
 		multiply_factors(tos - h);
 
@@ -1111,7 +1111,7 @@ partition_integrand(void)
 	}
 
 	if (h == tos)
-		push(one);
+		push_integer(1);
 	else
 		multiply_factors(tos - h);
 

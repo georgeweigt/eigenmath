@@ -36,7 +36,7 @@ cosineh_nib(void)
 	}
 
 	if (iszero(p1)) {
-		push(one);
+		push_integer(1);
 		return;
 	}
 

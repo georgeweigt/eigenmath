@@ -113,7 +113,7 @@ factorpoly_nib(void)
 
 	// unfactored polynomial
 
-	push(zero);
+	push_integer(0);
 	for (i = 0; i <= expo; i++) {
 		push(polycoeff[i]);
 		push(X);
@@ -283,7 +283,7 @@ void
 evalpoly(void)
 {
 	int i;
-	push(zero);
+	push_integer(0);
 	for (i = expo; i >= 0; i--) {
 		push(Z);
 		multiply();
@@ -326,7 +326,7 @@ divisors_onstack(void)
 				push(caddr(p2));
 			} else {
 				push(p2);
-				push(one);
+				push_integer(1);
 			}
 			p1 = cdr(p1);
 		}
@@ -335,14 +335,14 @@ divisors_onstack(void)
 		push(caddr(p1));
 	} else {
 		push(p1);
-		push(one);
+		push_integer(1);
 	}
 
 	k = tos;
 
 	// contruct divisors by recursive descent
 
-	push(one);
+	push_integer(1);
 
 	gen(h, k);
 
@@ -450,7 +450,7 @@ factor_add(void)
 	p2 = pop();
 	if (isplusone(p2)) {
 		push(p1);
-		push(one);
+		push_integer(1);
 		restore();
 		return;
 	}
@@ -467,17 +467,17 @@ factor_add(void)
 			factor_small_number();
 		} else {
 			push(car(p3));
-			push(one);
+			push_integer(1);
 		}
 		p3 = cdr(p3);
 		while (iscons(p3)) {
 			push(car(p3));
-			push(one);
+			push_integer(1);
 			p3 = cdr(p3);
 		}
 	} else {
 		push(p2);
-		push(one);
+		push_integer(1);
 	}
 
 	// divide each term by gcd
@@ -486,7 +486,7 @@ factor_add(void)
 	reciprocate();
 	p2 = pop();
 
-	push(zero);
+	push_integer(0);
 	p3 = cdr(p1);
 	while (iscons(p3)) {
 		push(p2);
@@ -496,7 +496,7 @@ factor_add(void)
 		p3 = cdr(p3);
 	}
 
-	push(one);
+	push_integer(1);
 
 	restore();
 }

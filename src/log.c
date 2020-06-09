@@ -64,14 +64,14 @@ log_nib(void)
 	// log(1) -> 0
 
 	if (equaln(p1, 1)) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 
 	// log(e) -> 1
 
 	if (p1 == symbol(EXP1)) {
-		push(one);
+		push_integer(1);
 		return;
 	}
 

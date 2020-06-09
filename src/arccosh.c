@@ -43,7 +43,7 @@ arccosh_nib(void)
 	}
 
 	if (equaln(p1, 1)) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 

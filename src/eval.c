@@ -257,7 +257,7 @@ eval_dim(void)
 	} else
 		n = 1;
 	if (!istensor(p2))
-		push(one); // dim of scalar is 1
+		push_integer(1); // dim of scalar is 1
 	else if (n < 1 || n > p2->u.tensor->ndim)
 		push(p1);
 	else
@@ -267,7 +267,7 @@ eval_dim(void)
 void
 eval_do(void)
 {
-	push(zero);
+	push_integer(0);
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		pop();
@@ -303,9 +303,9 @@ eval_number(void)
 	eval();
 	p1 = pop();
 	if (isnum(p1))
-		push(one);
+		push_integer(1);
 	else
-		push(zero);
+		push_integer(0);
 }
 
 void
@@ -335,7 +335,7 @@ eval_rank(void)
 	if (istensor(p1))
 		push_integer(p1->u.tensor->ndim);
 	else
-		push(zero);
+		push_integer(0);
 }
 
 void

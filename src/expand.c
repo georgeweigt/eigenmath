@@ -125,7 +125,7 @@ expand(void)
 		multiply_noexpand(); // remove numeric factor
 		A = pop();
 	} else
-		push(one); // numeric factor on stack
+		push_integer(1); // numeric factor on stack
 
 	expand_get_C();
 	expand_get_B();

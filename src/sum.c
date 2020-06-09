@@ -31,7 +31,7 @@ eval_sum(void)
 		stop("sum: 3rd arg?");
 
 	if (k - j < 0) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 

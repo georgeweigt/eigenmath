@@ -20,7 +20,7 @@ eval_zero(void)
 		p1 = cdr(p1);
 	}
 	if (n == 0) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 	p1 = alloc_tensor(m);

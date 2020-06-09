@@ -73,7 +73,7 @@ power_nib(void)
 		if (isdouble(BASE) || isdouble(EXPO))
 			push_double(1.0);
 		else
-			push(one);
+			push_integer(1);
 		return;
 	}
 
@@ -157,7 +157,7 @@ power_natural_number(void)
 		if (isdouble(EXPO))
 			push_double(1.0);
 		else
-			push(one);
+			push_integer(1);
 		return;
 	}
 
@@ -388,7 +388,7 @@ power_imaginary_unit_nib(void)
 
 	if (!isnum(EXPO)) {
 		push_symbol(POWER);
-		push(minusone);
+		push_integer(-1);
 		push(EXPO);
 		list(3);
 		if (isdouble(BASE)) {
@@ -439,13 +439,13 @@ power_imaginary_unit_nib(void)
 			if (isdouble(BASE))
 				push_double(-1.0); // BASE = -1.0, keep double
 			else
-				push(minusone);
+				push_integer(-1);
 		} else {
 			// even exponent
 			if (isdouble(BASE))
 				push_double(1.0); // BASE = -1.0, keep double
 			else
-				push(one);
+				push_integer(1);
 		}
 		return;
 	}
@@ -491,7 +491,7 @@ power_imaginary_unit_nib(void)
 	b = mcopy(b);
 
 	push_symbol(POWER);
-	push(minusone);
+	push_integer(-1);
 	if (s == 1)
 		push_rational_number(MPLUS, a, b);
 	else
@@ -504,7 +504,7 @@ power_imaginary_unit_nib(void)
 		if (isdouble(BASE))
 			push_double(-1.0); // BASE = -1.0, keep double
 		else
-			push(minusone);
+			push_integer(-1);
 		swap();
 		list(3);
 	} else if (isdouble(BASE)) {
@@ -597,7 +597,7 @@ power_complex_number(void)
 	else if (n < 0)
 		power_complex_minus(-n);
 	else
-		push(one);
+		push_integer(1);
 }
 
 void
@@ -791,7 +791,7 @@ power_numbers(void)
 		if (isdouble(BASE) || isdouble(EXPO))
 			push_double(1.0);
 		else
-			push(one);
+			push_integer(1);
 		return;
 	}
 
@@ -843,7 +843,7 @@ power_rationals(void)
 	// 1^N = N^0 = 1
 
 	if (equaln(BASE, 1) || equaln(EXPO, 0)) {
-		push(one);
+		push_integer(1);
 		return;
 	}
 
@@ -859,7 +859,7 @@ power_rationals(void)
 	if (equaln(BASE, 0)) {
 		if (EXPO->sign == MMINUS)
 			stop("divide by zero");
-		push(zero);
+		push_integer(0);
 		return;
 	}
 

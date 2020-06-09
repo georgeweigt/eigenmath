@@ -50,7 +50,7 @@ mag_nib(void)
 
 	if (car(p1) == symbol(POWER) && equaln(cadr(p1), -1)) {
 		// -1 to a power
-		push(one);
+		push_integer(1);
 		return;
 	}
 

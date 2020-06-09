@@ -69,7 +69,7 @@ sine_nib(void)
 		return;
 	}
 
-	// sin(arctan(y,x)) = y (x^2 + y^2)(-1/2)
+	// sin(arctan(y,x)) = y (x^2 + y^2)^(-1/2)
 
 	if (car(p1) == symbol(ARCTAN)) {
 		X = caddr(p1);

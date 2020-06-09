@@ -92,7 +92,7 @@ gcd_main(void)
 		p4 = one;
 
 	if (!equal(p1, p2)) {
-		push(one);
+		push_integer(1);
 		return;
 	}
 
@@ -148,7 +148,7 @@ gcd_main(void)
 	p5 = pop();
 
 	if (!isnum(p5)) {
-		push(one);
+		push_integer(1);
 		return;
 	}
 
@@ -170,7 +170,7 @@ void
 gcd_expr_expr(void)
 {
 	if (length(p1) != length(p2)) {
-		push(one);
+		push_integer(1);
 		return;
 	}
 
@@ -211,7 +211,7 @@ gcd_expr_expr(void)
 		gcd();
 		multiply();
 	} else
-		push(one);
+		push_integer(1);
 }
 
 void
@@ -230,7 +230,7 @@ gcd_expr(struct atom *p)
 void
 gcd_term_term(void)
 {
-	push(one);
+	push_integer(1);
 	p3 = cdr(p1);
 	while (iscons(p3)) {
 		p4 = cdr(p2);
@@ -248,7 +248,7 @@ gcd_term_term(void)
 void
 gcd_term_factor(void)
 {
-	push(one);
+	push_integer(1);
 	p3 = cdr(p1);
 	while (iscons(p3)) {
 		push(car(p3));
@@ -262,7 +262,7 @@ gcd_term_factor(void)
 void
 gcd_factor_term(void)
 {
-	push(one);
+	push_integer(1);
 	p4 = cdr(p2);
 	while (iscons(p4)) {
 		push(p1);

@@ -102,7 +102,7 @@ arccos_nib(void)
 		break;
 
 	case 2:
-		push(zero);
+		push_integer(0);
 		break;
 
 	default:

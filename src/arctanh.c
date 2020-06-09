@@ -51,7 +51,7 @@ arctanh_nib(void)
 	}
 
 	if (iszero(p1)) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 

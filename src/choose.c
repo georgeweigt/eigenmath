@@ -33,7 +33,7 @@ choose_nib(void)
 	N = pop();
 
 	if (choose_check_args() == 0) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 
@@ -56,9 +56,9 @@ choose_nib(void)
 int
 choose_check_args(void)
 {
-	if (isnum(N) && lessp(N, zero))
+	if (isnegativenumber(N))
 		return 0;
-	else if (isnum(K) && lessp(K, zero))
+	else if (isnegativenumber(K))
 		return 0;
 	else if (isnum(N) && isnum(K) && lessp(N, K))
 		return 0;
