@@ -984,6 +984,10 @@ for(a,-10,10,
   check(factor(1.0 a/b x) = a/b x)
 ))
 
+-- mod
+
+for(a,-10,10,for(b,-10,10,test(not(b = 0),check(mod(a/2,b/2) = mod(a/2.0,b/2.0)))))
+
 -- done
 
 clear

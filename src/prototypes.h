@@ -475,6 +475,8 @@ void mml_mo(char *s);
 void eval_mod(void);
 void mod(void);
 void mod_nib(void);
+void mod_numbers(void);
+void mod_rationals(void);
 void eval_multiply(void);
 void multiply(void);
 void multiply_factors(int n);
