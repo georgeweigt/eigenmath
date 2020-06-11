@@ -17,6 +17,7 @@ int cmp_terms(struct atom *p1, struct atom *p2);
 int is_imaginary_term(struct atom *p);
 void add_numbers(void);
 void add_rationals(void);
+void add_integers(void);
 void subtract(void);
 void eval_adj(void);
 void adj(void);

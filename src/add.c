@@ -362,13 +362,18 @@ add_rationals(void)
 	int sign;
 	uint32_t *a, *ab, *b, *ba, *c;
 
-	if (equaln(p1, 0)) {
+	if (iszero(p1)) {
 		push(p2);
 		return;
 	}
 
-	if (equaln(p2, 0)) {
+	if (iszero(p2)) {
 		push(p1);
+		return;
+	}
+
+	if (isinteger(p1) && isinteger(p2)) {
+		add_integers();
 		return;
 	}
 
@@ -407,6 +412,37 @@ add_rationals(void)
 	mfree(a);
 	mfree(b);
 	mfree(c);
+}
+
+void
+add_integers(void)
+{
+	int sign;
+	uint32_t *a, *b, *c;
+
+	a = p1->u.q.a;
+	b = p2->u.q.a;
+
+	if (p1->sign == p2->sign) {
+		c = madd(a, b);
+		sign = p1->sign;
+	} else {
+		switch (mcmp(a, b)) {
+		case 1:
+			c = msub(a, b);
+			sign = p1->sign;
+			break;
+		case 0:
+			push_integer(0);
+			return;
+		case -1:
+			c = msub(b, a);
+			sign = p2->sign;
+			break;
+		}
+	}
+
+	push_rational_number(sign, c, mint(1));
 }
 
 void
