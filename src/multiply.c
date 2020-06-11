@@ -392,7 +392,7 @@ cmp_factors(struct atom *p1, struct atom *p2)
 int
 order_factor(struct atom *p)
 {
-	if (p->k == RATIONAL || p->k == DOUBLE)
+	if (isnum(p))
 		return 1;
 
 	if (p == symbol(EXP1))
@@ -408,7 +408,7 @@ order_factor(struct atom *p)
 		if (equaln(p, -1))
 			return 3;
 
-		if (p->k == RATIONAL || p->k == DOUBLE)
+		if (isnum(p))
 			return 2;
 
 		if (p == symbol(EXP1))
@@ -428,7 +428,7 @@ multiply_numbers(void)
 {
 	double d1, d2;
 
-	if (p1->k == RATIONAL && p2->k == RATIONAL) {
+	if (isrational(p1) && isrational(p2)) {
 		multiply_rationals();
 		return;
 	}

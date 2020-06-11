@@ -154,6 +154,12 @@ compare_rationals(struct atom *a, struct atom *b)
 		return -1;
 	if (a->sign == MPLUS && b->sign == MMINUS)
 		return 1;
+	if (isinteger(a) && isinteger(b)) {
+		if (a->sign == MMINUS)
+			return mcmp(b->u.q.a, a->u.q.a);
+		else
+			return mcmp(a->u.q.a, b->u.q.a);
+	}
 	ab = mmul(a->u.q.a, b->u.q.b);
 	ba = mmul(a->u.q.b, b->u.q.a);
 	if (a->sign == MMINUS)
