@@ -13,47 +13,40 @@ eval_mod(void)
 void
 mod(void)
 {
-	int n;
-
 	save();
+	mod_nib();
+	restore();
+}
 
+void
+mod_nib(void)
+{
 	p2 = pop();
 	p1 = pop();
 
 	if (iszero(p2))
-		stop("divide by zero");
+		stop("mod: divide by zero");
 
 	if (!isnum(p1) || !isnum(p2)) {
 		push_symbol(MOD);
 		push(p1);
 		push(p2);
 		list(3);
-		restore();
 		return;
 	}
 
 	if (isdouble(p1)) {
-		push(p1);
-		n = pop_integer();
-		if (n == ERR)
-			stop("mod function: cannot convert float value to integer");
-		push_integer(n);
+		convert_double_to_rational(p1->u.d);
 		p1 = pop();
 	}
 
 	if (isdouble(p2)) {
-		push(p2);
-		n = pop_integer();
-		if (n == ERR)
-			stop("mod function: cannot convert float value to integer");
-		push_integer(n);
+		convert_double_to_rational(p2->u.d);
 		p2 = pop();
 	}
 
 	if (!isinteger(p1) || !isinteger(p2))
-		stop("mod function: integer arguments expected");
+		stop("mod: integer arguments expected");
 
 	push_rational_number(p1->sign, mmod(p1->u.q.a, p2->u.q.a), mint(1));
-
-	restore();
 }

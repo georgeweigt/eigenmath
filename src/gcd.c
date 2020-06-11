@@ -1,5 +1,3 @@
-// Greatest common denominator
-
 #include "defs.h"
 
 void
@@ -40,10 +38,10 @@ gcd_main(void)
 		return;
 	}
 
-	if (isrational(p1) && isrational(p2)) {
+	if (isnum(p1) && isnum(p2)) {
 		push(p1);
 		push(p2);
-		gcd_rational_numbers();
+		gcd_numbers();
 		return;
 	}
 
@@ -274,12 +272,20 @@ gcd_factor_term(void)
 }
 
 void
-gcd_rational_numbers(void)
+gcd_numbers(void)
 {
 	uint32_t *a, *b;
 	save();
 	p2 = pop();
 	p1 = pop();
+	if (isdouble(p1)) {
+		convert_double_to_rational(p1->u.d);
+		p1 = pop();
+	}
+	if (isdouble(p2)) {
+		convert_double_to_rational(p2->u.d);
+		p2 = pop();
+	}
 	a = mgcd(p1->u.q.a, p2->u.q.a);
 	b = mgcd(p1->u.q.b, p2->u.q.b);
 	push_rational_number(MPLUS, a, b);

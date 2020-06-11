@@ -82,7 +82,7 @@ pop_integer(void)
 void
 push_double(double d)
 {
-	struct atom *p; // ok, no gc before push
+	struct atom *p;
 	p = alloc();
 	p->k = DOUBLE;
 	p->u.d = d;
@@ -92,21 +92,36 @@ push_double(double d)
 double
 pop_double(void)
 {
-	double d;
-	struct atom *p; // ok, no gc
+	struct atom *p;
 	p = pop();
-	switch (p->k) {
-	case RATIONAL:
-		d = convert_rational_to_double(p);
-		break;
-	case DOUBLE:
-		d = p->u.d;
-		break;
-	default:
-		d = 0.0;
-		break;
-	}
-	return d;
+	if (isrational(p))
+		return convert_rational_to_double(p);
+	else if (isdouble(p))
+		return p->u.d;
+	else
+		return 0.0;
+}
+
+int
+equaln(struct atom *p, int n)
+{
+	if (isrational(p))
+		return p->sign == (n < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(n)) && MEQUAL(p->u.q.b, 1);
+	else if (isdouble(p))
+		return p->u.d == (double) n;
+	else
+		return 0;
+}
+
+int
+equalq(struct atom *p, int a, int b)
+{
+	if (isrational(p))
+		return p->sign == (a < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(a)) && MEQUAL(p->u.q.b, b);
+	else if (isdouble(p))
+		return p->u.d == (double) a / b;
+	else
+		return 0;
 }
 
 int

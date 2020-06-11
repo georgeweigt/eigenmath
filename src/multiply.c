@@ -448,21 +448,24 @@ multiply_rationals(void)
 	int sign;
 	uint32_t *a, *b, *c;
 
-	if (equaln(p1, 0) || equaln(p2, 0)) {
+	if (iszero(p1) || iszero(p2)) {
 		push_integer(0);
 		return;
 	}
-
-	a = mmul(p1->u.q.a, p2->u.q.a);
-	b = mmul(p1->u.q.b, p2->u.q.b);
-
-	c = mgcd(a, b);
 
 	if (p1->sign == p2->sign)
 		sign = MPLUS;
 	else
 		sign = MMINUS;
 
+	if (isinteger(p1) && isinteger(p2)) {
+		push_rational_number(sign, mmul(p1->u.q.a, p2->u.q.a), mint(1));
+		return;
+	}
+
+	a = mmul(p1->u.q.a, p2->u.q.a);
+	b = mmul(p1->u.q.b, p2->u.q.b);
+	c = mgcd(a, b);
 	push_rational_number(sign, mdiv(a, c), mdiv(b, c));
 
 	mfree(a);
@@ -620,8 +623,6 @@ divide_nib(void)
 	multiply();
 }
 
-// p1 over p2
-
 void
 divide_numbers(void)
 {
@@ -644,25 +645,36 @@ divide_numbers(void)
 	push_double(d1 / d2);
 }
 
-// p1 over p2
-
 void
 divide_rationals(void)
 {
-	uint32_t *a, *b;
+	int sign;
+	uint32_t *a, *b, *c;
 
-	if (equaln(p2, 0))
+	if (iszero(p2))
 		stop("divide by zero");
 
-	a = mcopy(p2->u.q.a);
-	b = mcopy(p2->u.q.b);
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
 
-	push_rational_number(p2->sign, b, a);
+	if (p1->sign == p2->sign)
+		sign = MPLUS;
+	else
+		sign = MMINUS;
 
-	p2 = pop();
+	a = mmul(p1->u.q.a, p2->u.q.b);
+	b = mmul(p1->u.q.b, p2->u.q.a);
+	c = mgcd(a, b);
+	push_rational_number(sign, mdiv(a, c), mdiv(b, c));
 
-	multiply_rationals(); // uses p1 and p2
+	mfree(a);
+	mfree(b);
+	mfree(c);
 }
+
+// for example, 2 / sqrt(2) -> sqrt(2)
 
 void
 reduce_radical_factors(int h)
@@ -777,15 +789,4 @@ reduce_radical_factors(int h)
 			negate();
 		COEF = pop();
 	}
-}
-
-int
-isradical(struct atom *p)
-{
-	if (car(p) == symbol(POWER)
-	&& isposint(cadr(p)) // base
-	&& isrational(caddr(p))) // exponent
-		return 1;
-	else
-		return 0;
 }
