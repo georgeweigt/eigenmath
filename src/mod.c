@@ -75,6 +75,12 @@ mod_rationals(void)
 	mfree(a);
 	mfree(b);
 
+	if (MZERO(q)) {
+		mfree(q);
+		push(p1);
+		return;
+	}
+
 	push(p1);
 	push_rational_number(p1->sign, q, mint(1));
 	push(p2);
