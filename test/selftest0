@@ -986,7 +986,7 @@ for(a,-10,10,
 
 -- mod
 
-for(a,-10,10,for(b,-10,10,test(not(b = 0),check(mod(a/2,b/2) = mod(a/2.0,b/2.0)))))
+for(a,-20,20,for(b,-20,20,test(not(b = 0),check(mod(a/4,b/4) = mod(a/4.0,b/4.0)))))
 
 -- done
 

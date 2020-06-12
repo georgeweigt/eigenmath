@@ -44,7 +44,17 @@ mod_numbers(void)
 	double d1, d2;
 
 	if (isrational(p1) && isrational(p2)) {
-		mod_rationals();
+		push(p1);
+		push(p1);
+		push(p2);
+		divide();
+		absval();
+		sfloor();
+		push(p2);
+		multiply();
+		if (p1->sign == p2->sign)
+			negate();
+		add();
 		return;
 	}
 
@@ -55,36 +65,4 @@ mod_numbers(void)
 	d2 = pop_double();
 
 	push_double(fmod(d1, d2));
-}
-
-void
-mod_rationals(void)
-{
-	uint32_t *a, *b, *q;
-
-	if (isinteger(p1) && isinteger(p2)) {
-		push_rational_number(p1->sign, mmod(p1->u.q.a, p2->u.q.a), mint(1));
-		return;
-	}
-
-	a = mmul(p1->u.q.a, p2->u.q.b);
-	b = mmul(p1->u.q.b, p2->u.q.a);
-
-	q = mdiv(a, b);
-
-	mfree(a);
-	mfree(b);
-
-	if (MZERO(q)) {
-		mfree(q);
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	push_rational_number(p1->sign, q, mint(1));
-	push(p2);
-	absval();
-	multiply();
-	subtract();
 }
