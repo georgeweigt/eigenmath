@@ -743,7 +743,7 @@ reduce_radical_factors(int h)
 		if (EXPO1->sign == MMINUS) {
 			push(NUMER);
 			push(BASE1);
-			mod();
+			smod();
 			p2 = pop();
 			if (iszero(p2)) {
 				push(NUMER);
@@ -762,7 +762,7 @@ reduce_radical_factors(int h)
 		} else {
 			push(DENOM);
 			push(BASE1);
-			mod();
+			smod();
 			p2 = pop();
 			if (iszero(p2)) {
 				push(DENOM);
