@@ -433,16 +433,6 @@ cos(pi/4)
   1/2
  2
 </pre>
-<pre style="color:blue">
-cos(arctan(y,x))
-</pre>
-<pre>
-      x
---------------
-          1/2
-   2    2
- (x  + y )
-</pre>
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a id="cosh">cosh(<i>x</i>)</a>
@@ -517,13 +507,6 @@ It will not conflict with function <span style="font-family:monospace">d</span>.
 <p>
 It is OK to redefine <span style="font-family:monospace">d</span> as a different function.
 The function <span style="font-family:monospace">derivative</span>, a synonym for <span style="font-family:monospace">d</span>, can still be used to obtain a partial derivative.
-<pre style="color:blue">
-d(x,y) = x - y
-derivative(x^2,x)
-</pre>
-<pre>
-2 x
-</pre>
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a id="defint">defint(<i>f,x,a,b</i>)</a>
@@ -547,7 +530,8 @@ defint(f, theta, 0, pi, phi, 0, 2pi) -- integrate over theta then over phi
 <p>
 Returns the degree of polynomial <i>p</i>(<i>x</i>).
 <pre style="color:blue">
-deg(x^3,x)
+p = (2x + 1)^3
+deg(p,x)
 </pre>
 <pre>
 3
@@ -900,7 +884,7 @@ A = 3
 </pre>
 <p>
 Note:
-The previous value of <i>i</i> is restored after <span style="font-family:monospace">for</span> completes.
+The original value of <i>i</i> is restored after <span style="font-family:monospace">for</span> completes.
 If symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
 then the imaginary unit is overridden in the scope of <span style="font-family:monospace">for</span>.
 
@@ -1336,7 +1320,7 @@ x  + 6 x  + 11 x + 6
 </pre>
 <p>
 Note:
-The previous value of <i>i</i> is restored after <span style="font-family:monospace">product</span> completes.
+The original value of <i>i</i> is restored after <span style="font-family:monospace">product</span> completes.
 If symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
 then the imaginary unit is overridden in the scope of <span style="font-family:monospace">product</span>.
 
@@ -1345,19 +1329,11 @@ then the imaginary unit is overridden in the scope of <span style="font-family:m
 <p>
 Returns expression <i>x</i> without evaluating it first.
 <pre style="color:blue">
-p = quote((x + 1)^2)
-binding(p)
+quote((x + 1)^2)
 </pre>
 <pre>
        2
 (x + 1)
-</pre>
-<pre style="color:blue">
-p = quote(p) -- clear symbol p
-binding(p)
-</pre>
-<pre>
-p
 </pre>
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
@@ -1372,23 +1348,17 @@ quotient(p,q,x)
 <pre>
 x - 3
 </pre>
-<pre style="color:blue">
-p - q quotient(p,q,x) -- remainder of p/q
-</pre>
-<pre>
-10
-</pre>
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a id="rank">rank(<i>a</i>)</a>
 <p>
 Returns the number of indices that tensor <i>a</i> has.
 <pre style="color:blue">
-A = ((1,0),(0,1))
-rank(outer(A,A,A))
+A = ((a,b),(c,d))
+rank(A)
 </pre>
 <pre>
-6
+2
 </pre>
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
@@ -1466,6 +1436,7 @@ Useful for importing function libraries.
 run("Downloads/EVA.txt")
 </pre>
 <p>
+Note:
 <i>file</i> must be in the Downloads folder due to security requirements for apps distributed on the Mac App Store.
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
@@ -1491,16 +1462,6 @@ sin(pi/4)
 ------
   1/2
  2
-</pre>
-<pre style="color:blue">
-sin(arctan(y,x))
-</pre>
-<pre>
-      y
---------------
-          1/2
-   2    2
- (x  + y )
 </pre>
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
@@ -1587,7 +1548,7 @@ x  + x  + x  + x  + x
 </pre>
 <p>
 Note:
-The previous value of <i>i</i> is restored after <span style="font-family:monospace">sum</span> completes.
+The original value of <i>i</i> is restored after <span style="font-family:monospace">sum</span> completes.
 If symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
 then the imaginary unit is overridden in the scope of <span style="font-family:monospace">sum</span>.
 
