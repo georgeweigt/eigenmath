@@ -630,13 +630,15 @@ draw(x^2,x)
 <a id="e">e</a>
 <p>
 Symbol <span style="font-family:monospace">e</span> is initialized to the natural number <i>e</i>.
-It is OK to clear or redefine <span style="font-family:monospace">e</span> and use the symbol for something else.
 <pre style="color:blue">
 e^x
 </pre>
 <pre>
 exp(x)
 </pre>
+<p>
+Note:
+It is OK to clear or redefine <span style="font-family:monospace">e</span> and use the symbol for something else.
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a id="eigen">eigen(<i>m</i>)</a>
@@ -936,13 +938,15 @@ hilbert(3)
 <a id="i">i</a>
 <p>
 Symbol <span style="font-family:monospace">i</span> is initialized to the imaginary unit (&minus;1)<sup>1/2</sup>.
-It is OK to clear or redefine <span style="font-family:monospace">i</span> and use the symbol for something else.
 <pre style="color:blue">
 exp(i pi)
 </pre>
 <pre>
 -1
 </pre>
+<p>
+Note:
+It is OK to clear or redefine <span style="font-family:monospace">i</span> and use the symbol for something else.
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a id="imag">imag(<i>z</i>)</a>
@@ -959,7 +963,6 @@ imag(2 - 3i)
 <a id="inner">inner(<i>a,b,...</i>)</a>
 <p>
 Returns the inner product of tensors.
-Inner and <span style="font-family:monospace">dot</span> are the same function.
 <pre style="color:blue">
 A = ((a,b),(c,d))
 B = (x,y)
@@ -972,15 +975,7 @@ c x + d y
 </pre>
 <p>
 Note:
-Inner product is equivalent to an outer product followed by contraction.
-<pre style="color:blue">
-contract(outer(A,B),2,3)
-</pre>
-<pre>
-a x + b y
-
-c x + d y
-</pre>
+<span style="font-family:monospace">inner</span> and <span style="font-family:monospace">dot</span> are the same function.
 
 <p style="font-family:courier;font-size:20pt;font-weight:bold">
 <a id="integral">integral(<i>f,x</i>)</a>
