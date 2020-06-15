@@ -1337,6 +1337,16 @@ If the result is assigned to a symbol,
 evaluating the symbol will expand the result.
 Use {\tt binding} to retrieve the unexpanded expression.
 
+{\color{blue}
+\begin{verbatim}
+f = rationalize(1/a + 1/b + 1/2)
+binding(f)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{2a+ab+2b}{2ab}$
+
 \subsection*{real($z$)}
 
 Returns the real part of complex $z$.
