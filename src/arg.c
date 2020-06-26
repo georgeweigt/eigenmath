@@ -91,7 +91,7 @@ arg_nib(void)
 				break;
 		add_terms(n);
 		if (i < n)
-			float_expr();
+			sfloat();
 		return;
 	}
 

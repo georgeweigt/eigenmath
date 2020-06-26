@@ -193,7 +193,7 @@ cmp_args(void)
 
 	if (!isnum(p1)) {
 		push(p1);
-		float_expr(); // try converting pi and e
+		sfloat(); // try converting pi and e
 		p1 = pop();
 		if (!isnum(p1))
 			stop("non-numerical comparison");

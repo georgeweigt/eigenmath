@@ -1,56 +1,6 @@
 #include "defs.h"
 
 void
-eval_and_print_result(int update)
-{
-	save();
-	eval_and_print_result_nib(update);
-	restore();
-}
-
-void
-eval_and_print_result_nib(int update)
-{
-	p1 = pop();
-	push(p1);
-	eval();
-	p2 = pop();
-
-	// "draw", "for" and "setq" return "nil", there is no result to print
-
-	if (p2 == symbol(NIL))
-		return;
-
-	if (update)
-		binding[LAST] = p2;
-
-	if (issymbol(p1) && !iskeyword(p1) && p1 != p2) // keyword like "float"
-		prep_symbol_equals();
-
-	if (iszero(binding[TTY])) {
-		push(p2);
-		cmdisplay();
-	} else
-		print(p2);
-}
-
-void
-prep_symbol_equals(void)
-{
-	if (p1 == symbol(SYMBOL_I) && isimaginaryunit(p2))
-		return;
-
-	if (p1 == symbol(SYMBOL_J) && isimaginaryunit(p2))
-		return;
-
-	push_symbol(SETQ);
-	push(p1);
-	push(p2);
-	list(3);
-	p2 = pop();
-}
-
-void
 eval(void)
 {
 	save();
@@ -309,18 +259,6 @@ eval_number(void)
 }
 
 void
-eval_print(void)
-{
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		eval_and_print_result(0);
-		p1 = cdr(p1);
-	}
-	push_symbol(NIL);
-}
-
-void
 eval_quote(void)
 {
 	push(cadr(p1));
@@ -357,7 +295,7 @@ eval_status(void)
 void
 eval_stop(void)
 {
-	stop(NULL);
+	stop("stop function");
 }
 
 void

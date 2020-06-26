@@ -1,6 +1,69 @@
 #include "defs.h"
 
-char *power_str = "^";
+void
+eval_print(void)
+{
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		push(car(p1));
+		eval();
+		print_result();
+		p1 = cdr(p1);
+	}
+	push_symbol(NIL);
+}
+
+void
+print_result(void)
+{
+	save();
+	print_result_nib();
+	restore();
+}
+
+void
+print_result_nib(void)
+{
+	p2 = pop(); // result
+	p1 = pop(); // input
+
+	if (p2 == symbol(NIL))
+		return;
+
+	if (issymbol(p1))
+		prep_symbol_equals();
+
+	if (iszero(binding[TTY])) {
+		push(p2);
+		cmdisplay();
+		return;
+	}
+
+	print(p2);
+}
+
+void
+prep_symbol_equals(void)
+{
+	if (p1 == p2)
+		return; // A = A
+
+	if (iskeyword(p1))
+		return; // keyword like "float"
+
+	if (p1 == symbol(SYMBOL_I) && isimaginaryunit(p2))
+		return;
+
+	if (p1 == symbol(SYMBOL_J) && isimaginaryunit(p2))
+		return;
+
+	push_symbol(SETQ);
+	push(p1);
+	push(p2);
+	list(3);
+	p2 = pop();
+}
 
 void
 eval_string(void)
@@ -246,7 +309,7 @@ print_denom(struct atom *p, int d)
 		return;
 	}
 
-	print_str(power_str);
+	print_str("^");
 
 	push(EXPO);
 	negate();
@@ -331,7 +394,7 @@ print_factor(struct atom *p)
 			print_str(")");
 		} else
 			print_factor(cadr(p));
-		print_str(power_str);
+		print_str("^");
 		if (iscons(caddr(p)) || isfraction(caddr(p)) || (isnum(caddr(p)) && lessp(caddr(p), zero))) {
 			print_str("(");
 			print_expr(caddr(p));

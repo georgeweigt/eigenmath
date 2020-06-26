@@ -13,43 +13,18 @@ run(char *s)
 
 	for (;;) {
 
-		trace1 = s;
-
-		s = scan(s);
+		s = scan_input(s);
 
 		if (s == NULL)
 			break; // end of input
 
-		trace2 = s;
-
-		trace_input();
-
-		eval_and_print_result(1);
-
-		if (tos || tof)
-			stop("internal error 1");
+		eval_and_print_result();
 
 		if (clear_flag) {
 			zero = NULL; // force full init
 			init();
 		}
 	}
-}
-
-void
-stop(char *s)
-{
-	if (draw_flag == 2)
-		longjmp(draw_stop_return, 1);
-
-	if (s) {
-		print_input_line();
-		printbuf("Stop: ", RED);
-		printbuf(s, RED);
-		printbuf("\n", RED);
-	}
-
-	longjmp(stop_return, 1);
 }
 
 char *init_script[] = {
@@ -117,6 +92,54 @@ init(void)
 	gc();
 }
 
+char *
+scan_input(char *s)
+{
+	trace1 = s;
+	s = scan(s);
+	if (s) {
+		trace2 = s;
+		trace_input();
+	}
+	return s;
+}
+
+void
+eval_and_print_result(void)
+{
+	save();
+
+	p1 = pop();
+	push(p1);
+	eval();
+	p2 = pop();
+
+	push(p1);
+	push(p2);
+	print_result();
+
+	if (p2 != symbol(NIL))
+		binding[LAST] = p2;
+
+	restore();
+}
+
+void
+stop(char *s)
+{
+	if (draw_flag == 2)
+		longjmp(draw_stop_return, 1);
+
+	if (s) {
+		print_input_line();
+		printbuf("Stop: ", RED);
+		printbuf(s, RED);
+		printbuf("\n", RED);
+	}
+
+	longjmp(stop_return, 1);
+}
+
 void
 print_status(void)
 {
@@ -159,7 +182,7 @@ eval_run(void)
 	p1 = pop();
 
 	if (!isstr(p1))
-		stop("string expected");
+		stop("run: file name expected");
 
 	run_file(p1->u.str);
 
@@ -211,29 +234,23 @@ run_file(char *filename)
 	t1 = trace1;
 	t2 = trace2;
 
-	while (1) {
+	for (;;) {
 
-		trace1 = s;
-
-		s = scan(s);
+		s = scan_input(s);
 
 		if (s == NULL)
 			break; // end of input
 
-		trace2 = s;
-
-		trace_input();
-
-		eval_and_print_result(1);
+		eval_and_print_result();
 
 		if (clear_flag)
-			stop("clear not allowed in run file");
+			stop("run: clear not allowed in run file");
 	}
 
 	trace1 = t1;
 	trace2 = t2;
 
-	pop(); // pop buffer
+	pop(); // pop file buffer
 }
 
 void

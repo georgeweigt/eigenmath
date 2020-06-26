@@ -53,11 +53,11 @@ eval_nroots(void)
 	for (i = 0; i < n; i++) {
 		push(stack[h + i]);
 		real();
-		float_expr();
+		sfloat();
 		p1 = pop();
 		push(stack[h + i]);
 		imag();
-		float_expr();
+		sfloat();
 		p2 = pop();
 		if (!isdouble(p1) || !isdouble(p2))
 			stop("nroots: coefficients?");

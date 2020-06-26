@@ -93,7 +93,7 @@ eigen_check_arg(void)
 
 	push(cadr(p1));
 	eval();
-	float_expr();
+	sfloat();
 	p1 = pop();
 
 	if (!istensor(p1))
