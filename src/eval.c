@@ -286,13 +286,6 @@ eval_sqrt(void)
 }
 
 void
-eval_status(void)
-{
-	print_status();
-	push_symbol(NIL);
-}
-
-void
 eval_stop(void)
 {
 	stop("stop function");

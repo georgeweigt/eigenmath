@@ -141,40 +141,6 @@ stop(char *s)
 }
 
 void
-print_status(void)
-{
-	outbuf_index = 0;
-
-	sprintf(tbuf, "block_count %d\n", block_count);
-	print_str(tbuf);
-
-	sprintf(tbuf, "free_count %d\n", free_count);
-	print_str(tbuf);
-
-	sprintf(tbuf, "gc_count %d\n", gc_count);
-	print_str(tbuf);
-
-	sprintf(tbuf, "bignum_count %d\n", bignum_count);
-	print_str(tbuf);
-
-	sprintf(tbuf, "string_count %d\n", string_count);
-	print_str(tbuf);
-
-	sprintf(tbuf, "tensor_count %d\n", tensor_count);
-	print_str(tbuf);
-
-	sprintf(tbuf, "max_stack %d (%d%%)\n", max_stack, 100 * max_stack / STACKSIZE);
-	print_str(tbuf);
-
-	sprintf(tbuf, "max_frame %d (%d%%)\n", max_frame, 100 * max_frame / FRAMESIZE);
-	print_str(tbuf);
-
-	print_char('\0');
-
-	printbuf(outbuf, BLACK);
-}
-
-void
 eval_run(void)
 {
 	push(cadr(p1));
@@ -300,4 +266,40 @@ print_scan_line(char *s)
 {
 	trace2 = s;
 	print_input_line();
+}
+
+void
+eval_status(void)
+{
+	outbuf_index = 0;
+
+	sprintf(tbuf, "block_count %d\n", block_count);
+	print_str(tbuf);
+
+	sprintf(tbuf, "free_count %d\n", free_count);
+	print_str(tbuf);
+
+	sprintf(tbuf, "gc_count %d\n", gc_count);
+	print_str(tbuf);
+
+	sprintf(tbuf, "bignum_count %d\n", bignum_count);
+	print_str(tbuf);
+
+	sprintf(tbuf, "string_count %d\n", string_count);
+	print_str(tbuf);
+
+	sprintf(tbuf, "tensor_count %d\n", tensor_count);
+	print_str(tbuf);
+
+	sprintf(tbuf, "max_stack %d (%d%%)\n", max_stack, 100 * max_stack / STACKSIZE);
+	print_str(tbuf);
+
+	sprintf(tbuf, "max_frame %d (%d%%)\n", max_frame, 100 * max_frame / FRAMESIZE);
+	print_str(tbuf);
+
+	print_char('\0');
+
+	printbuf(outbuf, BLACK);
+
+	push_symbol(NIL);
 }
