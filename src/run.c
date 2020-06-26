@@ -164,7 +164,7 @@ run_file(char *filename)
 	fd = open(filename, O_RDONLY, 0);
 
 	if (fd == -1)
-		stop("cannot open file");
+		stop("run: cannot open file");
 
 	// get file size
 
@@ -172,7 +172,7 @@ run_file(char *filename)
 
 	if (n < 0) {
 		close(fd);
-		stop("lseek error");
+		stop("run: lseek error");
 	}
 
 	lseek(fd, 0, SEEK_SET);
@@ -188,7 +188,7 @@ run_file(char *filename)
 
 	if (read(fd, buf, n) != n) {
 		close(fd);
-		stop("read error");
+		stop("run: read error");
 	}
 
 	close(fd);
