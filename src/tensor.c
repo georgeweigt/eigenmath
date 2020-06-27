@@ -72,7 +72,7 @@ promote_tensor_nib(void)
 
 	p3 = alloc_tensor(n * m);
 
-	// merge indices
+	// merge dimensions
 
 	k = 0;
 
