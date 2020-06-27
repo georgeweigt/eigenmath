@@ -272,13 +272,8 @@ power_tensor(void)
 	}
 
 	if (n == 0) {
-		if (p1->u.tensor->ndim != 2)
-			stop("power(tensor,0) with tensor rank not equal to 2");
 		n = p1->u.tensor->dim[0];
-		p1 = alloc_tensor(n * n);
-		p1->u.tensor->ndim = 2;
-		p1->u.tensor->dim[0] = n;
-		p1->u.tensor->dim[1] = n;
+		p1 = alloc_matrix(n, n);
 		for (i = 0; i < n; i++)
 			p1->u.tensor->elem[n * i + i] = one;
 		push(p1);
@@ -297,8 +292,6 @@ power_tensor(void)
 	for (i = 1; i < n; i++) {
 		push(p1);
 		inner();
-		if (iszero(stack[tos - 1]))
-			break;
 	}
 }
 
