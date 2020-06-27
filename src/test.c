@@ -61,7 +61,7 @@ eval_testeq(void)
 		return;
 	}
 
-	if (istensor(p1) && istensor(p2) && !compatible_tensors(p1, p2)) {
+	if (istensor(p1) && istensor(p2) && !compatible_dimensions(p1, p2)) {
 		push_integer(0);
 		return;
 	}

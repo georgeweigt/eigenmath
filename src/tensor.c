@@ -20,6 +20,96 @@ eval_tensor(void)
 	promote_tensor();
 }
 
+// tensors with elements that are also tensors get promoted to a higher rank
+
+void
+promote_tensor(void)
+{
+	save();
+	promote_tensor_nib();
+	restore();
+}
+
+void
+promote_tensor_nib(void)
+{
+	int i, j, k, m, n;
+
+	p1 = pop();
+
+	if (!istensor(p1)) {
+		push(p1);
+		return;
+	}
+
+	p2 = p1->u.tensor->elem[0];
+	n = p1->u.tensor->nelem;
+	for (i = 1; i < n; i++) {
+		p3 = p1->u.tensor->elem[i];
+		if (!compatible_elements(p2, p3))
+			stop("tensor dimensions");
+	}
+
+	if (!istensor(p2)) {
+		push(p1);
+		return; // all elements are scalars
+	}
+
+	n = p1->u.tensor->ndim;
+	m = p2->u.tensor->ndim;
+
+	if (n + m > MAXDIM)
+		stop("rank exceeds max");
+
+	k = p1->u.tensor->nelem * p2->u.tensor->nelem;
+	p3 = alloc_tensor(k);
+	p3->u.tensor->ndim = n + m;
+
+	k = 0;
+
+	for (i = 0; i < n; i++)
+		p3->u.tensor->dim[k++] = p1->u.tensor->dim[i];
+
+	for (i = 0; i < m; i++)
+		p3->u.tensor->dim[k++] = p2->u.tensor->dim[i];
+
+	k = 0;
+
+	n = p1->u.tensor->nelem;
+	m = p2->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		p2 = p1->u.tensor->elem[i];
+		for (j = 0; j < m; j++)
+			p3->u.tensor->elem[k++] = p2->u.tensor->elem[j];
+	}
+
+	push(p3);
+}
+
+int
+compatible_elements(struct atom *p, struct atom *q)
+{
+	int i, n;
+
+	if (!istensor(p) && !istensor(q))
+		return 1;
+
+	if (!istensor(p) || !istensor(q))
+		return 0;
+
+	n = p->u.tensor->ndim;
+
+	if (n != q->u.tensor->ndim)
+		return 0;
+
+	for (i = 0; i < n; i++)
+		if (p->u.tensor->dim[i] != q->u.tensor->dim[i])
+			return 0;
+
+	return 1;
+}
+
 void
 tensor_plus_tensor(void)
 {
@@ -31,7 +121,7 @@ tensor_plus_tensor(void)
 	p2 = pop();
 	p1 = pop();
 
-	if (!compatible_tensors(p1, p2))
+	if (!compatible_dimensions(p1, p2))
 		stop("incompatible tensor arithmetic");
 
 	push(p1);
@@ -56,7 +146,7 @@ tensor_plus_tensor(void)
 }
 
 int
-compatible_tensors(struct atom *q1, struct atom *q2)
+compatible_dimensions(struct atom *q1, struct atom *q2)
 {
 	int i, n;
 	n = q1->u.tensor->ndim;
@@ -94,15 +184,6 @@ scalar_times_tensor(void)
 	push(p2);
 
 	restore();
-}
-
-int
-is_square_matrix(struct atom *p)
-{
-	if (istensor(p) && p->u.tensor->ndim == 2 && p->u.tensor->dim[0] == p->u.tensor->dim[1])
-		return 1;
-	else
-		return 0;
 }
 
 // gradient of tensor p1 wrt vector p2
@@ -317,86 +398,6 @@ copy_tensor(void)
 	push(p2);
 
 	restore();
-}
-
-// Tensors with elements that are also tensors get promoted to a higher rank.
-
-void
-promote_tensor(void)
-{
-	int i, j, k, nelem, ndim;
-
-	save();
-
-	p1 = pop();
-
-	if (!istensor(p1)) {
-		push(p1);
-		restore();
-		return;
-	}
-
-	p2 = p1->u.tensor->elem[0];
-
-	for (i = 1; i < p1->u.tensor->nelem; i++)
-		if (!compatible(p2, p1->u.tensor->elem[i]))
-			stop("tensor dimensions");
-
-	if (!istensor(p2)) {
-		push(p1);
-		restore();
-		return;
-	}
-
-	ndim = p1->u.tensor->ndim + p2->u.tensor->ndim;
-
-	if (ndim > MAXDIM)
-		stop("rank exceeds max");
-
-	nelem = p1->u.tensor->nelem * p2->u.tensor->nelem;
-
-	p3 = alloc_tensor(nelem);
-
-	p3->u.tensor->ndim = ndim;
-
-	for (i = 0; i < p1->u.tensor->ndim; i++)
-		p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
-
-	for (j = 0; j < p2->u.tensor->ndim; j++)
-		p3->u.tensor->dim[i + j] = p2->u.tensor->dim[j];
-
-	k = 0;
-
-	for (i = 0; i < p1->u.tensor->nelem; i++) {
-		p2 = p1->u.tensor->elem[i];
-		for (j = 0; j < p2->u.tensor->nelem; j++)
-			p3->u.tensor->elem[k++] = p2->u.tensor->elem[j];
-	}
-
-	push(p3);
-
-	restore();
-}
-
-int
-compatible(struct atom *p, struct atom *q)
-{
-	int i;
-
-	if (!istensor(p) && !istensor(q))
-		return 1;
-
-	if (!istensor(p) || !istensor(q))
-		return 0;
-
-	if (p->u.tensor->ndim != q->u.tensor->ndim)
-		return 0;
-
-	for (i = 0; i < p->u.tensor->ndim; i++)
-		if (p->u.tensor->dim[i] != q->u.tensor->dim[i])
-			return 0;
-
-	return 1;
 }
 
 void
