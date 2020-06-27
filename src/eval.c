@@ -194,27 +194,6 @@ eval_clear(void)
 }
 
 void
-eval_dim(void)
-{
-	int n;
-	push(cadr(p1));
-	eval();
-	p2 = pop();
-	if (iscons(cddr(p1))) {
-		push(caddr(p1));
-		eval();
-		n = pop_integer();
-	} else
-		n = 1;
-	if (!istensor(p2))
-		push_integer(1); // dim of scalar is 1
-	else if (n < 1 || n > p2->u.tensor->ndim)
-		push(p1);
-	else
-		push_integer(p2->u.tensor->dim[n - 1]);
-}
-
-void
 eval_do(void)
 {
 	push_integer(0);
@@ -265,18 +244,6 @@ eval_quote(void)
 }
 
 void
-eval_rank(void)
-{
-	push(cadr(p1));
-	eval();
-	p1 = pop();
-	if (istensor(p1))
-		push_integer(p1->u.tensor->ndim);
-	else
-		push_integer(0);
-}
-
-void
 eval_sqrt(void)
 {
 	push(cadr(p1));
@@ -302,26 +269,6 @@ eval_subst(void)
 	eval();
 	subst();
 	eval(); // normalize
-}
-
-void
-eval_unit(void)
-{
-	int i, n;
-	push(cadr(p1));
-	eval();
-	n = pop_integer();
-	if (n < 2) {
-		push(p1);
-		return;
-	}
-	p1 = alloc_tensor(n * n);
-	p1->u.tensor->ndim = 2;
-	p1->u.tensor->dim[0] = n;
-	p1->u.tensor->dim[1] = n;
-	for (i = 0; i < n; i++)
-		p1->u.tensor->elem[n * i + i] = one;
-	push(p1);
 }
 
 void
