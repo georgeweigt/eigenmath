@@ -46,7 +46,7 @@ promote_tensor_nib(void)
 	n = p1->u.tensor->nelem;
 	for (i = 1; i < n; i++) {
 		p3 = p1->u.tensor->elem[i];
-		if (!compatible_elements(p2, p3))
+		if (!compatible_dimensions(p2, p3))
 			stop("tensor dimensions");
 	}
 
@@ -92,15 +92,15 @@ promote_tensor_nib(void)
 }
 
 int
-compatible_elements(struct atom *p, struct atom *q)
+compatible_dimensions(struct atom *p, struct atom *q)
 {
 	int i, n;
 
 	if (!istensor(p) && !istensor(q))
-		return 1;
+		return 1; // both p and q are scalars
 
 	if (!istensor(p) || !istensor(q))
-		return 0;
+		return 0; // scalar and tensor
 
 	n = p->u.tensor->ndim;
 
@@ -147,19 +147,6 @@ tensor_plus_tensor(void)
 	push(p1);
 
 	restore();
-}
-
-int
-compatible_dimensions(struct atom *q1, struct atom *q2)
-{
-	int i, n;
-	n = q1->u.tensor->ndim;
-	if (n != q2->u.tensor->ndim)
-		return 0;
-	for (i = 0; i < n; i++)
-		if (q1->u.tensor->dim[i] != q2->u.tensor->dim[i])
-			return 0;
-	return 1;
 }
 
 void
