@@ -42,8 +42,12 @@ promote_tensor_nib(void)
 		return;
 	}
 
+	// check
+
 	p2 = p1->u.tensor->elem[0];
+
 	n = p1->u.tensor->nelem;
+
 	for (i = 1; i < n; i++) {
 		p3 = p1->u.tensor->elem[i];
 		if (!compatible_dimensions(p2, p3))
@@ -61,19 +65,27 @@ promote_tensor_nib(void)
 	if (n + m > MAXDIM)
 		stop("rank exceeds max");
 
-	k = p1->u.tensor->nelem * p2->u.tensor->nelem;
-	p3 = alloc_tensor(k);
-	p3->u.tensor->ndim = n + m;
+	// alloc
+
+	n = p1->u.tensor->nelem;
+	m = p2->u.tensor->nelem;
+
+	p3 = alloc_tensor(n * m);
 
 	// merge indices
 
 	k = 0;
+
+	n = p1->u.tensor->ndim;
+	m = p2->u.tensor->ndim;
 
 	for (i = 0; i < n; i++)
 		p3->u.tensor->dim[k++] = p1->u.tensor->dim[i];
 
 	for (i = 0; i < m; i++)
 		p3->u.tensor->dim[k++] = p2->u.tensor->dim[i];
+
+	p3->u.tensor->ndim = n + m;
 
 	// merge elements
 
