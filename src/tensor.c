@@ -65,6 +65,8 @@ promote_tensor_nib(void)
 	p3 = alloc_tensor(k);
 	p3->u.tensor->ndim = n + m;
 
+	// merge indices
+
 	k = 0;
 
 	for (i = 0; i < n; i++)
@@ -72,6 +74,8 @@ promote_tensor_nib(void)
 
 	for (i = 0; i < m; i++)
 		p3->u.tensor->dim[k++] = p2->u.tensor->dim[i];
+
+	// merge elements
 
 	k = 0;
 
