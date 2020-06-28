@@ -329,13 +329,11 @@ ceiling(1/2)
 If <i>x</i> is true (nonzero) then continue in a script, else stop.
 The relational operators are
 <span style="font-family:monospace">=</span>,
+<span style="font-family:monospace">==</span>,
 <span style="font-family:monospace">&lt;</span>,
 <span style="font-family:monospace">&lt;=</span>,
 <span style="font-family:monospace">&gt;</span>,
 <span style="font-family:monospace">&gt;=</span>.
-The operator
-<span style="font-family:monospace">==</span>
-can also be used to test for equality.
 Use the
 <span style="font-family:monospace">not</span>
 function to test for inequality.
@@ -619,7 +617,7 @@ div(u) = d(u[1],x) + d(u[2],y) + d(u[3],z)
 <a id="do">do(<i>a,b,...</i>)</a>
 <p>
 Evaluates each argument from left to right.
-Returns the result of the last argument.
+Returns the result of the final argument.
 <pre style="color:blue">
 do(A=1,B=2,A+B)
 </pre>
@@ -1673,16 +1671,19 @@ If argument <i>a</i> is true (nonzero) then <i>b</i> is returned, else if <i>c</
 If the number of arguments is odd then the final argument is returned if all else fails.
 The relational operators are
 <span style="font-family:monospace">=</span>,
+<span style="font-family:monospace">==</span>,
 <span style="font-family:monospace">&lt;</span>,
 <span style="font-family:monospace">&lt;=</span>,
 <span style="font-family:monospace">&gt;</span>,
 <span style="font-family:monospace">&gt;=</span>.
-The operator
-<span style="font-family:monospace">==</span>
-can also be used to test for equality.
 Use the
 <span style="font-family:monospace">not</span>
 function to test for inequality.
+(The equality operator
+<span style="font-family:monospace">==</span>
+is available for contexts in which
+<span style="font-family:monospace">=</span>
+is the assignment operator.)
 <pre style="color:blue">
 A = 1
 B = 1

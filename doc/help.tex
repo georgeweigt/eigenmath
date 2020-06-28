@@ -185,13 +185,11 @@ $1$
 If $x$ is true (nonzero) then continue, else stop.
 The relational operators are
 \verb$=$,
+\verb$==$,
 \verb$<$,
 \verb$<=$,
 \verb$>$,
 \verb$>=$.
-The operator
-\verb$==$
-can also be used to test for equality.
 Use the
 \verb$not$
 function to test for inequality.
@@ -497,7 +495,7 @@ div(u) = d(u[1],x) + d(u[2],y) + d(u[3],z)
 \subsection*{do($a,b,\ldots$)}
 
 Evaluates each argument from left to right.
-Returns the result of the last argument.
+Returns the result of the final argument.
 
 {\color{blue}
 \begin{verbatim}
@@ -1610,16 +1608,19 @@ If argument $a$ is true (nonzero) then $b$ is returned, else if $c$ is true then
 If the number of arguments is odd then the final argument is returned if all else fails.
 The relational operators are
 \verb$=$,
+\verb$==$,
 \verb$<$,
 \verb$<=$,
 \verb$>$,
 \verb$>=$.
-The operator
-\verb$==$
-can also be used to test for equality.
 Use the
 \verb$not$
 function to test for inequality.
+(The equality operator
+\verb$==$
+is available for contexts in which
+\verb$=$
+is the assignment operator.)
 
 {\color{blue}
 \begin{verbatim}
