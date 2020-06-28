@@ -275,7 +275,9 @@ besselj(x,1/2)
 <p>
 The result of evaluating a symbol can differ from the symbol's binding.
 For example, the result may be expanded.
-The <span style="font-family:monospace">binding</span> function returns the actual binding of a symbol.
+The
+<span style="font-family:monospace">binding</span>
+function returns the actual binding of a symbol.
 <pre style="color:blue">
 p = quote((x + 1)^2)
 p
@@ -297,13 +299,18 @@ binding(p)
 <p>
 Returns the coefficient of <i>x<sup>k</sup> y<sup>n-k</sup></i>
 in (<i>x</i> + <i>y</i>)<sup><i>n</i></sup>.
-Binomial and <span style="font-family:monospace">choose</span> are the same function.
 <pre style="color:blue">
 binomial(52,5)
 </pre>
 <pre>
 2598960
 </pre>
+<p>
+Note:
+<span style="font-family:monospace">binomial</span>
+and
+<span style="font-family:monospace">choose</span>
+are the same function.
 
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="ceiling">ceiling(<i>x</i>)</a>
@@ -320,7 +327,11 @@ ceiling(1/2)
 <a id="check">check(<i>x</i>)</a>
 <p>
 If <i>x</i> is true (nonzero) then continue in a script, else stop.
-Use A=B or A==B to test for A equals B.
+Use
+<span style="font-family:monospace">=</span>
+or
+<span style="font-family:monospace">==</span>
+to test for equality.
 <pre style="color:blue">
 A = 1
 B = 1
@@ -411,7 +422,9 @@ conj(2 - 3i)
 <p>
 Returns tensor <i>a</i> summed over indices <i>i</i> and <i>j</i>.
 If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
-The expression <span style="font-family:monospace">contract(m)</span> computes the trace of matrix <i>m</i>.
+The expression
+<span style="font-family:monospace">contract(m)</span>
+computes the trace of matrix <i>m</i>.
 <pre style="color:blue">
 A = ((a,b),(c,d))
 contract(A)
@@ -451,7 +464,8 @@ circexp(cosh(x))
 <a id="cross">cross(<i>u,v</i>)</a>
 <p>
 Returns the cross product of vectors <i>u</i> and <i>v</i>.
-It is OK to redefine <span style="font-family:monospace">cross</span>.
+It is OK to redefine
+<span style="font-family:monospace">cross</span>.
 This is the default definition.
 <pre style="color:blue">
 cross(u,v) = (u[2] v[3] - u[3] v[2],
@@ -463,7 +477,8 @@ cross(u,v) = (u[2] v[3] - u[3] v[2],
 <a id="curl">curl(<i>u</i>)</a>
 <p>
 Returns the curl of vector <i>u</i>.
-It is OK to redefine <span style="font-family:monospace">curl</span>.
+It is OK to redefine
+<span style="font-family:monospace">curl</span>.
 This is the default definition.
 <pre style="color:blue">
 curl(u) = (d(u[3],y) - d(u[2],z),
@@ -501,12 +516,21 @@ d(h(),x)   d(h(),y)   d(h(),z)
 </pre>
 
 <p>
-It is OK to use <span style="font-family:monospace">d</span> as a variable name.
-It will not conflict with function <span style="font-family:monospace">d</span>.
+It is OK to use
+<span style="font-family:monospace">d</span>
+as a variable name.
+It will not conflict with function
+<span style="font-family:monospace">d</span>.
 
 <p>
-It is OK to redefine <span style="font-family:monospace">d</span> as a different function.
-The function <span style="font-family:monospace">derivative</span>, a synonym for <span style="font-family:monospace">d</span>, can still be used to obtain a partial derivative.
+It is OK to redefine
+<span style="font-family:monospace">d</span>
+as a different function.
+The function
+<span style="font-family:monospace">derivative</span>,
+a synonym for
+<span style="font-family:monospace">d</span>,
+can still be used to obtain a partial derivative.
 
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="defint">defint(<i>f,x,a,b</i>)</a>
@@ -577,7 +601,8 @@ dim(A,1)
 <a id="div">div(<i>u</i>)</a>
 <p>
 Returns the divergence of vector <i>u</i>.
-It is OK to redefine <span style="font-family:monospace">div</span>.
+It is OK to redefine
+<span style="font-family:monospace">div</span>.
 This is the default definition.
 <pre style="color:blue">
 div(u) = d(u[1],x) + d(u[2],y) + d(u[3],z)
@@ -619,7 +644,10 @@ X =
 <a id="draw">draw(<i>f,x</i>)</a>
 <p>
 Draws a graph of <i>f</i>(<i>x</i>).
-Drawing ranges can be set with <span style="font-family:monospace">xrange</span> and <span style="font-family:monospace">yrange</span>.
+Drawing ranges can be set with
+<span style="font-family:monospace">xrange</span>
+and
+<span style="font-family:monospace">yrange</span>.
 <pre style="color:blue">
 xrange = (0,1)
 yrange = (0,1)
@@ -629,7 +657,9 @@ draw(x^2,x)
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="e">e</a>
 <p>
-Symbol <span style="font-family:monospace">e</span> is initialized to the natural number <i>e</i>.
+Symbol
+<span style="font-family:monospace">e</span>
+is initialized to the natural number <i>e</i>.
 <pre style="color:blue">
 e^x
 </pre>
@@ -638,7 +668,9 @@ exp(x)
 </pre>
 <p>
 Note:
-It is OK to clear or redefine <span style="font-family:monospace">e</span> and use the symbol for something else.
+It is OK to clear or redefine
+<span style="font-family:monospace">e</span>
+and use the symbol for something else.
 
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="eigen">eigen(<i>m</i>)</a>
@@ -811,10 +843,12 @@ factor(p,x,y)
 </pre>
 <p>
 Note:
-Factor returns an unexpanded expression.
-If the result is assigned to a symbol, evaluating
-the symbol will expand the result.
-Use <span style="font-family:monospace">binding</span> to retrieve the unexpanded expression.
+<span style="font-family:monospace">factor</span>
+returns an unexpanded expression.
+If the result is assigned to a symbol, evaluating the symbol will expand the result.
+Use
+<span style="font-family:monospace">binding</span>
+to retrieve the unexpanded expression.
 <pre style="color:blue">
 q = factor(p,x,y)
 binding(q)
@@ -826,7 +860,10 @@ binding(q)
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="factorial">factorial(<i>n</i>)</a>
 <p>
-Returns the factorial of <i>n</i>. The expression <span style="font-family:monospace">n!</span> can also be used.
+Returns the factorial of <i>n</i>.
+The expression
+<span style="font-family:monospace">n!</span>
+can also be used.
 <pre style="color:blue">
 100!
 </pre>
@@ -852,7 +889,9 @@ filter(p,x^2)
 <p>
 Returns expression <i>x</i> with rational numbers and integers converted to
 floating point values.
-The symbol <span style="font-family:monospace">pi</span> and the natural number are also converted.
+The symbol
+<span style="font-family:monospace">pi</span>
+and the natural number are also converted.
 <pre style="color:blue">
 float(212^17)
 </pre>
@@ -886,9 +925,13 @@ A = 3
 </pre>
 <p>
 Note:
-The original value of <i>i</i> is restored after <span style="font-family:monospace">for</span> completes.
-If symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
-then the imaginary unit is overridden in the scope of <span style="font-family:monospace">for</span>.
+The original value of <i>i</i> is restored after
+<span style="font-family:monospace">for</span>
+completes.
+If symbol
+<span style="font-family:monospace">i</span>
+is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
+<span style="font-family:monospace">for</span>.
 
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="gcd">gcd(<i>a,b,...</i>)</a>
@@ -937,7 +980,9 @@ hilbert(3)
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="i">i</a>
 <p>
-Symbol <span style="font-family:monospace">i</span> is initialized to the imaginary unit (&minus;1)<sup>1/2</sup>.
+Symbol
+<span style="font-family:monospace">i</span>
+is initialized to the imaginary unit (&minus;1)<sup>1/2</sup>.
 <pre style="color:blue">
 exp(i pi)
 </pre>
@@ -946,7 +991,9 @@ exp(i pi)
 </pre>
 <p>
 Note:
-It is OK to clear or redefine <span style="font-family:monospace">i</span> and use the symbol for something else.
+It is OK to clear or redefine
+<span style="font-family:monospace">i</span>
+and use the symbol for something else.
 
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="imag">imag(<i>z</i>)</a>
@@ -975,7 +1022,10 @@ c x + d y
 </pre>
 <p>
 Note:
-<span style="font-family:monospace">inner</span> and <span style="font-family:monospace">dot</span> are the same function.
+<span style="font-family:monospace">inner</span>
+and
+<span style="font-family:monospace">dot</span>
+are the same function.
 
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="integral">integral(<i>f,x</i>)</a>
@@ -1021,7 +1071,12 @@ isprime(2^31 - 1)
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="j">j</a>
 <p>
-Set <span style="font-family:monospace">j=sqrt(-1)</span> to use <span style="font-family:monospace">j</span> for the imaginary unit instead of <span style="font-family:monospace">i</span>.
+Set
+<span style="font-family:monospace">j=sqrt(-1)</span>
+to use
+<span style="font-family:monospace">j</span>
+for the imaginary unit instead of
+<span style="font-family:monospace">i</span>.
 <pre style="color:blue">
 j = sqrt(-1)
 1/sqrt(-1)
@@ -1047,7 +1102,8 @@ laguerre(x,3)
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="last">last</a>
 <p>
-The result of the previous calculation is stored in <span style="font-family:monospace">last</span>.
+The result of the previous calculation is stored in
+<span style="font-family:monospace">last</span>.
 <pre style="color:blue">
 212^17
 </pre>
@@ -1062,8 +1118,9 @@ last^(1/17)
 </pre>
 <p>
 Note:
-Symbol <span style="font-family:monospace">last</span> is an implied argument when a function has no
-argument list.
+Symbol
+<span style="font-family:monospace">last</span>
+is an implied argument when a function has no argument list.
 <pre style="color:blue">
 212^17
 </pre>
@@ -1142,7 +1199,9 @@ y log(x)
 <a id="mag">mag(<i>z</i>)</a>
 <p>
 Returns the magnitude of complex <i>z</i>.
-Mag treats undefined symbols as real while <span style="font-family:monospace">abs</span> does not.
+Mag treats undefined symbols as real while
+<span style="font-family:monospace">abs</span>
+does not.
 <pre style="color:blue">
 mag(x + i y)
 </pre>
@@ -1263,7 +1322,9 @@ polar(x - i y)
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="power">power</a>
 <p>
-Use <span style="font-family:monospace">^</span> to raise something to a power.
+Use
+<span style="font-family:monospace">^</span>
+to raise something to a power.
 Use parentheses for negative powers.
 <pre style="color:blue">
 x^(-2)
@@ -1291,7 +1352,9 @@ prime(100)
 <a id="print">print(<i>a,b,...</i>)</a>
 <p>
 Evaluate expressions and print the results.
-Useful for printing from inside a <span style="font-family:monospace">for</span> loop.
+Useful for printing from inside a
+<span style="font-family:monospace">for</span>
+loop.
 <pre style="color:blue">
 for(j,1,3,print(j))
 </pre>
@@ -1315,9 +1378,13 @@ x  + 6 x  + 11 x + 6
 </pre>
 <p>
 Note:
-The original value of <i>i</i> is restored after <span style="font-family:monospace">product</span> completes.
-If symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
-then the imaginary unit is overridden in the scope of <span style="font-family:monospace">product</span>.
+The original value of <i>i</i> is restored after
+<span style="font-family:monospace">product</span>
+completes.
+If symbol
+<span style="font-family:monospace">i</span>
+is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
+<span style="font-family:monospace">product</span>.
 
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="quote">quote(<i>x</i>)</a>
@@ -1370,10 +1437,12 @@ rationalize(1/a + 1/b + 1/2)
 </pre>
 <p>
 Note:
-Rationalize returns an unexpanded expression.
-If the result is assigned to a symbol,
-evaluating the symbol will expand the result.
-Use <span style="font-family:monospace">binding</span> to retrieve the unexpanded expression.
+<span style="font-family:monospace">rationalize</span>
+returns an unexpanded expression.
+If the result is assigned to a symbol, evaluating the symbol will expand the result.
+Use
+<span style="font-family:monospace">binding</span>
+to retrieve the unexpanded expression.
 <pre style="color:blue">
 f = rationalize(1/a + 1/b + 1/2)
 binding(f)
@@ -1543,9 +1612,13 @@ x  + x  + x  + x  + x
 </pre>
 <p>
 Note:
-The original value of <i>i</i> is restored after <span style="font-family:monospace">sum</span> completes.
-If symbol <span style="font-family:monospace">i</span> is used for index variable <i>i</i>
-then the imaginary unit is overridden in the scope of <span style="font-family:monospace">sum</span>.
+The original value of <i>i</i> is restored after
+<span style="font-family:monospace">sum</span>
+completes.
+If symbol
+<span style="font-family:monospace">i</span>
+is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
+<span style="font-family:monospace">sum</span>.
 
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="tan">tan(<i>x</i>)</a>
@@ -1593,7 +1666,11 @@ If argument <i>a</i> is true (nonzero) then <i>b</i> is returned,
 else if <i>c</i> is true then <i>d</i> is returned, etc.
 If the number of arguments is odd then the last argument is returned
 if all else fails.
-Use A=B or A==B to test for A equals B.
+Use
+<span style="font-family:monospace">=</span>
+or
+<span style="font-family:monospace">==</span>
+to test for equality.
 <pre style="color:blue">
 A = 1
 B = 1
@@ -1606,14 +1683,18 @@ yes
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="trace">trace</a>
 <p>
-Set <span style="font-family:monospace">trace=1</span> in a script to print the script as it is evaluated.
+Set
+<span style="font-family:monospace">trace=1</span>
+in a script to print the script as it is evaluated.
 Useful for debugging.
 <pre style="color:blue">
 trace = 1
 </pre>
 <p>
 Note:
-The <span style="font-family:monospace">contract</span> function is used to obtain the trace of a matrix.
+The
+<span style="font-family:monospace">contract</span>
+function is used to obtain the trace of a matrix.
 
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="transpose">transpose(<i>a,i,j</i>)</a>
@@ -1634,7 +1715,9 @@ b   d
 <p style="font-family:monospace;font-size:20pt;font-weight:bold">
 <a id="tty">tty</a>
 <p>
-Set <span style="font-family:monospace">tty=1</span> to print results in a flat format.
+Set
+<span style="font-family:monospace">tty=1</span>
+to print results in a flat format.
 <pre style="color:blue">
 tty = 1
 (x + 1/2)^2
