@@ -149,7 +149,6 @@ $(x+1)^2$
 \subsection*{binomial($n,k$)}
 
 Returns the coefficient of $x^ky^{n-k}$ in $(x+y)^n$.
-Binomial and {\tt choose} are the same function.
 
 {\color{blue}
 \begin{verbatim}
@@ -159,6 +158,14 @@ binomial(52,5)
 
 \noindent
 $2598960$
+
+\bigskip
+\noindent
+Note:
+\verb$binomial$
+and
+\verb$choose$
+are the same function.
 
 \subsection*{ceiling($x$)}
 
@@ -176,6 +183,11 @@ $1$
 \subsection*{check($x$)}
 
 If $x$ is true (nonzero) then continue, else stop.
+Use
+\verb$=$
+or
+\verb$==$
+to test for equality.
 
 {\color{blue}
 \begin{verbatim}
@@ -248,8 +260,7 @@ $6$
 
 Returns a cofactor of matrix $m$.
 The cofactor matrix is the transpose of the adjunct of $m$.
-This function returns the cofactor component
-at row $i$ and column $j$.
+This function returns the cofactor component at row $i$ and column $j$.
 
 {\color{blue}
 \begin{verbatim}
@@ -717,10 +728,13 @@ $\displaystyle (x+1)(y+2)$
 
 \bigskip
 \noindent
-Note: Factor returns an unexpanded expression.
-If the result is assigned to a symbol, evaluating
-the symbol will expand the result.
-Use {\tt binding} to retrieve the unexpanded expression.
+Note:
+\verb$factor$
+returns an unexpanded expression.
+If the result is assigned to a symbol, evaluating the symbol will expand the result.
+Use
+\verb$binding$
+to retrieve the unexpanded expression.
 
 {\color{blue}
 \begin{verbatim}
@@ -1342,10 +1356,13 @@ $\displaystyle \frac{2a+ab+2b}{2ab}$
 
 \bigskip
 \noindent
-Note: Rationalize returns an unexpanded expression.
-If the result is assigned to a symbol,
-evaluating the symbol will expand the result.
-Use {\tt binding} to retrieve the unexpanded expression.
+Note:
+\verb$rationalize$
+returns an unexpanded expression.
+If the result is assigned to a symbol, evaluating the symbol will expand the result.
+Use
+\verb$binding$
+to retrieve the unexpanded expression.
 
 {\color{blue}
 \begin{verbatim}
@@ -1582,10 +1599,13 @@ $\displaystyle \tfrac{1}{120}x^5-\tfrac{1}{6}x^3+x$
 
 \subsection*{test($a,b,c,d,\ldots$)}
 
-If argument $a$ is true (nonzero) then $b$ is returned,
-else if $c$ is true then $d$ is returned, etc.
-If the number of arguments is odd then the last argument is returned
-if all else fails.
+If argument $a$ is true (nonzero) then $b$ is returned, else if $c$ is true then $d$ is returned, etc.
+If the number of arguments is odd then the last argument is returned if all else fails.
+Use
+\verb$=$
+or
+\verb$==$
+to test for equality.
 
 {\color{blue}
 \begin{verbatim}
@@ -1611,7 +1631,9 @@ trace = 1
 
 \noindent
 Note:
-The \verb$contract$ function is used to obtain the trace of a matrix.
+The
+\verb$contract$
+function is used to obtain the trace of a matrix.
 
 \subsection*{transpose($a,i,j$)}
 
