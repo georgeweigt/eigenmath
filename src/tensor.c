@@ -33,7 +33,7 @@ promote_tensor(void)
 void
 promote_tensor_nib(void)
 {
-	int i, j, k, m, n;
+	int i, j, k, ndim1, ndim2, nelem1, nelem2;
 
 	p1 = pop();
 
@@ -42,13 +42,14 @@ promote_tensor_nib(void)
 		return;
 	}
 
+	ndim1 = p1->u.tensor->ndim;
+	nelem1 = p1->u.tensor->nelem;
+
 	// check
 
 	p2 = p1->u.tensor->elem[0];
 
-	n = p1->u.tensor->nelem;
-
-	for (i = 1; i < n; i++) {
+	for (i = 1; i < nelem1; i++) {
 		p3 = p1->u.tensor->elem[i];
 		if (!compatible_dimensions(p2, p3))
 			stop("tensor dimensions");
@@ -59,44 +60,35 @@ promote_tensor_nib(void)
 		return; // all elements are scalars
 	}
 
-	n = p1->u.tensor->ndim;
-	m = p2->u.tensor->ndim;
+	ndim2 = p2->u.tensor->ndim;
+	nelem2 = p2->u.tensor->nelem;
 
-	if (n + m > MAXDIM)
+	if (ndim1 + ndim2 > MAXDIM)
 		stop("rank exceeds max");
 
 	// alloc
 
-	n = p1->u.tensor->nelem;
-	m = p2->u.tensor->nelem;
-
-	p3 = alloc_tensor(n * m);
+	p3 = alloc_tensor(nelem1 * nelem2);
 
 	// merge dimensions
 
 	k = 0;
 
-	n = p1->u.tensor->ndim;
-	m = p2->u.tensor->ndim;
-
-	for (i = 0; i < n; i++)
+	for (i = 0; i < ndim1; i++)
 		p3->u.tensor->dim[k++] = p1->u.tensor->dim[i];
 
-	for (i = 0; i < m; i++)
+	for (i = 0; i < ndim2; i++)
 		p3->u.tensor->dim[k++] = p2->u.tensor->dim[i];
 
-	p3->u.tensor->ndim = n + m;
+	p3->u.tensor->ndim = ndim1 + ndim2;
 
 	// merge elements
 
 	k = 0;
 
-	n = p1->u.tensor->nelem;
-	m = p2->u.tensor->nelem;
-
-	for (i = 0; i < n; i++) {
+	for (i = 0; i < nelem1; i++) {
 		p2 = p1->u.tensor->elem[i];
-		for (j = 0; j < m; j++)
+		for (j = 0; j < nelem2; j++)
 			p3->u.tensor->elem[k++] = p2->u.tensor->elem[j];
 	}
 
