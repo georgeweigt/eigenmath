@@ -21,6 +21,17 @@ eval(void)
 	restore();
 }
 
+void
+eval_cons(void)
+{
+	if (car(p1)->k == KSYM)
+		car(p1)->u.ksym.func();
+	else if (car(p1)->k == USYM)
+		eval_user_function();
+	else
+		push(p1); // not evaluated
+}
+
 // bare keyword
 
 void
@@ -41,22 +52,6 @@ eval_usym(void)
 	push(p2);
 	if (p1 != p2)
 		eval();
-}
-
-void
-eval_cons(void)
-{
-	if (car(p1)->k == KSYM) {
-		car(p1)->u.ksym.func();
-		return;
-	}
-
-	if (car(p1)->k == USYM) {
-		eval_user_function();
-		return;
-	}
-
-	push(p1); // not evaluated
 }
 
 void
