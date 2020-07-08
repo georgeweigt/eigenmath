@@ -41,6 +41,8 @@ int block_count;
 int free_count;
 int gc_count;
 int bignum_count;
+int ksym_count;
+int usym_count;
 int string_count;
 int tensor_count;
 int max_stack;

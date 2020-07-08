@@ -295,6 +295,12 @@ eval_status(void)
 	sprintf(tbuf, "bignum_count %d\n", bignum_count);
 	print_str(tbuf);
 
+	sprintf(tbuf, "ksym_count %d\n", ksym_count);
+	print_str(tbuf);
+
+	sprintf(tbuf, "usym_count %d\n", usym_count);
+	print_str(tbuf);
+
 	sprintf(tbuf, "string_count %d\n", string_count);
 	print_str(tbuf);
 

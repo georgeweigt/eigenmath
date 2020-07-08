@@ -46,6 +46,8 @@ lookup(char *s)
 	binding[j] = p;
 	arglist[j] = symbol(NIL);
 
+	usym_count++;
+
 	return p;
 }
 
@@ -287,10 +289,12 @@ init_symbol_table(void)
 			p->k = KSYM;
 			p->u.ksym.kname = s;
 			p->u.ksym.func = stab[i].func;
+			ksym_count++;
 		} else {
 			p->k = USYM;
 			p->u.usym.uname = s;
 			p->u.usym.index = stab[i].index;
+			usym_count++;
 		}
 		symtab[stab[i].index] = p;
 		binding[stab[i].index] = p;

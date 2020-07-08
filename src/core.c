@@ -114,9 +114,11 @@ gc(void)
 			switch (p[j].k) {
 			case KSYM:
 				free(p[j].u.ksym.kname);
+				ksym_count--;
 				break;
 			case USYM:
 				free(p[j].u.usym.uname);
+				usym_count--;
 				break;
 			case RATIONAL:
 				mfree(p[j].u.q.a);

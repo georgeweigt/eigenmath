@@ -42,6 +42,8 @@ extern int block_count;
 extern int free_count;
 extern int gc_count;
 extern int bignum_count;
+extern int ksym_count;
+extern int usym_count;
 extern int string_count;
 extern int tensor_count;
 extern int max_stack;
