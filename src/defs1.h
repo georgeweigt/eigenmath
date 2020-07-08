@@ -13,7 +13,7 @@
 #define FRAMESIZE 10000 // limits recursion depth, prevents seg fault
 #define BLOCKSIZE 100000
 #define MAXBLOCKS 250
-#define NSYM 1000
+#define NSYM 100
 
 // MAXBLOCKS * BLOCKSIZE * sizeof (struct atom) = 600,000,000 bytes
 
@@ -58,182 +58,196 @@ struct atom {
 			struct atom *car;
 			struct atom *cdr;
 		} cons;
-		char *printname;
-		char *str;
-		struct tensor *tensor;
+		struct {
+			char *kname;
+			void (*func)(void);
+		} ksym;
+		struct {
+			char *uname;
+			uint32_t index;
+		} usym;
 		struct {
 			uint32_t *a; // rational number a over b
 			uint32_t *b;
 		} q;
 		double d;
+		char *str;
+		struct tensor *tensor;
 	} u;
 	uint8_t k, tag, sign;
 };
 
-// the following enum is for struct atom, member k
+#define CONS		0
+#define KSYM		1
+#define USYM		2
+#define RATIONAL	3
+#define DOUBLE		4
+#define STR		5
+#define TENSOR		6
 
-enum {
-	CONS,
-	RATIONAL,
-	DOUBLE,
-	STR,
-	TENSOR,
-	SYM,
-};
+#define STI(x, y) ((int) ((x) - 'a') * NSYM + (y))
 
-// the following enum is for indexing the symbol table
+#define METAA		STI('a',  0)
+#define ABS		STI('a',  1)
+#define ADD		STI('a',  2)
+#define ADJ		STI('a',  3)
+#define AND		STI('a',  4)
+#define ARCCOS		STI('a',  5)
+#define ARCCOSH		STI('a',  6)
+#define ARCSIN		STI('a',  7)
+#define ARCSINH		STI('a',  8)
+#define ARCTAN		STI('a',  9)
+#define ARCTANH		STI('a', 10)
+#define ARG		STI('a', 11)
+#define ATOMIZE		STI('a', 12)
 
-enum {
-	ABS,
-	ADD,
-	ADJ,
-	AND,
-	ARCCOS,
-	ARCCOSH,
-	ARCSIN,
-	ARCSINH,
-	ARCTAN,
-	ARCTANH,
-	ARG,
-	ATOMIZE,
-	BESSELJ,
-	BESSELY,
-	BINDING,
-	BINOMIAL,
-	CEILING,
-	CHECK,
-	CHOOSE,
-	CIRCEXP,
-	CLEAR,
-	CLOCK,
-	COEFF,
-	COFACTOR,
-	CONJ,
-	CONTRACT,
-	COS,
-	COSH,
-	DEFINT,
-	DEGREE,
-	DENOMINATOR,
-	DERIVATIVE,
-	DET,
-	DIM,
-	DO,
-	DOT,
-	DRAW,
-	EIGEN,
-	EIGENVAL,
-	EIGENVEC,
-	ERF,
-	ERFC,
-	EVAL,
-	EXIT,
-	EXP,
-	EXPAND,
-	EXPCOS,
-	EXPCOSH,
-	EXPSIN,
-	EXPSINH,
-	EXPTAN,
-	EXPTANH,
-	FACTOR,
-	FACTORIAL,
-	FILTER,
-	FLOATF,
-	FLOOR,
-	FOR,
-	GCD,
-	HERMITE,
-	HILBERT,
-	IMAG,
-	INDEX,
-	INNER,
-	INTEGRAL,
-	INV,
-	ISPRIME,
-	LAGUERRE,
-	LATEX,
-	LCM,
-	LEADING,
-	LEGENDRE,
-	LISP,
-	LOG,
-	MAG,
-	MATHJAX,
-	MATHML,
-	MOD,
-	MULTIPLY,
-	NOT,
-	NROOTS,
-	NUMBER,
-	NUMERATOR,
-	OR,
-	OUTER,
-	POLAR,
-	POWER,
-	PRIME,
-	PRINT,
-	PRODUCT,
-	QUOTE,
-	QUOTIENT,
-	RANK,
-	RATIONALIZE,
-	REAL,
-	RECTF,
-	ROOTS,
-	RUN,
-	SETQ,
-	SGN,
-	SIMPLIFY,
-	SIN,
-	SINH,
-	SQRT,
-	STATUS,
-	STOP,
-	STRING,
-	SUBST,
-	SUM,
-	TAN,
-	TANH,
-	TAYLOR,
-	TEST,
-	TESTEQ,
-	TESTGE,
-	TESTGT,
-	TESTLE,
-	TESTLT,
-	TRANSPOSE,
-	UNIT,
-	ZERO,
+#define METAB		STI('b',  0)
+#define BESSELJ		STI('b',  1)
+#define BESSELY		STI('b',  2)
+#define BINDING		STI('b',  3)
+#define BINOMIAL	STI('b',  4)
 
-	MARK1,	// boundary (symbols above are functions)
+#define CEILING		STI('c',  0)
+#define CHECK		STI('c',  1)
+#define CHOOSE		STI('c',  2)
+#define CIRCEXP		STI('c',  3)
+#define CLEAR		STI('c',  4)
+#define CLOCK		STI('c',  5)
+#define COEFF		STI('c',  6)
+#define COFACTOR	STI('c',  7)
+#define CONJ		STI('c',  8)
+#define CONTRACT	STI('c',  9)
+#define COS		STI('c', 10)
+#define COSH		STI('c', 11)
 
-	EXP1,	// natural number
-	NIL,
-	PI,
+#define SYMBOL_D	STI('d',  0)
+#define DEFINT		STI('d',  1)
+#define DEGREE		STI('d',  2)
+#define DENOMINATOR	STI('d',  3)
+#define DERIVATIVE	STI('d',  4)
+#define DET		STI('d',  5)
+#define DIM		STI('d',  6)
+#define DO		STI('d',  7)
+#define DOT		STI('d',  8)
+#define DRAW		STI('d',  9)
 
-	MARK2,	// boundary (symbols above cannot be bound)
+#define EIGEN		STI('e',  0)
+#define EIGENVAL	STI('e',  1)
+#define EIGENVEC	STI('e',  2)
+#define ERF		STI('e',  3)
+#define ERFC		STI('e',  4)
+#define EVAL		STI('e',  5)
+#define EXIT		STI('e',  6)
+#define EXP		STI('e',  7)
+#define EXP1		STI('e',  8)
+#define EXPAND		STI('e',  9)
+#define EXPCOS		STI('e', 10)
+#define EXPCOSH		STI('e', 11)
+#define EXPSIN		STI('e', 12)
+#define EXPSINH		STI('e', 13)
+#define EXPTAN		STI('e', 14)
+#define EXPTANH		STI('e', 15)
 
-	METAA,
-	METAB,
-	METAX,
-	SPECX,
+#define FACTOR		STI('f',  0)
+#define FACTORIAL	STI('f',  1)
+#define FILTER		STI('f',  2)
+#define FLOATF		STI('f',  3)
+#define FLOOR		STI('f',  4)
+#define FOR		STI('f',  5)
 
-	LAST,
-	TRACE,
-	TTY,
+#define GCD		STI('g',  0)
 
-	MARK3,	// start of user defined symbols
+#define HERMITE		STI('h',  0)
+#define HILBERT		STI('h',  1)
 
-	SYMBOL_D,
-	SYMBOL_I,
-	SYMBOL_J,
-	SYMBOL_S,
-	SYMBOL_T,
-	SYMBOL_X,
-	SYMBOL_Y,
-	SYMBOL_Z,
-};
+#define SYMBOL_I	STI('i',  0)
+#define IMAG		STI('i',  1)
+#define INDEX		STI('i',  2)
+#define INNER		STI('i',  3)
+#define INTEGRAL	STI('i',  4)
+#define INV		STI('i',  5)
+#define ISPRIME		STI('i',  6)
+
+#define SYMBOL_J	STI('j',  0)
+
+#define LAGUERRE	STI('l',  0)
+#define LAST		STI('l',  1)
+#define LATEX		STI('l',  2)
+#define LCM		STI('l',  3)
+#define LEADING		STI('l',  4)
+#define LEGENDRE	STI('l',  5)
+#define LISP		STI('l',  6)
+#define LOG		STI('l',  7)
+
+#define MAG		STI('m',  0)
+#define MATHJAX		STI('m',  1)
+#define MATHML		STI('m',  2)
+#define MOD		STI('m',  3)
+#define MULTIPLY	STI('m',  4)
+
+#define NIL		STI('n',  0)
+#define NOT		STI('n',  1)
+#define NROOTS		STI('n',  2)
+#define NUMBER		STI('n',  3)
+#define NUMERATOR	STI('n',  4)
+
+#define OR		STI('o',  0)
+#define OUTER		STI('o',  1)
+
+#define PI		STI('p',  0)
+#define POLAR		STI('p',  1)
+#define POWER		STI('p',  2)
+#define PRIME		STI('p',  3)
+#define PRINT		STI('p',  4)
+#define PRODUCT		STI('p',  5)
+
+#define QUOTE		STI('q',  0)
+#define QUOTIENT	STI('q',  1)
+
+#define RANK		STI('r',  0)
+#define RATIONALIZE	STI('r',  1)
+#define REAL		STI('r',  2)
+#define RECTF		STI('r',  3)
+#define ROOTS		STI('r',  4)
+#define RUN		STI('r',  5)
+
+#define SYMBOL_S	STI('s',  0)
+#define SETQ		STI('s',  1)
+#define SGN		STI('s',  2)
+#define SIMPLIFY	STI('s',  3)
+#define SIN		STI('s',  4)
+#define SINH		STI('s',  5)
+#define SQRT		STI('s',  6)
+#define STATUS		STI('s',  7)
+#define STOP		STI('s',  8)
+#define STRING		STI('s',  9)
+#define SUBST		STI('s', 10)
+#define SUM		STI('s', 11)
+
+#define SYMBOL_T	STI('t',  0)
+#define TAN		STI('t',  1)
+#define TANH		STI('t',  2)
+#define TAYLOR		STI('t',  3)
+#define TEST		STI('t',  4)
+#define TESTEQ		STI('t',  5)
+#define TESTGE		STI('t',  6)
+#define TESTGT		STI('t',  7)
+#define TESTLE		STI('t',  8)
+#define TESTLT		STI('t',  9)
+#define TRACE		STI('t', 10)
+#define TRANSPOSE	STI('t', 11)
+#define TTY		STI('t', 12)
+
+#define UNIT		STI('u',  0)
+
+#define SYMBOL_X	STI('x',  0)
+#define METAX		STI('x',  1)
+#define SPECX		STI('x',  2)
+
+#define SYMBOL_Y	STI('y',  0)
+
+#define SYMBOL_Z	STI('z',  0)
+#define ZERO		STI('z',  1)
 
 #define MAXPRIMETAB 10000
 #define MAXDIM 24
@@ -245,7 +259,7 @@ struct tensor {
 	struct atom *elem[1];
 };
 
-#define symbol(x) (symtab + (x))
+#define symbol(x) symtab[x]
 #define push_symbol(x) push(symbol(x))
 #define iscons(p) ((p)->k == CONS)
 #define isrational(p) ((p)->k == RATIONAL)
@@ -253,8 +267,8 @@ struct tensor {
 #define isnum(p) (isrational(p) || isdouble(p))
 #define isstr(p) ((p)->k == STR)
 #define istensor(p) ((p)->k == TENSOR)
-#define issymbol(p) ((p)->k == SYM)
-#define iskeyword(p) ((p)->k == SYM && (p) - symtab < MARK1)
+#define issymbol(p) ((p)->k == KSYM || (p)->k == USYM)
+#define iskeyword(p) ((p)->k == KSYM)
 
 #define car(p) (iscons(p) ? (p)->u.cons.car : symbol(NIL))
 #define cdr(p) (iscons(p) ? (p)->u.cons.cdr : symbol(NIL))

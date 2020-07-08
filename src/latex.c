@@ -232,7 +232,8 @@ latex_factor(struct atom *p)
 		latex_double(p);
 		break;
 
-	case SYM:
+	case KSYM:
+	case USYM:
 		latex_symbol(p);
 		break;
 
@@ -557,7 +558,7 @@ latex_symbol(struct atom *p)
 
 	if (iskeyword(p) || p == symbol(LAST) || p == symbol(NIL) || p == symbol(TRACE) || p == symbol(TTY)) {
 		print_str("\\operatorname{");
-		print_str(p->u.printname);
+		print_str(printname(p));
 		print_str("}");
 		return;
 	}
@@ -567,7 +568,7 @@ latex_symbol(struct atom *p)
 		return;
 	}
 
-	s = p->u.printname;
+	s = printname(p);
 	n = latex_symbol_scan(s);
 
 	if ((int) strlen(s) == n) {

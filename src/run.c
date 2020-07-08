@@ -55,6 +55,23 @@ init(void)
 	tos = 0;
 	tof = 0;
 
+	if (zero) {
+		p0 = symbol(NIL);
+		p1 = symbol(NIL);
+		p2 = symbol(NIL);
+		p3 = symbol(NIL);
+		p4 = symbol(NIL);
+		p5 = symbol(NIL);
+		p6 = symbol(NIL);
+		p7 = symbol(NIL);
+		p8 = symbol(NIL);
+		p9 = symbol(NIL);
+		set_binding(symbol(TRACE), zero);
+		return;
+	}
+
+	init_symbol_table();
+
 	p0 = symbol(NIL);
 	p1 = symbol(NIL);
 	p2 = symbol(NIL);
@@ -66,14 +83,7 @@ init(void)
 	p8 = symbol(NIL);
 	p9 = symbol(NIL);
 
-	if (zero) {
-		set_binding(symbol(TRACE), zero);
-		return;
-	}
-
 	init_bignums();
-
-	init_symbol_table();
 
 	push_symbol(POWER);
 	push_integer(-1);

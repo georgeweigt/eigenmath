@@ -1,255 +1,304 @@
 #include "defs.h"
 
-// put symbol s at index n
-
-void
-std_symbol(char *s, int n)
-{
-	struct atom *p;
-	p = symtab + n;
-	p->u.printname = strdup(s);
-	if (p->u.printname == NULL)
-		malloc_kaput();
-}
-
 // symbol lookup, create symbol if not found
 
 struct atom *
-usr_symbol(char *s)
+lookup(char *s)
 {
-	int i;
+	int c, i, j;
+	char *t;
 	struct atom *p;
+
+	c = tolower(*s) - 'a';
+
+	if (c < 0 || c > 25)
+		stop("symbol lookup error");
+
+	j = NSYM * c;
+
 	for (i = 0; i < NSYM; i++) {
-		if (symtab[i].u.printname == 0)
+		p = symtab[j];
+		if (p == NULL)
 			break;
-		if (strcmp(s, symtab[i].u.printname) == 0)
-			return symtab + i;
+		if (p->k == KSYM)
+			t = p->u.ksym.kname;
+		else
+			t = p->u.usym.uname;
+		if (strcmp(s, t) == 0)
+			return p;
+		j++;
 	}
+
 	if (i == NSYM)
 		stop("symbol table full");
-	p = symtab + i;
-	p->u.printname = strdup(s);
-	if (p->u.printname == NULL)
+
+	p = alloc();
+	s = strdup(s);
+
+	if (s == NULL)
 		malloc_kaput();
+
+	p->k = USYM;
+	p->u.usym.uname = s;
+	p->u.usym.index = j;
+
+	symtab[j] = p;
+	binding[j] = p;
+	arglist[j] = symbol(NIL);
+
 	return p;
 }
 
-// get the symbol's print name
-
 char *
-get_printname(struct atom *p)
+printname(struct atom *p)
 {
-	if (p->k != SYM)
-		stop("symbol error");
-	return p->u.printname;
+	if (p->k == KSYM)
+		return p->u.ksym.kname;
+	else if (p->k == USYM)
+		return p->u.usym.uname;
+	else
+		return "?";
 }
 
 void
 set_binding(struct atom *p, struct atom *b)
 {
-	if (p->k != SYM || p - symtab < MARK2)
+	if (p->k != USYM || p == symbol(NIL) || p == symbol(PI))
 		stop("reserved symbol");
-	binding[p - symtab] = b;
-	arglist[p - symtab] = symbol(NIL);
+	binding[p->u.usym.index] = b;
+	arglist[p->u.usym.index] = symbol(NIL);
 }
 
 void
 set_binding_and_arglist(struct atom *p, struct atom *b, struct atom *a)
 {
-	if (p->k != SYM || p - symtab < MARK2)
+	if (p->k != USYM || p == symbol(NIL) || p == symbol(PI))
 		stop("reserved symbol");
-	binding[p - symtab] = b;
-	arglist[p - symtab] = a;
+	binding[p->u.usym.index] = b;
+	arglist[p->u.usym.index] = a;
 }
 
 struct atom *
 get_binding(struct atom *p)
 {
-	if (p->k != SYM)
+	if (p->k != USYM)
 		stop("symbol error");
-	return binding[p - symtab];
+	return binding[p->u.usym.index];
 }
 
 struct atom *
 get_arglist(struct atom *p)
 {
-	if (p->k != SYM)
+	if (p->k != USYM)
 		stop("symbol error");
-	return arglist[p - symtab];
+	return arglist[p->u.usym.index];
 }
 
-// get symbol's number from ptr
+struct se {
+	char *str;
+	int index;
+	void (*func)(void);
+};
 
-int
-symnum(struct atom *p)
-{
-	if (p->k != SYM)
-		stop("symbol error");
-	return (int) (p - symtab);
-}
+struct se stab[] = {
+
+	{ "a$",			METAA,		NULL			},
+	{ "abs",		ABS,		eval_abs		},
+	{ "+",			ADD,		eval_add		},
+	{ "adj",		ADJ,		eval_adj		},
+	{ "and",		AND,		eval_and		},
+	{ "arccos",		ARCCOS,		eval_arccos		},
+	{ "arccosh",		ARCCOSH,	eval_arccosh		},
+	{ "arcsin",		ARCSIN,		eval_arcsin		},
+	{ "arcsinh",		ARCSINH,	eval_arcsinh		},
+	{ "arctan",		ARCTAN,		eval_arctan		},
+	{ "arctanh",		ARCTANH,	eval_arctanh		},
+	{ "arg",		ARG,		eval_arg		},
+	{ "atomize",		ATOMIZE,	eval_atomize		},
+
+	{ "b$",			METAB,		NULL			},
+	{ "besselj",		BESSELJ,	eval_besselj		},
+	{ "bessely",		BESSELY,	eval_bessely		},
+	{ "binding",		BINDING,	eval_binding		},
+	{ "binomial",		BINOMIAL,	eval_binomial		},
+
+	{ "ceiling",		CEILING,	eval_ceiling		},
+	{ "check",		CHECK,		eval_check		},
+	{ "choose",		CHOOSE,		eval_choose		},
+	{ "circexp",		CIRCEXP,	eval_circexp		},
+	{ "clear",		CLEAR,		eval_clear		},
+	{ "clock",		CLOCK,		eval_clock		},
+	{ "coeff",		COEFF,		eval_coeff		},
+	{ "cofactor",		COFACTOR,	eval_cofactor		},
+	{ "conj",		CONJ,		eval_conj		},
+	{ "contract",		CONTRACT,	eval_contract		},
+	{ "cos",		COS,		eval_cos		},
+	{ "cosh",		COSH,		eval_cosh		},
+
+	{ "d",			SYMBOL_D,	NULL			},
+	{ "defint",		DEFINT,		eval_defint		},
+	{ "deg",		DEGREE,		eval_degree		},
+	{ "denominator",	DENOMINATOR,	eval_denominator	},
+	{ "derivative",		DERIVATIVE,	eval_derivative		},
+	{ "det",		DET,		eval_det		},
+	{ "dim",		DIM,		eval_dim		},
+	{ "do",			DO,		eval_do			},
+	{ "dot",		DOT,		eval_dot		},
+	{ "draw",		DRAW,		eval_draw		},
+
+	{ "eigen",		EIGEN,		eval_eigen		},
+	{ "eigenval",		EIGENVAL,	eval_eigenval		},
+	{ "eigenvec",		EIGENVEC,	eval_eigenvec		},
+	{ "erf",		ERF,		eval_erf		},
+	{ "erfc",		ERFC,		eval_erfc		},
+	{ "eval",		EVAL,		eval_eval		},
+	{ "exit",		EXIT,		eval_exit		},
+	{ "exp",		EXP,		eval_exp		},
+	{ "e$",			EXP1,		NULL			},
+	{ "expand",		EXPAND,		eval_expand		},
+	{ "expcos",		EXPCOS,		eval_expcos		},
+	{ "expcosh",		EXPCOSH,	eval_expcosh		},
+	{ "expsin",		EXPSIN,		eval_expsin		},
+	{ "expsinh",		EXPSINH,	eval_expsinh		},
+	{ "exptan",		EXPTAN,		eval_exptan		},
+	{ "exptanh",		EXPTANH,	eval_exptanh		},
+
+	{ "factor",		FACTOR,		eval_factor		},
+	{ "factorial",		FACTORIAL,	eval_factorial		},
+	{ "filter",		FILTER,		eval_filter		},
+	{ "float",		FLOATF,		eval_float		},
+	{ "floor",		FLOOR,		eval_floor		},
+	{ "for",		FOR,		eval_for		},
+
+	{ "gcd",		GCD,		eval_gcd		},
+
+	{ "hermite",		HERMITE,	eval_hermite		},
+	{ "hilbert",		HILBERT,	eval_hilbert		},
+
+	{ "i",			SYMBOL_I,	NULL			},
+	{ "imag",		IMAG,		eval_imag		},
+	{ "[",			INDEX,		eval_index		},
+	{ "inner",		INNER,		eval_inner		},
+	{ "integral",		INTEGRAL,	eval_integral		},
+	{ "inv",		INV,		eval_inv		},
+	{ "isprime",		ISPRIME,	eval_isprime		},
+
+	{ "j",			SYMBOL_J,	NULL			},
+
+	{ "laguerre",		LAGUERRE,	eval_laguerre		},
+	{ "last",		LAST,		NULL			},
+	{ "latex",		LATEX,		eval_latex		},
+	{ "lcm",		LCM,		eval_lcm		},
+	{ "leading",		LEADING,	eval_leading		},
+	{ "legendre",		LEGENDRE,	eval_legendre		},
+	{ "lisp",		LISP,		eval_lisp		},
+	{ "log",		LOG,		eval_log		},
+
+	{ "mag",		MAG,		eval_mag		},
+	{ "mathjax",		MATHJAX,	eval_mathjax		},
+	{ "mathml",		MATHML,		eval_mathml		},
+	{ "mod",		MOD,		eval_mod		},
+	{ "*",			MULTIPLY,	eval_multiply		},
+
+	{ "nil",		NIL,		NULL			},
+	{ "not",		NOT,		eval_not		},
+	{ "nroots",		NROOTS,		eval_nroots		},
+	{ "number",		NUMBER,		eval_number		},
+	{ "numerator",		NUMERATOR,	eval_numerator		},
+
+	{ "or",			OR,		eval_or			},
+	{ "outer",		OUTER,		eval_outer		},
+
+	{ "pi",			PI,		NULL			},
+	{ "polar",		POLAR,		eval_polar		},
+	{ "^",			POWER,		eval_power		},
+	{ "prime",		PRIME,		eval_prime		},
+	{ "print",		PRINT,		eval_print		},
+	{ "product",		PRODUCT,	eval_product		},
+
+	{ "quote",		QUOTE,		eval_quote		},
+	{ "quotient",		QUOTIENT,	eval_quotient		},
+
+	{ "rank",		RANK,		eval_rank		},
+	{ "rationalize",	RATIONALIZE,	eval_rationalize	},
+	{ "real",		REAL,		eval_real		},
+	{ "rect",		RECTF,		eval_rect		},
+	{ "roots",		ROOTS,		eval_roots		},
+	{ "run",		RUN,		eval_run		},
+
+	{ "s",			SYMBOL_S,	NULL			},
+	{ "=",			SETQ,		eval_setq		},
+	{ "sgn",		SGN,		eval_sgn		},
+	{ "simplify",		SIMPLIFY,	eval_simplify		},
+	{ "sin",		SIN,		eval_sin		},
+	{ "sinh",		SINH,		eval_sinh		},
+	{ "sqrt",		SQRT,		eval_sqrt		},
+	{ "status",		STATUS,		eval_status		},
+	{ "stop",		STOP,		eval_stop		},
+	{ "string",		STRING,		eval_string		},
+	{ "subst",		SUBST,		eval_subst		},
+	{ "sum",		SUM,		eval_sum		},
+
+	{ "t",			SYMBOL_T,	NULL			},
+	{ "tan",		TAN,		eval_tan		},
+	{ "tanh",		TANH,		eval_tanh		},
+	{ "taylor",		TAYLOR,		eval_taylor		},
+	{ "test",		TEST,		eval_test		},
+	{ "testeq",		TESTEQ,		eval_testeq		},
+	{ "testge",		TESTGE,		eval_testge		},
+	{ "testgt",		TESTGT,		eval_testgt		},
+	{ "testle",		TESTLE,		eval_testle		},
+	{ "testlt",		TESTLT,		eval_testlt		},
+	{ "trace",		TRACE,		NULL			},
+	{ "transpose",		TRANSPOSE,	eval_transpose		},
+	{ "tty",		TTY,		NULL			},
+
+	{ "unit",		UNIT,		eval_unit		},
+
+	{ "x",			SYMBOL_X,	NULL			},
+	{ "x$",			METAX,		NULL			},
+	{ "X$",			SPECX,		NULL			},
+
+	{ "y",			SYMBOL_Y,	NULL			},
+
+	{ "z",			SYMBOL_Z,	NULL			},
+	{ "zero",		ZERO,		eval_zero		},
+};
 
 void
 init_symbol_table(void)
 {
-	int i;
+	int i, n;
+	char *s;
+	struct atom *p;
 
-	for (i = 0; i < NSYM; i++) {
-		symtab[i].k = SYM;
-		if (symtab[i].u.printname) {
-			free(symtab[i].u.printname);
-			symtab[i].u.printname = NULL;
+	memset(symtab, 0, 26 * NSYM * sizeof (struct atom *));
+	memset(binding, 0, 26 * NSYM * sizeof (struct atom *));
+	memset(arglist, 0, 26 * NSYM * sizeof (struct atom *));
+
+	n = sizeof stab / sizeof (struct se);
+
+	for (i = 0; i < n; i++) {
+		p = alloc();
+		s = strdup(stab[i].str);
+		if (s == NULL)
+			malloc_kaput();
+		if (stab[i].func) {
+			p->k = KSYM;
+			p->u.ksym.kname = s;
+			p->u.ksym.func = stab[i].func;
+		} else {
+			p->k = USYM;
+			p->u.usym.uname = s;
+			p->u.usym.index = stab[i].index;
 		}
-		binding[i] = symtab + i;
-		arglist[i] = symbol(NIL);
+		symtab[stab[i].index] = p;
+		binding[stab[i].index] = p;
+		arglist[stab[i].index] = p; // in case gc gets called
 	}
 
-	std_symbol("abs", ABS);
-	std_symbol("+", ADD);
-	std_symbol("adj", ADJ);
-	std_symbol("and", AND);
-	std_symbol("arccos", ARCCOS);
-	std_symbol("arccosh", ARCCOSH);
-	std_symbol("arcsin", ARCSIN);
-	std_symbol("arcsinh", ARCSINH);
-	std_symbol("arctan", ARCTAN);
-	std_symbol("arctanh", ARCTANH);
-	std_symbol("arg", ARG);
-	std_symbol("atomize", ATOMIZE);
-	std_symbol("besselj", BESSELJ);
-	std_symbol("bessely", BESSELY);
-	std_symbol("binding", BINDING);
-	std_symbol("binomial", BINOMIAL);
-	std_symbol("ceiling", CEILING);
-	std_symbol("check", CHECK);
-	std_symbol("choose", CHOOSE);
-	std_symbol("circexp", CIRCEXP);
-	std_symbol("clear", CLEAR);
-	std_symbol("clock", CLOCK);
-	std_symbol("coeff", COEFF);
-	std_symbol("cofactor", COFACTOR);
-	std_symbol("conj", CONJ);
-	std_symbol("contract", CONTRACT);
-	std_symbol("cos", COS);
-	std_symbol("cosh", COSH);
-	std_symbol("defint", DEFINT);
-	std_symbol("deg", DEGREE);
-	std_symbol("denominator", DENOMINATOR);
-	std_symbol("derivative", DERIVATIVE);
-	std_symbol("det", DET);
-	std_symbol("dim", DIM);
-	std_symbol("do", DO);
-	std_symbol("dot", DOT);
-	std_symbol("draw", DRAW);
-	std_symbol("erf", ERF);
-	std_symbol("erfc", ERFC);
-	std_symbol("eigen", EIGEN);
-	std_symbol("eigenval", EIGENVAL);
-	std_symbol("eigenvec", EIGENVEC);
-	std_symbol("eval", EVAL);
-	std_symbol("exit", EXIT);
-	std_symbol("exp", EXP);
-	std_symbol("expand", EXPAND);
-	std_symbol("expcos", EXPCOS);
-	std_symbol("expcosh", EXPCOSH);
-	std_symbol("expsin", EXPSIN);
-	std_symbol("expsinh", EXPSINH);
-	std_symbol("exptan", EXPTAN);
-	std_symbol("exptanh", EXPTANH);
-	std_symbol("factor", FACTOR);
-	std_symbol("factorial", FACTORIAL);
-	std_symbol("filter", FILTER);
-	std_symbol("float", FLOATF);
-	std_symbol("floor", FLOOR);
-	std_symbol("for", FOR);
-	std_symbol("gcd", GCD);
-	std_symbol("hermite", HERMITE);
-	std_symbol("hilbert", HILBERT);
-	std_symbol("imag", IMAG);
-	std_symbol("[", INDEX);
-	std_symbol("inner", INNER);
-	std_symbol("integral", INTEGRAL);
-	std_symbol("inv", INV);
-	std_symbol("isprime", ISPRIME);
-	std_symbol("laguerre", LAGUERRE);
-	std_symbol("latex", LATEX);
-	std_symbol("lcm", LCM);
-	std_symbol("leading", LEADING);
-	std_symbol("legendre", LEGENDRE);
-	std_symbol("lisp", LISP);
-	std_symbol("log", LOG);
-	std_symbol("mag", MAG);
-	std_symbol("mathjax", MATHJAX);
-	std_symbol("mathml", MATHML);
-	std_symbol("mod", MOD);
-	std_symbol("*", MULTIPLY);
-	std_symbol("not", NOT);
-	std_symbol("nroots", NROOTS);
-	std_symbol("number", NUMBER);
-	std_symbol("numerator", NUMERATOR);
-	std_symbol("or", OR);
-	std_symbol("outer", OUTER);
-	std_symbol("polar", POLAR);
-	std_symbol("^", POWER);
-	std_symbol("prime", PRIME);
-	std_symbol("print", PRINT);
-	std_symbol("product", PRODUCT);
-	std_symbol("quote", QUOTE);
-	std_symbol("quotient", QUOTIENT);
-	std_symbol("rank", RANK);
-	std_symbol("rationalize", RATIONALIZE);
-	std_symbol("real", REAL);
-	std_symbol("rect", RECTF);
-	std_symbol("roots", ROOTS);
-	std_symbol("run", RUN);
-	std_symbol("=", SETQ);
-	std_symbol("sgn", SGN);
-	std_symbol("simplify", SIMPLIFY);
-	std_symbol("sin", SIN);
-	std_symbol("sinh", SINH);
-	std_symbol("sqrt", SQRT);
-	std_symbol("status", STATUS);
-	std_symbol("stop", STOP);
-	std_symbol("string", STRING);
-	std_symbol("subst", SUBST);
-	std_symbol("sum", SUM);
-	std_symbol("tan", TAN);
-	std_symbol("tanh", TANH);
-	std_symbol("taylor", TAYLOR);
-	std_symbol("test", TEST);
-	std_symbol("testeq", TESTEQ);
-	std_symbol("testge", TESTGE);
-	std_symbol("testgt", TESTGT);
-	std_symbol("testle", TESTLE);
-	std_symbol("testlt", TESTLT);
-	std_symbol("transpose", TRANSPOSE);
-	std_symbol("unit", UNIT);
-	std_symbol("zero", ZERO);
+	// do this last to ensure NIL is initialized
 
-	std_symbol("$", MARK1);
-
-	std_symbol(".e", EXP1);
-	std_symbol("nil", NIL);
-	std_symbol("pi", PI);
-
-	std_symbol("$", MARK2);
-
-	std_symbol("$a", METAA); // must be distinct so they sort correctly
-	std_symbol("$b", METAB);
-	std_symbol("$x", METAX);
-	std_symbol("$X", SPECX);
-
-	std_symbol("last", LAST);
-	std_symbol("trace", TRACE);
-	std_symbol("tty", TTY);
-
-	std_symbol(".", MARK3);
-
-	std_symbol("d", SYMBOL_D);
-	std_symbol("i", SYMBOL_I);
-	std_symbol("j", SYMBOL_J);
-	std_symbol("s", SYMBOL_S);
-	std_symbol("t", SYMBOL_T);
-	std_symbol("x", SYMBOL_X);
-	std_symbol("y", SYMBOL_Y);
-	std_symbol("z", SYMBOL_Z);
+	for (i = 0; i < n; i++)
+		arglist[stab[i].index] = symbol(NIL);
 }

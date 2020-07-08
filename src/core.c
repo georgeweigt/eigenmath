@@ -51,7 +51,7 @@ alloc_tensor(int nelem)
 void
 gc(void)
 {
-	int i, j;
+	int i, j, k;
 	struct atom *p;
 
 	gc_count++;
@@ -82,9 +82,17 @@ gc(void)
 	untag(minusone);
 	untag(imaginaryunit);
 
-	for (i = 0; i < NSYM; i++) {
-		untag(binding[i]);
-		untag(arglist[i]);
+	// symbol table
+
+	for (i = 0; i < 26; i++) {
+		for (j = 0; j < NSYM; j++) {
+			k = NSYM * i + j;
+			if (symtab[k] == NULL)
+				break;
+			untag(symtab[k]);
+			untag(binding[k]);
+			untag(arglist[k]);
+		}
 	}
 
 	for (i = 0; i < tos; i++)
@@ -104,17 +112,23 @@ gc(void)
 				continue;
 			// still tagged so it's unused, put on free list
 			switch (p[j].k) {
-			case TENSOR:
-				free(p[j].u.tensor);
-				tensor_count--;
+			case KSYM:
+				free(p[j].u.ksym.kname);
+				break;
+			case USYM:
+				free(p[j].u.usym.uname);
+				break;
+			case RATIONAL:
+				mfree(p[j].u.q.a);
+				mfree(p[j].u.q.b);
 				break;
 			case STR:
 				free(p[j].u.str);
 				string_count--;
 				break;
-			case RATIONAL:
-				mfree(p[j].u.q.a);
-				mfree(p[j].u.q.b);
+			case TENSOR:
+				free(p[j].u.tensor);
+				tensor_count--;
 				break;
 			}
 			p[j].k = CONS; // so no double free occurs above
@@ -129,6 +143,9 @@ void
 untag(struct atom *p)
 {
 	int i;
+
+	if (p == NULL)
+		return; // in case gc is called before everything is initialized
 
 	while (iscons(p)) {
 		if (p->tag == 0)
@@ -394,7 +411,7 @@ cmp_expr(struct atom *p1, struct atom *p2)
 		return 1;
 
 	if (issymbol(p1) && issymbol(p2))
-		return sign(strcmp(get_printname(p1), get_printname(p2)));
+		return sign(strcmp(printname(p1), printname(p2)));
 
 	if (issymbol(p1))
 		return -1;

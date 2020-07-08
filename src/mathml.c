@@ -240,7 +240,8 @@ mml_factor(struct atom *p)
 		mml_double(p);
 		break;
 
-	case SYM:
+	case KSYM:
+	case USYM:
 		mml_symbol(p);
 		break;
 
@@ -597,7 +598,7 @@ mml_symbol(struct atom *p)
 	char *s;
 
 	if (iskeyword(p) || p == symbol(LAST) || p == symbol(NIL) || p == symbol(TRACE) || p == symbol(TTY)) {
-		mml_mi(p->u.printname);
+		mml_mi(printname(p));
 		return;
 	}
 
@@ -609,7 +610,7 @@ mml_symbol(struct atom *p)
 		return;
 	}
 
-	s = p->u.printname;
+	s = printname(p);
 	n = mml_symbol_scan(s);
 
 	if ((int) strlen(s) == n) {

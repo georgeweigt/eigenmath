@@ -9,8 +9,10 @@ eval(void)
 
 	if (p1->k == CONS)
 		eval_cons();
-	else if (p1->k == SYM)
-		eval_sym();
+	else if (p1->k == KSYM)
+		eval_ksym();
+	else if (p1->k == USYM)
+		eval_usym();
 	else if (p1->k == TENSOR)
 		eval_tensor();
 	else
@@ -19,165 +21,42 @@ eval(void)
 	restore();
 }
 
+// bare keyword
+
 void
-eval_sym(void)
+eval_ksym(void)
 {
-	// bare keyword?
+	push(p1);
+	push_symbol(LAST); // default arg
+	list(2);
+	eval();
+}
 
-	if (iskeyword(p1)) {
-		push(p1);
-		push_symbol(LAST); // default arg
-		list(2);
-		eval();
-		return;
-	}
+// evaluate symbol's binding
 
-	// evaluate symbol's binding
-
+void
+eval_usym(void)
+{
 	p2 = get_binding(p1);
 	push(p2);
 	if (p1 != p2)
 		eval();
 }
 
-void (*functab[])(void) = {
-	eval_abs,
-	eval_add,
-	eval_adj,
-	eval_and,
-	eval_arccos,
-	eval_arccosh,
-	eval_arcsin,
-	eval_arcsinh,
-	eval_arctan,
-	eval_arctanh,
-	eval_arg,
-	eval_atomize,
-	eval_besselj,
-	eval_bessely,
-	eval_binding,
-	eval_binomial,
-	eval_ceiling,
-	eval_check,
-	eval_choose,
-	eval_circexp,
-	eval_clear,
-	eval_clock,
-	eval_coeff,
-	eval_cofactor,
-	eval_conj,
-	eval_contract,
-	eval_cos,
-	eval_cosh,
-	eval_defint,
-	eval_degree,
-	eval_denominator,
-	eval_derivative,
-	eval_det,
-	eval_dim,
-	eval_do,
-	eval_dot,
-	eval_draw,
-	eval_eigen,
-	eval_eigenval,
-	eval_eigenvec,
-	eval_erf,
-	eval_erfc,
-	eval_eval,
-	eval_exit,
-	eval_exp,
-	eval_expand,
-	eval_expcos,
-	eval_expcosh,
-	eval_expsin,
-	eval_expsinh,
-	eval_exptan,
-	eval_exptanh,
-	eval_factor,
-	eval_factorial,
-	eval_filter,
-	eval_float,
-	eval_floor,
-	eval_for,
-	eval_gcd,
-	eval_hermite,
-	eval_hilbert,
-	eval_imag,
-	eval_index,
-	eval_inner,
-	eval_integral,
-	eval_inv,
-	eval_isprime,
-	eval_laguerre,
-	eval_latex,
-	eval_lcm,
-	eval_leading,
-	eval_legendre,
-	eval_lisp,
-	eval_log,
-	eval_mag,
-	eval_mathjax,
-	eval_mathml,
-	eval_mod,
-	eval_multiply,
-	eval_not,
-	eval_nroots,
-	eval_number,
-	eval_numerator,
-	eval_or,
-	eval_outer,
-	eval_polar,
-	eval_power,
-	eval_prime,
-	eval_print,
-	eval_product,
-	eval_quote,
-	eval_quotient,
-	eval_rank,
-	eval_rationalize,
-	eval_real,
-	eval_rect,
-	eval_roots,
-	eval_run,
-	eval_setq,
-	eval_sgn,
-	eval_simplify,
-	eval_sin,
-	eval_sinh,
-	eval_sqrt,
-	eval_status,
-	eval_stop,
-	eval_string,
-	eval_subst,
-	eval_sum,
-	eval_tan,
-	eval_tanh,
-	eval_taylor,
-	eval_test,
-	eval_testeq,
-	eval_testge,
-	eval_testgt,
-	eval_testle,
-	eval_testlt,
-	eval_transpose,
-	eval_unit,
-	eval_zero,
-};
-
 void
 eval_cons(void)
 {
-	int k;
+	if (car(p1)->k == KSYM) {
+		car(p1)->u.ksym.func();
+		return;
+	}
 
-	if (car(p1)->k != SYM)
-		stop("eval_cons: function name is not a symbol");
-
-	k = symnum(car(p1));
-
-	if (k < MARK1)
-		functab[k]();
-	else
+	if (car(p1)->k == USYM) {
 		eval_user_function();
+		return;
+	}
+
+	push(p1); // not evaluated
 }
 
 void

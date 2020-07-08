@@ -10,9 +10,9 @@ extern int tof; // top of frame
 extern struct atom *stack[STACKSIZE];
 extern struct atom *frame[FRAMESIZE];
  
-extern struct atom symtab[NSYM];
-extern struct atom *binding[NSYM];
-extern struct atom *arglist[NSYM];
+extern struct atom *symtab[];
+extern struct atom *binding[];
+extern struct atom *arglist[];
  
 extern struct atom *p0;
 extern struct atom *p1;

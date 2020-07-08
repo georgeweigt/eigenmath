@@ -267,11 +267,11 @@ scan_symbol(void)
 			push_symbol(METAX);
 			break;
 		default:
-			push(usr_symbol(token_buf));
+			push(lookup(token_buf));
 			break;
 		}
 	else
-		push(usr_symbol(token_buf));
+		push(lookup(token_buf));
 	get_token();
 }
 
@@ -287,7 +287,7 @@ scan_function_call(void)
 {
 	int h = tos;
 	scan_level++;
-	push(usr_symbol(token_buf)); // push function name
+	push(lookup(token_buf)); // push function name
 	get_token(); // get token after function name
 	get_token(); // get token after '('
 	if (token == ')') {

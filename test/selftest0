@@ -121,7 +121,7 @@ check(string(last)="-3 3^(1/2) i")
 check(string(last)="10000000000 10000000000^(1/3)")
 
 check(exp(i*pi)=-1)
-check(lisp(exp(i*pi+a))="(* -1 (^ .e a))")
+check(lisp(exp(i*pi+a))="(* -1 (^ e$ a))")
 
 6*sqrt(2)*sqrt(3)
 check(string(last)="6 2^(1/2) 3^(1/2)")
@@ -765,7 +765,7 @@ check(last="(+ 0.402359 (* 1.01722 (^ -1 1/2)))")
 -- check exp
 
 lisp(float(exp(x)))
-check(last="(^ .e x)")
+check(last="(^ e$ x)")
 
 lisp(exp(0))
 check(last="1")
@@ -774,7 +774,7 @@ lisp(exp(0.0))
 check(last="1.0")
 
 lisp(exp(1))
-check(last=".e")
+check(last="e$")
 
 lisp(exp(1.0))
 check(last="2.71828")
@@ -929,9 +929,9 @@ check(string(last) == "2 a + 2 b")
 
 psi = exp(i k z - i omega t)
 1/psi
-check(lisp(last)=="(^ .e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+check(lisp(last)=="(^ e$ (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
 psi^(-1)
-check(lisp(last)=="(^ .e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+check(lisp(last)=="(^ e$ (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
 psi/psi
 check(lisp(last)=="1")
 

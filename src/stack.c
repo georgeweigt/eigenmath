@@ -65,12 +65,12 @@ restore(void)
 void
 save_binding(struct atom *p)
 {
-	if (tof < 0 || tof > FRAMESIZE)
+	if (p->k != USYM || tof < 0 || tof > FRAMESIZE)
 		stop("frame error 3");
 	if (tof + 2 > FRAMESIZE)
 		stop("frame error, circular definition?");
-	frame[tof + 0] = binding[p - symtab];
-	frame[tof + 1] = arglist[p - symtab];
+	frame[tof + 0] = binding[p->u.usym.index];
+	frame[tof + 1] = arglist[p->u.usym.index];
 	tof += 2;
 	if (tof > max_frame)
 		max_frame = tof;
@@ -79,11 +79,11 @@ save_binding(struct atom *p)
 void
 restore_binding(struct atom *p)
 {
-	if (tof < 2 || tof > FRAMESIZE)
+	if (p->k != USYM || tof < 2 || tof > FRAMESIZE)
 		stop("frame error 4");
 	tof -= 2;
-	binding[p - symtab] = frame[tof + 0];
-	arglist[p - symtab] = frame[tof + 1];
+	binding[p->u.usym.index] = frame[tof + 0];
+	arglist[p->u.usym.index] = frame[tof + 1];
 }
 
 void

@@ -435,10 +435,8 @@ print_factor(struct atom *p)
 		print_char('d');
 	else if (p == symbol(EXP1))
 		print_str("exp(1)");
-	else if (p == symbol(PI))
-		print_str("pi");
 	else
-		print_str(get_printname(p));
+		print_str(printname(p));
 }
 
 void
@@ -502,7 +500,7 @@ print_tensor_inner(struct atom *p, int j, int *k)
 void
 print_function_definition(struct atom *p)
 {
-	print_str(get_printname(p));
+	print_str(printname(p));
 	print_arg_list(cadr(get_binding(p)));
 	print_str("=");
 	print_expr(caddr(get_binding(p)));
@@ -514,11 +512,11 @@ print_arg_list(struct atom *p)
 {
 	print_str("(");
 	if (iscons(p)) {
-		print_str(get_printname(car(p)));
+		print_str(printname(car(p)));
 		p = cdr(p);
 		while (iscons(p)) {
 			print_str(",");
-			print_str(get_printname(car(p)));
+			print_str(printname(car(p)));
 			p = cdr(p);
 		}
 	}
@@ -703,8 +701,9 @@ print_lisp_nib(struct atom *p)
 		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))
 			print_char(')');
 		break;
-	case SYM:
-		print_str(get_printname(p));
+	case KSYM:
+	case USYM:
+		print_str(printname(p));
 		break;
 	case TENSOR:
 		print_str("(tensor");

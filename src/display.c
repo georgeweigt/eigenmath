@@ -713,7 +713,7 @@ emit_symbol(struct atom *p)
 		return;
 	}
 
-	s = get_printname(p);
+	s = printname(p);
 	while (*s)
 		emit_char(*s++);
 }

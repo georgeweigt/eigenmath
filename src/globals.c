@@ -9,9 +9,9 @@ int tof; // top of frame
 struct atom *stack[STACKSIZE];
 struct atom *frame[FRAMESIZE];
 
-struct atom symtab[NSYM];
-struct atom *binding[NSYM];
-struct atom *arglist[NSYM];
+struct atom *symtab[26 * NSYM];
+struct atom *binding[26 * NSYM];
+struct atom *arglist[26 * NSYM];
 
 struct atom *p0;
 struct atom *p1;
