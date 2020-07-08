@@ -113,11 +113,11 @@ gc(void)
 			// still tagged so it's unused, put on free list
 			switch (p[j].k) {
 			case KSYM:
-				free(p[j].u.ksym.kname);
+				free(p[j].u.ksym.name);
 				ksym_count--;
 				break;
 			case USYM:
-				free(p[j].u.usym.uname);
+				free(p[j].u.usym.name);
 				usym_count--;
 				break;
 			case RATIONAL:

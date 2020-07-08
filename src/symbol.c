@@ -21,9 +21,9 @@ lookup(char *s)
 		if (p == NULL)
 			break;
 		if (p->k == KSYM)
-			t = p->u.ksym.kname;
+			t = p->u.ksym.name;
 		else
-			t = p->u.usym.uname;
+			t = p->u.usym.name;
 		if (strcmp(s, t) == 0)
 			return p;
 		j++;
@@ -39,7 +39,7 @@ lookup(char *s)
 		malloc_kaput();
 
 	p->k = USYM;
-	p->u.usym.uname = s;
+	p->u.usym.name = s;
 	p->u.usym.index = j;
 
 	symtab[j] = p;
@@ -55,9 +55,9 @@ char *
 printname(struct atom *p)
 {
 	if (p->k == KSYM)
-		return p->u.ksym.kname;
+		return p->u.ksym.name;
 	else if (p->k == USYM)
-		return p->u.usym.uname;
+		return p->u.usym.name;
 	else
 		return "?";
 }
@@ -287,12 +287,12 @@ init_symbol_table(void)
 			malloc_kaput();
 		if (stab[i].func) {
 			p->k = KSYM;
-			p->u.ksym.kname = s;
+			p->u.ksym.name = s;
 			p->u.ksym.func = stab[i].func;
 			ksym_count++;
 		} else {
 			p->k = USYM;
-			p->u.usym.uname = s;
+			p->u.usym.name = s;
 			p->u.usym.index = stab[i].index;
 			usym_count++;
 		}

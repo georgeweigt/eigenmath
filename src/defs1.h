@@ -59,11 +59,11 @@ struct atom {
 			struct atom *cdr;
 		} cons;
 		struct {
-			char *kname;
+			char *name;
 			void (*func)(void);
 		} ksym;
 		struct {
-			char *uname;
+			char *name;
 			uint32_t index;
 		} usym;
 		struct {
