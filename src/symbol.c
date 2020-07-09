@@ -104,7 +104,7 @@ struct se {
 
 struct se stab[] = {
 
-	{ "a$",			METAA,		NULL			},
+	{ "a'",			METAA,		NULL			},
 	{ "abs",		ABS,		eval_abs		},
 	{ "+",			ADD,		eval_add		},
 	{ "adj",		ADJ,		eval_adj		},
@@ -118,7 +118,7 @@ struct se stab[] = {
 	{ "arg",		ARG,		eval_arg		},
 	{ "atomize",		ATOMIZE,	eval_atomize		},
 
-	{ "b$",			METAB,		NULL			},
+	{ "b'",			METAB,		NULL			},
 	{ "besselj",		BESSELJ,	eval_besselj		},
 	{ "bessely",		BESSELY,	eval_bessely		},
 	{ "binding",		BINDING,	eval_binding		},
@@ -156,7 +156,7 @@ struct se stab[] = {
 	{ "eval",		EVAL,		eval_eval		},
 	{ "exit",		EXIT,		eval_exit		},
 	{ "exp",		EXP,		eval_exp		},
-	{ "e$",			EXP1,		NULL			},
+	{ "e'",			EXP1,		NULL			},
 	{ "expand",		EXPAND,		eval_expand		},
 	{ "expcos",		EXPCOS,		eval_expcos		},
 	{ "expcosh",		EXPCOSH,	eval_expcosh		},
@@ -258,8 +258,8 @@ struct se stab[] = {
 	{ "unit",		UNIT,		eval_unit		},
 
 	{ "x",			SYMBOL_X,	NULL			},
-	{ "x$",			METAX,		NULL			},
-	{ "X$",			SPECX,		NULL			},
+	{ "x'",			METAX,		NULL			},
+	{ "X'",			SPECX,		NULL			},
 
 	{ "y",			SYMBOL_Y,	NULL			},
 
