@@ -231,7 +231,7 @@ run_file(char *filename)
 	trace1 = t1;
 	trace2 = t2;
 
-	pop();
+	pop(); // pop file buffer
 }
 
 void
