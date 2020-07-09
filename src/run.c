@@ -66,7 +66,7 @@ init(void)
 		p7 = symbol(NIL);
 		p8 = symbol(NIL);
 		p9 = symbol(NIL);
-		set_binding(symbol(TRACE), zero);
+		binding[TRACE] = zero;
 		return;
 	}
 
