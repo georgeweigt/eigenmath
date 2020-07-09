@@ -25,7 +25,7 @@ void
 eval_cons(void)
 {
 	if (car(p1)->k == KSYM)
-		car(p1)->u.ksym.func();
+		car(p1)->u.ksym.func(); // call through function pointer
 	else if (car(p1)->k == USYM)
 		eval_user_function();
 	else
@@ -40,7 +40,8 @@ eval_ksym(void)
 	push(p1);
 	push_symbol(LAST); // default arg
 	list(2);
-	eval();
+	p1 = pop();
+	car(p1)->u.ksym.func(); // call through function pointer
 }
 
 // evaluate symbol's binding
