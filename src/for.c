@@ -3,7 +3,7 @@
 void
 eval_for(void)
 {
-	int i, j, k;
+	int j, k;
 
 	// 1st arg (quoted)
 
@@ -36,8 +36,8 @@ eval_for(void)
 
 	save_binding(p2);
 
-	for (i = j; i <= k; i++) {
-		push_integer(i);
+	for (;;) {
+		push_integer(j);
 		p3 = pop();
 		set_binding(p2, p3);
 		p3 = p1;
@@ -47,6 +47,12 @@ eval_for(void)
 			pop();
 			p3 = cdr(p3);
 		}
+		if (j < k)
+			j++;
+		else if (j > k)
+			j--;
+		else
+			break;
 	}
 
 	restore_binding(p2);

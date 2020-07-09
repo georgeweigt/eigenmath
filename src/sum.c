@@ -3,7 +3,7 @@
 void
 eval_sum(void)
 {
-	int i, j, k;
+	int h, j, k;
 
 	// 1st arg (quoted)
 
@@ -30,26 +30,29 @@ eval_sum(void)
 	if (k == ERR)
 		stop("sum: 3rd arg?");
 
-	if (k - j < 0) {
-		push_integer(0);
-		return;
-	}
-
 	// 4th arg
 
 	p1 = cadr(p1);
 
 	save_binding(p2);
 
-	for (i = j; i <= k; i++) {
-		push_integer(i);
+	h = tos;
+
+	for (;;) {
+		push_integer(j);
 		p3 = pop();
 		set_binding(p2, p3);
 		push(p1);
 		eval();
+		if (j < k)
+			j++;
+		else if (j > k)
+			j--;
+		else
+			break;
 	}
 
-	add_terms(k - j + 1);
+	add_terms(tos - h);
 
 	restore_binding(p2);
 }
