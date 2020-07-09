@@ -194,7 +194,12 @@ run_file(char *filename)
 		malloc_kaput();
 	}
 
-	push_string(buf); // popped below
+	p1 = alloc(); // do this so gc can free the buf in case of stop
+	p1->k = STR;
+	p1->u.str = buf;
+	string_count++;
+
+	push(p1); // popped below
 
 	if (read(fd, buf, n) != n) {
 		close(fd);
@@ -226,7 +231,7 @@ run_file(char *filename)
 	trace1 = t1;
 	trace2 = t2;
 
-	pop(); // pop file buffer
+	pop();
 }
 
 void
