@@ -1,17 +1,16 @@
-
 \section{Tricks}
 \begin{enumerate}
 
 \item
-The last result is stored in the symbol {\tt last}.
+The last result is stored in the symbol \verb$last$.
 
 \item
-In a script, setting {\tt trace=1}
+In a script, setting \verb$trace=1$
 causes each line to be printed just before it is evaluated.
 Useful for debugging.
 
 \item
-Use {\tt contract(A)} to get the mathematical trace of matrix \verb$A$.
+Use \verb$contract(A)$ to get the mathematical trace of matrix \verb$A$.
 
 \item
 Calculations in a script can span multiple lines.
@@ -20,17 +19,10 @@ For example, if a calculation ends with a plus sign, the parser will go to the n
 Also, the parser will keep going when it expects a close parenthesis.
 
 \item
-Normally a function body is not evaluated when a function is defined.
-However, in some cases it is required that the function body be the result of something.
-The trick is to use \verb$eval$.
-For example, use \verb$f(x)=eval(taylor(cos(x),x,6))$
-to define \verb$f(x)$ as the sixth order Taylor series expansion of $\cos(x)$.
+Use \verb$binding(s)$ to get the unevaluated binding of symbol \verb$s$.
 
 \item
-Use \verb$binding(f)$ to get the unevaluated binding of symbol \verb$f$.
-
-\item
-Use \verb$f=quote(f)$ to clear symbol \verb$f$.
+Use \verb$s=quote(s)$ to clear symbol \verb$s$.
 
 \item
 Use \verb$float(pi)$ to get the floating point value of $\pi$.
