@@ -489,6 +489,10 @@ P=(x,y,z)
 a=abs(cross(d(P,x),d(P,y)))
 defint(a,x,0,1,y,0,1)
 check(last = 3/2+5/8*log(5))
+
+clear
+trace=1
+
 x=u*cos(v)
 y=u*sin(v)
 z=v
@@ -496,6 +500,10 @@ S=(x,y,z)
 a=abs(cross(d(S,u),d(S,v)))
 defint(a,u,0,1,v,0,3pi)
 check(last = 3/2*pi*log(1+2^(1/2))+3*pi/(2^(1/2)))
+
+clear
+trace=1
+
 denominator(2/3)
 check(last = 3)
 denominator(x)
@@ -1826,6 +1834,10 @@ S=(x,y,z)
 s=dot(F,cross(d(S,x),d(S,y)))
 defint(s,y,-sqrt(1-x^2),sqrt(1-x^2),x,-1,1)
 check(last = 1/48*pi)
+
+clear
+trace=1
+
 laplacian(f)=1/r^2*d(r^2*d(f,r),r)+1/(r^2*sin(theta))*d(sin(theta)*d(f,theta),theta)+1/(r*sin(theta))^2*d(f,phi,phi)
 n=7
 l=3
@@ -1838,6 +1850,10 @@ K=laplacian(psi)
 V=2*psi/r
 circexp(sin(theta)*(E-K-V))
 check(last = 0)
+
+clear
+trace=1
+
 P=2x^3-y^3
 Q=x^3+y^3
 f=d(Q,x)-d(P,y)
@@ -1845,6 +1861,10 @@ x=r*cos(theta)
 y=r*sin(theta)
 defint(f*r,r,0,1,theta,0,2pi)
 check(last = 3/2*pi)
+
+clear
+trace=1
+
 x=cos(t)
 y=sin(t)
 P=2x^3-y^3
@@ -2570,20 +2590,32 @@ f(2)
 check(last = x^2)
 zero(2,2)
 check(last = ((0,0),(0,0)))
-x=quote(x)
-y=quote(y)
-t=quote(t)
+
+-- line integral (p. 21)
+
+clear
+trace=1
+
 P=1-y
 Q=x
 x=2*cos(t)
 y=2*sin(t)
 defint(P*d(x,t)+Q*d(y,t),t,0,2pi)
 check(last=8pi)
-x=quote(x) --remove parametrization of x
-y=quote(y) --remove parametrization of y
+
+-- surface integral (p. 21)
+
+clear
+trace=1
+
+P=1-y
+Q=x
 h=sqrt(4-x^2)
 defint(d(Q,x)-d(P,y),y,-h,h,x,-2,2)
 check(last=8pi)
+
+-- surface integral using polar coordinates
+
 f=d(Q,x)-d(P,y) --do before change of coordinates
 x=r*cos(theta)
 y=r*sin(theta)
@@ -2591,13 +2623,20 @@ defint(f*r,r,0,2,theta,0,2pi)
 check(last=8pi)
 defint(f*r,theta,0,2pi,r,0,2) --try integrating over theta first
 check(last=8pi)
-x=quote(x)
+
+clear
+trace=1
+
 integral(cos(x)^2*sin(x))
 check(last=-cos(x)^3/3)
 integral((1+cos(x)^2)*sin(x))
 check(last=-cos(x)-cos(x)^3/3)
 defint((1+cos(theta)^2)*sin(theta),theta,0,pi,phi,0,2*pi)
 check(last=16*pi/3)
+
+clear
+trace=1
+
 a = C * (sqrt(n+1) + sqrt(n))
 b = i * C * (sqrt(n+1) - sqrt(n))
 sqrt(a^2 + b^2)

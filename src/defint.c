@@ -1,5 +1,3 @@
-// definite integral
-
 #include "defs.h"
 
 #undef F
@@ -15,14 +13,15 @@
 void
 eval_defint(void)
 {
+	expanding++; // in case integral is in denominator
+
 	push(cadr(p1));
 	eval();
 	F = pop();
 
 	p1 = cddr(p1);
 
-	while (iscons(p1)) {
-
+	do {
 		if (length(p1) < 3)
 			stop("defint: missing argument");
 
@@ -60,7 +59,10 @@ eval_defint(void)
 
 		subtract();
 		F = pop();
-	}
+
+	} while (iscons(p1));
 
 	push(F);
+
+	expanding--;
 }
