@@ -12,7 +12,7 @@ lookup(char *s)
 	c = tolower(*s) - 'a';
 
 	if (c < 0 || c > 25)
-		stop("symbol lookup error");
+		c = 26;
 
 	j = NSYM * c;
 
@@ -104,9 +104,7 @@ struct se {
 
 struct se stab[] = {
 
-	{ "(a)",		METAA,		NULL			},
 	{ "abs",		ABS,		eval_abs		},
-	{ "+",			ADD,		eval_add		},
 	{ "adj",		ADJ,		eval_adj		},
 	{ "and",		AND,		eval_and		},
 	{ "arccos",		ARCCOS,		eval_arccos		},
@@ -118,7 +116,6 @@ struct se stab[] = {
 	{ "arg",		ARG,		eval_arg		},
 	{ "atomize",		ATOMIZE,	eval_atomize		},
 
-	{ "(b)",		METAB,		NULL			},
 	{ "besselj",		BESSELJ,	eval_besselj		},
 	{ "bessely",		BESSELY,	eval_bessely		},
 	{ "binding",		BINDING,	eval_binding		},
@@ -156,7 +153,6 @@ struct se stab[] = {
 	{ "eval",		EVAL,		eval_eval		},
 	{ "exit",		EXIT,		eval_exit		},
 	{ "exp",		EXP,		eval_exp		},
-	{ "(e)",		EXP1,		NULL			},
 	{ "expand",		EXPAND,		eval_expand		},
 	{ "expcos",		EXPCOS,		eval_expcos		},
 	{ "expcosh",		EXPCOSH,	eval_expcosh		},
@@ -179,7 +175,6 @@ struct se stab[] = {
 
 	{ "i",			SYMBOL_I,	NULL			},
 	{ "imag",		IMAG,		eval_imag		},
-	{ "[",			INDEX,		eval_index		},
 	{ "inner",		INNER,		eval_inner		},
 	{ "integral",		INTEGRAL,	eval_integral		},
 	{ "inv",		INV,		eval_inv		},
@@ -200,7 +195,6 @@ struct se stab[] = {
 	{ "mathjax",		MATHJAX,	eval_mathjax		},
 	{ "mathml",		MATHML,		eval_mathml		},
 	{ "mod",		MOD,		eval_mod		},
-	{ "*",			MULTIPLY,	eval_multiply		},
 
 	{ "nil",		NIL,		NULL			},
 	{ "not",		NOT,		eval_not		},
@@ -213,7 +207,6 @@ struct se stab[] = {
 
 	{ "pi",			PI,		NULL			},
 	{ "polar",		POLAR,		eval_polar		},
-	{ "^",			POWER,		eval_power		},
 	{ "prime",		PRIME,		eval_prime		},
 	{ "print",		PRINT,		eval_print		},
 	{ "product",		PRODUCT,	eval_product		},
@@ -229,7 +222,6 @@ struct se stab[] = {
 	{ "run",		RUN,		eval_run		},
 
 	{ "s",			SYMBOL_S,	NULL			},
-	{ "=",			SETQ,		eval_setq		},
 	{ "sgn",		SGN,		eval_sgn		},
 	{ "simplify",		SIMPLIFY,	eval_simplify		},
 	{ "sin",		SIN,		eval_sin		},
@@ -258,13 +250,22 @@ struct se stab[] = {
 	{ "unit",		UNIT,		eval_unit		},
 
 	{ "x",			SYMBOL_X,	NULL			},
-	{ "(x)",		METAX,		NULL			},
-	{ "(X)",		SPECX,		NULL			},
 
 	{ "y",			SYMBOL_Y,	NULL			},
 
 	{ "z",			SYMBOL_Z,	NULL			},
 	{ "zero",		ZERO,		eval_zero		},
+
+	{ "+",			ADD,		eval_add		},
+	{ "*",			MULTIPLY,	eval_multiply		},
+	{ "^",			POWER,		eval_power		},
+	{ "[",			INDEX,		eval_index		},
+	{ "=",			SETQ,		eval_setq		},
+	{ "(e)",		EXP1,		NULL			},
+	{ "(a)",		METAA,		NULL			},
+	{ "(b)",		METAB,		NULL			},
+	{ "(x)",		METAX,		NULL			},
+	{ "(X)",		SPECX,		NULL			},
 };
 
 void
@@ -274,9 +275,9 @@ init_symbol_table(void)
 	char *s;
 	struct atom *p;
 
-	memset(symtab, 0, 26 * NSYM * sizeof (struct atom *));
-	memset(binding, 0, 26 * NSYM * sizeof (struct atom *));
-	memset(arglist, 0, 26 * NSYM * sizeof (struct atom *));
+	memset(symtab, 0, 27 * NSYM * sizeof (struct atom *));
+	memset(binding, 0, 27 * NSYM * sizeof (struct atom *));
+	memset(arglist, 0, 27 * NSYM * sizeof (struct atom *));
 
 	n = sizeof stab / sizeof (struct se);
 

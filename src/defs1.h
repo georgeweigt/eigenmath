@@ -85,25 +85,22 @@ struct atom {
 #define STR		5
 #define TENSOR		6
 
-#define METAA		0
-#define ABS		1
-#define ADD		2
-#define ADJ		3
-#define AND		4
-#define ARCCOS		5
-#define ARCCOSH		6
-#define ARCSIN		7
-#define ARCSINH		8
-#define ARCTAN		9
-#define ARCTANH		10
-#define ARG		11
-#define ATOMIZE		12
+#define ABS		0
+#define ADJ		1
+#define AND		2
+#define ARCCOS		3
+#define ARCCOSH		4
+#define ARCSIN		5
+#define ARCSINH		6
+#define ARCTAN		7
+#define ARCTANH		8
+#define ARG		9
+#define ATOMIZE		10
 
-#define METAB		(NSYM + 0)
-#define BESSELJ		(NSYM + 1)
-#define BESSELY		(NSYM + 2)
-#define BINDING		(NSYM + 3)
-#define BINOMIAL	(NSYM + 4)
+#define BESSELJ		(NSYM + 0)
+#define BESSELY		(NSYM + 1)
+#define BINDING		(NSYM + 2)
+#define BINOMIAL	(NSYM + 3)
 
 #define CEILING		(2 * NSYM + 0)
 #define CHECK		(2 * NSYM + 1)
@@ -137,14 +134,13 @@ struct atom {
 #define EVAL		(4 * NSYM + 5)
 #define EXIT		(4 * NSYM + 6)
 #define EXP		(4 * NSYM + 7)
-#define EXP1		(4 * NSYM + 8)
-#define EXPAND		(4 * NSYM + 9)
-#define EXPCOS		(4 * NSYM + 10)
-#define EXPCOSH		(4 * NSYM + 11)
-#define EXPSIN		(4 * NSYM + 12)
-#define EXPSINH		(4 * NSYM + 13)
-#define EXPTAN		(4 * NSYM + 14)
-#define EXPTANH		(4 * NSYM + 15)
+#define EXPAND		(4 * NSYM + 8)
+#define EXPCOS		(4 * NSYM + 9)
+#define EXPCOSH		(4 * NSYM + 10)
+#define EXPSIN		(4 * NSYM + 11)
+#define EXPSINH		(4 * NSYM + 12)
+#define EXPTAN		(4 * NSYM + 13)
+#define EXPTANH		(4 * NSYM + 14)
 
 #define FACTOR		(5 * NSYM + 0)
 #define FACTORIAL	(5 * NSYM + 1)
@@ -160,11 +156,10 @@ struct atom {
 
 #define SYMBOL_I	(8 * NSYM + 0)
 #define IMAG		(8 * NSYM + 1)
-#define INDEX		(8 * NSYM + 2)
-#define INNER		(8 * NSYM + 3)
-#define INTEGRAL	(8 * NSYM + 4)
-#define INV		(8 * NSYM + 5)
-#define ISPRIME		(8 * NSYM + 6)
+#define INNER		(8 * NSYM + 2)
+#define INTEGRAL	(8 * NSYM + 3)
+#define INV		(8 * NSYM + 4)
+#define ISPRIME		(8 * NSYM + 5)
 
 #define SYMBOL_J	(9 * NSYM + 0)
 
@@ -181,7 +176,6 @@ struct atom {
 #define MATHJAX		(12 * NSYM + 1)
 #define MATHML		(12 * NSYM + 2)
 #define MOD		(12 * NSYM + 3)
-#define MULTIPLY	(12 * NSYM + 4)
 
 #define NIL		(13 * NSYM + 0)
 #define NOT		(13 * NSYM + 1)
@@ -194,10 +188,9 @@ struct atom {
 
 #define PI		(15 * NSYM + 0)
 #define POLAR		(15 * NSYM + 1)
-#define POWER		(15 * NSYM + 2)
-#define PRIME		(15 * NSYM + 3)
-#define PRINT		(15 * NSYM + 4)
-#define PRODUCT		(15 * NSYM + 5)
+#define PRIME		(15 * NSYM + 2)
+#define PRINT		(15 * NSYM + 3)
+#define PRODUCT		(15 * NSYM + 4)
 
 #define QUOTE		(16 * NSYM + 0)
 #define QUOTIENT	(16 * NSYM + 1)
@@ -210,17 +203,16 @@ struct atom {
 #define RUN		(17 * NSYM + 5)
 
 #define SYMBOL_S	(18 * NSYM + 0)
-#define SETQ		(18 * NSYM + 1)
-#define SGN		(18 * NSYM + 2)
-#define SIMPLIFY	(18 * NSYM + 3)
-#define SIN		(18 * NSYM + 4)
-#define SINH		(18 * NSYM + 5)
-#define SQRT		(18 * NSYM + 6)
-#define STATUS		(18 * NSYM + 7)
-#define STOP		(18 * NSYM + 8)
-#define STRING		(18 * NSYM + 9)
-#define SUBST		(18 * NSYM + 10)
-#define SUM		(18 * NSYM + 11)
+#define SGN		(18 * NSYM + 1)
+#define SIMPLIFY	(18 * NSYM + 2)
+#define SIN		(18 * NSYM + 3)
+#define SINH		(18 * NSYM + 4)
+#define SQRT		(18 * NSYM + 5)
+#define STATUS		(18 * NSYM + 6)
+#define STOP		(18 * NSYM + 7)
+#define STRING		(18 * NSYM + 8)
+#define SUBST		(18 * NSYM + 9)
+#define SUM		(18 * NSYM + 10)
 
 #define SYMBOL_T	(19 * NSYM + 0)
 #define TAN		(19 * NSYM + 1)
@@ -239,13 +231,22 @@ struct atom {
 #define UNIT		(20 * NSYM + 0)
 
 #define SYMBOL_X	(23 * NSYM + 0)
-#define METAX		(23 * NSYM + 1)
-#define SPECX		(23 * NSYM + 2)
 
 #define SYMBOL_Y	(24 * NSYM + 0)
 
 #define SYMBOL_Z	(25 * NSYM + 0)
 #define ZERO		(25 * NSYM + 1)
+
+#define ADD		(26 * NSYM + 0)
+#define MULTIPLY	(26 * NSYM + 1)
+#define POWER		(26 * NSYM + 2)
+#define INDEX		(26 * NSYM + 3)
+#define SETQ		(26 * NSYM + 4)
+#define EXP1		(26 * NSYM + 5)
+#define METAA		(26 * NSYM + 6)
+#define METAB		(26 * NSYM + 7)
+#define METAX		(26 * NSYM + 8)
+#define SPECX		(26 * NSYM + 9)
 
 #define MAXPRIMETAB 10000
 #define MAXDIM 24
