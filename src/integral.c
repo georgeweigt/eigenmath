@@ -1,18 +1,6 @@
 #include "defs.h"
 
-char *itab[] = {
-
-	"a",
-	"a x",
-	"1",
-
-	"1 / x",
-	"log(x)",
-	"1",
-
-	"x^a",			// integrand
-	"x^(a + 1) / (a + 1)",	// answer
-	"not(a = -1)",		// condition
+char *integral_tab_exp_forms[] = {
 
 	"exp(a x)",
 	"exp(a x) / a",
@@ -29,6 +17,59 @@ char *itab[] = {
 	"x exp(a x^2 + b)",
 	"exp(a x^2 + b) / (2 a)",
 	"1",
+
+	"x^3 exp(a x^2)",
+	"exp(a x^2) (x^2 / a - 1 / (a^2)) 1/2",
+	"1",
+
+	"x^3 exp(a x^2 + b)",
+	"exp(a x^2) exp(b) (x^2 / a - 1 / (a^2)) 1/2",
+	"1",
+
+	"exp(a x^2)",
+	"-i sqrt(pi) erf(i sqrt(a) x) 1/2 / sqrt(a)",
+	"1",
+
+	"x exp(a x)",
+	"exp(a x) (a x - 1) / (a^2)",
+	"1",
+
+	"x exp(a x + b)",
+	"exp(a x + b) (a x - 1) / (a^2)",
+	"1",
+
+	"x^2 exp(a x)",
+	"exp(a x) (a^2 x^2 - 2 a x + 2) / (a^3)",
+	"1",
+
+	"x^2 exp(a x + b)",
+	"exp(a x + b) (a^2 x^2 - 2 a x + 2) / (a^3)",
+	"1",
+
+	"x^3 exp(a x)",
+	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x) / a^4",
+	"1",
+
+	"x^3 exp(a x + b)",
+	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x + b) / a^4",
+	"1",
+
+	NULL,
+};
+
+char *integral_tab[] = {
+
+	"a",
+	"a x",
+	"1",
+
+	"1 / x",
+	"log(x)",
+	"1",
+
+	"x^a",			// integrand
+	"x^(a + 1) / (a + 1)",	// answer
+	"not(a = -1)",		// condition
 
 	"log(a x)",
 	"x log(a x) - x",
@@ -249,14 +290,14 @@ char *itab[] = {
 	"1 / (x sqrt(x^2 + a))",
 	"-log((sqrt(a) + sqrt(x^2 + a)) / x) / sqrt(a)",
 	"or(not(number(a)),testgt(a,0))",
+// 160
+	"sqrt(a x^2 + b) / x",
+	"sqrt(a x^2 + b) - sqrt(b) log(sqrt(b) sqrt(a x^2 + b) + b) + sqrt(b) log(x)",
+	"and(number(b),b>0)",
 
-	"sqrt(x^2 + a) / x",
-	"sqrt(x^2 + a) - sqrt(a) log((sqrt(a) + sqrt(x^2 + a)) / x)",
-	"or(not(number(a)),testgt(a,0))",
-
-	"sqrt(x^2 + a) / x",
-	"sqrt(x^2 + a) - sqrt(-a) arcsec(x / sqrt(-a))",
-	"or(not(number(a)),testlt(a,0))",
+	"sqrt(a x^2 + b) / x",
+	"sqrt(a x^2 + b) + sqrt(-b) arctan(sqrt(-b) / sqrt(a x^2 + b))",
+	"and(number(b),b<0)",
 
 	"x / sqrt(x^2 + a)",
 	"sqrt(x^2 + a)",
@@ -352,10 +393,6 @@ char *itab[] = {
 
 	"1 / (x sqrt(a - x^2))",
 	"-log((sqrt(a) + sqrt(a - x^2)) / x) / sqrt(a)",
-	"or(not(number(a)),testgt(a,0))",
-
-	"sqrt(a - x^2) / x",
-	"sqrt(a - x^2) - sqrt(a) log((sqrt(a) + sqrt(a - x^2)) / x)",
 	"or(not(number(a)),testgt(a,0))",
 
 	"x / sqrt(a - x^2)",
@@ -613,19 +650,7 @@ char *itab[] = {
 	"cosh(x)^2",
 	"sinh(2 x) 1/4 + x 1/2",
 	"1",
-
-	"x^3 exp(a x^2)",
-	"exp(a x^2) (x^2 / a - 1 / (a^2)) 1/2",
-	"1",
-
-	"x^3 exp(a x^2 + b)",
-	"exp(a x^2) exp(b) (x^2 / a - 1 / (a^2)) 1/2",
-	"1",
 // 573
-	"exp(a x^2)",
-	"-i sqrt(pi) erf(i sqrt(a) x) 1/2 / sqrt(a)",
-	"1",
-
 	"erf(a x)",
 	"x erf(a x) + exp(-a^2 x^2) / (a sqrt(pi))",
 	"1",
@@ -642,33 +667,11 @@ char *itab[] = {
 	"(-x sqrt(1 - x^2) (16 x^6 - 24 x^4 + 2 x^2 + 3) + 3 arcsin(x)) 1/128",
 	"1",
 
-	"x exp(a x)",
-	"exp(a x) (a x - 1) / (a^2)",
-	"1",
-
-	"x exp(a x + b)",
-	"exp(a x + b) (a x - 1) / (a^2)",
-	"1",
-
-	"x^2 exp(a x)",
-	"exp(a x) (a^2 x^2 - 2 a x + 2) / (a^3)",
-	"1",
-
-	"x^2 exp(a x + b)",
-	"exp(a x + b) (a^2 x^2 - 2 a x + 2) / (a^3)",
-	"1",
-
-	"x^3 exp(a x)",
-	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x) / a^4",
-	"1",
-
-	"x^3 exp(a x + b)",
-	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x + b) / a^4",
-	"1",
-
 	"cos(x)^2 sin(x)",
 	"-cos(x)^3 1/3",
 	"1",
+
+	NULL,
 };
 
 void
@@ -786,9 +789,7 @@ integral_nib(void)
 void
 integral_of_form(void)
 {
-	int h, i, n;
-
-	// save bindings in case eval(A) calls integral
+	int h;
 
 	save_binding(symbol(METAA));
 	save_binding(symbol(METAB));
@@ -808,40 +809,58 @@ integral_of_form(void)
 	push(X);
 	decomp();
 
-	n = sizeof (itab) / sizeof (char *) / 3;
-
-	for (i = 0; i < n; i++) {
-
-		scan1(itab[3 * i + 0]); // integrand
-		I = pop();
-
-		scan1(itab[3 * i + 1]); // answer
-		A = pop();
-
-		scan1(itab[3 * i + 2]); // condition
-		C = pop();
-
-		if (find_integral(h))
-			break;
-	}
-
-	if (i == n)
-		stop("integral: could not find a solution");
-
-	tos = h; // pop all
-
-	push(A); // answer
-	eval();
+	integral_lookup(h);
 
 	restore_binding(symbol(METAX));
 	restore_binding(symbol(METAB));
 	restore_binding(symbol(METAA));
 }
 
+void
+integral_lookup(int h)
+{
+	if (find(F, symbol(EXP1)) && find_integral(h, integral_tab_exp_forms))
+		return;
+
+	if (find_integral(h, integral_tab))
+		return;
+
+	stop("integral: could not find a solution");
+}
+
+int
+find_integral(int h, char **s)
+{
+	for (;;) {
+
+		if (*s == NULL)
+			return 0;
+
+		scan1(*s++); // integrand
+		I = pop();
+
+		scan1(*s++); // answer
+		A = pop();
+
+		scan1(*s++); // condition
+		C = pop();
+
+		if (find_integral_nib(h))
+			break;
+	}
+
+	tos = h; // pop all
+
+	push(A); // answer
+	eval();
+
+	return 1;
+}
+
 // find constants such that F = I
 
 int
-find_integral(int h)
+find_integral_nib(int h)
 {
 	int i, j;
 	for (i = h; i < tos; i++) {

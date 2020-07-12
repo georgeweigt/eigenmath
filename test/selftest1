@@ -1357,12 +1357,25 @@ check(last = 0)
 #159
 integral(1/X*1/sqrt(X^2+2),X)+1/sqrt(2)*log((sqrt(2)+sqrt(X^2+2))/X)
 check(last = 0)
+
 #160
-integral(sqrt(X^2+2)/X,X)-sqrt(X^2+2)+sqrt(2)*log((sqrt(2)+sqrt(X^2+2))/X)
-check(last = 0)
-#161
-integral(sqrt(X^2-2)/X,X)-sqrt(X^2-2)+sqrt(2)*arcsec(X/sqrt(2))
-check(last = 0)
+
+f = integral(sqrt(X^2 + 7) / X,X)
+g = sqrt(X^2 + 7) - sqrt(7) log(sqrt(7) sqrt(X^2 + 7) + 7) + sqrt(7) log(X)
+check(f = g)
+
+f = integral(sqrt(X^2 - 7) / X,X)
+g = sqrt(X^2 - 7) + sqrt(7) arctan(sqrt(7) / sqrt(X^2 - 7))
+check(f = g)
+
+f = integral(sqrt(-X^2 + 7) / X,X)
+g = sqrt(7 - X^2) - sqrt(7) log(sqrt(7) sqrt(7 - X^2) + 7) + sqrt(7) log(X)
+check(f = g)
+
+f = integral(sqrt(-X^2 - 7) / X,X)
+g = sqrt(-X^2 - 7) + sqrt(7) arctan(sqrt(7) / sqrt(-X^2 - 7))
+check(f = g)
+
 #162
 integral(X/sqrt(X^2+A),X)-sqrt(X^2+A)
 check(last = 0)
@@ -1444,9 +1457,7 @@ check(last = 0)
 #202
 integral(1/X*1/sqrt(7-X^2),X)+1/sqrt(7)*log((sqrt(7)+sqrt(7-X^2))/X)
 check(last = 0)
-#203
-integral(sqrt(7-X^2)/X,X)-sqrt(7-X^2)+sqrt(7)*log((sqrt(7)+sqrt(7-X^2))/X)
-check(last = 0)
+
 #204
 integral(X/sqrt(A-X^2),X)+sqrt(A-X^2)
 check(last = 0)
