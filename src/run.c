@@ -9,9 +9,14 @@ run(char *s)
 	if (setjmp(stop_return))
 		return;
 
-	init();
+	if (zero == NULL)
+		init();
+
+	binding[TRACE] = zero;
 
 	for (;;) {
+
+		prep();
 
 		s = scan_input(s);
 
@@ -20,10 +25,8 @@ run(char *s)
 
 		eval_and_print_result();
 
-		if (clear_flag) {
-			zero = NULL; // force full init
+		if (clear_flag)
 			init();
-		}
 	}
 }
 
@@ -46,29 +49,6 @@ void
 init(void)
 {
 	int i, n;
-
-	expanding = 1;
-	interrupt = 0;
-	draw_flag = 0;
-	clear_flag = 0;
-
-	tos = 0;
-	tof = 0;
-
-	if (zero) {
-		p0 = symbol(NIL);
-		p1 = symbol(NIL);
-		p2 = symbol(NIL);
-		p3 = symbol(NIL);
-		p4 = symbol(NIL);
-		p5 = symbol(NIL);
-		p6 = symbol(NIL);
-		p7 = symbol(NIL);
-		p8 = symbol(NIL);
-		p9 = symbol(NIL);
-		binding[TRACE] = zero;
-		return;
-	}
 
 	init_symbol_table();
 
@@ -100,6 +80,28 @@ init(void)
 	}
 
 	gc();
+}
+
+void
+prep(void)
+{
+	tos = 0;
+	tof = 0;
+
+	expanding = 1;
+	draw_flag = 0;
+	clear_flag = 0;
+
+	p0 = symbol(NIL);
+	p1 = symbol(NIL);
+	p2 = symbol(NIL);
+	p3 = symbol(NIL);
+	p4 = symbol(NIL);
+	p5 = symbol(NIL);
+	p6 = symbol(NIL);
+	p7 = symbol(NIL);
+	p8 = symbol(NIL);
+	p9 = symbol(NIL);
 }
 
 char *
@@ -216,6 +218,8 @@ run_file(char *filename)
 	t2 = trace2;
 
 	for (;;) {
+
+		prep();
 
 		s = scan_input(s);
 

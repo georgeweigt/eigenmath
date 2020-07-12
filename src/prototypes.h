@@ -596,6 +596,7 @@ void roots3(void);
 void mini_solve(void);
 void run(char *s);
 void init(void);
+void prep(void);
 char * scan_input(char *s);
 void eval_and_print_result(void);
 void stop(char *s);
