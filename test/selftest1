@@ -1374,13 +1374,19 @@ check(g = h)
 h = d(g,X)
 check(numerator(f) denominator(h) = denominator(f) numerator(h)) -- h is too complex to simplify, check this way
 
-f = integral(sqrt(X^2 - 7) / X,X)
-g = sqrt(X^2 - 7) + sqrt(7) arctan(sqrt(7) / sqrt(X^2 - 7))
-check(f = g)
+f = sqrt(X^2 - 7) / X
+g = integral(f,X)
+h = sqrt(X^2 - 7) + 1/2 i sqrt(7) log(1 - i sqrt(7) / sqrt(X^2 - 7)) - 1/2 i sqrt(7) log(1 + i sqrt(7) / sqrt(X^2 - 7))
+check(g = h)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h)) -- h is too complex to simplify, check this way
 
-f = integral(sqrt(-X^2 - 7) / X,X)
-g = sqrt(-X^2 - 7) + sqrt(7) arctan(sqrt(7) / sqrt(-X^2 - 7))
-check(f = g)
+f = sqrt(-X^2 - 7) / X
+g = integral(f,X)
+h = sqrt(-X^2 - 7) + 1/2 i sqrt(7) log(1 - i sqrt(7) / sqrt(-X^2 - 7)) - 1/2 i sqrt(7) log(1 + i sqrt(7) / sqrt(-X^2 - 7))
+check(g = h)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h)) -- h is too complex to simplify, check this way
 
 #162
 integral(X/sqrt(X^2+A),X)-sqrt(X^2+A)
