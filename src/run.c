@@ -11,12 +11,14 @@ run(char *s)
 
 	if (zero == NULL)
 		init();
-	else {
-		prep();
-		binding[TRACE] = zero;
-	}
+
+	prep();
+
+	binding[TRACE] = zero;
 
 	for (;;) {
+
+		expanding = 1;
 
 		s = scan_input(s);
 
@@ -81,6 +83,7 @@ prep(void)
 	tos = 0;
 	tof = 0;
 
+	expanding = 1;
 	draw_flag = 0;
 	clear_flag = 0;
 
@@ -112,8 +115,6 @@ void
 eval_and_print_result(void)
 {
 	save();
-
-	expanding = 1;
 
 	p1 = pop();
 	push(p1);
@@ -212,6 +213,8 @@ run_file(char *filename)
 	t2 = trace2;
 
 	for (;;) {
+
+		expanding = 1;
 
 		s = scan_input(s);
 
