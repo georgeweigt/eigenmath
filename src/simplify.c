@@ -345,7 +345,7 @@ replace_sin_nib(void)
 		EXPO = caddr(p1);
 		push_integer(1);
 		push(cadr(BASE));
-		cosine();
+		scos();
 		push_integer(2);
 		power();
 		subtract();
@@ -388,7 +388,7 @@ replace_cos_nib(void)
 		EXPO = caddr(p1);
 		push_integer(1);
 		push(cadr(BASE));
-		sine();
+		ssin();
 		push_integer(2);
 		power();
 		subtract();

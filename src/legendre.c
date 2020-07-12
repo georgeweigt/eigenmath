@@ -168,12 +168,12 @@ legendre3(int m)
 
 	if (car(X) == symbol(COS)) {
 		push(cadr(X));
-		sine();
+		ssin();
 		push_integer(2);
 		power();
 	} else if (car(X) == symbol(SIN)) {
 		push(cadr(X));
-		cosine();
+		scos();
 		push_integer(2);
 		power();
 	} else {

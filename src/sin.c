@@ -5,14 +5,14 @@ eval_sin(void)
 {
 	push(cadr(p1));
 	eval();
-	sine();
+	ssin();
 }
 
 void
-sine(void)
+ssin(void)
 {
 	save();
-	sine_nib();
+	ssin_nib();
 	restore();
 }
 
@@ -23,7 +23,7 @@ sine(void)
 #define Y p6
 
 void
-sine_nib(void)
+ssin_nib(void)
 {
 	int n;
 
@@ -59,13 +59,13 @@ sine_nib(void)
 	if (isnegative(p1)) {
 		push(p1);
 		negate();
-		sine();
+		ssin();
 		negate();
 		return;
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		sine_of_sum();
+		ssin_of_sum();
 		return;
 	}
 
@@ -167,7 +167,7 @@ sine_nib(void)
 // sin(x + n/2 pi) = sin(x) cos(n/2 pi) + cos(x) sin(n/2 pi)
 
 void
-sine_of_sum(void)
+ssin_of_sum(void)
 {
 	int n;
 	p2 = cdr(p1);
@@ -184,14 +184,14 @@ sine_of_sum(void)
 			subtract();
 			p3 = pop();
 			push(p3);
-			sine();
+			ssin();
 			push(car(p2));
-			cosine();
+			scos();
 			multiply();
 			push(p3);
-			cosine();
+			scos();
 			push(car(p2));
-			sine();
+			ssin();
 			multiply();
 			add();
 			return;

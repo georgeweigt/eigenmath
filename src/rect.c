@@ -88,11 +88,11 @@ rect_nib(void)
 	p2 = pop();
 
 	push(p2);
-	cosine();
+	scos();
 
 	push(imaginaryunit);
 	push(p2);
-	sine();
+	ssin();
 	multiply();
 
 	add();

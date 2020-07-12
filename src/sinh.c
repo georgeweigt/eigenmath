@@ -5,19 +5,19 @@ eval_sinh(void)
 {
 	push(cadr(p1));
 	eval();
-	sineh();
+	ssinh();
 }
 
 void
-sineh(void)
+ssinh(void)
 {
 	save();
-	sineh_nib();
+	ssinh_nib();
 	restore();
 }
 
 void
-sineh_nib(void)
+ssinh_nib(void)
 {
 	p1 = pop();
 
@@ -40,12 +40,12 @@ sineh_nib(void)
 		return;
 	}
 
-	// sinh(-x) = -sinh(x)
+	// sinh(-x) -> -sinh(x)
 
 	if (isnegative(p1)) {
 		push(p1);
 		negate();
-		sineh();
+		ssinh();
 		negate();
 		return;
 	}

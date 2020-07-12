@@ -5,27 +5,27 @@ eval_tanh(void)
 {
 	push(cadr(p1));
 	eval();
-	tangenth();
+	stanh();
 }
 
 void
-tangenth(void)
+stanh(void)
 {
 	save();
-	tangenth_nib();
+	stanh_nib();
 	restore();
 }
 
 void
-tangenth_nib(void)
+stanh_nib(void)
 {
 	p1 = pop();
 
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
-		sineh();
+		ssinh();
 		push(p1);
-		cosineh();
+		scosh();
 		divide();
 		return;
 	}
@@ -40,7 +40,7 @@ tangenth_nib(void)
 	if (isnegative(p1)) {
 		push(p1);
 		negate();
-		tangenth();
+		stanh();
 		negate();
 		return;
 	}

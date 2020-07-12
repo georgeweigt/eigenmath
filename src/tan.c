@@ -5,19 +5,19 @@ eval_tan(void)
 {
 	push(cadr(p1));
 	eval();
-	tangent();
+	stan();
 }
 
 void
-tangent(void)
+stan(void)
 {
 	save();
-	tangent_nib();
+	stan_nib();
 	restore();
 }
 
 void
-tangent_nib(void)
+stan_nib(void)
 {
 	int n;
 
@@ -30,9 +30,9 @@ tangent_nib(void)
 
 	if (isdoublez(p1)) {
 		push(p1);
-		sine();
+		ssin();
 		push(p1);
-		cosine();
+		scos();
 		divide();
 		return;
 	}
@@ -42,13 +42,13 @@ tangent_nib(void)
 	if (isnegative(p1)) {
 		push(p1);
 		negate();
-		tangent();
+		stan();
 		negate();
 		return;
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		tangent_of_sum();
+		stan_of_sum();
 		return;
 	}
 
@@ -129,7 +129,7 @@ tangent_nib(void)
 // tan(x + n pi) = tan(x)
 
 void
-tangent_of_sum(void)
+stan_of_sum(void)
 {
 	int n;
 	p2 = cdr(p1);
@@ -142,7 +142,7 @@ tangent_of_sum(void)
 			push(p1);
 			push(car(p2));
 			subtract();
-			tangent();
+			stan();
 			return;
 		}
 		p2 = cdr(p2);

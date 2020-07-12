@@ -188,10 +188,10 @@ power_natural_number(void)
 		}
 		push_double(exp(x));
 		push_double(y);
-		cosine();
+		scos();
 		push(imaginaryunit);
 		push_double(y);
-		sine();
+		ssin();
 		multiply();
 		add();
 		multiply();

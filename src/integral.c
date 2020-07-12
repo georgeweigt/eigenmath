@@ -131,7 +131,7 @@ char *itab[] = {
 	"or(not(number(a)),not(number(b)))",
 
 	"x / (a + b x^2)",
-	"1 log(a + b x^2) / (2 b)",
+	"log(a + b x^2) / (2 b)",
 	"1",
 
 	"x^2 / (a + b x^2)",
