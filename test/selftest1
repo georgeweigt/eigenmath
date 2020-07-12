@@ -1360,16 +1360,22 @@ check(last = 0)
 
 #160
 
-f = integral(sqrt(X^2 + 7) / X,X)
-g = sqrt(X^2 + 7) - sqrt(7) log(sqrt(7) sqrt(X^2 + 7) + 7) + sqrt(7) log(X)
-check(f = g)
+f = sqrt(X^2 + 7) / X
+g = integral(f,X)
+h = sqrt(X^2 + 7) - sqrt(7) log(sqrt(7) sqrt(X^2 + 7) + 7) + sqrt(7) log(X)
+check(g = h)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h)) -- h is too complex to simplify, check this way
+
+f = sqrt(-X^2 + 7) / X
+g = integral(f,X)
+h = sqrt(7 - X^2) - sqrt(7) log(sqrt(7) sqrt(7 - X^2) + 7) + sqrt(7) log(X)
+check(g = h)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h)) -- h is too complex to simplify, check this way
 
 f = integral(sqrt(X^2 - 7) / X,X)
 g = sqrt(X^2 - 7) + sqrt(7) arctan(sqrt(7) / sqrt(X^2 - 7))
-check(f = g)
-
-f = integral(sqrt(-X^2 + 7) / X,X)
-g = sqrt(7 - X^2) - sqrt(7) log(sqrt(7) sqrt(7 - X^2) + 7) + sqrt(7) log(X)
 check(f = g)
 
 f = integral(sqrt(-X^2 - 7) / X,X)
