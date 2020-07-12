@@ -274,9 +274,9 @@ char *integral_tab[] = {
 	"1 / (x^2 sqrt(a + b x))",
 	"b arctanh(sqrt(a + b x) / sqrt(a)) / a^(3/2) - sqrt(a + b x) / (a x)",
 	"1",
-
-	"sqrt(x^2 + a)",
-	"1/2 (x sqrt(x^2 + a) + a log(x + sqrt(x^2 + a)))",
+// 138
+	"sqrt(a x^2 + b)",
+	"1/2 x sqrt(a x^2 + b) + 1/2 b log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
 	"1",
 
 	"1 / sqrt(x^2 + a)",
@@ -430,14 +430,6 @@ char *integral_tab[] = {
 	"sqrt(a - x^2) / (x^4)",
 	"-sqrt((a - x^2)^3) / (3 a (x^3))",
 	"or(not(number(a)),testgt(a,0))",
-
-	"sqrt(a x^2 + b)",
-	"x sqrt(a x^2 + b) 1/2 + b log(x sqrt(a) + sqrt(a x^2 + b)) 1/2 / sqrt(a)",
-	"and(number(a),testgt(a,0))",
-
-	"sqrt(a x^2 + b)",
-	"x sqrt(a x^2 + b) 1/2 + b arcsin(x sqrt(-a / b)) 1/2 / sqrt(-a)",
-	"and(number(a),testlt(a,0))",
 
 	"sin(a x)",
 	"-cos(a x) / a",
