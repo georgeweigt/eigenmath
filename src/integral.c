@@ -73,13 +73,13 @@ char *itab[] = {
 	"x / ((a + b x)^2)",
 	"(log(a + b x) + a / (a + b x)) / (b^2)",
 	"1",
-
+// 33
 	"x^2 / (a + b x)",
-	"(1/2 (a + b x)^2 - 2 a (a + b x) + a^2 log(a + b x)) / (b^2)",
+	"a^2 log(a + b x) / b^3 + x (b x - 2 a) / (2 b^2)",
 	"1",
-
-	"x^2 / ((a + b x)^2)",
-	"(a + b x - 2 a log(a + b x) - a^2 / (a + b x)) / (b^3)",
+// 34
+	"x^2 / (a + b x)^2",
+	"(-a^2 / (a + b x) - 2 a log(a + b x) + b x) / b^3",
 	"1",
 
 	"x^2 / ((a + b x)^3)",
@@ -109,33 +109,45 @@ char *itab[] = {
 	"1 / ((x^2) ((a + b x)^2))",
 	"-(a + 2 b x) / (a^2 x (a + b x)) + 2 b log((a + b x) / x) / (a^3)",
 	"1",
+// 60
+	"1 / (a + b x^2)",
+	"arctan(sqrt(b / a) x) / sqrt(a b)",
+	"and(number(a),number(b),a>=0,b>=0)",
 
 	"1 / (a + b x^2)",
-	"arctan(x sqrt(a b) / a) / sqrt(a b)",
-	"or(not(number(a b)),testgt(a b,0))",
+	"-arctan(sqrt(b / a) x) / sqrt(a b)",
+	"and(number(a),number(b),a<=0,b<=0)",
 
 	"1 / (a + b x^2)",
-	"log((a + x sqrt(-a b)) / (a - x sqrt(-a b))) / (2 sqrt(-a b))",
-	"or(not(number(a b)),testlt(a b,0))",
+	"(log(-b x + sqrt(-a b)) - log(sqrt(-a b) + b x)) / (2 sqrt(-a b))",
+	"and(number(a),number(b),a>=0,b<=0)",
+
+	"1 / (a + b x^2)",
+	"(log(sqrt(-a b) - b x) - log(b x + sqrt(-a b))) / (2 sqrt(-a b))",
+	"and(number(a),number(b),a<=0,b>=0)",
+
+	"1 / (a + b x^2)",
+	"(i log(1 - i sqrt(b / a) x) - i log(1 + i sqrt(b / a) x)) / (2 sqrt(a) sqrt(b))",
+	"or(not(number(a)),not(number(b)))",
 
 	"x / (a + b x^2)",
 	"1 log(a + b x^2) / (2 b)",
 	"1",
 
 	"x^2 / (a + b x^2)",
-	"x / b - a integral(1 / (a + b x^2),x) / b",
+	"x / b - sqrt(a) arctan(sqrt(b / a) x) / b^(3/2)",
 	"1",
-
+// 64
 	"1 / ((a + b x^2)^2)",
-	"x / (2 a (a + b x^2)) + 1 integral(1 / (a + b x^2),x) / (2 a)",
+	"arctan(sqrt(b / a) x) / (2 a^(3/2) sqrt(b)) + x / (2 a^2 + 2 a b x^2)",
 	"1",
 
 	"1 / (x (a + b x^2))",
 	"1 log(x^2 / (a + b x^2)) / (2 a)",
 	"1",
-
-	"1 / ((x^2) (a + b x^2))",
-	"-1 / (a x) - b integral(1 / (a + b x^2),x) / a",
+// 71
+	"1 / (x^2 (a + b x^2))",
+	"-sqrt(b) arctan(sqrt(b / a) x) / a^(3/2) - 1 / (a x)",
 	"1",
 
 	"1 / (a + b x^3)",
@@ -186,12 +198,16 @@ char *itab[] = {
 	"2 (8 a^2 - 12 a b x + 15 b^2 x^2) sqrt((a + b x)^3) 1/105 / (b^3)",
 	"1",
 
-	"sqrt(a + b x) / x",
-	"2 sqrt(a + b x) + a integral(1 / (x sqrt(a + b x)),x)",
+	"x^2 sqrt(a + b x^2)",
+	"(sqrt(b) x sqrt(a + b x^2) (a + 2 b x^2) - a^2 log(sqrt(b) sqrt(a + b x^2) + b x)) / (8 b^(3/2))",
 	"1",
-
-	"sqrt(a + b x) / (x^2)",
-	"-sqrt(a + b x) / x + b 1/2 integral(1 / (x sqrt(a + b x)),x)",
+// 128
+	"sqrt(a + b x) / x",
+	"2 sqrt(a + b x) - 2 sqrt(a) arctanh(sqrt(a + b x) / sqrt(a))",
+	"1",
+// 129
+	"sqrt(a + b x) / x^2",
+	"-sqrt(a + b x) / x - b arctanh(sqrt(a + b x) / sqrt(a)) / sqrt(a)",
 	"1",
 
 	"1 / sqrt(a + b x)",
@@ -213,9 +229,9 @@ char *itab[] = {
 	"1 / (x sqrt(a + b x))",
 	"2 arctan(sqrt(-(a + b x) / a)) / sqrt(-a)",
 	"or(not(number(a)),testlt(a,0))",
-
-	"1 / ((x^2) sqrt(a + b x))",
-	"-sqrt(a + b x) / (a x) - b integral(1 / (x sqrt(a + b x)),x) / (2 a)",
+// 137
+	"1 / (x^2 sqrt(a + b x))",
+	"b arctanh(sqrt(a + b x) / sqrt(a)) / a^(3/2) - sqrt(a + b x) / (a x)",
 	"1",
 
 	"sqrt(x^2 + a)",
@@ -273,9 +289,9 @@ char *itab[] = {
 	"x sqrt(a + x^6 + 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
 	"1/5 sqrt((x^2 + a^(1/3))^5)",
 	"1",
-
+// 168
 	"x^2 sqrt(x^2 + a)",
-	"1/4 x sqrt((x^2 + a)^3) - 1/8 a x sqrt(x^2 + a) - 1/8 a^2 log(x + sqrt(x^2 + a))",
+	"(x sqrt(a + x^2) (a + 2 x^2) - a^2 log(sqrt(a + x^2) + x)) / 8",
 	"1",
 
 	"x^3 sqrt(x^2 + a)",
@@ -605,7 +621,7 @@ char *itab[] = {
 	"x^3 exp(a x^2 + b)",
 	"exp(a x^2) exp(b) (x^2 / a - 1 / (a^2)) 1/2",
 	"1",
-
+// 573
 	"exp(a x^2)",
 	"-i sqrt(pi) erf(i sqrt(a) x) 1/2 / sqrt(a)",
 	"1",
@@ -643,24 +659,24 @@ char *itab[] = {
 	"1",
 
 	"x^3 exp(a x)",
-	"exp(a x) x^3 / a - 3 integral(x^2 exp(a x),x) / a",
+	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x) / a^4",
 	"1",
 
 	"x^3 exp(a x + b)",
-	"exp(a x + b) x^3 / a - 3 integral(x^2 exp(a x + b),x) / a",
+	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x + b) / a^4",
 	"1",
 
 	"cos(x)^2 sin(x)",
 	"-cos(x)^3 1/3",
 	"1",
-
-	NULL,
 };
 
 void
 eval_integral(void)
 {
 	int i, n;
+
+	expanding++;
 
 	// 1st arg
 
@@ -675,6 +691,7 @@ eval_integral(void)
 	if (!iscons(p1)) {
 		guess();
 		integral();
+		expanding--;
 		return;
 	}
 
@@ -708,6 +725,8 @@ eval_integral(void)
 			integral();
 		}
 	}
+
+	expanding--;
 }
 
 #undef F
@@ -767,8 +786,7 @@ integral_nib(void)
 void
 integral_of_form(void)
 {
-	int h;
-	char **s;
+	int h, i, n;
 
 	// save bindings in case eval(A) calls integral
 
@@ -790,25 +808,25 @@ integral_of_form(void)
 	push(X);
 	decomp();
 
-	s = itab;
+	n = sizeof (itab) / sizeof (char *) / 3;
 
-	for (;;) {
+	for (i = 0; i < n; i++) {
 
-		if (*s == NULL)
-			stop("integral: could not find a solution");
-
-		scan1(*s++); // integrand
+		scan1(itab[3 * i + 0]); // integrand
 		I = pop();
 
-		scan1(*s++); // answer
+		scan1(itab[3 * i + 1]); // answer
 		A = pop();
 
-		scan1(*s++); // condition
+		scan1(itab[3 * i + 2]); // condition
 		C = pop();
 
 		if (find_integral(h))
 			break;
 	}
+
+	if (i == n)
+		stop("integral: could not find a solution");
 
 	tos = h; // pop all
 
@@ -975,7 +993,7 @@ collect_coeffs(void)
 void
 collect_coeffs_nib(void)
 {
-	int h, i, j, n;
+	int h, i, j, n, t;
 	struct atom **s;
 
 	p2 = pop(); // x
@@ -1051,6 +1069,7 @@ collect_coeffs_nib(void)
 
 	// combine all the parts without expanding
 
+	t = expanding;
 	expanding = 0;
 
 	n = tos - h;
@@ -1066,7 +1085,7 @@ collect_coeffs_nib(void)
 
 	add_terms(tos - h);
 
-	expanding = 1;
+	expanding = t;
 }
 
 int

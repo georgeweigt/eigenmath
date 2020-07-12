@@ -5,19 +5,19 @@ eval_erf(void)
 {
 	push(cadr(p1));
 	eval();
-	erf_symbolic();
+	serf();
 }
 
 void
-erf_symbolic(void)
+serf(void)
 {
 	save();
-	erf_symbolic_nib();
+	serf_nib();
 	restore();
 }
 
 void
-erf_symbolic_nib(void)
+serf_nib(void)
 {
 	double d;
 
