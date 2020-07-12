@@ -11,12 +11,12 @@ run(char *s)
 
 	if (zero == NULL)
 		init();
-
-	binding[TRACE] = zero;
+	else {
+		prep();
+		binding[TRACE] = zero;
+	}
 
 	for (;;) {
-
-		prep();
 
 		s = scan_input(s);
 
@@ -52,16 +52,7 @@ init(void)
 
 	init_symbol_table();
 
-	p0 = symbol(NIL);
-	p1 = symbol(NIL);
-	p2 = symbol(NIL);
-	p3 = symbol(NIL);
-	p4 = symbol(NIL);
-	p5 = symbol(NIL);
-	p6 = symbol(NIL);
-	p7 = symbol(NIL);
-	p8 = symbol(NIL);
-	p9 = symbol(NIL);
+	prep();
 
 	init_bignums();
 
@@ -80,6 +71,8 @@ init(void)
 	}
 
 	gc();
+
+	prep();
 }
 
 void
@@ -88,7 +81,6 @@ prep(void)
 	tos = 0;
 	tof = 0;
 
-	expanding = 1;
 	draw_flag = 0;
 	clear_flag = 0;
 
@@ -120,6 +112,8 @@ void
 eval_and_print_result(void)
 {
 	save();
+
+	expanding = 1;
 
 	p1 = pop();
 	push(p1);
@@ -218,8 +212,6 @@ run_file(char *filename)
 	t2 = trace2;
 
 	for (;;) {
-
-		prep();
 
 		s = scan_input(s);
 
