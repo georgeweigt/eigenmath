@@ -84,6 +84,7 @@ prep(void)
 	tof = 0;
 
 	expanding = 1;
+	interrupt = 0;
 	draw_flag = 0;
 	clear_flag = 0;
 
