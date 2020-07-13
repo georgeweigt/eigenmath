@@ -1,6 +1,6 @@
 #include "defs.h"
 
-char *integral_tab_exp_forms[] = {
+char *integral_tab_exp[] = {
 
 	"exp(a x)",
 	"exp(a x) / a",
@@ -57,14 +57,43 @@ char *integral_tab_exp_forms[] = {
 	NULL,
 };
 
+char *integral_tab_inverse[] = {
+
+	"1 / x",
+	"log(x)",
+	"1",
+
+	"1 / (a + b x)",
+	"log(a + b x) / b",
+	"1",
+
+	"1 / ((a + b x)^2)",
+	"-1 / (b (a + b x))",
+	"1",
+
+	"1 / ((a + b x)^3)",
+	"-1 / ((2 b) ((a + b x)^2))",
+	"1",
+// 16
+	"1 / (a x^2 + b)",
+	"1/2 i (log(1 - i sqrt(a) x / sqrt(b)) - log(1 + i sqrt(a) x / sqrt(b))) / sqrt(a) / sqrt(b)",
+	"1",
+// 17
+	"1 / sqrt(a x^2 + b)",
+	"log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
+	"1",
+// 65
+	"1 / (a x^2 + b)^2",
+	"1/4 i a^(-1/2) b^(-3/2) (log(1 - i sqrt(a) x / sqrt(b)) - log(1 + i sqrt(a) x / sqrt(b))) + x / (2 a b x^2 + 2 b^2)",
+	"1",
+
+	NULL,
+};
+
 char *integral_tab[] = {
 
 	"a",
 	"a x",
-	"1",
-
-	"1 / x",
-	"log(x)",
 	"1",
 
 	"x^a",			// integrand
@@ -78,25 +107,9 @@ char *integral_tab[] = {
 	"a^x",
 	"a^x / log(a)",
 	"or(not(number(a)),a>0)",
-// 16
-	"1 / (a x^2 + b)",
-	"1/2 i (log(1 - i sqrt(a) x / sqrt(b)) - log(1 + i sqrt(a) x / sqrt(b))) / sqrt(a) / sqrt(b)",
-	"1",
-// 17
-	"1 / sqrt(a x^2 + b)",
-	"log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
-	"1",
-
-	"1 / (a + b x)",
-	"log(a + b x) / b",
-	"1",
-
-	"1 / ((a + b x)^2)",
-	"-1 / (b (a + b x))",
-	"1",
-
-	"1 / ((a + b x)^3)",
-	"-1 / ((2 b) ((a + b x)^2))",
+// 18
+	"x / sqrt(a x^2 + b)",
+	"sqrt(a x^2 + b) / a",
 	"1",
 
 	"x / (a + b x)",
@@ -115,47 +128,43 @@ char *integral_tab[] = {
 	"(-a^2 / (a + b x) - 2 a log(a + b x) + b x) / b^3",
 	"1",
 
-	"x^2 / ((a + b x)^3)",
+	"x^2 / (a + b x)^3",
 	"(log(a + b x) + 2 a / (a + b x) - a^2 / (2 ((a + b x)^2))) / (b^3)",
 	"1",
 
-	"1 / (x (a + b x))",
+	"1 / x * 1 / (a + b x)",
 	"-log((a + b x) / x) / a",
 	"1",
 
-	"1 / (x ((a + b x)^2))",
+	"1 / x * 1 / (a + b x)^2",
 	"1 / (a (a + b x)) - log((a + b x) / x) / (a^2)",
 	"1",
 
-	"1 / (x ((a + b x)^3))",
+	"1 / x * 1 / (a + b x)^3",
 	"(1/2 ((2 a + b x) / (a + b x))^2 + log(x / (a + b x))) / (a^3)",
 	"1",
 
-	"1 / ((x^2) (a + b x))",
+	"1 / x^2 * 1 / (a + b x)",
 	"-1 / (a x) + b log((a + b x) / x) / (a^2)",
 	"1",
 
-	"1 / ((x^3) (a + b x))",
+	"1 / x^3 * 1 / (a + b x)",
 	"(2 b x - a) / (2 a^2 x^2) + b^2 log(x / (a + b x)) / (a^3)",
 	"1",
 
-	"1 / ((x^2) ((a + b x)^2))",
+	"1 / x^2 * 1 / (a + b x)^2",
 	"-(a + 2 b x) / (a^2 x (a + b x)) + 2 b log((a + b x) / x) / (a^3)",
 	"1",
 
 	"x / (a + b x^2)",
 	"log(a + b x^2) / (2 b)",
 	"1",
-
-	"x^2 / (a + b x^2)",
-	"x / b - sqrt(a) arctan(sqrt(b / a) x) / b^(3/2)",
-	"1",
 // 64
-	"1 / ((a + b x^2)^2)",
-	"arctan(sqrt(b / a) x) / (2 a^(3/2) sqrt(b)) + x / (2 a^2 + 2 a b x^2)",
+	"x^2 / (a x^2 + b)",
+	"1/2 i a^(-3/2) sqrt(b) (log(1 + i sqrt(a) x / sqrt(b)) - log(1 - i sqrt(a) x / sqrt(b))) + x / a",
 	"1",
 
-	"1 / (x (a + b x^2))",
+	"1 / x * 1 / (a + b x^2)",
 	"1 log(x^2 / (a + b x^2)) / (2 a)",
 	"1",
 // 71
@@ -261,10 +270,6 @@ char *integral_tab[] = {
 // 160
 	"sqrt(a x^2 + b) / x",
 	"sqrt(a x^2 + b) - sqrt(b) log(sqrt(b) sqrt(a x^2 + b) + b) + sqrt(b) log(x)",
-	"1",
-
-	"x / sqrt(x^2 + a)",
-	"sqrt(x^2 + a)",
 	"1",
 
 	"x sqrt(x^2 + a)",
@@ -775,7 +780,10 @@ integral_of_form(void)
 void
 integral_lookup(int h)
 {
-	if (find(F, symbol(EXP1)) && find_integral(h, integral_tab_exp_forms))
+	if (find(F, symbol(EXP1)) && find_integral(h, integral_tab_exp))
+		return;
+
+	if (car(F) == symbol(POWER) && find_integral(h, integral_tab_inverse))
 		return;
 
 	if (find_integral(h, integral_tab))
