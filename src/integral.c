@@ -168,8 +168,8 @@ char *integral_tab[] = {
 	"1 log(x^2 / (a + b x^2)) / (2 a)",
 	"1",
 // 71
-	"1 / (x^2 (a + b x^2))",
-	"-sqrt(b) arctan(sqrt(b / a) x) / a^(3/2) - 1 / (a x)",
+	"1 / x^2 * 1 / (a x^2 + b)",
+	"1/2 i sqrt(a) b^(-3/2) (log(1 + i sqrt(a) x / sqrt(b)) - log(1 - i sqrt(a) x / sqrt(b))) - 1 / (b x)",
 	"1",
 
 	"1 / (a + b x^3)",
