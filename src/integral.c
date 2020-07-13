@@ -158,6 +158,115 @@ char *integral_tab_inverse[] = {
 	NULL,
 };
 
+char *integral_tab_trig[] = {
+
+	"sin(a x)",
+	"-cos(a x) / a",
+	"1",
+
+	"cos(a x)",
+	"sin(a x) / a",
+	"1",
+
+	"tan(a x)",
+	"-log(cos(a x)) / a",
+	"1",
+
+	"sin(a x)^2",
+	"x 1/2 - sin(2 a x) / (4 a)",
+	"1",
+
+	"sin(a x)^3",
+	"-cos(a x) (sin(a x)^2 + 2) / (3 a)",
+	"1",
+
+	"sin(a x)^4",
+	"3/8 x - sin(2 a x) / (4 a) + sin(4 a x) / (32 a)",
+	"1",
+
+	"cos(a x)^2",
+	"x 1/2 + sin(2 a x) / (4 a)",
+	"1",
+
+	"cos(a x)^3",
+	"sin(a x) (cos(a x)^2 + 2) / (3 a)",
+	"1",
+
+	"cos(a x)^4",
+	"3/8 x + sin(2 a x) / (4 a) + sin(4 a x) / (32 a)",
+	"1",
+
+	"sin(a x) cos(a x)",
+	"1/2 sin(a x)^2 / a",
+	"1",
+
+	"sin(a x) cos(a x)^2",
+	"-1/3 cos(a x)^3 / a",
+	"1",
+
+	"sin(a x)^2 cos(a x)",
+	"1/3 sin(a x)^3 / a",
+	"1",
+
+	"sin(a x)^2 cos(a x)^2",
+	"1/8 x - 1/32 sin(4 a x) / a",
+	"1",
+
+	"sin(a x) / cos(a x)^2",
+	"1 / a / cos(a x)",
+	"1",
+// 329
+	"1 / sin(a x) / cos(a x)",
+        "log(tan(a x)) / a",
+        "1",
+// 330
+	"1 / sin(a x) / cos(a x)^2",
+	"(1 / cos(a x) + log(tan(a x 1/2))) / a",
+	"1",
+// 331
+	"1 / sin(a x)^2 / cos(a x)",
+	"(log(tan(pi 1/4 + a x 1/2)) - 1 / sin(a x)) / a",
+	"1",
+// 333
+	"1 / sin(a x)^2 / cos(a x)^2",
+	"-2 / (a tan(2 a x))",
+	"1",
+
+	"sin(a x)^2 / cos(a x)",
+	"(log(tan(pi 1/4 + a x 1/2)) - sin(a x)) / a",
+	"1",
+
+	"cos(a x) / (sin(a x)^2)",
+	"-1 / (a sin(a x))",
+	"1",
+
+	"sin(a + b x)",
+	"-cos(a + b x) / b",
+	"1",
+
+	"cos(a + b x)",
+	"sin(a + b x) / b",
+	"1",
+
+	"x sin(a x)",
+	"sin(a x) / (a^2) - x cos(a x) / a",
+	"1",
+
+	"x^2 sin(a x)",
+	"2 x sin(a x) / (a^2) - (a^2 x^2 - 2) cos(a x) / (a^3)",
+	"1",
+
+	"x cos(a x)",
+	"cos(a x) / (a^2) + x sin(a x) / a",
+	"1",
+
+	"x^2 cos(a x)",
+	"2 x cos(a x) / (a^2) + (a^2 x^2 - 2) sin(a x) / (a^3)",
+	"1",
+
+	NULL,
+};
+
 char *integral_tab[] = {
 
 	"a",
@@ -380,102 +489,6 @@ char *integral_tab[] = {
 //	"-(a x^2 + b)^(3/2) / (3 b x^3)",
 //	"1",
 
-	"sin(a x)",
-	"-cos(a x) / a",
-	"1",
-
-	"cos(a x)",
-	"sin(a x) / a",
-	"1",
-
-	"tan(a x)",
-	"-log(cos(a x)) / a",
-	"1",
-
-	"sin(a x)^2",
-	"x 1/2 - sin(2 a x) / (4 a)",
-	"1",
-
-	"sin(a x)^3",
-	"-cos(a x) (sin(a x)^2 + 2) / (3 a)",
-	"1",
-
-	"sin(a x)^4",
-	"3/8 x - sin(2 a x) / (4 a) + sin(4 a x) / (32 a)",
-	"1",
-
-	"cos(a x)^2",
-	"x 1/2 + sin(2 a x) / (4 a)",
-	"1",
-
-	"cos(a x)^3",
-	"sin(a x) (cos(a x)^2 + 2) / (3 a)",
-	"1",
-
-	"cos(a x)^4",
-	"3/8 x + sin(2 a x) / (4 a) + sin(4 a x) / (32 a)",
-	"1",
-
-	"sin(a x) cos(a x)",
-	"sin(a x)^2 / (2 a)",
-	"1",
-
-	"sin(a x)^2 cos(a x)^2",
-	"-sin(4 a x) / (32 a) + x 1/8",
-	"1",
-
-	"sin(a x) / (cos(a x)^2)",
-	"1 / (a cos(a x))",
-	"1",
-// 329
-	"1 / sin(a x) / cos(a x)",
-        "log(tan(a x)) / a",
-        "1",
-// 330
-	"1 / sin(a x) / cos(a x)^2",
-	"(1 / cos(a x) + log(tan(a x 1/2))) / a",
-	"1",
-// 331
-	"1 / sin(a x)^2 / cos(a x)",
-	"(log(tan(pi 1/4 + a x 1/2)) - 1 / sin(a x)) / a",
-	"1",
-// 333
-	"1 / sin(a x)^2 / cos(a x)^2",
-	"-2 / (a tan(2 a x))",
-	"1",
-
-	"sin(a x)^2 / cos(a x)",
-	"(log(tan(pi 1/4 + a x 1/2)) - sin(a x)) / a",
-	"1",
-
-	"cos(a x) / (sin(a x)^2)",
-	"-1 / (a sin(a x))",
-	"1",
-
-	"sin(a + b x)",
-	"-cos(a + b x) / b",
-	"1",
-
-	"cos(a + b x)",
-	"sin(a + b x) / b",
-	"1",
-
-	"x sin(a x)",
-	"sin(a x) / (a^2) - x cos(a x) / a",
-	"1",
-
-	"x^2 sin(a x)",
-	"2 x sin(a x) / (a^2) - (a^2 x^2 - 2) cos(a x) / (a^3)",
-	"1",
-
-	"x cos(a x)",
-	"cos(a x) / (a^2) + x sin(a x) / a",
-	"1",
-
-	"x^2 cos(a x)",
-	"2 x cos(a x) / (a^2) + (a^2 x^2 - 2) sin(a x) / (a^3)",
-	"1",
-
 	"arcsin(a x)",
 	"x arcsin(a x) + sqrt(1 - a^2 x^2) / a",
 	"1",
@@ -562,10 +575,6 @@ char *integral_tab[] = {
 
 	"x^4 (1 - x^2)^(3/2)",
 	"(-x sqrt(1 - x^2) (16 x^6 - 24 x^4 + 2 x^2 + 3) + 3 arcsin(x)) 1/128",
-	"1",
-
-	"cos(x)^2 sin(x)",
-	"-cos(x)^3 1/3",
 	"1",
 
 	NULL,
@@ -721,6 +730,10 @@ integral_lookup(int h)
 
 	if (car(F) == symbol(POWER) && find_integral(h, integral_tab_inverse))
 		return;
+
+	if (find(F, symbol(SIN)) || find(F, symbol(COS)) || find(F,symbol(TAN)))
+		if (find_integral(h, integral_tab_trig))
+			return;
 
 	if (find_integral(h, integral_tab))
 		return;
