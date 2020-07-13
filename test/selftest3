@@ -745,18 +745,10 @@ g = integral(f,X)
 h = d(g,X)
 check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
-#176+
-integral(X^2*sqrt((X^2+2^2)^3),X)-1/6*X*sqrt((X^2+2^2)^5)+1/24*(2^2)*X*sqrt((X^2+2^2)^3)+1/16*(2^4)X*sqrt(X^2+2^2)+1/16*(2^6)*log(X+sqrt(X^2+2^2))
-check(last = 0)
-#176-
-integral(X^2*sqrt((X^2-2^2)^3),X)-1/6*X*sqrt((X^2-2^2)^5)-1/24*(2^2)*X*sqrt((X^2-2^2)^3)+1/16*(2^4)X*sqrt(X^2-2^2)-1/16*(2^6)*log(X+sqrt(X^2-2^2))
-check(last = 0)
-#177+
-integral(X^3*sqrt((X^2+7^2)^3),X)-1/7*sqrt((X^2+7^2)^7)+1/5*(7^2)*sqrt((X^2+7^2)^5)
-check(last = 0)
-#177-
-integral(X^3*sqrt((X^2-7^2)^3),X)-1/7*sqrt((X^2-7^2)^7)-1/5*(7^2)*sqrt((X^2-7^2)^5)
-check(last = 0)
+#176 FIXME x^2 (a x^2 + b)^(3/2)
+
+#177 FIXME x^3 (a x^2 + b)^(3/2)
+
 #196
 simplify(integral(1/(X-A)/sqrt(X^2-A^2),X)+sqrt(X^2-A^2)/A/(X-A))
 check(last = 0)
