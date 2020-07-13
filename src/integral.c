@@ -232,12 +232,12 @@ char *integral_tab[] = {
 	"(sqrt(b) x sqrt(a + b x^2) (a + 2 b x^2) - a^2 log(sqrt(b) sqrt(a + b x^2) + b x)) / (8 b^(3/2))",
 	"1",
 // 128
-	"sqrt(a + b x) / x",
-	"2 sqrt(a + b x) - 2 sqrt(a) arctanh(sqrt(a + b x) / sqrt(a))",
+	"sqrt(a x + b) / x",
+	"2 sqrt(a x + b) - 2 sqrt(b) arctanh(sqrt(a x + b) / sqrt(b))",
 	"1",
 // 129
-	"sqrt(a + b x) / x^2",
-	"-sqrt(a + b x) / x - b arctanh(sqrt(a + b x) / sqrt(a)) / sqrt(a)",
+	"sqrt(a x + b) / x^2",
+	"-sqrt(a x + b) / x - a arctanh(sqrt(a x + b) / sqrt(b)) / sqrt(b)",
 	"1",
 
 	"x / sqrt(a + b x)",

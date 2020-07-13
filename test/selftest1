@@ -1488,15 +1488,47 @@ check(last = 0)
 
 #128
 
-f = integral(sqrt(A + B X)/X,X)
-g = 2 sqrt(A + B X) - 2 sqrt(A) arctanh(sqrt(A + B X) / sqrt(A))
-check(f = g)
+f = sqrt(3 X + 7) / X
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = sqrt(3 X - 7) / X
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = sqrt(-3 X + 7) / X
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = sqrt(-3 X - 7) / X
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 #129
 
-f = integral(sqrt(A + B X) / X^2,X)
-g = -sqrt(A + B X) / X - B arctanh(sqrt(A + B X) / sqrt(A)) / sqrt(A)
-check(f = g)
+f = sqrt(3 X + 7) / X^2
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = sqrt(3 X - 7) / X^2
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = sqrt(-3 X + 7) / X^2
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = sqrt(-3 X - 7) / X^2
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 #131
 
