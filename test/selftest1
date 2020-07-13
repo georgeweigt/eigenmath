@@ -1390,56 +1390,53 @@ check(last = 0)
 f = sqrt(3 X^2 + 7)
 g = integral(f,X)
 h = d(g,X)
+-- h is too complex to simplify, check using cross product
 check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 f = sqrt(3 X^2 - 7)
 g = integral(f,X)
 h = d(g,X)
+-- h is too complex to simplify, check using cross product
 check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 f = sqrt(-3 X^2 + 7)
 g = integral(f,X)
 h = d(g,X)
+-- h is too complex to simplify, check using cross product
 check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 f = sqrt(-3 X^2 - 7)
 g = integral(f,X)
 h = d(g,X)
+-- h is too complex to simplify, check using cross product
 check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 #160
 
-f = sqrt(X^2 + 7) / X
+f = sqrt(3 X^2 + 7) / X
 g = integral(f,X)
-h = sqrt(X^2 + 7) - sqrt(7) log(sqrt(7) sqrt(X^2 + 7) + 7) + sqrt(7) log(X)
-check(g = h)
 h = d(g,X)
-check(numerator(f) denominator(h) = denominator(f) numerator(h)) -- h is too complex to simplify, check this way
+-- h is too complex to simplify, check using cross product
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
-f = sqrt(-X^2 + 7) / X
+f = sqrt(3 X^2 - 7) / X
 g = integral(f,X)
-h = sqrt(7 - X^2) - sqrt(7) log(sqrt(7) sqrt(7 - X^2) + 7) + sqrt(7) log(X)
-check(g = h)
 h = d(g,X)
-check(numerator(f) denominator(h) = denominator(f) numerator(h)) -- h is too complex to simplify, check this way
+-- h is too complex to simplify, check using cross product
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
-f = sqrt(X^2 - 7) / X
+f = sqrt(-3 X^2 + 7) / X
 g = integral(f,X)
-h = sqrt(X^2 - 7) + 1/2 i sqrt(7) log(1 - i sqrt(7) / sqrt(X^2 - 7)) - 1/2 i sqrt(7) log(1 + i sqrt(7) / sqrt(X^2 - 7))
-check(g = h)
 h = d(g,X)
-check(numerator(f) denominator(h) = denominator(f) numerator(h)) -- h is too complex to simplify, check this way
+-- h is too complex to simplify, check using cross product
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
-f = sqrt(-X^2 - 7) / X
+f = sqrt(-3 X^2 - 7) / X
 g = integral(f,X)
-h = sqrt(-X^2 - 7) + 1/2 i sqrt(7) log(1 - i sqrt(7) / sqrt(-X^2 - 7)) - 1/2 i sqrt(7) log(1 + i sqrt(7) / sqrt(-X^2 - 7))
-check(g = h)
 h = d(g,X)
-check(numerator(f) denominator(h) = denominator(f) numerator(h)) -- h is too complex to simplify, check this way
+-- h is too complex to simplify, check using cross product
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
-#162
-integral(X/sqrt(X^2+A),X)-sqrt(X^2+A)
-check(last = 0)
 #163
 integral(X*sqrt(X^2+A),X)-1/3*sqrt((X^2+A)^3)
 check(last = 0)

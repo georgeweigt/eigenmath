@@ -261,12 +261,8 @@ char *integral_tab[] = {
 // 160
 	"sqrt(a x^2 + b) / x",
 	"sqrt(a x^2 + b) - sqrt(b) log(sqrt(b) sqrt(a x^2 + b) + b) + sqrt(b) log(x)",
-	"and(number(b),b>0)",
+	"1",
 
-	"sqrt(a x^2 + b) / x",
-	"sqrt(a x^2 + b) + 1/2 i sqrt(-b) log(1 - i sqrt(-b) / sqrt(a x^2 + b)) - 1/2 i sqrt(-b) log(1 + i sqrt(-b) / sqrt(a x^2 + b))",
-	"and(number(b),b<0)",
-//
 	"x / sqrt(x^2 + a)",
 	"sqrt(x^2 + a)",
 	"1",
