@@ -1709,11 +1709,29 @@ check(numerator(f) denominator(h) = denominator(f) numerator(h))
 #164
 integral(sqrt((X^2+A)^3),X)-1/4*(X*sqrt((X^2+A)^3)+3/2*A*X*sqrt(X^2+A)+3/2*A^2*log(X+sqrt(X^2+A)))
 check(last = 0)
+
 #165
-integral(1/sqrt((X^2+5)^3),X)-X/(5*sqrt(X^2+5))
-check(last = 0)
-integral(1/sqrt((X^2-5)^3),X)-X/(5*sqrt(X^2-5))
-check(last = 0)
+
+f = (3 X^2 + 7)^(-3/2)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = (3 X^2 - 7)^(-3/2)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = (-3 X^2 + 7)^(-3/2)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = (-3 X^2 - 7)^(-3/2)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
 #166
 integral(X/sqrt((X^2+A)^3),X)+1/sqrt(X^2+A)
 check(last = 0)

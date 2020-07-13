@@ -90,6 +90,10 @@ char *integral_tab_inverse[] = {
 	"1 / (a x^2 + b)^2",
 	"1/4 i a^(-1/2) b^(-3/2) (log(1 - i sqrt(a) x / sqrt(b)) - log(1 + i sqrt(a) x / sqrt(b))) + x / (2 a b x^2 + 2 b^2)",
 	"1",
+// 165
+	"(a x^2 + b)^(-3/2)",
+	"x / b / sqrt(a x^2 + b)",
+	"1",
 // 74
 	"1 / (a x^3 + b)",
 	"-log(a^(2/3) x^2 - a^(1/3) b^(1/3) x + b^(2/3))/(6 a^(1/3) b^(2/3))"
@@ -279,14 +283,6 @@ char *integral_tab[] = {
 	"sqrt(-a + x^6 - 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
 	"1/4 (x sqrt((x^2 - a^(1/3))^3) - 3/2 a^(1/3) x sqrt(x^2 - a^(1/3)) + 3/2 a^(2/3) log(x + sqrt(x^2 - a^(1/3))))",
 	"1",
-
-	"1 / sqrt((x^2 + a)^3)",
-	"x / (a sqrt(x^2 + a))",
-	"and(number(a),testgt(a,0))",
-
-	"1 / sqrt((x^2 + a)^3)",
-	"-x / (a sqrt(x^2 + a))",
-	"and(number(a),testlt(a,0))",
 
 	"x / sqrt((x^2 + a)^3)",
 	"-1 / sqrt(x^2 + a)",
