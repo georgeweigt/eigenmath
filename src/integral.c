@@ -299,13 +299,13 @@ char *integral_tab[] = {
 	"x^3 sqrt(a x^2 + b)",
 	"1/15 sqrt(a x^2 + b) (3 a^2 x^4 + a b x^2 - 2 b^2) / a^2",
 	"1",
-
-	"x^2 / sqrt(x^2 + a)",
-	"1/2 x sqrt(x^2 + a) - 1/2 a log(x + sqrt(x^2 + a))",
+// 171
+	"x^2 / sqrt(a x^2 + b)",
+	"1/2 a^(-3/2) (sqrt(a) x sqrt(a x^2 + b) - b log(sqrt(a) sqrt(a x^2 + b) + a x))",
 	"1",
-
-	"x^3 / sqrt(x^2 + a)",
-	"1/3 sqrt((x^2 + a)^3) - a sqrt(x^2 + a)",
+// 172
+	"x^3 / sqrt(a x^2 + b)",
+	"1/3 (a x^2 - 2 b) sqrt(a x^2 + b) / a^2",
 	"1",
 
 	"1 / ((x^2) sqrt(x^2 + a))",
