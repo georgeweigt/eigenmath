@@ -237,7 +237,7 @@ char *integral_tab_trig[] = {
 	"1",
 
 	"sin(a x)^2 / cos(a x)",
-	"(log(tan(pi 1/4 + a x 1/2)) - sin(a x)) / a",
+	"-(sin(a x) + log(cos(a x / 2) - sin(a x / 2)) - log(sin(a x / 2) + cos(a x / 2))) / a",
 	"1",
 
 	"sin(a x)^2 / cos(a x)^2",

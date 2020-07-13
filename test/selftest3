@@ -864,9 +864,6 @@ check(last = 0)
 #326
 integral(sin(A*X)/cos(A*X)/cos(A*X),X)-1/(A*cos(A*X))
 check(last = 0)
-#327
-integral(sin(A*X)^2/cos(A*X),X)+sin(A*X)/A-log(tan(pi/4+A*X/2))/A
-check(last = 0)
 #328
 integral(cos(A*X)/sin(A*X)^2,X)+1/(A*sin(A*X))
 check(last = 0)
