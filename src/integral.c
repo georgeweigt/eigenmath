@@ -152,27 +152,27 @@ char *integral_tab[] = {
 	"(log(a + b x) + 2 a / (a + b x) - a^2 / (2 ((a + b x)^2))) / (b^3)",
 	"1",
 
-	"1 / x * 1 / (a + b x)",
+	"1 / x / (a + b x)",
 	"-log((a + b x) / x) / a",
 	"1",
 
-	"1 / x * 1 / (a + b x)^2",
+	"1 / x / (a + b x)^2",
 	"1 / (a (a + b x)) - log((a + b x) / x) / (a^2)",
 	"1",
 
-	"1 / x * 1 / (a + b x)^3",
+	"1 / x / (a + b x)^3",
 	"(1/2 ((2 a + b x) / (a + b x))^2 + log(x / (a + b x))) / (a^3)",
 	"1",
 
-	"1 / x^2 * 1 / (a + b x)",
+	"1 / x^2 / (a + b x)",
 	"-1 / (a x) + b log((a + b x) / x) / (a^2)",
 	"1",
 
-	"1 / x^3 * 1 / (a + b x)",
+	"1 / x^3 / (a + b x)",
 	"(2 b x - a) / (2 a^2 x^2) + b^2 log(x / (a + b x)) / (a^3)",
 	"1",
 
-	"1 / x^2 * 1 / (a + b x)^2",
+	"1 / x^2 / (a + b x)^2",
 	"-(a + 2 b x) / (a^2 x (a + b x)) + 2 b log((a + b x) / x) / (a^3)",
 	"1",
 
@@ -259,14 +259,10 @@ char *integral_tab[] = {
 	"sqrt(a x^2 + b)",
 	"1/2 x sqrt(a x^2 + b) + 1/2 b log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
 	"1",
-
-	"1 / (x sqrt(x^2 + a))",
-	"arcsec(x / sqrt(-a)) / sqrt(-a)",
-	"or(not(number(a)),testlt(a,0))",
-
-	"1 / (x sqrt(x^2 + a))",
-	"-log((sqrt(a) + sqrt(x^2 + a)) / x) / sqrt(a)",
-	"or(not(number(a)),testgt(a,0))",
+// 158
+	"1 / x / sqrt(a x^2 + b)",
+	"(log(x) - log(sqrt(b) sqrt(a x^2 + b) + b)) / sqrt(b)",
+	"1",
 // 160
 	"sqrt(a x^2 + b) / x",
 	"sqrt(a x^2 + b) - sqrt(b) log(sqrt(b) sqrt(a x^2 + b) + b) + sqrt(b) log(x)",

@@ -1609,12 +1609,28 @@ check(last = 0)
 #157
 integral(1/sqrt(X^2+A),X)-log(X+sqrt(X^2+A))
 check(last = 0)
+
 #158
-integral(1/X*1/sqrt(X^2-2),X)-arcsec(X/sqrt(2))/sqrt(2)
-check(last = 0)
-#159
-integral(1/X*1/sqrt(X^2+2),X)+1/sqrt(2)*log((sqrt(2)+sqrt(X^2+2))/X)
-check(last = 0)
+
+f = 1 / X / sqrt(3 X^2 + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X / sqrt(3 X^2 - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X / sqrt(-3 X^2 + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X / sqrt(-3 X^2 - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 #138
 
@@ -1736,9 +1752,6 @@ check(last = 0)
 integral(1/(X+A)/sqrt(X^2-A^2),X)-sqrt(X^2-A^2)/A/(X+A)
 check(last = 0)
 simplify(1/(X+A)/sqrt(X^2-A^2)-d(integral(1/(X+A)/sqrt(X^2-A^2),X),X))
-check(last = 0)
-#202
-integral(1/X*1/sqrt(7-X^2),X)+1/sqrt(7)*log((sqrt(7)+sqrt(7-X^2))/X)
 check(last = 0)
 
 #204
