@@ -66,6 +66,10 @@ char *integral_tab_inverse[] = {
 	"1 / (a + b x)",
 	"log(a + b x) / b",
 	"1",
+// 131
+	"1 / sqrt(a x + b)",
+	"2 sqrt(a x + b) / a",
+	"1",
 
 	"1 / ((a + b x)^2)",
 	"-1 / (b (a + b x))",
@@ -211,9 +215,9 @@ char *integral_tab[] = {
 	"x^3 / (a + b x^4)",
 	"1 log(a + b x^4) / (4 b)",
 	"1",
-
-	"sqrt(a + b x)",
-	"2 1 sqrt((a + b x)^3) / (3 b)",
+// 124
+	"sqrt(a x + b)",
+	"2/3 (a x + b)^(3/2) / a",
 	"1",
 
 	"x sqrt(a + b x)",
@@ -234,10 +238,6 @@ char *integral_tab[] = {
 // 129
 	"sqrt(a + b x) / x^2",
 	"-sqrt(a + b x) / x - b arctanh(sqrt(a + b x) / sqrt(a)) / sqrt(a)",
-	"1",
-
-	"1 / sqrt(a + b x)",
-	"2 sqrt(a + b x) / b",
 	"1",
 
 	"x / sqrt(a + b x)",
