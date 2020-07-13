@@ -1418,12 +1418,29 @@ check(numerator(f) denominator(h) = denominator(f) numerator(h))
 #76
 integral(X^2/(A+B*X^3),X)-1/3*1/B*log(A+B*X^3)
 check(last = 0)
+
 #77
-integral(1/(2+3*X^4),X)-1/2*1/2*(2/3/4)^(1/4)*(1/2*log((X^2+2*(2/3/4)^(1/4)*X+2*(2/3/4)^(1/2))/(X^2-2*(2/3/4)^(1/4)*X+2*(2/3/4)^(1/2)))+arctan(2*(2/3/4)^(1/4)*X/(2*(2/3/4)^(1/2)-X^2)))
-check(last = 0)
-#78
-integral(1/(2-3*X^4),X)-1/2*(2/3)^(1/4)/2*(1/2*log((X+(2/3)^(1/4))/(X-(2/3)^(1/4)))+arctan(X*(2/3)^(-1/4)))
-check(last = 0)
+
+f = 1 / (3 X^4 + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / (3 X^4 - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / (-3 X^4 + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / (-3 X^4 - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
 #79
 integral(X/(2+3*X^4),X)-1/2*1/3*1/sqrt(2/3)*arctan(X^2/sqrt(2/3))
 check(last = 0)
