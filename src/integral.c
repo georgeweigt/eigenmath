@@ -211,10 +211,6 @@ char *integral_tab_trig[] = {
 	"sin(a x)^2 cos(a x)^2",
 	"1/8 x - 1/32 sin(4 a x) / a",
 	"1",
-
-	"sin(a x) / cos(a x)^2",
-	"1 / a / cos(a x)",
-	"1",
 // 329
 	"1 / sin(a x) / cos(a x)",
         "log(tan(a x)) / a",
@@ -231,15 +227,39 @@ char *integral_tab_trig[] = {
 	"1 / sin(a x)^2 / cos(a x)^2",
 	"-2 / (a tan(2 a x))",
 	"1",
+//
+	"sin(a x) / cos(a x)",
+	"-log(cos(a x)) / a",
+	"1",
+
+	"sin(a x) / cos(a x)^2",
+	"1 / a / cos(a x)",
+	"1",
 
 	"sin(a x)^2 / cos(a x)",
 	"(log(tan(pi 1/4 + a x 1/2)) - sin(a x)) / a",
 	"1",
 
-	"cos(a x) / (sin(a x)^2)",
+	"sin(a x)^2 / cos(a x)^2",
+	"tan(a x) / a - x",
+	"1",
+//
+	"cos(a x) / sin(a x)",
+	"log(sin(a x)) / a",
+	"1",
+
+	"cos(a x) / sin(a x)^2",
 	"-1 / (a sin(a x))",
 	"1",
 
+	"cos(a x)^2 / sin(a x)",
+	"cos(a x) / a + log(sin(a x / 2)) / a - log(cos(a x / 2)) / a",
+	"1",
+
+	"cos(a x)^2 / sin(a x)^2",
+	"-x - cos(a x) / sin(a x) / a",
+	"1",
+//
 	"sin(a + b x)",
 	"-cos(a + b x) / b",
 	"1",
