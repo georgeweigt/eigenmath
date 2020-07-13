@@ -1009,6 +1009,15 @@ check(B[1,2] = b)
 check(B[2,1] = c)
 check(B[2,2] = d)
 
+-- verify that defint works in a denominator
+
+clear
+trace = 1
+
+I(y) = defint((1 + cos(theta)^2) sin(theta),theta,0,y)
+I(theta) / I(pi)
+check(last = -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2)
+
 -- done
 
 clear
