@@ -78,21 +78,13 @@ char *integral_tab[] = {
 	"a^x",
 	"a^x / log(a)",
 	"or(not(number(a)),a>0)",
-
-	"1 / (a + x^2)",
-	"arctan(x / sqrt(a)) / sqrt(a)",
-	"or(not(number(a)),a>0)",
-
-	"1 / (a - x^2)",
-	"arctanh(x / sqrt(a)) / sqrt(a)",
+// 16
+	"1 / (a x^2 + b)",
+	"1/2 i (log(1 - i sqrt(a) x / sqrt(b)) - log(1 + i sqrt(a) x / sqrt(b))) / sqrt(a) / sqrt(b)",
 	"1",
-
-	"1 / sqrt(a - x^2)",
-	"arcsin(x / sqrt(a))",
-	"1",
-
-	"1 / sqrt(a + x^2)",
-	"log(x + sqrt(a + x^2))",
+// 17
+	"1 / sqrt(a x^2 + b)",
+	"log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
 	"1",
 
 	"1 / (a + b x)",
@@ -150,26 +142,6 @@ char *integral_tab[] = {
 	"1 / ((x^2) ((a + b x)^2))",
 	"-(a + 2 b x) / (a^2 x (a + b x)) + 2 b log((a + b x) / x) / (a^3)",
 	"1",
-// 60
-	"1 / (a + b x^2)",
-	"arctan(sqrt(b / a) x) / sqrt(a b)",
-	"and(number(a),number(b),a>=0,b>=0)",
-
-	"1 / (a + b x^2)",
-	"-arctan(sqrt(b / a) x) / sqrt(a b)",
-	"and(number(a),number(b),a<=0,b<=0)",
-
-	"1 / (a + b x^2)",
-	"(log(-b x + sqrt(-a b)) - log(sqrt(-a b) + b x)) / (2 sqrt(-a b))",
-	"and(number(a),number(b),a>=0,b<=0)",
-
-	"1 / (a + b x^2)",
-	"(log(sqrt(-a b) - b x) - log(b x + sqrt(-a b))) / (2 sqrt(-a b))",
-	"and(number(a),number(b),a<=0,b>=0)",
-
-	"1 / (a + b x^2)",
-	"(i log(1 - i sqrt(b / a) x) - i log(1 + i sqrt(b / a) x)) / (2 sqrt(a) sqrt(b))",
-	"or(not(number(a)),not(number(b)))",
 
 	"x / (a + b x^2)",
 	"log(a + b x^2) / (2 b)",
@@ -277,10 +249,6 @@ char *integral_tab[] = {
 // 138
 	"sqrt(a x^2 + b)",
 	"1/2 x sqrt(a x^2 + b) + 1/2 b log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
-	"1",
-
-	"1 / sqrt(x^2 + a)",
-	"log(x + sqrt(x^2 + a))",
 	"1",
 
 	"1 / (x sqrt(x^2 + a))",
