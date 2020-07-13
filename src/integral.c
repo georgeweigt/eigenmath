@@ -86,6 +86,13 @@ char *integral_tab_inverse[] = {
 	"1 / (a x^2 + b)^2",
 	"1/4 i a^(-1/2) b^(-3/2) (log(1 - i sqrt(a) x / sqrt(b)) - log(1 + i sqrt(a) x / sqrt(b))) + x / (2 a b x^2 + 2 b^2)",
 	"1",
+// 74
+	"1 / (a x^3 + b)",
+	"-log(a^(2/3) x^2 - a^(1/3) b^(1/3) x + b^(2/3))/(6 a^(1/3) b^(2/3))"
+	" + log(a^(1/3) x + b^(1/3))/(3 a^(1/3) b^(2/3))"
+	" - (i log(1 - (i (1 - (2 a^(1/3) x)/b^(1/3)))/sqrt(3)))/(2 sqrt(3) a^(1/3) b^(2/3))"
+	" + (i log(1 + (i (1 - (2 a^(1/3) x)/b^(1/3)))/sqrt(3)))/(2 sqrt(3) a^(1/3) b^(2/3))", // from Wolfram Alpha
+	"1",
 
 	NULL,
 };
@@ -170,10 +177,6 @@ char *integral_tab[] = {
 // 71
 	"1 / x^2 * 1 / (a x^2 + b)",
 	"1/2 i sqrt(a) b^(-3/2) (log(1 + i sqrt(a) x / sqrt(b)) - log(1 - i sqrt(a) x / sqrt(b))) - 1 / (b x)",
-	"1",
-
-	"1 / (a + b x^3)",
-	"1 (a / b)^(1/3) (1/2 log(((a / b)^(1/3) + x)^3 / (a + b x^3)) + sqrt(3) arctan((2 x - (a / b)^(1/3)) / ((a / b)^(1/3) sqrt(3)))) / (3 a)",
 	"1",
 
 	"x^2 / (a + b x^3)",
