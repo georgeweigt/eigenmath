@@ -307,9 +307,9 @@ char *integral_tab[] = {
 	"x^3 / sqrt(a x^2 + b)",
 	"1/3 (a x^2 - 2 b) sqrt(a x^2 + b) / a^2",
 	"1",
-
-	"1 / ((x^2) sqrt(x^2 + a))",
-	"-sqrt(x^2 + a) / (a x)",
+// 173
+	"1 / x^2 / sqrt(a x^2 + b)",
+	"-sqrt(a x^2 + b) / (b x)",
 	"1",
 
 	"1 / ((x^3) sqrt(x^2 + a))",

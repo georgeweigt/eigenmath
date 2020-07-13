@@ -702,8 +702,27 @@ h = d(g,X)
 check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 #173
-integral(1/X^2*1/sqrt(X^2+A),X)+sqrt(X^2+A)/A/X
-check(last = 0)
+
+f = 1 / X^2 / sqrt(3 X^2 + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X^2 / sqrt(3 X^2 - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X^2 / sqrt(-3 X^2 + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X^2 / sqrt(-3 X^2 - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
 #174
 integral(1/X^3*1/sqrt(X^2+2),X)+1/2*sqrt(X^2+2)/2/X^2-1/2*log((sqrt(2)+sqrt(X^2+2))/X)/(sqrt(2)^3)
 check(last = 0)
