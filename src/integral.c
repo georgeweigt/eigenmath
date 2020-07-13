@@ -247,17 +247,13 @@ char *integral_tab[] = {
 	"x^2 / sqrt(a + b x)",
 	"2 (8 a^2 - 4 a b x + 3 b^2 x^2) sqrt(a + b x) / (15 (b^3))",
 	"1",
-
-	"1 / (x sqrt(a + b x))",
-	"log((sqrt(a + b x) - sqrt(a)) / (sqrt(a + b x) + sqrt(a))) / sqrt(a)",
-	"or(not(number(a)),testgt(a,0))",
-
-	"1 / (x sqrt(a + b x))",
-	"2 arctan(sqrt(-(a + b x) / a)) / sqrt(-a)",
-	"or(not(number(a)),testlt(a,0))",
+// 134
+	"1 / x / sqrt(a x + b)",
+	"-2 arctanh(sqrt(a x + b) / sqrt(b)) / sqrt(b)",
+	"1",
 // 137
-	"1 / (x^2 sqrt(a + b x))",
-	"b arctanh(sqrt(a + b x) / sqrt(a)) / a^(3/2) - sqrt(a + b x) / (a x)",
+	"1 / x^2 / sqrt(a x + b)",
+	"a arctanh(sqrt(a x + b) / sqrt(b)) / b^(3/2) - sqrt(a x + b) / (b x)",
 	"1",
 // 138
 	"sqrt(a x^2 + b)",

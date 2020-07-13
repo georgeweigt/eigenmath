@@ -1558,18 +1558,50 @@ check(last = 0)
 #133
 integral(X^2/sqrt(A+B*X),X)-2/15*(8*A^2-4*A*B*X+3*B^2*X^2)*sqrt(A+B*X)/B^3
 check(last = 0)
+
 #134
-integral(1/X*1/sqrt(2+B*X),X)-1/sqrt(2)*log((sqrt(2+B*X)-sqrt(2))/(sqrt(2+B*X)+sqrt(2)))
-check(last = 0)
-#136
-integral(1/X*1/sqrt(-2+B*X),X)-2/sqrt(2)*arctan(sqrt((-2+B*X)/2))
-check(last = 0)
+
+f = 1 / X / sqrt(3 X + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X / sqrt(3 X - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X / sqrt(-3 X + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X / sqrt(-3 X - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 #137
 
-f = integral(1 / X^2 * 1 / sqrt(A + B X),X)
-g = B arctanh(sqrt(A + B X) / sqrt(A)) / A^(3/2) - sqrt(A + B X) / (A X)
-check(f = g)
+f = 1 / X^2 / sqrt(3 X + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X^2 / sqrt(3 X - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X^2 / sqrt(-3 X + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = 1 / X^2 / sqrt(-3 X - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 #156
 integral(sqrt(X^2+A),X)-1/2*(X*sqrt(X^2+A)+A*log(X+sqrt(X^2+A)))
