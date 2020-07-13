@@ -613,16 +613,50 @@ check(last = 0)
 
 #168
 
-f = integral(X^2 sqrt(X^2 + A),X)
-g = (X sqrt(X^2 + A) (A + 2 X^2) - A^2 log(sqrt(X^2 + A) + X)) / 8
-check(f = g)
+f = X^2 sqrt(3 X^2 + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = X^2 sqrt(3 X^2 - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+-- FIXME
+-- f = X^2 sqrt(-3 X^2 + 7)
+-- g = integral(f,X)
+-- h = d(g,X)
+-- check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+-- FIXME
+-- f = X^2 sqrt(-3 X^2 - 7)
+-- g = integral(f,X)
+-- h = d(g,X)
+-- check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 #169
-integral(X^3*sqrt(X^2+7),X)-(1/5*X^2-2/15*7)*sqrt((X^2+7)^3)
-check(last = 0)
-#170
-integral(X^3*sqrt(X^2-7),X)-(sqrt((X^2-7)^5)/5+7*sqrt((X^2-7)^3)/3)
-check(last = 0)
+
+f = X^3 sqrt(3 X^2 + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = X^3 sqrt(3 X^2 - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = X^3 sqrt(-3 X^2 + 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
+f = X^3 sqrt(-3 X^2 - 7)
+g = integral(f,X)
+h = d(g,X)
+check(numerator(f) denominator(h) = denominator(f) numerator(h))
+
 #171
 integral(X^2/sqrt(X^2+A),X)-1/2*X*sqrt(X^2+A)+1/2*A*log(X+sqrt(X^2+A))
 check(last = 0)
@@ -671,9 +705,6 @@ f = integral(X^2 sqrt(7 - X^2),X)
 g = 1/4 X^3 (-X^2 + 7)^(1/2) - 7/8 X (-X^2 + 7)^(1/2) - 49/8 i log(-X + i (-X^2 + 7)^(1/2))
 check(f = g)
 
-#211
-integral(X^3*sqrt(7-X^2),X)-(-1/5*X^2-2/15*7)*sqrt((7-X^2)^3)
-check(last = 0)
 #214
 integral(X^2/sqrt(7-X^2),X)+X/2*sqrt(7-X^2)-7/2*arcsin(X/sqrt(7))
 check(last = 0)

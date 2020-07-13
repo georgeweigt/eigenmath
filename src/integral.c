@@ -292,17 +292,13 @@ char *integral_tab[] = {
 	"1/5 sqrt((x^2 + a^(1/3))^5)",
 	"1",
 // 168
-	"x^2 sqrt(x^2 + a)",
-	"(x sqrt(a + x^2) (a + 2 x^2) - a^2 log(sqrt(a + x^2) + x)) / 8",
+	"x^2 sqrt(a x^2 + b)",
+	"1/8 a^(-3/2) (sqrt(a) x sqrt(a x^2 + b) (2 a x^2 + b) - b^2 log(sqrt(a) sqrt(a x^2 + b) + a x))",
+	"and(number(a),a>0)", // FIXME
+// 169
+	"x^3 sqrt(a x^2 + b)",
+	"1/15 sqrt(a x^2 + b) (3 a^2 x^4 + a b x^2 - 2 b^2) / a^2",
 	"1",
-
-	"x^3 sqrt(x^2 + a)",
-	"(1/5 x^2 - 2/15 a) sqrt((x^2 + a)^3)",
-	"and(number(a),testgt(a,0))",
-
-	"x^3 sqrt(x^2 + a)",
-	"sqrt((x^2 + a)^5) 1/5 - a sqrt((x^2 + a)^3) 1/3",
-	"and(number(a),testlt(a,0))",
 
 	"x^2 / sqrt(x^2 + a)",
 	"1/2 x sqrt(x^2 + a) - 1/2 a log(x + sqrt(x^2 + a))",
