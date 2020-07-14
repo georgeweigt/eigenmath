@@ -2,7 +2,7 @@
 
 trace = 1
 
--- check x^n exp(a x + b)
+-- x^n exp(a x + b)
 
 f = exp(a x)
 g = integral(f)
@@ -44,7 +44,7 @@ g = integral(f)
 h = d(g)
 check(f = h)
 
--- check x^n exp(a x^2 + b)
+-- x^n exp(a x^2 + b)
 
 f = exp(a x^2)
 g = integral(f)
@@ -86,7 +86,64 @@ g = integral(f)
 h = d(g)
 check(f = h)
 
--- end of exp
+-- x^n log(a x + b)
+
+f = log(a x)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = log(a x + b)
+g = integral(f)
+h = d(g)
+h = simplify(h)
+check(f = h)
+
+f = x log(a x)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x log(a x + b)
+g = integral(f)
+h = d(g)
+h = simplify(h)
+check(f = h)
+
+f = x^2 log(a x)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x^2 log(a x + b)
+g = integral(f)
+h = d(g)
+h = simplify(h)
+check(f = h)
+
+f = log(a x)^2
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = log(a x + b)^2
+g = integral(f)
+h = d(g)
+h = simplify(h)
+check(f = h)
+
+f = log(a x) / x^2
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = log(a x + b) / x^2
+g = integral(f)
+h = d(g)
+h = simplify(h)
+check(f = h)
+
+--
 
 integral(x^2+x)
 check(last = 1/3 x^3 + 1/2 x^2)
@@ -1006,33 +1063,11 @@ check(last = 0)
 #443
 integral(arctan(A*X),X)-X*arctan(A*X)+log(1+A^2*X^2)/(2*A)
 check(last = 0)
-#485
-integral(log(X),X)-X*log(X)+X
-check(last = 0)
-#485a
-integral(log(A*X),X)-X*log(A*X)+X
-check(last = 0)
-#486
-integral(X*log(X),X)-1/2*X^2*log(X)+1/4*X^2
-check(last = 0)
-#486a
-integral(X*log(A*X),X)-1/2*X^2*log(A*X)+1/4*X^2
-check(last = 0)
-#487
-integral(X^2*log(A*X),X)-1/3*X^3*log(A*X)+X^3/9
-check(last = 0)
-#489
-integral(log(X)^2,X)-X*log(X)^2+2*X*log(X)-2*X
-check(last = 0)
+
 #493
 integral(1/X*1/log(A*X),X)-log(log(A*X))
 check(last = 0)
-#499
-integral(log(A*X+B),X)-(A*X+B)*log(A*X+B)/A+X
-check(last = 0)
-#500
-integral(log(A*X+B)/X^2,X)-A*log(X)/B+(A*X+B)*log(A*X+B)/B/X
-check(last = 0)
+
 #554
 integral(sinh(X),X)-cosh(X)
 check(last = 0)

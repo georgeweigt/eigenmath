@@ -89,20 +89,36 @@ char *integral_tab_log[] = {
 	"x^2 log(a x) 1/2 - x^2 1/4",
 	"1",
 
+	"x log(a x + b)",
+	"1/2 (a x - b) (a x + b) log(a x + b) / a^2 - 1/4 x (a x - 2 b) / a",
+	"1",
+
 	"x^2 log(a x)",
 	"x^3 log(a x) 1/3 - 1/9 x^3",
 	"1",
 
-	"log(x)^2",
-	"x log(x)^2 - 2 x log(x) + 2 x",
+	"x^2 log(a x + b)",
+	"1/3 (a x + b) (a^2 x^2 - a b x + b^2) log(a x + b) / a^3 - 1/18 x (2 a^2 x^2 - 3 a b x + 6 b^2) / a^2",
 	"1",
 
-	"1 / (x (a + log(x)))",
-	"log(a + log(x))",
+	"log(a x)^2",
+	"x log(a x)^2 - 2 x log(a x) + 2 x",
+	"1",
+
+	"log(a x + b)^2",
+	"(a x + b) (log(a x + b)^2 - 2 log(a x + b) + 2) / a",
+	"1",
+
+	"log(a x) / x^2",
+	"-(log(a x) + 1) / x",
 	"1",
 
 	"log(a x + b) / x^2",
 	"a log(x) / b - (a x + b) log(a x + b) / (b x)",
+	"1",
+
+	"1 / (x (a + log(x)))",
+	"log(a + log(x))",
 	"1",
 
 	NULL,
@@ -587,7 +603,7 @@ char *integral_tab[] = {
 	"cosh(x)^2",
 	"sinh(2 x) 1/4 + x 1/2",
 	"1",
-// 573
+
 	"erf(a x)",
 	"x erf(a x) + exp(-a^2 x^2) / (a sqrt(pi))",
 	"1",
