@@ -745,20 +745,47 @@ integral_of_form(void)
 void
 integral_lookup(int h)
 {
-	if (find(F, symbol(EXP1)) && find_integral(h, integral_tab_exp))
-		return;
+	int t;
 
 	if (car(F) == symbol(POWER) && find_integral(h, integral_tab_inverse))
 		return;
 
-	if (find(F, symbol(SIN)) || find(F, symbol(COS)) || find(F,symbol(TAN)))
-		if (find_integral(h, integral_tab_trig))
-			return;
+	t = integral_classify(F);
+
+	if ((t & 1) && find_integral(h, integral_tab_exp))
+		return;
+
+	if ((t & 2) && find_integral(h, integral_tab_trig))
+		return;
+
+	// none of the above
 
 	if (find_integral(h, integral_tab))
 		return;
 
 	stop("integral: could not find a solution");
+}
+
+int
+integral_classify(struct atom *p)
+{
+	int t = 0;
+
+	if (iscons(p)) {
+		while (iscons(p)) {
+			t |= integral_classify(car(p));
+			p = cdr(p);
+		}
+		return t;
+	}
+
+	if (p == symbol(EXP1))
+		return 1;
+
+	if (p == symbol(SIN) || p == symbol(COS) || p == symbol(TAN))
+		return 2;
+
+	return 0;
 }
 
 int

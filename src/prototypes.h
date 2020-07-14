@@ -342,6 +342,7 @@ void integral(void);
 void integral_nib(void);
 void integral_of_form(void);
 void integral_lookup(int h);
+int integral_classify(struct atom *p);
 int find_integral(int h, char **s);
 int find_integral_nib(int h);
 void decomp(void);
