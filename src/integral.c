@@ -2,14 +2,6 @@
 
 char *integral_tab_exp[] = {
 
-	"log(a x)",
-	"x log(a x) - x",
-	"1",
-
-	"log(a x + b)",
-	"x log(a x + b) + b log(a x + b) / a - x",
-	"1",
-
 	"exp(a x)",
 	"exp(a x) / a",
 	"1",
@@ -60,6 +52,19 @@ char *integral_tab_exp[] = {
 
 	"x^3 exp(a x + b)",
 	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x + b) / a^4",
+	"1",
+
+	NULL,
+};
+
+char *integral_tab_log[] = {
+
+	"log(a x)",
+	"x log(a x) - x",
+	"1",
+
+	"log(a x + b)",
+	"x log(a x + b) + b log(a x + b) / a - x",
 	"1",
 
 	"x log(a x)",
@@ -751,7 +756,10 @@ integral_lookup(int h)
 	if ((t & 1) && find_integral(h, integral_tab_exp))
 		return;
 
-	if ((t & 2) && find_integral(h, integral_tab_trig))
+	if ((t & 2) && find_integral(h, integral_tab_log))
+		return;
+
+	if ((t & 4) && find_integral(h, integral_tab_trig))
 		return;
 
 	// none of the above
@@ -775,11 +783,14 @@ integral_classify(struct atom *p)
 		return t;
 	}
 
-	if (p == symbol(EXP1) || p == symbol(LOG))
+	if (p == symbol(EXP1))
 		return 1;
 
-	if (p == symbol(SIN) || p == symbol(COS) || p == symbol(TAN))
+	if (p == symbol(LOG))
 		return 2;
+
+	if (p == symbol(SIN) || p == symbol(COS) || p == symbol(TAN))
+		return 4;
 
 	return 0;
 }
