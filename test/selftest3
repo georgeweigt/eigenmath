@@ -34,25 +34,21 @@ check(last = 3^X)
 f = 1 / (3 X^2 + 7)
 g = integral(f,X)
 h = d(g,X)
--- h is too complex to simplify, check using cross product
 check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 f = 1 / (3 X^2 - 7)
 g = integral(f,X)
 h = d(g,X)
--- h is too complex to simplify, check using cross product
 check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 f = 1 / (-3 X^2 + 7)
 g = integral(f,X)
 h = d(g,X)
--- h is too complex to simplify, check using cross product
 check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 f = 1 / (-3 X^2 - 7)
 g = integral(f,X)
 h = d(g,X)
--- h is too complex to simplify, check using cross product
 check(numerator(f) denominator(h) = denominator(f) numerator(h))
 
 #17

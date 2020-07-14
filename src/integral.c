@@ -133,7 +133,7 @@ char *integral_tab_inverse[] = {
 	"1",
 // 16
 	"1 / (a x^2 + b)",
-	"1/2 i (log(1 - i sqrt(a) x / sqrt(b)) - log(1 + i sqrt(a) x / sqrt(b))) / sqrt(a) / sqrt(b)",
+	"arctan(sqrt(a) x / sqrt(b)) / sqrt(a) / sqrt(b)",
 	"1",
 // 17
 	"1 / sqrt(a x^2 + b)",
@@ -141,7 +141,7 @@ char *integral_tab_inverse[] = {
 	"1",
 // 65
 	"1 / (a x^2 + b)^2",
-	"1/4 i a^(-1/2) b^(-3/2) (log(1 - i sqrt(a) x / sqrt(b)) - log(1 + i sqrt(a) x / sqrt(b))) + x / (2 a b x^2 + 2 b^2)",
+	"1/2 ((arctan((sqrt(a) x) / sqrt(b))) / (sqrt(a) b^(3/2)) + x / (a b x^2 + b^2))",
 	"1",
 // 165
 	"(a x^2 + b)^(-3/2)",
