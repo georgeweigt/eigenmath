@@ -102,14 +102,6 @@ check(last = 0)
 #9
 integral(1/X,X)
 check(last = log(X))
-#11
-integral(exp(X),X)
-check(last = exp(X))
-#12
-A=quote(A)
-X=quote(X)
-integral(exp(A*X),X)-exp(A*X)/A
-check(last = 0)
 #14
 integral(log(X),X)-X*log(X)+X
 check(last = 0)
@@ -1066,50 +1058,9 @@ check(last = 0)
 integral(cosh(X)^2,X)-sinh(2*X)/4-X/2
 check(last = 0)
 
-#573
-
-f = integral(exp(a x^2))
-g = -i sqrt(pi) erf(i sqrt(a) x) / sqrt(a) / 2
-check(f = g)
-
-f = integral(exp(-x^2))
-g = sqrt(pi) erf(x) / 2
-check(f = g)
-
-integral(exp(-3*x^2))-sqrt(pi/3)*erf(sqrt(3)*x)/2
-check(last = 0)
 integral(1/x*1/(a+log(x)),x)-log(a+log(x))
 check(last = 0)
-integral(exp(a*x+b*x))
-check(last = exp((a+b)*x)/(a+b))
-integral(x*exp(a*x))
-check(last = -exp(a*x)/(a^2)+x*exp(a*x)/a)
-derivative
-check(last = x*exp(a*x))
-integral(x*exp(a*x+b))
-check(last = -exp(a*x+b)/(a^2)+x*exp(a*x+b)/a)
-derivative
-check(last = x*exp(a*x+b))
-integral(x*exp(-a*x+b))
-check(last = -exp(-a*x+b)/(a^2)-x*exp(-a*x+b)/a)
-derivative
-check(last = x*exp(-a*x+b))
-integral(x^2*exp(a*x))
-check(last = 2*exp(a*x)/(a^3)-2*x*exp(a*x)/(a^2)+x^2*exp(a*x)/a)
-derivative
-check(last = x^2*exp(a*x))
-integral(x^2*exp(a*x+b))
-check(last = 2*exp(a*x+b)/(a^3)-2*x*exp(a*x+b)/(a^2)+x^2*exp(a*x+b)/a)
-derivative
-check(last = x^2*exp(a*x+b))
-integral(x^3*exp(a*x))
-check(last = -6*exp(a*x)/(a^4)+6*x*exp(a*x)/(a^3)-3*x^2*exp(a*x)/(a^2)+x^3*exp(a*x)/a)
-derivative
-check(last = x^3*exp(a*x))
-integral(x^3*exp(a*x+b))
-check(last = -6*exp(a*x+b)/(a^4)+6*x*exp(a*x+b)/(a^3)-3*x^2*exp(a*x+b)/(a^2)+x^3*exp(a*x+b)/a)
-derivative
-check(last = x^3*exp(a*x+b))
+
 integral(x^2*(1-x^2)^(3/2))-(x*sqrt(1-x^2)*(-8*x^4+14*x^2-3)+3*arcsin(x))/48
 check(last = 0)
 integral(x^4*(1-x^2)^(3/2))-(-x*sqrt(1-x^2)*(16*x^6-24*x^4+2*x^2+3)+3*arcsin(x))/128
