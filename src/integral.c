@@ -10,26 +10,6 @@ char *integral_tab_exp[] = {
 	"exp(a x + b) / a",
 	"1",
 
-	"x exp(a x^2)",
-	"exp(a x^2) / (2 a)",
-	"1",
-
-	"x exp(a x^2 + b)",
-	"exp(a x^2 + b) / (2 a)",
-	"1",
-
-	"x^3 exp(a x^2)",
-	"exp(a x^2) (x^2 / a - 1 / (a^2)) 1/2",
-	"1",
-
-	"x^3 exp(a x^2 + b)",
-	"exp(a x^2) exp(b) (x^2 / a - 1 / (a^2)) 1/2",
-	"1",
-
-	"exp(a x^2)",
-	"-i sqrt(pi) erf(i sqrt(a) x) 1/2 / sqrt(a)",
-	"1",
-
 	"x exp(a x)",
 	"exp(a x) (a x - 1) / (a^2)",
 	"1",
@@ -52,6 +32,30 @@ char *integral_tab_exp[] = {
 
 	"x^3 exp(a x + b)",
 	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x + b) / a^4",
+	"1",
+//
+	"exp(a x^2)",
+	"-1/2 i sqrt(pi) erf(i sqrt(a) x) / sqrt(a)",
+	"1",
+
+	"exp(a x^2 + b)",
+	"-1/2 i sqrt(pi) exp(b) erf(i sqrt(a) x) / sqrt(a)",
+	"1",
+
+	"x exp(a x^2)",
+	"1/2 exp(a x^2) / a",
+	"1",
+
+	"x exp(a x^2 + b)",
+	"1/2 exp(a x^2 + b) / a",
+	"1",
+
+	"x^3 exp(a x^2)",
+	"1/2 exp(a x^2) (x^2 / a - 1 / a^2)",
+	"1",
+
+	"x^3 exp(a x^2 + b)",
+	"1/2 exp(a x^2) exp(b) (x^2 / a - 1 / a^2)",
 	"1",
 
 	NULL,
@@ -496,7 +500,7 @@ char *integral_tab[] = {
 // 168
 	"x^2 sqrt(a x^2 + b)",
 	"1/8 a^(-3/2) (sqrt(a) x sqrt(a x^2 + b) (2 a x^2 + b) - b^2 log(sqrt(a) sqrt(a x^2 + b) + a x))",
-	"and(number(a),a>0)", // FIXME
+	"and(number(a),a>0)",
 // 169
 	"x^3 sqrt(a x^2 + b)",
 	"1/15 sqrt(a x^2 + b) (3 a^2 x^4 + a b x^2 - 2 b^2) / a^2",
@@ -517,14 +521,6 @@ char *integral_tab[] = {
 	"1 / x^3 / sqrt(a x^2 + b)",
 	"-sqrt(a x^2 + b) / (2 b x^2) + a (log(sqrt(b) sqrt(a x^2 + b) + b) - log(x)) / (2 b^(3/2))",
 	"1",
-// 176 FIXME
-//	"x^2 (a x^2 + b)^(3/2)",
-//	"?",
-//	"1",
-// 177 FIXME
-//	"x^3 (a x^2 + b)^(3/2)",
-//	"?",
-//	"1",
 // 216
 	"sqrt(a x^2 + b) / x^2",
 	"sqrt(a) log(sqrt(a) sqrt(a x^2 + b) + a x) - sqrt(a x^2 + b) / x",
@@ -532,11 +528,7 @@ char *integral_tab[] = {
 // 217
 	"sqrt(a x^2 + b) / x^3",
 	"1/2 (-sqrt(a x^2 + b) / x^2 - (a log(sqrt(b) sqrt(a x^2 + b) + b)) / sqrt(b) + (a log(x)) / sqrt(b))",
-	"and(number(b),b>0)", // FIXME
-// 218 FIXME
-//	"sqrt(a x^2 + b) / x^4",
-//	"-(a x^2 + b)^(3/2) / (3 b x^3)",
-//	"1",
+	"and(number(b),b>0)",
 
 	"arcsin(a x)",
 	"x arcsin(a x) + sqrt(1 - a^2 x^2) / a",
