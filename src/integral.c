@@ -2,6 +2,8 @@
 
 char *integral_tab_exp[] = {
 
+// x^n exp(a x + b)
+
 	"exp(a x)",
 	"exp(a x) / a",
 	"1",
@@ -33,7 +35,11 @@ char *integral_tab_exp[] = {
 	"x^3 exp(a x + b)",
 	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x + b) / a^4",
 	"1",
-//
+
+// x^n exp(a x^2 + b)
+
+// erfi(x) = -i erf(i x)
+
 	"exp(a x^2)",
 	"-1/2 i sqrt(pi) erf(i sqrt(a) x) / sqrt(a)",
 	"1",
@@ -48,6 +54,14 @@ char *integral_tab_exp[] = {
 
 	"x exp(a x^2 + b)",
 	"1/2 exp(a x^2 + b) / a",
+	"1",
+
+	"x^2 exp(a x^2)",
+	"1/2 x exp(a x^2) / a + 1/4 i sqrt(pi) erf(i sqrt(a) x) / a^(3/2)",
+	"1",
+
+	"x^2 exp(a x^2 + b)",
+	"1/2 x exp(a x^2 + b) / a + 1/4 i sqrt(pi) exp(b) erf(i sqrt(a) x) / a^(3/2)",
 	"1",
 
 	"x^3 exp(a x^2)",

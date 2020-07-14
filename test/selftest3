@@ -1,5 +1,93 @@
 -- integrals
 
+trace = 1
+
+-- check x^n exp(a x + b)
+
+f = exp(a x)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = exp(a x + b)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x exp(a x)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x exp(a x + b)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x^2 exp(a x)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x^2 exp(a x + b)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x^3 exp(a x)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x^3 exp(a x + b)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+-- check x^n exp(a x^2 + b)
+
+f = exp(a x^2)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = exp(a x^2 + b)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x exp(a x^2)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x exp(a x^2 + b)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x^2 exp(a x^2)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x^2 exp(a x^2 + b)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x^3 exp(a x^2)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+f = x^3 exp(a x^2 + b)
+g = integral(f)
+h = d(g)
+check(f = h)
+
+-- end of exp
+
 integral(x^2+x)
 check(last = 1/3 x^3 + 1/2 x^2)
 
