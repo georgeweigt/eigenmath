@@ -2,6 +2,14 @@
 
 char *integral_tab_exp[] = {
 
+	"log(a x)",
+	"x log(a x) - x",
+	"1",
+
+	"log(a x + b)",
+	"x log(a x + b) + b log(a x + b) / a - x",
+	"1",
+
 	"exp(a x)",
 	"exp(a x) / a",
 	"1",
@@ -52,6 +60,26 @@ char *integral_tab_exp[] = {
 
 	"x^3 exp(a x + b)",
 	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x + b) / a^4",
+	"1",
+
+	"x log(a x)",
+	"x^2 log(a x) 1/2 - x^2 1/4",
+	"1",
+
+	"x^2 log(a x)",
+	"x^3 log(a x) 1/3 - 1/9 x^3",
+	"1",
+
+	"log(x)^2",
+	"x log(x)^2 - 2 x log(x) + 2 x",
+	"1",
+
+	"1 / (x (a + log(x)))",
+	"log(a + log(x))",
+	"1",
+
+	"log(a x + b) / x^2",
+	"a log(x) / b - (a x + b) log(a x + b) / (b x)",
 	"1",
 
 	NULL,
@@ -297,10 +325,6 @@ char *integral_tab[] = {
 	"x^(a + 1) / (a + 1)",	// answer
 	"not(a = -1)",		// condition
 
-	"log(a x)",
-	"x log(a x) - x",
-	"1",
-
 	"a^x",
 	"a^x / log(a)",
 	"or(not(number(a)),a>0)",
@@ -519,34 +543,6 @@ char *integral_tab[] = {
 
 	"arctan(a x)",
 	"x arctan(a x) - log(1 + a^2 x^2) / (2 a)",
-	"1",
-
-	"log(a x)",
-	"x log(a x) - x",
-	"1",
-
-	"x log(a x)",
-	"x^2 log(a x) 1/2 - x^2 1/4",
-	"1",
-
-	"x^2 log(a x)",
-	"x^3 log(a x) 1/3 - 1/9 x^3",
-	"1",
-
-	"log(x)^2",
-	"x log(x)^2 - 2 x log(x) + 2 x",
-	"1",
-
-	"1 / (x (a + log(x)))",
-	"log(a + log(x))",
-	"1",
-
-	"log(a x + b)",
-	"(a x + b) log(a x + b) / a - x",
-	"1",
-
-	"log(a x + b) / (x^2)",
-	"a log(x) / b - (a x + b) log(a x + b) / (b x)",
 	"1",
 
 	"sinh(x)",
@@ -779,7 +775,7 @@ integral_classify(struct atom *p)
 		return t;
 	}
 
-	if (p == symbol(EXP1))
+	if (p == symbol(EXP1) || p == symbol(LOG))
 		return 1;
 
 	if (p == symbol(SIN) || p == symbol(COS) || p == symbol(TAN))
