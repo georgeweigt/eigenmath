@@ -492,11 +492,9 @@ check(last = pi)
 z=x^2+2y
 P=(x,y,z)
 a=abs(cross(d(P,x),d(P,y)))
-A = defint(a,x,0,1,y,0,1)
-A
+A = defint(a,x,0,1,y,0,1) -- uses integral #138
 B = 3/2 + 5/8 log(5)
-B
--- FIXME: A not simplifying to B, use float to compare
+-- FIXME
 check(string(float(A)) = string(float(B)))
 
 clear
