@@ -30,8 +30,9 @@ struct atom *minusone;
 struct atom *imaginaryunit;
 
 int expanding;
+int drawing;
+
 int interrupt;
-int draw_flag;
 
 jmp_buf stop_return;
 jmp_buf draw_stop_return;

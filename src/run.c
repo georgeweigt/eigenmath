@@ -18,8 +18,6 @@ run(char *s)
 
 	for (;;) {
 
-		expanding = 1;
-
 		s = scan_input(s);
 
 		if (s == NULL)
@@ -58,8 +56,9 @@ prep(void)
 	tof = 0;
 
 	expanding = 1;
+	drawing = 0;
+
 	interrupt = 0;
-	draw_flag = 0;
 
 	p0 = symbol(NIL);
 	p1 = symbol(NIL);
@@ -108,7 +107,7 @@ eval_and_print_result(void)
 void
 stop(char *s)
 {
-	if (draw_flag == 2)
+	if (drawing > 1)
 		longjmp(draw_stop_return, 1);
 
 	if (s) {
@@ -187,8 +186,6 @@ run_file(char *filename)
 	t2 = trace2;
 
 	for (;;) {
-
-		expanding = 1;
 
 		s = scan_input(s);
 
