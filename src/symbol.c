@@ -298,12 +298,22 @@ init_symbol_table(void)
 			usym_count++;
 		}
 		symtab[stab[i].index] = p;
-		binding[stab[i].index] = p;
-		arglist[stab[i].index] = p; // in case gc gets called
 	}
 
-	// do this last to ensure NIL is initialized
+	clear_symbols();
+}
 
-	for (i = 0; i < n; i++)
-		arglist[stab[i].index] = symbol(NIL);
+void
+clear_symbols(void)
+{
+	int i, j, k;
+	for (i = 0; i < 27; i++) {
+		for (j = 0; j < NSYM; j++) {
+			k = NSYM * i + j;
+			if (symtab[k] == NULL)
+				break;
+			binding[k] = symtab[k];
+			arglist[k] = symbol(NIL);
+		}
+	}
 }

@@ -1,5 +1,4 @@
-trace=1
-tty=1
+trace = 1
 
 -- string function
 
@@ -103,7 +102,6 @@ check(string(A) = "2.44949 x y")
 check(string(B) = "2.44949 x y")
 
 clear
-trace=1
 
 0^a
 check(string(last)="0^a")
@@ -422,7 +420,6 @@ check(contract(outer(A,B,C))=dot(A,B)*C)
 -- test simplify
 
 clear
-trace=1
 
 -3*x*A/(A-B) + 3*x*B/(A-B)
 simplify
@@ -877,7 +874,6 @@ check(string(last)="1.01722 + 0.402359 i")
 -- test rationalize function (this used to get stuck)
 
 clear
-trace=1
 
 s = 4 E^2
 t = -2 E^2 + E^2 exp(i theta) + E^2 exp(-i theta)
@@ -918,7 +914,6 @@ check(rationalize(last) == f)
 -- implied arguments
 
 clear
-trace = 1
 f(x) = A + B
 A = a x
 B = b x
@@ -945,7 +940,6 @@ check(A==(1,1,1))
 -- this was broken, now fixed
 
 clear
-trace = 1
 
 z = sqrt(i)
 z conj(z)
@@ -1012,7 +1006,6 @@ check(B[2,2] = d)
 -- verify that defint works in a denominator
 
 clear
-trace = 1
 
 I(y) = defint((1 + cos(theta)^2) sin(theta),theta,0,y)
 I(theta) / I(pi)
@@ -1022,6 +1015,4 @@ check(last = -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2)
 
 clear
 status
-"all tests passed"
-
-exit
+exit -- all tests passed

@@ -1,5 +1,4 @@
-trace=1
-tty=1
+trace = 1
 
 -- bondi metric
 guu=V(u,r,theta)*1/r*exp(2*beta(u,r,theta))-U(u,r,theta)^2*r^2*exp(2*gamma(u,r,theta))
@@ -26,7 +25,6 @@ contract(tmp,2,3)
 check(last=(0,0,0,0))
 
 clear
-trace=1
 
 --Simple example of clockwise (right hand) circular polarization.
 --Both E and B rotate clockwise while remaining at right angles to each other.
@@ -51,7 +49,6 @@ check(dot(E,B) = 0)              --Check right angle
 check(dot(E,E) - dot(B,B) = 0)   --Check equal length
 
 clear
-trace=1
 
 --Can complex number multiplication be simulated using real vectors?
 --Yes, if a rank-3 tensor is used to do the multiply.
@@ -66,7 +63,6 @@ T = ((T11, T12), (T21, T22))
 check(dot(A,T,B) - P = 0)
 
 clear
-trace=1
 
 --Simple example of clockwise (right hand) elliptical polarization.
 --As in "circular polarization" except E and B trace out ellipses.
@@ -86,7 +82,6 @@ check(dot(E,B) = 0)              --Check right angle
 check(dot(E,E) - dot(B,B) = 0)   --Check equal length
 
 clear
-trace=1
 
 -- This script does a few of the exercises from Feynman's book "Quantum Electrodynamics."
 
@@ -300,7 +295,6 @@ check(A = B)
 --------------------------------------------------------------------------------
 
 clear
-trace=1
 
 # Generate hydrogen wavefunctions and check that they solve the Schroedinger
 # equation for the hydrogen atom:
@@ -345,7 +339,6 @@ for(n,1,5,
 )))
 
 clear
-trace=1
 
 # Mandl and Shaw problem 5.1
 #
@@ -431,7 +424,6 @@ T = d(d(L,dA),x)
 contract(T) # sum over alpha
 
 clear
-trace=1
 
 --Maxwell equations in tensor form.
 --See the book Gravitation p. 81.
@@ -465,7 +457,6 @@ FDDU = contract(outer(FDDD,guu),3,4)   --Easier to make FDDU than FUUD.
 check(contract(FDDU,2,3) = 0)   --For light J is zero.
 
 clear
-trace=1
 
 # Ref. "Quantum harmonic oscillator" in Wikipedia
 
@@ -507,7 +498,6 @@ summa(K + V)
 hbar * omega * (n + 0.5)
 
 clear
-trace=1
 
 -- This script demonstrates some properties of a rotation matrix.
 
@@ -544,7 +534,6 @@ U = (U1,U2,U3)
 check(U^2 = dot(R,U)^2)
 
 clear
-trace=1
 
 # This script calculates the Einstein tensor for a static spherically symmetric
 # metric.
@@ -717,7 +706,6 @@ Gthetatheta
 Gphiphi
 
 clear
-trace=1
 
 # This script tests 10 vector calculus identities.
 
@@ -836,7 +824,6 @@ B = F div(G) - G div(F) + dot(grad(F),G) - dot(grad(G),F)
 check(A = B)
 
 clear
-trace=1
 
 -- www.eigenmath.org/birthday.txt
 "Product method"
@@ -849,7 +836,6 @@ float(p)
 1.0 - p
 
 clear
-trace=1
 
 -- www.eigenmath.org/casimir.txt (15 seconds)
 E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
@@ -903,7 +889,6 @@ A-N*B
 check(last=0)
 
 clear
-trace=1
 
 -- www.eigenmath.org/dirac.txt
 gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
@@ -933,7 +918,6 @@ check(D(psi7)=0)
 check(D(psi8)=0)
 
 clear
-trace=1
 
 -- www.eigenmath.org/spinors.txt
 E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
@@ -983,7 +967,6 @@ outer(v41,dot(conj(v41),gamma0))+outer(v42,dot(conj(v42),gamma0))-
   (E4+m4)*(pslash4-m4*I)
 
 clear
-trace=1
 
 -- www.eigenmath.org/gordon.txt
 E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m^2)
@@ -1013,7 +996,6 @@ for(s1,1,2,for(s2,1,2,for(mu,1,4,
 )))
 
 clear
-trace=1
 
 -- www.eigenmath.org/muon.txt
 p = sqrt(E^2 - m^2)
@@ -1056,7 +1038,6 @@ A/(64*E^4)-B
 check(last=0)
 
 clear
-trace=1
 
 -- www.eigenmath.org/rutherford.txt
 p = sqrt(E^2 - m^2)
@@ -1081,7 +1062,6 @@ A/4-B
 check(last=0)
 
 clear
-trace=1
 
 -- www.eigenmath.org/quantum-electric-field.txt
 -- derived units
@@ -1100,7 +1080,6 @@ C
 volt * meter^(-1)
 
 clear
-trace=1
 
 -- www.eigenmath.org/schwarzchild-metric.txt
 
@@ -1210,8 +1189,8 @@ GDD
 
 check(GDD=0)
 
+-- done
+
 clear
 status
-"all tests passed"
-
-exit
+exit -- all tests passed

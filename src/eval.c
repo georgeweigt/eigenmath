@@ -64,7 +64,9 @@ eval_binding(void)
 void
 eval_clear(void)
 {
-	clear_flag = 1;
+	clear_symbols();
+	run_init_script();
+	gc(); // garbage collection
 	push_symbol(NIL);
 }
 

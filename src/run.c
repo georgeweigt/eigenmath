@@ -26,32 +26,12 @@ run(char *s)
 			break; // end of input
 
 		eval_and_print_result();
-
-		if (clear_flag)
-			init();
 	}
 }
-
-char *init_script[] = {
-	"e=exp(1)",
-	"i=sqrt(-1)",
-	"trange=(-pi,pi)",
-	"xrange=(-10,10)",
-	"yrange=(-10,10)",
-	"last=0",
-	"trace=0",
-	"tty=0",
-	"cross(u,v)=(u[2]*v[3]-u[3]*v[2],u[3]*v[1]-u[1]*v[3],u[1]*v[2]-u[2]*v[1])",
-	"curl(u)=(d(u[3],y)-d(u[2],z),d(u[1],z)-d(u[3],x),d(u[2],x)-d(u[1],y))",
-	"div(u)=d(u[1],x)+d(u[2],y)+d(u[3],z)",
-	"ln(x)=log(x)",
-};
 
 void
 init(void)
 {
-	int i, n;
-
 	init_symbol_table();
 
 	prep();
@@ -64,13 +44,10 @@ init(void)
 	list(3);
 	imaginaryunit = pop();
 
-	n = sizeof init_script / sizeof (char *);
+	run_init_script();
 
-	for (i = 0; i < n; i++) {
-		scan(init_script[i]);
-		eval();
-		pop();
-	}
+	binding[LAST] = zero;
+	binding[TTY] = zero;
 
 	gc();
 
@@ -86,7 +63,6 @@ prep(void)
 	expanding = 1;
 	interrupt = 0;
 	draw_flag = 0;
-	clear_flag = 0;
 
 	p0 = symbol(NIL);
 	p1 = symbol(NIL);
@@ -223,9 +199,6 @@ run_file(char *filename)
 			break; // end of input
 
 		eval_and_print_result();
-
-		if (clear_flag)
-			stop("run: clear not allowed in run file");
 	}
 
 	trace1 = t1;
@@ -323,4 +296,28 @@ eval_status(void)
 	printbuf(outbuf, BLACK);
 
 	push_symbol(NIL);
+}
+
+char *init_script[] = {
+	"e=exp(1)",
+	"i=sqrt(-1)",
+	"trange=(-pi,pi)",
+	"xrange=(-10,10)",
+	"yrange=(-10,10)",
+	"cross(u,v)=(u[2]*v[3]-u[3]*v[2],u[3]*v[1]-u[1]*v[3],u[1]*v[2]-u[2]*v[1])",
+	"curl(u)=(d(u[3],y)-d(u[2],z),d(u[1],z)-d(u[3],x),d(u[2],x)-d(u[1],y))",
+	"div(u)=d(u[1],x)+d(u[2],y)+d(u[3],z)",
+	"ln(x)=log(x)",
+	NULL,
+};
+
+void
+run_init_script(void)
+{
+	char **s = init_script;
+	while (*s) {
+		scan(*s++);
+		eval();
+		pop();
+	}
 }

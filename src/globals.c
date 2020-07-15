@@ -32,7 +32,6 @@ struct atom *imaginaryunit;
 int expanding;
 int interrupt;
 int draw_flag;
-int clear_flag;
 
 jmp_buf stop_return;
 jmp_buf draw_stop_return;

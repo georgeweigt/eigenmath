@@ -33,7 +33,6 @@ extern struct atom *imaginaryunit;
 extern int expanding;
 extern int interrupt;
 extern int draw_flag;
-extern int clear_flag;
 
 extern jmp_buf stop_return;
 extern jmp_buf draw_stop_return;

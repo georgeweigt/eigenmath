@@ -1,4 +1,4 @@
-trace=1
+trace = 1
 
 --parser checks
 +
@@ -479,7 +479,6 @@ cosh(arccosh(x))
 check(last = x)
 
 clear
-trace=1
 
 defint(x^2,y,0,sqrt(1-x^2),x,-1,1)
 check(last = 1/8*pi)
@@ -498,7 +497,6 @@ B = 3/2 + 5/8 log(5)
 check(string(float(A)) = string(float(B)))
 
 clear
-trace=1
 
 x=u*cos(v)
 y=u*sin(v)
@@ -509,7 +507,6 @@ defint(a,u,0,1,v,0,3pi)
 check(last = 3/2*pi*log(1+2^(1/2))+3*pi/(2^(1/2)))
 
 clear
-trace=1
 
 denominator(2/3)
 check(last = 3)
@@ -634,7 +631,6 @@ d(f,x,x,y,y)
 check(last = 840*x^3*y^5)
 
 clear
-trace = 1
 erf(a)
 check(last = erf(a))
 erf(0.0)
@@ -1332,7 +1328,6 @@ defint(s,y,-sqrt(1-x^2),sqrt(1-x^2),x,-1,1)
 check(last = 1/48*pi)
 
 clear
-trace=1
 
 laplacian(f)=1/r^2*d(r^2*d(f,r),r)+1/(r^2*sin(theta))*d(sin(theta)*d(f,theta),theta)+1/(r*sin(theta))^2*d(f,phi,phi)
 n=7
@@ -1348,7 +1343,6 @@ circexp(sin(theta)*(E-K-V))
 check(last = 0)
 
 clear
-trace=1
 
 P=2x^3-y^3
 Q=x^3+y^3
@@ -1359,7 +1353,6 @@ defint(f*r,r,0,1,theta,0,2pi)
 check(last = 3/2*pi)
 
 clear
-trace=1
 
 x=cos(t)
 y=sin(t)
@@ -2090,7 +2083,6 @@ check(last = ((0,0),(0,0)))
 -- line integral (p. 21)
 
 clear
-trace=1
 
 P=1-y
 Q=x
@@ -2102,7 +2094,6 @@ check(last=8pi)
 -- surface integral (p. 21)
 
 clear
-trace=1
 
 P=1-y
 Q=x
@@ -2121,18 +2112,19 @@ defint(f*r,theta,0,2pi,r,0,2) --try integrating over theta first
 check(last=8pi)
 
 clear
-trace=1
 
 a = C * (sqrt(n+1) + sqrt(n))
 b = i * C * (sqrt(n+1) - sqrt(n))
 sqrt(a^2 + b^2)
 check(last=2*C*n^(1/4)*(n+1)^(1/4))
+
 -- check mroot
 N=123456789123456789^123
 N^(1/123)
 check(last=123456789123456789)
+
+-- done
+
 clear
 status
-"all tests passed"
-
-exit
+exit -- all tests passed

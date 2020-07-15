@@ -149,8 +149,6 @@ integral(x^2+x)
 check(last = 1/3 x^3 + 1/2 x^2)
 
 #1
-clear
-trace = 1
 integral(A,X)
 check(last = A*X)
 #4
@@ -1110,7 +1108,8 @@ check(last=-cos(x)-cos(x)^3/3)
 defint((1+cos(theta)^2)*sin(theta),theta,0,pi,phi,0,2*pi)
 check(last=16*pi/3)
 
+-- done
+
 clear
 status
-"all tests passed"
-exit
+exit -- all tests passed
