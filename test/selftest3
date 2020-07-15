@@ -12,6 +12,7 @@ check(integral(a x^n) = a x^(n + 1) / (n + 1))
 
 -- check classifier false positives
 
+check(integral(a^b,x) = a^b x)
 check(integral(x^exp(y),x) = x^(exp(y) + 1) / (exp(y) + 1))
 check(integral(x^log(y),x) = x^(log(y) + 1) / (log(y) + 1))
 check(integral(x^sin(y),x) = x^(sin(y) + 1) / (sin(y) + 1))

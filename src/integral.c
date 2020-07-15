@@ -128,6 +128,10 @@ char *integral_tab_log[] = {
 
 char *integral_tab_power[] = {
 
+	"a", // for forms c^d where both c and d are constant expressions
+	"a x",
+	"1",
+
 	"1 / x",
 	"log(x)",
 	"1",
@@ -393,6 +397,10 @@ char *integral_tab_trig[] = {
 };
 
 char *integral_tab[] = {
+
+	"a",
+	"a x",
+	"1",
 
 	"x",
 	"1/2 x^2",
@@ -739,15 +747,6 @@ void
 integral_of_form(void)
 {
 	int h;
-
-	// constant?
-
-	if (find(F, X) == 0) {
-		push(F);
-		push(X);
-		multiply();
-		return;
-	}
 
 	save_binding(symbol(METAA));
 	save_binding(symbol(METAB));
