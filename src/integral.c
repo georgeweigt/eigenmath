@@ -75,42 +75,44 @@ char *integral_tab_exp[] = {
 	NULL,
 };
 
+// log(a x) is transformed to log(a) + log(x)
+
 char *integral_tab_log[] = {
 
-	"log(a x)",
-	"x log(a x) - x",
+	"log(x)",
+	"x log(x) - x",
 	"1",
 
 	"log(a x + b)",
 	"x log(a x + b) + b log(a x + b) / a - x",
 	"1",
 
-	"x log(a x)",
-	"x^2 log(a x) 1/2 - x^2 1/4",
+	"x log(x)",
+	"x^2 log(x) 1/2 - x^2 1/4",
 	"1",
 
 	"x log(a x + b)",
 	"1/2 (a x - b) (a x + b) log(a x + b) / a^2 - 1/4 x (a x - 2 b) / a",
 	"1",
 
-	"x^2 log(a x)",
-	"x^3 log(a x) 1/3 - 1/9 x^3",
+	"x^2 log(x)",
+	"x^3 log(x) 1/3 - 1/9 x^3",
 	"1",
 
 	"x^2 log(a x + b)",
 	"1/3 (a x + b) (a^2 x^2 - a b x + b^2) log(a x + b) / a^3 - 1/18 x (2 a^2 x^2 - 3 a b x + 6 b^2) / a^2",
 	"1",
 
-	"log(a x)^2",
-	"x log(a x)^2 - 2 x log(a x) + 2 x",
+	"log(x)^2",
+	"x log(x)^2 - 2 x log(x) + 2 x",
 	"1",
 
 	"log(a x + b)^2",
 	"(a x + b) (log(a x + b)^2 - 2 log(a x + b) + 2) / a",
 	"1",
 
-	"log(a x) / x^2",
-	"-(log(a x) + 1) / x",
+	"log(x) / x^2",
+	"-(log(x) + 1) / x",
 	"1",
 
 	"log(a x + b) / x^2",
@@ -124,34 +126,30 @@ char *integral_tab_log[] = {
 	NULL,
 };
 
-char *integral_tab_inverse[] = {
+char *integral_tab_power[] = {
 
 	"1 / x",
 	"log(x)",
 	"1",
 
-	"1 / tan(a x)",
-	"log(sin(a x)) / a",
-	"1",
+	"x^a",			// integrand
+	"x^(a + 1) / (a + 1)",	// answer
+	"not(a = -1)",		// condition
 
-	"1 / cos(a x)",
-	"log(tan(pi 1/4 + a x 1/2)) / a",
-	"1",
-
-	"1 / sin(a x)",
-	"log(tan(a x 1/2)) / a",
-	"1",
-
-	"1 / sin(a x)^2",
-	"-1 / (a tan(a x))",
-	"1",
-
-	"1 / cos(a x)^2",
-	"tan(a x) / a",
-	"1",
+	"a^x",
+	"a^x / log(a)",
+	"or(not(number(a)),a>0)",
 
 	"1 / (a + b x)",
 	"log(a + b x) / b",
+	"1",
+// 124
+	"sqrt(a x + b)",
+	"2/3 (a x + b)^(3/2) / a",
+	"1",
+// 138
+	"sqrt(a x^2 + b)",
+	"1/2 x sqrt(a x^2 + b) + 1/2 b log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
 	"1",
 // 131
 	"1 / sqrt(a x + b)",
@@ -197,30 +195,26 @@ char *integral_tab_inverse[] = {
 	" + (i log(1 - i ((sqrt(2) a^(1/4) x)/b^(1/4) + 1)))/(4 sqrt(2) a^(1/4) b^(3/4))"
 	" - (i log(1 + i ((sqrt(2) a^(1/4) x)/b^(1/4) + 1)))/(4 sqrt(2) a^(1/4) b^(3/4))", // from Wolfram Alpha
 	"1",
-
-	"1 / (b + b sin(a x))",
-	"-tan(pi 1/4 - a x 1/2) / (a b)",
+// 164
+	"sqrt(a + x^6 + 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
+	"1/4 (x sqrt((x^2 + a^(1/3))^3) + 3/2 a^(1/3) x sqrt(x^2 + a^(1/3)) + 3/2 a^(2/3) log(x + sqrt(x^2 + a^(1/3))))",
+	"1",
+// 165
+	"sqrt(-a + x^6 - 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
+	"1/4 (x sqrt((x^2 - a^(1/3))^3) - 3/2 a^(1/3) x sqrt(x^2 - a^(1/3)) + 3/2 a^(2/3) log(x + sqrt(x^2 - a^(1/3))))",
 	"1",
 
-	"1 / (b - b sin(a x))",
-	"tan(pi 1/4 + a x 1/2) / (a b)",
+	"sinh(x)^2",
+	"sinh(2 x) 1/4 - x 1/2",
 	"1",
 
-	"1 / (b + b cos(a x))",
-	"tan(a x 1/2) / (a b)",
+	"tanh(x)^2",
+	"x - tanh(x)",
 	"1",
 
-	"1 / (b - b cos(a x))",
-	"-1 / (tan(a x 1/2) a b)",
+	"cosh(x)^2",
+	"sinh(2 x) 1/4 + x 1/2",
 	"1",
-
-	"1 / (a + b sin(x))",
-	"log((a tan(x 1/2) + b - sqrt(b^2 - a^2)) / (a tan(x 1/2) + b + sqrt(b^2 - a^2))) / sqrt(b^2 - a^2)",
-	"b^2 - a^2",
-
-	"1 / (a + b cos(x))",
-	"log((sqrt(b^2 - a^2) tan(x 1/2) + a + b) / (sqrt(b^2 - a^2) tan(x 1/2) - a - b)) / sqrt(b^2 - a^2)",
-	"b^2 - a^2",
 
 	NULL,
 };
@@ -351,22 +345,58 @@ char *integral_tab_trig[] = {
 	"2 x cos(a x) / (a^2) + (a^2 x^2 - 2) sin(a x) / (a^3)",
 	"1",
 
+	"1 / tan(a x)",
+	"log(sin(a x)) / a",
+	"1",
+
+	"1 / cos(a x)",
+	"log(tan(pi 1/4 + a x 1/2)) / a",
+	"1",
+
+	"1 / sin(a x)",
+	"log(tan(a x 1/2)) / a",
+	"1",
+
+	"1 / sin(a x)^2",
+	"-1 / (a tan(a x))",
+	"1",
+
+	"1 / cos(a x)^2",
+	"tan(a x) / a",
+	"1",
+
+	"1 / (b + b sin(a x))",
+	"-tan(pi 1/4 - a x 1/2) / (a b)",
+	"1",
+
+	"1 / (b - b sin(a x))",
+	"tan(pi 1/4 + a x 1/2) / (a b)",
+	"1",
+
+	"1 / (b + b cos(a x))",
+	"tan(a x 1/2) / (a b)",
+	"1",
+
+	"1 / (b - b cos(a x))",
+	"-1 / (tan(a x 1/2) a b)",
+	"1",
+
+	"1 / (a + b sin(x))",
+	"log((a tan(x 1/2) + b - sqrt(b^2 - a^2)) / (a tan(x 1/2) + b + sqrt(b^2 - a^2))) / sqrt(b^2 - a^2)",
+	"b^2 - a^2",
+
+	"1 / (a + b cos(x))",
+	"log((sqrt(b^2 - a^2) tan(x 1/2) + a + b) / (sqrt(b^2 - a^2) tan(x 1/2) - a - b)) / sqrt(b^2 - a^2)",
+	"b^2 - a^2",
+
 	NULL,
 };
 
 char *integral_tab[] = {
 
-	"a",
-	"a x",
+	"x",
+	"1/2 x^2",
 	"1",
-
-	"x^a",			// integrand
-	"x^(a + 1) / (a + 1)",	// answer
-	"not(a = -1)",		// condition
-
-	"a^x",
-	"a^x / log(a)",
-	"or(not(number(a)),a>0)",
 // 18
 	"x / sqrt(a x^2 + b)",
 	"sqrt(a x^2 + b) / a",
@@ -455,10 +485,6 @@ char *integral_tab[] = {
 	"x^3 / (a + b x^4)",
 	"1 log(a + b x^4) / (4 b)",
 	"1",
-// 124
-	"sqrt(a x + b)",
-	"2/3 (a x + b)^(3/2) / a",
-	"1",
 
 	"x sqrt(a + b x)",
 	"-2 (2 a - 3 b x) sqrt((a + b x)^3) 1/15 / (b^2)",
@@ -495,10 +521,6 @@ char *integral_tab[] = {
 	"1 / x^2 / sqrt(a x + b)",
 	"a arctanh(sqrt(a x + b) / sqrt(b)) / b^(3/2) - sqrt(a x + b) / (b x)",
 	"1",
-// 138
-	"sqrt(a x^2 + b)",
-	"1/2 x sqrt(a x^2 + b) + 1/2 b log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
-	"1",
 // 158
 	"1 / x / sqrt(a x^2 + b)",
 	"(log(x) - log(sqrt(b) sqrt(a x^2 + b) + b)) / sqrt(b)",
@@ -510,14 +532,6 @@ char *integral_tab[] = {
 // 163
 	"x sqrt(a x^2 + b)",
 	"1/3 (a x^2 + b)^(3/2) / a",
-	"1",
-
-	"sqrt(a + x^6 + 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
-	"1/4 (x sqrt((x^2 + a^(1/3))^3) + 3/2 a^(1/3) x sqrt(x^2 + a^(1/3)) + 3/2 a^(2/3) log(x + sqrt(x^2 + a^(1/3))))",
-	"1",
-
-	"sqrt(-a + x^6 - 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
-	"1/4 (x sqrt((x^2 - a^(1/3))^3) - 3/2 a^(1/3) x sqrt(x^2 - a^(1/3)) + 3/2 a^(2/3) log(x + sqrt(x^2 - a^(1/3))))",
 	"1",
 // 166
 	"x (a x^2 + b)^(-3/2)",
@@ -590,18 +604,6 @@ char *integral_tab[] = {
 
 	"x cosh(x)",
 	"x sinh(x) - cosh(x)",
-	"1",
-
-	"sinh(x)^2",
-	"sinh(2 x) 1/4 - x 1/2",
-	"1",
-
-	"tanh(x)^2",
-	"x - tanh(x)",
-	"1",
-
-	"cosh(x)^2",
-	"sinh(2 x) 1/4 + x 1/2",
 	"1",
 
 	"erf(a x)",
@@ -684,14 +686,12 @@ eval_integral(void)
 #undef F
 #undef X
 #undef I
-#undef A
 #undef C
 
 #define F p3
 #define X p4
 #define I p5
-#define A p6
-#define C p7
+#define C p6
 
 void
 integral(void)
@@ -740,6 +740,15 @@ integral_of_form(void)
 {
 	int h;
 
+	// constant?
+
+	if (find(F, X) == 0) {
+		push(F);
+		push(X);
+		multiply();
+		return;
+	}
+
 	save_binding(symbol(METAA));
 	save_binding(symbol(METAB));
 	save_binding(symbol(METAX));
@@ -769,9 +778,7 @@ void
 integral_lookup(int h)
 {
 	int t;
-
-	if (car(F) == symbol(POWER) && find_integral(h, integral_tab_inverse))
-		return;
+	char **s;
 
 	t = integral_classify(F);
 
@@ -784,9 +791,12 @@ integral_lookup(int h)
 	if ((t & 4) && find_integral(h, integral_tab_trig))
 		return;
 
-	// none of the above
+	if (car(F) == symbol(POWER))
+		s = integral_tab_power;
+	else
+		s = integral_tab;
 
-	if (find_integral(h, integral_tab))
+	if (find_integral(h, s))
 		return;
 
 	stop("integral: could not find a solution");
@@ -825,28 +835,25 @@ find_integral(int h, char **s)
 		if (*s == NULL)
 			return 0;
 
-		scan1(*s++); // integrand
+		scan1(s[0]); // integrand
 		I = pop();
 
-		scan1(*s++); // answer
-		A = pop();
-
-		scan1(*s++); // condition
+		scan1(s[2]); // condition
 		C = pop();
 
 		if (find_integral_nib(h))
 			break;
+
+		s += 3;
 	}
 
 	tos = h; // pop all
 
-	push(A); // answer
+	scan1(s[1]); // answer
 	eval();
 
 	return 1;
 }
-
-// find constants such that F = I
 
 int
 find_integral_nib(int h)
