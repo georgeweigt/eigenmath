@@ -126,103 +126,6 @@ char *integral_tab_log[] = {
 	NULL,
 };
 
-char *integral_tab_power[] = {
-
-	"a", // for forms c^d where both c and d are constant expressions
-	"a x",
-	"1",
-
-	"1 / x",
-	"log(x)",
-	"1",
-
-	"x^a",			// integrand
-	"x^(a + 1) / (a + 1)",	// answer
-	"not(a = -1)",		// condition
-
-	"a^x",
-	"a^x / log(a)",
-	"or(not(number(a)),a>0)",
-
-	"1 / (a + b x)",
-	"log(a + b x) / b",
-	"1",
-// 124
-	"sqrt(a x + b)",
-	"2/3 (a x + b)^(3/2) / a",
-	"1",
-// 138
-	"sqrt(a x^2 + b)",
-	"1/2 x sqrt(a x^2 + b) + 1/2 b log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
-	"1",
-// 131
-	"1 / sqrt(a x + b)",
-	"2 sqrt(a x + b) / a",
-	"1",
-
-	"1 / ((a + b x)^2)",
-	"-1 / (b (a + b x))",
-	"1",
-
-	"1 / ((a + b x)^3)",
-	"-1 / ((2 b) ((a + b x)^2))",
-	"1",
-// 16
-	"1 / (a x^2 + b)",
-	"arctan(sqrt(a) x / sqrt(b)) / sqrt(a) / sqrt(b)",
-	"1",
-// 17
-	"1 / sqrt(a x^2 + b)",
-	"log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
-	"1",
-// 65
-	"1 / (a x^2 + b)^2",
-	"1/2 ((arctan((sqrt(a) x) / sqrt(b))) / (sqrt(a) b^(3/2)) + x / (a b x^2 + b^2))",
-	"1",
-// 165
-	"(a x^2 + b)^(-3/2)",
-	"x / b / sqrt(a x^2 + b)",
-	"1",
-// 74
-	"1 / (a x^3 + b)",
-	"-log(a^(2/3) x^2 - a^(1/3) b^(1/3) x + b^(2/3))/(6 a^(1/3) b^(2/3))"
-	" + log(a^(1/3) x + b^(1/3))/(3 a^(1/3) b^(2/3))"
-	" - (i log(1 - (i (1 - (2 a^(1/3) x)/b^(1/3)))/sqrt(3)))/(2 sqrt(3) a^(1/3) b^(2/3))"
-	" + (i log(1 + (i (1 - (2 a^(1/3) x)/b^(1/3)))/sqrt(3)))/(2 sqrt(3) a^(1/3) b^(2/3))", // from Wolfram Alpha
-	"1",
-// 77
-	"1 / (a x^4 + b)",
-	"-log(-sqrt(2) a^(1/4) b^(1/4) x + sqrt(a) x^2 + sqrt(b))/(4 sqrt(2) a^(1/4) b^(3/4))"
-	" + log(sqrt(2) a^(1/4) b^(1/4) x + sqrt(a) x^2 + sqrt(b))/(4 sqrt(2) a^(1/4) b^(3/4))"
-	" - (i log(1 - i (1 - (sqrt(2) a^(1/4) x)/b^(1/4))))/(4 sqrt(2) a^(1/4) b^(3/4))"
-	" + (i log(1 + i (1 - (sqrt(2) a^(1/4) x)/b^(1/4))))/(4 sqrt(2) a^(1/4) b^(3/4))"
-	" + (i log(1 - i ((sqrt(2) a^(1/4) x)/b^(1/4) + 1)))/(4 sqrt(2) a^(1/4) b^(3/4))"
-	" - (i log(1 + i ((sqrt(2) a^(1/4) x)/b^(1/4) + 1)))/(4 sqrt(2) a^(1/4) b^(3/4))", // from Wolfram Alpha
-	"1",
-// 164
-	"sqrt(a + x^6 + 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
-	"1/4 (x sqrt((x^2 + a^(1/3))^3) + 3/2 a^(1/3) x sqrt(x^2 + a^(1/3)) + 3/2 a^(2/3) log(x + sqrt(x^2 + a^(1/3))))",
-	"1",
-// 165
-	"sqrt(-a + x^6 - 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
-	"1/4 (x sqrt((x^2 - a^(1/3))^3) - 3/2 a^(1/3) x sqrt(x^2 - a^(1/3)) + 3/2 a^(2/3) log(x + sqrt(x^2 - a^(1/3))))",
-	"1",
-
-	"sinh(x)^2",
-	"sinh(2 x) 1/4 - x 1/2",
-	"1",
-
-	"tanh(x)^2",
-	"x - tanh(x)",
-	"1",
-
-	"cosh(x)^2",
-	"sinh(2 x) 1/4 + x 1/2",
-	"1",
-
-	NULL,
-};
-
 char *integral_tab_trig[] = {
 
 	"sin(a x)",
@@ -392,6 +295,103 @@ char *integral_tab_trig[] = {
 	"1 / (a + b cos(x))",
 	"log((sqrt(b^2 - a^2) tan(x 1/2) + a + b) / (sqrt(b^2 - a^2) tan(x 1/2) - a - b)) / sqrt(b^2 - a^2)",
 	"b^2 - a^2",
+
+	NULL,
+};
+
+char *integral_tab_power[] = {
+
+	"a", // for forms c^d where both c and d are constant expressions
+	"a x",
+	"1",
+
+	"1 / x",
+	"log(x)",
+	"1",
+
+	"x^a",			// integrand
+	"x^(a + 1) / (a + 1)",	// answer
+	"not(a = -1)",		// condition
+
+	"a^x",
+	"a^x / log(a)",
+	"or(not(number(a)),a>0)",
+
+	"1 / (a + b x)",
+	"log(a + b x) / b",
+	"1",
+// 124
+	"sqrt(a x + b)",
+	"2/3 (a x + b)^(3/2) / a",
+	"1",
+// 138
+	"sqrt(a x^2 + b)",
+	"1/2 x sqrt(a x^2 + b) + 1/2 b log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
+	"1",
+// 131
+	"1 / sqrt(a x + b)",
+	"2 sqrt(a x + b) / a",
+	"1",
+
+	"1 / ((a + b x)^2)",
+	"-1 / (b (a + b x))",
+	"1",
+
+	"1 / ((a + b x)^3)",
+	"-1 / ((2 b) ((a + b x)^2))",
+	"1",
+// 16
+	"1 / (a x^2 + b)",
+	"arctan(sqrt(a) x / sqrt(b)) / sqrt(a) / sqrt(b)",
+	"1",
+// 17
+	"1 / sqrt(a x^2 + b)",
+	"log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
+	"1",
+// 65
+	"1 / (a x^2 + b)^2",
+	"1/2 ((arctan((sqrt(a) x) / sqrt(b))) / (sqrt(a) b^(3/2)) + x / (a b x^2 + b^2))",
+	"1",
+// 165
+	"(a x^2 + b)^(-3/2)",
+	"x / b / sqrt(a x^2 + b)",
+	"1",
+// 74
+	"1 / (a x^3 + b)",
+	"-log(a^(2/3) x^2 - a^(1/3) b^(1/3) x + b^(2/3))/(6 a^(1/3) b^(2/3))"
+	" + log(a^(1/3) x + b^(1/3))/(3 a^(1/3) b^(2/3))"
+	" - (i log(1 - (i (1 - (2 a^(1/3) x)/b^(1/3)))/sqrt(3)))/(2 sqrt(3) a^(1/3) b^(2/3))"
+	" + (i log(1 + (i (1 - (2 a^(1/3) x)/b^(1/3)))/sqrt(3)))/(2 sqrt(3) a^(1/3) b^(2/3))", // from Wolfram Alpha
+	"1",
+// 77
+	"1 / (a x^4 + b)",
+	"-log(-sqrt(2) a^(1/4) b^(1/4) x + sqrt(a) x^2 + sqrt(b))/(4 sqrt(2) a^(1/4) b^(3/4))"
+	" + log(sqrt(2) a^(1/4) b^(1/4) x + sqrt(a) x^2 + sqrt(b))/(4 sqrt(2) a^(1/4) b^(3/4))"
+	" - (i log(1 - i (1 - (sqrt(2) a^(1/4) x)/b^(1/4))))/(4 sqrt(2) a^(1/4) b^(3/4))"
+	" + (i log(1 + i (1 - (sqrt(2) a^(1/4) x)/b^(1/4))))/(4 sqrt(2) a^(1/4) b^(3/4))"
+	" + (i log(1 - i ((sqrt(2) a^(1/4) x)/b^(1/4) + 1)))/(4 sqrt(2) a^(1/4) b^(3/4))"
+	" - (i log(1 + i ((sqrt(2) a^(1/4) x)/b^(1/4) + 1)))/(4 sqrt(2) a^(1/4) b^(3/4))", // from Wolfram Alpha
+	"1",
+// 164
+	"sqrt(a + x^6 + 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
+	"1/4 (x sqrt((x^2 + a^(1/3))^3) + 3/2 a^(1/3) x sqrt(x^2 + a^(1/3)) + 3/2 a^(2/3) log(x + sqrt(x^2 + a^(1/3))))",
+	"1",
+// 165
+	"sqrt(-a + x^6 - 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
+	"1/4 (x sqrt((x^2 - a^(1/3))^3) - 3/2 a^(1/3) x sqrt(x^2 - a^(1/3)) + 3/2 a^(2/3) log(x + sqrt(x^2 - a^(1/3))))",
+	"1",
+
+	"sinh(x)^2",
+	"sinh(2 x) 1/4 - x 1/2",
+	"1",
+
+	"tanh(x)^2",
+	"x - tanh(x)",
+	"1",
+
+	"cosh(x)^2",
+	"sinh(2 x) 1/4 + x 1/2",
+	"1",
 
 	NULL,
 };
