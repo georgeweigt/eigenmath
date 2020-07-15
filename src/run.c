@@ -49,9 +49,9 @@ init(void)
 	binding[LAST] = zero;
 	binding[TTY] = zero;
 
-	gc();
-
 	prep();
+
+	gc();
 }
 
 void
