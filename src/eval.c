@@ -73,8 +73,6 @@ eval_clear(void)
 
 	gc(); // garbage collection
 
-	binding[LAST] = zero;
-
 	restore_binding(symbol(TTY));
 	restore_binding(symbol(TRACE));
 
