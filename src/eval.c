@@ -64,7 +64,6 @@ eval_binding(void)
 void
 eval_clear(void)
 {
-	save_binding(symbol(LAST));
 	save_binding(symbol(TRACE));
 	save_binding(symbol(TTY));
 
@@ -74,9 +73,10 @@ eval_clear(void)
 
 	gc(); // garbage collection
 
+	binding[LAST] = zero;
+
 	restore_binding(symbol(TTY));
 	restore_binding(symbol(TRACE));
-	restore_binding(symbol(LAST));
 
 	push_symbol(NIL); // result
 }
