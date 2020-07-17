@@ -25,3 +25,13 @@ To generate MathJax output:
 	./eigenmath --mathjax scriptfilename | tee foo.html
 
 MathML and MathJax results look best on Firefox.
+
+
+"I have often felt that programming is an art form,
+ whose real value can only be appreciated
+ by another versed in the same arcane art;
+ there are lovely gems and brilliant coups
+ hidden from human view and admiration, sometimes forever,
+ by the very nature of the process."
+
+ Ed Nather, The Story of Mel
