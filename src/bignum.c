@@ -236,13 +236,11 @@ convert_double_to_rational(double d)
 		a = mnew(2);
 		a[0] = u;
 		a[1] = u >> 32;
-		push_rational_number(MPLUS, a, mint(1));
+		push_rational_number(d < 0.0 ? MMINUS : MPLUS, a, mint(1));
 		push_integer(2);
 		push_integer(k - 64);
 		power();
 		multiply();
-		if (d < 0.0)
-			negate();
 		return;
 	}
 
