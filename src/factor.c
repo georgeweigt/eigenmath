@@ -114,10 +114,12 @@ factor_rational(void)
 
 	// factor denominator
 
-	if (!isinteger(p1)) {
+	push(p1);
+	denominator();
+	p2 = pop();
+	if (!isplusone(p2)) {
 		t = tos;
-		push(p1);
-		denominator();
+		push(p2);
 		factor_number();
 		for (i = t; i < tos; i++) {
 			p2 = stack[i];
