@@ -1015,6 +1015,20 @@ check(last = -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2)
 
 check(log(1/10) = -log(2) - log(5))
 
+-- factor rational numbers
+
+lisp(factor(10))
+check(last = "(* 2 5)")
+
+lisp(factor(-10))
+check(last = "(* -1 2 5)")
+
+lisp(factor(1/10))
+check(last = "(* (^ 2 -1) (^ 5 -1))")
+
+lisp(factor(-1/10))
+check(last = "(* -1 (^ 2 -1) (^ 5 -1))")
+
 -- done
 
 clear

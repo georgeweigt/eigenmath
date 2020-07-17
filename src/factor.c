@@ -1,5 +1,3 @@
-// factor a polynomial or integer
-
 #include "defs.h"
 
 void
@@ -8,16 +6,32 @@ eval_factor(void)
 	push(cadr(p1));
 	eval();
 
+	p2 = pop();
+
+	if (isdouble(p2)) {
+		push(p2);
+		return;
+	}
+
+	if (isrational(p2)) {
+		p1 = p2;
+		factor_rational();
+		return;
+	}
+
+	push(p2);
+
 	push(caddr(p1));
 	eval();
 
 	p2 = pop();
+
 	if (p2 == symbol(NIL))
 		guess();
 	else
 		push(p2);
 
-	factor();
+	factorpoly();
 
 	// more factoring?
 
@@ -82,20 +96,57 @@ factor_term(void)
 }
 
 void
-factor(void)
+factor_rational(void)
 {
-	save();
+	int h, i, n, t;
+
+	h = tos;
+
+	// factor numerator
+
+	push(p1);
+	numerator();
 	p2 = pop();
-	p1 = pop();
-	if (isinteger(p1)) {
-		push(p1);
-		factor_number();
-	} else {
-		push(p1);
+	if (!isplusone(p2)) {
 		push(p2);
-		factorpoly();
+		factor_number();
 	}
-	restore();
+
+	// factor denominator
+
+	if (!isinteger(p1)) {
+		t = tos;
+		push(p1);
+		denominator();
+		factor_number();
+		for (i = t; i < tos; i++) {
+			p2 = stack[i];
+			if (car(p2) == symbol(POWER)) {
+				push_symbol(POWER);
+				push(cadr(p2)); // base
+				push(caddr(p2)); // exponent
+				negate();
+				list(3);
+			} else {
+				push_symbol(POWER);
+				push(p2); // base
+				push_integer(-1); // exponent
+				list(3);
+			}
+			stack[i] = pop();
+		}
+	}
+
+	n = tos - h;
+
+	if (n == 0)
+		push(one);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // make MULTIPLY head of list
+	}
 }
 
 // for factoring small integers (2^32 or less)

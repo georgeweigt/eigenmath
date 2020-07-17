@@ -280,7 +280,7 @@ void expsin(void);
 void eval_factor(void);
 void factor_again(void);
 void factor_term(void);
-void factor(void);
+void factor_rational(void);
 void factor_small_number(void);
 void factor_factor(void);
 void factor_factor_nib(void);

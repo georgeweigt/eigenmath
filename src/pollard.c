@@ -30,13 +30,6 @@ factor_number(void)
 
 	factor_a();
 
-	if (tos - h > 1) {
-		list(tos - h);
-		push_symbol(MULTIPLY);
-		swap();
-		cons();
-	}
-
 	restore();
 }
 
@@ -220,7 +213,7 @@ factor_b(void)
 void
 push_factor(uint32_t *d, int count)
 {
-	if (count == 0)
+	if (count < 2)
 		push_rational_number(MPLUS, d, mint(1));
 	else {
 		push_symbol(POWER);
