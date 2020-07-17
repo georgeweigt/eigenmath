@@ -1031,8 +1031,23 @@ check(last = "(* -1 (^ 2 -1) (^ 5 -1))")
 
 -- factor floating point
 
-N = 2^53 - 1
-check(lisp(factor(N)) = lisp(factor(float(N))))
+lisp(factor(2^53 - 1))
+check(last = "(* 6361 69431 20394401)")
+
+lisp(factor(float(2^53 - 1)))
+check(last = "(* 6361 69431 20394401)") -- ok
+
+lisp(factor(2^53))
+check(last = "(^ 2 53)")
+
+lisp(factor(float(2^53)))
+check(last = "(^ 2 53)") -- ok
+
+lisp(factor(2^53 + 1))
+check(last = "(* 3 107 28059810762433)")
+
+lisp(factor(float(2^53 + 1)))
+check(last = "(^ 2 53)") -- floating point cannot represent 2^53 + 1 exactly
 
 -- done
 
