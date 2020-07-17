@@ -21,7 +21,7 @@ logarithm(void)
 void
 log_nib(void)
 {
-	int h;
+	int h, i;
 
 	p1 = pop();
 
@@ -86,16 +86,28 @@ log_nib(void)
 		return;
 	}
 
-	// rational number and not an integer?
+	// log(10) -> log(2) + log(5)
 
-	if (isfraction(p1)) {
+	if (isrational(p1)) {
+		h = tos;
 		push(p1);
-		numerator();
-		logarithm();
-		push(p1);
-		denominator();
-		logarithm();
-		subtract();
+		factor_factor();
+		for (i = h; i < tos; i++) {
+			p2 = stack[i];
+			if (car(p2) == symbol(POWER)) {
+				push(caddr(p2)); // exponent
+				push_symbol(LOG);
+				push(cadr(p2)); // base
+				list(2);
+				multiply();
+			} else {
+				push_symbol(LOG);
+				push(p2);
+				list(2);
+			}
+			stack[i] = pop();
+		}
+		add_terms(tos - h);
 		return;
 	}
 

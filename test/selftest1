@@ -491,10 +491,8 @@ check(last = pi)
 z=x^2+2y
 P=(x,y,z)
 a=abs(cross(d(P,x),d(P,y)))
-A = defint(a,x,0,1,y,0,1) -- uses integral #138
-B = 3/2 + 5/8 log(5)
--- FIXME
-check(string(float(A)) = string(float(B)))
+defint(a,x,0,1,y,0,1) -- uses integral #138
+check(last = 3/2 + 5/8 log(5))
 
 clear
 
