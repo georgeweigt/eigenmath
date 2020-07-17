@@ -1029,6 +1029,11 @@ check(last = "(* (^ 2 -1) (^ 5 -1))")
 lisp(factor(-1/10))
 check(last = "(* -1 (^ 2 -1) (^ 5 -1))")
 
+-- factor floating point
+
+N = 2^53 - 1
+check(lisp(factor(N)) = lisp(factor(float(N))))
+
 -- done
 
 clear
