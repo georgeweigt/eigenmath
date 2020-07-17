@@ -248,7 +248,6 @@ convert_double_to_rational(double d)
 
 	// not integer
 
-	x = fabs(d);
 	e = floor(log10(x)) + 1.0;
 	best_rational_approximation(x / pow(10.0, e));
 	push_integer(10);
