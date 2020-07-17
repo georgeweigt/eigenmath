@@ -211,13 +211,43 @@ convert_rational_to_double(struct atom *p)
 void
 convert_double_to_rational(double d)
 {
+	int k;
+	unsigned int *a;
+	uint64_t u;
 	double e, x;
+
+	// do this first, 0.0 fails isnormal()
+
 	if (d == 0.0) {
 		push_integer(0);
 		return;
 	}
+
 	if (!isnormal(d))
 		stop("floating point value is nan or inf, cannot convert to rational number");
+
+	x = fabs(d);
+
+	// integer?
+
+	if (floor(x) == x) {
+		x = frexp(x, &k);
+		u = (uint64_t) scalbn(x, 64);
+		a = mnew(2);
+		a[0] = u;
+		a[1] = u >> 32;
+		push_rational_number(MPLUS, a, mint(1));
+		push_integer(2);
+		push_integer(k - 64);
+		power();
+		multiply();
+		if (d < 0.0)
+			negate();
+		return;
+	}
+
+	// not integer
+
 	x = fabs(d);
 	e = floor(log10(x)) + 1.0;
 	best_rational_approximation(x / pow(10.0, e));

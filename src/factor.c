@@ -8,13 +8,14 @@ eval_factor(void)
 
 	p2 = pop();
 
-	if (isdouble(p2)) {
+	if (isrational(p2)) {
 		push(p2);
+		factor_rational();
 		return;
 	}
 
-	if (isrational(p2)) {
-		p1 = p2;
+	if (isdouble(p2)) {
+		convert_double_to_rational(p2->u.d);
 		factor_rational();
 		return;
 	}
@@ -100,6 +101,10 @@ factor_rational(void)
 {
 	int h, i, n, t;
 
+	save();
+
+	p1 = pop();
+
 	h = tos;
 
 	// factor numerator
@@ -149,6 +154,8 @@ factor_rational(void)
 		swap();
 		cons(); // make MULTIPLY head of list
 	}
+
+	restore();
 }
 
 // for factoring small integers (2^32 or less)
