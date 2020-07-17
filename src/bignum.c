@@ -232,13 +232,13 @@ convert_double_to_rational(double d)
 
 	if (floor(x) == x) {
 		x = frexp(x, &k);
-		u = (uint64_t) scalbn(x, 64);
+		u = (uint64_t) scalbn(x, 52);
 		a = mnew(2);
 		a[0] = u;
 		a[1] = u >> 32;
 		push_rational_number(d < 0.0 ? MMINUS : MPLUS, a, mint(1));
 		push_integer(2);
-		push_integer(k - 64);
+		push_integer(k - 52);
 		power();
 		multiply();
 		return;
