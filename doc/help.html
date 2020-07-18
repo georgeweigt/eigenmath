@@ -4,14 +4,14 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>Eigenmath Help</title>
 </head>
-<body style="font-size:14pt">
+<body style="font-size:16pt">
 
 <p>
 The Eigenmath manual and additional support materials are available at
 <a href="http://www.eigenmath.org">www.eigenmath.org</a>
 
 <p>
-<table style="font-family:monospace;width:100%">
+<table style="font-family:courier;width:100%">
 <tr>
 
 <td>
@@ -149,120 +149,120 @@ The Eigenmath manual and additional support materials are available at
 </tr>
 </table>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="abs">abs(<i>x</i>)</a>
 <p>
 Returns the absolute value or vector length of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 X = (x,y,z)
 abs(X)
 </pre>
-<pre>
+<pre style="font-family:courier">
               1/2
   2    2    2
 (x  + y  + z )
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="adj">adj(<i>m</i>)</a>
 <p>
 Returns the adjunct of matrix <i>m</i>.
 Adjunct is equal to determinant times inverse.
 </p>
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = ((a,b),(c,d))
 adj(A) == det(A) inv(A)
 </pre>
-<pre>
+<pre style="font-family:courier">
 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="and">and(<i>a,b,...</i>)</a>
 <p>
 Returns 1 if all arguments are true (nonzero).
 Returns 0 otherwise.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 and(1=1,2=2)
 </pre>
-<pre>
+<pre style="font-family:courier">
 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="arccos">arccos(<i>x</i>)</a>
 <p>
 Returns the arc cosine of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 arccos(1/2)
 </pre>
-<pre>
+<pre style="font-family:courier">
  1
 --- pi
  3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="arccosh">arccosh(<i>x</i>)</a>
 <p>
 Returns the arc hyperbolic cosine of <i>x</i>.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="arcsin">arcsin(<i>x</i>)</a>
 <p>
 Returns the arc sine of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 arcsin(1/2)
 </pre>
-<pre>
+<pre style="font-family:courier">
  1
 --- pi
  6
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="arcsinh">arcsinh(<i>x</i>)</a>
 <p>
 Returns the arc hyperbolic sine of <i>x</i>.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="arctan">arctan(<i>y,x</i>)</a>
 <p>
 Returns the arc tangent of <i>y</i> over <i>x</i>.
 If <i>x</i> is omitted then <i>x</i> = 1 is used.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 arctan(1,0)
 </pre>
-<pre>
+<pre style="font-family:courier">
  1
 --- pi
  2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="arctanh">arctanh(<i>x</i>)</a>
 <p>
 Returns the arc hyperbolic tangent of <i>x</i>.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="arg">arg(<i>z</i>)</a>
 <p>
 Returns the angle of complex <i>z</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 arg(2 - 3i)
 </pre>
-<pre>
+<pre style="font-family:courier">
 arctan(-3,2)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="besselj">besselj(<i>x,n</i>)</a>
 <p>
 Returns a solution to the Bessel differential equation.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 besselj(x,1/2)
 </pre>
-<pre>
+<pre style="font-family:courier">
   1/2
  2    sin(x)
 -------------
@@ -270,236 +270,236 @@ besselj(x,1/2)
  pi    x
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="binding">binding(<i>s</i>)</a>
 <p>
 The result of evaluating a symbol can differ from the symbol's binding.
 For example, the result may be expanded.
 The
-<span style="font-family:monospace">binding</span>
+<span style="font-family:courier">binding</span>
 function returns the actual binding of a symbol.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 p = quote((x + 1)^2)
 p
 </pre>
-<pre>
+<pre style="font-family:courier">
      2
 p = x  + 2 x + 1
 </pre>
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 binding(p)
 </pre>
-<pre>
+<pre style="font-family:courier">
        2
 (x + 1)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="binomial">binomial(<i>n,k</i>)</a>
 <p>
 Returns the coefficient of <i>x<sup>k</sup> y<sup>n-k</sup></i>
 in (<i>x</i> + <i>y</i>)<sup><i>n</i></sup>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 binomial(52,5)
 </pre>
-<pre>
+<pre style="font-family:courier">
 2598960
 </pre>
 <p>
 Note:
-<span style="font-family:monospace">binomial</span>
+<span style="font-family:courier">binomial</span>
 and
-<span style="font-family:monospace">choose</span>
+<span style="font-family:courier">choose</span>
 are the same function.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="ceiling">ceiling(<i>x</i>)</a>
 <p>
 Returns the smallest integer greater than or equal to <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 ceiling(1/2)
 </pre>
-<pre>
+<pre style="font-family:courier">
 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="check">check(<i>x</i>)</a>
 <p>
 If <i>x</i> is true (nonzero) then continue in a script, else stop.
 Expression <i>x</i> can include the relational operators
-<span style="font-family:monospace">=</span>,
-<span style="font-family:monospace">==</span>,
-<span style="font-family:monospace">&lt;</span>,
-<span style="font-family:monospace">&lt;=</span>,
-<span style="font-family:monospace">&gt;</span>,
-<span style="font-family:monospace">&gt;=</span>.
+<span style="font-family:courier">=</span>,
+<span style="font-family:courier">==</span>,
+<span style="font-family:courier">&lt;</span>,
+<span style="font-family:courier">&lt;=</span>,
+<span style="font-family:courier">&gt;</span>,
+<span style="font-family:courier">&gt;=</span>.
 Use the
-<span style="font-family:monospace">not</span>
+<span style="font-family:courier">not</span>
 function to test for inequality.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = 1
 B = 1
 check(A=B) -- script stops here if A not equal to B
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="choose">choose(<i>n,k</i>)</a>
 <p>
 Returns the number of combinations of <i>n</i> items taken <i>k</i> at a time.
 The following example computes the number of poker hands.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 choose(52,5)
 </pre>
-<pre>
+<pre style="font-family:courier">
 2598960
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="circexp">circexp(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> with circular and hyperbolic functions
 converted to exponentials.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 circexp(cos(x) + i sin(x))
 </pre>
-<pre>
+<pre style="font-family:courier">
 exp(i x)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="clear">clear</a>
 <p>
 Clears all symbol definitions.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="clock">clock(z)</a>
 <p>
 Returns complex <i>z</i> in polar form with base of negative 1 instead of <i>e</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 clock(2 - 3i)
 </pre>
-<pre>
+<pre style="font-family:courier">
   1/2     arctan(-3,2)/pi
 13    (-1)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="coeff">coeff(<i>p,x,n</i>)</a>
 <p>
 Returns the coefficient of <i>x<sup>n</sup></i> in polynomial <i>p</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 p = x^3 + 6x^2 + 12x + 8
 coeff(p,x,2)
 </pre>
-<pre>
+<pre style="font-family:courier">
 6
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="cofactor">cofactor(<i>m,i,j</i>)</a>
 <p>
 Returns a cofactor of matrix <i>m</i>.
 The cofactor matrix is the transpose of the adjunct of <i>m</i>.
 This function returns the cofactor component
 at row <i>i</i> and column <i>j</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = ((a,b),(c,d))
 cofactor(A,1,2) == transpose(adj(A))[1,2]
 </pre>
-<pre>
+<pre style="font-family:courier">
 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="conj">conj(<i>z</i>)</a>
 <p>
 Returns the complex conjugate of <i>z</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 conj(2 - 3i)
 </pre>
-<pre>
+<pre style="font-family:courier">
 2 + 3 i
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="contract">contract(<i>a,i,j</i>)</a>
 <p>
 Returns tensor <i>a</i> summed over indices <i>i</i> and <i>j</i>.
 If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
 The expression
-<span style="font-family:monospace">contract(m)</span>
+<span style="font-family:courier">contract(m)</span>
 computes the trace of matrix <i>m</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = ((a,b),(c,d))
 contract(A)
 </pre>
-<pre>
+<pre style="font-family:courier">
 a + d
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="cos">cos(<i>x</i>)</a>
 <p>
 Returns the cosine of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 cos(pi/4)
 </pre>
-<pre>
+<pre style="font-family:courier">
   1
 ------
   1/2
  2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="cosh">cosh(<i>x</i>)</a>
 <p>
 Returns the hyperbolic cosine of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 circexp(cosh(x))
 </pre>
-<pre>
+<pre style="font-family:courier">
  1             1
 --- exp(-x) + --- exp(x)
  2             2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="cross">cross(<i>u,v</i>)</a>
 <p>
 Returns the cross product of vectors <i>u</i> and <i>v</i>.
 It is OK to redefine
-<span style="font-family:monospace">cross</span>.
+<span style="font-family:courier">cross</span>.
 This is the default definition.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 cross(u,v) = (u[2] v[3] - u[3] v[2],
               u[3] v[1] - u[1] v[3],
               u[1] v[2] - u[2] v[1])
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="curl">curl(<i>u</i>)</a>
 <p>
 Returns the curl of vector <i>u</i>.
 It is OK to redefine
-<span style="font-family:monospace">curl</span>.
+<span style="font-family:courier">curl</span>.
 This is the default definition.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 curl(u) = (d(u[3],y) - d(u[2],z),
            d(u[1],z) - d(u[3],x),
            d(u[2],x) - d(u[1],y))
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="d">d(<i>f,x</i>)</a>
 
 <p>
 Returns the partial derivative of <i>f</i> with respect to <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 d(x^2,x)
 </pre>
-<pre>
+<pre style="font-family:courier">
 2 x
 </pre>
 
@@ -507,12 +507,12 @@ d(x^2,x)
 Argument <i>f</i> can be a tensor of any rank.
 Argument <i>x</i> can be a vector.
 When <i>x</i> is a vector the result is the gradient of <i>f</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 F = (f(),g(),h())
 X = (x,y,z)
 d(F,X)
 </pre>
-<pre>
+<pre style="font-family:courier">
 d(f(),x)   d(f(),y)   d(f(),z)
 
 d(g(),x)   d(g(),y)   d(g(),z)
@@ -522,121 +522,121 @@ d(h(),x)   d(h(),y)   d(h(),z)
 
 <p>
 It is OK to use
-<span style="font-family:monospace">d</span>
+<span style="font-family:courier">d</span>
 as a variable name.
 It will not conflict with function
-<span style="font-family:monospace">d</span>.
+<span style="font-family:courier">d</span>.
 
 <p>
 It is OK to redefine
-<span style="font-family:monospace">d</span>
+<span style="font-family:courier">d</span>
 as a different function.
 The function
-<span style="font-family:monospace">derivative</span>,
+<span style="font-family:courier">derivative</span>,
 a synonym for
-<span style="font-family:monospace">d</span>,
+<span style="font-family:courier">d</span>,
 can still be used to obtain a partial derivative.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="defint">defint(<i>f,x,a,b</i>)</a>
 <p>
 Returns the definite integral of <i>f</i> with respect to <i>x</i>
 evaluated from <i>a</i> to <i>b</i>.
 The argument list can be extended for multiple integrals
 as shown in the following example.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 f = (1 + cos(theta)^2) sin(theta)
 defint(f, theta, 0, pi, phi, 0, 2pi) -- integrate over theta then over phi
 </pre>
-<pre>
+<pre style="font-family:courier">
  16
 ---- pi
  3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="deg">deg(<i>p,x</i>)</a>
 <p>
 Returns the degree of polynomial <i>p</i>(<i>x</i>).
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 p = (2x + 1)^3
 deg(p,x)
 </pre>
-<pre>
+<pre style="font-family:courier">
 3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="denominator">denominator(<i>x</i>)</a>
 <p>
 Returns the denominator of expression <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 denominator(a/b)
 </pre>
-<pre>
+<pre style="font-family:courier">
 b
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="det">det(<i>m</i>)</a>
 <p>
 Returns the determinant of matrix <i>m</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = ((a,b),(c,d))
 det(A)
 </pre>
-<pre>
+<pre style="font-family:courier">
 a d - b c
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="dim">dim(<i>a,n</i>)</a>
 <p>
 Returns the dimension of the <i>n</i>th index of tensor <i>a</i>.
 Index numbering starts with 1.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = ((1,2),(3,4),(5,6))
 dim(A,1)
 </pre>
-<pre>
+<pre style="font-family:courier">
 3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="div">div(<i>u</i>)</a>
 <p>
 Returns the divergence of vector <i>u</i>.
 It is OK to redefine
-<span style="font-family:monospace">div</span>.
+<span style="font-family:courier">div</span>.
 This is the default definition.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 div(u) = d(u[1],x) + d(u[2],y) + d(u[3],z)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="do">do(<i>a,b,...</i>)</a>
 <p>
 Evaluates each argument from left to right.
 Returns the result of the final argument.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 do(A=1,B=2,A+B)
 </pre>
-<pre>
+<pre style="font-family:courier">
 3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="dot">dot(<i>a,b,...</i>)</a>
 <p>
 Returns the dot or matrix product of vectors, matrices, and tensors.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 -- solve for X in AX=B
 A = ((1,2),(3,4))
 B = (5,6)
 X = dot(inv(A),B)
 X
 </pre>
-<pre>
+<pre style="font-family:courier">
     -4
 
 X = 
@@ -645,39 +645,39 @@ X =
      2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="draw">draw(<i>f,x</i>)</a>
 <p>
 Draws a graph of <i>f</i>(<i>x</i>).
 Drawing ranges can be set with
-<span style="font-family:monospace">xrange</span>
+<span style="font-family:courier">xrange</span>
 and
-<span style="font-family:monospace">yrange</span>.
-<pre style="color:blue">
+<span style="font-family:courier">yrange</span>.
+<pre style="font-family:courier;color:blue">
 xrange = (0,1)
 yrange = (0,1)
 draw(x^2,x)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="e">e</a>
 <p>
 Symbol
-<span style="font-family:monospace">e</span>
+<span style="font-family:courier">e</span>
 is initialized to the natural number <i>e</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 e^x
 </pre>
-<pre>
+<pre style="font-family:courier">
 exp(x)
 </pre>
 <p>
 Note:
 It is OK to clear or redefine
-<span style="font-family:monospace">e</span>
+<span style="font-family:courier">e</span>
 and use the symbol for something else.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="eigen">eigen(<i>m</i>)</a>
 <p>
 Computes eigenvalues and eigenvectors numerically.
@@ -685,245 +685,257 @@ Matrix <i>m</i> is required to be both numerical and symmetric.
 Eigenvectors are returned in Q and eigenvalues are returned in D.
 Each row of Q is an eigenvector.
 Each diagonal element of D is an eigenvalue.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = ((1,2),(2,1))
 eigen(A)
 dot(transpose(Q),D,Q)
 </pre>
-<pre>
+<pre style="font-family:courier">
 1.0   2.0
 
 2.0   1.0
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="erf">erf(<i>x</i>)</a>
 <p>
 Error function of <i>x</i>.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="erfc">erfc(<i>x</i>)</a>
 <p>
 Complementary error function of <i>x</i>.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="eval">eval(<i>f,x,a</i>)</a>
 <p>
 Returns <i>f</i> evaluated at <i>x</i> equals <i>a</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 eval(x^2 + 3,x,0)
 </pre>
-<pre>
+<pre style="font-family:courier">
 3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="exp">exp(<i>x</i>)</a>
 <p>
 Returns the exponential of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 exp(i pi)
 </pre>
-<pre>
+<pre style="font-family:courier">
 -1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="expand">expand(<i>r,x</i>)</a>
 <p>
 Returns the partial fraction expansion of the ratio of polynomials <i>r</i> in <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 p = (x + 1)^2
 q = (x + 2)^2
 expand(p/q,x)
 </pre>
-<pre>
+<pre style="font-family:courier">
      2            1
 - ------- + -------------- + 1
    x + 2      2
              x  + 4 x + 4
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="expcos">expcos(<i>z</i>)</a>
 <p>
 Returns the cosine of <i>z</i> in exponential form.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 expcos(z)
 </pre>
-<pre>
+<pre style="font-family:courier">
  1              1
 --- exp(i z) + --- exp(-i z)
  2              2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="expcosh">expcosh(<i>z</i>)</a>
 <p>
 Returns the hyperbolic cosine of <i>z</i> in exponential form.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 expcosh(z)
 </pre>
-<pre>
+<pre style="font-family:courier">
  1             1
 --- exp(-z) + --- exp(z)
  2             2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="expsin">expsin(<i>z</i>)</a>
 <p>
 Returns the sine of <i>z</i> in exponential form.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 expsin(z)
 </pre>
-<pre>
+<pre style="font-family:courier">
    1                1
 - --- i exp(i z) + --- i exp(-i z)
    2                2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="expsinh">expsinh(<i>z</i>)</a>
 <p>
 Returns the hyperbolic sine of <i>z</i> in exponential form.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 expsinh(z)
 </pre>
-<pre>
+<pre style="font-family:courier">
    1             1
 - --- exp(-z) + --- exp(z)
    2             2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="exptan">exptan(<i>z</i>)</a>
 <p>
 Returns the tangent of <i>z</i> in exponential form.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 exptan(z)
 </pre>
-<pre>
+<pre style="font-family:courier">
        i             i exp(2 i z)
 ---------------- - ----------------
  exp(2 i z) + 1     exp(2 i z) + 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="exptanh">exptanh(<i>z</i>)</a>
 <p>
 Returns the hyperbolic tangent of <i>z</i> in exponential form.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 exptanh(z)
 </pre>
-<pre>
+<pre style="font-family:courier">
         1             exp(2 z)
 - -------------- + --------------
    exp(2 z) + 1     exp(2 z) + 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="factor">factor(<i>n</i>)</a>
 <p>
-Factors integer <i>n</i>.
-<pre style="color:blue">
+Factors numerical value <i>n</i>.
+<pre style="font-family:courier;color:blue">
 factor(10!)
 </pre>
-<pre>
- 8  4  2  1
+<pre style="font-family:courier">
+ 8  4  2
 2  3  5  7
 </pre>
-
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">factor(<i>p,x</i>)
 <p>
-Factors polynomial <i>p</i>(<i>x</i>).
-The polynomial should be factorable over integers.
+For floating point <i>n</i>,
+results are generally inexact for values greater than 2<sup>53</sup>.
+For floating point <i>n</i> with a fractional part (non-integer),
+a rational approximation of <i>n</i> is factored.
+<pre style="font-family:courier;color:blue">
+factor(float(pi))
+</pre>
+<pre style="font-family:courier">
+ 5 71
+------
+ 113
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">factor(<i>p,x</i>)
+<p>
+Factors polynomial <i>p</i>(<i>x</i>) over integers.
 The argument list can be extended for multivariate polynomials.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 p = 2x + x y + y + 2
 factor(p,x,y)
 </pre>
-<pre>
+<pre style="font-family:courier">
 (x + 1) (y + 2)
 </pre>
 <p>
 Note:
-<span style="font-family:monospace">factor</span>
+<span style="font-family:courier">factor</span>
 returns an unexpanded expression.
 If the result is assigned to a symbol, evaluating the symbol will expand the result.
 Use
-<span style="font-family:monospace">binding</span>
+<span style="font-family:courier">binding</span>
 to retrieve the unexpanded expression.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 q = factor(p,x,y)
 binding(q)
 </pre>
-<pre>
+<pre style="font-family:courier">
 (x + 1) (y + 2)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="factorial">factorial(<i>n</i>)</a>
 <p>
 Returns the factorial of <i>n</i>.
 The expression
-<span style="font-family:monospace">n!</span>
+<span style="font-family:courier">n!</span>
 can also be used.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 100!
 </pre>
-<pre>
+<pre style="font-family:courier">
 93326215443944152681699238856266700490715968264381621468592963895217599993229915
 608941463976156518286253697920827223758251185210916864000000000000000000000000
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="filter">filter(<i>f,a,b,...</i>)</a>
 <p>
 Returns <i>f</i> excluding any terms containing <i>a</i>, <i>b</i>, etc.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 p = x^2 + 3x + 2
 filter(p,x^2)
 </pre>
-<pre>
+<pre style="font-family:courier">
 3 x + 2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="float">float(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> with rational numbers and integers converted to
 floating point values.
 The symbol
-<span style="font-family:monospace">pi</span>
+<span style="font-family:courier">pi</span>
 and the natural number are also converted.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 float(212^17)
 </pre>
-<pre>
+<pre style="font-family:courier">
           39
 3.52947 10
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="floor">floor(<i>x</i>)</a>
 <p>
 Returns the largest integer less than or equal to <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 floor(1/2)
 </pre>
-<pre>
+<pre style="font-family:courier">
 0
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="for">for(<i>i,j,k,a,b,...</i>)</a>
 <p>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>a</i>, <i>b</i>, etc.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 for(k,1,3,A=k,print(A))
 </pre>
-<pre>
+<pre style="font-family:courier">
 A = 1
 A = 2
 A = 3
@@ -931,44 +943,44 @@ A = 3
 <p>
 Note:
 The original value of <i>i</i> is restored after
-<span style="font-family:monospace">for</span>
+<span style="font-family:courier">for</span>
 completes.
 If symbol
-<span style="font-family:monospace">i</span>
+<span style="font-family:courier">i</span>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<span style="font-family:monospace">for</span>.
+<span style="font-family:courier">for</span>.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="gcd">gcd(<i>a,b,...</i>)</a>
 <p>
 Returns the greatest common divisor of expressions.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 gcd(x,x y)
 </pre>
-<pre>
+<pre style="font-family:courier">
 x
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="hermite">hermite(<i>x,n</i>)</a>
 <p>
 Returns the <i>n</i>th Hermite polynomial in <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 hermite(x,3)
 </pre>
-<pre>
+<pre style="font-family:courier">
    3
 8 x  - 12 x
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="hilbert">hilbert(<i>n</i>)</a>
 <p>
 Returns an <i>n</i> by <i>n</i> Hilbert matrix.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 hilbert(3)
 </pre>
-<pre>
+<pre style="font-family:courier">
        1     1
  1    ---   ---
        2     3
@@ -982,78 +994,78 @@ hilbert(3)
  3     4     5
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="i">i</a>
 <p>
 Symbol
-<span style="font-family:monospace">i</span>
+<span style="font-family:courier">i</span>
 is initialized to the imaginary unit (&minus;1)<sup>1/2</sup>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 exp(i pi)
 </pre>
-<pre>
+<pre style="font-family:courier">
 -1
 </pre>
 <p>
 Note:
 It is OK to clear or redefine
-<span style="font-family:monospace">i</span>
+<span style="font-family:courier">i</span>
 and use the symbol for something else.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="imag">imag(<i>z</i>)</a>
 <p>
 Returns the imaginary part of complex <i>z</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 imag(2 - 3i)
 </pre>
-<pre>
+<pre style="font-family:courier">
 -3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="inner">inner(<i>a,b,...</i>)</a>
 <p>
 Returns the inner product of tensors.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = ((a,b),(c,d))
 B = (x,y)
 inner(A,B)
 </pre>
-<pre>
+<pre style="font-family:courier">
 a x + b y
 
 c x + d y
 </pre>
 <p>
 Note:
-<span style="font-family:monospace">inner</span>
+<span style="font-family:courier">inner</span>
 and
-<span style="font-family:monospace">dot</span>
+<span style="font-family:courier">dot</span>
 are the same function.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="integral">integral(<i>f,x</i>)</a>
 <p>
 Returns the integral of <i>f</i> with respect to <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 integral(x^2,x)
 </pre>
-<pre>
+<pre style="font-family:courier">
  1   3
 --- x
  3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="inv">inv(<i>m</i>)</a>
 <p>
 Returns the inverse of matrix <i>m</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = ((1,2),(3,4))
 inv(A)
 </pre>
-<pre>
+<pre style="font-family:courier">
  -2       1
 
 
@@ -1062,184 +1074,184 @@ inv(A)
   2        2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="isprime">isprime(<i>n</i>)</a>
 <p>
 Returns 1 if <i>n</i> is a prime number. Returns zero otherwise.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 isprime(2^31 - 1)
 </pre>
-<pre>
+<pre style="font-family:courier">
 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="j">j</a>
 <p>
 Set
-<span style="font-family:monospace">j=sqrt(-1)</span>
+<span style="font-family:courier">j=sqrt(-1)</span>
 to use
-<span style="font-family:monospace">j</span>
+<span style="font-family:courier">j</span>
 for the imaginary unit instead of
-<span style="font-family:monospace">i</span>.
-<pre style="color:blue">
+<span style="font-family:courier">i</span>.
+<pre style="font-family:courier;color:blue">
 j = sqrt(-1)
 1/sqrt(-1)
 </pre>
-<pre>
+<pre style="font-family:courier">
 -j
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="laguerre">laguerre(<i>x,n,a</i>)</a>
 <p>
 Returns the <i>n</i>th Laguerre polynomial in <i>x</i>.
 If argument <i>a</i> is omitted then zero is used.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 laguerre(x,3)
 </pre>
-<pre>
+<pre style="font-family:courier">
    1   3    3   2
 - --- x  + --- x  - 3 x + 1
    6        2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="last">last</a>
 <p>
 The result of the previous calculation is stored in
-<span style="font-family:monospace">last</span>.
-<pre style="color:blue">
+<span style="font-family:courier">last</span>.
+<pre style="font-family:courier;color:blue">
 212^17
 </pre>
-<pre>
+<pre style="font-family:courier">
 3529471145760275132301897342055866171392
 </pre>
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 last^(1/17)
 </pre>
-<pre>
+<pre style="font-family:courier">
 212
 </pre>
 <p>
 Note:
 Symbol
-<span style="font-family:monospace">last</span>
+<span style="font-family:courier">last</span>
 is an implied argument when a function has no argument list.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 212^17
 </pre>
-<pre>
+<pre style="font-family:courier">
 3529471145760275132301897342055866171392
 </pre>
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 float
 </pre>
-<pre>
+<pre style="font-family:courier">
           39
 3.52947 10
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="lcm">lcm(<i>a,b,...</i>)</a>
 <p>
 Returns the least common multiple of expressions.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 lcm(x,x y)
 </pre>
-<pre>
+<pre style="font-family:courier">
 x y
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="leading">leading(<i>p,x</i>)</a>
 <p>
 Returns the leading coefficient of polynomial <i>p</i>(<i>x</i>).
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 leading(3x^2 + 1,x)
 </pre>
-<pre>
+<pre style="font-family:courier">
 3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="legendre">legendre(<i>x,n,m</i>)</a>
 <p>
 Returns the <i>n</i>th Legendre polynomial in <i>x</i>.
 If <i>m</i> is omitted then zero is used.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 legendre(x,3)
 </pre>
-<pre>
+<pre style="font-family:courier">
  5   3    3
 --- x  - --- x
  2        2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="lisp">lisp(<i>x</i>)</a>
 <p>
 Evaluates expression <i>x</i> and returns the result as a
 string in prefix notation.
 Useful for debugging scripts.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 lisp(x^2 + 1)
 </pre>
-<pre>
+<pre style="font-family:courier">
 (+ (^ x 2) 1)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="log">log(<i>x</i>)</a>
 <p>
 Returns the natural logarithm of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 log(x^y)
 </pre>
-<pre>
+<pre style="font-family:courier">
 y log(x)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="mag">mag(<i>z</i>)</a>
 <p>
 Returns the magnitude of complex <i>z</i>.
 Mag treats undefined symbols as real while
-<span style="font-family:monospace">abs</span>
+<span style="font-family:courier">abs</span>
 does not.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 mag(x + i y)
 </pre>
-<pre>
+<pre style="font-family:courier">
          1/2
   2    2
 (x  + y )
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="mod">mod(<i>a,b</i>)</a>
 <p>
 Returns the remainder of integer <i>a</i> divided by integer <i>b</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 mod(10,7)
 </pre>
-<pre>
+<pre style="font-family:courier">
 3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="not">not(<i>x</i>)</a>
 <p>
 Returns 0 if <i>x</i> is true (nonzero).
 Returns 1 otherwise.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 not(1=1)
 </pre>
-<pre>
+<pre style="font-family:courier">
 0
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="nroots">nroots(<i>p,x</i>)</a>
 <p>
 Returns all roots, both real and complex,
@@ -1247,52 +1259,52 @@ of polynomial <i>p</i>(<i>x</i>).
 The roots are computed numerically.
 The coefficients of <i>p</i> can be real or complex.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="number">number(<i>x</i>)</a>
 <p>
 Returns 1 if <i>x</i> is a rational or floating point number.
 Returns 0 otherwise.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 number(1/2)
 </pre>
-<pre>
+<pre style="font-family:courier">
 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="numerator">numerator(<i>x</i>)</a>
 <p>
 Returns the numerator of expression <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 numerator(a/b)
 </pre>
-<pre>
+<pre style="font-family:courier">
 a
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="or">or(<i>a,b,...</i>)</a>
 <p>
 Returns 1 if at least one argument is true (nonzero).
 Returns 0 otherwise.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 or(1=1,2=2)
 </pre>
-<pre>
+<pre style="font-family:courier">
 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="outer">outer(<i>a,b,...</i>)</a>
 <p>
 Returns the outer product of tensors.
 Also known as the tensor product.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = (a,b,c)
 B = (x,y,z)
 outer(A,B)
 </pre>
-<pre>
+<pre style="font-family:courier">
 a x   a y   a z
 
 b x   b y   b z
@@ -1300,272 +1312,272 @@ b x   b y   b z
 c x   c y   c z
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="pi">pi</a>
 <p>
 Symbol for &#960;.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 exp(i pi)
 </pre>
-<pre>
+<pre style="font-family:courier">
 -1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="polar">polar(<i>z</i>)</a>
 <p>
 Returns complex <i>z</i> in polar form.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 polar(x - i y)
 </pre>
-<pre>
+<pre style="font-family:courier">
          1/2
   2    2
 (x  + y )    exp(i arctan(-y,x))
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="power">power</a>
 <p>
 Use
-<span style="font-family:monospace">^</span>
+<span style="font-family:courier">^</span>
 to raise something to a power.
 Use parentheses for negative powers.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 x^(-2)
 </pre>
-<pre>
+<pre style="font-family:courier">
  1
 ----
   2
  x
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="prime">prime(<i>n</i>)</a>
 <p>
 Returns the <i>n</i>th prime number.
 The domain of <i>n</i> is 1 to 10000.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 prime(100)
 </pre>
-<pre>
+<pre style="font-family:courier">
 541
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="print">print(<i>a,b,...</i>)</a>
 <p>
 Evaluate expressions and print the results.
 Useful for printing from inside a
-<span style="font-family:monospace">for</span>
+<span style="font-family:courier">for</span>
 loop.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 for(j,1,3,print(j))
 </pre>
-<pre>
+<pre style="font-family:courier">
 j = 1
 j = 2
 j = 3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="product">product(<i>i,j,k,f</i>)</a>
 <p>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
 Returns the product of all <i>f</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 product(j,1,3,x + j)
 </pre>
-<pre>
+<pre style="font-family:courier">
  3      2
 x  + 6 x  + 11 x + 6
 </pre>
 <p>
 Note:
 The original value of <i>i</i> is restored after
-<span style="font-family:monospace">product</span>
+<span style="font-family:courier">product</span>
 completes.
 If symbol
-<span style="font-family:monospace">i</span>
+<span style="font-family:courier">i</span>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<span style="font-family:monospace">product</span>.
+<span style="font-family:courier">product</span>.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="quote">quote(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> without evaluating it first.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 quote((x + 1)^2)
 </pre>
-<pre>
+<pre style="font-family:courier">
        2
 (x + 1)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="quotient">quotient(<i>p,q,x</i>)</a>
 <p>
 Returns the quotient of polynomial <i>p</i>(<i>x</i>) over <i>q</i>(<i>x</i>).
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 p = x^2 + 1
 q = x + 3
 quotient(p,q,x)
 </pre>
-<pre>
+<pre style="font-family:courier">
 x - 3
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="rank">rank(<i>a</i>)</a>
 <p>
 Returns the number of indices that tensor <i>a</i> has.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = ((a,b),(c,d))
 rank(A)
 </pre>
-<pre>
+<pre style="font-family:courier">
 2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="rationalize">rationalize(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> with everything over a common denominator.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 rationalize(1/a + 1/b + 1/2)
 </pre>
-<pre>
+<pre style="font-family:courier">
  2 a + a b + 2 b
 -----------------
       2 a b
 </pre>
 <p>
 Note:
-<span style="font-family:monospace">rationalize</span>
+<span style="font-family:courier">rationalize</span>
 returns an unexpanded expression.
 If the result is assigned to a symbol, evaluating the symbol will expand the result.
 Use
-<span style="font-family:monospace">binding</span>
+<span style="font-family:courier">binding</span>
 to retrieve the unexpanded expression.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 f = rationalize(1/a + 1/b + 1/2)
 binding(f)
 </pre>
-<pre>
+<pre style="font-family:courier">
  2 a + a b + 2 b
 -----------------
       2 a b
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="real">real(<i>z</i>)</a>
 <p>
 Returns the real part of complex <i>z</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 real(2 - 3i)
 </pre>
-<pre>
+<pre style="font-family:courier">
 2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="rect">rect(<i>z</i>)</a>
 <p>
 Returns complex <i>z</i> in rectangular form.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 rect(exp(i x))
 </pre>
-<pre>
+<pre style="font-family:courier">
 cos(x) + i sin(x)
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="roots">roots(<i>p,x</i>)</a>
 <p>
 Returns the values of <i>x</i> such that polynomial
 <i>p</i>(<i>x</i>) equals zero.
 The polynomial should be factorable over integers.
 Returns a vector for multiple roots.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 roots(x^2 + 3x + 2,x)
 </pre>
-<pre>
+<pre style="font-family:courier">
 -2
 
 -1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="run">run(<i>file</i>)</a>
 <p>
 Run script <i>file</i>.
 Useful for importing function libraries.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 run("Downloads/EVA.txt")
 </pre>
 <p>
 Note:
 <i>file</i> must be in the Downloads folder due to security requirements for apps distributed on the Mac App Store.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="simplify">simplify(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> in a simpler form.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 simplify(sin(x)^2 + cos(x)^2)
 </pre>
-<pre>
+<pre style="font-family:courier">
 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="sin">sin(<i>x</i>)</a>
 <p>
 Returns the sine of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 sin(pi/4)
 </pre>
-<pre>
+<pre style="font-family:courier">
   1
 ------
   1/2
  2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="sinh">sinh(<i>x</i>)</a>
 <p>
 Returns the hyperbolic sine of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 circexp(sinh(x))
 </pre>
-<pre>
+<pre style="font-family:courier">
    1             1
 - --- exp(-x) + --- exp(x)
    2             2
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="sqrt">sqrt(<i>x</i>)</a>
 <p>
 Returns the square root of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 sqrt(10!)
 </pre>
-<pre>
+<pre style="font-family:courier">
      1/2
 720 7
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="status">status</a>
 <p>
 Prints memory statistics.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 status
 </pre>
-<pre>
+<pre style="font-family:courier">
 block_count 1
 free_count 99258
 gc_count 1
@@ -1574,179 +1586,179 @@ string_count 0
 tensor_count 5
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="stop">stop</a>
 <p>
 In a script, it does what it says.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="string">string(<i>x</i>)</a>
 <p>
 Evaluates expression <i>x</i> and returns the result as a string.
 Useful for testing scripts.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 string((x + 1)^2) == "x^2 + 2 x + 1"
 </pre>
-<pre>
+<pre style="font-family:courier">
 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="subst">subst(<i>a,b,c</i>)</a>
 <p>
 Substitutes <i>a</i> for <i>b</i> in <i>c</i> and returns the result.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 subst(x,y,y^2)
 </pre>
-<pre>
+<pre style="font-family:courier">
  2
 x
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="sum">sum(<i>i,j,k,f</i>)</a>
 <p>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
 Returns the sum of all <i>f</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 sum(j,1,5,x^j)
 </pre>
-<pre>
+<pre style="font-family:courier">
  5    4    3    2
 x  + x  + x  + x  + x
 </pre>
 <p>
 Note:
 The original value of <i>i</i> is restored after
-<span style="font-family:monospace">sum</span>
+<span style="font-family:courier">sum</span>
 completes.
 If symbol
-<span style="font-family:monospace">i</span>
+<span style="font-family:courier">i</span>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<span style="font-family:monospace">sum</span>.
+<span style="font-family:courier">sum</span>.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="tan">tan(<i>x</i>)</a>
 <p>
 Returns the tangent of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 simplify(tan(x) - sin(x)/cos(x))
 </pre>
-<pre>
+<pre style="font-family:courier">
 0
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="tanh">tanh(<i>x</i>)</a>
 <p>
 Returns the hyperbolic tangent of <i>x</i>.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 circexp(tanh(x))
 </pre>
-<pre>
+<pre style="font-family:courier">
         1             exp(2 x)
 - -------------- + --------------
    exp(2 x) + 1     exp(2 x) + 1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="taylor">taylor(<i>f,x,n,a</i>)</a>
 <p>
 Returns the Taylor expansion of <i>f</i>(<i>x</i>) near <i>x</i> equals <i>a</i>.
 If argument <i>a</i> is omitted then zero is used.
 Argument <i>n</i> is the degree of the expansion.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 taylor(sin(x),x,5)
 </pre>
-<pre>
+<pre style="font-family:courier">
   1    5    1   3
 ----- x  - --- x  + x
  120        6
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="test">test(<i>a,b,c,d,...</i>)</a>
 <p>
 If argument <i>a</i> is true (nonzero) then <i>b</i> is returned, else if <i>c</i> is true then <i>d</i> is returned, etc.
 If the number of arguments is odd then the final argument is returned if all else fails.
 Expressions can include the relational operators
-<span style="font-family:monospace">=</span>,
-<span style="font-family:monospace">==</span>,
-<span style="font-family:monospace">&lt;</span>,
-<span style="font-family:monospace">&lt;=</span>,
-<span style="font-family:monospace">&gt;</span>,
-<span style="font-family:monospace">&gt;=</span>.
+<span style="font-family:courier">=</span>,
+<span style="font-family:courier">==</span>,
+<span style="font-family:courier">&lt;</span>,
+<span style="font-family:courier">&lt;=</span>,
+<span style="font-family:courier">&gt;</span>,
+<span style="font-family:courier">&gt;=</span>.
 Use the
-<span style="font-family:monospace">not</span>
+<span style="font-family:courier">not</span>
 function to test for inequality.
 (The equality operator
-<span style="font-family:monospace">==</span>
+<span style="font-family:courier">==</span>
 is available for contexts in which
-<span style="font-family:monospace">=</span>
+<span style="font-family:courier">=</span>
 is the assignment operator.)
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = 1
 B = 1
 test(A=B,"yes","no")
 </pre>
-<pre>
+<pre style="font-family:courier">
 yes
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="trace">trace</a>
 <p>
 Set
-<span style="font-family:monospace">trace=1</span>
+<span style="font-family:courier">trace=1</span>
 in a script to print the script as it is evaluated.
 Useful for debugging.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 trace = 1
 </pre>
 <p>
 Note:
 The
-<span style="font-family:monospace">contract</span>
+<span style="font-family:courier">contract</span>
 function is used to obtain the trace of a matrix.
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="transpose">transpose(<i>a,i,j</i>)</a>
 <p>
 Returns the transpose of tensor <i>a</i> with respect to indices <i>i</i> and <i>j</i>.
 If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
 Hence a matrix can be transposed with a single argument.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = ((a,b),(c,d))
 transpose(A)
 </pre>
-<pre>
+<pre style="font-family:courier">
 a   c
 
 b   d
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="tty">tty</a>
 <p>
 Set
-<span style="font-family:monospace">tty=1</span>
+<span style="font-family:courier">tty=1</span>
 to print results in a flat format.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 tty = 1
 (x + 1/2)^2
 </pre>
-<pre>
+<pre style="font-family:courier">
 x^2 + x + 1/4
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="unit">unit(<i>n</i>)</a>
 <p>
 Returns an <i>n</i> by <i>n</i> identity matrix.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 unit(3)
 </pre>
-<pre>
+<pre style="font-family:courier">
 1   0   0
 
 0   1   0
@@ -1754,17 +1766,17 @@ unit(3)
 0   0   1
 </pre>
 
-<p style="font-family:monospace;font-size:20pt;font-weight:bold">
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="zero">zero(<i>i,j,...</i>)</a>
 <p>
 Returns a null tensor with dimensions <i>i</i>, <i>j</i>, etc.
 Useful for creating a tensor and then setting the component values.
-<pre style="color:blue">
+<pre style="font-family:courier;color:blue">
 A = zero(3,3)
 for(k,1,3,A[k,k]=k)
 A
 </pre>
-<pre>
+<pre style="font-family:courier">
     1   0   0
 
 A = 0   2   0
