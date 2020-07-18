@@ -174,33 +174,27 @@ compare_rationals(struct atom *a, struct atom *b)
 double
 convert_rational_to_double(struct atom *p)
 {
-	int i, n, na, nb;
+
+	int i, n;
 	double a = 0.0, b = 0.0;
 
-	na = MLENGTH(p->u.q.a);
-	nb = MLENGTH(p->u.q.b);
+	// numerator
 
-	if (na < nb)
-		n = na;
-	else
-		n = nb;
-
+	n = MLENGTH(p->u.q.a);
 	for (i = 0; i < n; i++) {
-		a = a / 4294967296.0 + p->u.q.a[i];
-		b = b / 4294967296.0 + p->u.q.b[i];
+		a += p->u.q.a[i];
+		a = scalbn(a, -32);
 	}
+	a = scalbn(a, 32 * n);
 
-	if (na > nb)
-		for (i = nb; i < na; i++) {
-			a = a / 4294967296.0 + p->u.q.a[i];
-			b = b / 4294967296.0;
-		}
+	// denominator
 
-	if (na < nb)
-		for (i = na; i < nb; i++) {
-			a = a / 4294967296.0;
-			b = b / 4294967296.0 + p->u.q.b[i];
-		}
+	n = MLENGTH(p->u.q.b);
+	for (i = 0; i < n; i++) {
+		b += p->u.q.b[i];
+		b = scalbn(b, -32);
+	}
+	b = scalbn(b, 32 * n);
 
 	if (p->sign == MMINUS)
 		a = -a;
