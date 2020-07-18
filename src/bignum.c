@@ -205,10 +205,10 @@ convert_rational_to_double(struct atom *p)
 void
 convert_double_to_rational(double d)
 {
-	int k;
-	unsigned int *a;
+	int n;
+	double x, y;
+	uint32_t *a;
 	uint64_t u;
-	double e, x;
 
 	// do this first, 0.0 fails isnormal()
 
@@ -225,14 +225,14 @@ convert_double_to_rational(double d)
 	// integer?
 
 	if (floor(x) == x) {
-		x = frexp(x, &k);
+		x = frexp(x, &n);
 		u = (uint64_t) scalbn(x, 64);
 		a = mnew(2);
-		a[0] = u;
-		a[1] = u >> 32;
+		a[0] = (uint32_t) u;
+		a[1] = (uint32_t) (u >> 32);
 		push_rational_number(d < 0.0 ? MMINUS : MPLUS, a, mint(1));
 		push_integer(2);
-		push_integer(k - 64);
+		push_integer(n - 64);
 		power();
 		multiply();
 		return;
@@ -240,10 +240,10 @@ convert_double_to_rational(double d)
 
 	// not integer
 
-	e = floor(log10(x)) + 1.0;
-	best_rational_approximation(x / pow(10.0, e));
+	y = floor(log10(x)) + 1.0;
+	best_rational_approximation(x / pow(10.0, y));
 	push_integer(10);
-	push_integer((int) e);
+	push_integer((int) y);
 	power();
 	multiply();
 	if (d < 0.0)
