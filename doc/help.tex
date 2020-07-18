@@ -705,7 +705,7 @@ $\displaystyle -\frac{1}{\exp(2z)+1}+\frac{\exp(2z)}{\exp(2z)+1}$
 
 \subsection*{factor($n$)}
 
-Factors integer $n$.
+Factors numerical value $n$.
 
 {\color{blue}
 \begin{verbatim}
@@ -716,9 +716,23 @@ factor(10!)
 \noindent
 $\displaystyle 2^8\times 3^4\times 5^2\times 7^1$
 
+\bigskip
+\noindent
+For floating point $n$, results are generally inexact for values greater than $2^{53}$.
+For floating point $n$ with a fractional part (non-integer), a rational approximation of $n$ is factored.
+
+{\color{blue}
+\begin{verbatim}
+factor(float(pi))
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{5\times 71}{113}$
+
 \subsection*{factor($p,x$)}
 
-Factors polynomial $p(x)$.
+Factors polynomial $p(x)$ over integers.
 The argument list can be extended for multivariate polynomials.
 
 {\color{blue}
