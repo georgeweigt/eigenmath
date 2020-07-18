@@ -1047,7 +1047,10 @@ lisp(factor(2^53 + 1))
 check(last = "(* 3 107 28059810762433)")
 
 lisp(factor(float(2^53 + 1)))
-check(last = "(^ 2 53)") -- note: double cannot represent 2^53 + 1 exactly
+check(last = "(^ 2 53)")
+
+-- 2^53 + 1 is the smallest positive integer that cannot be represented exactly
+-- as a double.
 
 -- done
 
