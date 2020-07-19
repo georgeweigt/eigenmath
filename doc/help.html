@@ -827,15 +827,16 @@ exptanh(z)
 <p>
 Factors numerical value <i>n</i>.
 <pre style="font-family:courier;color:blue">
-factor(10!)
+factor(12/35)
 </pre>
 <pre style="font-family:courier">
- 8  4  2
-2  3  5  7
+  2
+ 2  3
+------
+ 5 7
 </pre>
 <p>
-When the argument <i>n</i> is a floating point value,
-a rational approximation of <i>n</i> is factored.
+To factor a floating point value, a rational approximation of <i>n</i> is used.
 <pre style="font-family:courier;color:blue">
 factor(float(pi))
 </pre>
@@ -880,11 +881,10 @@ The expression
 <span style="font-family:courier">n!</span>
 can also be used.
 <pre style="font-family:courier;color:blue">
-100!
+20!
 </pre>
 <pre style="font-family:courier">
-93326215443944152681699238856266700490715968264381621468592963895217599993229915
-608941463976156518286253697920827223758251185210916864000000000000000000000000
+2432902008176640000
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
