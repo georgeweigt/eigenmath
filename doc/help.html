@@ -825,7 +825,7 @@ exptanh(z)
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="factor">factor(<i>n</i>)</a>
 <p>
-Factors numerical value <i>n</i>.
+Factors numerical value <i>n</i> and returns the result.
 <pre style="font-family:courier;color:blue">
 factor(12/35)
 </pre>
@@ -836,7 +836,7 @@ factor(12/35)
  5 7
 </pre>
 <p>
-To factor a floating point value, a rational approximation of <i>n</i> is used.
+If <i>n</i> is a floating point value then a rational approximation of <i>n</i> is factored and returned.
 <pre style="font-family:courier;color:blue">
 factor(float(pi))
 </pre>
@@ -848,7 +848,7 @@ factor(float(pi))
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">factor(<i>p,x</i>)
 <p>
-Factors polynomial <i>p</i>(<i>x</i>) over integers.
+Factors polynomial <i>p</i> of <i>x</i> and returns the result.
 The argument list can be extended for multivariate polynomials.
 <pre style="font-family:courier;color:blue">
 p = 2x + x y + y + 2
@@ -1229,7 +1229,7 @@ mag(x + i y)
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="mod">mod(<i>a,b</i>)</a>
 <p>
-Returns the remainder of integer <i>a</i> divided by integer <i>b</i>.
+Returns the remainder of <i>a</i> divided by <i>b</i>.
 <pre style="font-family:courier;color:blue">
 mod(10,7)
 </pre>

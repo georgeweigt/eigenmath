@@ -705,7 +705,7 @@ $\displaystyle -\frac{1}{\exp(2z)+1}+\frac{\exp(2z)}{\exp(2z)+1}$
 
 \subsection*{factor($n$)}
 
-Factors numerical value $n$.
+Factors numerical value $n$ and returns the result.
 
 {\color{blue}
 \begin{verbatim}
@@ -718,7 +718,7 @@ $\displaystyle \frac{2^2\times 3}{5\times 7}$
 
 \bigskip
 \noindent
-To factor a floating point value, a rational approximation of $n$ is used.
+If $n$ is a floating point value then a rational approximation of $n$ is factored and returned.
 
 {\color{blue}
 \begin{verbatim}
@@ -731,7 +731,7 @@ $\displaystyle \frac{5\times 71}{113}$
 
 \subsection*{factor($p,x$)}
 
-Factors polynomial $p(x)$ over integers.
+Factors polynomial $p$ of $x$ and returns the result.
 The argument list can be extended for multivariate polynomials.
 
 {\color{blue}
@@ -1133,7 +1133,7 @@ $\displaystyle (x^2+y^2)^{1/2}$
 
 \subsection*{mod($a,b$)}
 
-Returns the remainder of integer $a$ divided by integer $b$.
+Returns the remainder of $a$ divided by $b$.
 
 {\color{blue}
 \begin{verbatim}
