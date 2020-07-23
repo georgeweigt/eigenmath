@@ -181,20 +181,24 @@ convert_rational_to_double(struct atom *p)
 	// numerator
 
 	n = MLENGTH(p->u.q.a);
+
 	for (i = 0; i < n; i++) {
 		a += p->u.q.a[i];
-		a = scalbn(a, -32);
+		a = scalbn(a, -32); // divide by 2^32
 	}
-	a = scalbn(a, 32 * n);
+
+	a = scalbn(a, 32 * n); // multiply by 2^(32 n)
 
 	// denominator
 
 	n = MLENGTH(p->u.q.b);
+
 	for (i = 0; i < n; i++) {
 		b += p->u.q.b[i];
-		b = scalbn(b, -32);
+		b = scalbn(b, -32); // divide by 2^32
 	}
-	b = scalbn(b, 32 * n);
+
+	b = scalbn(b, 32 * n); // multiply by 2^(32 n)
 
 	if (p->sign == MMINUS)
 		a = -a;
@@ -241,7 +245,8 @@ convert_double_to_rational(double d)
 	// not integer
 
 	y = floor(log10(x)) + 1.0;
-	best_rational_approximation(x / pow(10.0, y));
+	x = x / pow(10.0, y); // scale x to (0,1)
+	best_rational_approximation(x);
 	push_integer(10);
 	push_integer((int) y);
 	power();

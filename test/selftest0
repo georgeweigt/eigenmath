@@ -1031,6 +1031,8 @@ check(last = "(* -1 (^ 2 -1) (^ 5 -1))")
 
 -- factor floating point
 
+for(i,-100,100,for(j,1,20,check(eval(factor(float(i / j))) == i / j)))
+
 lisp(factor(2^53 - 1))
 check(last = "(* 6361 69431 20394401)")
 
@@ -1050,8 +1052,6 @@ check(last = "(* 3 107 28059810762433)")
 
 lisp(factor(float(2^53 + 1)))
 check(last = "(^ 2 53)")
-
-for(i,-100,100,check(eval(factor(i / 6.0)) == i / 6))
 
 -- done
 
