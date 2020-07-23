@@ -206,7 +206,7 @@ void
 convert_double_to_rational(double d)
 {
 	int n;
-	double x, y;
+	double x;
 	uint32_t *a;
 	uint64_t u;
 
@@ -220,32 +220,36 @@ convert_double_to_rational(double d)
 	if (!isnormal(d))
 		stop("floating point value is nan or inf, cannot convert to rational number");
 
-	x = fabs(d);
+	// integer part
 
-	// integer?
+	x = fabs(trunc(d));
 
-	if (floor(x) == x) {
+	if (x == 0.0)
+		push(zero);
+	else {
 		x = frexp(x, &n);
 		u = (uint64_t) scalbn(x, 64);
 		a = mnew(2);
 		a[0] = (uint32_t) u;
 		a[1] = (uint32_t) (u >> 32);
-		push_rational_number(d < 0.0 ? MMINUS : MPLUS, a, mint(1));
+		push_rational_number(MPLUS, a, mint(1));
 		push_integer(2);
 		push_integer(n - 64);
 		power();
 		multiply();
-		return;
 	}
 
-	// not integer
+	// fractional part
 
-	y = floor(log10(x)) + 1.0;
-	best_rational_approximation(x / pow(10.0, y));
-	push_integer(10);
-	push_integer((int) y);
-	power();
-	multiply();
+	x = fabs(d - trunc(d));
+
+	if (x == 0.0)
+		push(zero);
+	else
+		best_rational_approximation(x);
+
+	add(); // add integer and fractional parts
+
 	if (d < 0.0)
 		negate();
 }

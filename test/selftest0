@@ -1051,6 +1051,8 @@ check(last = "(* 3 107 28059810762433)")
 lisp(factor(float(2^53 + 1)))
 check(last = "(^ 2 53)")
 
+for(i,-100,100,check(eval(factor(i / 6.0)) == i / 6))
+
 -- done
 
 clear
