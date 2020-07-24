@@ -178,12 +178,15 @@ convert_rational_to_double(struct atom *p)
 	int i, n;
 	double a = 0.0, b = 0.0;
 
+	if (iszero(p))
+		return 0.0;
+
 	// numerator
 
 	n = MLENGTH(p->u.q.a);
 
 	for (i = 0; i < n; i++) {
-		a += p->u.q.a[i];
+		a += (double) p->u.q.a[i];
 		a = scalbn(a, -32); // divide by 2^32
 	}
 
@@ -194,7 +197,7 @@ convert_rational_to_double(struct atom *p)
 	n = MLENGTH(p->u.q.b);
 
 	for (i = 0; i < n; i++) {
-		b += p->u.q.b[i];
+		b += (double) p->u.q.b[i];
 		b = scalbn(b, -32); // divide by 2^32
 	}
 
