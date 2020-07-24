@@ -561,44 +561,44 @@ print_number(struct atom *p)
 	switch (p->k) {
 	case RATIONAL:
 		s = mstr(p->u.q.a);
-		if (*s == '+' || *s == '-')
-			s++;
 		print_str(s);
-		if (isfraction(p)) {
-			print_str("/");
-			s = mstr(p->u.q.b);
-			print_str(s);
-		}
+		s = mstr(p->u.q.b);
+		if (strcmp(s, "1") == 0)
+			break;
+		print_char('/');
+		print_str(s);
 		break;
 	case DOUBLE:
 		sprintf(tbuf, "%g", p->u.d);
-		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))
-			print_char('(');
 		s = tbuf;
 		if (*s == '+' || *s == '-')
 			s++;
-		while (isdigit(*s))
+		if (isinf(p->u.d) || isnan(p->u.d)) {
+			print_str(s);
+			break;
+		}
+		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))
+			print_char('(');
+		while (*s && *s != 'e' && *s != 'E')
 			print_char(*s++);
-		if (*s == '.') {
-			print_char(*s++);
-			while (isdigit(*s))
-				print_char(*s++);
-		} else
+		if (!strchr(tbuf, '.'))
 			print_str(".0");
 		if (*s == 'e' || *s == 'E') {
 			s++;
 			print_str(" 10^");
 			if (*s == '-') {
-				print_char('(');
-				print_char(*s++);
-				while (isdigit(*s))
-					print_char(*s++);
+				print_str("(-");
+				s++;
+				while (*s == '0')
+					s++; // skip leading zeroes
+				print_str(s);
 				print_char(')');
 			} else {
 				if (*s == '+')
 					s++;
-				while (isdigit(*s))
-					print_char(*s++);
+				while (*s == '0')
+					s++; // skip leading zeroes
+				print_str(s);
 			}
 		}
 		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))
@@ -661,31 +661,27 @@ print_lisp_nib(struct atom *p)
 		break;
 	case RATIONAL:
 		if (p->sign == MMINUS)
-			print_str("-");
+			print_char('-');
 		s = mstr(p->u.q.a);
 		print_str(s);
-		if (!MEQUAL(p->u.q.b, 1)) {
-			print_str("/");
-			s = mstr(p->u.q.b);
-			print_str(s);
-		}
+		s = mstr(p->u.q.b);
+		if (strcmp(s, "1") == 0)
+			break;
+		print_char('/');
+		print_str(s);
 		break;
 	case DOUBLE:
 		sprintf(tbuf, "%g", p->u.d);
+		if (isinf(p->u.d) || isnan(p->u.d)) {
+			print_str(tbuf);
+			break;
+		}
 		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))
 			print_str("(* ");
 		s = tbuf;
-		if (*s == '+')
-			s++;
-		else if (*s == '-')
+		while (*s && *s != 'e' && *s != 'E')
 			print_char(*s++);
-		while (isdigit(*s))
-			print_char(*s++);
-		if (*s == '.') {
-			print_char(*s++);
-			while (isdigit(*s))
-				print_char(*s++);
-		} else
+		if (!strchr(tbuf, '.'))
 			print_str(".0");
 		if (*s == 'e' || *s == 'E') {
 			s++;
@@ -694,8 +690,9 @@ print_lisp_nib(struct atom *p)
 				s++;
 			else if (*s == '-')
 				print_char(*s++);
-			while (isdigit(*s))
-				print_char(*s++);
+			while (*s == '0')
+				s++; // skip leading zeroes
+			print_str(s);
 			print_char(')');
 		}
 		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))

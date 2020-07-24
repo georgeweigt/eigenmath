@@ -226,7 +226,7 @@ void move(int j, int k, int dx, int dy);
 void get_size(int j, int k, int *h, int *w, int *y);
 void emit_char(int c);
 void emit_str(char *s);
-void emit_number(struct atom *p, int emit_sign);
+void emit_number(struct atom *p);
 int display_cmp(const void *aa, const void *bb);
 void print_it(void);
 char * getdisplaystr(void);

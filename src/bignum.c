@@ -185,23 +185,15 @@ convert_rational_to_double(struct atom *p)
 
 	n = MLENGTH(p->u.q.a);
 
-	for (i = 0; i < n; i++) {
-		a += (double) p->u.q.a[i];
-		a = scalbn(a, -32); // divide by 2^32
-	}
-
-	a = scalbn(a, 32 * n); // multiply by 2^(32 n)
+	for (i = 0; i < n; i++)
+		a += scalbn((double) p->u.q.a[i], 32 * i);
 
 	// denominator
 
 	n = MLENGTH(p->u.q.b);
 
-	for (i = 0; i < n; i++) {
-		b += (double) p->u.q.b[i];
-		b = scalbn(b, -32); // divide by 2^32
-	}
-
-	b = scalbn(b, 32 * n); // multiply by 2^(32 n)
+	for (i = 0; i < n; i++)
+		b += scalbn((double) p->u.q.b[i], 32 * i);
 
 	if (p->sign == MMINUS)
 		a = -a;

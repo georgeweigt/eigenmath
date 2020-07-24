@@ -264,7 +264,7 @@ emit_fraction(struct atom *p, int d)
 	// emit numerical coefficient
 
 	if (!isplusone(A)) {
-		emit_number(A, 0);
+		emit_number(A);
 		count++;
 	}
 
@@ -303,7 +303,7 @@ emit_fraction(struct atom *p, int d)
 	count = 0;
 
 	if (!isplusone(B)) {
-		emit_number(B, 0);
+		emit_number(B);
 		count++;
 		d++;
 	}
@@ -358,7 +358,7 @@ emit_numerators(struct atom *p)
 	n = 0;
 
 	if (!isplusone(p1)) {
-		emit_number(p1, 0);
+		emit_number(p1);
 		n++;
 	}
 
@@ -397,7 +397,7 @@ emit_denominators(struct atom *p)
 		push(car(p));
 		denominator();
 		p1 = pop();
-		emit_number(p1, 0);
+		emit_number(p1);
 		n++;
 		p = cdr(p);
 	}
@@ -424,7 +424,7 @@ emit_factor(struct atom *p)
 	}
 
 	if (isdouble(p)) {
-		emit_number(p, 0);
+		emit_number(p);
 		return;
 	}
 
@@ -447,7 +447,7 @@ emit_factor(struct atom *p)
 		if (expr_level == 0)
 			emit_numerical_fraction(p);
 		else
-			emit_number(p, 0);
+			emit_number(p);
 		return;
 	}
 
@@ -479,7 +479,7 @@ emit_numerical_fraction(struct atom *p)
 	B = pop();
 
 	if (isplusone(B)) {
-		emit_number(A, 0);
+		emit_number(A);
 		restore();
 		return;
 	}
@@ -488,11 +488,11 @@ emit_numerical_fraction(struct atom *p)
 
 	k1 = yindex;
 
-	emit_number(A, 0);
+	emit_number(A);
 
 	k2 = yindex;
 
-	emit_number(B, 0);
+	emit_number(B);
 
 	fixup_fraction(x, k1, k2);
 
@@ -852,40 +852,35 @@ emit_str(char *s)
 		emit_char(*s++);
 }
 
+// sign has already been emitted
+
 void
-emit_number(struct atom *p, int emit_sign)
+emit_number(struct atom *p)
 {
 	int k1, k2;
 	char *s;
 	switch (p->k) {
 	case RATIONAL:
 		s = mstr(p->u.q.a);
-		if (*s == '-' && emit_sign == 0)
-			s++;
-		while (*s)
-			emit_char(*s++);
+		emit_str(s);
 		s = mstr(p->u.q.b);
 		if (strcmp(s, "1") == 0)
 			break;
 		emit_char('/');
-		while (*s)
-			emit_char(*s++);
+		emit_str(s);
 		break;
 	case DOUBLE:
 		sprintf(tbuf, "%g", p->u.d);
 		s = tbuf;
-		if (*s == '-') {
-			if (emit_sign)
-				print_char('-');
+		if (*s == '+' || *s == '-')
 			s++;
+		if (isinf(p->u.d) || isnan(p->u.d)) {
+			emit_str(s);
+			break;
 		}
-		while (isdigit(*s))
+		while (*s && *s != 'E' && *s != 'e')
 			emit_char(*s++);
-		if (*s == '.') {
-			emit_char(*s++);
-			while (isdigit(*s))
-				emit_char(*s++);
-		} else
+		if (!strchr(tbuf, '.'))
 			emit_str(".0");
 		if (*s == 'E' || *s == 'e') {
 			s++;
