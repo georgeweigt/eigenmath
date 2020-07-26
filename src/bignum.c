@@ -400,11 +400,7 @@ mstr(uint32_t *a)
 	int i, k, n, r;
 	static char *buf;
 	static int len;
-
-	// estimate string size
-
-	n = 10 * MLENGTH(a) + 1;
-
+	n = 10 * MLENGTH(a) + 1; // estimate string length
 	if (n > len) {
 		if (buf)
 			free(buf);
@@ -413,11 +409,9 @@ mstr(uint32_t *a)
 			malloc_kaput();
 		len = n;
 	}
-
-	a = mcopy(a);
 	k = len - 1;
 	buf[k] = 0;
-
+	a = mcopy(a);
 	for (;;) {
 		r = mdivby1billion(a);
 		for (i = 0; i < 9; i++) {
@@ -427,14 +421,9 @@ mstr(uint32_t *a)
 		if (MZERO(a))
 			break;
 	}
-
 	mfree(a);
-
-	// remove leading zeroes
-
-	while (k < len - 2 && buf[k] == '0')
+	while (k < len - 2 && buf[k] == '0') // remove leading zeroes
 		k++;
-
 	return buf + k;
 }
 
