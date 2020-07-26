@@ -433,14 +433,14 @@ int
 mdivby1billion(uint32_t *a)
 {
 	int i;
-	uint64_t kk = 0;
+	uint64_t k = 0;
 	for (i = MLENGTH(a) - 1; i >= 0; i--) {
-		kk = kk << 32 | a[i];
-		a[i] = (uint32_t) (kk / 1000000000); // compiler warns w/o cast
-		kk -= (uint64_t) 1000000000 * a[i];
+		k = k << 32 | a[i];
+		a[i] = (uint32_t) (k / 1000000000); // compiler warns w/o cast
+		k -= (uint64_t) 1000000000 * a[i];
 	}
 	mnorm(a);
-	return (int) kk; // compiler warns w/o cast
+	return (int) k; // compiler warns w/o cast
 }
 
 // returns u + v
