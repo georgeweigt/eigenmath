@@ -392,7 +392,7 @@ mscan(char *s)
 	return a;
 }
 
-// convert bignum to string (don't free returned pointer)
+// convert bignum to string (returned value points to static buffer)
 
 char *
 mstr(uint32_t *a)
