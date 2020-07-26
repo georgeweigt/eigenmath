@@ -397,58 +397,45 @@ mscan(char *s)
 char *
 mstr(uint32_t *a)
 {
-	int k, n, r;
-	char c;
-
-	static char *str;
+	int i, k, n, r;
+	static char *buf;
 	static int len;
-
-	if (str == NULL) {
-		str = (char *) malloc(1000);
-		if (str == NULL)
-			malloc_kaput();
-		len = 1000;
-	}
 
 	// estimate string size
 
 	n = 10 * MLENGTH(a) + 1;
 
 	if (n > len) {
-		free(str);
-		str = (char *) malloc(n);
-		if (str == NULL)
+		if (buf)
+			free(buf);
+		buf = (char *) malloc(n);
+		if (buf == NULL)
 			malloc_kaput();
 		len = n;
 	}
 
 	a = mcopy(a);
-
 	k = len - 1;
-
-	str[k] = 0;
+	buf[k] = 0;
 
 	for (;;) {
-		k -= 9;
 		r = mdivby1billion(a);
-		c = str[k + 9];
-		sprintf(str + k, "%09d", r);
-		str[k + 9] = c; // restore char clobbered by sprintf
+		for (i = 0; i < 9; i++) {
+			buf[--k] = r % 10 + '0';
+			r /= 10;
+		}
 		if (MZERO(a))
 			break;
 	}
 
-	// remove leading zeroes
-
-	while (str[k] == '0')
-		k++;
-
-	if (str[k] == 0)
-		k--; // leave one leading zero
-
 	mfree(a);
 
-	return str + k;
+	// remove leading zeroes
+
+	while (k < len - 2 && buf[k] == '0')
+		k++;
+
+	return buf + k;
 }
 
 // returns remainder as function value, quotient returned in a
