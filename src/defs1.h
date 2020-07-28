@@ -306,6 +306,6 @@ struct tensor {
 #define BLUE 1
 #define RED 2
 
-#define Trace printf("%s %d\n", __func__, __LINE__);
+#define Trace fprintf(stderr, "%s %d\n", __func__, __LINE__);
 
 extern int primetab[MAXPRIMETAB];

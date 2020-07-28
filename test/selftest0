@@ -1103,6 +1103,68 @@ check(lisp(1.2 10^(-10)) == "(* 1.2 (^ 10 -10))")
 check(lisp(-1.2 10^10) == "(* -1.2 (^ 10 10))")
 check(lisp(-1.2 10^(-10)) == "(* -1.2 (^ 10 -10))")
 
+-- simplify polar
+
+check(exp(-12/2 i pi) == 1)
+check(exp(-11/2 i pi) == i)
+check(exp(-10/2 i pi) == -1)
+check(exp(-9/2 i pi) == -i)
+
+check(exp(-8/2 i pi) == 1)
+check(exp(-7/2 i pi) == i)
+check(exp(-6/2 i pi) == -1)
+check(exp(-5/2 i pi) == -i)
+
+check(exp(-4/2 i pi) == 1)
+check(exp(-3/2 i pi) == i)
+check(exp(-2/2 i pi) == -1)
+check(exp(-1/2 i pi) == -i)
+
+check(exp(0/2 i pi) == 1)
+check(exp(1/2 i pi) == i)
+check(exp(2/2 i pi) == -1)
+check(exp(3/2 i pi) == -i)
+
+check(exp(4/2 i pi) == 1)
+check(exp(5/2 i pi) == i)
+check(exp(6/2 i pi) == -1)
+check(exp(7/2 i pi) == -i)
+
+check(exp(8/2 i pi) == 1)
+check(exp(9/2 i pi) == i)
+check(exp(10/2 i pi) == -1)
+check(exp(11/2 i pi) == -i)
+
+check(exp(-12/2.0 i pi) == 1)
+check(exp(-11/2.0 i pi) == i)
+check(exp(-10/2.0 i pi) == -1)
+check(exp(-9/2.0 i pi) == -i)
+
+check(exp(-8/2.0 i pi) == 1)
+check(exp(-7/2.0 i pi) == i)
+check(exp(-6/2.0 i pi) == -1)
+check(exp(-5/2.0 i pi) == -i)
+
+check(exp(-4/2.0 i pi) == 1)
+check(exp(-3/2.0 i pi) == i)
+check(exp(-2/2.0 i pi) == -1)
+check(exp(-1/2.0 i pi) == -i)
+
+check(exp(0/2.0 i pi) == 1)
+check(exp(1/2.0 i pi) == i)
+check(exp(2/2.0 i pi) == -1)
+check(exp(3/2.0 i pi) == -i)
+
+check(exp(4/2.0 i pi) == 1)
+check(exp(5/2.0 i pi) == i)
+check(exp(6/2.0 i pi) == -1)
+check(exp(7/2.0 i pi) == -i)
+
+check(exp(8/2.0 i pi) == 1)
+check(exp(9/2.0 i pi) == i)
+check(exp(10/2.0 i pi) == -1)
+check(exp(11/2.0 i pi) == -i)
+
 -- done
 
 clear

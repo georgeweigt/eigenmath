@@ -205,7 +205,7 @@ power_natural_number(void)
 		return;
 	}
 
-	if (simplify_polar())
+	if (simplify_polar_expr())
 		return;
 
 	// none of the above
@@ -216,63 +216,94 @@ power_natural_number(void)
 	list(3);
 }
 
-// simplifies when EXPO = N/2 * i * pi
-
 int
-simplify_polar(void)
+simplify_polar_expr(void)
 {
-	int n;
-
-	n = isquarterturn(EXPO);
-
-	switch(n) {
-	case 0:
-		break;
-	case 1:
-		push_integer(1);
-		return 1;
-	case 2:
-		push_integer(-1);
-		return 1;
-	case 3:
-		push(imaginaryunit);
-		return 1;
-	case 4:
-		push(imaginaryunit);
-		negate();
-		return 1;
-	}
-
 	if (car(EXPO) == symbol(ADD)) {
 		p3 = cdr(EXPO);
 		while (iscons(p3)) {
-			n = isquarterturn(car(p3));
-			if (n)
-				break;
+			if (simplify_polar_term(car(p3))) {
+				push(EXPO);
+				push(car(p3));
+				subtract();
+				exponential();
+				multiply();
+				return 1;
+			}
 			p3 = cdr(p3);
 		}
-		switch (n) {
-		case 0:
-			return 0;
-		case 1:
-			push_integer(1);
-			break;
-		case 2:
-			push_integer(-1);
-			break;
-		case 3:
-			push(imaginaryunit);
-			break;
-		case 4:
-			push(imaginaryunit);
-			negate();
-			break;
+		return 0;
+	}
+
+	return simplify_polar_term(EXPO);
+}
+
+int
+simplify_polar_term(struct atom *p)
+{
+	int n;
+	double d;
+
+	if (car(p) != symbol(MULTIPLY))
+		return 0;
+
+	// exp(i pi) -> -1
+
+	if (length(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI)) {
+		push_integer(-1);
+		return 1;
+	}
+
+	if (length(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
+		return 0;
+
+	p = cadr(p); // coeff
+
+	if (isdouble(p)) {
+		d = p->u.d;
+		if (floor(d) == d) {
+			if (fmod(d, 2.0) == 0.0)
+				push_double(1.0);
+			else
+				push_double(-1.0);
+			return 1;
 		}
-		push(EXPO);
-		push(car(p3));
-		subtract();
-		exponential();
-		multiply();
+		if (floor(d) + 0.5 == d) {
+			n = (int) (d / 0.5) % 4;
+			if (n == 1 || n == -3) {
+				push_symbol(MULTIPLY);
+				push_double(1.0);
+				push(imaginaryunit);
+				list(3);
+			} else {
+				push_symbol(MULTIPLY);
+				push_double(-1.0);
+				push(imaginaryunit);
+				list(3);
+			}
+			return 1;
+		}
+		return 0;
+	}
+
+	if (MEQUAL(p->u.q.b, 1)) {
+		if (p->u.q.a[0] % 2 == 0)
+			push_integer(1);
+		else
+			push_integer(-1);
+		return 1;
+	}
+
+	if (MEQUAL(p->u.q.b, 2)) {
+		n = p->u.q.a[0] % 4;
+		if ((n == 1 && p->sign == MPLUS) || (n == 3 && p->sign == MMINUS))
+			push(imaginaryunit);
+		else {
+			push_symbol(MULTIPLY);
+			push_integer(-1);
+			push(imaginaryunit);
+			list(3);
+		}
 		return 1;
 	}
 
