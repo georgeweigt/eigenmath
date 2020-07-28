@@ -1189,6 +1189,28 @@ GDD
 
 check(GDD=0)
 
+-- DABM 19a
+
+clear
+
+Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
+         P(expcos(theta),l,m) exp(i m phi)
+
+P(x,l,m) = 1 / (2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m)
+
+D(f) = 1 / expsin(theta) d(expsin(theta) d(f,theta),theta) +
+       1 / expsin(theta)^2 d(d(f,phi),phi)
+
+l = 2
+m = -1
+
+A = D(Y(l,m))
+B = -l (l + 1) Y(l,m)
+
+numerator(A) denominator(B) == denominator(A) numerator(B)
+
+check(last = 1)
+
 -- done
 
 clear
