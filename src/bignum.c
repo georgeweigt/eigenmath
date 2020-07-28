@@ -400,7 +400,7 @@ mstr(uint32_t *u)
 	int i, k, n, r;
 	static char *buf;
 	static int len;
-	n = 10 * MLENGTH(u) + 11; // estimate string length (+10 for leading zeroes, +1 for terminator)
+	n = 10 * MLENGTH(u) + 9; // estimate string length (+8 for leading zeroes, +1 for terminator)
 	if (n > len) {
 		if (buf)
 			free(buf);
