@@ -1203,26 +1203,63 @@ check(Lx(Ly(f)) - Ly(Lx(f)) == i hbar Lz(f))
 check(Ly(Lz(f)) - Lz(Ly(f)) == i hbar Lx(f))
 check(Lz(Lx(f)) - Lx(Lz(f)) == i hbar Ly(f))
 
--- DABM 19a
+-- DABM 19. Verify spherical harmonic eigenfunctions
 
 clear
+
+L2(f) = -hbar^2 D2(f)
+
+D2(f) = 1 / expsin(theta) d(expsin(theta) d(f,theta),theta) +
+        1 / expsin(theta)^2 d(f,phi,2)
 
 Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
          P(expcos(theta),l,m) exp(i m phi)
 
 P(x,l,m) = 1 / (2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m)
 
-D(f) = 1 / expsin(theta) d(expsin(theta) d(f,theta),theta) +
-       1 / expsin(theta)^2 d(d(f,phi),phi)
+l = 0
+m = 0
+L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
+check(last = 1)
+
+l = 1
+m = 0
+L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
+check(last = 1)
+
+l = 1
+m = 1
+L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
+check(last = 1)
+
+l = 1
+m = -1
+L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
+check(last = 1)
+
+l = 2 
+m = 0
+L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
+check(last = 1)
+
+l = 2
+m = 1
+L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
+check(last = 1)
+
+l = 2
+m = 2
+L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
+check(last = 1)
 
 l = 2
 m = -1
+L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
+check(last = 1)
 
-A = D(Y(l,m))
-B = -l (l + 1) Y(l,m)
-
-numerator(A) denominator(B) == denominator(A) numerator(B)
-
+l = 2
+m = -2
+L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
 check(last = 1)
 
 -- done
