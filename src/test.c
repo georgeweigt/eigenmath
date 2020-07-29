@@ -174,7 +174,7 @@ cross_factor(struct atom *p)
 		return 1;
 	}
 
-	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegative(caddr(p))) {
+	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
 		if (isminusone(caddr(p)))
 			push(cadr(p));
 		else {
