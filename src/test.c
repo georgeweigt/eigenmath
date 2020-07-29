@@ -37,6 +37,8 @@ eval_check(void)
 void
 eval_testeq(void)
 {
+	int i, n;
+
 	push(cadr(p1));
 	eval();
 
@@ -46,45 +48,84 @@ eval_testeq(void)
 	p2 = pop();
 	p1 = pop();
 
-	// this is for comparing null tensor with scalar zero
-
-	if (iszero(p1)) {
-		if (iszero(p2))
-			push_integer(1);
-		else
-			push_integer(0);
-		return;
-	}
-
-	if (iszero(p2)) {
-		push_integer(0);
-		return;
-	}
-
-	if (istensor(p1) && istensor(p2) && !compatible_dimensions(p1, p2)) {
-		push_integer(0);
-		return;
-	}
-
-	// try this first
-
-	if (equal(p1, p2)) {
+	if (iszero(p1) && iszero(p2)) {
 		push_integer(1);
 		return;
 	}
 
-	// subtraction might simplify to zero
+	if (iszero(p1) || iszero(p2)) {
+		push_integer(0);
+		return;
+	}
 
-	push(p1);
-	push(p2);
-	subtract();
+	if (istensor(p1) && istensor(p2) && compatible_dimensions(p1, p2)) {
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			if (testeq(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+				continue;
+			push_integer(0);
+			return;
+		}
+		push_integer(1);
+		return;
+	}
 
-	p1 = pop();
+	if (istensor(p1) || istensor(p2)) {
+		push_integer(0);
+		return;
+	}
 
-	if (iszero(p1))
+	if (testeq(p1, p2))
 		push_integer(1);
 	else
 		push_integer(0);
+}
+
+int
+testeq(struct atom *q1, struct atom *q2)
+{
+	if (equal(q1, q2))
+		return 1;
+
+	push(q1);
+	push(q2);
+	subtract();
+
+	p3 = pop();
+
+	if (iszero(p3))
+		return 1;
+
+	// cross multiply and subtract
+
+	push(q1);
+	rationalize();
+	p3 = pop();
+
+	push(q2);
+	rationalize();
+	p4 = pop();
+
+	push(p3);
+	numerator1();
+	push(p4);
+	denominator1();
+	multiply();
+
+	push(p3);
+	denominator1();
+	push(p4);
+	numerator1();
+	multiply();
+
+	subtract();
+
+	p3 = pop();
+
+	if (iszero(p3))
+		return 1;
+	else
+		return 0;
 }
 
 void

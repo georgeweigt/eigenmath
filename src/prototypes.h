@@ -712,6 +712,7 @@ void eval_zero(void);
 void eval_test(void);
 void eval_check(void);
 void eval_testeq(void);
+int testeq(struct atom *q1, struct atom *q2);
 void eval_testge(void);
 void eval_testgt(void);
 void eval_testle(void);
