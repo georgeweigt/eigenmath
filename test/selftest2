@@ -1189,7 +1189,7 @@ GDD
 
 check(GDD=0)
 
--- DABM 18. Verify commutation relations for momemtum operators
+-- DABM 18. Verify commutation relations for angular momentum operators
 
 clear
 
