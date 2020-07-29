@@ -8,57 +8,27 @@ eval_denominator(void)
 	denominator();
 }
 
-// only do rationalize() at top and bottom levels to prevent infinite recursion
-
 void
 denominator(void)
 {
 	save();
-	p1 = pop();
-	push(p1);
-	if (car(p1) == symbol(ADD))
-		rationalize();
-	denominator1();
-	restore();
-}
-
-void
-denominator1(void)
-{
-	save();
-	denominator1_nib();
-	restore();
-}
-
-void
-denominator1_nib(void)
-{
-	int h;
 
 	p1 = pop();
+	p2 = one;
 
-	if (p1->k == RATIONAL) {
-		push_rational_number(MPLUS, mcopy(p1->u.q.b), mint(1));
-		return;
-	}
-
-	if (car(p1) == symbol(POWER) && isnegativeterm(caddr(p1))) {
+	while (cross_expr(p1)) {
+		p0 = pop();
+		push(p0);
 		push(p1);
-		reciprocate();
-		return;
+		cancel_factor();
+		p1 = pop();
+		push(p0);
+		push(p2);
+		cancel_factor();
+		p2 = pop();
 	}
 
-	if (car(p1) == symbol(MULTIPLY)) {
-		h = tos;
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			denominator1();
-			p1 = cdr(p1);
-		}
-		multiply_factors(tos - h);
-		return;
-	}
+	push(p2);
 
-	push_integer(1);
+	restore();
 }
