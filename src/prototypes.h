@@ -717,6 +717,7 @@ int testeq_nib(void);
 int cross_expr(struct atom *p);
 int cross_term(struct atom *p);
 int cross_factor(struct atom *p);
+void cancel_factor(void);
 void eval_testge(void);
 void eval_testgt(void);
 void eval_testle(void);

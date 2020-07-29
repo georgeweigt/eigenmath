@@ -103,11 +103,11 @@ testeq_nib(void)
 		p0 = pop();
 		push(p0);
 		push(p1);
-		multiply();
+		cancel_factor();
 		p1 = pop();
 		push(p0);
 		push(p2);
-		multiply();
+		cancel_factor();
 		p2 = pop();
 	}
 
@@ -115,17 +115,18 @@ testeq_nib(void)
 		p0 = pop();
 		push(p0);
 		push(p1);
-		multiply();
+		cancel_factor();
 		p1 = pop();
 		push(p0);
 		push(p2);
-		multiply();
+		cancel_factor();
 		p2 = pop();
 	}
 
 	push(p1);
+	eval(); // to expand
 	push(p2);
-	subtract();
+	subtract(); // expands p2 also
 
 	p1 = pop();
 
@@ -174,16 +175,49 @@ cross_factor(struct atom *p)
 		return 1;
 	}
 
-	if (car(p) == symbol(POWER) && isnegative(caddr(p))) {
-		push_symbol(POWER);
-		push(cadr(p));
-		push(caddr(p));
-		negate();
-		list(3);
+	if (car(p) == symbol(POWER) && isnegativeterm(caddr(p))) {
+		if (isminusone(caddr(p)))
+			push(cadr(p));
+		else {
+			push_symbol(POWER);
+			push(cadr(p));
+			push(caddr(p));
+			negate();
+			list(3);
+		}
 		return 1;
 	}
 
 	return 0;
+}
+
+void
+cancel_factor(void)
+{
+	int h;
+
+	save();
+
+	p2 = pop();
+	p1 = pop();
+
+	if (car(p2) == symbol(ADD)) {
+		h = tos;
+		p2 = cdr(p2);
+		while (iscons(p2)) {
+			push(p1);
+			push(car(p2));
+			multiply_noexpand();
+			p2 = cdr(p2);
+		}
+		add_terms(tos - h);
+	} else {
+		push(p1);
+		push(p2);
+		multiply_noexpand();
+	}
+
+	restore();
 }
 
 void
