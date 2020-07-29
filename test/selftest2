@@ -1189,6 +1189,20 @@ GDD
 
 check(GDD=0)
 
+-- DABM 18. Verify commutation relations for momemtum operators
+
+clear
+
+Lx(f) = -i hbar (y d(f,z) - z d(f,y))
+Ly(f) = -i hbar (z d(f,x) - x d(f,z))
+Lz(f) = -i hbar (x d(f,y) - y d(f,x))
+
+f = (fx(),fy(),fz())
+
+check(Lx(Ly(f)) - Ly(Lx(f)) == i hbar Lz(f))
+check(Ly(Lz(f)) - Lz(Ly(f)) == i hbar Lx(f))
+check(Lz(Lx(f)) - Lx(Lz(f)) == i hbar Ly(f))
+
 -- DABM 19a
 
 clear
