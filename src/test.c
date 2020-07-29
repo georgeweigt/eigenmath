@@ -124,9 +124,8 @@ testeq_nib(void)
 	}
 
 	push(p1);
-	eval(); // to expand
 	push(p2);
-	subtract(); // expands p2 also
+	subtract();
 
 	p1 = pop();
 
@@ -207,14 +206,14 @@ cancel_factor(void)
 		while (iscons(p2)) {
 			push(p1);
 			push(car(p2));
-			multiply_noexpand();
+			multiply();
 			p2 = cdr(p2);
 		}
 		add_terms(tos - h);
 	} else {
 		push(p1);
 		push(p2);
-		multiply_noexpand();
+		multiply();
 	}
 
 	restore();
