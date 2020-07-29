@@ -1165,6 +1165,22 @@ check(exp(9/2.0 i pi) == i)
 check(exp(10/2.0 i pi) == -1)
 check(exp(11/2.0 i pi) == -i)
 
+-- cross product test for equality
+
+clear
+
+P(x,l,m) = 1 / (2^l l!) (1 - x^2)^(m / 2) d((x^2 - 1)^l,x,l + m)
+
+check(P(x,0,0) == 1)
+check(P(x,1,0) == x)
+check(P(x,1,1) == sqrt(1 - x^2))
+check(P(x,1,-1) == -1/2 sqrt(1 - x^2))
+check(P(x,2,0) == 1/2 (3 x^2 - 1))
+check(P(x,2,1) == 3 x sqrt(1 - x^2))
+check(P(x,2,-1) == -1/2 x sqrt(1 - x^2))
+check(P(x,2,2) == 3 (1 - x^2))
+check(P(x,2,-2) == 1/8 (1 - x^2))
+
 -- done
 
 clear
