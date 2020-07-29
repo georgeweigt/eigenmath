@@ -84,48 +84,106 @@ eval_testeq(void)
 int
 testeq(struct atom *q1, struct atom *q2)
 {
-	if (equal(q1, q2))
+	int t;
+	save();
+	p1 = q1;
+	p2 = q2;
+	t = testeq_nib();
+	restore();
+	return t;
+}
+
+int
+testeq_nib(void)
+{
+	if (equal(p1, p2))
 		return 1;
 
-	push(q1);
-	push(q2);
+	while (cross_expr(p1)) {
+		p0 = pop();
+		push(p0);
+		push(p1);
+		multiply();
+		p1 = pop();
+		push(p0);
+		push(p2);
+		multiply();
+		p2 = pop();
+	}
+
+	while (cross_expr(p2)) {
+		p0 = pop();
+		push(p0);
+		push(p1);
+		multiply();
+		p1 = pop();
+		push(p0);
+		push(p2);
+		multiply();
+		p2 = pop();
+	}
+
+	push(p1);
+	push(p2);
 	subtract();
 
-	p3 = pop();
+	p1 = pop();
 
-	if (iszero(p3))
-		return 1;
+	return iszero(p1);
+}
 
-	// cross multiply and subtract
-
-	push(q1);
-	rationalize();
-	p3 = pop();
-
-	push(q2);
-	rationalize();
-	p4 = pop();
-
-	push(p3);
-	numerator1();
-	push(p4);
-	denominator1();
-	multiply();
-
-	push(p3);
-	denominator1();
-	push(p4);
-	numerator1();
-	multiply();
-
-	subtract();
-
-	p3 = pop();
-
-	if (iszero(p3))
-		return 1;
-	else
+int
+cross_expr(struct atom *p)
+{
+	if (car(p) == symbol(ADD)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (cross_term(car(p)))
+				return 1;
+			p = cdr(p);
+		}
 		return 0;
+	}
+
+	return cross_term(p);
+}
+
+int
+cross_term(struct atom *p)
+{
+	if (car(p) == symbol(MULTIPLY)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (cross_factor(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return cross_factor(p);
+}
+
+int
+cross_factor(struct atom *p)
+{
+	if (isrational(p)) {
+		if (MEQUAL(p->u.q.b, 1))
+			return 0;
+		push_rational_number(MPLUS, mcopy(p1->u.q.b), mint(1));
+		return 1;
+	}
+
+	if (car(p) == symbol(POWER) && isnegative(caddr(p))) {
+		push_symbol(POWER);
+		push(cadr(p));
+		push(caddr(p));
+		negate();
+		list(3);
+		return 1;
+	}
+
+	return 0;
 }
 
 void
