@@ -22,136 +22,136 @@ check(integral(x^sin(y),x) = x^(sin(y) + 1) / (sin(y) + 1))
 f = exp(a x)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = exp(a x + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x exp(a x)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x exp(a x + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x^2 exp(a x)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x^2 exp(a x + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x^3 exp(a x)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x^3 exp(a x + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 -- x^n exp(a x^2 + b)
 
 f = exp(a x^2)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = exp(a x^2 + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x exp(a x^2)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x exp(a x^2 + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x^2 exp(a x^2)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x^2 exp(a x^2 + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x^3 exp(a x^2)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x^3 exp(a x^2 + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 -- x^n log(a x + b)
 
 f = log(a x)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = log(a x + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x log(a x)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x log(a x + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x^2 log(a x)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = x^2 log(a x + b)
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = log(a x)^2
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = log(a x + b)^2
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = log(a x) / x^2
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 f = log(a x + b) / x^2
 g = integral(f)
 h = d(g)
-check(f = h)
+check(f == h)
 
 --
 
