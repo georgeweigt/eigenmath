@@ -48,7 +48,7 @@ rationalize_nib(void)
 		p1 = pop();
 		push(p0);
 		push(p2);
-		cancel_factor();
+		multiply_noexpand();
 		p2 = pop();
 	}
 
