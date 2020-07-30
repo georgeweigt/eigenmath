@@ -1215,7 +1215,7 @@ D2(f) = 1 / expsin(theta) d(expsin(theta) d(f,theta),theta) +
 Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
          P(expcos(theta),l,m) exp(i m phi)
 
-P(x,l,m) = 1 / (2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m)
+P(y,l,m) = eval(1 / (2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,y) + 0
 
 l = 0
 m = 0
