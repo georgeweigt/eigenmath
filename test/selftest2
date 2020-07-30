@@ -1262,6 +1262,42 @@ m = -2
 L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
 check(last = 1)
 
+-- DABM 10. Hydrogen atom
+
+-- Radial wavefunctions, p. 271
+
+R(r,n,l) = sqrt((n - l - 1)! / 2 / n / (n + l)!) *
+           (2 / n)^(3/2) *
+           (2 r / n)^l *
+           L(2 r / n,n,l) *
+           exp(-r / n)
+
+L(s,n,l) = sum(q,0,n - l - 1,
+           (-1)^q s^q *
+           (n + l)! *
+           1 / (n - l - q - 1)! *
+           1 / (q + 2 l + 1)!)
+
+rho = r / a0
+
+R(rho,1,0)
+check(last == 2 exp(-rho))
+
+R(rho,2,0)
+check(last == sqrt(2)/4 (2 - rho) exp(-rho/2))
+
+R(rho,2,1)
+check(last == sqrt(6)/12 rho exp(-rho/2))
+
+R(rho,3,0)
+check(last == 2 sqrt(3)/27 (3 - 2 rho + 4/9 rho^2) exp(-rho/3))
+
+R(rho,3,1)
+check(last == sqrt(6)/81 rho (4 - 2/3 rho) exp(-rho/3))
+
+R(rho,3,2)
+check(last == 2 sqrt(30)/1215 rho^2 exp(-rho/3))
+
 -- done
 
 clear
