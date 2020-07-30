@@ -35,3 +35,12 @@ MathML and MathJax results look best on Firefox.
  by the very nature of the process."
 
  Ed Nather, The Story of Mel
+
+
+List of significant changes:
+
+July 29, 2020
+Use cross multiplication to test for equality.
+
+July 30, 2020
+Remove eval quirk in user defined functions.
