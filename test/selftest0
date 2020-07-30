@@ -895,7 +895,7 @@ check(string(rationalize(f)) == "(x^2 + 3 x + 1) / (x (x + 1)^2)")
 numerator(f)/denominator(f)
 check(string(last) == "x / ((x + 1)^2) + 1 / (x (x + 1)^2) + 3 / ((x + 1)^2)")
 
--- this was broken, returned a comple number
+-- this was broken, returned a complex number
 
 arccos(0.4529)
 check(string(last)="1.10078")
