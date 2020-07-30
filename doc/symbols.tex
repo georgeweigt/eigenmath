@@ -151,11 +151,14 @@ $\displaystyle \frac{\sin(x)}{x}$
 \noindent
 The following example uses Rodrigues's formula to
 compute an associated Legendre function of $\cos\theta$.
-Rodrigues's formula is computed for $x$ and then the
-{\it eval} function replaces $x$ with $\cos\theta$.
+\begin{equation*}
+P_l^m(x)=\frac{1}{2^ll!}(1-x^2)^{m/2}\frac{d^{l+m}}{dx^{l+m}}(x^2-1)^l
+\end{equation*}
+The formula is computed for $x$ and then
+{\it eval} replaces $x$ in the result with $\cos\theta$.
 
 \begin{Verbatim}[formatcom=\color{blue}]
-P(l,m) = eval(1 / (2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,cos(theta))
+P(l,m) = eval(1/(2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,cos(theta))
 P(2,0)
 \end{Verbatim}
 
