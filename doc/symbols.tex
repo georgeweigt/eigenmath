@@ -111,10 +111,22 @@ A
 \noindent
 $\displaystyle A$
 
-\subsection{User-defined functions}
+\subsection{User defined functions}
 
-The following example shows
-a user-defined function with a single argument.
+Most of the functions commonly used in math and physics are included in Eigenmath.
+See the Reference section at the end of the manual for a complete list.
+There is also a facility for the user to define additional functions.
+
+\bigskip
+\noindent
+User functions are defined using the syntax {\it function-name} ( {\it arg-list} ) = {\it expr}.
+The {\it arg-list} is an optional comma separated list of symbols that receive arguments.
+Unlike symbolic definitions, {\it expr} is not evaluated when {\it function-name} is defined.
+Instead, {\it expr} is evaluated when {\it function-name} is used in a subsequent computation.
+
+\bigskip
+\noindent
+The following example defines a sinc function and evaluates it at $\pi/2$.
 
 \begin{Verbatim}[formatcom=\color{blue}]
 f(x) = sin(x)/x
@@ -126,60 +138,43 @@ $\displaystyle \frac{2}{\pi}$
 
 \bigskip
 \noindent
-The following example defines a function with two arguments.
+After a user function is defined, {\it expr} can be recalled using the {\it binding} function.
 
 \begin{Verbatim}[formatcom=\color{blue}]
-g(x,y) = abs(x) + abs(y)
-g(1,-2)
+binding(f)
 \end{Verbatim}
 
 \noindent
-$\displaystyle 3$
+$\displaystyle \frac{\sin(x)}{x}$
 
 \bigskip
 \noindent
-User-defined functions can be evaluated without an argument list.
-The binding of the function name is returned when there is no
-argument list.
+The following example uses Rodrigues's formula to
+compute an associated Legendre function of $\cos\theta$.
+Rodrigues's formula is computed for $x$ and then the
+{\it eval} function replaces $x$ with $\cos\theta$.
 
 \begin{Verbatim}[formatcom=\color{blue}]
-f(x) = sin(x)/x
-f
+P(l,m) = eval(1 / (2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,cos(theta))
+P(2,0)
 \end{Verbatim}
 
 \noindent
-$\displaystyle f=\frac{\sin(x)}{x}$
+$\displaystyle \tfrac{3}{2} \cos(\theta)^2-\tfrac{1}{2}$
 
 \bigskip
 \noindent
-Normally a function body is not evaluated when a function is defined.
-However, in some cases it is required that the function body be the
-result of something.
-The $eval$ function is used to accomplish this.
-For example, the following code causes the function body to be a sixth order Taylor series expansion of $\cos x$.
-
-\begin{Verbatim}[formatcom=\color{blue}]
-f(x) = eval(taylor(cos(x),x,6))
-f
-\end{Verbatim}
-
-\noindent
-$\displaystyle f=-\tfrac{1}{720}x^6+\tfrac{1}{24}x^4-\tfrac{1}{2}x^2+1$
-
-\bigskip
-\noindent
-When a function body is evaluated the function arguments
-are passed to symbol definitions.
-The symbol definitions can appear either before or after
-the function definition.
+When a user function is evaluated, the function arguments are visible
+to any symbol definitions that reference them.
+The symbol definitions can appear either before or after the function definition.
+In the following example, the $x$ in $A$ and $B$ is replaced with $y$.
 
 \begin{Verbatim}[formatcom=\color{blue}]
 f(x) = A + B
 A = a x
 B = b x
-f(2)
+f(y)
 \end{Verbatim}
 
 \noindent
-$\displaystyle 2a+2b$
-
+$\displaystyle ay+by$

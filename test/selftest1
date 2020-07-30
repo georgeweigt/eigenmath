@@ -2062,11 +2062,7 @@ y
 check(last = cos(b))
 x=quote(x)
 p(x)=7+4x
-w(x)=eval(integral(p(x)))
-w-2*x^2-7*x
-check(last = 0)
-w(5)-w(2)
-check(last = 63)
+
 A=a^2
 f(a)=A
 f(x+1)

@@ -194,13 +194,5 @@ setq_userfunc(void)
 	if (!issymbol(F))
 		stop("function name?");
 
-	// evaluate function body (maybe)
-
-	if (car(B) == symbol(EVAL)) {
-		push(cadr(B));
-		eval();
-		B = pop();
-	}
-
 	set_binding_and_arglist(F, B, A);
 }
