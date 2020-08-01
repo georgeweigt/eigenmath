@@ -112,6 +112,12 @@ eval_eval(void)
 }
 
 void
+eval_nil(void)
+{
+	push_symbol(NIL);
+}
+
+void
 eval_number(void)
 {
 	push(cadr(p1));

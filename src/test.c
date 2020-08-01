@@ -48,13 +48,10 @@ eval_testeq(void)
 	p2 = pop();
 	p1 = pop();
 
+	// this test handles null tensor equals scalar zero
+
 	if (iszero(p1) && iszero(p2)) {
 		push_integer(1);
-		return;
-	}
-
-	if (iszero(p1) || iszero(p2)) {
-		push_integer(0);
 		return;
 	}
 
@@ -85,51 +82,25 @@ int
 testeq(struct atom *q1, struct atom *q2)
 {
 	int t;
+
 	save();
-	p1 = q1;
-	p2 = q2;
-	t = testeq_nib();
-	restore();
-	return t;
-}
 
-int
-testeq_nib(void)
-{
-	if (equal(p1, p2))
-		return 1;
-
-	while (cross_expr(p1)) {
-		p0 = pop();
-		push(p0);
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-		push(p0);
-		push(p2);
-		cancel_factor();
-		p2 = pop();
-	}
-
-	while (cross_expr(p2)) {
-		p0 = pop();
-		push(p0);
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-		push(p0);
-		push(p2);
-		cancel_factor();
-		p2 = pop();
-	}
-
-	push(p1);
-	push(p2);
+	push(q1);
+	push(q2);
 	subtract();
-
 	p1 = pop();
 
-	return iszero(p1);
+	while (cross_expr(p1)) {
+		push(p1);
+		cancel_factor();
+		p1 = pop();
+	}
+
+	t = iszero(p1);
+
+	restore();
+
+	return t;
 }
 
 int

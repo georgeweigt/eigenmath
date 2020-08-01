@@ -65,7 +65,7 @@ printname(struct atom *p)
 void
 set_binding(struct atom *p, struct atom *b)
 {
-	if (p->k != USYM || p == symbol(NIL) || p == symbol(PI))
+	if (p->k != USYM)
 		stop("reserved symbol");
 	binding[p->u.usym.index] = b;
 	arglist[p->u.usym.index] = symbol(NIL);
@@ -74,7 +74,7 @@ set_binding(struct atom *p, struct atom *b)
 void
 set_binding_and_arglist(struct atom *p, struct atom *b, struct atom *a)
 {
-	if (p->k != USYM || p == symbol(NIL) || p == symbol(PI))
+	if (p->k != USYM)
 		stop("reserved symbol");
 	binding[p->u.usym.index] = b;
 	arglist[p->u.usym.index] = a;
@@ -196,7 +196,7 @@ struct se stab[] = {
 	{ "mathml",		MATHML,		eval_mathml		},
 	{ "mod",		MOD,		eval_mod		},
 
-	{ "nil",		NIL,		NULL			},
+	{ "nil",		NIL,		eval_nil		},
 	{ "not",		NOT,		eval_not		},
 	{ "nroots",		NROOTS,		eval_nroots		},
 	{ "number",		NUMBER,		eval_number		},
