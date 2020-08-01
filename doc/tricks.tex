@@ -2,8 +2,7 @@
 \begin{enumerate}
 
 \item
-In a script, lengthy expressions can span multiple input lines
-if the line breaks are placed immediately after operators.
+In a script, line breaking is allowed provided the line breaks occur immediately after operators.
 The scanner will automatically go to the next line after an operator.
 
 \item
@@ -29,5 +28,9 @@ Use \verb$float(pi)$ to get the floating point value of $\pi$.
 Assign strings to unit names so they are printed normally.
 For example, setting \verb$meter="meter"$ causes the symbol {\it meter}
 to be printed as \verb$meter$ instead of $m_{eter}$.
+
+\item
+Use \verb$expsin$ and \verb$expcos$ instead of \verb$sin$ and \verb$cos$.
+Trigonometric simplifications occur automatically when exponentials are used.
 
 \end{enumerate}
