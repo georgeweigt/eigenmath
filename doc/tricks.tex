@@ -2,21 +2,19 @@
 \begin{enumerate}
 
 \item
+A long expression can span multiple lines
+if the line breaks are placed immediately after operators.
+The scanner will automatically go to the next line after an operator.
+
+\item
+Setting \verb$trace=1$ in a script causes each line to be printed just before it is evaluated.
+This is useful for debugging.
+
+\item
 The last result is stored in the symbol \verb$last$.
 
 \item
-In a script, setting \verb$trace=1$
-causes each line to be printed just before it is evaluated.
-Useful for debugging.
-
-\item
 Use \verb$contract(A)$ to get the mathematical trace of matrix \verb$A$.
-
-\item
-Calculations in a script can span multiple lines.
-The trick is to arrange things so the parser will keep going.
-For example, if a calculation ends with a plus sign, the parser will go to the next line to get another term.
-Also, the parser will keep going when it expects a close parenthesis.
 
 \item
 Use \verb$binding(s)$ to get the unevaluated binding of symbol \verb$s$.
@@ -26,5 +24,10 @@ Use \verb$s=quote(s)$ to clear symbol \verb$s$.
 
 \item
 Use \verb$float(pi)$ to get the floating point value of $\pi$.
+
+\item
+Assign strings to unit names so they are printed normally.
+For example, setting \verb$meter="meter"$ causes the symbol {\it meter}
+to be printed as \verb$meter$ instead of $m_{eter}$.
 
 \end{enumerate}
