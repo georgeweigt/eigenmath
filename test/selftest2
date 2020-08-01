@@ -1189,7 +1189,7 @@ GDD
 
 check(GDD=0)
 
--- DABM 18. Verify commutation relations for angular momentum operators
+-- commutation relations for angular momentum operators
 
 clear
 
@@ -1197,97 +1197,107 @@ Lx(f) = -i hbar (y d(f,z) - z d(f,y))
 Ly(f) = -i hbar (z d(f,x) - x d(f,z))
 Lz(f) = -i hbar (x d(f,y) - y d(f,x))
 
-f = (fx(),fy(),fz())
+check(Lx(Ly(psi(x,y,z))) - Ly(Lx(psi(x,y,z))) == i hbar Lz(psi(x,y,z)))
+check(Ly(Lz(psi(x,y,z))) - Lz(Ly(psi(x,y,z))) == i hbar Lx(psi(x,y,z)))
+check(Lz(Lx(psi(x,y,z))) - Lx(Lz(psi(x,y,z))) == i hbar Ly(psi(x,y,z)))
 
-check(Lx(Ly(f)) - Ly(Lx(f)) == i hbar Lz(f))
-check(Ly(Lz(f)) - Lz(Ly(f)) == i hbar Lx(f))
-check(Lz(Lx(f)) - Lx(Lz(f)) == i hbar Ly(f))
-
--- DABM 19. Verify spherical harmonic eigenfunctions
+-- spherical harmonic eigenfunctions
 
 clear
-
-L2(f) = -hbar^2 D2(f)
-
-D2(f) = 1 / expsin(theta) d(expsin(theta) d(f,theta),theta) +
-        1 / expsin(theta)^2 d(f,phi,2)
 
 Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
          P(expcos(theta),l,m) exp(i m phi)
 
 P(y,l,m) = eval(1 / (2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,y)
 
-l = 0
-m = 0
-L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
-check(last = 1)
+S(l,m) = -Lap(Y(l,m)) == l (l + 1) Y(l,m)
 
-l = 1
-m = 0
-L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
-check(last = 1)
+Lap(f) = 1 / expsin(theta) d(expsin(theta) d(f,theta),theta) +
+         1 / expsin(theta)^2 d(f,phi,2)
 
-l = 1
-m = 1
-L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
-check(last = 1)
+check(S(0,0) == 1)
+check(S(1,0) == 1)
+check(S(1,1) == 1)
+check(S(1,-1) == 1)
+check(S(2,0) == 1)
+check(S(2,1) == 1)
+check(S(2,2) == 1)
+check(S(2,-1) == 1)
+check(S(2,-2) == 1)
 
-l = 1
-m = -1
-L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
-check(last = 1)
-
-l = 2 
-m = 0
-L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
-check(last = 1)
-
-l = 2
-m = 1
-L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
-check(last = 1)
-
-l = 2
-m = 2
-L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
-check(last = 1)
-
-l = 2
-m = -1
-L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
-check(last = 1)
-
-l = 2
-m = -2
-L2(Y(l,m)) == hbar^2 l (l + 1) Y(l,m)
-check(last = 1)
-
--- DABM 10. Hydrogen atom
-
--- Radial wavefunctions, p. 271
+-- radial wavefunctions
 
 clear
 
-R(r,n,l) = sqrt((n - l - 1)! / 2 / n / (n + l)!) *
-           (2 / n)^(3/2) *
-           (2 r / n)^l *
-           L(2 r / n,n,l) *
-           exp(-r / n)
+e = quote(e)
 
-L(s,n,l) = sum(q,0,n - l - 1,
-           (-1)^q s^q *
-           (n + l)! *
-           1 / (n - l - q - 1)! *
-           1 / (q + 2 l + 1)!)
+R(n,l) = sqrt((n - l - 1)! / 2 / n / (n + l)!) *
+         (2 / n)^(3/2) *
+         (2 rho / n)^l *
+         L(2 rho / n,n - l - 1,2 l + 1) *
+         exp(-rho / n)
+
+L(x,m,j) = sum(k,0,m,(-1)^k (m + j)! / ((m - k)! (j + k)! k!) x^k)
 
 rho = r / a0
 
-check(R(rho,1,0) == 2 exp(-rho))
-check(R(rho,2,0) == sqrt(2)/4 (2 - rho) exp(-rho/2))
-check(R(rho,2,1) == sqrt(6)/12 rho exp(-rho/2))
-check(R(rho,3,0) == 2 sqrt(3)/27 (3 - 2 rho + 4/9 rho^2) exp(-rho/3))
-check(R(rho,3,1) == sqrt(6)/81 rho (4 - 2/3 rho) exp(-rho/3))
-check(R(rho,3,2) == 2 sqrt(30)/1215 rho^2 exp(-rho/3))
+check(R(1,0) == 2 exp(-rho))
+check(R(2,0) == sqrt(2)/4 (2 - rho) exp(-rho/2))
+check(R(2,1) == sqrt(6)/12 rho exp(-rho/2))
+check(R(3,0) == 2 sqrt(3)/27 (3 - 2 rho + 2/9 rho^2) exp(-rho/3))
+check(R(3,1) == sqrt(6)/81 rho (4 - 2/3 rho) exp(-rho/3))
+check(R(3,2) == 2 sqrt(30)/1215 rho^2 exp(-rho/3))
+
+-- hydrogen atom eigenfunctions
+
+clear
+
+e = quote(e)
+
+psi(n,l,m) = R(n,l) Y(l,m)
+
+R(n,l) = sqrt((n - l - 1)! / (2 n (n + l)!)) *
+         (2 / n)^(3/2) *
+         (2 rho / n)^l *
+         L(2 rho / n,n - l - 1,2 l + 1) *
+         exp(-rho / n)
+
+L(x,m,j) = sum(k,0,m,(-1)^k (m + j)! / ((m - k)! (j + k)! k!) x^k)
+
+rho = r / a0
+
+a0 = 4 pi epsilon0 hbar^2 / (e^2 mu)
+
+Y(l,m) = (-1)^m sqrt((2l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(expcos(theta),l,m) exp(i m phi)
+
+P(y,l,m) = eval(1 / (2^l l!) (1 - x^2)^(m/2) *
+           d((x^2 - 1)^l,x,l + m),x,y)
+
+H(psi) = -hbar^2 Lap(psi) / (2 mu) - e^2 / (4 pi epsilon0 r) psi
+
+Lap(f) = 1/r^2 d(r^2 d(f,r),r) +
+         1/(r^2 expsin(theta)) d(expsin(theta) d(f,theta),theta) +
+         1/(r expsin(theta))^2 d(d(f,phi),phi)
+
+E = -1/2 mu e^4 / (4 pi epsilon0 hbar)^2
+
+S(n,l,m) = H(psi(n,l,m)) == E / n^2 psi(n,l,m)
+
+check(S(1,0,0) == 1)
+check(S(2,0,0) == 1)
+check(S(2,1,0) == 1)
+check(S(2,1,1) == 1)
+check(S(2,1,-1) == 1)
+check(S(3,0,0) == 1)
+check(S(3,1,0) == 1)
+check(S(3,1,1) == 1)
+check(S(3,1,-1) == 1)
+check(S(3,2,0) == 1)
+check(S(3,2,1) == 1)
+check(S(3,2,2) == 1)
+check(S(3,2,-1) == 1)
+check(S(3,2,-2) == 1)
 
 -- done
 
