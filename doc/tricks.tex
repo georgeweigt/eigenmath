@@ -33,4 +33,9 @@ to be printed as \verb$meter$ instead of $m_{eter}$.
 Use \verb$expsin$ and \verb$expcos$ instead of \verb$sin$ and \verb$cos$.
 Trigonometric simplifications occur automatically when exponentials are used.
 
+\item
+Use \verb$A==B$ or \verb$A-B==0$ to test for equality of $A$ and $B$.
+The equality operator \verb$==$ uses a cross multiply algorithm to eliminate denominators.
+Hence \verb$==$ can typically determine equality even when the unsimplified result of \verb$A-B$ is nonzero.
+
 \end{enumerate}
