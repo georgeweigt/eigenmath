@@ -1225,7 +1225,7 @@ check(S(2,2) == 1)
 check(S(2,-1) == 1)
 check(S(2,-2) == 1)
 
--- radial wavefunctions
+-- radial eigenfunctions
 
 clear
 
@@ -1237,7 +1237,7 @@ R(n,l) = sqrt((n - l - 1)! / 2 / n / (n + l)!) *
          L(2 rho / n,n - l - 1,2 l + 1) *
          exp(-rho / n)
 
-L(x,m,j) = sum(k,0,m,(-1)^k (m + j)! / ((m - k)! (j + k)! k!) x^k)
+L(x,m,j) = sum(k,0,m,(-x)^k (m + j)! / ((m - k)! (j + k)! k!))
 
 rho = r / a0
 
