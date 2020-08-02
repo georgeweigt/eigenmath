@@ -1278,11 +1278,11 @@ H(psi) = -hbar^2 Lap(psi) / (2 mu) - e^2 / (4 pi epsilon0 r) psi
 
 Lap(f) = 1/r^2 d(r^2 d(f,r),r) +
          1/(r^2 expsin(theta)) d(expsin(theta) d(f,theta),theta) +
-         1/(r expsin(theta))^2 d(d(f,phi),phi)
+         1/(r expsin(theta))^2 d(f,phi,2)
 
-E = -1/2 mu e^4 / (4 pi epsilon0 hbar)^2
+E(n) = -mu / (2 n^2) (e^2 / (4 pi epsilon0 hbar))^2
 
-S(n,l,m) = H(psi(n,l,m)) == E / n^2 psi(n,l,m)
+S(n,l,m) = H(psi(n,l,m)) == E(n) psi(n,l,m)
 
 check(S(1,0,0) == 1)
 check(S(2,0,0) == 1)
