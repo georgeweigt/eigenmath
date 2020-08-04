@@ -48,17 +48,29 @@ eval_testeq(void)
 	p2 = pop();
 	p1 = pop();
 
-	// this test handles null tensor equals scalar zero
+	// null tensors are equal no matter the dimensions
 
 	if (iszero(p1) && iszero(p2)) {
 		push_integer(1);
 		return;
 	}
 
-	if (istensor(p1) && istensor(p2) && compatible_dimensions(p1, p2)) {
+	if (!istensor(p1) && !istensor(p2)) {
+		if (testeq(p1, p2))
+			push_integer(1);
+		else
+			push_integer(0);
+		return;
+	}
+
+	if (istensor(p1) && !istensor(p2)) {
+		if (!iszero(p2)) {
+			push_integer(0); // tensor not equal scalar
+			return;
+		}
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
-			if (testeq(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+			if (testeq(p1->u.tensor->elem[i], zero))
 				continue;
 			push_integer(0);
 			return;
@@ -67,15 +79,39 @@ eval_testeq(void)
 		return;
 	}
 
-	if (istensor(p1) || istensor(p2)) {
+	if (!istensor(p1) && istensor(p2)) {
+		if (!iszero(p1)) {
+			push_integer(0); // tensor not equal scalar
+			return;
+		}
+		n = p2->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			if (testeq(p2->u.tensor->elem[i], zero))
+				continue;
+			push_integer(0);
+			return;
+		}
+		push_integer(1);
+		return;
+	}
+
+	// both p1 and p2 are tensors
+
+	if (!compatible_dimensions(p1, p2)) {
 		push_integer(0);
 		return;
 	}
 
-	if (testeq(p1, p2))
-		push_integer(1);
-	else
+	n = p1->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		if (testeq(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+			continue;
 		push_integer(0);
+		return;
+	}
+
+	push_integer(1);
 }
 
 int
