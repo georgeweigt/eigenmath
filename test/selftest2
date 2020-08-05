@@ -1231,8 +1231,8 @@ clear
 
 e = quote(e)
 
-R(n,l) = sqrt((n - l - 1)! / 2 / n / (n + l)!) *
-         (2 / n)^(3/2) *
+R(n,l) = 2 / (n^2 a0^(3/2)) *
+         sqrt((n - l - 1)! / (n + l)!) *
          (2 rho / n)^l *
          L(2 rho / n,n - l - 1,2 l + 1) *
          exp(-rho / n)
@@ -1240,13 +1240,14 @@ R(n,l) = sqrt((n - l - 1)! / 2 / n / (n + l)!) *
 L(x,m,j) = sum(k,0,m,(-x)^k (m + j)! / ((m - k)! (j + k)! k!))
 
 rho = r / a0
+A = a0^(3/2)
 
-check(R(1,0) == 2 exp(-rho))
-check(R(2,0) == sqrt(2)/4 (2 - rho) exp(-rho/2))
-check(R(2,1) == sqrt(6)/12 rho exp(-rho/2))
-check(R(3,0) == 2 sqrt(3)/27 (3 - 2 rho + 2/9 rho^2) exp(-rho/3))
-check(R(3,1) == sqrt(6)/81 rho (4 - 2/3 rho) exp(-rho/3))
-check(R(3,2) == 2 sqrt(30)/1215 rho^2 exp(-rho/3))
+check(R(1,0) A == 2 exp(-rho))
+check(R(2,0) A == sqrt(2)/4 (2 - rho) exp(-rho/2))
+check(R(2,1) A == sqrt(6)/12 rho exp(-rho/2))
+check(R(3,0) A == 2 sqrt(3)/27 (3 - 2 rho + 2/9 rho^2) exp(-rho/3))
+check(R(3,1) A == sqrt(6)/81 rho (4 - 2/3 rho) exp(-rho/3))
+check(R(3,2) A == 2 sqrt(30)/1215 rho^2 exp(-rho/3))
 
 -- hydrogen atom eigenfunctions
 
@@ -1256,8 +1257,8 @@ e = quote(e)
 
 psi(n,l,m) = R(n,l) Y(l,m)
 
-R(n,l) = sqrt((n - l - 1)! / (2 n (n + l)!)) *
-         (2 / n)^(3/2) *
+R(n,l) = 2 / (n^2 a0^(3/2)) *
+         sqrt((n - l - 1)! / (n + l)!) *
          (2 rho / n)^l *
          L(2 rho / n,n - l - 1,2 l + 1) *
          exp(-rho / n)
