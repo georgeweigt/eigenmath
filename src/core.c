@@ -8,7 +8,7 @@ alloc(void)
 		alloc_block();
 	if (free_count == 0) {
 		gc();
-		if (free_count < (block_count * BLOCKSIZE) / 2)
+		if (free_count < BLOCKSIZE)
 			alloc_block();
 		if (free_count == 0)
 			stop("out of memory");
