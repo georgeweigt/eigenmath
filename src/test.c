@@ -63,6 +63,12 @@ eval_testeq(void)
 		return;
 	}
 
+	if (!istensor(p1) && istensor(p2)) {
+		p3 = p1;
+		p1 = p2;
+		p2 = p3;
+	}
+
 	if (istensor(p1) && !istensor(p2)) {
 		if (!iszero(p2)) {
 			push_integer(0); // tensor not equal scalar
@@ -71,22 +77,6 @@ eval_testeq(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			if (testeq(p1->u.tensor->elem[i], zero))
-				continue;
-			push_integer(0);
-			return;
-		}
-		push_integer(1);
-		return;
-	}
-
-	if (!istensor(p1) && istensor(p2)) {
-		if (!iszero(p1)) {
-			push_integer(0); // tensor not equal scalar
-			return;
-		}
-		n = p2->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			if (testeq(p2->u.tensor->elem[i], zero))
 				continue;
 			push_integer(0);
 			return;

@@ -1187,16 +1187,19 @@ check(P(x,2,-1) == -1/2 x sqrt(1 - x^2))
 check(P(x,2,2) == 3 (1 - x^2))
 check(P(x,2,-2) == 1/8 (1 - x^2))
 
--- tensor equality with zero
+-- tensor equality test
 
 clear
 
-GDD = ((0,0,0,0),(0,2 M / (r^3 (-2 M / r + 1)) + r^(-2) - 1 / (r^2 (-2 M / r + 1)),0,0),(0,0,0,0),(0,0,0,0))
-
-check(GDD == 0)
-check(0 == GDD)
-check(GDD == zero(4,4))
-check(zero(4,4) == GDD)
+A = ((0,0,0,0),(0,2 M / (r^3 (-2 M / r + 1)) + r^(-2) - 1 / (r^2 (-2 M / r + 1)),0,0),(0,0,0,0),(0,0,0,0))
+check(A == 0)
+check(0 == A)
+check(A == zero(4,4))
+check(zero(4,4) == A)
+B = A
+check(A == B)
+B[1,1] = 1
+check(not(A == B))
 
 -- done
 
