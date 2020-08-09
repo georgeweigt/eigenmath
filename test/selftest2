@@ -296,50 +296,6 @@ check(A = B)
 
 clear
 
-# Generate hydrogen wavefunctions and check that they solve the Schroedinger
-# equation for the hydrogen atom:
-#
-#     psi(n,L,m)      2              2 psi(n,L,m)
-#     ---------- = del  psi(n,L,m) + ------------
-#          2                              r
-#         n
-#
-# Use upper case L to avoid confusion with the numeral 1.
-
-# Define the Laplacian operator for spherical coordinates (del-squared).
-
-delsq(x) = 1/r^2 d(r^2 d(x,r),r) +
-  1/(r^2 sin(theta)) d(sin(theta) d(x,theta),theta) +
-  1/(r sin(theta))^2 d(d(x,phi),phi)
-
-# psi is the product of radial wavefunction R and spherical harmonic Y
-
-R(n,L) = r^L exp(-r/n) laguerre(2r/n,n-L-1,2L+1)
-
-Y(L,m) = legendre(cos(theta),L,abs(m)) exp(i m phi)
-
-psi(n,L,m) = R(n,L) Y(L,m)
-
-# Define the energy functions E, K and V (from the Schroedinger equation).
-
-E(n,L,m) = psi(n,L,m) / n^2
-
-K(n,L,m) = delsq(psi(n,L,m))
-
-V(n,L,m) = 2 psi(n,L,m) / r
-
-"Checking E = K + V for n = 1..5, L = 0..n-1, m = -L..L"
-
-F(n,L,m) = simplify(E(n,L,m) - K(n,L,m) - V(n,L,m))
-
-for(n,1,5,
-  for(L,0,n-1,
-    for(m,-L,L,
-      check(F(n,L,m) = 0)
-)))
-
-clear
-
 # Mandl and Shaw problem 5.1
 #
 #    g    Spacetime metric

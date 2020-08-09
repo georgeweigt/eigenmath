@@ -1201,6 +1201,42 @@ check(A == B)
 B[1,1] = 1
 check(not(A == B))
 
+-- test legendre function
+
+clear
+
+P(x,l,m) = eval(1/(2^l l!) (1 - y^2)^(m/2) d((y^2 - 1)^l,y,l + m),y,x)
+
+check(legendre(x,0,0) == 1)
+check(legendre(x,1,0) == x)
+check(legendre(x,1,1) == sqrt(1 - x^2))
+check(legendre(x,1,-1) == -1/2 sqrt(1 - x^2))
+check(legendre(x,2,0) == 1/2 (3 x^2 - 1))
+check(legendre(x,2,1) == 3 x sqrt(1 - x^2))
+check(legendre(x,2,-1) == -1/2 x sqrt(1 - x^2))
+check(legendre(x,2,2) == 3 (1 - x^2))
+check(legendre(x,2,-2) == 1/8 (1 - x^2))
+
+check(P(x,0,0) == legendre(x,0,0))
+check(P(x,1,0) == legendre(x,1,0))
+check(P(x,1,1) == legendre(x,1,1))
+check(P(x,1,-1) == legendre(x,1,-1))
+check(P(x,2,0) == legendre(x,2,0))
+check(P(x,2,1) == legendre(x,2,1))
+check(P(x,2,2) == legendre(x,2,2))
+check(P(x,2,-1) == legendre(x,2,-1))
+check(P(x,2,-2) == legendre(x,2,-2))
+
+check(P(expcos(theta),0,0) == legendre(expcos(theta),0,0))
+check(P(expcos(theta),1,0) == legendre(expcos(theta),1,0))
+check(P(expcos(theta),1,1) == legendre(expcos(theta),1,1))
+check(P(expcos(theta),1,-1) == legendre(expcos(theta),1,-1))
+check(P(expcos(theta),2,0) == legendre(expcos(theta),2,0))
+check(P(expcos(theta),2,1) == legendre(expcos(theta),2,1))
+check(P(expcos(theta),2,2) == legendre(expcos(theta),2,2))
+check(P(expcos(theta),2,-1) == legendre(expcos(theta),2,-1))
+check(P(expcos(theta),2,-2) == legendre(expcos(theta),2,-2))
+
 -- done
 
 clear
