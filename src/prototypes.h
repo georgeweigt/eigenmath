@@ -377,8 +377,6 @@ int ispoly_term(struct atom *p, struct atom *x);
 int ispoly_factor(struct atom *p, struct atom *x);
 void eval_isprime(void);
 void eval_laguerre(void);
-void laguerre(void);
-void laguerre2(int n);
 void eval_latex(void);
 void latex(void);
 void latex_nib(void);
