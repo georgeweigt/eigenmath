@@ -273,11 +273,6 @@ d_scalar_scalar_1(void)
 		return;
 	}
 
-	if (car(p1) == symbol(HERMITE)) {
-		dhermite();
-		return;
-	}
-
 	if (car(p1) == symbol(ERF)) {
 		derf();
 		return;
@@ -645,24 +640,6 @@ dabs(void)
 	derivative();
 	push(cadr(p1));
 	sgn();
-	multiply();
-}
-
-void
-dhermite(void)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push_integer(2);
-	push(caddr(p1));
-	multiply();
-	multiply();
-	push(cadr(p1));
-	push(caddr(p1));
-	push_integer(-1);
-	add();
-	hermite();
 	multiply();
 }
 

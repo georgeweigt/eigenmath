@@ -1042,10 +1042,7 @@ gcd(x,x^a)
 check(last = 1)
 gcd(12,18,9)
 check(last = 3)
-hermite(x,n)
-check(last = hermite(x,n))
-hermite(x,-1)
-check(last = 0)
+
 hermite(x,0)-1
 check(last = 0)
 hermite(x,1)-2*x
@@ -1070,6 +1067,7 @@ hermite(x,10)-(1024*x^10-23040*x^8+161280*x^6-403200*x^4+302400*x^2-30240)
 check(last = 0)
 hermite(a-b,10)-eval(subst(a-b,x,hermite(x,10)))
 check(last = 0)
+
 imag(a+i*b)
 check(last = b)
 imag(1+exp(i*pi/3))

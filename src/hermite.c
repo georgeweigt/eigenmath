@@ -3,78 +3,46 @@
 void
 eval_hermite(void)
 {
-	push(cadr(p1));
+	int k, n;
+
+	p1 = cdr(p1);
+	push(car(p1));
 	eval();
-	push(caddr(p1));
+	p0 = pop();
+
+	p1 = cdr(p1);
+	push(car(p1));
 	eval();
-	hermite();
-}
-
-void
-hermite(void)
-{
-	save();
-	hermite_nib();
-	restore();
-}
-
-#undef X
-#undef N
-#undef Y1
-#undef Y0
-
-#define X p1
-#define N p2
-#define Y1 p3
-#define Y0 p4
-
-// H(x,n) = 2 x H(x,n - 1) - 2 (n - 1) H(x,n - 2)
-
-void
-hermite_nib(void)
-{
-	int i, n;
-
-	N = pop();
-	X = pop();
-
-	push(N);
 	n = pop_integer();
 
-	if (n == ERR) {
-		push_symbol(HERMITE);
-		push(X);
-		push(N);
-		list(3);
-		return;
-	}
+	if (n == ERR || n < 0)
+		stop("hermite");
 
-	if (n < 0) {
-		push_integer(0);
-		return;
-	}
+	for (k = 0; k <= n / 2; k++) {
 
-	push_integer(1);
+		push_integer(-1);
+		push_integer(k);
+		power();
 
-	Y1 = zero;
+		push_integer(k);
+		factorial();
+		divide();
 
-	for (i = 0; i < n; i++) {
-
-		Y0 = Y1;
-
-		Y1 = pop();
-
-		push(X);
-		push(Y1);
-		multiply();
-
-		push_integer(i);
-		push(Y0);
-		multiply();
-
-		subtract();
+		push_integer(n - 2 * k);
+		factorial();
+		divide();
 
 		push_integer(2);
+		push(p0);
+		multiply();
+		push_integer(n - 2 * k);
+		power();
 		multiply();
 	}
+
+	add_terms(n / 2 + 1);
+
+	push_integer(n);
+	factorial();
+	multiply();
 }
