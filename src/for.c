@@ -5,14 +5,10 @@ eval_for(void)
 {
 	int j, k;
 
-	// 1st arg (quoted)
-
 	p1 = cdr(p1);
 	p2 = car(p1);
 	if (!issymbol(p2))
 		stop("for: 1st arg?");
-
-	// 2nd arg
 
 	p1 = cdr(p1);
 	push(car(p1));
@@ -21,16 +17,12 @@ eval_for(void)
 	if (j == ERR)
 		stop("for: 2nd arg?");
 
-	// 3rd arg
-
 	p1 = cdr(p1);
 	push(car(p1));
 	eval();
 	k = pop_integer();
 	if (k == ERR)
 		stop("for: 3rd arg?");
-
-	// remaining args
 
 	p1 = cdr(p1);
 
@@ -57,7 +49,5 @@ eval_for(void)
 
 	restore_binding(p2);
 
-	// return value
-
-	push_symbol(NIL);
+	push_symbol(NIL); // return value
 }
