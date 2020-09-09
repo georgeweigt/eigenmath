@@ -57,7 +57,6 @@ add_terms_nib(int n)
 	case 1:
 		break;
 	default:
-		sort_terms(n);
 		list(n);
 		push_symbol(ADD);
 		swap();
