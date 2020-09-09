@@ -743,6 +743,18 @@ mcmp(uint32_t *u, uint32_t *v)
 	return 0; // u = v
 }
 
+int
+meq(uint32_t *u, uint32_t *v)
+{
+	int i;
+	if (MLENGTH(u) != MLENGTH(v))
+		return 0;
+	for (i = 0; i < MLENGTH(u); i++)
+		if (u[i] != v[i])
+			return 0;
+	return 1;
+}
+
 // convert unsigned to bignum
 
 uint32_t *

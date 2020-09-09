@@ -31,29 +31,33 @@ void
 add_terms_nib(int n)
 {
 	int h = tos - n;
-	struct atom **s = stack + h;
-	if (n == 1)
+
+	if (n < 2)
 		return;
-	if (n == 2) {
-		p1 = s[0];
-		p2 = s[1];
-		if (isnum(p1) && isnum(p2)) {
-			tos = h; // pop all
-			add_numbers();
-			return;
-		}
+
+	if (n == 2 && isnum(stack[tos - 2]) && isnum(stack[tos - 1])) {
+		p2 = pop();
+		p1 = pop();
+		add_numbers();
+		return;
 	}
+
 	flatten_terms(h);
+
 	censor_terms(h);
+
 	combine_terms(h);
+
 	n = tos - h;
+
 	switch (n) {
 	case 0:
-		push_integer(0);
+		push_integer(0); // all terms canceled
 		break;
 	case 1:
 		break;
 	default:
+		sort_terms(n);
 		list(n);
 		push_symbol(ADD);
 		swap();
@@ -103,55 +107,61 @@ censor_terms(int h)
 void
 combine_terms(int h)
 {
-	int m, n = tos - h;
-	while (n > 1) {
-		sort_terms(n);
-		m = n;
-		combine_terms_nib(h);
-		n = tos - h;
-		if (m == n)
-			break; // did not combine any terms
-	}
-}
-
-void
-combine_terms_nib(int h)
-{
-	int i, j, n = tos - h;
-	struct atom **s = stack + h;
-	for (i = 0; i < n - 1; i++) {
-		if (combine_adjacent_terms(s + i)) {
-			if (equaln(s[i], 0)) {
-				// remove 2 terms
-				for (j = i + 2; j < n; j++)
-					s[j - 2] = s[j];
-				n -= 2;
+	int i, j;
+	sort_terms(tos - h);
+	for (i = h; i < tos - 1; i++) {
+		if (combine_terms_nib(i, i + 1)) {
+			if (!istensor(stack[i]) && iszero(stack[i])) {
+				for (j = i + 2; j < tos; j++)
+					stack[j - 2] = stack[j]; // remove 2
 				tos -= 2;
 			} else {
-				// remove 1 term
-				for (j = i + 2; j < n; j++)
-					s[j - 1] = s[j];
-				n--;
-				tos--;
+				for (j = i + 2; j < tos; j++)
+					stack[j - 1] = stack[j]; // remove 1
+				tos -= 1;
 			}
-			i--; // use the same index again
+			i--; // use same index again
 		}
 	}
 }
 
-int
-combine_adjacent_terms(struct atom **s)
+#if 0 // brute force method
+void
+combine_terms(int h)
 {
-	int state;
+	int i, j, k;
+	for (i = h; i < tos - 1; i++) {
+		for (j = i + 1; j < tos; j++) {
+			if (combine_terms_nib(i, j)) {
+				for (k = j + 1; k < tos; k++)
+					stack[k - 1] = stack[k]; // remove jth element
+				j--; // use same index again
+				tos--;
+				if (!istensor(stack[i]) && iszero(stack[i])) {
+					for (k = i + 1; k < tos; k++)
+						stack[k - 1] = stack[k]; // remove ith element
+					j = i; // start over
+					tos--;
+				}
+			}
+		}
+	}
+}
+#endif
 
-	p1 = s[0];
-	p2 = s[1];
+int
+combine_terms_nib(int i, int j)
+{
+	int denorm = 0;
+
+	p1 = stack[i];
+	p2 = stack[j];
 
 	if (istensor(p1) && istensor(p2)) {
 		push(p1);
 		push(p2);
 		tensor_plus_tensor();
-		s[0] = pop();
+		stack[i] = pop();
 		return 1;
 	}
 
@@ -160,7 +170,7 @@ combine_adjacent_terms(struct atom **s)
 
 	if (isnum(p1) && isnum(p2)) {
 		add_numbers();
-		s[0] = pop();
+		stack[i] = pop();
 		return 1;
 	}
 
@@ -170,20 +180,18 @@ combine_adjacent_terms(struct atom **s)
 	p3 = p1;
 	p4 = p2;
 
-	p1 = one; // coeff of 1st term
-	p2 = one; // coeff of 2nd term
-
-	state = 0;
+	p1 = one;
+	p2 = one;
 
 	if (car(p3) == symbol(MULTIPLY)) {
 		p3 = cdr(p3);
-		state = 1; // p3 is now an improper expr
+		denorm = 1;
 		if (isnum(car(p3))) {
-			p1 = car(p3);
+			p1 = car(p3); // coeff
 			p3 = cdr(p3);
 			if (cdr(p3) == symbol(NIL)) {
 				p3 = car(p3);
-				state = 0; // p3 is now a proper expr
+				denorm = 0;
 			}
 		}
 	}
@@ -191,28 +199,49 @@ combine_adjacent_terms(struct atom **s)
 	if (car(p4) == symbol(MULTIPLY)) {
 		p4 = cdr(p4);
 		if (isnum(car(p4))) {
-			p2 = car(p4);
+			p2 = car(p4); // coeff
 			p4 = cdr(p4);
-			if (cdr(p4) == symbol(NIL))
+			if (cdr(p4) == symbol(NIL)) {
 				p4 = car(p4);
+			}
 		}
 	}
 
 	if (!equal(p3, p4))
-		return 0; // terms differ, cannot add
+		return 0;
 
-	add_numbers(); // add coeffs p1 and p2
+	add_numbers(); // add p1 and p2
 
-	if (state) {
-		push_symbol(MULTIPLY);
-		push(p3);
-		cons();
-	} else
-		push(p3);
+	p4 = pop(); // new coeff
 
-	multiply();
+	if (iszero(p4)) {
+		stack[i] = p4;
+		return 1;
+	}
 
-	s[0] = pop();
+	if (isplusone(p4) && !isdouble(p4)) {
+		if (denorm) {
+			push_symbol(MULTIPLY);
+			push(p3);
+			cons();
+		} else
+			push(p3);
+	} else {
+		if (denorm) {
+			push_symbol(MULTIPLY);
+			push(p4);
+			push(p3);
+			cons();
+			cons();
+		} else {
+			push_symbol(MULTIPLY);
+			push(p4);
+			push(p3);
+			list(3);
+		}
+	}
+
+	stack[i] = pop();
 
 	return 1;
 }
