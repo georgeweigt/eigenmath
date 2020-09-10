@@ -119,7 +119,7 @@ compatible_dimensions(struct atom *p, struct atom *q)
 }
 
 void
-tensor_plus_tensor(void)
+add_tensors(void)
 {
 	int i, nelem;
 	struct atom **a, **b;
@@ -149,34 +149,6 @@ tensor_plus_tensor(void)
 	}
 
 	push(p1);
-
-	restore();
-}
-
-void
-scalar_times_tensor(void)
-{
-	int i, nelem;
-	struct atom **a;
-
-	save();
-
-	copy_tensor();
-
-	p2 = pop();
-	p1 = pop();
-
-	a = p2->u.tensor->elem;
-	nelem = p2->u.tensor->nelem;
-
-	for (i = 0; i < nelem; i++) {
-		push(p1);
-		push(a[i]);
-		multiply();
-		a[i] = pop();
-	}
-
-	push(p2);
 
 	restore();
 }

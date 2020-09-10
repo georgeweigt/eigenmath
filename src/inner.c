@@ -3,16 +3,9 @@
 void
 eval_inner(void)
 {
-	eval_dot();
-}
-
-void
-eval_dot(void)
-{
-	p1 = cdr(p1);
-	push(car(p1));
+	push(cadr(p1));
 	eval();
-	p1 = cdr(p1);
+	p1 = cddr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
@@ -25,45 +18,46 @@ void
 inner(void)
 {
 	save();
-
-	p2 = pop();
-	p1 = pop();
-
-	if (istensor(p1) && istensor(p2)) {
-		inner_nib();
-		restore();
-		return;
-	}
-
-	if (istensor(p1)) {
-		push(p2); // swap order
-		push(p1);
-		restore();
-		scalar_times_tensor();
-		return;
-	}
-
-	if (istensor(p2)) {
-		push(p1);
-		push(p2);
-		restore();
-		scalar_times_tensor();
-		return;
-	}
-
-	push(p1);
-	push(p2);
+	inner_nib();
 	restore();
-	multiply();
 }
-
-// inner product of p1 and p2
 
 void
 inner_nib(void)
 {
-	int i, j, k, mcol, mrow, ncol, ndim, nrow;
+	int i, j, k, n, mcol, mrow, ncol, ndim, nrow;
 	struct atom **a, **b, **c;
+
+	p2 = pop();
+	p1 = pop();
+
+	if (!istensor(p1) && !istensor(p2)) {
+		push(p1);
+		push(p2);
+		multiply();
+		return;
+	}
+
+	if (istensor(p1) && !istensor(p2)) {
+		p3 = p1;
+		p1 = p2;
+		p2 = p3;
+	}
+
+	if (!istensor(p1) && istensor(p2)) {
+		push(p2);
+		copy_tensor();
+		p2 = pop();
+		n = p2->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1);
+			push(p2->u.tensor->elem[i]);
+			multiply();
+			p2->u.tensor->elem[i] = pop();
+		}
+		push(p2);
+		return;
+	}
 
 	k = p1->u.tensor->ndim - 1;
 

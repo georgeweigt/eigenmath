@@ -142,7 +142,7 @@ struct se stab[] = {
 	{ "det",		DET,		eval_det		},
 	{ "dim",		DIM,		eval_dim		},
 	{ "do",			DO,		eval_do			},
-	{ "dot",		DOT,		eval_dot		},
+	{ "dot",		DOT,		eval_inner		},
 	{ "draw",		DRAW,		eval_draw		},
 
 	{ "eigen",		EIGEN,		eval_eigen		},

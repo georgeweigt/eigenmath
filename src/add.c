@@ -139,7 +139,7 @@ combine_terms_nib(int i, int j)
 	if (istensor(p1) && istensor(p2)) {
 		push(p1);
 		push(p2);
-		tensor_plus_tensor();
+		add_tensors();
 		stack[i] = pop();
 		return 1;
 	}
