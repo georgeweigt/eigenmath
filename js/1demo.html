@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>mixedstate</title>
+<body style="font-size:18pt">
+
+<table>
+<tr>
+<td>
+<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
+"Mixed state example"
+
+ket0 = (1,0,0,0)
+ket1 = (0,1,0,0)
+ket2 = (0,0,1,0)
+ket3 = (0,0,0,1)
+
+Ehat = 0.38 "eV" outer(ket1,ket1) +
+       1.50 "eV" outer(ket2,ket2) +
+       6.55 "eV" outer(ket3,ket3)
+Ehat
+
+"State vector"
+
+xi = 1/2 ket0 + 1/2 ket1 + 1/2 ket2 + 1/2 ket3
+xi
+
+"Expected energy"
+
+dot(xi,Ehat,xi)
+</textarea>
+</td>
+<td>
+<button onclick="run_button()" style="font-size:20pt">Run</button>
+</td>
+</tr>
+</table>
+
+<p>
+<div id="stdout"></div>
+
+<script src="eigenmath.js"></script>
+
+<script>
+function
+run_button()
+{
+	var stdout = document.getElementById("stdout");
+	stdout.innerHTML = "";
+
+	var s = document.getElementById("stdin").value;
+
+	run(s);
+}
+function
+fputs(s)
+{
+	stdout.innerHTML = stdout.innerHTML.concat(s);
+}
+</script>
+
+</body>
+</html>
