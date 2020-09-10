@@ -68,6 +68,11 @@ multiply_factors_nib(int n)
 
 	collect_numerical_factors(h);
 
+	if (iszero(COEF)) {
+		push(COEF);
+		return;
+	}
+
 	combine_factors(h);
 
 	normalize_power_factors(h);
