@@ -28,9 +28,7 @@ function
 power_imaginary_unit(BASE, EXPO)
 {
 	var a, b, c, q, r, s, theta, x, y;
-
-	EXPO = pop();
-
+/*
 	if (!isnum(EXPO)) {
 		push_symbol(POWER);
 		push_integer(-1);
@@ -46,7 +44,7 @@ power_imaginary_unit(BASE, EXPO)
 		}
 		return;
 	}
-
+*/
 	if (equalq(EXPO, 1, 2)) {
 		push(imaginaryunit);
 		if (isdouble(BASE)) {
@@ -96,7 +94,7 @@ power_imaginary_unit(BASE, EXPO)
 	}
 
 	a = Math.abs(EXPO.a);
-	b = Math,abs(EXPO.b);
+	b = Math.abs(EXPO.b);
 
 	q = Math.floor(a / b);
 	r = a % b;

@@ -33,17 +33,7 @@ run_nib(s)
 
 	inbuf = s;
 
-	if (stack == undefined)
-		init();
-	else {
-		clear_symbols();
-		prep();
-//		run_init_script(); // FIXME
-	}
-
-	prep();
-
-	set_binding(symbol(TRACE), zero);
+	init();
 
 	for (;;) {
 
