@@ -44,8 +44,6 @@ add_terms_nib(int n)
 
 	flatten_terms(h);
 
-	censor_terms(h);
-
 	combine_terms(h);
 
 	n = tos - h;
@@ -68,35 +66,17 @@ add_terms_nib(int n)
 void
 flatten_terms(int h)
 {
-	int i, n = tos - h;
-	struct atom **s = stack + h;
-	for (i = 0; i < n; i++) {
-		p1 = s[i];
+	int i, n;
+	n = tos;
+	for (i = h; i < n; i++) {
+		p1 = stack[i];
 		if (car(p1) == symbol(ADD)) {
-			s[i] = cadr(p1);
+			stack[i] = cadr(p1);
 			p1 = cddr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
 				p1 = cdr(p1);
 			}
-		}
-	}
-}
-
-void
-censor_terms(int h)
-{
-	int i, j, n = tos - h;
-	struct atom **s = stack + h;
-	for (i = 0; i < n; i++) {
-		p1 = s[i];
-		if (equaln(p1, 0)) {
-			// remove term
-			for (j = i + 1; j < n; j++)
-				s[j - 1] = s[j];
-			i--;
-			n--;
-			tos--;
 		}
 	}
 }
@@ -166,6 +146,14 @@ combine_terms_nib(int i, int j)
 
 	if (istensor(p1) || istensor(p2))
 		stop("incompatible tensor arithmetic");
+
+	if (iszero(p2))
+		return 1;
+
+	if (iszero(p1)) {
+		stack[i] = p2;
+		return 1;
+	}
 
 	if (isnum(p1) && isnum(p2)) {
 		add_numbers();

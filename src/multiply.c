@@ -49,19 +49,41 @@ void
 multiply_factors_nib(int n)
 {
 	int h = tos - n;
-	level_factors(h);
+
+	if (n < 2)
+		return;
+
+	if (n == 2 && isnum(stack[tos - 2]) && isnum(stack[tos - 1])) {
+		p2 = pop();
+		p1 = pop();
+		multiply_numbers();
+		return;
+	}
+
+	flatten_factors(h);
+
 	partition_tensor_factor(h);
+
 	COEF = one;
+
 	collect_numerical_factors(h);
+
 	combine_factors(h);
+
 	normalize_power_factors(h);
+
 	collect_numerical_factors(h);
+
 	reduce_radical_factors(h);
+
 	if (isdouble(COEF) || !isplusone(COEF))
 		push(COEF);
+
 	if (expanding)
 		expand_sum_factors(h); // success leaves one expr on stack
+
 	n = tos - h;
+
 	switch (n) {
 	case 0:
 		push_integer(1);
@@ -76,6 +98,7 @@ multiply_factors_nib(int n)
 		cons();
 		break;
 	}
+
 	if (istensor(TFACT)) {
 		push(TFACT);
 		inner();
@@ -83,7 +106,7 @@ multiply_factors_nib(int n)
 }
 
 void
-level_factors(int h)
+flatten_factors(int h)
 {
 	int i, n = tos - h;
 	struct atom **s = stack + h;
