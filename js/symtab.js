@@ -48,6 +48,7 @@ const NUMERATOR = "numerator";
 const OR = "or";
 const OUTER = "outer";
 const POLAR = "polar";
+const PREFIXFORM = "prefixform";
 const PRINT = "print";
 const PRODUCT = "product";
 const QUOTE = "quote";
@@ -151,6 +152,7 @@ numerator:	{printname:NUMERATOR,	func:eval_numerator},
 or:		{printname:OR,		func:eval_or},
 outer:		{printname:OUTER,	func:eval_outer},
 polar:		{printname:POLAR,	func:eval_polar},
+prefixform:	{printname:PREFIXFORM,	func:eval_prefixform},
 print:		{printname:PRINT,	func:eval_print},
 product:	{printname:PRODUCT,	func:eval_product},
 quote:		{printname:QUOTE,	func:eval_quote},
