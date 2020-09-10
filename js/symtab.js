@@ -57,7 +57,6 @@ const RATIONALIZE = "rationalize";
 const REAL = "real";
 const RECT = "rect";
 const SGN = "sgn";
-const SIMPLIFY = "simplify";
 const SIN = "sin";
 const SINH = "sinh";
 const SQRT = "sqrt";
@@ -161,7 +160,6 @@ rationalize:	{printname:RATIONALIZE,	func:eval_rationalize},
 real:		{printname:REAL,	func:eval_real},
 rect:		{printname:RECT,	func:eval_rect},
 sgn:		{printname:SGN,		func:eval_sgn},
-simplify:	{printname:SIMPLIFY,	func:eval_simplify},
 sin:		{printname:SIN,		func:eval_sin},
 sinh:		{printname:SINH,	func:eval_sinh},
 sqrt:		{printname:SQRT,	func:eval_sqrt},
