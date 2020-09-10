@@ -46,6 +46,19 @@ power_nib(void)
 	EXPO = pop();
 	BASE = pop();
 
+	if (BASE == symbol(EXP1) && isdouble(EXPO)) {
+		push_double(M_E);
+		BASE = pop();
+	}
+
+	if (BASE == symbol(PI) && isdouble(EXPO)) {
+		push_double(M_PI);
+		BASE = pop();
+	}
+
+	if (power_precheck())
+		return;
+
 	// BASE and EXPO numerical?
 
 	if (isnum(BASE) && isnum(EXPO)) {
@@ -64,33 +77,6 @@ power_nib(void)
 
 	if (istensor(BASE)) {
 		power_tensor();
-		return;
-	}
-
-	// 1^expr = expr^0 = 1
-
-	if (equaln(BASE, 1) || equaln(EXPO, 0)) {
-		if (isdouble(BASE) || isdouble(EXPO))
-			push_double(1.0);
-		else
-			push_integer(1);
-		return;
-	}
-
-	// expr^1 = expr
-
-	if (equaln(EXPO, 1)) {
-		push(BASE);
-		return;
-	}
-
-	// 0^expr unchanged
-
-	if (equaln(BASE, 0)) {
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
 		return;
 	}
 
@@ -144,37 +130,55 @@ power_nib(void)
 	list(3);
 }
 
+int
+power_precheck(void)
+{
+	if (istensor(BASE))
+		return 0;
+
+	// 1^expr = expr^0 = 1
+
+	if (equaln(BASE, 1) || equaln(EXPO, 0)) {
+		if (isdouble(BASE) || isdouble(EXPO))
+			push_double(1.0);
+		else
+			push_integer(1);
+		return 1;
+	}
+
+	// expr^1 = expr
+
+	if (equaln(EXPO, 1)) {
+		push(BASE);
+		return 1;
+	}
+
+	// 0^expr
+
+	if (equaln(BASE, 0)) {
+		if (isnum(EXPO)) {
+			if (isdouble(BASE) || isdouble(EXPO))
+				push_double(0.0);
+			else
+				push_integer(0);
+		} else {
+			push_symbol(POWER);
+			push(BASE);
+			push(EXPO);
+			list(3);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
 // BASE = e
 
 void
 power_natural_number(void)
 {
 	double x, y;
-
-	// e^0 = 1
-
-	if (equaln(EXPO, 0)) {
-		if (isdouble(EXPO))
-			push_double(1.0);
-		else
-			push_integer(1);
-		return;
-	}
-
-	// e^1 = e
-
-	if (equaln(EXPO, 1)) {
-		if (isdouble(EXPO))
-			push_double(M_E);
-		else
-			push_symbol(EXP1);
-		return;
-	}
-
-	if (isdouble(EXPO)) {
-		push_double(exp(EXPO->u.d));
-		return;
-	}
 
 	// exp(x + i y) = exp(x) (cos(y) + i sin(y))
 
@@ -403,19 +407,9 @@ power_sum(void)
 void
 power_imaginary_unit(void)
 {
-	save();
-	power_imaginary_unit_nib();
-	restore();
-}
-
-void
-power_imaginary_unit_nib(void)
-{
 	int c, s;
 	uint32_t *a, *b, *q, *r, *t;
 	double theta, x, y;
-
-	EXPO = pop();
 
 	if (!isnum(EXPO)) {
 		push_symbol(POWER);
@@ -802,6 +796,7 @@ power_complex_rational(void)
 	divide();
 	push(EXPO);
 	multiply();
+	EXPO = pop();
 	power_imaginary_unit();
 
 	// result = sqrt(X^2 + Y^2) ^ (1/2 * EXPO) * (-1) ^ (EXPO * arctan(Y, X) / pi)
@@ -816,24 +811,12 @@ power_numbers(void)
 {
 	double base, expo;
 
-	// 1^N = N^0 = 1
-
-	if (equaln(BASE, 1) || equaln(EXPO, 0)) {
-		if (isdouble(BASE) || isdouble(EXPO))
-			push_double(1.0);
-		else
-			push_integer(1);
-		return;
-	}
-
 	if (equaln(BASE, -1)) {
-		push(EXPO);
 		power_imaginary_unit();
 		return;
 	}
 
 	if (isnegativenumber(BASE)) {
-		push(EXPO);
 		power_imaginary_unit();
 		push(BASE);
 		negate();
@@ -854,9 +837,6 @@ power_numbers(void)
 	push(EXPO);
 	expo = pop_double();
 
-	if (base == 0.0 && expo < 0.0)
-		stop("divide by zero");
-
 	push_double(pow(base, expo));
 }
 
@@ -870,29 +850,6 @@ power_rationals(void)
 	uint32_t *a, *b;
 	uint32_t *base_numer, *base_denom;
 	uint32_t *expo_numer, *expo_denom;
-
-	// 1^N = N^0 = 1
-
-	if (equaln(BASE, 1) || equaln(EXPO, 0)) {
-		push_integer(1);
-		return;
-	}
-
-	// N^1 = N
-
-	if (equaln(EXPO, 1)) {
-		push(BASE);
-		return;
-	}
-
-	// 0^N = 0
-
-	if (equaln(BASE, 0)) {
-		if (EXPO->sign == MMINUS)
-			stop("divide by zero");
-		push_integer(0);
-		return;
-	}
 
 	base_numer = BASE->u.q.a;
 	base_denom = BASE->u.q.b;
