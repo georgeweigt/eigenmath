@@ -46,6 +46,11 @@ power_nib(void)
 	EXPO = pop();
 	BASE = pop();
 
+	if (istensor(BASE)) {
+		power_tensor();
+		return;
+	}
+
 	if (BASE == symbol(EXP1) && isdouble(EXPO)) {
 		push_double(M_E);
 		BASE = pop();
@@ -70,13 +75,6 @@ power_nib(void)
 
 	if (BASE == symbol(EXP1)) {
 		power_natural_number();
-		return;
-	}
-
-	// BASE = tensor ?
-
-	if (istensor(BASE)) {
-		power_tensor();
 		return;
 	}
 
@@ -133,9 +131,6 @@ power_nib(void)
 int
 power_precheck(void)
 {
-	if (istensor(BASE))
-		return 0;
-
 	// 1^expr = expr^0 = 1
 
 	if (equaln(BASE, 1) || equaln(EXPO, 0)) {
