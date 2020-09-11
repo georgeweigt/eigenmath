@@ -6,7 +6,7 @@ eval_clear(p1)
 	binding = {};
 	arglist = {};
 
-//FIXME	run_init_script();
+	initscript();
 
 	restore_binding(symbol(TRACE));
 

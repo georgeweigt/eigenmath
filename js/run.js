@@ -34,6 +34,7 @@ run_nib(s)
 	inbuf = s;
 
 	init();
+	initscript();
 
 	for (;;) {
 
