@@ -51,20 +51,40 @@ b2dag = transpose(b2)
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
 "Eq. 16.22"
+
 dot(b1,b1) + dot(b1,b1) == 0
+check(last == 1)
+
 dot(b1,b2) + dot(b2,b1) == 0
+check(last == 1)
+
 dot(b2,b2) + dot(b2,b2) == 0
+check(last == 1)
 
 "Eq. 16.14"
+
 dot(b1dag,b1dag) + dot(b1dag,b1dag) == 0
+check(last == 1)
+
 dot(b1dag,b2dag) + dot(b2dag,b1dag) == 0
+check(last == 1)
+
 dot(b2dag,b2dag) + dot(b2dag,b2dag) == 0
+check(last == 1)
 
 "Eq. 16.32"
+
 dot(b1dag,b1) + dot(b1,b1dag) == I
+check(last == 1)
+
 dot(b1dag,b2) + dot(b2,b1dag) == 0
+check(last == 1)
+
 dot(b2dag,b1) + dot(b1,b2dag) == 0
+check(last == 1)
+
 dot(b2dag,b2) + dot(b2,b2dag) == I
+check(last == 1)
 
 clear
 
@@ -148,6 +168,7 @@ check(last == 1)
 dot(psihat(x,y),ket011) == sqrt(1/2) (phi(2,x) phi(3,y) - phi(2,y) phi(3,x)) ket000
 check(last == 1)
 
+"All tests passed"
 </textarea>
 </td>
 <td>
