@@ -5,3 +5,6 @@ default:
 
 clean:
 	rm -f eigenmath.js
+
+cp:
+	gsutil cp eigenmath.js gs://www.eigenmath.org

@@ -8,6 +8,9 @@ transpose(n, m)
 
 	ndim = p1.dim.length;
 
+	if (n < 1 || n > ndim || m < 1 || m > ndim)
+		stop("index err");
+
 	n--; // make zero based
 	m--;
 
