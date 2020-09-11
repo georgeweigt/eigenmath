@@ -266,7 +266,7 @@ scan_factor()
 function
 scan_symbol()
 {
-	if (scan_mode && strlen(token_buf) == 1)
+	if (scan_mode == 1 && token_buf.length == 1) {
 		switch (token_buf[0]) {
 		case 'a':
 			push_symbol(METAA);
@@ -281,7 +281,7 @@ scan_symbol()
 			push(lookup(token_buf));
 			break;
 		}
-	else
+	} else
 		push(lookup(token_buf));
 	get_token();
 }

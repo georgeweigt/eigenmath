@@ -11,7 +11,7 @@ integral_lookup(F, h)
 	if ((t & 2) && integral_search(F, h, integral_tab_log))
 		return;
 
-	if ((t & 4) && integral_serach(F, h, integral_tab_trig))
+	if ((t & 4) && integral_search(F, h, integral_tab_trig))
 		return;
 
 	if (car(F) == symbol(POWER))
