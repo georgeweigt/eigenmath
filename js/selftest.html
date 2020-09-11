@@ -30,7 +30,44 @@ dot(xi,Ehat,xi)
 
 check(prefixform(last) == "(* 2.10750 'eV')")
 
-"ok"
+clear()
+
+"Verify anticommutation relations (1=ok)"
+
+ket00 = (1,0,0,0)
+ket10 = (0,1,0,0)
+ket01 = (0,0,1,0)
+ket11 = (0,0,0,1)
+
+b1 = outer(ket00,ket10) - outer(ket01,ket11)
+b2 = outer(ket00,ket01) + outer(ket10,ket11)
+
+b1
+b2
+
+b1dag = transpose(b1)
+b2dag = transpose(b2)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+"Eq. 16.22"
+dot(b1,b1) + dot(b1,b1) == 0
+dot(b1,b2) + dot(b2,b1) == 0
+dot(b2,b2) + dot(b2,b2) == 0
+
+"Eq. 16.14"
+dot(b1dag,b1dag) + dot(b1dag,b1dag) == 0
+dot(b1dag,b2dag) + dot(b2dag,b1dag) == 0
+dot(b2dag,b2dag) + dot(b2dag,b2dag) == 0
+
+"Eq. 16.32"
+dot(b1dag,b1) + dot(b1,b1dag) == I
+dot(b1dag,b2) + dot(b2,b1dag) == 0
+dot(b2dag,b1) + dot(b1,b2dag) == 0
+dot(b2dag,b2) + dot(b2,b2dag) == I
+
+
+
 </textarea>
 </td>
 <td>
