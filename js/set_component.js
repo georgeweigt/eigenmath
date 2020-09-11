@@ -17,7 +17,7 @@ set_component(LVAL, RVAL, h)
 		push(stack[h + i]);
 		t = pop_integer();
 		if (t < 1 || t > LVAL.dim[i])
-			stop("index error");
+			stop("index err");
 		k = k * LVAL.dim[i] + t - 1;
 	}
 
