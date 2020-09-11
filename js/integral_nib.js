@@ -17,8 +17,6 @@ integral_nib(F, X)
 
 	push(F);
 	push(X);
-	collect_coeffs();
-	push(X);
 	decomp();
 
 	integral_lookup(F, h);
