@@ -8,20 +8,12 @@ const MML_RB = "<mo>]</mo></mrow>"
 var mml_buf;
 
 function
-print_mathml()
+print_math()
 {
 	var p1 = pop();
-
-	mml_buf = "<p>";
-
-	if (isstring(p1))
-		mml_string(p1, 0);
-	else {
-		mml_puts("<math>");
-		mml_expr(p1);
-		mml_puts("</math>");
-	}
-
+	mml_buf = "<p><math>";
+	mml_expr(p1);
+	mml_puts("</math>");
 	fputs(mml_buf);
 }
 
@@ -235,7 +227,7 @@ mml_factor(p)
 	}
 
 	if (isstring(p)) {
-		mml_string(p, 1);
+		mml_string(p);
 		return;
 	}
 
@@ -729,14 +721,11 @@ mml_matrix(p, d, k)
 }
 
 function
-mml_string(p, mathmode)
+mml_string(p)
 {
-	var s;
+	var s = p.string;
 
-	if (mathmode)
-		mml_puts("<mtext>");
-
-	s = p.string;
+	mml_puts("<mtext>");
 
 	s = s.replace(/\&/g, "&amp;");
 	s = s.replace(/\</g, "&lt;");
@@ -745,8 +734,7 @@ mml_string(p, mathmode)
 
 	mml_puts(s);
 
-	if (mathmode)
-		mml_puts("</mtext>");
+	mml_puts("</mtext>");
 }
 
 function
