@@ -27,8 +27,8 @@
 function
 power_imaginary_unit(BASE, EXPO)
 {
-	var a, b, c, q, r, s, theta, x, y;
-/*
+	var a, b, c, q, r, s, t, theta, x, y;
+
 	if (!isnum(EXPO)) {
 		push_symbol(POWER);
 		push_integer(-1);
@@ -44,7 +44,7 @@ power_imaginary_unit(BASE, EXPO)
 		}
 		return;
 	}
-*/
+
 	if (equalq(EXPO, 1, 2)) {
 		push(imaginaryunit);
 		if (isdouble(BASE)) {
@@ -98,30 +98,30 @@ power_imaginary_unit(BASE, EXPO)
 
 	q = Math.floor(a / b);
 	r = a % b;
+	t = r + r;
 
-	switch (Math.sign(2 * r - b)) {
-	case -1:
+	if (t < b) {
 		a = r;
 		c = 1;
 		s = 1;
-		break;
-	case 0:
+	}
+
+	if (t == b) {
 		if (EXPO.a >= 0) {
 			a = r;
 			c = 1;
 			s = 1;
 		} else {
-			a = r;
-			b = r;
+			a = b - r;
 			c = -1;
 			s = -1;
 		}
-		break;
-	case 1:
+	}
+
+	if (t > b) {
 		a = b - r;
 		c = -1;
 		s = -1;
-		break;
 	}
 
 	if (q % 2 == 1)
