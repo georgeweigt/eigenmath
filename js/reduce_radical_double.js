@@ -1,9 +1,9 @@
 function
-reduce_radical_double(h, COEF)
+reduce_radical_double(h, COEFF)
 {
-	var a, b, c, i, j, n, p1;
+	var a, b, c, i, n, p1;
 
-	c = COEF.d
+	c = COEFF.d;
 
 	n = stack.length;
 
@@ -21,19 +21,15 @@ reduce_radical_double(h, COEF)
 
 			c = c * Math.pow(a, b); // a > 0 by isradical above
 
-			// remove the factor
+			stack.splice(i, 1); // remove factor
 
-			for (j = i + 1; j < n; j++)
-				stack[j - 1] = stack[j];
-
-			i--;
+			i--; // use same index again
 			n--;
-			stack.pop();
 		}
 	}
 
 	push_double(c);
-	COEF = pop();
+	COEFF = pop();
 
-	return COEF;
+	return COEFF;
 }
