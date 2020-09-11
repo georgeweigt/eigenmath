@@ -11,5 +11,4 @@ darctan(p1, p2)
 	add();
 	reciprocate();
 	multiply();
-	simplify();
 }

@@ -14,7 +14,6 @@ abs()
 		inner();
 		push_rational(1, 2);
 		power();
-		simplify();
 		return;
 	}
 
