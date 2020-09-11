@@ -1,12 +1,12 @@
 function
-reduce_radical_factors(h, COEF)
+reduce_radical_rational(h, COEFF)
 {
-	var i, j, k, n, p1, p2, NUMER, DENOM, BASE1, EXPO1;
+	var i, k, n, p1, p2, NUMER, DENOM, BASE, EXPO;
 
-	if (isplusone(COEF) || isminusone(COEF))
-		return; // COEF has no factors, no cancellation is possible
+	if (isplusone(COEFF) || isminusone(COEFF))
+		return COEFF; // COEFF has no factors, no cancellation is possible
 
-	push(COEF);
+	push(COEFF);
 	abs();
 	p1 = pop();
 
@@ -26,37 +26,37 @@ reduce_radical_factors(h, COEF)
 		p1 = stack[i];
 		if (!isradical(p1))
 			continue;
-		BASE1 = cadr(p1);
-		EXPO1 = caddr(p1);
-		if (isnegativenumber(EXPO1)) {
-			mod_integers(NUMER, BASE1);
+		BASE = cadr(p1);
+		EXPO = caddr(p1);
+		if (isnegativenumber(EXPO)) {
+			mod_integers(NUMER, BASE);
 			p2 = pop();
 			if (iszero(p2)) {
 				push(NUMER);
-				push(BASE1);
+				push(BASE);
 				divide();
 				NUMER = pop();
 				push_symbol(POWER);
-				push(BASE1);
+				push(BASE);
 				push_integer(1);
-				push(EXPO1);
+				push(EXPO);
 				add();
 				list(3);
 				stack[i] = pop();
 				k++;
 			}
 		} else {
-			mod_integers(DENOM, BASE1);
+			mod_integers(DENOM, BASE);
 			p2 = pop();
 			if (iszero(p2)) {
 				push(DENOM);
-				push(BASE1);
+				push(BASE);
 				divide();
 				DENOM = pop();
 				push_symbol(POWER);
-				push(BASE1);
+				push(BASE);
 				push_integer(-1);
-				push(EXPO1);
+				push(EXPO);
 				add();
 				list(3);
 				stack[i] = pop();
@@ -69,10 +69,10 @@ reduce_radical_factors(h, COEF)
 		push(NUMER);
 		push(DENOM);
 		divide();
-		if (isnegativenumber(COEF))
+		if (isnegativenumber(COEFF))
 			negate();
-		COEF = pop();
+		COEFF = pop();
 	}
 
-	return COEF;
+	return COEFF;
 }

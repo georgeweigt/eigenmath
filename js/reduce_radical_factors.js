@@ -1,14 +1,11 @@
 function
-reduce_radical_factors(h, coeff)
+reduce_radical_factors(h, COEFF)
 {
-	if (iszero(coeff))
-		return coeff;
-
 	if (!any_radical_factors(h))
-		return;
+		return COEFF;
 
-	if (isrational(coeff))
-		return reduce_radical_rational(h, coeff);
+	if (isrational(COEFF))
+		return reduce_radical_rational(h, COEFF);
 	else
-		return reduce_radical_double(h, coeff);
+		return reduce_radical_double(h, COEFF);
 }

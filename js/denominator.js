@@ -4,6 +4,12 @@ denominator()
 	var p0, p1, p2;
 
 	p1 = pop();
+
+	if (isrational(p1)) {
+		push_integer(p1.b);
+		return;
+	}
+
 	p2 = one;
 
 	while (cross_expr(p1)) {

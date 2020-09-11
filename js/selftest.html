@@ -30,7 +30,7 @@ dot(xi,Ehat,xi)
 
 check(prefixform(last) == "(* 2.10750 'eV')")
 
-clear()
+clear
 
 "Verify anticommutation relations (1=ok)"
 
@@ -66,6 +66,39 @@ dot(b1dag,b2) + dot(b2,b1dag) == 0
 dot(b2dag,b1) + dot(b1,b2dag) == 0
 dot(b2dag,b2) + dot(b2,b2dag) == I
 
+clear
+
+phi(n,x) = sqrt(2 / L) expsin(n pi x / L)
+
+ket00 = (1,0,0,0)
+ket10 = (0,1,0,0)
+ket01 = (0,0,1,0)
+ket11 = (0,0,0,1)
+
+b1 = outer(ket00,ket10) - outer(ket01,ket11)
+b2 = outer(ket00,ket01) + outer(ket10,ket11)
+
+b1dag = transpose(b1)
+b2dag = transpose(b2)
+
+psihat(x,y) = sqrt(1/2) dot(b1,b1) phi(1,x) phi(1,y) +
+              sqrt(1/2) dot(b1,b2) phi(1,x) phi(2,y) +
+              sqrt(1/2) dot(b2,b1) phi(2,x) phi(1,y) +
+              sqrt(1/2) dot(b2,b2) phi(2,x) phi(2,y)
+
+"Left hand side"
+
+A = dot(psihat(x,y),ket11)
+A
+
+"Right hand side"
+
+B = sqrt(1/2) (phi(1,x) phi(2,y) - phi(1,y) phi(2,x)) ket00
+B
+
+"Verify A equals B (1=ok)"
+
+check(A == B)
 
 
 </textarea>

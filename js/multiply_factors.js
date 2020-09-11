@@ -35,7 +35,7 @@ multiply_factors(n)
 
 	COEFF = collect_numerical_factors(h, COEFF);
 
-//FIXME	COEFF = reduce_radical_factors(h, COEFF);
+	COEFF = reduce_radical_factors(h, COEFF);
 
 	if (!isplusone(COEFF) || isdouble(COEFF))
 		push(COEFF);
