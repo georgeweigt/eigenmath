@@ -1,24 +1,22 @@
-// p is arg subst list
-
 function
-rewrite(p)
+rewrite(p0) // p0 is arg subst list
 {
-	var h, i, m, n, p1, p2;
+	var count, h, i, n, p1, p2;
 
 	p1 = pop();
 
-	n = 0;
+	count = 0;
 
 	if (istensor(p1)) {
 		p1 = copy_tensor(p1);
-		m = p1.elem.length;
-		for (i = 0; i < m; i++) {
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			n += rewrite(p);
+			count += rewrite(p0);
 			p1.elem[i] = pop();
 		}
 		push(p1);
-		return n;
+		return count;
 	}
 
 	if (iscons(p1)) {
@@ -30,13 +28,13 @@ rewrite(p)
 
 		while (iscons(p1)) {
 			push(car(p1));
-			n += rewrite(p);
+			count += rewrite(p0);
 			p1 = cdr(p1);
 		}
 
 		list(stack.length - h);
 
-		return n;
+		return count;
 	}
 
 	// if not a symbol then done
@@ -48,7 +46,7 @@ rewrite(p)
 
 	// check argument substitution list
 
-	p2 = p;
+	p2 = p0;
 	while (iscons(p2)) {
 		if (p1 == car(p2)) {
 			push(cadr(p2));
@@ -68,12 +66,12 @@ rewrite(p)
 
 	push(p2);
 
-	n = rewrite(p);
+	count = rewrite(p0);
 
-	if (n == 0) {
+	if (count == 0) {
 		pop(); // undo
 		push(p1);
 	}
 
-	return n;
+	return count;
 }
