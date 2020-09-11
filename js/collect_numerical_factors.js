@@ -1,5 +1,5 @@
 function
-collect_numerical_factors(h, coeff)
+collect_numerical_factors(h, COEFF)
 {
 	var i, n, p1;
 
@@ -10,16 +10,13 @@ collect_numerical_factors(h, coeff)
 		p1 = stack[i];
 
 		if (isnum(p1)) {
-			multiply_numbers(coeff, p1);
-			coeff = pop();
+			multiply_numbers(COEFF, p1);
+			COEFF = pop();
 			stack.splice(i, 1); // remove factor
 			i--;
 			n--;
 		}
 	}
 
-	if (iszero(coeff))
-		stack.splice(h, stack.length); // pop all
-
-	return coeff
+	return COEFF;
 }

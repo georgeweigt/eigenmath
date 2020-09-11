@@ -3,7 +3,7 @@
 function
 multiply_factors(n)
 {
-	var h, coeff, tfact;
+	var h, COEFF, TFACT;
 
 	if (n < 2)
 		return;
@@ -19,12 +19,13 @@ multiply_factors(n)
 
 	flatten_factors(h);
 
-	tfact = tensor_factor(h);
+	TFACT = tensor_factor(h);
 
-	coeff = collect_numerical_factors(h, one);
+	COEFF = collect_numerical_factors(h, one);
 
-	if (iszero(coeff)) {
-		push(coeff);
+	if (iszero(COEFF)) {
+		stack.splice(h); // pop all
+		push(COEFF);
 		return;
 	}
 
@@ -32,12 +33,12 @@ multiply_factors(n)
 
 	normalize_power_factors(h);
 
-	coeff = collect_numerical_factors(h, coeff);
+	COEFF = collect_numerical_factors(h, COEFF);
 
-//	coeff = reduce_radical_factors(h, coeff);
+//FIXME	COEFF = reduce_radical_factors(h, COEFF);
 
-	if (isdouble(coeff) || !isplusone(coeff))
-		push(coeff);
+	if (!isplusone(COEFF) || isdouble(COEFF))
+		stack.splice(h, 0, COEFF);
 
 	if (expanding)
 		expand_sum_factors(h); // success leaves one expr on stack
@@ -59,8 +60,8 @@ multiply_factors(n)
 		break;
 	}
 
-	if (istensor(tfact)) {
-		push(tfact);
+	if (istensor(TFACT)) {
+		push(TFACT);
 		inner();
 	}
 }
