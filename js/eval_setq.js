@@ -6,12 +6,12 @@ eval_setq(p1)
 	push_symbol(NIL); // result
 
 	if (caadr(p1) == symbol(INDEX)) {
-		setq_indexed();
+		setq_indexed(p1);
 		return;
 	}
 
 	if (iscons(cadr(p1))) {
-		setq_userfunc();
+		setq_userfunc(p1);
 		return;
 	}
 
