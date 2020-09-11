@@ -38,7 +38,7 @@ multiply_factors(n)
 //FIXME	COEFF = reduce_radical_factors(h, COEFF);
 
 	if (!isplusone(COEFF) || isdouble(COEFF))
-		stack.splice(h, 0, COEFF);
+		push(COEFF);
 
 	if (expanding)
 		expand_sum_factors(h); // success leaves one expr on stack

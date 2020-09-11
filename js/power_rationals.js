@@ -3,7 +3,7 @@
 function
 power_rationals(BASE, EXPO)
 {
-	var a, b, i, h, n, coeff, p1;
+	var a, b, i, h, n, COEFF, p1;
 
 	// if EXPO is -1 then return reciprocal of BASE
 
@@ -51,17 +51,17 @@ power_rationals(BASE, EXPO)
 
 	// multiply rationals
 
-	coeff = one;
+	COEFF = one;
 
 	n = stack.length;
 
 	for (i = h; i < n; i++) {
 		p1 = stack[i];
 		if (isnum(p1)) {
-			push(coeff);
+			push(COEFF);
 			push(p1);
 			multiply();
-			coeff = pop();
+			COEFF = pop();
 			stack.splice(i);
 			i--;
 			n--;
@@ -70,8 +70,8 @@ power_rationals(BASE, EXPO)
 
 	// finalize
 
-	if (!isplusone(coeff))
-		push(coeff);
+	if (!isplusone(COEFF))
+		push(COEFF);
 
 	n = stack.length - h;
 
