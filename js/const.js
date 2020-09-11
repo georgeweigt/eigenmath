@@ -99,14 +99,3 @@ const SYMBOL_T = "t";
 const SYMBOL_X = "x";
 const SYMBOL_Y = "y";
 const SYMBOL_Z = "z";
-
-const T_INTEGER = 1001;
-const T_DOUBLE = 1002;
-const T_SYMBOL = 1003;
-const T_FUNCTION = 1004;
-const T_NEWLINE = 1005
-const T_STRING = 1006
-const T_GTEQ = 1007
-const T_LTEQ = 1008
-const T_EQ = 1009
-const T_END = 1010

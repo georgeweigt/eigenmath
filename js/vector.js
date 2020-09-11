@@ -1,5 +1,5 @@
 function
-build_tensor(h)
+vector(h)
 {
 	var n, p;
 

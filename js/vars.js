@@ -12,15 +12,6 @@ var inbuf;
 var trace1;
 var trace2;
 
-var scan_mode;
-var instring;
-var scan_length;
-var scan_index;
-var scan_level;
-var token;
-var token_index;
-var token_buf;
-
 var symtab = {
 abs:		{printname:ABS,		func:eval_abs},
 adj:		{printname:ADJ,		func:eval_adj},
