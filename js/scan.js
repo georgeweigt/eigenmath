@@ -26,10 +26,10 @@ scan(s, k)
 }
 
 function
-scan1(s, k)
+scan1(s)
 {
 	scan_mode = 1; // mode for table of integrals
-	return scan_nib(s, k);
+	return scan_nib(s, 0);
 }
 
 function
