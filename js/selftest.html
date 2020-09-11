@@ -86,20 +86,67 @@ psihat(x,y) = sqrt(1/2) dot(b1,b1) phi(1,x) phi(1,y) +
               sqrt(1/2) dot(b2,b1) phi(2,x) phi(1,y) +
               sqrt(1/2) dot(b2,b2) phi(2,x) phi(2,y)
 
-"Left hand side"
+"Wavefunction operator"
 
-A = dot(psihat(x,y),ket11)
-A
+psihat
 
-"Right hand side"
+"Verify wavefunction operator (1=ok)"
 
-B = sqrt(1/2) (phi(1,x) phi(2,y) - phi(1,y) phi(2,x)) ket00
-B
+dot(psihat(x,y),ket11) == sqrt(1/2) (phi(1,x) phi(2,y) - phi(1,y) phi(2,x)) ket00
+check(last == 1)
 
-"Verify A equals B (1=ok)"
+clear
 
-check(A == B)
+phi(n,x) = sqrt(2 / L) sin(n pi x / L)
 
+ket000 = (1,0,0,0,0,0,0)
+ket100 = (0,1,0,0,0,0,0)
+ket010 = (0,0,1,0,0,0,0)
+ket001 = (0,0,0,1,0,0,0)
+ket110 = (0,0,0,0,1,0,0)
+ket101 = (0,0,0,0,0,1,0)
+ket011 = (0,0,0,0,0,0,1)
+
+b1dag = outer(ket100,ket000) -
+        outer(ket110,ket010) -
+        outer(ket101,ket001)
+
+b2dag = outer(ket010,ket000) +
+        outer(ket110,ket100) -
+        outer(ket011,ket001)
+
+b3dag = outer(ket001,ket000) +
+        outer(ket101,ket100) +
+        outer(ket011,ket010)
+
+b1 = transpose(b1dag)
+b2 = transpose(b2dag)
+b3 = transpose(b3dag)
+
+psihat(x,y) = sqrt(1/2) phi(1,x) phi(1,y) dot(b1,b1) +
+              sqrt(1/2) phi(1,x) phi(2,y) dot(b1,b2) +
+              sqrt(1/2) phi(1,x) phi(3,y) dot(b1,b3) +
+              sqrt(1/2) phi(2,x) phi(1,y) dot(b2,b1) +
+              sqrt(1/2) phi(2,x) phi(2,y) dot(b2,b2) +
+              sqrt(1/2) phi(2,x) phi(3,y) dot(b2,b3) +
+              sqrt(1/2) phi(3,x) phi(1,y) dot(b3,b1) +
+              sqrt(1/2) phi(3,x) phi(2,y) dot(b3,b2) +
+              sqrt(1/2) phi(3,x) phi(3,y) dot(b3,b3)
+
+"Wavefunction operator"
+
+psihat
+
+"Verify wavefunction operator (1=ok)"
+
+dot(psihat(x,y),ket110) == sqrt(1/2) (phi(1,x) phi(2,y) - phi(1,y) phi(2,x)) ket000
+check(last == 1)
+
+dot(psihat(x,y),ket101) == sqrt(1/2) (phi(1,x) phi(3,y) - phi(1,y) phi(3,x)) ket000
+check(last == 1)
+
+dot(psihat(x,y),ket011) == sqrt(1/2) (phi(2,x) phi(3,y) - phi(2,y) phi(3,x)) ket000
+check(last == 1)
 
 </textarea>
 </td>
