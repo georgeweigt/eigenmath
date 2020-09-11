@@ -32,7 +32,7 @@ power_natural_number(BASE, EXPO)
 		return;
 	}
 
-	if (simplify_polar_expr(EXPR))
+	if (simplify_polar_expr(EXPO))
 		return;
 
 	// none of the above
