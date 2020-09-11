@@ -4,7 +4,7 @@ eval_symbol(p1)
 	var p2;
 
 	if (iscons(p1)) {
-		eval_user_function(p1);
+		eval_userfunc(p1);
 		return;
 	}
 

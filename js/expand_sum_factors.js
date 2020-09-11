@@ -10,7 +10,7 @@ expand_sum_factors(h)
 
 	// search for a sum factor
 
-	for (i = 0; i < n; i++) {
+	for (i = h; i < n; i++) {
 		p2 = stack[i];
 		if (car(p2) == symbol(ADD))
 			break;
@@ -23,10 +23,10 @@ expand_sum_factors(h)
 
 	stack.splice(i, 1);
 
-	n--;
+	n = stack.length - h;
 
 	if (n > 1) {
-		sort_factors(n);
+		sort_factors(h);
 		list(n);
 		push_symbol(MULTIPLY);
 		swap();
@@ -35,7 +35,7 @@ expand_sum_factors(h)
 
 	p1 = pop(); // p1 is the multiplier
 
-	p2 = cdr(p2); // p2 is the sum factor
+	p2 = cdr(p2); // p2 is the sum
 
 	while (iscons(p2)) {
 		push(p1);

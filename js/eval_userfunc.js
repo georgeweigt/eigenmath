@@ -1,5 +1,5 @@
 function
-eval_user_function(p1)
+eval_userfunc(p1)
 {
 	var h, p2, F, A, B, S;
 
@@ -51,5 +51,16 @@ eval_user_function(p1)
 	if (iscons(S))
 		rewrite(S);
 
+p1 = pop();
+print("eval_userfunc_1 stack.length=" + String(stack.length));
+push(p1);
+print(prefixform(p1));
+
 	evalf();
+
+p1 = pop();
+print("eval_userfunc_2 stack.length=" + String(stack.length));
+push(p1);
+print(prefixform(p1));
+
 }
