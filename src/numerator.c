@@ -12,8 +12,19 @@ void
 numerator(void)
 {
 	save();
+	numerator_nib();
+	restore();
+}
 
+void
+numerator_nib(void)
+{
 	p1 = pop();
+
+	if (isrational(p1)) {
+		push_rational_number(p1->sign, mcopy(p1->u.q.a), mint(1));
+		return;
+	}
 
 	while (cross_expr(p1)) {
 		push(p1);
@@ -22,6 +33,4 @@ numerator(void)
 	}
 
 	push(p1);
-
-	restore();
 }
