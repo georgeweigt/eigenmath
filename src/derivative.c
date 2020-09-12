@@ -46,6 +46,8 @@ eval_derivative(void)
 		if (isnum(X)) {
 			push(X);
 			n = pop_integer();
+			if (n == ERR)
+				stop("derivative: integer expected");
 			guess();
 			X = pop();
 			for (i = 0; i < n; i++) {
@@ -65,6 +67,8 @@ eval_derivative(void)
 			if (isnum(Y)) {
 				push(Y);
 				n = pop_integer();
+				if (n == ERR)
+					stop("derivative: integer expected");
 				for (i = 0; i < n; i++) {
 					push(X);
 					derivative();

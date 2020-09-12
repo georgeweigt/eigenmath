@@ -682,6 +682,8 @@ eval_integral(void)
 		if (isnum(X)) {
 			push(X);
 			n = pop_integer();
+			if (n == ERR)
+				stop("integral: integer expected");
 			guess();
 			X = pop();
 			for (i = 0; i < n; i++) {
@@ -704,6 +706,8 @@ eval_integral(void)
 			if (isnum(Y)) {
 				push(Y);
 				n = pop_integer();
+				if (n == ERR)
+					stop("integral: integer expected");
 				for (i = 0; i < n; i++) {
 					push(X);
 					integral();

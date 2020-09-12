@@ -65,5 +65,6 @@ eval_integral(p1)
 		push(X);
 		integral();
 	}
+
 	expanding--;
 }
