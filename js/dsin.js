@@ -1,10 +1,10 @@
 function
-dsin(p1, p2)
+dsin(F, X)
 {
-	push(cadr(p1));
-	push(p2);
+	push(cadr(F));
+	push(X);
 	derivative();
-	push(cadr(p1));
+	push(cadr(F));
 	cos();
 	multiply();
 }

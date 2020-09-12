@@ -1,7 +1,7 @@
 function
 eval_derivative(p1)
 {
-	var i, n, p2, state, N, X;
+	var i, n, state, X, Y;
 
 	push(cadr(p1));
 	evalf();
@@ -15,15 +15,17 @@ eval_derivative(p1)
 
 	state = 0;
 
-	while (iscons(p1)) {
+	while (iscons(p1) || state == 1) {
 
-		if (state == 0) {
+		if (state == 1) {
+			X = Y;
+			state = 0;
+		} else {
 			push(car(p1));
 			evalf();
 			X = pop();
 			p1 = cdr(p1);
-		} else
-			state = 0;
+		}
 
 		if (isnum(X)) {
 			push(X);
@@ -40,26 +42,28 @@ eval_derivative(p1)
 		if (!isusersymbol(X))
 			stop("symbol expected");
 
-		push(car(p1));
-		evalf();
-		N = pop();
-		p1 = cdr(p1);
+		if (iscons(p1)) {
 
-		if (isnum(N)) {
-			push(N);
-			n = pop_integer();
-			for (i = 0; i < n; i++) {
-				push(X);
-				derivative();
+			push(car(p1));
+			evalf();
+			Y = pop();
+			p1 = cdr(p1);
+
+			if (isnum(Y)) {
+				push(Y);
+				n = pop_integer();
+				for (i = 0; i < n; i++) {
+					push(X);
+					derivative();
+				}
+				continue;
 			}
-			continue;
+
+			state = 1;
 		}
 
 		push(X);
 		derivative();
-
-		X = N;
-		state = 1;
 	}
 }
 
