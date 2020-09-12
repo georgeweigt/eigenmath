@@ -1,9 +1,7 @@
 function
 numerator()
 {
-	var p1;
-
-	p1 = pop();
+	var p1 = pop();
 
 	if (isrational(p1)) {
 		push_integer(p1.a);
