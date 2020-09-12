@@ -633,22 +633,30 @@ char *integral_tab[] = {
 	NULL,
 };
 
+// examples
+//
+// integral(f)
+// integral(f,2)
+// integral(f,x)
+// integral(f,x,2)
+// integral(f,x,y)
+
+#undef X
+#undef Y
+
+#define X p4
+#define Y p5
+
 void
 eval_integral(void)
 {
-	int i, n;
+	int i, n, flag;
 
 	expanding++;
 
-	// 1st arg
-
-	p1 = cdr(p1);
-	push(car(p1));
+	push(cadr(p1));
 	eval();
-
-	// check for single arg
-
-	p1 = cdr(p1);
+	p1 = cddr(p1);
 
 	if (!iscons(p1)) {
 		guess();
@@ -657,35 +665,57 @@ eval_integral(void)
 		return;
 	}
 
-	while (iscons(p1)) {
+	flag = 0;
 
-		// next arg should be a symbol
+	while (iscons(p1) || flag) {
 
-		push(car(p1)); // have to eval in case of $METAX
-		eval();
-		p2 = pop();
-
-		if (!issymbol(p2))
-			stop("integral: symbol expected");
-
-		p1 = cdr(p1);
-
-		// if next arg is a number then use it
-
-		n = 1;
-
-		if (isnum(car(p1))) {
+		if (flag) {
+			X = Y;
+			flag = 0;
+		} else {
 			push(car(p1));
-			n = pop_integer();
-			if (n < 1)
-				stop("nth integral: check n");
+			eval();
+			X = pop();
 			p1 = cdr(p1);
 		}
 
-		for (i = 0; i < n; i++) {
-			push(p2);
-			integral();
+		if (isnum(X)) {
+			push(X);
+			n = pop_integer();
+			guess();
+			X = pop();
+			for (i = 0; i < n; i++) {
+				push(X);
+				integral();
+			}
+			continue;
 		}
+
+		if (!issymbol(X))
+			stop("integral: symbol expected");
+
+		if (iscons(p1)) {
+
+			push(car(p1));
+			eval();
+			Y = pop();
+			p1 = cdr(p1);
+
+			if (isnum(Y)) {
+				push(Y);
+				n = pop_integer();
+				for (i = 0; i < n; i++) {
+					push(X);
+					integral();
+				}
+				continue;
+			}
+
+			flag = 1;
+		}
+
+		push(X);
+		integral();
 	}
 
 	expanding--;

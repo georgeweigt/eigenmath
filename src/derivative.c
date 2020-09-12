@@ -1,128 +1,83 @@
 #include "defs.h"
 
-#undef F
-#undef X
-#undef N
+// examples
+//
+// d(f)
+// d(f,2)
+// d(f,x)
+// d(f,x,2)
+// d(f,x,y)
 
-#define F p3
+#undef X
+#undef Y
+
 #define X p4
-#define N p5
+#define Y p5
 
 void
 eval_derivative(void)
 {
-	int i, n;
+	int flag, i, n;
 
-	// evaluate 1st arg to get function F
-
-	p1 = cdr(p1);
-	push(car(p1));
+	push(cadr(p1));
 	eval();
+	p1 = cddr(p1);
 
-	// evaluate 2nd arg and then...
-
-	// example	result of 2nd arg	what to do
-	//
-	// d(f)		nil			guess X, N = nil
-	// d(f,2)	2			guess X, N = 2
-	// d(f,x)	x			X = x, N = nil
-	// d(f,x,2)	x			X = x, N = 2
-	// d(f,x,y)	x			X = x, N = y
-
-	p1 = cdr(p1);
-	push(car(p1));
-	eval();
-
-	p2 = pop();
-	if (p2 == symbol(NIL)) {
+	if (!iscons(p1)) {
 		guess();
-		push_symbol(NIL);
-	} else if (isnum(p2)) {
-		guess();
-		push(p2);
-	} else {
-		push(p2);
-		p1 = cdr(p1);
-		push(car(p1));
-		eval();
+		derivative();
+		return;
 	}
 
-	N = pop();
-	X = pop();
-	F = pop();
+	flag = 0;
 
-	while (1) {
+	while (iscons(p1) || flag) {
 
-		// N might be a symbol instead of a number
+		if (flag) {
+			X = Y;
+			flag = 0;
+		} else {
+			push(car(p1));
+			eval();
+			X = pop();
+			p1 = cdr(p1);
+		}
 
-		if (isnum(N)) {
-			push(N);
+		if (isnum(X)) {
+			push(X);
 			n = pop_integer();
-			if (n == ERR)
-				stop("nth derivative: check n");
-		} else
-			n = 1;
-
-		push(F);
-
-		if (n >= 0) {
+			guess();
+			X = pop();
 			for (i = 0; i < n; i++) {
 				push(X);
 				derivative();
 			}
-		} else {
-			n = -n;
-			for (i = 0; i < n; i++) {
-				push(X);
-				integral();
-			}
+			continue;
 		}
 
-		F = pop();
+		if (iscons(p1)) {
 
-		// if N is nil then arglist is exhausted
-
-		if (N == symbol(NIL))
-			break;
-
-		// otherwise...
-
-		// N		arg1		what to do
-		//
-		// number	nil		break
-		// number	number		N = arg1, continue
-		// number	symbol		X = arg1, N = arg2, continue
-		//
-		// symbol	nil		X = N, N = nil, continue
-		// symbol	number		X = N, N = arg1, continue
-		// symbol	symbol		X = N, N = arg1, continue
-
-		if (isnum(N)) {
-			p1 = cdr(p1);
 			push(car(p1));
 			eval();
-			N = pop();
-			if (N == symbol(NIL))
-				break;		// arglist exhausted
-			if (isnum(N))
-				;		// N = arg1
-			else {
-				X = N;		// X = arg1
-				p1 = cdr(p1);
-				push(car(p1));
-				eval();
-				N = pop();	// N = arg2
+			Y = pop();
+			p1 = cdr(p1);
+
+			if (isnum(Y)) {
+				push(Y);
+				n = pop_integer();
+				for (i = 0; i < n; i++) {
+					push(X);
+					derivative();
+				}
+				continue;
 			}
-		} else {
-			X = N;			// X = N
-			p1 = cdr(p1);
-			push(car(p1));
-			eval();
-			N = pop();		// N = arg1
+
+			flag = 1;
 		}
+
+		push(X);
+		derivative();
 	}
-
-	push(F); // final result
 }
 
 void

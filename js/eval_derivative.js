@@ -1,7 +1,7 @@
 function
 eval_derivative(p1)
 {
-	var i, n, state, X, Y;
+	var i, n, flag, X, Y;
 
 	push(cadr(p1));
 	evalf();
@@ -13,13 +13,13 @@ eval_derivative(p1)
 		return;
 	}
 
-	state = 0;
+	flag = 0;
 
-	while (iscons(p1) || state == 1) {
+	while (iscons(p1) || flag) {
 
-		if (state == 1) {
+		if (flag) {
 			X = Y;
-			state = 0;
+			flag = 0;
 		} else {
 			push(car(p1));
 			evalf();
@@ -39,9 +39,6 @@ eval_derivative(p1)
 			continue;
 		}
 
-		if (!isusersymbol(X))
-			stop("symbol expected");
-
 		if (iscons(p1)) {
 
 			push(car(p1));
@@ -59,7 +56,7 @@ eval_derivative(p1)
 				continue;
 			}
 
-			state = 1;
+			flag = 1;
 		}
 
 		push(X);
