@@ -1,5 +1,5 @@
 function
-d_tensor_scalar(p1, p2)
+dts(p1, p2)
 {
 	var i, n, p3;
 

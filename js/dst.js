@@ -1,5 +1,5 @@
 function
-d_scalar_tensor(p1, p2)
+dst(p1, p2)
 {
 	var i, n, p3;
 

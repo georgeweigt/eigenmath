@@ -1,19 +1,20 @@
 function
 derivative()
 {
-	var p1, p2;
+	var F, X;
 
-	p2 = pop();
-	p1 = pop();
+	X = pop();
+	F = pop();
 
-	if (istensor(p1))
-		if (istensor(p2))
-			d_tensor_tensor(p1, p2);
+	if (istensor(F)) {
+		if (istensor(X))
+			dtt(F, X);
 		else
-			d_tensor_scalar(p1, p2);
-	else
-		if (istensor(p2))
-			d_scalar_tensor(p1, p2);
+			dts(F, X);
+	} else {
+		if (istensor(X))
+			dst(F, X);
 		else
-			d_scalar_scalar(p1, p2);
+			dss(F, X);
+	}
 }

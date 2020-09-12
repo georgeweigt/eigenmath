@@ -6,7 +6,7 @@ eval_userfunc(p1)
 	// use "derivative" instead of "d" if there is no user function "d"
 
 	if (car(p1) == symbol(SYMBOL_D) && get_arglist(symbol(SYMBOL_D)) == symbol(NIL)) {
-		eval_derivative();
+		eval_derivative(p1);
 		return;
 	}
 

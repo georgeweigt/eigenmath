@@ -1,116 +1,72 @@
 function
 eval_derivative(p1)
 {
-	var i, n, p2, F, N, X;
+	var i, n, p2, state, N, X;
 
-	// evaluate 1st arg to get function F
-
-	p1 = cdr(p1);
-	push(car(p1));
+	push(cadr(p1));
 	evalf();
+	p1 = cddr(p1);
 
-	// evaluate 2nd arg and then...
-
-	// example	result of 2nd arg	what to do
-	//
-	// d(f)		nil			guess X, N = nil
-	// d(f,2)	2			guess X, N = 2
-	// d(f,x)	x			X = x, N = nil
-	// d(f,x,2)	x			X = x, N = 2
-	// d(f,x,y)	x			X = x, N = y
-
-	p1 = cdr(p1);
-	push(car(p1));
-	evalf();
-
-	p2 = pop();
-	if (p2 == symbol(NIL)) {
+	if (!iscons(p1)) {
 		guess();
-		push_symbol(NIL);
-	} else if (isnum(p2)) {
-		guess();
-		push(p2);
-	} else {
-		push(p2);
-		p1 = cdr(p1);
-		push(car(p1));
-		evalf();
+		derivative();
+		return;
 	}
 
-	N = pop();
-	X = pop();
-	F = pop();
+	state = 0;
 
-	for (;;) {
+	while (iscons(p1)) {
 
-		// N might be a symbol instead of a number
-
-		if (isnum(N)) {
-			push(N);
-			n = pop_integer();
-			if (n == ERR)
-				stop("nth derivative: check n");
+		if (state == 0) {
+			push(car(p1));
+			evalf();
+			X = pop();
+			p1 = cdr(p1);
 		} else
-			n = 1;
+			state = 0;
 
-		push(F);
-
-		if (n >= 0) {
+		if (isnum(X)) {
+			push(X);
+			n = pop_integer();
+			guess();
+			X = pop();
 			for (i = 0; i < n; i++) {
 				push(X);
 				derivative();
 			}
-		} else {
-			n = -n;
-			for (i = 0; i < n; i++) {
-				push(X);
-				integral();
-			}
+			continue;
 		}
 
-		F = pop();
+		if (!isusersymbol(X))
+			stop("symbol expected");
 
-		// if N is nil then arglist is exhausted
-
-		if (N == symbol(NIL))
-			break;
-
-		// otherwise...
-
-		// N		arg1		what to do
-		//
-		// number	nil		break
-		// number	number		N = arg1, continue
-		// number	symbol		X = arg1, N = arg2, continue
-		//
-		// symbol	nil		X = N, N = nil, continue
-		// symbol	number		X = N, N = arg1, continue
-		// symbol	symbol		X = N, N = arg1, continue
+		push(car(p1));
+		evalf();
+		N = pop();
+		p1 = cdr(p1);
 
 		if (isnum(N)) {
-			p1 = cdr(p1);
-			push(car(p1));
-			evalf();
-			N = pop();
-			if (N == symbol(NIL))
-				break;		// arglist exhausted
-			if (isnum(N))
-				;		// N = arg1
-			else {
-				X = N;		// X = arg1
-				p1 = cdr(p1);
-				push(car(p1));
-				evalf();
-				N = pop();	// N = arg2
+			push(N);
+			n = pop_integer();
+			for (i = 0; i < n; i++) {
+				push(X);
+				derivative();
 			}
-		} else {
-			X = N;			// X = N
-			p1 = cdr(p1);
-			push(car(p1));
-			evalf();
-			N = pop();		// N = arg1
+			continue;
 		}
-	}
 
-	push(F); // final result
+		push(X);
+		derivative();
+
+		X = N;
+		state = 1;
+	}
 }
+
+// examples
+//
+// d(f)
+// d(f,2)
+// d(f,x)
+// d(f,x,2)
+// d(f,x,y)

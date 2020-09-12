@@ -1,5 +1,5 @@
 function
-d_tensor_tensor(p1, p2)
+dtt(p1, p2)
 {
 	var i, j, m, n, p3;
 
