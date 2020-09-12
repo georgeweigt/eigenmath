@@ -8,3 +8,4 @@ clean:
 
 cp:
 	gsutil cp eigenmath.js gs://www.eigenmath.org
+	cp eigenmath.js ~/Documents/GitHub/work
