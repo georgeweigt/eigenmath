@@ -1,22 +1,22 @@
 function
 factor()
 {
-	var numer, denom, FARG, BASE, EXPO;
+	var numer, denom, INPUT, BASE, EXPO;
 
-	FARG = pop();
+	INPUT = pop();
 
-	if (car(FARG) == symbol(POWER)) {
+	if (car(INPUT) == symbol(POWER)) {
 
-		BASE = cadr(FARG);
-		EXPO = caddr(FARG);
+		BASE = cadr(INPUT);
+		EXPO = caddr(INPUT);
 
 		if (!isrational(BASE) || !isrational(EXPO)) {
-			push(FARG); // cannot factor
+			push(INPUT); // cannot factor
 			return;
 		}
 
 		if (equaln(BASE, -1)) {
-			push(FARG); // -1 to the M
+			push(INPUT); // -1 to the M
 			return;
 		}
 
@@ -45,13 +45,13 @@ factor()
 		return;
 	}
 
-	if (!isrational(FARG) || iszero(FARG) || isplusone(FARG) || isminusone(FARG)) {
-		push(FARG);
+	if (!isrational(INPUT) || iszero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
+		push(INPUT);
 		return;
 	}
 
-	numer = FARG.a;
-	denom = FARG.b;
+	numer = INPUT.a;
+	denom = INPUT.b;
 
 	if (numer < 0) {
 		push_integer(-1);

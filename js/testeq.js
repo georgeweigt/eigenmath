@@ -6,7 +6,7 @@ testeq(p1, p2)
 	push(p2);
 	subtract();
 	p3 = pop();
-	while (cross_expr(p3)) {
+	while (divisor(p3)) {
 		push(p3);
 		cancel_factor();
 		p3 = pop();

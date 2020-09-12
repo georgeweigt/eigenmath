@@ -8,7 +8,7 @@ numerator()
 		return;
 	}
 
-	while (cross_expr(p1)) {
+	while (divisor(p1)) {
 		push(p1);
 		cancel_factor();
 		p1 = pop();
