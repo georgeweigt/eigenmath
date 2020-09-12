@@ -41,7 +41,7 @@ sin()
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		sin_of_sum(p1);
+		sin_sum(p1);
 		return;
 	}
 

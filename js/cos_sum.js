@@ -1,7 +1,5 @@
-// cos(x + n/2 pi) = cos(x) cos(n/2 pi) - sin(x) sin(n/2 pi)
-
 function
-cos_of_sum(p1)
+cos_sum(p1) // cos(x + n/2 pi) = cos(x) cos(n/2 pi) - sin(x) sin(n/2 pi)
 {
 	var p2, p3;
 	p2 = cdr(p1);

@@ -1,7 +1,5 @@
-// tan(x + n pi) = tan(x)
-
 function
-tan_of_sum(p1)
+tan_sum(p1) // tan(x + n pi) = tan(x)
 {
 	var p2, p3;
 	p2 = cdr(p1);

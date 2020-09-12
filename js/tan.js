@@ -30,7 +30,7 @@ tan()
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		tan_of_sum(p1);
+		tan_sum(p1);
 		return;
 	}
 

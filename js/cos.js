@@ -38,7 +38,7 @@ cos()
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		cos_of_sum(p1);
+		cos_sum(p1);
 		return;
 	}
 
