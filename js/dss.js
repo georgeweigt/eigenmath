@@ -106,7 +106,7 @@ dss(F, X)
 	}
 
 	if (car(F) == symbol(INTEGRAL) && caddr(F) == X) {
-		derivative_of_integral(F, X);
+		dintegral(F, X);
 		return;
 	}
 

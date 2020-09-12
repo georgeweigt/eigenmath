@@ -63,11 +63,3 @@ eval_derivative(p1)
 		derivative();
 	}
 }
-
-// examples
-//
-// d(f)
-// d(f,2)
-// d(f,x)
-// d(f,x,2)
-// d(f,x,y)

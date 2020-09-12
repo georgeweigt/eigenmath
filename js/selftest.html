@@ -168,6 +168,129 @@ check(last == 1)
 dot(psihat(x,y),ket011) == sqrt(1/2) (phi(2,x) phi(3,y) - phi(2,y) phi(3,x)) ket000
 check(last == 1)
 
+clear()
+
+-- This script can be copied and pasted into the Eigenmath script window
+
+"How Planck calculated h and k"
+
+-- base units
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- derived units
+
+coulomb = ampere second
+farad = ampere^2 kilogram^(-1) meter^(-2) second^4
+joule = kilogram meter^2 second^(-2)
+volt = ampere^(-1) kilogram meter^2 second^(-3)
+
+centimeter = 10^(-2) meter
+erg = 10^(-7) joule
+
+"Kurlbaum measurement"
+
+S = 7.31 10^5 erg / (centimeter^2 second)
+S
+
+"Lummer and Pringsheim measurement"
+
+lambdam = 0.294 centimeter kelvin
+lambdam
+
+-- calculate
+
+c = 3.0 10^10 meter / second
+pie = float(pi)
+
+-- sigma is the Stefan-Boltzmann constant
+
+sigma = S / ((373 kelvin)^4 - (273 kelvin)^4)
+
+-- E is the energy density at theta = 1
+
+E = 4 sigma / c
+
+-- R is h/k in Planck's paper
+
+R = 4.9651 lambdam / c
+
+"Solve for k"
+
+k = E (15/8 c^3 / pie^5) R^3
+k
+
+"Solve for h"
+
+h = k R
+h
+
+check(prefixform(k) == "(* 1.34581e-25 (^ 'kelvin' -1) 'kilogram' (^ 'meter' 2) (^ 'second' -2))")
+check(prefixform(h) == "(* 6.54842e-38 'kilogram' (^ 'meter' 2) (^ 'second' -1))")
+
+clear()
+
+e = quote(e) -- clear e, was exponential, now elementary charge
+
+-- E is total energy
+
+E = hbar^2 / (2 mu a0^2) - e^2 / (4 pi epsilon0 a0)
+
+dE = d(E,a0)
+
+-- Bohr radius minimizes total energy
+
+a0 = 4 pi epsilon0 hbar^2 / (e^2 mu)
+
+"Bohr radius"
+
+a0
+
+"Verify that total energy is minimized for Bohr radius (1=ok)"
+
+dE == 0
+
+-- base units
+
+ampere = "ampere"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- derived units
+
+coulomb = ampere second
+farad = ampere^2 kilogram^(-1) meter^(-2) second^4
+joule = kilogram meter^2 second^(-2)
+volt = ampere^(-1) kilogram meter^2 second^(-3)
+
+"Numerical value for Bohr radius"
+
+pi = float(pi)
+
+hbar = 1.054572 10^(-34) joule second      -- Planck's constant
+epsilon0 = 8.854188 10^(-12) farad / meter -- electric constant
+e = 1.602176 10^(-19) coulomb              -- elementary charge
+me = 9.109382 10^(-31) kilogram            -- mass of electron
+mp = 1.672622 10^(-27) kilogram            -- mass of proton
+
+mu = me mp / (me + mp)
+
+a0
+
+"Numerical value for Rydberg unit of energy"
+
+-E 1/(1.602177 10^(-19)) "electron-volt" / joule
+
+check(prefixform(last) == "(* 13.5983 'electron-volt')")
+check(prefixform(a0) == "(* 5.29466e-11 'meter')")
+
+clear
+
 "All tests passed"
 </textarea>
 </td>
