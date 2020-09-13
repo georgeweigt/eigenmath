@@ -26,7 +26,7 @@ power_complex_rational(BASE, EXPO, X, Y)
 	multiply();
 
 	EXPO = pop();
-	power_imaginary_unit(BASE, EXPO);
+	power_minusone(BASE, EXPO);
 
 	// result = sqrt(X^2 + Y^2) ^ (1/2 * EXPO) * (-1) ^ (EXPO * arctan(Y, X) / pi)
 

@@ -11,12 +11,12 @@ power_numbers(BASE, EXPO)
 	}
 
 	if (isminusone(BASE)) {
-		power_imaginary_unit(BASE, EXPO);
+		power_minusone(BASE, EXPO);
 		return;
 	}
 
 	if (isnegativenumber(BASE)) {
-		power_imaginary_unit(BASE, EXPO);
+		power_minusone(BASE, EXPO);
 		push(BASE);
 		negate();
 		BASE = pop();

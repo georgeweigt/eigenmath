@@ -25,7 +25,7 @@
 // s=-1 flips sign of x
 
 function
-power_imaginary_unit(BASE, EXPO)
+power_minusone(BASE, EXPO)
 {
 	var a, b, c, q, r, s, t, theta, x, y;
 
