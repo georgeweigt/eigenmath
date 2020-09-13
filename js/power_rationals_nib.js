@@ -1,9 +1,7 @@
-// BASE is an integer, EXPO is an integer or rational number
-
 function
-power_rationals_nib(BASE, EXPO)
+power_rationals_nib(BASE, EXPO) // BASE is prime number, EXPO is rational
 {
-	var a;
+	var n, q, r;
 
 	// integer power?
 
@@ -16,31 +14,28 @@ power_rationals_nib(BASE, EXPO)
 		return;
 	}
 
-	// evaluate whole part
+	q = Math.floor(Math.abs(EXPO.a) / EXPO.b);
+	r = Math.abs(EXPO.a) % EXPO.b;
 
-	if (Math.abs(EXPO.a) > EXPO.b) {
+	// whole part
 
-		a = Math.floor(Math.abs(EXPO.a) / EXPO.b)
-		a = Math.pow(BASE.a, a);
+	if (q > 0) {
 
-		if (EXPO.a < 0)
-			push_rational(1, a); // reciprocate
-		else
-			push_rational(a, 1);
-
-		// remainder
+		n = Math.pow(BASE.a, q);
 
 		if (EXPO.a < 0)
-			a = -Math.abs(EXPO.a) % EXPO.b;
+			push_rational(1, n); // reciprocate
 		else
-			a = Math.abs(EXPO.a) % EXPO.b;
-	} else
-		a = EXPO.a;
+			push_rational(n, 1);
+	}
 
-	// BASE is a prime number from factor_factor() hence no numerical roots
+	// remainder (BASE is prime hence no roots)
+
+	if (EXPO.a < 0)
+		r = -r;
 
 	push_symbol(POWER);
 	push(BASE);
-	push_rational(a, EXPO.b);
+	push_rational(r, EXPO.b);
 	list(3);
 }

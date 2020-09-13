@@ -1,7 +1,7 @@
 function
-power_rationals(BASE, EXPO) // EXPO is not an integer
+power_rationals(BASE, EXPO)
 {
-	var a, b, i, h, n, COEFF, p1;
+	var d, h, i, n, base, expo, p1, COEFF;
 
 	h = stack.length;
 
@@ -19,16 +19,16 @@ power_rationals(BASE, EXPO) // EXPO is not an integer
 	n = stack.length;
 
 	for (i = h; i < n; i++) {
-		p3 = stack[i];
-		if (car(p3) == symbol(POWER)) {
-			BASE = cadr(p3);
-			EXPO = caddr(p3);
+		p1 = stack[i];
+		if (car(p1) == symbol(POWER)) {
+			BASE = cadr(p1);
+			EXPO = caddr(p1);
 			power_rationals_nib(BASE, EXPO);
 			stack[i] = pop(); // 1 or 2 factors on stack, fill hole with tos
 		}
 	}
 
-	// multiply rationals
+	// combine numbers (leaves radicals on stack)
 
 	COEFF = one;
 
@@ -47,18 +47,44 @@ power_rationals(BASE, EXPO) // EXPO is not an integer
 		}
 	}
 
-	// finalize
+	// convert radicals if COEFF is double (can happen due to auto conversion of rational to double)
 
-	if (!isplusone(COEFF))
-		push(COEFF);
+	if (isdouble(COEFF)) {
+
+		d = COEFF.d;
+
+		n = stack.length();
+
+		for (i = h; i < n; i++) {
+			p1 = stack[i];
+			BASE = cadr(p1);
+			EXPO = caddr(p1);
+			base = BASE.a / BASE.b;
+			expo = EXPO.a / EXPO.b;
+			d *= Math.pow(base, expo);
+		}
+
+		stack.splice(h); // pop all
+
+		push_double(d);
+		COEFF = pop();
+	}
+
+	// finalize
 
 	n = stack.length - h;
 
-	if (n > 1) {
-		sort_factors(h);
-		list(n);
-		push_symbol(MULTIPLY);
-		swap();
-		cons();
+	if (n == 0 || !isplusone(COEFF) || isdouble(COEFF)) {
+		push(COEFF);
+		n++;
 	}
+
+	if (n == 1)
+		return;
+
+	sort_factors(h);
+	list(n);
+	push_symbol(MULTIPLY);
+	swap();
+	cons();
 }
