@@ -168,7 +168,7 @@ check(last == 1)
 dot(psihat(x,y),ket011) == sqrt(1/2) (phi(2,x) phi(3,y) - phi(2,y) phi(3,x)) ket000
 check(last == 1)
 
-clear()
+clear
 
 -- This script can be copied and pasted into the Eigenmath script window
 
@@ -232,7 +232,7 @@ h
 check(prefixform(k) == "(* 1.34581e-25 (^ 'kelvin' -1) 'kilogram' (^ 'meter' 2) (^ 'second' -2))")
 check(prefixform(h) == "(* 6.54842e-38 'kilogram' (^ 'meter' 2) (^ 'second' -1))")
 
-clear()
+clear
 
 e = quote(e) -- clear e, was exponential, now elementary charge
 
@@ -336,6 +336,50 @@ check(last == 1)
 
 R(3,2) == A 2 sqrt(30)/1215 rho^2 exp(-rho/3)
 check(last == 1)
+
+clear
+
+ket00 = (1,0,0,0)
+ket10 = (0,1,0,0)
+ket01 = (0,0,1,0)
+ket11 = (0,0,0,1)
+
+b1 = outer(ket00,ket10) - outer(ket01,ket11)
+b2 = outer(ket00,ket01) + outer(ket10,ket11)
+
+b1dag = transpose(b1)
+b2dag = transpose(b2)
+
+psi(n) = sqrt(2 / L) sin(n pi x / L)
+
+f = conj(psi(n)) x psi(m)
+f = defint(f,x,0,L)
+
+r(n,m) = test(n = m,1/2 L,f)
+
+"Position operator"
+
+rhat = r(1,1) dot(b1dag,b1) +
+       r(1,2) dot(b1dag,b2) +
+       r(2,1) dot(b2dag,b1) +
+       r(2,2) dot(b2dag,b2)
+rhat
+
+"Verify operator (1=ok)"
+
+dot(ket10,rhat,ket10) == r(1,1)
+check(last == 1)
+
+dot(ket10,rhat,ket01) == r(1,2)
+check(last == 1)
+
+dot(ket01,rhat,ket10) == r(2,1)
+check(last == 1)
+
+dot(ket01,rhat,ket01) == r(2,2)
+check(last == 1)
+
+clear
 
 "All tests passed"
 </textarea>
