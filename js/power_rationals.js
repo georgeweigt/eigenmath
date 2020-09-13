@@ -1,28 +1,7 @@
-// BASE is positive
-
 function
-power_rationals(BASE, EXPO)
+power_rationals(BASE, EXPO) // EXPO is not an integer
 {
 	var a, b, i, h, n, COEFF, p1;
-
-	// if EXPO is -1 then return reciprocal of BASE
-
-	if (isminusone(EXPO)) {
-		push_rational(BASE.b, BASE.a); // reciprocate
-		return;
-	}
-
-	// if EXPO is integer then return BASE ^ EXPO
-
-	if (isinteger(EXPO)) {
-		a = Math.pow(BASE.a, Math.abs(EXPO.a));
-		b = Math.pow(BASE.b, Math.abs(EXPO.a));
-		if (isnegativenumber(EXPO))
-			push_rational(b, a); // reciprocate
-		else
-			push_rational(a, b);
-		return;
-	}
 
 	h = stack.length;
 

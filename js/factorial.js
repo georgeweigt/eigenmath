@@ -1,30 +1,28 @@
 function
 factorial()
 {
-	var i, n = -1, p1;
+	var i, m, n, p;
 
-	p1 = pop();
+	p = pop();
 
-	if (isrational(p1) && p1.b == 1)
+	if (isrational(p) && p.a >= 0 && p.b == 1)
 		n = p.a;
-
-	if (isdouble(p1) && Math.floor(p.d) == p.d)
+	else if (isdouble(p) && p.d >= 0 && Math.floor(p.d) == p.d)
 		n = p.d;
-
-	if (n < 0) {
+	else {
 		push_symbol(FACTORIAL);
-		push(p1);
+		push(p);
 		list(2);
 		return;
 	}
 
-	push_integer(1);
+	m = 1;
 
-	for (i = 2; i <= n; i++) {
-		push_integer(i);
-		multiply();
-	}
+	for (i = 2; i <= n; i++)
+		m *= i;
 
-	if (isdouble(p1))
-		floatf();
+	if (isrational(p))
+		push_integer(m);
+	else
+		push_double(m);
 }

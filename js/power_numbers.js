@@ -5,6 +5,11 @@ power_numbers(BASE, EXPO)
 {
 	var base, expo;
 
+	if (isinteger(EXPO)) {
+		power_simple(BASE, EXPO);
+		return;
+	}
+
 	if (isminusone(BASE)) {
 		power_imaginary_unit(BASE, EXPO);
 		return;
@@ -15,7 +20,7 @@ power_numbers(BASE, EXPO)
 		push(BASE);
 		negate();
 		BASE = pop();
-		power_numbers();
+		power_numbers(BASE, EXPO);
 		multiply();
 		return;
 	}

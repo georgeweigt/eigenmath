@@ -1,27 +1,24 @@
 function
 eval_sum(p1)
 {
-	var h, j, k, p2;
+	var h, j, k, p2, p3;
 
-	p1 = cdr(p1);
-
-	p2 = car(p1);
-	p1 = cdr(p1);
+	p2 = cadr(p1);
 
 	if (!isusersymbol(p2))
 		stop("symbol expected");
 
+	p1 = cddr(p1);
+
 	push(car(p1));
-	p1 = cdr(p1);
 	evalf();
 	j = pop_integer();
 
-	push(car(p1));
-	p1 = cdr(p1);
+	push(cadr(p1));
 	evalf();
 	k = pop_integer();
 
-	p1 = car(p1);
+	p1 = caddr(p1);
 
 	save_binding(p2);
 
