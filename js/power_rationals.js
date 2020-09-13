@@ -47,14 +47,13 @@ power_rationals(BASE, EXPO)
 		}
 	}
 
-	// convert radicals if COEFF is double (can happen due to auto conversion of rational to double)
+	// float radicals if COEFF is double (can happen due to auto conversion of rational to double)
 
-	if (isdouble(COEFF)) {
+	n = stack.length;
 
+	if (isdouble(COEFF) && n - h > 0) {
 		d = COEFF.d;
-
 		n = stack.length;
-
 		for (i = h; i < n; i++) {
 			p1 = stack[i];
 			BASE = cadr(p1);
@@ -63,9 +62,7 @@ power_rationals(BASE, EXPO)
 			expo = EXPO.a / EXPO.b;
 			d *= Math.pow(base, expo);
 		}
-
 		stack.splice(h); // pop all
-
 		push_double(d);
 		COEFF = pop();
 	}
