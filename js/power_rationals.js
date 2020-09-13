@@ -41,7 +41,7 @@ power_rationals(BASE, EXPO)
 			push(p1);
 			multiply();
 			COEFF = pop();
-			stack.splice(i);
+			stack.splice(i, 1);
 			i--;
 			n--;
 		}
@@ -53,7 +53,7 @@ power_rationals(BASE, EXPO)
 
 		d = COEFF.d;
 
-		n = stack.length();
+		n = stack.length;
 
 		for (i = h; i < n; i++) {
 			p1 = stack[i];
