@@ -1,9 +1,7 @@
 function
 static_negate()
 {
-	var p1;
-
-	p1 = pop();
+	var p1 = pop();
 
 	if (isnum(p1)) {
 		push(p1);

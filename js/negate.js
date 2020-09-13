@@ -6,7 +6,7 @@ negate()
 		if (isrational(p1))
 			push_rational(-p1.a, p1.b);
 		else
-			push_double(-p.d);
+			push_double(-p1.d);
 		return;
 	}
 

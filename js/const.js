@@ -34,6 +34,7 @@ const EXPTAN = "exptan";
 const EXPTANH = "exptanh";
 const FACTORIAL = "factorial";
 const FLOAT = "float";
+const FLOOR = "floor";
 const FOR = "for";
 const IMAG = "imag";
 const INNER = "inner";
