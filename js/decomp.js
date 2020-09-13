@@ -1,7 +1,7 @@
 function
 decomp()
 {
-	var p1;
+	var p1, F, X;
 
 	X = pop();
 	F = pop();
