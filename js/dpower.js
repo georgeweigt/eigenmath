@@ -2,7 +2,7 @@ function
 dpower(F, X)
 {
 	if (isnum(cadr(F)) && isnum(caddr(F))) {
-		push_integer(0); // deriv of irrational or imag const
+		push_integer(0); // irr or imag
 		return;
 	}
 
