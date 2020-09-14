@@ -316,6 +316,11 @@ dproduct(void)
 void
 dpower(void)
 {
+	if (isnum(cadr(p1)) && isnum(caddr(p1))) {
+		push_integer(0); // irrational or imag const
+		return;
+	}
+
 	push(caddr(p1));	// v/u
 	push(cadr(p1));
 	divide();

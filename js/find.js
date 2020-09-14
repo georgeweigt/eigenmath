@@ -1,5 +1,5 @@
 function
-find(p, q)
+find(p, q) // is q in p?
 {
 	var i, n;
 

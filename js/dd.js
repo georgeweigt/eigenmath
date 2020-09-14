@@ -1,6 +1,8 @@
 function
 dd(p1, p2)
 {
+	var p3;
+
 	// d(f(x,y),x)
 
 	push(cadr(p1));

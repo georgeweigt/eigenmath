@@ -1,17 +1,13 @@
 function
 dss(F, X)
 {
-	// d(x,x)?
-
 	if (equal(F, X)) {
-		push_integer(1);
+		push_integer(1); // d(x,x)
 		return;
 	}
 
-	// d(a,x)?
-
 	if (!iscons(F)) {
-		push_integer(0);
+		push_integer(0); // d(const,x)
 		return;
 	}
 

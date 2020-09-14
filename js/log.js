@@ -1,7 +1,7 @@
 function
 log()
 {
-	var h, i, p1;
+	var h, i, n, p1, p2;
 
 	p1 = pop();
 
@@ -43,7 +43,7 @@ log()
 
 	// log(1) -> 0
 
-	if (equaln(p1, 1)) {
+	if (isplusone(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -60,7 +60,7 @@ log()
 		negate();
 		log();
 		push(imaginaryunit);
-		push_symbol(Math.PI);
+		push_symbol(PI);
 		multiply();
 		add();
 		return;
@@ -71,8 +71,9 @@ log()
 	if (isrational(p1)) {
 		h = stack.length;
 		push(p1);
-		factor_factor();
-		for (i = h; i < stack.length; i++) {
+		factor();
+		n = stack.length;
+		for (i = h; i < n; i++) {
 			p2 = stack[i];
 			if (car(p2) == symbol(POWER)) {
 				push(caddr(p2)); // exponent
@@ -111,7 +112,7 @@ log()
 			log();
 			p1 = cdr(p1);
 		}
-		add_terms(stack.lengtgh - h);
+		add_terms(stack.length - h);
 		return;
 	}
 

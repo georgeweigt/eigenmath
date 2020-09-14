@@ -42,7 +42,7 @@ arg_nib()
 	// (-1) ^ expr
 
 	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
-		push(symbol(PI));
+		push_symbol(PI);
 		push(caddr(p1));
 		multiply();
 		return;

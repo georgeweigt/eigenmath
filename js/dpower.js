@@ -1,26 +1,31 @@
 function
-dpower(p1, p2)
+dpower(F, X)
 {
-	push(caddr(p1));	// v/u
-	push(cadr(p1));
+	if (isnum(cadr(F)) && isnum(caddr(F))) {
+		push_integer(0); // deriv of irrational or imag const
+		return;
+	}
+
+	push(caddr(F));		// v/u
+	push(cadr(F));
 	divide();
 
-	push(cadr(p1));		// du/dx
-	push(p2);
+	push(cadr(F));		// du/dx
+	push(X);
 	derivative();
 
 	multiply();
 
-	push(cadr(p1));		// log u
+	push(cadr(F));		// log u
 	log();
 
-	push(caddr(p1));	// dv/dx
-	push(p2);
+	push(caddr(F));		// dv/dx
+	push(X);
 	derivative();
 
 	multiply();
 
 	add();
-	push(p1);		// u^v
+	push(F);		// u^v
 	multiply();
 }
