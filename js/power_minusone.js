@@ -1,4 +1,4 @@
-// convert (-1)^(a/b) to c*(-1)^(x) where c=1 or c=-1 and -1/2 < (x) <= 1/2
+// convert (-1)^(a/b) to c (-1)^x where c=1 or c=-1 and -1/2 < x <= 1/2
 //
 // r = a mod b (remainder of a/b)
 //
