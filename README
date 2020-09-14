@@ -44,4 +44,4 @@ July 30, 2020
 Remove eval quirk in user defined functions.
 
 September 12, 2020
-Ported a subset of Eigenmath to Javascript.
+Port a subset of Eigenmath to Javascript.
