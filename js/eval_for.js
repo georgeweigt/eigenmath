@@ -3,28 +3,29 @@ eval_for(p1)
 {
 	var j, k, p2, p3;
 
-	p1 = cdr(p1);
-
-	p2 = car(p1);
-	p1 = cdr(p1);
+	p2 = cadr(p1);
 
 	if (!isusersymbol(p2))
 		stop("symbol expected");
 
+	p1 = cddr(p1);
+
 	push(car(p1));
-	p1 = cdr(p1);
 	evalf();
 	j = pop_integer();
 
-	push(car(p1));
-	p1 = cdr(p1);
+	push(cadr(p1));
 	evalf();
 	k = pop_integer();
+
+	p1 = cddr(p1);
 
 	save_binding(p2);
 
 	for (;;) {
-		set_binding(p2, j);
+		push_integer(j);
+		p3 = pop();
+		set_binding(p2, p3);
 		p3 = p1;
 		while (iscons(p3)) {
 			push(car(p3));

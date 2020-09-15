@@ -1,5 +1,5 @@
 function
-eval_denominator()
+eval_denominator(p1)
 {
 	push(cadr(p1));
 	evalf();

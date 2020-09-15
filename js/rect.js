@@ -1,5 +1,5 @@
 function
-rect_nib()
+rect()
 {
 	var h, p1, p2;
 
