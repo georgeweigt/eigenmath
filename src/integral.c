@@ -72,6 +72,10 @@ char *integral_tab_exp[] = {
 	"1/2 exp(a x^2) exp(b) (x^2 / a - 1 / a^2)",
 	"1",
 
+	"x exp(a x + b x)",
+	"exp(a x + b x) (a x + b x + 1) / (a + b)^2",
+	"1",
+
 	NULL,
 };
 
@@ -295,6 +299,10 @@ char *integral_tab_trig[] = {
 	"1 / (a + b cos(x))",
 	"log((sqrt(b^2 - a^2) tan(x 1/2) + a + b) / (sqrt(b^2 - a^2) tan(x 1/2) - a - b)) / sqrt(b^2 - a^2)",
 	"b^2 - a^2",
+
+	"x sin(a x) sin(b x)",
+	"1/2 ((x sin(x (a - b)))/(a - b) - (x sin(x (a + b)))/(a + b) + cos(x (a - b))/(a - b)^2 - cos(x (a + b))/(a + b)^2)",
+	"and(not(a + b == 0),not(a - b == 0))",
 
 	NULL,
 };

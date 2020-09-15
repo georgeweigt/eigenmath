@@ -1,3 +1,16 @@
+//	     v
+//	y = u
+//
+//	log y = v log u
+//
+//	1 dy   v du           dv
+//	- -- = - -- + (log u) --
+//	y dx   u dx           dx
+//
+//	dy    v  v du           dv
+//	-- = u  (- -- + (log u) --)
+//	dx       u dx           dx
+
 function
 dpower(F, X)
 {
