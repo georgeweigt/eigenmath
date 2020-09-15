@@ -1,7 +1,7 @@
 function
 eval_product(p1)
 {
-	var h, j, k, p2;
+	var h, j, k, p2, p3;
 
 	p1 = cdr(p1);
 

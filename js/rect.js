@@ -1,7 +1,7 @@
 function
 rect_nib()
 {
-	var h, p1;
+	var h, p1, p2;
 
 	p1 = pop();
 

@@ -1,7 +1,7 @@
 function
 contract()
 {
-	var h, i, j, k, m, n, ncol, ndim, nelem, nrow;
+	var h, i, j, k, m, n, ncol, ndim, nelem, nrow, p1, p2, p3;
 	var index = [];
 
 	p3 = pop();
