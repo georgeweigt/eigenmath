@@ -8,33 +8,8 @@
 <td>
 <textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
 
-A=2
-B=3
-check(A-B=-1)
-check(B-A=1)
-A=-2
-B=3
-check(A-B=-5)
-check(B-A=5)
-A=2
-B=-3
-check(A-B=5)
-check(B-A=-5)
-A=-2
-B=-3
-check(A-B=1)
-check(B-A=-1)
-A=quote(A)
-B=quote(B)
-
 check(prefixform(a-b)="(+ a (* -1 b))")
 check(prefixform(b-a)="(+ (* -1 a) b)")
-
-check(exp(i*pi)=-1)
-check(prefixform(exp(i*pi+a))="(* -1 (^ (e) a))")
-
-exp(-8*pi*i)
-check(last=1)
 
 (-1)^(1/8)
 check(prefixform(last)="(^ -1 1/8)")
@@ -346,7 +321,6 @@ check(last="(arccosh 0)")
 
 prefixform(arccosh(0.0))
 --FIXME check(last="(* 1.5708 (^ -1 1/2))") -- arg(1.0 i) is not converted to float
-
 
 -- check arcsinh
 
