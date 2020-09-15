@@ -46,7 +46,7 @@ simplify_polar_term(p)
 	}
 
 	if (p.b == 1) {
-		if (p.a % 2 == 0)
+		if (Math.abs(p.a) % 2 == 0)
 			push_integer(1);
 		else
 			push_integer(-1);
@@ -54,7 +54,7 @@ simplify_polar_term(p)
 	}
 
 	if (p.b == 2) {
-		n = p.a % 4;
+		n = Math.abs(p.a) % 4;
 		if ((n == 1 && p.a > 0) || (n == 3 && p.a < 0))
 			push(imaginaryunit);
 		else {
