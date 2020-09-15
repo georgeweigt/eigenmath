@@ -1,5 +1,5 @@
 function
-circexp_subst_nib()
+circexp_subst()
 {
 	var i, h, n, p1;
 
@@ -14,19 +14,6 @@ circexp_subst_nib()
 			p1.elem[i] = pop();
 		}
 		push(p1);
-		return;
-	}
-
-	if (iscons(p1)) {
-		h = stack.length;
-		push(car(p1));
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			circexp_subst();
-			p1 = cdr(p1);
-		}
-		list(stack.length - h);
 		return;
 	}
 
@@ -75,6 +62,21 @@ circexp_subst_nib()
 		push(cadr(p1));
 		circexp_subst();
 		list(2);
+		return;
+	}
+
+	// none of the above
+
+	if (iscons(p1)) {
+		h = stack.length;
+		push(car(p1));
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			circexp_subst();
+			p1 = cdr(p1);
+		}
+		list(stack.length - h);
 		return;
 	}
 
