@@ -4,7 +4,7 @@ arcsinh()
 	var p1 = pop();
 
 	if (isdouble(p1)) {
-		push_double(asinh(p1.d));
+		push_double(Math.asinh(p1.d));
 		return;
 	}
 

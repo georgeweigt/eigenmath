@@ -6,7 +6,7 @@ arcsin()
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		push_double(asin(p1.d));
+		push_double(Math.asin(p1.d));
 		return;
 	}
 

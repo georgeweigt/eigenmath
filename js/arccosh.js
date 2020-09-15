@@ -4,7 +4,7 @@ arccosh()
 	var p1 = pop();
 
 	if (isdouble(p1) && p1.d >= 1.0) {
-		push_double(acosh(p1.d));
+		push_double(Math.acosh(p1.d));
 		return;
 	}
 

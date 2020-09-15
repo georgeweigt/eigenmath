@@ -15,7 +15,7 @@ log()
 	}
 
 	if (isdouble(p1)) {
-		if (p.d > 0.0)
+		if (p1.d > 0.0)
 			push_double(Math.log(p1.d));
 		else {
 			push_double(Math.log(-p1.d));
