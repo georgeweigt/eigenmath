@@ -486,6 +486,39 @@ check(S(2,2) = 1)
 check(S(2,-1) = 1)
 check(S(2,-2) = 1)
 
+clear
+
+"Verify linear combinations of spherical harmonic eigenfunctions (1=ok)"
+
+Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
+         P(expcos(theta),l,m) exp(i m phi)
+
+P(f,n,m) = eval(1/(2^n n!) (1 - x^2)^(m/2) *
+           d((x^2 - 1)^n,x,n + m),x,f)
+
+-- Laplacian
+
+Lap(f) = 1/expsin(theta) d(expsin(theta) d(f,theta),theta) +
+         1/expsin(theta)^2 d(f,phi,2)
+
+c1 = x1 + i y1
+c2 = x2 + i y2
+c3 = x3 + i y3
+c4 = x4 + i y4
+c5 = x5 + i y5
+
+"Verify for l=1"
+
+psi = c1 Y(1,0) + c2 Y(1,1) + c3 Y(1,-1)
+
+check(-Lap(psi) == 1 (1 + 1) psi)
+
+"Verify for l=2"
+
+psi = c1 Y(2,0) + c2 Y(2,1) + c3 Y(2,2) + c4 Y(2,-1) + c5 Y(2,-2)
+
+check(-Lap(psi) == 2 (2 + 1) psi)
+
 "All tests passed"
 </textarea>
 </td>
