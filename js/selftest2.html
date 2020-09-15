@@ -389,20 +389,15 @@ f = psi(x,y,z)
 
 "Angular momentum operators"
 
-Lx(f)
-Ly(f)
-Lz(f)
+--Lx(f)
+--Ly(f)
+--Lz(f)
 
 "Verify commutation relations (1=ok)"
 
-Lx(Ly(f)) - Ly(Lx(f)) == i hbar Lz(f)
-check(last == 1)
-
-Ly(Lz(f)) - Lz(Ly(f)) == i hbar Lx(f)
-check(last == 1)
-
-Lz(Lx(f)) - Lx(Lz(f)) == i hbar Ly(f)
-check(last == 1)
+check(Lx(Ly(f)) - Ly(Lx(f)) == i hbar Lz(f))
+check(Ly(Lz(f)) - Lz(Ly(f)) == i hbar Lx(f))
+check(Lz(Lx(f)) - Lx(Lz(f)) == i hbar Ly(f))
 
 -- angular momentum operators in spherical coordinates
 
@@ -418,14 +413,9 @@ Lz(f) = -i hbar d(f,phi)
 
 f = psi(r,theta,phi)
 
-Lx(Ly(f)) - Ly(Lx(f)) == i hbar Lz(f)
-check(last == 1)
-
-Ly(Lz(f)) - Lz(Ly(f)) == i hbar Lx(f)
-check(last == 1)
-
-Lz(Lx(f)) - Lx(Lz(f)) == i hbar Ly(f)
-check(last == 1)
+check(Lx(Ly(f)) - Ly(Lx(f)) == i hbar Lz(f))
+check(Ly(Lz(f)) - Lz(Ly(f)) == i hbar Lx(f))
+check(Lz(Lx(f)) - Lx(Lz(f)) == i hbar Ly(f))
 
 clear
 
@@ -455,6 +445,46 @@ check(P(2,-1) == -1/2 x sqrt(1 - x^2))
 check(P(2,2) == 3 (1 - x^2))
 check(P(2,-2) == 1/8 (1 - x^2))
 
+clear
+
+-- Y returns a spherical harmonic eigenfunction
+
+Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
+         P(expcos(theta),l,m) exp(i m phi)
+
+-- P returns an associated Lengendre function
+
+P(f,n,m) = eval(1/(2^n n!) (1 - x^2)^(m/2) *
+           d((x^2 - 1)^n,x,n + m),x,f)
+
+"Eigenfunctions"
+
+--Y(0,0)
+--Y(1,0)
+--Y(1,1)
+--Y(1,-1)
+--Y(2,0)
+--Y(2,1)
+--Y(2,2)
+--Y(2,-1)
+--Y(2,-2)
+
+"Verify spherical harmonic eigenfunctions (1=ok)"
+
+S(l,m) = -Lap(Y(l,m)) == l (l + 1) Y(l,m)
+
+Lap(f) = 1/expsin(theta) d(expsin(theta) d(f,theta),theta) +
+         1/expsin(theta)^2 d(f,phi,2)
+
+check(S(0,0) = 1)
+check(S(1,0) = 1)
+check(S(1,1) = 1)
+check(S(1,-1) = 1)
+check(S(2,0) = 1)
+check(S(2,1) = 1)
+check(S(2,2) = 1)
+check(S(2,-1) = 1)
+check(S(2,-2) = 1)
 
 "All tests passed"
 </textarea>
