@@ -1,3 +1,6 @@
+# See demo.html for a template web page that uses eigenmath.js
+
+
 objects := $(shell ls *.js | sed "s/\n/ /g;s/eigenmath\.js//")
 
 default:
