@@ -12,7 +12,9 @@ Differences from original Eigenmath:
 
 1. Big integers are not supported.
 
-   Rational numbers a/b are used until a or b exceeds 10^10, then floats are used.
+   Rational numbers a/b are used if both a and b are less than 10^10.
+
+   Otherwise, conversion to floating point occurs automatically.
 
 2. The following functions are not supported:
 
