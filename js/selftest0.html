@@ -273,8 +273,6 @@ B = (B1,B2,B3)
 C = (C1,C2,C3,C4)
 check(contract(outer(A,B,C))=dot(A,B)*C)
 
--- test simplify
-
 clear
 
 -3*x*A/(A-B) + 3*x*B/(A-B)
@@ -292,7 +290,6 @@ check(last=-i * exp(2 * i * x) / (exp(2 * i * x) + 1))
 i * exp(-i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x)))
 check(last=i / (exp(2 * i * x) + 1))
 
--- numerator and denominator had an infinite loop
 numerator(-(-i + i * exp(2 * i * x)) / (exp(2 * i * x) + 1))
 check(last=i - i * exp(2 * i * x))
 denominator(-(-i + i * exp(2 * i * x)) / (exp(2 * i * x) + 1))
@@ -317,14 +314,7 @@ check(arctan(3,-3)=3*pi/4)
 check(arctan(-3,3)=-pi/4)
 check(arctan(-3,-3)=-3*pi/4)
 
---check(string(arctan(2,4))="arctan(1,2)")
---check(string(arctan(2,-4))="arctan(1,-2)")
---check(string(arctan(-2,4))="arctan(-1,2)")
---check(string(arctan(-2,-4))="arctan(-1,-2)")
-
---check(string(arctan(1/2))="arctan(1,2)")
-
--- complex numbers (after arctan)
+-- complex numbers
 
 z1 = 1+i     -- z1 does not have arctan in polar form
 z2 = 2+3*i   -- z2 does have arctan in polar form
@@ -353,28 +343,6 @@ check(z1*z2=rect(polar(z1)*clock(z2)))
 
 --FIXME check(z1*z2=rect(polar(z1)*polar(z2)))
 
-z = sqrt(1+i)
---check(rect(z^2)=1+i)
-z = sqrt(1-i)
---check(rect(z^2)=1-i)
-z = sqrt(-1+i)
---check(rect(z^2)=-1+i)
-z = sqrt(-1-i)
---check(rect(z^2)=-1-i)
-
-z = sqrt(2+3*i)
---check(rect(z^2)=2+3*i)
-z = sqrt(2-3*i)
---check(rect(z^2)=2-3*i)
-z = sqrt(-2+3*i)
---check(rect(z^2)=-2+3*i)
-z = sqrt(-2-3*i)
---check(rect(z^2)=-2-3*i)
-
--- check arg function
-
--- check arccosh
-
 prefixform(arccosh(x))
 check(last="(arccosh x)")
 
@@ -383,15 +351,6 @@ check(last="x")
 
 prefixform(arccosh(0))
 check(last="(arccosh 0)")
-
-prefixform(arccosh(0.0))
---FIXME check(last="(* 1.5708 (^ -1 1/2))") -- arg(1.0 i) is not converted to float
-
--- check arcsinh
-
--- check arctanh
-
--- check exp
 
 prefixform(float(exp(x)))
 check(last="(^ (e) x)")
@@ -429,8 +388,6 @@ check(last="(+ 0.540302 (* -0.841471 (^ -1 1/2)))")
 prefixform(float(exp(-2 + 3 i)))
 check(last="(+ -0.133981 (* 0.0190985 (^ -1 1/2)))")
 
--- check power
-
 prefixform(0^0)
 check(last="1")
 
@@ -452,26 +409,6 @@ check(last="(* 1.00000 (^ -1 1/3))")
 prefixform((-1.0)^(-1/3))
 check(last="(* 1.00000 (^ -1 -1/3))")
 
--- test sin function
-
--- test cos function
-
--- test tan function
-
--- test sinh function
-
--- test cosh function
-
--- test tanh function
-
--- test arcsin function
-
--- test arccos function
-
--- test arctan function
-
--- test rationalize function (this used to get stuck)
-
 clear
 
 s = 4 E^2
@@ -487,21 +424,6 @@ Y = 8 / expsin(theta)^2
 Z = (1 + expsin(theta/2)^4) / expcos(theta/2)^4
 
 check(rationalize(A + B + C - X - Y - Z) == 0)
-
-f = 1/x + 1/(x + 1)^2
---check(string(rationalize(f)) == "(x^2 + 3 x + 1) / (x (x + 1)^2)")
-
-numerator(f)/denominator(f)
---check(string(last) == "x / ((x + 1)^2) + 1 / (x (x + 1)^2) + 3 / ((x + 1)^2)")
-
--- this was broken, returned a complex number
-
-arccos(0.4529)
-check(prefixform(last)="1.10078")
-
--- implied arguments
-
--- exponentials are expanded
 
 clear
 
@@ -519,8 +441,6 @@ A = zero(3)
 f(x) = for(i,1,3,A[i] = x)
 f(1)
 check(A==(1,1,1))
-
--- this was broken, now fixed
 
 clear
 
