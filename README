@@ -1,4 +1,8 @@
-To build and run:
+Eigenmath is a C program.
+
+There is a port to Javascript in the 'js' directory.
+
+To build and run the C version:
 
 	cd src
 	make
