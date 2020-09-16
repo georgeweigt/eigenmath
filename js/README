@@ -1,0 +1,5 @@
+To build eigenmath.js:
+
+	make
+
+See demo.html for a template web page that uses eigenmath.js
