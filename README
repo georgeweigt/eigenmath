@@ -27,15 +27,8 @@ To generate MathJax output:
 MathML and MathJax results look best on Firefox.
 
 
-"I have often felt that programming is an art form, whose real value can
- only be appreciated by another versed in the same arcane art; there are
- lovely gems and brilliant coups hidden from human view and admiration,
- sometimes forever, by the very nature of the process."
 
- Ed Nather, The Story of Mel
-
-
-List of significant changes:
+History:
 
 July 29, 2020
 Use cross multiplication to test for equality.
@@ -44,4 +37,4 @@ July 30, 2020
 Remove eval quirk in user defined functions.
 
 September 12, 2020
-Port a subset of Eigenmath to Javascript.
+Port to Javascript.
