@@ -1,5 +1,55 @@
-To build eigenmath.js:
+To build:
 
 	make
 
+Result is eigenmath.js
+
 See demo.html for a template web page that uses eigenmath.js
+
+
+
+Differences from original Eigenmath:
+
+1. Big integers are not supported.
+
+   Rational numbers a/b are used until a or b exceeds 10^10, then floats are used.
+
+2. The following functions are not supported:
+
+besselj
+binomial
+ceiling
+choose
+coeff
+cofactor
+cross
+curl
+deg
+dim
+div
+draw
+eigen
+erf
+erfc
+expand
+factor
+filter
+gcd
+hermite
+hilbert
+isprime
+laguerre
+lcm
+leading
+legendre
+lisp
+nroots
+prime
+quotient
+roots
+run
+simplify
+status
+string
+subst
+taylor
