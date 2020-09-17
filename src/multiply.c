@@ -590,39 +590,8 @@ reciprocate(void)
 void
 reciprocate_nib(void)
 {
-	p1 = pop();
-
-	if (isnum(p1)) {
-		reciprocate_number();
-		return;
-	}
-
-	push(p1);
 	push_integer(-1);
 	power();
-}
-
-// 1 over p1
-
-void
-reciprocate_number(void)
-{
-	uint32_t *a, *b;
-	double d;
-
-	if (iszero(p1))
-		stop("divide by zero");
-
-	if (isdouble(p1)) {
-		d = p1->u.d;
-		push_double(1.0 / d);
-		return;
-	}
-
-	a = mcopy(p1->u.q.a);
-	b = mcopy(p1->u.q.b);
-
-	push_rational_number(p1->sign, b, a);
 }
 
 void

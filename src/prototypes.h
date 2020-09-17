@@ -493,7 +493,6 @@ void negate_number(void);
 void negate_noexpand(void);
 void reciprocate(void);
 void reciprocate_nib(void);
-void reciprocate_number(void);
 void divide(void);
 void divide_nib(void);
 void divide_numbers(void);
