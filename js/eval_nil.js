@@ -1,6 +1,5 @@
 function
-eval_nil(p1)
+eval_nil()
 {
-	p1; // suppress eslint warning
 	push_symbol(NIL);
 }

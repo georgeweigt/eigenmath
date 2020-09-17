@@ -1,8 +1,6 @@
 function
-eval_clear(p1)
+eval_clear()
 {
-	p1; // suppress eslint warning
-
 	save_binding(symbol(TRACE));
 
 	binding = {};

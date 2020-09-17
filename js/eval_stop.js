@@ -1,6 +1,5 @@
 function
-eval_stop(p1)
+eval_stop()
 {
-	p1; // suppress eslint warning
 	stopf("stop function");
 }
