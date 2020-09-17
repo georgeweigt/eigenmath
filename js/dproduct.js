@@ -3,7 +3,7 @@ dproduct(p1, p2)
 {
 	var i, j, n, p3;
 
-	n = length(p1) - 1;
+	n = lengthf(p1) - 1;
 
 	for (i = 0; i < n; i++) {
 

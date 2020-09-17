@@ -16,7 +16,7 @@ eval_setq(p1)
 	}
 
 	if (!isusersymbol(cadr(p1)))
-		stop("symbol expected");
+		stopf("symbol expected");
 
 	push(caddr(p1));
 	evalf();

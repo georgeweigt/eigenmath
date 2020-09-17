@@ -1,7 +1,7 @@
 function
 eval_integral(p1)
 {
-	var i, n, X, Y;
+	var flag, i, n, X, Y;
 
 	expanding++;
 

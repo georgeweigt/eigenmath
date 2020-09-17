@@ -4,7 +4,7 @@ evalf()
 	var p1;
 
 	if (++evaldepth == 1000)
-		stop("circular eval");
+		stopf("circular eval");
 
 	p1 = pop();
 

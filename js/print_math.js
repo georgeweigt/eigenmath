@@ -612,7 +612,7 @@ mml_symbol(p)
 	mml_puts("</msub>");
 }
 
-mml_greek_tab = [
+var mml_greek_tab = [
 	"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta","Iota",
 	"Kappa","Lambda","Mu","Nu","Xi","Pi","Rho","Sigma","Tau","Upsilon",
 	"Phi","Chi","Psi","Omega",
@@ -727,9 +727,9 @@ mml_string(p)
 
 	mml_puts("<mtext>");
 
-	s = s.replace(/\&/g, "&amp;");
-	s = s.replace(/\</g, "&lt;");
-	s = s.replace(/\>/g, "&gt;");
+	s = s.replace(/&/g, "&amp;");
+	s = s.replace(/</g, "&lt;");
+	s = s.replace(/>/g, "&gt;");
 	s = s.replace(/\n/g, "<br>");
 
 	mml_puts(s);

@@ -8,7 +8,7 @@ partition_integrand(F, X)
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!find(car(p1), X))
+		if (!findf(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -23,7 +23,7 @@ partition_integrand(F, X)
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (find(car(p1), X))
+		if (findf(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}

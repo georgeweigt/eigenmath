@@ -6,7 +6,7 @@ det()
 	p1 = pop();
 
 	if (!istensor(p1) || p1.dim.length != 2 || p1.dim[0] != p1.dim[1])
-		stop("det: square matrix expected");
+		stopf("det: square matrix expected");
 
 	n = p1.dim[0];
 

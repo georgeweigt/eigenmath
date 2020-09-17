@@ -6,7 +6,7 @@ adj()
 	p1 = pop();
 
 	if (!istensor(p1) || p1.dim.length != 2 || p1.dim[0] != p1.dim[1])
-		stop("adj: square matrix expected");
+		stopf("adj: square matrix expected");
 
 	n = p1.dim[0];
 

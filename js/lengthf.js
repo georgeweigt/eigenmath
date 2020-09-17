@@ -1,5 +1,5 @@
 function
-length(p)
+lengthf(p)
 {
 	var n = 0;
 	while (iscons(p)) {

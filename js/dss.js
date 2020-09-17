@@ -102,7 +102,7 @@ dss(F, X)
 	}
 
 	if (car(F) == symbol(INTEGRAL) && caddr(F) == X) {
-		dintegral(F, X);
+		push(cadr(F));
 		return;
 	}
 

@@ -36,7 +36,7 @@ inner()
 	mrow = p2.dim[0];
 
 	if (ncol != mrow)
-		stop("tensor dimensions");
+		stopf("inner: dimension err");
 
 	//	nrow is the number of rows in p1
 	//

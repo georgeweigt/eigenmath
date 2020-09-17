@@ -8,12 +8,12 @@ simplify_polar_term(p)
 
 	// exp(i pi) -> -1
 
-	if (length(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI)) {
+	if (lengthf(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI)) {
 		push_integer(-1);
 		return 1;
 	}
 
-	if (length(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
+	if (lengthf(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
 		return 0;
 
 	p = cadr(p); // coeff

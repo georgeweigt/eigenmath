@@ -1,7 +1,7 @@
 function
 expand_sum_factors(h)
 {
-	var i, j, n, p1, p2;
+	var i, n, p1, p2;
 
 	n = stack.length;
 

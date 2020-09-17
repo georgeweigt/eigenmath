@@ -8,7 +8,7 @@ setq_userfunc(p1)
 	B = caddr(p1);
 
 	if (!issymbol(F))
-		stop("function name?");
+		stopf("function name?");
 
 	set_binding_and_arglist(F, B, A);
 }

@@ -6,7 +6,7 @@ setq_indexed(p1)
 	S = cadadr(p1);
 
 	if (!isusersymbol(S))
-		stop("symbol expected");
+		stopf("symbol expected");
 
 	push(S);
 	evalf();

@@ -15,7 +15,7 @@ cmp_args(p1)
 	p1 = pop();
 
 	if (istensor(p1) || istensor(p2))
-		stop("tensor comparison");
+		stopf("tensor comparison");
 
 	push(p1);
 	push(p2);
@@ -27,7 +27,7 @@ cmp_args(p1)
 		floatf(); // try converting pi and e
 		p1 = pop();
 		if (!isnum(p1))
-			stop("non-numerical comparison");
+			stopf("non-numerical comparison");
 	}
 
 	if (iszero(p1))
@@ -40,7 +40,7 @@ cmp_args(p1)
 			return -1;
 	}
 
-	if (p.d > 0)
+	if (p1.d > 0)
 		return 1;
 	else
 		return -1;

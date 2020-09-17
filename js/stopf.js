@@ -1,5 +1,5 @@
 function
-stop(s)
+stopf(s)
 {
 	if (s.length > 0) {
 		if (trace1 < trace2 && inbuf[trace2 - 1] == '\n')

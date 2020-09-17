@@ -516,5 +516,5 @@ scan_error(s)
 
 	print_buf(t, RED);
 
-	stop("");
+	stopf("");
 }

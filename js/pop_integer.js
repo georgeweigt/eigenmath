@@ -9,5 +9,5 @@ pop_integer()
 	if (isdouble(p1) && Math.floor(p1.d) == p1.d)
 		return p1.d;
 
-	stop("integer expected");
+	stopf("integer expected");
 }

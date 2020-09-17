@@ -1,7 +1,7 @@
 function
 rect()
 {
-	var h, p1, p2;
+	var h, p1, p2, BASE, EXPO;
 
 	p1 = pop();
 

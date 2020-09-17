@@ -1,7 +1,7 @@
 function
 copy_tensor(p1)
 {
-	var i, j, n, p2;
+	var i, n, p2;
 
 	p2 = alloc_tensor();
 

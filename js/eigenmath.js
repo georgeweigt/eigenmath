@@ -34,7 +34,7 @@ abs()
 
 	if (istensor(p1)) {
 		if (p1.dim.length != 1)
-			stop("abs: tensor rank > 1");
+			stopf("abs: tensor rank > 1");
 		push(p1);
 		push(p1);
 		conj();
@@ -150,7 +150,7 @@ add_tensors(p1, p2)
 	var i, n;
 
 	if (!compatible_dimensions(p1, p2))
-		stop("incompatible tensor arithmetic");
+		stopf("incompatible tensor arithmetic");
 
 	p1 = copy_tensor(p1);
 
@@ -212,7 +212,7 @@ adj()
 	p1 = pop();
 
 	if (!istensor(p1) || p1.dim.length != 2 || p1.dim[0] != p1.dim[1])
-		stop("adj: square matrix expected");
+		stopf("adj: square matrix expected");
 
 	n = p1.dim[0];
 
@@ -274,34 +274,6 @@ any_radical_factors(h)
 		if (isradical(stack[i]))
 			return 1;
 	return 0;
-}
-function
-append()
-{
-	var h, p1, p2;
-
-	p2 = pop();
-	p1 = pop();
-
-	h = stack.length;
-
-	if (iscons(p1)) {
-		while (iscons(p1)) {
-			push(car(p1));
-			p1 = cdr(p1);
-		}
-	} else
-		push(p1);
-
-	if (iscons(p2)) {
-		while (iscons(p2)) {
-			push(car(p2));
-			p2 = cdr(p2);
-		}
-	} else
-		push(p2);
-
-	list(stack.length - h);
 }
 function
 arccos()
@@ -1090,7 +1062,7 @@ cmp_args(p1)
 	p1 = pop();
 
 	if (istensor(p1) || istensor(p2))
-		stop("tensor comparison");
+		stopf("tensor comparison");
 
 	push(p1);
 	push(p2);
@@ -1102,7 +1074,7 @@ cmp_args(p1)
 		floatf(); // try converting pi and e
 		p1 = pop();
 		if (!isnum(p1))
-			stop("non-numerical comparison");
+			stopf("non-numerical comparison");
 	}
 
 	if (iszero(p1))
@@ -1115,7 +1087,7 @@ cmp_args(p1)
 			return -1;
 	}
 
-	if (p.d > 0)
+	if (p1.d > 0)
 		return 1;
 	else
 		return -1;
@@ -1437,7 +1409,7 @@ combine_terms_nib(i, j)
 	}
 
 	if (istensor(p1) || istensor(p2))
-		stop("incompatible tensor arithmetic");
+		stopf("incompatible tensor arithmetic");
 
 	if (iszero(p2))
 		return 1;
@@ -1667,7 +1639,6 @@ const DEFINT = "defint";
 const DENOMINATOR = "denominator";
 const DERIVATIVE = "derivative";
 const DET = "det";
-const DIM = "dim";
 const DO = "do";
 const DOT = "dot";
 const EVAL = "eval";
@@ -1708,7 +1679,6 @@ const SIN = "sin";
 const SINH = "sinh";
 const SQRT = "sqrt";
 const STOP = "stop";
-const SUBST = "subst";
 const SUM = "sum";
 const TAN = "tan";
 const TANH = "tanh";
@@ -1757,7 +1727,7 @@ contract()
 	p1 = pop();
 
 	if (!istensor(p1))
-		stop("contract: 1st arg is not a tensor");
+		stopf("contract: tensor expected");
 
 	ndim = p1.dim.length;
 
@@ -1767,14 +1737,8 @@ contract()
 	push(p3);
 	m = pop_integer();
 
-	if (n < 1 || n > ndim)
-		stop("contract: 2nd arg not numerical or out of range (less than 1 or greater than tensor rank)");
-
-	if (m < 1 || m > ndim)
-		stop("contract: 3rd arg not numerical or out of range (less than 1 or greater than tensor rank)");
-
-	if (n == m)
-		stop("contract: 2nd and 3rd args are the same");
+	if (n < 1 || n > ndim || m < 1 || m > ndim || n == m)
+		stopf("contract: index err");
 
 	n--; // make zero based
 	m--;
@@ -1783,7 +1747,7 @@ contract()
 	nrow = p1.dim[m];
 
 	if (ncol != nrow)
-		stop("contract: unequal tensor dimensions for indices given by 2nd and 3rd args");
+		stopf("contract: index err");
 
 	// nelem is the number of elements in result
 
@@ -1838,7 +1802,7 @@ contract()
 function
 copy_tensor(p1)
 {
-	var i, j, n, p2;
+	var i, n, p2;
 
 	p2 = alloc_tensor();
 
@@ -2238,7 +2202,7 @@ decomp()
 
 	// is the entire expression constant?
 
-	if (!find(F, X)) {
+	if (!findf(F, X)) {
 		push(F);
 		return;
 	}
@@ -2276,7 +2240,7 @@ decomp_product(F, X)
 
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (find(car(p1), X)) {
+		if (findf(car(p1), X)) {
 			push(car(p1));
 			push(X);
 			decomp();
@@ -2289,7 +2253,7 @@ decomp_product(F, X)
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!find(car(p1), X))
+		if (!findf(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -2308,7 +2272,7 @@ decomp_sum(F, X)
 
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (find(car(p1), X)) {
+		if (findf(car(p1), X)) {
 			push(car(p1));
 			push(X);
 			decomp();
@@ -2321,7 +2285,7 @@ decomp_sum(F, X)
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!find(car(p1), X))
+		if (!findf(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -2395,7 +2359,7 @@ det()
 	p1 = pop();
 
 	if (!istensor(p1) || p1.dim.length != 2 || p1.dim[0] != p1.dim[1])
-		stop("det: square matrix expected");
+		stopf("det: square matrix expected");
 
 	n = p1.dim[0];
 
@@ -2449,7 +2413,7 @@ dfunction(p1, p2)
 {
 	var p3 = cdr(p1); // argument list
 
-	if (p3 == symbol(NIL) || find(p3, p2)) {
+	if (p3 == symbol(NIL) || findf(p3, p2)) {
 		push_symbol(DERIVATIVE);
 		push(p1);
 		push(p2);
@@ -2458,11 +2422,6 @@ dfunction(p1, p2)
 	}
 
 	push_integer(0);
-}
-function
-dintegral(p1, p2)
-{
-	push(cadr(p1));
 }
 function
 divide()
@@ -2639,7 +2598,7 @@ dproduct(p1, p2)
 {
 	var i, j, n, p3;
 
-	n = length(p1) - 1;
+	n = lengthf(p1) - 1;
 
 	for (i = 0; i < n; i++) {
 
@@ -2783,7 +2742,7 @@ dss(F, X)
 	}
 
 	if (car(F) == symbol(INTEGRAL) && caddr(F) == X) {
-		dintegral(F, X);
+		push(cadr(F));
 		return;
 	}
 
@@ -2887,13 +2846,6 @@ dtt(p1, p2)
 	p3.dim = p1.dim.concat(p2.dim);
 
 	push(p3);
-}
-function
-dup()
-{
-	var p = pop();
-	push(p);
-	push(p);
 }
 function
 equal(p1, p2)
@@ -3078,7 +3030,7 @@ eval_check(p1)
 	evalp();
 	p1 = pop();
 	if (iszero(p1))
-		stop("check");
+		stopf("check");
 	push_symbol(NIL); // no result is printed
 }
 function
@@ -3091,6 +3043,8 @@ eval_circexp(p1)
 function
 eval_clear(p1)
 {
+	p1; // suppress eslint warning
+
 	save_binding(symbol(TRACE));
 
 	binding = {};
@@ -3161,8 +3115,8 @@ eval_defint(p1)
 	p1 = cddr(p1);
 
 	do {
-		if (length(p1) < 3)
-			stop("defint: missing argument");
+		if (lengthf(p1) < 3)
+			stopf("defint: missing argument");
 
 		push(car(p1));
 		p1 = cdr(p1);
@@ -3409,7 +3363,7 @@ eval_for(p1)
 	p2 = cadr(p1);
 
 	if (!isusersymbol(p2))
-		stop("symbol expected");
+		stopf("symbol expected");
 
 	p1 = cddr(p1);
 
@@ -3492,7 +3446,7 @@ eval_inner(p1)
 function
 eval_integral(p1)
 {
-	var i, n, X, Y;
+	var flag, i, n, X, Y;
 
 	expanding++;
 
@@ -3598,6 +3552,7 @@ eval_multiply(p1)
 function
 eval_nil(p1)
 {
+	p1; // suppress eslint warning
 	push_symbol(NIL);
 }
 function
@@ -3723,7 +3678,7 @@ eval_product(p1)
 	p2 = cadr(p1);
 
 	if (!isusersymbol(p2))
-		stop("symbol expected");
+		stopf("symbol expected");
 
 	p1 = cddr(p1);
 
@@ -3815,7 +3770,7 @@ eval_setq(p1)
 	}
 
 	if (!isusersymbol(cadr(p1)))
-		stop("symbol expected");
+		stopf("symbol expected");
 
 	push(caddr(p1));
 	evalf();
@@ -3854,7 +3809,8 @@ eval_sqrt(p1)
 function
 eval_stop(p1)
 {
-	stop("stop function");
+	p1; // suppress eslint warning
+	stopf("stop function");
 }
 function
 eval_sum(p1)
@@ -3864,7 +3820,7 @@ eval_sum(p1)
 	p2 = cadr(p1);
 
 	if (!isusersymbol(p2))
-		stop("symbol expected");
+		stopf("symbol expected");
 
 	p1 = cddr(p1);
 
@@ -4083,7 +4039,7 @@ eval_transpose(p1)
 	evalf();
 	p2 = pop();
 	if (!istensor(p2))
-		stop("tensor expected");
+		stopf("transpose: tensor expected");
 	push(p2);
 
 	p1 = cddr(p1);
@@ -4113,7 +4069,7 @@ eval_unit(p1)
 	n = pop_integer();
 
 	if (n < 2)
-		stop("index err");
+		stopf("unit: index err");
 
 	p1 = alloc_tensor();
 
@@ -4199,7 +4155,7 @@ eval_zero(p1)
 		evalf();
 		n = pop_integer();
 		if (n < 2)
-			stop("index err");
+			stopf("zero: index err");
 		p2.dim.push(n);
 		m *= n;
 		p1 = cdr(p1);
@@ -4216,7 +4172,7 @@ evalf()
 	var p1;
 
 	if (++evaldepth == 1000)
-		stop("circular eval");
+		stopf("circular eval");
 
 	p1 = pop();
 
@@ -4259,7 +4215,7 @@ exp()
 function
 expand_sum_factors(h)
 {
-	var i, j, n, p1, p2;
+	var i, n, p1, p2;
 
 	n = stack.length;
 
@@ -4562,7 +4518,7 @@ factorial()
 		push_double(m);
 }
 function
-find(p, q) // is q in p?
+findf(p, q) // is q in p?
 {
 	var i, n;
 
@@ -4572,14 +4528,14 @@ find(p, q) // is q in p?
 	if (istensor(p)) {
 		n = p.elem.length;
 		for (i = 0; i < n; i++) {
-			if (find(p.elem[i], q))
+			if (findf(p.elem[i], q))
 				return 1;
 		}
 		return 0;
 	}
 
 	while (iscons(p)) {
-		if (find(car(p), q))
+		if (findf(car(p), q))
 			return 1;
 		p = cdr(p);
 	}
@@ -4740,15 +4696,15 @@ guess()
 {
 	var p = pop();
 	push(p);
-	if (find(p, symbol(SYMBOL_X)))
+	if (findf(p, symbol(SYMBOL_X)))
 		push_symbol(SYMBOL_X);
-	else if (find(p, symbol(SYMBOL_Y)))
+	else if (findf(p, symbol(SYMBOL_Y)))
 		push_symbol(SYMBOL_Y);
-	else if (find(p, symbol(SYMBOL_Z)))
+	else if (findf(p, symbol(SYMBOL_Z)))
 		push_symbol(SYMBOL_Z);
-	else if (find(p, symbol(SYMBOL_T)))
+	else if (findf(p, symbol(SYMBOL_T)))
 		push_symbol(SYMBOL_T);
-	else if (find(p, symbol(SYMBOL_S)))
+	else if (findf(p, symbol(SYMBOL_S)))
 		push_symbol(SYMBOL_S);
 	else
 		push_symbol(SYMBOL_X);
@@ -4775,7 +4731,7 @@ index(k)
 	p1 = pop();
 
 	if (!istensor(p1) || k < 1 || k > p1.dim[0])
-		stop("index error");
+		stopf("index error");
 
 	k--; // make zero based
 
@@ -4881,7 +4837,7 @@ inner()
 	mrow = p2.dim[0];
 
 	if (ncol != mrow)
-		stop("tensor dimensions");
+		stopf("inner: dimension err");
 
 	//	nrow is the number of rows in p1
 	//
@@ -5012,7 +4968,7 @@ integral_lookup(F, h)
 	if (integral_search(F, h, table))
 		return;
 
-	stop("integral: could not find a solution");
+	stopf("integral: no solution found");
 }
 function
 integral_nib(F, X)
@@ -5736,10 +5692,12 @@ var integral_tab = [
 function
 inv()
 {
-	var p1 = pop();
+	var p1, p2;
+
+	p1 = pop();
 
 	if (!istensor(p1) || p1.dim.length != 2 || p1.dim[0] != p1.dim[1])
-		stop("inv: square matrix expected");
+		stopf("inv: square matrix expected");
 
 	push(p1);
 	adj();
@@ -5747,7 +5705,7 @@ inv()
 	det();
 	p2 = pop();
 	if (iszero(p2))
-		stop("inv: singular matrix");
+		stopf("inv: singular matrix");
 	push(p2);
 	divide();
 }
@@ -5764,7 +5722,7 @@ isalpha(c)
 function
 iscomplexnumber(p)
 {
-	return isimaginarynumber(p) || (length(p) == 3 && car(p) == symbol(ADD) && isnum(cadr(p)) && isimaginarynumber(caddr(p)));
+	return isimaginarynumber(p) || (lengthf(p) == 3 && car(p) == symbol(ADD) && isnum(cadr(p)) && isimaginarynumber(caddr(p)));
 }
 function
 iscons(p)
@@ -5789,7 +5747,7 @@ isdoublez(p)
 {
 	if (car(p) == symbol(ADD)) {
 
-		if (length(p) != 3)
+		if (lengthf(p) != 3)
 			return 0;
 
 		if (!isdouble(cadr(p))) // x
@@ -5801,7 +5759,7 @@ isdoublez(p)
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
-	if (length(p) != 3)
+	if (lengthf(p) != 3)
 		return 0;
 
 	if (!isdouble(cadr(p))) // y
@@ -5833,7 +5791,7 @@ isimaginaryfactor(p)
 function
 isimaginarynumber(p)
 {
-	return isimaginaryunit(p) || (length(p) == 3 && car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isimaginaryunit(caddr(p)));
+	return isimaginaryunit(p) || (lengthf(p) == 3 && car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isimaginaryunit(caddr(p)));
 }
 function
 isimaginaryterm(p)
@@ -5875,7 +5833,7 @@ isminusone(p)
 function
 isminusoneoversqrttwo(p)
 {
-	return length(p) == 3 && car(p) == symbol(MULTIPLY) && isminusone(cadr(p)) && isoneoversqrttwo(caddr(p));
+	return lengthf(p) == 3 && car(p) == symbol(MULTIPLY) && isminusone(cadr(p)) && isoneoversqrttwo(caddr(p));
 }
 function
 isnegative(p)
@@ -5968,7 +5926,7 @@ iszero(p)
 	return 0;
 }
 function
-length(p)
+lengthf(p)
 {
 	var n = 0;
 	while (iscons(p)) {
@@ -6268,14 +6226,6 @@ multiply_factors(n)
 	}
 }
 function
-multiply_factors_noexpand(n)
-{
-	var t = expanding;
-	expanding = 0;
-	multiply_factors(n);
-	expanding = t;
-}
-function
 multiply_noexpand()
 {
 	var t = expanding;
@@ -6498,7 +6448,7 @@ partition_integrand(F, X)
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!find(car(p1), X))
+		if (!findf(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -6513,7 +6463,7 @@ partition_integrand(F, X)
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (find(car(p1), X))
+		if (findf(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -6540,7 +6490,7 @@ function
 pop()
 {
 	if (stack.length == 0)
-		stop("stack error");
+		stopf("stack error");
 	return stack.pop();
 }
 function
@@ -6567,7 +6517,7 @@ pop_integer()
 	if (isdouble(p1) && Math.floor(p1.d) == p1.d)
 		return p1.d;
 
-	stop("integer expected");
+	stopf("integer expected");
 }
 function
 power()
@@ -7434,7 +7384,7 @@ power_tensor(BASE, EXPO)
 	push(BASE);
 
 	for (i = 1; i < n; i++) {
-		push(p1);
+		push(BASE);
 		inner();
 	}
 }
@@ -7473,14 +7423,6 @@ prefixform(p)
 		return "(tensor)";
 
 	return "?";
-}
-function
-prep()
-{
-	stack = [];
-	frame = [];
-	expanding = 1;
-	evaldepth = 0;
 }
 function
 prep_symbol_equals(p1, p2)
@@ -8761,11 +8703,6 @@ var primetab = [
 104593,104597,104623,104639,104651,104659,104677,104681,
 104683,104693,104701,104707,104711,104717,104723,104729,
 ];
-function
-print(s)
-{
-	print_buf(s, BLACK);
-}
 const BLACK = 1;
 const BLUE = 2;
 const RED = 3;
@@ -8775,9 +8712,9 @@ print_buf(s, color)
 {
 	var t;
 
-	s = s.replace(/\&/g, "&amp;");
-	s = s.replace(/\</g, "&lt;");
-	s = s.replace(/\>/g, "&gt;");
+	s = s.replace(/&/g, "&amp;");
+	s = s.replace(/</g, "&lt;");
+	s = s.replace(/>/g, "&gt;");
 	s = s.replace(/\n/g, "<br>");
 
 	switch (color) {
@@ -9411,7 +9348,7 @@ mml_symbol(p)
 	mml_puts("</msub>");
 }
 
-mml_greek_tab = [
+var mml_greek_tab = [
 	"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta","Iota",
 	"Kappa","Lambda","Mu","Nu","Xi","Pi","Rho","Sigma","Tau","Upsilon",
 	"Phi","Chi","Psi","Omega",
@@ -9526,9 +9463,9 @@ mml_string(p)
 
 	mml_puts("<mtext>");
 
-	s = s.replace(/\&/g, "&amp;");
-	s = s.replace(/\</g, "&lt;");
-	s = s.replace(/\>/g, "&gt;");
+	s = s.replace(/&/g, "&amp;");
+	s = s.replace(/</g, "&lt;");
+	s = s.replace(/>/g, "&gt;");
 	s = s.replace(/\n/g, "<br>");
 
 	mml_puts(s);
@@ -9610,7 +9547,7 @@ promote_tensor()
 	for (i = 1; i < nelem1; i++) {
 		p3 = p1.elem[i];
 		if (!compatible_dimensions(p2, p3))
-			stop("tensor dimensions");
+			stopf("tensor dimensions");
 	}
 
 	if (!istensor(p2)) {
@@ -9666,7 +9603,7 @@ function
 push_rational(a, b)
 {
 	if (b == 0)
-		stop("divide by zero");
+		stopf("divide by zero");
 
 	if (a == 0)
 		b = 1;
@@ -9751,7 +9688,7 @@ reciprocate()
 function
 rect()
 {
-	var h, p1, p2;
+	var h, p1, p2, BASE, EXPO;
 
 	p1 = pop();
 
@@ -10044,9 +9981,11 @@ run(s)
 	}
 
 	catch(err) {
+		//
 	}
 
 	finally {
+		//
 	}
 }
 function
@@ -10593,7 +10532,7 @@ scan_error(s)
 
 	print_buf(t, RED);
 
-	stop("");
+	stopf("");
 }
 function
 scan_input(k)
@@ -10628,12 +10567,12 @@ set_component(LVAL, RVAL, h)
 	var i, k, n, t, p1;
 
 	if (!istensor(LVAL) || istensor(RVAL))
-		stop("index err");
+		stopf("index err");
 
 	n = stack.length - h;
 
 	if (n != LVAL.dim.length)
-		stop("index err");
+		stopf("index err");
 
 	k = 0;
 
@@ -10641,7 +10580,7 @@ set_component(LVAL, RVAL, h)
 		push(stack[h + i]);
 		t = pop_integer();
 		if (t < 1 || t > LVAL.dim[i])
-			stop("index err");
+			stopf("index err");
 		k = k * LVAL.dim[i] + t - 1;
 	}
 
@@ -10659,7 +10598,7 @@ setq_indexed(p1)
 	S = cadadr(p1);
 
 	if (!isusersymbol(S))
-		stop("symbol expected");
+		stopf("symbol expected");
 
 	push(S);
 	evalf();
@@ -10706,7 +10645,7 @@ setq_userfunc(p1)
 	B = caddr(p1);
 
 	if (!issymbol(F))
-		stop("function name?");
+		stopf("function name?");
 
 	set_binding_and_arglist(F, B, A);
 }
@@ -10765,12 +10704,12 @@ simplify_polar_term(p)
 
 	// exp(i pi) -> -1
 
-	if (length(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI)) {
+	if (lengthf(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI)) {
 		push_integer(-1);
 		return 1;
 	}
 
-	if (length(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
+	if (lengthf(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
 		return 0;
 
 	p = cadr(p); // coeff
@@ -11045,12 +10984,6 @@ sinh()
 	list(2);
 }
 function
-sort_expr(h)
-{
-	var t = stack.splice(h).sort(cmp_expr);
-	stack = stack.concat(t);
-}
-function
 sort_factors(h)
 {
 	var t = stack.splice(h).sort(cmp_factors);
@@ -11137,7 +11070,7 @@ static_reciprocate()
 	list(3);
 }
 function
-stop(s)
+stopf(s)
 {
 	if (s.length > 0) {
 		if (trace1 < trace2 && inbuf[trace2 - 1] == '\n')
@@ -11442,7 +11375,7 @@ tensor_factor(h)
 		p1 = stack[i];
 		if (istensor(p1)) {
 			if (istensor(p2))
-				stop("dot is used for matrix products");
+				stopf("dot is used for matrix products");
 			p2 = p1;
 			stack.splice(i, 1); // remove factor
 			i--; // use same index again
@@ -11483,7 +11416,7 @@ transpose(n, m)
 	ndim = p1.dim.length;
 
 	if (n < 1 || n > ndim || m < 1 || m > ndim)
-		stop("index err");
+		stopf("index err");
 
 	n--; // make zero based
 	m--;
@@ -11604,7 +11537,7 @@ sgn:		{printname:SGN,		func:eval_sgn},
 sin:		{printname:SIN,		func:eval_sin},
 sinh:		{printname:SINH,	func:eval_sinh},
 sqrt:		{printname:SQRT,	func:eval_sqrt},
-stop:		{printname:STOP,	func:eval_stop},
+"stop":		{printname:STOP,	func:eval_stop},
 sum:		{printname:SUM,		func:eval_sum},
 tan:		{printname:TAN,		func:eval_tan},
 tanh:		{printname:TANH,	func:eval_tanh},

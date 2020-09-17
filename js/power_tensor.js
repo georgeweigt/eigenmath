@@ -54,7 +54,7 @@ power_tensor(BASE, EXPO)
 	push(BASE);
 
 	for (i = 1; i < n; i++) {
-		push(p1);
+		push(BASE);
 		inner();
 	}
 }

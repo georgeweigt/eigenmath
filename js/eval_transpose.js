@@ -7,7 +7,7 @@ eval_transpose(p1)
 	evalf();
 	p2 = pop();
 	if (!istensor(p2))
-		stop("tensor expected");
+		stopf("transpose: tensor expected");
 	push(p2);
 
 	p1 = cddr(p1);

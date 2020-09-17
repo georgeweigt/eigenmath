@@ -8,7 +8,7 @@ eval_unit(p1)
 	n = pop_integer();
 
 	if (n < 2)
-		stop("index err");
+		stopf("unit: index err");
 
 	p1 = alloc_tensor();
 

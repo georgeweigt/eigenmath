@@ -13,7 +13,7 @@ combine_terms_nib(i, j)
 	}
 
 	if (istensor(p1) || istensor(p2))
-		stop("incompatible tensor arithmetic");
+		stopf("incompatible tensor arithmetic");
 
 	if (iszero(p2))
 		return 1;

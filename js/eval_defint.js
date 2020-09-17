@@ -12,8 +12,8 @@ eval_defint(p1)
 	p1 = cddr(p1);
 
 	do {
-		if (length(p1) < 3)
-			stop("defint: missing argument");
+		if (lengthf(p1) < 3)
+			stopf("defint: missing argument");
 
 		push(car(p1));
 		p1 = cdr(p1);

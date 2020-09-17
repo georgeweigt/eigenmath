@@ -20,7 +20,7 @@ promote_tensor()
 	for (i = 1; i < nelem1; i++) {
 		p3 = p1.elem[i];
 		if (!compatible_dimensions(p2, p3))
-			stop("tensor dimensions");
+			stopf("tensor dimensions");
 	}
 
 	if (!istensor(p2)) {

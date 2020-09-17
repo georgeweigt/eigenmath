@@ -8,7 +8,7 @@ decomp()
 
 	// is the entire expression constant?
 
-	if (!find(F, X)) {
+	if (!findf(F, X)) {
 		push(F);
 		return;
 	}

@@ -22,5 +22,5 @@ integral_lookup(F, h)
 	if (integral_search(F, h, table))
 		return;
 
-	stop("integral: could not find a solution");
+	stopf("integral: no solution found");
 }

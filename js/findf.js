@@ -1,5 +1,5 @@
 function
-find(p, q) // is q in p?
+findf(p, q) // is q in p?
 {
 	var i, n;
 
@@ -9,14 +9,14 @@ find(p, q) // is q in p?
 	if (istensor(p)) {
 		n = p.elem.length;
 		for (i = 0; i < n; i++) {
-			if (find(p.elem[i], q))
+			if (findf(p.elem[i], q))
 				return 1;
 		}
 		return 0;
 	}
 
 	while (iscons(p)) {
-		if (find(car(p), q))
+		if (findf(car(p), q))
 			return 1;
 		p = cdr(p);
 	}

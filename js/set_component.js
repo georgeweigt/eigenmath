@@ -4,12 +4,12 @@ set_component(LVAL, RVAL, h)
 	var i, k, n, t, p1;
 
 	if (!istensor(LVAL) || istensor(RVAL))
-		stop("index err");
+		stopf("index err");
 
 	n = stack.length - h;
 
 	if (n != LVAL.dim.length)
-		stop("index err");
+		stopf("index err");
 
 	k = 0;
 
@@ -17,7 +17,7 @@ set_component(LVAL, RVAL, h)
 		push(stack[h + i]);
 		t = pop_integer();
 		if (t < 1 || t > LVAL.dim[i])
-			stop("index err");
+			stopf("index err");
 		k = k * LVAL.dim[i] + t - 1;
 	}
 

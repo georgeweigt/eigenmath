@@ -2,7 +2,7 @@ function
 push_rational(a, b)
 {
 	if (b == 0)
-		stop("divide by zero");
+		stopf("divide by zero");
 
 	if (a == 0)
 		b = 1;

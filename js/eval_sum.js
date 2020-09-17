@@ -6,7 +6,7 @@ eval_sum(p1)
 	p2 = cadr(p1);
 
 	if (!isusersymbol(p2))
-		stop("symbol expected");
+		stopf("symbol expected");
 
 	p1 = cddr(p1);
 

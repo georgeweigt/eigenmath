@@ -8,7 +8,7 @@ tensor_factor(h)
 		p1 = stack[i];
 		if (istensor(p1)) {
 			if (istensor(p2))
-				stop("dot is used for matrix products");
+				stopf("dot is used for matrix products");
 			p2 = p1;
 			stack.splice(i, 1); // remove factor
 			i--; // use same index again

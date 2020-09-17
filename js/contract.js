@@ -9,7 +9,7 @@ contract()
 	p1 = pop();
 
 	if (!istensor(p1))
-		stop("contract: 1st arg is not a tensor");
+		stopf("contract: tensor expected");
 
 	ndim = p1.dim.length;
 
@@ -19,14 +19,8 @@ contract()
 	push(p3);
 	m = pop_integer();
 
-	if (n < 1 || n > ndim)
-		stop("contract: 2nd arg not numerical or out of range (less than 1 or greater than tensor rank)");
-
-	if (m < 1 || m > ndim)
-		stop("contract: 3rd arg not numerical or out of range (less than 1 or greater than tensor rank)");
-
-	if (n == m)
-		stop("contract: 2nd and 3rd args are the same");
+	if (n < 1 || n > ndim || m < 1 || m > ndim || n == m)
+		stopf("contract: index err");
 
 	n--; // make zero based
 	m--;
@@ -35,7 +29,7 @@ contract()
 	nrow = p1.dim[m];
 
 	if (ncol != nrow)
-		stop("contract: unequal tensor dimensions for indices given by 2nd and 3rd args");
+		stopf("contract: index err");
 
 	// nelem is the number of elements in result
 

@@ -5,3 +5,6 @@ default:
 
 clean:
 	rm -f eigenmath.js
+
+check:
+	npx eslint eigenmath.js

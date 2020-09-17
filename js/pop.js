@@ -2,6 +2,6 @@ function
 pop()
 {
 	if (stack.length == 0)
-		stop("stack error");
+		stopf("stack error");
 	return stack.pop();
 }

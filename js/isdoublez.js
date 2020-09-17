@@ -3,7 +3,7 @@ isdoublez(p)
 {
 	if (car(p) == symbol(ADD)) {
 
-		if (length(p) != 3)
+		if (lengthf(p) != 3)
 			return 0;
 
 		if (!isdouble(cadr(p))) // x
@@ -15,7 +15,7 @@ isdoublez(p)
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
-	if (length(p) != 3)
+	if (lengthf(p) != 3)
 		return 0;
 
 	if (!isdouble(cadr(p))) // y
