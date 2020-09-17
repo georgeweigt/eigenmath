@@ -51,6 +51,9 @@ power_nib(void)
 		return;
 	}
 
+	if (iszero(BASE) && isnegativenumber(EXPO))
+		stop("divide by zero");
+
 	if (BASE == symbol(EXP1) && isdouble(EXPO)) {
 		push_double(M_E);
 		BASE = pop();
@@ -805,6 +808,9 @@ void
 power_numbers(void)
 {
 	double base, expo;
+
+	if (iszero(BASE) && isnegativenumber(EXPO))
+		stop("divide by zero");
 
 	if (equaln(BASE, -1)) {
 		power_imaginary_unit();
