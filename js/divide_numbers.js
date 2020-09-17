@@ -14,5 +14,8 @@ divide_numbers(p1, p2)
 	push(p2);
 	b = pop_double();
 
+	if (b == 0.0)
+		stopf("divide by zero");
+
 	push_double(a / b);
 }

@@ -3,6 +3,9 @@ divide_rationals(p1, p2)
 {
 	var a, b, c;
 
+	if (iszero(p2))
+		stopf("divide by zero");
+
 	a = p1.a * p2.b;
 	b = p1.b * p2.a;
 
