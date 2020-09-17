@@ -1,6 +1,6 @@
 Eigenmath is a C program.
 
-There is a port to Javascript in the 'js' directory.
+A Javascript version for web pages is available in the 'js' directory.
 
 To build and run the C version:
 
