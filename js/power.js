@@ -11,6 +11,9 @@ power()
 		return;
 	}
 
+	if (iszero(BASE) && isnegativenumber(EXPO))
+		stopf("divide by zero");
+
 	if (BASE == symbol(EXP1) && isdouble(EXPO)) {
 		push_double(Math.E);
 		BASE = pop();

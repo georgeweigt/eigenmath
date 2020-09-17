@@ -5,6 +5,9 @@ power_numbers(BASE, EXPO)
 {
 	var base, expo;
 
+	if (iszero(BASE) && isnegativenumber(EXPO))
+		stopf("divide by zero");
+
 	if (isinteger(EXPO)) {
 		power_simple(BASE, EXPO);
 		return;
