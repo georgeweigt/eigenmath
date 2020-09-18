@@ -508,98 +508,6 @@ multiply_rationals(void)
 	mfree(c);
 }
 
-void
-multiply_noexpand(void)
-{
-	int t = expanding;
-	expanding = 0;
-	multiply();
-	expanding = t;
-}
-
-void
-multiply_factors_noexpand(int n)
-{
-	int t = expanding;
-	expanding = 0;
-	multiply_factors(n);
-	expanding = t;
-}
-
-void
-negate(void)
-{
-	save();
-	negate_nib();
-	restore();
-}
-
-void
-negate_nib(void)
-{
-	p1 = pop();
-
-	if (isnum(p1)) {
-		negate_number();
-		return;
-	}
-
-	push_integer(-1);
-	push(p1);
-	multiply();
-}
-
-// negate p1
-
-void
-negate_number(void)
-{
-	uint32_t *a, *b;
-	double d;
-
-	if (iszero(p1)) {
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		d = p1->u.d;
-		push_double(-1.0 * d);
-		return;
-	}
-
-	a = mcopy(p1->u.q.a);
-	b = mcopy(p1->u.q.b);
-
-	if (p1->sign == MMINUS)
-		push_rational_number(MPLUS, a, b);
-	else
-		push_rational_number(MMINUS, a, b);
-}
-
-void
-negate_noexpand(void)
-{
-	int t = expanding;
-	expanding = 0;
-	negate();
-	expanding = t;
-}
-
-void
-reciprocate(void)
-{
-	push_integer(-1);
-	power();
-}
-
-void
-divide(void)
-{
-	reciprocate();
-	multiply();
-}
-
 // for example, 2 / sqrt(2) -> sqrt(2)
 
 void
@@ -715,4 +623,52 @@ reduce_radical_factors(int h)
 			negate();
 		COEF = pop();
 	}
+}
+
+void
+multiply_noexpand(void)
+{
+	int t = expanding;
+	expanding = 0;
+	multiply();
+	expanding = t;
+}
+
+void
+multiply_factors_noexpand(int n)
+{
+	int t = expanding;
+	expanding = 0;
+	multiply_factors(n);
+	expanding = t;
+}
+
+void
+negate(void)
+{
+	push_integer(-1);
+	multiply();
+}
+
+void
+negate_noexpand(void)
+{
+	int t = expanding;
+	expanding = 0;
+	negate();
+	expanding = t;
+}
+
+void
+reciprocate(void)
+{
+	push_integer(-1);
+	power();
+}
+
+void
+divide(void)
+{
+	reciprocate();
+	multiply();
 }
