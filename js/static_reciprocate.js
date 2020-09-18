@@ -18,7 +18,9 @@ static_reciprocate()
 	}
 
 	if (isnum(p1) && isnum(p2)) {
-		divide_numbers(p1, p2);
+		push(p1);
+		push(p2);
+		divide();
 		return;
 	}
 
