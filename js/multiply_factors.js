@@ -1,19 +1,10 @@
-// n is number of factors on stack
-
 function
-multiply_factors(n)
+multiply_factors(n) // n is number of factors on stack
 {
 	var h, COEFF, TFACT;
 
 	if (n < 2)
 		return;
-
-	if (n == 2 && isnum(stack[stack.length - 2]) && isnum(stack[stack.length - 1])) {
-		var p2 = pop();
-		var p1 = pop();
-		multiply_numbers(p1, p2);
-		return;
-	}
 
 	h = stack.length - n;
 
@@ -23,9 +14,13 @@ multiply_factors(n)
 
 	COEFF = collect_numerical_factors(h, one);
 
-	if (iszero(COEFF)) {
+	if (iszero(COEFF) || h == stack.length) {
 		stack.splice(h); // pop all
 		push(COEFF);
+		if (istensor(TFACT)) {
+			push(TFACT);
+			inner();
+		}
 		return;
 	}
 

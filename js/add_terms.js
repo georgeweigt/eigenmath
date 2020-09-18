@@ -1,19 +1,10 @@
-// n is number of terms on stack
-
 function
-add_terms(n)
+add_terms(n) // n is number of terms on stack
 {
 	var h;
 
 	if (n < 2)
 		return;
-
-	if (n == 2 && isnum(stack[stack.length - 2]) && isnum(stack[stack.length - 1])) {
-		var p2 = pop();
-		var p1 = pop();
-		add_numbers(p1, p2);
-		return;
-	}
 
 	h = stack.length - n;
 

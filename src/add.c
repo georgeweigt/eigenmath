@@ -35,13 +35,6 @@ add_terms_nib(int n)
 	if (n < 2)
 		return;
 
-	if (n == 2 && isnum(stack[tos - 2]) && isnum(stack[tos - 1])) {
-		p2 = pop();
-		p1 = pop();
-		add_numbers();
-		return;
-	}
-
 	flatten_terms(h);
 
 	combine_terms(h);

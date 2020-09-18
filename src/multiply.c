@@ -53,13 +53,6 @@ multiply_factors_nib(int n)
 	if (n < 2)
 		return;
 
-	if (n == 2 && isnum(stack[tos - 2]) && isnum(stack[tos - 1])) {
-		p2 = pop();
-		p1 = pop();
-		multiply_numbers();
-		return;
-	}
-
 	flatten_factors(h);
 
 	partition_tensor_factor(h);
@@ -68,8 +61,13 @@ multiply_factors_nib(int n)
 
 	collect_numerical_factors(h);
 
-	if (iszero(COEF)) {
+	if (iszero(COEF) || h == tos) {
+		tos = h; // pop all
 		push(COEF);
+		if (istensor(TFACT)) {
+			push(TFACT);
+			inner();
+		}
 		return;
 	}
 
