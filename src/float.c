@@ -13,6 +13,11 @@ sfloat(void)
 {
 	sfloat_subst();
 	eval();
+
+	if (find(stack[tos - 1], symbol(PI))) {
+		sfloat_subst();
+		eval();
+	}
 }
 
 void

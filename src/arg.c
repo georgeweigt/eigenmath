@@ -38,7 +38,7 @@ arg(void)
 void
 arg_nib(void)
 {
-	int h, i, n;
+	int h;
 
 	p1 = pop();
 
@@ -85,13 +85,7 @@ arg_nib(void)
 			arg();
 			p1 = cdr(p1);
 		}
-		n = tos - h;
-		for (i = 0; i < n; i++)
-			if (isdouble(stack[h + i]))
-				break;
-		add_terms(n);
-		if (i < n)
-			sfloat();
+		add_terms(tos - h);
 		return;
 	}
 
