@@ -95,6 +95,8 @@ combine_terms(int h)
 			i--; // use same index again
 		}
 	}
+	if (tos - h == 1 && !istensor(stack[h]) && iszero(stack[h]))
+		tos = h; // all terms canceled
 }
 
 #if 0 // brute force method

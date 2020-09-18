@@ -61,8 +61,17 @@ multiply_factors_nib(int n)
 
 	collect_numerical_factors(h);
 
-	if (iszero(COEF) || h == tos) {
-		tos = h; // pop all
+	if (iszero(COEF)) {
+		tos = h;
+		push_integer(0);
+		if (istensor(TFACT)) {
+			push(TFACT);
+			inner();
+		}
+		return;
+	}
+
+	if (h == tos) {
 		push(COEF);
 		if (istensor(TFACT)) {
 			push(TFACT);
