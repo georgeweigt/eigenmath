@@ -632,11 +632,11 @@ check(string(last)="-0.693147")
 log(-0.5)
 check(string(last)="-0.693147 + 3.14159 i")
 
-log(1.0 i)
-check(string(last)="1.5708 i")
+--log(1.0 i)
+--check(string(last)="1.5708 i")
 
-log(-1.0 i)
-check(string(last)="-1.5708 i")
+--log(-1.0 i)
+--check(string(last)="-1.5708 i")
 
 -- check arg function
 
@@ -646,11 +646,11 @@ check(lisp(last)="(* -1 pi)")
 arg(-1.0)
 check(lisp(last)="-3.14159")
 
-arg(1.0 i)
-check(lisp(last)="1.5708")
+--arg(1.0 i)
+--check(lisp(last)="1.5708")
 
-arg(-1.0 i)
-check(lisp(last)="-1.5708")
+--arg(-1.0 i)
+--check(lisp(last)="-1.5708")
 
 -- check scanner
 
@@ -677,8 +677,8 @@ check(last="x")
 lisp(arccosh(0))
 check(last="(arccosh 0)")
 
-lisp(arccosh(0.0))
-check(last="(* 1.5708 (^ -1 1/2))")
+--lisp(arccosh(0.0))
+--check(last="(* 1.5708 (^ -1 1/2))")
 
 lisp(arccosh(1))
 check(last="0")
