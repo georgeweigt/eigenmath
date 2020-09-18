@@ -589,14 +589,6 @@ negate_noexpand(void)
 void
 reciprocate(void)
 {
-	save();
-	reciprocate_nib();
-	restore();
-}
-
-void
-reciprocate_nib(void)
-{
 	push_integer(-1);
 	power();
 }
@@ -604,78 +596,8 @@ reciprocate_nib(void)
 void
 divide(void)
 {
-	save();
-	divide_nib();
-	restore();
-}
-
-void
-divide_nib(void)
-{
-	p2 = pop();
-	p1 = pop();
-
-	if (isnum(p1) && isnum(p2)) {
-		divide_numbers();
-		return;
-	}
-
-	push(p1);
-	push(p2);
-	push_integer(-1);
-	power();
+	reciprocate();
 	multiply();
-}
-
-void
-divide_numbers(void)
-{
-	double d1, d2;
-
-	if (isrational(p1) && isrational(p2)) {
-		divide_rationals();
-		return;
-	}
-
-	push(p1);
-	d1 = pop_double();
-
-	push(p2);
-	d2 = pop_double();
-
-	if (d2 == 0.0)
-		stop("divide by zero");
-
-	push_double(d1 / d2);
-}
-
-void
-divide_rationals(void)
-{
-	int sign;
-	uint32_t *a, *b, *c;
-
-	if (iszero(p2))
-		stop("divide by zero");
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	if (p1->sign == p2->sign)
-		sign = MPLUS;
-	else
-		sign = MMINUS;
-
-	a = mmul(p1->u.q.a, p2->u.q.b);
-	b = mmul(p1->u.q.b, p2->u.q.a);
-	c = mgcd(a, b);
-	push_rational_number(sign, mdiv(a, c), mdiv(b, c));
-
-	mfree(a);
-	mfree(b);
-	mfree(c);
 }
 
 // for example, 2 / sqrt(2) -> sqrt(2)
