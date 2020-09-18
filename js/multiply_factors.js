@@ -14,8 +14,17 @@ multiply_factors(n) // n is number of factors on stack
 
 	COEFF = collect_numerical_factors(h, one);
 
-	if (iszero(COEFF) || h == stack.length) {
+	if (iszero(COEFF)) {
 		stack.splice(h); // pop all
+		push_integer(0);
+		if (istensor(TFACT)) {
+			push(TFACT);
+			inner();
+		}
+		return;
+	}
+
+	if (h == stack.length) {
 		push(COEFF);
 		if (istensor(TFACT)) {
 			push(TFACT);

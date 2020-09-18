@@ -16,4 +16,6 @@ combine_terms(h)
 			n = stack.length;
 		}
 	}
+	if (stack.length - h == 1 && !istensor(stack[h]) && iszero(stack[h]))
+		stack.splice(h); // all terms canceled
 }
