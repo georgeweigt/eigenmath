@@ -70,9 +70,9 @@ multiply_factors_nib(int n)
 void
 multiply_scalar_factors(int h)
 {
-	int n = tos - h;
+	int n;
 
-	if (n < 2)
+	if (tos - h < 2)
 		return;
 
 	COEF = one;
