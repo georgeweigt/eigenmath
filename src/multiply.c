@@ -103,7 +103,7 @@ multiply_scalar_factors(int h)
 
 	switch (n) {
 	case 0:
-		push_integer(1);
+		push_integer(1); // all factors canceled
 		break;
 	case 1:
 		break;
