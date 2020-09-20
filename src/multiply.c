@@ -48,35 +48,40 @@ multiply_factors(int n)
 void
 multiply_factors_nib(int n)
 {
-	int h = tos - n;
+	int h;
 
 	if (n < 2)
 		return;
 
+	h = tos - n;
+
 	flatten_factors(h);
 
-	partition_tensor_factor(h);
+	pop_tensor_factor(h);
+
+	multiply_scalar_factors(h);
+
+	if (istensor(TFACT)) {
+		push(TFACT);
+		inner();
+	}
+}
+
+void
+multiply_scalar_factors(int h)
+{
+	int n = tos - h;
+
+	if (n < 2)
+		return;
 
 	COEF = one;
 
 	collect_numerical_factors(h);
 
-	if (iszero(COEF)) {
+	if (iszero(COEF) || h == tos) {
 		tos = h;
-		push_integer(0);
-		if (istensor(TFACT)) {
-			push(TFACT);
-			inner();
-		}
-		return;
-	}
-
-	if (h == tos) {
 		push(COEF);
-		if (istensor(TFACT)) {
-			push(TFACT);
-			inner();
-		}
 		return;
 	}
 
@@ -110,11 +115,6 @@ multiply_factors_nib(int n)
 		cons();
 		break;
 	}
-
-	if (istensor(TFACT)) {
-		push(TFACT);
-		inner();
-	}
 }
 
 void
@@ -136,7 +136,7 @@ flatten_factors(int h)
 }
 
 void
-partition_tensor_factor(int h)
+pop_tensor_factor(int h)
 {
 	int i, j, n = tos - h;
 	struct atom **s = stack + h;

@@ -68,9 +68,9 @@ check(lisp(b-a)="(+ (* -1 a) b)")
 -- test multiply.c
 
 check(string(x * 0 * 0) = "0")
-check(string(x * 0 * 0.0) = "0")
-check(string(x * 0.0 * 0) = "0")
-check(string(x * 0.0 * 0.0) = "0")
+check(string(x * 0 * 0.0) = "0.0")
+check(string(x * 0.0 * 0) = "0.0")
+check(string(x * 0.0 * 0.0) = "0.0")
 
 check(string(2^x * 2^y) = "2^(x + y)")
 check(string(2^x * 2.0^y) = "2.0^(x + y)")
