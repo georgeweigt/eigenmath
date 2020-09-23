@@ -6,7 +6,7 @@ multiply_scalar_factors(h)
 	if (stack.length - h < 2)
 		return;
 
-	COEFF = collect_numerical_factors(h, one);
+	COEFF = combine_numerical_factors(h, one);
 
 	if (iszero(COEFF) || h == stack.length) {
 		stack.splice(h); // pop all
@@ -18,7 +18,7 @@ multiply_scalar_factors(h)
 
 	normalize_power_factors(h);
 
-	COEFF = collect_numerical_factors(h, COEFF);
+	COEFF = combine_numerical_factors(h, COEFF);
 
 	COEFF = reduce_radical_factors(h, COEFF);
 

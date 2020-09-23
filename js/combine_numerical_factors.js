@@ -1,5 +1,5 @@
 function
-collect_numerical_factors(h, COEFF)
+combine_numerical_factors(h, COEFF)
 {
 	var i, n, p1;
 
