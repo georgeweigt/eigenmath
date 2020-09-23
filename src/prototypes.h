@@ -471,7 +471,7 @@ void multiply_factors_nib(int n);
 void multiply_scalar_factors(int h);
 void flatten_factors(int h);
 void pop_tensor_factor(int h);
-void collect_numerical_factors(int h);
+void combine_numerical_factors(int h);
 void combine_factors(int h);
 void sort_factors_provisional(int n);
 int sort_factors_provisional_func(const void *q1, const void *q2);

@@ -77,7 +77,7 @@ multiply_scalar_factors(int h)
 
 	COEF = one;
 
-	collect_numerical_factors(h);
+	combine_numerical_factors(h);
 
 	if (iszero(COEF) || h == tos) {
 		tos = h;
@@ -89,7 +89,7 @@ multiply_scalar_factors(int h)
 
 	normalize_power_factors(h);
 
-	collect_numerical_factors(h);
+	combine_numerical_factors(h);
 
 	reduce_radical_factors(h);
 
@@ -158,7 +158,7 @@ pop_tensor_factor(int h)
 }
 
 void
-collect_numerical_factors(int h)
+combine_numerical_factors(int h)
 {
 	int i, j, n = tos - h;
 	struct atom **s = stack + h;
