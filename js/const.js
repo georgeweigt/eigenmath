@@ -98,3 +98,5 @@ const SYMBOL_T = "t";
 const SYMBOL_X = "x";
 const SYMBOL_Y = "y";
 const SYMBOL_Z = "z";
+
+const MAXINT = 1e15;

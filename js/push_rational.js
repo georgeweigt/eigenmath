@@ -12,7 +12,7 @@ push_rational(a, b)
 		b = -b;
 	}
 
-	if (Math.abs(a) > 1e10 || b > 1e10)
+	if (Math.abs(a) > MAXINT || b > MAXINT)
 		push_double(a / b);
 	else
 		push({a:a, b:b});

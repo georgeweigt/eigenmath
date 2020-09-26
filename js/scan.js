@@ -206,7 +206,7 @@ scan_factor()
 
 	case T_INTEGER:
 		n = parseFloat(token_buf);
-		if (n > 1e10)
+		if (n > MAXINT)
 			push_double(n);
 		else
 			push_integer(n);
