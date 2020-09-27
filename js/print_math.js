@@ -292,7 +292,7 @@ mml_double(p)
 	i = s.indexOf(".");
 
 	if (i == -1)
-		mml_mn(s.substring(0, k));
+		mml_mn(s.substring(0, k) + ".0");
 	else {
 		for (j = k - 1; j > i + 1; j--) {
 			if (s[j] != '0')
