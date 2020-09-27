@@ -273,7 +273,7 @@ mml_rational(p)
 function
 mml_double(p)
 {
-	var i, j, k, s, t;
+	var i, j, k, s;
 
 	if (p.d == 0) {
 		mml_mn("0");
@@ -292,16 +292,14 @@ mml_double(p)
 	i = s.indexOf(".");
 
 	if (i == -1)
-		t = s.substring(0, k) + ".0";
+		mml_mn(s.substring(0, k));
 	else {
 		for (j = k - 1; j > i + 1; j--) {
 			if (s[j] != '0')
 				break;
 		}
-		t = s.substring(0, j + 1);
+		mml_mn(s.substring(0, j + 1));
 	}
-
-	mml_mn(t);
 
 	if (s[k] != 'E' && s[k] != 'e')
 		return;
