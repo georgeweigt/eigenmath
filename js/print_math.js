@@ -275,6 +275,11 @@ mml_double(p)
 {
 	var i, j, k, s, t;
 
+	if (p.d == 0) {
+		mml_mn("0");
+		return;
+	}
+
 	s = Math.abs(p.d).toPrecision(6) + 'T'; // terminator
 
 	k = 0;
