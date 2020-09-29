@@ -11,7 +11,8 @@ function
 print_math()
 {
 	var p1 = pop();
-	mml_buf = "<p><math>";
+	mml_buf = "";
+	mml_puts("<p><math>");
 	mml_expr(p1);
 	mml_puts("</math></p>");
 	fputs(mml_buf);
