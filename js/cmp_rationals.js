@@ -1,5 +1,5 @@
 function
-compare_rationals(p1, p2)
+cmp_rationals(p1, p2)
 {
 	var a, b;
 
