@@ -4,7 +4,8 @@ function
 latex()
 {
 	var p1 = pop();
-	latex_buf = "<p>$$";
+	latex_buf = "";
+	latex_puts("<p>$$");
 	latex_expr(p1);
 	latex_puts("$$</p>");
 	fputs(latex_buf);
