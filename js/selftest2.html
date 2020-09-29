@@ -1,11 +1,6 @@
-<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
 <title></title>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body style="font-size:18pt">
 
@@ -549,13 +544,11 @@ run_button()
 	var s = document.getElementById("stdin").value;
 
 	run(s);
-
-	MathJax.typeset();
 }
 function
 fputs(s)
 {
-	stdout.innerHTML = stdout.innerHTML.concat(s);
+	stdout.innerHTML += s;
 }
 </script>
 
