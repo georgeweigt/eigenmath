@@ -8,7 +8,6 @@ module.exports = {
         "ecmaVersion": 12
     },
     "rules": {
-        "no-unused-vars": ["error", { "varsIgnorePattern": "^run$" }]
     },
     "globals": {
         "fputs": "readonly"

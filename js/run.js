@@ -1,3 +1,5 @@
+/* exported run */
+
 function
 run(s)
 {
