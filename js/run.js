@@ -1,8 +1,13 @@
 /* exported run */
 
 function
-run(s)
+run()
 {
+	var s = document.getElementById("stdin").value;
+
+	stdout = document.getElementById("stdout");
+	stdout.innerHTML = "";
+
 	try {
 		run_nib(s);
 	}

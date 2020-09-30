@@ -9,7 +9,4 @@ module.exports = {
     },
     "rules": {
     },
-    "globals": {
-        "fputs": "readonly"
-    }
 };

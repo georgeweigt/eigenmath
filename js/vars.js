@@ -1,3 +1,4 @@
+var stdout;
 var stack;
 var frame;
 var binding;
