@@ -1,5 +1,3 @@
-Eigenmath is primarily a C program.
-
 A Javascript version for web pages is available in the 'js' directory.
 
 To build and run the C version:
