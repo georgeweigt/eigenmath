@@ -15,7 +15,7 @@ To run a script:
 
 	./eigenmath scriptfilename
 
-Sample scripts are available at eigenmath.github.io
+Sample scripts are available at https://eigenmath.github.io
 
 To generate LaTeX output:
 
