@@ -15,7 +15,7 @@ To run a script:
 
 	./eigenmath scriptfilename
 
-Sample scripts are available at www.eigenmath.org
+Sample scripts are available at eigenmath.github.io
 
 To generate LaTeX output:
 
@@ -30,8 +30,6 @@ To generate MathJax output:
 	./eigenmath --mathjax scriptfilename | tee foo.html
 
 MathML and MathJax results look best on Firefox.
-
-
 
 History:
 
