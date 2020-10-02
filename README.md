@@ -1,4 +1,6 @@
-A Javascript version for web pages is available in the 'js' directory.
+The Eigenmath manual and sample scripts are available at eigenmath.github.io
+
+See the 'js' directory for Eigenmath in Javascript.
 
 To build and run the C version:
 
@@ -11,8 +13,6 @@ Press control-C or type exit to exit.
 To run a script:
 
 	./eigenmath scriptfilename
-
-Sample scripts are available at https://eigenmath.github.io
 
 To generate LaTeX output:
 
