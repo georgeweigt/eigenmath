@@ -1,3 +1,5 @@
+Eigenmath is a symbolic math program for people who need to compute with symbols as well as numbers. 
+
 The Eigenmath manual and sample scripts are available at https://eigenmath.github.io
 
 See the 'js' directory for a Javascript version of Eigenmath.
