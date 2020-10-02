@@ -27,14 +27,3 @@ To generate MathJax output:
 	./eigenmath --mathjax scriptfilename | tee foo.html
 
 MathML and MathJax results look best on Firefox.
-
-History:
-
-July 29, 2020
-Use cross multiplication to test for equality.
-
-July 30, 2020
-Remove eval quirk in user defined functions.
-
-September 12, 2020
-Port to Javascript.
