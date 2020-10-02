@@ -1,6 +1,6 @@
 The Eigenmath manual and sample scripts are available at https://eigenmath.github.io
 
-See the 'js' directory for Eigenmath in Javascript.
+See the 'js' directory for a Javascript version of Eigenmath.
 
 To build and run the C version:
 
