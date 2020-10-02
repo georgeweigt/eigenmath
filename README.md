@@ -26,4 +26,4 @@ To generate MathJax output:
 
 	./eigenmath --mathjax scriptfilename | tee foo.html
 
-MathML and MathJax results look best on Firefox.
+MathML and MathJax results look best on Safari and Firefox.
