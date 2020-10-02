@@ -1,4 +1,4 @@
-The Eigenmath manual and sample scripts are available at eigenmath.github.io
+The Eigenmath manual and sample scripts are available at https://eigenmath.github.io
 
 See the 'js' directory for Eigenmath in Javascript.
 
