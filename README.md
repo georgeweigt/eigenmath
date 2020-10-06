@@ -1,10 +1,4 @@
-Eigenmath is a symbolic math program for people who need to compute with symbols as well as numbers. 
-
-The Eigenmath manual and sample scripts are available at https://eigenmath.github.io
-
-See the 'js' directory for a Javascript version of Eigenmath.
-
-To build and run the C version:
+To build and run:
 
 	cd src
 	make
@@ -29,3 +23,5 @@ To generate MathJax output:
 	./eigenmath --mathjax scriptfilename | tee foo.html
 
 MathML and MathJax results look best on Safari and Firefox.
+
+The Eigenmath manual and sample scripts are available at https://eigenmath.github.io
