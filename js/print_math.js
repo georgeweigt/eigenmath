@@ -10,9 +10,9 @@ print_math()
 {
 	var p1 = pop();
 	outbuf = "";
-	append("<p><math>");
+	printf("<p><math>");
 	print_expr(p1);
-	append("</math></p>");
+	printf("</math></p>");
 	fputs(outbuf);
 }
 
@@ -25,7 +25,7 @@ print_expr(p)
 		p = cdr(p);
 		q = car(p);
 		if (isnegativenumber(q) || (car(q) == symbol(MULTIPLY) && isnegativenumber(cadr(q))))
-			append(MML_MINUS);
+			printf(MML_MINUS);
 		print_term(q);
 		p = cdr(p);
 		while (iscons(p)) {
@@ -39,7 +39,7 @@ print_expr(p)
 		}
 	} else {
 		if (isnegativenumber(p) || (car(p) == symbol(MULTIPLY) && isnegativenumber(cadr(p))))
-			append(MML_MINUS);
+			printf(MML_MINUS);
 		print_term(p);
 	}
 }
@@ -63,14 +63,14 @@ print_term(p)
 		}
 
 		if (iscons(t)) {
-			append("<mfrac>");
-			append("<mrow>");
+			printf("<mfrac>");
+			printf("<mrow>");
 			print_numerators(p);
-			append("</mrow>");
-			append("<mrow>");
+			printf("</mrow>");
+			printf("<mrow>");
 			print_denominators(p);
-			append("</mrow>");
-			append("</mfrac>");
+			printf("</mrow>");
+			printf("</mfrac>");
 			return;
 		}
 
@@ -86,7 +86,7 @@ print_term(p)
 		p = cdr(p);
 
 		while (iscons(p)) {
-			append("<mtext>&nbsp;</mtext>");
+			printf("<mtext>&nbsp;</mtext>");
 			print_factor(car(p));
 			p = cdr(p);
 		}
@@ -122,7 +122,7 @@ print_numerators(p)
 		}
 
 		if (n > 0)
-			append("<mtext>&nbsp;</mtext>");
+			printf("<mtext>&nbsp;</mtext>");
 
 		print_factor(q);
 		n++;
@@ -161,19 +161,19 @@ print_denominators(p)
 		}
 
 		if (n > 0)
-			append("<mtext>&nbsp;</mtext>");
+			printf("<mtext>&nbsp;</mtext>");
 
 		// example (-1)^(-1/4)
 
 		if (isminusone(cadr(q))) {
-			append("<msup>");
-			append("<mrow>");
-			append(MML_MINUS_1); // (-1)
-			append("</mrow>");
-			append("<mrow>");
+			printf("<msup>");
+			printf("<mrow>");
+			printf(MML_MINUS_1); // (-1)
+			printf("</mrow>");
+			printf("<mrow>");
 			print_number(caddr(q)); // -1/4 (sign not printed)
-			append("</mrow>");
-			append("</msup>");
+			printf("</mrow>");
+			printf("</msup>");
 			n++;
 			p = cdr(p);
 			continue;
@@ -190,14 +190,14 @@ print_denominators(p)
 
 		// example 1/y^2
 
-		append("<msup>");
-		append("<mrow>");
+		printf("<msup>");
+		printf("<mrow>");
 		print_base(cadr(q)); // y
-		append("</mrow>");
-		append("<mrow>");
+		printf("</mrow>");
+		printf("<mrow>");
 		print_number(caddr(q)); // -2 (sign not printed)
-		append("</mrow>");
-		append("</msup>");
+		printf("</mrow>");
+		printf("</msup>");
 
 		n++;
 		p = cdr(p);
@@ -263,10 +263,10 @@ print_rational(p)
 		return;
 	}
 
-	append("<mfrac>");
+	printf("<mfrac>");
 	print_mn(Math.abs(p.a).toFixed(0));
 	print_mn(p.b.toFixed(0));
-	append("</mfrac>");
+	printf("</mfrac>");
 }
 
 function
@@ -307,15 +307,15 @@ print_double(p)
 
 	print_mo("&times;");
 
-	append("<msup>");
+	printf("<msup>");
 	print_mn("10");
-	append("<mrow>");
+	printf("<mrow>");
 
 	if (s[k] == '+')
 		k++;
 	else if (s[k] == '-') {
 		k++;
-		append(MML_MINUS);
+		printf(MML_MINUS);
 	}
 
 	while (s[k] == '0')
@@ -323,8 +323,8 @@ print_double(p)
 
 	print_mn(s.substring(k, s.length - 1));
 
-	append("</mrow>");
-	append("</msup>");
+	printf("</mrow>");
+	printf("</msup>");
 }
 
 function
@@ -341,51 +341,51 @@ print_power(p)
 
 	if (cadr(p) == symbol(EXP1)) {
 		print_mi("exp");
-		append(MML_LP);
+		printf(MML_LP);
 		print_expr(caddr(p)); // x
-		append(MML_RP);
+		printf(MML_RP);
 		return;
 	}
 
 	// example 1/y
 
 	if (isminusone(caddr(p))) {
-		append("<mfrac>");
+		printf("<mfrac>");
 		print_mn("1"); // 1
-		append("<mrow>");
+		printf("<mrow>");
 		print_expr(cadr(p)); // y
-		append("</mrow>");
-		append("</mfrac>");
+		printf("</mrow>");
+		printf("</mfrac>");
 		return;
 	}
 
 	// example 1/y^2
 
 	if (isnegativenumber(caddr(p))) {
-		append("<mfrac>");
+		printf("<mfrac>");
 		print_mn("1"); // 1
-		append("<msup>");
-		append("<mrow>");
+		printf("<msup>");
+		printf("<mrow>");
 		print_base(cadr(p)); // y
-		append("</mrow>");
-		append("<mrow>");
+		printf("</mrow>");
+		printf("<mrow>");
 		print_number(caddr(p)); // -2 (sign not printed)
-		append("</mrow>");
-		append("</msup>");
-		append("</mfrac>");
+		printf("</mrow>");
+		printf("</msup>");
+		printf("</mfrac>");
 		return;
 	}
 
 	// example y^x
 
-	append("<msup>");
-	append("<mrow>");
+	printf("<msup>");
+	printf("<mrow>");
 	print_base(cadr(p)); // y
-	append("</mrow>");
-	append("<mrow>");
+	printf("</mrow>");
+	printf("<mrow>");
 	print_exponent(caddr(p)); // x
-	append("</mrow>");
-	append("</msup>");
+	printf("</mrow>");
+	printf("</msup>");
 }
 
 function
@@ -425,30 +425,30 @@ print_imaginary(p)
 	// example (-1)^(-1/4)
 
 	if (isnegativenumber(caddr(p))) {
-		append("<mfrac>");
+		printf("<mfrac>");
 		print_mn("1");
-		append("<msup>");
-		append("<mrow>");
-		append(MML_MINUS_1); // (-1)
-		append("</mrow>");
-		append("<mrow>");
+		printf("<msup>");
+		printf("<mrow>");
+		printf(MML_MINUS_1); // (-1)
+		printf("</mrow>");
+		printf("<mrow>");
 		print_number(caddr(p)); // -1/4 (sign not printed)
-		append("</mrow>");
-		append("</msup>");
-		append("</mfrac>");
+		printf("</mrow>");
+		printf("</msup>");
+		printf("</mfrac>");
 		return;
 	}
 
 	// example (-1)^x
 
-	append("<msup>");
-	append("<mrow>");
-	append(MML_MINUS_1); // (-1)
-	append("</mrow>");
-	append("<mrow>");
+	printf("<msup>");
+	printf("<mrow>");
+	printf(MML_MINUS_1); // (-1)
+	printf("</mrow>");
+	printf("<mrow>");
 	print_expr(caddr(p)); // x
-	append("</mrow>");
-	append("</msup>");
+	printf("</mrow>");
+	printf("</msup>");
 }
 
 function
@@ -457,10 +457,10 @@ print_function(p)
 	// d(f(x),x)
 
 	if (car(p) == symbol(DERIVATIVE)) {
-		append("<mi mathvariant='normal'>d</mi>");
-		append(MML_LP);
+		printf("<mi mathvariant='normal'>d</mi>");
+		printf(MML_LP);
 		print_arglist(p);
-		append(MML_RP);
+		printf(MML_RP);
 		return;
 	}
 
@@ -484,9 +484,9 @@ print_function(p)
 			print_symbol(car(p));
 		else
 			print_subexpr(car(p));
-		append(MML_LB);
+		printf(MML_LB);
 		print_arglist(p);
-		append(MML_RB);
+		printf(MML_RB);
 		return;
 	}
 
@@ -539,9 +539,9 @@ print_function(p)
 	else
 		print_subexpr(car(p));
 
-	append(MML_LP);
+	printf(MML_LP);
 	print_arglist(p);
-	append(MML_RP);
+	printf(MML_RP);
 }
 
 function
@@ -562,9 +562,9 @@ print_arglist(p)
 function
 print_subexpr(p)
 {
-	append(MML_LP);
+	printf(MML_LP);
 	print_expr(p);
-	append(MML_RP);
+	printf(MML_RP);
 }
 
 function
@@ -579,9 +579,9 @@ print_symbol(p)
 
 	if (p == symbol(EXP1)) {
 		print_mi("exp");
-		append(MML_LP);
+		printf(MML_LP);
 		print_mn("1");
-		append(MML_RP);
+		printf(MML_RP);
 		return;
 	}
 
@@ -596,11 +596,11 @@ print_symbol(p)
 
 	// print symbol with subscript
 
-	append("<msub>");
+	printf("<msub>");
 
 	print_symbol_shipout(s.substring(0, n));
 
-	append("<mrow>");
+	printf("<mrow>");
 
 	k = n;
 
@@ -610,8 +610,8 @@ print_symbol(p)
 		k += n;
 	}
 
-	append("</mrow>");
-	append("</msub>");
+	printf("</mrow>");
+	printf("</msub>");
 }
 
 var print_greek_tab = [
@@ -647,22 +647,22 @@ function
 print_symbol_shipout(s)
 {
 	if (s.length == 1) {
-		append("<mi>");
-		append(s);
-		append("</mi>");
+		printf("<mi>");
+		printf(s);
+		printf("</mi>");
 		return;
 	}
 
 	// greek
 
 	if (s[0] >= 'A' && s[0] <= 'Z') {
-		append("<mi mathvariant='normal'>&"); // upper case
-		append(s);
-		append(";</mi>");
+		printf("<mi mathvariant='normal'>&"); // upper case
+		printf(s);
+		printf(";</mi>");
 	} else {
-		append("<mi>&");
-		append(s);
-		append(";</mi>");
+		printf("<mi>&");
+		printf(s);
+		printf(";</mi>");
 	}
 }
 
@@ -676,16 +676,16 @@ print_tensor(p)
 	// if odd rank then vector
 
 	if (p.dim.length % 2 == 1) {
-		append(MML_LP);
-		append("<mtable>");
+		printf(MML_LP);
+		printf("<mtable>");
 		n = p.dim[0];
 		for (i = 0; i < n; i++) {
-			append("<mtr><mtd>");
+			printf("<mtr><mtd>");
 			k = print_matrix(p, 1, k);
-			append("</mtd></mtr>");
+			printf("</mtd></mtr>");
 		}
-		append("</mtable>");
-		append(MML_RP);
+		printf("</mtable>");
+		printf(MML_RP);
 	} else
 		print_matrix(p, 0, k);
 }
@@ -703,21 +703,21 @@ print_matrix(p, d, k)
 	n = p.dim[d];
 	m = p.dim[d + 1];
 
-	append(MML_LP);
-	append("<mtable>");
+	printf(MML_LP);
+	printf("<mtable>");
 
 	for (i = 0; i < n; i++) {
-		append("<mtr>");
+		printf("<mtr>");
 		for (j = 0; j < m; j++) {
-			append("<mtd>");
+			printf("<mtd>");
 			k = print_matrix(p, d + 2, k);
-			append("</mtd>");
+			printf("</mtd>");
 		}
-		append("</mtr>");
+		printf("</mtr>");
 	}
 
-	append("</mtable>");
-	append(MML_RP);
+	printf("</mtable>");
+	printf(MML_RP);
 
 	return k;
 }
@@ -727,44 +727,44 @@ print_string(p)
 {
 	var s = p.string;
 
-	append("<mtext>");
+	printf("<mtext>");
 
 	s = s.replace(/&/g, "&amp;");
 	s = s.replace(/</g, "&lt;");
 	s = s.replace(/>/g, "&gt;");
 	s = s.replace(/\n/g, "<br>");
 
-	append(s);
+	printf(s);
 
-	append("</mtext>");
+	printf("</mtext>");
 }
 
 function
 print_mi(s)
 {
-	append("<mi>");
-	append(s);
-	append("</mi>");
+	printf("<mi>");
+	printf(s);
+	printf("</mi>");
 }
 
 function
 print_mn(s)
 {
-	append("<mn>");
-	append(s);
-	append("</mn>");
+	printf("<mn>");
+	printf(s);
+	printf("</mn>");
 }
 
 function
 print_mo(s)
 {
-	append("<mo>");
-	append(s);
-	append("</mo>");
+	printf("<mo>");
+	printf(s);
+	printf("</mo>");
 }
 
 function
-append(s)
+printf(s)
 {
 	outbuf += s;
 }
