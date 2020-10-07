@@ -1,3 +1,5 @@
+var inbuf;
+var outbuf;
 var stdout;
 var stack;
 var frame;
@@ -9,7 +11,6 @@ var minusone;
 var imaginaryunit;
 var expanding;
 var evaldepth;
-var inbuf;
 var trace1;
 var trace2;
 

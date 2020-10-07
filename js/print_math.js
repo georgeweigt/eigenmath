@@ -5,21 +5,19 @@ const MML_RP = "<mo>)</mo></mrow>"
 const MML_LB = "<mrow><mo>[</mo>"
 const MML_RB = "<mo>]</mo></mrow>"
 
-var mml_buf;
-
 function
 print_math()
 {
 	var p1 = pop();
-	mml_buf = "";
-	mml_puts("<p><math>");
-	mml_expr(p1);
-	mml_puts("</math></p>");
-	fputs(mml_buf);
+	outbuf = "";
+	append("<p><math>");
+	print_expr(p1);
+	append("</math></p>");
+	fputs(outbuf);
 }
 
 function
-mml_expr(p)
+print_expr(p)
 {
 	var q;
 
@@ -27,27 +25,27 @@ mml_expr(p)
 		p = cdr(p);
 		q = car(p);
 		if (isnegativenumber(q) || (car(q) == symbol(MULTIPLY) && isnegativenumber(cadr(q))))
-			mml_puts(MML_MINUS);
-		mml_term(q);
+			append(MML_MINUS);
+		print_term(q);
 		p = cdr(p);
 		while (iscons(p)) {
 			q = car(p);
 			if (isnegativenumber(q) || (car(q) == symbol(MULTIPLY) && isnegativenumber(cadr(q))))
-				mml_mo("-");
+				print_mo("-");
 			else
-				mml_mo("+");
-			mml_term(q);
+				print_mo("+");
+			print_term(q);
 			p = cdr(p);
 		}
 	} else {
 		if (isnegativenumber(p) || (car(p) == symbol(MULTIPLY) && isnegativenumber(cadr(p))))
-			mml_puts(MML_MINUS);
-		mml_term(p);
+			append(MML_MINUS);
+		print_term(p);
 	}
 }
 
 function
-mml_term(p)
+print_term(p)
 {
 	var q, t;
 
@@ -65,14 +63,14 @@ mml_term(p)
 		}
 
 		if (iscons(t)) {
-			mml_puts("<mfrac>");
-			mml_puts("<mrow>");
-			mml_numerators(p);
-			mml_puts("</mrow>");
-			mml_puts("<mrow>");
-			mml_denominators(p);
-			mml_puts("</mrow>");
-			mml_puts("</mfrac>");
+			append("<mfrac>");
+			append("<mrow>");
+			print_numerators(p);
+			append("</mrow>");
+			append("<mrow>");
+			print_denominators(p);
+			append("</mrow>");
+			append("</mfrac>");
 			return;
 		}
 
@@ -84,20 +82,20 @@ mml_term(p)
 		if (isrational(q) && isminusone(q))
 			p = cdr(p); // skip -1
 
-		mml_factor(car(p));
+		print_factor(car(p));
 		p = cdr(p);
 
 		while (iscons(p)) {
-			mml_puts("<mtext>&nbsp;</mtext>");
-			mml_factor(car(p));
+			append("<mtext>&nbsp;</mtext>");
+			print_factor(car(p));
 			p = cdr(p);
 		}
 	} else
-		mml_factor(p);
+		print_factor(p);
 }
 
 function
-mml_numerators(p)
+print_numerators(p)
 {
 	var n, q;
 
@@ -108,7 +106,7 @@ mml_numerators(p)
 
 	if (isrational(q)) {
 		if (Math.abs(q.a) != 1) {
-			mml_mn(Math.abs(q.a).toFixed(0));
+			print_mn(Math.abs(q.a).toFixed(0));
 			n++;
 		}
 		p = cdr(p);
@@ -124,19 +122,19 @@ mml_numerators(p)
 		}
 
 		if (n > 0)
-			mml_puts("<mtext>&nbsp;</mtext>");
+			append("<mtext>&nbsp;</mtext>");
 
-		mml_factor(q);
+		print_factor(q);
 		n++;
 		p = cdr(p);
 	}
 
 	if (n == 0)
-		mml_mn("1"); // there were no numerators
+		print_mn("1"); // there were no numerators
 }
 
 function
-mml_denominators(p)
+print_denominators(p)
 {
 	var n, q;
 
@@ -147,7 +145,7 @@ mml_denominators(p)
 
 	if (isrational(q)) {
 		if (q.b != 1) {
-			mml_mn(q.b.toFixed(0));
+			print_mn(q.b.toFixed(0));
 			n++;
 		}
 		p = cdr(p);
@@ -163,19 +161,19 @@ mml_denominators(p)
 		}
 
 		if (n > 0)
-			mml_puts("<mtext>&nbsp;</mtext>");
+			append("<mtext>&nbsp;</mtext>");
 
 		// example (-1)^(-1/4)
 
 		if (isminusone(cadr(q))) {
-			mml_puts("<msup>");
-			mml_puts("<mrow>");
-			mml_puts(MML_MINUS_1); // (-1)
-			mml_puts("</mrow>");
-			mml_puts("<mrow>");
-			mml_number(caddr(q)); // -1/4 (sign not printed)
-			mml_puts("</mrow>");
-			mml_puts("</msup>");
+			append("<msup>");
+			append("<mrow>");
+			append(MML_MINUS_1); // (-1)
+			append("</mrow>");
+			append("<mrow>");
+			print_number(caddr(q)); // -1/4 (sign not printed)
+			append("</mrow>");
+			append("</msup>");
 			n++;
 			p = cdr(p);
 			continue;
@@ -184,7 +182,7 @@ mml_denominators(p)
 		// example 1/y
 
 		if (isminusone(caddr(q))) {
-			mml_factor(cadr(q)); // y
+			print_factor(cadr(q)); // y
 			n++;
 			p = cdr(p);
 			continue;
@@ -192,92 +190,92 @@ mml_denominators(p)
 
 		// example 1/y^2
 
-		mml_puts("<msup>");
-		mml_puts("<mrow>");
-		mml_base(cadr(q)); // y
-		mml_puts("</mrow>");
-		mml_puts("<mrow>");
-		mml_number(caddr(q)); // -2 (sign not printed)
-		mml_puts("</mrow>");
-		mml_puts("</msup>");
+		append("<msup>");
+		append("<mrow>");
+		print_base(cadr(q)); // y
+		append("</mrow>");
+		append("<mrow>");
+		print_number(caddr(q)); // -2 (sign not printed)
+		append("</mrow>");
+		append("</msup>");
 
 		n++;
 		p = cdr(p);
 	}
 
 	if (n == 0)
-		mml_mn("1"); // there were no denominators
+		print_mn("1"); // there were no denominators
 }
 
 function
-mml_factor(p)
+print_factor(p)
 {
 	if (isrational(p)) {
-		mml_rational(p);
+		print_rational(p);
 		return;
 	}
 
 	if (isdouble(p)) {
-		mml_double(p);
+		print_double(p);
 		return;
 	}
 
 	if (issymbol(p)) {
-		mml_symbol(p);
+		print_symbol(p);
 		return;
 	}
 
 	if (isstring(p)) {
-		mml_string(p);
+		print_string(p);
 		return;
 	}
 
 	if (istensor(p)) {
-		mml_tensor(p);
+		print_tensor(p);
 		return;
 	}
 
 	if (iscons(p)) {
 		if (car(p) == symbol(POWER))
-			mml_power(p);
+			print_power(p);
 		else if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY))
-			mml_subexpr(p);
+			print_subexpr(p);
 		else
-			mml_function(p);
+			print_function(p);
 		return;
 	}
 }
 
 function
-mml_number(p)
+print_number(p)
 {
 	if (isrational(p))
-		mml_rational(p);
+		print_rational(p);
 	else
-		mml_double(p);
+		print_double(p);
 }
 
 function
-mml_rational(p)
+print_rational(p)
 {
 	if (p.b == 1) {
-		mml_mn(Math.abs(p.a).toFixed(0));
+		print_mn(Math.abs(p.a).toFixed(0));
 		return;
 	}
 
-	mml_puts("<mfrac>");
-	mml_mn(Math.abs(p.a).toFixed(0));
-	mml_mn(p.b.toFixed(0));
-	mml_puts("</mfrac>");
+	append("<mfrac>");
+	print_mn(Math.abs(p.a).toFixed(0));
+	print_mn(p.b.toFixed(0));
+	append("</mfrac>");
 }
 
 function
-mml_double(p)
+print_double(p)
 {
 	var i, j, k, s;
 
 	if (p.d == 0) {
-		mml_mn("0");
+		print_mn("0");
 		return;
 	}
 
@@ -293,13 +291,13 @@ mml_double(p)
 	i = s.indexOf(".");
 
 	if (i == -1)
-		mml_mn(s.substring(0, k));
+		print_mn(s.substring(0, k));
 	else {
 		for (j = k - 1; j > i + 1; j--) {
 			if (s[j] != '0')
 				break;
 		}
-		mml_mn(s.substring(0, j + 1));
+		print_mn(s.substring(0, j + 1));
 	}
 
 	if (s[k] != 'E' && s[k] != 'e')
@@ -307,119 +305,119 @@ mml_double(p)
 
 	k++;
 
-	mml_mo("&times;");
+	print_mo("&times;");
 
-	mml_puts("<msup>");
-	mml_mn("10");
-	mml_puts("<mrow>");
+	append("<msup>");
+	print_mn("10");
+	append("<mrow>");
 
 	if (s[k] == '+')
 		k++;
 	else if (s[k] == '-') {
 		k++;
-		mml_puts(MML_MINUS);
+		append(MML_MINUS);
 	}
 
 	while (s[k] == '0')
 		k++; // skip leading zeroes
 
-	mml_mn(s.substring(k, s.length - 1));
+	print_mn(s.substring(k, s.length - 1));
 
-	mml_puts("</mrow>");
-	mml_puts("</msup>");
+	append("</mrow>");
+	append("</msup>");
 }
 
 function
-mml_power(p)
+print_power(p)
 {
 	// (-1)^x
 
 	if (isminusone(cadr(p))) {
-		mml_imaginary(p);
+		print_imaginary(p);
 		return;
 	}
 
 	// e^x
 
 	if (cadr(p) == symbol(EXP1)) {
-		mml_mi("exp");
-		mml_puts(MML_LP);
-		mml_expr(caddr(p)); // x
-		mml_puts(MML_RP);
+		print_mi("exp");
+		append(MML_LP);
+		print_expr(caddr(p)); // x
+		append(MML_RP);
 		return;
 	}
 
 	// example 1/y
 
 	if (isminusone(caddr(p))) {
-		mml_puts("<mfrac>");
-		mml_mn("1"); // 1
-		mml_puts("<mrow>");
-		mml_expr(cadr(p)); // y
-		mml_puts("</mrow>");
-		mml_puts("</mfrac>");
+		append("<mfrac>");
+		print_mn("1"); // 1
+		append("<mrow>");
+		print_expr(cadr(p)); // y
+		append("</mrow>");
+		append("</mfrac>");
 		return;
 	}
 
 	// example 1/y^2
 
 	if (isnegativenumber(caddr(p))) {
-		mml_puts("<mfrac>");
-		mml_mn("1"); // 1
-		mml_puts("<msup>");
-		mml_puts("<mrow>");
-		mml_base(cadr(p)); // y
-		mml_puts("</mrow>");
-		mml_puts("<mrow>");
-		mml_number(caddr(p)); // -2 (sign not printed)
-		mml_puts("</mrow>");
-		mml_puts("</msup>");
-		mml_puts("</mfrac>");
+		append("<mfrac>");
+		print_mn("1"); // 1
+		append("<msup>");
+		append("<mrow>");
+		print_base(cadr(p)); // y
+		append("</mrow>");
+		append("<mrow>");
+		print_number(caddr(p)); // -2 (sign not printed)
+		append("</mrow>");
+		append("</msup>");
+		append("</mfrac>");
 		return;
 	}
 
 	// example y^x
 
-	mml_puts("<msup>");
-	mml_puts("<mrow>");
-	mml_base(cadr(p)); // y
-	mml_puts("</mrow>");
-	mml_puts("<mrow>");
-	mml_exponent(caddr(p)); // x
-	mml_puts("</mrow>");
-	mml_puts("</msup>");
+	append("<msup>");
+	append("<mrow>");
+	print_base(cadr(p)); // y
+	append("</mrow>");
+	append("<mrow>");
+	print_exponent(caddr(p)); // x
+	append("</mrow>");
+	append("</msup>");
 }
 
 function
-mml_base(p)
+print_base(p)
 {
 	if (isfraction(p) || isdouble(p) || car(p) == symbol(POWER))
-		mml_subexpr(p);
+		print_subexpr(p);
 	else
-		mml_factor(p);
+		print_factor(p);
 }
 
 function
-mml_exponent(p)
+print_exponent(p)
 {
 	if (car(p) == symbol(POWER))
-		mml_subexpr(p);
+		print_subexpr(p);
 	else
-		mml_factor(p);
+		print_factor(p);
 }
 
 // case (-1)^x
 
 function
-mml_imaginary(p)
+print_imaginary(p)
 {
 	if (isimaginaryunit(p)) {
 		if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
-			mml_mi("j");
+			print_mi("j");
 			return;
 		}
 		if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
-			mml_mi("i");
+			print_mi("i");
 			return;
 		}
 	}
@@ -427,42 +425,42 @@ mml_imaginary(p)
 	// example (-1)^(-1/4)
 
 	if (isnegativenumber(caddr(p))) {
-		mml_puts("<mfrac>");
-		mml_mn("1");
-		mml_puts("<msup>");
-		mml_puts("<mrow>");
-		mml_puts(MML_MINUS_1); // (-1)
-		mml_puts("</mrow>");
-		mml_puts("<mrow>");
-		mml_number(caddr(p)); // -1/4 (sign not printed)
-		mml_puts("</mrow>");
-		mml_puts("</msup>");
-		mml_puts("</mfrac>");
+		append("<mfrac>");
+		print_mn("1");
+		append("<msup>");
+		append("<mrow>");
+		append(MML_MINUS_1); // (-1)
+		append("</mrow>");
+		append("<mrow>");
+		print_number(caddr(p)); // -1/4 (sign not printed)
+		append("</mrow>");
+		append("</msup>");
+		append("</mfrac>");
 		return;
 	}
 
 	// example (-1)^x
 
-	mml_puts("<msup>");
-	mml_puts("<mrow>");
-	mml_puts(MML_MINUS_1); // (-1)
-	mml_puts("</mrow>");
-	mml_puts("<mrow>");
-	mml_expr(caddr(p)); // x
-	mml_puts("</mrow>");
-	mml_puts("</msup>");
+	append("<msup>");
+	append("<mrow>");
+	append(MML_MINUS_1); // (-1)
+	append("</mrow>");
+	append("<mrow>");
+	print_expr(caddr(p)); // x
+	append("</mrow>");
+	append("</msup>");
 }
 
 function
-mml_function(p)
+print_function(p)
 {
 	// d(f(x),x)
 
 	if (car(p) == symbol(DERIVATIVE)) {
-		mml_puts("<mi mathvariant='normal'>d</mi>");
-		mml_puts(MML_LP);
-		mml_arglist(p);
-		mml_puts(MML_RP);
+		append("<mi mathvariant='normal'>d</mi>");
+		append(MML_LP);
+		print_arglist(p);
+		append(MML_RP);
 		return;
 	}
 
@@ -471,10 +469,10 @@ mml_function(p)
 	if (car(p) == symbol(FACTORIAL)) {
 		p = cadr(p);
 		if (isposint(p) || issymbol(p))
-			mml_expr(p);
+			print_expr(p);
 		else
-			mml_subexpr(p);
-		mml_mo("!");
+			print_subexpr(p);
+		print_mo("!");
 		return;
 	}
 
@@ -483,140 +481,140 @@ mml_function(p)
 	if (car(p) == symbol(INDEX)) {
 		p = cdr(p);
 		if (issymbol(car(p)))
-			mml_symbol(car(p));
+			print_symbol(car(p));
 		else
-			mml_subexpr(car(p));
-		mml_puts(MML_LB);
-		mml_arglist(p);
-		mml_puts(MML_RB);
+			print_subexpr(car(p));
+		append(MML_LB);
+		print_arglist(p);
+		append(MML_RB);
 		return;
 	}
 
 	if (car(p) == symbol(SETQ)) {
-		mml_expr(cadr(p));
-		mml_mo("=");
-		mml_expr(caddr(p));
+		print_expr(cadr(p));
+		print_mo("=");
+		print_expr(caddr(p));
 		return;
 	}
 
 	if (car(p) == symbol(TESTEQ)) {
-		mml_expr(cadr(p));
-		mml_mo("=");
-		mml_expr(caddr(p));
+		print_expr(cadr(p));
+		print_mo("=");
+		print_expr(caddr(p));
 		return;
 	}
 
 	if (car(p) == symbol(TESTGE)) {
-		mml_expr(cadr(p));
-		mml_mo("&ge;");
-		mml_expr(caddr(p));
+		print_expr(cadr(p));
+		print_mo("&ge;");
+		print_expr(caddr(p));
 		return;
 	}
 
 	if (car(p) == symbol(TESTGT)) {
-		mml_expr(cadr(p));
-		mml_mo("&gt;");
-		mml_expr(caddr(p));
+		print_expr(cadr(p));
+		print_mo("&gt;");
+		print_expr(caddr(p));
 		return;
 	}
 
 	if (car(p) == symbol(TESTLE)) {
-		mml_expr(cadr(p));
-		mml_mo("&le;");
-		mml_expr(caddr(p));
+		print_expr(cadr(p));
+		print_mo("&le;");
+		print_expr(caddr(p));
 		return;
 	}
 
 	if (car(p) == symbol(TESTLT)) {
-		mml_expr(cadr(p));
-		mml_mo("&lt");
-		mml_expr(caddr(p));
+		print_expr(cadr(p));
+		print_mo("&lt");
+		print_expr(caddr(p));
 		return;
 	}
 
 	// default
 
 	if (issymbol(car(p)))
-		mml_symbol(car(p));
+		print_symbol(car(p));
 	else
-		mml_subexpr(car(p));
+		print_subexpr(car(p));
 
-	mml_puts(MML_LP);
-	mml_arglist(p);
-	mml_puts(MML_RP);
+	append(MML_LP);
+	print_arglist(p);
+	append(MML_RP);
 }
 
 function
-mml_arglist(p)
+print_arglist(p)
 {
 	p = cdr(p);
 	if (iscons(p)) {
-		mml_expr(car(p));
+		print_expr(car(p));
 		p = cdr(p);
 		while(iscons(p)) {
-			mml_mo(",");
-			mml_expr(car(p));
+			print_mo(",");
+			print_expr(car(p));
 			p = cdr(p);
 		}
 	}
 }
 
 function
-mml_subexpr(p)
+print_subexpr(p)
 {
-	mml_puts(MML_LP);
-	mml_expr(p);
-	mml_puts(MML_RP);
+	append(MML_LP);
+	print_expr(p);
+	append(MML_RP);
 }
 
 function
-mml_symbol(p)
+print_symbol(p)
 {
 	var k, n, s;
 
 	if (iskeyword(p) || p == symbol(LAST) || p == symbol(TRACE)) {
-		mml_mi(printname(p));
+		print_mi(printname(p));
 		return;
 	}
 
 	if (p == symbol(EXP1)) {
-		mml_mi("exp");
-		mml_puts(MML_LP);
-		mml_mn("1");
-		mml_puts(MML_RP);
+		print_mi("exp");
+		append(MML_LP);
+		print_mn("1");
+		append(MML_RP);
 		return;
 	}
 
 	s = printname(p);
 
-	n = mml_symbol_scan(s, 0);
+	n = print_symbol_scan(s, 0);
 
 	if (n == s.length) {
-		mml_symbol_shipout(s);
+		print_symbol_shipout(s);
 		return;
 	}
 
 	// print symbol with subscript
 
-	mml_puts("<msub>");
+	append("<msub>");
 
-	mml_symbol_shipout(s.substring(0, n));
+	print_symbol_shipout(s.substring(0, n));
 
-	mml_puts("<mrow>");
+	append("<mrow>");
 
 	k = n;
 
 	while (k < s.length) {
-		n = mml_symbol_scan(s, k);
-		mml_symbol_shipout(s.substring(k, k + n));
+		n = print_symbol_scan(s, k);
+		print_symbol_shipout(s.substring(k, k + n));
 		k += n;
 	}
 
-	mml_puts("</mrow>");
-	mml_puts("</msub>");
+	append("</mrow>");
+	append("</msub>");
 }
 
-var mml_greek_tab = [
+var print_greek_tab = [
 	"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta","Iota",
 	"Kappa","Lambda","Mu","Nu","Xi","Pi","Rho","Sigma","Tau","Upsilon",
 	"Phi","Chi","Psi","Omega",
@@ -626,15 +624,15 @@ var mml_greek_tab = [
 ];
 
 function
-mml_symbol_scan(s, k)
+print_symbol_scan(s, k)
 {
 	var i, m, n, t;
 
-	n = mml_greek_tab.length;
+	n = print_greek_tab.length;
 
 	for (i = 0; i < n; i++) {
 
-		t = mml_greek_tab[i];
+		t = print_greek_tab[i];
 
 		m = t.length;
 
@@ -646,30 +644,30 @@ mml_symbol_scan(s, k)
 }
 
 function
-mml_symbol_shipout(s)
+print_symbol_shipout(s)
 {
 	if (s.length == 1) {
-		mml_puts("<mi>");
-		mml_puts(s);
-		mml_puts("</mi>");
+		append("<mi>");
+		append(s);
+		append("</mi>");
 		return;
 	}
 
 	// greek
 
 	if (s[0] >= 'A' && s[0] <= 'Z') {
-		mml_puts("<mi mathvariant='normal'>&"); // upper case
-		mml_puts(s);
-		mml_puts(";</mi>");
+		append("<mi mathvariant='normal'>&"); // upper case
+		append(s);
+		append(";</mi>");
 	} else {
-		mml_puts("<mi>&");
-		mml_puts(s);
-		mml_puts(";</mi>");
+		append("<mi>&");
+		append(s);
+		append(";</mi>");
 	}
 }
 
 function
-mml_tensor(p)
+print_tensor(p)
 {
 	var i, k, n;
 
@@ -678,95 +676,95 @@ mml_tensor(p)
 	// if odd rank then vector
 
 	if (p.dim.length % 2 == 1) {
-		mml_puts(MML_LP);
-		mml_puts("<mtable>");
+		append(MML_LP);
+		append("<mtable>");
 		n = p.dim[0];
 		for (i = 0; i < n; i++) {
-			mml_puts("<mtr><mtd>");
-			k = mml_matrix(p, 1, k);
-			mml_puts("</mtd></mtr>");
+			append("<mtr><mtd>");
+			k = print_matrix(p, 1, k);
+			append("</mtd></mtr>");
 		}
-		mml_puts("</mtable>");
-		mml_puts(MML_RP);
+		append("</mtable>");
+		append(MML_RP);
 	} else
-		mml_matrix(p, 0, k);
+		print_matrix(p, 0, k);
 }
 
 function
-mml_matrix(p, d, k)
+print_matrix(p, d, k)
 {
 	var i, j, m, n;
 
 	if (d == p.dim.length) {
-		mml_expr(p.elem[k]);
+		print_expr(p.elem[k]);
 		return k + 1;
 	}
 
 	n = p.dim[d];
 	m = p.dim[d + 1];
 
-	mml_puts(MML_LP);
-	mml_puts("<mtable>");
+	append(MML_LP);
+	append("<mtable>");
 
 	for (i = 0; i < n; i++) {
-		mml_puts("<mtr>");
+		append("<mtr>");
 		for (j = 0; j < m; j++) {
-			mml_puts("<mtd>");
-			k = mml_matrix(p, d + 2, k);
-			mml_puts("</mtd>");
+			append("<mtd>");
+			k = print_matrix(p, d + 2, k);
+			append("</mtd>");
 		}
-		mml_puts("</mtr>");
+		append("</mtr>");
 	}
 
-	mml_puts("</mtable>");
-	mml_puts(MML_RP);
+	append("</mtable>");
+	append(MML_RP);
 
 	return k;
 }
 
 function
-mml_string(p)
+print_string(p)
 {
 	var s = p.string;
 
-	mml_puts("<mtext>");
+	append("<mtext>");
 
 	s = s.replace(/&/g, "&amp;");
 	s = s.replace(/</g, "&lt;");
 	s = s.replace(/>/g, "&gt;");
 	s = s.replace(/\n/g, "<br>");
 
-	mml_puts(s);
+	append(s);
 
-	mml_puts("</mtext>");
+	append("</mtext>");
 }
 
 function
-mml_mi(s)
+print_mi(s)
 {
-	mml_puts("<mi>");
-	mml_puts(s);
-	mml_puts("</mi>");
+	append("<mi>");
+	append(s);
+	append("</mi>");
 }
 
 function
-mml_mn(s)
+print_mn(s)
 {
-	mml_puts("<mn>");
-	mml_puts(s);
-	mml_puts("</mn>");
+	append("<mn>");
+	append(s);
+	append("</mn>");
 }
 
 function
-mml_mo(s)
+print_mo(s)
 {
-	mml_puts("<mo>");
-	mml_puts(s);
-	mml_puts("</mo>");
+	append("<mo>");
+	append(s);
+	append("</mo>");
 }
 
 function
-mml_puts(s)
+append(s)
 {
-	mml_buf += s;
+	outbuf += s;
 }
