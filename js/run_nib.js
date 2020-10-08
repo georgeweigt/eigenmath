@@ -1,9 +1,7 @@
 function
-run_nib(s)
+run_nib()
 {
 	var k = 0;
-
-	inbuf = s;
 
 	init();
 	initscript();
