@@ -8,7 +8,7 @@ run_nib()
 
 	for (;;) {
 
-		k = scan_input(k);
+		k = scan_inbuf(k);
 
 		if (k == 0)
 			break; // end of input

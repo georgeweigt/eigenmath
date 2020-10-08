@@ -1,5 +1,5 @@
 function
-scan_input(k)
+scan_inbuf(k)
 {
 	trace1 = k;
 	k = scan(inbuf, k);
