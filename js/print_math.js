@@ -8,12 +8,9 @@ const MML_RB = "<mo>]</mo></mrow>"
 function
 print_math()
 {
-	var p1 = pop();
 	outbuf = "";
-	printf("<p><math>");
-	print_expr(p1);
-	printf("</math></p>");
-	fputs(outbuf);
+	print_expr(pop());
+	stdout.innerHTML += "<p><math>" + outbuf + "</math></p>";
 }
 
 function

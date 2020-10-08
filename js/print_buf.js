@@ -27,5 +27,5 @@ print_buf(s, color)
 		break;
 	}
 
-	fputs(t + s + "</span></p>");
+	stdout.innerHTML += t + s + "</span></p>";
 }
