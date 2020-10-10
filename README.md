@@ -28,7 +28,10 @@ The Eigenmath manual and sample scripts are available at https://eigenmath.githu
 
 A Javascript version of Eigenmath is available in the 'js' directory.
 
-To build eigenmath.c
+To build and run eigenmath.c
 
 	cd tools
 	make
+	cd ..
+	gcc eigenmath.c
+	./a.out
