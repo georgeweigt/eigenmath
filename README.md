@@ -27,11 +27,3 @@ MathML and MathJax results look best on Safari and Firefox.
 The Eigenmath manual and sample scripts are available at https://eigenmath.github.io
 
 A Javascript version of Eigenmath is available in the 'js' directory.
-
-To build and run eigenmath.c
-
-	cd tools
-	make
-	cd ..
-	gcc eigenmath.c
-	./a.out
