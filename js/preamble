@@ -8,7 +8,7 @@ Template web page for using eigenmath.js
 <script src="https://eigenmath.github.io/eigenmath.js"></script>
 
 <textarea id="stdin" rows="24" cols="80">
--- Eigenmath script goes here, for example
+-- Eigenmath script goes here, for example:
 a = 0
 b = 2
 for(k,1,9,a = sqrt(2 + a),b = 2 b / a)
