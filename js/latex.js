@@ -1,14 +1,10 @@
-var latex_buf;
-
 function
 latex()
 {
 	var p1 = pop();
-	latex_buf = "";
-	latex_puts("<p>$$");
+	outbuf = "";
 	latex_expr(p1);
-	latex_puts("$$</p>");
-	fputs(latex_buf);
+	stdout.innerHTML += "<p>$$" + outbuf + "$$</p>";
 }
 
 function
@@ -655,5 +651,5 @@ latex_string(p)
 function
 latex_puts(s)
 {
-	latex_buf += s;
+	outbuf += s;
 }
