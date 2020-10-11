@@ -1,4 +1,6 @@
-/* Template web page for using eigenmath.js
+/* October 10, 2020
+
+Template web page for using eigenmath.js
 
 <html>
 <head>
