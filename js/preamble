@@ -1,4 +1,4 @@
-/* October 10, 2020
+/* October 11, 2020
 
 Template web page for using eigenmath.js
 
@@ -23,6 +23,7 @@ float(b)
 
 </body>
 </html>
+
 
 BSD 2-Clause License
 
