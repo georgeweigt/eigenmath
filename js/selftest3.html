@@ -380,22 +380,10 @@ g = integral(f,X)
 h = d(g,X)
 check(f == h)
 
--- FIXME
--- f = 1 / (3 X^3 - 7)
--- g = integral(f,X)
--- h = d(g,X)
--- check(f == h)
-
 f = 1 / (-3 X^3 + 7)
 g = integral(f,X)
 h = d(g,X)
 check(f == h)
-
--- FIXME
--- f = 1 / (-3 X^3 - 7)
--- g = integral(f,X)
--- h = d(g,X)
--- check(f == h)
 
 #76
 integral(X^2/(A+B*X^3),X)-1/3*1/B*log(A+B*X^3)
@@ -744,18 +732,6 @@ g = integral(f,X)
 h = d(g,X)
 check(f == h)
 
--- FIXME
--- f = X^2 sqrt(-3 X^2 + 7)
--- g = integral(f,X)
--- h = d(g,X)
--- check(f == h)
-
--- FIXME
--- f = X^2 sqrt(-3 X^2 - 7)
--- g = integral(f,X)
--- h = d(g,X)
--- check(f == h)
-
 #169
 
 f = X^3 sqrt(3 X^2 + 7)
@@ -866,10 +842,6 @@ g = integral(f,X)
 h = d(g,X)
 check(f == h)
 
-#176 FIXME x^2 (a x^2 + b)^(3/2)
-
-#177 FIXME x^3 (a x^2 + b)^(3/2)
-
 #204
 integral(X/sqrt(A-X^2),X)+sqrt(A-X^2)
 check(last = 0)
@@ -896,18 +868,6 @@ g = integral(f,X)
 h = d(g,X)
 check(f == h)
 
--- FIXME
--- f = sqrt(-3 X^2 + 7) / X^2
--- g = integral(f,X)
--- h = d(g,X)
--- check(f == h)
-
--- FIXME
--- f = sqrt(-3 X^2 - 7) / X^2
--- g = integral(f,X)
--- h = d(g,X)
--- check(f == h)
-
 #217
 
 f = sqrt(3 X^2 + 7) / X^3
@@ -915,24 +875,10 @@ g = integral(f,X)
 h = d(g,X)
 check(f == h)
 
--- FIXME
--- f = sqrt(3 X^2 - 7) / X^3
--- g = integral(f,X)
--- h = d(g,X)
--- check(f == h)
-
 f = sqrt(-3 X^2 + 7) / X^3
 g = integral(f,X)
 h = d(g,X)
 check(f == h)
-
--- FIXME
--- f = sqrt(-3 X^2 - 7) / X^3
--- g = integral(f,X)
--- h = d(g,X)
--- check(f == h)
-
-#218 FIXME sqrt(a x^2 + b) / x^4
 
 #290
 integral(sin(A*X),X)+cos(A*X)/A
