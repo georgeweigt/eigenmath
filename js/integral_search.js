@@ -17,10 +17,10 @@ integral_search(F, h, table)
 			break;
 	}
 
-	stack.splice(h); // pop all
-
 	if (i == n)
 		return 0;
+
+	stack.splice(h); // pop all
 
 	scan1(table[i + 1]); // answer
 	evalf();
