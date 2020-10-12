@@ -101,6 +101,11 @@ dss(F, X)
 		return;
 	}
 
+	if (car(F) == symbol(ERF)) {
+		derf(F, X);
+		return;
+	}
+
 	if (car(F) == symbol(INTEGRAL) && caddr(F) == X) {
 		push(cadr(F));
 		return;

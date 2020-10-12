@@ -617,7 +617,7 @@ derf(void)
 	multiply();
 	exponential();
 	push_symbol(PI);
-	push_rational(-1,2);
+	push_rational(-1, 2);
 	power();
 	multiply();
 	push_integer(2);
@@ -626,7 +626,6 @@ derf(void)
 	push(p2);
 	derivative();
 	multiply();
-
 }
 
 void
