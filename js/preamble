@@ -4,9 +4,7 @@ Template web page for using eigenmath.js
 
 <html>
 <body>
-
 <script src="https://eigenmath.github.io/eigenmath.js"></script>
-
 <table>
 <tr>
 <td>
@@ -23,10 +21,8 @@ float(b)
 </td>
 </tr>
 </table>
-
 <p>
 <div id="stdout" style="font-size:18pt"></div>
-
 </body>
 </html>
 
