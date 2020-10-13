@@ -7,19 +7,25 @@ Template web page for using eigenmath.js
 
 <script src="https://eigenmath.github.io/eigenmath.js"></script>
 
-<textarea id="stdin" rows="24" cols="80">
+<table>
+<tr>
+<td>
+<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
 -- Eigenmath script goes here, for example:
 a = 0
 b = 2
 for(k,1,9,a = sqrt(2 + a),b = 2 b / a)
 float(b)
 </textarea>
+</td>
+<td>
+<button onclick="run()" style="font-size:20pt">Run</button>
+</td>
+</tr>
+</table>
 
 <p>
-<button onclick="run()">Run</button>
-
-<p>
-<div id="stdout"></div>
+<div id="stdout" style="font-size:18pt"></div>
 
 </body>
 </html>
