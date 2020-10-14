@@ -11,16 +11,14 @@ emit_matrix(p, d, k)
 	n = p.dim[d];
 	m = p.dim[d + 1];
 
-	emit_table_begin();
+	emit_table_begin(n, m); // n rows, m columns
 
 	for (i = 0; i < n; i++) {
-		emit_table_row_begin();
 		for (j = 0; j < m; j++) {
-			emit_table_data_begin();
+			emit_data_begin();
 			k = print_matrix(p, d + 2, k);
-			emit_table_data_end();
+			emit_data_end();
 		}
-		emit_table_row_end();
 	}
 
 	emit_table_end();

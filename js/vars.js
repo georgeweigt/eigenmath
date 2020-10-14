@@ -13,6 +13,7 @@ var expanding;
 var evaldepth;
 var trace1;
 var trace2;
+var emitbuf;
 
 var symtab = {
 abs:		{printname:ABS,		func:eval_abs},
