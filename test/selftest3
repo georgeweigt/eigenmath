@@ -1,4 +1,3 @@
-trace = 1
 -- integrals
 check(integral(a) = a x)
 check(integral(x) = 1/2 x^2)

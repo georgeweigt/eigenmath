@@ -624,20 +624,13 @@ var print_greek_tab = [
 function
 print_symbol_scan(s, k)
 {
-	var i, m, n, t;
-
+	var i, n, t;
 	n = print_greek_tab.length;
-
 	for (i = 0; i < n; i++) {
-
 		t = print_greek_tab[i];
-
-		m = t.length;
-
-		if (s.substring(k, k + m) == t)
-			return m;
+		if (s.startsWith(t, k))
+			return t.length;
 	}
-
 	return 1;
 }
 
