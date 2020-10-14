@@ -549,7 +549,7 @@ print_arglist(p)
 	if (iscons(p)) {
 		print_expr(car(p));
 		p = cdr(p);
-		while(iscons(p)) {
+		while (iscons(p)) {
 			print_mo(",");
 			print_expr(car(p));
 			p = cdr(p);
