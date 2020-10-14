@@ -1,6 +1,6 @@
 function
 emit_fraction_separator()
 {
-	emitbuf.push({end:DATA});
-	emitbuf.push({begin:DATA});
+	emit_data_end();
+	emit_data_begin();
 }

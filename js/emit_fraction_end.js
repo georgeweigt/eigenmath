@@ -1,6 +1,6 @@
 function
 emit_fraction_end()
 {
-	emitbuf.push({end:DATA});
+	emit_data_end();
 	emitbuf.push({end:FRACTION});
 }

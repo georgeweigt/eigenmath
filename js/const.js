@@ -101,3 +101,14 @@ const SYMBOL_Y = "y";
 const SYMBOL_Z = "z";
 
 const MAXINT = 1e15;
+
+const DATA = 1
+const PAREN = 2;
+const BRACKET = 3;
+const FRACTION = 4;
+const SUPERSCRIPT = 5;
+const SUBSCRIPT = 6;
+const TABLE = 7;
+
+const THIN = 1;
+const THICK = 2;
