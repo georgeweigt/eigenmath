@@ -16,30 +16,10 @@ emit_power(p)
 		return;
 	}
 
-	// p = (power y -1)
+	// negative exponent
 
-	if (isminusone(caddr(p))) {
-		emit_fraction_begin();
-		emit_roman("1");
-		emit_fraction_separator();
-		emit_expr(cadr(p));		// y
-		emit_fraction_end();
-		return;
-	}
-
-	// p = (power y -2)
-
-	if (isnegativenumber(caddr(p))) {
-		emit_fraction_begin();
-		emit_roman("1");
-		emit_fraction_separator();
-		emit_base(cadr(p));		// y
-		emit_superscript_begin();
-		emit_number(caddr(p));		// -2 (sign not emitted)
-		emit_superscript_end();
-		emit_fraction_end();
-		return;
-	}
+	if (isnegativenumber(caddr(p)))
+		return emit_fraction(p);
 
 	// p = (power y x)
 

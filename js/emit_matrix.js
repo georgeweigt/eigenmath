@@ -1,27 +1,56 @@
 function
 emit_matrix(p, d, k)
 {
-	var i, j, m, n;
+	var i, j, m, n, s, t, u;
 
-	if (d == p.dim.length) {
-		emit_expr(p.elem[k]);
-		return k + 1;
-	}
+	if (d == p.dim.length)
+		return emit_expr(p.elem[k]);
 
 	n = p.dim[d];
 	m = p.dim[d + 1];
 
-	emit_table_begin(n, m); // n rows, m columns
+	// span
+
+	s = 1;
+
+	for (i = d + 2; i < p.dim.length; i++)
+		s *= p.dim[i];
+
+	u = {type:TABLE, n:n, m:m, a:[], height:0, width: 2 * PWIDTH};
+
+	for (i = 0; i < n; i++)
+		for (j = 0; j < m; j++)
+			u.a.push(emit_matrix(p, d + 2, k + (i * m + j) * s));
+
+	// cell height
 
 	for (i = 0; i < n; i++) {
-		for (j = 0; j < m; j++) {
-			emit_data_begin();
-			k = print_matrix(p, d + 2, k);
-			emit_data_end();
-		}
+		t = 0;
+		for (j = 0; j < m; j++)
+			t = Math.max(t, u.a[i * m + j].height);
+		for (j = 0; j < m; j++)
+			u.a[i * m + j].cell_height = t;
 	}
 
-	emit_table_end();
+	// cell width
 
-	return k;
+	for (j = 0; j < m; j++) {
+		t = 0;
+		for (i = 0; i < n; i++)
+			t = Math.max(t, u.a[i * m + j].width);
+		for (i = 0; i < n; i++)
+			u.a[i * m + j].cell_width = t;
+	}
+
+	// table height
+
+	for (i = 0; i < n; i++)
+		u.height += u.a[i * m].cell_height;
+
+	// table width
+
+	for (j = 0; j < m; j++)
+		u.width += u.a[j].cell_width;
+
+	return u;
 }

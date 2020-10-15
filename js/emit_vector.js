@@ -1,18 +1,45 @@
 function
 emit_vector(p)
 {
-	var i, k, n;
+	var i, n, s, t, u;
 
-	k = 0;
 	n = p.dim[0];
 
-	emit_table_begin(n, 1); // n rows, 1 column
+	// span
 
-	for (i = 0; i < n; i++) {
-		emit_data_begin();
-		k = emit_matrix(p, 1, k);
-		emit_data_end();
-	}
+	s = 1;
 
-	emit_table_end();
+	for (i = 1; i < p.dim.length; i++)
+		s *= p.dim[i];
+
+	u = {type:TABLE, n:n, m:1, a:[], height:0, width: 2 * PWIDTH};
+
+	for (i = 0; i < n; i++)
+		u.a.push(emit_matrix(p, 1, i * s));
+
+	// cell height
+
+	for (i = 0; i < n; i++)
+		u.a[i].cell_height = u.a[i].height;
+
+	// cell width
+
+	t = 0;
+
+	for (i = 0; i < n; i++)
+		t = Math.max(t, u.a[i].width);
+
+	for (i = 0; i < n; i++)
+		u.a[i].cell_width = t;
+
+	// table height
+
+	for (i = 0; i < n; i++)
+		u.height += u.a[i].height;
+
+	// table width
+
+	u.width += u.a[0].width;
+
+	return u;
 }

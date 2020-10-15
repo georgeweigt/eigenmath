@@ -1,25 +1,15 @@
 function
-emit_imaginary(p) // p = (power -1 expr)
+emit_imaginary(p) // p = (power -1 x)
 {
 	if (isimaginaryunit(p)) {
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
-			emit_italic("j");
-			return;
-		}
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
-			emit_italic("i");
-			return;
-		}
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_J))))
+			return emit_italic("j");
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_I))))
+			return emit_italic("i");
 	}
 
-	if (isnegativenumber(caddr(p))) {
-		emit_fraction_begin();
-		emit_roman("1");
-		emit_fraction_separator();
-		emit_number(caddr(p)); // sign is not emitted
-		emit_fraction_end();
-		return;
-	}
+	if (isnegativenumber(caddr(p)))
+		return emit_fraction(p);
 
 	emit_base(cadr(p));
 
