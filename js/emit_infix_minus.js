@@ -1,7 +1,6 @@
 function
-emit_infix_minus()
+emit_infix_minus(u)
 {
-	emit_thick_space();
-	emitbuf.push({roman:"&minus;"});
-	emit_thick_space();
+	var v = {type:ROMAN, s:"&minus;", height:FONT_HEIGHT, width:INFIX_WIDTH};
+	u.a.push(v);
 }

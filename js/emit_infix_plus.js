@@ -1,7 +1,6 @@
 function
-emit_infix_plus()
+emit_infix_plus(u)
 {
-	emit_thick_space();
-	emitbuf.push({roman:"&plus;"});
-	emit_thick_space();
+	var v = {type:ROMAN, s:"&plus;", height:FONT_HEIGHT, width:INFIX_WIDTH};
+	u.a.push(v);
 }

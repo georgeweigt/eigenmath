@@ -104,17 +104,20 @@ const MAXINT = 1e15;
 
 const ROMAN = 1;
 const ITALIC = 2;
-const SUPERSCRIPT = 3;
-const SUBSCRIPT = 4;
-const FRACTION = 5;
-const TABLE = 6;
-const PAREN = 7;
-const BRACKET = 8;
+const HARRAY = 3;
+const SUPERSCRIPT = 4;
+const SUBSCRIPT = 5;
+const FRACTION = 6;
+const TABLE = 7;
+const PAREN = 8;
+const BRACKET = 9;
+const SPACE = 10;
 
-const THIN = 1;
-const THICK = 2;
-
+const THIN_SPACE_WIDTH = 5;
+const THICK_SPACE_WIDTH = 10;
 const PWIDTH = 10;
 const FRACTION_HEIGHT = 8;
 const FONT_HEIGHT = 20;
 const FONT_WIDTH = 12;
+
+const INFIX_WIDTH = THICK_SPACE_WIDTH + FONT_WIDTH + THICK_SPACE_WIDTH;

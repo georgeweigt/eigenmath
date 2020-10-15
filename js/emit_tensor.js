@@ -1,10 +1,10 @@
 function
-emit_tensor(p)
+emit_tensor(u, p)
 {
 	// if odd rank then emit vector
 
 	if (p.dim.length % 2 == 1)
-		emit_vector(p);
+		emit_vector(u, p);
 	else
-		emit_matrix(p, 0, 0);
+		emit_matrix(u, p, 0, 0);
 }

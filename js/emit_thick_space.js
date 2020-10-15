@@ -1,5 +1,5 @@
 function
-emit_thick_space()
+emit_thick_space(u)
 {
-	emitbuf.push({space:THICK});
+	u.a.push({type:SPACE, height:0, width:THICK_SPACE_WIDTH});
 }

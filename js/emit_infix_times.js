@@ -1,7 +1,6 @@
 function
-emit_infix_times()
+emit_infix_times(u)
 {
-	emit_thick_space();
-	emitbuf.push({roman:"&times;"});
-	emit_thick_space();
+	var v = {type:ROMAN, s:"&times;", height:FONT_HEIGHT, width:INFIX_WIDTH};
+	u.a.push(v);
 }

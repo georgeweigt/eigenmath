@@ -1,5 +1,6 @@
 function
-emit_minus_sign()
+emit_minus_sign(u)
 {
-	emitbuf.push({roman:"&minus;"});
+	var v = {type:ROMAN, s:"&minus;", height:FONT_HEIGHT, width:FONT_WIDTH};
+	u.a.push(v);
 }
