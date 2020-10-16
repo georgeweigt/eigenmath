@@ -20,8 +20,8 @@ emit_fraction(u, p)
 		emit_roman(v.den, "?");
 	}
 
-	v.height = v.num.height + v.num.depth + FRACTION_HEIGHT + X_HEIGHT;
-	v.depth = v.den.height + v.den.depth - X_HEIGHT;
+	v.height = v.num.height + v.num.depth + FRAC_PAD + X_HEIGHT;
+	v.depth = v.den.height + v.den.depth + FRAC_PAD - X_HEIGHT;
 
 	v.width = Math.max(v.num.width, v.den.width);
 

@@ -16,8 +16,8 @@ emit_update_table(u)
 			d = Math.max(d, u.a[i * m + j].depth);
 		}
 		for (j = 0; j < m; j++) {
-			u.a[i * m + j].cell_height = h + CELL_PADDING;
-			u.a[i * m + j].cell_depth = d + CELL_PADDING;
+			u.a[i * m + j].cell_height = h + CELL_PAD;
+			u.a[i * m + j].cell_depth = d + CELL_PAD;
 		}
 	}
 
@@ -28,7 +28,7 @@ emit_update_table(u)
 		for (i = 0; i < n; i++)
 			w = Math.max(w, u.a[i * m + j].width);
 		for (i = 0; i < n; i++)
-			u.a[i * m + j].cell_width = w + 2 * CELL_PADDING;
+			u.a[i * m + j].cell_width = w + 2 * CELL_PAD;
 	}
 
 	// table height and depth

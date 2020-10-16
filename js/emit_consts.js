@@ -10,11 +10,21 @@ const FRACTION = 9;
 const TABLE = 10;
 const SPACE = 11;
 
-const FONT_HEIGHT = 20;
-const FONT_DEPTH = 6;
-const FONT_WIDTH = 12;
-const X_HEIGHT = 5;
-const THIN_SPACE_WIDTH = 5;
-const THICK_SPACE_WIDTH = 10;
-const FRACTION_HEIGHT = 8;
-const CELL_PADDING = 2;
+const FONT_SIZE = 20
+//const SCRIPT_FONT_SIZE = 14;
+
+const FONT_HEIGHT = Math.round(0.8 * FONT_SIZE);
+const FONT_DEPTH = Math.round(0.2 * FONT_SIZE);
+const FONT_WIDTH = Math.round(0.6 * FONT_SIZE);
+const X_HEIGHT = Math.round(0.3 * FONT_SIZE);
+const THIN_SPACE_WIDTH = Math.round(FONT_SIZE / 6);
+const THICK_SPACE_WIDTH = Math.round(FONT_SIZE / 3);
+const FRAC_PAD = Math.round(FONT_SIZE / 10);
+const CELL_PAD = Math.round(FONT_SIZE / 10);
+
+//const SCRIPT_FONT_HEIGHT = Math.round(0.8 * SCRPT_FONT_SIZE);
+//const SCRIPT_FONT_DEPTH = Math.round(0.2 * SCRIPT_FONT_SIZE);
+//const SCRIPT_FONT_WIDTH = Math.round(0.6 * SCRIPT_FONT_SIZE);
+//const SCRIPT_X_HEIGHT = Math.round(0.3 * SCRIPT_FONT_SIZE);
+//const SCRIPT_THIN_SPACE_WIDTH = Math.round(SCRIPT_FONT_SIZE / 6);
+//const SCRIPT_THICK_SPACE_WIDTH = Math.round(SCRIPT_FONT_SIZE / 3);
