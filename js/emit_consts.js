@@ -1,6 +1,6 @@
 const ROMAN = 1;
 const ITALIC = 2;
-const HARRAY = 3;
+const EXPR = 3;
 const PAREN = 4;
 const BRACK = 5;
 const SUPERSCRIPT = 6;

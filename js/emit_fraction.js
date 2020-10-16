@@ -1,27 +1,29 @@
 function
 emit_fraction(u, p)
 {
-	var v = {type:FRACTION, a:[]};
+	var v = {type:FRACTION, num:{type:EXPR, a:[]}, den:{type:EXPR, a:[]}};
 
 	if (isrational(p)) {
-                emit_roman(v, Math.abs(p.a).toFixed(0));
-                emit_roman(v, p.b.toFixed(0));
+                emit_roman(v.num, Math.abs(p.a).toFixed(0));
+                emit_roman(v.den, p.b.toFixed(0));
 	} else if (car(p) == symbol(MULTIPLY)) {
-		emit_numerators(v, p);
-		emit_denominators(v, p);
+		emit_numerators(v.num, p);
+		emit_denominators(v.den, p);
 	} else if (car(p) == symbol(POWER)) {
 		push(p);
 		reciprocate();
 		p = pop();
-		emit_roman(v, "1");
-		v.a.push(emit_main(p));
+		emit_roman(v.num, "1");
+		emit_expr(v.den, p);
 	} else {
-		emit_roman(v, "?");
-		emit_roman(v, "?");
+		emit_roman(v.num, "?");
+		emit_roman(v.den, "?");
 	}
 
-	v.height = v.a[0].height + v.a[1].height + FRACTION_HEIGHT;
-	v.width = Math.max(v.a[0].width, v.a[1].width);
+	v.height = v.num.height + v.num.depth + FRACTION_HEIGHT + X_HEIGHT;
+	v.depth = v.den.height + v.den.depth - X_HEIGHT;
+
+	v.width = Math.max(v.num.width, v.den.width);
 
 	u.a.push(v);
 }

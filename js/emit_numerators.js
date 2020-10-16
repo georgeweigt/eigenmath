@@ -35,4 +35,6 @@ emit_numerators(u, p)
 
 	if (n == 0)
 		emit_roman(u, "1"); // there were no numerators
+
+	emit_update(u);
 }

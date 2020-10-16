@@ -1,7 +1,7 @@
 function
 emit_main(p)
 {
-	var u = {type:HARRAY, a:[]};
+	var u = {type:EXPR, a:[]};
 
 	emit_expr(u, p);
 

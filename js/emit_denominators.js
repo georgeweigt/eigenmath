@@ -43,4 +43,6 @@ emit_denominators(u, p)
 
 	if (n == 0)
 		emit_roman(u, "1"); // there were no denominators
+
+	emit_update(u);
 }
