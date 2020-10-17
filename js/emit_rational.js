@@ -8,13 +8,16 @@ emit_rational(u, p)
 		return;
 	}
 
-	n = {a:[], script_size:1};
-	d = {a:[], script_size:1};
+	n = {a:[], small_font:1};
+	d = {a:[], small_font:1};
 
 	emit_roman(n, Math.abs(p.a).toFixed(0));
 	emit_roman(d, p.b.toFixed(0));
 
-	v = {type:FRACTION, num:n.a[0], den:d.a[0]};
+	n = n.a[0];
+	d = d.a[0];
+
+	v = {type:FRACTION, num:n, den:d, small_font:1};
 
 	emit_update_fraction(v);
 
