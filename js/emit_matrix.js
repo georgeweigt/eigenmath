@@ -4,7 +4,14 @@ emit_matrix(u, p, d, k)
 	var i, j, m, n, s, v;
 
 	if (d == p.dim.length) {
-		u.a.push(emit_main(p.elem[k]));
+		v = {type:EXPR, a:[]};
+		p = p.elem[k];
+		emit_expr(v, p, 0);
+		if (v.a.length == 1)
+			v = v.a[0];
+		else
+			emit_update(v);
+		u.a.push(v);
 		return;
 	}
 
