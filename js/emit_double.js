@@ -44,7 +44,7 @@ emit_double(u, p, small_font)
 		k++;
 	else if (s[k] == '-') {
 		k++;
-		emit_special_symbol(v, "minus", 1);
+		emit_symbol_text(v, "minus", 1);
 	}
 
 	while (s[k] == '0')

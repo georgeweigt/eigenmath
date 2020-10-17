@@ -6,7 +6,7 @@ emit_subscript(u, s)
 	if (s.length == 1)
 		emit_italic_text(v, s, 1);
 	else
-		emit_special_symbol(v, s, 1);
+		emit_symbol_text(v, s, 1);
 
 	emit_update(v);
 
