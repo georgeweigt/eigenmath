@@ -3,11 +3,6 @@ emit_update(u)
 {
 	var d, h, i, w;
 
-	if (u.type == TABLE) {
-		emit_update_table(u);
-		return;
-	}
-
 	h = 0;
 	d = 0;
 	w = 0;

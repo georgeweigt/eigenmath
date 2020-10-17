@@ -17,7 +17,7 @@ emit_vector(u, p)
 	for (i = 0; i < n; i++)
 		emit_matrix(v, p, 1, i * s);
 
-	emit_update(v);
+	emit_update_table(v);
 
 	u.a.push(v);
 }
