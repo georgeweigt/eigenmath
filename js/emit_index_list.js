@@ -14,6 +14,6 @@ emit_index_list(u, p)
 		}
 	}
 	emit_update(v);
-	v.width += 2 * FONT_WIDTH; // for parens
+	v.width += 2 * FONT_WIDTH;
 	u.a.push(v);
 }

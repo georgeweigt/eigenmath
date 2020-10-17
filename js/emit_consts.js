@@ -25,6 +25,6 @@ const CELL_PAD = Math.round(0.1 * FONT_SIZE);
 const SMALL_FONT_HEIGHT = Math.round(0.8 * SMALL_FONT_SIZE);
 const SMALL_FONT_DEPTH = Math.round(0.2 * SMALL_FONT_SIZE);
 const SMALL_FONT_WIDTH = Math.round(0.6 * SMALL_FONT_SIZE);
-//const SCRIPT_X_HEIGHT = Math.round(0.3 * SCRIPT_FONT_SIZE);
+const SMALL_X_HEIGHT = Math.round(0.3 * SMALL_FONT_SIZE);
 const SMALL_THIN_SPACE_WIDTH = Math.round(0.2 * SMALL_FONT_SIZE);
 const SMALL_THICK_SPACE_WIDTH = Math.round(0.4 * SMALL_FONT_SIZE);
