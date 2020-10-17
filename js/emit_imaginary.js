@@ -1,16 +1,22 @@
 function
-emit_imaginary(u, p) // p = (power -1 x)
+emit_imaginary(u, p, small_font) // p = (-1)^expr
 {
 	if (isimaginaryunit(p)) {
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_J))))
-			return emit_italic(u, "j");
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_I))))
-			return emit_italic(u, "i");
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
+			emit_italic(u, "j", small_font);
+			return;
+		}
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
+			emit_italic(u, "i", small_font);
+			return;
+		}
 	}
 
-	if (isnegativenumber(caddr(p)))
-		return emit_fraction(u, p);
+	if (isnegativenumber(caddr(p))) {
+		emit_reciprocal(u, p, small_font);
+		return;
+	}
 
-	emit_base(u, cadr(p));
+	emit_base(u, cadr(p), small_font);
 	emit_superscript(u, caddr(p));
 }

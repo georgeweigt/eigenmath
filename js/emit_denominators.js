@@ -1,16 +1,18 @@
 function
-emit_denominators(u, p)
+emit_denominators(p, small_font)
 {
-	var n, p1;
+	var n, q, u;
+
+	u = {type:EXPR, a:[]};
 
 	n = 0;
 
 	p = cdr(p);
-	p1 = car(p);
+	q = car(p);
 
-	if (isrational(p1)) {
-		if (p1.b != 1) {
-			emit_roman(u, p1.b.toFixed(0));
+	if (isrational(q)) {
+		if (q.b != 1) {
+			emit_roman(u, q.b.toFixed(0), small_font);
 			n++;
 		}
 		p = cdr(p);
@@ -18,31 +20,36 @@ emit_denominators(u, p)
 
 	while (iscons(p)) {
 
-		p1 = car(p);
+		q = car(p);
 
-		if (car(p1) != symbol(POWER) || !isnegativenumber(caddr(p1))) {
+		if (car(q) != symbol(POWER) || !isnegativenumber(caddr(q))) {
 			p = cdr(p);
 			continue; // not a denominator
 		}
 
 		if (n > 0)
-			emit_thin_space(u);
+			emit_thin_space(u, small_font);
 
-		push(p1);
+		push(q);
 		reciprocate();
-		p1 = pop();
+		q = pop();
 
-		if (car(p1) == symbol(ADD))
-			emit_subexpr(u, p1);
+		if (car(q) == symbol(ADD))
+			emit_subexpr(u, q, small_font);
 		else
-			emit_expr(u, p1);
+			emit_expr(u, q, small_font);
 
 		n++;
 		p = cdr(p);
 	}
 
 	if (n == 0)
-		emit_roman(u, "1"); // there were no denominators
+		emit_roman(u, "1", small_font); // there were no denominators
+
+	if (u.a.length == 1)
+		return u.a[0];
 
 	emit_update(u);
+
+	return u;
 }

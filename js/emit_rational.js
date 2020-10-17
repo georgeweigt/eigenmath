@@ -1,10 +1,10 @@
 function
-emit_rational(u, p)
+emit_rational(u, p, small_font)
 {
 	var num, den, v;
 
 	if (p.b == 1) {
-		emit_roman(u, Math.abs(p.a).toFixed(0), u.small_font);
+		emit_roman(u, Math.abs(p.a).toFixed(0), small_font);
 		return;
 	}
 

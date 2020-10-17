@@ -1,14 +1,14 @@
 function
-emit_double(u, p)
+emit_double(u, p, small_font)
 {
 	var i, j, k, s, v;
 
 	if (p.d == 0) {
-		emit_roman(u, "0");
+		emit_roman(u, "0", small_font);
 		return;
 	}
 
-	s = Math.abs(p.d).toPrecision(6) + 'T'; // terminator
+	s = Math.abs(p.d).toPrecision(6) + '\0'; // terminator
 
 	k = 0;
 
@@ -20,13 +20,13 @@ emit_double(u, p)
 	i = s.indexOf(".");
 
 	if (i == -1)
-		emit_roman(u, s.substring(0, k));
+		emit_roman(u, s.substring(0, k), small_font);
 	else {
 		for (j = k - 1; j > i + 1; j--) {
 			if (s[j] != '0')
 				break;
 		}
-		emit_roman(u, s.substring(0, j + 1));
+		emit_roman(u, s.substring(0, j + 1), small_font);
 	}
 
 	if (s[k] != 'E' && s[k] != 'e')
@@ -34,23 +34,23 @@ emit_double(u, p)
 
 	k++;
 
-	emit_infix_operator(u, "&times;");
+	emit_infix_operator(u, "times", small_font);
 
-	emit_roman(u, "10");
+	emit_roman(u, "10", small_font);
 
-	v = {type:SUPERSCRIPT, a:[]};
+	v = {type:SUPERSCRIPT, a:[], small_font:small_font};
 
 	if (s[k] == '+')
 		k++;
 	else if (s[k] == '-') {
 		k++;
-		emit_minus_sign(v, u);
+		emit_special_symbol(v, "minus", 1);
 	}
 
 	while (s[k] == '0')
 		k++; // skip leading zeroes
 
-	emit_roman(v, s.substring(k, s.length - 1));
+	emit_roman(v, s.substring(k, s.length - 1), 1);
 
 	emit_update(v);
 

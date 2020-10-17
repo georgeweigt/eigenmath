@@ -1,18 +1,16 @@
 function
-emit_numerators(u, p)
+emit_numerators(p, small_font)
 {
-	var n, q;
+	var q, u;
 
-	n = 0;
+	u = {type:EXPR, a:[]};
 
 	p = cdr(p);
 	q = car(p);
 
 	if (isrational(q)) {
-		if (Math.abs(q.a) != 1) {
-			emit_roman(u, Math.abs(q.a).toFixed(0));
-			n++;
-		}
+		if (Math.abs(q.a) != 1)
+			emit_roman(u, Math.abs(q.a).toFixed(0), small_font);
 		p = cdr(p);
 	}
 
@@ -25,16 +23,24 @@ emit_numerators(u, p)
 			continue; // printed in denominator
 		}
 
-		if (n > 0)
-			emit_thin_space(u);
+		if (u.a.length > 0)
+			emit_thin_space(u, small_font);
 
-		emit_factor(u, q);
-		n++;
+		if (car(q) == symbol(ADD))
+			emit_subexpr(u, q, small_font);
+		else
+			emit_expr(u, q, small_font);
+
 		p = cdr(p);
 	}
 
-	if (n == 0)
-		emit_roman(u, "1"); // there were no numerators
+	if (u.a.length == 0)
+		emit_roman(u, "1", small_font); // there were no numerators
+
+	if (u.a.length == 1)
+		return u.a[0];
 
 	emit_update(u);
+
+	return u;
 }
