@@ -1,7 +1,7 @@
 function
-emit_italic(u, s, small_font)
+emit_roman_text(u, s, small_font)
 {
-	var v = {type:ITALIC, s:s, small_font:small_font};
+	var v = {type:ROMAN, text:s, small_font:small_font};
 
 	if (small_font) {
 		v.height = SMALL_FONT_HEIGHT;

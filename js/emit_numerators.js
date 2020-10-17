@@ -10,7 +10,7 @@ emit_numerators(p, small_font)
 
 	if (isrational(q)) {
 		if (Math.abs(q.a) != 1)
-			emit_roman(u, Math.abs(q.a).toFixed(0), small_font);
+			emit_roman_text(u, Math.abs(q.a).toFixed(0), small_font);
 		p = cdr(p);
 	}
 
@@ -35,7 +35,7 @@ emit_numerators(p, small_font)
 	}
 
 	if (u.a.length == 0)
-		emit_roman(u, "1", small_font); // there were no numerators
+		emit_roman_text(u, "1", small_font); // there were no numerators
 
 	if (u.a.length == 1)
 		return u.a[0];

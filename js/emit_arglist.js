@@ -7,7 +7,7 @@ emit_arglist(u, p, small_font)
 		emit_expr(u, car(p), small_font);
 		p = cdr(p);
 		while (iscons(p)) {
-			emit_roman(u, ",", small_font);
+			emit_roman_text(u, ",", small_font);
 			emit_thin_space(u, small_font);
 			emit_expr(u, car(p), small_font);
 			p = cdr(p);

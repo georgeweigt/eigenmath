@@ -4,7 +4,7 @@ emit_subscript(u, s)
 	var v = {type:SUBSCRIPT, a:[]};
 
 	if (s.length == 1)
-		emit_italic(v, s, 1);
+		emit_italic_text(v, s, 1);
 	else
 		emit_special_symbol(v, s, 1);
 

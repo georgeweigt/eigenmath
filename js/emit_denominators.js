@@ -12,7 +12,7 @@ emit_denominators(p, small_font)
 
 	if (isrational(q)) {
 		if (q.b != 1) {
-			emit_roman(u, q.b.toFixed(0), small_font);
+			emit_roman_text(u, q.b.toFixed(0), small_font);
 			n++;
 		}
 		p = cdr(p);
@@ -44,7 +44,7 @@ emit_denominators(p, small_font)
 	}
 
 	if (n == 0)
-		emit_roman(u, "1", small_font); // there were no denominators
+		emit_roman_text(u, "1", small_font); // there were no denominators
 
 	if (u.a.length == 1)
 		return u.a[0];
