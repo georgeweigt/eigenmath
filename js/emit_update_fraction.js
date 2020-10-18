@@ -1,7 +1,7 @@
 function
-emit_update_fraction(u, small_font)
+emit_update_fraction(u)
 {
-	if (small_font) {
+	if (u.small_font) {
 		u.height = u.num.height + u.num.depth + SMALL_FRAC_PAD + SMALL_X_HEIGHT;
 		u.depth = u.den.height + u.den.depth + SMALL_FRAC_PAD - SMALL_X_HEIGHT;
 	} else {
