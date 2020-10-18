@@ -37,7 +37,7 @@ emit_denominators(p, small_font)
 		if (car(q) == symbol(ADD))
 			emit_subexpr(u, q, small_font);
 		else
-			emit_expr(u, q, small_font);
+			emit_expr(u, q, small_font); // q is term or factor
 
 		n++;
 		p = cdr(p);
