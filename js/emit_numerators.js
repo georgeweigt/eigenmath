@@ -3,7 +3,7 @@ emit_numerators(p, small_font)
 {
 	var q, u;
 
-	u = {type:EXPR, a:[]};
+	u = {type:LINE, a:[]};
 
 	p = cdr(p);
 	q = car(p);

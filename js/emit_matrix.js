@@ -4,7 +4,7 @@ emit_matrix(u, p, d, k)
 	var i, j, m, n, s, v;
 
 	if (d == p.dim.length) {
-		v = emit_new(p.elem[k]);
+		v = emit_line(p.elem[k]);
 		u.a.push(v);
 		return;
 	}

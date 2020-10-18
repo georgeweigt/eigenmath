@@ -3,7 +3,7 @@ emit_denominators(p, n, small_font) // n is number of denominators
 {
 	var q, u;
 
-	u = {type:EXPR, a:[]};
+	u = {type:LINE, a:[]};
 
 	p = cdr(p);
 	q = car(p);

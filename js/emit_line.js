@@ -1,7 +1,7 @@
 function
-emit_new(p, small_font)
+emit_line(p, small_font)
 {
-	var u = {type:EXPR, a:[]};
+	var u = {type:LINE, a:[]};
 	emit_expr(u, p, small_font);
 	if (u.a.length == 1)
 		return u.a[0];

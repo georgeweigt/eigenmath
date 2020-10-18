@@ -10,7 +10,7 @@ emit_reciprocal(u, p, small_font)
 	emit_roman_text(u, "1", small_font);
 	num = u.a.pop();
 
-	den = emit_new(p, small_font);
+	den = emit_line(p, small_font);
 
 	v = {type:FRACTION, num:num, den:den, small_font:small_font};
 
