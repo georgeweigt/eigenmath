@@ -4,13 +4,7 @@ emit_matrix(u, p, d, k)
 	var i, j, m, n, s, v;
 
 	if (d == p.dim.length) {
-		v = {type:EXPR, a:[]};
-		p = p.elem[k];
-		emit_expr(v, p, 0);
-		if (v.a.length == 1)
-			v = v.a[0];
-		else
-			emit_update(v);
+		v = emit_new(p.elem[k]);
 		u.a.push(v);
 		return;
 	}

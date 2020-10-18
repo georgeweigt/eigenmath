@@ -1,19 +1,22 @@
 function
 emit_term_nib(u, p, small_font)
 {
-	var q, t;
+	var n, q, t;
 
-	// any denominators?
+	// count denominators
 
+	n = 0;
 	q = cdr(p);
-
 	while (iscons(q)) {
 		t = car(q);
-		if (car(t) == symbol(POWER) && isnegativenumber(caddr(t))) {
-			emit_fraction(u, p, small_font);
-			return;
-		}
+		if (car(t) == symbol(POWER) && isnegativenumber(caddr(t)))
+			n++
 		q = cdr(q);
+	}
+
+	if (n > 0) {
+		emit_fraction(u, p, n, small_font);
+		return;
 	}
 
 	// no denominators

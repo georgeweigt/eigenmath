@@ -1,11 +1,9 @@
 function
-emit_denominators(p, small_font)
+emit_denominators(p, n, small_font) // n is number of denominators
 {
-	var n, q, u;
+	var q, u;
 
 	u = {type:EXPR, a:[]};
-
-	n = 0;
 
 	p = cdr(p);
 	q = car(p);
@@ -27,24 +25,20 @@ emit_denominators(p, small_font)
 			continue; // not a denominator
 		}
 
-		if (n > 0)
+		if (u.a.length > 0)
 			emit_thin_space(u, small_font);
 
 		push(q);
 		reciprocate();
 		q = pop();
 
-		if (car(q) == symbol(ADD))
+		if (car(q) == symbol(ADD) && n > 1)
 			emit_subexpr(u, q, small_font);
 		else
 			emit_expr(u, q, small_font); // q is term or factor
 
-		n++;
 		p = cdr(p);
 	}
-
-	if (n == 0)
-		emit_roman_text(u, "1", small_font); // there were no denominators
 
 	if (u.a.length == 1)
 		return u.a[0];
