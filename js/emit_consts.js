@@ -26,3 +26,4 @@ const SMALL_FONT_DEPTH = Math.round(0.2 * SMALL_FONT_SIZE);
 const SMALL_FONT_WIDTH = Math.round(0.6 * SMALL_FONT_SIZE);
 const SMALL_X_HEIGHT = Math.round(0.3 * SMALL_FONT_SIZE);
 const SMALL_THIN_SPACE_WIDTH = Math.round(0.2 * SMALL_FONT_SIZE);
+const SMALL_FRAC_PAD = Math.round(0.1 * SMALL_FONT_SIZE);

@@ -35,7 +35,7 @@ emit_function(u, p, small_font)
 
 	if (car(p) == symbol(SETQ) || car(p) == symbol(TESTEQ)) {
 		emit_expr(u, cadr(p), small_font);
-		emit_infix_operator(u, "=", small_font);
+		emit_infix_operator(u, "equals", small_font);
 		emit_expr(u, caddr(p), small_font);
 		return;
 	}

@@ -16,7 +16,7 @@ emit_rational(u, p, small_font)
 
 	v = {type:FRACTION, num:num, den:den, small_font:1};
 
-	emit_update_fraction(v);
+	emit_update_fraction(v, 1);
 
 	u.a.push(v);
 }
