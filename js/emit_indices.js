@@ -1,7 +1,7 @@
 function
-emit_arglist(u, p, small_font)
+emit_indices(u, p, small_font)
 {
-	var v = {type:PAREN, a:[], small_font:small_font};
+	var v = {type:BRACK, a:[], small_font:small_font};
 
 	p = cdr(p);
 

@@ -28,14 +28,15 @@ emit_denominators(p, n, small_font) // n is number of denominators
 		if (u.a.length > 0)
 			emit_thin_space(u, small_font);
 
-		push(q);
-		reciprocate();
-		q = pop();
-
-		if (car(q) == symbol(ADD) && n > 1)
-			emit_subexpr(u, q, small_font);
-		else
-			emit_expr(u, q, small_font); // q is term or factor
+		if (isminusone(caddr(q))) {
+			if (cadr(q) == symbol(ADD) && n > 1)
+				emit_subexpr(u, cadr(q), small_font);
+			else
+				emit_expr(u, cadr(q), small_font);
+		} else {
+			emit_base(u, cadr(q), small_font);
+			emit_exponent(u, caddr(q), small_font);
+		}
 
 		p = cdr(p);
 	}

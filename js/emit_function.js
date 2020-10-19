@@ -5,7 +5,7 @@ emit_function(u, p, small_font)
 
 	if (car(p) == symbol(DERIVATIVE)) {
 		emit_roman_text(u, "d", small_font);
-		emit_arglist(u, p, small_font);
+		emit_args(u, p, small_font);
 		return;
 	}
 
@@ -29,7 +29,7 @@ emit_function(u, p, small_font)
 			emit_symbol(u, car(p), small_font);
 		else
 			emit_subexpr(u, car(p), small_font);
-		emit_index_list(u, p, small_font);
+		emit_indices(u, p, small_font);
 		return;
 	}
 
@@ -68,5 +68,5 @@ emit_function(u, p, small_font)
 	else
 		emit_subexpr(u, car(p), small_font);
 
-	emit_arglist(u, p, small_font);
+	emit_args(u, p, small_font);
 }
