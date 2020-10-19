@@ -6,19 +6,14 @@ emit_svg(p, x, y)
 	switch (p.type) {
 
 	case SPACE:
-
 		break;
 
 	case ROMAN:
 
-		x += p.width / 2;
-
-		outbuf += "<text text-anchor='middle'";
-
 		if (p.small_font)
-			outbuf += " style='font-family:times;font-size:14pt'";
+			outbuf += "<text style='font-family:monospace;font-size:14pt'";
 		else
-			outbuf += " style='font-family:times;font-size:20pt'";
+			outbuf += "<text style='font-family:monospace;font-size:20pt'";
 
 		outbuf += " x='" + x + "' y='" + y + "'>" + p.s + "</text>";
 
@@ -26,14 +21,10 @@ emit_svg(p, x, y)
 
 	case ITALIC:
 
-		x += p.width / 2;
-
-		outbuf += "<text text-anchor='middle'";
-
 		if (p.small_font)
-			outbuf += " style='font-family:italic;font-size:14pt'";
+			outbuf += "<text style='font-family:monospace;font-size:14pt;font-style:italic'";
 		else
-			outbuf += " style='font-family:italic;font-size:20pt'";
+			outbuf += "<text style='font-family:monospace;font-size:20pt;font-style:italic'";
 
 		outbuf += " x='" + x + "' y='" + y + "'>" + p.s + "</text>";
 
@@ -41,15 +32,41 @@ emit_svg(p, x, y)
 
 	case LINE:
 
-		y += p.height;
+		n = p.a.length;
+
+		for (i = 0; i < n; i++) {
+			emit_svg(p.a[i], x, y);
+			x += p.a[i].width;
+		}
+
+		break;
+
+	case PAREN:
+
+		if (p.small_font)
+			outbuf += "<text style='font-family:monospace;font-size:14pt'"
+		else
+			outbuf += "<text style='font-family:monospace;font-size:20pt'"
+
+		outbuf += " x='" + x + "' y='" + y + "'>" + "(</text>";
+
+		if (p.small_font)
+			x += SMALL_FONT_WIDTH;
+		else
+			x += FONT_WIDTH;
 
 		n = p.a.length;
 
 		for (i = 0; i < n; i++) {
 			emit_svg(p.a[i], x, y);
-			x += p.width;
+			x += p.a[i].width;
 		}
 
-		break;
+		if (p.small_font)
+			outbuf += "<text style='font-family:monospace;font-size:14pt'"
+		else
+			outbuf += "<text style='font-family:monospace;font-size:20pt'"
+
+		outbuf += " x='" + x + "' y='" + y + "'>" + ")</text>";
 	}
 }

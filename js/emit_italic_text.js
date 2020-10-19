@@ -1,17 +1,33 @@
 function
 emit_italic_text(u, s, small_font)
 {
-	var v = {type:ITALIC, s:s, small_font:small_font};
+	var c, i, n, v;
 
-	if (small_font) {
-		v.height = SMALL_FONT_HEIGHT;
-		v.depth = SMALL_FONT_DEPTH;
-		v.width = s.length * SMALL_FONT_WIDTH;
-	} else {
-		v.height = FONT_HEIGHT;
-		v.depth = FONT_DEPTH;
-		v.width = s.length * FONT_WIDTH;
+	n = s.length;
+
+	for (i = 0; i < n; i++) {
+
+		c = s[i];
+
+		if (c == '&')
+			c = "&amp;";
+		else if (c == '<')
+			c = "&lt;";
+		else if (c == '>')
+			c = "&gt";
+
+		v = {type:ITALIC, s:s[i], small_font:small_font};
+
+		if (small_font) {
+			v.height = SMALL_FONT_HEIGHT;
+			v.depth = SMALL_FONT_DEPTH;
+			v.width = SMALL_FONT_WIDTH;
+		} else {
+			v.height = FONT_HEIGHT;
+			v.depth = FONT_DEPTH;
+			v.width = FONT_WIDTH;
+		}
+
+		u.a.push(v);
 	}
-
-	u.a.push(v);
 }
