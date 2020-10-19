@@ -1,4 +1,4 @@
-objects := $(shell ls *.js | sed "s/\n/ /;s/eigenmath\.js//;s/latex\.js//")
+objects := $(shell ls *.js | sed "s/\n/ /;s/eigenmath\.js//")
 
 default:
 	cat preamble $(objects) > eigenmath.js
