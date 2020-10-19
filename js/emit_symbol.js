@@ -1,7 +1,7 @@
 function
 emit_symbol(u, p, small_font)
 {
-	var k, n, s;
+	var k, n, s, v;
 
 	if (p == symbol(EXP1)) {
 		emit_roman_text(u, "exp(1)", small_font);
@@ -29,11 +29,33 @@ emit_symbol(u, p, small_font)
 
 	// emit subscript
 
+	v = {type:SUBSCRIPT, a:[], small_font:small_font};
+
 	k = n;
 
 	while (k < s.length) {
+
 		n = emit_symbol_scan(s, k);
-		emit_subscript(u, s.substring(k, k + n));
+
+		if (n == 1)
+			emit_italic_text(v, s[k], 1);
+		else if (s[k] >= 'A' && s[k] <= 'Z')
+			emit_roman_symbol(v, "&" + s.substring(k, k + n) + ";", 1);
+		else
+			emit_italic_symbol(v, "&" + s.substring(k, k + n) + ";", 1);
+
 		k += n;
 	}
+
+	emit_update(v);
+
+	if (small_font) {
+		v.height -= SMALL_X_HEIGHT;
+		v.depth += SMALL_X_HEIGHT;
+	} else {
+		v.height -= X_HEIGHT;
+		v.depth += X_HEIGHT;
+	}
+
+	u.a.push(v);
 }
