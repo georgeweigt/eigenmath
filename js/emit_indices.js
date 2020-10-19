@@ -10,7 +10,6 @@ emit_indices(u, p, small_font)
 		p = cdr(p);
 		while (iscons(p)) {
 			emit_roman_text(u, ",", small_font);
-			emit_thin_space(u, small_font);
 			emit_expr(u, car(p), small_font);
 			p = cdr(p);
 		}

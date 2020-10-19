@@ -1,21 +1,26 @@
 function
 emit_term_nib(u, p, small_font)
 {
-	var n, q, t;
+	var m = 0, n = 0, q, t;
 
-	// count denominators
+	// count numerators and denominators
 
-	n = 0;
-	q = cdr(p);
-	while (iscons(q)) {
-		t = car(q);
-		if (car(t) == symbol(POWER) && isnegativenumber(caddr(t)))
-			n++
-		q = cdr(q);
+	t = p;
+
+	p = cdr(p);
+	while (iscons(p)) {
+		q = car(p);
+		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q)))
+			n++;
+		else
+			m++;
+		p = cdr(p);
 	}
 
+	p = t;
+
 	if (n > 0) {
-		emit_fraction(u, p, n, small_font);
+		emit_fraction(u, p, m, n, small_font);
 		return;
 	}
 
