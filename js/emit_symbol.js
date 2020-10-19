@@ -19,8 +19,10 @@ emit_symbol(u, p, small_font)
 
 	if (n == 1)
 		emit_italic_text(u, s[0], small_font);
+	else if (s[0] >= 'A' && s[0] <= 'Z')
+		emit_roman_symbol(u, "&" + s.substring(0, n) + ";", small_font);
 	else
-		emit_symbol_text(u, "&" + s.substring(0, n) + ";", small_font);
+		emit_italic_symbol(u, "&" + s.substring(0, n) + ";", small_font);
 
 	if (n == s.length)
 		return;

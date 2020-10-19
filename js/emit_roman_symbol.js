@@ -1,7 +1,7 @@
 function
-emit_symbol_text(u, s, small_font)
+emit_roman_symbol(u, s, small_font)
 {
-	var v = {type:SYMBOL, s:s, small_font:small_font};
+	var v = {type:ROMAN, s:s, small_font:small_font};
 
 	if (small_font) {
 		v.height = SMALL_FONT_HEIGHT;
