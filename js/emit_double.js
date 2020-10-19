@@ -1,5 +1,5 @@
 function
-emit_double(u, p, small_font)
+emit_double(u, p, small_font) // p is a double
 {
 	var i, j, k, s, v;
 
@@ -34,7 +34,7 @@ emit_double(u, p, small_font)
 
 	k++;
 
-	emit_infix_operator(u, "times", small_font);
+	emit_infix_operator(u, "&times;", small_font);
 
 	emit_roman_text(u, "10", small_font);
 
@@ -44,7 +44,7 @@ emit_double(u, p, small_font)
 		k++;
 	else if (s[k] == '-') {
 		k++;
-		emit_symbol_text(v, "minus", 1);
+		emit_symbol_text(v, "&minus;", 1);
 	}
 
 	while (s[k] == '0')
