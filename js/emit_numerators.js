@@ -1,5 +1,5 @@
 function
-emit_numerators(p, m, small_font) // m is number of numerators
+emit_numerators(p, small_font)
 {
 	var q, u;
 
@@ -7,14 +7,6 @@ emit_numerators(p, m, small_font) // m is number of numerators
 
 	p = cdr(p);
 	q = car(p);
-
-	if (isrational(q)) {
-		if (Math.abs(q.a) != 1) {
-			emit_roman_text(u, Math.abs(q.a).toFixed(0), small_font);
-			m++;
-		}
-		p = cdr(p);
-	}
 
 	while (iscons(p)) {
 
@@ -28,7 +20,10 @@ emit_numerators(p, m, small_font) // m is number of numerators
 		if (u.a.length > 0)
 			emit_thin_space(u, small_font);
 
-		if (car(q) == symbol(ADD) && m > 1)
+		if (isrational(q)) {
+			if (Math.abs(q.a) != 1)
+				emit_roman_text(u, Math.abs(q.a).toFixed(0), small_font);
+		} else if (car(q) == symbol(ADD))
 			emit_subexpr(u, q, small_font);
 		else
 			emit_expr(u, q, small_font);

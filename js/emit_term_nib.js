@@ -1,9 +1,9 @@
 function
 emit_term_nib(u, p, small_font)
 {
-	var m = 0, n = 0, q, t;
+	var n = 0, q, t;
 
-	// count numerators and denominators
+	// count denominators
 
 	t = p;
 
@@ -12,15 +12,13 @@ emit_term_nib(u, p, small_font)
 		q = car(p);
 		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q)))
 			n++;
-		else
-			m++;
 		p = cdr(p);
 	}
 
 	p = t;
 
 	if (n > 0) {
-		emit_fraction(u, p, m, n, small_font);
+		emit_fraction(u, p, n, small_font);
 		return;
 	}
 

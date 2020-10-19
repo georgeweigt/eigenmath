@@ -1,11 +1,11 @@
 function
-emit_update_superscript(u, small_font)
+emit_update_superscript(u)
 {
 	emit_update(u);
 
-	// move above x height, emit_svg() may move higher
+	// move above baseline, emit_svg() may move higher
 
-	if (small_font) {
+	if (u.small_font) {
 		u.height = u.height + u.depth + SMALL_X_HEIGHT;
 		u.depth = -SMALL_X_HEIGHT;
 	} else {
