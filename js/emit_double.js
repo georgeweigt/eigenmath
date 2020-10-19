@@ -52,7 +52,7 @@ emit_double(u, p, small_font) // p is a double
 
 	emit_roman_text(v, s.substring(k, s.length - 1), 1);
 
-	emit_update_superscript(v);
+	emit_update_superscript(v, u.a[u.a.length - 1].height);
 
 	u.a.push(v);
 }

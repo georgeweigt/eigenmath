@@ -8,7 +8,7 @@ emit_numeric_exponent(u, p, small_font) // p is rational or double, sign is not 
 	else
 		emit_double(v, p, 1);
 
-	emit_update_superscript(v);
+	emit_update_superscript(v, u.a[u.a.length - 1].height);
 
 	u.a.push(v);
 }
