@@ -1,20 +1,28 @@
 function
-emit_reciprocal(u, p, small_font) // p = y^x, x is a negative number
+emit_reciprocal(u, p, small_font) // p = y^x and x is a negative number
 {
 	var num, den, v;
 
-	num = {a:[]};
+	num = {type:LINE, a:[]};
+	den = {type:LINE, a:[]};
+
 	emit_roman_text(num, "1", small_font);
-	num = num.a[0];
 
 	if (isminusone(caddr(p)))
-		den = emit_line(cadr(p), small_font);
+		emit_expr(den, cadr(p), small_font);
 	else {
-		den = {type:LINE, a:[]};
 		emit_base(den, cadr(p), small_font);
 		emit_exponent(den, caddr(p));
-		emit_update(den);
 	}
+
+	emit_update(num);
+	emit_update(den);
+
+	if (num.a.length == 1)
+		num = num.a[0];
+
+	if (den.a.length == 1)
+		den = den.a[0];
 
 	v = {type:FRACTION, num:num, den:den, small_font:small_font};
 
