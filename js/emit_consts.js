@@ -27,3 +27,13 @@ const SMALL_FONT_WIDTH = Math.round(0.6 * SMALL_FONT_SIZE);
 const SMALL_X_HEIGHT = Math.round(0.3 * SMALL_FONT_SIZE);
 const SMALL_THIN_SPACE_WIDTH = Math.round(0.2 * SMALL_FONT_SIZE);
 const SMALL_FRAC_PAD = Math.round(0.1 * SMALL_FONT_SIZE);
+
+const emit_stab = [
+	"hbar",
+	"Alpha","Beta","Gamma","Delta","Epsilon","Zeta","Eta","Theta","Iota",
+	"Kappa","Lambda","Mu","Nu","Xi","Pi","Rho","Sigma","Tau","Upsilon",
+	"Phi","Chi","Psi","Omega",
+	"alpha","beta","gamma","delta","epsilon","zeta","eta","theta","iota",
+	"kappa","lambda","mu","nu","xi","pi","rho","sigma","tau","upsilon",
+	"phi","chi","psi","omega",
+];
