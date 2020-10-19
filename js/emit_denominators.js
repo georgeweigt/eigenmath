@@ -26,7 +26,7 @@ emit_denominators(p, n, small_font) // n is number of denominators
 		}
 
 		if (u.a.length > 0)
-			emit_thin_space(u, small_font);
+			emit_space(u, small_font);
 
 		if (isminusone(caddr(q))) {
 			q = cadr(q);

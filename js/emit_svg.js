@@ -1,7 +1,7 @@
 function
 emit_svg(p, x, y)
 {
-	var i, n;
+	var dx, dy, i, n;
 
 	switch (p.type) {
 
@@ -101,7 +101,6 @@ emit_svg(p, x, y)
 
 		break;
 
-
 	case SUPERSCRIPT:
 
 		y += p.depth; // p.depth is negative
@@ -129,6 +128,45 @@ emit_svg(p, x, y)
 			x += p.a[i].width;
 		}
 
+		break;
+
+	case FRACTION:
+
+		dx = (p.den.width - p.num.width) / 2;
+
+		if (dx < 0)
+			dx = 0;
+
+		if (p.small_font)
+			dy = -SMALL_X_HEIGHT - SMALL_FRAC_PAD - p.num.depth;
+		else
+			dy = -X_HEIGHT - FRAC_PAD - p.num.depth;
+
+		emit_svg(p.num, x + dx, y + dy);
+
+		dx = (p.num.width - p.den.width) / 2;
+
+		if (dx < 0)
+			dx = 0;
+
+		if (p.small_font)
+			dy = -SMALL_X_HEIGHT + SMALL_FRAC_PAD + p.den.height;
+		else
+			dy = -X_HEIGHT + FRAC_PAD + p.den.height;
+
+		emit_svg(p.den, x + dx, y + dy);
+
+		if (p.small_font)
+			y -= SMALL_X_HEIGHT;
+		else
+			y -= X_HEIGHT;
+
+		dx = x + p.width;
+
+print_buf("<line x1='" + x + "' y1='" + y + "' x2='" + dx + "' y2='" + y + "' />", RED);
+
+		outbuf += "<line x1='" + x + "' y1='" + y + "' x2='" + dx + "' y2='" + y + "' style='stroke:black' />"
+		
 		break;
 	}
 }
