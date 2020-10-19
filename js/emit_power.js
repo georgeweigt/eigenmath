@@ -11,6 +11,6 @@ emit_power(u, p, small_font) // p = y^x
 		emit_reciprocal(u, p, small_font);
 	else {
 		emit_base(u, cadr(p), small_font);
-		emit_superscript(u, caddr(p), small_font);
+		emit_exponent(u, caddr(p), small_font);
 	}
 }

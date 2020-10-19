@@ -1,14 +1,19 @@
 function
-emit_exponent(u, p) // p is rational or double, sign is not emitted
+emit_exponent(u, p, small_font)
 {
-	var v = {type:SUPERSCRIPT, a:[], small_font:1};
+	var v = {type:SUPERSCRIPT, a:[], small_font:small_font};
 
-	if (isrational(p))
-		emit_rational(v, p, 1);
-	else
-		emit_double(v, p, 1);
+	emit_expr(v, p, 1);
 
 	emit_update(v);
+
+	if (small_font) {
+		v.height = v.height + v.depth + SMALL_X_HEIGHT;
+		v.depth = -SMALL_X_HEIGHT;
+	} else {
+		v.height = v.height + v.depth + X_HEIGHT;
+		v.depth = -X_HEIGHT;
+	}
 
 	u.a.push(v);
 }

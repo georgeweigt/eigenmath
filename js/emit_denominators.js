@@ -36,7 +36,7 @@ emit_denominators(p, n, small_font) // n is number of denominators
 				emit_expr(u, q, small_font);
 		} else {
 			emit_base(u, cadr(q), small_font);
-			emit_exponent(u, caddr(q), small_font);
+			emit_numeric_exponent(u, caddr(q), small_font); // sign is not emitted
 		}
 
 		p = cdr(p);

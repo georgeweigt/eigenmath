@@ -1,5 +1,5 @@
 function
-emit_reciprocal(u, p, small_font) // p = y^x and x is a negative number
+emit_reciprocal(u, p, small_font) // p = y^x where x is a negative number
 {
 	var num, den, v;
 
@@ -12,7 +12,7 @@ emit_reciprocal(u, p, small_font) // p = y^x and x is a negative number
 		emit_expr(den, cadr(p), small_font);
 	else {
 		emit_base(den, cadr(p), small_font);
-		emit_exponent(den, caddr(p));
+		emit_numeric_exponent(den, caddr(p)); // sign is not emitted
 	}
 
 	emit_update(num);
