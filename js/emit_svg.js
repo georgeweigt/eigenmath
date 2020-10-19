@@ -132,7 +132,7 @@ emit_svg(p, x, y)
 
 	case FRACTION:
 
-		dx = (p.den.width - p.num.width) / 2;
+		dx = (p.width - p.num.width) / 2;
 
 		if (dx < 0)
 			dx = 0;
@@ -144,7 +144,7 @@ emit_svg(p, x, y)
 
 		emit_svg(p.num, x + dx, y + dy);
 
-		dx = (p.num.width - p.den.width) / 2;
+		dx = (p.width - p.den.width) / 2;
 
 		if (dx < 0)
 			dx = 0;

@@ -7,6 +7,13 @@ emit_power(u, p, small_font) // p = y^x
 		return;
 	}
 
+	if (isimaginaryunit(p)) {
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_J))))
+			return emit_italic_text(u, "j");
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_I))))
+			return emit_italic_text(u, "i");
+	}
+
 	if (isnegativenumber(caddr(p)))
 		emit_reciprocal(u, p, small_font);
 	else {
