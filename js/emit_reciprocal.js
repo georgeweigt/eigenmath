@@ -15,14 +15,15 @@ emit_reciprocal(u, p, small_font) // p = y^x where x is a negative number
 		emit_numeric_exponent(den, caddr(p)); // sign is not emitted
 	}
 
-	emit_update(num);
-	emit_update(den);
-
 	if (num.a.length == 1)
 		num = num.a[0];
+	else
+		emit_update(num);
 
 	if (den.a.length == 1)
 		den = den.a[0];
+	else
+		emit_update(den);
 
 	v = {type:FRACTION, num:num, den:den, small_font:small_font};
 

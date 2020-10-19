@@ -163,8 +163,6 @@ emit_svg(p, x, y)
 
 		dx = x + p.width;
 
-print_buf("<line x1='" + x + "' y1='" + y + "' x2='" + dx + "' y2='" + y + "' />", RED);
-
 		outbuf += "<line x1='" + x + "' y1='" + y + "' x2='" + dx + "' y2='" + y + "' style='stroke:black' />"
 		
 		break;
