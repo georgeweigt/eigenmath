@@ -8,26 +8,21 @@ emit_svg(p, x, y)
 	case SPACE:
 		break;
 
-	case ROMAN:
-
-		if (p.small_font)
-			outbuf += "<text style='font-family:monospace;font-size:14pt'";
-		else
-			outbuf += "<text style='font-family:monospace;font-size:20pt'";
-
+	case TEXT:
+		if (p.small_font) {
+			if (p.italic_font)
+				outbuf += "<text style='font-family:times;font-size:14pt;font-style:italic'";
+			else
+				outbuf += "<text style='font-family:times;font-size:14pt'";
+		} else {
+			if (p.italic_font)
+				outbuf += "<text style='font-family:times;font-size:20pt;font-style:italic'";
+			else
+				outbuf += "<text style='font-family:times;font-size:20pt'";
+		}
 		outbuf += " x='" + x + "' y='" + y + "'>" + p.s + "</text>";
-
-		break;
-
-	case ITALIC:
-
-		if (p.small_font)
-			outbuf += "<text style='font-family:monospace;font-size:14pt;font-style:italic'";
-		else
-			outbuf += "<text style='font-family:monospace;font-size:20pt;font-style:italic'";
-
-		outbuf += " x='" + x + "' y='" + y + "'>" + p.s + "</text>";
-
+//		if (p.s != ' ')
+//			emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height);
 		break;
 
 	case LINE:
@@ -44,9 +39,9 @@ emit_svg(p, x, y)
 	case PAREN:
 
 		if (p.small_font)
-			outbuf += "<text style='font-family:monospace;font-size:14pt'"
+			outbuf += "<text style='font-family:times;font-size:14pt'"
 		else
-			outbuf += "<text style='font-family:monospace;font-size:20pt'"
+			outbuf += "<text style='font-family:times;font-size:20pt'"
 
 		outbuf += " x='" + x + "' y='" + y + "'>" + "(</text>";
 
@@ -63,9 +58,9 @@ emit_svg(p, x, y)
 		}
 
 		if (p.small_font)
-			outbuf += "<text style='font-family:monospace;font-size:14pt'"
+			outbuf += "<text style='font-family:times;font-size:14pt'"
 		else
-			outbuf += "<text style='font-family:monospace;font-size:20pt'"
+			outbuf += "<text style='font-family:times;font-size:20pt'"
 
 		outbuf += " x='" + x + "' y='" + y + "'>" + ")</text>";
 
@@ -74,9 +69,9 @@ emit_svg(p, x, y)
 	case BRACK:
 
 		if (p.small_font)
-			outbuf += "<text style='font-family:monospace;font-size:14pt'"
+			outbuf += "<text style='font-family:times;font-size:14pt'"
 		else
-			outbuf += "<text style='font-family:monospace;font-size:20pt'"
+			outbuf += "<text style='font-family:times;font-size:20pt'"
 
 		outbuf += " x='" + x + "' y='" + y + "'>" + "[</text>";
 
@@ -93,9 +88,9 @@ emit_svg(p, x, y)
 		}
 
 		if (p.small_font)
-			outbuf += "<text style='font-family:monospace;font-size:14pt'"
+			outbuf += "<text style='font-family:times;font-size:14pt'"
 		else
-			outbuf += "<text style='font-family:monospace;font-size:20pt'"
+			outbuf += "<text style='font-family:times;font-size:20pt'"
 
 		outbuf += " x='" + x + "' y='" + y + "'>" + "]</text>";
 

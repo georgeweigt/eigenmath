@@ -1,7 +1,7 @@
 function
 emit_italic_symbol(u, s, small_font)
 {
-	var v = {type:ITALIC, s:s, small_font:small_font};
+	var v = {type:TEXT, s:s, small_font:small_font, italic_font:1};
 
 	if (small_font) {
 		v.height = SMALL_FONT_HEIGHT;
