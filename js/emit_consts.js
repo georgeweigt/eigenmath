@@ -21,16 +21,21 @@ const V_SPACE_RATIO = 0.2;
 const THIN_SPACE_RATIO = 1/3 * WIDTH_RATIO;
 const MEDIUM_SPACE_RATIO = 2/3 * WIDTH_RATIO;
 
-const X_HEIGHT = emit_round(X_HEIGHT_RATIO * FONT_SIZE);
-const SMALL_X_HEIGHT = emit_round(X_HEIGHT_RATIO * SMALL_FONT_SIZE);
+const X_HEIGHT = X_HEIGHT_RATIO * FONT_SIZE;
+const SMALL_X_HEIGHT = X_HEIGHT_RATIO * SMALL_FONT_SIZE;
 
-const VSPACE = emit_round(V_SPACE_RATIO * FONT_SIZE);
-const SMALL_VSPACE = emit_round(V_SPACE_RATIO * SMALL_FONT_SIZE);
+const VSPACE = V_SPACE_RATIO * FONT_SIZE;
+const SMALL_VSPACE = V_SPACE_RATIO * SMALL_FONT_SIZE;
 
-const MEDIUM_SPACE = emit_round(MEDIUM_SPACE_RATIO * FONT_SIZE);
-const SMALL_MEDIUM_SPACE = emit_round(MEDIUM_SPACE_RATIO * SMALL_FONT_SIZE);
+const MEDIUM_SPACE = MEDIUM_SPACE_RATIO * FONT_SIZE;
+const SMALL_MEDIUM_SPACE = MEDIUM_SPACE_RATIO * SMALL_FONT_SIZE;
 
-const CELL_PAD = emit_round(0.2 * FONT_SIZE);
+const DWR = 0.7; // delimiter width ratio
+
+const DELIM_WIDTH = DWR * WIDTH_RATIO * FONT_SIZE;
+const SMALL_DELIM_WIDTH = DWR * WIDTH_RATIO * SMALL_FONT_SIZE;
+
+const CELL_PAD = 0.2 * FONT_SIZE;
 
 const emit_wtab = [
 	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,
@@ -45,7 +50,7 @@ const emit_wtab = [
 	0.7,	0.6,	0.6,	1.0,	1.0,	1.0,	1.0,	0.6,
 
 //	(	)	*	+	,	-	.	/
-	0.7,	0.7,	0.8,	1.1,	0.6,	0.6,	0.6,	1.0,
+	DWR,	DWR,	0.8,	1.1,	0.6,	0.6,	0.6,	1.0,
 
 //	0	1	2	3	4	5	6	7
 	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,
@@ -63,7 +68,7 @@ const emit_wtab = [
 	1.3,	1.3,	1.3,	1.3,	1.3,	1.3,	1.3,	1.7,
 
 //	X	Y	Z	[	\	]	^	_
-	1.3,	1.3,	1.3,	1.0,	1.0,	1.0,	1.0,	1.0,
+	1.3,	1.3,	1.3,	DWR,	1.0,	DWR,	1.0,	1.0,
 
 //	`	a	b	c	d	e	f	g
 	1.0,	0.9,	0.9,	0.8,	1.0,	0.8,	0.8,	1.0,

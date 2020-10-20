@@ -38,7 +38,7 @@ emit_update_table(u)
 	for (i = 0; i < n; i++)
 		h += u.a[i * m].cell_height + u.a[i * m].cell_depth;
 
-	u.height = emit_round(h / 2) + X_HEIGHT;
+	u.height = h / 2 + X_HEIGHT;
 	u.depth = h - u.height;
 
 	// table width

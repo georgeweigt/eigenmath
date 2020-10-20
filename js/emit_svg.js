@@ -9,58 +9,52 @@ emit_svg(p, x, y)
 		break;
 
 	case TEXT:
-
 //		emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height); // for checking char widths
-
-		outbuf += "<text style='text-anchor:middle;font-family:times;";
-
-		if (p.small_font) {
-			if (p.italic_font)
-				outbuf += "font-size:14pt;font-style:italic;'";
-			else
-				outbuf += "font-size:14pt;'";
-		} else {
-			if (p.italic_font)
-				outbuf += "font-size:20pt;font-style:italic;'";
-			else
-				outbuf += "font-size:20pt;'";
-		}
-
-		x = emit_round(x + p.width / 2);
-
-		outbuf += " x='" + x + "' y='" + y + "'>" + p.s + "</text>";
-
+		dx = p.width / 2;
+		emit_svg_text(p.s, p.small_font, p.italic_font, x + dx, y);
 		break;
 
 	case LINE:
-
+		dx = 0;
 		n = p.a.length;
-
 		for (i = 0; i < n; i++) {
-			emit_svg(p.a[i], x, y);
-			x += p.a[i].width;
+			emit_svg(p.a[i], x + dx, y);
+			dx += p.a[i].width;
 		}
-
 		break;
 
 	case PAREN:
 
+		emit_svg_delims(p.height, p.depth, p.width, p.small_font, x, y)
+
+		if (p.small_font)
+			dx = SMALL_DELIM_WIDTH;
+		else
+			dx = DELIM_WIDTH;
+
 		n = p.a.length;
 
 		for (i = 0; i < n; i++) {
-			emit_svg(p.a[i], x, y);
-			x += p.a[i].width;
+			emit_svg(p.a[i], x + dx, y);
+			dx += p.a[i].width;
 		}
 
 		break;
 
 	case BRACK:
 
+		emit_svg_delims(p.height, p.depth, p.width, p.small_font, x, y)
+
+		if (p.small_font)
+			dx = SMALL_DELIM_WIDTH;
+		else
+			dx = DELIM_WIDTH;
+
 		n = p.a.length;
 
 		for (i = 0; i < n; i++) {
-			emit_svg(p.a[i], x, y);
-			x += p.a[i].width;
+			emit_svg(p.a[i], x + dx, y);
+			dx += p.a[i].width;
 		}
 
 		break;
@@ -125,13 +119,18 @@ emit_svg(p, x, y)
 		else
 			size = FONT_SIZE;
 
-		x1 = emit_round(x + THIN_SPACE_RATIO * size);
-		x2 = emit_round(x + p.width - THIN_SPACE_RATIO * size);
+		x1 = x + THIN_SPACE_RATIO * size;
+		x2 = x + p.width - THIN_SPACE_RATIO * size;
 
-		y = emit_round(y - X_HEIGHT_RATIO * size);
+		y = y - X_HEIGHT_RATIO * size;
 
 		emit_svg_line(x1, y, x2, y);
 
+		break;
+
+	case TABLE:
+		emit_svg_delims(p.height, p.depth, p.width, 0, x, y);
+		emit_svg_table(p, x + DELIM_WIDTH, y);
 		break;
 	}
 }
