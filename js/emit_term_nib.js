@@ -34,7 +34,7 @@ emit_term_nib(u, p, small_font)
 	p = cdr(p);
 
 	while (iscons(p)) {
-		emit_space(u, small_font);
+		emit_medium_space(u, small_font);
 		emit_factor(u, car(p), small_font);
 		p = cdr(p);
 	}

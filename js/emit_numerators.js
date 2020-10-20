@@ -18,7 +18,7 @@ emit_numerators(p, small_font)
 		}
 
 		if (u.a.length > 0)
-			emit_space(u, small_font);
+			emit_medium_space(u, small_font);
 
 		if (isrational(q)) {
 			if (Math.abs(q.a) != 1)

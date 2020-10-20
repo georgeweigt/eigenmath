@@ -138,9 +138,9 @@ emit_svg(p, x, y)
 			dx = 0;
 
 		if (p.small_font)
-			dy = -SMALL_X_HEIGHT - SMALL_FRAC_PAD - p.num.depth;
+			dy = -SMALL_X_HEIGHT - SMALL_VSPACE - p.num.depth;
 		else
-			dy = -X_HEIGHT - FRAC_PAD - p.num.depth;
+			dy = -X_HEIGHT - VSPACE - p.num.depth;
 
 		emit_svg(p.num, x + dx, y + dy);
 
@@ -150,9 +150,9 @@ emit_svg(p, x, y)
 			dx = 0;
 
 		if (p.small_font)
-			dy = -SMALL_X_HEIGHT + SMALL_FRAC_PAD + p.den.height;
+			dy = -SMALL_X_HEIGHT + SMALL_VSPACE + p.den.height;
 		else
-			dy = -X_HEIGHT + FRAC_PAD + p.den.height;
+			dy = -X_HEIGHT + VSPACE + p.den.height;
 
 		emit_svg(p.den, x + dx, y + dy);
 
@@ -162,11 +162,11 @@ emit_svg(p, x, y)
 			y -= X_HEIGHT;
 
 		if (p.small_font) {
-			x1 = x + SMALL_FRAC_PAD / 2;
-			x2 = x + p.width - SMALL_FRAC_PAD / 2;
+			x1 = x + SMALL_THIN_SPACE;
+			x2 = x + p.width - SMALL_THIN_SPACE;
 		} else {
-			x1 = x + FRAC_PAD / 2;
-			x2 = x + p.width - FRAC_PAD / 2;
+			x1 = x + THIN_SPACE;
+			x2 = x + p.width - THIN_SPACE;
 		}
 
 		outbuf += "<line x1='" + x1 + "' y1='" + y + "' x2='" + x2 + "' y2='" + y + "' style='stroke:black' />"
