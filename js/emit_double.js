@@ -34,7 +34,7 @@ emit_double(u, p, small_font) // p is a double
 
 	k++;
 
-	emit_infix_operator(u, "times", small_font);
+	emit_roman_symbol(u, "times", small_font);
 
 	emit_roman_text(u, "10", small_font);
 

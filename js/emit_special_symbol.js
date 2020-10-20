@@ -3,7 +3,7 @@ emit_special_symbol(u, s, small_font, italic_font)
 {
 	var r, size, v;
 
-	r = emit_swtab[s];
+	r = emit_gtab[s];
 
 	s = "&" + s + ";";
 
