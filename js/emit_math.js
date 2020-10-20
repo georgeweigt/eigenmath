@@ -8,9 +8,9 @@ emit_math()
 	outbuf = "";
 	emit_svg(p, 0, p.height);
 	h = p.height + p.depth;
-	w = p.width + FONT_WIDTH; // extra so serif not cut off
+	w = p.width + FONT_WIDTH / 4; // extra so serif not cut off
 
-//print_buf("<p><svg height='" + h + "' width='" + w + "'>" + outbuf + "</svg></p>", RED);
+	// outbuf += "<rect x='0' y='0' height='" + h + "' width='" + w + "' stroke='black' stroke-width='1' fill='none'/>";
 
 	stdout.innerHTML += "<p><svg height='" + h + "' width='" + w + "'>" + outbuf + "</svg></p>";
 }

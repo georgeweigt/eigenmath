@@ -1,7 +1,7 @@
 function
 emit_svg(p, x, y)
 {
-	var dx, dy, i, n;
+	var dx, dy, i, n, x1, x2;
 
 	switch (p.type) {
 
@@ -161,10 +161,16 @@ emit_svg(p, x, y)
 		else
 			y -= X_HEIGHT;
 
-		dx = x + p.width;
+		if (p.small_font) {
+			x1 = x + SMALL_FRAC_PAD / 2;
+			x2 = x + p.width - SMALL_FRAC_PAD / 2;
+		} else {
+			x1 = x + FRAC_PAD / 2;
+			x2 = x + p.width - FRAC_PAD / 2;
+		}
 
-		outbuf += "<line x1='" + x + "' y1='" + y + "' x2='" + dx + "' y2='" + y + "' style='stroke:black' />"
-		
+		outbuf += "<line x1='" + x1 + "' y1='" + y + "' x2='" + x2 + "' y2='" + y + "' style='stroke:black' />"
+
 		break;
 	}
 }
