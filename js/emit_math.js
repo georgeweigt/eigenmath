@@ -6,9 +6,9 @@ emit_math()
 	var h, w, p = pop();
 	p = emit_line(p);
 	outbuf = "";
-	emit_svg(p, 0, p.height);
+	emit_svg(p, THIN_SPACE, p.height);
 	h = p.height + p.depth;
-	w = p.width + THIN_SPACE; // extra so serif not cut off
+	w = p.width + 2 * THIN_SPACE;
 
 	// outbuf += "<rect x='0' y='0' height='" + h + "' width='" + w + "' stroke='black' stroke-width='1' fill='none'/>";
 
