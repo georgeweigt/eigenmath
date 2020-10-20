@@ -1,7 +1,7 @@
 function
 emit_special_symbol(u, s, small_font, italic_font)
 {
-	var r, v;
+	var r, size, v;
 
 	r = emit_swtab[s];
 
@@ -9,15 +9,14 @@ emit_special_symbol(u, s, small_font, italic_font)
 
 	v = {type:TEXT, s:s, small_font:small_font, italic_font:italic_font};
 
-	if (small_font) {
-		v.height = SMALL_FONT_HEIGHT;
-		v.depth = SMALL_FONT_DEPTH;
-		v.width = Math.round(r * 0.7 * SMALL_FONT_SIZE);
-	} else {
-		v.height = FONT_HEIGHT;
-		v.depth = FONT_DEPTH;
-		v.width = Math.round(r * 0.7 * FONT_SIZE);
-	}
+	if (small_font)
+		size = SMALL_FONT_SIZE;
+	else
+		size = FONT_SIZE;
+
+	v.height = Math.round(HEIGHT_RATIO * size);
+	v.depth = Math.round(DEPTH_RATIO * size);
+	v.width = Math.round(r * WIDTH_RATIO * size);
 
 	u.a.push(v);
 }

@@ -48,5 +48,5 @@ emit_update_table(u)
 	for (j = 0; j < m; j++)
 		w += u.a[j].cell_width;
 
-	u.width = w + 2 * FONT_WIDTH;
+	u.width = w + 2 * MEDIUM_SPACE;
 }

@@ -11,14 +11,21 @@ const TABLE = 8;
 const FONT_SIZE = 20
 const SMALL_FONT_SIZE = 14;
 
-const FONT_HEIGHT = Math.round(1.0 * FONT_SIZE);
-const SMALL_FONT_HEIGHT = Math.round(1.0 * SMALL_FONT_SIZE);
+const HEIGHT_RATIO = 1.0;
+const DEPTH_RATIO = 0.3;
+const WIDTH_RATIO = 0.7;
 
-const FONT_DEPTH = Math.round(0.3 * FONT_SIZE);
-const SMALL_FONT_DEPTH = Math.round(0.3 * SMALL_FONT_SIZE);
+const THIN_SPACE_RATIO = 1/3 * WIDTH_RATIO;
+const MEDIUM_SPACE_RATIO = 2/3 * WIDTH_RATIO;
 
-const FONT_WIDTH = Math.round(0.6 * FONT_SIZE);
-const SMALL_FONT_WIDTH = Math.round(0.6 * SMALL_FONT_SIZE);
+//const FONT_HEIGHT = Math.round(HEIGHT_RATIO * FONT_SIZE);
+//const SMALL_FONT_HEIGHT = Math.round(HEIGHT_RATIO * SMALL_FONT_SIZE);
+
+//const FONT_DEPTH = Math.round(DEPTH_RATIO * FONT_SIZE);
+//const SMALL_FONT_DEPTH = Math.round(DEPTH_RATIO * SMALL_FONT_SIZE);
+
+//const FONT_WIDTH = Math.round(WIDTH_RATIO * FONT_SIZE);
+//const SMALL_FONT_WIDTH = Math.round(WIDTH_RATIO * SMALL_FONT_SIZE);
 
 const X_HEIGHT = Math.round(0.4 * FONT_SIZE);
 const SMALL_X_HEIGHT = Math.round(0.4 * SMALL_FONT_SIZE);
@@ -26,11 +33,11 @@ const SMALL_X_HEIGHT = Math.round(0.4 * SMALL_FONT_SIZE);
 const VSPACE = Math.round(0.2 * FONT_SIZE);
 const SMALL_VSPACE = Math.round(0.2 * SMALL_FONT_SIZE);
 
-const THIN_SPACE = Math.round(1/3 * FONT_WIDTH);
-const SMALL_THIN_SPACE = Math.round(1/3 * SMALL_FONT_WIDTH);
+const THIN_SPACE = Math.round(THIN_SPACE_RATIO * FONT_SIZE);
+const SMALL_THIN_SPACE = Math.round(THIN_SPACE_RATIO * SMALL_FONT_SIZE);
 
-const MEDIUM_SPACE = Math.round(2/3 * FONT_WIDTH);
-const SMALL_MEDIUM_SPACE = Math.round(2/3 * SMALL_FONT_WIDTH);
+const MEDIUM_SPACE = Math.round(MEDIUM_SPACE_RATIO * FONT_SIZE);
+const SMALL_MEDIUM_SPACE = Math.round(MEDIUM_SPACE_RATIO * SMALL_FONT_SIZE);
 
 const CELL_PAD = Math.round(0.2 * FONT_SIZE);
 
