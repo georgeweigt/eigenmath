@@ -6,11 +6,11 @@ emit_italic_symbol(u, s, small_font)
 	if (small_font) {
 		v.height = SMALL_FONT_HEIGHT;
 		v.depth = SMALL_FONT_DEPTH;
-		v.width = SMALL_FONT_WIDTH;
+		v.width = Math.round(1.2 * SMALL_FONT_SIZE);
 	} else {
 		v.height = FONT_HEIGHT;
 		v.depth = FONT_DEPTH;
-		v.width = FONT_WIDTH;
+		v.width = Math.round(1.2 * SMALL_FONT_SIZE);
 	}
 
 	u.a.push(v);

@@ -3,6 +3,8 @@ emit_indices(u, p, small_font)
 {
 	var v = {type:BRACK, a:[], small_font:small_font};
 
+	emit_roman_text(v, "[", small_font);
+
 	p = cdr(p);
 
 	if (iscons(p)) {
@@ -15,12 +17,9 @@ emit_indices(u, p, small_font)
 		}
 	}
 
-	emit_update(v);
+	emit_roman_text(v, "]", small_font);
 
-	if (small_font)
-		v.width += 2 * SMALL_FONT_WIDTH;
-	else
-		v.width += 2 * FONT_WIDTH;
+	emit_update(v);
 
 	u.a.push(v);
 }

@@ -38,61 +38,23 @@ emit_svg(p, x, y)
 
 	case PAREN:
 
-		if (p.small_font)
-			outbuf += "<text style='font-family:times;font-size:14pt'"
-		else
-			outbuf += "<text style='font-family:times;font-size:20pt'"
-
-		outbuf += " x='" + x + "' y='" + y + "'>" + "(</text>";
-
-		if (p.small_font)
-			x += SMALL_FONT_WIDTH;
-		else
-			x += FONT_WIDTH;
-
 		n = p.a.length;
 
 		for (i = 0; i < n; i++) {
 			emit_svg(p.a[i], x, y);
 			x += p.a[i].width;
 		}
-
-		if (p.small_font)
-			outbuf += "<text style='font-family:times;font-size:14pt'"
-		else
-			outbuf += "<text style='font-family:times;font-size:20pt'"
-
-		outbuf += " x='" + x + "' y='" + y + "'>" + ")</text>";
 
 		break;
 
 	case BRACK:
 
-		if (p.small_font)
-			outbuf += "<text style='font-family:times;font-size:14pt'"
-		else
-			outbuf += "<text style='font-family:times;font-size:20pt'"
-
-		outbuf += " x='" + x + "' y='" + y + "'>" + "[</text>";
-
-		if (p.small_font)
-			x += SMALL_FONT_WIDTH;
-		else
-			x += FONT_WIDTH;
-
 		n = p.a.length;
 
 		for (i = 0; i < n; i++) {
 			emit_svg(p.a[i], x, y);
 			x += p.a[i].width;
 		}
-
-		if (p.small_font)
-			outbuf += "<text style='font-family:times;font-size:14pt'"
-		else
-			outbuf += "<text style='font-family:times;font-size:20pt'"
-
-		outbuf += " x='" + x + "' y='" + y + "'>" + "]</text>";
 
 		break;
 
