@@ -9,20 +9,27 @@ emit_svg(p, x, y)
 		break;
 
 	case TEXT:
+
+//		emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height); // for checking char widths
+
+		outbuf += "<text style='text-anchor:middle;font-family:times;";
+
 		if (p.small_font) {
 			if (p.italic_font)
-				outbuf += "<text style='font-family:times;font-size:14pt;font-style:italic'";
+				outbuf += "font-size:14pt;font-style:italic;'";
 			else
-				outbuf += "<text style='font-family:times;font-size:14pt'";
+				outbuf += "font-size:14pt;'";
 		} else {
 			if (p.italic_font)
-				outbuf += "<text style='font-family:times;font-size:20pt;font-style:italic'";
+				outbuf += "font-size:20pt;font-style:italic;'";
 			else
-				outbuf += "<text style='font-family:times;font-size:20pt'";
+				outbuf += "font-size:20pt;'";
 		}
+
+		x = Math.round(x + p.width / 2);
+
 		outbuf += " x='" + x + "' y='" + y + "'>" + p.s + "</text>";
-//		if (p.s != ' ')
-//			emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height);
+
 		break;
 
 	case LINE:

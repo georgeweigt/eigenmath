@@ -20,9 +20,9 @@ emit_symbol(u, p, small_font)
 	if (n == 1)
 		emit_italic_text(u, s[0], small_font);
 	else if (s[0] >= 'A' && s[0] <= 'Z')
-		emit_roman_symbol(u, "&" + s.substring(0, n) + ";", small_font);
+		emit_roman_symbol(u, s.substring(0, n), small_font);
 	else
-		emit_italic_symbol(u, "&" + s.substring(0, n) + ";", small_font);
+		emit_italic_symbol(u, s.substring(0, n), small_font);
 
 	if (n == s.length)
 		return;
@@ -40,9 +40,9 @@ emit_symbol(u, p, small_font)
 		if (n == 1)
 			emit_italic_text(v, s[k], 1);
 		else if (s[k] >= 'A' && s[k] <= 'Z')
-			emit_roman_symbol(v, "&" + s.substring(k, k + n) + ";", 1);
+			emit_roman_symbol(v, s.substring(k, k + n), 1);
 		else
-			emit_italic_symbol(v, "&" + s.substring(k, k + n) + ";", 1);
+			emit_italic_symbol(v, s.substring(k, k + n), 1);
 
 		k += n;
 	}
