@@ -8,7 +8,7 @@ emit_math()
 	outbuf = "";
 	emit_svg(p, 0, p.height);
 	h = p.height + p.depth;
-	w = p.width + FONT_WIDTH / 4; // extra so serif not cut off
+	w = p.width + THIN_SPACE; // extra so serif not cut off
 
 	// outbuf += "<rect x='0' y='0' height='" + h + "' width='" + w + "' stroke='black' stroke-width='1' fill='none'/>";
 

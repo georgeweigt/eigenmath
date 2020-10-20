@@ -1,3 +1,5 @@
+/* exported print_math */
+
 const MML_MINUS = "<mo>-</mo>"
 const MML_MINUS_1 = "<mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo>"
 const MML_LP = "<mrow><mo>(</mo>"
