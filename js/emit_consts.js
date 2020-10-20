@@ -15,31 +15,22 @@ const HEIGHT_RATIO = 1.0;
 const DEPTH_RATIO = 0.3;
 const WIDTH_RATIO = 0.7;
 
+const X_HEIGHT_RATIO = 0.3;
+const V_SPACE_RATIO = 0.2;
+
 const THIN_SPACE_RATIO = 1/3 * WIDTH_RATIO;
 const MEDIUM_SPACE_RATIO = 2/3 * WIDTH_RATIO;
 
-//const FONT_HEIGHT = Math.round(HEIGHT_RATIO * FONT_SIZE);
-//const SMALL_FONT_HEIGHT = Math.round(HEIGHT_RATIO * SMALL_FONT_SIZE);
+const X_HEIGHT = emit_round(X_HEIGHT_RATIO * FONT_SIZE);
+const SMALL_X_HEIGHT = emit_round(X_HEIGHT_RATIO * SMALL_FONT_SIZE);
 
-//const FONT_DEPTH = Math.round(DEPTH_RATIO * FONT_SIZE);
-//const SMALL_FONT_DEPTH = Math.round(DEPTH_RATIO * SMALL_FONT_SIZE);
+const VSPACE = emit_round(V_SPACE_RATIO * FONT_SIZE);
+const SMALL_VSPACE = emit_round(V_SPACE_RATIO * SMALL_FONT_SIZE);
 
-//const FONT_WIDTH = Math.round(WIDTH_RATIO * FONT_SIZE);
-//const SMALL_FONT_WIDTH = Math.round(WIDTH_RATIO * SMALL_FONT_SIZE);
+const MEDIUM_SPACE = emit_round(MEDIUM_SPACE_RATIO * FONT_SIZE);
+const SMALL_MEDIUM_SPACE = emit_round(MEDIUM_SPACE_RATIO * SMALL_FONT_SIZE);
 
-const X_HEIGHT = Math.round(0.4 * FONT_SIZE);
-const SMALL_X_HEIGHT = Math.round(0.4 * SMALL_FONT_SIZE);
-
-const VSPACE = Math.round(0.2 * FONT_SIZE);
-const SMALL_VSPACE = Math.round(0.2 * SMALL_FONT_SIZE);
-
-const THIN_SPACE = Math.round(THIN_SPACE_RATIO * FONT_SIZE);
-const SMALL_THIN_SPACE = Math.round(THIN_SPACE_RATIO * SMALL_FONT_SIZE);
-
-const MEDIUM_SPACE = Math.round(MEDIUM_SPACE_RATIO * FONT_SIZE);
-const SMALL_MEDIUM_SPACE = Math.round(MEDIUM_SPACE_RATIO * SMALL_FONT_SIZE);
-
-const CELL_PAD = Math.round(0.2 * FONT_SIZE);
+const CELL_PAD = emit_round(0.2 * FONT_SIZE);
 
 const emit_wtab = [
 	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,
@@ -144,13 +135,15 @@ const emit_swtab = {
 "chi"		: 1.0,
 "psi"		: 1.0,
 "omega"		: 1.0,
-"plus"		: 1.0,
-"minus"		: 1.0,
-"times"		: 1.0,
-"equals"	: 1.0,
-"ge"		: 1.0,
-"gt"		: 1.0,
-"le"		: 1.0,
-"lt"		: 1.0,
+
+"plus"		: 1.4,
+"minus"		: 1.4,
+"times"		: 1.4,
+"equals"	: 1.4,
+"ge"		: 1.4,
+"gt"		: 1.4,
+"le"		: 1.4,
+"lt"		: 1.4,
+
 "hbar"		: 1.0,
 };

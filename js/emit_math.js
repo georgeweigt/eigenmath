@@ -6,9 +6,10 @@ emit_math()
 	var h, w, p = pop();
 	p = emit_line(p);
 	outbuf = "";
-	emit_svg(p, THIN_SPACE, p.height);
+	emit_svg(p, FONT_SIZE / 2, p.height);
+
 	h = p.height + p.depth;
-	w = p.width + 2 * THIN_SPACE;
+	w = p.width + FONT_SIZE;
 
 	// outbuf += "<rect x='0' y='0' height='" + h + "' width='" + w + "' stroke='black' stroke-width='1' fill='none'/>";
 

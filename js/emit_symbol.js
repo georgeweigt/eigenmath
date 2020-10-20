@@ -37,9 +37,12 @@ emit_symbol(u, p, small_font)
 
 		n = emit_symbol_scan(s, k);
 
-		if (n == 1)
-			emit_italic_text(v, s[k], 1);
-		else if (s[k] >= 'A' && s[k] <= 'Z')
+		if (n == 1) {
+			if (s[k] >= '0' && s[k] <= '9')
+				emit_roman_text(v, s[k], 1);
+			else
+				emit_italic_text(v, s[k], 1);
+		} else if (s[k] >= 'A' && s[k] <= 'Z')
 			emit_roman_symbol(v, s.substring(k, k + n), 1);
 		else
 			emit_italic_symbol(v, s.substring(k, k + n), 1);

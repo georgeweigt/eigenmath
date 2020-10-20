@@ -1,7 +1,7 @@
 function
 emit_svg(p, x, y)
 {
-	var dx, dy, i, n, x1, x2;
+	var dx, dy, i, n, size, x1, x2;
 
 	switch (p.type) {
 
@@ -26,7 +26,7 @@ emit_svg(p, x, y)
 				outbuf += "font-size:20pt;'";
 		}
 
-		x = Math.round(x + p.width / 2);
+		x = emit_round(x + p.width / 2);
 
 		outbuf += " x='" + x + "' y='" + y + "'>" + p.s + "</text>";
 
@@ -121,19 +121,16 @@ emit_svg(p, x, y)
 		emit_svg(p.den, x + dx, y + dy);
 
 		if (p.small_font)
-			y -= SMALL_X_HEIGHT;
+			size = SMALL_FONT_SIZE;
 		else
-			y -= X_HEIGHT;
+			size = FONT_SIZE;
 
-		if (p.small_font) {
-			x1 = x + SMALL_THIN_SPACE;
-			x2 = x + p.width - SMALL_THIN_SPACE;
-		} else {
-			x1 = x + THIN_SPACE;
-			x2 = x + p.width - THIN_SPACE;
-		}
+		x1 = emit_round(x + THIN_SPACE_RATIO * size);
+		x2 = emit_round(x + p.width - THIN_SPACE_RATIO * size);
 
-		outbuf += "<line x1='" + x1 + "' y1='" + y + "' x2='" + x2 + "' y2='" + y + "' style='stroke:black' />"
+		y = emit_round(y - X_HEIGHT_RATIO * size);
+
+		emit_svg_line(x1, y, x2, y);
 
 		break;
 	}

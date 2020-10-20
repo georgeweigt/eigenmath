@@ -12,7 +12,7 @@ emit_update_text(u)
 	else
 		size = FONT_SIZE;
 
-	u.height = Math.round(HEIGHT_RATIO * size);
-	u.depth = Math.round(DEPTH_RATIO * size);
-	u.width = Math.round(r * WIDTH_RATIO * size);
+	u.height = emit_round(HEIGHT_RATIO * size);
+	u.depth = emit_round(DEPTH_RATIO * size);
+	u.width = emit_round(r * WIDTH_RATIO * size);
 }
