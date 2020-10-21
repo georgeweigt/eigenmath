@@ -35,7 +35,7 @@ const DWR = 0.7; // delimiter width ratio
 const DELIM_WIDTH = DWR * WIDTH_RATIO * FONT_SIZE;
 const SMALL_DELIM_WIDTH = DWR * WIDTH_RATIO * SMALL_FONT_SIZE;
 
-const CELL_PAD = 0.2 * FONT_SIZE;
+const TABLE_SPACE = 0.2 * FONT_SIZE;
 
 const emit_wtab = [
 	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,	1.0,
