@@ -15,8 +15,8 @@ emit_update_table(u)
 			h = Math.max(h, u.a[i * m + j].height);
 			d = Math.max(d, u.a[i * m + j].depth);
 		}
-		u.a[i * m].cell_height = h + TABLE_SPACE;
-		u.a[i * m].cell_depth = d + TABLE_SPACE;
+		u.a[i * m].cell_height = h + TABLE_VSPACE;
+		u.a[i * m].cell_depth = d + TABLE_VSPACE;
 	}
 
 	// column width
@@ -25,7 +25,7 @@ emit_update_table(u)
 		w = 0;
 		for (i = 0; i < n; i++) // for each row
 			w = Math.max(w, u.a[i * m + j].width); // w is max width in column
-		u.a[j].cell_width = w + 2 * TABLE_SPACE;
+		u.a[j].cell_width = w + 2 * TABLE_HSPACE;
 	}
 
 	// table height and depth

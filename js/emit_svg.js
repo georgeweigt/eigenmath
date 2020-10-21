@@ -25,7 +25,7 @@ emit_svg(p, x, y)
 
 	case PAREN:
 
-		emit_svg_delims(p.height, p.depth, p.width, p.small_font, x, y)
+		emit_svg_delims(p, x, y)
 
 		if (p.small_font)
 			dx = SMALL_DELIM_WIDTH;
@@ -43,7 +43,7 @@ emit_svg(p, x, y)
 
 	case BRACK:
 
-		emit_svg_delims(p.height, p.depth, p.width, p.small_font, x, y)
+		emit_svg_delims(p, x, y)
 
 		if (p.small_font)
 			dx = SMALL_DELIM_WIDTH;
@@ -129,7 +129,7 @@ emit_svg(p, x, y)
 		break;
 
 	case TABLE:
-		emit_svg_delims(p.height, p.depth, p.width, 0, x, y);
+		emit_svg_delims(p, x, y);
 		emit_svg_table(p, x + DELIM_WIDTH, y);
 		break;
 	}
