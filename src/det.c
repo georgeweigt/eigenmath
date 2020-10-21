@@ -42,6 +42,36 @@ det_nib(void)
 		multiply_factors(3);
 		add();
 		return;
+	case 3:
+		push(p1->u.tensor->elem[0]);
+		push(p1->u.tensor->elem[4]);
+		push(p1->u.tensor->elem[8]);
+		multiply_factors(3);
+		push(p1->u.tensor->elem[1]);
+		push(p1->u.tensor->elem[5]);
+		push(p1->u.tensor->elem[6]);
+		multiply_factors(3);
+		push(p1->u.tensor->elem[2]);
+		push(p1->u.tensor->elem[3]);
+		push(p1->u.tensor->elem[7]);
+		multiply_factors(3);
+		push_integer(-1);
+		push(p1->u.tensor->elem[2]);
+		push(p1->u.tensor->elem[4]);
+		push(p1->u.tensor->elem[6]);
+		multiply_factors(4);
+		push_integer(-1);
+		push(p1->u.tensor->elem[1]);
+		push(p1->u.tensor->elem[3]);
+		push(p1->u.tensor->elem[8]);
+		multiply_factors(4);
+		push_integer(-1);
+		push(p1->u.tensor->elem[0]);
+		push(p1->u.tensor->elem[5]);
+		push(p1->u.tensor->elem[7]);
+		multiply_factors(4);
+		add_terms(6);
+		return;
 	}
 
 	p2 = alloc_matrix(n - 1, n - 1);
