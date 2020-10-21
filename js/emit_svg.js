@@ -41,24 +41,6 @@ emit_svg(p, x, y)
 
 		break;
 
-	case BRACK:
-
-		emit_svg_delims(p, x, y)
-
-		if (p.small_font)
-			dx = SMALL_DELIM_WIDTH;
-		else
-			dx = DELIM_WIDTH;
-
-		n = p.a.length;
-
-		for (i = 0; i < n; i++) {
-			emit_svg(p.a[i], x + dx, y);
-			dx += p.a[i].width;
-		}
-
-		break;
-
 	case SUPERSCRIPT:
 
 		y += p.depth; // p.depth is negative

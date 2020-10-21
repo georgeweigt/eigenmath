@@ -2,11 +2,10 @@ const SPACE = 0;
 const TEXT = 1;
 const LINE = 2;
 const PAREN = 3;
-const BRACK = 4;
-const SUPERSCRIPT = 5;
-const SUBSCRIPT = 6;
-const FRACTION = 7;
-const TABLE = 8;
+const SUPERSCRIPT = 4;
+const SUBSCRIPT = 5;
+const FRACTION = 6;
+const TABLE = 7;
 
 const FONT_SIZE = 20
 const SMALL_FONT_SIZE = 14;
