@@ -20,7 +20,7 @@ float(b)
 </tr>
 </table>
 <p>
-<div id="stdout" style="font-size:18pt"></div>
+<div id="stdout"></div>
 </body>
 </html>
 
