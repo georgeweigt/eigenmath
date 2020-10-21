@@ -9,17 +9,16 @@ emit_svg(p, x, y)
 		break;
 
 	case TEXT:
-//		emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height, 1); // for checking char widths
-		dx = p.width / 2;
-		emit_svg_text(p.s, p.small_font, p.italic_font, x + dx, y);
+//		if (p.s[0] != " ") emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height, 1); // for checking char widths
+		x += p.width / 2;
+		emit_svg_text(p.s, p.small_font, p.italic_font, x, y);
 		break;
 
 	case LINE:
-		dx = 0;
 		n = p.a.length;
 		for (i = 0; i < n; i++) {
-			emit_svg(p.a[i], x + dx, y);
-			dx += p.a[i].width;
+			emit_svg(p.a[i], x, y);
+			x += p.a[i].width;
 		}
 		break;
 
@@ -28,15 +27,15 @@ emit_svg(p, x, y)
 		emit_svg_delims(p, x, y)
 
 		if (p.small_font)
-			dx = SMALL_DELIM_WIDTH;
+			x += SMALL_DELIM_WIDTH;
 		else
-			dx = DELIM_WIDTH;
+			x += DELIM_WIDTH;
 
 		n = p.a.length;
 
 		for (i = 0; i < n; i++) {
-			emit_svg(p.a[i], x + dx, y);
-			dx += p.a[i].width;
+			emit_svg(p.a[i], x, y);
+			x += p.a[i].width;
 		}
 
 		break;
