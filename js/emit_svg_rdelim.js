@@ -1,37 +1,37 @@
 function
 emit_svg_rdelim(p, x, y)
 {
-	var d, h, s, w, x1, x2, y1, y2;
+	var d, h, t, w, x1, x2, y1, y2;
 
 	if (p.small_font) {
-		s = 2;
+		t = 1;
 		w = SMALL_DELIM_WIDTH;
 	} else {
-		s = 3;
+		t = 2;
 		w = DELIM_WIDTH;
 	}
 
 	h = p.height;
 	d = p.depth;
 
-	x1 = x + w - s / 2;
-	x2 = x + w - s / 2;
+	x1 = x + p.width - w / 2;
+	x2 = x + p.width - w / 2;
 
 	y1 = y - h;
 	y2 = y + d;
 
-	outbuf += "<line x1='" + x1 + "' y1='" + y1 + "' x2='" + x2 + "' y2='" + y2 + "' style='stroke:black;stroke-width:" + s + "'/>"
+	emit_svg_line(x1, y1, x2, y2, t); // vertical segment
 
-	x1 = x;
-	x2 = x + w;
+	x1 = x + p.width - w;
+	x2 = x + p.width - w / 2;
 
-	y1 = y - h + s / 2;
-	y2 = y - h + s / 2;
+	y1 = y - h + t / 2;
+	y2 = y - h + t / 2;
 
-	outbuf += "<line x1='" + x1 + "' y1='" + y1 + "' x2='" + x2 + "' y2='" + y2 + "' style='stroke:black;stroke-width:" + s + "'/>"
+	emit_svg_line(x1, y1, x2, y2, t); // top segment
 
-	y1 = y + d - s / 2;
-	y2 = y + d - s / 2;
+	y1 = y + d - t / 2;
+	y2 = y + d - t / 2;
 
-	outbuf += "<line x1='" + x1 + "' y1='" + y1 + "' x2='" + x2 + "' y2='" + y2 + "' style='stroke:black;stroke-width:" + s + "'/>"
+	emit_svg_line(x1, y1, x2, y2, t); // bottom segment
 }

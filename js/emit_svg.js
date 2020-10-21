@@ -9,7 +9,7 @@ emit_svg(p, x, y)
 		break;
 
 	case TEXT:
-//		emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height); // for checking char widths
+//		emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height, 1); // for checking char widths
 		dx = p.width / 2;
 		emit_svg_text(p.s, p.small_font, p.italic_font, x + dx, y);
 		break;
@@ -106,7 +106,7 @@ emit_svg(p, x, y)
 
 		y = y - X_HEIGHT_RATIO * size;
 
-		emit_svg_line(x1, y, x2, y);
+		emit_svg_line(x1, y, x2, y, 1);
 
 		break;
 
