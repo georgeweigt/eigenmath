@@ -1,19 +1,16 @@
 function
 emit_svg_parens(p, x, y)
 {
-	var dx;
+	var l, r, w;
 
 	if (p.small_font)
-		dx = SMALL_DELIM_WIDTH / 2;
+		w = SMALL_DELIM_WIDTH;
 	else
-		dx = DELIM_WIDTH / 2;
+		w = DELIM_WIDTH;
 
-	emit_svg_text("(", p.small_font, 0, x + dx, y);
+	l = {type:TEXT, s:"(", height:p.height, depth:p.depth, width:w, small_font:p.small_font, italic_font:0};
+	r = {type:TEXT, s:")", height:p.height, depth:p.depth, width:w, small_font:p.small_font, italic_font:0};
 
-	if (p.small_font)
-		dx = p.width - SMALL_DELIM_WIDTH / 2;
-	else
-		dx = p.width - DELIM_WIDTH / 2;
-
-	emit_svg_text(")", p.small_font, 0, x + dx, y);
+	emit_svg_text(l, x, y);
+	emit_svg_text(r, x + p.width - w, y);
 }
