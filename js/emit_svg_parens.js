@@ -4,12 +4,12 @@ emit_svg_parens(p, x, y)
 	var d, h, l, r, w;
 
 	if (p.small_font) {
-		h = HEIGHT_RATIO * SMALL_FONT_SIZE;
-		d = DEPTH_RATIO * SMALL_FONT_SIZE;
+		h = SMALL_FONT_HEIGHT;
+		d = SMALL_FONT_DEPTH;
 		w = SMALL_DELIM_WIDTH;
 	} else {
-		h = HEIGHT_RATIO * FONT_SIZE;
-		d = DEPTH_RATIO * FONT_SIZE;
+		h = FONT_HEIGHT;
+		d = FONT_DEPTH;
 		w = DELIM_WIDTH;
 	}
 
