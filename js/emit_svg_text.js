@@ -23,5 +23,5 @@ emit_svg_text(p, x, y)
 	if (p.italic_font)
 		outbuf += "font-style:italic;";
 
-	outbuf += "'" + X + Y + s + "</text>";
+	outbuf += "'" + X + Y + ">" + s + "</text>";
 }
