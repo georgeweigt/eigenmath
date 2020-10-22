@@ -9,8 +9,6 @@ emit_svg(p, x, y)
 		break;
 
 	case TEXT:
-//		if (p.s[0] != " ") emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height, 1); // for checking char widths
-		x += p.width / 2;
 		emit_svg_text(p, x, y);
 		break;
 

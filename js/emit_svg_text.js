@@ -1,6 +1,8 @@
 function
 emit_svg_text(p, x, y)
 {
+//if (p.s != " ") emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height, 1); // for checking char widths
+
 	var s = p.s;
 
 	if (s == '&')
@@ -10,8 +12,10 @@ emit_svg_text(p, x, y)
 	else if (s == '>')
 		s = "&gt;";
 
-	var X = "x='" + x + "'";
-	var Y = "y='" + y + "'";
+	x += p.width / 2;
+
+	x = "x='" + x + "'";
+	y = "y='" + y + "'";
 
 	outbuf += "<text style='text-anchor:middle;font-family:times;";
 
@@ -23,5 +27,5 @@ emit_svg_text(p, x, y)
 	if (p.italic_font)
 		outbuf += "font-style:italic;";
 
-	outbuf += "'" + X + Y + ">" + s + "</text>";
+	outbuf += "'" + x + y + ">" + s + "</text>";
 }
