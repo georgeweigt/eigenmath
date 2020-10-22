@@ -1,7 +1,7 @@
 function
 emit_svg_rdelim(p, x, y)
 {
-	var d, h, t, w, x1, x2, y1, y2;
+	var t, w;
 
 	if (p.small_font) {
 		t = 1;
@@ -11,27 +11,13 @@ emit_svg_rdelim(p, x, y)
 		w = DELIM_WIDTH;
 	}
 
-	h = p.height;
-	d = p.depth;
+	var x1 = Math.round(x + p.width - w / 2);
+	var x2 = x1 - w / 2;
 
-	x1 = x + p.width - w / 2;
-	x2 = x + p.width - w / 2;
+	var y1 = Math.round(y - p.height + t);
+	var y2 = Math.round(y + p.depth - t);
 
-	y1 = y - h;
-	y2 = y + d;
-
-	emit_svg_line(x1, y1, x2, y2, t); // vertical segment
-
-	x1 = x + p.width - w;
-	x2 = x + p.width - w / 2;
-
-	y1 = y - h + t / 2;
-	y2 = y - h + t / 2;
-
-	emit_svg_line(x1, y1, x2, y2, t); // top segment
-
-	y1 = y + d - t / 2;
-	y2 = y + d - t / 2;
-
-	emit_svg_line(x1, y1, x2, y2, t); // bottom segment
+	emit_svg_line(x1, y1, x1, y2, t); // stem
+	emit_svg_line(x1, y1, x2, y1, t); // top segment
+	emit_svg_line(x1, y2, x2, y2, t); // bottom segment
 }
