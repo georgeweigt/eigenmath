@@ -4,8 +4,8 @@ draw(F, X)
 	draw_xrange();
 	draw_yrange();
 
-	var h = DRAW_SIZE + 4 * DRAW_PAD;
-	var w = DRAW_INDENT + DRAW_SIZE + 4 * DRAW_PAD;
+	var h = DRAW_HEIGHT + 4 * DRAW_PAD;
+	var w = DRAW_INDENT + DRAW_WIDTH + 4 * DRAW_PAD;
 
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";

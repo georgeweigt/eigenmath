@@ -14,20 +14,20 @@ draw_labels()
 	p = pop();
 	p = emit_line(p, 1);
 	x = DRAW_INDENT - p.width - DRAW_PAD;
-	y = DRAW_PAD + DRAW_SIZE;
+	y = DRAW_PAD + DRAW_HEIGHT;
 	emit_svg(p, x, y);
 
 	push_double(xmin);
 	p = pop();
 	p = emit_line(p, 1);
 	x = DRAW_INDENT - p.width / 2;
-	y = DRAW_PAD + DRAW_SIZE + 2 * SMALL_FONT_SIZE;
+	y = DRAW_PAD + DRAW_HEIGHT + 2 * SMALL_FONT_SIZE;
 	emit_svg(p, x, y);
 
 	push_double(xmax);
 	p = pop();
 	p = emit_line(p, 1);
-	x = DRAW_INDENT + DRAW_SIZE - p.width / 2;
-	y = DRAW_PAD + DRAW_SIZE + 2 * SMALL_FONT_SIZE;
+	x = DRAW_INDENT + DRAW_WIDTH - p.width / 2;
+	y = DRAW_PAD + DRAW_HEIGHT + 2 * SMALL_FONT_SIZE;
 	emit_svg(p, x, y);
 }

@@ -3,9 +3,9 @@ draw_point(F, X, x, save)
 {
 	var drawn, p, y, t;
 
-	t = DRAW_SIZE * (x - xmin) / (xmax - xmin);
+	t = DRAW_WIDTH * (x - xmin) / (xmax - xmin);
 
-	if (t < 0 || t > DRAW_SIZE)
+	if (t < 0 || t > DRAW_WIDTH)
 		return;
 
 	draw_evalf(F, X, x);
@@ -15,9 +15,9 @@ draw_point(F, X, x, save)
 	if (!isdouble(p))
 		return;
 
-	y = DRAW_SIZE * (1 - (p.d - ymin) / (ymax - ymin));
+	y = DRAW_HEIGHT * (1 - (p.d - ymin) / (ymax - ymin));
 
-	if (y < 0 || y > DRAW_SIZE)
+	if (y < 0 || y > DRAW_HEIGHT)
 		drawn = 0;
 	else {
 		draw_line(t, y, t, y, 2);
