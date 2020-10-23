@@ -3,7 +3,8 @@
 function
 emit_math()
 {
-	var h, w, p = pop();
+	var h, p, w;
+	p = pop();
 	p = emit_line(p);
 	outbuf = "";
 	emit_svg(p, FONT_SIZE / 2, p.height);
