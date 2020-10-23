@@ -10,6 +10,7 @@ var one;
 var minusone;
 var imaginaryunit;
 var expanding;
+var drawmode;
 var evaldepth;
 var trace1;
 var trace2;
@@ -40,6 +41,7 @@ derivative:	{printname:DERIVATIVE,	func:eval_derivative},
 det:		{printname:DET,		func:eval_det},
 "do":		{printname:DO,		func:eval_do},
 dot:		{printname:DOT,		func:eval_dot},
+draw:		{printname:DRAW,	func:eval_draw},
 erf:		{printname:ERF,		func:eval_erf},
 "eval":		{printname:EVAL,	func:eval_eval},
 exp:		{printname:EXP,		func:eval_exp},

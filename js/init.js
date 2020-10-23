@@ -2,6 +2,7 @@ function
 init()
 {
 	expanding = 1;
+	drawmode = 0;
 	evaldepth = 0;
 
 	stack = [];

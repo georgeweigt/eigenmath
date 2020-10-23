@@ -5,7 +5,7 @@ emit_math()
 {
 	var h, p, w;
 	p = pop();
-	p = emit_line(p);
+	p = emit_line(p, 0);
 	outbuf = "";
 	emit_svg(p, FONT_SIZE / 2, p.height);
 	h = p.height + p.depth;
@@ -13,6 +13,5 @@ emit_math()
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";
 	outbuf = "<p><svg " + h + w + ">\n" + outbuf + "</svg></p>";
-	//print_buf(outbuf, RED);
 	stdout.innerHTML += outbuf;
 }

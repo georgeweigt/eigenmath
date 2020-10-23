@@ -23,6 +23,7 @@ const DERIVATIVE = "derivative";
 const DET = "det";
 const DO = "do";
 const DOT = "dot";
+const DRAW = "draw";
 const ERF = "erf";
 const EVAL = "eval";
 const EXP = "exp";
