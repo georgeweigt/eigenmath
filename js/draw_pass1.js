@@ -1,5 +1,5 @@
 function
-draw_data(F, X)
+draw_pass1(F, X)
 {
 	var i, x;
 	for (i = 0; i <= DRAW_COUNT; i++) {

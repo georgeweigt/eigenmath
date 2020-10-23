@@ -19,8 +19,8 @@ draw(F, X)
 
 	draw_array = [];
 
-	draw_data(F, X);
-	draw_fill(F, X);
+	draw_pass1(F, X);
+	draw_pass2(F, X);
 
 	outbuf += "</svg></p>\n";
 

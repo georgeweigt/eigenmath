@@ -1,5 +1,5 @@
 function
-draw_fill(F, X)
+draw_pass2(F, X)
 {
 	var i, j, m, n, p1, p2, x;
 
