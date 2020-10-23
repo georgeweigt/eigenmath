@@ -1,30 +1,26 @@
 function
 draw_fill(F, X)
 {
-	var i, j, m, n, x, min, max;
+	var i, j, m, n, p1, p2, x;
 
 	n = draw_array.length;
 
-	if (n == 0)
+	if (n < 2)
 		return;
 
-	m = Math.floor(400 / n); // fill count
+	for (i = 0; i < n - 1; i++) {
 
-	min = draw_array[0];
-	max = draw_array[n - 1];
+		p1 = draw_array[i];
+		p2 = draw_array[i + 1];
 
-	x = min - (xmax - xmin) / DRAW_COUNT;
-	draw_array.unshift(x);
+		if (p1.drawn == 0 && p2.drawn == 0)
+			return;
 
-	x = max + (xmax - xmin) / DRAW_COUNT;
-	draw_array.push(x);
+		m = Math.abs(p1.y - p2.y);
 
-	for (i = 0; i < n + 1; i++) {
-		min = draw_array[i];
-		max = draw_array[i + 1];
 		for (j = 1; j < m; j++) {
-			x = min + (max - min) * j / m;
-			draw_point(F, X, x);
+			x = p1.x + (p2.x - p1.x) * j / m;
+			draw_point(F, X, x, 0);
 		}
 	}
 }
