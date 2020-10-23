@@ -14,9 +14,9 @@ draw_fill(F, X)
 		p2 = draw_array[i + 1];
 
 		if (p1.drawn == 0 && p2.drawn == 0)
-			return;
+			continue;
 
-		m = Math.abs(p1.y - p2.y);
+		m = Math.floor(Math.abs(p1.y - p2.y));
 
 		for (j = 1; j < m; j++) {
 			x = p1.x + (p2.x - p1.x) * j / m;
