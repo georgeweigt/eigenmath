@@ -3,11 +3,13 @@
 <html>
 <body>
 <script src="https://georgeweigt.github.io/eigenmath.js"></script>
+<p>
+<button onclick="run()" style="font-size:20pt">Run</button>
+<p>
 <textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
 -- Eigenmath script goes here, for example:
 draw(sin(x))
 </textarea>
-<button onclick="run()" style="font-size:20pt">Run</button>
 <p>
 <div id="stdout"></div>
 </body>
