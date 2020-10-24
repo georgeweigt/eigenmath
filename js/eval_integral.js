@@ -10,7 +10,7 @@ eval_integral(p1)
 	p1 = cddr(p1);
 
 	if (!iscons(p1)) {
-		guess();
+		push_symbol(SYMBOL_X);
 		integral();
 		expanding--;
 		return;
@@ -33,7 +33,7 @@ eval_integral(p1)
 		if (isnum(X)) {
 			push(X);
 			n = pop_integer();
-			guess();
+			push_symbol(SYMBOL_X);
 			X = pop();
 			for (i = 0; i < n; i++) {
 				push(X);
