@@ -8,10 +8,7 @@
 <td>
 <textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
 -- Eigenmath script goes here, for example:
-a = 0
-b = 2
-for(k,1,9,a = sqrt(2 + a),b = 2 b / a)
-float(b)
+draw(sin(x))
 </textarea>
 </td>
 <td>
