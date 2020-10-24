@@ -19,6 +19,8 @@ draw(F, X)
 	draw_pass1(F, X);
 	draw_pass2(F, X);
 
+//	outbuf += "<rect " + h + w + "style='fill:none;stroke:black;stroke-width:1'/>\n";
+
 	outbuf += "</svg></p>\n";
 
 	stdout.innerHTML += outbuf;
