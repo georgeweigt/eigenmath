@@ -1,29 +1,21 @@
 function
-draw_point(F, X, x, save)
+draw_point(F, X, x, pass1)
 {
-	var drawn, p, y, t;
-
-	t = DRAW_WIDTH * (x - xmin) / (xmax - xmin);
-
-	if (t < 0 || t > DRAW_WIDTH)
-		return;
+	var dx, dy, p, y;
 
 	draw_evalf(F, X, x);
-
 	p = pop();
-
-	if (!isdouble(p))
+	if (!isnum(p))
 		return;
+	push(p);
+	y = pop_double();
 
-	y = DRAW_HEIGHT * (1 - (p.d - ymin) / (ymax - ymin));
+	dx = DRAW_WIDTH * (x - xmin) / (xmax - xmin);
+	dy = DRAW_HEIGHT - DRAW_HEIGHT * (y - ymin) / (ymax - ymin);
 
-	if (y < 0 || y > DRAW_HEIGHT)
-		drawn = 0;
-	else {
-		draw_line(t, y, t, y, 2);
-		drawn = 1;
-	}
+	if (dy > 0 && dy < DRAW_HEIGHT)
+		draw_line(dx - 1, dy, dx + 1, dy, 2);
 
-	if (save)
-		draw_array.push({x:x, y:y, drawn:drawn});
+	if (pass1)
+		draw_array.push({x:x, y:y, dx:dx, dy:dy});
 }

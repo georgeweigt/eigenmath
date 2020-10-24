@@ -7,12 +7,8 @@ eval_draw(p)
 		return;
 	F = cadr(p);
 	X = caddr(p);
-	if (!issymbol(X) || X == symbol(NIL)) {
-		push(F);
-		guess();
-		X = pop();
-		pop();
-	}
+	if (!isusersymbol(X))
+		X = symbol(SYMBOL_X);
 	save_binding(X);
 	drawmode = 1;
 	draw(F, X);

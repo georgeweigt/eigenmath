@@ -1,24 +1,22 @@
 function
 draw(F, X)
 {
-	draw_xrange();
-	draw_yrange();
+	var h, w;
 
-	var h = DRAW_HEIGHT + 4 * DRAW_PAD;
-	var w = DRAW_INDENT + DRAW_WIDTH + 4 * DRAW_PAD;
+	h = DRAW_TOP_PAD + DRAW_HEIGHT + DRAW_BOTTOM_PAD;
+	w = DRAW_LEFT_PAD + DRAW_WIDTH + DRAW_RIGHT_PAD;
 
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";
 
 	outbuf = "<p><svg " + h + w + ">\n"
 
+	draw_xrange();
+	draw_yrange();
 	draw_xaxis();
 	draw_yaxis();
 	draw_box();
 	draw_labels();
-
-	draw_array = [];
-
 	draw_pass1(F, X);
 	draw_pass2(F, X);
 
