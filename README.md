@@ -22,6 +22,6 @@ To generate MathJax output:
 
 	./eigenmath --mathjax scriptfilename | tee foo.html
 
-The Eigenmath manual and sample scripts are available at https://eigenmath.github.io
+The Eigenmath manual and sample scripts are available at https://georgeweigt.github.io
 
 A Javascript version of Eigenmath is available in the 'js' directory.
