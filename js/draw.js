@@ -13,8 +13,7 @@ draw(F, X)
 
 	draw_xrange();
 	draw_yrange();
-	draw_xaxis();
-	draw_yaxis();
+	draw_axes();
 	draw_box();
 	draw_labels();
 	draw_pass1(F, X);
