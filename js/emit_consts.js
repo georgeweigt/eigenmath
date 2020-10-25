@@ -12,7 +12,7 @@ const SMALL_FONT_SIZE = 14;
 
 const HEIGHT_RATIO = 1.0;
 const DEPTH_RATIO = 0.3;
-const WIDTH_RATIO = 1 / 730;
+const WIDTH_RATIO = 1 / 720;
 
 const X_HEIGHT_RATIO = 0.3;
 const V_SPACE_RATIO = 0.2;
