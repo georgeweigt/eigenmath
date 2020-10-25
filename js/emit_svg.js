@@ -1,7 +1,7 @@
 function
 emit_svg(p, x, y)
 {
-	var dx, dy, i, n, size, x1, x2;
+	var dx, dy, i, n, size, w, x1, x2;
 
 	switch (p.type) {
 
@@ -95,8 +95,10 @@ emit_svg(p, x, y)
 		else
 			size = FONT_SIZE;
 
-		x1 = x + THIN_SPACE_RATIO * size;
-		x2 = x + p.width - THIN_SPACE_RATIO * size;
+		w = 1/12 * roman_width_tab['m'.charCodeAt(0)] * WIDTH_RATIO * size;
+
+		x1 = x + w;
+		x2 = x + p.width - w;
 
 		y = y - X_HEIGHT_RATIO * size;
 

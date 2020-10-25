@@ -10,12 +10,13 @@ emit_update_text(u)
 
 	n = u.s.charCodeAt(0);
 
-	if (n > 127)
-		w = 1000;
-	else if (u.italic_font)
+	if (u.italic_font)
 		w = italic_width_tab[n];
 	else
 		w = roman_width_tab[n];
+
+	if (w == undefined)
+		w = 1000;
 
 	u.height = HEIGHT_RATIO * size;
 	u.depth = DEPTH_RATIO * size;

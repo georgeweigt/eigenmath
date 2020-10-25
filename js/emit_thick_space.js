@@ -1,5 +1,5 @@
 function
-emit_medium_space(u, small_font)
+emit_thick_space(u, small_font)
 {
 	var size, v, w;
 
@@ -8,7 +8,7 @@ emit_medium_space(u, small_font)
 	else
 		size = FONT_SIZE;
 
-	w = 1/2 * roman_width_tab['m'.charCodeAt(0)] * WIDTH_RATIO * size;
+	w = roman_width_tab['m'.charCodeAt(0)] * WIDTH_RATIO * size;
 
 	v = {type:SPACE, height:0, depth:0, width:w};
 
