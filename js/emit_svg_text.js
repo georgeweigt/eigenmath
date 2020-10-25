@@ -1,8 +1,6 @@
 function
 emit_svg_text(p, x, y)
 {
-//if (p.s != " ") emit_svg_line(x + p.width, y + p.depth, x + p.width, y - p.height, 1); // for checking char widths
-
 	var s, t;
 
 	s = p.s;
@@ -19,7 +17,7 @@ emit_svg_text(p, x, y)
 	x = "x='" + x + "'";
 	y = "y='" + y + "'";
 
-	t = "<text style='text-anchor:middle;font-family:times;";
+	t = "<text style='text-anchor:middle;font-family:\"Times New Roman\";";
 
 	if (p.small_font)
 		t += "font-size:14pt;";

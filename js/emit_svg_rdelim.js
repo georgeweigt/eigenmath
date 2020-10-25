@@ -14,8 +14,8 @@ emit_svg_rdelim(p, x, y)
 	var x1 = x + p.width - w / 2;
 	var x2 = x + p.width - w;
 
-	var y1 = y - p.height + t;
-	var y2 = y + p.depth - t;
+	var y1 = y - p.height + 2 * t;
+	var y2 = y + p.depth - 2 * t;
 
 	emit_svg_line(x1, y1, x1, y2, t); // stem
 	emit_svg_line(x1, y1, x2, y1, t); // top segment

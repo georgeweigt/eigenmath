@@ -66,17 +66,21 @@ emit_svg(p, x, y)
 
 	case FRACTION:
 
+		// numerator
+
 		dx = (p.width - p.num.width) / 2;
 
 		if (dx < 0)
 			dx = 0;
 
 		if (p.small_font)
-			dy = -SMALL_X_HEIGHT - SMALL_VSPACE - p.num.depth;
+			dy = p.num.depth + SMALL_X_HEIGHT;
 		else
-			dy = -X_HEIGHT - VSPACE - p.num.depth;
+			dy = p.num.depth + X_HEIGHT;
 
-		emit_svg(p.num, x + dx, y + dy);
+		emit_svg(p.num, x + dx, y - dy);
+
+		// denominator
 
 		dx = (p.width - p.den.width) / 2;
 
@@ -84,25 +88,28 @@ emit_svg(p, x, y)
 			dx = 0;
 
 		if (p.small_font)
-			dy = -SMALL_X_HEIGHT + SMALL_VSPACE + p.den.height;
+			dy = p.den.height - SMALL_X_HEIGHT;
 		else
-			dy = -X_HEIGHT + VSPACE + p.den.height;
+			dy = p.den.height - X_HEIGHT;
 
 		emit_svg(p.den, x + dx, y + dy);
 
-		if (p.small_font)
+		// line
+
+		if (p.small_font) {
 			size = SMALL_FONT_SIZE;
-		else
+			y -= SMALL_X_HEIGHT;
+		} else {
 			size = FONT_SIZE;
+			y -= X_HEIGHT
+		}
 
 		w = 1/8 * roman_width['n'.charCodeAt(0)] * WIDTH_RATIO * size;
 
 		x1 = x + w;
 		x2 = x + p.width - w;
 
-		y = y - X_HEIGHT_RATIO * size;
-
-		emit_svg_line(x1, y, x2, y, 1);
+		emit_svg_line(x1, y, x2, y, 1.5);
 
 		break;
 
