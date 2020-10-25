@@ -6,11 +6,11 @@ emit_svg_parens(p, x, y)
 	if (p.small_font) {
 		h = SMALL_FONT_HEIGHT;
 		d = SMALL_FONT_DEPTH;
-		w = SMALL_DELIM_WIDTH;
+		w = emit_delim_width(1);
 	} else {
 		h = FONT_HEIGHT;
 		d = FONT_DEPTH;
-		w = DELIM_WIDTH;
+		w = emit_delim_width(0);
 	}
 
 	l = {type:TEXT, s:"(", height:h, depth:d, width:w, small_font:p.small_font, italic_font:0};

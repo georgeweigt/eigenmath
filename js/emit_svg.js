@@ -24,10 +24,7 @@ emit_svg(p, x, y)
 
 		emit_svg_delims(p, x, y)
 
-		if (p.small_font)
-			x += SMALL_DELIM_WIDTH;
-		else
-			x += DELIM_WIDTH;
+		x += emit_delim_width(p.small_font);
 
 		n = p.a.length;
 
@@ -109,7 +106,7 @@ emit_svg(p, x, y)
 
 	case TABLE:
 		emit_svg_delims(p, x, y);
-		emit_svg_table(p, x + DELIM_WIDTH, y);
+		emit_svg_table(p, x + emit_delim_width(0), y);
 		break;
 	}
 }

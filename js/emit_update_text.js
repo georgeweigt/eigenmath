@@ -1,7 +1,7 @@
 function
 emit_update_text(u)
 {
-	var n, r, size;
+	var n, size, w;
 
 	if (u.small_font)
 		size = SMALL_FONT_SIZE;
@@ -10,12 +10,14 @@ emit_update_text(u)
 
 	n = u.s.charCodeAt(0);
 
-	if (n < 128)
-		r = emit_wtab[n];
+	if (n > 127)
+		w = 1000;
+	else if (u.italic_font)
+		w = italic_width_tab[n];
 	else
-		r = 1.0;
+		w = roman_width_tab[n];
 
 	u.height = HEIGHT_RATIO * size;
 	u.depth = DEPTH_RATIO * size;
-	u.width = r * WIDTH_RATIO * size;
+	u.width = w * WIDTH_RATIO * size;
 }

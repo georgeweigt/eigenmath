@@ -5,10 +5,10 @@ emit_svg_rdelim(p, x, y)
 
 	if (p.small_font) {
 		t = 1;
-		w = SMALL_DELIM_WIDTH;
+		w = emit_delim_width(1);
 	} else {
 		t = 2.5;
-		w = DELIM_WIDTH;
+		w = emit_delim_width(0);
 	}
 
 	var x1 = x + p.width - w / 2;

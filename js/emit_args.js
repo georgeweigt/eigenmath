@@ -17,10 +17,7 @@ emit_args(u, p, small_font)
 
 	emit_update(v);
 
-	if (small_font)
-		v.width += 2 * SMALL_DELIM_WIDTH;
-	else
-		v.width += 2 * DELIM_WIDTH;
+	v.width += 2 * emit_delim_width(small_font);
 
 	u.a.push(v);
 }

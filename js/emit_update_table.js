@@ -45,5 +45,5 @@ emit_update_table(u)
 	for (j = 0; j < m; j++)
 		w += u.a[j].cell_width;
 
-	u.width = w + 2 * DELIM_WIDTH;
+	u.width = w + 2 * emit_delim_width(0); // small_font = 0
 }
