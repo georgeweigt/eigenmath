@@ -1,4 +1,4 @@
-/* October 12, 2020
+/* October 24, 2020
 
 To build and run:
 
@@ -23,7 +23,7 @@ To generate MathJax output:
 
         ./eigenmath --mathjax scriptfilename | tee foo.html
 
-The Eigenmath manual and sample scripts are available at https://eigenmath.github.io
+The Eigenmath manual and sample scripts are available at https://georgeweigt.github.io
 
 
 BSD 2-Clause License
