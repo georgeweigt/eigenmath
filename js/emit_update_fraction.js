@@ -1,20 +1,21 @@
 function
 emit_update_fraction(u)
 {
-	var w = roman_width['n'.charCodeAt(0)] * WIDTH_RATIO;
+	var d, h, w;
 
-	u.height = u.num.height + u.num.depth;
-	u.depth = u.den.height + u.den.depth;
-
-	u.width = Math.max(u.num.width, u.den.width);
+	w = roman_width['n'.charCodeAt(0)] * WIDTH_RATIO;
 
 	if (u.small_font) {
-		u.height += SMALL_X_HEIGHT;
-		u.depth -= SMALL_X_HEIGHT;
-		u.width += w * SMALL_FONT_SIZE;
+		h = SMALL_X_HEIGHT + SMALL_STROKE_WIDTH / 2;
+		d = -SMALL_X_HEIGHT + SMALL_STROKE_WIDTH / 2;
+		w = w * SMALL_FONT_SIZE;
 	} else {
-		u.height += X_HEIGHT;
-		u.depth -= X_HEIGHT;
-		u.width += w * FONT_SIZE;
+		h = X_HEIGHT + STROKE_WIDTH / 2;
+		d = -X_HEIGHT + STROKE_WIDTH / 2;
+		w = w * FONT_SIZE;
 	}
+
+	u.height = u.num.height + u.num.depth + h;
+	u.depth = u.den.height + u.den.depth + d;
+	u.width = Math.max(u.num.width, u.den.width) + w;
 }

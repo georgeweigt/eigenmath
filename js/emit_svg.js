@@ -1,7 +1,7 @@
 function
 emit_svg(p, x, y)
 {
-	var dx, dy, i, n, size, w, x1, x2;
+	var dx, i, n, size, w, x1, x2;
 
 	switch (p.type) {
 
@@ -73,12 +73,7 @@ emit_svg(p, x, y)
 		if (dx < 0)
 			dx = 0;
 
-		if (p.small_font)
-			dy = p.num.depth + SMALL_X_HEIGHT;
-		else
-			dy = p.num.depth + X_HEIGHT;
-
-		emit_svg(p.num, x + dx, y - dy);
+		emit_svg(p.num, x + dx, y - p.height + p.num.height);
 
 		// denominator
 
@@ -87,29 +82,27 @@ emit_svg(p, x, y)
 		if (dx < 0)
 			dx = 0;
 
-		if (p.small_font)
-			dy = p.den.height - SMALL_X_HEIGHT;
-		else
-			dy = p.den.height - X_HEIGHT;
-
-		emit_svg(p.den, x + dx, y + dy);
+		emit_svg(p.den, x + dx, y + p.depth - p.den.depth);
 
 		// line
 
-		if (p.small_font) {
+		if (p.small_font)
 			size = SMALL_FONT_SIZE;
-			y -= SMALL_X_HEIGHT;
-		} else {
+		else
 			size = FONT_SIZE;
-			y -= X_HEIGHT
-		}
 
 		w = 1/8 * roman_width['n'.charCodeAt(0)] * WIDTH_RATIO * size;
 
 		x1 = x + w;
 		x2 = x + p.width - w;
 
-		emit_svg_line(x1, y, x2, y, 1.5);
+		if (p.small_font) {
+			y -= SMALL_X_HEIGHT;
+			emit_svg_line(x1, y, x2, y, SMALL_STROKE_WIDTH);
+		} else {
+			y -= X_HEIGHT;
+			emit_svg_line(x1, y, x2, y, STROKE_WIDTH);
+		}
 
 		break;
 
