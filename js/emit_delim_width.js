@@ -8,5 +8,5 @@ emit_delim_width(small_font)
 	else
 		size = FONT_SIZE;
 
-	return symbol_width_tab["&parenleft;"] * WIDTH_RATIO * size;
+	return symbol_width["&parenleft;"] * WIDTH_RATIO * size;
 }

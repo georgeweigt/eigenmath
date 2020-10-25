@@ -5,7 +5,7 @@ emit_special_symbol(u, s, small_font, italic_font)
 
 	s = "&" + s + ";";
 
-	w = symbol_width_tab[s];
+	w = symbol_width[s];
 
 	if (w == undefined)
 		w = 1000;

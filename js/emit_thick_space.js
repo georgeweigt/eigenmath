@@ -8,7 +8,7 @@ emit_thick_space(u, small_font)
 	else
 		size = FONT_SIZE;
 
-	w = roman_width_tab['n'.charCodeAt(0)] * WIDTH_RATIO * size;
+	w = roman_width['n'.charCodeAt(0)] * WIDTH_RATIO * size;
 
 	v = {type:SPACE, height:0, depth:0, width:w};
 

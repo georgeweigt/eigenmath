@@ -32,7 +32,7 @@ const SMALL_VSPACE = V_SPACE_RATIO * SMALL_FONT_SIZE;
 const TABLE_HSPACE = 0.6 * FONT_SIZE;
 const TABLE_VSPACE = 0.2 * FONT_SIZE;
 
-const roman_width_tab = [
+const roman_width = [
 778,778,778,778,778,778,778,778,
 778,778,778,778,778,778,778,778,
 778,778,778,778,778,778,778,778,
@@ -51,7 +51,7 @@ const roman_width_tab = [
 509,515,449,480,200,480,563,778,
 ];
 
-const italic_width_tab = [
+const italic_width = [
 778,778,778,778,778,778,778,778,
 778,778,778,778,778,778,778,778,
 778,778,778,778,778,778,778,778,
@@ -80,7 +80,7 @@ const emit_stab = [
 	"hbar",
 ];
 
-const symbol_width_tab = {
+const symbol_width = {
 "&parenleft;":333,
 "&parenright;":333,
 "&plus;":565,

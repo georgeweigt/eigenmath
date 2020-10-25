@@ -11,9 +11,9 @@ emit_update_text(u)
 	n = u.s.charCodeAt(0);
 
 	if (u.italic_font)
-		w = italic_width_tab[n];
+		w = italic_width[n];
 	else
-		w = roman_width_tab[n];
+		w = roman_width[n];
 
 	if (w == undefined)
 		w = 1000;

@@ -95,7 +95,7 @@ emit_svg(p, x, y)
 		else
 			size = FONT_SIZE;
 
-		w = 1/8 * roman_width_tab['n'.charCodeAt(0)] * WIDTH_RATIO * size;
+		w = 1/8 * roman_width['n'.charCodeAt(0)] * WIDTH_RATIO * size;
 
 		x1 = x + w;
 		x2 = x + p.width - w;
