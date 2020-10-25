@@ -1,8 +1,10 @@
 function
 emit_expr(u, p, small_font)
 {
-	if (isnegativeterm(p) || (car(p) == symbol(ADD) && isnegativeterm(cadr(p))))
+	if (isnegativeterm(p) || (car(p) == symbol(ADD) && isnegativeterm(cadr(p)))) {
 		emit_roman_symbol(u, "minus", small_font);
+		emit_thin_space(u, small_font);
+	}
 	if (car(p) == symbol(ADD))
 		emit_expr_nib(u, p, small_font);
 	else

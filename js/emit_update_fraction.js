@@ -1,7 +1,7 @@
 function
 emit_update_fraction(u)
 {
-	var w = 1/2 * roman_width_tab['m'.charCodeAt(0)];
+	var w = roman_width_tab['n'.charCodeAt(0)];
 
 	u.width = Math.max(u.num.width, u.den.width);
 

@@ -45,6 +45,7 @@ emit_double(u, p, small_font) // p is a double
 	else if (s[k] == '-') {
 		k++;
 		emit_roman_symbol(v, "minus", 1);
+		emit_thin_space(v, 1);
 	}
 
 	while (s[k] == '0')
