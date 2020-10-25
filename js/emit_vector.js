@@ -12,7 +12,7 @@ emit_vector(u, p)
 	for (i = 1; i < p.dim.length; i++)
 		s *= p.dim[i];
 
-	v = {type:TABLE, n:n, m:1, a:[]};
+	v = {type:TABLE, n:n, m:1, a:[], small_font:0};
 
 	for (i = 0; i < n; i++)
 		emit_matrix(v, p, 1, i * s);
