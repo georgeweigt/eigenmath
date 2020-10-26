@@ -1,9 +1,9 @@
 function
-emit_svg_text(p, x, y)
+emit_svg_text(u, x, y)
 {
 	var s, t;
 
-	s = p.s;
+	s = u.s;
 
 	if (s == '&')
 		s = "&amp;";
@@ -12,19 +12,19 @@ emit_svg_text(p, x, y)
 	else if (s == '>')
 		s = "&gt;";
 
-	x += p.width / 2;
+	x += u.width / 2;
 
 	x = "x='" + x + "'";
 	y = "y='" + y + "'";
 
 	t = "<text style='text-anchor:middle;font-family:\"Times New Roman\";";
 
-	if (p.small_font)
+	if (u.small_font)
 		t += "font-size:14pt;";
 	else
 		t += "font-size:20pt;";
 
-	if (p.italic_font)
+	if (u.italic_font)
 		t += "font-style:italic;";
 
 	t += "'" + x + y + ">" + s + "</text>\n";

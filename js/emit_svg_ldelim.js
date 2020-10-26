@@ -1,12 +1,12 @@
 function
-emit_svg_ldelim(p, x, y)
+emit_svg_ldelim(u, x, y)
 {
 	var t, w;
 
-	if (p.type == TABLE) {
+	if (u.type == TABLE) {
 		t = TABLE_DELIM_STROKE;
 		w = emit_delim_width(0);
-	} else if (p.small_font) {
+	} else if (u.small_font) {
 		t = SMALL_DELIM_STROKE;
 		w = emit_delim_width(1);
 	} else {
@@ -14,11 +14,11 @@ emit_svg_ldelim(p, x, y)
 		w = emit_delim_width(0);
 	}
 
-	var x1 = x + w / 2;
-	var x2 = x + w;
+	var x1 = x + 1/4 * w;
+	var x2 = x + 3/4 * w;
 
-	var y1 = y - p.height + 2 * t;
-	var y2 = y + p.depth - 2 * t;
+	var y1 = y - u.height + 2 * t;
+	var y2 = y + u.depth - 2 * t;
 
 	emit_svg_line(x1, y1, x1, y2, t); // stem
 	emit_svg_line(x1, y1, x2, y1, t); // top segment

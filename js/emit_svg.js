@@ -1,65 +1,65 @@
 function
-emit_svg(p, x, y)
+emit_svg(u, x, y)
 {
 	var dx, i, n, size, w, x1, x2;
 
-	switch (p.type) {
+	switch (u.type) {
 
 	case SPACE:
 		break;
 
 	case TEXT:
-		emit_svg_text(p, x, y);
+		emit_svg_text(u, x, y);
 		break;
 
 	case LINE:
-		n = p.a.length;
+		n = u.a.length;
 		for (i = 0; i < n; i++) {
-			emit_svg(p.a[i], x, y);
-			x += p.a[i].width;
+			emit_svg(u.a[i], x, y);
+			x += u.a[i].width;
 		}
 		break;
 
 	case PAREN:
 
-		emit_svg_delims(p, x, y)
+		emit_svg_delims(u, x, y)
 
-		x += emit_delim_width(p.small_font);
+		x += emit_delim_width(u.small_font);
 
-		n = p.a.length;
+		n = u.a.length;
 
 		for (i = 0; i < n; i++) {
-			emit_svg(p.a[i], x, y);
-			x += p.a[i].width;
+			emit_svg(u.a[i], x, y);
+			x += u.a[i].width;
 		}
 
 		break;
 
 	case SUPERSCRIPT:
 
-		y += p.depth; // p.depth is negative
+		y += u.depth; // p.depth is negative
 
-		n = p.a.length;
+		n = u.a.length;
 
 		for (i = 0; i < n; i++) {
-			emit_svg(p.a[i], x, y);
-			x += p.a[i].width;
+			emit_svg(u.a[i], x, y);
+			x += u.a[i].width;
 		}
 
 		break;
 
 	case SUBSCRIPT:
 
-		if (p.small_font)
+		if (u.small_font)
 			y += SMALL_X_HEIGHT;
 		else
 			y += X_HEIGHT;
 
-		n = p.a.length;
+		n = u.a.length;
 
 		for (i = 0; i < n; i++) {
-			emit_svg(p.a[i], x, y);
-			x += p.a[i].width;
+			emit_svg(u.a[i], x, y);
+			x += u.a[i].width;
 		}
 
 		break;
@@ -68,25 +68,25 @@ emit_svg(p, x, y)
 
 		// numerator
 
-		dx = (p.width - p.num.width) / 2;
+		dx = (u.width - u.num.width) / 2;
 
 		if (dx < 0)
 			dx = 0;
 
-		emit_svg(p.num, x + dx, y - p.height + p.num.height);
+		emit_svg(u.num, x + dx, y - u.height + u.num.height);
 
 		// denominator
 
-		dx = (p.width - p.den.width) / 2;
+		dx = (u.width - u.den.width) / 2;
 
 		if (dx < 0)
 			dx = 0;
 
-		emit_svg(p.den, x + dx, y + p.depth - p.den.depth);
+		emit_svg(u.den, x + dx, y + u.depth - u.den.depth);
 
 		// line
 
-		if (p.small_font)
+		if (u.small_font)
 			size = SMALL_FONT_SIZE;
 		else
 			size = FONT_SIZE;
@@ -94,9 +94,9 @@ emit_svg(p, x, y)
 		w = 1/8 * roman_width['n'.charCodeAt(0)] * WIDTH_RATIO * size;
 
 		x1 = x + w;
-		x2 = x + p.width - w;
+		x2 = x + u.width - w;
 
-		if (p.small_font) {
+		if (u.small_font) {
 			y -= SMALL_X_HEIGHT;
 			emit_svg_line(x1, y, x2, y, SMALL_STROKE_WIDTH);
 		} else {
@@ -107,8 +107,8 @@ emit_svg(p, x, y)
 		break;
 
 	case TABLE:
-		emit_svg_delims(p, x, y);
-		emit_svg_table(p, x + emit_delim_width(0), y);
+		emit_svg_delims(u, x, y);
+		emit_svg_table(u, x + emit_delim_width(0), y);
 		break;
 	}
 }

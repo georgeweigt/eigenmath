@@ -3,13 +3,13 @@
 function
 emit_math()
 {
-	var h, p, w;
+	var h, p, u, w;
 	p = pop();
-	p = emit_line(p, 0);
+	u = emit_line(p, 0);
 	outbuf = "";
-	emit_svg(p, FONT_SIZE / 2, p.height);
-	h = p.height + p.depth;
-	w = p.width + FONT_SIZE;
+	emit_svg(u, FONT_SIZE / 2, u.height);
+	h = u.height + u.depth;
+	w = u.width + FONT_SIZE;
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";
 	outbuf = "<p><svg " + h + w + ">\n" + outbuf + "</svg></p>";

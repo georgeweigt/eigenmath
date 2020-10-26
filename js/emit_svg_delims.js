@@ -1,9 +1,9 @@
 function
-emit_svg_delims(p, x, y)
+emit_svg_delims(u, x, y)
 {
 	var h, d;
 
-	if (p.small_font) {
+	if (u.small_font) {
 		h = SMALL_FONT_HEIGHT;
 		d = SMALL_FONT_DEPTH;
 	} else {
@@ -11,9 +11,9 @@ emit_svg_delims(p, x, y)
 		d = FONT_DEPTH;
 	}
 
-	if (p.height > h || p.depth > d) {
-		emit_svg_ldelim(p, x, y);
-		emit_svg_rdelim(p, x, y);
+	if (u.height > h || u.depth > d) {
+		emit_svg_ldelim(u, x, y);
+		emit_svg_rdelim(u, x, y);
 	} else
-		emit_svg_parens(p, x, y);
+		emit_svg_parens(u, x, y);
 }

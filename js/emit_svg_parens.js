@@ -1,9 +1,9 @@
 function
-emit_svg_parens(p, x, y)
+emit_svg_parens(u, x, y)
 {
 	var d, h, l, r, w;
 
-	if (p.small_font) {
+	if (u.small_font) {
 		h = SMALL_FONT_HEIGHT;
 		d = SMALL_FONT_DEPTH;
 		w = emit_delim_width(1);
@@ -13,9 +13,9 @@ emit_svg_parens(p, x, y)
 		w = emit_delim_width(0);
 	}
 
-	l = {type:TEXT, s:"(", height:h, depth:d, width:w, small_font:p.small_font, italic_font:0};
-	r = {type:TEXT, s:")", height:h, depth:d, width:w, small_font:p.small_font, italic_font:0};
+	l = {type:TEXT, s:"(", height:h, depth:d, width:w, small_font:u.small_font, italic_font:0};
+	r = {type:TEXT, s:")", height:h, depth:d, width:w, small_font:u.small_font, italic_font:0};
 
 	emit_svg_text(l, x, y);
-	emit_svg_text(r, x + p.width - w, y);
+	emit_svg_text(r, x + u.width - w, y);
 }
