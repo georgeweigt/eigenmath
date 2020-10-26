@@ -51,9 +51,9 @@ emit_svg(u, x, y)
 	case SUBSCRIPT:
 
 		if (u.small_font)
-			y += SMALL_X_HEIGHT;
+			y += SMALL_MINUS_HEIGHT;
 		else
-			y += X_HEIGHT;
+			y += MINUS_HEIGHT;
 
 		n = u.a.length;
 
@@ -97,10 +97,10 @@ emit_svg(u, x, y)
 		x2 = x + u.width - w;
 
 		if (u.small_font) {
-			y -= SMALL_X_HEIGHT;
+			y -= SMALL_MINUS_HEIGHT;
 			emit_svg_line(x1, y, x2, y, SMALL_STROKE_WIDTH);
 		} else {
-			y -= X_HEIGHT;
+			y -= MINUS_HEIGHT;
 			emit_svg_line(x1, y, x2, y, STROKE_WIDTH);
 		}
 

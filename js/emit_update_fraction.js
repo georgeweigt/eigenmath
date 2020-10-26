@@ -6,12 +6,12 @@ emit_update_fraction(u)
 	w = 1/2 * roman_width['n'.charCodeAt(0)] * WIDTH_RATIO;
 
 	if (u.small_font) {
-		h = SMALL_X_HEIGHT + SMALL_STROKE_WIDTH / 2;
-		d = -SMALL_X_HEIGHT + SMALL_STROKE_WIDTH / 2;
+		h = SMALL_MINUS_HEIGHT + SMALL_STROKE_WIDTH / 2;
+		d = -SMALL_MINUS_HEIGHT + SMALL_STROKE_WIDTH / 2;
 		w = w * SMALL_FONT_SIZE;
 	} else {
-		h = X_HEIGHT + STROKE_WIDTH / 2;
-		d = -X_HEIGHT + STROKE_WIDTH / 2;
+		h = MINUS_HEIGHT + STROKE_WIDTH / 2;
+		d = -MINUS_HEIGHT + STROKE_WIDTH / 2;
 		w = w * FONT_SIZE;
 	}
 

@@ -8,11 +8,11 @@ emit_update_superscript(u, h) // h is height of neighbor
 	// move above baseline
 
 	if (u.small_font) {
-		u.height = u.height + u.depth + SMALL_X_HEIGHT;
-		u.depth = -u.depth - SMALL_X_HEIGHT;
+		u.height = u.height + u.depth + SMALL_MINUS_HEIGHT;
+		u.depth = -u.depth - SMALL_MINUS_HEIGHT;
 	} else {
-		u.height = u.height + u.depth + X_HEIGHT;
-		u.depth = -u.depth - X_HEIGHT;
+		u.height = u.height + u.depth + MINUS_HEIGHT;
+		u.depth = -u.depth - MINUS_HEIGHT;
 	}
 
 	d = h - u.height;

@@ -53,11 +53,11 @@ emit_symbol(u, p, small_font)
 	emit_update(v);
 
 	if (small_font) {
-		v.height -= SMALL_X_HEIGHT;
-		v.depth += SMALL_X_HEIGHT;
+		v.height -= SMALL_MINUS_HEIGHT;
+		v.depth += SMALL_MINUS_HEIGHT;
 	} else {
-		v.height -= X_HEIGHT;
-		v.depth += X_HEIGHT;
+		v.height -= MINUS_HEIGHT;
+		v.depth += MINUS_HEIGHT;
 	}
 
 	u.a.push(v);
