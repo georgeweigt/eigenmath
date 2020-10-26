@@ -17,7 +17,7 @@ emit_svg_rdelim(u, x, y)
 	var x1 = x + u.width - 1/4 * w;
 	var x2 = x + u.width - 3/4 * w;
 
-	var y1 = y - u.height + 2 * t; // more space below fraction line
+	var y1 = y - u.height + 2 * t; // glyphs are tighter on the bottom than the top
 	var y2 = y + u.depth - t;
 
 	emit_svg_line(x1, y1, x1, y2, t); // stem
