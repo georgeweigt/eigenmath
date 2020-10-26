@@ -7,11 +7,11 @@ emit_update_fraction(u)
 
 	if (u.small_font) {
 		h = SMALL_MINUS_HEIGHT + SMALL_STROKE_WIDTH;
-		d = -SMALL_MINUS_HEIGHT;
+		d = -SMALL_MINUS_HEIGHT + SMALL_STROKE_WIDTH;
 		w = w * SMALL_FONT_SIZE;
 	} else {
 		h = MINUS_HEIGHT + STROKE_WIDTH;
-		d = -MINUS_HEIGHT;
+		d = -MINUS_HEIGHT + STROKE_WIDTH;
 		w = w * FONT_SIZE;
 	}
 
