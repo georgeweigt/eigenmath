@@ -3,11 +3,14 @@ emit_svg_rdelim(p, x, y)
 {
 	var t, w;
 
-	if (p.small_font) {
-		t = 1;
+	if (p.type == TABLE) {
+		t = TABLE_DELIM_STROKE;
+		w = emit_delim_width(0);
+	} else if (p.small_font) {
+		t = SMALL_DELIM_STROKE;
 		w = emit_delim_width(1);
 	} else {
-		t = 2.5;
+		t = DELIM_STROKE;
 		w = emit_delim_width(0);
 	}
 
