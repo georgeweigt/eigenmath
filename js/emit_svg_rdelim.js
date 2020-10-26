@@ -17,8 +17,8 @@ emit_svg_rdelim(u, x, y)
 	var x1 = x + u.width - 1/4 * w;
 	var x2 = x + u.width - 3/4 * w;
 
-	var y1 = y - u.height + 2 * t;
-	var y2 = y + u.depth - 2 * t;
+	var y1 = y - u.height + 2 * t; // more space below fraction line
+	var y2 = y + u.depth - t;
 
 	emit_svg_line(x1, y1, x1, y2, t); // stem
 	emit_svg_line(x1, y1, x2, y1, t); // top segment
