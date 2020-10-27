@@ -91,7 +91,7 @@ const symbol_width = {
 "&gt;":564,
 "&le;":558,
 "&ge;":558,
-"&times;":823,
+"&times;":565/*823*/,
 "&minus;":565,
 "&Gamma;":578,
 "&Theta;":722,
