@@ -3,7 +3,7 @@ emit_update_fraction(u)
 {
 	var d, h, w;
 
-	w = 1/2 * roman_width['n'.charCodeAt(0)] * WIDTH_RATIO;
+	w = 0.5 * roman_width['n'.charCodeAt(0)] * WIDTH_RATIO;
 
 	if (u.small_font) {
 		h = 1.5 * SMALL_STROKE_WIDTH + SMALL_MINUS_HEIGHT;
