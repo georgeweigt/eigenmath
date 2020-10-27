@@ -6,12 +6,12 @@ emit_update_fraction(u)
 	w = 1/2 * roman_width['n'.charCodeAt(0)] * WIDTH_RATIO;
 
 	if (u.small_font) {
-		h = SMALL_MINUS_HEIGHT + 2 * SMALL_STROKE_WIDTH; // glyphs are tighter on the bottom than the top
-		d = -SMALL_MINUS_HEIGHT + SMALL_STROKE_WIDTH;
+		h = 1.5 * SMALL_STROKE_WIDTH + SMALL_MINUS_HEIGHT;
+		d = 1.5 * SMALL_STROKE_WIDTH - SMALL_MINUS_HEIGHT;
 		w = w * SMALL_FONT_SIZE;
 	} else {
-		h = MINUS_HEIGHT + 2 * STROKE_WIDTH; // glyphs are tighter on the bottom than the top
-		d = -MINUS_HEIGHT + STROKE_WIDTH;
+		h = 1.5 * STROKE_WIDTH + MINUS_HEIGHT;
+		d = 1.5 * STROKE_WIDTH - MINUS_HEIGHT;
 		w = w * FONT_SIZE;
 	}
 

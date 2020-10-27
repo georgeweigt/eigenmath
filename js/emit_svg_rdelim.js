@@ -14,11 +14,11 @@ emit_svg_rdelim(u, x, y)
 		w = emit_delim_width(0);
 	}
 
-	var x1 = x + u.width - 1/4 * w;
-	var x2 = x + u.width - 3/4 * w;
+	var x1 = x + u.width - 0.25 * w;
+	var x2 = x + u.width - 0.75 * w;
 
-	var y1 = y - u.height + 2 * t; // glyphs are tighter on the bottom than the top
-	var y2 = y + u.depth - t;
+	var y1 = y - u.height + 0.5 * t;
+	var y2 = y + u.depth - 0.5 * t;
 
 	emit_svg_line(x1, y1, x1, y2, t); // stem
 	emit_svg_line(x1, y1, x2, y1, t); // top segment
