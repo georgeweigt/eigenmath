@@ -29,7 +29,7 @@ char *roman[] = {
 "Chi",
 "Psi",
 "Omega",
-
+"hbar",
 "less",
 "equal",
 "greater",
@@ -66,7 +66,6 @@ char *italic[] = {
 "chi",
 "psi",
 "omega",
-"hbar",
 };
 
 int
