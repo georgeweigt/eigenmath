@@ -6,7 +6,7 @@ emit_symbol_scan(s, k)
 	for (i = 0; i < n; i++) {
 		t = glyph_names[i];
 		if (s.startsWith(t, k))
-			return t.length;
+			return k + t.length;
 	}
-	return 1;
+	return k + 1;
 }
