@@ -1,14 +1,13 @@
 function
-emit_special_symbol(u, s, small_font, italic_font)
+emit_glyph(u, s, small_font)
 {
-	var size, v, w;
+	var italic_font, size, v, width;
 
 	s = "&" + s + ";";
 
-	w = symbol_width[s];
+	width = glyph_info[s].width;
 
-	if (w == undefined)
-		w = 1000;
+	italic_font = glyph_info[s].italic_font;
 
 	v = {type:TEXT, s:s, small_font:small_font, italic_font:italic_font};
 
@@ -19,7 +18,7 @@ emit_special_symbol(u, s, small_font, italic_font)
 
 	v.height = HEIGHT_RATIO * size;
 	v.depth = DEPTH_RATIO * size;
-	v.width = w * WIDTH_RATIO * size;
+	v.width = width * WIDTH_RATIO * size;
 
 	u.a.push(v);
 }
