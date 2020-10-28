@@ -2,9 +2,9 @@ function
 emit_symbol_scan(s, k)
 {
 	var i, n, t;
-	n = emit_stab.length;
+	n = glyph_names.length;
 	for (i = 0; i < n; i++) {
-		t = emit_stab[i];
+		t = glyph_names[i];
 		if (s.startsWith(t, k))
 			return t.length;
 	}
