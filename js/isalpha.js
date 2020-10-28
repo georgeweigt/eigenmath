@@ -1,5 +1,5 @@
 function
-isalpha(c)
+isalpha(s)
 {
-	return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+	return s.length == 1 && ((s >= 'A' && s <= 'Z') || (s >= 'a' && s <= 'z'));
 }

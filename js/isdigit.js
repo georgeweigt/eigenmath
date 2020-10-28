@@ -1,5 +1,5 @@
 function
-isdigit(c)
+isdigit(s)
 {
-	return c >= '0' && c <= '9';
+	return s.length == 1 && s >= '0' && s <= '9';
 }
