@@ -58,8 +58,8 @@ function
 scan_stmt()
 {
 	scan_comparison();
-	if (token == '=') {
-		get_token_skip_newlines(); // get token after '='
+	if (token == "=") {
+		get_token_skip_newlines(); // get token after =
 		push_symbol(SETQ);
 		swap();
 		scan_comparison();
@@ -81,10 +81,10 @@ scan_comparison()
 	case T_GTEQ:
 		push_symbol(TESTGE);
 		break;
-	case '<':
+	case "<":
 		push_symbol(TESTLT);
 		break;
-	case '>':
+	case ">":
 		push_symbol(TESTGT);
 		break;
 	default:
@@ -100,16 +100,16 @@ function
 scan_expression()
 {
 	var h = stack.length, t = token;
-	if (token == '+' || token == '-')
+	if (token == "+" || token == "-")
 		get_token_skip_newlines();
 	scan_term();
-	if (t == '-')
+	if (t == "-")
 		static_negate();
-	while (token == '+' || token == '-') {
+	while (token == "+" || token == "-") {
 		t = token;
-		get_token_skip_newlines(); // get token after '+' or '-'
+		get_token_skip_newlines(); // get token after + or -
 		scan_term();
-		if (t == '-')
+		if (t == "-")
 			static_negate();
 	}
 	if (stack.length - h > 1) {
@@ -131,12 +131,12 @@ scan_term()
 
 		t = token;
 
-		if (token == '*' || token == '/')
+		if (token == "*" || token == "/")
 			get_token_skip_newlines();
 
 		scan_power();
 
-		if (t == '/')
+		if (t == "/")
 			static_reciprocate();
 	}
 
@@ -152,9 +152,9 @@ function
 scan_factor_pending()
 {
 	switch (token) {
-	case '*':
-	case '/':
-	case '(':
+	case "*":
+	case "/":
+	case "(":
 	case T_SYMBOL:
 	case T_FUNCTION:
 	case T_INTEGER:
@@ -172,7 +172,7 @@ scan_power()
 {
 	scan_factor();
 
-	if (token == '^') {
+	if (token == "^") {
 
 		get_token_skip_newlines();
 
@@ -192,7 +192,7 @@ scan_factor()
 
 	switch (token) {
 
-	case '(':
+	case "(":
 		scan_subexpr();
 		break;
 
@@ -230,33 +230,33 @@ scan_factor()
 
 	// index
 
-	if (token == '[') {
+	if (token == "[") {
 
 		scan_level++;
 
-		get_token(); // get token after '['
+		get_token(); // get token after [
 		push_symbol(INDEX);
 		swap();
 
 		scan_expression();
 
-		while (token == ',') {
-			get_token(); // get token after ','
+		while (token == ",") {
+			get_token(); // get token after ,
 			scan_expression();
 		}
 
-		if (token != ']')
-			scan_error("expected ']'");
+		if (token != "]")
+			scan_error("expected ]");
 
 		scan_level--;
 
-		get_token(); // get token after ']'
+		get_token(); // get token after ]
 
 		list(stack.length - h);
 	}
 
-	while (token == '!') {
-		get_token(); // get token after '!'
+	while (token == "!") {
+		get_token(); // get token after !
 		push_symbol(FACTORIAL);
 		swap();
 		list(2);
@@ -268,13 +268,13 @@ scan_symbol()
 {
 	if (scan_mode == 1 && token_buf.length == 1) {
 		switch (token_buf[0]) {
-		case 'a':
+		case "a":
 			push_symbol(METAA);
 			break;
-		case 'b':
+		case "b":
 			push_symbol(METAB);
 			break;
-		case 'x':
+		case "x":
 			push_symbol(METAX);
 			break;
 		default:
@@ -300,22 +300,22 @@ scan_function_call()
 	scan_level++;
 	push(lookup(token_buf)); // push function name
 	get_token(); // get token after function name
-	get_token(); // get token after '('
-	if (token == ')') {
+	get_token(); // get token after (
+	if (token == ")") {
 		scan_level--;
-		get_token(); // get token after ')'
+		get_token(); // get token after )
 		list(1); // function call with no args
 		return;
 	}
 	scan_stmt();
-	while (token == ',') {
-		get_token(); // get token after ','
+	while (token == ",") {
+		get_token(); // get token after ,
 		scan_stmt();
 	}
-	if (token != ')')
-		scan_error("expected ')'");
+	if (token != ")")
+		scan_error("expected )");
 	scan_level--;
-	get_token(); // get token after ')'
+	get_token(); // get token after )
 	list(stack.length - h);
 }
 
@@ -326,21 +326,21 @@ scan_subexpr()
 
 	scan_level++;
 
-	get_token(); // get token after '('
+	get_token(); // get token after (
 
 	scan_stmt();
 
-	while (token == ',') {
-		get_token(); // get token after ','
+	while (token == ",") {
+		get_token(); // get token after ,
 		scan_stmt();
 	}
 
-	if (token != ')')
-		scan_error("expected ')'");
+	if (token != ")")
+		scan_error("expected )");
 
 	scan_level--;
 
-	get_token(); // get token after ')'
+	get_token(); // get token after )
 
 	if (stack.length - h > 1)
 		vector(h);
@@ -371,7 +371,7 @@ get_token_nib()
 
 	// skip spaces
 
-	while (scan_index < scan_length && (instring[scan_index] == '\t' || instring[scan_index] == ' '))
+	while (scan_index < scan_length && (inchar(scan_index) == "\t" || inchar(scan_index) == " "))
 		scan_index++;
 
 	token_index = scan_index;
@@ -383,11 +383,11 @@ get_token_nib()
 		return;
 	}
 
-	c = instring[scan_index];
+	c = inchar(scan_index);
 
 	// newline?
 
-	if (c == '\n') {
+	if (c == "\n") {
 		scan_index++;
 		token = T_NEWLINE;
 		return;
@@ -395,9 +395,9 @@ get_token_nib()
 
 	// comment?
 
-	if (c == '#' || (c == '-' && scan_index < scan_length - 1 && instring[scan_index + 1] == '-')) {
+	if (c == "#" || (c == "-" && scan_index < scan_length - 1 && inchar(scan_index + 1) == "-")) {
 
-		while (scan_index < scan_length && instring[scan_index] != '\n')
+		while (scan_index < scan_length && inchar(scan_index) != "\n")
 			scan_index++;
 
 		if (scan_index < scan_length)
@@ -410,16 +410,16 @@ get_token_nib()
 
 	// number?
 
-	if (isdigit(c) || c == '.') {
+	if (isdigit(c) || c == ".") {
 
-		while (scan_index < scan_length && isdigit(instring[scan_index]))
+		while (scan_index < scan_length && isdigit(inchar(scan_index)))
 			scan_index++;
 
-		if (scan_index < scan_length && instring[scan_index] == '.') {
+		if (scan_index < scan_length && inchar(scan_index) == ".") {
 
 			scan_index++;
 
-			while (scan_index < scan_length && isdigit(instring[scan_index]))
+			while (scan_index < scan_length && isdigit(inchar(scan_index)))
 				scan_index++;
 
 			if (scan_index - token_index == 1)
@@ -438,10 +438,10 @@ get_token_nib()
 
 	if (isalpha(c)) {
 
-		while (scan_index < scan_length && isalnum(instring[scan_index]))
+		while (scan_index < scan_length && isalnum(inchar(scan_index)))
 			scan_index++;
 
-		if (scan_index < scan_length && instring[scan_index] == '(')
+		if (scan_index < scan_length && inchar(scan_index) == "(")
 			token = T_FUNCTION;
 		else
 			token = T_SYMBOL;
@@ -453,10 +453,10 @@ get_token_nib()
 
 	// string ?
 
-	if (c == '"') {
+	if (c == "\"") {
 		scan_index++;
-		while (scan_index < scan_length && instring[scan_index] != '"') {
-			if (scan_index == scan_length || instring[scan_index] == '\n') {
+		while (scan_index < scan_length && inchar(scan_index) != "\"") {
+			if (scan_index == scan_length || inchar(scan_index) == "\n") {
 				token_index = scan_index;
 				scan_error("runaway string");
 			}
@@ -472,19 +472,19 @@ get_token_nib()
 
 	if (scan_index < scan_length) {
 
-		if (c == '=' && instring[scan_index + 1] == '=') {
+		if (c == "=" && inchar(scan_index + 1) == "=") {
 			scan_index += 2;
 			token = T_EQ;
 			return;
 		}
 
-		if (c == '<' && instring[scan_index + 1] == '=') {
+		if (c == "<" && inchar(scan_index + 1) == "=") {
 			scan_index += 2;
 			token = T_LTEQ;
 			return;
 		}
 
-		if (c == '>' && instring[scan_index + 1] == '=') {
+		if (c == ">" && inchar(scan_index + 1) == "=") {
 			scan_index += 2;
 			token = T_GTEQ;
 			return;
@@ -493,7 +493,7 @@ get_token_nib()
 
 	// single char token
 
-	token = instring[scan_index++];
+	token = inchar(scan_index++);
 }
 
 function
@@ -517,4 +517,10 @@ scan_error(s)
 	print_buf(t, RED);
 
 	stopf("");
+}
+
+function
+inchar(k)
+{
+	return instring.charAt(k);
 }
