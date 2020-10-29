@@ -5,16 +5,24 @@ eval_transpose(void)
 {
 	push(cadr(p1));
 	eval();
-	if (cddr(p1) == symbol(NIL)) {
+
+	p1 = cddr(p1);
+
+	if (!iscons(p1)) {
 		push_integer(1);
 		push_integer(2);
-	} else {
-		push(caddr(p1));
-		eval();
-		push(cadddr(p1));
-		eval();
+		transpose();
+		return;
 	}
-	transpose();
+
+	while (iscons(p1)) {
+		push(car(p1));
+		eval();
+		push(cadr(p1));
+		eval();
+		transpose();
+		p1 = cddr(p1);
+	}
 }
 
 void
