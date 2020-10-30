@@ -40,16 +40,20 @@ emit_double(u, p, small_font) // p is a double
 
 	v = {type:SUPERSCRIPT, a:[], small_font:small_font};
 
+	// sign of exponent
+
 	if (s.charAt(k) == "+")
 		k++;
 	else if (s.charAt(k) == "-") {
-		k++;
 		emit_glyph(v, "minus", 1);
 		emit_thin_space(v, 1);
+		k++;
 	}
 
-	while (s.charAt(k) == "0")
-		k++; // skip leading zeroes
+	// skip leading zeroes in exponent
+
+	while (k < s.length - 1 && s.charAt(k) == "0")
+		k++;
 
 	emit_roman_text(v, s.substring(k, s.length), 1);
 
