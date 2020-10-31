@@ -21,6 +21,7 @@ const DEFINT = "defint";
 const DENOMINATOR = "denominator";
 const DERIVATIVE = "derivative";
 const DET = "det";
+const DIM = "dim";
 const DO = "do";
 const DOT = "dot";
 const DRAW = "draw";
