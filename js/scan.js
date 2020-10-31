@@ -398,10 +398,11 @@ get_token_nib()
 		while (inchar() != "" && inchar() != "\n")
 			scan_index++;
 
-		if (inchar() != "")
+		if (inchar() == "\n") {
 			scan_index++;
-
-		token = T_NEWLINE;
+			token = T_NEWLINE;
+		} else
+			token = T_END;
 
 		return;
 	}
