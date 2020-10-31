@@ -48,7 +48,7 @@ prime
 quotient
 roots
 run
-simplify (use rationalize instead)
+simplify (use rationalize and/or circexp instead)
 status
 string
 subst
