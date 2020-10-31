@@ -50,7 +50,7 @@ prime
 quotient
 roots
 run
-simplify
+simplify (use rationalize instead)
 status
 string
 subst
