@@ -9,7 +9,7 @@ transpose(n, m)
 	ndim = p1.dim.length;
 
 	if (n < 1 || n > ndim || m < 1 || m > ndim)
-		stopf("index err");
+		stopf("transpose: index error");
 
 	n--; // make zero based
 	m--;

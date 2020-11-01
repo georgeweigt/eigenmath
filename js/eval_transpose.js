@@ -6,9 +6,10 @@ eval_transpose(p1)
 	push(cadr(p1));
 	evalf();
 	p2 = pop();
-	if (!istensor(p2))
-		stopf("transpose: tensor expected");
 	push(p2);
+
+	if (!istensor(p2) || p2.dim.length == 1)
+		return;
 
 	p1 = cddr(p1);
 
