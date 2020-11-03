@@ -18,9 +18,9 @@ emit_svg_text(u, x, y)
 	t = "<text style='font-family:\"Times New Roman\";";
 
 	if (u.small_font)
-		t += "font-size:14pt;";
+		t += "font-size:" + SMALL_FONT_SIZE + "pt;";
 	else
-		t += "font-size:20pt;";
+		t += "font-size:" + FONT_SIZE + "pt;";
 
 	if (u.italic_font)
 		t += "font-style:italic;";
