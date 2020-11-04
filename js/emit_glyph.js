@@ -1,24 +1,25 @@
 function
 emit_glyph(u, s, small_font)
 {
-	var italic_font, size, v, width;
+	var italic_font, v, w;
 
 	s = "&" + s + ";";
-
-	width = glyph_info[s].width;
 
 	italic_font = glyph_info[s].italic_font;
 
 	v = {type:TEXT, s:s, small_font:small_font, italic_font:italic_font};
 
-	if (small_font)
-		size = SMALL_FONT_SIZE;
-	else
-		size = FONT_SIZE;
+	w = glyph_info[s].width;
 
-	v.height = HEIGHT_RATIO * size;
-	v.depth = DEPTH_RATIO * size;
-	v.width = width * WIDTH_RATIO * size;
+	if (small_font) {
+		v.height = SMALL_FONT_HEIGHT;
+		v.depth = SMALL_FONT_DEPTH;
+		v.width = w * WIDTH_RATIO * SMALL_FONT_SIZE;
+	} else {
+		v.height = FONT_HEIGHT;
+		v.depth = FONT_DEPTH;
+		v.width = w * WIDTH_RATIO * FONT_SIZE;
+	}
 
 	u.a.push(v);
 }

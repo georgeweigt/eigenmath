@@ -1,12 +1,7 @@
 function
 emit_update_text(u)
 {
-	var n, size, w;
-
-	if (u.small_font)
-		size = SMALL_FONT_SIZE;
-	else
-		size = FONT_SIZE;
+	var n, w;
 
 	n = u.s.charCodeAt(0);
 
@@ -18,7 +13,13 @@ emit_update_text(u)
 	if (w == undefined)
 		w = 1000;
 
-	u.height = HEIGHT_RATIO * size;
-	u.depth = DEPTH_RATIO * size;
-	u.width = w * WIDTH_RATIO * size;
+	if (u.small_font) {
+		u.height = SMALL_FONT_HEIGHT;
+		u.depth = SMALL_FONT_DEPTH;
+		u.width = w * WIDTH_RATIO * SMALL_FONT_SIZE;
+	} else {
+		u.height = FONT_HEIGHT;
+		u.depth = FONT_DEPTH;
+		u.width = w * WIDTH_RATIO * FONT_SIZE;
+	}
 }
