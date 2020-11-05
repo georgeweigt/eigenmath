@@ -28,7 +28,7 @@ const SMALL_DELIM_STROKE = 1;
 const TABLE_DELIM_STROKE = 2.5;
 
 const TABLE_HSPACE = 12;
-const TABLE_VSPACE = 10;
+const TABLE_VSPACE = 12;
 
 const WIDTH_RATIO = 0.0014;
 

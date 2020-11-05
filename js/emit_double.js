@@ -1,7 +1,7 @@
 function
 emit_double(u, p, small_font) // p is a double
 {
-	var h, i, j, k, s, v;
+	var i, j, k, s, v;
 
 	if (p.d == 0) {
 		emit_roman_text(u, "0", small_font);
@@ -57,9 +57,7 @@ emit_double(u, p, small_font) // p is a double
 
 	emit_roman_text(v, s.substring(k, s.length), 1);
 
-	h = u.a[u.a.length - 1].height; // height of neighbor
-
-	emit_update_superscript(v, h);
+	emit_update_superscript(u, v);
 
 	u.a.push(v);
 }
