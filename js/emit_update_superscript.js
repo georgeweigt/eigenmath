@@ -1,11 +1,11 @@
 function
-emit_update_superscript(u, v) // u is neighbor
+emit_update_superscript(u, v)
 {
 	var h, k;
 
 	emit_update(v);
 
-	// move up
+	// h is height of neighbor
 
 	if (u.small_font)
 		h = SMALL_FONT_HEIGHT;
@@ -21,6 +21,8 @@ emit_update_superscript(u, v) // u is neighbor
 		h = u.a[k].height;
 		break;
 	}
+
+	// move up
 
 	v.height = h + v.height + v.depth;
 	v.depth = -h - v.depth;
