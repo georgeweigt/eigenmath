@@ -12,11 +12,11 @@ const VPAD = 6;
 
 const FONT_SIZE = 20;
 const FONT_HEIGHT = 18;
-const FONT_DEPTH = 6;
+const FONT_DEPTH = 5;
 const MINUS_HEIGHT = 8.5;
 
 const SMALL_FONT_SIZE = 14;
-const SMALL_FONT_HEIGHT = 12;
+const SMALL_FONT_HEIGHT = 13;
 const SMALL_FONT_DEPTH = 4;
 const SMALL_MINUS_HEIGHT = 6;
 
