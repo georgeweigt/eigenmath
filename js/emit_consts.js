@@ -7,7 +7,8 @@ const SUBSCRIPT = 5;
 const FRACTION = 6;
 const TABLE = 7;
 
-const PAD = 10;
+const HPAD = 10;
+const VPAD = 6;
 
 const FONT_SIZE = 20;
 const FONT_HEIGHT = 18;
