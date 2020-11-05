@@ -7,27 +7,27 @@ const SUBSCRIPT = 5;
 const FRACTION = 6;
 const TABLE = 7;
 
-const WIDTH_RATIO = 0.0014;
-
 const FONT_SIZE = 20;
 const FONT_HEIGHT = 24;
-const FONT_DEPTH = 7;
+const FONT_DEPTH = 6;
 const MINUS_HEIGHT = 8.5;
 
 const SMALL_FONT_SIZE = 14;
 const SMALL_FONT_HEIGHT = 17;
-const SMALL_FONT_DEPTH = 5;
+const SMALL_FONT_DEPTH = 4;
 const SMALL_MINUS_HEIGHT = 6;
 
-const STROKE_WIDTH = 1.5;
-const SMALL_STROKE_WIDTH = 1;
+const HRULE_WIDTH = 1.5;
+const SMALL_HRULE_WIDTH = 1;
  
 const DELIM_STROKE = 1.5;
 const SMALL_DELIM_STROKE = 1;
 const TABLE_DELIM_STROKE = 2.5;
 
-const TABLE_HSPACE = 0.6 * FONT_SIZE;
-const TABLE_VSPACE = 0.2 * FONT_SIZE;
+const TABLE_HSPACE = 12;
+const TABLE_VSPACE = 4;
+
+const WIDTH_RATIO = 0.0014;
 
 const roman_width = [
 778,778,778,778,778,778,778,778,
