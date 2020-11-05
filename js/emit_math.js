@@ -10,15 +10,15 @@ emit_math()
 
 	outbuf = "";
 
-	x = FONT_SIZE / 2;
-	y = u.height;
+	x = PAD;
+	y = u.height + PAD;
 
 	emit_svg(u, x, y);
 
 	// emit_svg_bbox(x, y, u.height, u.depth, u.width);
 
-	h = u.height + u.depth;
-	w = u.width + FONT_SIZE;
+	h = u.height + u.depth + 2 * PAD;
+	w = u.width + 2 * PAD;
 
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";

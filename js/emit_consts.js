@@ -7,13 +7,15 @@ const SUBSCRIPT = 5;
 const FRACTION = 6;
 const TABLE = 7;
 
+const PAD = 10;
+
 const FONT_SIZE = 20;
-const FONT_HEIGHT = 24;
+const FONT_HEIGHT = 18;
 const FONT_DEPTH = 6;
 const MINUS_HEIGHT = 8.5;
 
 const SMALL_FONT_SIZE = 14;
-const SMALL_FONT_HEIGHT = 17;
+const SMALL_FONT_HEIGHT = 13;
 const SMALL_FONT_DEPTH = 4;
 const SMALL_MINUS_HEIGHT = 6;
 
@@ -25,7 +27,7 @@ const SMALL_DELIM_STROKE = 1;
 const TABLE_DELIM_STROKE = 2.5;
 
 const TABLE_HSPACE = 12;
-const TABLE_VSPACE = 4;
+const TABLE_VSPACE = 10;
 
 const WIDTH_RATIO = 0.0014;
 
@@ -118,61 +120,61 @@ const glyph_names = [
 ];
 
 const glyph_info = {
-"&parenleft;":	{width:333,	italic_font:0},
-"&parenright;":	{width:333,	italic_font:0},
-"&plus;":	{width:565,	italic_font:0},
-"&lt;":		{width:565,	italic_font:0},
-"&equals;":	{width:566,	italic_font:0},
-"&gt;":		{width:564,	italic_font:0},
-"&le;":		{width:558,	italic_font:0},
-"&ge;":		{width:558,	italic_font:0},
-"&times;":	{width:565/*823*/,	italic_font:0},
-"&minus;":	{width:565,	italic_font:0},
-"&Gamma;":	{width:578,	italic_font:0},
-"&Theta;":	{width:722,	italic_font:0},
-"&Phi;":	{width:731,	italic_font:0},
-"&Alpha;":	{width:732,	italic_font:0},
-"&Beta;":	{width:667,	italic_font:0},
-"&Delta;":	{width:643,	italic_font:0},
-"&Epsilon;":	{width:611,	italic_font:0},
-"&Zeta;":	{width:611,	italic_font:0},
-"&Eta;":	{width:723,	italic_font:0},
-"&Iota;":	{width:333,	italic_font:0},
-"&Kappa;":	{width:751,	italic_font:0},
-"&Lambda;":	{width:736,	italic_font:0},
-"&Mu;":		{width:889,	italic_font:0},
-"&Nu;":		{width:729,	italic_font:0},
-"&Xi;":		{width:643,	italic_font:0},
-"&Pi;":		{width:725,	italic_font:0},
-"&Rho;":	{width:556,	italic_font:0},
-"&Sigma;":	{width:582,	italic_font:0},
-"&Tau;":	{width:611,	italic_font:0},
-"&Upsilon;":	{width:729,	italic_font:0},
-"&Chi;":	{width:731,	italic_font:0},
-"&Psi;":	{width:748,	italic_font:0},
-"&Omega;":	{width:743,	italic_font:0},
-"&alpha;":	{width:525,	italic_font:1},
-"&delta;":	{width:483,	italic_font:1},
-"&epsilon;":	{width:412,	italic_font:1},
-"&sigma;":	{width:548,	italic_font:1},
-"&tau;":	{width:411,	italic_font:1},
-"&phi;":	{width:553,	italic_font:1},
-"&beta;":	{width:529,	italic_font:1},
-"&gamma;":	{width:407,	italic_font:1},
-"&zeta;":	{width:551,	italic_font:1},
-"&eta;":	{width:496,	italic_font:1},
-"&theta;":	{width:528,	italic_font:1},
-"&iota;":	{width:278,	italic_font:1},
-"&kappa;":	{width:515,	italic_font:1},
-"&lambda;":	{width:433,	italic_font:1},
-"&mu;":		{width:502,	italic_font:1},
-"&nu;":		{width:463,	italic_font:1},
-"&xi;":		{width:511,	italic_font:1},
-"&rho;":	{width:480,	italic_font:1},
-"&upsilon;":	{width:459,	italic_font:1},
-"&chi;":	{width:490,	italic_font:1},
-"&psi;":	{width:668,	italic_font:1},
-"&omega;":	{width:706,	italic_font:1},
-"&pi;":		{width:553,	italic_font:1},
-"&hbar;":	{width:575/*515*/,	italic_font:0},
+"&parenleft;":	{width:333,	italic_font:0,	descender:1},
+"&parenright;":	{width:333,	italic_font:0,	descender:1},
+"&plus;":	{width:565,	italic_font:0,	descender:0},
+"&lt;":		{width:565,	italic_font:0,	descender:0},
+"&equals;":	{width:566,	italic_font:0,	descender:0},
+"&gt;":		{width:564,	italic_font:0,	descender:0},
+"&le;":		{width:558,	italic_font:0,	descender:0},
+"&ge;":		{width:558,	italic_font:0,	descender:0},
+"&times;":	{width:565/*823*/,	italic_font:0,	descender:0},
+"&minus;":	{width:565,	italic_font:0,	descender:0},
+"&Gamma;":	{width:578,	italic_font:0,	descender:0},
+"&Theta;":	{width:722,	italic_font:0,	descender:0},
+"&Phi;":	{width:731,	italic_font:0,	descender:0},
+"&Alpha;":	{width:732,	italic_font:0,	descender:0},
+"&Beta;":	{width:667,	italic_font:0,	descender:0},
+"&Delta;":	{width:643,	italic_font:0,	descender:0},
+"&Epsilon;":	{width:611,	italic_font:0,	descender:0},
+"&Zeta;":	{width:611,	italic_font:0,	descender:0},
+"&Eta;":	{width:723,	italic_font:0,	descender:0},
+"&Iota;":	{width:333,	italic_font:0,	descender:0},
+"&Kappa;":	{width:751,	italic_font:0,	descender:0},
+"&Lambda;":	{width:736,	italic_font:0,	descender:0},
+"&Mu;":		{width:889,	italic_font:0,	descender:0},
+"&Nu;":		{width:729,	italic_font:0,	descender:0},
+"&Xi;":		{width:643,	italic_font:0,	descender:0},
+"&Pi;":		{width:725,	italic_font:0,	descender:0},
+"&Rho;":	{width:556,	italic_font:0,	descender:0},
+"&Sigma;":	{width:582,	italic_font:0,	descender:0},
+"&Tau;":	{width:611,	italic_font:0,	descender:0},
+"&Upsilon;":	{width:729,	italic_font:0,	descender:0},
+"&Chi;":	{width:731,	italic_font:0,	descender:0},
+"&Psi;":	{width:748,	italic_font:0,	descender:0},
+"&Omega;":	{width:743,	italic_font:0,	descender:0},
+"&alpha;":	{width:525,	italic_font:1,	descender:0},
+"&delta;":	{width:483,	italic_font:1,	descender:0},
+"&epsilon;":	{width:412,	italic_font:1,	descender:0},
+"&sigma;":	{width:548,	italic_font:1,	descender:0},
+"&tau;":	{width:411,	italic_font:1,	descender:0},
+"&phi;":	{width:553,	italic_font:1,	descender:1},
+"&beta;":	{width:529,	italic_font:1,	descender:1},
+"&gamma;":	{width:407,	italic_font:1,	descender:1},
+"&zeta;":	{width:551,	italic_font:1,	descender:1},
+"&eta;":	{width:496,	italic_font:1,	descender:1},
+"&theta;":	{width:528,	italic_font:1,	descender:0},
+"&iota;":	{width:278,	italic_font:1,	descender:0},
+"&kappa;":	{width:515,	italic_font:1,	descender:0},
+"&lambda;":	{width:433,	italic_font:1,	descender:0},
+"&mu;":		{width:502,	italic_font:1,	descender:1},
+"&nu;":		{width:463,	italic_font:1,	descender:0},
+"&xi;":		{width:511,	italic_font:1,	descender:1},
+"&rho;":	{width:480,	italic_font:1,	descender:1},
+"&upsilon;":	{width:459,	italic_font:1,	descender:0},
+"&chi;":	{width:490,	italic_font:1,	descender:1},
+"&psi;":	{width:668,	italic_font:1,	descender:1},
+"&omega;":	{width:706,	italic_font:1,	descender:0},
+"&pi;":		{width:553,	italic_font:1,	descender:0},
+"&hbar;":	{width:575/*515*/,	italic_font:0,	descender:0},
 };

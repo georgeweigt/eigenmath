@@ -15,9 +15,7 @@ emit_args(u, p, small_font)
 		}
 	}
 
-	emit_update(v);
-
-	v.width += 2 * emit_delim_width(small_font);
+	emit_update_subexpr(v);
 
 	u.a.push(v);
 }

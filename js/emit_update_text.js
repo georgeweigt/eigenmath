@@ -1,7 +1,25 @@
 function
 emit_update_text(u)
 {
-	var n, w;
+	var descender = 0, n, w;
+
+	switch (u.s) {
+	case "(":
+	case ")":
+	case "[":
+	case "]":
+	case "{":
+	case "}":
+	case "@":
+	case "|":
+	case "_":
+	case "g":
+	case "j":
+	case "p":
+	case "q":
+	case "y":
+		descender = 1;
+	}
 
 	n = u.s.charCodeAt(0);
 
@@ -15,11 +33,17 @@ emit_update_text(u)
 
 	if (u.small_font) {
 		u.height = SMALL_FONT_HEIGHT;
-		u.depth = SMALL_FONT_DEPTH;
+		if (descender)
+			u.depth = SMALL_FONT_DEPTH;
+		else
+			u.depth = 0;
 		u.width = w * WIDTH_RATIO * SMALL_FONT_SIZE;
 	} else {
 		u.height = FONT_HEIGHT;
-		u.depth = FONT_DEPTH;
+		if (descender)
+			u.depth = FONT_DEPTH;
+		else
+			u.depth = 0;
 		u.width = w * WIDTH_RATIO * FONT_SIZE;
 	}
 }

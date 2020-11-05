@@ -1,24 +1,14 @@
 function
 emit_update_superscript(u, h) // h is height of neighbor
 {
-	var d;
+	var t;
 
 	emit_update(u);
 
-	// move above baseline
+	// move up
 
-	if (u.small_font) {
-		u.height = u.height + u.depth + SMALL_MINUS_HEIGHT;
-		u.depth = -u.depth - SMALL_MINUS_HEIGHT;
-	} else {
-		u.height = u.height + u.depth + MINUS_HEIGHT;
-		u.depth = -u.depth - MINUS_HEIGHT;
-	}
+	t = u.height + u.depth;
 
-	d = h - u.height;
-
-	if (d > 0) {
-		u.height += d;
-		u.depth -= d;
-	}
+	u.height = h + t;
+	u.depth = -h - u.depth;
 }
