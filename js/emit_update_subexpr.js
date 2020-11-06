@@ -6,9 +6,9 @@ emit_update_subexpr(u)
 	emit_update(u);
 
 	if (u.level == 0)
-		u.depth = FONT_DEPTH;
+		d = FONT_DEPTH;
 	else
-		u.depth = SMALL_FONT_DEPTH;
+		d = SMALL_FONT_DEPTH;
 
 	if (u.depth < d)
 		u.depth = d;
