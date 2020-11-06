@@ -1,9 +1,9 @@
 function
-emit_line(p, small_font)
+emit_line(p, small)
 {
-	var u = {type:LINE, a:[]};
+	var u = {type:LINE, a:[], small_font:small};
 
-	emit_expr(u, p, small_font);
+	emit_expr(u, p);
 
 	if (u.a.length == 1)
 		return u.a[0];

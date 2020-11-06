@@ -1,9 +1,9 @@
 function
-emit_delim_width(small_font)
+emit_delim_width(small)
 {
 	var size;
 
-	if (small_font)
+	if (small)
 		size = SMALL_FONT_SIZE;
 	else
 		size = FONT_SIZE;

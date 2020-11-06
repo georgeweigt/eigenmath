@@ -1,5 +1,5 @@
 function
-emit_italic_text(u, s, small_font)
+emit_italic_text(u, s)
 {
-	emit_text(u, s, small_font, 1);
+	emit_text(u, s, 1);
 }

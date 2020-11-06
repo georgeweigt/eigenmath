@@ -1,9 +1,9 @@
 function
-emit_power(u, p, small_font) // p = y^x
+emit_power(u, p) // p = y^x
 {
 	if (cadr(p) == symbol(EXP1)) {
-		emit_roman_text(u, "exp", small_font);
-		emit_subexpr(u, caddr(p), small_font);
+		emit_roman_text(u, "exp");
+		emit_subexpr(u, caddr(p));
 		return;
 	}
 
@@ -15,9 +15,9 @@ emit_power(u, p, small_font) // p = y^x
 	}
 
 	if (isnegativenumber(caddr(p)))
-		emit_reciprocal(u, p, small_font);
+		emit_reciprocal(u, p);
 	else {
-		emit_base(u, cadr(p), small_font);
-		emit_exponent(u, caddr(p), small_font);
+		emit_base(u, cadr(p));
+		emit_exponent(u, caddr(p));
 	}
 }

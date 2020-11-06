@@ -1,10 +1,10 @@
 function
-emit_fraction(u, p, n, small_font) // n is number of denominators
+emit_fraction(u, p, n) // n is number of denominators
 {
-	var v = {type:FRACTION, small_font:small_font};
+	var v = {type:FRACTION, small_font:u.small_font};
 
-	v.num = emit_numerators(p, small_font);
-	v.den = emit_denominators(p, n, small_font);
+	emit_numerators(v, p);
+	emit_denominators(v, p, n);
 
 	emit_update_fraction(v);
 

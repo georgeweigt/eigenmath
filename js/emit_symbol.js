@@ -1,40 +1,40 @@
 function
-emit_symbol(u, p, small_font)
+emit_symbol(u, p)
 {
 	var j, k, s, v;
 
 	if (p == symbol(EXP1)) {
-		emit_roman_text(u, "exp(1)", small_font);
+		emit_roman_text(u, "exp(1)");
 		return;
 	}
 
 	s = printname(p);
 
 	if (iskeyword(p) || p == symbol(LAST) || p == symbol(TRACE)) {
-		emit_roman_text(u, s, small_font);
+		emit_roman_text(u, s);
 		return;
 	}
 
 	k = emit_symbol_scan(s, 0);
 
-	emit_symbol_text(u, s.substring(0, k), small_font);
+	emit_symbol_text(u, s.substring(0, k));
 
 	if (k == s.length)
 		return;
 
 	// emit subscript
 
-	v = {type:SUBSCRIPT, a:[], small_font:small_font};
+	v = {type:SUBSCRIPT, a:[], small_font:1};
 
 	while (k < s.length) {
 		j = k;
 		k = emit_symbol_scan(s, k);
-		emit_symbol_text(v, s.substring(j, k), 1);
+		emit_symbol_text(v, s.substring(j, k));
 	}
 
 	emit_update(v);
 
-	if (small_font) {
+	if (u.small_font) {
 		v.height -= SMALL_MINUS_HEIGHT;
 		v.depth += SMALL_MINUS_HEIGHT;
 	} else {

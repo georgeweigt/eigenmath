@@ -1,23 +1,23 @@
 function
-emit_factor(u, p, small_font)
+emit_factor(u, p)
 {
 	if (isrational(p)) {
-		emit_rational(u, p, small_font);
+		emit_rational(u, p);
 		return;
 	}
 
 	if (isdouble(p)) {
-		emit_double(u, p, small_font);
+		emit_double(u, p);
 		return;
 	}
 
 	if (issymbol(p)) {
-		emit_symbol(u, p, small_font);
+		emit_symbol(u, p);
 		return;
 	}
 
 	if (isstring(p)) {
-		emit_string(u, p, small_font);
+		emit_string(u, p);
 		return;
 	}
 
@@ -28,11 +28,11 @@ emit_factor(u, p, small_font)
 
 	if (iscons(p)) {
 		if (car(p) == symbol(POWER))
-			emit_power(u, p, small_font);
+			emit_power(u, p);
 		else if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY))
-			emit_subexpr(u, p, small_font);
+			emit_subexpr(u, p);
 		else
-			emit_function(u, p, small_font);
+			emit_function(u, p);
 		return;
 	}
 }

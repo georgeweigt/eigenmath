@@ -18,9 +18,13 @@ emit_update_superscript(u, v)
 		k = k - 1;
 		if (u.a[k].type == SUBSCRIPT)
 			continue;
-		h = u.a[k].height;
+		h = Math.max(h, u.a[k].height);
 		break;
 	}
+
+	// adjust
+
+	h = h - Math.floor(SMALL_FONT_HEIGHT / 2);
 
 	// move up
 

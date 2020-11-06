@@ -1,9 +1,9 @@
 function
-emit_numerators(p, small_font)
+emit_numerators(u, p)
 {
-	var q, u;
+	var q, v;
 
-	u = {type:LINE, a:[]};
+	v = {type:LINE, a:[], small_font:u.small_font};
 
 	p = cdr(p);
 	q = car(p);
@@ -17,27 +17,29 @@ emit_numerators(p, small_font)
 			continue; // printed in denominator
 		}
 
-		if (u.a.length > 0)
-			emit_medium_space(u, small_font);
+		if (v.a.length > 0)
+			emit_medium_space(v);
 
 		if (isrational(q)) {
 			if (Math.abs(q.a) != 1)
-				emit_roman_text(u, Math.abs(q.a).toFixed(0), small_font);
+				emit_roman_text(v, Math.abs(q.a).toFixed(0));
 		} else if (car(q) == symbol(ADD))
-			emit_subexpr(u, q, small_font);
+			emit_subexpr(v, q);
 		else
-			emit_expr(u, q, small_font);
+			emit_expr(v, q);
 
 		p = cdr(p);
 	}
 
-	if (u.a.length == 0)
-		emit_roman_text(u, "1", small_font); // there were no numerators
+	if (v.a.length == 0)
+		emit_roman_text(v, "1"); // there were no numerators
 
-	if (u.a.length == 1)
-		return u.a[0];
+	if (v.a.length == 1) {
+		u.num = v.a[0];
+		return;
+	}
 
-	emit_update(u);
+	emit_update(v);
 
-	return u;
+	u.num = v;
 }

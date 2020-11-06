@@ -14,11 +14,13 @@ const FONT_SIZE = 20;
 const FONT_HEIGHT = 18;
 const FONT_DEPTH = 5;
 const MINUS_HEIGHT = 8.5;
+const FRAC_VSPACE = 5.5;
 
 const SMALL_FONT_SIZE = 14;
 const SMALL_FONT_HEIGHT = 13;
 const SMALL_FONT_DEPTH = 4;
 const SMALL_MINUS_HEIGHT = 6;
+const SMALL_FRAC_VSPACE = 4;
 
 const HRULE_WIDTH = 1.5;
 const SMALL_HRULE_WIDTH = 1;

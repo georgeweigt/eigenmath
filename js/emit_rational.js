@@ -1,18 +1,18 @@
 function
-emit_rational(u, p, small_font)
+emit_rational(u, p)
 {
 	var num, den, v;
 
 	if (p.b == 1) {
-		emit_roman_text(u, Math.abs(p.a).toFixed(0), small_font);
+		emit_roman_text(u, Math.abs(p.a).toFixed(0));
 		return;
 	}
 
-	num = {type:LINE, a:[]};
-	den = {type:LINE, a:[]};
+	num = {type:LINE, a:[], small_font:1};
+	den = {type:LINE, a:[], small_font:1};
 
-	emit_roman_text(num, Math.abs(p.a).toFixed(0), 1);
-	emit_roman_text(den, p.b.toFixed(0), 1);
+	emit_roman_text(num, Math.abs(p.a).toFixed(0));
+	emit_roman_text(den, p.b.toFixed(0));
 
 	if (num.a.length == 1)
 		num = num.a[0];
@@ -24,7 +24,7 @@ emit_rational(u, p, small_font)
 	else
 		emit_update(den);
 
-	v = {type:FRACTION, num:num, den:den, small_font:small_font};
+	v = {type:FRACTION, num:num, den:den, small_font:u.small_font};
 
 	emit_update_fraction(v);
 

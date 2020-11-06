@@ -1,5 +1,5 @@
 function
-emit_roman_text(u, s, small_font)
+emit_roman_text(u, s)
 {
-	emit_text(u, s, small_font, 0);
+	emit_text(u, s, 0);
 }

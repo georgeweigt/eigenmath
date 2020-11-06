@@ -1,16 +1,16 @@
 function
-emit_denominators(p, n, small_font) // n is number of denominators
+emit_denominators(u, p, n) // n is number of denominators
 {
-	var q, u;
+	var q, v;
 
-	u = {type:LINE, a:[]};
+	v = {type:LINE, a:[], small_font:u.small_font};
 
 	p = cdr(p);
 	q = car(p);
 
 	if (isrational(q)) {
 		if (q.b != 1) {
-			emit_roman_text(u, q.b.toFixed(0), small_font);
+			emit_roman_text(v, q.b.toFixed(0));
 			n++;
 		}
 		p = cdr(p);
@@ -25,27 +25,29 @@ emit_denominators(p, n, small_font) // n is number of denominators
 			continue; // not a denominator
 		}
 
-		if (u.a.length > 0)
-			emit_medium_space(u, small_font);
+		if (v.a.length > 0)
+			emit_medium_space(v);
 
 		if (isminusone(caddr(q))) {
 			q = cadr(q);
 			if (car(q) == symbol(ADD) && n > 1)
-				emit_subexpr(u, q, small_font);
+				emit_subexpr(v, q);
 			else
-				emit_expr(u, q, small_font);
+				emit_expr(v, q);
 		} else {
-			emit_base(u, cadr(q), small_font);
-			emit_numeric_exponent(u, caddr(q), small_font); // sign is not emitted
+			emit_base(v, cadr(q));
+			emit_numeric_exponent(v, caddr(q)); // sign is not emitted
 		}
 
 		p = cdr(p);
 	}
 
-	if (u.a.length == 1)
-		return u.a[0];
+	if (v.a.length == 1) {
+		u.den = v.a[0];
+		return;
+	}
 
-	emit_update(u);
+	emit_update(v);
 
-	return u;
+	u.den = v;
 }

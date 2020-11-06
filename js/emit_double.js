@@ -1,10 +1,10 @@
 function
-emit_double(u, p, small_font) // p is a double
+emit_double(u, p) // p is a double
 {
 	var i, j, k, s, v;
 
 	if (p.d == 0) {
-		emit_roman_text(u, "0", small_font);
+		emit_roman_text(u, "0");
 		return;
 	}
 
@@ -20,13 +20,13 @@ emit_double(u, p, small_font) // p is a double
 	i = s.indexOf(".");
 
 	if (i == -1)
-		emit_roman_text(u, s.substring(0, k), small_font);
+		emit_roman_text(u, s.substring(0, k));
 	else {
 		for (j = k - 1; j > i + 1; j--) {
 			if (s.charAt(j) != "0")
 				break;
 		}
-		emit_roman_text(u, s.substring(0, j + 1), small_font);
+		emit_roman_text(u, s.substring(0, j + 1));
 	}
 
 	if (s.charAt(k) != "E" && s.charAt(k) != "e")
@@ -34,19 +34,19 @@ emit_double(u, p, small_font) // p is a double
 
 	k++;
 
-	emit_glyph(u, "times", small_font);
+	emit_glyph(u, "times");
 
-	emit_roman_text(u, "10", small_font);
+	emit_roman_text(u, "10");
 
-	v = {type:SUPERSCRIPT, a:[], small_font:small_font};
+	v = {type:SUPERSCRIPT, a:[], small_font:1};
 
 	// sign of exponent
 
 	if (s.charAt(k) == "+")
 		k++;
 	else if (s.charAt(k) == "-") {
-		emit_glyph(v, "minus", 1);
-		emit_thin_space(v, 1);
+		emit_glyph(v, "minus");
+		emit_thin_space(v);
 		k++;
 	}
 
@@ -55,7 +55,7 @@ emit_double(u, p, small_font) // p is a double
 	while (k < s.length - 1 && s.charAt(k) == "0")
 		k++;
 
-	emit_roman_text(v, s.substring(k, s.length), 1);
+	emit_roman_text(v, s.substring(k, s.length));
 
 	emit_update_superscript(u, v);
 

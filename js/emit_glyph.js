@@ -1,5 +1,5 @@
 function
-emit_glyph(u, s, small_font)
+emit_glyph(u, s)
 {
 	var descender, italic_font, v, w;
 
@@ -8,11 +8,11 @@ emit_glyph(u, s, small_font)
 	italic_font = glyph_info[s].italic_font;
 	descender = glyph_info[s].descender;
 
-	v = {type:TEXT, s:s, small_font:small_font, italic_font:italic_font};
+	v = {type:TEXT, s:s, small_font:u.small_font, italic_font:italic_font};
 
 	w = glyph_info[s].width;
 
-	if (small_font) {
+	if (u.small_font) {
 		v.height = SMALL_FONT_HEIGHT;
 		if (descender)
 			v.depth = SMALL_FONT_DEPTH;
