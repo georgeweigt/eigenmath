@@ -24,7 +24,7 @@ emit_rational(u, p)
 	else
 		emit_update(den);
 
-	v = {type:FRACTION, num:num, den:den, level:u.level + 1};
+	v = {type:FRACTION, num:num, den:den, level:u.level};
 
 	emit_update_fraction(v);
 
