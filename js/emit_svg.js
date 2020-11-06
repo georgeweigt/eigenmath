@@ -91,10 +91,10 @@ emit_svg(u, x, y)
 
 		if (u.small_font) {
 			y -= SMALL_MINUS_HEIGHT;
-			emit_svg_line(x1, y, x2, y, SMALL_HRULE_WIDTH);
+			emit_svg_line(x1, y, x2, y, SMALL_FRAC_STROKE);
 		} else {
 			y -= MINUS_HEIGHT;
-			emit_svg_line(x1, y, x2, y, HRULE_WIDTH);
+			emit_svg_line(x1, y, x2, y, FRAC_STROKE);
 		}
 
 		break;
