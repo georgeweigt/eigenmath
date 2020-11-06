@@ -24,7 +24,7 @@ emit_symbol(u, p)
 
 	// emit subscript
 
-	v = {type:SUBSCRIPT, a:[], small_font:1};
+	v = {type:SUBSCRIPT, a:[], level:u.level + 1};
 
 	while (k < s.length) {
 		j = k;
@@ -34,12 +34,12 @@ emit_symbol(u, p)
 
 	emit_update(v);
 
-	if (u.small_font) {
-		v.height -= SMALL_MINUS_HEIGHT;
-		v.depth += SMALL_MINUS_HEIGHT;
-	} else {
+	if (u.level == 0) {
 		v.height -= MINUS_HEIGHT;
 		v.depth += MINUS_HEIGHT;
+	} else {
+		v.height -= SMALL_MINUS_HEIGHT;
+		v.depth += SMALL_MINUS_HEIGHT;
 	}
 
 	u.a.push(v);

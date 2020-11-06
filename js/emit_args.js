@@ -1,7 +1,7 @@
 function
 emit_args(u, p)
 {
-	var v = {type:PAREN, a:[], small_font:u.small_font};
+	var v = {type:SUBEXPR, a:[], level:u.level};
 
 	p = cdr(p);
 

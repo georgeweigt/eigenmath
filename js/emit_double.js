@@ -38,7 +38,7 @@ emit_double(u, p) // p is a double
 
 	emit_roman_text(u, "10");
 
-	v = {type:SUPERSCRIPT, a:[], small_font:1};
+	v = {type:SUPERSCRIPT, a:[], level:u.level + 1};
 
 	// sign of exponent
 

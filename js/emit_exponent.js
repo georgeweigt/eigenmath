@@ -8,7 +8,7 @@ emit_exponent(u, p)
 		return;
 	}
 
-	v = {type:SUPERSCRIPT, a:[], small_font:1};
+	v = {type:SUPERSCRIPT, a:[], level:u.level + 1};
 
 	emit_expr(v, p);
 

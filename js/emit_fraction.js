@@ -1,7 +1,7 @@
 function
 emit_fraction(u, p, n) // n is number of denominators
 {
-	var v = {type:FRACTION, small_font:u.small_font};
+	var v = {type:FRACTION, level:u.level};
 
 	emit_numerators(v, p);
 	emit_denominators(v, p, n);

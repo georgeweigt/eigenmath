@@ -7,10 +7,10 @@ emit_update_superscript(u, v)
 
 	// h is height of neighbor
 
-	if (u.small_font)
-		h = SMALL_FONT_HEIGHT;
-	else
+	if (u.level == 0)
 		h = FONT_HEIGHT;
+	else
+		h = SMALL_FONT_HEIGHT;
 
 	k = u.a.length;
 

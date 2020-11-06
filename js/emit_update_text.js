@@ -36,19 +36,19 @@ emit_update_text(u)
 	if (w == undefined)
 		w = 1000;
 
-	if (u.small_font) {
-		u.height = SMALL_FONT_HEIGHT;
-		if (descender)
-			u.depth = SMALL_FONT_DEPTH;
-		else
-			u.depth = 0;
-		u.width = w * WIDTH_RATIO * SMALL_FONT_SIZE;
-	} else {
+	if (u.level == 0) {
 		u.height = FONT_HEIGHT;
 		if (descender)
 			u.depth = FONT_DEPTH;
 		else
 			u.depth = 0;
 		u.width = w * WIDTH_RATIO * FONT_SIZE;
+	} else {
+		u.height = SMALL_FONT_HEIGHT;
+		if (descender)
+			u.depth = SMALL_FONT_DEPTH;
+		else
+			u.depth = 0;
+		u.width = w * WIDTH_RATIO * SMALL_FONT_SIZE;
 	}
 }

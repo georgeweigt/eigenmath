@@ -1,12 +1,12 @@
 function
-emit_delim_width(small)
+emit_delim_width(u)
 {
 	var size;
 
-	if (small)
-		size = SMALL_FONT_SIZE;
-	else
+	if (u.level == 0)
 		size = FONT_SIZE;
+	else
+		size = SMALL_FONT_SIZE;
 
 	return glyph_info["&parenleft;"].width * WIDTH_RATIO * size;
 }

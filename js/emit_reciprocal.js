@@ -3,8 +3,8 @@ emit_reciprocal(u, p) // p = y^x where x is a negative number
 {
 	var num, den, v;
 
-	num = {type:LINE, a:[], small_font:u.small_font};
-	den = {type:LINE, a:[], small_font:u.small_font};
+	num = {type:LINE, a:[], level:u.level};
+	den = {type:LINE, a:[], level:u.level};
 
 	emit_roman_text(num, "1");
 
@@ -25,7 +25,7 @@ emit_reciprocal(u, p) // p = y^x where x is a negative number
 	else
 		emit_update(den);
 
-	v = {type:FRACTION, num:num, den:den, small_font:u.small_font};
+	v = {type:FRACTION, num:num, den:den, level:u.level};
 
 	emit_update_fraction(v);
 

@@ -1,7 +1,7 @@
 function
 emit_numeric_exponent(u, p) // p is rational or double, sign is not emitted
 {
-	var v = {type:SUPERSCRIPT, a:[], small_font:1};
+	var v = {type:SUPERSCRIPT, a:[], level:u.level + 1};
 
 	if (isrational(p)) {
 		emit_roman_text(v, Math.abs(p.a).toFixed(0));

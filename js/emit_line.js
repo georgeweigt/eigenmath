@@ -1,7 +1,7 @@
 function
-emit_line(p, small)
+emit_line(p, level)
 {
-	var u = {type:LINE, a:[], small_font:small};
+	var u = {type:LINE, a:[], level:level};
 
 	emit_expr(u, p);
 

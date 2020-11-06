@@ -1,14 +1,17 @@
 function
 emit_update_subexpr(u)
 {
+	var d;
+
 	emit_update(u);
 
-	if (u.depth == 0) {
-		if (u.small_font)
-			u.depth = SMALL_FONT_DEPTH;
-		else
-			u.depth = FONT_DEPTH;
-	}
+	if (u.level == 0)
+		u.depth = FONT_DEPTH;
+	else
+		u.depth = SMALL_FONT_DEPTH;
 
-	u.width += 2 * emit_delim_width(u.small_font);
+	if (u.depth < d)
+		u.depth = d;
+
+	u.width += 2 * emit_delim_width(u);
 }

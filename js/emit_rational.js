@@ -8,8 +8,8 @@ emit_rational(u, p)
 		return;
 	}
 
-	num = {type:LINE, a:[], small_font:1};
-	den = {type:LINE, a:[], small_font:1};
+	num = {type:LINE, a:[], level:u.level + 1};
+	den = {type:LINE, a:[], level:u.level + 1};
 
 	emit_roman_text(num, Math.abs(p.a).toFixed(0));
 	emit_roman_text(den, p.b.toFixed(0));
@@ -24,7 +24,7 @@ emit_rational(u, p)
 	else
 		emit_update(den);
 
-	v = {type:FRACTION, num:num, den:den, small_font:u.small_font};
+	v = {type:FRACTION, num:num, den:den, level:u.level + 1};
 
 	emit_update_fraction(v);
 

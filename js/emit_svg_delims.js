@@ -3,12 +3,12 @@ emit_svg_delims(u, x, y)
 {
 	var h, d;
 
-	if (u.small_font) {
-		h = SMALL_FONT_HEIGHT;
-		d = SMALL_FONT_DEPTH;
-	} else {
+	if (u.level == 0) {
 		h = FONT_HEIGHT;
 		d = FONT_DEPTH;
+	} else {
+		h = SMALL_FONT_HEIGHT;
+		d = SMALL_FONT_DEPTH;
 	}
 
 	if (u.height > h || u.depth > d) {

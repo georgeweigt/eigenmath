@@ -19,7 +19,7 @@ emit_matrix(u, p, d, k)
 	for (i = d + 2; i < p.dim.length; i++)
 		s *= p.dim[i];
 
-	v = {type:TABLE, n:n, m:m, a:[], small_font:0};
+	v = {type:TABLE, n:n, m:m, a:[], level:0};
 
 	for (i = 0; i < n; i++)
 		for (j = 0; j < m; j++)

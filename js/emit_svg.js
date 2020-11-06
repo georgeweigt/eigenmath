@@ -20,11 +20,11 @@ emit_svg(u, x, y)
 		}
 		break;
 
-	case PAREN:
+	case SUBEXPR:
 
 		emit_svg_delims(u, x, y)
 
-		x += emit_delim_width(u.small_font);
+		x += emit_delim_width(u);
 
 		n = u.a.length;
 
@@ -50,10 +50,10 @@ emit_svg(u, x, y)
 
 	case SUBSCRIPT:
 
-		if (u.small_font)
-			y += SMALL_MINUS_HEIGHT;
-		else
+		if (u.level == 0)
 			y += MINUS_HEIGHT;
+		else
+			y += SMALL_MINUS_HEIGHT;
 
 		n = u.a.length;
 
@@ -89,19 +89,19 @@ emit_svg(u, x, y)
 		x1 = x;
 		x2 = x + u.width;
 
-		if (u.small_font) {
-			y -= SMALL_MINUS_HEIGHT;
-			emit_svg_line(x1, y, x2, y, SMALL_FRAC_STROKE);
-		} else {
+		if (u.level == 0) {
 			y -= MINUS_HEIGHT;
 			emit_svg_line(x1, y, x2, y, FRAC_STROKE);
+		} else {
+			y -= SMALL_MINUS_HEIGHT;
+			emit_svg_line(x1, y, x2, y, SMALL_FRAC_STROKE);
 		}
 
 		break;
 
 	case TABLE:
 		emit_svg_delims(u, x, y);
-		emit_svg_table(u, x + emit_delim_width(0), y);
+		emit_svg_table(u, x + emit_delim_width(u), y);
 		break;
 	}
 }
