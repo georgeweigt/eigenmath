@@ -19,18 +19,15 @@ emit_numerators(u, p)
 	while (iscons(p)) {
 
 		q = car(p);
+		p = cdr(p);
 
-		if (isdenominator(q)) {
-			p = cdr(p);
+		if (isdenominator(q))
 			continue;
-		}
 
 		if (v.a.length > 0)
 			emit_medium_space(v);
 
 		emit_factor(v, q);
-
-		p = cdr(p);
 	}
 
 	if (v.a.length == 0)
