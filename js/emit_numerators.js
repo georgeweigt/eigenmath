@@ -8,25 +8,27 @@ emit_numerators(u, p)
 	p = cdr(p);
 	q = car(p);
 
+	if (isnum(q)) {
+		if (isdouble(q))
+			emit_double(v, q);
+		else if (Math.abs(q.a) != 1)
+			emit_roman_text(v, Math.abs(q.a).toFixed(0));
+		p = cdr(p);
+	}
+
 	while (iscons(p)) {
 
 		q = car(p);
 
-		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q))) {
+		if (isdenominator(q)) {
 			p = cdr(p);
-			continue; // printed in denominator
+			continue;
 		}
 
 		if (v.a.length > 0)
 			emit_medium_space(v);
 
-		if (isrational(q)) {
-			if (Math.abs(q.a) != 1)
-				emit_roman_text(v, Math.abs(q.a).toFixed(0));
-		} else if (car(q) == symbol(ADD))
-			emit_subexpr(v, q);
-		else
-			emit_expr(v, q);
+		emit_term(v, q);
 
 		p = cdr(p);
 	}

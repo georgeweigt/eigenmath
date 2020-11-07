@@ -1,28 +1,28 @@
 function
-emit_denominators(u, p, n) // n is number of denominators
+emit_denominators(u, p)
 {
-	var q, v;
+	var n, q, v;
+
+	n = count_denominators(p);
 
 	v = {type:LINE, a:[], level:u.level};
 
 	p = cdr(p);
 	q = car(p);
 
-	if (isrational(q)) {
-		if (q.b != 1) {
-			emit_roman_text(v, q.b.toFixed(0));
-			n++;
-		}
+	if (isfraction(q)) {
+		emit_roman_text(v, q.b.toFixed(0));
 		p = cdr(p);
+		n++;
 	}
 
 	while (iscons(p)) {
 
 		q = car(p);
 
-		if (car(q) != symbol(POWER) || !isnegativenumber(caddr(q))) {
+		if (!isdenominator(q)) {
 			p = cdr(p);
-			continue; // not a denominator
+			continue;
 		}
 
 		if (v.a.length > 0)

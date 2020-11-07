@@ -1,10 +1,10 @@
 function
-emit_fraction(u, p, n) // n is number of denominators
+emit_fraction(u, p)
 {
 	var v = {type:FRACTION, level:u.level};
 
 	emit_numerators(v, p);
-	emit_denominators(v, p, n);
+	emit_denominators(v, p);
 
 	emit_update_fraction(v);
 
