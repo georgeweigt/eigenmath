@@ -30,10 +30,10 @@ emit_denominators(u, p)
 
 		if (isminusone(caddr(q))) {
 			q = cadr(q);
-			if (car(q) == symbol(ADD) && n > 1)
-				emit_subexpr(v, q);
+			if (car(q) == symbol(ADD) && n == 1)
+				emit_expr(v, q); // don't need parens
 			else
-				emit_expr(v, q);
+				emit_factor(v, q);
 		} else {
 			emit_base(v, cadr(q));
 			emit_numeric_exponent(v, caddr(q)); // sign is not emitted

@@ -28,7 +28,7 @@ emit_numerators(u, p)
 		if (v.a.length > 0)
 			emit_medium_space(v);
 
-		emit_term(v, q);
+		emit_factor(v, q);
 
 		p = cdr(p);
 	}
