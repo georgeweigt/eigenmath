@@ -14,9 +14,9 @@ const FONT_SIZE = 20;
 const FONT_HEIGHT = 18;
 const FONT_DEPTH = 6;
 const MINUS_HEIGHT = 8.5;
-const FRAC_VSPACE = 5.5; // vspace plus minus height should be an integer
+const FRAC_VSPACE = 5.5;
 const FRAC_STROKE = 1.5;
-const DELIM_STROKE = 1.5;
+const DELIM_STROKE = 2;
 
 const SMALL_FONT_SIZE = 14;
 const SMALL_FONT_HEIGHT = 13;
@@ -24,7 +24,7 @@ const SMALL_FONT_DEPTH = 4;
 const SMALL_MINUS_HEIGHT = 6;
 const SMALL_FRAC_VSPACE = 4;
 const SMALL_FRAC_STROKE = 1;
-const SMALL_DELIM_STROKE = 1;
+const SMALL_DELIM_STROKE = 1.5;
  
 const TABLE_HSPACE = 12;
 const TABLE_VSPACE = 12;
