@@ -39,12 +39,10 @@ emit_denominators(u, p)
 		}
 	}
 
-	if (v.a.length == 1) {
-		u.den = v.a[0];
-		return;
-	}
-
-	emit_update(v);
+	if (v.a.length == 1)
+		v = v.a[0];
+	else
+		emit_update(v);
 
 	u.den = v;
 }
