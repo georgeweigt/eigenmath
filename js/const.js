@@ -60,6 +60,7 @@ const RATIONALIZE = "rationalize";
 const REAL = "real";
 const RECT = "rect";
 const SGN = "sgn";
+const SIMPLIFY = "simplify";
 const SIN = "sin";
 const SINH = "sinh";
 const SQRT = "sqrt";

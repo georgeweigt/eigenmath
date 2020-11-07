@@ -78,6 +78,7 @@ var symtab = {
 "real":		{printname:REAL,	func:eval_real},
 "rect":		{printname:RECT,	func:eval_rect},
 "sgn":		{printname:SGN,		func:eval_sgn},
+"simplify":	{printname:SIMPLIFY,	func:eval_simplify},
 "sin":		{printname:SIN,		func:eval_sin},
 "sinh":		{printname:SINH,	func:eval_sinh},
 "sqrt":		{printname:SQRT,	func:eval_sqrt},
