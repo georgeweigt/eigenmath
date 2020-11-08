@@ -1,4 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>blank.html</title>
+</head>
 <body>
 
 <script src="eigenmath.js"></script>
@@ -6,10 +11,25 @@
 <textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
 </textarea>
 
-<button onclick="run()" style="font-size:20pt">Run</button>
+<input type="submit" value="Run" onclick="run()" style="width:80px"> 
+
+<input type="file" id="openfile">
 
 <p>
 <div id="stdout"></div>
+
+<script>
+document.getElementById("openfile").addEventListener("change",
+function()
+{ 
+	var f = new FileReader();
+	f.onload = function()
+	{
+		document.getElementById("stdin").textContent = f.result;
+	}
+	f.readAsText(this.files[0]);
+})
+</script>
 
 </body>
 </html>
