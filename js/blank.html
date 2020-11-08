@@ -8,11 +8,14 @@
 
 <script src="eigenmath.js"></script>
 
-<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
+<textarea id="stdin" rows="24" cols="80"
+style="font-family:courier;font-size:12pt"
+placeholder="Script goes here"
+onchange="document.getElementById('openfile').value=''">
 </textarea>
 
-<input type="submit" value="Run" onclick="run()" style="width:80px"> 
-
+<p>
+<button onclick="run()" style="width:80px">Run</button>
 <input type="file" id="openfile">
 
 <p>
@@ -21,14 +24,14 @@
 <script>
 document.getElementById("openfile").addEventListener("change",
 function()
-{ 
+{
 	var f = new FileReader();
 	f.onload = function()
 	{
-		document.getElementById("stdin").textContent = f.result;
+		document.getElementById("stdin").value = f.result;
 	}
 	f.readAsText(this.files[0]);
-})
+});
 </script>
 
 </body>
