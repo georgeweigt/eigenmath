@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>blank.html</title>
+<title>Eigenmath Demo</title>
 </head>
 <body>
 
@@ -12,17 +12,20 @@
 
 <textarea id="stdin" rows="24" cols="80"
 style="font-family:courier;font-size:12pt"
-placeholder="draw(x^2)"
-onchange="document.getElementById('openfile').value=''">
+placeholder="Scripts go here"
+onchange="clearf()">
 </textarea>
 
 </td><td>
 
-<button onclick="run()" style="font-size:20pt;width:120px">Run</button>
+<button onclick="run()" style="width:90px">Run</button>
 
 </td><td>
 
-<button onclick="clearf()">Clear</button>
+<button onclick="demo()" style="width:90px">Demo Script</button>
+
+</td><td>
+
 <input type="file" id="openfile">
 
 </td></tr></table>
@@ -42,11 +45,28 @@ function()
 	}
 	f.readAsText(this.files[0]);
 });
+
 function
 clearf()
 {
 	document.getElementById("openfile").value = "";
 	document.getElementById("stdout").innerHTML = "";
+}
+
+var foo;
+
+function demo()
+{
+	clearf();
+	foo = new XMLHttpRequest();
+	foo.open("GET", "https://georgeweigt.github.io/schwarzchild-metric.txt");
+	foo.addEventListener("load", transferComplete);
+	foo.send();
+}
+
+function transferComplete(event)
+{
+	document.getElementById("stdin").value = foo.responseText;
 }
 </script>
 
