@@ -12,10 +12,12 @@ emit_svg_text(u, x, y)
 	else if (s == '>')
 		s = "&gt;";
 
+	x += u.width / 2;
+
 	x = "x='" + x + "'";
 	y = "y='" + y + "'";
 
-	t = "<text style='font-family:\"Times New Roman\";";
+	t = "<text text-anchor='middle' style='font-family:\"Times New Roman\";";
 
 	if (u.level == 0)
 		t += "font-size:" + FONT_SIZE + "pt;";
