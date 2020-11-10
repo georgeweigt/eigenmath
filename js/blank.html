@@ -3,12 +3,6 @@
 <head>
 <meta charset="utf-8">
 <title>Eigenmath Demo</title>
-<style>
-input[type=button]
-{
-width: 90px;
-}
-</style>
 </head>
 <body>
 
@@ -16,7 +10,10 @@ width: 90px;
 
 <table><tr><td>
 
-<textarea id="stdin" rows="24" cols="80"
+<textarea
+id="stdin"
+rows="24"
+cols="80"
 style="font-family:courier;font-size:12pt"
 placeholder="Scripts go here"
 onchange="clearf()">
@@ -24,13 +21,7 @@ onchange="clearf()">
 
 </td><td>
 
-<input type="button" value="Run" onclick="run()">
-
-</td><td>
-
-<input type="button" value="Example" onclick="demo()">
-
-</td><td>
+<button onclick="run()" style="font-size:20pt">Run</button>
 
 <input type="file" id="openfile">
 
@@ -57,22 +48,6 @@ clearf()
 {
 	document.getElementById("openfile").value = "";
 	document.getElementById("stdout").innerHTML = "";
-}
-
-var foo;
-
-function demo()
-{
-	clearf();
-	foo = new XMLHttpRequest();
-	foo.open("GET", "https://georgeweigt.github.io/schwarzschild-metric.txt");
-	foo.addEventListener("load", transferComplete);
-	foo.send();
-}
-
-function transferComplete(event)
-{
-	document.getElementById("stdin").value = foo.responseText;
 }
 </script>
 
