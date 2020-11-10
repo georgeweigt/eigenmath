@@ -12,10 +12,22 @@ void
 inv(void)
 {
 	save();
+	inv_nib();
+	restore();
+}
 
+void
+inv_nib(void)
+{
 	p1 = pop();
 
-	if (!istensor(p1) || p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
+	if (!istensor(p1)) {
+		push(p1);
+		reciprocate();
+		return;
+	}
+
+	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
 		stop("inv: square matrix expected");
 
 	push(p1);
@@ -27,6 +39,4 @@ inv(void)
 		stop("inv: singular matrix");
 	push(p2);
 	divide();
-
-	restore();
 }

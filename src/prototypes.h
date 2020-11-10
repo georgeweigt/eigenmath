@@ -352,6 +352,7 @@ int collect_coeffs_sort_func(const void *q1, const void *q2);
 void partition_integrand(void);
 void eval_inv(void);
 void inv(void);
+void inv_nib(void);
 int iszero(struct atom *p);
 int isplusone(struct atom *p);
 int isminusone(struct atom *p);
