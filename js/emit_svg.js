@@ -50,10 +50,7 @@ emit_svg(u, x, y)
 
 	case SUBSCRIPT:
 
-		if (u.level == 0)
-			y += MINUS_HEIGHT;
-		else
-			y += SMALL_MINUS_HEIGHT;
+		y += SMALL_MINUS_HEIGHT;
 
 		n = u.a.length;
 

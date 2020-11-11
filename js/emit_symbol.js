@@ -34,13 +34,8 @@ emit_symbol(u, p)
 
 	emit_update(v);
 
-	if (u.level == 0) {
-		v.height -= MINUS_HEIGHT;
-		v.depth += MINUS_HEIGHT;
-	} else {
-		v.height -= SMALL_MINUS_HEIGHT;
-		v.depth += SMALL_MINUS_HEIGHT;
-	}
+	v.height -= SMALL_MINUS_HEIGHT;
+	v.depth += SMALL_MINUS_HEIGHT;
 
 	u.a.push(v);
 }
