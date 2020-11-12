@@ -1250,6 +1250,11 @@ check(L(x,3,0) == laguerre(x,3,0))
 check(L(x,3,1) == laguerre(x,3,1))
 check(L(x,3,2) == laguerre(x,3,2))
 
+-- moore-penrose inverse of vector
+
+A = (1,2)
+check(inv(dot(transpose(A),A)) == 1/5)
+
 -- done
 
 clear
