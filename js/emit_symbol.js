@@ -34,8 +34,8 @@ emit_symbol(u, p)
 
 	emit_update(v);
 
-	v.height -= SMALL_MINUS_HEIGHT;
-	v.depth += SMALL_MINUS_HEIGHT;
+	v.height -= FONT_DEPTH;
+	v.depth += FONT_DEPTH;
 
 	u.a.push(v);
 }

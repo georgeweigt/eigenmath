@@ -50,7 +50,7 @@ emit_svg(u, x, y)
 
 	case SUBSCRIPT:
 
-		y += SMALL_MINUS_HEIGHT;
+		y += FONT_DEPTH;
 
 		n = u.a.length;
 
