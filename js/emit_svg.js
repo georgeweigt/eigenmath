@@ -50,7 +50,10 @@ emit_svg(u, x, y)
 
 	case SUBSCRIPT:
 
-		y += FONT_DEPTH;
+		if (u.level == 1)
+			y += SUBSCRIPT_DEPTH;
+		else
+			y += SMALL_SUBSCRIPT_DEPTH;
 
 		n = u.a.length;
 

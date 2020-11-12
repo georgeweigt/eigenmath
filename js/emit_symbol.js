@@ -34,8 +34,13 @@ emit_symbol(u, p)
 
 	emit_update(v);
 
-	v.height -= FONT_DEPTH;
-	v.depth += FONT_DEPTH;
+	if (v.level == 1) {
+		v.height -= SUBSCRIPT_DEPTH;
+		v.depth += SUBSCRIPT_DEPTH;
+	} else {
+		v.height -= SMALL_SUBSCRIPT_DEPTH;
+		v.depth += SMALL_SUBSCRIPT_DEPTH;
+	}
 
 	u.a.push(v);
 }
