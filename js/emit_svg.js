@@ -37,7 +37,8 @@ emit_svg(u, x, y)
 
 	case SUPERSCRIPT:
 
-		y += u.depth; // depth is negative
+		x += u.dx;
+		y += u.dy;
 
 		n = u.a.length;
 

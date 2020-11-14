@@ -35,10 +35,10 @@ emit_symbol(u, p)
 	emit_update(v);
 
 	if (v.level == 1) {
-		v.height -= SUBSCRIPT_DEPTH;
+		v.height = FONT_HEIGHT;
 		v.depth += SUBSCRIPT_DEPTH;
 	} else {
-		v.height -= SMALL_SUBSCRIPT_DEPTH;
+		v.height = SMALL_FONT_HEIGHT;
 		v.depth += SMALL_SUBSCRIPT_DEPTH;
 	}
 
