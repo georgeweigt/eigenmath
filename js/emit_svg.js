@@ -36,25 +36,10 @@ emit_svg(u, x, y)
 		break;
 
 	case SUPERSCRIPT:
+	case SUBSCRIPT:
 
 		x += u.dx;
 		y += u.dy;
-
-		n = u.a.length;
-
-		for (i = 0; i < n; i++) {
-			emit_svg(u.a[i], x, y);
-			x += u.a[i].width;
-		}
-
-		break;
-
-	case SUBSCRIPT:
-
-		if (u.level == 1)
-			y += SUBSCRIPT_DEPTH;
-		else
-			y += SMALL_SUBSCRIPT_DEPTH;
 
 		n = u.a.length;
 
