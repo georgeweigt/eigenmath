@@ -14,10 +14,11 @@ emit_power(u, p) // p = y^x
 			return emit_italic_text(u, "i");
 	}
 
-	if (isnegativenumber(caddr(p)))
+	if (isnegativenumber(caddr(p))) {
 		emit_reciprocal(u, p);
-	else {
-		emit_base(u, cadr(p));
-		emit_exponent(u, caddr(p));
+		return;
 	}
+
+	emit_base(u, cadr(p));
+	emit_exponent(u, caddr(p));
 }
