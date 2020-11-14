@@ -8,8 +8,8 @@ emit_svg(u, x, y)
 	case SPACE:
 		break;
 
-	case TEXT:
-		emit_svg_text(u, x, y);
+	case GLYPH:
+		emit_svg_glyph(u, x, y);
 		break;
 
 	case LINE:

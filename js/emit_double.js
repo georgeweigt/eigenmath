@@ -34,7 +34,7 @@ emit_double(u, p) // p is a double
 
 	k++;
 
-	emit_glyph(u, "times");
+	emit_named_glyph(u, "times");
 
 	emit_roman_text(u, "10");
 
@@ -45,7 +45,7 @@ emit_double(u, p) // p is a double
 	if (s.charAt(k) == "+")
 		k++;
 	else if (s.charAt(k) == "-") {
-		emit_glyph(v, "minus");
+		emit_named_glyph(v, "minus");
 		emit_thin_space(v);
 		k++;
 	}

@@ -13,9 +13,9 @@ emit_svg_parens(u, x, y)
 
 	w = emit_delim_width(u);
 
-	l = {type:TEXT, s:"(", height:h, depth:d, width:w, level:u.level, italic_font:0};
-	r = {type:TEXT, s:")", height:h, depth:d, width:w, level:u.level, italic_font:0};
+	l = {type:GLYPH, s:"(", height:h, depth:d, width:w, level:u.level, italic_font:0};
+	r = {type:GLYPH, s:")", height:h, depth:d, width:w, level:u.level, italic_font:0};
 
-	emit_svg_text(l, x, y);
-	emit_svg_text(r, x + u.width - w, y);
+	emit_svg_glyph(l, x, y);
+	emit_svg_glyph(r, x + u.width - w, y);
 }

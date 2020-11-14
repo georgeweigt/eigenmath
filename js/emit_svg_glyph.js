@@ -1,5 +1,5 @@
 function
-emit_svg_text(u, x, y)
+emit_svg_glyph(u, x, y)
 {
 	var s, t;
 

@@ -1,5 +1,5 @@
 const SPACE = 0;
-const TEXT = 1;
+const GLYPH = 1;
 const LINE = 2;
 const SUBEXPR = 3;
 const SUPERSCRIPT = 4;

@@ -6,5 +6,5 @@ emit_symbol_text(u, s)
 	else if (s.length == 1)
 		emit_italic_text(u, s);
 	else
-		emit_glyph(u, s);
+		emit_named_glyph(u, s);
 }
