@@ -1,30 +1,22 @@
 function
 emit_update_superscript(u, v)
 {
-	var h, k;
+	var h;
 
 	emit_update(v);
 
 	// h is height of neighbor
 
-	if (u.level == 0)
-		h = FONT_HEIGHT;
-	else
-		h = SMALL_FONT_HEIGHT;
-
-	k = u.a.length;
-
-	while (k) {
-		k = k - 1;
-		if (u.a[k].type == SUBSCRIPT)
-			continue;
-		h = Math.max(h, u.a[k].height);
-		break;
-	}
+	h = u.a[u.a.length - 1].height;
 
 	// adjust
 
-	h = h - Math.floor(SMALL_FONT_HEIGHT / 2);
+	h -= v.height + v.depth;
+
+	if (u.level == 0)
+		h = Math.max(h, SUPERSCRIPT_HEIGHT);
+	else
+		h = Math.max(h, SMALL_SUPERSCRIPT_HEIGHT);
 
 	// move up
 
