@@ -13,7 +13,7 @@ eval_zero(p1)
 		evalf();
 		n = pop_integer();
 		if (n < 2)
-			stopf("zero: index err");
+			stopf("zero: index error");
 		p2.dim.push(n);
 		m *= n;
 		p1 = cdr(p1);
