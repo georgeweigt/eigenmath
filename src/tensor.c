@@ -404,16 +404,25 @@ void
 eval_unit(void)
 {
 	int i, n;
+
 	push(cadr(p1));
 	eval();
+
 	n = pop_integer();
-	if (n < 2) {
-		push(p1);
+
+	if (n < 1)
+		stop("unit: index error");
+
+	if (n == 1) {
+		push_integer(1);
 		return;
 	}
+
 	p1 = alloc_matrix(n, n);
+
 	for (i = 0; i < n; i++)
 		p1->u.tensor->elem[n * i + i] = one;
+
 	push(p1);
 }
 
