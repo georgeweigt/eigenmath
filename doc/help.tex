@@ -1687,8 +1687,12 @@ $
 \bigskip
 \noindent
 Note:
-The argument list can be extended by pairs of indices for multiple transpositions.
-The indices are evaluated from left to right.
+The argument list can be extended for multiple transpositions.
+The arguments are evaluated from left to right.
+For example,
+\verb$transpose(A,1,2,2,3)$
+is equivalent to
+\verb$transpose(transpose(A,1,2),2,3)$.
 
 \subsection*{tty}
 

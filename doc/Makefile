@@ -7,4 +7,4 @@ eigenmath.pdf: $(shell ls -m *.tex | sed "s/,//g")
 	rm -f *.aux *.log *.synctex.gz *.toc
 
 clean:
-	rm -f *.aux *.log *.synctex.gz *.toc
+	rm -f eigenmath.pdf *.aux *.log *.synctex.gz *.toc

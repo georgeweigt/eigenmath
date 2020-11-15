@@ -1737,8 +1737,12 @@ b   d
 </pre>
 <p>
 Note:
-The argument list can be extended by pairs of indices for multiple transpositions.
+The argument list can be extended for multiple transpositions.
 The indices are evaluated from left to right.
+For example,
+<span style="font-family:courier">transpose(A,1,2,2,3)</span>
+is equivalent to
+<span style="font-family:courier">transpose(transpose(A,1,2),2,3)</span>.
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="tty">tty</a>
