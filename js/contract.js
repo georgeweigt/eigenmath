@@ -8,8 +8,10 @@ contract()
 	p2 = pop();
 	p1 = pop();
 
-	if (!istensor(p1))
-		stopf("contract: tensor expected");
+	if (!istensor(p1)) {
+		push(p1);
+		return;
+	}
 
 	ndim = p1.dim.length;
 
@@ -20,7 +22,7 @@ contract()
 	m = pop_integer();
 
 	if (n < 1 || n > ndim || m < 1 || m > ndim || n == m)
-		stopf("contract: index err");
+		stopf("contract: index error");
 
 	n--; // make zero based
 	m--;
@@ -29,7 +31,7 @@ contract()
 	nrow = p1.dim[m];
 
 	if (ncol != nrow)
-		stopf("contract: index err");
+		stopf("contract: unequal tensor dimensions");
 
 	// nelem is the number of elements in result
 

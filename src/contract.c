@@ -5,16 +5,24 @@ eval_contract(void)
 {
 	push(cadr(p1));
 	eval();
-	if (cddr(p1) == symbol(NIL)) {
+
+	p1 = cddr(p1);
+
+	if (!iscons(p1)) {
 		push_integer(1);
 		push_integer(2);
-	} else {
-		push(caddr(p1));
-		eval();
-		push(cadddr(p1));
-		eval();
+		contract();
+		return;
 	}
-	contract();
+
+	while (iscons(p1)) {
+		push(car(p1));
+		eval();
+		push(cadr(p1));
+		eval();
+		contract();
+		p1 = cddr(p1);
+	}
 }
 
 void
@@ -36,8 +44,10 @@ contract_nib(void)
 	p2 = pop();
 	p1 = pop();
 
-	if (!istensor(p1))
-		stop("contract: 1st arg is not a tensor");
+	if (!istensor(p1)) {
+		push(p1);
+		return;
+	}
 
 	ndim = p1->u.tensor->ndim;
 
@@ -47,14 +57,8 @@ contract_nib(void)
 	push(p3);
 	m = pop_integer();
 
-	if (n < 1 || n > ndim)
-		stop("contract: 2nd arg not numerical or out of range (less than 1 or greater than tensor rank)");
-
-	if (m < 1 || m > ndim)
-		stop("contract: 3rd arg not numerical or out of range (less than 1 or greater than tensor rank)");
-
-	if (n == m)
-		stop("contract: 2nd and 3rd args are the same");
+	if (n < 1 || n > ndim || m < 1 || m > ndim || n == m)
+		stop("contract: index error");
 
 	n--; // make zero based
 	m--;
@@ -63,7 +67,7 @@ contract_nib(void)
 	nrow = p1->u.tensor->dim[m];
 
 	if (ncol != nrow)
-		stop("contract: unequal tensor dimensions for indices given by 2nd and 3rd args");
+		stop("contract: unequal tensor dimensions");
 
 	// nelem is the number of elements in result
 
