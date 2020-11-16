@@ -588,6 +588,10 @@ Complementary error function of $x$.
 
 Returns expression $f$ evaluated at $x$ equals $a$.
 The argument list can be extended for multivariate expressions.
+For example,
+\verb$eval(f,x,a,y,b)$
+is equivalent to
+\verb$eval(eval(f,x,a),y,b)$.
 
 {\color{blue}
 \begin{verbatim}
@@ -1687,7 +1691,7 @@ $
 \bigskip
 \noindent
 Note:
-The argument list can be extended for multiple operations.
+The argument list can be extended for multiple transpose operations.
 The arguments are evaluated from left to right.
 For example,
 \verb$transpose(A,1,2,2,3)$
