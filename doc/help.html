@@ -542,11 +542,14 @@ can still be used to obtain a partial derivative.
 <p>
 Returns the definite integral of <i>f</i> with respect to <i>x</i>
 evaluated from <i>a</i> to <i>b</i>.
-The argument list can be extended for multiple integrals
-as shown in the following example.
+The argument list can be extended for multiple integrals.
+For example,
+<span style="font-family:courier">integral(f,x,a,b,y,c,d)</span>
+is equivalent to
+<span style="font-family:courier">integral(integral(f,x,a,b),y,c,d)</span>.
 <pre style="font-family:courier;color:blue">
 f = (1 + cos(theta)^2) sin(theta)
-defint(f, theta, 0, pi, phi, 0, 2pi) -- integrate over theta then over phi
+defint(f, theta, 0, pi, phi, 0, 2pi)
 </pre>
 <pre style="font-family:courier">
  16
@@ -711,6 +714,10 @@ Complementary error function of <i>x</i>.
 <p>
 Returns expression <i>f</i> evaluated at <i>x</i> equals <i>a</i>.
 The argument list can be extended for multivariate expressions.
+For example,
+<span style="font-family:courier">eval(f,x,a,y,b)</span>
+is equivalent to
+<span style="font-family:courier">eval(eval(f,x,a),y,b)</span>.
 <pre style="font-family:courier;color:blue">
 eval(x + y,x,a,y,b)
 </pre>
