@@ -1,7 +1,7 @@
 function
 emit_double(u, p) // p is a double
 {
-	var i, j, k, s, v;
+	var j, k, s, v;
 
 	if (p.d == 0) {
 		emit_roman_text(u, "0");
@@ -17,17 +17,13 @@ emit_double(u, p) // p is a double
 
 	// handle trailing zeroes
 
-	i = s.indexOf(".");
+	j = k;
 
-	if (i == -1)
-		emit_roman_text(u, s.substring(0, k));
-	else {
-		for (j = k - 1; j > i + 1; j--) {
-			if (s.charAt(j) != "0")
-				break;
-		}
-		emit_roman_text(u, s.substring(0, j + 1));
-	}
+	if (s.indexOf(".") != -1)
+		while (s.charAt(j - 1) == "0" && s.charAt(j - 2) != ".")
+			j--;
+
+	emit_roman_text(u, s.substring(0, j));
 
 	if (s.charAt(k) != "E" && s.charAt(k) != "e")
 		return;
@@ -52,10 +48,10 @@ emit_double(u, p) // p is a double
 
 	// skip leading zeroes in exponent
 
-	while (k < s.length - 1 && s.charAt(k) == "0")
+	while (s.charAt(k) == "0")
 		k++;
 
-	emit_roman_text(v, s.substring(k, s.length));
+	emit_roman_text(v, s.substring(k));
 
 	emit_update_superscript(u, v);
 
