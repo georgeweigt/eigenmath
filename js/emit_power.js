@@ -8,10 +8,14 @@ emit_power(u, p) // p = y^x
 	}
 
 	if (isimaginaryunit(p)) {
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_J))))
-			return emit_italic_text(u, "j");
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_I))))
-			return emit_italic_text(u, "i");
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
+			emit_italic_text(u, "j");
+			return;
+		}
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
+			emit_italic_text(u, "i");
+			return;
+		}
 	}
 
 	if (isnegativenumber(caddr(p))) {
