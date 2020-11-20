@@ -116,21 +116,18 @@ check_line(char *line)
 		return -1;
 	}
 
-	// check leading space
+	// check trailing space
 
-	for (i = 0; i < n; i++) {
-		if (line[i] > ' ')
-			break;
-		if (line[i] == '\t')
-			continue;
-		fprintf(stderr, "leading space\n");
+	if (strstr(line, " \n") || strstr(line, "\t\n")) {
+		fprintf(stderr, "trailing space\n");
 		return -1;
 	}
 
-	// check trailing space
+	if (strncmp(line, "//", 2) == 0 || strncmp(line, "\t//", 3) == 0)
+		return 0;
 
-	if (line[n - 2] <= ' ') {
-		fprintf(stderr, "trailing space\n");
+	if (strstr(line, "  ") || strstr(line, " /t") || strstr(line, "\t ")) {
+		fprintf(stderr, "extra spaces\n");
 		return -1;
 	}
 

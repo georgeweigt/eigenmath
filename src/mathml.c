@@ -313,7 +313,7 @@ mml_double(struct atom *p)
 		e = strchr(s, 'E');
 
 	if (e == NULL) {
-		if (strchr(s, '.') ==  NULL)
+		if (strchr(s, '.') == NULL)
 			strcat(s, ".0");
 		mml_mn(s);
 		return;
