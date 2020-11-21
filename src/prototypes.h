@@ -228,8 +228,6 @@ void emit_str(char *s);
 void emit_number(struct atom *p);
 int display_cmp(const void *aa, const void *bb);
 void print_it(void);
-char * getdisplaystr(void);
-void fill_buf(void);
 void emit_tensor(struct atom *p);
 void emit_flat_tensor(struct atom *p);
 void emit_tensor_inner(struct atom *p, int j, int *k);

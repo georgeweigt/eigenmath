@@ -960,60 +960,7 @@ print_it(void)
 	fputc('\n', stdout);
 }
 
-char print_buffer[10000];
-
-char *
-getdisplaystr(void)
-{
-	yindex = 0;
-	expr_level = 0;
-	emit_x = 0;
-	emit_expr(pop());
-	fill_buf();
-	return print_buffer;
-}
-
-void
-fill_buf(void)
-{
-	int i, k, x, y;
-
-	qsort(chartab, yindex, sizeof (struct glyph), display_cmp);
-
-	k = 0;
-	x = 0;
-	y = chartab[0].y;
-
-	for (i = 0; i < yindex; i++) {
-
-		while (chartab[i].y > y) {
-			if (k < sizeof print_buffer - 2)
-				print_buffer[k++] = '\n';
-			x = 0;
-			y++;
-		}
-
-		while (chartab[i].x > x) {
-			if (k < sizeof print_buffer - 2)
-				print_buffer[k++] = ' ';
-			x++;
-		}
-
-		if (k < sizeof print_buffer - 2)
-			print_buffer[k++] = chartab[i].c;
-
-		x++;
-	}
-
-	if (k == sizeof print_buffer - 2)
-		printf("warning: print buffer full\n");
-
-	print_buffer[k++] = '\n';
-	print_buffer[k++] = '\0';
-}
-
 #undef N
-
 #define N 100
 
 struct elem {
