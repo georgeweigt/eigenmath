@@ -1,7 +1,6 @@
-objects := $(shell ls *.js | sed "s/\n/ /;s/eigenmath\.js//")
-
 default:
-	cat preamble $(objects) > eigenmath.js
+	rm -f eigenmath.js
+	cat preamble *.js > eigenmath.js
 
 clean:
 	rm -f eigenmath.js
