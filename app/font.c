@@ -8,11 +8,6 @@ CTFontRef italic7;
 
 CTFontRef courier7;
 
-extern CGContextRef gcontext;
-
-extern int app_total_h;
-extern int app_total_w;
-
 void
 init_font(void)
 {
@@ -393,25 +388,4 @@ draw_selection_rect(float x, float y, float width, float height)
 	CGContextSetLineWidth(gcontext, 1.0);
 	CGContextStrokePath(gcontext);
 	CGContextSetLineDash(gcontext, 0.0, NULL, 0);
-}
-
-extern void run(char *);
-
-void
-run_as_thread(char *s)
-{
-	pthread_t thread;
-	pthread_create(&thread, NULL, run1, s);
-	pthread_detach(thread);
-}
-
-int running;
-
-void *
-run1(void *s)
-{
-	running = 1;
-	run((char *) s);
-	running = 0;
-	return NULL;
 }

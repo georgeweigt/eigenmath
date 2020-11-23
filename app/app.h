@@ -1,6 +1,5 @@
-#include <ApplicationServices/ApplicationServices.h>
-#include <pthread.h>
 #include "../src/defs.h"
+#include <ApplicationServices/ApplicationServices.h>
 
 struct display {
 	struct display *next;
