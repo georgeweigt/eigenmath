@@ -1,7 +1,5 @@
 void cmdisplay(void);
 void emit_push(double d);
-void cmdisplay(void);
-int isintegerfactor(struct atom *p);
 int count_denominators(struct atom *p);
 void eval_draw(void);
 void draw_main(void);
