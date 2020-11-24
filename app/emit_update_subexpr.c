@@ -10,10 +10,10 @@ emit_update_subexpr(int t)
 
 	if (emit_level == 0) {
 		opcode = EMIT_SUBEXPR;
-		font_num = TIMES_FONT;
+		font_num = ROMAN_FONT;
 	} else {
 		opcode = EMIT_SMALL_SUBEXPR;
-		font_num = SMALL_TIMES_FONT;
+		font_num = SMALL_ROMAN_FONT;
 	}
 
 	h = get_char_height(font_num);

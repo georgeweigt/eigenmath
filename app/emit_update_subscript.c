@@ -20,12 +20,12 @@ emit_update_subscript(int t)
 	}
 
 	if (emit_level == 0) {
-		h = get_char_height(TIMES_FONT);
+		h = get_char_height(ROMAN_FONT);
 		d += SUBSCRIPT_DEPTH;
 		dx = 0;
 		dy = SUBSCRIPT_DEPTH;
 	} else {
-		h = get_char_height(SMALL_TIMES_FONT);
+		h = get_char_height(SMALL_ROMAN_FONT);
 		d += SMALL_SUBSCRIPT_DEPTH;
 		dx = 0;
 		dy = SMALL_SUBSCRIPT_DEPTH;

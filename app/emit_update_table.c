@@ -67,7 +67,7 @@ emit_update_table(int n, int m)
 
 	h = total_height / 2.0 + MINUS_HEIGHT;
 	d = total_height - h;
-	w = total_width + 2.0 * get_char_width(TIMES_FONT, '(');
+	w = total_width + 2.0 * get_char_width(ROMAN_FONT, '(');
 
 	list(n * m);
 	p1 = pop();

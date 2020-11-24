@@ -43,14 +43,14 @@ emit_draw(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_SUBEXPR:
-		emit_delims(x, y, h, d, w, TIMES_FONT, DELIM_STROKE);
-		x += get_char_width(TIMES_FONT, '(');
+		emit_delims(x, y, h, d, w, ROMAN_FONT, DELIM_STROKE);
+		x += get_char_width(ROMAN_FONT, '(');
 		emit_draw(x, y, car(p));
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-		emit_delims(x, y, h, d, w, SMALL_TIMES_FONT, SMALL_DELIM_STROKE);
-		x += get_char_width(SMALL_TIMES_FONT, '(');
+		emit_delims(x, y, h, d, w, SMALL_ROMAN_FONT, SMALL_DELIM_STROKE);
+		x += get_char_width(SMALL_ROMAN_FONT, '(');
 		emit_draw(x, y, car(p));
 		break;
 
@@ -91,8 +91,8 @@ emit_draw(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_TABLE:
-		emit_delims(x, y, h, d, w, TIMES_FONT, LARGE_DELIM_STROKE);
-		x += get_char_width(TIMES_FONT, '(');
+		emit_delims(x, y, h, d, w, ROMAN_FONT, LARGE_DELIM_STROKE);
+		x += get_char_width(ROMAN_FONT, '(');
 		emit_table(x, y - h, p);
 		break;
 	}

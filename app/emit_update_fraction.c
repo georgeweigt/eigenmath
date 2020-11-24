@@ -18,12 +18,12 @@ emit_update_fraction(void)
 		opcode = EMIT_FRACTION;
 		h += FRAC_VSPACE + MINUS_HEIGHT;
 		d += FRAC_VSPACE - MINUS_HEIGHT;
-		w += get_width(TIMES_FONT, 'n') / 2.0;
+		w += get_width(ROMAN_FONT, 'n') / 2.0;
 	} else {
 		opcode = EMIT_SMALL_FRACTION;
 		h += SMALL_FRAC_VSPACE + SMALL_MINUS_HEIGHT;
 		d += SMALL_FRAC_VSPACE - SMALL_MINUS_HEIGHT;
-		w += get_width(SMALL_TIMES_FONT, 'n') / 2.0;
+		w += get_width(SMALL_ROMAN_FONT, 'n') / 2.0;
 	}
 
 	push_double(opcode);

@@ -11,16 +11,14 @@ struct display {
 	uint8_t buf[0];
 };
 
-#define SMALL_FONT 1
-#define DEFAULT_FONT 2
-#define TIMES_FONT 3
-#define ITALIC_TIMES_FONT 4
-#define SYMBOL_FONT 5
-#define ITALIC_SYMBOL_FONT 6
-#define SMALL_TIMES_FONT 7
-#define SMALL_ITALIC_TIMES_FONT 8
-#define SMALL_SYMBOL_FONT 9
-#define SMALL_ITALIC_SYMBOL_FONT 10
+#define SMALL_FONT 0
+#define DEFAULT_FONT 0
+
+#define ROMAN_FONT 1
+#define ITALIC_FONT 2
+
+#define SMALL_ROMAN_FONT 3
+#define SMALL_ITALIC_FONT 4
 
 #define DRAW_END 0
 #define DRAW_CHAR 1
@@ -30,9 +28,6 @@ struct display {
 #define DRAW_POINT 24
 #define DRAW_BOX 25
 #define DRAW_SPACE 32
-
-#define ITALIC_FONT ITALIC_TIMES_FONT
-#define SMALL_ITALIC_FONT SMALL_ITALIC_TIMES_FONT
 
 #define EMIT_SPACE 1
 #define EMIT_CHAR 2
@@ -88,5 +83,7 @@ extern struct display *emit_display;
 extern int emit_level;
 extern int emit_index;
 extern int emit_count;
+
+extern CTFontRef font_ref[5];
 
 #include "app-prototypes.h"

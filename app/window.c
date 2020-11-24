@@ -159,7 +159,6 @@ draw_display(int y1, int y2)
 	}
 }
 
-extern void draw_hrule(int, int, int);
 extern void draw_point(int, int, int, int);
 extern void draw_box(int, int, int, int);
 

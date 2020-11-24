@@ -1,58 +1,21 @@
 #include "app.h"
 
-CTFontRef roman10;
-CTFontRef roman7;
-
-CTFontRef italic10;
-CTFontRef italic7;
-
-CTFontRef courier7;
-
 void
 init_font(void)
 {
-	roman10 = CTFontCreateWithName(CFSTR("Times New Roman"), 20.0, NULL);
-	roman7 = CTFontCreateWithName(CFSTR("Times New Roman"), 16.0, NULL);
+	font_ref[DEFAULT_FONT] = CTFontCreateWithName(CFSTR("Courier"), 16.0, NULL);
 
-	italic10 = CTFontCreateWithName(CFSTR("Times New Roman Italic"), 20.0, NULL);
-	italic7 = CTFontCreateWithName(CFSTR("Times New Roman Italic"), 16.0, NULL);
+	font_ref[ROMAN_FONT] = CTFontCreateWithName(CFSTR("Times New Roman"), 20.0, NULL);
+	font_ref[ITALIC_FONT] = CTFontCreateWithName(CFSTR("Times New Roman Italic"), 20.0, NULL);
 
-	courier7 = CTFontCreateWithName(CFSTR("Courier"), 16.0, NULL);
+	font_ref[SMALL_ROMAN_FONT] = CTFontCreateWithName(CFSTR("Times New Roman"), 16.0, NULL);
+	font_ref[SMALL_ITALIC_FONT] = CTFontCreateWithName(CFSTR("Times New Roman Italic"), 16.0, NULL);
 }
 
 CTFontRef
 get_font_ref(int font_num)
 {
-	CTFontRef f;
-
-	switch (font_num)
-	{
-	case TIMES_FONT:
-	case SYMBOL_FONT:
-		f = roman10;
-		break;
-
-	case SMALL_TIMES_FONT:
-	case SMALL_SYMBOL_FONT:
-		f = roman7;
-		break;
-
-	case ITALIC_TIMES_FONT:
-	case ITALIC_SYMBOL_FONT:
-		f = italic10;
-		break;
-
-	case SMALL_ITALIC_TIMES_FONT:
-	case SMALL_ITALIC_SYMBOL_FONT:
-		f = italic7;
-		break;
-
-	default:
-		f = courier7;
-		break;
-	}
-
-	return f;
+	return font_ref[font_num];
 }
 
 int
@@ -198,21 +161,6 @@ draw_box(int x1, int y1, int x2, int y2)
 	CGContextAddLineToPoint(gcontext, fx2, fy2);
 	CGContextAddLineToPoint(gcontext, fx1, fy2);
 	CGContextClosePath(gcontext);
-
-	CGContextSetLineWidth(gcontext, 1.0);
-	CGContextStrokePath(gcontext);
-}
-
-void
-draw_hrule(int x, int y, int w)
-{
-	float fy;
-
-	fy = app_total_h - (y + 0.5);
-
-	CGContextBeginPath(gcontext);
-	CGContextMoveToPoint(gcontext, x, fy);
-	CGContextAddLineToPoint(gcontext, x + w, fy);
 
 	CGContextSetLineWidth(gcontext, 1.0);
 	CGContextStrokePath(gcontext);

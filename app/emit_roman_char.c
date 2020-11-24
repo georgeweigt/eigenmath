@@ -6,9 +6,9 @@ emit_roman_char(int char_num)
 	double d, font_num, h, w;
 
 	if (emit_level == 0)
-		font_num = TIMES_FONT;
+		font_num = ROMAN_FONT;
 	else
-		font_num = SMALL_TIMES_FONT;
+		font_num = SMALL_ROMAN_FONT;
 
 	h = get_char_height(font_num);
 	d = get_char_depth(font_num);

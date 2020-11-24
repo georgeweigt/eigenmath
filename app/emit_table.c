@@ -18,8 +18,8 @@ emit_table(double x, double y, struct atom *p)
 
 	for (i = 0; i < n; i++) { // for each row
 
-		row_height = car(h)->u.d;
-		row_depth = car(d)->u.d;
+		row_height = VAL1(h);
+		row_depth = VAL1(d);
 
 		y += row_height;
 
