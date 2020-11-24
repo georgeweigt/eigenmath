@@ -5,15 +5,15 @@ int running;
 extern void run(char *);
 
 void
-run_as_thread(char *s)
+run_thread(char *s)
 {
 	pthread_t thread;
-	pthread_create(&thread, NULL, run1, s);
+	pthread_create(&thread, NULL, run_thread_nib, s);
 	pthread_detach(thread);
 }
 
 void *
-run1(void *s)
+run_thread_nib(void *s)
 {
 	running = 1;
 	run((char *) s);
