@@ -65,11 +65,12 @@ struct display {
 #define TABLE_VSPACE 12.0
 
 #define OPCODE(p) car(p)->u.d
-#define HEIGHT(p) car(cdr(p))->u.d
-#define DEPTH(p) car(cdr(cdr(p)))->u.d
-#define WIDTH(p) car(cdr(cdr(cdr(p))))->u.d
-#define DX car(cdr(cdr(cdr(cdr))))->u.d
-#define DY car(cdr(cdr(cdr(cdr(cdr(p))))))->u.d
+#define HEIGHT(p) cadr(p)->u.d
+#define DEPTH(p) caddr(p)->u.d
+#define WIDTH(p) cadddr(p)->u.d
+
+#define VAL1(p) car(p)->u.d
+#define VAL2(p) cadr(p)->u.d
 
 #define HBAR 176
 #define TIMES 177

@@ -21,8 +21,8 @@ emit_draw(double x, double y, struct atom *p)
 		emit_push(DRAW_CHAR);
 		emit_push(x);
 		emit_push(y);
-		emit_push(car(p)->u.d); // font number
-		emit_push(cadr(p)->u.d); // char number
+		emit_push(VAL1(p)); // font number
+		emit_push(VAL2(p)); // char number
 		break;
 
 	case EMIT_LIST:
@@ -36,8 +36,8 @@ emit_draw(double x, double y, struct atom *p)
 
 	case EMIT_SUPERSCRIPT:
 	case EMIT_SUBSCRIPT:
-		x += car(p)->u.d;
-		y += cadr(p)->u.d;
+		x += VAL1(p);
+		y += VAL2(p);
 		p = caddr(p);
 		emit_draw(x, y, p);
 		break;

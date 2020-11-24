@@ -7,8 +7,8 @@ emit_table(double x, double y, struct atom *p)
 	double column_width, dx, elem_width, row_depth, row_height;
 	struct atom *d, *h, *w, *table;
 
-	n = (int) car(p)->u.d;
-	m = (int) cadr(p)->u.d;
+	n = (int) VAL1(p);
+	m = (int) VAL2(p);
 
 	p = cddr(p);
 
@@ -28,7 +28,7 @@ emit_table(double x, double y, struct atom *p)
 		w = cadddr(p);
 
 		for (j = 0; j < m; j++) { // for each column
-			column_width = car(w)->u.d;
+			column_width = VAL1(w);
 			elem_width = WIDTH(car(table));
 			emit_draw(x + dx + (column_width - elem_width) / 2.0, y, car(table));
 			dx += column_width;
