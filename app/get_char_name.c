@@ -1,39 +1,13 @@
 #include "app.h"
 
-CFStringRef char_name[256] = {
+#define NA CFSTR("question")
 
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
-	CFSTR("question"),
+CFStringRef char_name_tab[256] = {
+
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
 
 	CFSTR("space"),	// 32
 	CFSTR("exclam"),
@@ -191,28 +165,19 @@ CFStringRef char_name[256] = {
 	CFSTR("question"),	// 182
 	CFSTR("question"),	// 183
 
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
-	CFSTR("question"),CFSTR("question"),CFSTR("question"),CFSTR("question"),
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
+	NA, NA, NA, NA, NA, NA, NA, NA,
 };
 
 CFStringRef
-get_char_name(int c)
+get_char_name(int char_num)
 {
-	return char_name[c & 0xff];
+	return char_name_tab[char_num & 0xff];
 }
