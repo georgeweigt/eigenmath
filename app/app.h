@@ -26,9 +26,6 @@ struct display {
 #define DRAW_CHAR 1
 #define DRAW_STROKE 2
 
-#define DRAW_HRULE 20
-#define DRAW_LEFT_BRACKET 21
-#define DRAW_RIGHT_BRACKET 22
 #define DRAW_LINE 23
 #define DRAW_POINT 24
 #define DRAW_BOX 25

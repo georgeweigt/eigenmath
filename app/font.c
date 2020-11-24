@@ -155,50 +155,6 @@ get_height_width(int *h, int *w, int font, char *s)
 	*w = text_width(font, s);
 }
 
-void
-draw_left_bracket(int x, int y, int w, int h)
-{
-	float x1, x2, y1, y2;
-	x1 = x + 0.5;
-	x2 = x + w + 0.5;
-	y1 = app_total_h - (y + 0.5);
-	y2 = app_total_h - (y + h + 0.5);
-
-	x1 += 2.0;
-	x2 -= 2.0;
-
-	CGContextBeginPath(gcontext);
-	CGContextMoveToPoint(gcontext, x2, y1);
-	CGContextAddLineToPoint(gcontext, x1, y1);
-	CGContextAddLineToPoint(gcontext, x1, y2);
-	CGContextAddLineToPoint(gcontext, x2, y2);
-
-	CGContextSetLineWidth(gcontext, 1.0);
-	CGContextStrokePath(gcontext);
-}
-
-void
-draw_right_bracket(int x, int y, int w, int h)
-{
-	float x1, x2, y1, y2;
-	x1 = x + 0.5;
-	x2 = x + w + 0.5;
-	y1 = app_total_h - (y + 0.5);
-	y2 = app_total_h - (y + h + 0.5);
-
-	x1 += 2.0;
-	x2 -= 2.0;
-
-	CGContextBeginPath(gcontext);
-	CGContextMoveToPoint(gcontext, x1, y1);
-	CGContextAddLineToPoint(gcontext, x2, y1);
-	CGContextAddLineToPoint(gcontext, x2, y2);
-	CGContextAddLineToPoint(gcontext, x1, y2);
-
-	CGContextSetLineWidth(gcontext, 1.0);
-	CGContextStrokePath(gcontext);
-}
-
 // Draw a little square at coordinates x + dx, y + dy
 
 void

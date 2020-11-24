@@ -74,8 +74,6 @@ int get_width(int font, int c);
 double get_char_width(int font_num, int char_num);
 int text_width(int font, char *s);
 void get_height_width(int *h, int *w, int font, char *s);
-void draw_left_bracket(int x, int y, int w, int h);
-void draw_right_bracket(int x, int y, int w, int h);
 void draw_point(int x, int dx, int y, int dy);
 void draw_box(int x1, int y1, int x2, int y2);
 void draw_hrule(int x, int y, int w);

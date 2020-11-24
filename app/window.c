@@ -168,7 +168,7 @@ extern void draw_box(int, int, int, int);
 static void
 draw(struct display *p, int yy1, int yy2)
 {
-	int cmd, h, k, len, w, xx, x, x1, x2, y, y1, y2;
+	int cmd, k, len, w, xx, x, x1, x2, y, y1, y2;
 	uint8_t *buf;
 
 	w = p->w;
@@ -222,30 +222,6 @@ draw(struct display *p, int yy1, int yy2)
 				len = N(9);
 				draw_text(cmd, xx + x, yy + y, buf + k + 13, len, 0);
 				k = k + 13 + len;
-				break;
-			case DRAW_HRULE:
-				x = N(1);
-				y = N(5);
-				w = N(9);
-				h = N(13);
-				draw_hrule(xx + x, yy + y, w);
-				k += 17;
-				break;
-			case DRAW_LEFT_BRACKET:
-				x = N(1);
-				y = N(5);
-				w = N(9);
-				h = N(13);
-				draw_left_bracket(xx + x, yy + y, w, h);
-				k += 17;
-				break;
-			case DRAW_RIGHT_BRACKET:
-				x = N(1);
-				y = N(5);
-				w = N(9);
-				h = N(13);
-				draw_right_bracket(xx + x, yy + y, w, h);
-				k += 17;
 				break;
 			case DRAW_LINE:
 				x1 = 256 * buf[k + 1] + buf[k + 2];
