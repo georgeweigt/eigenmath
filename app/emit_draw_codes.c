@@ -36,25 +36,19 @@ emit_draw_codes(double x, double y, struct atom *p)
 
 	case EMIT_SUPERSCRIPT:
 	case EMIT_SUBSCRIPT:
-
 		x += car(p)->u.d;
 		y += cadr(p)->u.d;
-
 		p = caddr(p);
-
 		emit_draw_codes(x, y, p);
-
 		break;
 
 	case EMIT_SUBEXPR:
-
 //		emit_delims(x, y, h, d, w, TIMES_FONT, DELIM_STROKE);
 		x += get_char_width(TIMES_FONT, '(');
 		emit_draw_codes(x, y, car(p));
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-
 //		emit_delims(x, y, h, d, w, SMALL_TIMES_FONT, SMALL_DELIM_STROKE);
 		x += get_char_width(SMALL_TIMES_FONT, '(');
 		emit_draw_codes(x, y, car(p));
@@ -97,7 +91,6 @@ emit_draw_codes(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_TABLE:
-
 //		emit_delims(x, y, h, d, w, TIMES_FONT, LARGE_DELIM_STROKE);
 		x += get_char_width(TIMES_FONT, '(');
 //		emit_draw_table(x, y, p);
