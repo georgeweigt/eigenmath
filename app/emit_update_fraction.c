@@ -23,7 +23,7 @@ emit_update_fraction(void)
 		font_num = SMALL_ROMAN_FONT;
 	}
 
-	dy = 0.7 * get_xheight(font_num); // approximate height of '-'
+	dy = get_operator_height(font_num); // approximate height of '-'
 
 	h += dy + get_underline_position(font_num);
 	d -= dy;

@@ -81,6 +81,7 @@ void get_height_width(int *h, int *w, int font_num, char *s);
 void draw_point(int x, int dx, int y, int dy);
 void draw_box(int x1, int y1, int x2, int y2);
 CFStringRef get_char_name(int char_num);
+double get_operator_height(int font_num);
 void init_fonts(void);
 int isdenominator(struct atom *p);
 void run_thread(char *s);

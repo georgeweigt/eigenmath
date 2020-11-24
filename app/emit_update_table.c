@@ -65,7 +65,7 @@ emit_update_table(int n, int m)
 
 	// h, d, w for entire table
 
-	h = total_height / 2.0 + MINUS_HEIGHT;
+	h = total_height / 2.0 + get_operator_height(ROMAN_FONT);
 	d = total_height - h;
 	w = total_width + 2.0 * get_char_width(ROMAN_FONT, '(');
 
