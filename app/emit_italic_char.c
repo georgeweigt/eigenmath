@@ -3,7 +3,8 @@
 void
 emit_italic_char(int char_num)
 {
-	double d, font_num, h, w;
+	int font_num;
+	double d, h, w;
 
 	if (emit_level == 0)
 		font_num = ITALIC_FONT;

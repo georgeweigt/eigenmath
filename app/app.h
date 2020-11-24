@@ -11,6 +11,9 @@ struct display {
 	uint8_t buf[0];
 };
 
+#define FONT_SIZE 24.0
+#define SMALL_FONT_SIZE 20.0
+
 #define SMALL_FONT 0
 #define DEFAULT_FONT 0
 
@@ -45,13 +48,11 @@ struct display {
 #define LARGE_DELIM_STROKE 2.5
 
 #define MINUS_HEIGHT 8.5
-#define SUPERSCRIPT_HEIGHT 10.0
 #define SUBSCRIPT_DEPTH 7.0
 #define FRAC_VSPACE 5.5
 #define FRAC_STROKE 1.5
 
 #define SMALL_MINUS_HEIGHT 6.0
-#define SMALL_SUPERSCRIPT_HEIGHT 10.0
 #define SMALL_SUBSCRIPT_DEPTH 7.0
 #define SMALL_FRAC_VSPACE 4.0
 #define SMALL_FRAC_STROKE 1.0
@@ -67,12 +68,13 @@ struct display {
 #define VAL1(p) car(p)->u.d
 #define VAL2(p) cadr(p)->u.d
 
-#define HBAR 176
-#define TIMES 177
-#define PARTIAL 178
-#define MINUS 179
-#define GREATEREQUAL 180
-#define LESSEQUAL 181
+#define PLUS_SIGN 176
+#define MINUS_SIGN 177
+#define MULTIPLY_SIGN 178
+#define GREATEREQUAL 179
+#define LESSEQUAL 180
+#define HBAR 181
+#define PARTIALDIFF 182
 
 extern CGContextRef gcontext;
 

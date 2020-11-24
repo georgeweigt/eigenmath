@@ -46,14 +46,14 @@ get_char_depth(int font_num)
 	return d;
 }
 
-int
+double
 get_xheight(int font_num)
 {
 	CTFontRef f;
-	CGFloat h;
+	double h;
 	f = get_font_ref(font_num);
 	h = CTFontGetXHeight(f);
-	return ceil(h);
+	return h;
 }
 
 int

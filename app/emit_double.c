@@ -33,20 +33,22 @@ emit_double(struct atom *p)
 
 	k++;
 
-	emit_roman_char(TIMES);
+	emit_roman_char(MULTIPLY_SIGN);
 
 	emit_roman_string("10");
 
-	t = tos;
+	// superscripted exponent
 
 	emit_level++;
+
+	t = tos;
 
 	// sign of exponent
 
 	if (tbuf[k] == '+')
 		k++;
 	else if (tbuf[k] == '-') {
-		emit_roman_char(MINUS);
+		emit_roman_char(MINUS_SIGN);
 		emit_thin_space();
 		k++;
 	}
@@ -58,7 +60,9 @@ emit_double(struct atom *p)
 
 	emit_roman_string(tbuf + k);
 
+	emit_update_list(t);
+
 	emit_level--;
 
-	emit_update_superscript(t);
+	emit_update_superscript();
 }

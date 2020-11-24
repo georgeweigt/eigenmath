@@ -8,9 +8,9 @@ emit_numeric_exponent(struct atom *p)
 	int t;
 	char *s;
 
-	t = tos;
-
 	emit_level++;
+
+	t = tos;
 
 	if (isrational(p)) {
 		s = mstr(p->u.q.a);
@@ -23,7 +23,9 @@ emit_numeric_exponent(struct atom *p)
 	} else
 		emit_double(p);
 
+	emit_update_list(t);
+
 	emit_level--;
 
-	emit_update_superscript(t);
+	emit_update_superscript();
 }

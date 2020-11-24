@@ -4,7 +4,7 @@ void
 emit_update_list(int t)
 {
 	int i;
-	double h, d, w;
+	double d, h, w;
 
 	if (tos - t == 1)
 		return;

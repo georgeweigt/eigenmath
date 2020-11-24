@@ -1,12 +1,11 @@
 #include "app.h"
 
-#undef N
 #define N 49
 
-struct gtab {
+struct {
 	char *s;
 	int italic;
-} gtab[N] = {
+} symbol_name_tab[N] = {
 
 	{"Alpha",	0},
 	{"Beta",	0},
@@ -62,29 +61,29 @@ struct gtab {
 };
 
 int
-emit_symbol_fragment(char *symbol, int k)
+emit_symbol_fragment(char *name, int k)
 {
-	int c, i, n;
+	int char_num, i, n;
 	char *s;
 
 	for (i = 0; i < N; i++) {
-		s = gtab[i].s;
+		s = symbol_name_tab[i].s;
 		n = (int) strlen(s);
-		if (strncmp(symbol + k, s, n) == 0)
+		if (strncmp(name + k, s, n) == 0)
 			break;
 	}
 
 	if (i == N) {
-		emit_italic_char(s[k]);
+		emit_italic_char(name[k]);
 		return k + 1;
 	}
 
-	c = i + 128;
+	char_num = i + 128;
 
-	if (gtab[i].italic)
-		emit_italic_char(c);
+	if (symbol_name_tab[i].italic)
+		emit_italic_char(char_num);
 	else
-		emit_roman_char(c);
+		emit_roman_char(char_num);
 
 	return k + n;
 }

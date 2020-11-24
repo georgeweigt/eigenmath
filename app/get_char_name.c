@@ -156,14 +156,14 @@ CFStringRef char_name_tab[256] = {
 	CFSTR("psi"),
 	CFSTR("omega"),
 
-	CFSTR("hbar"),		// 176
-	CFSTR("multiply"),	// 177
-	CFSTR("partialdiff"),	// 178
-	CFSTR("minus"),		// 179
-	CFSTR("greaterequal"),	// 180
-	CFSTR("lessequal"),	// 181
-	CFSTR("question"),	// 182
-	CFSTR("question"),	// 183
+	CFSTR("plus"),		// 176 PLUS_SIGN
+	CFSTR("minus"),		// 177 MINUS_SIGN
+	CFSTR("multiply"),	// 178 MULTIPLY_SIGN
+	CFSTR("greaterequal"),	// 179 GREATEREQUAL
+	CFSTR("lessequal"),	// 180 LESSEQUAL
+	CFSTR("hbar"),		// 181 HBAR
+	CFSTR("partialdiff"),	// 182 PARTIALDIFF
+	NA,			// 183
 
 	NA, NA, NA, NA, NA, NA, NA, NA,
 	NA, NA, NA, NA, NA, NA, NA, NA,

@@ -1,27 +1,21 @@
 #include "app.h"
 
 void
-emit_update_superscript(int t)
+emit_update_superscript(void)
 {
-	int i;
-	double dx, dy, h, d, w, y;
+	double d, dx, dy, h, w, y;
 
 	save();
 
-	h = 0.0;
-	d = 0.0;
-	w = 0.0;
+	p2 = pop(); // exponent
+	p1 = pop(); // base
 
-	for (i = t; i < tos; i++) {
-		p1 = stack[i];
-		h = fmax(h, HEIGHT(p1));
-		d = fmax(d, DEPTH(p1));
-		w += WIDTH(p1);
-	}
+	h = HEIGHT(p2);
+	d = DEPTH(p2);
+	w = WIDTH(p2);
 
-	// y is height of neighbor
+	// y is height of base
 
-	p1 = stack[t - 1];
 	y = HEIGHT(p1);
 
 	// adjust
@@ -29,9 +23,9 @@ emit_update_superscript(int t)
 	y -= (h + d) / 2.0;
 
 	if (emit_level == 0)
-		y = fmax(y, SUPERSCRIPT_HEIGHT);
+		y = fmax(y, get_xheight(ROMAN_FONT));
 	else
-		y = fmax(y, SMALL_SUPERSCRIPT_HEIGHT);
+		y = fmax(y, get_xheight(SMALL_ROMAN_FONT));
 
 	dx = 0.0;
 	dy = -(y + d);
@@ -39,13 +33,12 @@ emit_update_superscript(int t)
 	h = y + h + d;
 	d = 0.0;
 
-	if (car(p1)->u.d == EMIT_SUBSCRIPT) {
+	if (OPCODE(p1) == EMIT_SUBSCRIPT) {
 		dx = -WIDTH(p1);
 		w = fmax(0.0, w - WIDTH(p1));
 	}
 
-	list(tos - t);
-	p1 = pop();
+	push(p1); // base
 
 	push_double(EMIT_SUPERSCRIPT);
 	push_double(h);
@@ -53,7 +46,7 @@ emit_update_superscript(int t)
 	push_double(w);
 	push_double(dx);
 	push_double(dy);
-	push(p1);
+	push(p2);
 
 	list(7);
 

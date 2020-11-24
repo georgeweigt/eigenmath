@@ -11,7 +11,7 @@ emit_delims(double x, double y, double h, double d, double w, double stroke_widt
 
 	if (h > ch || d > cd) {
 		emit_left_delim(x, y, h, d, cw, stroke_width);
-		emit_right_delim(x + cw + w, y, h, d, cw, stroke_width);
+		emit_right_delim(x + w - cw, y, h, d, cw, stroke_width);
 		return;
 	}
 
@@ -22,7 +22,7 @@ emit_delims(double x, double y, double h, double d, double w, double stroke_widt
 	emit_push('(');
 
 	emit_push(DRAW_CHAR);
-	emit_push(x + cw + w);
+	emit_push(x + w - cw);
 	emit_push(y);
 	emit_push(font_num);
 	emit_push(')');

@@ -3,19 +3,29 @@
 void
 emit_args(struct atom *p)
 {
-	int t = tos;
+	int t;
 
 	p = cdr(p);
 
-	if (iscons(p)) {
-		emit_expr(car(p));
-		p = cdr(p);
-		while (iscons(p)) {
-			emit_roman_char(',');
-			emit_expr(car(p));
-			p = cdr(p);
-		}
+	if (!iscons(p)) {
+		emit_roman_char('(');
+		emit_roman_char(')');
+		return;
 	}
 
-	emit_update_subexpr(t);
+	t = tos;
+
+	emit_expr(car(p));
+
+	p = cdr(p);
+
+	while (iscons(p)) {
+		emit_roman_char(',');
+		emit_expr(car(p));
+		p = cdr(p);
+	}
+
+	emit_update_list(t);
+
+	emit_update_subexpr();
 }

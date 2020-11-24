@@ -4,7 +4,7 @@ void
 emit_expr(struct atom *p)
 {
 	if (isnegativeterm(p) || (car(p) == symbol(ADD) && isnegativeterm(cadr(p)))) {
-		emit_roman_char(MINUS);
+		emit_roman_char(MINUS_SIGN);
 		emit_thin_space();
 	}
 
@@ -22,9 +22,9 @@ emit_expr_nib(struct atom *p)
 	p = cdr(p);
 	while (iscons(p)) {
 		if (isnegativeterm(car(p)))
-			emit_infix_operator(MINUS);
+			emit_infix_operator(MINUS_SIGN);
 		else
-			emit_infix_operator('+');
+			emit_infix_operator(PLUS_SIGN);
 		emit_term(car(p));
 		p = cdr(p);
 	}

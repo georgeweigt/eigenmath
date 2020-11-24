@@ -1,12 +1,18 @@
 #include "app.h"
 
 void
-emit_update_subexpr(int t)
+emit_update_subexpr(void)
 {
-	int font_num, i;
-	double opcode, h, d, w;
+	int font_num, opcode;
+	double d, h, w;
 
 	save();
+
+	p1 = pop();
+
+	h = HEIGHT(p1);
+	d = DEPTH(p1);
+	w = WIDTH(p1);
 
 	if (emit_level == 0) {
 		opcode = EMIT_SUBEXPR;
@@ -16,19 +22,10 @@ emit_update_subexpr(int t)
 		font_num = SMALL_ROMAN_FONT;
 	}
 
-	h = get_char_height(font_num);
-	d = get_char_depth(font_num);
-	w = 2.0 * get_char_width(font_num, '(');
+	h = fmax(h, get_char_height(font_num));
+	d = fmax(d, get_char_depth(font_num));
 
-	for (i = t; i < tos; i++) {
-		p1 = stack[i];
-		h = fmax(h, HEIGHT(p1));
-		d = fmax(d, DEPTH(p1));
-		w += WIDTH(p1);
-	}
-
-	list(tos - t);
-	p1 = pop();
+	w += 2.0 * get_char_width(font_num, '(');
 
 	push_double(opcode);
 	push_double(h);
