@@ -11,7 +11,7 @@ cmdisplay(void)
 
 	emit_level = 0;
 	emit_index = 0;
-	emit_count = 1; // for DRAW_STOP
+	emit_count = 1; // for DRAW_END
 
 	emit_list(p1);
 
@@ -29,9 +29,9 @@ cmdisplay(void)
 	x = 0.0;
 	y = h;
 
-	emit_draw_codes(x, y, p1);
+	emit_draw(x, y, p1);
 
-	emit_push(DRAW_STOP);
+	emit_push(DRAW_END);
 
 	emit_display->type = 2;
 

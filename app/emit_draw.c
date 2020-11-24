@@ -1,7 +1,7 @@
 #include "app.h"
 
 void
-emit_draw_codes(double x, double y, struct atom *p)
+emit_draw(double x, double y, struct atom *p)
 {
 	double d, dx, dy, h, k, stroke_width, w;
 
@@ -28,7 +28,7 @@ emit_draw_codes(double x, double y, struct atom *p)
 	case EMIT_LIST:
 		p = car(p);
 		while (iscons(p)) {
-			emit_draw_codes(x, y, car(p));
+			emit_draw(x, y, car(p));
 			x += WIDTH(car(p));
 			p = cdr(p);
 		}
@@ -39,19 +39,19 @@ emit_draw_codes(double x, double y, struct atom *p)
 		x += car(p)->u.d;
 		y += cadr(p)->u.d;
 		p = caddr(p);
-		emit_draw_codes(x, y, p);
+		emit_draw(x, y, p);
 		break;
 
 	case EMIT_SUBEXPR:
-//		emit_delims(x, y, h, d, w, TIMES_FONT, DELIM_STROKE);
+		emit_delims(x, y, h, d, w, TIMES_FONT, DELIM_STROKE);
 		x += get_char_width(TIMES_FONT, '(');
-		emit_draw_codes(x, y, car(p));
+		emit_draw(x, y, car(p));
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-//		emit_delims(x, y, h, d, w, SMALL_TIMES_FONT, SMALL_DELIM_STROKE);
+		emit_delims(x, y, h, d, w, SMALL_TIMES_FONT, SMALL_DELIM_STROKE);
 		x += get_char_width(SMALL_TIMES_FONT, '(');
-		emit_draw_codes(x, y, car(p));
+		emit_draw(x, y, car(p));
 		break;
 
 	case EMIT_FRACTION:
@@ -62,14 +62,14 @@ emit_draw_codes(double x, double y, struct atom *p)
 		dx = (w - WIDTH(car(p))) / 2.0;
 		dy = HEIGHT(car(p)) - h;
 
-		emit_draw_codes(x + dx, y + dy, car(p));
+		emit_draw(x + dx, y + dy, car(p));
 
 		// denominator
 
 		dx = (w - WIDTH(cadr(p))) / 2.0;
 		dy = d - DEPTH(cadr(p));
 
-		emit_draw_codes(x + dx, y + dy, cadr(p));
+		emit_draw(x + dx, y + dy, cadr(p));
 
 		// horizontal line
 
@@ -91,7 +91,7 @@ emit_draw_codes(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_TABLE:
-//		emit_delims(x, y, h, d, w, TIMES_FONT, LARGE_DELIM_STROKE);
+		emit_delims(x, y, h, d, w, TIMES_FONT, LARGE_DELIM_STROKE);
 		x += get_char_width(TIMES_FONT, '(');
 //		emit_draw_table(x, y, p);
 

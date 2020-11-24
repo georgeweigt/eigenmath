@@ -22,7 +22,7 @@ struct display {
 #define SMALL_SYMBOL_FONT 9
 #define SMALL_ITALIC_SYMBOL_FONT 10
 
-#define DRAW_STOP 0
+#define DRAW_END 0
 #define DRAW_CHAR 1
 #define DRAW_STROKE 2
 
@@ -45,23 +45,24 @@ struct display {
 #define EMIT_SMALL_FRACTION 9
 #define EMIT_TABLE 10
 
+#define DELIM_STROKE 2.0
+#define SMALL_DELIM_STROKE 1.0
+#define LARGE_DELIM_STROKE 2.5
+
 #define MINUS_HEIGHT 8.5
 #define SUPERSCRIPT_HEIGHT 10.0
 #define SUBSCRIPT_DEPTH 7.0
 #define FRAC_VSPACE 5.5
 #define FRAC_STROKE 1.5
-#define DELIM_STROKE 2.0
 
 #define SMALL_MINUS_HEIGHT 6.0
 #define SMALL_SUPERSCRIPT_HEIGHT 10.0
 #define SMALL_SUBSCRIPT_DEPTH 7.0
 #define SMALL_FRAC_VSPACE 4.0
 #define SMALL_FRAC_STROKE 1.0
-#define SMALL_DELIM_STROKE 1.5
 
 #define TABLE_HSPACE 12.0
 #define TABLE_VSPACE 12.0
-#define TABLE_STROKE 2.5
 
 #define OPCODE(p) car(p)->u.d
 #define HEIGHT(p) car(cdr(p))->u.d
