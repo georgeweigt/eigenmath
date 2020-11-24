@@ -39,6 +39,7 @@ void emit_string(struct atom *p);
 void emit_subexpr(struct atom *p);
 void emit_symbol(struct atom *p);
 int emit_symbol_fragment(char *symbol, int k);
+void emit_table(double x, double y, struct atom *p);
 void emit_tensor(struct atom *p);
 void emit_term(struct atom *p);
 void emit_term_nib(struct atom *p);

@@ -10,7 +10,7 @@ emit_draw(double x, double y, struct atom *p)
 	d = DEPTH(p);
 	w = WIDTH(p);
 
-	p = cdr(cdr(cdr(cdr(p))));
+	p = cddddr(p);
 
 	switch ((int) k) {
 
@@ -93,8 +93,7 @@ emit_draw(double x, double y, struct atom *p)
 	case EMIT_TABLE:
 		emit_delims(x, y, h, d, w, TIMES_FONT, LARGE_DELIM_STROKE);
 		x += get_char_width(TIMES_FONT, '(');
-//		emit_draw_table(x, y, p);
-
+		emit_table(x, y - h, p);
 		break;
 	}
 }
