@@ -87,7 +87,7 @@ extern int app_total_w;
 
 extern struct display *emit_display;
 extern int emit_level;
+extern int emit_index;
 extern int emit_count;
-extern int emit_max;
 
 #include "app-prototypes.h"

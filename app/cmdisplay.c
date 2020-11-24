@@ -10,23 +10,21 @@ cmdisplay(void)
 	p1 = pop();
 
 	emit_level = 0;
+	emit_index = 0;
 	emit_count = 1; // for DRAW_STOP
 
 	emit_list(p1);
-
-	p1 = pop();
-
-	h = HEIGHT(p1);
-	d = DEPTH(p1);
-	w = WIDTH(p1);
 
 	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
 
 	if (emit_display == NULL)
 		malloc_kaput();
 
-	emit_max = emit_count;
-	emit_count = 0;
+	p1 = pop();
+
+	h = HEIGHT(p1);
+	d = DEPTH(p1);
+	w = WIDTH(p1);
 
 	x = 0.0;
 	y = h;
@@ -43,12 +41,4 @@ cmdisplay(void)
 	shipout(emit_display);
 
 	restore();
-}
-
-void
-emit_push(double d)
-{
-	if (emit_count == emit_max)
-		stop("internal error 2");
-	emit_display->tab[emit_count++] = (float) d;
 }

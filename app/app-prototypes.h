@@ -1,5 +1,4 @@
 void cmdisplay(void);
-void emit_push(double d);
 int count_denominators(struct atom *p);
 void draw_char(float x, float y, int font_num, int char_num);
 void draw_formula(float x, float y, float *p);
@@ -28,6 +27,7 @@ void emit_medium_space(void);
 void emit_numerators(struct atom *p);
 void emit_numeric_exponent(struct atom *p);
 void emit_power(struct atom *p);
+void emit_push(double d);
 void emit_rational(struct atom *p);
 void emit_reciprocal(struct atom *p);
 void emit_roman_char(int char_num);
