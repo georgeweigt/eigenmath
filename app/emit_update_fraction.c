@@ -4,7 +4,7 @@ void
 emit_update_fraction(void)
 {
 	int font_num, opcode;
-	double d, dy, h, w;
+	double d, dy, h, v, w;
 
 	save();
 
@@ -25,8 +25,10 @@ emit_update_fraction(void)
 
 	dy = get_operator_height(font_num); // approximate height of '-'
 
-	h += dy + get_underline_position(font_num);
-	d -= dy;
+	v = dy / 2.0; // extra vertical space
+
+	h += v + dy;
+	d += v - dy;
 	w += get_width(font_num, 'n') / 2.0;
 
 	push_double(opcode);

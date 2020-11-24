@@ -22,7 +22,7 @@ get_char_height(int font_num)
 	CTFontRef f;
 	CGFloat h;
 	f = get_font_ref(font_num);
-	h = CTFontGetAscent(f);
+	h = CTFontGetCapHeight(f);
 	return h;
 }
 
