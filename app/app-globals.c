@@ -5,4 +5,4 @@ int emit_level;
 int emit_index;
 int emit_count;
 
-CTFontRef font_ref[5];
+CTFontRef font_ref_tab[5];

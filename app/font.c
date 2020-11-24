@@ -3,70 +3,70 @@
 CTFontRef
 get_font_ref(int font_num)
 {
-	return font_ref[font_num];
+	return font_ref_tab[font_num];
 }
 
 int
-get_ascent(int font)
+get_ascent(int font_num)
 {
 	CTFontRef f;
 	CGFloat h;
-	f = get_font_ref(font);
+	f = get_font_ref(font_num);
 	h = CTFontGetAscent(f);
 	return ceil(h);
 }
 
 double
-get_char_height(int font)
+get_char_height(int font_num)
 {
 	CTFontRef f;
 	CGFloat h;
-	f = get_font_ref(font);
+	f = get_font_ref(font_num);
 	h = CTFontGetAscent(f);
 	return h;
 }
 
 int
-get_descent(int font)
+get_descent(int font_num)
 {
 	CTFontRef f;
 	CGFloat d;
-	f = get_font_ref(font);
+	f = get_font_ref(font_num);
 	d = CTFontGetDescent(f);
 	return ceil(d);
 }
 
 double
-get_char_depth(int font)
+get_char_depth(int font_num)
 {
 	CTFontRef f;
 	CGFloat d;
-	f = get_font_ref(font);
+	f = get_font_ref(font_num);
 	d = CTFontGetDescent(f);
 	return d;
 }
 
 int
-get_xheight(int font)
+get_xheight(int font_num)
 {
 	CTFontRef f;
 	CGFloat h;
-	f = get_font_ref(font);
+	f = get_font_ref(font_num);
 	h = CTFontGetXHeight(f);
 	return ceil(h);
 }
 
 int
-get_width(int font, int c)
+get_width(int font_num, int char_num)
 {
 	CTFontRef f;
 	CFStringRef name;
 	CGGlyph g;
 	double w;
 
-	f = get_font_ref(font);
+	f = get_font_ref(font_num);
 
-	name = get_char_name(c);
+	name = get_char_name(char_num);
 
 	g = CTFontGetGlyphWithName(f, name);
 	w = CTFontGetAdvancesForGlyphs(f, kCTFontOrientationHorizontal, &g, NULL, 1);
@@ -91,19 +91,19 @@ get_char_width(int font_num, int char_num)
 }
 
 int
-text_width(int font, char *s)
+text_width(int font_num, char *s)
 {
 	int w = 0;
 	while (*s)
-		w += get_width(font, *s++);
+		w += get_width(font_num, *s++);
 	return w;
 }
 
 void
-get_height_width(int *h, int *w, int font, char *s)
+get_height_width(int *h, int *w, int font_num, char *s)
 {
-	*h = get_ascent(font) + get_descent(font);
-	*w = text_width(font, s);
+	*h = get_ascent(font_num) + get_descent(font_num);
+	*w = text_width(font_num, s);
 }
 
 // Draw a little square at coordinates x + dx, y + dy
