@@ -87,7 +87,7 @@ get_char_width(int font_num, int char_num)
 	g = CTFontGetGlyphWithName(f, name);
 	w = CTFontGetAdvancesForGlyphs(f, kCTFontOrientationHorizontal, &g, NULL, 1);
 
-	return w;
+	return ceil(w);
 }
 
 int

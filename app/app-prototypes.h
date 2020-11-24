@@ -48,7 +48,7 @@ void emit_thin_space(void);
 void emit_update_fraction(void);
 void emit_update_list(int t);
 void emit_update_subexpr(void);
-void emit_update_subscript(int t);
+void emit_update_subscript(void);
 void emit_update_superscript(void);
 void emit_update_table(int n, int m);
 void emit_vector(struct atom *p);

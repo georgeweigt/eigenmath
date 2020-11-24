@@ -1,38 +1,29 @@
 #include "app.h"
 
 void
-emit_update_subscript(int t)
+emit_update_subscript(void)
 {
-	int i;
-	double h, d, w, dx, dy;
+	int font_num;
+	double d, dx, dy, h, w;
 
 	save();
 
-	h = 0.0;
-	d = 0.0;
-	w = 0.0;
-
-	for (i = t; i < tos; i++) {
-		p1 = stack[i];
-		h = fmax(h, HEIGHT(p1));
-		d = fmax(d, DEPTH(p1));
-		w += WIDTH(p1);
-	}
-
-	if (emit_level == 0) {
-		h = get_char_height(ROMAN_FONT);
-		d += SUBSCRIPT_DEPTH;
-		dx = 0;
-		dy = SUBSCRIPT_DEPTH;
-	} else {
-		h = get_char_height(SMALL_ROMAN_FONT);
-		d += SMALL_SUBSCRIPT_DEPTH;
-		dx = 0;
-		dy = SMALL_SUBSCRIPT_DEPTH;
-	}
-
-	list(tos - t);
 	p1 = pop();
+
+	w = WIDTH(p1);
+
+	if (emit_level == 0)
+		font_num = ROMAN_FONT;
+	else
+		font_num = SMALL_ROMAN_FONT;
+
+	h = get_char_height(font_num);
+	d = get_char_depth(font_num);
+
+	dx = 0.0;
+	dy = h / 2.0;
+
+	d += dy;
 
 	push_double(EMIT_SUBSCRIPT);
 	push_double(h);

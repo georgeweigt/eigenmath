@@ -25,14 +25,16 @@ emit_symbol(struct atom *p)
 
 	// emit subscript
 
-	t = tos;
-
 	emit_level++;
+
+	t = tos;
 
 	while (s[k] != '\0')
 		k = emit_symbol_fragment(s, k);
 
+	emit_update_list(t);
+
 	emit_level--;
 
-	emit_update_subscript(t);
+	emit_update_subscript();
 }
