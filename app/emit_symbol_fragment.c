@@ -7,7 +7,7 @@ struct {
 	int italic;
 } symbol_name_tab[N] = {
 
-	{"Alpha",	0},
+	{"Alpha",	0}, // 128
 	{"Beta",	0},
 	{"Gamma",	0},
 	{"Delta",	0},
@@ -32,32 +32,32 @@ struct {
 	{"Psi",		0},
 	{"Omega",	0},
 
-	{"alpha",	1},
-	{"beta",	1},
-	{"gamma",	1},
-	{"delta",	1},
-	{"epsilon",	1},
-	{"zeta",	1},
-	{"eta",		1},
-	{"theta",	1},
-	{"iota",	1},
-	{"kappa",	1},
-	{"lambda",	1},
-	{"mu",		1},
-	{"nu",		1},
-	{"xi",		1},
-	{"omicron",	1},
-	{"pi",		1},
-	{"rho",		1},
-	{"sigma",	1},
-	{"tau",		1},
-	{"upsilon",	1},
-	{"phi",		1},
-	{"chi",		1},
-	{"psi",		1},
-	{"omega",	1},
+	{"alpha",	1}, // 152
+	{"beta",	1}, // 153
+	{"gamma",	1}, // 154
+	{"delta",	1}, // 155
+	{"epsilon",	1}, // 156
+	{"zeta",	1}, // 157
+	{"eta",		1}, // 158
+	{"theta",	1}, // 159
+	{"iota",	1}, // 160
+	{"kappa",	1}, // 161
+	{"lambda",	1}, // 162
+	{"mu",		1}, // 163
+	{"nu",		1}, // 164
+	{"xi",		1}, // 165
+	{"omicron",	1}, // 166
+	{"pi",		1}, // 167
+	{"rho",		1}, // 168
+	{"sigma",	1}, // 169
+	{"tau",		1}, // 170
+	{"upsilon",	1}, // 171
+	{"phi",		1}, // 172
+	{"chi",		1}, // 173
+	{"psi",		1}, // 174
+	{"omega",	1}, // 175
 
-	{"hbar",	0},
+	{"hbar",	1},
 };
 
 int

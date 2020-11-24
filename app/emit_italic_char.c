@@ -12,7 +12,7 @@ emit_italic_char(int char_num)
 		font_num = SMALL_ITALIC_FONT;
 
 	h = get_char_height(font_num);
-	d = get_char_depth(font_num);
+	d = get_char_depth(font_num, char_num);
 	w = get_char_width(font_num, char_num);
 
 	push_double(EMIT_CHAR);

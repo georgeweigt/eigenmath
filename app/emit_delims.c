@@ -6,7 +6,7 @@ emit_delims(double x, double y, double h, double d, double w, double stroke_widt
 	double cd, ch, cw;
 
 	ch = get_char_height(font_num);
-	cd = get_char_depth(font_num);
+	cd = get_char_depth(font_num, '(');
 	cw = get_char_width(font_num, '(');
 
 	if (h > ch || d > cd) {

@@ -179,7 +179,7 @@ const glyph_info = {
 "&mu;":		{width:502,	italic_font:1,	descender:1},
 "&nu;":		{width:463,	italic_font:1,	descender:0},
 "&xi;":		{width:511,	italic_font:1,	descender:1},
-"&omicron;":	{width:500,	italic_font:1,	descender:1},
+"&omicron;":	{width:500,	italic_font:1,	descender:0},
 "&rho;":	{width:480,	italic_font:1,	descender:1},
 "&upsilon;":	{width:459,	italic_font:1,	descender:0},
 "&chi;":	{width:490,	italic_font:1,	descender:1},

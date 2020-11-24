@@ -10,6 +10,7 @@ emit_update_subscript(void)
 
 	p1 = pop();
 
+	d = DEPTH(p1);
 	w = WIDTH(p1);
 
 	if (emit_level == 0)
@@ -18,7 +19,6 @@ emit_update_subscript(void)
 		font_num = SMALL_ROMAN_FONT;
 
 	h = get_char_height(font_num);
-	d = get_char_depth(font_num);
 
 	dx = 0.0;
 	dy = h / 2.0;

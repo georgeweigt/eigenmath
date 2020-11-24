@@ -23,7 +23,7 @@ emit_update_subexpr(void)
 	}
 
 	h = fmax(h, get_char_height(font_num));
-	d = fmax(d, get_char_depth(font_num));
+	d = fmax(d, get_char_depth(font_num, '('));
 
 	w += 2.0 * get_char_width(font_num, '(');
 

@@ -51,12 +51,12 @@
 #define VAL1(p) car(p)->u.d
 #define VAL2(p) cadr(p)->u.d
 
-#define PLUS_SIGN 176
-#define MINUS_SIGN 177
-#define MULTIPLY_SIGN 178
-#define GREATEREQUAL 179
-#define LESSEQUAL 180
-#define HBAR 181
+#define HBAR 176
+#define PLUS_SIGN 177
+#define MINUS_SIGN 178
+#define MULTIPLY_SIGN 179
+#define GREATEREQUAL 180
+#define LESSEQUAL 181
 #define PARTIALDIFF 182
 
 struct display {
