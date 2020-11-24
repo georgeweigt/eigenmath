@@ -4,58 +4,73 @@ void
 emit_update_table(int n, int m)
 {
 	int i, j, t;
-	double h, d, w, total_height, total_width;
-	struct atom *p;
+	double d, h, w;
+	double total_depth, total_height, total_width;
 
 	save();
 
 	total_height = 0.0;
+	total_depth = 0.0;
 	total_width = 0.0;
 
 	t = tos - n * m;
 
-	// row height and depth
+	// height of each row
 
 	for (i = 0; i < n; i++) { // for each row
 		h = 0.0;
-		d = 0.0;
 		for (j = 0; j < m; j++) { // for each column
-			p = stack[t + i * m + j];
-			h = fmax(h, HEIGHT(p));
-			d = fmax(d, DEPTH(p));
+			p1 = stack[t + i * m + j];
+			h = fmax(h, HEIGHT(p1));
 		}
 		h += TABLE_VSPACE;
-		d += TABLE_VSPACE;
 		push_double(h);
-		push_double(d);
-		total_height += h + d;
+		total_height += h;
 	}
 
-	// column width
+	list(n);
+	p2 = pop();
+
+	// depth of each row
+
+	for (i = 0; i < n; i++) { // for each row
+		d = 0.0;
+		for (j = 0; j < m; j++) { // for each column
+			p1 = stack[t + i * m + j];
+			d = fmax(d, DEPTH(p1));
+		}
+		d += TABLE_VSPACE;
+		push_double(d);
+		total_depth += d;
+	}
+
+	list(n);
+	p3 = pop();
+
+	// width of each column
 
 	for (j = 0; j < m; j++) { // for each column
 		w = 0.0;
 		for (i = 0; i < n; i++) { // for each row
-			p = stack[t + i * m + j];
-			w = fmax(w, WIDTH(p));
+			p1 = stack[t + i * m + j];
+			w = fmax(w, WIDTH(p1));
 		}
 		w += 2.0 * TABLE_HSPACE;
 		push_double(w);
 		total_width += w;
 	}
 
+	list(m);
+	p4 = pop();
+
+	// h, d, w for entire table
+
 	h = total_height / 2.0 + MINUS_HEIGHT;
 	d = total_height - h;
-	w = total_width + 2.0 * get_width(TIMES_FONT, '(');
-
-	list(m);
-	p3 = pop(); // list of column widths
-
-	list(2 * n);
-	p2 = pop(); // list of row height and depth pairs
+	w = total_width + 2.0 * get_char_width(TIMES_FONT, '(');
 
 	list(n * m);
-	p1 = pop(); // list of elements
+	p1 = pop();
 
 	push_double(EMIT_TABLE);
 	push_double(h);
@@ -66,8 +81,9 @@ emit_update_table(int n, int m)
 	push(p1);
 	push(p2);
 	push(p3);
+	push(p4);
 
-	list(7);
+	list(10);
 
 	emit_count += 36; // alloc 36 floats for drawing delimiters
 
