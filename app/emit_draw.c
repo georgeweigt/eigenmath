@@ -57,36 +57,35 @@ emit_draw(double x, double y, struct atom *p)
 	case EMIT_FRACTION:
 	case EMIT_SMALL_FRACTION:
 
+		// horizontal line
+
+		dy = VAL1(p);
+
+		if (k == EMIT_FRACTION)
+			stroke_width = FRAC_STROKE;
+		else
+			stroke_width = SMALL_FRAC_STROKE;
+
+		emit_push(DRAW_STROKE);
+		emit_push(x);
+		emit_push(y - dy);
+		emit_push(x + w);
+		emit_push(y - dy);
+		emit_push(stroke_width);
+
 		// numerator
 
+		p = cdr(p);
 		dx = (w - WIDTH(car(p))) / 2.0;
 		dy = HEIGHT(car(p)) - h;
-
 		emit_draw(x + dx, y + dy, car(p));
 
 		// denominator
 
-		dx = (w - WIDTH(cadr(p))) / 2.0;
-		dy = d - DEPTH(cadr(p));
-
-		emit_draw(x + dx, y + dy, cadr(p));
-
-		// horizontal line
-
-		if (k == EMIT_FRACTION) {
-			y -= MINUS_HEIGHT;
-			stroke_width = FRAC_STROKE;
-		} else {
-			y -= SMALL_MINUS_HEIGHT;
-			stroke_width = SMALL_FRAC_STROKE;
-		}
-
-		emit_push(DRAW_STROKE);
-		emit_push(x);
-		emit_push(y);
-		emit_push(x + w);
-		emit_push(y);
-		emit_push(stroke_width);
+		p = cdr(p);
+		dx = (w - WIDTH(car(p))) / 2.0;
+		dy = d - DEPTH(car(p));
+		emit_draw(x + dx, y + dy, car(p));
 
 		break;
 

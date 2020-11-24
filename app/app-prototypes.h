@@ -70,6 +70,7 @@ void emit_graph(void);
 CTFontRef get_font_ref(int font_num);
 int get_ascent(int font_num);
 double get_char_height(int font_num);
+double get_underline_position(int font_num);
 int get_descent(int font_num);
 double get_char_depth(int font_num);
 double get_xheight(int font_num);

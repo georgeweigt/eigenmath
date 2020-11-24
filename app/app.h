@@ -1,18 +1,8 @@
 #include "../src/defs.h"
 #include <ApplicationServices/ApplicationServices.h>
 
-struct display {
-	struct display *next;
-	uint8_t type, attr;
-	int h, w;
-	int tot_h, tot_w;
-	int len;
-	float tab[1];
-	uint8_t buf[0];
-};
-
 #define FONT_SIZE 24.0
-#define SMALL_FONT_SIZE 20.0
+#define SMALL_FONT_SIZE 18.0
 
 #define SMALL_FONT 0
 #define DEFAULT_FONT 0
@@ -47,14 +37,7 @@ struct display {
 #define SMALL_DELIM_STROKE 1.0
 #define LARGE_DELIM_STROKE 2.5
 
-#define MINUS_HEIGHT 8.5
-#define SUBSCRIPT_DEPTH 7.0
-#define FRAC_VSPACE 5.5
 #define FRAC_STROKE 1.5
-
-#define SMALL_MINUS_HEIGHT 6.0
-#define SMALL_SUBSCRIPT_DEPTH 7.0
-#define SMALL_FRAC_VSPACE 4.0
 #define SMALL_FRAC_STROKE 1.0
 
 #define TABLE_HSPACE 12.0
@@ -75,6 +58,16 @@ struct display {
 #define LESSEQUAL 180
 #define HBAR 181
 #define PARTIALDIFF 182
+
+struct display {
+	struct display *next;
+	uint8_t type, attr;
+	int h, w;
+	int tot_h, tot_w;
+	int len;
+	float tab[1];
+	uint8_t buf[0];
+};
 
 extern CGContextRef gcontext;
 

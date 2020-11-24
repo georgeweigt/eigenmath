@@ -3,7 +3,8 @@
 void
 emit_update_fraction(void)
 {
-	double opcode, h, d, w;
+	int font_num, opcode;
+	double d, dy, h, w;
 
 	save();
 
@@ -16,24 +17,27 @@ emit_update_fraction(void)
 
 	if (emit_level == 0) {
 		opcode = EMIT_FRACTION;
-		h += FRAC_VSPACE + MINUS_HEIGHT;
-		d += FRAC_VSPACE - MINUS_HEIGHT;
-		w += get_width(ROMAN_FONT, 'n') / 2.0;
+		font_num = ROMAN_FONT;
 	} else {
 		opcode = EMIT_SMALL_FRACTION;
-		h += SMALL_FRAC_VSPACE + SMALL_MINUS_HEIGHT;
-		d += SMALL_FRAC_VSPACE - SMALL_MINUS_HEIGHT;
-		w += get_width(SMALL_ROMAN_FONT, 'n') / 2.0;
+		font_num = SMALL_ROMAN_FONT;
 	}
+
+	dy = 0.7 * get_xheight(font_num); // approximate height of '-'
+
+	h += dy + get_underline_position(font_num);
+	d -= dy;
+	w += get_width(font_num, 'n') / 2.0;
 
 	push_double(opcode);
 	push_double(h);
 	push_double(d);
 	push_double(w);
+	push_double(dy);
 	push(p1);
 	push(p2);
 
-	list(6);
+	list(7);
 
 	emit_count += 6; // alloc 6 floats for drawing horizontal line
 

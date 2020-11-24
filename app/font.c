@@ -26,6 +26,16 @@ get_char_height(int font_num)
 	return h;
 }
 
+double
+get_underline_position(int font_num)
+{
+	CTFontRef f;
+	CGFloat h;
+	f = get_font_ref(font_num);
+	h = CTFontGetUnderlinePosition(f);
+	return -h;
+}
+
 int
 get_descent(int font_num)
 {
