@@ -1,7 +1,7 @@
 #include "app.h"
 
 void
-draw_stroke(float x1, float y1, float x2, float y2, float stroke_width)
+draw_stroke(double x1, double y1, double x2, double y2, double stroke_width)
 {
 	CGPoint p[2];
 

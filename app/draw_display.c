@@ -1,11 +1,11 @@
 #include "app.h"
 
 void
-draw_display(int y1, int y2)
+draw_display(double y1, double y2)
 {
-	int y;
+	double y;
 	struct display *p;
-	y = 0;
+	y = 0.0;
 	p = first;
 	while (p) {
 		draw_block(p, y, y1, y2);

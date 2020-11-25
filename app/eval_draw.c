@@ -1,9 +1,5 @@
 #include "app.h"
 
-extern int get_ascent(int);
-extern int get_descent(int);
-extern int text_width(int, char *);
-
 #define F p3
 #define T p4
 #define X p5
@@ -17,11 +13,11 @@ double ymin, ymax;
 
 #define YMAX 2000
 
-static struct {
+struct {
 	double x, y, t;
 } draw_buf[YMAX];
 
-static int draw_count;
+int draw_count;
 
 void
 eval_draw(void)
@@ -206,7 +202,7 @@ eval_f(double t)
 	drawing--;
 }
 
-static int
+int
 invisible(int i)
 {
 	if (draw_buf[i].x < 0 || draw_buf[i].x > GDIM)
@@ -434,13 +430,7 @@ setup_yrange_f(void)
 		stop("draw: yrange is zero");
 }
 
-static void emit_box(void);
-static void emit_xaxis(void);
-static void emit_yaxis(void);
-static void get_xzero(void);
-static void get_yzero(void);
-
-static int xzero, yzero;
+int xzero, yzero;
 
 void
 emit_graph(void)
@@ -470,7 +460,7 @@ emit_graph(void)
 	p1 = pop();
 	emit_list(p1);
 
-	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
+	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (double));
 
 	if (emit_display == NULL)
 		malloc_kaput();
@@ -508,13 +498,13 @@ emit_graph(void)
 	shipout(emit_display);
 }
 
-static void
+void
 get_xzero(void)
 {
 	xzero = GDIM * (0.0 - xmin) / (xmax - xmin);
 }
 
-static void
+void
 get_yzero(void)
 {
 	double y;
@@ -522,10 +512,10 @@ get_yzero(void)
 	yzero = GDIM - y; // flip the y coordinate
 }
 
-static void
+void
 emit_box(void)
 {
-	float x1, x2, y1, y2;
+	double x1, x2, y1, y2;
 
 	x1 = DRAW_LEFT_PAD;
 	y1 = DRAW_TOP_PAD;
@@ -570,10 +560,10 @@ emit_box(void)
 	emit_push(1.0);
 }
 
-static void
+void
 emit_xaxis(void)
 {
-	float x1, x2, y1, y2;
+	double x1, x2, y1, y2;
 
 	if (yzero < 0 || yzero > GDIM)
 		return;
@@ -592,10 +582,10 @@ emit_xaxis(void)
 	emit_push(1.0);
 }
 
-static void
+void
 emit_yaxis(void)
 {
-	float x1, x2, y1, y2;
+	double x1, x2, y1, y2;
 
 	if (xzero < 0 || xzero > GDIM)
 		return;

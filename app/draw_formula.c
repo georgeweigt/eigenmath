@@ -1,7 +1,7 @@
 #include "app.h"
 
 void
-draw_formula(float x, float y, float *p)
+draw_formula(double x, double y, double *p)
 {
 	int k;
 

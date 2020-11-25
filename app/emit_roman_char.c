@@ -24,5 +24,5 @@ emit_roman_char(int char_num)
 
 	list(6);
 
-	emit_count += 5; // alloc 5 floats for drawing roman char
+	emit_count += 5; // alloc 5 doubles for drawing roman char
 }

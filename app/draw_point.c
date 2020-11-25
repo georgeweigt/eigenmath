@@ -1,9 +1,9 @@
 #include "app.h"
 
-#define R 1.1
+#define R 1.0
 
 void
-draw_point(float x, float y)
+draw_point(double x, double y)
 {
 	CGRect r;
 

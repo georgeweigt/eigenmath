@@ -21,8 +21,8 @@ draw_text(double x, double y, uint8_t *buf, int len)
 
 	for (i = 0; i < len; i++) {
 
-		p.x = (float) x;
-		p.y = (float) y;
+		p.x = x;
+		p.y = y;
 
 		s = get_char_name(buf[i]);
 		g = CTFontGetGlyphWithName(f, s);

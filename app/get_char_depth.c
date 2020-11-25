@@ -1,6 +1,6 @@
 #include "app.h"
 
-int roman_tab[256] = {
+uint8_t roman_tab[256] = {
 
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 
@@ -21,7 +21,7 @@ int roman_tab[256] = {
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 };
 
-int italic_tab[256] = {
+uint8_t italic_tab[256] = {
 
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 
@@ -46,8 +46,8 @@ double
 get_char_depth(int font_num, int char_num)
 {
 	int t;
+	double d;
 	CTFontRef f;
-	CGFloat d;
 
 	if (font_num == ITALIC_FONT || font_num == SMALL_ITALIC_FONT)
 		t = italic_tab[char_num];

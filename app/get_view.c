@@ -1,7 +1,7 @@
 #include "app.h"
 
 void
-get_view(int *h, int *w)
+get_view(double *h, double *w)
 {
 	mark = last;
 	cleared = 0;
@@ -9,7 +9,7 @@ get_view(int *h, int *w)
 		*h = mark->tot_h;
 		*w = mark->tot_w;
 	} else {
-		*h = 0;
-		*w = 0;
+		*h = 0.0;
+		*w = 0.0;
 	}
 }

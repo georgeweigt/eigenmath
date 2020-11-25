@@ -84,7 +84,7 @@ emit_update_table(int n, int m)
 
 	list(10);
 
-	emit_count += 36; // alloc 36 floats for drawing delimiters
+	emit_count += 36; // alloc 36 doubles for drawing delimiters
 
 	restore();
 }

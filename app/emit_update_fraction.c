@@ -40,7 +40,7 @@ emit_update_fraction(void)
 
 	list(6);
 
-	emit_count += 6; // alloc 6 floats for drawing horizontal line
+	emit_count += 6; // alloc 6 doubles for drawing horizontal line
 
 	restore();
 }

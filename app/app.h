@@ -76,23 +76,23 @@ struct display {
 	struct display *next;
 	int type;
 	int color;
-	int h;
-	int w;
-	int tot_h;
-	int tot_w;
+	double h;
+	double w;
+	double tot_h;
+	double tot_w;
 	int len;
 	uint8_t buf[0];
-	float tab[0];
+	double tab[0];
 };
 
 extern CGContextRef gcontext;
 
 extern int cleared;
-extern int app_total_h;
-extern int app_total_w;
+extern double app_total_h;
+extern double app_total_w;
 extern int malloc_kaput_flag;
-extern int total_h;
-extern int total_w;
+extern double total_h;
+extern double total_w;
 extern struct display *first;
 extern struct display *mark;
 extern struct display *last;

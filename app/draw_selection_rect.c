@@ -1,10 +1,10 @@
 #include "app.h"
 
 void
-draw_selection_rect(float x, float y, float width, float height)
+draw_selection_rect(double x, double y, double width, double height)
 {
-	float fx1, fx2, fy1, fy2;
-	static CGFloat lengths[2] = {2.0, 2.0}; // for dashed line
+	double fx1, fx2, fy1, fy2;
+	static double lengths[2] = {2.0, 2.0}; // for dashed line
 
 	// both equal to 0.0 means there is no selection
 
@@ -13,11 +13,11 @@ draw_selection_rect(float x, float y, float width, float height)
 
 	// pixel alignment
 
-	fx1 = floor(x);
-	fx2 = ceil(x + width);
+	fx1 = x;
+	fx2 = x + width;
 
-	fy1 = floor(y);
-	fy2 = ceil(y + height);
+	fy1 = y;
+	fy2 = y + height;
 
 	if (fx1 < 0)
 		fx1 = 0;
@@ -32,12 +32,6 @@ draw_selection_rect(float x, float y, float width, float height)
 		fy2 = app_total_h - 1;
 
 	// this is required to get a line that is exactly 1 pixel wide
-
-	fx1 += 0.5;
-	fx2 += 0.5;
-
-	fy1 += 0.5;
-	fy2 += 0.5;
 
 	// set up the path
 

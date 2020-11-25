@@ -35,7 +35,7 @@ emit_update_subexpr(void)
 
 	list(5);
 
-	emit_count += 36; // alloc 36 floats for delimiters
+	emit_count += 36; // alloc 36 doubles for delimiters
 
 	restore();
 }

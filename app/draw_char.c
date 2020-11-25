@@ -1,7 +1,7 @@
 #include "app.h"
 
 void
-draw_char(float x, float y, int font_num, int char_num)
+draw_char(double x, double y, int font_num, int char_num)
 {
 	CTFontRef f;
 	CGGlyph g;
