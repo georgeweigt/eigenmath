@@ -470,7 +470,8 @@ emit_graph(void)
 	get_xzero();
 	get_yzero();
 
-	emit_display->type = 2;
+	emit_display->type = 1;
+	emit_display->color = BLACK;
 	emit_display->w = DRAW_LEFT_PAD + GDIM + DRAW_RIGHT_PAD;
 	emit_display->h = DRAW_TOP_PAD + GDIM + DRAW_BOTTOM_PAD;
 

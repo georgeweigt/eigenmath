@@ -8,7 +8,7 @@ draw_char(double x, double y, int font_num, int char_num)
 	CGPoint p;
 	CFStringRef name;
 
-	y = app_total_h - y; // flip y coordinate
+	y = document_height - y; // flip y coordinate
 
 	p.x = x;
 	p.y = y;

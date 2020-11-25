@@ -85,11 +85,12 @@ struct display {
 	double tab[0];
 };
 
+extern double document_height;
+extern double document_width;
+
 extern CGContextRef gcontext;
 
 extern int cleared;
-extern double app_total_h;
-extern double app_total_w;
 extern int malloc_kaput_flag;
 extern double total_h;
 extern double total_w;

@@ -1,9 +1,10 @@
 #include "app.h"
 
+double document_height;
+double document_width;
+
 int cleared;
 int malloc_kaput_flag;
-double app_total_h;
-double app_total_w;
 double total_h; // sum of the heights of all the items in the display queue
 double total_w; // the maximum width including right and left margins
 struct display *first;

@@ -10,7 +10,7 @@ draw_block(struct display *p, double y, double y1, double y2)
 
 	switch (p->color) {
 	case BLACK:
-		CGContextSetRGBFillColor(gcontext, 0.0, 0.0, 0.0, 1);
+		CGContextSetRGBFillColor(gcontext, 0.0, 0.0, 0.0, 1.0);
 		CGContextSetRGBStrokeColor(gcontext, 0.0, 0.0, 0.0, 1.0);
 		break;
 	case BLUE:

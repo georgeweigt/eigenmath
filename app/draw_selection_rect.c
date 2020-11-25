@@ -22,14 +22,14 @@ draw_selection_rect(double x, double y, double width, double height)
 	if (fx1 < 0)
 		fx1 = 0;
 
-	if (fx2 >= app_total_w)
-		fx2 = app_total_w - 1;
+	if (fx2 >= document_width)
+		fx2 = document_width - 1;
 
 	if (fy1 < 0)
 		fy1 = 0;
 
-	if (fy2 >= app_total_h)
-		fy2 = app_total_h - 1;
+	if (fy2 >= document_height)
+		fy2 = document_height - 1;
 
 	// this is required to get a line that is exactly 1 pixel wide
 

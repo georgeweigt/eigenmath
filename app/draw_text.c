@@ -15,7 +15,7 @@ draw_text(double x, double y, uint8_t *buf, int len)
 
 	y += (VPAD + VPAD - h - d) / 2.0 + h; // vertically center
 
-	y = app_total_h - y;
+	y = document_height - y;
 
 	f = get_font_ref(DEFAULT_FONT);
 
