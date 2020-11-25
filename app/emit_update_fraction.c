@@ -4,7 +4,7 @@ void
 emit_update_fraction(void)
 {
 	int font_num, opcode;
-	double d, dy, h, v, w;
+	double d, h, m, v, w;
 
 	save();
 
@@ -23,23 +23,22 @@ emit_update_fraction(void)
 		font_num = SMALL_ROMAN_FONT;
 	}
 
-	dy = get_operator_height(font_num); // height of '-'
+	m = get_char_height(font_num) / 2.0; // midpoint
 
-	v = get_vspace(font_num); // extra vertical space
+	v = m / 2.0; // extra vertical space
 
-	h += v + dy;
-	d += v - dy;
+	h += v + m;
+	d += v - m;
 	w += get_width(font_num, 'n') / 2.0;
 
 	push_double(opcode);
 	push_double(h);
 	push_double(d);
 	push_double(w);
-	push_double(dy);
 	push(p1);
 	push(p2);
 
-	list(7);
+	list(6);
 
 	emit_count += 6; // alloc 6 floats for drawing horizontal line
 

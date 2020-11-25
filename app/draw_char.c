@@ -10,8 +10,8 @@ draw_char(float x, float y, int font_num, int char_num)
 
 	y = app_total_h - y; // flip y coordinate
 
-	p.x = roundf(x);
-	p.y = roundf(y);
+	p.x = x;
+	p.y = y;
 
 	f = get_font_ref(font_num);
 	name = get_char_name(char_num);

@@ -3,7 +3,8 @@
 void
 emit_roman_char(int char_num)
 {
-	double d, font_num, h, w;
+	int font_num;
+	double d, h, w;
 
 	if (emit_level == 0)
 		font_num = ROMAN_FONT;
@@ -23,5 +24,5 @@ emit_roman_char(int char_num)
 
 	list(6);
 
-	emit_count += 5; // alloc 5 floats for drawing char
+	emit_count += 5; // alloc 5 floats for drawing roman char
 }

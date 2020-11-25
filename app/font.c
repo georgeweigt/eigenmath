@@ -16,26 +16,6 @@ get_ascent(int font_num)
 	return h;
 }
 
-double
-get_char_height(int font_num)
-{
-	CTFontRef f;
-	CGFloat h;
-	f = get_font_ref(font_num);
-	h = CTFontGetCapHeight(f);
-	return h;
-}
-
-double
-get_underline_position(int font_num)
-{
-	CTFontRef f;
-	CGFloat h;
-	f = get_font_ref(font_num);
-	h = CTFontGetUnderlinePosition(f);
-	return -h;
-}
-
 int
 get_descent(int font_num)
 {
@@ -58,22 +38,6 @@ get_width(int font_num, int char_num)
 
 	name = get_char_name(char_num);
 
-	g = CTFontGetGlyphWithName(f, name);
-	w = CTFontGetAdvancesForGlyphs(f, kCTFontOrientationHorizontal, &g, NULL, 1);
-
-	return w;
-}
-
-double
-get_char_width(int font_num, int char_num)
-{
-	CTFontRef f;
-	CFStringRef name;
-	CGGlyph g;
-	double w;
-
-	f = get_font_ref(font_num);
-	name = get_char_name(char_num);
 	g = CTFontGetGlyphWithName(f, name);
 	w = CTFontGetAdvancesForGlyphs(f, kCTFontOrientationHorizontal, &g, NULL, 1);
 

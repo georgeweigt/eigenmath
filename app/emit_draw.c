@@ -3,16 +3,17 @@
 void
 emit_draw(double x, double y, struct atom *p)
 {
-	double d, dx, dy, h, k, stroke_width, w;
+	int k;
+	double d, dx, dy, h, stroke_width, w;
 
-	k = OPCODE(p);
+	k = (int) OPCODE(p);
 	h = HEIGHT(p);
 	d = DEPTH(p);
 	w = WIDTH(p);
 
 	p = cddddr(p);
 
-	switch ((int) k) {
+	switch (k) {
 
 	case EMIT_SPACE:
 		break;
@@ -59,12 +60,13 @@ emit_draw(double x, double y, struct atom *p)
 
 		// horizontal line
 
-		dy = VAL1(p);
-
-		if (k == EMIT_FRACTION)
+		if (k == EMIT_FRACTION) {
+			dy = get_char_height(ROMAN_FONT) / 2.0;
 			stroke_width = MEDIUM_STROKE;
-		else
+		} else {
+			dy = get_char_height(SMALL_ROMAN_FONT) / 2.0;
 			stroke_width = THIN_STROKE;
+		}
 
 		emit_push(DRAW_STROKE);
 		emit_push(x);
@@ -75,9 +77,8 @@ emit_draw(double x, double y, struct atom *p)
 
 		// numerator
 
-		p = cdr(p);
 		dx = (w - WIDTH(car(p))) / 2.0;
-		dy = HEIGHT(car(p)) - h;
+		dy = -h + HEIGHT(car(p));
 		emit_draw(x + dx, y + dy, car(p));
 
 		// denominator

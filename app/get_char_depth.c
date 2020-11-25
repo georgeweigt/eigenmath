@@ -49,16 +49,16 @@ get_char_depth(int font_num, int char_num)
 	CTFontRef f;
 	CGFloat d;
 
-	f = get_font_ref(font_num);
-	d = CTFontGetDescent(f);
-
 	if (font_num == ITALIC_FONT || font_num == SMALL_ITALIC_FONT)
 		t = italic_tab[char_num];
 	else
 		t = roman_tab[char_num];
 
 	if (t == 0)
-		d *= 0.1;
+		return 0.0;
+
+	f = get_font_ref(font_num);
+	d = CTFontGetDescent(f);
 
 	return d;
 }
