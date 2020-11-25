@@ -18,7 +18,7 @@ static double tmin, tmax;
 static double xmin, xmax;
 static double ymin, ymax;
 
-#define YMAX 10000
+#define YMAX 2000
 
 static struct {
 	double x, y, t;
@@ -52,10 +52,8 @@ eval_draw(void)
 void
 draw_main(void)
 {
-	if (drawing) {
-		drawing = 0; // so "stop" really stops
-		stop("draw calls draw");
-	}
+	if (drawing)
+		return;
 
 	drawing++;
 
@@ -121,7 +119,7 @@ new_point(double t)
 {
 	double x, y;
 
-	if (draw_count >= YMAX)
+	if (draw_count == YMAX)
 		return;
 
 	get_xy(t);
@@ -457,7 +455,8 @@ static int xzero, yzero;
 void
 emit_graph(void)
 {
-	int i, x, y;
+	int i;
+	double x, y;
 
 	emit_index = 0;
 
@@ -546,7 +545,7 @@ emit_box(void)
 	emit_push(y1);
 	emit_push(x1);
 	emit_push(y2);
-	emit_push(THIN_STROKE);
+	emit_push(1.0);
 
 	// right
 
@@ -555,7 +554,7 @@ emit_box(void)
 	emit_push(y1);
 	emit_push(x2);
 	emit_push(y2);
-	emit_push(THIN_STROKE);
+	emit_push(1.0);
 
 	// top
 
@@ -564,7 +563,7 @@ emit_box(void)
 	emit_push(y1);
 	emit_push(x2);
 	emit_push(y1);
-	emit_push(THIN_STROKE);
+	emit_push(1.0);
 
 	// bottom
 
@@ -573,7 +572,7 @@ emit_box(void)
 	emit_push(y2);
 	emit_push(x2);
 	emit_push(y2);
-	emit_push(THIN_STROKE);
+	emit_push(1.0);
 }
 
 static void
@@ -595,7 +594,7 @@ emit_xaxis(void)
 	emit_push(y1);
 	emit_push(x2);
 	emit_push(y2);
-	emit_push(THIN_STROKE);
+	emit_push(1.0);
 }
 
 static void
@@ -617,7 +616,7 @@ emit_yaxis(void)
 	emit_push(y1);
 	emit_push(x2);
 	emit_push(y2);
-	emit_push(THIN_STROKE);
+	emit_push(1.0);
 }
 
 static void emit_xscale_f(int, char *);

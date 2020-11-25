@@ -161,8 +161,7 @@ draw_display(int y1, int y2)
 static void
 draw(struct display *p, int yy1, int yy2)
 {
-	int cmd, k, len, w, xx, x, x1, x2, y, y1, y2;
-	uint8_t *buf;
+	int w, xx;
 
 	w = p->w;
 
@@ -180,57 +179,6 @@ draw(struct display *p, int yy1, int yy2)
 
 	case 0:
 		draw_text(DEFAULT_FONT, xx, yy, p->buf, p->len, p->attr);
-		break;
-
-	case 1:
-		buf = (uint8_t *) p->buf;
-		k = 0;
-		while (1) {
-			cmd = buf[k];
-			if (cmd == 0)
-				break;
-			switch (cmd) {
-			case 1:
-				x = 256 * buf[k + 1] + buf[k + 2];
-				y = 256 * buf[k + 3] + buf[k + 4];
-				if (x > 32767)
-					x -= 65536;
-				if (y > 32767)
-					y -= 65536;
-				len = buf[k + 5];
-				draw_text(SMALL_FONT, xx + x, yy + y, buf + k + 6, len, 0); // small font
-				k = k + 6 + len;
-				break;
-			case 2: // default font
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 9:
-			case 10:
-				x = N(1);
-				y = N(5);
-				len = N(9);
-				draw_text(cmd, xx + x, yy + y, buf + k + 13, len, 0);
-				k = k + 13 + len;
-				break;
-			case DRAW_LINE:
-				x1 = 256 * buf[k + 1] + buf[k + 2];
-				y1 = 256 * buf[k + 3] + buf[k + 4];
-				x2 = 256 * buf[k + 5] + buf[k + 6];
-				y2 = 256 * buf[k + 7] + buf[k + 8];
-				draw_line(xx + x1, yy + y1, xx + x2, yy + y2);
-				k += 9;
-				break;
-			default:
-				buf[4] = 0; // error, force stop
-				k = 4;
-				break;
-			}
-		}
-
 		break;
 
 	case 2:
