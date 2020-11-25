@@ -25,7 +25,7 @@ emit_update_fraction(void)
 
 	dy = get_operator_height(font_num); // approximate height of '-'
 
-	v = 0.35 * get_xheight(font_num); // extra vertical space
+	v = 0.5 * get_xheight(font_num); // extra vertical space
 
 	h += v + dy;
 	d += v - dy;

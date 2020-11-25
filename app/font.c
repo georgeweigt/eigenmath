@@ -46,16 +46,6 @@ get_descent(int font_num)
 	return ceil(d);
 }
 
-double
-get_xheight(int font_num)
-{
-	CTFontRef f;
-	double h;
-	f = get_font_ref(font_num);
-	h = CTFontGetXHeight(f);
-	return h;
-}
-
 int
 get_width(int font_num, int char_num)
 {
