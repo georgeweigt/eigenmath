@@ -12,6 +12,9 @@ emit_svg_glyph(u, x, y)
 	else if (s == '>')
 		s = "&gt;";
 
+	x = Math.round(x);
+	y = Math.round(y);
+
 	x = "x='" + x + "'";
 	y = "y='" + y + "'";
 

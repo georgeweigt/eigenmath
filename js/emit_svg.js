@@ -76,10 +76,10 @@ emit_svg(u, x, y)
 		x2 = x + u.width;
 
 		if (u.level == 0) {
-			y -= MINUS_HEIGHT;
+			y -= FONT_HEIGHT / 2;
 			emit_svg_line(x1, y, x2, y, FRAC_STROKE);
 		} else {
-			y -= SMALL_MINUS_HEIGHT;
+			y -= SMALL_FONT_HEIGHT / 2;
 			emit_svg_line(x1, y, x2, y, SMALL_FRAC_STROKE);
 		}
 

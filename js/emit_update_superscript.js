@@ -12,7 +12,7 @@ emit_update_superscript(u, v)
 
 	// adjust
 
-	h -= Math.floor((v.height + v.depth) / 2);
+	h -= (v.height + v.depth) / 2;
 
 	if (u.level == 0)
 		h = Math.max(h, SUPERSCRIPT_HEIGHT);
