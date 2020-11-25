@@ -4,8 +4,8 @@
 #define FONT_SIZE 20.0
 #define SMALL_FONT_SIZE 16.0
 
-#define HPAD (FONT_SIZE / 2.0)
-#define VPAD (FONT_SIZE / 2.0)
+#define HPAD 10
+#define VPAD 10
 
 #define TABLE_HSPACE (FONT_SIZE / 2.0)
 #define TABLE_VSPACE (FONT_SIZE / 2.0)
@@ -74,12 +74,15 @@
 
 struct display {
 	struct display *next;
-	uint8_t type, attr;
-	int h, w;
-	int tot_h, tot_w;
+	int type;
+	int color;
+	int h;
+	int w;
+	int tot_h;
+	int tot_w;
 	int len;
-	float tab[1];
 	uint8_t buf[0];
+	float tab[0];
 };
 
 extern CGContextRef gcontext;

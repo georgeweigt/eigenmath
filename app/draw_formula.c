@@ -5,9 +5,6 @@ draw_formula(float x, float y, float *p)
 {
 	int k;
 
-	CGContextSetRGBFillColor(gcontext, 0.0, 0.0, 0.0, 1.0); // black
-	CGContextSetRGBStrokeColor(gcontext, 0.0, 0.0, 0.0, 1.0); // black
-
 	for (;;) {
 
 		k = p[0];

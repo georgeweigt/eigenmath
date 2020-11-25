@@ -7,11 +7,6 @@ static int total_w; // the maximum width including right and left margins
 
 static struct display *first, *last, *mark;
 
-static int len;
-static char buf[1000];
-
-static void printcharf(int, int);
-
 void
 malloc_kaput(void)
 {
@@ -22,60 +17,45 @@ malloc_kaput(void)
 void
 echo_input(char *s)
 {
-	printbuf(s, BLUE);
-	printbuf("\n", BLUE);
+	emit_text(s, (int) strlen(s), BLUE);
 }
 
 void
 printbuf(char *s, int color)
 {
-	while (*s)
-		printchar(*s++, color);
-}
+	int len;
+	char *t;
 
-void
-printchar(int c, int color)
-{
-	printcharf(c, color);
-	if (len >= 100)
-		printcharf('\n', color);
-}
+	for (;;) {
 
-static void
-printcharf(int c, int color)
-{
-	struct display *d;
+		t = strchr(s, '\n');
 
-	if (c == '\n') {
-		d = (struct display *) malloc(sizeof (struct display) + len + 1);
-		if (d == NULL)
-			malloc_kaput();
-		d->len = len;
-		buf[len] = 0;
-		strcpy((char *) d->buf, buf);
-		d->type = 0;
-		d->attr = color;
-		get_height_width(&d->h, &d->w, DEFAULT_FONT, (char *) d->buf);
-		shipout(d);
-		len = 0;
-		return;
+		if (t == NULL)
+			break;
+
+		len = (int) (t - s);
+
+		emit_text(s, len, color);
+
+		s = t + 1;
 	}
 
-	if (len < (int) sizeof buf)
-		buf[len++] = c;
+	if (*s) {
+		len = (int) strlen(s);
+		emit_text(s, len, color);
+	}
 }
 
 void
 shipout(struct display *p)
 {
-	int w;
+	p->h += 2 * VPAD;
+	p->w += 2 * HPAD;
 
-	total_h += p->h + 2 * VPAD;
+	total_h += p->h;
 
-	w = p->w + 2 * HPAD;
-
-	if (w > total_w)
-		total_w = w;
+	if (p->w > total_w)
+		total_w = p->w;
 
 	p->tot_h = total_h;
 	p->tot_w = total_w;
@@ -91,9 +71,6 @@ shipout(struct display *p)
 	}
 }
 
-static void draw(struct display *, int, int);
-
-static int yy;
 static int cleared;
 
 void
@@ -138,47 +115,52 @@ get_view(int *h, int *w)
 void
 draw_display(int y1, int y2)
 {
+	int y;
 	struct display *p;
-	if (first == NULL)
-		return;
-	yy = 0;
+	y = 0;
 	p = first;
-	draw(p, y1, y2);
-	while (p != mark) {
+	while (p) {
+		draw_block(p, y, y1, y2);
+		y += p->h;
+		if (p == mark)
+			break;
 		p = p->next;
-		draw(p, y1, y2);
 	}
 }
 
-static void
-draw(struct display *p, int yy1, int yy2)
+void
+draw_block(struct display *p, int y, int y1, int y2)
 {
-	int w, xx;
-
-	w = p->w;
-
-	xx = HPAD;
-	yy += VPAD;
-
 	// clip to view rect
 
-	if (yy + p->h < yy1 || yy > yy2) {
-		yy += p->h + VPAD;
+	if (y + p->h < y1 || y > y2)
 		return;
+
+	switch (p->color) {
+	case BLACK:
+		CGContextSetRGBFillColor(gcontext, 0.0, 0.0, 0.0, 1);
+		CGContextSetRGBStrokeColor(gcontext, 0.0, 0.0, 0.0, 1.0);
+		break;
+	case BLUE:
+		CGContextSetRGBFillColor(gcontext, 0.0, 0.0, 1.0, 1.0);
+		CGContextSetRGBStrokeColor(gcontext, 0.0, 0.0, 1.0, 1.0);
+		break;
+	case RED:
+		CGContextSetRGBFillColor(gcontext, 1.0, 0.0, 0.0, 1.0);
+		CGContextSetRGBStrokeColor(gcontext, 1.0, 0.0, 0.0, 1.0);
+		break;
 	}
 
 	switch (p->type) {
 
 	case 0:
-		draw_text(DEFAULT_FONT, xx, yy, p->buf, p->len, p->attr);
+		draw_text(HPAD, y, p->buf, p->len);
 		break;
 
 	case 2:
-		draw_formula(xx, yy, p->tab);
+		draw_formula(HPAD, y + VPAD, p->tab);
 		break;
 	}
-
-	yy += p->h + VPAD;
 }
 
 void

@@ -1,41 +1,33 @@
 #include "app.h"
 
 void
-draw_text(int font, int x, int y, uint8_t *s, int len, int color)
+draw_text(double x, double y, uint8_t *buf, int len)
 {
 	int i;
-	double w;
+	double d, h;
 	CTFontRef f;
 	CGGlyph g;
+	CFStringRef s;
 	CGPoint p;
-	CFStringRef name;
 
-	y = app_total_h - (y + get_ascent(font));
+	h = get_char_height(DEFAULT_FONT);
+	d = get_char_depth(DEFAULT_FONT, 'g'); // g has a descender
 
-	switch (color) {
-	case BLUE:
-		CGContextSetRGBFillColor(gcontext, 0, 0, 1, 1);
-		break;
-	case RED:
-		CGContextSetRGBFillColor(gcontext, 1, 0, 0, 1);
-		break;
-	}
+	y += (VPAD + VPAD - h - d) / 2.0 + h; // vertically center
 
-	f = get_font_ref(font);
+	y = app_total_h - y;
+
+	f = get_font_ref(DEFAULT_FONT);
 
 	for (i = 0; i < len; i++) {
 
 		p.x = (float) x;
 		p.y = (float) y;
 
-		name = get_char_name(s[i]);
-
-		g = CTFontGetGlyphWithName(f, name);
+		s = get_char_name(buf[i]);
+		g = CTFontGetGlyphWithName(f, s);
 		CTFontDrawGlyphs(f, &g, &p, 1, gcontext);
-		w = CTFontGetAdvancesForGlyphs(f, kCTFontOrientationHorizontal, &g, NULL, 1);
-		x += ceil(w);
-	}
 
-	if (color != BLACK)
-		CGContextSetRGBFillColor(gcontext, 0, 0, 0, 1);
+		x += CTFontGetAdvancesForGlyphs(f, kCTFontOrientationHorizontal, &g, NULL, 1);
+	}
 }
