@@ -448,14 +448,34 @@ emit_graph(void)
 	int i;
 	double x, y;
 
+	emit_level = 1; // small font
 	emit_index = 0;
+	emit_count = 3 * draw_count + 37; // 37 = 1 for DRAW_END and 6 for each stroke (6 strokes)
 
-	emit_count = 1000 + 3 * draw_count;
+	// emit_list advances emit_count, leaves result on stack
+
+	push_double(xmin);
+	p1 = pop();
+	emit_list(p1);
+
+	push_double(xmax);
+	p1 = pop();
+	emit_list(p1);
+
+	push_double(ymin);
+	p1 = pop();
+	emit_list(p1);
+
+	push_double(ymax);
+	p1 = pop();
+	emit_list(p1);
 
 	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
 
 	if (emit_display == NULL)
 		malloc_kaput();
+
+	emit_labels(); // uses the results on stack from emit_list
 
 	get_xzero();
 	get_yzero();
@@ -468,8 +488,6 @@ emit_graph(void)
 
 	emit_xaxis();
 	emit_yaxis();
-
-	emit_labels(xmin, xmax, ymin, ymax);
 
 	for (i = 0; i < draw_count; i++) {
 		x = draw_buf[i].x;

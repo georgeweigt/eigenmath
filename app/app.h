@@ -64,8 +64,8 @@
 #define DRAW_HEIGHT 300
 #define DRAW_WIDTH 300
 
-#define DRAW_LEFT_PAD 100
-#define DRAW_RIGHT_PAD 100
+#define DRAW_LEFT_PAD 120
+#define DRAW_RIGHT_PAD 40
 
 #define DRAW_TOP_PAD 0
 #define DRAW_BOTTOM_PAD 30
