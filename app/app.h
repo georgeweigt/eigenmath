@@ -87,8 +87,15 @@ struct display {
 
 extern CGContextRef gcontext;
 
+extern int cleared;
 extern int app_total_h;
 extern int app_total_w;
+extern int malloc_kaput_flag;
+extern int total_h;
+extern int total_w;
+extern struct display *first;
+extern struct display *mark;
+extern struct display *last;
 
 extern struct display *emit_display;
 extern int emit_level;

@@ -6,9 +6,9 @@ emit_thin_space(void)
 	double w;
 
 	if (emit_level == 0)
-		w = get_width(ROMAN_FONT, 'n');
+		w = get_char_width(ROMAN_FONT, 'n');
 	else
-		w = get_width(SMALL_ROMAN_FONT, 'n');
+		w = get_char_width(SMALL_ROMAN_FONT, 'n');
 
 	w /= 4.0;
 

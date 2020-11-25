@@ -29,7 +29,7 @@ emit_update_fraction(void)
 
 	h += v + m;
 	d += v - m;
-	w += get_width(font_num, 'n') / 2.0;
+	w += get_char_width(font_num, 'n') / 2.0;
 
 	push_double(opcode);
 	push_double(h);
