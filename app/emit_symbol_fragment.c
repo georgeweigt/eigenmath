@@ -74,7 +74,10 @@ emit_symbol_fragment(char *name, int k)
 	}
 
 	if (i == N) {
-		emit_italic_char(name[k]);
+		if (isdigit(name[k]))
+			emit_roman_char(name[k]);
+		else
+			emit_italic_char(name[k]);
 		return k + 1;
 	}
 
