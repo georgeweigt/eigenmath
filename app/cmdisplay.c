@@ -15,11 +15,6 @@ cmdisplay(void)
 
 	emit_list(p1);
 
-	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
-
-	if (emit_display == NULL)
-		malloc_kaput();
-
 	p1 = pop();
 
 	h = HEIGHT(p1);
@@ -28,6 +23,11 @@ cmdisplay(void)
 
 	x = 0.0;
 	y = h;
+
+	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
+
+	if (emit_display == NULL)
+		malloc_kaput();
 
 	emit_draw(x, y, p1);
 
