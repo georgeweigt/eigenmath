@@ -13,7 +13,7 @@ get_ascent(int font_num)
 	CGFloat h;
 	f = get_font_ref(font_num);
 	h = CTFontGetAscent(f);
-	return ceil(h);
+	return h;
 }
 
 double
@@ -43,7 +43,7 @@ get_descent(int font_num)
 	CGFloat d;
 	f = get_font_ref(font_num);
 	d = CTFontGetDescent(f);
-	return ceil(d);
+	return d;
 }
 
 int
@@ -61,7 +61,7 @@ get_width(int font_num, int char_num)
 	g = CTFontGetGlyphWithName(f, name);
 	w = CTFontGetAdvancesForGlyphs(f, kCTFontOrientationHorizontal, &g, NULL, 1);
 
-	return ceil(w);
+	return w;
 }
 
 double
@@ -77,7 +77,7 @@ get_char_width(int font_num, int char_num)
 	g = CTFontGetGlyphWithName(f, name);
 	w = CTFontGetAdvancesForGlyphs(f, kCTFontOrientationHorizontal, &g, NULL, 1);
 
-	return ceil(w);
+	return w;
 }
 
 int

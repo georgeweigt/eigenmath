@@ -23,9 +23,9 @@ emit_update_fraction(void)
 		font_num = SMALL_ROMAN_FONT;
 	}
 
-	dy = get_operator_height(font_num); // approximate height of '-'
+	dy = get_operator_height(font_num); // height of '-'
 
-	v = 0.5 * get_xheight(font_num); // extra vertical space
+	v = get_vspace(font_num); // extra vertical space
 
 	h += v + dy;
 	d += v - dy;
