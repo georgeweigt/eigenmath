@@ -33,7 +33,7 @@ cmdisplay(void)
 
 	emit_push(DRAW_END);
 
-	emit_display->type = 2;
+	emit_display->type = 1;
 	emit_display->color = BLACK;
 
 	emit_display->h = (int) ceil(h + d);

@@ -29,7 +29,7 @@ draw_block(struct display *p, double y, double y1, double y2)
 		draw_text(HPAD, y, p->buf, p->len);
 		break;
 
-	case 2:
+	case 1:
 		draw_formula(HPAD, y + VPAD, p->tab);
 		break;
 	}
