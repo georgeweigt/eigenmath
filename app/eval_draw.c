@@ -4,9 +4,6 @@ extern int get_ascent(int);
 extern int get_descent(int);
 extern int text_width(int, char *);
 
-#undef DIM
-#define DIM 300
-
 #define F p3
 #define T p4
 #define X p5
@@ -14,9 +11,9 @@ extern int text_width(int, char *);
 #define XT p7
 #define YT p8
 
-static double tmin, tmax;
-static double xmin, xmax;
-static double ymin, ymax;
+double tmin, tmax;
+double xmin, xmax;
+double ymin, ymax;
 
 #define YMAX 2000
 
@@ -93,7 +90,7 @@ check_for_parametric_draw(void)
 	}
 }
 
-#define N (DIM + 1) // +1 fixes scruffy line, for example, draw(-x)
+#define N (GDIM + 1) // +1 fixes scruffy line, for example, draw(-x)
 
 void
 create_point_set(void)
@@ -133,8 +130,8 @@ new_point(double t)
 	push(YT);
 	y = pop_double();
 
-	x = DIM * (x - xmin) / (xmax - xmin);
-	y = DIM * (y - ymin) / (ymax - ymin);
+	x = GDIM * (x - xmin) / (xmax - xmin);
+	y = GDIM * (y - ymin) / (ymax - ymin);
 
 	draw_buf[draw_count].x = x;
 	draw_buf[draw_count].y = y;
@@ -212,9 +209,9 @@ eval_f(double t)
 static int
 invisible(int i)
 {
-	if (draw_buf[i].x < 0 || draw_buf[i].x > DIM)
+	if (draw_buf[i].x < 0 || draw_buf[i].x > GDIM)
 		return 1;
-	if (draw_buf[i].y < 0 || draw_buf[i].y > DIM)
+	if (draw_buf[i].y < 0 || draw_buf[i].y > GDIM)
 		return 1;
 	return 0;
 }
@@ -437,16 +434,9 @@ setup_yrange_f(void)
 		stop("draw: yrange is zero");
 }
 
-#define XOFF (72 + 36) // moves the entire plot 1.5 inches to the right
-#define YOFF 9 // 0.125 inch above and below the plot
-
-#define SHIM 9
-
 static void emit_box(void);
 static void emit_xaxis(void);
 static void emit_yaxis(void);
-static void emit_xscale(void);
-static void emit_yscale(void);
 static void get_xzero(void);
 static void get_yzero(void);
 
@@ -471,26 +461,25 @@ emit_graph(void)
 	get_yzero();
 
 	emit_display->type = 2;
-	emit_display->w = XOFF + DIM + XOFF;
-	emit_display->h = YOFF + DIM + SHIM + get_ascent(SMALL_FONT) + get_descent(SMALL_FONT) + YOFF;
+	emit_display->w = DRAW_LEFT_PAD + GDIM + DRAW_RIGHT_PAD;
+	emit_display->h = DRAW_TOP_PAD + GDIM + DRAW_BOTTOM_PAD;
 
 	emit_box();
 
 	emit_xaxis();
 	emit_yaxis();
 
-	emit_xscale();
-	emit_yscale();
+	emit_labels(xmin, xmax, ymin, ymax);
 
 	for (i = 0; i < draw_count; i++) {
 		x = draw_buf[i].x;
-		y = DIM - draw_buf[i].y; // flip the y coordinate
-		if (x < 0 || x > DIM)
+		y = GDIM - draw_buf[i].y; // flip the y coordinate
+		if (x < 0 || x > GDIM)
 			continue;
-		if (y < 0 || y > DIM)
+		if (y < 0 || y > GDIM)
 			continue;
-		x += XOFF;
-		y += YOFF;
+		x += DRAW_LEFT_PAD;
+		y += DRAW_TOP_PAD;
 		emit_push(DRAW_POINT);
 		emit_push(x);
 		emit_push(y);
@@ -504,27 +493,15 @@ emit_graph(void)
 static void
 get_xzero(void)
 {
-	double x;
-	x = DIM * (0.0 - xmin) / (xmax - xmin);
-//	x = round(x);
-	if (x < -10000.0)
-		x = -10000.0;
-	if (x > 10000.0)
-		x = 10000.0;
-	xzero = x;
+	xzero = GDIM * (0.0 - xmin) / (xmax - xmin);
 }
 
 static void
 get_yzero(void)
 {
 	double y;
-	y = DIM * (0.0 - ymin) / (ymax - ymin);
-//	y = round(y);
-	if (y < -10000.0)
-		y = -10000.0;
-	if (y > 10000.0)
-		y = 10000.0;
-	yzero = DIM - y; // flip the y coordinate
+	y = GDIM * (0.0 - ymin) / (ymax - ymin);
+	yzero = GDIM - y; // flip the y coordinate
 }
 
 static void
@@ -532,11 +509,11 @@ emit_box(void)
 {
 	float x1, x2, y1, y2;
 
-	x1 = XOFF;
-	y1 = YOFF;
+	x1 = DRAW_LEFT_PAD;
+	y1 = DRAW_TOP_PAD;
 
-	x2 = XOFF + DIM;
-	y2 = YOFF + DIM;
+	x2 = DRAW_LEFT_PAD + GDIM;
+	y2 = DRAW_TOP_PAD + GDIM;
 
 	// left
 
@@ -580,14 +557,14 @@ emit_xaxis(void)
 {
 	float x1, x2, y1, y2;
 
-	if (yzero < 0 || yzero > DIM)
+	if (yzero < 0 || yzero > GDIM)
 		return;
 
-	x1 = XOFF;
-	y1 = YOFF + yzero;
+	x1 = DRAW_LEFT_PAD;
+	y1 = DRAW_TOP_PAD + yzero;
 
-	x2 = XOFF + DIM;
-	y2 = YOFF + yzero;
+	x2 = DRAW_LEFT_PAD + GDIM;
+	y2 = DRAW_TOP_PAD + yzero;
 
 	emit_push(DRAW_STROKE);
 	emit_push(x1);
@@ -602,14 +579,14 @@ emit_yaxis(void)
 {
 	float x1, x2, y1, y2;
 
-	if (xzero < 0 || xzero > DIM)
+	if (xzero < 0 || xzero > GDIM)
 		return;
 
-	x1 = XOFF + xzero;
-	y1 = YOFF;
+	x1 = DRAW_LEFT_PAD + xzero;
+	y1 = DRAW_TOP_PAD;
 
-	x2 = XOFF + xzero;
-	y2 = YOFF + DIM;
+	x2 = DRAW_LEFT_PAD + xzero;
+	y2 = DRAW_TOP_PAD + GDIM;
 
 	emit_push(DRAW_STROKE);
 	emit_push(x1);
@@ -617,85 +594,4 @@ emit_yaxis(void)
 	emit_push(x2);
 	emit_push(y2);
 	emit_push(1.0);
-}
-
-static void emit_xscale_f(int, char *);
-
-static void
-emit_xscale(void)
-{
-//	sprintf(tbuf, "%g", xmin);
-//	emit_xscale_f(0, tbuf);
-//	sprintf(tbuf, "%g", xmax);
-//	emit_xscale_f(DIM, tbuf);
-}
-
-static void
-emit_xscale_f(int xx, char *s)
-{
-#if 0
-	int d, i, len, w, x, y;
-
-	// want to center the number w/o sign
-
-	w = text_width(SMALL_FONT, s);
-
-	if (*s == '-')
-		d = w - text_width(SMALL_FONT, s + 1);
-	else
-		d = 0;
-
-	x = XOFF + xx - (w - d) / 2 - d;
-	y = YOFF + DIM + SHIM;
-
-	buf[k++] = SMALL_FONT;
-	buf[k++] = (uint8_t) (x >> 8);
-	buf[k++] = (uint8_t) x;
-	buf[k++] = (uint8_t) (y >> 8);
-	buf[k++] = (uint8_t) y;
-
-	len = (int) strlen(s);
-
-	buf[k++] = (uint8_t) len;
-
-	for (i = 0; i < len; i++)
-		buf[k++] = (uint8_t) s[i];
-#endif
-}
-
-static void emit_yscale_f(int, char *);
-
-static void
-emit_yscale(void)
-{
-//	sprintf(tbuf, "%g", ymax);
-//	emit_yscale_f(0, tbuf);
-//	sprintf(tbuf, "%g", ymin);
-//	emit_yscale_f(DIM, tbuf);
-}
-
-static void
-emit_yscale_f(int yy, char *s)
-{
-#if 0
-	int i, len, w, x, y;
-
-	w = text_width(SMALL_FONT, s);
-
-	x = XOFF - SHIM - w;
-	y = YOFF + yy - get_ascent(SMALL_FONT) / 2;
-
-	buf[k++] = SMALL_FONT;
-	buf[k++] = (uint8_t) (x >> 8);
-	buf[k++] = (uint8_t) x;
-	buf[k++] = (uint8_t) (y >> 8);
-	buf[k++] = (uint8_t) y;
-
-	len = (int) strlen(s);
-
-	buf[k++] = (uint8_t) len;
-
-	for (i = 0; i < len; i++)
-		buf[k++] = (uint8_t) s[i];
-#endif
 }

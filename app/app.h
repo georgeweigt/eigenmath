@@ -59,6 +59,19 @@
 #define LESSEQUAL 181
 #define PARTIALDIFF 182
 
+#define GDIM 300
+
+#define DRAW_HEIGHT 300
+#define DRAW_WIDTH 300
+
+#define DRAW_LEFT_PAD 100
+#define DRAW_RIGHT_PAD 100
+
+#define DRAW_TOP_PAD 0
+#define DRAW_BOTTOM_PAD 30
+
+#define DRAW_LABEL_PAD 10
+
 struct display {
 	struct display *next;
 	uint8_t type, attr;

@@ -91,12 +91,6 @@ shipout(struct display *p)
 	}
 }
 
-extern void drawstring(int, int, char *, int);
-extern void drawpixel(int, int, int, int);
-extern void draw_left_bracket(int, int, int, int);
-extern void draw_right_bracket(int, int, int, int);
-extern void draw_line(int, int, int, int);
-
 static void draw(struct display *, int, int);
 
 static int yy;
@@ -155,8 +149,6 @@ draw_display(int y1, int y2)
 		draw(p, y1, y2);
 	}
 }
-
-#define N(x) (((int) buf[k + x] << 24) | ((int) buf[k + x + 1] << 16) | ((int) buf[k + x + 2]) << 8 | ((int) buf[k + x + 3]))
 
 static void
 draw(struct display *p, int yy1, int yy2)
