@@ -21,8 +21,7 @@ static double ymin, ymax;
 #define YMAX 10000
 
 static struct {
-	int x, y;
-	double t;
+	double x, y, t;
 } draw_buf[YMAX];
 
 static int draw_count;
@@ -96,7 +95,7 @@ check_for_parametric_draw(void)
 	}
 }
 
-#define N 101 // fix for scruffy line, for example, draw(-x)
+#define N (DIM + 1) // +1 fixes scruffy line, for example, draw(-x)
 
 void
 create_point_set(void)
@@ -106,15 +105,15 @@ create_point_set(void)
 
 	draw_count = 0;
 
-	for (i = 0; i <= N; i++) {
-		t = tmin + ((double) i / (double) N) * (tmax - tmin);
+	for (i = 1; i < N; i++) {
+		t = tmin + (double) i / N * (tmax - tmin);
 		new_point(t);
 	}
 
 	n = draw_count;
 
 	for (i = 0; i < n - 1; i++)
-		fill(i, i + 1, 0);
+		fill(i, i + 1);
 }
 
 void
@@ -138,9 +137,6 @@ new_point(double t)
 
 	x = DIM * (x - xmin) / (xmax - xmin);
 	y = DIM * (y - ymin) / (ymax - ymin);
-
-	x = round(x);
-	y = round(y);
 
 	draw_buf[draw_count].x = x;
 	draw_buf[draw_count].y = y;
@@ -225,51 +221,26 @@ invisible(int i)
 	return 0;
 }
 
-#define M 3 // use 3 to avoid scruffy lines, for example, draw(-x)
-
-// divide segment P(i) to P(j) into M segments
-//
-// P(i)    P(m)   P(n-1)   P(j)
-//   o-------o-------o-------o
-
 void
-fill(int i, int j, int level)
+fill(int i, int j)
 {
-	int dx, dy, k, m, n;
-	double d, t;
-
-	if (level > 5)
-		return;
+	int k, n;
+	double dx, dy, dt, t;
 
 	if (invisible(i) && invisible(j))
 		return;
 
-	dx = abs(draw_buf[i].x - draw_buf[j].x);
-	dy = abs(draw_buf[i].y - draw_buf[j].y);
+	dx = draw_buf[i].x - draw_buf[j].x;
+	dy = draw_buf[i].y - draw_buf[j].y;
 
-	if (dx + dy < 2)
-		return;
+	n = sqrt(dx * dx + dy * dy);
 
-	d = draw_buf[j].t - draw_buf[i].t;
+	dt = draw_buf[j].t - draw_buf[i].t;
 
-	m = draw_count;
-
-	for (k = 1; k < M; k++) {
-		t = draw_buf[i].t + (double) k / M * d;
+	for (k = 1; k < n; k++) {
+		t = draw_buf[i].t + (double) k / n * dt;
 		new_point(t);
 	}
-
-	n = draw_count;
-
-	if (m == n)
-		return; // no new plot points
-
-	fill(i, m, level + 1); // fill first segment
-
-	for (k = m; k < n - 1; k++)
-		fill(k, k + 1, level + 1); // fill middle segments
-
-	fill(n - 1, j, level + 1); // fill last segment
 }
 
 //	Normalize x to [0,1]
@@ -473,16 +444,11 @@ setup_yrange_f(void)
 
 #define SHIM 9
 
-static int k;
-static uint8_t *buf;
-
 static void emit_box(void);
 static void emit_xaxis(void);
 static void emit_yaxis(void);
 static void emit_xscale(void);
 static void emit_yscale(void);
-static void emit_xzero(void);
-static void emit_yzero(void);
 static void get_xzero(void);
 static void get_yzero(void);
 
@@ -491,28 +457,23 @@ static int xzero, yzero;
 void
 emit_graph(void)
 {
-	int i, len, x, y;
-	struct display *d;
+	int i, x, y;
+
+	emit_index = 0;
+
+	emit_count = 1000 + 3 * draw_count;
+
+	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
+
+	if (emit_display == NULL)
+		malloc_kaput();
 
 	get_xzero();
 	get_yzero();
 
-	len = 1000 + 5 * draw_count;
-
-	d = (struct display *) malloc(sizeof (struct display) + len);
-
-	if (d == NULL)
-		malloc_kaput();
-
-	d->len = len;
-	d->type = 1;
-	d->attr = 0;
-	d->w = XOFF + DIM + XOFF;
-	d->h = YOFF + DIM + SHIM + get_ascent(SMALL_FONT) + get_descent(SMALL_FONT) + YOFF;
-
-	buf = d->buf;
-
-	k = 0;
+	emit_display->type = 2;
+	emit_display->w = XOFF + DIM + XOFF;
+	emit_display->h = YOFF + DIM + SHIM + get_ascent(SMALL_FONT) + get_descent(SMALL_FONT) + YOFF;
 
 	emit_box();
 
@@ -521,9 +482,6 @@ emit_graph(void)
 
 	emit_xscale();
 	emit_yscale();
-
-	emit_xzero();
-	emit_yzero();
 
 	for (i = 0; i < draw_count; i++) {
 		x = draw_buf[i].x;
@@ -534,16 +492,14 @@ emit_graph(void)
 			continue;
 		x += XOFF;
 		y += YOFF;
-		buf[k++] = DRAW_POINT;
-		buf[k++] = (uint8_t) (x >> 8);
-		buf[k++] = (uint8_t) x;
-		buf[k++] = (uint8_t) (y >> 8);
-		buf[k++] = (uint8_t) y;
+		emit_push(DRAW_POINT);
+		emit_push(x);
+		emit_push(y);
 	}
 
-	buf[k++] = 0;
+	emit_push(DRAW_END);
 
-	shipout(d);
+	shipout(emit_display);
 }
 
 static void
@@ -551,7 +507,7 @@ get_xzero(void)
 {
 	double x;
 	x = DIM * (0.0 - xmin) / (xmax - xmin);
-	x = round(x);
+//	x = round(x);
 	if (x < -10000.0)
 		x = -10000.0;
 	if (x > 10000.0)
@@ -564,7 +520,7 @@ get_yzero(void)
 {
 	double y;
 	y = DIM * (0.0 - ymin) / (ymax - ymin);
-	y = round(y);
+//	y = round(y);
 	if (y < -10000.0)
 		y = -10000.0;
 	if (y > 10000.0)
@@ -575,77 +531,93 @@ get_yzero(void)
 static void
 emit_box(void)
 {
-	int x, y;
+	float x1, x2, y1, y2;
 
-	buf[k++] = DRAW_BOX;
+	x1 = XOFF;
+	y1 = YOFF;
 
-	x = XOFF;
-	y = YOFF;
-	buf[k++] = (uint8_t) (x >> 8);
-	buf[k++] = (uint8_t) x;
-	buf[k++] = (uint8_t) (y >> 8);
-	buf[k++] = (uint8_t) y;
+	x2 = XOFF + DIM;
+	y2 = YOFF + DIM;
 
-	x = XOFF + DIM;
-	y = YOFF + DIM;
-	buf[k++] = (uint8_t) (x >> 8);
-	buf[k++] = (uint8_t) x;
-	buf[k++] = (uint8_t) (y >> 8);
-	buf[k++] = (uint8_t) y;
+	// left
+
+	emit_push(DRAW_STROKE);
+	emit_push(x1);
+	emit_push(y1);
+	emit_push(x1);
+	emit_push(y2);
+	emit_push(THIN_STROKE);
+
+	// right
+
+	emit_push(DRAW_STROKE);
+	emit_push(x2);
+	emit_push(y1);
+	emit_push(x2);
+	emit_push(y2);
+	emit_push(THIN_STROKE);
+
+	// top
+
+	emit_push(DRAW_STROKE);
+	emit_push(x1);
+	emit_push(y1);
+	emit_push(x2);
+	emit_push(y1);
+	emit_push(THIN_STROKE);
+
+	// bottom
+
+	emit_push(DRAW_STROKE);
+	emit_push(x1);
+	emit_push(y2);
+	emit_push(x2);
+	emit_push(y2);
+	emit_push(THIN_STROKE);
 }
 
 static void
 emit_xaxis(void)
 {
-	int x, y;
+	float x1, x2, y1, y2;
 
 	if (yzero < 0 || yzero > DIM)
 		return;
 
-	buf[k++] = DRAW_LINE;
+	x1 = XOFF;
+	y1 = YOFF + yzero;
 
-	x = XOFF;
-	y = YOFF + yzero;
+	x2 = XOFF + DIM;
+	y2 = YOFF + yzero;
 
-	buf[k++] = (uint8_t) (x >> 8);
-	buf[k++] = (uint8_t) x;
-	buf[k++] = (uint8_t) (y >> 8);
-	buf[k++] = (uint8_t) y;
-
-	x = XOFF + DIM;
-	y = YOFF + yzero;
-
-	buf[k++] = (uint8_t) (x >> 8);
-	buf[k++] = (uint8_t) x;
-	buf[k++] = (uint8_t) (y >> 8);
-	buf[k++] = (uint8_t) y;
+	emit_push(DRAW_STROKE);
+	emit_push(x1);
+	emit_push(y1);
+	emit_push(x2);
+	emit_push(y2);
+	emit_push(THIN_STROKE);
 }
 
 static void
 emit_yaxis(void)
 {
-	int x, y;
+	float x1, x2, y1, y2;
 
 	if (xzero < 0 || xzero > DIM)
 		return;
 
-	buf[k++] = DRAW_LINE;
+	x1 = XOFF + xzero;
+	y1 = YOFF;
 
-	x = XOFF + xzero;
-	y = YOFF;
+	x2 = XOFF + xzero;
+	y2 = YOFF + DIM;
 
-	buf[k++] = (uint8_t) (x >> 8);
-	buf[k++] = (uint8_t) x;
-	buf[k++] = (uint8_t) (y >> 8);
-	buf[k++] = (uint8_t) y;
-
-	x = XOFF + xzero;
-	y = YOFF + DIM;
-
-	buf[k++] = (uint8_t) (x >> 8);
-	buf[k++] = (uint8_t) x;
-	buf[k++] = (uint8_t) (y >> 8);
-	buf[k++] = (uint8_t) y;
+	emit_push(DRAW_STROKE);
+	emit_push(x1);
+	emit_push(y1);
+	emit_push(x2);
+	emit_push(y2);
+	emit_push(THIN_STROKE);
 }
 
 static void emit_xscale_f(int, char *);
@@ -653,15 +625,16 @@ static void emit_xscale_f(int, char *);
 static void
 emit_xscale(void)
 {
-	sprintf(tbuf, "%g", xmin);
-	emit_xscale_f(0, tbuf);
-	sprintf(tbuf, "%g", xmax);
-	emit_xscale_f(DIM, tbuf);
+//	sprintf(tbuf, "%g", xmin);
+//	emit_xscale_f(0, tbuf);
+//	sprintf(tbuf, "%g", xmax);
+//	emit_xscale_f(DIM, tbuf);
 }
 
 static void
 emit_xscale_f(int xx, char *s)
 {
+#if 0
 	int d, i, len, w, x, y;
 
 	// want to center the number w/o sign
@@ -688,6 +661,7 @@ emit_xscale_f(int xx, char *s)
 
 	for (i = 0; i < len; i++)
 		buf[k++] = (uint8_t) s[i];
+#endif
 }
 
 static void emit_yscale_f(int, char *);
@@ -695,15 +669,16 @@ static void emit_yscale_f(int, char *);
 static void
 emit_yscale(void)
 {
-	sprintf(tbuf, "%g", ymax);
-	emit_yscale_f(0, tbuf);
-	sprintf(tbuf, "%g", ymin);
-	emit_yscale_f(DIM, tbuf);
+//	sprintf(tbuf, "%g", ymax);
+//	emit_yscale_f(0, tbuf);
+//	sprintf(tbuf, "%g", ymin);
+//	emit_yscale_f(DIM, tbuf);
 }
 
 static void
 emit_yscale_f(int yy, char *s)
 {
+#if 0
 	int i, len, w, x, y;
 
 	w = text_width(SMALL_FONT, s);
@@ -723,52 +698,5 @@ emit_yscale_f(int yy, char *s)
 
 	for (i = 0; i < len; i++)
 		buf[k++] = (uint8_t) s[i];
-}
-
-// emit the '0' axis label
-
-// make sure it doesn't hit the other labels
-
-static void
-emit_xzero(void)
-{
-	int x, y;
-
-	if (xzero < DIM / 4 || xzero > 3 * DIM / 4)
-		return;
-
-	x = XOFF + xzero - text_width(SMALL_FONT, "0") / 2;
-	y = YOFF + DIM + SHIM;
-
-	buf[k++] = SMALL_FONT;
-	buf[k++] = (uint8_t) (x >> 8);
-	buf[k++] = (uint8_t) x;
-	buf[k++] = (uint8_t) (y >> 8);
-	buf[k++] = (uint8_t) y;
-	buf[k++] = 1;
-	buf[k++] = '0';
-}
-
-// emit the '0' axis label
-
-// make sure it doesn't hit the other labels
-
-static void
-emit_yzero(void)
-{
-	int x, y;
-
-	if (yzero < DIM / 4 || yzero > 3 * DIM / 4)
-		return;
-
-	x = XOFF - SHIM - text_width(SMALL_FONT, "0");
-	y = YOFF + yzero - get_ascent(SMALL_FONT) / 2;
-
-	buf[k++] = SMALL_FONT;
-	buf[k++] = (uint8_t) (x >> 8);
-	buf[k++] = (uint8_t) x;
-	buf[k++] = (uint8_t) (y >> 8);
-	buf[k++] = (uint8_t) y;
-	buf[k++] = 1;
-	buf[k++] = '0';
+#endif
 }

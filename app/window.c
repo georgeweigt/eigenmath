@@ -156,9 +156,6 @@ draw_display(int y1, int y2)
 	}
 }
 
-extern void draw_point(int, int, int, int);
-extern void draw_box(int, int, int, int);
-
 #define N(x) (((int) buf[k + x] << 24) | ((int) buf[k + x + 1] << 16) | ((int) buf[k + x + 2]) << 8 | ((int) buf[k + x + 3]))
 
 static void
@@ -225,20 +222,6 @@ draw(struct display *p, int yy1, int yy2)
 				x2 = 256 * buf[k + 5] + buf[k + 6];
 				y2 = 256 * buf[k + 7] + buf[k + 8];
 				draw_line(xx + x1, yy + y1, xx + x2, yy + y2);
-				k += 9;
-				break;
-			case DRAW_POINT:
-				x = 256 * buf[k + 1] + buf[k + 2];
-				y = 256 * buf[k + 3] + buf[k + 4];
-				draw_point(xx, x, yy, y);
-				k += 5;
-				break;
-			case DRAW_BOX:
-				x1 = 256 * buf[k + 1] + buf[k + 2];
-				y1 = 256 * buf[k + 3] + buf[k + 4];
-				x2 = 256 * buf[k + 5] + buf[k + 6];
-				y2 = 256 * buf[k + 7] + buf[k + 8];
-				draw_box(xx + x1, yy + y1, xx + x2, yy + y2);
 				k += 9;
 				break;
 			default:

@@ -24,6 +24,11 @@ draw_formula(float x, float y, float *p)
 			p += 6;
 			break;
 
+		case DRAW_POINT:
+			draw_point(x + p[1], y + p[2]);
+			p += 3;
+			break;
+
 		default:
 			return;
 		}
