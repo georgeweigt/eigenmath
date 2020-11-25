@@ -36,14 +36,14 @@ emit_symbol(u, p)
 
 	if (v.level == 1) {
 		v.height = FONT_HEIGHT;
-		v.depth += SUBSCRIPT_DEPTH;
+		v.depth += FONT_HEIGHT / 2;
 		v.dx = 0;
-		v.dy = SUBSCRIPT_DEPTH;
+		v.dy = FONT_HEIGHT / 2;
 	} else {
 		v.height = SMALL_FONT_HEIGHT;
-		v.depth += SMALL_SUBSCRIPT_DEPTH;
+		v.depth += SMALL_FONT_HEIGHT / 2;
 		v.dx = 0;
-		v.dy = SMALL_SUBSCRIPT_DEPTH;
+		v.dy = SMALL_FONT_HEIGHT / 2;
 	}
 
 	u.a.push(v);

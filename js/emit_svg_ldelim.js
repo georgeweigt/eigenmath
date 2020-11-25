@@ -4,11 +4,11 @@ emit_svg_ldelim(u, x, y)
 	var t, w;
 
 	if (u.type == TABLE)
-		t = TABLE_DELIM_STROKE;
+		t = THICK_STROKE;
 	else if (u.level == 0)
-		t = DELIM_STROKE;
+		t = MEDIUM_STROKE;
 	else
-		t = SMALL_DELIM_STROKE;
+		t = THIN_STROKE;
 
 	w = emit_delim_width(u);
 
