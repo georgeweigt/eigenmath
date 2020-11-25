@@ -1,8 +1,8 @@
 #include "../src/defs.h"
 #include <ApplicationServices/ApplicationServices.h>
 
-#define FONT_SIZE 24.0
-#define SMALL_FONT_SIZE 18.0
+#define FONT_SIZE 20.0
+#define SMALL_FONT_SIZE 16.0
 
 #define HPAD (FONT_SIZE / 2.0)
 #define VPAD (FONT_SIZE / 2.0)
