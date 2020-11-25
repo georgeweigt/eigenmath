@@ -43,13 +43,13 @@ emit_draw(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_SUBEXPR:
-		emit_delims(x, y, h, d, w, DELIM_STROKE, ROMAN_FONT);
+		emit_delims(x, y, h, d, w, MEDIUM_STROKE, ROMAN_FONT);
 		x += get_char_width(ROMAN_FONT, '(');
 		emit_draw(x, y, car(p));
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-		emit_delims(x, y, h, d, w, SMALL_DELIM_STROKE, SMALL_ROMAN_FONT);
+		emit_delims(x, y, h, d, w, THIN_STROKE, SMALL_ROMAN_FONT);
 		x += get_char_width(SMALL_ROMAN_FONT, '(');
 		emit_draw(x, y, car(p));
 		break;
@@ -62,9 +62,9 @@ emit_draw(double x, double y, struct atom *p)
 		dy = VAL1(p);
 
 		if (k == EMIT_FRACTION)
-			stroke_width = FRAC_STROKE;
+			stroke_width = MEDIUM_STROKE;
 		else
-			stroke_width = SMALL_FRAC_STROKE;
+			stroke_width = THIN_STROKE;
 
 		emit_push(DRAW_STROKE);
 		emit_push(x);
@@ -90,7 +90,7 @@ emit_draw(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_TABLE:
-		emit_delims(x, y, h, d, w, ROMAN_FONT, LARGE_DELIM_STROKE);
+		emit_delims(x, y, h, d, w, THICK_STROKE, ROMAN_FONT);
 		x += get_char_width(ROMAN_FONT, '(');
 		emit_table(x, y - h, p);
 		break;

@@ -5,12 +5,11 @@ emit_update_table(int n, int m)
 {
 	int i, j, t;
 	double d, h, w;
-	double total_depth, total_height, total_width;
+	double total_height, total_width;
 
 	save();
 
 	total_height = 0.0;
-	total_depth = 0.0;
 	total_width = 0.0;
 
 	t = tos - n * m;
@@ -41,7 +40,7 @@ emit_update_table(int n, int m)
 		}
 		d += TABLE_VSPACE;
 		push_double(d);
-		total_depth += d;
+		total_height += d;
 	}
 
 	list(n);

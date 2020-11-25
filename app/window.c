@@ -5,9 +5,6 @@ int malloc_kaput_flag;
 static int total_h; // sum of the heights of all the items in the display queue
 static int total_w; // the maximum width including right and left margins
 
-static int hmargin = 8;
-static int vmargin = 4;
-
 static struct display *first, *last, *mark;
 
 static int len;
@@ -73,9 +70,9 @@ shipout(struct display *p)
 {
 	int w;
 
-	total_h += p->h + 2 * vmargin;
+	total_h += p->h + 2 * VPAD;
 
-	w = p->w + 2 * hmargin;
+	w = p->w + 2 * HPAD;
 
 	if (w > total_w)
 		total_w = w;
@@ -172,13 +169,13 @@ draw(struct display *p, int yy1, int yy2)
 
 	w = p->w;
 
-	xx = hmargin;
-	yy += vmargin;
+	xx = HPAD;
+	yy += VPAD;
 
 	// clip to view rect
 
 	if (yy + p->h < yy1 || yy > yy2) {
-		yy += p->h + vmargin;
+		yy += p->h + VPAD;
 		return;
 	}
 
@@ -258,7 +255,7 @@ draw(struct display *p, int yy1, int yy2)
 		break;
 	}
 
-	yy += p->h + vmargin;
+	yy += p->h + VPAD;
 }
 
 void

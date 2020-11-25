@@ -4,6 +4,16 @@
 #define FONT_SIZE 24.0
 #define SMALL_FONT_SIZE 18.0
 
+#define HPAD (FONT_SIZE / 2.0)
+#define VPAD (FONT_SIZE / 2.0)
+
+#define TABLE_HSPACE (FONT_SIZE / 2.0)
+#define TABLE_VSPACE (FONT_SIZE / 2.0)
+
+#define THIN_STROKE 1.0
+#define MEDIUM_STROKE 1.5
+#define THICK_STROKE 2.5
+
 #define SMALL_FONT 0
 #define DEFAULT_FONT 0
 
@@ -32,16 +42,6 @@
 #define EMIT_FRACTION 8
 #define EMIT_SMALL_FRACTION 9
 #define EMIT_TABLE 10
-
-#define DELIM_STROKE 1.5
-#define SMALL_DELIM_STROKE 1.0
-#define LARGE_DELIM_STROKE 2.0
-
-#define FRAC_STROKE 1.5
-#define SMALL_FRAC_STROKE 1.0
-
-#define TABLE_HSPACE 12.0
-#define TABLE_VSPACE 12.0
 
 #define OPCODE(p) car(p)->u.d
 #define HEIGHT(p) cadr(p)->u.d
