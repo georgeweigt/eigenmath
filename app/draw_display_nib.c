@@ -1,7 +1,7 @@
 #include "app.h"
 
 void
-draw_block(struct display *p, double y, double y1, double y2)
+draw_display_nib(struct display *p, double y, double y1, double y2)
 {
 	// clip to view rect
 

@@ -1,5 +1,7 @@
 #include "app.h"
 
+// draws graphs too
+
 void
 draw_formula(double x, double y, float *p)
 {

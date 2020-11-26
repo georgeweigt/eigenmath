@@ -11,7 +11,7 @@ emit_italic_char(int char_num)
 	else
 		font_num = SMALL_ITALIC_FONT;
 
-	h = get_char_height(font_num);
+	h = get_cap_height(font_num);
 	d = get_char_depth(font_num, char_num);
 	w = get_char_width(font_num, char_num);
 
@@ -24,5 +24,5 @@ emit_italic_char(int char_num)
 
 	list(6);
 
-	emit_count += 5; // alloc 5 doubles for drawing italic char
+	emit_count += 5; // alloc 5 for drawing italic char
 }

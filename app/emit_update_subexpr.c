@@ -22,7 +22,7 @@ emit_update_subexpr(void)
 		font_num = SMALL_ROMAN_FONT;
 	}
 
-	h = fmax(h, get_char_height(font_num));
+	h = fmax(h, get_cap_height(font_num));
 	d = fmax(d, get_char_depth(font_num, '('));
 
 	w += 2.0 * get_char_width(font_num, '(');

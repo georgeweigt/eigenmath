@@ -18,7 +18,7 @@ emit_update_subscript(void)
 	else
 		font_num = SMALL_ROMAN_FONT;
 
-	h = get_char_height(font_num);
+	h = get_cap_height(font_num);
 
 	dx = 0.0;
 	dy = h / 2.0;

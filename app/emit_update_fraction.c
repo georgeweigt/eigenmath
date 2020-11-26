@@ -23,7 +23,7 @@ emit_update_fraction(void)
 		font_num = SMALL_ROMAN_FONT;
 	}
 
-	m = get_char_height(font_num) / 2.0; // midpoint
+	m = get_cap_height(font_num) / 2.0; // midpoint
 
 	v = m / 2.0; // extra vertical space
 

@@ -8,7 +8,7 @@ draw_display(double y1, double y2)
 	y = 0.0;
 	p = first;
 	while (p) {
-		draw_block(p, y, y1, y2);
+		draw_display_nib(p, y, y1, y2);
 		y += p->height;
 		if (p == fence)
 			break;
