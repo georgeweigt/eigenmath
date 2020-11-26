@@ -13,12 +13,12 @@ shipout(struct display *p)
 
 	p->next = NULL;
 
-	if (first == NULL) {
-		last = p;
+	if (first == NULL)
 		first = p;
-	} else {
+	else
 		last->next = p;
-		OSMemoryBarrier();
-		last = p;
-	}
+
+	OSMemoryBarrier(); // because cpu reorders memory writes
+
+	last = p;
 }
