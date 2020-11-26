@@ -19,14 +19,14 @@ emit_text(char *buf, int len, int color)
 	p->type = 0;
 	p->color = color;
 
-	p->h = 0; // overlap with shipout padding
+	p->height = 0.0; // overlap with shipout padding
 
 	w = 0.0;
 
 	for (i = 0; i < len; i++)
 		w += get_char_width(DEFAULT_FONT, buf[i]);
 
-	p->w = ceil(w);
+	p->width = w;
 
 	shipout(p);
 }

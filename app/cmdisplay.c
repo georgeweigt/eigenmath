@@ -36,8 +36,8 @@ cmdisplay(void)
 	emit_display->type = 1;
 	emit_display->color = BLACK;
 
-	emit_display->h = (int) ceil(h + d);
-	emit_display->w = (int) ceil(w);
+	emit_display->height = h + d;
+	emit_display->width = w;
 
 	shipout(emit_display);
 

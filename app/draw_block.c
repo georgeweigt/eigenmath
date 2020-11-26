@@ -5,7 +5,7 @@ draw_block(struct display *p, double y, double y1, double y2)
 {
 	// clip to view rect
 
-	if (y + p->h < y1 || y > y2)
+	if (y + p->height < y1 || y > y2)
 		return;
 
 	switch (p->color) {

@@ -76,10 +76,10 @@ struct display {
 	struct display *next;
 	int type;
 	int color;
-	double h;
-	double w;
-	double document_height;	// for parent process
-	double document_width;	// for parent process
+	double height;
+	double width;
+	double total_height;
+	double total_width;
 	int len;
 	uint8_t buf[0];
 	double tab[0];

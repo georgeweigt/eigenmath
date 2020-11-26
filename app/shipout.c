@@ -3,16 +3,19 @@
 void
 shipout(struct display *p)
 {
-	p->h += 2 * VPAD;
-	p->w += 2 * HPAD;
+	p->height += 2 * VPAD;
+	p->width += 2 * HPAD;
 
-	total_height += p->h;
+	p->height = ceil(p->height);
+	p->width = ceil(p->width);
 
-	if (p->w > total_width)
-		total_width = p->w;
+	total_height += p->height;
 
-	p->document_height = total_height;
-	p->document_width = total_width;
+	if (p->width > total_width)
+		total_width = p->width;
+
+	p->total_height = total_height;
+	p->total_width = total_width;
 
 	p->next = NULL;
 

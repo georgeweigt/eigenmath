@@ -472,8 +472,9 @@ emit_graph(void)
 
 	emit_display->type = 1;
 	emit_display->color = BLACK;
-	emit_display->w = DRAW_LEFT_PAD + GDIM + DRAW_RIGHT_PAD;
-	emit_display->h = DRAW_TOP_PAD + GDIM + DRAW_BOTTOM_PAD;
+
+	emit_display->height = DRAW_TOP_PAD + GDIM + DRAW_BOTTOM_PAD;
+	emit_display->width = DRAW_LEFT_PAD + GDIM + DRAW_RIGHT_PAD;
 
 	emit_box();
 
