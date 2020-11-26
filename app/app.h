@@ -59,8 +59,6 @@
 #define LESSEQUAL 181
 #define PARTIALDIFF 182
 
-#define GDIM 300
-
 #define DRAW_HEIGHT 300
 #define DRAW_WIDTH 300
 

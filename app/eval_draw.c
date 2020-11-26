@@ -11,13 +11,13 @@ double tmin, tmax;
 double xmin, xmax;
 double ymin, ymax;
 
-#define YMAX 2000
+int draw_count;
+
+#define YMAX (10 * DRAW_WIDTH)
 
 struct {
 	double x, y, t;
 } draw_buf[YMAX];
-
-int draw_count;
 
 void
 eval_draw(void)
@@ -86,7 +86,7 @@ check_for_parametric_draw(void)
 	}
 }
 
-#define N (GDIM + 1) // +1 fixes scruffy line, for example, draw(-x)
+#define N (DRAW_WIDTH + 1)
 
 void
 create_point_set(void)
@@ -96,7 +96,7 @@ create_point_set(void)
 
 	draw_count = 0;
 
-	for (i = 1; i < N; i++) {
+	for (i = 0; i <= N; i++) {
 		t = tmin + (double) i / N * (tmax - tmin);
 		new_point(t);
 	}
@@ -126,8 +126,8 @@ new_point(double t)
 	push(YT);
 	y = pop_double();
 
-	x = GDIM * (x - xmin) / (xmax - xmin);
-	y = GDIM * (y - ymin) / (ymax - ymin);
+	x = DRAW_WIDTH * (x - xmin) / (xmax - xmin);
+	y = DRAW_HEIGHT * (y - ymin) / (ymax - ymin);
 
 	draw_buf[draw_count].x = x;
 	draw_buf[draw_count].y = y;
@@ -205,9 +205,9 @@ eval_f(double t)
 int
 invisible(int i)
 {
-	if (draw_buf[i].x < 0 || draw_buf[i].x > GDIM)
+	if (draw_buf[i].x < 0 || draw_buf[i].x > DRAW_WIDTH)
 		return 1;
-	if (draw_buf[i].y < 0 || draw_buf[i].y > GDIM)
+	if (draw_buf[i].y < 0 || draw_buf[i].y > DRAW_HEIGHT)
 		return 1;
 	return 0;
 }
@@ -430,8 +430,6 @@ setup_yrange_f(void)
 		stop("draw: yrange is zero");
 }
 
-int xzero, yzero;
-
 void
 emit_graph(void)
 {
@@ -467,22 +465,22 @@ emit_graph(void)
 
 	h = emit_labels(); // uses the results on stack from emit_list
 
-	get_xzero();
-	get_yzero();
-
 	emit_box();
 
 	emit_xaxis();
 	emit_yaxis();
 
 	for (i = 0; i < draw_count; i++) {
+
 		x = draw_buf[i].x;
-		y = GDIM - draw_buf[i].y; // flip the y coordinate
-		if (x < 0 || x > GDIM)
+		y = draw_buf[i].y;
+
+		if (x < 0 || x > DRAW_WIDTH || y < 0 || y > DRAW_HEIGHT)
 			continue;
-		if (y < 0 || y > GDIM)
-			continue;
+
 		x += DRAW_LEFT_PAD;
+		y = DRAW_HEIGHT - y;
+
 		emit_push(DRAW_POINT);
 		emit_push(x);
 		emit_push(y);
@@ -493,8 +491,8 @@ emit_graph(void)
 	emit_display->type = 1;
 	emit_display->color = BLACK;
 
-	emit_display->height = VPAD + GDIM + DRAW_LABEL_PAD + round(h) + VPAD;
-	emit_display->width = DRAW_LEFT_PAD + GDIM + DRAW_RIGHT_PAD;
+	emit_display->height = VPAD + DRAW_HEIGHT + DRAW_LABEL_PAD + round(h) + VPAD;
+	emit_display->width = DRAW_LEFT_PAD + DRAW_WIDTH + DRAW_RIGHT_PAD;
 
 	emit_display->dx = 0.0;
 	emit_display->dy = VPAD;
@@ -503,29 +501,15 @@ emit_graph(void)
 }
 
 void
-get_xzero(void)
-{
-	xzero = GDIM * (0.0 - xmin) / (xmax - xmin);
-}
-
-void
-get_yzero(void)
-{
-	double y;
-	y = GDIM * (0.0 - ymin) / (ymax - ymin);
-	yzero = GDIM - y; // flip the y coordinate
-}
-
-void
 emit_box(void)
 {
 	double x1, x2, y1, y2;
 
 	x1 = DRAW_LEFT_PAD;
-	y1 = 0.0;
+	x2 = DRAW_LEFT_PAD + DRAW_WIDTH;
 
-	x2 = DRAW_LEFT_PAD + GDIM;
-	y2 = GDIM;
+	y1 = 0.0;
+	y2 = DRAW_HEIGHT;
 
 	// left
 
@@ -559,50 +543,6 @@ emit_box(void)
 	emit_push(DRAW_STROKE);
 	emit_push(x1);
 	emit_push(y2);
-	emit_push(x2);
-	emit_push(y2);
-	emit_push(1.0);
-}
-
-void
-emit_xaxis(void)
-{
-	double x1, x2, y1, y2;
-
-	if (yzero < 0 || yzero > GDIM)
-		return;
-
-	x1 = DRAW_LEFT_PAD;
-	y1 = yzero;
-
-	x2 = DRAW_LEFT_PAD + GDIM;
-	y2 = yzero;
-
-	emit_push(DRAW_STROKE);
-	emit_push(x1);
-	emit_push(y1);
-	emit_push(x2);
-	emit_push(y2);
-	emit_push(1.0);
-}
-
-void
-emit_yaxis(void)
-{
-	double x1, x2, y1, y2;
-
-	if (xzero < 0 || xzero > GDIM)
-		return;
-
-	x1 = DRAW_LEFT_PAD + xzero;
-	y1 = 0.0;
-
-	x2 = DRAW_LEFT_PAD + xzero;
-	y2 = GDIM;
-
-	emit_push(DRAW_STROKE);
-	emit_push(x1);
-	emit_push(y1);
 	emit_push(x2);
 	emit_push(y2);
 	emit_push(1.0);

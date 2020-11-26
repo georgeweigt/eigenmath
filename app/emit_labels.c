@@ -29,7 +29,7 @@ emit_labels(void)
 	w = WIDTH(p1);
 
 	x = DRAW_LEFT_PAD - w - DRAW_LABEL_PAD;
-	y = GDIM;
+	y = DRAW_HEIGHT;
 
 	emit_draw(x, y, p1);
 
@@ -41,8 +41,8 @@ emit_labels(void)
 	d = DEPTH(p1);
 	w = WIDTH(p1);
 
-	x = DRAW_LEFT_PAD + GDIM - w / 2.0; // center
-	y = GDIM + DRAW_LABEL_PAD + h;
+	x = DRAW_LEFT_PAD + DRAW_WIDTH - w / 2.0; // center
+	y = DRAW_HEIGHT + DRAW_LABEL_PAD + h;
 
 	emit_draw(x, y, p1);
 
@@ -57,7 +57,7 @@ emit_labels(void)
 	w = WIDTH(p1);
 
 	x = DRAW_LEFT_PAD - w / 2.0; // center
-	y = GDIM + DRAW_LABEL_PAD + h;
+	y = DRAW_HEIGHT + DRAW_LABEL_PAD + h;
 
 	emit_draw(x, y, p1);
 
