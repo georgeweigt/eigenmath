@@ -73,15 +73,16 @@ struct display {
 	struct display *next;
 	int type;
 	int color;
+	int len;
+	int pad;
 	double height;
 	double width;
 	double total_height;
 	double total_width;
 	double dx;
 	double dy;
-	int len;
 	uint8_t buf[0];
-	float tab[0];
+	float mem[0];
 };
 
 extern double document_height;	// for parent process

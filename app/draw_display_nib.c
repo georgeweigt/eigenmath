@@ -30,7 +30,7 @@ draw_display_nib(struct display *p, double y, double y1, double y2)
 		break;
 
 	case 1:
-		draw_formula(p->dx, y + p->dy, p->tab);
+		draw_formula(p->dx, y + p->dy, p->mem);
 		break;
 	}
 }
