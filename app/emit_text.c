@@ -1,10 +1,12 @@
 #include "app.h"
 
+// 12.0625 + 3.9375 = 16.0 for DEFAULT_FONT
+
 void
 emit_text(char *buf, int len, int color)
 {
 	int i;
-	double w;
+	double d, h, w;
 	struct display *p;
 
 	p = malloc(sizeof (struct display) + len);
@@ -16,17 +18,22 @@ emit_text(char *buf, int len, int color)
 
 	memcpy(p->buf, buf, len);
 
-	p->type = 0;
-	p->color = color;
-
-	p->height = 0.0; // overlap with shipout padding
+	h = get_ascent(DEFAULT_FONT) + 1.0;
+	d = get_descent(DEFAULT_FONT) + 3.0;
 
 	w = 0.0;
 
 	for (i = 0; i < len; i++)
 		w += get_char_width(DEFAULT_FONT, buf[i]);
 
-	p->width = w;
+	p->type = 0;
+	p->color = color;
+
+	p->height = round(h + d);
+	p->width = HPAD + w + HPAD;
+
+	p->dx = HPAD;
+	p->dy = round(h);
 
 	shipout(p);
 }

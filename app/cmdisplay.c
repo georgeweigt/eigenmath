@@ -3,7 +3,7 @@
 void
 cmdisplay(void)
 {
-	double d, h, w, x, y;
+	double d, h, w;
 
 	save();
 
@@ -21,23 +21,26 @@ cmdisplay(void)
 	d = DEPTH(p1);
 	w = WIDTH(p1);
 
-	x = 0.0;
-	y = h;
-
-	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (double));
+	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
 
 	if (emit_display == NULL)
 		malloc_kaput();
 
-	emit_draw(x, y, p1);
+	emit_draw(0.0, 0.0, p1);
 
 	emit_push(DRAW_END);
 
 	emit_display->type = 1;
 	emit_display->color = BLACK;
 
-	emit_display->height = h + d;
-	emit_display->width = w;
+	h = ceil(h);
+	d = ceil(d);
+
+	emit_display->height = VPAD + h + d + VPAD;
+	emit_display->width = HPAD + w + HPAD;
+
+	emit_display->dx = HPAD;
+	emit_display->dy = VPAD + h;
 
 	shipout(emit_display);
 

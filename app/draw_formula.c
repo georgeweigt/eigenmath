@@ -1,7 +1,7 @@
 #include "app.h"
 
 void
-draw_formula(double x, double y, double *p)
+draw_formula(double x, double y, float *p)
 {
 	int k;
 
@@ -12,7 +12,7 @@ draw_formula(double x, double y, double *p)
 		switch (k) {
 
 		case DRAW_CHAR:
-			draw_char(x + p[1], y + p[2], (int) p[3], (int) p[4]);
+			draw_char(x + p[1], y + p[2], p[3], p[4]);
 			p += 5;
 			break;
 

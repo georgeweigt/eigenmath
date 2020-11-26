@@ -67,9 +67,6 @@
 #define DRAW_LEFT_PAD 120
 #define DRAW_RIGHT_PAD 40
 
-#define DRAW_TOP_PAD 0
-#define DRAW_BOTTOM_PAD 30
-
 #define DRAW_LABEL_PAD 10
 
 struct display {
@@ -80,9 +77,11 @@ struct display {
 	double width;
 	double total_height;
 	double total_width;
+	double dx;
+	double dy;
 	int len;
 	uint8_t buf[0];
-	double tab[0];
+	float tab[0];
 };
 
 extern double document_height;	// for parent process

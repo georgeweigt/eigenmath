@@ -436,7 +436,7 @@ void
 emit_graph(void)
 {
 	int i;
-	double x, y;
+	double h, x, y;
 
 	emit_level = 1; // small font
 	emit_index = 0;
@@ -460,21 +460,15 @@ emit_graph(void)
 	p1 = pop();
 	emit_list(p1);
 
-	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (double));
+	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
 
 	if (emit_display == NULL)
 		malloc_kaput();
 
-	emit_labels(); // uses the results on stack from emit_list
+	h = emit_labels(); // uses the results on stack from emit_list
 
 	get_xzero();
 	get_yzero();
-
-	emit_display->type = 1;
-	emit_display->color = BLACK;
-
-	emit_display->height = DRAW_TOP_PAD + GDIM + DRAW_BOTTOM_PAD;
-	emit_display->width = DRAW_LEFT_PAD + GDIM + DRAW_RIGHT_PAD;
 
 	emit_box();
 
@@ -489,13 +483,21 @@ emit_graph(void)
 		if (y < 0 || y > GDIM)
 			continue;
 		x += DRAW_LEFT_PAD;
-		y += DRAW_TOP_PAD;
 		emit_push(DRAW_POINT);
 		emit_push(x);
 		emit_push(y);
 	}
 
 	emit_push(DRAW_END);
+
+	emit_display->type = 1;
+	emit_display->color = BLACK;
+
+	emit_display->height = VPAD + GDIM + DRAW_LABEL_PAD + round(h) + VPAD;
+	emit_display->width = DRAW_LEFT_PAD + GDIM + DRAW_RIGHT_PAD;
+
+	emit_display->dx = 0.0;
+	emit_display->dy = VPAD;
 
 	shipout(emit_display);
 }
@@ -520,10 +522,10 @@ emit_box(void)
 	double x1, x2, y1, y2;
 
 	x1 = DRAW_LEFT_PAD;
-	y1 = DRAW_TOP_PAD;
+	y1 = 0.0;
 
 	x2 = DRAW_LEFT_PAD + GDIM;
-	y2 = DRAW_TOP_PAD + GDIM;
+	y2 = GDIM;
 
 	// left
 
@@ -571,10 +573,10 @@ emit_xaxis(void)
 		return;
 
 	x1 = DRAW_LEFT_PAD;
-	y1 = DRAW_TOP_PAD + yzero;
+	y1 = yzero;
 
 	x2 = DRAW_LEFT_PAD + GDIM;
-	y2 = DRAW_TOP_PAD + yzero;
+	y2 = yzero;
 
 	emit_push(DRAW_STROKE);
 	emit_push(x1);
@@ -593,10 +595,10 @@ emit_yaxis(void)
 		return;
 
 	x1 = DRAW_LEFT_PAD + xzero;
-	y1 = DRAW_TOP_PAD;
+	y1 = 0.0;
 
 	x2 = DRAW_LEFT_PAD + xzero;
-	y2 = DRAW_TOP_PAD + GDIM;
+	y2 = GDIM;
 
 	emit_push(DRAW_STROKE);
 	emit_push(x1);

@@ -26,11 +26,11 @@ draw_block(struct display *p, double y, double y1, double y2)
 	switch (p->type) {
 
 	case 0:
-		draw_text(HPAD, y, p->buf, p->len);
+		draw_text(p->dx, y + p->dy, p->buf, p->len);
 		break;
 
 	case 1:
-		draw_formula(HPAD, y + VPAD, p->tab);
+		draw_formula(p->dx, y + p->dy, p->tab);
 		break;
 	}
 }

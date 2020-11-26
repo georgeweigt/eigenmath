@@ -54,11 +54,12 @@ get_char_depth(int font_num, int char_num)
 	else
 		t = roman_tab[char_num];
 
-	if (t == 0)
-		return 0.0;
-
 	f = get_font_ref(font_num);
-	d = CTFontGetDescent(f);
+
+	if (t)
+		d = CTFontGetDescent(f);
+	else
+		d = CTFontGetLeading(f);
 
 	return d;
 }
