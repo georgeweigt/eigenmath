@@ -1,6 +1,6 @@
 #include "app.h"
 
-#define R 1.25
+#define R 2.0
 
 void
 draw_point(double x, double y)

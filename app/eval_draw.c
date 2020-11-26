@@ -254,17 +254,16 @@ void
 setup_trange(void)
 {
 	save();
-	setup_trange_f();
+	setup_trange_nib();
 	restore();
 }
 
 void
-setup_trange_f(void)
+setup_trange_nib(void)
 {
 	// default range is (-pi, pi)
 
 	tmin = -M_PI;
-
 	tmax = M_PI;
 
 	p1 = lookup("trange");
@@ -306,17 +305,16 @@ void
 setup_xrange(void)
 {
 	save();
-	setup_xrange_f();
+	setup_xrange_nib();
 	restore();
 }
 
 void
-setup_xrange_f(void)
+setup_xrange_nib(void)
 {
 	// default range is (-10,10)
 
 	xmin = -10.0;
-
 	xmax = 10.0;
 
 	p1 = lookup("xrange");
@@ -392,7 +390,6 @@ setup_yrange_f(void)
 	// default range is (-10,10)
 
 	ymin = -10.0;
-
 	ymax = 10.0;
 
 	p1 = lookup("yrange");
