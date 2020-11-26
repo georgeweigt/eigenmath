@@ -33,8 +33,8 @@ cmdisplay(void)
 	emit_display->type = 1;
 	emit_display->color = BLACK;
 
-	h = ceil(h);
-	d = ceil(d);
+	h = round(h);
+	d = round(d);
 
 	emit_display->height = VPAD + h + d + VPAD;
 	emit_display->width = HPAD + w + HPAD;
