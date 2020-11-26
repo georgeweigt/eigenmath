@@ -97,4 +97,3 @@ void printbuf(char *s, int color);
 void run_thread(char *s);
 void * run_thread_nib(void *s);
 void shipout(struct display *p);
-void update_document_size(void);

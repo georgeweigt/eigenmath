@@ -1,5 +1,7 @@
 #include "app.h"
 
+// app calls check_display() then draw_display()
+
 void
 draw_display(double y1, double y2)
 {
