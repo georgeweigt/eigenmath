@@ -1,5 +1,5 @@
 function
-draw_evalf(F, X, x)
+draw_eval_nib(F, X, x)
 {
 	var tos = stack.length;
 	var tof = frame.length;

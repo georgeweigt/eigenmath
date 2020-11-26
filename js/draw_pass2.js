@@ -10,11 +10,13 @@ draw_pass2(F, X)
 		p1 = draw_array[i];
 		p2 = draw_array[i + 1];
 
-		if ((p1.dy > 0 && p1.dy < DRAW_HEIGHT) || (p2.dy > 0 && p2.dy < DRAW_HEIGHT)) {
+		if ((p1.dy >= 0 && p1.dy <= DRAW_HEIGHT) || (p2.dy >= 0 && p2.dy <= DRAW_HEIGHT)) {
+
 			m = Math.floor(Math.abs(p1.dy - p2.dy));
+
 			for (j = 1; j < m; j++) {
 				x = p1.x + (p2.x - p1.x) * j / m;
-				draw_point(F, X, x, 0);
+				draw_eval(F, X, x);
 			}
 		}
 	}
