@@ -19,9 +19,12 @@ emit_double(u, p) // p is a double
 
 	j = k;
 
-	if (s.indexOf(".") != -1)
-		while (s.charAt(j - 1) == "0" && s.charAt(j - 2) != ".")
+	if (s.indexOf(".") > 0) {
+		while (s.charAt(j - 1) == "0")
 			j--;
+		if (s.charAt(j - 1) == ".")
+			j--;
+	}
 
 	emit_roman_text(u, s.substring(0, j));
 
