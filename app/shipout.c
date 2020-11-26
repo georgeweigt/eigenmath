@@ -18,7 +18,7 @@ shipout(struct display *p)
 		first = p;
 	} else {
 		last->next = p;
-		// need a memory barrier here
+		OSMemoryBarrier();
 		last = p;
 	}
 }
