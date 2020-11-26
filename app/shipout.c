@@ -6,13 +6,13 @@ shipout(struct display *p)
 	p->h += 2 * VPAD;
 	p->w += 2 * HPAD;
 
-	total_h += p->h;
+	total_height += p->h;
 
-	if (p->w > total_w)
-		total_w = p->w;
+	if (p->w > total_width)
+		total_width = p->w;
 
-	p->document_height = total_h;
-	p->document_width = total_w;
+	p->document_height = total_height;
+	p->document_width = total_width;
 
 	p->next = NULL;
 

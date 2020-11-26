@@ -3,15 +3,22 @@
 void
 clear_display(void)
 {
-	struct display *t;
+	struct display *p;
+
+	if (running)
+		return;
+
 	while (first) {
-		t = first;
+		p = first;
 		first = first->next;
-		free(t);
+		free(p);
 	}
+
 	last = NULL;
 	barrier = NULL;
-	total_w = 0;
-	total_h = 0;
+
+	total_height = 0.0;
+	total_width = 0.0;
+
 	cleared = 1;
 }

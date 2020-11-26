@@ -85,15 +85,18 @@ struct display {
 	double tab[0];
 };
 
-extern double document_height;
+extern double document_height;	// for parent process
 extern double document_width;
+
+extern double total_height;	// for thread process
+extern double total_width;
+
+extern int running;
 
 extern CGContextRef gcontext;
 
 extern int cleared;
 extern int malloc_kaput_flag;
-extern double total_h;
-extern double total_w;
 extern struct display *first;
 extern struct display *barrier;
 extern struct display *last;
