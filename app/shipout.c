@@ -11,8 +11,8 @@ shipout(struct display *p)
 	if (p->w > total_w)
 		total_w = p->w;
 
-	p->tot_h = total_h;
-	p->tot_w = total_w;
+	p->document_height = total_h;
+	p->document_width = total_w;
 
 	p->next = NULL;
 

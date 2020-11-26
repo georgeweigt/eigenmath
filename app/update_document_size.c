@@ -3,11 +3,13 @@
 void
 update_document_size(void)
 {
-	mark = last;
 	cleared = 0;
-	if (mark) {
-		document_height = mark->tot_h;
-		document_width = mark->tot_w;
+
+	barrier = last;
+
+	if (barrier) {
+		document_height = barrier->document_height;
+		document_width = barrier->document_width;
 	} else {
 		document_height = 0.0;
 		document_width = 0.0;

@@ -3,8 +3,8 @@
 int
 check_display(void)
 {
-	if (mark == last && cleared == 0)
-		return 0;
+	if (barrier == last && cleared == 0)
+		return 0; // nothing changed
 	else
 		return 1;
 }

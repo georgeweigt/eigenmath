@@ -10,7 +10,7 @@ clear_display(void)
 		free(t);
 	}
 	last = NULL;
-	mark = NULL;
+	barrier = NULL;
 	total_w = 0;
 	total_h = 0;
 	cleared = 1;

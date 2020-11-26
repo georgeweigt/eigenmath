@@ -78,8 +78,8 @@ struct display {
 	int color;
 	double h;
 	double w;
-	double tot_h;
-	double tot_w;
+	double document_height;	// for parent process
+	double document_width;	// for parent process
 	int len;
 	uint8_t buf[0];
 	double tab[0];
@@ -95,7 +95,7 @@ extern int malloc_kaput_flag;
 extern double total_h;
 extern double total_w;
 extern struct display *first;
-extern struct display *mark;
+extern struct display *barrier;
 extern struct display *last;
 
 extern struct display *emit_display;
