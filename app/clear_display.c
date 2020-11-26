@@ -14,8 +14,8 @@ clear_display(void)
 		free(p);
 	}
 
+	fence = NULL;
 	last = NULL;
-	barrier = NULL;
 
 	total_height = 0.0;
 	total_width = 0.0;

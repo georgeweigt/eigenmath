@@ -10,7 +10,7 @@ draw_display(double y1, double y2)
 	while (p) {
 		draw_block(p, y, y1, y2);
 		y += p->height;
-		if (p == barrier)
+		if (p == fence)
 			break;
 		p = p->next;
 	}

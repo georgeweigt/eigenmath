@@ -10,7 +10,7 @@ int running;
 int cleared;
 int malloc_kaput_flag;
 struct display *first;
-struct display *barrier;
+struct display *fence;
 struct display * volatile last; // (read backwards) volatile pointer to...
 
 struct display *emit_display;
