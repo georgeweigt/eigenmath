@@ -29,6 +29,9 @@ draw_selection_rect(double x, double y, double width, double height)
 	if (fy2 >= document_height)
 		fy2 = document_height - 1;
 
+	CGContextSetRGBFillColor(gcontext, 0.0, 0.0, 0.0, 1.0); // black
+	CGContextSetRGBStrokeColor(gcontext, 0.0, 0.0, 0.0, 1.0);
+
 	// set up the path
 
 	CGContextBeginPath(gcontext);
