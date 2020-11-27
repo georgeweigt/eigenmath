@@ -52,15 +52,6 @@ char *input_c_string;
 	_textview.enabledTextCheckingTypes = 0; // need this so -- (dash dash) isn't changed
 
 	init_fonts();
-
-//	clear_display();
-
-//	timer = [NSTimer
-//		scheduledTimerWithTimeInterval:0.1
-//		target:self
-//		selector:@selector(timerFunction:)
-//		userInfo:nil
-//		repeats:YES];
 }
 
 // this function is linked to file menu automatically
@@ -135,6 +126,15 @@ char *input_c_string;
 	echo_input(input_c_string);
 
 	run_thread(input_c_string);
+
+	// start timer to update display
+
+	timer = [NSTimer
+		scheduledTimerWithTimeInterval:0.1
+		target:self
+		selector:@selector(timerFunction:)
+		userInfo:nil
+		repeats:YES];
 }
 
 // to here on run button

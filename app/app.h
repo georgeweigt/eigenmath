@@ -12,7 +12,7 @@
 
 #define THIN_STROKE 1.0
 #define MEDIUM_STROKE 1.5
-#define THICK_STROKE 2.5
+#define THICK_STROKE 2.0
 
 #define SMALL_FONT 0
 #define DEFAULT_FONT 0
