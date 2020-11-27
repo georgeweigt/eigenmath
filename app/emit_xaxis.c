@@ -21,5 +21,5 @@ emit_xaxis(void)
 	emit_push(y);
 	emit_push(x2);
 	emit_push(y);
-	emit_push(0.5);
+	emit_push(VERY_THIN_STROKE);
 }

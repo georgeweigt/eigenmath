@@ -18,7 +18,7 @@ emit_box(void)
 	emit_push(y1);
 	emit_push(x1);
 	emit_push(y2);
-	emit_push(0.5);
+	emit_push(VERY_THIN_STROKE);
 
 	// right
 
@@ -27,7 +27,7 @@ emit_box(void)
 	emit_push(y1);
 	emit_push(x2);
 	emit_push(y2);
-	emit_push(0.5);
+	emit_push(VERY_THIN_STROKE);
 
 	// top
 
@@ -36,7 +36,7 @@ emit_box(void)
 	emit_push(y1);
 	emit_push(x2);
 	emit_push(y1);
-	emit_push(0.5);
+	emit_push(VERY_THIN_STROKE);
 
 	// bottom
 
@@ -45,5 +45,5 @@ emit_box(void)
 	emit_push(y2);
 	emit_push(x2);
 	emit_push(y2);
-	emit_push(0.5);
+	emit_push(VERY_THIN_STROKE);
 }
