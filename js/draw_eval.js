@@ -13,7 +13,5 @@ draw_eval(F, X, x)
 	dx = DRAW_WIDTH * (x - xmin) / (xmax - xmin);
 	dy = DRAW_HEIGHT * (y - ymin) / (ymax - ymin);
 
-	dy = DRAW_HEIGHT - dy; // flip
-
 	draw_array.push({x:x, y:y, dx:dx, dy:dy});
 }

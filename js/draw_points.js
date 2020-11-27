@@ -14,7 +14,7 @@ draw_points()
 			continue;
 
 		x += DRAW_LEFT_PAD;
-		y += DRAW_TOP_PAD;
+		y = DRAW_HEIGHT - y + DRAW_TOP_PAD;
 
 		x = "cx='" + x + "'";
 		y = "cy='" + y + "'";
