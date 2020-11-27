@@ -117,11 +117,9 @@ char *input_c_string;
 	if (running)
 		return;
 
-	[self evalString:[_input stringValue]];
+	[self evalString:[_input stringValue]]; // evaluate user input
 
-	// clear command line
-
-	[_input setStringValue:@""];
+	[_input setStringValue:@""]; // clear command line
 }
 
 -(void)evalString:(NSString *)s
@@ -139,7 +137,7 @@ char *input_c_string;
 	run_thread(input_c_string);
 }
 
-// run
+// to here on run button
 
 -(IBAction)runButtonHandler:(id)sender
 {
@@ -152,6 +150,8 @@ char *input_c_string;
 	input_c_string = strdup([[_textview string] UTF8String]);
 
 	clear_display();
+
+	[self updateDisplay];
 
 	zero = NULL; // force full init
 
@@ -167,53 +167,53 @@ char *input_c_string;
 		repeats:YES];
 }
 
-// stop
+// to here on stop button
 
 -(IBAction)stopButtonHandler:(id)sender
 {
 	interrupt = 1;
 }
 
-// clear
+// to here on clear button
 
 -(IBAction)clearButtonHandler:(id)sender
 {
-	if (running == 0) {
-		zero = NULL; // force full init on next eval
-		clear_display();
-		[self updateDisplay];
-	}
+	if (running)
+		return;
+	zero = NULL; // force full init on next eval
+	clear_display();
+	[self updateDisplay];
 }
 
-// draw
+// to here on draw button
 
 -(IBAction)drawButtonHandler:(id)sender
 {
 	[self evalString:@"draw"];
 }
 
-// simplify
+// to here on simplify button
 
 -(IBAction)simplifyButtonHandler:(id)sender
 {
 	[self evalString:@"simplify"];
 }
 
-// float
+// to here on float button
 
 -(IBAction)floatButtonHandler:(id)sender
 {
 	[self evalString:@"float"];
 }
 
-// derivative
+// to here on derivative button
 
 -(IBAction)derivativeButtonHandler:(id)sender
 {
 	[self evalString:@"derivative"];
 }
 
-// integral
+// to here on integral button
 
 -(IBAction)integralButtonHandler:(id)sender
 {
