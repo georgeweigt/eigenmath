@@ -1,8 +1,5 @@
 #import "EigenmathView.h"
 
-extern double document_height;
-extern double document_width;
-
 extern void draw_display(double ymin, double ymax);
 extern void draw_selection_rect(double x, double y, double width, double height);
 
@@ -26,12 +23,13 @@ CGContextRef gcontext;
 	y1 = rect.origin.y + rect.size.height;
 	y2 = rect.origin.y;
 
-	y1 = document_height - y1;
-	y2 = document_height - y2;
-
 	draw_display(y1, y2);
 
-	draw_selection_rect(selectionRect.origin.x, selectionRect.origin.y, selectionRect.size.width, selectionRect.size.height);
+	draw_selection_rect(
+		selectionRect.origin.x,
+		selectionRect.origin.y,
+		selectionRect.size.width,
+		selectionRect.size.height);
 }
 
 -(void)mouseDown:(NSEvent *)event

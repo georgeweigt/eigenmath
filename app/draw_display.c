@@ -8,6 +8,9 @@ draw_display(double ymin, double ymax)
 	double y;
 	struct display *p;
 
+	ymin = document_height - ymin; // convert from screen coordinates
+	ymax = document_height - ymax;
+
 	y = document_height;
 
 	p = fence;
