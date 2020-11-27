@@ -27,11 +27,7 @@
 #define DRAW_END 0
 #define DRAW_CHAR 1
 #define DRAW_STROKE 2
-
-#define DRAW_LINE 23
-#define DRAW_POINT 24
-#define DRAW_BOX 25
-#define DRAW_SPACE 32
+#define DRAW_POINT 3
 
 #define EMIT_SPACE 1
 #define EMIT_CHAR 2
