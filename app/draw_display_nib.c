@@ -33,4 +33,7 @@ draw_display_nib(struct display *p, double y, double ymin, double ymax)
 		draw_formula(p->dx, y + p->dy, p->mem);
 		break;
 	}
+
+	CGContextSetRGBFillColor(gcontext, 0.0, 0.0, 0.0, 1.0); // back to black for selection rect
+	CGContextSetRGBStrokeColor(gcontext, 0.0, 0.0, 0.0, 1.0);
 }
