@@ -1,11 +1,11 @@
 #include "app.h"
 
 void
-draw_display_nib(struct display *p, double y, double y1, double y2)
+draw_display_nib(struct display *p, double y, double ymin, double ymax)
 {
 	// clip to view rect
 
-	if (y + p->height < y1 || y > y2)
+	if (y + p->height < ymin || y > ymax)
 		return;
 
 	switch (p->color) {

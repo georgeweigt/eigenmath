@@ -3,7 +3,7 @@
 // app calls check_display() then prep_display() then draw_display()
 
 void
-draw_display(double y1, double y2)
+draw_display(double ymin, double ymax)
 {
 	double y;
 	struct display *p;
@@ -14,7 +14,7 @@ draw_display(double y1, double y2)
 
 	while (p) {
 		y -= p->height;
-		draw_display_nib(p, y, y1, y2);
+		draw_display_nib(p, y, ymin, ymax);
 		p = p->next;
 	}
 }

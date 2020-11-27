@@ -3,8 +3,8 @@
 extern double document_height;
 extern double document_width;
 
-extern void draw_display(double, double);
-extern void draw_selection_rect(double, double, double, double);
+extern void draw_display(double ymin, double ymax);
+extern void draw_selection_rect(double x, double y, double width, double height);
 
 CGContextRef gcontext;
 
