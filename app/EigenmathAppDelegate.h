@@ -29,7 +29,6 @@
 -(void)evalString:(NSString *)s;
 
 -(void)windowDidResize:(NSNotification *)notification;
--(void)checkDisplay;
 -(void)updateDisplay;
 
 @property (unsafe_unretained) IBOutlet NSTextView *textview;

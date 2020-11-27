@@ -231,11 +231,6 @@ char *input_c_string;
 
 -(void)timerFunction:(NSTimer *)t
 {
-	[self checkDisplay];
-}
-
--(void)checkDisplay
-{
 	if (check_display())
 		[self updateDisplay];
 
