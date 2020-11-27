@@ -112,9 +112,8 @@ stop(char *s)
 
 	if (s) {
 		print_input_line();
-		printbuf("Stop: ", RED);
-		printbuf(s, RED);
-		printbuf("\n", RED);
+		sprintf(tbuf, "Stop: %s\n", s);
+		printbuf(tbuf, RED);
 	}
 
 	longjmp(stop_return, 1);

@@ -1,0 +1,79 @@
+-- Compute R-squared for Bhabha scattering data from DESY PETRA
+
+-- Data from www.hepdata.net/record/ins191231 (Table 3, 14.0 GeV)
+
+N = 16 -- number of observations
+
+-- x is cos(theta)
+
+x = (
+-0.73,
+-0.6495,
+-0.5495,
+-0.4494,
+-0.3493,
+-0.2491,
+-0.149,
+-0.0488,
+0.0514,
+0.1516,
+0.252,
+0.3524,
+0.4529,
+0.5537,
+0.6548,
+0.7323)
+
+-- y is differential cross section
+
+y = (
+0.10115,
+0.12235,
+0.11258,
+0.09968,
+0.14749,
+0.14017,
+0.1819,
+0.22964,
+0.25312,
+0.30998,
+0.40898,
+0.62695,
+0.91803,
+1.51743,
+2.56714,
+4.30279)
+
+y = y "nanobarn"
+
+"Observed cross section per bin"
+
+y
+
+alpha = 0.0072973525693
+hbar = 6.582119569 10^(-25) GeV second
+c = 299792458 meter / second
+E = 7.0 GeV
+s = 4 E^2
+
+yhat = zero(N)
+
+for(k,1,N,
+  t = -2 E^2 (1 - x[k]),
+  u = -2 E^2 (1 + x[k]),
+  f = (s^2 + u^2) / t^2 + 2 u^2 / (s t) + (t^2 + u^2) / s^2,
+  yhat[k] = 1/2 alpha^2 f / s (hbar c)^2 10^37 "nanobarn" / meter^2
+)
+
+"Predicted cross section"
+
+yhat
+
+"Coefficient of determination (R-squared)"
+
+ybar = 1/N sum(k,1,N,y[k])
+
+SSE = sum(k,1,N,(y[k] - yhat[k])^2)
+SST = sum(k,1,N,(y[k] - ybar)^2)
+
+1 - SSE/SST

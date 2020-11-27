@@ -167,7 +167,7 @@ eigen(int op)
 			break;
 
 	if (i == 100)
-		printbuf("\nnote: eigen did not converge\n", RED);
+		printbuf("note: eigen did not converge\n", RED);
 
 	// p2 = D
 

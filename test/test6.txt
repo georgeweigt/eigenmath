@@ -1,0 +1,111 @@
+-- Verify lab frame formulas for Compton scattering
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+-- momentum vectors in center of mass frame
+
+E = sqrt(omega^2 + m^2)
+
+p1 = (omega, 0, 0, omega)
+p2 = (E, 0, 0, -omega)
+
+p3 = (omega,
+      omega expsin(theta) expcos(phi),
+      omega expsin(theta) expsin(phi),
+      omega expcos(theta))
+
+p4 = (E,
+      -omega expsin(theta) expcos(phi),
+      -omega expsin(theta) expsin(phi),
+      -omega expcos(theta))
+
+s = dot(p1 + p2,gmunu,p1 + p2)
+t = dot(p1 - p3,gmunu,p1 - p3)
+u = dot(p1 - p4,gmunu,p1 - p4)
+
+f11 = -16 dot(p1,gmunu,p1) dot(p2,gmunu,p4) +
+       32 dot(p1,gmunu,p2) dot(p1,gmunu,p4) +
+       32 dot(p1,gmunu,p4) dot(p2,gmunu,p2) +
+       16 dot(p2,gmunu,p2) dot(p2,gmunu,p4) +
+       64 m^2 dot(p1,gmunu,p1) +
+       64 m^2 dot(p1,gmunu,p2) -
+       64 m^2 dot(p1,gmunu,p4) -
+       48 m^2 dot(p2,gmunu,p4) + 64 m^4
+
+f12 = -32 dot(p1,gmunu,p2) dot(p2,gmunu,p4) +
+       32 dot(p1,gmunu,p3) dot(p2,gmunu,p4) -
+       32 dot(p2,gmunu,p2) dot(p2,gmunu,p4) +
+       32 dot(p2,gmunu,p3) dot(p2,gmunu,p4) +
+       32 m^2 dot(p1,gmunu,p2) -
+       16 m^2 dot(p1,gmunu,p3) +
+       16 m^2 dot(p1,gmunu,p4) +
+       48 m^2 dot(p2,gmunu,p2) -
+       32 m^2 dot(p2,gmunu,p3) +
+       48 m^2 dot(p2,gmunu,p4) -
+       16 m^2 dot(p3,gmunu,p4) - 32 m^4
+
+f22 = 16 dot(p2,gmunu,p2) dot(p2,gmunu,p4) -
+      32 dot(p2,gmunu,p2) dot(p3,gmunu,p4) +
+      32 dot(p2,gmunu,p3) dot(p3,gmunu,p4) -
+      16 dot(p2,gmunu,p4) dot(p3,gmunu,p3) -
+      64 m^2 dot(p2,gmunu,p3) -
+      48 m^2 dot(p2,gmunu,p4) +
+      64 m^2 dot(p3,gmunu,p3) +
+      64 m^2 dot(p3,gmunu,p4) + 64 m^4
+
+"Probability density"
+
+f11
+f12
+f22
+
+"Checking probability density in center of mass frame (1=ok)"
+
+f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4
+f12 == 8 s m^2 + 8 u m^2 + 16 m^4
+f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4
+
+-- transform momentum vectors to lab frame
+
+Lambda = ((E/m,0,0,omega/m),(0,1,0,0),(0,0,1,0),(omega/m,0,0,E/m))
+
+p1 = dot(Lambda,p1)
+p2 = dot(Lambda,p2)
+p3 = dot(Lambda,p3)
+p4 = dot(Lambda,p4)
+
+"Checking invariance of Mandelstam variables (1=ok)"
+
+s == dot(p1 + p2,gmunu,p1 + p2)
+t == dot(p1 - p3,gmunu,p1 - p3)
+u == dot(p1 - p4,gmunu,p1 - p4)
+
+"Checking lab variables (1=ok)"
+
+omegaL = p1[1]
+omegaLp = p3[1]
+
+s == 2 m omegaL + m^2
+t == 2 m (omegaLp - omegaL)
+u == -2 m omegaLp + m^2
+
+"Checking probability density computed from lab variables (1=ok)"
+
+omegaL = quote(omegaL)    -- clear omegaL
+omegaLp = quote(omegaLp)  -- clear omegaLp
+
+s = 2 m omegaL + m^2
+t = 2 m (omegaLp - omegaL)
+u = -2 m omegaLp + m^2
+
+f11 = -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4
+f12 = 8 s m^2 + 8 u m^2 + 16 m^4
+f22 = -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4
+
+d11 = (s - m^2)^2
+d12 = (s - m^2) (u - m^2)
+d22 = (u - m^2)^2
+
+f = 1/4 (f11/d11 + 2 f12/d12 + f22/d22)
+
+f == 2 (omegaLp/omegaL + omegaL/omegaLp + (m/omegaL - m/omegaLp + 1)^2 - 1)

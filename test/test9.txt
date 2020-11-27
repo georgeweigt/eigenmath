@@ -1,0 +1,53 @@
+-- www.eigenmath.org/rutherford-scattering-1.txt
+
+-- Verify the Casimir trick for Rutherford scattering.
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+
+p2 = (E,
+      p expsin(theta) expcos(phi),
+      p expsin(theta) expsin(phi),
+      p expcos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3])
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4])
+
+u1 = (u11,u12)
+u2 = (u21,u22)
+
+N = (E + m)^2
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+
+u2bar = dot(conj(u2),gamma0) -- adjoint of u2
+
+S = 0
+
+for(s1,1,2,for(s2,1,2,
+  a = dot(u2bar[s2],gamma0,u1[s1]),  -- a is an amplitude
+  f = a conj(a),                     -- f is a probability density
+  S = S + f
+))
+
+T = contract(dot(pslash2 + m I,gamma0,pslash1 + m I,gamma0))
+
+"Check Casimir trick (1=ok)"
+
+S == N T

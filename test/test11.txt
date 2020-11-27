@@ -1,0 +1,33 @@
+-- Draw probability density for Rutherford scattering
+
+-- www.eigenmath.org/rutherford-scattering-3.txt
+
+M = 1 / (cos(theta) - 1)^2
+
+f = M sin(theta)
+
+pie = float(pi)
+alpha = pie / 4
+dtheta = (pie - alpha) / 100
+C = sum(k,1,100,eval(f,theta,alpha + (k - 0.5) dtheta)) dtheta
+
+f = M sin(theta) / C
+
+xrange = (alpha,pi)
+yrange = (0,4)
+draw(f,theta)
+
+N = 3 -- number of bins
+P = zero(N)
+
+I(a,b) = sum(k,1,100,eval(f,theta,a + (k - 0.5) (b - a)/100)) (b - a)/100
+
+for(k,1,N,
+  a = alpha + (k - 1) (pie - alpha) / N,
+  b = a + (pie - alpha) / N,
+  P[k] = I(a,b)
+)
+
+"Probability distribution"
+
+P

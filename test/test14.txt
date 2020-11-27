@@ -1,0 +1,40 @@
+-- Draw angular distribution for Bhabha scattering
+
+-- eigenmath.org/bhabha-scattering-3.txt
+
+M = (1 + cos(theta/2)^4)/sin(theta/2)^4 -
+    2 cos(theta/2)^4/sin(theta/2)^2 +
+    (1 + cos(theta)^2)/2
+
+f = M sin(theta)
+
+pie = float(pi)
+alpha = pie / 4
+dtheta = (pie - alpha) / 100
+
+-- integrate f from alpha to pi to obtain normalization constant C
+
+C = sum(k,1,100,eval(f,theta,alpha + (k - 0.5) dtheta)) dtheta
+
+f = M sin(theta) / C
+
+xrange = (alpha,pi)
+yrange = (0,4)
+draw(f,theta)
+
+-- integrate f from a to b
+
+I(a,b) = sum(k,1,100,eval(f,theta,a + (k - 0.5) (b - a)/100)) (b - a)/100
+
+N = 3 -- number of bins
+P = zero(N)
+
+for(k,1,N,
+  a = alpha + (k - 1) (pie - alpha) / N,
+  b = alpha + k (pie - alpha) / N,
+  P[k] = I(a,b)
+)
+
+"Probability distribution"
+
+P

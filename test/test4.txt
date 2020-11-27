@@ -1,0 +1,95 @@
+-- Verify Casimir trick for Compton scattering (25-70 seconds)
+
+E = sqrt(omega^2 + m^2)
+
+p1 = (omega, 0, 0, omega)
+p2 = (E, 0, 0, -omega)
+
+p3 = (omega,
+      omega expsin(theta) expcos(phi),
+      omega expsin(theta) expsin(phi),
+      omega expcos(theta))
+
+p4 = (E,
+      -omega expsin(theta) expcos(phi),
+      -omega expsin(theta) expsin(phi),
+      -omega expcos(theta))
+
+u21 = (p2[1] + m, 0, p2[4], p2[2] + i p2[3])
+u22 = (0, p2[1] + m, p2[2] - i p2[3], -p2[4])
+
+u41 = (p4[1] + m, 0, p4[4], p4[2] + i p4[3])
+u42 = (0, p4[1] + m, p4[2] - i p4[3], -p4[4])
+
+u2 = (u21,u22)
+u4 = (u41,u42)
+
+N = (E + m)^2
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+u4bar = dot(conj(u4),gamma0) -- adjoint of u4
+
+q1 = p1 + p2
+q2 = p2 - p3
+
+qslash1 = dot(q1,gmunu,gamma)
+qslash2 = dot(q2,gmunu,gamma)
+
+C1 = 1/(s - m^2)
+C2 = 1/(u - m^2)
+
+"Sum over spin states"
+
+S = 0
+
+for(s2,1,2,for(s4,1,2,
+  a1 = -C1 dot(u4bar[s4],gammaT,qslash1 + m I,gammaT,u2[s2]),
+  a2 = -C2 dot(u4bar[s4],gammaT,qslash2 + m I,gammaT,u2[s2]),
+  a11 = contract(dot(a1,gmunu,transpose(conj(a1)),gmunu)),
+  a12 = contract(dot(a1,gmunu,conj(a2),gmunu)),
+  a22 = contract(dot(a2,gmunu,transpose(conj(a2)),gmunu)),
+  f = a11 + a12 + conj(a12) + a22,
+  S = S + f
+))
+
+S
+
+"Casimir trick"
+
+pslash2 = dot(p2,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+P2 = pslash2 + m I
+P4 = pslash4 + m I
+
+Q1 = qslash1 + m I
+Q2 = qslash2 + m I
+
+T = dot(P2,gammaT,Q1,gammaT,P4,gammaL,Q1,gammaL)
+f11 = contract(contract(contract(T,3,4),2,3))
+
+T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q1,gammaL)
+f12 = contract(contract(contract(T,3,5),2,3))
+
+T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
+f22 = contract(contract(contract(T,3,4),2,3))
+
+f = C1^2 f11 + C1 C2 f12 + C1 C2 conj(f12) + C2^2 f22
+f
+
+"Verify Casimir trick (1=ok)"
+
+S/N == f

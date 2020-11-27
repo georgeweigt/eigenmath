@@ -1,0 +1,38 @@
+-- www.eigenmath.org/rutherford-scattering-2.txt
+
+-- Verify probability density for Rutherford scattering.
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+
+p2 = (E,
+      p expsin(theta) expcos(phi),
+      p expsin(theta) expsin(phi),
+      p expcos(theta))
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+
+T = contract(dot(pslash1 + m I,gamma0,pslash2 + m I,gamma0))
+
+f = E^2 + m^2 + p^2 expcos(theta)
+
+"Check probability density (1=ok)"
+
+1/2 T == 2 f
+
+q = p1 - p2
+
+dot(q,gmunu,q)^2 == 16 p^4 expsin(theta/2)^4

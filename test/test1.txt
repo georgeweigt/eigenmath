@@ -1,0 +1,64 @@
+"How Planck calculated h and k"
+
+-- base units
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- derived units
+
+coulomb = ampere second
+farad = ampere^2 kilogram^(-1) meter^(-2) second^4
+joule = kilogram meter^2 second^(-2)
+volt = ampere^(-1) kilogram meter^2 second^(-3)
+
+centimeter = 10^(-2) meter
+erg = 10^(-7) joule
+
+"Kurlbaum measurement"
+
+S = 7.31 10^5 erg / (centimeter^2 second)
+S
+
+"Lummer and Pringsheim measurement"
+
+lambdam = 0.294 centimeter kelvin
+lambdam
+
+-- calculate
+
+c = 3.0 10^10 meter / second
+pie = float(pi)
+
+-- sigma is the Stefan-Boltzmann constant
+
+sigma = S / ((373 kelvin)^4 - (273 kelvin)^4)
+
+-- E is the energy density at theta = 1
+
+E = 4 sigma / c
+
+-- R is h/k in Planck's paper
+
+R = 4.9651 lambdam / c
+
+"Solve for k"
+
+k = E (15/8 c^3 / pie^5) R^3
+k
+
+"Solve for h"
+
+h = k R
+h
+
+"Convert base units to joules"
+
+k = k "joule" / joule
+h = h "joule" / joule
+
+k
+h
