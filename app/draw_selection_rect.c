@@ -11,8 +11,6 @@ draw_selection_rect(double x, double y, double width, double height)
 	if (width == 0.0 && height == 0.0)
 		return;
 
-	// pixel alignment
-
 	fx1 = x;
 	fx2 = x + width;
 
@@ -30,8 +28,6 @@ draw_selection_rect(double x, double y, double width, double height)
 
 	if (fy2 >= document_height)
 		fy2 = document_height - 1;
-
-	// this is required to get a line that is exactly 1 pixel wide
 
 	// set up the path
 
