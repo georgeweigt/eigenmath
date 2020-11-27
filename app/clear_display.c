@@ -19,6 +19,4 @@ clear_display(void)
 
 	total_height = 0.0;
 	total_width = 0.0;
-
-	cleared = 1;
 }

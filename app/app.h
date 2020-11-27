@@ -93,7 +93,6 @@ extern int running;
 
 extern CGContextRef gcontext;
 
-extern int cleared;
 extern int malloc_kaput_flag;
 extern struct display *first;
 extern struct display *fence;

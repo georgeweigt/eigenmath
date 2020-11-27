@@ -10,7 +10,7 @@ emit_xaxis(void)
 	y = DRAW_HEIGHT * (0.0 - ymin) / (ymax - ymin);
 	y = DRAW_HEIGHT - y; // flip the y coordinate
 
-	if (y < 0 || y > DRAW_HEIGHT)
+	if (y <= 0 || y >= DRAW_HEIGHT)
 		return;
 
 	x1 = DRAW_LEFT_PAD;

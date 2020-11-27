@@ -9,7 +9,7 @@ emit_yaxis(void)
 
 	x = DRAW_WIDTH * (0.0 - xmin) / (xmax - xmin);
 
-	if (x < 0 || x > DRAW_WIDTH)
+	if (x <= 0 || x >= DRAW_WIDTH)
 		return;
 
 	x += DRAW_LEFT_PAD;

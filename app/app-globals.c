@@ -7,7 +7,6 @@ double total_height;	// for thread process
 double total_width;
 
 int running;
-int cleared;
 int malloc_kaput_flag;
 struct display *first;
 struct display *fence;

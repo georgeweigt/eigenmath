@@ -5,8 +5,6 @@
 void
 prep_display(void)
 {
-	cleared = 0;
-
 	fence = last;
 
 	if (fence) {
