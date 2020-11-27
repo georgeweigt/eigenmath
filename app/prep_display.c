@@ -5,7 +5,7 @@
 void
 prep_display(void)
 {
-	fence = last;
+	fence = display_list;
 
 	if (fence) {
 		document_height = fence->total_height;

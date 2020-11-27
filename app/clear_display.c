@@ -8,14 +8,13 @@ clear_display(void)
 	if (running)
 		return;
 
-	while (first) {
-		p = first;
-		first = first->next;
+	while (display_list) {
+		p = display_list;
+		display_list = display_list->next;
 		free(p);
 	}
 
 	fence = NULL;
-	last = NULL;
 
 	total_height = 0.0;
 	total_width = 0.0;

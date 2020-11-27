@@ -6,12 +6,11 @@ double document_width;
 double total_height;	// for thread process
 double total_width;
 
+struct display * volatile display_list; // (read backwards) volatile pointer to...
+struct display *fence;
+
 int running;
 int malloc_kaput_flag;
-struct display *first;
-struct display *fence;
-struct display * volatile last; // (read backwards) volatile pointer to...
-
 struct display *emit_display;
 int emit_level;
 int emit_index;

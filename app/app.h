@@ -89,15 +89,14 @@ extern double document_width;
 extern double total_height;	// for thread process
 extern double total_width;
 
+extern struct display * volatile display_list; // (read backwards) volatile pointer to...
+extern struct display *fence;
+
 extern int running;
 
 extern CGContextRef gcontext;
 
 extern int malloc_kaput_flag;
-extern struct display *first;
-extern struct display *fence;
-extern struct display * volatile last; // (read backwards) volatile pointer to...
-
 extern struct display *emit_display;
 extern int emit_level;
 extern int emit_index;

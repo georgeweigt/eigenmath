@@ -11,14 +11,9 @@ shipout(struct display *p)
 	p->total_height = total_height;
 	p->total_width = total_width;
 
-	p->next = NULL;
-
-	if (first == NULL)
-		first = p;
-	else
-		last->next = p;
+	p->next = display_list;
 
 	OSMemoryBarrier(); // because cpu reorders memory writes
 
-	last = p;
+	display_list = p;
 }
