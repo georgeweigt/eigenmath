@@ -25,11 +25,11 @@ emit_update_fraction(void)
 
 	m = get_cap_height(font_num) / 2.0; // midpoint
 
-	v = m / 2.0; // extra vertical space
+	v = 0.75 * m; // extra vertical space
 
 	h += v + m;
 	d += v - m;
-	w += get_char_width(font_num, 'n') / 2.0;
+	w += get_char_width(font_num, 'n') / 2.0; // make horizontal line a bit wider
 
 	push_double(opcode);
 	push_double(h);
