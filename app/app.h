@@ -102,6 +102,10 @@ extern int running;
 extern int draw_count;
 extern struct draw_buf_t draw_buf[];
 
+extern double tmin, tmax;
+extern double xmin, xmax;
+extern double ymin, ymax;
+
 extern struct display *emit_display;
 extern int emit_level;
 extern int emit_index;

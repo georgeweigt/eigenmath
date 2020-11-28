@@ -12,6 +12,10 @@ struct display *fence;
 int draw_count;
 struct draw_buf_t draw_buf[DRAW_MAX];
 
+double tmin, tmax;
+double xmin, xmax;
+double ymin, ymax;
+
 int running;
 struct display *emit_display;
 int emit_level;

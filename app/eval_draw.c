@@ -7,23 +7,15 @@
 #define XT p7
 #define YT p8
 
-double tmin, tmax;
-double xmin, xmax;
-double ymin, ymax;
-
 void
 eval_draw(void)
 {
-	push(cadr(p1)); // 1st arg
+	F = cadr(p1); // 1st arg
 
 	T = caddr(p1); // 2nd arg
 
-	if (T == symbol(NIL)) {
-		guess();
-		T = pop();
-	}
-
-	F = pop();
+	if (T == symbol(NIL))
+		T = symbol(SYMBOL_X);
 
 	save_binding(T); // save binding of 2nd arg
 
@@ -57,25 +49,17 @@ draw_main(void)
 	drawing--;
 }
 
-/*	xrange sets the horizontal scale
-
-	yrange sets the vertical scale
-
-	Normally, the function F is evaluated from xrange[1] to xrange[2].
-
-	However, if F returns a vector then parametric drawing is used. In this
-	case F is evaluated from trange[1] to trange[2].
-*/
-
 void
 check_for_parametric_draw(void)
 {
 	eval_f(tmin);
 	p1 = pop();
-	if (!istensor(p1)) {
-		tmin = xmin;
-		tmax = xmax;
-	}
+
+	if (istensor(p1))
+		return;
+
+	tmin = xmin;
+	tmax = xmax;
 }
 
 #define N (DRAW_WIDTH + 1)
@@ -226,22 +210,6 @@ fill(int i, int j)
 	}
 }
 
-//	Normalize x to [0,1]
-//
-//	Example: xmin = -10, xmax = 10, xmax - xmin = 20
-//
-//	x		x - xmin	(x - xmin) / (xmax - xmin)
-//
-//	-10		0		0.00
-//
-//	-5		5		0.25
-//
-//	0		10		0.50
-//
-//	5		15		0.75
-//
-//	10		20		1.00
-
 void
 setup_trange(void)
 {
@@ -344,40 +312,16 @@ setup_xrange_nib(void)
 		stop("draw: xrange is zero");
 }
 
-//	Example: yrange=(-10,10)
-//
-//	y	d	v (vertical pixel coordinate)
-//
-//	10	0.00	0
-//
-//	5	0.25	100
-//
-//	0	0.50	200
-//
-//	-5	0.75	300
-//
-//	-10	1.00	400
-//
-//	We have
-//
-//		d = (10 - y) / 20
-//
-//	          = (B - y) / (B - A)
-//
-//	where yrange=(A,B)
-//
-//	To convert d to v, multiply by N where N = 400.
-
 void
 setup_yrange(void)
 {
 	save();
-	setup_yrange_f();
+	setup_yrange_nib();
 	restore();
 }
 
 void
-setup_yrange_f(void)
+setup_yrange_nib(void)
 {
 	// default range is (-10,10)
 
@@ -417,74 +361,4 @@ setup_yrange_f(void)
 
 	if (ymin == ymax)
 		stop("draw: yrange is zero");
-}
-
-void
-emit_graph(void)
-{
-	int i;
-	double h, x, y;
-
-	emit_level = 1; // small font
-	emit_index = 0;
-	emit_count = 3 * draw_count + 37; // 37 = 1 for DRAW_END and 6 for each stroke (6 strokes)
-
-	// emit_list advances emit_count, leaves result on stack
-
-	push_double(xmin);
-	p1 = pop();
-	emit_list(p1);
-
-	push_double(xmax);
-	p1 = pop();
-	emit_list(p1);
-
-	push_double(ymin);
-	p1 = pop();
-	emit_list(p1);
-
-	push_double(ymax);
-	p1 = pop();
-	emit_list(p1);
-
-	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
-
-	if (emit_display == NULL)
-		malloc_kaput();
-
-	h = emit_labels(); // uses the results on stack from emit_list
-
-	emit_box();
-
-	emit_xaxis();
-	emit_yaxis();
-
-	for (i = 0; i < draw_count; i++) {
-
-		x = draw_buf[i].x;
-		y = draw_buf[i].y;
-
-		if (x < 0 || x > DRAW_WIDTH || y < 0 || y > DRAW_HEIGHT)
-			continue;
-
-		x += DRAW_LEFT_PAD;
-		y = DRAW_HEIGHT - y;
-
-		emit_push(DRAW_POINT);
-		emit_push(x);
-		emit_push(y);
-	}
-
-	emit_push(DRAW_END);
-
-	emit_display->type = 1;
-	emit_display->color = BLACK;
-
-	emit_display->height = VPAD + DRAW_HEIGHT + DRAW_LABEL_PAD + round(h) + VPAD;
-	emit_display->width = DRAW_LEFT_PAD + DRAW_WIDTH + DRAW_RIGHT_PAD;
-
-	emit_display->dx = 0.0;
-	emit_display->dy = VPAD;
-
-	shipout(emit_display);
 }
