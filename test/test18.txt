@@ -1,0 +1,101 @@
+-- www.eigenmath.org/moller-scattering-2.txt
+
+-- Verify momentum and Mandelstam formulas for Moller scattering.
+
+p = sqrt(E^2 - m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p expsin(theta) expcos(phi),
+      p expsin(theta) expsin(phi),
+      p expcos(theta))
+
+p4 = (E,
+      -p expsin(theta) expcos(phi),
+      -p expsin(theta) expsin(phi),
+      -p expcos(theta))
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+"computing probability density"
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 + m I
+X2 = pslash2 + m I
+X3 = pslash3 + m I
+X4 = pslash4 + m I
+
+T1 = contract(dot(X3,gammaT,X1,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+f11 = contract(dot(T1,transpose(T2)))
+
+T = contract(dot(X3,gammaT,X1,gammaT,X4,gammaL,X2,gammaL),1,6)
+f12 = contract(contract(T,1,3))
+
+T1 = contract(dot(X4,gammaT,X1,gammaT),1,4)
+T2 = contract(dot(X3,gammaL,X2,gammaL),1,4)
+f22 = contract(dot(T1,transpose(T2)))
+
+"checking momentum formulas (1=ok)"
+
+f11 == 32 dot(p1,gmunu,p2) dot(p3,gmunu,p4) +
+       32 dot(p1,gmunu,p4) dot(p2,gmunu,p3) -
+       32 m^2 dot(p1,gmunu,p3) -
+       32 m^2 dot(p2,gmunu,p4) +
+       64 m^4
+
+f12 == -32 dot(p1,gmunu,p2) dot(p3,gmunu,p4) +
+        16 m^2 dot(p1,gmunu,p2) +
+        16 m^2 dot(p1,gmunu,p3) +
+        16 m^2 dot(p1,gmunu,p4) +
+        16 m^2 dot(p2,gmunu,p3) +
+        16 m^2 dot(p2,gmunu,p4) +
+        16 m^2 dot(p3,gmunu,p4) -
+        32 m^4
+
+f22 == 32 dot(p1,gmunu,p2) dot(p3,gmunu,p4) +
+       32 dot(p1,gmunu,p3) dot(p2,gmunu,p4) -
+       32 m^2 dot(p1,gmunu,p4) -
+       32 m^2 dot(p2,gmunu,p3) +
+       64 m^4
+
+"checking Mandelstam formulas (1=ok)"
+
+s = dot(p1 + p2,gmunu,p1 + p2)
+t = dot(p1 - p3,gmunu,p1 - p3)
+u = dot(p1 - p4,gmunu,p1 - p4)
+
+f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4
+f12 == -8 s^2 + 64 s m^2 - 96 m^4
+f22 == 8 s^2 + 8 t^2 - 64 s m^2 - 64 t m^2 + 192 m^4
+
+m = 0
+
+s == 4 E^2
+t == -2 E^2 (1 - expcos(theta))
+u == -2 E^2 (1 + expcos(theta))
+
+t == -4 E^2 expsin(theta/2)^2
+u == -4 E^2 expcos(theta/2)^2
+
+(s^2 + u^2) expsin(theta/2)^4 == (1 + expcos(theta/2)^4) t^2
+2 s^2 expsin(theta)^2 == 8 t u
+(s^2 + t^2) expcos(theta/2)^4 == (1 + expsin(theta/2)^4) u^2

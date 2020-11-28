@@ -1,0 +1,97 @@
+-- www.eigenmath.org/moller-scattering-1.txt
+
+-- Verify Casimir trick for Moller scattering.
+
+p = sqrt(E^2 - m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p expsin(theta) expcos(phi),
+      p expsin(theta) expsin(phi),
+      p expcos(theta))
+
+p4 = (E,
+      -p expsin(theta) expcos(phi),
+      -p expsin(theta) expsin(phi),
+      -p expcos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3])
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4])
+
+u31 = (E + m, 0, p3[4], p3[2] + i p3[3])
+u32 = (0, E + m, p3[2] - i p3[3], -p3[4])
+
+u41 = (E + m, 0, p4[4], p4[2] + i p4[3])
+u42 = (0, E + m, p4[2] - i p4[3], -p4[4])
+
+u1 = (u11,u12)
+u2 = (u21,u22)
+u3 = (u31,u32)
+u4 = (u41,u42)
+
+N = (E + m)^4
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+u3bar = dot(conj(u3),gamma0) -- adjoint of u3
+u4bar = dot(conj(u4),gamma0) -- adjoint of u4
+
+"summing over spin states"
+
+S = 0
+
+for(s1,1,2,for(s2,1,2,for(s3,1,2,for(s4,1,2,
+  X31 = dot(u3bar[s3],gammaT,u1[s1]),
+  X42 = dot(u4bar[s4],gammaL,u2[s2]),
+  X41 = dot(u4bar[s4],gammaT,u1[s1]),
+  X32 = dot(u3bar[s3],gammaL,u2[s2]),
+  a = 1/t dot(X31,X42) - 1/u dot(X41,X32), -- amplitude
+  f = a conj(a), -- probability density function
+  S = S + f
+))))
+
+"computing Casimir trick"
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 + m I
+X2 = pslash2 + m I
+X3 = pslash3 + m I
+X4 = pslash4 + m I
+
+T1 = contract(dot(X3,gammaT,X1,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+f11 = contract(dot(T1,transpose(T2)))
+
+T = contract(dot(X3,gammaT,X1,gammaT,X4,gammaL,X2,gammaL),1,6)
+f12 = contract(contract(T,1,3))
+
+T1 = contract(dot(X4,gammaT,X1,gammaT),1,4)
+T2 = contract(dot(X3,gammaL,X2,gammaL),1,4)
+f22 = contract(dot(T1,transpose(T2)))
+
+f = f11/t^2 - f12/(t u) - conj(f12)/(t u) + f22/u^2
+
+"checking Casimir trick (1=ok)"
+
+S == N f

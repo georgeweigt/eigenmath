@@ -1,0 +1,27 @@
+"Draw radial probability densities"
+
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0),n - l - 1,2 l + 1) *
+         exp(-r / (n a0))
+
+L(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))
+
+a0 = 0.529
+
+xrange = (0,25 a0)
+yrange = (0,1.5)
+
+"n = 1"
+f = R(1,0)^2 r^2
+draw(f,r)
+
+"n = 2"
+f = R(2,0)^2 r^2
+draw(f,r)
+
+"n = 3"
+f = R(3,0)^2 r^2
+draw(f,r)

@@ -1,0 +1,38 @@
+"Verify normalization of radial eigenfunctions"
+
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0),n - l - 1,2 l + 1) *
+         exp(-r / (n a0))
+
+L(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))
+
+a0 = 0.529
+
+-- S integrates numerically from 0 to 50 a0
+
+N = 1000
+
+d = 50 a0 / N
+
+S(f) = d sum(k,1,N,eval(f,r,(k - 0.5) d))
+
+f = R(1,0)^2 r^2
+S(f)
+
+f = R(2,0)^2 r^2
+S(f)
+
+f = R(2,1)^2 r^2
+S(f)
+
+f = R(3,0)^2 r^2
+S(f)
+
+f = R(3,1)^2 r^2
+S(f)
+
+f = R(3,2)^2 r^2
+S(f)

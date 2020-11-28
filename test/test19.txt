@@ -1,0 +1,36 @@
+-- www.eigenmath.org/moller-scattering-3.txt
+
+-- Draw a probability density for Moller scattering.
+
+M = (1 + cos(theta/2)^4)/sin(theta/2)^4 +
+    8/sin(theta)^2 +
+    (1 + sin(theta/2)^4)/cos(theta/2)^4
+
+ds(theta) = M sin(theta)
+
+pie = float(pi)
+alpha = pie/180
+N = 100
+dt = (pie - 2 alpha)/N
+C = sum(k,1,N,ds(alpha + (k - 0.5) dt)) dt
+
+f(theta) = 1/C M sin(theta)
+
+xrange = (0,pi)
+yrange = (0,0.01)
+draw(f,theta)
+
+N = 9
+P = zero(N)
+
+I(a,b) = sum(k,1,100,f(a + (k - 0.5) (b - a)/100)) (b - a)/100
+
+for(k,1,N - 2,
+  a = k pie/N,
+  b = (k + 1) pie/N,
+  P[k + 1] = I(a,b)
+)
+
+P = P/sum(k,1,N,P[k])
+
+P

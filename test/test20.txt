@@ -1,0 +1,51 @@
+e = quote(e) -- clear e, was exponential, now elementary charge
+
+-- E is total energy
+
+E = hbar^2 / (2 mu a0^2) - e^2 / (4 pi epsilon0 a0)
+
+dE = d(E,a0)
+
+-- Bohr radius minimizes total energy
+
+a0 = 4 pi epsilon0 hbar^2 / (e^2 mu)
+
+"Bohr radius"
+
+a0
+
+"Verify that total energy is minimized for Bohr radius (1=ok)"
+
+dE == 0
+
+-- base units
+
+ampere = "ampere"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- derived units
+
+coulomb = ampere second
+farad = ampere^2 kilogram^(-1) meter^(-2) second^4
+joule = kilogram meter^2 second^(-2)
+volt = ampere^(-1) kilogram meter^2 second^(-3)
+
+"Numerical value for Bohr radius"
+
+pi = float(pi)
+
+hbar = 1.054572 10^(-34) joule second      -- Planck's constant
+epsilon0 = 8.854188 10^(-12) farad / meter -- electric constant
+e = 1.602176 10^(-19) coulomb              -- elementary charge
+me = 9.109382 10^(-31) kilogram            -- mass of electron
+mp = 1.672622 10^(-27) kilogram            -- mass of proton
+
+mu = me mp / (me + mp)
+
+a0
+
+"Numerical value for Rydberg unit of energy"
+
+-E 1/(1.602177 10^(-19)) "electron-volt" / joule
