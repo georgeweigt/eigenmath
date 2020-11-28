@@ -5,13 +5,9 @@
 void
 draw_formula(double x, double y, float *p)
 {
-	int k;
-
 	for (;;) {
 
-		k = p[0];
-
-		switch (k) {
+		switch ((int) *p) {
 
 		case DRAW_CHAR:
 			draw_char(x + p[1], y + p[2], p[3], p[4]);
