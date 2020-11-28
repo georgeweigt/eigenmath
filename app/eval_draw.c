@@ -11,14 +11,6 @@ double tmin, tmax;
 double xmin, xmax;
 double ymin, ymax;
 
-int draw_count;
-
-#define YMAX (10 * DRAW_WIDTH)
-
-struct {
-	double x, y, t;
-} draw_buf[YMAX];
-
 void
 eval_draw(void)
 {
@@ -112,7 +104,7 @@ new_point(double t)
 {
 	double x, y;
 
-	if (draw_count == YMAX)
+	if (draw_count == DRAW_MAX)
 		return;
 
 	get_xy(t);

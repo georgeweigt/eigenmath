@@ -3,6 +3,6 @@
 void
 malloc_kaput(void)
 {
-	malloc_kaput_flag = 1;
-	longjmp(stop_return, 1);
+	printf("malloc kaput\n");
+	exit(1);
 }

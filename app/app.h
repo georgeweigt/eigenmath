@@ -64,6 +64,12 @@
 
 #define DRAW_LABEL_PAD 10
 
+#define DRAW_MAX (10 * DRAW_WIDTH)
+
+struct draw_buf_t {
+	double t, x, y; // x and y are functions of t
+};
+
 struct display {
 	struct display *next;
 	int type;
@@ -80,6 +86,8 @@ struct display {
 	float mem[0];
 };
 
+extern CGContextRef gcontext;
+
 extern double document_height;	// for parent process
 extern double document_width;
 
@@ -91,9 +99,9 @@ extern struct display *fence;
 
 extern int running;
 
-extern CGContextRef gcontext;
+extern int draw_count;
+extern struct draw_buf_t draw_buf[];
 
-extern int malloc_kaput_flag;
 extern struct display *emit_display;
 extern int emit_level;
 extern int emit_index;

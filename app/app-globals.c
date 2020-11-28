@@ -9,8 +9,10 @@ double total_width;
 struct display * volatile display_list; // (read backwards) volatile pointer to...
 struct display *fence;
 
+int draw_count;
+struct draw_buf_t draw_buf[DRAW_MAX];
+
 int running;
-int malloc_kaput_flag;
 struct display *emit_display;
 int emit_level;
 int emit_index;
