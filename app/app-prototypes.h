@@ -29,7 +29,7 @@ void emit_indices(struct atom *p);
 void emit_infix_operator(int c);
 void emit_italic_char(int char_num);
 void emit_italic_string(char *s);
-double emit_labels(void);
+void emit_labels(void);
 void emit_left_delim(double x, double y, double h, double d, double w, double stroke_width);
 void emit_list(struct atom *p);
 void emit_matrix(struct atom *p, int d, int k);

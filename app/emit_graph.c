@@ -4,7 +4,7 @@ void
 emit_graph(void)
 {
 	int i;
-	double h, x, y;
+	double x, y;
 
 	emit_level = 1; // small font
 	emit_index = 0;
@@ -31,7 +31,7 @@ emit_graph(void)
 	if (emit_display == NULL)
 		malloc_kaput();
 
-	h = emit_labels(); // uses the above results on stack
+	emit_labels(); // uses the above results on stack
 
 	emit_box();
 
@@ -59,7 +59,7 @@ emit_graph(void)
 	emit_display->type = 1;
 	emit_display->color = BLACK;
 
-	emit_display->height = VPAD + DRAW_HEIGHT + DRAW_LABEL_PAD + round(h) + VPAD;
+	emit_display->height = VPAD + DRAW_HEIGHT + DRAW_LABEL_PAD + SMALL_FONT_SIZE + VPAD;
 	emit_display->width = DRAW_LEFT_PAD + DRAW_WIDTH + DRAW_RIGHT_PAD;
 
 	emit_display->dx = 0.0;

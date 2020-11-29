@@ -1,18 +1,15 @@
 #include "app.h"
 
-// returns height of x axis labels
-
-double
+void
 emit_labels(void)
 {
-	double d, h, t, w, x, y;
+	double h, w, x, y;
 
 	// ymax
 
 	p1 = pop();
 
 	h = HEIGHT(p1);
-	d = DEPTH(p1);
 	w = WIDTH(p1);
 
 	x = DRAW_LEFT_PAD - w - DRAW_LABEL_PAD;
@@ -24,8 +21,6 @@ emit_labels(void)
 
 	p1 = pop();
 
-	h = HEIGHT(p1);
-	d = DEPTH(p1);
 	w = WIDTH(p1);
 
 	x = DRAW_LEFT_PAD - w - DRAW_LABEL_PAD;
@@ -37,29 +32,21 @@ emit_labels(void)
 
 	p1 = pop();
 
-	h = HEIGHT(p1);
-	d = DEPTH(p1);
 	w = WIDTH(p1);
 
 	x = DRAW_LEFT_PAD + DRAW_WIDTH - w / 2.0; // center
-	y = DRAW_HEIGHT + DRAW_LABEL_PAD + h;
+	y = DRAW_HEIGHT + DRAW_LABEL_PAD + round(get_ascent(SMALL_ROMAN_FONT));
 
 	emit_draw(x, y, p1);
-
-	t = h;
 
 	// xmin
 
 	p1 = pop();
 
-	h = HEIGHT(p1);
-	d = DEPTH(p1);
 	w = WIDTH(p1);
 
 	x = DRAW_LEFT_PAD - w / 2.0; // center
-	y = DRAW_HEIGHT + DRAW_LABEL_PAD + h;
+	y = DRAW_HEIGHT + DRAW_LABEL_PAD + round(get_ascent(SMALL_ROMAN_FONT));
 
 	emit_draw(x, y, p1);
-
-	return fmax(t, h);
 }
