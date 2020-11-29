@@ -48,15 +48,15 @@ get_char_depth(int font_num, int char_num)
 	int t;
 	double d;
 
-	d = get_descent(font_num);
-
 	if (font_num == ITALIC_FONT || font_num == SMALL_ITALIC_FONT)
 		t = italic_tab[char_num];
 	else
 		t = roman_tab[char_num];
 
-	if (t == 0)
-		d *= 0.1;
+	if (t)
+		d = get_descent(font_num);
+	else
+		d = get_leading(font_num);
 
 	return d;
 }
