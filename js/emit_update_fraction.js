@@ -14,7 +14,7 @@ emit_update_fraction(u)
 	}
 
 	m = 0.5 * y;	// midpoint
-	v = 0.25 * y;	// extra vertical space
+	v = 0.75 * m;	// extra vertical space
 
 	h = v + m;
 	d = v - m;
