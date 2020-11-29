@@ -350,10 +350,3 @@ eval_exit(void)
 	end_document();
 	exit(0);
 }
-
-void
-malloc_kaput(void)
-{
-	fprintf(stderr, "malloc kaput\n");
-	exit(1);
-}

@@ -316,3 +316,10 @@ run_init_script(void)
 		pop();
 	}
 }
+
+void
+malloc_kaput(void)
+{
+	fprintf(stderr, "malloc kaput\n");
+	exit(1);
+}

@@ -90,7 +90,6 @@ double get_leading(int font_num);
 double get_xheight(int font_num);
 void init_fonts(void);
 int isdenominator(struct atom *p);
-void malloc_kaput(void);
 void prep_display(void);
 void printbuf(char *s, int color);
 void run_thread(char *s);
