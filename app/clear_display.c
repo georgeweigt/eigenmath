@@ -3,7 +3,7 @@
 void
 clear_display(void)
 {
-	struct display *p, *q;
+	struct display *p, *t;
 
 	if (running)
 		return;
@@ -11,9 +11,9 @@ clear_display(void)
 	p = atomic_exchange(&display_list, NULL);
 
 	while (p) {
-		q = p;
+		t = p;
 		p = p->next;
-		free(q);
+		free(t);
 	}
 
 	fence = NULL;
