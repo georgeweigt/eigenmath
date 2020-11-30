@@ -5,6 +5,8 @@
 void
 shipout(struct display *p)
 {
+	p->height = round(p->height);
+
 	total_height += p->height;
 	total_width = fmax(total_width, p->width);
 

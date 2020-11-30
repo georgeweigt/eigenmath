@@ -29,7 +29,7 @@ emit_text(char *buf, int len, int color)
 	p->type = 0;
 	p->color = color;
 
-	p->height = round(h + d);
+	p->height = h + d;
 	p->width = HPAD + w + HPAD;
 
 	p->dx = HPAD;
