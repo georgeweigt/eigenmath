@@ -1,6 +1,6 @@
 #include "app.h"
 
-// 12.0625 + 3.9375 = 16.0 for DEFAULT_FONT
+// 12.0625 + 3.9375 = 16.0 for TEXT_FONT
 
 void
 emit_text(char *buf, int len, int color)
@@ -18,13 +18,13 @@ emit_text(char *buf, int len, int color)
 
 	memcpy(p->buf, buf, len);
 
-	h = get_ascent(DEFAULT_FONT) + 1.0;
-	d = get_descent(DEFAULT_FONT) + 3.0;
+	h = get_ascent(TEXT_FONT) + 1.0;
+	d = get_descent(TEXT_FONT) + 3.0;
 
 	w = 0.0;
 
 	for (i = 0; i < len; i++)
-		w += get_char_width(DEFAULT_FONT, buf[i]);
+		w += get_char_width(TEXT_FONT, buf[i]);
 
 	p->type = 0;
 	p->color = color;

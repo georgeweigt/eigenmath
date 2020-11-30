@@ -15,12 +15,9 @@
 #define MEDIUM_STROKE 1.5
 #define THICK_STROKE 2.0
 
-#define SMALL_FONT 0
-#define DEFAULT_FONT 0
-
+#define TEXT_FONT 0
 #define ROMAN_FONT 1
 #define ITALIC_FONT 2
-
 #define SMALL_ROMAN_FONT 3
 #define SMALL_ITALIC_FONT 4
 
