@@ -33,7 +33,7 @@ emit_text(char *buf, int len, int color)
 	p->width = HPAD + w + HPAD;
 
 	p->dx = HPAD;
-	p->dy = round(h);
+	p->dy = h;
 
 	shipout(p);
 }

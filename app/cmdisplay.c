@@ -37,7 +37,7 @@ cmdisplay(void)
 	emit_display->width = HPAD + w + HPAD;
 
 	emit_display->dx = HPAD;
-	emit_display->dy = VPAD + round(h);
+	emit_display->dy = VPAD + h;
 
 	shipout(emit_display);
 
