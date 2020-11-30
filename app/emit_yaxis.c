@@ -12,7 +12,7 @@ emit_yaxis(void)
 	if (x <= 0 || x >= DRAW_WIDTH)
 		return;
 
-	x += DRAW_LEFT_PAD;
+	x += DRAW_LEFT_MARGIN;
 
 	y1 = 0.0;
 	y2 = DRAW_HEIGHT;

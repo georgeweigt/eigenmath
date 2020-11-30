@@ -46,7 +46,7 @@ emit_graph(void)
 		if (x < 0 || x > DRAW_WIDTH || y < 0 || y > DRAW_HEIGHT)
 			continue;
 
-		x += DRAW_LEFT_PAD;
+		x += DRAW_LEFT_MARGIN;
 		y = DRAW_HEIGHT - y;
 
 		emit_push(DRAW_POINT);
@@ -59,8 +59,8 @@ emit_graph(void)
 	emit_display->type = 1;
 	emit_display->color = BLACK;
 
-	emit_display->height = VPAD + DRAW_HEIGHT + DRAW_LABEL_PAD + SMALL_FONT_SIZE + VPAD;
-	emit_display->width = DRAW_LEFT_PAD + DRAW_WIDTH + DRAW_RIGHT_PAD;
+	emit_display->height = VPAD + DRAW_HEIGHT + DRAW_XLABEL_MARGIN + VPAD;
+	emit_display->width = DRAW_LEFT_MARGIN + DRAW_WIDTH + DRAW_RIGHT_MARGIN;
 
 	emit_display->dx = 0.0;
 	emit_display->dy = VPAD;

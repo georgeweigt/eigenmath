@@ -13,8 +13,8 @@ emit_xaxis(void)
 	if (y <= 0 || y >= DRAW_HEIGHT)
 		return;
 
-	x1 = DRAW_LEFT_PAD;
-	x2 = DRAW_LEFT_PAD + DRAW_WIDTH;
+	x1 = DRAW_LEFT_MARGIN;
+	x2 = DRAW_LEFT_MARGIN + DRAW_WIDTH;
 
 	emit_push(DRAW_STROKE);
 	emit_push(x1);

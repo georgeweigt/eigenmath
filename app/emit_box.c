@@ -5,8 +5,8 @@ emit_box(void)
 {
 	double x1, x2, y1, y2;
 
-	x1 = DRAW_LEFT_PAD;
-	x2 = DRAW_LEFT_PAD + DRAW_WIDTH;
+	x1 = DRAW_LEFT_MARGIN;
+	x2 = DRAW_LEFT_MARGIN + DRAW_WIDTH;
 
 	y1 = 0.0;
 	y2 = DRAW_HEIGHT;

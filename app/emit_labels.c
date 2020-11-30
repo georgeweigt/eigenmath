@@ -12,7 +12,7 @@ emit_labels(void)
 	h = HEIGHT(p1);
 	w = WIDTH(p1);
 
-	x = DRAW_LEFT_PAD - w - DRAW_LABEL_PAD;
+	x = DRAW_LEFT_MARGIN - w - DRAW_YLABEL_MARGIN;
 	y = h;
 
 	emit_draw(x, y, p1);
@@ -23,7 +23,7 @@ emit_labels(void)
 
 	w = WIDTH(p1);
 
-	x = DRAW_LEFT_PAD - w - DRAW_LABEL_PAD;
+	x = DRAW_LEFT_MARGIN - w - DRAW_YLABEL_MARGIN;
 	y = DRAW_HEIGHT;
 
 	emit_draw(x, y, p1);
@@ -34,8 +34,8 @@ emit_labels(void)
 
 	w = WIDTH(p1);
 
-	x = DRAW_LEFT_PAD + DRAW_WIDTH - w / 2.0; // center
-	y = DRAW_HEIGHT + DRAW_LABEL_PAD + get_ascent(SMALL_ROMAN_FONT);
+	x = DRAW_LEFT_MARGIN + DRAW_WIDTH - w / 2.0; // center horizontally
+	y = DRAW_HEIGHT + DRAW_XLABEL_MARGIN;
 
 	emit_draw(x, y, p1);
 
@@ -45,8 +45,8 @@ emit_labels(void)
 
 	w = WIDTH(p1);
 
-	x = DRAW_LEFT_PAD - w / 2.0; // center
-	y = DRAW_HEIGHT + DRAW_LABEL_PAD + get_ascent(SMALL_ROMAN_FONT);
+	x = DRAW_LEFT_MARGIN - w / 2.0; // center horizontally
+	y = DRAW_HEIGHT + DRAW_XLABEL_MARGIN;
 
 	emit_draw(x, y, p1);
 }
