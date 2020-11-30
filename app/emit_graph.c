@@ -59,7 +59,7 @@ emit_graph(void)
 	emit_display->type = 1;
 	emit_display->color = BLACK;
 
-	emit_display->height = VPAD + DRAW_HEIGHT + DRAW_LABEL_PAD + round(get_ascent(SMALL_ROMAN_FONT)) + VPAD;
+	emit_display->height = VPAD + DRAW_HEIGHT + DRAW_LABEL_PAD + SMALL_FONT_SIZE + VPAD;
 	emit_display->width = DRAW_LEFT_PAD + DRAW_WIDTH + DRAW_RIGHT_PAD;
 
 	emit_display->dx = 0.0;
