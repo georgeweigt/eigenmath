@@ -3,15 +3,17 @@
 void
 clear_display(void)
 {
-	struct display *p;
+	struct display *p, *q;
 
 	if (running)
 		return;
 
-	while (display_list) {
-		p = display_list;
-		display_list = display_list->next;
+	p = atomic_exchange(&display_list, NULL);
+
+	while (p) {
+		q = p->next;
 		free(p);
+		p = q;
 	}
 
 	fence = NULL;

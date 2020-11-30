@@ -17,7 +17,5 @@ shipout(struct display *p)
 
 	p->next = display_list;
 
-	OSMemoryBarrier(); // because cpu reorders memory writes
-
-	display_list = p;
+	atomic_store(&display_list, p);
 }

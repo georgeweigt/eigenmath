@@ -1,4 +1,5 @@
 #include "../src/defs.h"
+#include <stdatomic.h>
 #include <ApplicationServices/ApplicationServices.h>
 
 #define FONT_SIZE 20.0
@@ -92,7 +93,7 @@ extern double document_width;
 extern double total_height;	// for thread process
 extern double total_width;
 
-extern struct display * volatile display_list; // (read backwards) volatile pointer to...
+extern _Atomic(struct display *) display_list;
 extern struct display *fence;
 
 extern int running;
