@@ -15,7 +15,7 @@ shipout(struct display *p)
 	p->total_height = total_height;
 	p->total_width = total_width;
 
-	p->next = display_list;
+	p->next = atomic_load(&display_list);
 
 	atomic_store(&display_list, p);
 }

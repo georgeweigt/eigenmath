@@ -11,9 +11,9 @@ clear_display(void)
 	p = atomic_exchange(&display_list, NULL);
 
 	while (p) {
-		q = p->next;
-		free(p);
-		p = q;
+		q = p;
+		p = p->next;
+		free(q);
 	}
 
 	fence = NULL;
