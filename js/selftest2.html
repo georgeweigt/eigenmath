@@ -201,7 +201,7 @@ lambdam
 
 -- calculate
 
-c = 3.0 10^10 meter / second
+c = 299792458 meter / second
 pie = float(pi)
 
 -- sigma is the Stefan-Boltzmann constant
@@ -226,8 +226,8 @@ k
 h = k R
 h
 
-check(prefixform(k) == "(* 1.34581e-25 (^ 'kelvin' -1) 'kilogram' (^ 'meter' 2) (^ 'second' -2))")
-check(prefixform(h) == "(* 6.54842e-38 'kilogram' (^ 'meter' 2) (^ 'second' -1))")
+check(prefixform(k) == "(* 1.34674e-23 (^ 'kelvin' -1) 'kilogram' (^ 'meter' 2) (^ 'second' -2))")
+check(prefixform(h) == "(* 6.55749e-34 'kilogram' (^ 'meter' 2) (^ 'second' -1))")
 
 clear
 
