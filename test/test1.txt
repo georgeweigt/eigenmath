@@ -30,7 +30,7 @@ lambdam
 
 -- calculate
 
-c = 3.0 10^10 meter / second
+c = 299792458 meter / second
 pie = float(pi)
 
 -- sigma is the Stefan-Boltzmann constant
