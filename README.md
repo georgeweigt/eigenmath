@@ -6,6 +6,8 @@ To build and run:
 
 Press control-C or type exit to exit.
 
+Note: Terminal settings should include UTF-8.
+
 To run a script:
 
 	./eigenmath scriptfilename
