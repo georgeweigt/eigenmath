@@ -1,5 +1,7 @@
 #include "defs.h"
 
+#define CLIP 120 // max width of display
+
 #define TABLE_HSPACE 2
 #define TABLE_VSPACE 1
 
@@ -38,18 +40,17 @@
 #define BDLUAL 0xe29498 // BOX DRAW LIGHT UP AND LEFT
 
 #define imax(a, b) (a > b ? a : b)
+#define imin(a, b) (a < b ? a : b)
 
 int emit_level;
-
-uint32_t *display_buf;
 int display_nrow;
 int display_ncol;
+int *display_buf;
 
 void
 display(void)
 {
-	int d, h, i, j, w;
-	uint32_t c;
+	int c, d, h, i, j, w;
 
 	save();
 
@@ -66,14 +67,14 @@ display(void)
 	w = WIDTH(p1);
 
 	display_nrow = h + d;
-	display_ncol = w;
+	display_ncol = imin(CLIP, w);
 
-	display_buf = malloc(display_nrow * display_ncol * sizeof (uint32_t));
+	display_buf = malloc(display_nrow * display_ncol * sizeof (int));
 
 	if (display_buf == NULL)
 		malloc_kaput();
 
-	memset(display_buf, 0, display_nrow * display_ncol * sizeof (uint32_t));
+	memset(display_buf, 0, display_nrow * display_ncol * sizeof (int));
 
 	emit_draw(0, h - 1, p1);
 
@@ -141,11 +142,10 @@ emit_base(struct atom *p)
 }
 
 void
-emit_char(int x, int y, int char_num)
+emit_char(int x, int y, int c)
 {
-	if (x < 0 || x >= display_ncol || y < 0 || y >= display_nrow)
-		return;
-	display_buf[y * display_ncol + x] = char_num;
+	if (x >= 0 && x < display_ncol && y >= 0 && y < display_nrow)
+		display_buf[y * display_ncol + x] = c;
 }
 
 void
@@ -763,7 +763,7 @@ emit_right_delim(int x, int y, int h, int d, int w)
 }
 
 void
-emit_roman_char(int char_num)
+emit_roman_char(int c)
 {
 	int d, h, w;
 
@@ -775,7 +775,7 @@ emit_roman_char(int char_num)
 	push_double(h);
 	push_double(d);
 	push_double(w);
-	push_double(char_num);
+	push_double(c);
 
 	list(5);
 }
@@ -1216,7 +1216,7 @@ emit_update_superscript(void)
 
 	// y is distance from baseline to bottom of superscript
 
-	y = HEIGHT(p1) - (h + d) / 2 - 1;
+	y = HEIGHT(p1) - d - 1;
 
 	y = imax(y, 1);
 
