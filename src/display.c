@@ -347,7 +347,7 @@ emit_draw(int x, int y, struct atom *p)
 
 	case EMIT_TABLE:
 		emit_delims(x, y, h, d, w);
-		emit_table(x + 1, y - h + 1, p);
+		emit_table(x + 2, y - h + 1, p);
 		break;
 	}
 }
@@ -991,8 +991,8 @@ emit_symbol_fragment(char *s, int k)
 void
 emit_table(int x, int y, struct atom *p)
 {
-	int i, j, m, n;
-	int column_width, dx, elem_width, row_depth, row_height;
+	int cx, dx, i, j, m, n;
+	int column_width, elem_width, row_depth, row_height;
 	struct atom *d, *h, *w, *table;
 
 	n = VAL1(p);
@@ -1016,10 +1016,10 @@ emit_table(int x, int y, struct atom *p)
 		w = cadddr(p);
 
 		for (j = 0; j < m; j++) { // for each column
-
 			column_width = VAL1(w);
 			elem_width = WIDTH(car(table));
-			emit_draw(x + dx + (column_width - elem_width) / 2, y, car(table));
+			cx = x + dx + (column_width - elem_width) / 2; // center horizontal
+			emit_draw(cx, y, car(table));
 			dx += column_width + TABLE_HSPACE;
 			table = cdr(table);
 			w = cdr(w);
@@ -1305,10 +1305,10 @@ emit_update_table(int n, int m)
 	list(m);
 	p4 = pop();
 
-	// h, d, w for entire table centered vertically (+2 for delimiters)
+	// h, d, w for entire table centered vertical
 
-	total_height += (n - 1) * TABLE_VSPACE + 2;
-	total_width += (m - 1) * TABLE_HSPACE + 2;
+	total_height += (n - 1) * TABLE_VSPACE + 2; // +2 for delimiters
+	total_width += (m - 1) * TABLE_HSPACE + 4; // +4 for delimiters
 
 	h = (total_height + 1) / 2;
 	d = total_height - h;
