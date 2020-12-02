@@ -2,7 +2,7 @@
 
 #define CLIP 120 // max width of display
 
-#define TABLE_HSPACE 2
+#define TABLE_HSPACE 3
 #define TABLE_VSPACE 1
 
 #define EMIT_SPACE 1
