@@ -1,453 +1,410 @@
 #include "defs.h"
 
-#undef YMAX
-#define YMAX 10000
+#define TABLE_HSPACE 2
+#define TABLE_VSPACE 1
 
-struct glyph {
-	int c, x, y;
-} chartab[YMAX];
+#define EMIT_SPACE 1
+#define EMIT_CHAR 2
+#define EMIT_LIST 3
+#define EMIT_SUPERSCRIPT 4
+#define EMIT_SUBSCRIPT 5
+#define EMIT_SUBEXPR 6
+#define EMIT_FRACTION 7
+#define EMIT_TABLE 8
 
-int yindex;
-int emit_x;
-int expr_level;
+#define OPCODE(p) ((int) car(p)->u.d)
+#define HEIGHT(p) ((int) cadr(p)->u.d)
+#define DEPTH(p) ((int) caddr(p)->u.d)
+#define WIDTH(p) ((int) cadddr(p)->u.d)
+
+#define VAL1(p) ((int) car(p)->u.d)
+#define VAL2(p) ((int) cadr(p)->u.d)
+
+#define PLUS_SIGN '+'
+#define MINUS_SIGN 0xe28892
+#define MULTIPLY_SIGN 0xc397
+#define GREATEREQUAL 0xe289a5
+#define LESSEQUAL 0xe289a4
+
+#define BDLL 0xe295b4 // BOX DRAW LIGHT LEFT
+#define BDLR 0xe295b6 // BOX DRAW LIGHT RIGHT
+
+#define BDLH 0xe29480 // BOX DRAW LIGHT HORIZONTAL
+#define BDLV 0xe29482 // BOX DRAW LIGHT VERTICAL
+
+#define BDLDAR 0xe2948c // BOX DRAW LIGHT DOWN AND RIGHT
+#define BDLDAL 0xe29490 // BOX DRAW LIGHT DOWN AND LEFT
+#define BDLUAR 0xe29494 // BOX DRAW LIGHT UP AND RIGHT
+#define BDLUAL 0xe29498 // BOX DRAW LIGHT UP AND LEFT
+
+#define imax(a, b) (a > b ? a : b)
+
+int emit_level;
+
+uint32_t *display_buf;
+int display_nrow;
+int display_ncol;
 
 void
 display(void)
 {
+	int d, h, i, j, w;
+	uint32_t c;
+
 	save();
+
+	emit_level = 0;
 
 	p1 = pop();
 
-	yindex = 0;
-	expr_level = 0;
-	emit_x = 0;
+	emit_list(p1);
 
-	emit_top_expr(p1);
+	p1 = pop();
 
-	print_it();
+	h = HEIGHT(p1);
+	d = DEPTH(p1);
+	w = WIDTH(p1);
+
+	display_nrow = h + d;
+	display_ncol = w;
+
+	display_buf = malloc(display_nrow * display_ncol * sizeof (uint32_t));
+
+	if (display_buf == NULL)
+		malloc_kaput();
+
+	memset(display_buf, 0, display_nrow * display_ncol * sizeof (uint32_t));
+
+	emit_draw(0, h - 1, p1);
+
+	for (i = 0; i < display_nrow; i++) {
+		for (j = 0; j < display_ncol; j++) {
+			c = display_buf[i * display_ncol + j];
+			if (c == 0)
+				putchar(' ');
+			else if (c < 256)
+				putchar(c);
+			else if (c < 65536) {
+				putchar(c >> 8);
+				putchar(c & 0xff);
+			} else {
+				putchar(c >> 16);
+				putchar(c >> 8 & 0xff);
+				putchar(c & 0xff);
+			}
+		}
+		putchar('\n');
+	}
+
+	free(display_buf);
 
 	restore();
 }
 
 void
-emit_top_expr(struct atom *p)
+emit_args(struct atom *p)
 {
-	if (car(p) == symbol(SETQ)) {
-		emit_expr(cadr(p));
-		emit_str(" = ");
-		p = caddr(p);
+	int t;
+
+	p = cdr(p);
+
+	if (!iscons(p)) {
+		emit_roman_char('(');
+		emit_roman_char(')');
+		return;
 	}
 
-	if (istensor(p))
-		emit_tensor(p);
+	t = tos;
+
+	emit_expr(car(p));
+
+	p = cdr(p);
+
+	while (iscons(p)) {
+		emit_roman_char(',');
+		emit_expr(car(p));
+		p = cdr(p);
+	}
+
+	emit_update_list(t);
+
+	emit_update_subexpr();
+}
+
+void
+emit_base(struct atom *p)
+{
+	if (isnegativenumber(p) || isfraction(p) || isdouble(p) || car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY) || car(p) == symbol(POWER))
+		emit_subexpr(p);
 	else
 		emit_expr(p);
 }
 
-int
-will_be_displayed_as_fraction(struct atom *p)
+void
+emit_char(int x, int y, int char_num)
 {
-	if (expr_level > 0)
-		return 0;
-	if (isfraction(p))
-		return 1;
-	if (car(p) != symbol(MULTIPLY))
-		return 0;
-	if (isfraction(cadr(p)))
-		return 1;
-	while (iscons(p)) {
-		if (isdenominator(car(p)))
-			return 1;
+	if (x < 0 || x >= display_ncol || y < 0 || y >= display_nrow)
+		return;
+	display_buf[y * display_ncol + x] = char_num;
+}
+
+void
+emit_delims(int x, int y, int h, int d, int w)
+{
+	if (h > 1 || d > 0) {
+		emit_left_delim(x, y, h, d, w);
+		emit_right_delim(x + w - 1, y, h, d, w);
+	} else {
+		emit_char(x, y, '(');
+		emit_char(x + w - 1, y, ')');
+	}
+}
+
+void
+emit_denominators(struct atom *p)
+{
+	int n, t;
+	char *s;
+	struct atom *q;
+
+	t = tos;
+
+	n = count_denominators(p);
+
+	p = cdr(p);
+	q = car(p);
+
+	if (isrational(q)) {
+		if (!MEQUAL(q->u.q.b, 1)) {
+			s = mstr(q->u.q.b);
+			emit_roman_string(s);
+			n++;
+		}
 		p = cdr(p);
 	}
-	return 0;
+
+	while (iscons(p)) {
+
+		q = car(p);
+		p = cdr(p);
+
+		if (!isdenominator(q))
+			continue;
+
+		if (tos - t)
+			emit_space();
+
+		if (isminusone(caddr(q))) {
+			q = cadr(q);
+			if (car(q) == symbol(ADD) && n == 1)
+				emit_expr(q); // parens not needed
+			else
+				emit_factor(q);
+		} else {
+			emit_base(cadr(q));
+			emit_numeric_exponent(caddr(q)); // sign is not emitted
+		}
+	}
+
+	emit_update_list(t);
+}
+
+void
+emit_double(struct atom *p)
+{
+	int i, j, k, t;
+
+	if (p->u.d == 0.0) {
+		emit_roman_char('0');
+		return;
+	}
+
+	sprintf(tbuf, "%g", fabs(p->u.d));
+
+	k = 0;
+
+	while (isdigit(tbuf[k]) || tbuf[k] == '.')
+		k++;
+
+	// handle trailing zeroes
+
+	j = k;
+
+	if (strchr(tbuf, '.'))
+		while (tbuf[j - 1] == '0' && tbuf[j - 2] != '.')
+			j--;
+
+	for (i = 0; i < j; i++)
+		emit_roman_char(tbuf[i]);
+
+	if (tbuf[k] != 'E' && tbuf[k] != 'e')
+		return;
+
+	k++;
+
+	emit_roman_char(MULTIPLY_SIGN);
+
+	emit_roman_string("10");
+
+	// superscripted exponent
+
+	emit_level++;
+
+	t = tos;
+
+	// sign of exponent
+
+	if (tbuf[k] == '+')
+		k++;
+	else if (tbuf[k] == '-') {
+		emit_roman_char(MINUS_SIGN);
+		k++;
+	}
+
+	// skip leading zeroes in exponent
+
+	while (tbuf[k] == '0')
+		k++;
+
+	emit_roman_string(tbuf + k);
+
+	emit_update_list(t);
+
+	emit_level--;
+
+	emit_update_superscript();
+}
+
+void
+emit_draw(int x, int y, struct atom *p)
+{
+	int d, dx, dy, h, i, k, w;
+
+	k = OPCODE(p);
+	h = HEIGHT(p);
+	d = DEPTH(p);
+	w = WIDTH(p);
+
+	p = cddddr(p);
+
+	switch (k) {
+
+	case EMIT_SPACE:
+		break;
+
+	case EMIT_CHAR:
+		emit_char(x, y, VAL1(p));
+		break;
+
+	case EMIT_LIST:
+		p = car(p);
+		while (iscons(p)) {
+			emit_draw(x, y, car(p));
+			x += WIDTH(car(p));
+			p = cdr(p);
+		}
+		break;
+
+	case EMIT_SUPERSCRIPT:
+	case EMIT_SUBSCRIPT:
+		x += VAL1(p);
+		y += VAL2(p);
+		p = caddr(p);
+		emit_draw(x, y, p);
+		break;
+
+	case EMIT_SUBEXPR:
+		emit_delims(x, y, h, d, w);
+		x += 1;
+		emit_draw(x, y, car(p));
+		break;
+
+	case EMIT_FRACTION:
+
+		// horizontal line
+
+		emit_char(x, y, BDLR);
+
+		for (i = 1; i < w - 1; i++)
+			emit_char(x + i, y, BDLH);
+
+		emit_char(x + w - 1, y, BDLL);
+
+		// numerator
+
+		dx = (w - WIDTH(car(p))) / 2;
+		dy = -h + HEIGHT(car(p));
+		emit_draw(x + dx, y + dy, car(p));
+
+		// denominator
+
+		p = cdr(p);
+		dx = (w - WIDTH(car(p))) / 2;
+		dy = d - DEPTH(car(p));
+		emit_draw(x + dx, y + dy, car(p));
+
+		break;
+
+	case EMIT_TABLE:
+		emit_delims(x, y, h, d, w);
+		emit_table(x + 1, y - h + 1, p);
+		break;
+	}
+}
+
+void
+emit_exponent(struct atom *p)
+{
+	if (isnum(p) && !isnegativenumber(p)) {
+		emit_numeric_exponent(p); // sign is not emitted
+		return;
+	}
+
+	emit_level++;
+	emit_list(p);
+	emit_level--;
+
+	emit_update_superscript();
 }
 
 void
 emit_expr(struct atom *p)
 {
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		if (is_negative(car(p))) {
-			emit_char('-');
-			if (will_be_displayed_as_fraction(car(p)))
-				emit_char(' ');
-		}
-		emit_term(car(p));
-		p = cdr(p);
-		while (iscons(p)) {
-			if (is_negative(car(p))) {
-				emit_char(' ');
-				emit_char('-');
-				emit_char(' ');
-			} else {
-				emit_char(' ');
-				emit_char('+');
-				emit_char(' ');
-			}
-			emit_term(car(p));
-			p = cdr(p);
-		}
-	} else {
-		if (is_negative(p)) {
-			emit_char('-');
-			if (will_be_displayed_as_fraction(p))
-				emit_char(' ');
-		}
-		emit_term(p);
-	}
-}
+	if (isnegativeterm(p) || (car(p) == symbol(ADD) && isnegativeterm(cadr(p))))
+		emit_roman_char(MINUS_SIGN);
 
-void
-emit_unsigned_expr(struct atom *p)
-{
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		emit_term(car(p));
-		p = cdr(p);
-		while (iscons(p)) {
-			if (is_negative(car(p))) {
-				emit_char(' ');
-				emit_char('-');
-				emit_char(' ');
-			} else {
-				emit_char(' ');
-				emit_char('+');
-				emit_char(' ');
-			}
-			emit_term(car(p));
-			p = cdr(p);
-		}
-	} else
+	if (car(p) == symbol(ADD))
+		emit_expr_nib(p);
+	else
 		emit_term(p);
 }
 
-int
-is_negative(struct atom *p)
-{
-	if (isnegativenumber(p))
-		return 1;
-	if (car(p) == symbol(MULTIPLY) && isnegativenumber(cadr(p)))
-		return 1;
-	return 0;
-}
-
 void
-emit_term(struct atom *p)
+emit_expr_nib(struct atom *p)
 {
-	int n;
-	if (car(p) == symbol(MULTIPLY)) {
-		n = count_denominators(p);
-		if (n && expr_level == 0)
-			emit_fraction(p, n);
+	p = cdr(p);
+	emit_term(car(p));
+	p = cdr(p);
+	while (iscons(p)) {
+		if (isnegativeterm(car(p)))
+			emit_infix_operator(MINUS_SIGN);
 		else
-			emit_multiply(p, n);
-	} else
-		emit_factor(p);
-}
-
-int
-isdenominator(struct atom *p)
-{
-	if (car(p) == symbol(POWER) && cadr(p) != symbol(EXP1) && is_negative(caddr(p)))
-		return 1;
-	else
-		return 0;
-}
-
-int
-count_denominators(struct atom *p)
-{
-	int count = 0;
-	struct atom *q;
-	p = cdr(p);
-	while (iscons(p)) {
-		q = car(p);
-		if (isdenominator(q))
-			count++;
+			emit_infix_operator(PLUS_SIGN);
+		emit_term(car(p));
 		p = cdr(p);
 	}
-	return count;
-}
-
-// n is the number of denominators, not counting a fraction like 1/2
-
-void
-emit_multiply(struct atom *p, int n)
-{
-	if (n == 0) {
-		p = cdr(p);
-		if (isplusone(car(p)) || isminusone(car(p)))
-			p = cdr(p);
-		emit_factor(car(p));
-		p = cdr(p);
-		while (iscons(p)) {
-			emit_char(' ');
-			emit_factor(car(p));
-			p = cdr(p);
-		}
-	} else {
-		emit_numerators(p);
-		emit_char('/');
-		// need grouping if more than one denominator
-		if (n > 1 || isfraction(cadr(p))) {
-			emit_char('(');
-			emit_denominators(p);
-			emit_char(')');
-		} else
-			emit_denominators(p);
-	}
-}
-
-#undef A
-#undef B
-
-#define A p3
-#define B p4
-
-// sign of term has already been emitted
-
-void
-emit_fraction(struct atom *p, int d)
-{
-	int count, k1, k2, n, x;
-
-	save();
-
-	A = one;
-	B = one;
-
-	// handle numerical coefficient
-
-	if (isrational(cadr(p))) {
-		push(cadr(p));
-		numerator();
-		absval();
-		A = pop();
-		push(cadr(p));
-		denominator();
-		B = pop();
-	}
-
-	if (isdouble(cadr(p))) {
-		push(cadr(p));
-		absval();
-		A = pop();
-	}
-
-	// count numerators
-
-	if (isplusone(A))
-		n = 0;
-	else
-		n = 1;
-	p1 = cdr(p);
-	if (isnum(car(p1)))
-		p1 = cdr(p1);
-	while (iscons(p1)) {
-		p2 = car(p1);
-		if (isdenominator(p2))
-			;
-		else
-			n++;
-		p1 = cdr(p1);
-	}
-
-	// emit numerators
-
-	x = emit_x;
-
-	k1 = yindex;
-
-	count = 0;
-
-	// emit numerical coefficient
-
-	if (!isplusone(A)) {
-		emit_number(A);
-		count++;
-	}
-
-	// skip over "multiply"
-
-	p1 = cdr(p);
-
-	// skip over numerical coefficient, already handled
-
-	if (isnum(car(p1)))
-		p1 = cdr(p1);
-
-	while (iscons(p1)) {
-		p2 = car(p1);
-		if (isdenominator(p2))
-			;
-		else {
-			if (count > 0)
-				emit_char(' ');
-			if (n == 1)
-				emit_expr(p2);
-			else
-				emit_factor(p2);
-			count++;
-		}
-		p1 = cdr(p1);
-	}
-
-	if (count == 0)
-		emit_char('1');
-
-	// emit denominators
-
-	k2 = yindex;
-
-	count = 0;
-
-	if (!isplusone(B)) {
-		emit_number(B);
-		count++;
-		d++;
-	}
-
-	p1 = cdr(p);
-
-	if (isrational(car(p1)))
-		p1 = cdr(p1);
-
-	while (iscons(p1)) {
-		p2 = car(p1);
-		if (isdenominator(p2)) {
-			if (count > 0)
-				emit_char(' ');
-			emit_denominator(p2, d);
-			count++;
-		}
-		p1 = cdr(p1);
-	}
-
-	fixup_fraction(x, k1, k2);
-
-	restore();
-}
-
-// p points to a multiply
-
-void
-emit_numerators(struct atom *p)
-{
-	int n;
-
-	save();
-
-	p1 = one;
-
-	p = cdr(p);
-
-	if (isrational(car(p))) {
-		push(car(p));
-		numerator();
-		absval();
-		p1 = pop();
-		p = cdr(p);
-	} else if (isdouble(car(p))) {
-		push(car(p));
-		absval();
-		p1 = pop();
-		p = cdr(p);
-	}
-
-	n = 0;
-
-	if (!isplusone(p1)) {
-		emit_number(p1);
-		n++;
-	}
-
-	while (iscons(p)) {
-		if (isdenominator(car(p)))
-			;
-		else {
-			if (n > 0)
-				emit_char(' ');
-			emit_factor(car(p));
-			n++;
-		}
-		p = cdr(p);
-	}
-
-	if (n == 0)
-		emit_char('1');
-
-	restore();
-}
-
-// p points to a multiply
-
-void
-emit_denominators(struct atom *p)
-{
-	int n;
-
-	save();
-
-	n = 0;
-
-	p = cdr(p);
-
-	if (isfraction(car(p))) {
-		push(car(p));
-		denominator();
-		p1 = pop();
-		emit_number(p1);
-		n++;
-		p = cdr(p);
-	}
-
-	while (iscons(p)) {
-		if (isdenominator(car(p))) {
-			if (n > 0)
-				emit_char(' ');
-			emit_denominator(car(p), 0);
-			n++;
-		}
-		p = cdr(p);
-	}
-
-	restore();
 }
 
 void
 emit_factor(struct atom *p)
 {
-	if (istensor(p)) {
-		emit_flat_tensor(p);
+	if (isrational(p)) {
+		emit_rational(p);
 		return;
 	}
 
 	if (isdouble(p)) {
-		emit_number(p);
-		return;
-	}
-
-	if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY)) {
-		emit_subexpr(p);
-		return;
-	}
-
-	if (car(p) == symbol(POWER)) {
-		emit_power(p);
-		return;
-	}
-
-	if (iscons(p)) {
-		emit_function(p);
-		return;
-	}
-
-	if (isnum(p)) {
-		if (expr_level == 0)
-			emit_numerical_fraction(p);
-		else
-			emit_number(p);
+		emit_double(p);
 		return;
 	}
 
@@ -460,644 +417,959 @@ emit_factor(struct atom *p)
 		emit_string(p);
 		return;
 	}
-}
 
-void
-emit_numerical_fraction(struct atom *p)
-{
-	int k1, k2, x;
-
-	save();
-
-	push(p);
-	numerator();
-	absval();
-	A = pop();
-
-	push(p);
-	denominator();
-	B = pop();
-
-	if (isplusone(B)) {
-		emit_number(A);
-		restore();
+	if (istensor(p)) {
+		emit_tensor(p);
 		return;
 	}
 
-	x = emit_x;
-
-	k1 = yindex;
-
-	emit_number(A);
-
-	k2 = yindex;
-
-	emit_number(B);
-
-	fixup_fraction(x, k1, k2);
-
-	restore();
-}
-
-// if it's a factor then it doesn't need parens around it, i.e. 1/sin(theta)^2
-
-int
-isfactor(struct atom *p)
-{
-	if (p->k == DOUBLE)
-		return 0; // double is like multiply, for example 1.2 * 10^6
-	if (iscons(p) && car(p) != symbol(ADD) && car(p) != symbol(MULTIPLY) && car(p) != symbol(POWER))
-		return 1;
-	if (issymbol(p))
-		return 1;
-	if (isfraction(p))
-		return 0;
-	if (isnegativenumber(p))
-		return 0;
-	if (isnum(p))
-		return 1;
-	return 0;
-}
-
-void
-emit_power(struct atom *p)
-{
-	int k1, k2, x;
-
-	// imaginary unit
-
-	if (isimaginaryunit(p)) {
-		if (isimaginaryunit(binding[SYMBOL_J])) {
-			emit_char('j');
-			return;
-		}
-		if (isimaginaryunit(binding[SYMBOL_I])) {
-			emit_char('i');
-			return;
-		}
-	}
-
-	if (cadr(p) == symbol(EXP1)) {
-		emit_str("exp(");
-		emit_expr(caddr(p));
-		emit_char(')');
-		return;
-	}
-
-	if (expr_level > 0) {
-		if (isminusone(caddr(p))) {
-			emit_char('1');
-			emit_char('/');
-			if (isfactor(cadr(p)))
-				emit_factor(cadr(p));
-			else
-				emit_subexpr(cadr(p));
-		} else {
-			if (isfactor(cadr(p)))
-				emit_factor(cadr(p));
-			else
-				emit_subexpr(cadr(p));
-			emit_char('^');
-			if (isfactor(caddr(p)))
-				emit_factor(caddr(p));
-			else
-				emit_subexpr(caddr(p));
-		}
-		return;
-	}
-
-	// special case: 1 over something
-
-	if (is_negative(caddr(p))) {
-		x = emit_x;
-		k1 = yindex;
-		emit_char('1');
-		k2 = yindex;
-		emit_denominator(p, 1);
-		fixup_fraction(x, k1, k2);
-		return;
-	}
-
-	k1 = yindex;
-	if (isfactor(cadr(p)))
-		emit_factor(cadr(p));
-	else
-		emit_subexpr(cadr(p));
-	k2 = yindex;
-	expr_level++;
-	emit_expr(caddr(p));
-	expr_level--;
-	fixup_power(k1, k2);
-}
-
-// if n == 1 then emit as expr (no parens)
-
-// p is a power
-
-void
-emit_denominator(struct atom *p, int n)
-{
-	int k1, k2;
-
-	// special case: 1 over something
-
-	if (isminusone(caddr(p))) {
-		if (n == 1)
-			emit_expr(cadr(p));
+	if (iscons(p)) {
+		if (car(p) == symbol(POWER))
+			emit_power(p);
+		else if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY))
+			emit_subexpr(p);
 		else
-			emit_factor(cadr(p));
+			emit_function(p);
 		return;
 	}
+}
 
-	k1 = yindex;
-
-	// emit base
-
-	if (isfactor(cadr(p)))
-		emit_factor(cadr(p));
-	else
-		emit_subexpr(cadr(p));
-
-	k2 = yindex;
-
-	// emit exponent, don't emit minus sign
-
-	expr_level++;
-
-	emit_unsigned_expr(caddr(p));
-
-	expr_level--;
-
-	fixup_power(k1, k2);
+void
+emit_frac(struct atom *p)
+{
+	emit_numerators(p);
+	emit_denominators(p);
+	emit_update_fraction();
 }
 
 void
 emit_function(struct atom *p)
 {
-	if (car(p) == symbol(INDEX) && issymbol(cadr(p))) {
-		emit_index_function(p);
+	// d(f(x),x)
+
+	if (car(p) == symbol(DERIVATIVE)) {
+		emit_roman_char('d');
+		emit_args(p);
 		return;
 	}
+
+	// n!
 
 	if (car(p) == symbol(FACTORIAL)) {
-		emit_factorial_function(p);
+		p = cadr(p);
+		if (isposint(p) || issymbol(p))
+			emit_expr(p);
+		else
+			emit_subexpr(p);
+		emit_roman_char('!');
 		return;
 	}
 
-	if (car(p) == symbol(DERIVATIVE))
-		emit_char('d');
-	else
+	// A[1,2]
+
+	if (car(p) == symbol(INDEX)) {
+		p = cdr(p);
+		if (issymbol(car(p)))
+			emit_symbol(car(p));
+		else
+			emit_subexpr(car(p));
+		emit_indices(p);
+		return;
+	}
+
+	if (car(p) == symbol(SETQ) || car(p) == symbol(TESTEQ)) {
+		emit_expr(cadr(p));
+		emit_infix_operator('=');
+		emit_expr(caddr(p));
+		return;
+	}
+
+	if (car(p) == symbol(TESTGE)) {
+		emit_expr(cadr(p));
+		emit_infix_operator(GREATEREQUAL);
+		emit_expr(caddr(p));
+		return;
+	}
+
+	if (car(p) == symbol(TESTGT)) {
+		emit_expr(cadr(p));
+		emit_infix_operator('>');
+		emit_expr(caddr(p));
+		return;
+	}
+
+	if (car(p) == symbol(TESTLE)) {
+		emit_expr(cadr(p));
+		emit_infix_operator(LESSEQUAL);
+		emit_expr(caddr(p));
+		return;
+	}
+
+	if (car(p) == symbol(TESTLT)) {
+		emit_expr(cadr(p));
+		emit_infix_operator('<');
+		emit_expr(caddr(p));
+		return;
+	}
+
+	// default
+
+	if (issymbol(car(p)))
 		emit_symbol(car(p));
-	emit_char('(');
+	else
+		emit_subexpr(car(p));
+
+	emit_args(p);
+}
+
+void
+emit_indices(struct atom *p)
+{
+	emit_roman_char('[');
+
 	p = cdr(p);
+
 	if (iscons(p)) {
 		emit_expr(car(p));
 		p = cdr(p);
 		while (iscons(p)) {
-			emit_char(',');
+			emit_roman_char(',');
 			emit_expr(car(p));
 			p = cdr(p);
 		}
 	}
-	emit_char(')');
+
+	emit_roman_char(']');
 }
 
 void
-emit_index_function(struct atom *p)
+emit_infix_operator(int c)
 {
-	p = cdr(p);
-	if (caar(p) == symbol(ADD) || caar(p) == symbol(MULTIPLY) || caar(p) == symbol(POWER) || caar(p) == symbol(FACTORIAL))
-		emit_subexpr(car(p));
-	else
-		emit_expr(car(p));
-	emit_char('[');
-	p = cdr(p);
-	if (iscons(p)) {
-		emit_expr(car(p));
-		p = cdr(p);
-		while(iscons(p)) {
-			emit_char(',');
-			emit_expr(car(p));
-			p = cdr(p);
-		}
-	}
-	emit_char(']');
+	emit_space();
+	emit_roman_char(c);
+	emit_space();
 }
 
 void
-emit_factorial_function(struct atom *p)
+emit_left_delim(int x, int y, int h, int d, int w)
 {
-	p = cadr(p);
-	if (isposint(p) || issymbol(p))
-		emit_expr(p);
-	else
-		emit_subexpr(p);
-	emit_char('!');
+	int i;
+
+	emit_char(x, y - h + 1, BDLDAR);
+
+	for (i = 1; i < h + d - 1; i++)
+		emit_char(x, y - h + 1 + i, BDLV);
+
+	emit_char(x, y + d, BDLUAR);
 }
 
 void
-emit_subexpr(struct atom *p)
+emit_list(struct atom *p)
 {
-	emit_char('(');
+	int t = tos;
 	emit_expr(p);
-	emit_char(')');
+	emit_update_list(t);
 }
 
 void
-emit_symbol(struct atom *p)
+emit_matrix(struct atom *p, int d, int k)
 {
-	char *s;
+	int i, j, m, n, span;
 
-	if (p == symbol(EXP1)) {
-		emit_str("exp(1)");
+	if (d == p->u.tensor->ndim) {
+		emit_list(p->u.tensor->elem[k]);
 		return;
 	}
 
-	s = printname(p);
+	// compute element span
+
+	span = 1;
+
+	for (i = d + 2; i < p->u.tensor->ndim; i++)
+		span *= p->u.tensor->dim[i];
+
+	n = p->u.tensor->dim[d];	// number of rows
+	m = p->u.tensor->dim[d + 1];	// number of columns
+
+	for (i = 0; i < n; i++)
+		for (j = 0; j < m; j++)
+			emit_matrix(p, d + 2, k + (i * m + j) * span);
+
+	emit_update_table(n, m);
+}
+
+void
+emit_numerators(struct atom *p)
+{
+	int t;
+	char *s;
+	struct atom *q;
+
+	t = tos;
+
+	p = cdr(p);
+	q = car(p);
+
+	if (isrational(q)) {
+		if (!MEQUAL(q->u.q.a, 1)) {
+			s = mstr(q->u.q.a);
+			emit_roman_string(s);
+		}
+		p = cdr(p);
+	}
+
+	while (iscons(p)) {
+
+		q = car(p);
+		p = cdr(p);
+
+		if (isdenominator(q))
+			continue;
+
+		if (tos - t)
+			emit_space();
+
+		emit_factor(q);
+	}
+
+	if (t == tos)
+		emit_roman_char('1'); // no numerators
+
+	emit_update_list(t);
+}
+
+// p is rational or double, sign is not emitted
+
+void
+emit_numeric_exponent(struct atom *p)
+{
+	int t;
+	char *s;
+
+	emit_level++;
+
+	t = tos;
+
+	if (isrational(p)) {
+		s = mstr(p->u.q.a);
+		emit_roman_string(s);
+		if (!MEQUAL(p->u.q.b, 1)) {
+			emit_roman_char('/');
+			s = mstr(p->u.q.b);
+			emit_roman_string(s);
+		}
+	} else
+		emit_double(p);
+
+	emit_update_list(t);
+
+	emit_level--;
+
+	emit_update_superscript();
+}
+
+void
+emit_power(struct atom *p)
+{
+	if (cadr(p) == symbol(EXP1)) {
+		emit_roman_string("exp");
+		emit_subexpr(caddr(p));
+		return;
+	}
+
+	if (isimaginaryunit(p)) {
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
+			emit_roman_char('j');
+			return;
+		}
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
+			emit_roman_char('i');
+			return;
+		}
+	}
+
+	if (isnegativenumber(caddr(p))) {
+		emit_reciprocal(p);
+		return;
+	}
+
+	emit_base(cadr(p));
+	emit_exponent(caddr(p));
+}
+
+void
+emit_rational(struct atom *p)
+{
+	int t;
+	char *s;
+
+	if (MEQUAL(p->u.q.b, 1)) {
+		s = mstr(p->u.q.a);
+		emit_roman_string(s);
+		return;
+	}
+
+	emit_level++;
+
+	t = tos;
+	s = mstr(p->u.q.a);
+	emit_roman_string(s);
+	emit_update_list(t);
+
+	t = tos;
+	s = mstr(p->u.q.b);
+	emit_roman_string(s);
+	emit_update_list(t);
+
+	emit_level--;
+
+	emit_update_fraction();
+}
+
+// p = y^x where x is a negative number
+
+void
+emit_reciprocal(struct atom *p)
+{
+	int t;
+
+	emit_roman_char('1'); // numerator
+
+	t = tos;
+
+	if (isminusone(caddr(p)))
+		emit_expr(cadr(p));
+	else {
+		emit_base(cadr(p));
+		emit_numeric_exponent(caddr(p)); // sign is not emitted
+	}
+
+	emit_update_list(t);
+
+	emit_update_fraction();
+}
+
+void
+emit_right_delim(int x, int y, int h, int d, int w)
+{
+	int i;
+
+	emit_char(x, y - h + 1, BDLDAL);
+
+	for (i = 1; i < h + d - 1; i++)
+		emit_char(x, y - h + 1 + i, BDLV);
+
+	emit_char(x, y + d, BDLUAL);
+}
+
+void
+emit_roman_char(int char_num)
+{
+	int d, h, w;
+
+	h = 1;
+	d = 0;
+	w = 1;
+
+	push_double(EMIT_CHAR);
+	push_double(h);
+	push_double(d);
+	push_double(w);
+	push_double(char_num);
+
+	list(5);
+}
+
+void
+emit_roman_string(char *s)
+{
 	while (*s)
-		emit_char(*s++);
+		emit_roman_char(*s++);
+}
+
+void
+emit_space(void)
+{
+	push_double(EMIT_SPACE);
+	push_double(0);
+	push_double(0);
+	push_double(1);
+
+	list(4);
 }
 
 void
 emit_string(struct atom *p)
 {
+	emit_roman_string(p->u.str);
+}
+
+void
+emit_subexpr(struct atom *p)
+{
+	emit_list(p);
+	emit_update_subexpr();
+}
+
+void
+emit_symbol(struct atom *p)
+{
+	int k, t;
 	char *s;
-	s = p->u.str;
-	while (*s)
-		emit_char(*s++);
-}
 
-void
-fixup_fraction(int x, int k1, int k2)
-{
-	int dx, dy, i, w, y;
-	int h1, w1, y1;
-	int h2, w2, y2;
-
-	get_size(k1, k2, &h1, &w1, &y1);
-	get_size(k2, yindex, &h2, &w2, &y2);
-
-	if (w2 > w1)
-		dx = (w2 - w1) / 2;	// shift numerator right
-	else
-		dx = 0;
-
-	dx++; // add 1 to center with vinculum
-
-	// this is how much is below the baseline
-
-	y = y1 + h1 - 1;
-
-	dy = -y - 1;
-
-	move(k1, k2, dx, dy);
-
-	if (w2 > w1)
-		dx = -w1;
-	else
-		dx = -w1 + (w1 - w2) / 2;
-
-	dx++; // add 1 to center with vinculum
-
-	dy = -y2 + 1;
-
-	move(k2, yindex, dx, dy);
-
-	if (w2 > w1)
-		w = w2;
-	else
-		w = w1;
-
-	w += 2; // make vinculum 2 chars wider
-
-	emit_x = x;
-
-	for (i = 0; i < w; i++)
-		emit_char('-');
-}
-
-void
-fixup_power(int k1, int k2)
-{
-	int dy;
-	int h1, w1, y1;
-	int h2, w2, y2;
-
-	get_size(k1, k2, &h1, &w1, &y1);
-	get_size(k2, yindex, &h2, &w2, &y2);
-
-	// move superscript to baseline
-
-	dy = -y2 - h2 + 1;
-
-	// now move above base
-
-	dy += y1 - 1;
-
-	move(k2, yindex, 0, dy);
-}
-
-void
-move(int j, int k, int dx, int dy)
-{
-	int i;
-	for (i = j; i < k; i++) {
-		chartab[i].x += dx;
-		chartab[i].y += dy;
-	}
-}
-
-// finds the bounding rectangle and vertical position
-
-void
-get_size(int j, int k, int *h, int *w, int *y)
-{
-	int i;
-	int min_x, max_x, min_y, max_y;
-	min_x = chartab[j].x;
-	max_x = chartab[j].x;
-	min_y = chartab[j].y;
-	max_y = chartab[j].y;
-	for (i = j + 1; i < k; i++) {
-		if (chartab[i].x < min_x)
-			min_x = chartab[i].x;
-		if (chartab[i].x > max_x)
-			max_x = chartab[i].x;
-		if (chartab[i].y < min_y)
-			min_y = chartab[i].y;
-		if (chartab[i].y > max_y)
-			max_y = chartab[i].y;
-	}
-	*h = max_y - min_y + 1;
-	*w = max_x - min_x + 1;
-	*y = min_y;
-}
-
-void
-emit_char(int c)
-{
-	if (yindex == YMAX)
+	if (p == symbol(EXP1)) {
+		emit_roman_string("exp(1)");
 		return;
-	chartab[yindex].c = c;
-	chartab[yindex].x = emit_x;
-	chartab[yindex].y = 0;
-	yindex++;
-	emit_x++;
-}
-
-void
-emit_str(char *s)
-{
-	while (*s)
-		emit_char(*s++);
-}
-
-// sign has already been emitted
-
-void
-emit_number(struct atom *p)
-{
-	int k1, k2;
-	char *s;
-	switch (p->k) {
-	case RATIONAL:
-		s = mstr(p->u.q.a);
-		emit_str(s);
-		s = mstr(p->u.q.b);
-		if (strcmp(s, "1") == 0)
-			break;
-		emit_char('/');
-		emit_str(s);
-		break;
-	case DOUBLE:
-		sprintf(tbuf, "%g", p->u.d);
-		s = tbuf;
-		if (*s == '+' || *s == '-')
-			s++;
-		if (isinf(p->u.d) || isnan(p->u.d)) {
-			emit_str(s);
-			break;
-		}
-		while (*s && *s != 'E' && *s != 'e')
-			emit_char(*s++);
-		if (!strchr(tbuf, '.'))
-			emit_str(".0");
-		if (*s == 'E' || *s == 'e') {
-			s++;
-			emit_char(' ');
-			k1 = yindex;
-			emit_str("10");
-			k2 = yindex;
-			expr_level++;
-			if (*s == '+')
-				s++;
-			else if (*s == '-')
-				emit_char(*s++);
-			while (*s == '0')
-				s++; // skip leading zeroes
-			emit_str(s);
-			expr_level--;
-			fixup_power(k1, k2);
-		}
-		break;
-	default:
-		break;
-	}
-}
-
-int
-display_cmp(const void *aa, const void *bb)
-{
-	struct glyph *a, *b;
-
-	a = (struct glyph *) aa;
-	b = (struct glyph *) bb;
-
-	if (a->y < b->y)
-		return -1;
-
-	if (a->y > b->y)
-		return 1;
-
-	if (a->x < b->x)
-		return -1;
-
-	if (a->x > b->x)
-		return 1;
-
-	return 0;
-}
-
-void
-print_it(void)
-{
-	int i, x, y;
-
-	qsort(chartab, yindex, sizeof (struct glyph), display_cmp);
-
-	x = 0;
-
-	y = chartab[0].y;
-
-	for (i = 0; i < yindex; i++) {
-
-		while (chartab[i].y > y) {
-			fputc('\n', stdout);
-			x = 0;
-			y++;
-		}
-
-		while (chartab[i].x > x) {
-			fputc(' ', stdout);
-			x++;
-		}
-
-		fputc(chartab[i].c, stdout);
-
-		x++;
 	}
 
-	fputc('\n', stdout);
+	s = printname(p);
+
+	if (iskeyword(p) || p == symbol(LAST) || p == symbol(TRACE)) {
+		emit_roman_string(s);
+		return;
+	}
+
+	k = emit_symbol_fragment(s, 0);
+
+	if (s[k] == '\0')
+		return;
+
+	// emit subscript
+
+	emit_level++;
+
+	t = tos;
+
+	while (s[k] != '\0')
+		k = emit_symbol_fragment(s, k);
+
+	emit_update_list(t);
+
+	emit_level--;
+
+	emit_update_subscript();
 }
 
 #undef N
-#define N 100
+#define N 49
 
-struct elem {
-	int x, y, h, w, index, count;
-} elem[N];
+char *symbol_name_tab[N] = {
 
-#define SPACE_BETWEEN_COLUMNS 3
-#define SPACE_BETWEEN_ROWS 1
+	"Alpha",
+	"Beta",
+	"Gamma",
+	"Delta",
+	"Epsilon",
+	"Zeta",
+	"Eta",
+	"Theta",
+	"Iota",
+	"Kappa",
+	"Lambda",
+	"Mu",
+	"Nu",
+	"Xi",
+	"Omicron",
+	"Pi",
+	"Rho",
+	"Sigma",
+	"Tau",
+	"Upsilon",
+	"Phi",
+	"Chi",
+	"Psi",
+	"Omega",
+
+	"alpha",
+	"beta",
+	"gamma",
+	"delta",
+	"epsilon",
+	"zeta",
+	"eta",
+	"theta",
+	"iota",
+	"kappa",
+	"lambda",
+	"mu",
+	"nu",
+	"xi",
+	"omicron",
+	"pi",
+	"rho",
+	"sigma",
+	"tau",
+	"upsilon",
+	"phi",
+	"chi",
+	"psi",
+	"omega",
+
+	"hbar",
+};
+
+int symbol_unicode_tab[N] = {
+
+	0xce91, // Alpha
+	0xce92, // Beta
+	0xce93, // Gamma
+	0xce94, // Delta
+	0xce95, // Epsilon
+	0xce96, // Zeta
+	0xce97, // Eta
+	0xce98, // Theta
+	0xce99, // Iota
+	0xce9a, // Kappa
+	0xce9b, // Lambda
+	0xce9c, // Mu
+	0xce9d, // Nu
+	0xce9e, // Xi
+	0xce9f, // Omicron
+	0xcea0, // Pi
+	0xcea1, // Rho
+	0xcea3, // Sigma
+	0xcea4, // Tau
+	0xcea5, // Upsilon
+	0xcea6, // Phi
+	0xcea7, // Chi
+	0xcea8, // Psi
+	0xcea9, // Omega
+
+	0xceb1, // alpha
+	0xceb2, // beta
+	0xceb3, // gamma
+	0xceb4, // delta
+	0xceb5, // epsilon
+	0xceb6, // zeta
+	0xceb7, // eta
+	0xceb8, // theta
+	0xceb9, // iota
+	0xceba, // kappa
+	0xcebb, // lambda
+	0xcebc, // mu
+	0xcebd, // nu
+	0xcebe, // xi
+	0xcebf, // omicron
+	0xcf80, // pi
+	0xcf81, // rho
+	0xcf83, // sigma
+	0xcf84, // tau
+	0xcf85, // upsilon
+	0xcf86, // phi
+	0xcf87, // chi
+	0xcf88, // psi
+	0xcf89, // omega
+
+	0xc4a7, // hbar
+};
+
+int
+emit_symbol_fragment(char *s, int k)
+{
+	int c, i, n;
+	char *t;
+
+	for (i = 0; i < N; i++) {
+		t = symbol_name_tab[i];
+		n = (int) strlen(t);
+		if (strncmp(s + k, t, n) == 0)
+			break;
+	}
+
+	if (i == N) {
+		emit_roman_char(s[k]);
+		return k + 1;
+	}
+
+	c = symbol_unicode_tab[i];
+
+	emit_roman_char(c);
+
+	return k + n;
+}
+
+void
+emit_table(int x, int y, struct atom *p)
+{
+	int i, j, m, n;
+	int column_width, dx, elem_width, row_depth, row_height;
+	struct atom *d, *h, *w, *table;
+
+	n = VAL1(p);
+	m = VAL2(p);
+
+	p = cddr(p);
+
+	table = car(p);
+	h = cadr(p);
+	d = caddr(p);
+
+	for (i = 0; i < n; i++) { // for each row
+
+		row_height = VAL1(h);
+		row_depth = VAL1(d);
+
+		y += row_height;
+
+		dx = 0;
+
+		w = cadddr(p);
+
+		for (j = 0; j < m; j++) { // for each column
+
+			column_width = VAL1(w);
+			elem_width = WIDTH(car(table));
+			emit_draw(x + dx + (column_width - elem_width) / 2, y, car(table));
+			dx += column_width + TABLE_HSPACE;
+			table = cdr(table);
+			w = cdr(w);
+		}
+
+		y += row_depth + TABLE_VSPACE;
+
+		h = cdr(h);
+		d = cdr(d);
+	}
+}
 
 void
 emit_tensor(struct atom *p)
 {
-	int i, n, nrow, ncol;
-	int x, y;
-	int h, w;
-	int dx, dy;
-	int eh, ew;
-	int row, col;
-
-	if (p->u.tensor->ndim > 2) {
-		emit_flat_tensor(p);
-		return;
-	}
-
-	nrow = p->u.tensor->dim[0];
-
-	if (p->u.tensor->ndim == 2)
-		ncol = p->u.tensor->dim[1];
+	if (p->u.tensor->ndim % 2 == 1)
+		emit_vector(p); // odd rank
 	else
-		ncol = 1;
+		emit_matrix(p, 0, 0); // even rank
+}
 
-	n = nrow * ncol;
+void
+emit_term(struct atom *p)
+{
+	if (car(p) == symbol(MULTIPLY))
+		emit_term_nib(p);
+	else
+		emit_factor(p);
+}
 
-	if (n > N) {
-		emit_flat_tensor(p);
+void
+emit_term_nib(struct atom *p)
+{
+	if (count_denominators(p) > 0) {
+		emit_frac(p);
 		return;
 	}
 
-	// horizontal coordinate of the matrix
+	// no denominators
 
-	x = emit_x;
+	p = cdr(p);
 
-	// emit each element
+	if (isminusone(car(p)) && !isdouble(car(p)))
+		p = cdr(p); // sign already emitted
 
-	for (i = 0; i < n; i++) {
-		elem[i].index = yindex;
-		elem[i].x = emit_x;
-		emit_expr(p->u.tensor->elem[i]);
-		elem[i].count = yindex - elem[i].index;
-		get_size(elem[i].index, yindex, &elem[i].h, &elem[i].w, &elem[i].y);
+	emit_factor(car(p));
+
+	p = cdr(p);
+
+	while (iscons(p)) {
+		emit_space();
+		emit_factor(car(p));
+		p = cdr(p);
+	}
+}
+
+void
+emit_update_fraction(void)
+{
+	int d, h, w;
+
+	save();
+
+	p2 = pop(); // denominator
+	p1 = pop(); // numerator
+
+	h = HEIGHT(p1) + DEPTH(p1);
+	d = HEIGHT(p2) + DEPTH(p2);
+	w = imax(WIDTH(p1), WIDTH(p2));
+
+	h += 1;
+	w += 2;
+
+	push_double(EMIT_FRACTION);
+	push_double(h);
+	push_double(d);
+	push_double(w);
+	push(p1);
+	push(p2);
+
+	list(6);
+
+	restore();
+}
+
+void
+emit_update_list(int t)
+{
+	int d, h, i, w;
+
+	if (tos - t == 1)
+		return;
+
+	save();
+
+	h = 0;
+	d = 0;
+	w = 0;
+
+	for (i = t; i < tos; i++) {
+		p1 = stack[i];
+		h = imax(h, HEIGHT(p1));
+		d = imax(d, DEPTH(p1));
+		w += WIDTH(p1);
 	}
 
-	// find element height and width
+	list(tos - t);
+	p1 = pop();
 
-	eh = 0;
-	ew = 0;
+	push_double(EMIT_LIST);
+	push_double(h);
+	push_double(d);
+	push_double(w);
+	push(p1);
 
-	for (i = 0; i < n; i++) {
-		if (elem[i].h > eh)
-			eh = elem[i].h;
-		if (elem[i].w > ew)
-			ew = elem[i].w;
+	list(5);
+
+	restore();
+}
+
+void
+emit_update_subexpr(void)
+{
+	int d, h, w;
+
+	save();
+
+	p1 = pop();
+
+	h = HEIGHT(p1);
+	d = DEPTH(p1);
+	w = WIDTH(p1);
+
+	if (h > 1 || d > 0) {
+		h += 1;
+		d += 1;
 	}
 
-	// this is the overall height of the matrix
+	w += 2;
 
-	h = nrow * eh + (nrow - 1) * SPACE_BETWEEN_ROWS;
+	push_double(EMIT_SUBEXPR);
+	push_double(h);
+	push_double(d);
+	push_double(w);
+	push(p1);
 
-	// this is the overall width of the matrix
+	list(5);
 
-	w = ncol * ew + (ncol - 1) * SPACE_BETWEEN_COLUMNS;
+	restore();
+}
 
-	// this is the vertical coordinate of the matrix
+void
+emit_update_subscript(void)
+{
+	int d, dx, dy, h, w;
 
-	y = -(h / 2);
+	save();
 
-	// move elements around
+	p1 = pop();
 
-	for (row = 0; row < nrow; row++) {
-		for (col = 0; col < ncol; col++) {
+	h = HEIGHT(p1);
+	d = DEPTH(p1);
+	w = WIDTH(p1);
 
-			i = row * ncol + col;
+	dx = 0;
+	dy = 1;
 
-			// first move to upper left corner of matrix
+	push_double(EMIT_SUBSCRIPT);
+	push_double(h);
+	push_double(d + dy);
+	push_double(w);
+	push_double(dx);
+	push_double(dy);
+	push(p1);
 
-			dx = x - elem[i].x;
-			dy = y - elem[i].y;
+	list(7);
 
-			move(elem[i].index, elem[i].index + elem[i].count, dx, dy);
+	restore();
+}
 
-			// now move to official position
+void
+emit_update_superscript(void)
+{
+	int d, dx, dy, h, w, y;
 
-			dx = 0;
+	save();
 
-			if (col > 0)
-				dx = col * (ew + SPACE_BETWEEN_COLUMNS);
+	p2 = pop(); // exponent
+	p1 = pop(); // base
 
-			dy = 0;
+	h = HEIGHT(p2);
+	d = DEPTH(p2);
+	w = WIDTH(p2);
 
-			if (row > 0)
-				dy = row * (eh + SPACE_BETWEEN_ROWS);
+	// y is distance from baseline to bottom of superscript
 
-			// small correction for horizontal centering
+	y = HEIGHT(p1) - (h + d) / 2 - 1;
 
-			dx += (ew - elem[i].w) / 2;
+	y = imax(y, 1);
 
-			// small correction for vertical centering
+	dx = 0;
+	dy = -(y + d);
 
-			dy += (eh - elem[i].h) / 2;
+	h = y + h + d;
+	d = 0;
 
-			move(elem[i].index, elem[i].index + elem[i].count, dx, dy);
+	if (OPCODE(p1) == EMIT_SUBSCRIPT) {
+		dx = -WIDTH(p1);
+		w = imax(0, w - WIDTH(p1));
+	}
+
+	push(p1); // base
+
+	push_double(EMIT_SUPERSCRIPT);
+	push_double(h);
+	push_double(d);
+	push_double(w);
+	push_double(dx);
+	push_double(dy);
+	push(p2);
+
+	list(7);
+
+	restore();
+}
+
+void
+emit_update_table(int n, int m)
+{
+	int i, j, t;
+	int d, h, w;
+	int total_height, total_width;
+
+	save();
+
+	total_height = 0;
+	total_width = 0;
+
+	t = tos - n * m;
+
+	// height of each row
+
+	for (i = 0; i < n; i++) { // for each row
+		h = 0;
+		for (j = 0; j < m; j++) { // for each column
+			p1 = stack[t + i * m + j];
+			h = imax(h, HEIGHT(p1));
 		}
+		push_double(h);
+		total_height += h;
 	}
 
-	emit_x = x + w;
+	list(n);
+	p2 = pop();
+
+	// depth of each row
+
+	for (i = 0; i < n; i++) { // for each row
+		d = 0;
+		for (j = 0; j < m; j++) { // for each column
+			p1 = stack[t + i * m + j];
+			d = imax(d, DEPTH(p1));
+		}
+		push_double(d);
+		total_height += d;
+	}
+
+	list(n);
+	p3 = pop();
+
+	// width of each column
+
+	for (j = 0; j < m; j++) { // for each column
+		w = 0;
+		for (i = 0; i < n; i++) { // for each row
+			p1 = stack[t + i * m + j];
+			w = imax(w, WIDTH(p1));
+		}
+		push_double(w);
+		total_width += w;
+	}
+
+	list(m);
+	p4 = pop();
+
+	// h, d, w for entire table centered vertically (+2 for delimiters)
+
+	total_height += (n - 1) * TABLE_VSPACE + 2;
+	total_width += (m - 1) * TABLE_HSPACE + 2;
+
+	h = (total_height + 1) / 2;
+	d = total_height - h;
+	w = total_width;
+
+	list(n * m);
+	p1 = pop();
+
+	push_double(EMIT_TABLE);
+	push_double(h);
+	push_double(d);
+	push_double(w);
+	push_double(n);
+	push_double(m);
+	push(p1);
+	push(p2);
+	push(p3);
+	push(p4);
+
+	list(10);
+
+	restore();
 }
 
 void
-emit_flat_tensor(struct atom *p)
+emit_vector(struct atom *p)
 {
-	int k = 0;
-	emit_tensor_inner(p, 0, &k);
+	int i, n, span, t;
+
+	// compute element span
+
+	span = 1;
+
+	for (i = 1; i < p->u.tensor->ndim; i++)
+		span *= p->u.tensor->dim[i];
+
+	t = tos;
+
+	n = p->u.tensor->dim[0]; // number of rows
+
+	for (i = 0; i < n; i++)
+		emit_matrix(p, 1, i * span);
+
+	emit_update_table(n, 1);
 }
 
-void
-emit_tensor_inner(struct atom *p, int j, int *k)
+int
+count_denominators(struct atom *p)
 {
-	int i;
-	emit_char('(');
-	for (i = 0; i < p->u.tensor->dim[j]; i++) {
-		if (j + 1 == p->u.tensor->ndim) {
-			emit_expr(p->u.tensor->elem[*k]);
-			*k = *k + 1;
-		} else
-			emit_tensor_inner(p, j + 1, k);
-		if (i + 1 < p->u.tensor->dim[j])
-			emit_char(',');
+	int n = 0;
+	p = cdr(p);
+	while (iscons(p)) {
+		if (isdenominator(car(p)))
+			n++;
+		p = cdr(p);
 	}
-	emit_char(')');
+	return n;
+}
+
+int
+isdenominator(struct atom *p)
+{
+	return car(p) == symbol(POWER) && isnegativenumber(caddr(p));
 }
