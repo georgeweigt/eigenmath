@@ -34,3 +34,5 @@ for(k,1,N - 2,
 P = P/sum(k,1,N,P[k])
 
 P
+
+exit

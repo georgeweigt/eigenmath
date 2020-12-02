@@ -48,3 +48,5 @@ C = I(0,pie)
 for(k,0,N - 1,P[k + 1] = I(k pie/N,(k + 1) pie/N)/C)
 
 P
+
+exit

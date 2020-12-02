@@ -62,3 +62,5 @@ h = h "joule" / joule
 
 k
 h
+
+exit

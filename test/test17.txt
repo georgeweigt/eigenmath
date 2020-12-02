@@ -95,3 +95,5 @@ f = f11/t^2 - f12/(t u) - conj(f12)/(t u) + f22/u^2
 "checking Casimir trick (1=ok)"
 
 S == N f
+
+exit

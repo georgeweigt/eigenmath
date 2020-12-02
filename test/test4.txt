@@ -93,3 +93,5 @@ f
 "Verify Casimir trick (1=ok)"
 
 S/N == f
+
+exit

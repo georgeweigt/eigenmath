@@ -67,3 +67,5 @@ ybar = 1/N sum(k,1,N,y[k])
 SSE = sum(k,1,N,(y[k] - yhat[k])^2)
 SST = sum(k,1,N,(y[k] - ybar)^2)
 1 - SSE/SST
+
+exit

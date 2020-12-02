@@ -106,3 +106,5 @@ F
 
 Gmunu = simplify(Gmunu)
 Gmunu
+
+exit

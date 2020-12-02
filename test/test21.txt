@@ -31,3 +31,5 @@ R(2,1) == A sqrt(6)/12 rho exp(-rho/2)
 R(3,0) == A 2 sqrt(3)/27 (3 - 2 rho + 2/9 rho^2) exp(-rho/3)
 R(3,1) == A sqrt(6)/81 rho (4 - 2/3 rho) exp(-rho/3)
 R(3,2) == A 2 sqrt(30)/1215 rho^2 exp(-rho/3)
+
+exit

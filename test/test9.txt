@@ -51,3 +51,5 @@ T = contract(dot(pslash2 + m I,gamma0,pslash1 + m I,gamma0))
 "Check Casimir trick (1=ok)"
 
 S == N T
+
+exit

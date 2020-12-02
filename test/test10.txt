@@ -36,3 +36,5 @@ f = E^2 + m^2 + p^2 expcos(theta)
 q = p1 - p2
 
 dot(q,gmunu,q)^2 == 16 p^4 expsin(theta/2)^4
+
+exit

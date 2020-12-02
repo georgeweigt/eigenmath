@@ -114,3 +114,5 @@ f = 1/4 (f11/d11 + 2 f12/d12 + f22/d22)
 g = 1 + expcos(theta) + 4 / (1 + expcos(theta))
 
 f == g
+
+exit

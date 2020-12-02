@@ -99,3 +99,5 @@ u == -4 E^2 expcos(theta/2)^2
 (s^2 + u^2) expsin(theta/2)^4 == (1 + expcos(theta/2)^4) t^2
 2 s^2 expsin(theta)^2 == 8 t u
 (s^2 + t^2) expcos(theta/2)^4 == (1 + expsin(theta/2)^4) u^2
+
+exit

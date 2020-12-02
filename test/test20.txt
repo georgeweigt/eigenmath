@@ -49,3 +49,5 @@ a0
 "Numerical value for Rydberg unit of energy"
 
 -E 1/(1.602177 10^(-19)) "electron-volt" / joule
+
+exit

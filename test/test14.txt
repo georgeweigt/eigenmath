@@ -38,3 +38,5 @@ for(k,1,N,
 "Probability distribution"
 
 P
+
+exit
