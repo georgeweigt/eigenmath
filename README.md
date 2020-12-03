@@ -4,7 +4,7 @@ To build and run:
 	make
 	./eigenmath
 
-Press control-C or type exit to exit. Note: Terminal settings should include UTF-8.
+Press control-C or type exit to exit. Note: UTF-8 is used, terminal settings should enable UTF-8.
 
 To run a script:
 
