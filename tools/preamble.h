@@ -5,7 +5,7 @@ To build and run:
 	gcc -O0 -o eigenmath eigenmath.c -lm
 	./eigenmath
 
-Press control-C or type exit to exit.
+Press control-C or type exit to exit. Note: UTF-8 is used, terminal settings should enable UTF-8.
 
 To run a script:
 
