@@ -50,7 +50,7 @@ int *display_buf;
 void
 display(void)
 {
-	int c, d, h, i, j, w;
+	int c, d, h, i, j, n, w;
 
 	save();
 
@@ -69,12 +69,14 @@ display(void)
 	display_nrow = h + d;
 	display_ncol = imin(CLIP, w);
 
-	display_buf = malloc(display_nrow * display_ncol * sizeof (int));
+	n = display_nrow * display_ncol * sizeof (int); // number of bytes
+
+	display_buf = malloc(n);
 
 	if (display_buf == NULL)
 		malloc_kaput();
 
-	memset(display_buf, 0, display_nrow * display_ncol * sizeof (int));
+	memset(display_buf, 0, n);
 
 	emit_draw(0, h - 1, p1);
 
