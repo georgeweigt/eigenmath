@@ -28,7 +28,7 @@ emit_numerators(struct atom *p)
 		if (isdenominator(q))
 			continue;
 
-		if (tos - t)
+		if (tos > t)
 			emit_medium_space();
 
 		emit_factor(q);

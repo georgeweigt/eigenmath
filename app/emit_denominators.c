@@ -31,7 +31,7 @@ emit_denominators(struct atom *p)
 		if (!isdenominator(q))
 			continue;
 
-		if (tos - t)
+		if (tos > t)
 			emit_medium_space();
 
 		if (isminusone(caddr(q))) {
