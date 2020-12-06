@@ -13,15 +13,15 @@ print_buf(s, color)
 	switch (color) {
 
 	case BLACK:
-		s = "<p><span style='color:black'>" + s + "</span></p>";
+		s = "<p><span style='color:black'>" + s + "</span>";
 		break;
 
 	case BLUE:
-		s = "<p><span style='color:blue;font-family:courier'>" + s + "</span></p>";
+		s = "<p><span style='color:blue;font-family:courier'>" + s + "</span>";
 		break;
 
 	case RED:
-		s = "<p><span style='color:red;font-family:courier'>" + s + "</span></p>";
+		s = "<p><span style='color:red;font-family:courier'>" + s + "</span>";
 		break;
 	}
 

@@ -38,7 +38,7 @@ const TABLE_HSPACE = 10;
 const TABLE_VSPACE = 10;
 
 const HPAD = 10;
-const VPAD = 10;
+const VPAD = 6;
 
 var emit_level;
 
@@ -62,17 +62,17 @@ display()
 	x = HPAD;
 	y = h + VPAD;
 
-	outbuf = "";
-
-	draw_formula(x, y, p1);
-
 	h += d + 2 * VPAD;
 	w += 2 * HPAD;
 
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";
 
-	outbuf = "<p><svg " + h + w + ">\n" + outbuf + "</svg></p>";
+	outbuf = "<p><svg " + h + w + ">";
+
+	draw_formula(x, y, p1);
+
+	outbuf += "</svg>";
 
 	stdout.innerHTML += outbuf;
 }
