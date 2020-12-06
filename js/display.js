@@ -8,7 +8,7 @@ const RIGHT_PAREN = 41;
 const LESS_SIGN = 60;
 const EQUALS_SIGN = 61;
 const GREATER_SIGN = 62;
-const LOWER_N = 110;
+const LOWER_M = 109;
 
 const PLUS_SIGN = 177;
 const MINUS_SIGN = 178;
@@ -34,22 +34,11 @@ const THICK_STROKE = 2.5;
 const FONT_SIZE = 20;
 const SMALL_FONT_SIZE = 14;
 
-const FONT_HEIGHT = 0.88 * FONT_SIZE;
-const SMALL_FONT_HEIGHT = 0.88 * SMALL_FONT_SIZE;
+const TABLE_HSPACE = 10;
+const TABLE_VSPACE = 10;
 
-const FONT_DEPTH = 0.3 * FONT_SIZE;
-const SMALL_FONT_DEPTH = 0.3 * SMALL_FONT_SIZE;
-
-const FONT_XHEIGHT = 0.6 * FONT_SIZE;
-const SMALL_FONT_XHEIGHT = 0.6 * SMALL_FONT_SIZE;
-
-const TABLE_HSPACE = FONT_SIZE / 2;
-const TABLE_VSPACE = FONT_SIZE / 2;
-
-const HPAD = FONT_SIZE / 2;
-const VPAD = FONT_SIZE / 4;
-
-const FUDGE = 1.4;
+const HPAD = 10;
+const VPAD = 5;
 
 var emit_level;
 
@@ -516,9 +505,9 @@ emit_medium_space()
 	var w;
 
 	if (emit_level == 0)
-		w = get_char_width(ROMAN_FONT, LOWER_N);
+		w = get_char_width(ROMAN_FONT, LOWER_M);
 	else
-		w = get_char_width(SMALL_ROMAN_FONT, LOWER_N);
+		w = get_char_width(SMALL_ROMAN_FONT, LOWER_M);
 
 	w *= 0.5;
 
@@ -899,9 +888,9 @@ emit_thick_space()
 	var w;
 
 	if (emit_level == 0)
-		w = get_char_width(ROMAN_FONT, LOWER_N);
+		w = get_char_width(ROMAN_FONT, LOWER_M);
 	else
-		w = get_char_width(SMALL_ROMAN_FONT, LOWER_N);
+		w = get_char_width(SMALL_ROMAN_FONT, LOWER_M);
 
 	push_double(EMIT_SPACE);
 	push_double(0.0);
@@ -917,9 +906,9 @@ emit_thin_space()
 	var w;
 
 	if (emit_level == 0)
-		w = get_char_width(ROMAN_FONT, LOWER_N);
+		w = get_char_width(ROMAN_FONT, LOWER_M);
 	else
-		w = get_char_width(SMALL_ROMAN_FONT, LOWER_N);
+		w = get_char_width(SMALL_ROMAN_FONT, LOWER_M);
 
 	w *= 0.25;
 
@@ -951,14 +940,14 @@ emit_update_fraction()
 		font_num = SMALL_ROMAN_FONT;
 	}
 
-	m = get_cap_height(font_num) / 2; // midpoint
+	m = get_operator_height(font_num); // midpoint
 
 	v = 0.75 * m; // extra vertical space
 
 	h += v + m;
 	d += v - m;
 
-	w += get_char_width(font_num, LOWER_N) / 2; // make horizontal line a bit wider
+	w += get_char_width(font_num, LOWER_M) / 2; // make horizontal line a bit wider
 
 	push_double(opcode);
 	push_double(h);
@@ -1178,7 +1167,7 @@ emit_update_table(n, m)
 
 	// h, d, w for entire table
 
-	h = total_height / 2 + get_cap_height(ROMAN_FONT) / 2;
+	h = total_height / 2 + get_operator_height(ROMAN_FONT);
 	d = total_height - h;
 	w = total_width + 2 * get_char_width(ROMAN_FONT, LEFT_PAREN);
 
@@ -1279,10 +1268,10 @@ draw_formula(x, y, p)
 		// horizontal line
 
 		if (k == EMIT_FRACTION) {
-			dy = get_cap_height(ROMAN_FONT) / 2.0;
+			dy = get_operator_height(ROMAN_FONT);
 			stroke_width = MEDIUM_STROKE;
 		} else {
-			dy = get_cap_height(SMALL_ROMAN_FONT) / 2.0;
+			dy = get_operator_height(SMALL_ROMAN_FONT);
 			stroke_width = THIN_STROKE;
 		}
 
@@ -1562,16 +1551,28 @@ val2(p)
 	return cadr(p).d;
 }
 
+// printf("%g %g %g\n",
+// 2048 * get_cap_height(ROMAN_FONT) / FONT_SIZE,
+// 2048 * get_descent(ROMAN_FONT) / FONT_SIZE,
+// 2048 * get_xheight(ROMAN_FONT) / FONT_SIZE);
+//
+// 1356 443 916
+
+const FONT_MAG = 1.25 / 2048;
+const FONT_CAP_HEIGHT = 1356;
+const FONT_DESCENT = 443;
+const FONT_XHEIGHT = 916;
+
 function
 get_cap_height(font_num)
 {
 	switch (font_num) {
 	case ROMAN_FONT:
 	case ITALIC_FONT:
-		return FONT_HEIGHT;
+		return FONT_MAG * FONT_CAP_HEIGHT * FONT_SIZE;
 	case SMALL_ROMAN_FONT:
 	case SMALL_ITALIC_FONT:
-		return SMALL_FONT_HEIGHT;
+		return FONT_MAG * FONT_CAP_HEIGHT * SMALL_FONT_SIZE;
 	}
 }
 
@@ -1622,13 +1623,13 @@ get_char_depth(font_num, char_num)
 {
 	switch (font_num) {
 	case ROMAN_FONT:
-		return roman_descent_tab[char_num] * FONT_DEPTH;
+		return FONT_MAG * FONT_DESCENT * FONT_SIZE * roman_descent_tab[char_num];
 	case ITALIC_FONT:
-		return italic_descent_tab[char_num] * FONT_DEPTH;
+		return FONT_MAG * FONT_DESCENT * FONT_SIZE * italic_descent_tab[char_num];
 	case SMALL_ROMAN_FONT:
-		return roman_descent_tab[char_num] * SMALL_FONT_DEPTH;
+		return FONT_MAG * FONT_DESCENT * SMALL_FONT_SIZE * roman_descent_tab[char_num];
 	case SMALL_ITALIC_FONT:
-		return italic_descent_tab[char_num] * SMALL_FONT_DEPTH;
+		return FONT_MAG * FONT_DESCENT * SMALL_FONT_SIZE * italic_descent_tab[char_num];
 	}
 }
 
@@ -1719,13 +1720,13 @@ get_char_width(font_num, char_num)
 {
 	switch (font_num) {
 	case ROMAN_FONT:
-		return FUDGE * FONT_SIZE * roman_width_tab[char_num] / 2048;
+		return FONT_MAG * FONT_SIZE * roman_width_tab[char_num];
 	case ITALIC_FONT:
-		return FUDGE * FONT_SIZE * italic_width_tab[char_num] / 2048;
+		return FONT_MAG * FONT_SIZE * italic_width_tab[char_num];
 	case SMALL_ROMAN_FONT:
-		return FUDGE * SMALL_FONT_SIZE * roman_width_tab[char_num] / 2048;
+		return FONT_MAG * SMALL_FONT_SIZE * roman_width_tab[char_num];
 	case SMALL_ITALIC_FONT:
-		return FUDGE * SMALL_FONT_SIZE * italic_width_tab[char_num] / 2048;
+		return FONT_MAG * SMALL_FONT_SIZE * italic_width_tab[char_num];
 	}
 }
 
@@ -1735,9 +1736,15 @@ get_xheight(font_num)
 	switch (font_num) {
 	case ROMAN_FONT:
 	case ITALIC_FONT:
-		return FONT_XHEIGHT;
+		return FONT_MAG * FONT_XHEIGHT * FONT_SIZE;
 	case SMALL_ROMAN_FONT:
 	case SMALL_ITALIC_FONT:
-		return SMALL_FONT_XHEIGHT;
+		return FONT_MAG * FONT_XHEIGHT * SMALL_FONT_SIZE;
 	}
+}
+
+function
+get_operator_height(font_num)
+{
+	return get_cap_height(font_num) / 2;
 }
