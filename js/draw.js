@@ -11,7 +11,7 @@ draw(F, X)
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";
 
-	outbuf = "<p><svg " + h + w + ">"
+	outbuf = "<br><svg " + h + w + ">"
 
 	draw_xrange();
 	draw_yrange();
@@ -22,7 +22,7 @@ draw(F, X)
 	draw_pass2(F, X);
 	draw_points();
 
-	outbuf += "</svg>";
+	outbuf += "</svg><br>";
 
 	stdout.innerHTML += outbuf;
 }

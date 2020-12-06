@@ -1,3 +1,9 @@
+const HPAD = 10;
+const VPAD = 6;
+
+const FONT_SIZE = 20;
+const SMALL_FONT_SIZE = 14;
+
 const ROMAN_FONT = 1;
 const ITALIC_FONT = 2;
 const SMALL_ROMAN_FONT = 3;
@@ -31,14 +37,8 @@ const THIN_STROKE = 1;
 const MEDIUM_STROKE = 2;
 const THICK_STROKE = 2.5;
 
-const FONT_SIZE = 20;
-const SMALL_FONT_SIZE = 14;
-
 const TABLE_HSPACE = 10;
 const TABLE_VSPACE = 10;
-
-const HPAD = 10;
-const VPAD = 6;
 
 var emit_level;
 
@@ -68,11 +68,11 @@ display()
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";
 
-	outbuf = "<p><svg " + h + w + ">";
+	outbuf = "<br><svg " + h + w + ">";
 
 	draw_formula(x, y, p1);
 
-	outbuf += "</svg>";
+	outbuf += "</svg><br>";
 
 	stdout.innerHTML += outbuf;
 }
