@@ -109,8 +109,6 @@ fmt_args(struct atom *p)
 {
 	int t;
 
-	emit_thin_space();
-
 	p = cdr(p);
 
 	if (!iscons(p)) {
@@ -1340,7 +1338,7 @@ fmt_update_table(int n, int m)
 void
 fmt_vector(struct atom *p)
 {
-	int i, n, span, t;
+	int i, n, span;
 
 	// compute element span
 
@@ -1350,8 +1348,6 @@ fmt_vector(struct atom *p)
 
 	for (i = 1; i < n; i++)
 		span *= p->u.tensor->dim[i];
-
-	t = tos;
 
 	n = p->u.tensor->dim[0]; // number of rows
 
