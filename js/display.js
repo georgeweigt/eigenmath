@@ -414,6 +414,8 @@ emit_function(p)
 function
 emit_indices(p)
 {
+	emit_thin_space();
+
 	emit_roman_string("[");
 
 	p = cdr(p);
@@ -1385,10 +1387,10 @@ draw_char(x, y, font_num, char_num)
 		s = "&lt;";
 	else if (char_num == 62)
 		s = "&gt;";
-	else if (char_num > 127)
-		s = char_str_tab[char_num - 128];
-	else
+	else if (char_num < 128)
 		s = String.fromCharCode(char_num);
+	else
+		s = char_str_tab[char_num - 128];
 
 	t = "<text style='font-family:\"Times New Roman\";";
 
