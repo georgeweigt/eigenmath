@@ -1,5 +1,6 @@
 function
 isalpha(s)
 {
-	return s.length == 1 && ((s >= "A" && s <= "Z") || (s >= "a" && s <= "z"));
+	var c = s.charCodeAt(0);
+	return (c >= 65 && c <= 90) || (c >= 97 && c <= 122);
 }
