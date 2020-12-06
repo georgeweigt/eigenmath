@@ -3,7 +3,7 @@
 void
 emit_vector(struct atom *p)
 {
-	int i, n, span, t;
+	int i, n, span;
 
 	// compute element span
 
@@ -13,8 +13,6 @@ emit_vector(struct atom *p)
 
 	for (i = 1; i < n; i++)
 		span *= p->u.tensor->dim[i];
-
-	t = tos;
 
 	n = p->u.tensor->dim[0]; // number of rows
 

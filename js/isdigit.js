@@ -1,5 +1,5 @@
 function
 isdigit(s)
 {
-	return s.length == 1 && s >= "0" && s <= "9";
+	return s.charCodeAt(0) >= 48 && s.charCodeAt(0) < 58;
 }

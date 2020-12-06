@@ -109,6 +109,8 @@ fmt_args(struct atom *p)
 {
 	int t;
 
+	emit_thin_space();
+
 	p = cdr(p);
 
 	if (!iscons(p)) {

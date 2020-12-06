@@ -11,5 +11,5 @@ print_result()
 
 	prep_symbol_equals(p1, p2);
 
-	emit_math();
+	display();
 }
