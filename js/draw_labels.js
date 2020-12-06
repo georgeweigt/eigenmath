@@ -8,7 +8,7 @@ draw_labels()
 	emit_level = 1; // small font
 	emit_list(p);
 	p = pop();
-	x = DRAW_LEFT_PAD - width(p) - SMALL_FONT_SIZE;
+	x = DRAW_LEFT_PAD - width(p) - DRAW_YLABEL_MARGIN;
 	y = DRAW_TOP_PAD + height(p);
 	draw_formula(x, y, p);
 
@@ -17,7 +17,7 @@ draw_labels()
 	emit_level = 1; // small font
 	emit_list(p);
 	p = pop();
-	x = DRAW_LEFT_PAD - width(p) - SMALL_FONT_SIZE;
+	x = DRAW_LEFT_PAD - width(p) - DRAW_YLABEL_MARGIN;
 	y = DRAW_TOP_PAD + DRAW_HEIGHT;
 	draw_formula(x, y, p);
 
@@ -27,7 +27,7 @@ draw_labels()
 	emit_list(p);
 	p = pop();
 	x = DRAW_LEFT_PAD - width(p) / 2;
-	y = DRAW_TOP_PAD + DRAW_HEIGHT + 2 * SMALL_FONT_SIZE;
+	y = DRAW_TOP_PAD + DRAW_HEIGHT + DRAW_XLABEL_BASELINE;
 	draw_formula(x, y, p);
 
 	push_double(xmax);
@@ -36,6 +36,6 @@ draw_labels()
 	emit_list(p);
 	p = pop();
 	x = DRAW_LEFT_PAD + DRAW_WIDTH - width(p) / 2;
-	y = DRAW_TOP_PAD + DRAW_HEIGHT + 2 * SMALL_FONT_SIZE;
+	y = DRAW_TOP_PAD + DRAW_HEIGHT + DRAW_XLABEL_BASELINE;
 	draw_formula(x, y, p);
 }
