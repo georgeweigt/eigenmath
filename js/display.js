@@ -1554,7 +1554,6 @@ val2(p)
 //
 // 1356 443 916
 
-const FONT_MAG = 1 / 2048;
 const FONT_CAP_HEIGHT = 1356;
 const FONT_DESCENT = 443;
 const FONT_XHEIGHT = 916;
@@ -1565,10 +1564,10 @@ get_cap_height(font_num)
 	switch (font_num) {
 	case ROMAN_FONT:
 	case ITALIC_FONT:
-		return FONT_MAG * FONT_CAP_HEIGHT * FONT_SIZE;
+		return FONT_CAP_HEIGHT * FONT_SIZE / 2048;
 	case SMALL_ROMAN_FONT:
 	case SMALL_ITALIC_FONT:
-		return FONT_MAG * FONT_CAP_HEIGHT * SMALL_FONT_SIZE;
+		return FONT_CAP_HEIGHT * SMALL_FONT_SIZE / 2048;
 	}
 }
 
@@ -1619,13 +1618,13 @@ get_char_depth(font_num, char_num)
 {
 	switch (font_num) {
 	case ROMAN_FONT:
-		return FONT_MAG * FONT_DESCENT * FONT_SIZE * roman_descent_tab[char_num];
+		return FONT_DESCENT * FONT_SIZE * roman_descent_tab[char_num] / 2048;
 	case ITALIC_FONT:
-		return FONT_MAG * FONT_DESCENT * FONT_SIZE * italic_descent_tab[char_num];
+		return FONT_DESCENT * FONT_SIZE * italic_descent_tab[char_num] / 2048;
 	case SMALL_ROMAN_FONT:
-		return FONT_MAG * FONT_DESCENT * SMALL_FONT_SIZE * roman_descent_tab[char_num];
+		return FONT_DESCENT * SMALL_FONT_SIZE * roman_descent_tab[char_num] / 2048;
 	case SMALL_ITALIC_FONT:
-		return FONT_MAG * FONT_DESCENT * SMALL_FONT_SIZE * italic_descent_tab[char_num];
+		return FONT_DESCENT * SMALL_FONT_SIZE * italic_descent_tab[char_num] / 2048;
 	}
 }
 
@@ -1716,13 +1715,13 @@ get_char_width(font_num, char_num)
 {
 	switch (font_num) {
 	case ROMAN_FONT:
-		return FONT_MAG * FONT_SIZE * roman_width_tab[char_num];
+		return FONT_SIZE * roman_width_tab[char_num] / 2048;
 	case ITALIC_FONT:
-		return FONT_MAG * FONT_SIZE * italic_width_tab[char_num];
+		return FONT_SIZE * italic_width_tab[char_num] / 2048;
 	case SMALL_ROMAN_FONT:
-		return FONT_MAG * SMALL_FONT_SIZE * roman_width_tab[char_num];
+		return SMALL_FONT_SIZE * roman_width_tab[char_num] / 2048;
 	case SMALL_ITALIC_FONT:
-		return FONT_MAG * SMALL_FONT_SIZE * italic_width_tab[char_num];
+		return SMALL_FONT_SIZE * italic_width_tab[char_num] / 2048;
 	}
 }
 
@@ -1732,10 +1731,10 @@ get_xheight(font_num)
 	switch (font_num) {
 	case ROMAN_FONT:
 	case ITALIC_FONT:
-		return FONT_MAG * FONT_XHEIGHT * FONT_SIZE;
+		return FONT_XHEIGHT * FONT_SIZE / 2048;
 	case SMALL_ROMAN_FONT:
 	case SMALL_ITALIC_FONT:
-		return FONT_MAG * FONT_XHEIGHT * SMALL_FONT_SIZE;
+		return FONT_XHEIGHT * SMALL_FONT_SIZE / 2048;
 	}
 }
 
