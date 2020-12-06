@@ -1554,7 +1554,7 @@ val2(p)
 //
 // 1356 443 916
 
-const FONT_MAG = 1.25 / 2048;
+const FONT_MAG = 1.25 / 2048; // 1.25 because of pt instead of px
 const FONT_CAP_HEIGHT = 1356;
 const FONT_DESCENT = 443;
 const FONT_XHEIGHT = 916;
