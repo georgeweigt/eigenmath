@@ -38,7 +38,7 @@ const TABLE_HSPACE = 10;
 const TABLE_VSPACE = 10;
 
 const HPAD = 10;
-const VPAD = 5;
+const VPAD = 10;
 
 var emit_level;
 
