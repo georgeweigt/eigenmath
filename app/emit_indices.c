@@ -3,8 +3,6 @@
 void
 emit_indices(struct atom *p)
 {
-	emit_thin_space();
-
 	emit_roman_char('[');
 
 	p = cdr(p);

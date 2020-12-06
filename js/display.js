@@ -82,8 +82,6 @@ emit_args(p)
 {
 	var t;
 
-	emit_thin_space();
-
 	p = cdr(p);
 
 	if (!iscons(p)) {
@@ -403,8 +401,6 @@ emit_function(p)
 function
 emit_indices(p)
 {
-	emit_thin_space();
-
 	emit_roman_string("[");
 
 	p = cdr(p);
@@ -587,7 +583,7 @@ emit_power(p)
 {
 	if (cadr(p) == symbol(EXP1)) {
 		emit_roman_string("exp");
-		emit_subexpr(caddr(p));
+		emit_args(cdr(p));
 		return;
 	}
 

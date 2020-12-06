@@ -5,7 +5,7 @@ emit_power(struct atom *p)
 {
 	if (cadr(p) == symbol(EXP1)) {
 		emit_roman_string("exp");
-		emit_subexpr(caddr(p));
+		emit_args(cdr(p));
 		return;
 	}
 

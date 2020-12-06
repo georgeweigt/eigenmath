@@ -675,7 +675,7 @@ fmt_power(struct atom *p)
 {
 	if (cadr(p) == symbol(EXP1)) {
 		fmt_roman_string("exp");
-		fmt_subexpr(caddr(p));
+		fmt_args(cdr(p));
 		return;
 	}
 
