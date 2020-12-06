@@ -1,5 +1,5 @@
 const HPAD = 10;
-const VPAD = 6;
+const VPAD = 5;
 
 const FONT_SIZE = 20;
 const SMALL_FONT_SIZE = 14;
