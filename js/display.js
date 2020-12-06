@@ -8,7 +8,7 @@ const RIGHT_PAREN = 41;
 const LESS_SIGN = 60;
 const EQUALS_SIGN = 61;
 const GREATER_SIGN = 62;
-const LOWER_M = 109;
+const LOWER_N = 110;
 
 const PLUS_SIGN = 177;
 const MINUS_SIGN = 178;
@@ -501,9 +501,9 @@ emit_medium_space()
 	var w;
 
 	if (emit_level == 0)
-		w = get_char_width(ROMAN_FONT, LOWER_M);
+		w = get_char_width(ROMAN_FONT, LOWER_N);
 	else
-		w = get_char_width(SMALL_ROMAN_FONT, LOWER_M);
+		w = get_char_width(SMALL_ROMAN_FONT, LOWER_N);
 
 	w *= 0.5;
 
@@ -884,9 +884,9 @@ emit_thick_space()
 	var w;
 
 	if (emit_level == 0)
-		w = get_char_width(ROMAN_FONT, LOWER_M);
+		w = get_char_width(ROMAN_FONT, LOWER_N);
 	else
-		w = get_char_width(SMALL_ROMAN_FONT, LOWER_M);
+		w = get_char_width(SMALL_ROMAN_FONT, LOWER_N);
 
 	push_double(EMIT_SPACE);
 	push_double(0.0);
@@ -902,9 +902,9 @@ emit_thin_space()
 	var w;
 
 	if (emit_level == 0)
-		w = get_char_width(ROMAN_FONT, LOWER_M);
+		w = get_char_width(ROMAN_FONT, LOWER_N);
 	else
-		w = get_char_width(SMALL_ROMAN_FONT, LOWER_M);
+		w = get_char_width(SMALL_ROMAN_FONT, LOWER_N);
 
 	w *= 0.25;
 
@@ -943,7 +943,7 @@ emit_update_fraction()
 	h += v + m;
 	d += v - m;
 
-	w += get_char_width(font_num, LOWER_M) / 2; // make horizontal line a bit wider
+	w += get_char_width(font_num, LOWER_N) / 2; // make horizontal line a bit wider
 
 	push_double(opcode);
 	push_double(h);
