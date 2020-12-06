@@ -1,5 +1,5 @@
 const HPAD = 10;
-const VPAD = 5;
+const VPAD = 10;
 
 const FONT_SIZE = 20;
 const SMALL_FONT_SIZE = 14;
@@ -68,7 +68,7 @@ display()
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";
 
-	outbuf = "<br><svg " + h + w + ">";
+	outbuf = "<svg " + h + w + ">";
 
 	draw_formula(x, y, p1);
 

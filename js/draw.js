@@ -11,7 +11,7 @@ draw(F, X)
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";
 
-	outbuf = "<br><svg " + h + w + ">"
+	outbuf = "<svg " + h + w + ">"
 
 	draw_xrange();
 	draw_yrange();
