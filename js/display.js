@@ -1,8 +1,8 @@
 const HPAD = 10;
 const VPAD = 10;
 
-const FONT_SIZE = 20;
-const SMALL_FONT_SIZE = 14;
+const FONT_SIZE = 24;
+const SMALL_FONT_SIZE = 18;
 
 const ROMAN_FONT = 1;
 const ITALIC_FONT = 2;
@@ -1381,16 +1381,16 @@ draw_char(x, y, font_num, char_num)
 
 	switch (font_num) {
 	case ROMAN_FONT:
-		t += "font-size:" + FONT_SIZE + "pt;";
+		t += "font-size:" + FONT_SIZE + "px;";
 		break;
 	case ITALIC_FONT:
-		t += "font-size:" + FONT_SIZE + "pt;font-style:italic;";
+		t += "font-size:" + FONT_SIZE + "px;font-style:italic;";
 		break;
 	case SMALL_ROMAN_FONT:
-		t += "font-size:" + SMALL_FONT_SIZE + "pt;";
+		t += "font-size:" + SMALL_FONT_SIZE + "px;";
 		break;
 	case SMALL_ITALIC_FONT:
-		t += "font-size:" + SMALL_FONT_SIZE + "pt;font-style:italic;";
+		t += "font-size:" + SMALL_FONT_SIZE + "px;font-style:italic;";
 		break;
 	}
 
@@ -1554,7 +1554,7 @@ val2(p)
 //
 // 1356 443 916
 
-const FONT_MAG = 1.25 / 2048; // 1.25 because of pt instead of px
+const FONT_MAG = 1 / 2048;
 const FONT_CAP_HEIGHT = 1356;
 const FONT_DESCENT = 443;
 const FONT_XHEIGHT = 916;
