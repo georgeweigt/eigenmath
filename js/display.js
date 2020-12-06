@@ -1711,20 +1711,18 @@ const italic_width_tab = [
 1024,1024,1024,1024,1024,1024,1024,1024,
 ];
 
-// too tight, multiply by 1.1 to loosen up
-
 function
 get_char_width(font_num, char_num)
 {
 	switch (font_num) {
 	case ROMAN_FONT:
-		return 1.1 * FONT_MAG * FONT_SIZE * roman_width_tab[char_num];
+		return FONT_MAG * FONT_SIZE * roman_width_tab[char_num];
 	case ITALIC_FONT:
-		return 1.1 * FONT_MAG * FONT_SIZE * italic_width_tab[char_num];
+		return FONT_MAG * FONT_SIZE * italic_width_tab[char_num];
 	case SMALL_ROMAN_FONT:
-		return 1.1 * FONT_MAG * SMALL_FONT_SIZE * roman_width_tab[char_num];
+		return FONT_MAG * SMALL_FONT_SIZE * roman_width_tab[char_num];
 	case SMALL_ITALIC_FONT:
-		return 1.1 * FONT_MAG * SMALL_FONT_SIZE * italic_width_tab[char_num];
+		return FONT_MAG * SMALL_FONT_SIZE * italic_width_tab[char_num];
 	}
 }
 
