@@ -110,6 +110,4 @@ extern int emit_level;
 extern int emit_index;
 extern int emit_count;
 
-extern CTFontRef font_ref_tab[5];
-
 #include "app-prototypes.h"
