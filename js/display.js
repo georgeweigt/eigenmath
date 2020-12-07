@@ -1288,7 +1288,7 @@ draw_formula(x, y, p)
 	}
 }
 
-const char_str_tab = [
+const html_name_tab = [
 
 	"&Alpha;",
 	"&Beta;",
@@ -1367,7 +1367,7 @@ draw_char(x, y, font_num, char_num)
 	else if (char_num < 128)
 		s = String.fromCharCode(char_num);
 	else
-		s = char_str_tab[char_num - 128];
+		s = html_name_tab[char_num - 128];
 
 	t = "<text style='font-family:\"Times New Roman\";";
 
