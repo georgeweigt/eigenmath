@@ -497,11 +497,9 @@ emit_medium_space()
 	var w;
 
 	if (emit_level == 0)
-		w = get_char_width(ROMAN_FONT, LOWER_N);
+		w = 0.5 * get_char_width(ROMAN_FONT, LOWER_N);
 	else
-		w = get_char_width(SMALL_ROMAN_FONT, LOWER_N);
-
-	w *= 0.5;
+		w = 0.5 * get_char_width(SMALL_ROMAN_FONT, LOWER_N);
 
 	push_double(EMIT_SPACE);
 	push_double(0.0);
@@ -898,11 +896,9 @@ emit_thin_space()
 	var w;
 
 	if (emit_level == 0)
-		w = get_char_width(ROMAN_FONT, LOWER_N);
+		w = 0.25 * get_char_width(ROMAN_FONT, LOWER_N);
 	else
-		w = get_char_width(SMALL_ROMAN_FONT, LOWER_N);
-
-	w *= 0.25;
+		w = 0.25 * get_char_width(SMALL_ROMAN_FONT, LOWER_N);
 
 	push_double(EMIT_SPACE);
 	push_double(0.0);
