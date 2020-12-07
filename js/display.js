@@ -928,7 +928,7 @@ emit_update_fraction()
 		font_num = SMALL_ROMAN_FONT;
 	}
 
-	m = get_operator_height(font_num); // midpoint
+	m = get_operator_height(font_num);
 
 	v = 0.75 * m; // extra vertical space
 
