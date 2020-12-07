@@ -25,4 +25,7 @@ emit_italic_char(int char_num)
 	list(6);
 
 	emit_count += 5; // alloc 5 for drawing italic char
+
+	if (char_num == 'f')
+		emit_thin_space();
 }

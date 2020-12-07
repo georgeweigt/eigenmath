@@ -14,6 +14,7 @@ const RIGHT_PAREN = 41;
 const LESS_SIGN = 60;
 const EQUALS_SIGN = 61;
 const GREATER_SIGN = 62;
+const LOWER_F = 102;
 const LOWER_N = 110;
 
 const PLUS_SIGN = 177;
@@ -448,6 +449,9 @@ emit_italic_char(char_num)
 	push_double(char_num);
 
 	list(6);
+
+	if (char_num == LOWER_F)
+		emit_thin_space();
 }
 
 function
@@ -1495,6 +1499,7 @@ draw_table(x, y, p)
 		w = cadddr(p);
 
 		for (j = 0; j < m; j++) { // for each column
+
 			column_width = val1(w);
 			elem_width = width(car(table));
 			cx = x + dx + TABLE_HSPACE + (column_width - elem_width) / 2; // center horizontal

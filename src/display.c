@@ -1403,6 +1403,7 @@ fmt_draw_table(int x, int y, struct atom *p)
 		w = cadddr(p);
 
 		for (j = 0; j < m; j++) { // for each column
+
 			column_width = VAL1(w);
 			elem_width = WIDTH(car(table));
 			cx = x + dx + (column_width - elem_width) / 2; // center horizontal
