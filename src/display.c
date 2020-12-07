@@ -144,25 +144,6 @@ fmt_base(struct atom *p)
 }
 
 void
-fmt_char(int x, int y, int c)
-{
-	if (x >= 0 && x < fmt_ncol && y >= 0 && y < fmt_nrow)
-		fmt_buf[y * fmt_ncol + x] = c;
-}
-
-void
-fmt_delims(int x, int y, int h, int d, int w)
-{
-	if (h > 1 || d > 0) {
-		fmt_left_delim(x, y, h, d, w);
-		fmt_right_delim(x + w - 1, y, h, d, w);
-	} else {
-		fmt_char(x, y, '(');
-		fmt_char(x + w - 1, y, ')');
-	}
-}
-
-void
 fmt_denominators(struct atom *p)
 {
 	int n, t;
@@ -275,83 +256,6 @@ fmt_double(struct atom *p)
 	fmt_level--;
 
 	fmt_update_superscript();
-}
-
-void
-fmt_draw(int x, int y, struct atom *p)
-{
-	int d, dx, dy, h, i, k, w;
-
-	k = OPCODE(p);
-	h = HEIGHT(p);
-	d = DEPTH(p);
-	w = WIDTH(p);
-
-	p = cddddr(p);
-
-	switch (k) {
-
-	case EMIT_SPACE:
-		break;
-
-	case EMIT_CHAR:
-		fmt_char(x, y, VAL1(p));
-		break;
-
-	case EMIT_LIST:
-		p = car(p);
-		while (iscons(p)) {
-			fmt_draw(x, y, car(p));
-			x += WIDTH(car(p));
-			p = cdr(p);
-		}
-		break;
-
-	case EMIT_SUPERSCRIPT:
-	case EMIT_SUBSCRIPT:
-		x += VAL1(p);
-		y += VAL2(p);
-		p = caddr(p);
-		fmt_draw(x, y, p);
-		break;
-
-	case EMIT_SUBEXPR:
-		fmt_delims(x, y, h, d, w);
-		x += 1;
-		fmt_draw(x, y, car(p));
-		break;
-
-	case EMIT_FRACTION:
-
-		// horizontal line
-
-		fmt_char(x, y, BDLR);
-
-		for (i = 1; i < w - 1; i++)
-			fmt_char(x + i, y, BDLH);
-
-		fmt_char(x + w - 1, y, BDLL);
-
-		// numerator
-
-		dx = (w - WIDTH(car(p))) / 2;
-		dy = -h + HEIGHT(car(p));
-		fmt_draw(x + dx, y + dy, car(p));
-
-		// denominator
-
-		p = cdr(p);
-		dx = (w - WIDTH(car(p))) / 2;
-		dy = d - DEPTH(car(p));
-		fmt_draw(x + dx, y + dy, car(p));
-
-		break;
-
-	case EMIT_TABLE:
-		fmt_delims(x, y, h, d, w);
-		fmt_table(x + 2, y - h + 1, p);
-		break;
-	}
 }
 
 void
@@ -553,19 +457,6 @@ fmt_infix_operator(int c)
 }
 
 void
-fmt_left_delim(int x, int y, int h, int d, int w)
-{
-	int i;
-
-	fmt_char(x, y - h + 1, BDLDAR);
-
-	for (i = 1; i < h + d - 1; i++)
-		fmt_char(x, y - h + 1 + i, BDLV);
-
-	fmt_char(x, y + d, BDLUAR);
-}
-
-void
 fmt_list(struct atom *p)
 {
 	int t = tos;
@@ -749,19 +640,6 @@ fmt_reciprocal(struct atom *p)
 	fmt_update_list(t);
 
 	fmt_update_fraction();
-}
-
-void
-fmt_right_delim(int x, int y, int h, int d, int w)
-{
-	int i;
-
-	fmt_char(x, y - h + 1, BDLDAL);
-
-	for (i = 1; i < h + d - 1; i++)
-		fmt_char(x, y - h + 1 + i, BDLV);
-
-	fmt_char(x, y + d, BDLUAL);
 }
 
 void
@@ -1374,4 +1252,169 @@ int
 isdenominator(struct atom *p)
 {
 	return car(p) == symbol(POWER) && isnegativenumber(caddr(p));
+}
+
+void
+fmt_draw(int x, int y, struct atom *p)
+{
+	int d, dx, dy, h, i, k, w;
+
+	k = OPCODE(p);
+	h = HEIGHT(p);
+	d = DEPTH(p);
+	w = WIDTH(p);
+
+	p = cddddr(p);
+
+	switch (k) {
+
+	case EMIT_SPACE:
+		break;
+
+	case EMIT_CHAR:
+		fmt_draw_char(x, y, VAL1(p));
+		break;
+
+	case EMIT_LIST:
+		p = car(p);
+		while (iscons(p)) {
+			fmt_draw(x, y, car(p));
+			x += WIDTH(car(p));
+			p = cdr(p);
+		}
+		break;
+
+	case EMIT_SUPERSCRIPT:
+	case EMIT_SUBSCRIPT:
+		dx = VAL1(p);
+		dy = VAL2(p);
+		p = caddr(p);
+		fmt_draw(x + dx, y + dy, p);
+		break;
+
+	case EMIT_SUBEXPR:
+		fmt_draw_delims(x, y, h, d, w);
+		fmt_draw(x + 1, y, car(p));
+		break;
+
+	case EMIT_FRACTION:
+
+		// horizontal line
+
+		fmt_draw_char(x, y, BDLR);
+
+		for (i = 1; i < w - 1; i++)
+			fmt_draw_char(x + i, y, BDLH);
+
+		fmt_draw_char(x + w - 1, y, BDLL);
+
+		// numerator
+
+		dx = (w - WIDTH(car(p))) / 2;
+		dy = -h + HEIGHT(car(p));
+		fmt_draw(x + dx, y + dy, car(p));
+
+		// denominator
+
+		p = cdr(p);
+		dx = (w - WIDTH(car(p))) / 2;
+		dy = d - DEPTH(car(p));
+		fmt_draw(x + dx, y + dy, car(p));
+
+		break;
+
+	case EMIT_TABLE:
+		fmt_draw_delims(x, y, h, d, w);
+		fmt_draw_table(x + 2, y - h + 1, p);
+		break;
+	}
+}
+
+void
+fmt_draw_char(int x, int y, int c)
+{
+	if (x >= 0 && x < fmt_ncol && y >= 0 && y < fmt_nrow)
+		fmt_buf[y * fmt_ncol + x] = c;
+}
+
+void
+fmt_draw_delims(int x, int y, int h, int d, int w)
+{
+	if (h > 1 || d > 0) {
+		fmt_draw_ldelim(x, y, h, d, w);
+		fmt_draw_rdelim(x + w - 1, y, h, d, w);
+	} else {
+		fmt_draw_char(x, y, '(');
+		fmt_draw_char(x + w - 1, y, ')');
+	}
+}
+
+void
+fmt_draw_ldelim(int x, int y, int h, int d, int w)
+{
+	int i;
+
+	fmt_draw_char(x, y - h + 1, BDLDAR);
+
+	for (i = 1; i < h + d - 1; i++)
+		fmt_draw_char(x, y - h + 1 + i, BDLV);
+
+	fmt_draw_char(x, y + d, BDLUAR);
+}
+
+void
+fmt_draw_rdelim(int x, int y, int h, int d, int w)
+{
+	int i;
+
+	fmt_draw_char(x, y - h + 1, BDLDAL);
+
+	for (i = 1; i < h + d - 1; i++)
+		fmt_draw_char(x, y - h + 1 + i, BDLV);
+
+	fmt_draw_char(x, y + d, BDLUAL);
+}
+
+void
+fmt_draw_table(int x, int y, struct atom *p)
+{
+	int cx, dx, i, j, m, n;
+	int column_width, elem_width, row_depth, row_height;
+	struct atom *d, *h, *w, *table;
+
+	n = VAL1(p);
+	m = VAL2(p);
+
+	p = cddr(p);
+
+	table = car(p);
+	h = cadr(p);
+	d = caddr(p);
+
+	for (i = 0; i < n; i++) { // for each row
+
+		row_height = VAL1(h);
+		row_depth = VAL1(d);
+
+		y += row_height;
+
+		dx = 0;
+
+		w = cadddr(p);
+
+		for (j = 0; j < m; j++) { // for each column
+			column_width = VAL1(w);
+			elem_width = WIDTH(car(table));
+			cx = x + dx + (column_width - elem_width) / 2; // center horizontal
+			fmt_draw(cx, y, car(table));
+			dx += column_width + TABLE_HSPACE;
+			table = cdr(table);
+			w = cdr(w);
+		}
+
+		y += row_depth + TABLE_VSPACE;
+
+		h = cdr(h);
+		d = cdr(d);
+	}
 }
