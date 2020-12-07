@@ -61,10 +61,10 @@ emit_draw(double x, double y, struct atom *p)
 		// horizontal line
 
 		if (k == EMIT_FRACTION) {
-			dy = get_cap_height(ROMAN_FONT) / 2.0;
+			dy = get_operator_height(ROMAN_FONT);
 			stroke_width = MEDIUM_STROKE;
 		} else {
-			dy = get_cap_height(SMALL_ROMAN_FONT) / 2.0;
+			dy = get_operator_height(SMALL_ROMAN_FONT);
 			stroke_width = THIN_STROKE;
 		}
 

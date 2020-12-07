@@ -88,6 +88,7 @@ double get_descent(int font_num);
 CTFontRef get_font_ref(int font_num);
 double get_leading(int font_num);
 double get_xheight(int font_num);
+double get_operator_height(int font_num);
 void init_fonts(void);
 int isdenominator(struct atom *p);
 void prep_display(void);

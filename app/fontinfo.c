@@ -1,5 +1,86 @@
 #include "app.h"
 
+double
+get_ascent(int font_num)
+{
+	double h;
+	CTFontRef f;
+	f = get_font_ref(font_num);
+	h = CTFontGetAscent(f);
+	return h;
+}
+
+double
+get_cap_height(int font_num)
+{
+	double h;
+	CTFontRef f;
+	f = get_font_ref(font_num);
+	h = CTFontGetCapHeight(f);
+	return h;
+}
+
+int roman_descent_tab[256] = {
+
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+
+//	  ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ?
+	0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+
+//	@ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [   ] ^ _
+	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,
+
+//	` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~
+	0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,1,1,1,0,0,
+
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, // upper case greek
+	0,1,1,0,0,1,1,0,0,0,0,1,0,1,0,0,1,0,0,0,1,1,1,0, // lower case greek
+
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+};
+
+int italic_descent_tab[256] = {
+
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+
+//	  ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ?
+	0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+
+//	@ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [   ] ^ _
+	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,
+
+//	` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~
+	0,0,0,0,0,0,1,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,0,1,1,1,0,0,
+
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, // upper case greek
+	0,1,1,0,0,1,1,0,0,0,0,1,0,1,0,0,1,0,0,0,1,1,1,0, // lower case greek
+
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+};
+
+double
+get_char_depth(int font_num, int char_num)
+{
+	int t;
+	double d;
+
+	if (font_num == ITALIC_FONT || font_num == SMALL_ITALIC_FONT)
+		t = italic_descent_tab[char_num];
+	else
+		t = roman_descent_tab[char_num];
+
+	if (t)
+		d = get_descent(font_num);
+	else
+		d = get_leading(font_num);
+
+	return d;
+}
+
 #define NA CFSTR("question")
 
 CFStringRef char_name_tab[256] = {
@@ -180,4 +261,63 @@ CFStringRef
 get_char_name(int char_num)
 {
 	return char_name_tab[char_num & 0xff];
+}
+
+double
+get_char_width(int font_num, int char_num)
+{
+	double w;
+	CTFontRef f;
+	CFStringRef s;
+	CGGlyph g;
+
+	f = get_font_ref(font_num);
+	s = get_char_name(char_num);
+	g = CTFontGetGlyphWithName(f, s);
+
+	w = CTFontGetAdvancesForGlyphs(f, kCTFontOrientationHorizontal, &g, NULL, 1);
+
+	return w;
+}
+
+double
+get_descent(int font_num)
+{
+	double d;
+	CTFontRef f;
+	f = get_font_ref(font_num);
+	d = CTFontGetDescent(f);
+	return d;
+}
+
+CTFontRef
+get_font_ref(int font_num)
+{
+	return font_ref_tab[font_num];
+}
+
+double
+get_leading(int font_num)
+{
+	double h;
+	CTFontRef f;
+	f = get_font_ref(font_num);
+	h = CTFontGetLeading(f);
+	return h;
+}
+
+double
+get_xheight(int font_num)
+{
+	double h;
+	CTFontRef f;
+	f = get_font_ref(font_num);
+	h = CTFontGetXHeight(f);
+	return h;
+}
+
+double
+get_operator_height(int font_num)
+{
+	return get_cap_height(font_num) / 2.0;
 }
