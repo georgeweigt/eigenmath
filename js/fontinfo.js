@@ -23,6 +23,19 @@ get_cap_height(font_num)
 	}
 }
 
+function
+get_descent(font_num)
+{
+	switch (font_num) {
+	case ROMAN_FONT:
+	case ITALIC_FONT:
+		return FONT_DESCENT * FONT_SIZE / 2048;
+	case SMALL_ROMAN_FONT:
+	case SMALL_ITALIC_FONT:
+		return FONT_DESCENT * SMALL_FONT_SIZE / 2048;
+	}
+}
+
 const roman_descent_tab = [
 
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -70,13 +83,11 @@ get_char_depth(font_num, char_num)
 {
 	switch (font_num) {
 	case ROMAN_FONT:
-		return FONT_DESCENT * FONT_SIZE * roman_descent_tab[char_num] / 2048;
-	case ITALIC_FONT:
-		return FONT_DESCENT * FONT_SIZE * italic_descent_tab[char_num] / 2048;
 	case SMALL_ROMAN_FONT:
-		return FONT_DESCENT * SMALL_FONT_SIZE * roman_descent_tab[char_num] / 2048;
+		return get_descent(font_num) * roman_descent_tab[char_num];
+	case ITALIC_FONT:
 	case SMALL_ITALIC_FONT:
-		return FONT_DESCENT * SMALL_FONT_SIZE * italic_descent_tab[char_num] / 2048;
+		return get_descent(font_num) * italic_descent_tab[char_num];
 	}
 }
 

@@ -1033,9 +1033,14 @@ fmt_update_subexpr(void)
 	d = DEPTH(p1);
 	w = WIDTH(p1);
 
+	// delimiters are vertically symmetric
+
 	if (h > 1 || d > 0) {
-		h += 1;
-		d += 1;
+		if (h > d)
+			h += 1;
+		else
+			h = d + 2;
+		d = h - 1;
 	}
 
 	w += 2;
