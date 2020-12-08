@@ -25,7 +25,7 @@ emit_update_subexpr(void)
 	h = fmax(h, get_cap_height(font_num));
 	d = fmax(d, get_descent(font_num));
 
-	// delimiters are vertically symmetric
+	// delimiters have vertical symmetry
 
 	if (h > get_cap_height(font_num) || d > get_descent(font_num)) {
 		m = get_operator_height(font_num);
