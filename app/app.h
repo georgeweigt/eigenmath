@@ -11,10 +11,10 @@
 #define TABLE_HSPACE (FONT_SIZE / 2.0)
 #define TABLE_VSPACE (FONT_SIZE / 2.0)
 
+#define DELIM_STROKE 2.0
+#define SMALL_DELIM_STROKE 1.0
+
 #define VERY_THIN_STROKE 0.5
-#define THIN_STROKE 1.0
-#define MEDIUM_STROKE 1.5
-#define THICK_STROKE 2.0
 
 #define TEXT_FONT 0
 #define ROMAN_FONT 1
