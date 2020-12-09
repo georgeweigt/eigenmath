@@ -4,7 +4,7 @@ void
 emit_update_subexpr(void)
 {
 	int font_num, opcode;
-	double d, h, m, w, y;
+	double d, h, m, w;
 
 	save();
 
@@ -25,15 +25,14 @@ emit_update_subexpr(void)
 	h = fmax(h, get_cap_height(font_num));
 	d = fmax(d, get_descent(font_num));
 
-	// delimiters have vertical symmetry
+	// delimiters have vertical symmetry (h - m == d + m)
 
 	if (h > get_cap_height(font_num) || d > get_descent(font_num)) {
 		m = get_operator_height(font_num);
-		y = fmax(h - m, d + m);
-		h = y + m;
-		d = y - m;
-		h += 0.25 * get_cap_height(font_num);
-		d += 0.25 * get_cap_height(font_num);
+		h = fmax(h, d + 2.0 * m);
+		d = h - 2.0 * m;
+		h += 0.5 * m;
+		d += 0.5 * m;
 	}
 
 	w += 2.0 * get_char_width(font_num, '(');

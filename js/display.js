@@ -981,7 +981,7 @@ emit_update_list(t)
 function
 emit_update_subexpr()
 {
-	var d, font_num, h, m, opcode, p1, w, y;
+	var d, font_num, h, m, opcode, p1, w;
 
 	p1 = pop();
 
@@ -1000,15 +1000,14 @@ emit_update_subexpr()
 	h = Math.max(h, get_cap_height(font_num));
 	d = Math.max(d, get_descent(font_num));
 
-	// delimiters have vertical symmetry
+	// delimiters have vertical symmetry (h - m == d + m)
 
 	if (h > get_cap_height(font_num) || d > get_descent(font_num)) {
 		m = get_operator_height(font_num);
-		y = Math.max(h - m, d + m);
-		h = y + m;
-		d = y - m;
-		h += 0.25 * get_cap_height(font_num);
-		d += 0.25 * get_cap_height(font_num);
+		h = Math.max(h, d + 2 * m);
+		d = h - 2 * m;
+		h += 0.5 * m;
+		d += 0.5 * m;
 	}
 
 	w += 2 * get_char_width(font_num, LEFT_PAREN);
