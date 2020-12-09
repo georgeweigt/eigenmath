@@ -79,20 +79,10 @@ int italic_descent_tab[256] = {
 double
 get_char_depth(int font_num, int char_num)
 {
-	int t;
-	double d;
-
 	if (font_num == ITALIC_FONT || font_num == SMALL_ITALIC_FONT)
-		t = italic_descent_tab[char_num];
+		return get_descent(font_num) * italic_descent_tab[char_num];
 	else
-		t = roman_descent_tab[char_num];
-
-	if (t)
-		d = get_descent(font_num);
-	else
-		d = get_leading(font_num);
-
-	return d;
+		return get_descent(font_num) * roman_descent_tab[char_num];
 }
 
 #define NA CFSTR("question")
