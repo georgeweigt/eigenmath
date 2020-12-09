@@ -26,9 +26,8 @@ const EMIT_FRACTION = 8;
 const EMIT_SMALL_FRACTION = 9;
 const EMIT_TABLE = 10;
 
-const THIN_STROKE = 1;
-const MEDIUM_STROKE = 2;
-const THICK_STROKE = 2.5;
+const DELIM_STROKE = 2.5;
+const SMALL_DELIM_STROKE = 1;
 
 const TABLE_HSPACE = 10;
 const TABLE_VSPACE = 10;
@@ -57,6 +56,9 @@ display()
 
 	h += d + 2 * VPAD;
 	w += 2 * HPAD;
+
+	h = Math.round(h);
+	w = Math.round(w);
 
 	h = "height='" + h + "'";
 	w = "width='" + w + "'";
@@ -1247,13 +1249,13 @@ draw_formula(x, y, p)
 		break;
 
 	case EMIT_SUBEXPR:
-		draw_delims(x, y, h, d, w, MEDIUM_STROKE, ROMAN_FONT);
+		draw_delims(x, y, h, d, w, DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, LEFT_PAREN);
 		draw_formula(x + dx, y, car(p));
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-		draw_delims(x, y, h, d, w, THIN_STROKE, SMALL_ROMAN_FONT);
+		draw_delims(x, y, h, d, w, SMALL_DELIM_STROKE, SMALL_ROMAN_FONT);
 		dx = get_char_width(SMALL_ROMAN_FONT, LEFT_PAREN);
 		draw_formula(x + dx, y, car(p));
 		break;
@@ -1265,10 +1267,10 @@ draw_formula(x, y, p)
 
 		if (k == EMIT_FRACTION) {
 			dy = get_operator_height(ROMAN_FONT);
-			stroke_width = MEDIUM_STROKE;
+			stroke_width = 2;
 		} else {
 			dy = get_operator_height(SMALL_ROMAN_FONT);
-			stroke_width = THIN_STROKE;
+			stroke_width = 1;
 		}
 
 		draw_stroke(x, y - dy, x + w, y - dy, stroke_width);
@@ -1289,7 +1291,7 @@ draw_formula(x, y, p)
 		break;
 
 	case EMIT_TABLE:
-		draw_delims(x, y, h, d, w, THICK_STROKE, ROMAN_FONT);
+		draw_delims(x, y, h, d, w, DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, LEFT_PAREN);
 		draw_table(x + dx, y - h, p);
 		break;
@@ -1361,6 +1363,9 @@ function
 draw_char(x, y, font_num, char_num)
 {
 	var s, t;
+
+	x = Math.round(x);
+	y = Math.round(y);
 
 	if (char_num < 32 || char_num > 181)
 		s = "?";
@@ -1456,6 +1461,12 @@ function
 draw_stroke(x1, y1, x2, y2, stroke_width)
 {
 	var s;
+
+	x1 = Math.round(x1);
+	x2 = Math.round(x2);
+
+	y1 = Math.round(y1);
+	y2 = Math.round(y2);
 
 	x1 = "x1='" + x1 + "'";
 	x2 = "x2='" + x2 + "'";
