@@ -12,7 +12,7 @@
 #define TABLE_VSPACE (FONT_SIZE / 2.0)
 
 #define DELIM_STROKE 2.0
-#define SMALL_DELIM_STROKE 1.0
+#define SMALL_DELIM_STROKE 1.5
 
 #define VERY_THIN_STROKE 0.5
 

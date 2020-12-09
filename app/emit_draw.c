@@ -65,7 +65,7 @@ emit_draw(double x, double y, struct atom *p)
 			stroke_width = 2.0;
 		} else {
 			dy = get_operator_height(SMALL_ROMAN_FONT);
-			stroke_width = 1.0;
+			stroke_width = 1.5;
 		}
 
 		emit_push(DRAW_STROKE);
