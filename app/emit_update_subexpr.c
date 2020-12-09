@@ -29,10 +29,8 @@ emit_update_subexpr(void)
 
 	if (h > get_cap_height(font_num) || d > get_descent(font_num)) {
 		m = get_operator_height(font_num);
-		h = fmax(h, d + 2.0 * m);
-		d = h - 2.0 * m;
-		h += 0.5 * m;
-		d += 0.5 * m;
+		h = fmax(h, d + 2.0 * m) + 0.5 * m; // plus a little extra
+		d = h - 2.0 * m; // by symmetry
 	}
 
 	w += 2.0 * get_char_width(font_num, '(');

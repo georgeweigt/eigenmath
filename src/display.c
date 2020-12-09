@@ -1033,7 +1033,7 @@ fmt_update_subexpr(void)
 	d = DEPTH(p1);
 	w = WIDTH(p1);
 
-	// delimiters have vertical symmetry
+	// delimiters have vertical symmetry (h == d + 1)
 
 	if (h > 1 || d > 0) {
 		h = MAX(h + 1, d + 2);

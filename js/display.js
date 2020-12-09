@@ -1004,10 +1004,8 @@ emit_update_subexpr()
 
 	if (h > get_cap_height(font_num) || d > get_descent(font_num)) {
 		m = get_operator_height(font_num);
-		h = Math.max(h, d + 2 * m);
-		d = h - 2 * m;
-		h += 0.5 * m;
-		d += 0.5 * m;
+		h = Math.max(h, d + 2 * m) + 0.5 * m; // plus a little extra
+		d = h - 2 * m; // by symmetry
 	}
 
 	w += 2 * get_char_width(font_num, LEFT_PAREN);
