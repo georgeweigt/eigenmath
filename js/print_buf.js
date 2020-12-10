@@ -9,6 +9,10 @@ print_buf(s, color)
 	s = s.replace(/</g, "&lt;");
 	s = s.replace(/>/g, "&gt;");
 	s = s.replace(/\n/g, "<br>");
+	s = s.replace(/\r/g, "");
+
+	if (s.substring(s.length - 4) != "<br>")
+		s += "<br>";
 
 	switch (color) {
 
