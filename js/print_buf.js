@@ -11,7 +11,7 @@ print_buf(s, color)
 	s = s.replace(/\n/g, "<br>");
 	s = s.replace(/\r/g, "");
 
-	if (s.substring(s.length - 4) != "<br>")
+	if (!s.endsWith("<br>"))
 		s += "<br>";
 
 	switch (color) {
