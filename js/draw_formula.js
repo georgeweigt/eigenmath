@@ -1,3 +1,7 @@
+const THICK_DELIM = 2.5;
+const MEDIUM_DELIM = 2.2;
+const THIN_DELIM = 1.5;
+
 function
 draw_formula(x, y, p)
 {
@@ -39,13 +43,13 @@ draw_formula(x, y, p)
 		break;
 
 	case EMIT_SUBEXPR:
-		draw_delims(x, y, h, d, w, 2.2, ROMAN_FONT);
+		draw_delims(x, y, h, d, w, MEDIUM_DELIM, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, LEFT_PAREN);
 		draw_formula(x + dx, y, car(p));
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-		draw_delims(x, y, h, d, w, 1.5, SMALL_ROMAN_FONT);
+		draw_delims(x, y, h, d, w, THIN_DELIM, SMALL_ROMAN_FONT);
 		dx = get_char_width(SMALL_ROMAN_FONT, LEFT_PAREN);
 		draw_formula(x + dx, y, car(p));
 		break;
@@ -81,7 +85,7 @@ draw_formula(x, y, p)
 		break;
 
 	case EMIT_TABLE:
-		draw_delims(x, y, h, d, w, 2.5, ROMAN_FONT);
+		draw_delims(x, y, h, d, w, THICK_DELIM, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, LEFT_PAREN);
 		draw_table(x + dx, y - h, p);
 		break;
