@@ -29,7 +29,7 @@ const EMIT_TABLE = 10;
 const DELIM_STROKE = 2.5;
 const SMALL_DELIM_STROKE = 1;
 
-const TABLE_HSPACE = 10;
+const TABLE_HSPACE = 12;
 const TABLE_VSPACE = 10;
 
 var emit_level;
