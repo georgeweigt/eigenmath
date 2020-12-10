@@ -26,9 +26,6 @@ const EMIT_FRACTION = 8;
 const EMIT_SMALL_FRACTION = 9;
 const EMIT_TABLE = 10;
 
-const DELIM_STROKE = 2.5;
-const SMALL_DELIM_STROKE = 1;
-
 const TABLE_HSPACE = 12;
 const TABLE_VSPACE = 10;
 
