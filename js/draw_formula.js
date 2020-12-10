@@ -2,6 +2,9 @@ const THICK_DELIM = 2.5;
 const MEDIUM_DELIM = 2.2;
 const THIN_DELIM = 1.5;
 
+const FRACTION_STROKE = 2.0;
+const SMALL_FRACTION_STROKE = 1.5;
+
 function
 draw_formula(x, y, p)
 {
@@ -61,10 +64,10 @@ draw_formula(x, y, p)
 
 		if (k == EMIT_FRACTION) {
 			dy = get_operator_height(ROMAN_FONT);
-			stroke_width = 2;
+			stroke_width = FRACTION_STROKE;
 		} else {
 			dy = get_operator_height(SMALL_ROMAN_FONT);
-			stroke_width = 1.5;
+			stroke_width = SMALL_FRACTION_STROKE;
 		}
 
 		draw_stroke(x, y - dy, x + w, y - dy, stroke_width);
