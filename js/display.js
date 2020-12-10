@@ -1270,7 +1270,7 @@ draw_formula(x, y, p)
 			stroke_width = 2;
 		} else {
 			dy = get_operator_height(SMALL_ROMAN_FONT);
-			stroke_width = 1;
+			stroke_width = 1.5;
 		}
 
 		draw_stroke(x, y - dy, x + w, y - dy, stroke_width);
