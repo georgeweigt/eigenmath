@@ -161,9 +161,6 @@ draw_char(x, y, font_num, char_num)
 {
 	var s, t;
 
-	x = Math.round(x);
-	y = Math.round(y);
-
 	if (char_num < 32 || char_num > 181)
 		s = "?";
 	else if (char_num == 34)
