@@ -2,8 +2,6 @@
 
 int tab[49] = {
 
-0xc4a7, // hbar
-
 0xce91, // Alpha
 0xce92, // Beta
 0xce93, // Gamma
@@ -53,6 +51,9 @@ int tab[49] = {
 0xcf87, // chi
 0xcf88, // psi
 0xcf89, // omega
+
+0xc4a7, // hbar
+
 };
 
 int

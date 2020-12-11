@@ -10,13 +10,13 @@ int filter(const struct dirent *p);
 void scan(char *s);
 
 int
-main()
+main(int argc, char *argv[])
 {
 	int i, n;
 	struct dirent **p;
-	n = scandir("../src", &p, filter, alphasort);
+	n = scandir(argv[1], &p, filter, alphasort);
 	for (i = 0; i < n; i++) {
-		strcpy(filename, "../src/");
+		strcpy(filename, argv[1]);
 		strcat(filename, p[i]->d_name);
 		scan(filename);
 	}
