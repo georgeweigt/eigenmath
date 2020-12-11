@@ -10,8 +10,11 @@ draw_char(double x, double y, int font_num, int char_num)
 
 	y = document_height - y; // flip y coordinate
 
-	p.x = round(x);
-	p.y = round(y);
+//	x = round(x);
+//	y = round(y);
+
+	p.x = x;
+	p.y = y;
 
 	f = get_font_ref(font_num);
 	s = get_char_name(char_num);

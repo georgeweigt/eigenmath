@@ -1,10 +1,11 @@
 #include "app.h"
 
-#define DELIM_STROKE 2.0
-#define THIN_DELIM_STROKE 1.5
+#define DELIM_STROKE 1.5
+#define THICK_DELIM_STROKE 2.0
+#define THIN_DELIM_STROKE 1.0
 
-#define FRACTION_STROKE 2.0
-#define THIN_FRACTION_STROKE 1.5
+#define FRACTION_STROKE 1.5
+#define THIN_FRACTION_STROKE 1.0
 
 void
 emit_draw(double x, double y, struct atom *p)
@@ -97,7 +98,7 @@ emit_draw(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_TABLE:
-		emit_draw_delims(x, y, h, d, w, DELIM_STROKE, ROMAN_FONT);
+		emit_draw_delims(x, y, h, d, w, THICK_DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, '(');
 		emit_draw_table(x + dx, y - h, p);
 		break;
