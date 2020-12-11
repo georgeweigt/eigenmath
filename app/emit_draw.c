@@ -1,5 +1,11 @@
 #include "app.h"
 
+#define DELIM_STROKE 2.0
+#define THIN_DELIM_STROKE 1.5
+
+#define FRACTION_STROKE 2.0
+#define THIN_FRACTION_STROKE 1.5
+
 void
 emit_draw(double x, double y, struct atom *p)
 {
@@ -50,7 +56,7 @@ emit_draw(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-		emit_draw_delims(x, y, h, d, w, SMALL_DELIM_STROKE, SMALL_ROMAN_FONT);
+		emit_draw_delims(x, y, h, d, w, THIN_DELIM_STROKE, SMALL_ROMAN_FONT);
 		dx = get_char_width(SMALL_ROMAN_FONT, '(');
 		emit_draw(x + dx, y, car(p));
 		break;
@@ -62,10 +68,10 @@ emit_draw(double x, double y, struct atom *p)
 
 		if (k == EMIT_FRACTION) {
 			dy = get_operator_height(ROMAN_FONT);
-			stroke_width = 2.0;
+			stroke_width = FRACTION_STROKE;
 		} else {
 			dy = get_operator_height(SMALL_ROMAN_FONT);
-			stroke_width = 1.5;
+			stroke_width = THIN_FRACTION_STROKE;
 		}
 
 		emit_push(DRAW_STROKE);

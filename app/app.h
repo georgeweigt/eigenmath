@@ -8,11 +8,8 @@
 #define HPAD 10
 #define VPAD 10
 
-#define TABLE_HSPACE (FONT_SIZE / 2.0)
-#define TABLE_VSPACE (FONT_SIZE / 2.0)
-
-#define DELIM_STROKE 2.0
-#define SMALL_DELIM_STROKE 1.5
+#define TABLE_HSPACE 12
+#define TABLE_VSPACE 10
 
 #define VERY_THIN_STROKE 0.5
 
