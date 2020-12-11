@@ -49,7 +49,7 @@ display()
 	w = width(p1);
 
 	x = HPAD;
-	y = h + VPAD;
+	y = Math.round(h + VPAD);
 
 	h += d + 2 * VPAD;
 	w += 2 * HPAD;
