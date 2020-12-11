@@ -1,9 +1,9 @@
-const THICK_DELIM = 2.5;
-const MEDIUM_DELIM = 2.2;
-const THIN_DELIM = 1.5;
+const THICK_DELIM_STROKE = 2.5;
+const DELIM_STROKE = 2.2;
+const THIN_DELIM_STROKE = 1.5;
 
 const FRACTION_STROKE = 2.0;
-const SMALL_FRACTION_STROKE = 1.5;
+const THIN_FRACTION_STROKE = 1.5;
 
 function
 draw_formula(x, y, p)
@@ -46,13 +46,13 @@ draw_formula(x, y, p)
 		break;
 
 	case EMIT_SUBEXPR:
-		draw_delims(x, y, h, d, w, MEDIUM_DELIM, ROMAN_FONT);
+		draw_delims(x, y, h, d, w, DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, LEFT_PAREN);
 		draw_formula(x + dx, y, car(p));
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-		draw_delims(x, y, h, d, w, THIN_DELIM, SMALL_ROMAN_FONT);
+		draw_delims(x, y, h, d, w, THIN_DELIM_STROKE, SMALL_ROMAN_FONT);
 		dx = get_char_width(SMALL_ROMAN_FONT, LEFT_PAREN);
 		draw_formula(x + dx, y, car(p));
 		break;
@@ -67,7 +67,7 @@ draw_formula(x, y, p)
 			stroke_width = FRACTION_STROKE;
 		} else {
 			dy = get_operator_height(SMALL_ROMAN_FONT);
-			stroke_width = SMALL_FRACTION_STROKE;
+			stroke_width = THIN_FRACTION_STROKE;
 		}
 
 		draw_stroke(x, y - dy, x + w, y - dy, stroke_width);
@@ -88,7 +88,7 @@ draw_formula(x, y, p)
 		break;
 
 	case EMIT_TABLE:
-		draw_delims(x, y, h, d, w, THICK_DELIM, ROMAN_FONT);
+		draw_delims(x, y, h, d, w, THICK_DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, LEFT_PAREN);
 		draw_table(x + dx, y - h, p);
 		break;
