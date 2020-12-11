@@ -10,8 +10,8 @@ draw_char(double x, double y, int font_num, int char_num)
 
 	y = document_height - y; // flip y coordinate
 
-//	x = round(x);
-//	y = round(y);
+	x = round(x);
+	y = round(y);
 
 	p.x = x;
 	p.y = y;

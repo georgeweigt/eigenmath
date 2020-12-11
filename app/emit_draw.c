@@ -1,7 +1,7 @@
 #include "app.h"
 
 #define DELIM_STROKE 1.5
-#define THICK_DELIM_STROKE 2.0
+#define THICK_DELIM_STROKE 2.5
 #define THIN_DELIM_STROKE 1.0
 
 #define FRACTION_STROKE 1.5
@@ -138,11 +138,11 @@ emit_draw_ldelim(double x, double y, double h, double d, double w, double stroke
 {
 	double x1, x2, y1, y2;
 
-	x1 = x + 0.25 * w;
-	x2 = x + 0.75 * w;
+	x1 = round(x + 0.5 * w);
+	x2 = x1 + round(0.5 * w);
 
-	y1 = y - h + stroke_width / 2.0;
-	y2 = y + d - stroke_width / 2.0;
+	y1 = round(y - h);
+	y2 = round(y + d);
 
 	// stem stroke
 
@@ -177,11 +177,11 @@ emit_draw_rdelim(double x, double y, double h, double d, double w, double stroke
 {
 	double x1, x2, y1, y2;
 
-	x1 = x + 0.75 * w;
-	x2 = x + 0.25 * w;
+	x1 = round(x + 0.5 * w);
+	x2 = x1 - round(0.5 * w);
 
-	y1 = y - h + stroke_width / 2.0;
-	y2 = y + d - stroke_width / 2.0;
+	y1 = round(y - h);
+	y2 = round(y + d);
 
 	// stem stroke
 
