@@ -4,7 +4,7 @@ const FRAC_STROKE = 0.07;
 function
 draw_formula(x, y, p)
 {
-	var char_num, d, dx, dy, font_num, h, k, stroke_width, t, w;
+	var char_num, d, dx, dy, font_num, h, k, w;
 
 	k = opcode(p);
 	h = height(p);
@@ -54,35 +54,11 @@ draw_formula(x, y, p)
 		break;
 
 	case EMIT_FRACTION:
+		draw_fraction(x, y, h, d, w, FONT_SIZE * FRAC_STROKE, ROMAN_FONT, p);
+		break;
+
 	case EMIT_SMALL_FRACTION:
-
-		// horizontal line
-
-		if (k == EMIT_FRACTION) {
-			dy = get_operator_height(ROMAN_FONT);
-			stroke_width = FONT_SIZE * FRAC_STROKE;
-		} else {
-			dy = get_operator_height(SMALL_ROMAN_FONT);
-			stroke_width = SMALL_FONT_SIZE * FRAC_STROKE;
-		}
-
-		t = Math.round(y - dy);
-
-		draw_stroke(x, t, x + w, t, stroke_width);
-
-		// numerator
-
-		dx = (w - width(car(p))) / 2;
-		dy = -h + height(car(p));
-		draw_formula(x + dx, y + dy, car(p));
-
-		// denominator
-
-		p = cdr(p);
-		dx = (w - width(car(p))) / 2;
-		dy = d - depth(car(p));
-		draw_formula(x + dx, y + dy, car(p));
-
+		draw_fraction(x, y, h, d, w, SMALL_FONT_SIZE * FRAC_STROKE, SMALL_ROMAN_FONT, p);
 		break;
 
 	case EMIT_TABLE:
@@ -263,6 +239,31 @@ draw_stroke(x1, y1, x2, y2, stroke_width)
 	s = "<line " + x1 + y1 + x2 + y2 + "style='stroke:black;stroke-width:" + stroke_width + "'/>\n"
 
 	outbuf += s;
+}
+
+function
+draw_fraction(x, y, h, d, w, stroke_width, font_num, p)
+{
+	var dx, dy;
+
+	// horizontal line
+
+	dy = get_operator_height(font_num);
+
+	draw_stroke(x, y - dy, x + w, y - dy, stroke_width);
+
+	// numerator
+
+	dx = (w - width(car(p))) / 2;
+	dy = h - height(car(p));
+	draw_formula(x + dx, y - dy, car(p));
+
+	// denominator
+
+	p = cdr(p);
+	dx = (w - width(car(p))) / 2;
+	dy = d - depth(car(p));
+	draw_formula(x + dx, y + dy, car(p));
 }
 
 function
