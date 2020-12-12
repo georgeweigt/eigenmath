@@ -22,5 +22,5 @@ emit_yaxis(void)
 	emit_push(y1);
 	emit_push(x);
 	emit_push(y2);
-	emit_push(VERY_THIN_STROKE);
+	emit_push(DRAW_AXIS_STROKE);
 }

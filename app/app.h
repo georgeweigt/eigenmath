@@ -2,16 +2,17 @@
 #include <stdatomic.h>
 #include <ApplicationServices/ApplicationServices.h>
 
-#define FONT_SIZE 20.0
-#define SMALL_FONT_SIZE 16.0
-
 #define HPAD 10
 #define VPAD 10
 
+#define FONT_SIZE 20.0
+#define SMALL_FONT_SIZE 16.0
+
+#define DELIM_STROKE 0.09
+#define FRAC_STROKE 0.07
+
 #define TABLE_HSPACE 12
 #define TABLE_VSPACE 10
-
-#define VERY_THIN_STROKE 0.5
 
 #define TEXT_FONT 0
 #define ROMAN_FONT 1
@@ -59,6 +60,8 @@
 
 #define DRAW_YLABEL_MARGIN 12
 #define DRAW_XLABEL_MARGIN 24
+
+#define DRAW_AXIS_STROKE 0.5
 
 #define DRAW_MAX (10 * DRAW_WIDTH)
 

@@ -1,13 +1,10 @@
 #include "app.h"
 
-#define DELIM_STROKE 0.095
-#define FRAC_STROKE 0.07
-
 void
 emit_formula(double x, double y, struct atom *p)
 {
 	int k;
-	double d, dx, dy, h, stroke_width, t, w;
+	double d, dx, dy, h, w;
 
 	k = (int) OPCODE(p);
 	h = HEIGHT(p);
@@ -59,40 +56,11 @@ emit_formula(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_FRACTION:
+		emit_formula_fraction(x, y, h, d, w, FONT_SIZE * FRAC_STROKE, ROMAN_FONT, p);
+		break;
+
 	case EMIT_SMALL_FRACTION:
-
-		// horizontal line
-
-		if (k == EMIT_FRACTION) {
-			dy = get_operator_height(ROMAN_FONT);
-			stroke_width = FONT_SIZE * FRAC_STROKE;
-		} else {
-			dy = get_operator_height(SMALL_ROMAN_FONT);
-			stroke_width = SMALL_FONT_SIZE * FRAC_STROKE;
-		}
-
-		t = round(y - dy);
-
-		emit_push(DRAW_STROKE);
-		emit_push(x);
-		emit_push(t);
-		emit_push(x + w);
-		emit_push(t);
-		emit_push(stroke_width);
-
-		// numerator
-
-		dx = (w - WIDTH(car(p))) / 2.0;
-		dy = -h + HEIGHT(car(p));
-		emit_formula(x + dx, y + dy, car(p));
-
-		// denominator
-
-		p = cdr(p);
-		dx = (w - WIDTH(car(p))) / 2.0;
-		dy = d - DEPTH(car(p));
-		emit_formula(x + dx, y + dy, car(p));
-
+		emit_formula_fraction(x, y, h, d, w, SMALL_FONT_SIZE * FRAC_STROKE, SMALL_ROMAN_FONT, p);
 		break;
 
 	case EMIT_TABLE:
@@ -136,11 +104,11 @@ emit_formula_ldelim(double x, double y, double h, double d, double w, double str
 {
 	double x1, x2, y1, y2;
 
-	x1 = round(x + 0.5 * w);
-	x2 = x1 + round(0.5 * w);
+	x1 = x + 0.5 * w;
+	x2 = x + w;
 
-	y1 = round(y - h);
-	y2 = round(y + d);
+	y1 = y - h;
+	y2 = y + d;
 
 	// stem stroke
 
@@ -175,11 +143,11 @@ emit_formula_rdelim(double x, double y, double h, double d, double w, double str
 {
 	double x1, x2, y1, y2;
 
-	x1 = round(x + 0.5 * w);
-	x2 = x1 - round(0.5 * w);
+	x1 = x + 0.5 * w;
+	x2 = x;
 
-	y1 = round(y - h);
-	y2 = round(y + d);
+	y1 = y - h;
+	y2 = y + d;
 
 	// stem stroke
 
@@ -207,6 +175,38 @@ emit_formula_rdelim(double x, double y, double h, double d, double w, double str
 	emit_push(x2);
 	emit_push(y2);
 	emit_push(stroke_width);
+}
+
+void
+emit_formula_fraction(double x, double y, double h, double d, double w, double stroke_width, int font_num, struct atom *p)
+{
+	double dx, dy, t;
+
+	// horizontal line
+
+	dy = get_operator_height(font_num);
+
+	t = y - dy;
+
+	emit_push(DRAW_STROKE);
+	emit_push(x);
+	emit_push(t);
+	emit_push(x + w);
+	emit_push(t);
+	emit_push(stroke_width);
+
+	// numerator
+
+	dx = (w - WIDTH(car(p))) / 2.0;
+	dy = h - HEIGHT(car(p));
+	emit_formula(x + dx, y - dy, car(p));
+
+	// denominator
+
+	p = cdr(p);
+	dx = (w - WIDTH(car(p))) / 2.0;
+	dy = d - DEPTH(car(p));
+	emit_formula(x + dx, y + dy, car(p));
 }
 
 void

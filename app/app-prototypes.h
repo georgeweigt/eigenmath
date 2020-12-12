@@ -24,6 +24,7 @@ void emit_formula(double x, double y, struct atom *p);
 void emit_formula_delims(double x, double y, double h, double d, double w, double stroke_width, int font_num);
 void emit_formula_ldelim(double x, double y, double h, double d, double w, double stroke_width);
 void emit_formula_rdelim(double x, double y, double h, double d, double w, double stroke_width);
+void emit_formula_fraction(double x, double y, double h, double d, double w, double stroke_width, int font_num, struct atom *p);
 void emit_formula_table(double x, double y, struct atom *p);
 void emit_frac(struct atom *p);
 void emit_function(struct atom *p);

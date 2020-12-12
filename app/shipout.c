@@ -5,7 +5,7 @@
 void
 shipout(struct display *p)
 {
-	p->dy = round(p->dy); // fractions look better
+	p->dy = round(p->dy);
 
 	p->height = round(p->height);
 
