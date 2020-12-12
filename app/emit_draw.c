@@ -1,17 +1,13 @@
 #include "app.h"
 
-#define DELIM_STROKE (FONT_SIZE / 10.0)
-#define THIN_DELIM_STROKE (SMALL_FONT_SIZE / 10.0)
-#define THICK_DELIM_STROKE (FONT_SIZE / 8.0)
-
-#define FRACTION_STROKE (FONT_SIZE / 12.0)
-#define THIN_FRACTION_STROKE (SMALL_FONT_SIZE / 12.0)
+#define DELIM_STROKE 0.095
+#define FRAC_STROKE 0.07
 
 void
 emit_draw(double x, double y, struct atom *p)
 {
 	int k;
-	double d, dx, dy, h, stroke_width, w;
+	double d, dx, dy, h, stroke_width, t, w;
 
 	k = (int) OPCODE(p);
 	h = HEIGHT(p);
@@ -51,13 +47,13 @@ emit_draw(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_SUBEXPR:
-		emit_draw_delims(x, y, h, d, w, DELIM_STROKE, ROMAN_FONT);
+		emit_draw_delims(x, y, h, d, w, FONT_SIZE * DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, '(');
 		emit_draw(x + dx, y, car(p));
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-		emit_draw_delims(x, y, h, d, w, THIN_DELIM_STROKE, SMALL_ROMAN_FONT);
+		emit_draw_delims(x, y, h, d, w, SMALL_FONT_SIZE * DELIM_STROKE, SMALL_ROMAN_FONT);
 		dx = get_char_width(SMALL_ROMAN_FONT, '(');
 		emit_draw(x + dx, y, car(p));
 		break;
@@ -69,17 +65,19 @@ emit_draw(double x, double y, struct atom *p)
 
 		if (k == EMIT_FRACTION) {
 			dy = get_operator_height(ROMAN_FONT);
-			stroke_width = FRACTION_STROKE;
+			stroke_width = FONT_SIZE * FRAC_STROKE;
 		} else {
 			dy = get_operator_height(SMALL_ROMAN_FONT);
-			stroke_width = THIN_FRACTION_STROKE;
+			stroke_width = SMALL_FONT_SIZE * FRAC_STROKE;
 		}
+
+		t = round(y - dy);
 
 		emit_push(DRAW_STROKE);
 		emit_push(x);
-		emit_push(y - dy);
+		emit_push(t);
 		emit_push(x + w);
-		emit_push(y - dy);
+		emit_push(t);
 		emit_push(stroke_width);
 
 		// numerator
@@ -98,7 +96,7 @@ emit_draw(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_TABLE:
-		emit_draw_delims(x, y, h, d, w, THICK_DELIM_STROKE, ROMAN_FONT);
+		emit_draw_delims(x, y, h, d, w, 1.2 * FONT_SIZE * DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, '(');
 		emit_draw_table(x + dx, y - h, p);
 		break;

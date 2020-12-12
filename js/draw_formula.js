@@ -1,14 +1,10 @@
-const THICK_DELIM_STROKE = 2.5;
-const DELIM_STROKE = 2.2;
-const THIN_DELIM_STROKE = 1.5;
-
-const FRACTION_STROKE = 2.0;
-const THIN_FRACTION_STROKE = 1.5;
+const DELIM_STROKE = 0.095;
+const FRAC_STROKE = 0.07;
 
 function
 draw_formula(x, y, p)
 {
-	var char_num, d, dx, dy, font_num, h, k, stroke_width, w;
+	var char_num, d, dx, dy, font_num, h, k, stroke_width, t, w;
 
 	k = opcode(p);
 	h = height(p);
@@ -46,13 +42,13 @@ draw_formula(x, y, p)
 		break;
 
 	case EMIT_SUBEXPR:
-		draw_delims(x, y, h, d, w, DELIM_STROKE, ROMAN_FONT);
+		draw_delims(x, y, h, d, w, FONT_SIZE * DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, LEFT_PAREN);
 		draw_formula(x + dx, y, car(p));
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-		draw_delims(x, y, h, d, w, THIN_DELIM_STROKE, SMALL_ROMAN_FONT);
+		draw_delims(x, y, h, d, w, SMALL_FONT_SIZE * DELIM_STROKE, SMALL_ROMAN_FONT);
 		dx = get_char_width(SMALL_ROMAN_FONT, LEFT_PAREN);
 		draw_formula(x + dx, y, car(p));
 		break;
@@ -64,13 +60,15 @@ draw_formula(x, y, p)
 
 		if (k == EMIT_FRACTION) {
 			dy = get_operator_height(ROMAN_FONT);
-			stroke_width = FRACTION_STROKE;
+			stroke_width = FONT_SIZE * FRAC_STROKE;
 		} else {
 			dy = get_operator_height(SMALL_ROMAN_FONT);
-			stroke_width = THIN_FRACTION_STROKE;
+			stroke_width = SMALL_FONT_SIZE * FRAC_STROKE;
 		}
 
-		draw_stroke(x, y - dy, x + w, y - dy, stroke_width);
+		t = Math.round(y - dy);
+
+		draw_stroke(x, t, x + w, t, stroke_width);
 
 		// numerator
 
@@ -88,7 +86,7 @@ draw_formula(x, y, p)
 		break;
 
 	case EMIT_TABLE:
-		draw_delims(x, y, h, d, w, THICK_DELIM_STROKE, ROMAN_FONT);
+		draw_delims(x, y, h, d, w, 1.2 * FONT_SIZE * DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, LEFT_PAREN);
 		draw_table(x + dx, y - h, p);
 		break;
