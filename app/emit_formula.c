@@ -4,7 +4,7 @@
 #define FRAC_STROKE 0.07
 
 void
-emit_draw(double x, double y, struct atom *p)
+emit_formula(double x, double y, struct atom *p)
 {
 	int k;
 	double d, dx, dy, h, stroke_width, t, w;
@@ -32,7 +32,7 @@ emit_draw(double x, double y, struct atom *p)
 	case EMIT_LIST:
 		p = car(p);
 		while (iscons(p)) {
-			emit_draw(x, y, car(p));
+			emit_formula(x, y, car(p));
 			x += WIDTH(car(p));
 			p = cdr(p);
 		}
@@ -43,19 +43,19 @@ emit_draw(double x, double y, struct atom *p)
 		dx = VAL1(p);
 		dy = VAL2(p);
 		p = caddr(p);
-		emit_draw(x + dx, y + dy, p);
+		emit_formula(x + dx, y + dy, p);
 		break;
 
 	case EMIT_SUBEXPR:
-		emit_draw_delims(x, y, h, d, w, FONT_SIZE * DELIM_STROKE, ROMAN_FONT);
+		emit_formula_delims(x, y, h, d, w, FONT_SIZE * DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, '(');
-		emit_draw(x + dx, y, car(p));
+		emit_formula(x + dx, y, car(p));
 		break;
 
 	case EMIT_SMALL_SUBEXPR:
-		emit_draw_delims(x, y, h, d, w, SMALL_FONT_SIZE * DELIM_STROKE, SMALL_ROMAN_FONT);
+		emit_formula_delims(x, y, h, d, w, SMALL_FONT_SIZE * DELIM_STROKE, SMALL_ROMAN_FONT);
 		dx = get_char_width(SMALL_ROMAN_FONT, '(');
-		emit_draw(x + dx, y, car(p));
+		emit_formula(x + dx, y, car(p));
 		break;
 
 	case EMIT_FRACTION:
@@ -84,27 +84,27 @@ emit_draw(double x, double y, struct atom *p)
 
 		dx = (w - WIDTH(car(p))) / 2.0;
 		dy = -h + HEIGHT(car(p));
-		emit_draw(x + dx, y + dy, car(p));
+		emit_formula(x + dx, y + dy, car(p));
 
 		// denominator
 
 		p = cdr(p);
 		dx = (w - WIDTH(car(p))) / 2.0;
 		dy = d - DEPTH(car(p));
-		emit_draw(x + dx, y + dy, car(p));
+		emit_formula(x + dx, y + dy, car(p));
 
 		break;
 
 	case EMIT_TABLE:
-		emit_draw_delims(x, y, h, d, w, 1.2 * FONT_SIZE * DELIM_STROKE, ROMAN_FONT);
+		emit_formula_delims(x, y, h, d, w, 1.15 * FONT_SIZE * DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, '(');
-		emit_draw_table(x + dx, y - h, p);
+		emit_formula_table(x + dx, y - h, p);
 		break;
 	}
 }
 
 void
-emit_draw_delims(double x, double y, double h, double d, double w, double stroke_width, int font_num)
+emit_formula_delims(double x, double y, double h, double d, double w, double stroke_width, int font_num)
 {
 	double cd, ch, cw;
 
@@ -113,8 +113,8 @@ emit_draw_delims(double x, double y, double h, double d, double w, double stroke
 	cw = get_char_width(font_num, '(');
 
 	if (h > ch || d > cd) {
-		emit_draw_ldelim(x, y, h, d, cw, stroke_width);
-		emit_draw_rdelim(x + w - cw, y, h, d, cw, stroke_width);
+		emit_formula_ldelim(x, y, h, d, cw, stroke_width);
+		emit_formula_rdelim(x + w - cw, y, h, d, cw, stroke_width);
 		return;
 	}
 
@@ -132,7 +132,7 @@ emit_draw_delims(double x, double y, double h, double d, double w, double stroke
 }
 
 void
-emit_draw_ldelim(double x, double y, double h, double d, double w, double stroke_width)
+emit_formula_ldelim(double x, double y, double h, double d, double w, double stroke_width)
 {
 	double x1, x2, y1, y2;
 
@@ -171,7 +171,7 @@ emit_draw_ldelim(double x, double y, double h, double d, double w, double stroke
 }
 
 void
-emit_draw_rdelim(double x, double y, double h, double d, double w, double stroke_width)
+emit_formula_rdelim(double x, double y, double h, double d, double w, double stroke_width)
 {
 	double x1, x2, y1, y2;
 
@@ -210,7 +210,7 @@ emit_draw_rdelim(double x, double y, double h, double d, double w, double stroke
 }
 
 void
-emit_draw_table(double x, double y, struct atom *p)
+emit_formula_table(double x, double y, struct atom *p)
 {
 	int i, j, m, n;
 	double column_width, dx, elem_width, row_depth, row_height;
@@ -240,7 +240,7 @@ emit_draw_table(double x, double y, struct atom *p)
 
 			column_width = VAL1(w);
 			elem_width = WIDTH(car(table));
-			emit_draw(x + dx + (column_width - elem_width) / 2.0, y, car(table));
+			emit_formula(x + dx + (column_width - elem_width) / 2.0, y, car(table));
 			dx += column_width;
 			table = cdr(table);
 			w = cdr(w);

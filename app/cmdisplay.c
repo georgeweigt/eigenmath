@@ -26,7 +26,7 @@ cmdisplay(void)
 	if (emit_display == NULL)
 		malloc_kaput();
 
-	emit_draw(0.0, 0.0, p1);
+	emit_formula(0.0, 0.0, p1);
 
 	emit_push(DRAW_END);
 

@@ -15,7 +15,7 @@ emit_labels(void)
 	x = DRAW_LEFT_MARGIN - w - DRAW_YLABEL_MARGIN;
 	y = h;
 
-	emit_draw(x, y, p1);
+	emit_formula(x, y, p1);
 
 	// ymin
 
@@ -26,7 +26,7 @@ emit_labels(void)
 	x = DRAW_LEFT_MARGIN - w - DRAW_YLABEL_MARGIN;
 	y = DRAW_HEIGHT;
 
-	emit_draw(x, y, p1);
+	emit_formula(x, y, p1);
 
 	// xmax
 
@@ -37,7 +37,7 @@ emit_labels(void)
 	x = DRAW_LEFT_MARGIN + DRAW_WIDTH - w / 2.0; // center horizontally
 	y = DRAW_HEIGHT + DRAW_XLABEL_MARGIN;
 
-	emit_draw(x, y, p1);
+	emit_formula(x, y, p1);
 
 	// xmin
 
@@ -48,5 +48,5 @@ emit_labels(void)
 	x = DRAW_LEFT_MARGIN - w / 2.0; // center horizontally
 	y = DRAW_HEIGHT + DRAW_XLABEL_MARGIN;
 
-	emit_draw(x, y, p1);
+	emit_formula(x, y, p1);
 }
