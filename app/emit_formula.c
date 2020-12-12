@@ -180,19 +180,17 @@ emit_formula_rdelim(double x, double y, double h, double d, double w, double str
 void
 emit_formula_fraction(double x, double y, double h, double d, double w, double stroke_width, int font_num, struct atom *p)
 {
-	double dx, dy, t;
+	double dx, dy;
 
 	// horizontal line
 
 	dy = get_operator_height(font_num);
 
-	t = y - dy;
-
 	emit_push(DRAW_STROKE);
 	emit_push(x);
-	emit_push(t);
+	emit_push(y - dy);
 	emit_push(x + w);
-	emit_push(t);
+	emit_push(y - dy);
 	emit_push(stroke_width);
 
 	// numerator
