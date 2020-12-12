@@ -1,11 +1,11 @@
 #include "app.h"
 
-#define DELIM_STROKE 1.5
-#define THICK_DELIM_STROKE 2.5
-#define THIN_DELIM_STROKE 1.0
+#define DELIM_STROKE (FONT_SIZE / 9.0)
+#define THIN_DELIM_STROKE (SMALL_FONT_SIZE / 9.0)
+#define THICK_DELIM_STROKE (FONT_SIZE / 8.0)
 
-#define FRACTION_STROKE 1.5
-#define THIN_FRACTION_STROKE 1.0
+#define FRACTION_STROKE (FONT_SIZE / 12.0)
+#define THIN_FRACTION_STROKE (SMALL_FONT_SIZE / 12.0)
 
 void
 emit_draw(double x, double y, struct atom *p)
