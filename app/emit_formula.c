@@ -64,7 +64,7 @@ emit_formula(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_TABLE:
-		emit_formula_delims(x, y, h, d, w, 1.15 * FONT_SIZE * DELIM_STROKE, ROMAN_FONT);
+		emit_formula_delims(x, y, h, d, w, 1.2 * FONT_SIZE * DELIM_STROKE, ROMAN_FONT);
 		dx = get_char_width(ROMAN_FONT, '(');
 		emit_formula_table(x + dx, y - h, p);
 		break;
@@ -104,11 +104,11 @@ emit_formula_ldelim(double x, double y, double h, double d, double w, double str
 {
 	double x1, x2, y1, y2;
 
-	x1 = x + 0.5 * w;
-	x2 = x + w;
+	x1 = round(x + 0.5 * w);
+	x2 = x1 + round(0.5 * w);
 
-	y1 = y - h;
-	y2 = y + d;
+	y1 = round(y - h);
+	y2 = round(y + d);
 
 	// stem stroke
 
@@ -143,11 +143,11 @@ emit_formula_rdelim(double x, double y, double h, double d, double w, double str
 {
 	double x1, x2, y1, y2;
 
-	x1 = x + 0.5 * w;
-	x2 = x;
+	x1 = round(x + 0.5 * w);
+	x2 = x1 - round(0.5 * w);
 
-	y1 = y - h;
-	y2 = y + d;
+	y1 = round(y - h);
+	y2 = round(y + d);
 
 	// stem stroke
 
