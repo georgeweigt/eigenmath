@@ -1,6 +1,12 @@
 const HPAD = 10;
 const VPAD = 10;
 
+const TABLE_HSPACE = 12;
+const TABLE_VSPACE = 10;
+
+const DELIM_STROKE = 0.09;
+const FRAC_STROKE = 0.07;
+
 const LEFT_PAREN = 40;
 const RIGHT_PAREN = 41;
 const LESS_SIGN = 60;
@@ -25,9 +31,6 @@ const EMIT_SMALL_SUBEXPR = 7;
 const EMIT_FRACTION = 8;
 const EMIT_SMALL_FRACTION = 9;
 const EMIT_TABLE = 10;
-
-const TABLE_HSPACE = 12;
-const TABLE_VSPACE = 10;
 
 var emit_level;
 

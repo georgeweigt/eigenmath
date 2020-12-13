@@ -1,6 +1,3 @@
-const DELIM_STROKE = 0.09;
-const FRAC_STROKE = 0.07;
-
 function
 draw_formula(x, y, p)
 {
