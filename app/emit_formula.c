@@ -70,16 +70,6 @@ emit_formula(double x, double y, struct atom *p)
 }
 
 void
-emit_formula_char(double x, double y, int font_num, int char_num)
-{
-	emit_push(DRAW_CHAR);
-	emit_push(x);
-	emit_push(y);
-	emit_push(font_num);
-	emit_push(char_num);
-}
-
-void
 emit_formula_delims(double x, double y, double h, double d, double w, double stroke_width, int font_num)
 {
 	double cd, ch, cw;
@@ -195,6 +185,16 @@ emit_formula_table(double x, double y, struct atom *p)
 		h = cdr(h);
 		d = cdr(d);
 	}
+}
+
+void
+emit_formula_char(double x, double y, int font_num, int char_num)
+{
+	emit_push(DRAW_CHAR);
+	emit_push(x);
+	emit_push(y);
+	emit_push(font_num);
+	emit_push(char_num);
 }
 
 void
