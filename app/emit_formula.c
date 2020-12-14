@@ -3,7 +3,7 @@
 void
 emit_formula(double x, double y, struct atom *p)
 {
-	int k;
+	int char_num, font_num, k;
 	double d, dx, dy, h, w;
 
 	k = (int) OPCODE(p);
@@ -19,11 +19,9 @@ emit_formula(double x, double y, struct atom *p)
 		break;
 
 	case EMIT_CHAR:
-		emit_push(DRAW_CHAR);
-		emit_push(x);
-		emit_push(y);
-		emit_push(VAL1(p)); // font number
-		emit_push(VAL2(p)); // char number
+		font_num = VAL1(p);
+		char_num = VAL2(p);
+		emit_formula_char(x, y, font_num, char_num);
 		break;
 
 	case EMIT_LIST:
@@ -72,6 +70,16 @@ emit_formula(double x, double y, struct atom *p)
 }
 
 void
+emit_formula_char(double x, double y, int font_num, int char_num)
+{
+	emit_push(DRAW_CHAR);
+	emit_push(x);
+	emit_push(y);
+	emit_push(font_num);
+	emit_push(char_num);
+}
+
+void
 emit_formula_delims(double x, double y, double h, double d, double w, double stroke_width, int font_num)
 {
 	double cd, ch, cw;
@@ -83,20 +91,10 @@ emit_formula_delims(double x, double y, double h, double d, double w, double str
 	if (h > ch || d > cd) {
 		emit_formula_ldelim(x, y, h, d, cw, stroke_width);
 		emit_formula_rdelim(x + w - cw, y, h, d, cw, stroke_width);
-		return;
+	} else {
+		emit_formula_char(x, y, font_num, '(');
+		emit_formula_char(x + w - cw, y, font_num, ')');
 	}
-
-	emit_push(DRAW_CHAR);
-	emit_push(x);
-	emit_push(y);
-	emit_push(font_num);
-	emit_push('(');
-
-	emit_push(DRAW_CHAR);
-	emit_push(x + w - cw);
-	emit_push(y);
-	emit_push(font_num);
-	emit_push(')');
 }
 
 void
@@ -110,32 +108,9 @@ emit_formula_ldelim(double x, double y, double h, double d, double w, double str
 	y1 = round(y - h);
 	y2 = round(y + d);
 
-	// stem stroke
-
-	emit_push(DRAW_STROKE);
-	emit_push(x1);
-	emit_push(y1);
-	emit_push(x1);
-	emit_push(y2);
-	emit_push(stroke_width);
-
-	// top stroke
-
-	emit_push(DRAW_STROKE);
-	emit_push(x1);
-	emit_push(y1);
-	emit_push(x2);
-	emit_push(y1);
-	emit_push(stroke_width);
-
-	// bottom stroke
-
-	emit_push(DRAW_STROKE);
-	emit_push(x1);
-	emit_push(y2);
-	emit_push(x2);
-	emit_push(y2);
-	emit_push(stroke_width);
+	emit_formula_stroke(x1, y1, x1, y2, stroke_width); // stem stroke
+	emit_formula_stroke(x1, y1, x2, y1, stroke_width); // top stroke
+	emit_formula_stroke(x1, y2, x2, y2, stroke_width); // bottom stroke
 }
 
 void
@@ -149,32 +124,9 @@ emit_formula_rdelim(double x, double y, double h, double d, double w, double str
 	y1 = round(y - h);
 	y2 = round(y + d);
 
-	// stem stroke
-
-	emit_push(DRAW_STROKE);
-	emit_push(x1);
-	emit_push(y1);
-	emit_push(x1);
-	emit_push(y2);
-	emit_push(stroke_width);
-
-	// top stroke
-
-	emit_push(DRAW_STROKE);
-	emit_push(x1);
-	emit_push(y1);
-	emit_push(x2);
-	emit_push(y1);
-	emit_push(stroke_width);
-
-	// bottom stroke
-
-	emit_push(DRAW_STROKE);
-	emit_push(x1);
-	emit_push(y2);
-	emit_push(x2);
-	emit_push(y2);
-	emit_push(stroke_width);
+	emit_formula_stroke(x1, y1, x1, y2, stroke_width); // stem stroke
+	emit_formula_stroke(x1, y1, x2, y1, stroke_width); // top stroke
+	emit_formula_stroke(x1, y2, x2, y2, stroke_width); // bottom stroke
 }
 
 void
@@ -185,13 +137,7 @@ emit_formula_fraction(double x, double y, double h, double d, double w, double s
 	// horizontal line
 
 	dy = get_operator_height(font_num);
-
-	emit_push(DRAW_STROKE);
-	emit_push(x);
-	emit_push(y - dy);
-	emit_push(x + w);
-	emit_push(y - dy);
-	emit_push(stroke_width);
+	emit_formula_stroke(x, y - dy, x + w, y - dy, stroke_width);
 
 	// numerator
 
@@ -249,4 +195,15 @@ emit_formula_table(double x, double y, struct atom *p)
 		h = cdr(h);
 		d = cdr(d);
 	}
+}
+
+void
+emit_formula_stroke(double x1, double y1, double x2, double y2, double stroke_width)
+{
+	emit_push(DRAW_STROKE);
+	emit_push(x1);
+	emit_push(y1);
+	emit_push(x2);
+	emit_push(y2);
+	emit_push(stroke_width);
 }
