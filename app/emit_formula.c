@@ -6,7 +6,7 @@ emit_formula(double x, double y, struct atom *p)
 	int char_num, font_num, k;
 	double d, dx, dy, h, w;
 
-	k = (int) OPCODE(p);
+	k = OPCODE(p);
 	h = HEIGHT(p);
 	d = DEPTH(p);
 	w = WIDTH(p);
