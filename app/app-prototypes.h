@@ -59,6 +59,7 @@ void emit_thick_space(void);
 void emit_thin_space(void);
 void emit_update_fraction(void);
 void emit_update_list(int t);
+void emit_update_list_nib(int t);
 void emit_update_subexpr(void);
 void emit_update_subscript(void);
 void emit_update_superscript(void);

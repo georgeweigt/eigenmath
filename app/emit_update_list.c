@@ -3,13 +3,21 @@
 void
 emit_update_list(int t)
 {
-	int i;
+	save();
+	emit_update_list_nib(t);
+	restore();
+}
+
+void
+emit_update_list_nib(int t)
+{
+	int i, n;
 	double d, h, w;
 
-	if (tos - t == 1)
-		return;
+	n = tos - t;
 
-	save();
+	if (n < 2)
+		return;
 
 	h = 0.0;
 	d = 0.0;
@@ -22,7 +30,7 @@ emit_update_list(int t)
 		w += WIDTH(p1);
 	}
 
-	list(tos - t);
+	list(n);
 	p1 = pop();
 
 	push_double(EMIT_LIST);
@@ -32,6 +40,4 @@ emit_update_list(int t)
 	push(p1);
 
 	list(5);
-
-	restore();
 }
