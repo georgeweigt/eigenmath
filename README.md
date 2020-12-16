@@ -4,7 +4,9 @@ To build and run:
 	make
 	./eigenmath
 
-Press control-C or type exit to exit. Note: Eigenmath uses UTF-8 encoding to display Greek letters and large delimiters.
+Press control-C or type exit to exit.
+
+Eigenmath uses UTF-8 encoding to display Greek letters and large delimiters.
 
 	      ┌               ┐
 	      │ 0   0   0   0 │
