@@ -5,7 +5,7 @@ int count_denominators(struct atom *p);
 void draw_display(double ymin, double ymax);
 void draw_display_nib(struct display *p, double y, double ymin, double ymax);
 void draw_text(double x, double y, uint8_t *buf, int len);
-void draw_formula(double x, double y, float *p);
+void draw_formula(double x, double y, double *p);
 void draw_char(double x, double y, int font_num, int char_num);
 void draw_stroke(double x1, double y1, double x2, double y2, double stroke_width);
 void draw_point(double x, double y);

@@ -21,7 +21,7 @@ cmdisplay(void)
 	d = DEPTH(p1);
 	w = WIDTH(p1);
 
-	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
+	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (double));
 
 	if (emit_display == NULL)
 		malloc_kaput();

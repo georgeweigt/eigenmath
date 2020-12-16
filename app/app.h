@@ -82,7 +82,7 @@ struct display {
 	double dx;
 	double dy;
 	uint8_t buf[0];
-	float mem[0];
+	double mem[0];
 };
 
 extern CGContextRef gcontext;

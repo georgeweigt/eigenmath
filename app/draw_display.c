@@ -70,7 +70,7 @@ draw_text(double x, double y, uint8_t *buf, int len)
 // draws graphs too
 
 void
-draw_formula(double x, double y, float *p)
+draw_formula(double x, double y, double *p)
 {
 	for (;;) {
 

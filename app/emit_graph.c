@@ -26,7 +26,7 @@ emit_graph(void)
 	p1 = pop();
 	emit_list(p1); // advance emit_count, leave result on stack
 
-	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (float));
+	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (double));
 
 	if (emit_display == NULL)
 		malloc_kaput();
