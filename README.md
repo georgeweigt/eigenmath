@@ -6,10 +6,6 @@ To build and run:
 
 Press control-C or type exit to exit. Note: Eigenmath uses UTF-8 encoding to display Greek letters and large delimiters.
 
-	Verify that Einstein tensor vanishes for Schwarzschild metric
-	      2 M     
-	F = −╶───╴ + 1
-	       r      
 	      ┌               ┐
 	      │ 0   0   0   0 │
 	      │               │
