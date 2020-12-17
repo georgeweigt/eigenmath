@@ -8,19 +8,15 @@ Press control-C or type exit to exit.
 
 Eigenmath uses UTF-8 encoding to display Greek letters and large delimiters.
 
-      ┌                                  ┐
-      │ −F(r)     0      0        0      │
-      │                                  │
-      │           1                      │
-      │   0     ╶────╴   0        0      │
-      │          F(r)                    │
-g   = │                                  │
- μν   │                   2              │
-      │   0       0      r        0      │
-      │                                  │
-      │                        2       2 │
-      │   0       0      0    r  sin(θ)  │
-      └                                  ┘
+      ┌               ┐
+      │ 0   0   0   0 │
+      │               │
+      │ 0   0   0   0 │
+G   = │               │
+ μν   │ 0   0   0   0 │
+      │               │
+      │ 0   0   0   0 │
+      └               ┘
 
 To run a script:
 
