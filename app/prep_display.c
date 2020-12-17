@@ -5,7 +5,7 @@
 void
 prep_display(void)
 {
-	fence = atomic_load(&display_list);
+	fence = get_display_ptr();
 
 	if (fence) {
 		document_height = fence->total_height;

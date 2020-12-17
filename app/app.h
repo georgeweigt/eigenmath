@@ -1,5 +1,4 @@
 #include "../src/defs.h"
-#include <stdatomic.h>
 #include <ApplicationServices/ApplicationServices.h>
 
 #define HPAD 10
@@ -93,7 +92,6 @@ extern double document_width;
 extern double total_height;	// for thread process
 extern double total_width;
 
-extern _Atomic(struct display *) display_list;
 extern struct display *fence;
 
 extern int running;

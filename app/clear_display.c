@@ -8,7 +8,8 @@ clear_display(void)
 	if (running)
 		return;
 
-	p = atomic_exchange(&display_list, NULL);
+	p = get_display_ptr();
+	set_display_ptr(NULL);
 
 	while (p) {
 		t = p;

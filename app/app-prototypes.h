@@ -1,3 +1,5 @@
+struct display * get_display_ptr(void);
+void set_display_ptr(struct display *p);
 int check_display(void);
 void clear_display(void);
 void cmdisplay(void);

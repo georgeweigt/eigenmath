@@ -6,7 +6,6 @@ double document_width;
 double total_height;	// for thread process
 double total_width;
 
-_Atomic(struct display *) display_list;
 struct display *fence;
 
 int draw_count;
