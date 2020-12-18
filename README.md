@@ -9,11 +9,11 @@ Press control-C or type exit to exit.
 Eigenmath uses UTF-8 encoding to display Greek letters and large delimiters.
 
 	      ┌                                  ┐
-	      │ −Φ(r)     0      0        0      │
+	      │ −ξ(r)     0      0        0      │
 	      │                                  │
 	      │           1                      │
 	      │   0     ╶────╴   0        0      │
-	      │          Φ(r)                    │
+	      │          ξ(r)                    │
 	g   = │                                  │
 	 μν   │                   2              │
 	      │   0       0      r        0      │
