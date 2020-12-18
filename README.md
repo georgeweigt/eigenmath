@@ -6,6 +6,22 @@ To build and run:
 
 Press control-C or type exit to exit.
 
+Eigenmath uses UTF-8 encoding to display Greek letters and large delimiters.
+
+	      ┌                                  ┐
+	      │ −Φ(r)     0      0        0      │
+	      │                                  │
+	      │           1                      │
+	      │   0     ╶────╴   0        0      │
+	      │          Φ(r)                    │
+	g   = │                                  │
+	 μν   │                   2              │
+	      │   0       0      r        0      │
+	      │                                  │
+	      │                        2       2 │
+	      │   0       0      0    r  sin(θ)  │
+	      └                                  ┘
+
 To run a script:
 
 	./eigenmath scriptfilename
