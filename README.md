@@ -1,3 +1,5 @@
+The Eigenmath manual and sample scripts are available at https://georgeweigt.github.io
+
 To build and run:
 
 	cd src
@@ -21,10 +23,6 @@ To generate MathML output:
 To generate MathJax output:
 
 	./eigenmath --mathjax scriptfilename | tee foo.html
-
-The Eigenmath manual and sample scripts are available at https://georgeweigt.github.io
-
-A Javascript version of Eigenmath is available in the 'js' directory.
 
 Eigenmath uses UTF-8 encoding to display Greek letters and large delimiters.
 
