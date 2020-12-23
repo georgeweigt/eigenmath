@@ -10,7 +10,7 @@ set_component(LVAL, RVAL, h)
 
 	n = stack.length - h;
 
-	if (n > LVAL.dim.length)
+	if (n < 1 || n > LVAL.dim.length)
 		stopf("index error");
 
 	// k is combined index
