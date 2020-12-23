@@ -584,12 +584,12 @@ check(not(A == B))
 
 -- set component test
 clear
-I = ((1,1),(1,1))
+I = ((1,1,1,1),(1,1,1,1))
 A = (I,I,I)
 A[1] = a I
 A[2] = b I
 A[3] = c I
-check(A == (((a,a),(a,a)),((b,b),(b,b)),((c,c),(c,c))))
+check(A == (((a,a,a,a),(a,a,a,a)),((b,b,b,b),(b,b,b,b)),((c,c,c,c),(c,c,c,c))))
 
 "All tests passed"
 </textarea>
