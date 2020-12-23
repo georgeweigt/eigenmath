@@ -1255,6 +1255,15 @@ check(L(x,3,2) == laguerre(x,3,2))
 A = (1,2)
 check(inv(dot(transpose(A),A)) == 1/5)
 
+-- set component
+clear
+I = ((1,1,1,1),(1,1,1,1))
+A = (I,I,I)
+A[1] = a I
+A[2] = b I
+A[3] = c I
+check(A == (((a,a,a,a),(a,a,a,a)),((b,b,b,b),(b,b,b,b)),((c,c,c,c),(c,c,c,c))))
+
 -- done
 
 clear

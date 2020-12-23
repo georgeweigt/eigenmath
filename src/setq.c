@@ -30,124 +30,101 @@ eval_setq(void)
 //	cadadr(p1) = a
 //	caddr(p1) = b
 
+#undef S
+#undef LVAL
+#undef RVAL
+
+#define S p3
+#define LVAL p4
+#define RVAL p5
+
 void
 setq_indexed(void)
 {
 	int h;
-	p4 = cadadr(p1);
-	if (!issymbol(p4))
-		stop("indexed assignment: symbol expected");
-	h = tos;
+
+	S = cadadr(p1);
+
+	if (!issymbol(S))
+		stop("symbol expected");
+
+	push(S);
+	eval();
+	LVAL = pop();
+
 	push(caddr(p1));
 	eval();
-	p2 = cdadr(p1);
-	while (iscons(p2)) {
-		push(car(p2));
+	RVAL = pop();
+
+	// eval indices
+
+	p1 = cddadr(p1);
+
+	h = tos;
+
+	while (iscons(p1)) {
+		push(car(p1));
 		eval();
-		p2 = cdr(p2);
+		p1 = cdr(p1);
 	}
-	set_component(tos - h);
-	p3 = pop();
-	set_binding(p4, p3);
+
+	set_component(h);
+
+	set_binding(S, LVAL);
 }
 
-#undef LVALUE
-#undef RVALUE
-#undef TMP
-
-#define LVALUE p1
-#define RVALUE p2
-#define TMP p3
-
 void
-set_component(int n)
+set_component(int h)
 {
 	save();
-	set_component_nib(n);
+	set_component_nib(h);
 	restore();
 }
 
 void
-set_component_nib(int n)
+set_component_nib(int h)
 {
-	int i, k, m, ndim, t;
-	struct atom **s;
+	int i, k, m, n, t;
 
-	if (n < 3)
-		stop("error in indexed assign");
+	if (!istensor(LVAL))
+		stop("index error");
 
-	s = stack + tos - n;
+	// n is the number of indices
 
-	RVALUE = s[0];
+	n = tos - h;
 
-	LVALUE = s[1];
+	if (n < 1 || n > LVAL->u.tensor->ndim)
+		stop("index error");
 
-	if (!istensor(LVALUE))
-		stop("error in indexed assign");
-
-	ndim = LVALUE->u.tensor->ndim;
-
-	m = n - 2;
-
-	if (m > ndim)
-		stop("error in indexed assign");
+	// k is the combined index
 
 	k = 0;
 
-	for (i = 0; i < m; i++) {
-		push(s[i + 2]);
+	for (i = 0; i < n; i++) {
+		push(stack[h + i]);
 		t = pop_integer();
-		if (t < 1 || t > LVALUE->u.tensor->dim[i])
-			stop("error in indexed assign");
-		k = k * p1->u.tensor->dim[i] + t - 1;
+		if (t < 1 || t > LVAL->u.tensor->dim[i])
+			stop("index error");
+		k = k * LVAL->u.tensor->dim[i] + t - 1;
 	}
 
-	for (i = m; i < ndim; i++)
-		k = k * p1->u.tensor->dim[i] + 0;
+	tos = h; // pop all
 
-	// copy
-
-	TMP = alloc_tensor(LVALUE->u.tensor->nelem);
-
-	TMP->u.tensor->ndim = LVALUE->u.tensor->ndim;
-
-	for (i = 0; i < p1->u.tensor->ndim; i++)
-		TMP->u.tensor->dim[i] = LVALUE->u.tensor->dim[i];
-
-	for (i = 0; i < p1->u.tensor->nelem; i++)
-		TMP->u.tensor->elem[i] = LVALUE->u.tensor->elem[i];
-
-	LVALUE = TMP;
-
-	if (ndim == m) {
-		if (istensor(RVALUE))
-			stop("error in indexed assign");
-		LVALUE->u.tensor->elem[k] = RVALUE;
-		tos -= n;
-		push(LVALUE);
-		return;
+	if (istensor(RVAL)) {
+		m = RVAL->u.tensor->ndim;
+		if (n + m != LVAL->u.tensor->ndim)
+			stop("index error");
+		for (i = 0; i < m; i++)
+			if (LVAL->u.tensor->dim[n + i] != RVAL->u.tensor->dim[i])
+				stop("index error");
+		m = RVAL->u.tensor->nelem;
+		for (i = 0; i < m; i++)
+			LVAL->u.tensor->elem[m * k + i] = RVAL->u.tensor->elem[i];
+	} else {
+		if (n != LVAL->u.tensor->ndim)
+			stop("index error");
+		LVAL->u.tensor->elem[k] = RVAL;
 	}
-
-	// see if the rvalue matches
-
-	if (!istensor(RVALUE))
-		stop("error in indexed assign");
-
-	if (ndim - m != RVALUE->u.tensor->ndim)
-		stop("error in indexed assign");
-
-	for (i = 0; i < RVALUE->u.tensor->ndim; i++)
-		if (LVALUE->u.tensor->dim[m + i] != RVALUE->u.tensor->dim[i])
-			stop("error in indexed assign");
-
-	// copy rvalue
-
-	for (i = 0; i < RVALUE->u.tensor->nelem; i++)
-		LVALUE->u.tensor->elem[k + i] = RVALUE->u.tensor->elem[i];
-
-	tos -= n;
-
-	push(LVALUE);
 }
 
 // Example:
