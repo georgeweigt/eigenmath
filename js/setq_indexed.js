@@ -1,7 +1,7 @@
 function
 setq_indexed(p1)
 {
-	var h, p2, S, LVAL, RVAL;
+	var h, LVAL, RVAL, S;
 
 	S = cadadr(p1);
 
@@ -18,18 +18,17 @@ setq_indexed(p1)
 
 	h = stack.length;
 
-	p2 = cddadr(p1);
+	p1 = cddadr(p1);
 
-	while (iscons(p2)) {
-		push(car(p2));
+	while (iscons(p1)) {
+		push(car(p1));
 		evalf();
-		p2 = cdr(p2);
+		p1 = cdr(p1);
 	}
 
 	set_component(LVAL, RVAL, h);
 
-	p2 = pop();
-	set_binding(S, p2);
+	set_binding(S, LVAL);
 }
 
 // Example: a[1] = b
