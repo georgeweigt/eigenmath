@@ -6,7 +6,7 @@ To build and run:
 	make
 	./eigenmath
 
-Press control-C or type exit to exit.
+Press ctrl-C to exit.
 
 To run a script:
 

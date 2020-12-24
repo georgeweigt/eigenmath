@@ -2,10 +2,10 @@
 
 To build and run:
 
-	gcc eigenmath.c
+	gcc -O0 eigenmath.c -lm
 	./a.out
 
-Press control-C to exit.
+Press ctrl-C to exit.
 
 See also github.com/georgeweigt/eigenmath
 
