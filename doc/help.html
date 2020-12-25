@@ -25,122 +25,86 @@ The Eigenmath manual and additional support materials are available at
 <a href="#arctan">arctan</a><br>
 <a href="#arctanh">arctanh</a><br>
 <a href="#arg">arg</a><br>
-<a href="#besselj">besselj</a><br>
 <a href="#binding">binding</a><br>
-<a href="#binomial">binomial</a><br>
 <a href="#ceiling">ceiling</a><br>
 <a href="#check">check</a><br>
-<a href="#choose">choose</a><br>
-<a href="#circexp">circexp</a><br>
-<a href="#clear">clear</a><br>
-<a href="#clock">clock</a><br>
 </td>
 
 <td>
-<a href="#coeff">coeff</a><br>
-<a href="#cofactor">cofactor</a><br>
+<a href="#circexp">circexp</a><br>
+<a href="#clear">clear</a><br>
+<a href="#clock">clock</a><br>
 <a href="#conj">conj</a><br>
 <a href="#contract">contract</a><br>
 <a href="#cos">cos</a><br>
 <a href="#cosh">cosh</a><br>
-<a href="#cross">cross</a><br>
-<a href="#curl">curl</a><br>
 <a href="#d">d</a><br>
 <a href="#defint">defint</a><br>
-<a href="#deg">deg</a><br>
 <a href="#denominator">denominator</a><br>
 <a href="#det">det</a><br>
 <a href="#dim">dim</a><br>
-<a href="#div">div</a><br>
 <a href="#do">do</a><br>
-<a href="#dot">dot</a><br>
-<a href="#draw">draw</a><br>
-<a href="#e">e</a><br>
 </td>
 
 <td>
-<a href="#eigen">eigen</a><br>
-<a href="#erf">erf</a><br>
-<a href="#erfc">erfc</a><br>
+<a href="#dot">dot</a><br>
+<a href="#draw">draw</a><br>
+<a href="#e">e</a><br>
 <a href="#eval">eval</a><br>
 <a href="#exp">exp</a><br>
-<a href="#expand">expand</a><br>
 <a href="#expcos">expcos</a><br>
 <a href="#expcosh">expcosh</a><br>
 <a href="#expsin">expsin</a><br>
 <a href="#expsinh">expsinh</a><br>
 <a href="#exptan">exptan</a><br>
 <a href="#exptanh">exptanh</a><br>
-<a href="#factor">factor</a><br>
 <a href="#factorial">factorial</a><br>
-<a href="#filter">filter</a><br>
 <a href="#float">float</a><br>
-<a href="#floor">floor</a><br>
-<a href="#for">for</a><br>
-<a href="#gcd">gcd</a><br>
 </td>
 
 <td>
-<a href="#hermite">hermite</a><br>
-<a href="#hilbert">hilbert</a><br>
+<a href="#floor">floor</a><br>
+<a href="#for">for</a><br>
 <a href="#i">i</a><br>
 <a href="#imag">imag</a><br>
 <a href="#inner">inner</a><br>
 <a href="#integral">integral</a><br>
 <a href="#inv">inv</a><br>
-<a href="#isprime">isprime</a><br>
 <a href="#j">j</a><br>
-<a href="#laguerre">laguerre</a><br>
 <a href="#last">last</a><br>
-<a href="#lcm">lcm</a><br>
-<a href="#leading">leading</a><br>
-<a href="#legendre">legendre</a><br>
-<a href="#lisp">lisp</a><br>
 <a href="#log">log</a><br>
 <a href="#mag">mag</a><br>
-<a href="#mod">mod</a><br>
 <a href="#not">not</a><br>
+<a href="#numerator">numerator</a><br>
 </td>
 
 <td>
-<a href="#nroots">nroots</a><br>
-<a href="#number">number</a><br>
-<a href="#numerator">numerator</a><br>
 <a href="#or">or</a><br>
 <a href="#outer">outer</a><br>
 <a href="#pi">pi</a><br>
 <a href="#polar">polar</a><br>
 <a href="#power">power</a><br>
-<a href="#prime">prime</a><br>
 <a href="#print">print</a><br>
 <a href="#product">product</a><br>
 <a href="#quote">quote</a><br>
-<a href="#quotient">quotient</a><br>
 <a href="#rank">rank</a><br>
 <a href="#rationalize">rationalize</a><br>
 <a href="#real">real</a><br>
 <a href="#rect">rect</a><br>
-<a href="#roots">roots</a><br>
-<a href="#run">run</a><br>
+<a href="#simplify">simplify</a><br>
 </td>
 
 <td>
-<a href="#simplify">simplify</a><br>
 <a href="#sin">sin</a><br>
 <a href="#sinh">sinh</a><br>
 <a href="#sqrt">sqrt</a><br>
-<a href="#status">status</a><br>
 <a href="#stop">stop</a><br>
-<a href="#string">string</a><br>
-<a href="#subst">subst</a><br>
 <a href="#sum">sum</a><br>
 <a href="#tan">tan</a><br>
 <a href="#tanh">tanh</a><br>
-<a href="#taylor">taylor</a><br>
 <a href="#test">test</a><br>
 <a href="#trace">trace</a><br>
 <a href="#transpose">transpose</a><br>
-<a href="#tty">tty</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
 <br>
@@ -256,21 +220,6 @@ arctan(-3,2)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="besselj">besselj(<i>x,n</i>)</a>
-<p>
-Returns a solution to the Bessel differential equation.
-<pre style="font-family:courier;color:blue">
-besselj(x,1/2)
-</pre>
-<pre style="font-family:courier">
-  1/2
- 2    sin(x)
--------------
-   1/2  1/2
- pi    x
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="binding">binding(<i>s</i>)</a>
 <p>
 The result of evaluating a symbol can differ from the symbol's binding.
@@ -293,24 +242,6 @@ binding(p)
        2
 (x + 1)
 </pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="binomial">binomial(<i>n,k</i>)</a>
-<p>
-Returns the coefficient of <i>x<sup>k</sup> y<sup>n-k</sup></i>
-in (<i>x</i> + <i>y</i>)<sup><i>n</i></sup>.
-<pre style="font-family:courier;color:blue">
-binomial(52,5)
-</pre>
-<pre style="font-family:courier">
-2598960
-</pre>
-<p>
-Note:
-<span style="font-family:courier">binomial</span>
-and
-<span style="font-family:courier">choose</span>
-are the same function.
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="ceiling">ceiling(<i>x</i>)</a>
@@ -344,18 +275,6 @@ check(A=B) -- script stops here if A not equal to B
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="choose">choose(<i>n,k</i>)</a>
-<p>
-Returns the number of combinations of <i>n</i> items taken <i>k</i> at a time.
-The following example computes the number of poker hands.
-<pre style="font-family:courier;color:blue">
-choose(52,5)
-</pre>
-<pre style="font-family:courier">
-2598960
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="circexp">circexp(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> with circular and hyperbolic functions
@@ -382,33 +301,6 @@ clock(2 - 3i)
 <pre style="font-family:courier">
   1/2     arctan(-3,2)/pi
 13    (-1)
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="coeff">coeff(<i>p,x,n</i>)</a>
-<p>
-Returns the coefficient of <i>x<sup>n</sup></i> in polynomial <i>p</i>.
-<pre style="font-family:courier;color:blue">
-p = x^3 + 6x^2 + 12x + 8
-coeff(p,x,2)
-</pre>
-<pre style="font-family:courier">
-6
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="cofactor">cofactor(<i>m,i,j</i>)</a>
-<p>
-Returns a cofactor of matrix <i>m</i>.
-The cofactor matrix is the transpose of the adjunct of <i>m</i>.
-This function returns the cofactor component
-at row <i>i</i> and column <i>j</i>.
-<pre style="font-family:courier;color:blue">
-A = ((a,b),(c,d))
-cofactor(A,1,2) == transpose(adj(A))[1,2]
-</pre>
-<pre style="font-family:courier">
-1
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -466,34 +358,7 @@ circexp(cosh(x))
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="cross">cross(<i>u,v</i>)</a>
-<p>
-Returns the cross product of vectors <i>u</i> and <i>v</i>.
-It is OK to redefine
-<span style="font-family:courier">cross</span>.
-This is the default definition.
-<pre style="font-family:courier;color:blue">
-cross(u,v) = (u[2] v[3] - u[3] v[2],
-              u[3] v[1] - u[1] v[3],
-              u[1] v[2] - u[2] v[1])
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="curl">curl(<i>u</i>)</a>
-<p>
-Returns the curl of vector <i>u</i>.
-It is OK to redefine
-<span style="font-family:courier">curl</span>.
-This is the default definition.
-<pre style="font-family:courier;color:blue">
-curl(u) = (d(u[3],y) - d(u[2],z),
-           d(u[1],z) - d(u[3],x),
-           d(u[2],x) - d(u[1],y))
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="d">d(<i>f,x</i>)</a>
-
 <p>
 Returns the partial derivative of <i>f</i> with respect to <i>x</i>.
 <pre style="font-family:courier;color:blue">
@@ -502,7 +367,6 @@ d(x^2,x)
 <pre style="font-family:courier">
 2 x
 </pre>
-
 <p>
 Argument <i>f</i> can be a tensor of any rank.
 Argument <i>x</i> can be a vector.
@@ -519,14 +383,12 @@ d(g(),x)   d(g(),y)   d(g(),z)
 
 d(h(),x)   d(h(),y)   d(h(),z)
 </pre>
-
 <p>
 It is OK to use
 <span style="font-family:courier">d</span>
 as a variable name.
 It will not conflict with function
 <span style="font-family:courier">d</span>.
-
 <p>
 It is OK to redefine
 <span style="font-family:courier">d</span>
@@ -555,18 +417,6 @@ defint(f, theta, 0, pi, phi, 0, 2pi)
  16
 ---- pi
  3
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="deg">deg(<i>p,x</i>)</a>
-<p>
-Returns the degree of polynomial <i>p</i>(<i>x</i>).
-<pre style="font-family:courier;color:blue">
-p = (2x + 1)^3
-deg(p,x)
-</pre>
-<pre style="font-family:courier">
-3
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -603,17 +453,6 @@ dim(A,1)
 </pre>
 <pre style="font-family:courier">
 3
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="div">div(<i>u</i>)</a>
-<p>
-Returns the divergence of vector <i>u</i>.
-It is OK to redefine
-<span style="font-family:courier">div</span>.
-This is the default definition.
-<pre style="font-family:courier;color:blue">
-div(u) = d(u[1],x) + d(u[2],y) + d(u[3],z)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -682,35 +521,6 @@ It is OK to clear or redefine
 and use the symbol for something else.
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="eigen">eigen(<i>m</i>)</a>
-<p>
-Computes eigenvalues and eigenvectors numerically.
-Matrix <i>m</i> is required to be both numerical and symmetric.
-Eigenvectors are returned in Q and eigenvalues are returned in D.
-Each row of Q is an eigenvector.
-Each diagonal element of D is an eigenvalue.
-<pre style="font-family:courier;color:blue">
-A = ((1,2),(2,1))
-eigen(A)
-dot(transpose(Q),D,Q)
-</pre>
-<pre style="font-family:courier">
-1.0   2.0
-
-2.0   1.0
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="erf">erf(<i>x</i>)</a>
-<p>
-Error function of <i>x</i>.
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="erfc">erfc(<i>x</i>)</a>
-<p>
-Complementary error function of <i>x</i>.
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="eval">eval(<i>f,x,a</i>)</a>
 <p>
 Returns expression <i>f</i> evaluated at <i>x</i> equals <i>a</i>.
@@ -735,22 +545,6 @@ exp(i pi)
 </pre>
 <pre style="font-family:courier">
 -1
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="expand">expand(<i>r,x</i>)</a>
-<p>
-Returns the partial fraction expansion of the ratio of polynomials <i>r</i> in <i>x</i>.
-<pre style="font-family:courier;color:blue">
-p = (x + 1)^2
-q = (x + 2)^2
-expand(p/q,x)
-</pre>
-<pre style="font-family:courier">
-     2            1
-- ------- + -------------- + 1
-   x + 2      2
-             x  + 4 x + 4
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -832,57 +626,6 @@ exptanh(z)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="factor">factor(<i>n</i>)</a>
-<p>
-Factors numerical value <i>n</i> and returns the result.
-<pre style="font-family:courier;color:blue">
-factor(12/35)
-</pre>
-<pre style="font-family:courier">
-  2
- 2  3
-------
- 5 7
-</pre>
-<p>
-If <i>n</i> is a floating point value then a rational approximation of <i>n</i> is factored and returned.
-<pre style="font-family:courier;color:blue">
-factor(float(pi))
-</pre>
-<pre style="font-family:courier">
- 5 71
-------
- 113
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">factor(<i>p,x</i>)
-<p>
-Factors polynomial <i>p</i> of <i>x</i> and returns the result.
-The argument list can be extended for multivariate polynomials.
-<pre style="font-family:courier;color:blue">
-p = 2x + x y + y + 2
-factor(p,x,y)
-</pre>
-<pre style="font-family:courier">
-(x + 1) (y + 2)
-</pre>
-<p>
-Note:
-<span style="font-family:courier">factor</span>
-returns an unexpanded expression.
-If the result is assigned to a symbol, evaluating the symbol will expand the result.
-Use
-<span style="font-family:courier">binding</span>
-to retrieve the unexpanded expression.
-<pre style="font-family:courier;color:blue">
-q = factor(p,x,y)
-binding(q)
-</pre>
-<pre style="font-family:courier">
-(x + 1) (y + 2)
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="factorial">factorial(<i>n</i>)</a>
 <p>
 Returns the factorial of <i>n</i>.
@@ -894,18 +637,6 @@ can also be used.
 </pre>
 <pre style="font-family:courier">
 2432902008176640000
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="filter">filter(<i>f,a,b,...</i>)</a>
-<p>
-Returns <i>f</i> excluding any terms containing <i>a</i>, <i>b</i>, etc.
-<pre style="font-family:courier;color:blue">
-p = x^2 + 3x + 2
-filter(p,x^2)
-</pre>
-<pre style="font-family:courier">
-3 x + 2
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -956,50 +687,6 @@ If symbol
 <span style="font-family:courier">i</span>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
 <span style="font-family:courier">for</span>.
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="gcd">gcd(<i>a,b,...</i>)</a>
-<p>
-Returns the greatest common divisor of expressions.
-<pre style="font-family:courier;color:blue">
-gcd(x,x y)
-</pre>
-<pre style="font-family:courier">
-x
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="hermite">hermite(<i>x,n</i>)</a>
-<p>
-Returns the <i>n</i>th Hermite polynomial in <i>x</i>.
-<pre style="font-family:courier;color:blue">
-hermite(x,3)
-</pre>
-<pre style="font-family:courier">
-   3
-8 x  - 12 x
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="hilbert">hilbert(<i>n</i>)</a>
-<p>
-Returns an <i>n</i> by <i>n</i> Hilbert matrix.
-<pre style="font-family:courier;color:blue">
-hilbert(3)
-</pre>
-<pre style="font-family:courier">
-       1     1
- 1    ---   ---
-       2     3
-
- 1     1     1
----   ---   ---
- 2     3     4
-
- 1     1     1
----   ---   ---
- 3     4     5
-</pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="i">i</a>
@@ -1083,17 +770,6 @@ inv(A)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="isprime">isprime(<i>n</i>)</a>
-<p>
-Returns 1 if <i>n</i> is a prime number. Returns zero otherwise.
-<pre style="font-family:courier;color:blue">
-isprime(2^31 - 1)
-</pre>
-<pre style="font-family:courier">
-1
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="j">j</a>
 <p>
 Set
@@ -1108,20 +784,6 @@ j = sqrt(-1)
 </pre>
 <pre style="font-family:courier">
 -j
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="laguerre">laguerre(<i>x,n,m</i>)</a>
-<p>
-Returns the <i>n</i>th associated Laguerre polynomial in <i>x</i> of order <i>m</i>.
-If <i>m</i> is omitted then zero is used.
-<pre style="font-family:courier;color:blue">
-laguerre(x,3)
-</pre>
-<pre style="font-family:courier">
-   1   3    3   2
-- --- x  + --- x  - 3 x + 1
-   6        2
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -1161,55 +823,6 @@ float
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="lcm">lcm(<i>a,b,...</i>)</a>
-<p>
-Returns the least common multiple of expressions.
-<pre style="font-family:courier;color:blue">
-lcm(x,x y)
-</pre>
-<pre style="font-family:courier">
-x y
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="leading">leading(<i>p,x</i>)</a>
-<p>
-Returns the leading coefficient of polynomial <i>p</i>(<i>x</i>).
-<pre style="font-family:courier;color:blue">
-leading(3x^2 + 1,x)
-</pre>
-<pre style="font-family:courier">
-3
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="legendre">legendre(<i>x,n,m</i>)</a>
-<p>
-Returns the <i>n</i>th associated Legendre polynomial in <i>x</i> of order <i>m</i>.
-If <i>m</i> is omitted then zero is used.
-<pre style="font-family:courier;color:blue">
-legendre(x,3)
-</pre>
-<pre style="font-family:courier">
- 5   3    3
---- x  - --- x
- 2        2
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="lisp">lisp(<i>x</i>)</a>
-<p>
-Evaluates expression <i>x</i> and returns the result as a
-string in prefix notation.
-Useful for debugging scripts.
-<pre style="font-family:courier;color:blue">
-lisp(x^2 + 1)
-</pre>
-<pre style="font-family:courier">
-(+ (^ x 2) 1)
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="log">log(<i>x</i>)</a>
 <p>
 Returns the natural logarithm of <i>x</i>.
@@ -1237,17 +850,6 @@ mag(x + i y)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="mod">mod(<i>a,b</i>)</a>
-<p>
-Returns the remainder of <i>a</i> divided by <i>b</i>.
-<pre style="font-family:courier;color:blue">
-mod(10,7)
-</pre>
-<pre style="font-family:courier">
-3
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="not">not(<i>x</i>)</a>
 <p>
 Returns 0 if <i>x</i> is true (nonzero).
@@ -1257,26 +859,6 @@ not(1=1)
 </pre>
 <pre style="font-family:courier">
 0
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="nroots">nroots(<i>p,x</i>)</a>
-<p>
-Returns all roots, both real and complex,
-of polynomial <i>p</i>(<i>x</i>).
-The roots are computed numerically.
-The coefficients of <i>p</i> can be real or complex.
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="number">number(<i>x</i>)</a>
-<p>
-Returns 1 if <i>x</i> is a rational or floating point number.
-Returns 0 otherwise.
-<pre style="font-family:courier;color:blue">
-number(1/2)
-</pre>
-<pre style="font-family:courier">
-1
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -1362,18 +944,6 @@ x^(-2)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="prime">prime(<i>n</i>)</a>
-<p>
-Returns the <i>n</i>th prime number.
-The domain of <i>n</i> is 1 to 10000.
-<pre style="font-family:courier;color:blue">
-prime(100)
-</pre>
-<pre style="font-family:courier">
-541
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="print">print(<i>a,b,...</i>)</a>
 <p>
 Evaluate expressions and print the results.
@@ -1421,19 +991,6 @@ quote((x + 1)^2)
 <pre style="font-family:courier">
        2
 (x + 1)
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="quotient">quotient(<i>p,q,x</i>)</a>
-<p>
-Returns the quotient of polynomial <i>p</i>(<i>x</i>) over <i>q</i>(<i>x</i>).
-<pre style="font-family:courier;color:blue">
-p = x^2 + 1
-q = x + 3
-quotient(p,q,x)
-</pre>
-<pre style="font-family:courier">
-x - 3
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -1501,22 +1058,6 @@ cos(x) + i sin(x)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="roots">roots(<i>p,x</i>)</a>
-<p>
-Returns the values of <i>x</i> such that polynomial
-<i>p</i>(<i>x</i>) equals zero.
-The polynomial should be factorable over integers.
-Returns a vector for multiple roots.
-<pre style="font-family:courier;color:blue">
-roots(x^2 + 3x + 2,x)
-</pre>
-<pre style="font-family:courier">
--2
-
--1
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="run">run(<i>file</i>)</a>
 <p>
 Run script <i>file</i>.
@@ -1579,49 +1120,9 @@ sqrt(10!)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="status">status</a>
-<p>
-Prints memory statistics.
-<pre style="font-family:courier;color:blue">
-status
-</pre>
-<pre style="font-family:courier">
-block_count 1
-free_count 99258
-gc_count 1
-bignum_count 370
-string_count 0
-tensor_count 5
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="stop">stop</a>
 <p>
 In a script, it does what it says.
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="string">string(<i>x</i>)</a>
-<p>
-Evaluates expression <i>x</i> and returns the result as a string.
-Useful for testing scripts.
-<pre style="font-family:courier;color:blue">
-string((x + 1)^2) == "x^2 + 2 x + 1"
-</pre>
-<pre style="font-family:courier">
-1
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="subst">subst(<i>a,b,c</i>)</a>
-<p>
-Substitutes <i>a</i> for <i>b</i> in <i>c</i> and returns the result.
-<pre style="font-family:courier;color:blue">
-subst(x,y,y^2)
-</pre>
-<pre style="font-family:courier">
- 2
-x
-</pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="sum">sum(<i>i,j,k,f</i>)</a>
@@ -1667,21 +1168,6 @@ circexp(tanh(x))
         1             exp(2 x)
 - -------------- + --------------
    exp(2 x) + 1     exp(2 x) + 1
-</pre>
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="taylor">taylor(<i>f,x,n,a</i>)</a>
-<p>
-Returns the Taylor expansion of <i>f</i>(<i>x</i>) near <i>x</i> equals <i>a</i>.
-If argument <i>a</i> is omitted then zero is used.
-Argument <i>n</i> is the degree of the expansion.
-<pre style="font-family:courier;color:blue">
-taylor(sin(x),x,5)
-</pre>
-<pre style="font-family:courier">
-  1    5    1   3
------ x  - --- x  + x
- 120        6
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -1752,20 +1238,6 @@ For example,
 <span style="font-family:courier">transpose(A,1,2,2,3)</span>
 is equivalent to
 <span style="font-family:courier">transpose(transpose(A,1,2),2,3)</span>.
-
-<p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="tty">tty</a>
-<p>
-Set
-<span style="font-family:courier">tty=1</span>
-to print results in a flat format.
-<pre style="font-family:courier;color:blue">
-tty = 1
-(x + 1/2)^2
-</pre>
-<pre style="font-family:courier">
-x^2 + x + 1/4
-</pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="unit">unit(<i>n</i>)</a>
