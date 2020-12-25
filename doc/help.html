@@ -277,13 +277,13 @@ check(A=B) -- script stops here if A not equal to B
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="circexp">circexp(<i>x</i>)</a>
 <p>
-Returns expression <i>x</i> with circular and hyperbolic functions
-converted to exponentials.
+Returns expression <i>x</i> with circular and hyperbolic functions converted to exponentials.
+Can be used to simplify expressions.
 <pre style="font-family:courier;color:blue">
-circexp(cos(x) + i sin(x))
+circexp(sin(x)^2 + cos(x)^2)
 </pre>
 <pre style="font-family:courier">
-exp(i x)
+1
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -1073,12 +1073,7 @@ Note:
 <a id="simplify">simplify(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> in a simpler form.
-<pre style="font-family:courier;color:blue">
-simplify(sin(x)^2 + cos(x)^2)
-</pre>
-<pre style="font-family:courier">
-1
-</pre>
+See also <a href="#circexp" style="font-family:courier">circexp</a>.
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="sin">sin(<i>x</i>)</a>
@@ -1150,12 +1145,6 @@ is used for index variable <i>i</i> then the imaginary unit is overridden in the
 <a id="tan">tan(<i>x</i>)</a>
 <p>
 Returns the tangent of <i>x</i>.
-<pre style="font-family:courier;color:blue">
-simplify(tan(x) - sin(x)/cos(x))
-</pre>
-<pre style="font-family:courier">
-0
-</pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="tanh">tanh(<i>x</i>)</a>
