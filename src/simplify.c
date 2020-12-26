@@ -12,27 +12,31 @@ void
 simplify(void)
 {
 	save();
-	simplify_nib();
+	p1 = pop();
+	if (istensor(p1))
+		simplify_tensor();
+	else
+		simplify_scalar();
 	restore();
 }
 
 void
-simplify_nib(void)
+simplify_tensor(void)
+{
+	int i, n;
+	n = p1->u.tensor->nelem;
+	for (i = 0; i < n; i++) {
+		push(p1->u.tensor->elem[i]);
+		simplify();
+		p1->u.tensor->elem[i] = pop();
+	}
+	push(p1);
+}
+
+void
+simplify_scalar(void)
 {
 	int h;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		simplify_tensor();
-		return;
-	}
-
-	if (find(p1, symbol(FACTORIAL))) {
-		push(p1);
-		simplify_factorial();
-		return;
-	}
 
 	if (car(p1) == symbol(ADD)) {
 		// simplify each term
@@ -68,87 +72,6 @@ simplify_nib(void)
 	|| find(p1, symbol(SINH)) || find(p1, symbol(COSH)) || find(p1, symbol(TANH)))
 		simplify_trig();
 }
-
-void
-simplify_tensor(void)
-{
-	int i, n;
-	push(p1);
-	copy_tensor();
-	p1 = pop();
-	n = p1->u.tensor->nelem;
-	for (i = 0; i < n; i++) {
-		push(p1->u.tensor->elem[i]);
-		simplify();
-		p1->u.tensor->elem[i] = pop();
-	}
-	push(p1);
-}
-
-void
-simplify_factorial(void)
-{
-	save();
-
-	p1 = pop();
-
-	push(p1);
-	simfac();
-	p2 = pop();
-
-	push(p1);
-	rationalize(); // try rationalizing first
-	simfac();
-	p3 = pop();
-
-	if (weight(p2) < weight(p3))
-		push(p2);
-	else
-		push(p3);
-
-	restore();
-}
-
-//Example 1:
-//
-//? -3*A*x/(A-B)+3*B*x/(A-B)
-//   3 A x     3 B x
-//- ------- + -------
-//   A - B     A - B
-//? simplify
-//-3 x
-//
-//Example 2:
-//
-//? -y/(x^2*(y^2/x^2+1))
-//         y
-//- ---------------
-//         2
-//    2   y
-//   x  (---- + 1)
-//         2
-//        x
-//? simplify
-//      y
-//- ---------
-//    2    2
-//   x  + y
-//
-//Example 3:
-//
-//? 1/(x*(y^2/x^2+1))
-//      1
-//--------------
-//      2
-//     y
-// x (---- + 1)
-//      2
-//     x
-//? simplify
-//    x
-//---------
-//  2    2
-// x  + y
 
 void
 simplify_expr(void)

@@ -1620,29 +1620,6 @@ simplify(sin(x)^2-1)
 check(last = -cos(x)^2)
 simplify(cos(x)^2-1)
 check(last = -sin(x)^2)
-F=quote(F)
-simplify(n!/n)-(n-1)!
-check(last = 0)
-simplify(n/n!)-1/(n-1)!
-check(last = 0)
-simplify(rationalize((n+k+1)/(n+k+1)!))-1/(n+k)!
-check(last = 0)
-simplify(1/((n+1)*n!))-1/(n+1)!
-check(last = 0)
-simplify((n+1)!/n!)-n-1
-check(last = 0)
-simplify(n!/(n+1)!)-1/(n+1)
-check(last = 0)
-simplify(binomial(n+1,k)/binomial(n,k))
-check(last = (1+n)/(1-k+n))
-simplify(binomial(n,k)/binomial(n+1,k))
-check(last = (1-k+n)/(1+n))
-F(nn,kk)=kk*binomial(nn,kk)
-simplify((F(n,k)+F(n,k-1))/F(n+1,k))-n/(n+1)
-check(last = 0)
-F=quote(F)
-simplify((n+1)/(n+1)!)-1/n!
-check(last = 0)
 simplify(a*b+a*c)
 check(last = a*(b+c))
 x=simplify(a*b+a*c)
