@@ -336,30 +336,17 @@ length(struct atom *p)
 }
 
 int
-weight(struct atom *p)
+complexity(struct atom *p)
 {
-	int n;
-	if (iscons(p)) {
-		n = 0;
-		while (iscons(p)) {
-			n += weight(car(p)) + 1;
-			p = cdr(p);
-		}
-	} else
-		n = 1;
+	int n = 1;
+
+	while (iscons(p)) {
+		n += complexity(car(p));
+		p = cdr(p);
+	}
+
 	return n;
 }
-
-#if 0 // old slow version
-int
-equal(struct atom *p1, struct atom *p2)
-{
-	if (cmp_expr(p1, p2) == 0)
-		return 1;
-	else
-		return 0;
-}
-#endif
 
 int
 equal(struct atom *p1, struct atom *p2)
