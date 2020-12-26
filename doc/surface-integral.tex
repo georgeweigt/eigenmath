@@ -38,6 +38,11 @@ The following Eigenmath code computes the surface integral.
 The symbols $f$ and $h$ are used as temporary variables.
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
+M1 = ((0,0,0),(0,0,-1),(0,1,0))
+M2 = ((0,0,1),(0,0,0),(-1,0,0))
+M3 = ((0,-1,0),(1,0,0),(0,0,0))
+M = (M1,M2,M3)
+cross(u,v) = dot(u,M,v)
 z = 1 - x^2 - y^2
 F = (x y^2 z,-2 x^3,y z^2)
 S = (x,y,z)

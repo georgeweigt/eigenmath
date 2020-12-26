@@ -87,7 +87,7 @@ $\displaystyle 8\pi$
 x = quote(x) --clear x
 y = quote(y) --clear y
 h = sqrt(4-x^2)
-defint(d(Q,x)-d(P,y),y,-h,h,x,-2,2)
+defint(d(Q,x) - d(P,y),y,-h,h,x,-2,2)
 \end{Verbatim}
 
 \noindent
@@ -95,7 +95,7 @@ $\displaystyle 8\pi$
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
 -- Try computing the surface integral using polar coordinates.
-f = d(Q,x) - d(P,y) --do before change of coordinates
+f = d(Q,x) - d(P,y) -- do before change of coordinates
 x = r cos(theta)
 y = r sin(theta)
 defint(f r,r,0,2,theta,0,2pi)
@@ -105,7 +105,7 @@ defint(f r,r,0,2,theta,0,2pi)
 $\displaystyle 8\pi$
 
 \begin{Verbatim}[formatcom=\color{blue},samepage=true]
-defint(f r,theta,0,2pi,r,0,2) --try integrating over theta first
+defint(f r,theta,0,2pi,r,0,2) -- try integrating over theta first
 \end{Verbatim}
 
 \noindent

@@ -25,9 +25,6 @@ rationalize_nib(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);

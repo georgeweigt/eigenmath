@@ -1,13 +1,5 @@
 #include "defs.h"
 
-// examples
-//
-// d(f)
-// d(f,2)
-// d(f,x)
-// d(f,x,2)
-// d(f,x,y)
-
 #undef X
 #undef Y
 
@@ -492,12 +484,6 @@ darccos(void)
 	negate();
 }
 
-//				Without simplify	With simplify
-//
-//	d(arctan(y/x),x)	-y/(x^2*(y^2/x^2+1))	-y/(x^2+y^2)
-//
-//	d(arctan(y/x),y)	1/(x*(y^2/x^2+1))	x/(x^2+y^2)
-
 void
 darctan(void)
 {
@@ -511,7 +497,6 @@ darctan(void)
 	add();
 	reciprocate();
 	multiply();
-	simplify();
 }
 
 void
