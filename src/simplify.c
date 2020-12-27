@@ -157,7 +157,7 @@ simplify_expr_nib(void)
 
 	T = pop();
 
-	if (equaln(T, 0))
+	if (iszero(T))
 		p1 = R;
 
 	push(p1);
