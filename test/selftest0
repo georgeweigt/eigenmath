@@ -441,14 +441,17 @@ i * exp(-i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x)))
 simplify
 check(last=i / (exp(2 * i * x) + 1))
 
-circexp(tan(x) - sin(x)/cos(x))
+simplify(tan(x) - sin(x)/cos(x))
 check(last=0)
 
-circexp(sin(x)^2 + cos(x)^2)
+simplify(sin(x)^2 + cos(x)^2)
 check(last=1)
 
-circexp(sinh(x)^2 - cosh(x)^2)
+simplify(sinh(x)^2 - cosh(x)^2)
 check(last=-1)
+
+simplify(((sin(x)^2 + cos(x)^2,0),(0,sin(x))))
+check(last = ((1,0),(0,sin(x))))
 
 -- numerator and denominator had an infinite loop
 numerator(-(-i + i * exp(2 * i * x)) / (exp(2 * i * x) + 1))

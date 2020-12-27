@@ -24,6 +24,8 @@ simplify()
 
 	push(p1);
 	circexp();
+	rationalize();
+	evalf(); // to normalize
 	p2 = pop();
 
 	if (complexity(p2) < complexity(p1))

@@ -24,6 +24,9 @@ simplify_nib(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
+		push(p1);
+		copy_tensor();
+		p1 = pop();
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -41,6 +44,8 @@ simplify_nib(void)
 
 	push(p1);
 	circexp();
+	rationalize();
+	eval(); // to normalize
 	p2 = pop();
 
 	if (complexity(p2) < complexity(p1))
