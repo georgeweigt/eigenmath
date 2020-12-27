@@ -630,7 +630,6 @@ void sgn(void);
 void eval_simplify(void);
 void simplify(void);
 void simplify_nib(void);
-void simplify_tensor(void);
 void simplify_expr(void);
 void simplify_expr_nib(void);
 void simplify_trig(void);

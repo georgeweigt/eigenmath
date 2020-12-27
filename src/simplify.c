@@ -19,12 +19,21 @@ simplify(void)
 void
 simplify_nib(void)
 {
-	int h;
+	int i, h, n;
 
 	p1 = pop();
 
 	if (istensor(p1)) {
-		simplify_tensor();
+		push(p1);
+		copy_tensor();
+		p1 = pop();
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			simplify();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
 		return;
 	}
 
@@ -53,22 +62,6 @@ simplify_nib(void)
 	push(p1);
 	simplify_expr();
 	p1 = pop();
-	push(p1);
-}
-
-void
-simplify_tensor(void)
-{
-	int i, n;
-	push(p1);
-	copy_tensor();
-	p1 = pop();
-	n = p1->u.tensor->nelem;
-	for (i = 0; i < n; i++) {
-		push(p1->u.tensor->elem[i]);
-		simplify();
-		p1->u.tensor->elem[i] = pop();
-	}
 	push(p1);
 }
 
