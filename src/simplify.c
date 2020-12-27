@@ -13,7 +13,6 @@ simplify(void)
 {
 	save();
 	simplify_nib();
-	simplify_trig();
 	restore();
 }
 
@@ -78,6 +77,7 @@ simplify_expr(void)
 {
 	save();
 	simplify_expr_nib();
+	simplify_trig();
 	restore();
 }
 
