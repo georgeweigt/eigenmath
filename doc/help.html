@@ -278,12 +278,11 @@ check(A=B) -- script stops here if A not equal to B
 <a id="circexp">circexp(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> with circular and hyperbolic functions converted to exponentials.
-Can be used to simplify expressions.
 <pre style="font-family:courier;color:blue">
-circexp(sin(x)^2 + cos(x)^2)
+circexp(cos(x) + i sin(x))
 </pre>
 <pre style="font-family:courier">
-1
+exp(i x)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -1073,7 +1072,12 @@ Note:
 <a id="simplify">simplify(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> in a simpler form.
-See also <a href="#circexp" style="font-family:courier">circexp</a>.
+<pre style="font-family:courier;color:blue">
+simplify(sin(x)^2 + cos(x)^2)
+</pre>
+<pre style="font-family:courier">
+1
+</pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="sin">sin(<i>x</i>)</a>
