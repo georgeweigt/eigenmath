@@ -61,8 +61,6 @@ simplify_nib(void)
 
 	push(p1);
 	simplify_expr();
-	p1 = pop();
-	push(p1);
 }
 
 void
