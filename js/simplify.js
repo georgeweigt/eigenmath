@@ -1,7 +1,7 @@
 function
 simplify()
 {
-	var i, n, p1, p2;
+	var h, i, n, p1;
 
 	p1 = pop();
 
@@ -17,19 +17,30 @@ simplify()
 		return;
 	}
 
-	push(p1);
-	rationalize();
-	evalf(); // to normalize
-	p1 = pop();
+	if (car(p1) == symbol(ADD)) {
+		// simplify each term
+		h = stack.length;
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			simplify_expr();
+			p1 = cdr(p1);
+		}
+		add_terms(stack.length - h);
+		p1 = pop();
+		if (car(p1) == symbol(ADD)) {
+			push(p1);
+			simplify_expr(); // try rationalizing
+			p1 = pop();
+		}
+		push(p1);
+		simplify_trig();
+		return;
+	}
+
+	// p1 is a term (factor or product of factors)
 
 	push(p1);
-	circexp();
-	rationalize();
-	evalf(); // to normalize
-	p2 = pop();
-
-	if (complexity(p2) < complexity(p1))
-		p1 = p2;
-
-	push(p1);
+	simplify_expr();
+	simplify_trig();
 }

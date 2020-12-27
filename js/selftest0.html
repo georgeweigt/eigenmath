@@ -595,34 +595,29 @@ check(A == (((a,a,a,a),(a,a,a,a)),((b,b,b,b),(b,b,b,b)),((c,c,c,c),(c,c,c,c))))
 
 clear
 
--3*x*A/(A-B) + 3*x*B/(A-B)
-simplify
-check(last=-3*x)
+simplify(-3*x*A/(A-B) + 3*x*B/(A-B))
+check(prefixform(last) = "(* -3 x)")
 
--y/(x^2*(y^2/x^2+1))
-simplify
-check(last=-y/(x^2+y^2))
+simplify(-y/(x^2*(y^2/x^2+1)))
+check(prefixform(last) = "(* -1 y (^ (+ (^ x 2) (^ y 2)) -1))")
 
-1/(x*(y^2/x^2+1))
-simplify
-check(last=x/(x^2+y^2))
+simplify(1/(x*(y^2/x^2+1)))
+check(prefixform(last) = "(* x (^ (+ (^ x 2) (^ y 2)) -1))")
 
--i * exp(i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x)))
-simplify
-check(last=-i * exp(2 * i * x) / (exp(2 * i * x) + 1))
+simplify(-i * exp(i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x))))
+check(prefixform(last) = "(* -1 (^ -1 1/2) (^ (+ (^ (e) (* 2 (^ -1 1/2) x)) 1) -1) (^ (e) (* 2 (^ -1 1/2) x)))")
 
-i * exp(-i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x)))
-simplify
-check(last=i / (exp(2 * i * x) + 1))
+simplify(i * exp(-i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x))))
+check(prefixform(last) = "(* (^ -1 1/2) (^ (+ (^ (e) (* 2 (^ -1 1/2) x)) 1) -1))")
 
 simplify(tan(x) - sin(x)/cos(x))
-check(last=0)
+check(prefixform(last) = "0")
 
 simplify(sin(x)^2 + cos(x)^2)
-check(last=1)
+check(prefixform(last) = "1")
 
 simplify(sinh(x)^2 - cosh(x)^2)
-check(last=-1)
+check(prefixform(last) = "-1")
 
 simplify(((sin(x)^2 + cos(x)^2,0),(0,sin(x))))
 check(last = ((1,0),(0,sin(x))))
