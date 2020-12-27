@@ -108,19 +108,6 @@ arg(2 - 3i)
 \noindent
 $\arctan(-3,2)$
 
-\subsection*{besselj($x,n$)}
-
-Returns a solution to the Bessel differential equation.
-
-{\color{blue}
-\begin{verbatim}
-besselj(x,1/2)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle \frac{2^{1/2}\sin(x)}{\pi^{1/2}\,x^{1/2}}$
-
 \subsection*{binding($s$)}
 
 The result of evaluating a symbol can differ from the symbol's binding.
@@ -145,27 +132,6 @@ binding(p)
 
 \noindent
 $(x+1)^2$
-
-\subsection*{binomial($n,k$)}
-
-Returns the coefficient of $x^ky^{n-k}$ in $(x+y)^n$.
-
-{\color{blue}
-\begin{verbatim}
-binomial(52,5)
-\end{verbatim}
-}
-
-\noindent
-$2598960$
-
-\bigskip
-\noindent
-Note:
-\verb$binomial$
-and
-\verb$choose$
-are the same function.
 
 \subsection*{ceiling($x$)}
 
@@ -202,20 +168,6 @@ check(A=B) -- stop here if A not equal to B
 \end{verbatim}
 }
 
-\subsection*{choose($n,k$)}
-
-Returns the number of combinations of $n$ items taken $k$ at a time.
-The following example computes the number of poker hands.
-
-{\color{blue}
-\begin{verbatim}
-choose(52,5)
-\end{verbatim}
-}
-
-\noindent
-$2598960$
-
 \subsection*{circexp($x$)}
 
 Returns expression $x$ with circular and hyperbolic functions
@@ -246,36 +198,6 @@ clock(2 - 3i)
 
 \noindent
 $13^{1/2}\,(-1)^{\arctan(-3,2)/\pi}$
-
-\subsection*{coeff($p,x,n$)}
-
-Returns the coefficient of $x^n$ in polynomial $p$.
-
-{\color{blue}
-\begin{verbatim}
-p = x^3 + 6x^2 + 12x + 8
-coeff(p,x,2)
-\end{verbatim}
-}
-
-\noindent
-$6$
-
-\subsection*{cofactor($m,i,j$)}
-
-Returns a cofactor of matrix $m$.
-The cofactor matrix is the transpose of the adjunct of $m$.
-This function returns the cofactor component at row $i$ and column $j$.
-
-{\color{blue}
-\begin{verbatim}
-A = ((a,b),(c,d))
-cofactor(A,1,2) == transpose(adj(A))[1,2]
-\end{verbatim}
-}
-
-\noindent
-$1$
 
 \subsection*{conj($z$)}
 
@@ -331,35 +253,6 @@ circexp(cosh(x))
 
 \noindent
 $\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
-
-
-\subsection*{cross($u,v$)}
-
-Returns the cross product of vectors $u$ and $v$.
-It is OK to redefine {\tt cross}.
-This is the default definition.
-
-{\color{blue}
-\begin{verbatim}
-cross(u,v) = (u[2] v[3] - u[3] v[2],
-              u[3] v[1] - u[1] v[3],
-              u[1] v[2] - u[2] v[1])
-\end{verbatim}
-}
-
-\subsection*{curl($u$)}
-
-Returns the curl of vector $u$.
-It is OK to redefine {\tt curl}.
-This is the default definition.
-
-{\color{blue}
-\begin{verbatim}
-curl(u) = (d(u[3],y) - d(u[2],z),
-           d(u[1],z) - d(u[3],x),
-           d(u[2],x) - d(u[1],y))
-\end{verbatim}
-}
 
 \subsection*{d($f,x$)}
 
@@ -424,20 +317,6 @@ defint(f, theta, 0, pi, phi, 0, 2pi) -- integrate over theta then over phi
 \noindent
 $\tfrac{16}{3}\pi$
 
-\subsection*{deg($p,x$)}
-
-Returns the degree of polynomial $p(x)$.
-
-{\color{blue}
-\begin{verbatim}
-p = (2x + 1)^3
-deg(p,x)
-\end{verbatim}
-}
-
-\noindent
-$3$
-
 \subsection*{denominator($x$)}
 
 Returns the denominator of expression $x$.
@@ -479,18 +358,6 @@ dim(A,1)
 
 \noindent
 $3$
-
-\subsection*{div($u$)}
-
-Returns the divergence of vector $u$.
-It is OK to redefine {\tt div}.
-This is the default definition.
-
-{\color{blue}
-\begin{verbatim}
-div(u) = d(u[1],x) + d(u[2],y) + d(u[3],z)
-\end{verbatim}
-}
 
 \subsection*{do($a,b,\ldots$)}
 
@@ -537,54 +404,6 @@ draw(x^2,x)
 \end{verbatim}
 }
 
-\subsection*{e}
-
-Symbol {\tt e} is initialized to the natural number $e=\exp(1)$.
-
-{\color{blue}
-\begin{verbatim}
-e^x
-\end{verbatim}
-}
-
-\noindent
-$\exp(x)$
-
-\bigskip
-\noindent
-Note: It is OK to clear or redefine {\tt e} and use the symbol for something else.
-
-\subsection*{eigen($m$)}
-
-Computes eigenvalues and eigenvectors numerically.
-Matrix $m$ is required to be both numerical and symmetric.
-Eigenvectors are returned in Q and eigenvalues are returned in D.
-Each row of Q is an eigenvector.
-Each diagonal element of D is an eigenvalue.
-
-{\color{blue}
-\begin{verbatim}
-A = ((1,2),(2,1))
-eigen(A)
-dot(transpose(Q),D,Q)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle \begin{bmatrix}
-1.0 & 2.0\\
-2.0 & 1.0
-\end{bmatrix}
-$
-
-\subsection*{erf($x$)}
-
-Error function of $x$.
-
-\subsection*{erfc($x$)}
-
-Complementary error function of $x$.
-
 \subsection*{eval($f,x,a$)}
 
 Returns expression $f$ evaluated at $x$ equals $a$.
@@ -615,21 +434,6 @@ exp(i pi)
 
 \noindent
 $-1$
-
-\subsection*{expand($r,x$)}
-
-Returns the partial fraction expansion of the ratio of polynomials $r$ in $x$.
-
-{\color{blue}
-\begin{verbatim}
-p = (x + 1)^2
-q = (x + 2)^2
-expand(p/q,x)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle -\frac{2}{x+2}+\frac{1}{x^2+4x+4}+1$
 
 \subsection*{expcos($z$)}
 
@@ -709,67 +513,6 @@ exptanh(z)
 \noindent
 $\displaystyle -\frac{1}{\exp(2z)+1}+\frac{\exp(2z)}{\exp(2z)+1}$
 
-\subsection*{factor($n$)}
-
-Factors numerical value $n$ and returns the result.
-
-{\color{blue}
-\begin{verbatim}
-factor(12/35)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle \frac{2^2\times 3}{5\times 7}$
-
-\bigskip
-\noindent
-If $n$ is a floating point value then a rational approximation of $n$ is factored and returned.
-
-{\color{blue}
-\begin{verbatim}
-factor(float(pi))
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle \frac{5\times 71}{113}$
-
-\subsection*{factor($p,x$)}
-
-Factors polynomial $p$ of $x$ and returns the result.
-The argument list can be extended for multivariate polynomials.
-
-{\color{blue}
-\begin{verbatim}
-p = 2x + x y + y + 2
-factor(p,x,y)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle (x+1)(y+2)$
-
-\bigskip
-\noindent
-Note:
-\verb$factor$
-returns an unexpanded expression.
-If the result is assigned to a symbol, evaluating the symbol will expand the result.
-Use
-\verb$binding$
-to retrieve the unexpanded expression.
-
-{\color{blue}
-\begin{verbatim}
-q = factor(p,x,y)
-binding(q)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle (x+1)(y+2)$
-
 \subsection*{factorial($n$)}
 
 Returns the factorial of $n$.
@@ -783,20 +526,6 @@ The expression {\tt n!} can also be used.
 
 \noindent
 $2432902008176640000$
-
-\subsection*{filter($f,a,b,\ldots$)}
-
-Returns $f$ excluding any terms containing $a$, $b$, etc.
-
-{\color{blue}
-\begin{verbatim}
-p = x^2 + 3x + 2
-filter(p,x^2)
-\end{verbatim}
-}
-
-\noindent
-$3x+2$
 
 \subsection*{float($x$)}
 
@@ -846,52 +575,6 @@ $A=3$
 Note: The original value of $i$ is restored after {\tt for} completes.
 If symbol {\tt i} is used for index variable $i$
 then the imaginary unit is overridden in the scope of {\tt for}.
-
-\subsection*{gcd($a,b,\ldots$)}
-
-Returns the greatest common divisor of expressions.
-
-{\color{blue}
-\begin{verbatim}
-gcd(x,x y)
-\end{verbatim}
-}
-
-\noindent
-$x$
-
-\subsection*{hermite($x,n$)}
-
-Returns the $n$th Hermite polynomial in $x$.
-
-{\color{blue}
-\begin{verbatim}
-hermite(x,3)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle 8x^3-12x$
-
-
-\subsection*{hilbert($n$)}
-
-Returns an $n$ by $n$ Hilbert matrix.
-
-{\color{blue}
-\begin{verbatim}
-hilbert(3)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle
-\begin{bmatrix}
-1 & \tfrac{1}{2} & \tfrac{1}{3}\\ \\
-\tfrac{1}{2} & \tfrac{1}{3} & \tfrac{1}{4}\\ \\
-\tfrac{1}{3} & \tfrac{1}{4} & \tfrac{1}{5}
-\end{bmatrix}
-$
 
 \subsection*{i}
 
@@ -980,19 +663,6 @@ $\displaystyle
 \end{bmatrix}
 $
 
-\subsection*{isprime($n$)}
-
-Returns 1 if $n$ is a prime number. Returns zero otherwise.
-
-{\color{blue}
-\begin{verbatim}
-isprime(2^31 - 1)
-\end{verbatim}
-}
-
-\noindent
-1
-
 \subsection*{j}
 
 Set {\tt j=sqrt(-1)} to use {\tt j} for the imaginary unit instead of {\tt i}.
@@ -1006,20 +676,6 @@ j = sqrt(-1)
 
 \noindent
 $-j$
-
-\subsection*{laguerre($x,n,a$)}
-
-Returns the $n$th Laguerre polynomial in $x$.
-If argument $a$ is omitted then $a=0$ is used.
-
-{\color{blue}
-\begin{verbatim}
-laguerre(x,3)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle -\tfrac{1}{6}x^3+\tfrac{3}{2}x^2-3x+1$
 
 \subsection*{last}
 
@@ -1056,61 +712,6 @@ float
 \noindent
 $\displaystyle 3.52947\times10^{39}$
 
-\subsection*{lcm($a,b,\ldots$)}
-
-Returns the least common multiple of expressions.
-
-{\color{blue}
-\begin{verbatim}
-lcm(x,x y)
-\end{verbatim}
-}
-
-\noindent
-$xy$
-
-\subsection*{leading($p,x$)}
-
-Returns the leading coefficient of polynomial $p(x)$.
-
-{\color{blue}
-\begin{verbatim}
-leading(3x^2 + 1,x)
-\end{verbatim}
-}
-
-\noindent
-$3$
-
-\subsection*{legendre($x,n,m$)}
-
-Returns the $n$th Legendre polynomial in $x$.
-If $m$ is omitted then $m=0$ is used.
-
-{\color{blue}
-\begin{verbatim}
-legendre(x,3)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle \tfrac{5}{2}x^3-\tfrac{3}{2}x$
-
-\subsection*{lisp($x$)}
-
-Evaluates expression $x$ and returns the result as a
-string in prefix notation.
-Useful for debugging scripts.
-
-{\color{blue}
-\begin{verbatim}
-lisp(x^2 + 1)
-\end{verbatim}
-}
-
-\noindent
-\verb$(+ (^ x 2) 1)$
-
 \subsection*{log($x$)}
 
 Returns the natural logarithm of $x$.
@@ -1138,19 +739,6 @@ mag(x + i y)
 \noindent
 $\displaystyle (x^2+y^2)^{1/2}$
 
-\subsection*{mod($a,b$)}
-
-Returns the remainder of $a$ divided by $b$.
-
-{\color{blue}
-\begin{verbatim}
-mod(10,7)
-\end{verbatim}
-}
-
-\noindent
-$3$
-
 \subsection*{not($x$)}
 
 Returns 0 if $x$ is true (nonzero).
@@ -1164,26 +752,6 @@ not(1=1)
 
 \noindent
 $0$
-
-\subsection*{nroots($p,x$)}
-
-Returns all roots, both real and complex,
-of polynomial $p(x)$.
-The roots are computed numerically.
-
-\subsection*{number($x$)}
-
-Returns 1 if $x$ is a rational or floating point number.
-Returns 0 otherwise.
-
-{\color{blue}
-\begin{verbatim}
-number(1/2)
-\end{verbatim}
-}
-
-\noindent
-$1$
 
 \subsection*{numerator($x$)}
 
@@ -1274,19 +842,6 @@ x^(-2)
 \noindent
 $\displaystyle \frac{1}{x^2}$
 
-\subsection*{prime($n$)}
-
-Returns the $n$th prime number.
-The domain of $n$ is 1 to 10000.
-{\color{blue}
-\begin{verbatim}
-prime(100)
-\end{verbatim}
-}
-
-\noindent
-$541$
-
 \subsection*{print($a,b,\ldots$)}
 
 Evaluate expressions and print the results.
@@ -1335,21 +890,6 @@ quote((x + 1)^2)
 
 \noindent
 $\displaystyle (x+1)^2$
-
-\subsection*{quotient($p,q,x$)}
-
-Returns the quotient of polynomial $p(x)$ over $q(x)$.
-
-{\color{blue}
-\begin{verbatim}
-p = x^2 + 1
-q = x + 3
-quotient(p,q,x)
-\end{verbatim}
-}
-
-\noindent
-$x-3$
 
 \subsection*{rank($a$)}
 
@@ -1424,26 +964,6 @@ rect(exp(i x))
 \noindent
 $\displaystyle \cos(x)+i\sin(x)$
 
-\subsection*{roots($p,x$)}
-
-Returns the $x$ such that $p(x)=0$.
-Polynomial $p(x)$ should be factorable over integers.
-Returns a vector for multiple roots.
-
-{\color{blue}
-\begin{verbatim}
-roots(x^2 + 3x + 2,x)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle
-\begin{bmatrix}
--2\\
--1
-\end{bmatrix}
-$
-
 \subsection*{run({\it file})}
 
 Run script {\it file}.
@@ -1510,55 +1030,9 @@ sqrt(10!)
 \noindent
 $\displaystyle 720\; 7^{1/2}$
 
-\subsection*{status}
-
-Prints memory statistics.
-
-\bigskip
-\noindent
-{\color{blue}
-\verb$status$
-}
-
-\bigskip
-\noindent
-\verb$block_count 1$\\
-\verb$free_count 99258$\\
-\verb$gc_count 1$\\
-\verb$bignum_count 370$\\
-\verb$string_count 0$\\
-\verb$tensor_count 5$
-
 \subsection*{stop}
 
 In a script, it does what it says.
-
-\subsection*{string($x$)}
-
-Evaluates expression $x$ and returns the result as a string.
-Useful for testing scripts.
-
-{\color{blue}
-\begin{verbatim}
-string((x + 1)^2) == "x^2 + 2 x + 1"
-\end{verbatim}
-}
-
-\noindent
-1
-
-\subsection*{subst($a,b,c$)}
-
-Substitutes $a$ for $b$ in $c$ and returns the result.
-
-{\color{blue}
-\begin{verbatim}
-subst(x,y,y^2)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle x^2$
 
 \subsection*{sum($i,j,k,f$)}
 
@@ -1605,21 +1079,6 @@ circexp(tanh(x))
 
 \noindent
 $\displaystyle -\frac{1}{\exp(2x)+1}+\frac{\exp(2x)}{\exp(2x)+1}$
-
-\subsection*{taylor($f,x,n,a$)}
-
-Returns the Taylor expansion of $f(x)$ near $x=a$.
-If argument $a$ is omitted then $a=0$ is used.
-Argument $n$ is the degree of the expansion.
-
-{\color{blue}
-\begin{verbatim}
-taylor(sin(x),x,5)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle \tfrac{1}{120}x^5-\tfrac{1}{6}x^3+x$
 
 \subsection*{test($a,b,c,d,\ldots$)}
 
@@ -1699,20 +1158,6 @@ For example,
 \verb$transpose(A,1,2,2,3)$
 is equivalent to
 \verb$transpose(transpose(A,1,2),2,3)$.
-
-\subsection*{tty}
-
-Set {\tt tty=1} to print results in text format.
-
-{\color{blue}
-\begin{verbatim}
-tty = 1
-(x + 1/2)^2
-\end{verbatim}
-}
-
-\noindent
-\verb$x^2 + x + 1/4$
 
 \subsection*{unit($n$)}
 
