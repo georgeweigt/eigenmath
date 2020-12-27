@@ -54,6 +54,7 @@ simplify_nib(void)
 			p1 = pop();
 		}
 		push(p1);
+		simplify_trig();
 		return;
 	}
 
@@ -61,6 +62,7 @@ simplify_nib(void)
 
 	push(p1);
 	simplify_expr();
+	simplify_trig();
 }
 
 void
@@ -68,7 +70,6 @@ simplify_expr(void)
 {
 	save();
 	simplify_expr_nib();
-	simplify_trig();
 	restore();
 }
 
