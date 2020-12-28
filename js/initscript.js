@@ -6,7 +6,7 @@ var init_script = [
 function
 initscript()
 {
-	var i, n
+	var i, n;
 
 	n = init_script.length;
 
