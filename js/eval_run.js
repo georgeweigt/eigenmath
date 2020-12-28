@@ -12,10 +12,12 @@ eval_run(p1)
 
 	f = new XMLHttpRequest();
 	f.open("GET", p1.string, false);
+	f.onerror = function() {stopf("run: comm error")};
+	f.onabort = function() {stopf("run: comm abort")};
 	f.send();
 
 	if (f.status != 200)
-		stopf("run: error reading file");
+		stopf("run: file not found");
 
 	save_inbuf = inbuf;
 	save_trace1 = trace1;
