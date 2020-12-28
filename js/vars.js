@@ -77,6 +77,7 @@ var symtab = {
 "rationalize":	{printname:RATIONALIZE,	func:eval_rationalize},
 "real":		{printname:REAL,	func:eval_real},
 "rect":		{printname:RECT,	func:eval_rect},
+"run":		{printname:RUN,		func:eval_run},
 "sgn":		{printname:SGN,		func:eval_sgn},
 "simplify":	{printname:SIMPLIFY,	func:eval_simplify},
 "sin":		{printname:SIN,		func:eval_sin},

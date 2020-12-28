@@ -368,10 +368,12 @@ get_token_nib()
 
 	// skip spaces
 
-	while (inchar() == "\t" || inchar() == " ")
+	for (;;) {
+		c = inchar();
+		if (c == "" || c == "\n" || (c.charCodeAt(0) > 32 && c.charCodeAt(0) < 127))
+			break;
 		scan_index++;
-
-	c = inchar();
+	}
 
 	token_index = scan_index;
 
