@@ -20,7 +20,6 @@ Differences from original Eigenmath:
 
 besselj
 binomial
-ceiling
 choose
 coeff
 cofactor
@@ -43,11 +42,11 @@ lcm
 leading
 legendre
 lisp
+mod
 nroots
 prime
 quotient
 roots
-run
 status
 string
 subst

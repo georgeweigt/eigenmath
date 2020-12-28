@@ -9,6 +9,7 @@ const ARCTAN = "arctan";
 const ARCTANH = "arctanh";
 const ARG = "arg";
 const BINDING = "binding";
+const CEILING = "ceiling";
 const CHECK = "check";
 const CIRCEXP = "circexp";
 const CLEAR = "clear";

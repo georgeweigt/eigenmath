@@ -27,6 +27,7 @@ var symtab = {
 "arctanh":	{printname:ARCTANH,	func:eval_arctanh},
 "arg":		{printname:ARG,		func:eval_arg},
 "binding":	{printname:BINDING,	func:eval_binding},
+"ceiling":	{printname:CEILING,	func:eval_ceiling},
 "check":	{printname:CHECK,	func:eval_check},
 "circexp":	{printname:CIRCEXP,	func:eval_circexp},
 "clear":	{printname:CLEAR,	func:eval_clear},
