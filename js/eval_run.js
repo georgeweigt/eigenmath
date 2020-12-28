@@ -14,7 +14,7 @@ eval_run(p1)
 	f.open("GET", p1.string, false);
 	f.send();
 
-	if (f.responseText == "")
+	if (f.status != 200)
 		stopf("run: error reading file");
 
 	save_inbuf = inbuf;
