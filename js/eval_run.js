@@ -13,7 +13,6 @@ eval_run(p1)
 	f = new XMLHttpRequest();
 	f.open("GET", p1.string, false);
 	f.onerror = function() {stopf("run: comm error")};
-	f.onabort = function() {stopf("run: comm abort")};
 	f.send();
 
 	if (f.status != 200)
