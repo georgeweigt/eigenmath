@@ -15,7 +15,7 @@ eval_run(p1)
 	f.onerror = function() {stopf("run: error")};
 	f.send();
 
-	if (f.status != 200)
+	if (f.status == 404 || f.responseText.length == 0)
 		stopf("run: file not found");
 
 	save_inbuf = inbuf;
