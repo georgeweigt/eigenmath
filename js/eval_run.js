@@ -12,7 +12,7 @@ eval_run(p1)
 
 	f = new XMLHttpRequest();
 	f.open("GET", p1.string, false);
-	f.onerror = function() {stopf("run: error")};
+	f.onerror = function() {stopf("run: network error")};
 	f.send();
 
 	if (f.status == 404 || f.responseText.length == 0)
