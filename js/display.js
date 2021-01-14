@@ -1024,12 +1024,14 @@ emit_update_subexpr()
 function
 emit_update_subscript()
 {
-	var d, dx, dy, font_num, h, p1, w;
+	var d, dx, dy, font_num, h, p1, t, w;
 
 	p1 = pop();
 
+	t = get_char_width(SMALL_ROMAN_FONT, LOWER_N) / 4;
+
 	d = depth(p1);
-	w = width(p1);
+	w = t + width(p1);
 
 	if (emit_level == 0)
 		font_num = ROMAN_FONT;
@@ -1038,7 +1040,7 @@ emit_update_subscript()
 
 	h = get_cap_height(font_num);
 
-	dx = 0;
+	dx = t;
 	dy = h / 2;
 
 	d += dy;
@@ -1057,14 +1059,16 @@ emit_update_subscript()
 function
 emit_update_superscript()
 {
-	var d, dx, dy, h, p1, p2, w, y;
+	var d, dx, dy, h, p1, p2, t, w, y;
 
 	p2 = pop(); // exponent
 	p1 = pop(); // base
 
+	t = get_char_width(SMALL_ROMAN_FONT, LOWER_N) / 4;
+
 	h = height(p2);
 	d = depth(p2);
-	w = width(p2);
+	w = t + width(p2);
 
 	// y is height of base
 
@@ -1079,14 +1083,14 @@ emit_update_superscript()
 	else
 		y = Math.max(y, get_xheight(SMALL_ROMAN_FONT));
 
-	dx = 0;
+	dx = t;
 	dy = -(y + d);
 
 	h = y + h + d;
 	d = 0;
 
 	if (opcode(p1) == EMIT_SUBSCRIPT) {
-		dx = -width(p1);
+		dx = -width(p1) + t;
 		w = Math.max(0, w - width(p1));
 	}
 

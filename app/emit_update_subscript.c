@@ -4,14 +4,16 @@ void
 emit_update_subscript(void)
 {
 	int font_num;
-	double d, dx, dy, h, w;
+	double d, dx, dy, h, t, w;
 
 	save();
 
 	p1 = pop();
 
+	t = get_char_width(SMALL_ROMAN_FONT, 'n') / 4.0;
+
 	d = DEPTH(p1);
-	w = WIDTH(p1);
+	w = t + WIDTH(p1);
 
 	if (emit_level == 0)
 		font_num = ROMAN_FONT;
@@ -20,7 +22,7 @@ emit_update_subscript(void)
 
 	h = get_cap_height(font_num);
 
-	dx = 0.0;
+	dx = t;
 	dy = h / 2.0;
 
 	d += dy;
