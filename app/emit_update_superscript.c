@@ -10,7 +10,10 @@ emit_update_superscript(void)
 	p2 = pop(); // exponent
 	p1 = pop(); // base
 
-	t = get_char_width(SMALL_ROMAN_FONT, 'n') / 4.0;
+	if (emit_level == 0)
+		t = get_char_width(ROMAN_FONT, 'n') / 6.0;
+	else
+		t = get_char_width(SMALL_ROMAN_FONT, 'n') / 6.0;
 
 	h = HEIGHT(p2);
 	d = DEPTH(p2);
