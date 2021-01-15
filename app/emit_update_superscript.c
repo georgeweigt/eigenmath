@@ -3,6 +3,7 @@
 void
 emit_update_superscript(void)
 {
+	int font_num;
 	double d, dx, dy, h, t, w, y;
 
 	save();
@@ -11,9 +12,11 @@ emit_update_superscript(void)
 	p1 = pop(); // base
 
 	if (emit_level == 0)
-		t = get_char_width(ROMAN_FONT, 'n') / 6.0;
+		font_num = ROMAN_FONT;
 	else
-		t = get_char_width(SMALL_ROMAN_FONT, 'n') / 6.0;
+		font_num = SMALL_ROMAN_FONT;
+
+	t = get_char_width(font_num, 'n') / 6.0;
 
 	h = HEIGHT(p2);
 	d = DEPTH(p2);
@@ -27,10 +30,7 @@ emit_update_superscript(void)
 
 	y -= (h + d) / 2.0;
 
-	if (emit_level == 0)
-		y = fmax(y, get_xheight(ROMAN_FONT));
-	else
-		y = fmax(y, get_xheight(SMALL_ROMAN_FONT));
+	y = fmax(y, get_xheight(font_num));
 
 	dx = t;
 	dy = -(y + d);

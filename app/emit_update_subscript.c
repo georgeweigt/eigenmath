@@ -11,19 +11,15 @@ emit_update_subscript(void)
 	p1 = pop();
 
 	if (emit_level == 0)
-		t = get_char_width(ROMAN_FONT, 'n') / 6.0;
-	else
-		t = get_char_width(SMALL_ROMAN_FONT, 'n') / 6.0;
-
-	d = DEPTH(p1);
-	w = t + WIDTH(p1);
-
-	if (emit_level == 0)
 		font_num = ROMAN_FONT;
 	else
 		font_num = SMALL_ROMAN_FONT;
 
+	t = get_char_width(font_num, 'n') / 6.0;
+
 	h = get_cap_height(font_num);
+	d = DEPTH(p1);
+	w = t + WIDTH(p1);
 
 	dx = t;
 	dy = h / 2.0;
