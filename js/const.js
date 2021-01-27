@@ -67,6 +67,7 @@ const SIN = "sin";
 const SINH = "sinh";
 const SQRT = "sqrt";
 const STOP = "stop";
+const SUBST = "subst";
 const SUM = "sum";
 const TAN = "tan";
 const TANH = "tanh";
