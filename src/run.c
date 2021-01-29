@@ -14,7 +14,7 @@ run(char *s)
 
 	prep();
 
-	binding[TRACE] = zero;
+	set_binding(symbol(TRACE), zero);
 
 	for (;;) {
 
@@ -24,6 +24,9 @@ run(char *s)
 			break; // end of input
 
 		eval_and_print_result();
+
+		if (tos || tof)
+			stop("internal error");
 	}
 }
 
@@ -99,7 +102,7 @@ eval_and_print_result(void)
 	print_result();
 
 	if (p2 != symbol(NIL))
-		binding[LAST] = p2;
+		set_binding(symbol(LAST), p2);
 
 	restore();
 }
@@ -204,7 +207,7 @@ void
 trace_input(void)
 {
 	char c, *s;
-	if (iszero(binding[TRACE]))
+	if (iszero(get_binding(symbol(TRACE))))
 		return;
 	c = 0;
 	s = trace1;

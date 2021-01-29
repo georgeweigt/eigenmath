@@ -410,11 +410,11 @@ void
 latex_imaginary(struct atom *p)
 {
 	if (isimaginaryunit(p)) {
-		if (isimaginaryunit(binding[SYMBOL_J])) {
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
 			print_str("j");
 			return;
 		}
-		if (isimaginaryunit(binding[SYMBOL_I])) {
+		if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
 			print_str("i");
 			return;
 		}

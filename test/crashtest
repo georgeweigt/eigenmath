@@ -1,4 +1,4 @@
--- circular definition should cause frame error, not seg fault
+-- circular definition should not cause crash
 
 x = x + 1
 x

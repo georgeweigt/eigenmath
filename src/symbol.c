@@ -43,12 +43,42 @@ lookup(char *s)
 	p->u.usym.index = j;
 
 	symtab[j] = p;
-	binding[j] = p;
+
+	binding[j] = symbol(NIL);
 	arglist[j] = symbol(NIL);
 
 	usym_count++;
 
 	return p;
+}
+
+// symbol with trailing '$'
+
+struct atom *
+dual(struct atom *p)
+{
+	int n;
+	char *s;
+	static int len;
+	static char *buf;
+
+	if (p->k != USYM)
+		stop("symbol error");
+
+	s = p->u.usym.name;
+	n = (int) strlen(s) + 2; // add 2 for '$' and '\0'
+
+	if (n > len) {
+		len = n + 100;
+		buf = realloc(buf, len);
+		if (buf == NULL)
+			malloc_kaput();
+	}
+
+	strcpy(buf, s);
+	strcat(buf, "$");
+
+	return lookup(buf);
 }
 
 char *
@@ -65,19 +95,19 @@ printname(struct atom *p)
 void
 set_binding(struct atom *p, struct atom *b)
 {
-	if (p->k != USYM)
-		stop("reserved symbol");
-	binding[p->u.usym.index] = b;
-	arglist[p->u.usym.index] = symbol(NIL);
+	pop_binding(p);
+	pop_arglist(p);
+	push_binding(p, b);
+	push_arglist(p, symbol(NIL));
 }
 
 void
 set_binding_and_arglist(struct atom *p, struct atom *b, struct atom *a)
 {
-	if (p->k != USYM)
-		stop("reserved symbol");
-	binding[p->u.usym.index] = b;
-	arglist[p->u.usym.index] = a;
+	pop_binding(p);
+	pop_arglist(p);
+	push_binding(p, b);
+	push_arglist(p, a);
 }
 
 struct atom *
@@ -85,7 +115,8 @@ get_binding(struct atom *p)
 {
 	if (p->k != USYM)
 		stop("symbol error");
-	return binding[p->u.usym.index];
+
+	return car(binding[p->u.usym.index]);
 }
 
 struct atom *
@@ -93,7 +124,74 @@ get_arglist(struct atom *p)
 {
 	if (p->k != USYM)
 		stop("symbol error");
-	return arglist[p->u.usym.index];
+
+	return car(arglist[p->u.usym.index]);
+}
+
+struct atom *
+pop_binding(struct atom *p)
+{
+	int i;
+
+	if (p->k != USYM)
+		stop("reserved symbol");
+
+	i = p->u.usym.index;
+
+	p = binding[i];
+	binding[i] = cdr(p);
+
+	return car(p);
+}
+
+struct atom *
+pop_arglist(struct atom *p)
+{
+	int i;
+
+	if (p->k != USYM)
+		stop("reserved symbol");
+
+	i = p->u.usym.index;
+
+	p = arglist[i];
+	arglist[i] = cdr(p);
+
+	return car(p);
+}
+
+void
+push_binding(struct atom *p, struct atom *b)
+{
+	int i;
+
+	if (p->k != USYM)
+		stop("reserved symbol");
+
+	i = p->u.usym.index;
+
+	push(b);
+	push(binding[i]);
+	cons();
+
+	binding[i] = pop();
+}
+
+void
+push_arglist(struct atom *p, struct atom *a)
+{
+	int i;
+
+	if (p->k != USYM)
+		stop("reserved symbol");
+
+	i = p->u.usym.index;
+
+	push(a);
+	push(arglist[i]);
+	cons();
+
+	arglist[i] = pop();
 }
 
 struct se {
@@ -312,7 +410,7 @@ clear_symbols(void)
 			k = NSYM * i + j;
 			if (symtab[k] == NULL)
 				break;
-			binding[k] = symtab[k];
+			binding[k] = symbol(NIL);
 			arglist[k] = symbol(NIL);
 		}
 	}

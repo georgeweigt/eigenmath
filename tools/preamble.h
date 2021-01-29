@@ -1,4 +1,4 @@
-/* December 27, 2020
+/* January 29, 2021
 
 To build and run:
 
@@ -12,7 +12,7 @@ See also github.com/georgeweigt/eigenmath
 
 BSD 2-Clause License
 
-Copyright (c) 2020, George Weigt
+Copyright (c) 2021, George Weigt
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

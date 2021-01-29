@@ -1,19 +1,17 @@
 #include "defs.h"
 
-#undef F
-#undef A
-#undef B
-#undef S
+#undef FUNC
+#undef FARG
+#undef AARG
 
-#define F p4 // F is the function body
-#define A p5 // A is the formal argument list
-#define B p6 // B is the calling argument list
-#define S p7 // S is the argument substitution list
+#define FUNC p4 // function body
+#define FARG p5 // formal argument list
+#define AARG p6 // actual argument list
 
 void
 eval_user_function(void)
 {
-	int h;
+	int h, i, j, n;
 
 	// use "derivative" instead of "d" if there is no user function "d"
 
@@ -22,134 +20,97 @@ eval_user_function(void)
 		return;
 	}
 
-	F = get_binding(car(p1));
-	A = get_arglist(car(p1));
-	B = cdr(p1);
+	FUNC = get_binding(car(p1));
+	FARG = get_arglist(car(p1));
+	AARG = cdr(p1);
 
 	// undefined function?
 
-	if (F == car(p1)) {
-		h = tos;
-		push(F);
-		p1 = B;
-		while (iscons(p1)) {
+	if (FUNC == symbol(NIL)) {
+		push(car(p1)); // function name
+		p1 = AARG;
+		n = length(p1);
+		for (i = 0; i < n; i++) {
 			push(car(p1));
 			eval();
 			p1 = cdr(p1);
 		}
-		list(tos - h);
+		list(n + 1);
 		return;
 	}
 
-	// create the argument substitution list S
+	// eval actual args
 
-	p1 = A;
-	p2 = B;
 	h = tos;
-	while (iscons(p1) && iscons(p2)) {
+
+	n = length(FARG); // if AARG is shorter than FARG then NIL is pushed for missing args
+
+	p1 = AARG;
+
+	for (i = 0; i < n; i++) {
 		push(car(p1));
-		push(car(p2));
 		eval();
 		p1 = cdr(p1);
-		p2 = cdr(p2);
 	}
-	list(tos - h);
-	S = pop();
 
-	// evaluate the function body
+	// resolve collisions
 
-	push(F);
+	p1 = FARG;
 
-	if (iscons(S))
-		rewrite();
+	for (i = 0; i < n; i++) {
 
-	eval();
-}
+		p2 = car(p1);
 
-int
-rewrite(void)
-{
-	int n;
-	save();
-	n = rewrite_nib();
-	restore();
-	return n;
-}
+		for (j = 0; j < n; j++)
+			if (find(stack[h + j], p2))
+				break;
 
-int
-rewrite_nib(void)
-{
-	int h, i, m, n = 0;
+		if (j < n) {
 
-	p1 = pop();
+			// collision, use dual
 
-	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
-		m = p1->u.tensor->nelem;
-		for (i = 0; i < m; i++) {
-			push(p1->u.tensor->elem[i]);
-			n += rewrite();
-			p1->u.tensor->elem[i] = pop();
+			p3 = dual(p2);
+
+			push(FUNC);
+			push(p2);
+			push(p3);
+			subst();
+			FUNC = pop();
+
+			p2 = p3;
 		}
-		push(p1);
-		return n;
-	}
 
-	if (iscons(p1)) {
+		push(p2);
 
-		h = tos;
-
-		push(car(p1)); // don't rewrite function name
 		p1 = cdr(p1);
-
-		while (iscons(p1)) {
-			push(car(p1));
-			n += rewrite();
-			p1 = cdr(p1);
-		}
-
-		list(tos - h);
-
-		return n;
 	}
 
-	// if not a symbol then done
+	list(n);
 
-	if (!issymbol(p1)) {
-		push(p1);
-		return 0; // no substitution
+	FARG = pop();
+
+	// assign to formal args
+
+	p1 = FARG;
+
+	for (i = 0; i < n; i++) {
+		push_binding(car(p1), stack[h + i]);
+		p1 = cdr(p1);
 	}
 
-	// check argument substitution list
+	tos = h; // pop all
 
-	p2 = S;
-	while (iscons(p2)) {
-		if (p1 == car(p2)) {
-			push(cadr(p2));
-			return 1; // substitution occurred
-		}
-		p2 = cddr(p2);
+	// evaluate function body
+
+	push(FUNC);
+	eval();
+
+	// remove args
+
+	p1 = FARG;
+
+	for (i = 0; i < n; i++) {
+		pop_binding(car(p1));
+		p1 = cdr(p1);
 	}
-
-	// get the symbol's binding, try again
-
-	p2 = get_binding(p1);
-
-	if (p1 == p2) {
-		push(p1);
-		return 0; // no substitution
-	}
-
-	push(p2);
-
-	n = rewrite();
-
-	if (n == 0) {
-		p2 = pop(); // undo
-		push(p1);
-	}
-
-	return n;
 }

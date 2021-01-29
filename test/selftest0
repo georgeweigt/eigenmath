@@ -1391,6 +1391,15 @@ f = circexp(f)
 defint(f,t,0,2pi)
 check(last = -4pi)
 
+-- missing arg test
+
+clear
+f(a,b,c) = g(a,b,c)
+check(f() == g(a,b,c))
+check(f(1) == g(1,b,c))
+check(f(1,2) == g(1,2,c))
+check(f(1,2,3) == g(1,2,3))
+
 -- done
 
 clear

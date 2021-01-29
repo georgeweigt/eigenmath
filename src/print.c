@@ -34,7 +34,7 @@ print_result_nib(void)
 	if (issymbol(p1))
 		prep_symbol_equals();
 
-	if (iszero(binding[TTY])) {
+	if (iszero(get_binding(symbol(TTY)))) {
 		push(p2);
 		cmdisplay();
 		return;
@@ -356,11 +356,11 @@ print_factor(struct atom *p)
 	if (car(p) == symbol(POWER)) {
 
 		if (isimaginaryunit(p)) {
-			if (isimaginaryunit(binding[SYMBOL_J])) {
+			if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
 				print_char('j');
 				return;
 			}
-			if (isimaginaryunit(binding[SYMBOL_I])) {
+			if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
 				print_char('i');
 				return;
 			}

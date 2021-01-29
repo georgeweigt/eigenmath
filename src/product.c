@@ -26,7 +26,7 @@ eval_product(void)
 
 	p1 = cadr(p1);
 
-	save_binding(p2);
+	push_binding(p2, zero);
 
 	h = tos;
 
@@ -46,5 +46,5 @@ eval_product(void)
 
 	multiply_factors(tos - h);
 
-	restore_binding(p2);
+	pop_binding(p2);
 }
