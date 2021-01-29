@@ -1,34 +1,38 @@
 #include "defs.h"
 
-#undef FUNC
-#undef FARG
-#undef AARG
+#undef FUNC_NAME
+#undef FUNC_DEFN
+#undef FORMAL
+#undef ACTUAL
 
-#define FUNC p4 // function body
-#define FARG p5 // formal argument list
-#define AARG p6 // actual argument list
+#define FUNC_NAME p4
+#define FUNC_DEFN p5
+#define FORMAL p6 // formal argument list
+#define ACTUAL p7 // actual argument list
 
 void
 eval_user_function(void)
 {
 	int h, i, j, n;
 
+	FUNC_NAME = car(p1);
+	FUNC_DEFN = get_binding(FUNC_NAME);
+
+	FORMAL = get_arglist(FUNC_NAME);
+	ACTUAL = cdr(p1);
+
 	// use "derivative" instead of "d" if there is no user function "d"
 
-	if (car(p1) == symbol(SYMBOL_D) && get_arglist(symbol(SYMBOL_D)) == symbol(NIL)) {
+	if (FUNC_NAME == symbol(SYMBOL_D) && get_arglist(symbol(SYMBOL_D)) == symbol(NIL)) {
 		eval_derivative();
 		return;
 	}
 
-	FUNC = get_binding(car(p1));
-	FARG = get_arglist(car(p1));
-	AARG = cdr(p1);
-
 	// undefined function?
 
-	if (FUNC == symbol(NIL)) {
-		push(car(p1)); // function name
-		p1 = AARG;
+	if (FUNC_DEFN == symbol(NIL)) {
+		push(FUNC_NAME);
+		p1 = ACTUAL;
 		n = length(p1);
 		for (i = 0; i < n; i++) {
 			push(car(p1));
@@ -43,9 +47,9 @@ eval_user_function(void)
 
 	h = tos;
 
-	n = length(FARG); // if AARG is shorter than FARG then NIL is pushed for missing args
+	n = length(FORMAL); // if ACTUAL is shorter than FORMAL then NIL is pushed for missing args
 
-	p1 = AARG;
+	p1 = ACTUAL;
 
 	for (i = 0; i < n; i++) {
 		push(car(p1));
@@ -53,9 +57,9 @@ eval_user_function(void)
 		p1 = cdr(p1);
 	}
 
-	// resolve collisions
+	// resolve symbol collisions
 
-	p1 = FARG;
+	p1 = FORMAL;
 
 	for (i = 0; i < n; i++) {
 
@@ -71,11 +75,11 @@ eval_user_function(void)
 
 			p3 = dual(p2);
 
-			push(FUNC);
+			push(FUNC_DEFN);
 			push(p2);
 			push(p3);
 			subst();
-			FUNC = pop();
+			FUNC_DEFN = pop();
 
 			p2 = p3;
 		}
@@ -87,11 +91,11 @@ eval_user_function(void)
 
 	list(n);
 
-	FARG = pop();
+	FORMAL = pop();
 
 	// assign to formal args
 
-	p1 = FARG;
+	p1 = FORMAL;
 
 	for (i = 0; i < n; i++) {
 		push_binding(car(p1), stack[h + i]);
@@ -100,14 +104,14 @@ eval_user_function(void)
 
 	tos = h; // pop all
 
-	// evaluate function body
+	// evaluate user function
 
-	push(FUNC);
+	push(FUNC_DEFN);
 	eval();
 
 	// remove args
 
-	p1 = FARG;
+	p1 = FORMAL;
 
 	for (i = 0; i < n; i++) {
 		pop_binding(car(p1));
