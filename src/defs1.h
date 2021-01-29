@@ -268,6 +268,7 @@ struct tensor {
 #define istensor(p) ((p)->k == TENSOR)
 #define issymbol(p) ((p)->k == KSYM || (p)->k == USYM)
 #define iskeyword(p) ((p)->k == KSYM)
+#define isusersymbol(p) ((p)->k == USYM)
 
 #define car(p) (iscons(p) ? (p)->u.cons.car : symbol(NIL))
 #define cdr(p) (iscons(p) ? (p)->u.cons.cdr : symbol(NIL))

@@ -168,8 +168,18 @@ setq_userfunc(void)
 	A = cdadr(p1);
 	B = caddr(p1);
 
-	if (!issymbol(F))
-		stop("function name?");
+	if (!isusersymbol(F))
+		stop("function definition error");
+
+	// check formal args
+
+	p1 = A;
+
+	while (iscons(p1)) {
+		if (!isusersymbol(car(p1)))
+			stop("function definition error");
+		p1 = cdr(p1);
+	}
 
 	set_binding_and_arglist(F, B, A);
 }
