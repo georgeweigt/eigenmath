@@ -152,8 +152,6 @@ eval_f(double t)
 	drawing++;
 	save();
 
-	push(get_binding(F)); // on eval error, binding may be lost
-
 	save_tos = tos;
 	save_tof = tof;
 	save_expanding = expanding;
@@ -162,7 +160,6 @@ eval_f(double t)
 		tos = save_tos;
 		tof = save_tof;
 		expanding = save_expanding;
-		set_binding(F, pop()); // restore binding
 		push_symbol(NIL); // return value
 		restore();
 		drawing--;
@@ -176,10 +173,6 @@ eval_f(double t)
 	push(F);
 	eval();
 	sfloat();
-
-	p1 = pop();
-	pop(); // pop saved binding
-	push(p1);
 
 	restore();
 	drawing--;
