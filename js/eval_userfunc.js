@@ -3,8 +3,10 @@ eval_userfunc(p1)
 {
 	var h, k, p2, p3, FUNC_NAME, FUNC_DEFN, FORMAL, ACTUAL, T;
 
+	h = stack.length;
+
 	FUNC_NAME = car(p1);
-	FUNC_DEFN = get_binding(dual(FUNC_NAME));
+	FUNC_DEFN = get_binding(FUNC_NAME);
 
 	FORMAL = get_arglist(FUNC_NAME);
 	ACTUAL = cdr(p1);
@@ -16,11 +18,9 @@ eval_userfunc(p1)
 		return;
 	}
 
-	h = stack.length;
-
 	// undefined function?
 
-	if (FUNC_DEFN == symbol(NIL)) {
+	if (FUNC_NAME == FUNC_DEFN || FUNC_DEFN == symbol(NIL)) {
 		push(FUNC_NAME);
 		p1 = ACTUAL;
 		while (iscons(p1)) {
@@ -31,6 +31,8 @@ eval_userfunc(p1)
 		list(stack.length - h);
 		return;
 	}
+
+	FUNC_DEFN = get_binding(dual(FUNC_NAME)); // get binding of the dual
 
 	// eval actual args (ACTUAL can be shorter than FORMAL, NIL is pushed for missing args)
 
