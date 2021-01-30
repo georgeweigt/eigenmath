@@ -45,5 +45,5 @@ setq_userfunc(p1)
 	}
 
 	B = pop();
-	set_binding(dual(F), B);
+	set_binding(ddual(F), B);
 }

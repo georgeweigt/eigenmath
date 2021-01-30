@@ -32,7 +32,7 @@ eval_userfunc(p1)
 		return;
 	}
 
-	FUNC_DEFN = get_binding(dual(FUNC_NAME)); // get binding of the dual
+	FUNC_DEFN = get_binding(ddual(FUNC_NAME)); // get binding of the dual
 
 	// eval actual args (ACTUAL can be shorter than FORMAL, NIL is pushed for missing args)
 
