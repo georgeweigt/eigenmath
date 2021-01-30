@@ -167,17 +167,4 @@ $\displaystyle \tfrac{3}{2} \cos(\theta)^2-\tfrac{1}{2}$
 
 \bigskip
 \noindent
-When a user function is evaluated, the function arguments are visible
-to any symbol definitions that reference them.
-The symbol definitions can appear either before or after the function definition.
-In the following example, the $x$ in $A$ and $B$ is replaced with $y$.
-
-\begin{Verbatim}[formatcom=\color{blue}]
-f(x) = A + B
-A = a x
-B = b x
-f(y)
-\end{Verbatim}
-
-\noindent
-$\displaystyle ay+by$
+The scope of function arguments is limited to only the function body.
