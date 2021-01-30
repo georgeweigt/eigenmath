@@ -17,6 +17,8 @@ eval_user_function(void)
 {
 	int h, k;
 
+	h = tos;
+
 	FUNC_NAME = car(p1);
 	FUNC_DEFN = get_binding(dual(FUNC_NAME));
 
@@ -33,7 +35,6 @@ eval_user_function(void)
 	// undefined function?
 
 	if (FUNC_DEFN == symbol(NIL)) {
-		h = tos;
 		push(FUNC_NAME);
 		p1 = ACTUAL;
 		while (iscons(p1)) {
@@ -47,7 +48,6 @@ eval_user_function(void)
 
 	// eval actual args (ACTUAL can be shorter than FORMAL, NIL is pushed for missing args)
 
-	h = tos;
 	p1 = FORMAL;
 	p2 = ACTUAL;
 
