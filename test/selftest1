@@ -1936,16 +1936,6 @@ check(last = cos(b))
 x=quote(x)
 p(x)=7+4x
 
-A=a^2
-f(a)=A
-f(x+1)
-check(last = x^2+2*x+1)
-
---f(x)=g(x)
---g(a)=x^a
---f(2)
---check(last = x^2)
-
 zero(2,2)
 check(last = ((0,0),(0,0)))
 

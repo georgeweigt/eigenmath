@@ -49,28 +49,19 @@ eval_ksym(void)
 void
 eval_usym(void)
 {
-	int i;
+	p2 = get_binding(p1);
 
-	i = p1->u.usym.index;
-
-	p2 = binding[i];
-	p3 = arglist[i];
-
-	p4 = car(p2);
-
-	if (p4 == symbol(NIL)) {
+	if (p2 == symbol(NIL)) {
 		push(p1);
-		return; // undefined symbol, evaluates to itself
+		return; // undefined symbol evaluates to itself
 	}
 
-	binding[i] = cdr(p2); // advance lex level
-	arglist[i] = cdr(p3);
+	set_binding(p1, symbol(NIL)); // prevents infinite loop
 
-	push(p4); // eval symbol binding
+	push(p2); // eval symbol binding
 	eval();
 
-	binding[i] = p2; // restore
-	arglist[i] = p3;
+	set_binding(p1, p2);
 }
 
 void

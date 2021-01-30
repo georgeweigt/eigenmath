@@ -26,7 +26,7 @@ eval_sum(void)
 
 	p1 = cadr(p1);
 
-	push_binding(p2, zero);
+	p4 = get_binding(p2); // save binding
 
 	h = tos;
 
@@ -46,5 +46,5 @@ eval_sum(void)
 
 	add_terms(tos - h);
 
-	pop_binding(p2);
+	set_binding(p2, p4); // restore binding
 }

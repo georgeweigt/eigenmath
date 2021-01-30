@@ -915,17 +915,9 @@ f = x / 2 / (x + 1) / (x + 2) / (x + 3)
 expand(f)
 check(rationalize(last) == f)
 
--- implied arguments
-
-clear
-f(x) = A + B
-A = a x
-B = b x
-f(2)
-check(string(last) == "2 a + 2 b")
-
 -- exponentials are expanded
 
+clear
 psi = exp(i k z - i omega t)
 1/psi
 check(lisp(last)=="(^ (e) (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
@@ -1390,15 +1382,6 @@ f = P d(x,t) + Q d(y,t) + R d(z,t)
 f = circexp(f)
 defint(f,t,0,2pi)
 check(last = -4pi)
-
--- missing arg test
-
-clear
-f(a,b,c) = g(a,b,c)
-check(f() == g(a,b,c))
-check(f(1) == g(1,b,c))
-check(f(1,2) == g(1,2,c))
-check(f(1,2,3) == g(1,2,3))
 
 -- done
 

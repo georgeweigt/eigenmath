@@ -156,14 +156,18 @@ set_component_nib(int h)
 #undef F
 #undef A
 #undef B
+#undef T
 
 #define F p3 // F points to the function name
 #define A p4 // A points to the argument list
 #define B p5 // B points to the function body
+#define T p6
 
 void
 setq_userfunc(void)
 {
+	int h;
+
 	F = caadr(p1);
 	A = cdadr(p1);
 	B = caddr(p1);
@@ -171,15 +175,37 @@ setq_userfunc(void)
 	if (!isusersymbol(F))
 		stop("function definition error");
 
-	// check formal args
+	// convert args
 
+	h = tos;
 	p1 = A;
 
 	while (iscons(p1)) {
-		if (!isusersymbol(car(p1)))
-			stop("function definition error");
+		push(dual(car(p1)));
 		p1 = cdr(p1);
 	}
 
-	set_binding_and_arglist(F, B, A);
+	list(tos - h);
+	T = pop();
+
+	set_binding(F, B);
+	set_arglist(F, T);
+
+	// convert body
+
+	push(B);
+
+	p1 = A;
+	p2 = T;
+
+	while (iscons(p1)) {
+		push(car(p1));
+		push(car(p2));
+		subst();
+		p1 = cdr(p1);
+		p2 = cdr(p2);
+	}
+
+	B = pop();
+	set_binding(dual(F), B);
 }

@@ -4,19 +4,21 @@
 #undef FUNC_DEFN
 #undef FORMAL
 #undef ACTUAL
+#undef T
 
 #define FUNC_NAME p4
 #define FUNC_DEFN p5
 #define FORMAL p6 // formal argument list
 #define ACTUAL p7 // actual argument list
+#define T p8
 
 void
 eval_user_function(void)
 {
-	int h, i, j, n;
+	int h, k;
 
 	FUNC_NAME = car(p1);
-	FUNC_DEFN = get_binding(FUNC_NAME);
+	FUNC_DEFN = get_binding(dual(FUNC_NAME));
 
 	FORMAL = get_arglist(FUNC_NAME);
 	ACTUAL = cdr(p1);
@@ -31,90 +33,65 @@ eval_user_function(void)
 	// undefined function?
 
 	if (FUNC_DEFN == symbol(NIL)) {
+		h = tos;
 		push(FUNC_NAME);
 		p1 = ACTUAL;
-		n = length(p1);
-		for (i = 0; i < n; i++) {
+		while (iscons(p1)) {
 			push(car(p1));
 			eval();
 			p1 = cdr(p1);
 		}
-		list(n + 1);
+		list(tos - h);
 		return;
 	}
 
-	// eval actual args
+	// eval actual args (ACTUAL can be shorter than FORMAL, NIL is pushed for missing args)
 
 	h = tos;
+	p1 = FORMAL;
+	p2 = ACTUAL;
 
-	n = length(FORMAL); // if ACTUAL is shorter than FORMAL then NIL is pushed for missing args
-
-	p1 = ACTUAL;
-
-	for (i = 0; i < n; i++) {
-		push(car(p1));
+	while (iscons(p1)) {
+		push(car(p2));
 		eval();
 		p1 = cdr(p1);
+		p2 = cdr(p2);
 	}
 
-	// resolve symbol collisions
+	// assign actual to formal
 
+	k = h;
 	p1 = FORMAL;
 
-	for (i = 0; i < n; i++) {
-
+	while (iscons(p1)) {
 		p2 = car(p1);
-
-		for (j = 0; j < n; j++)
-			if (find(stack[h + j], p2))
-				break;
-
-		if (j < n) {
-
-			// collision, use dual
-
-			p3 = dual(p2);
-
-			push(FUNC_DEFN);
-			push(p2);
-			push(p3);
-			subst();
-			FUNC_DEFN = pop();
-
-			p2 = p3;
-		}
-
-		push(p2);
-
+		p3 = stack[k];
+		stack[k] = get_binding(p2);
+		set_binding(p2, p3);
+		k++;
 		p1 = cdr(p1);
 	}
-
-	list(n);
-
-	FORMAL = pop();
-
-	// assign to formal args
-
-	p1 = FORMAL;
-
-	for (i = 0; i < n; i++) {
-		push_binding(car(p1), stack[h + i]);
-		p1 = cdr(p1);
-	}
-
-	tos = h; // pop all
 
 	// evaluate user function
 
 	push(FUNC_DEFN);
 	eval();
+	T = pop();
 
-	// remove args
+	// restore bindings
 
+	k = h;
 	p1 = FORMAL;
 
-	for (i = 0; i < n; i++) {
-		pop_binding(car(p1));
+	while (iscons(p1)) {
+		p2 = car(p1);
+		p3 = stack[k];
+		set_binding(p2, p3);
+		k++;
 		p1 = cdr(p1);
 	}
+
+	tos = h; // pop all
+
+	push(T);
 }

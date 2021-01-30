@@ -26,7 +26,7 @@ eval_for(void)
 
 	p1 = cdr(p1);
 
-	push_binding(p2, zero);
+	p4 = get_binding(p2); // save binding
 
 	for (;;) {
 		push_integer(j);
@@ -47,7 +47,7 @@ eval_for(void)
 			break;
 	}
 
-	pop_binding(p2);
+	set_binding(p2, p4); // restore binding
 
 	push_symbol(NIL); // return value
 }

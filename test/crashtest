@@ -1,4 +1,0 @@
--- circular definition should not cause crash
-
-x = x + 1
-x
