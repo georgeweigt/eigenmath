@@ -152,6 +152,8 @@ eval_f(double t)
 	drawing++;
 	save();
 
+	push(get_binding(F)); // on eval error, binding may be lost
+
 	save_tos = tos;
 	save_tof = tof;
 	save_expanding = expanding;
@@ -160,7 +162,8 @@ eval_f(double t)
 		tos = save_tos;
 		tof = save_tof;
 		expanding = save_expanding;
-		push_symbol(NIL); // result
+		set_binding(F, pop()); // restore binding
+		push_symbol(NIL); // return value
 		restore();
 		drawing--;
 		return;
@@ -173,6 +176,10 @@ eval_f(double t)
 	push(F);
 	eval();
 	sfloat();
+
+	p1 = pop();
+	pop(); // pop saved binding
+	push(p1);
 
 	restore();
 	drawing--;
@@ -226,12 +233,7 @@ setup_trange_nib(void)
 	tmin = -M_PI;
 	tmax = M_PI;
 
-	p1 = lookup("trange");
-
-	if (!issymbol(p1))
-		return;
-
-	p1 = get_binding(p1);
+	p1 = get_binding(lookup("trange"));
 
 	// must be two element vector
 
@@ -277,12 +279,7 @@ setup_xrange_nib(void)
 	xmin = -10.0;
 	xmax = 10.0;
 
-	p1 = lookup("xrange");
-
-	if (!issymbol(p1))
-		return;
-
-	p1 = get_binding(p1);
+	p1 = get_binding(lookup("xrange"));
 
 	// must be two element vector
 
@@ -328,12 +325,7 @@ setup_yrange_nib(void)
 	ymin = -10.0;
 	ymax = 10.0;
 
-	p1 = lookup("yrange");
-
-	if (!issymbol(p1))
-		return;
-
-	p1 = get_binding(p1);
+	p1 = get_binding(lookup("yrange"));
 
 	// must be two element vector
 

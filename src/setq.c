@@ -181,7 +181,10 @@ setq_userfunc(void)
 	p1 = A;
 
 	while (iscons(p1)) {
-		push(dual(car(p1)));
+		p2 = car(p1);
+		if (!isusersymbol(p2))
+			stop("function definition error");
+		push(dual(p2));
 		p1 = cdr(p1);
 	}
 
