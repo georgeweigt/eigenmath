@@ -210,5 +210,5 @@ setq_userfunc(void)
 	}
 
 	B = pop();
-	set_binding(dual(F), B);
+	set_binding(ddual(F), B);
 }

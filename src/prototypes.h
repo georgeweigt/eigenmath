@@ -651,6 +651,7 @@ void push_string(char *s);
 void eval_sum(void);
 struct atom * lookup(char *s);
 struct atom * dual(struct atom *p);
+struct atom * ddual(struct atom *p);
 char * printname(struct atom *p);
 void set_binding(struct atom *p, struct atom *q);
 void set_arglist(struct atom *p, struct atom *q);

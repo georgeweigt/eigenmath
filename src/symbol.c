@@ -80,6 +80,35 @@ dual(struct atom *p)
 	return p;
 }
 
+// for function definitions
+
+struct atom *
+ddual(struct atom *p)
+{
+	int n;
+	char *buf, *s;
+
+	if (p->k != USYM)
+		stop("symbol error");
+
+	s = p->u.usym.name;
+	n = (int) strlen(s) + 3;
+
+	buf = malloc(n);
+
+	if (buf == NULL)
+		malloc_kaput();
+
+	strcpy(buf, s);
+	strcat(buf, "$$");
+
+	p = lookup(buf);
+
+	free(buf);
+
+	return p;
+}
+
 char *
 printname(struct atom *p)
 {

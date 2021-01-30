@@ -46,7 +46,7 @@ eval_user_function(void)
 		return;
 	}
 
-	FUNC_DEFN = get_binding(dual(FUNC_NAME));
+	FUNC_DEFN = get_binding(ddual(FUNC_NAME));
 
 	// eval actual args (ACTUAL can be shorter than FORMAL, NIL is pushed for missing args)
 
