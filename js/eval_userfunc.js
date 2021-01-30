@@ -1,25 +1,28 @@
 function
 eval_userfunc(p1)
 {
-	var h, p2, F, A, B, S;
+	var h, k, p2, p3, FUNC_NAME, FUNC_DEFN, FORMAL, ACTUAL, T;
+
+	FUNC_NAME = car(p1);
+	FUNC_DEFN = get_binding(dual(FUNC_NAME));
+
+	FORMAL = get_arglist(FUNC_NAME);
+	ACTUAL = cdr(p1);
 
 	// use "derivative" instead of "d" if there is no user function "d"
 
-	if (car(p1) == symbol(SYMBOL_D) && get_arglist(symbol(SYMBOL_D)) == symbol(NIL)) {
+	if (FUNC_NAME == symbol(SYMBOL_D) && get_arglist(symbol(SYMBOL_D)) == symbol(NIL)) {
 		eval_derivative(p1);
 		return;
 	}
 
-	F = get_binding(car(p1));
-	A = get_arglist(car(p1));
-	B = cdr(p1);
+	h = stack.length;
 
 	// undefined function?
 
-	if (F == car(p1)) {
-		h = stack.length;
-		push(F);
-		p1 = B;
+	if (FUNC_DEFN == symbol(NIL)) {
+		push(FUNC_NAME);
+		p1 = ACTUAL;
 		while (iscons(p1)) {
 			push(car(p1));
 			evalf();
@@ -29,27 +32,52 @@ eval_userfunc(p1)
 		return;
 	}
 
-	// create the argument substitution list S
+	// eval actual args (ACTUAL can be shorter than FORMAL, NIL is pushed for missing args)
 
-	p1 = A;
-	p2 = B;
-	h = stack.length;
-	while (iscons(p1) && iscons(p2)) {
-		push(car(p1));
+	p1 = FORMAL;
+	p2 = ACTUAL;
+
+	while (iscons(p1)) {
 		push(car(p2));
 		evalf();
 		p1 = cdr(p1);
 		p2 = cdr(p2);
 	}
-	list(stack.length - h);
-	S = pop();
 
-	// evaluate the function body
+	// assign actual to formal
 
-	push(F);
+	k = h;
+	p1 = FORMAL;
 
-	if (iscons(S))
-		rewrite(S);
+	while (iscons(p1)) {
+		p2 = car(p1);
+		p3 = stack[k];
+		stack[k] = get_binding(p2);
+		set_binding(p2, p3);
+		k++;
+		p1 = cdr(p1);
+	}
 
+	// evaluate user function
+
+	push(FUNC_DEFN);
 	evalf();
+	T = pop();
+
+	// restore bindings
+
+	k = h;
+	p1 = FORMAL;
+
+	while (iscons(p1)) {
+		p2 = car(p1);
+		p3 = stack[k];
+		set_binding(p2, p3);
+		k++;
+		p1 = cdr(p1);
+	}
+
+	stack.splice(h); // pop all
+
+	push(T);
 }

@@ -1,8 +1,5 @@
 function
-set_binding(p, b)
+set_binding(p, q)
 {
-	if ("printname" in p) {
-		binding[p.printname] = b;
-		arglist[p.printname] = symbol(NIL);
-	}
+	binding[p.printname] = q;
 }

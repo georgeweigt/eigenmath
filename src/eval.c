@@ -61,7 +61,7 @@ eval_usym(void)
 	push(p2); // eval symbol binding
 	eval();
 
-	set_binding(p1, p2);
+	set_binding(p1, p2); // restore binding
 }
 
 void

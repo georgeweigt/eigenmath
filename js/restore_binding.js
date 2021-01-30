@@ -6,5 +6,6 @@ restore_binding(p)
 	p2 = frame.pop();
 	p1 = frame.pop();
 
-	set_binding_and_arglist(p, p1, p2);
+	set_binding(p, p1);
+	set_arglist(p, p2);
 }
