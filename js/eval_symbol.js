@@ -10,15 +10,11 @@ eval_symbol(p1)
 
 	p2 = get_binding(p1);
 
-	if (p2 == symbol(NIL)) {
+	if (p1 == p2 || p2 == symbol(NIL)) {
 		push(p1);
 		return; // undefined symbol evaluates to itself
 	}
 
-	set_binding(p1, symbol(NIL)); // prevent infinite loop
-
-	push(p2); // eval symbol binding
+	push(p2);
 	evalf();
-
-	set_binding(p1, p2); // restore binding
 }
