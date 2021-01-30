@@ -51,23 +51,23 @@ eval_usym(void)
 {
 	p2 = get_binding(p1);
 
-	if (p2 == symbol(NIL)) {
+	if (p1 == p2 || p2 == symbol(NIL)) {
 		push(p1);
-		return; // undefined symbol evaluates to itself
+		return;
 	}
 
-	set_binding(p1, symbol(NIL)); // prevents infinite loop
-
-	push(p2); // eval symbol binding
+	push(p2);
 	eval();
-
-	set_binding(p1, p2); // restore binding
 }
 
 void
 eval_binding(void)
 {
-	push(get_binding(cadr(p1)));
+	p1 = cadr(p1);
+	p2 = get_binding(p1);
+	if (p2 == symbol(NIL))
+		p2 = p1;
+	push(p2);
 }
 
 void

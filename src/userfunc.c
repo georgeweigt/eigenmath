@@ -20,7 +20,7 @@ eval_user_function(void)
 	h = tos;
 
 	FUNC_NAME = car(p1);
-	FUNC_DEFN = get_binding(dual(FUNC_NAME));
+	FUNC_DEFN = get_binding(FUNC_NAME);
 
 	FORMAL = get_arglist(FUNC_NAME);
 	ACTUAL = cdr(p1);
@@ -34,7 +34,7 @@ eval_user_function(void)
 
 	// undefined function?
 
-	if (FUNC_DEFN == symbol(NIL)) {
+	if (FUNC_NAME == FUNC_DEFN || FUNC_DEFN == symbol(NIL)) {
 		push(FUNC_NAME);
 		p1 = ACTUAL;
 		while (iscons(p1)) {
@@ -45,6 +45,8 @@ eval_user_function(void)
 		list(tos - h);
 		return;
 	}
+
+	FUNC_DEFN = get_binding(dual(FUNC_NAME));
 
 	// eval actual args (ACTUAL can be shorter than FORMAL, NIL is pushed for missing args)
 

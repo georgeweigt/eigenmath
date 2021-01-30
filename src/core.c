@@ -51,7 +51,7 @@ alloc_tensor(int nelem)
 void
 gc(void)
 {
-	int i, j, k;
+	int i, j;
 	struct atom *p;
 
 	gc_count++;
@@ -84,16 +84,12 @@ gc(void)
 
 	// symbol table
 
-	for (i = 0; i < 27; i++) {
-		for (j = 0; j < NSYM; j++) {
-			k = NSYM * i + j;
-			if (symtab[k] == NULL)
-				break;
-			untag(symtab[k]);
-			untag(binding[k]);
-			untag(arglist[k]);
+	for (i = 0; i < 27 * NSYM; i++)
+		if (symtab[i]) {
+			untag(symtab[i]);
+			untag(binding[i]);
+			untag(arglist[i]);
 		}
-	}
 
 	for (i = 0; i < tos; i++)
 		untag(stack[i]);
@@ -295,18 +291,17 @@ subst(void)
 	}
 	p1 = pop(); // expr
 	if (istensor(p1)) {
-		p4 = alloc_tensor(p1->u.tensor->nelem);
-		p4->u.tensor->ndim = p1->u.tensor->ndim;
-		for (i = 0; i < p1->u.tensor->ndim; i++)
-			p4->u.tensor->dim[i] = p1->u.tensor->dim[i];
+		push(p1);
+		copy_tensor();
+		p1 = pop();
 		for (i = 0; i < p1->u.tensor->nelem; i++) {
 			push(p1->u.tensor->elem[i]);
 			push(p2);
 			push(p3);
 			subst();
-			p4->u.tensor->elem[i] = pop();
+			p1->u.tensor->elem[i] = pop();
 		}
-		push(p4);
+		push(p1);
 	} else if (equal(p1, p2))
 		push(p3);
 	else if (iscons(p1)) {

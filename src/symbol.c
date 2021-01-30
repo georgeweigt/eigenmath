@@ -5,7 +5,7 @@
 struct atom *
 lookup(char *s)
 {
-	int c, i, j;
+	int c, i, k;
 	char *t;
 	struct atom *p;
 
@@ -14,10 +14,10 @@ lookup(char *s)
 	if (c < 0 || c > 25)
 		c = 26;
 
-	j = NSYM * c;
+	k = NSYM * c;
 
 	for (i = 0; i < NSYM; i++) {
-		p = symtab[j];
+		p = symtab[k + i];
 		if (p == NULL)
 			break;
 		if (p->k == KSYM)
@@ -26,7 +26,6 @@ lookup(char *s)
 			t = p->u.usym.name;
 		if (strcmp(s, t) == 0)
 			return p;
-		j++;
 	}
 
 	if (i == NSYM)
@@ -40,12 +39,12 @@ lookup(char *s)
 
 	p->k = USYM;
 	p->u.usym.name = s;
-	p->u.usym.index = j;
+	p->u.usym.index = k + i;
 
-	symtab[j] = p;
+	symtab[k + i] = p;
 
-	binding[j] = symbol(NIL);
-	arglist[j] = symbol(NIL);
+	binding[k + i] = symbol(NIL);
+	arglist[k + i] = symbol(NIL);
 
 	usym_count++;
 
@@ -303,9 +302,8 @@ init_symbol_table(void)
 	char *s;
 	struct atom *p;
 
-	memset(symtab, 0, 27 * NSYM * sizeof (struct atom *));
-	memset(binding, 0, 27 * NSYM * sizeof (struct atom *));
-	memset(arglist, 0, 27 * NSYM * sizeof (struct atom *));
+	for (i = 0; i < 27 * NSYM; i++)
+		symtab[i] = NULL;
 
 	n = sizeof stab / sizeof (struct se);
 
@@ -334,14 +332,9 @@ init_symbol_table(void)
 void
 clear_symbols(void)
 {
-	int i, j, k;
-	for (i = 0; i < 27; i++) {
-		for (j = 0; j < NSYM; j++) {
-			k = NSYM * i + j;
-			if (symtab[k] == NULL)
-				break;
-			binding[k] = symbol(NIL);
-			arglist[k] = symbol(NIL);
-		}
+	int i;
+	for (i = 0; i < 27 * NSYM; i++) {
+		binding[i] = symbol(NIL);
+		arglist[i] = symbol(NIL);
 	}
 }
