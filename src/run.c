@@ -110,7 +110,7 @@ eval_and_print_result(void)
 void
 stop(char *s)
 {
-	if (drawing > 1)
+	if (drawing == 2)
 		longjmp(draw_stop_return, 1);
 
 	if (s) {
