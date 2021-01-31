@@ -23,8 +23,12 @@ eval_nib(void)
 		return;
 	}
 
-	if (iskeyword(p1)) {
-		eval_keyword();
+	if (iskeyword(p1)) { // bare keyword
+		push(p1);
+		push_symbol(LAST); // default arg
+		list(2);
+		p1 = pop();
+		car(p1)->u.ksym.func(); // call through function pointer
 		return;
 	}
 
@@ -41,29 +45,15 @@ eval_nib(void)
 	push(p1); // rational, double, or string
 }
 
-// bare keyword
-
-void
-eval_keyword(void)
-{
-	push(p1);
-	push_symbol(LAST); // default arg
-	list(2);
-	p1 = pop();
-	car(p1)->u.ksym.func(); // call through function pointer
-}
-
-// evaluate symbol's binding
-
 void
 eval_user_symbol(void)
 {
 	p2 = get_binding(p1);
 
 	if (p1 == p2 || p2 == symbol(NIL))
-		push(p1);
+		push(p1); // symbol evaluates to itself
 	else {
-		push(p2);
+		push(p2); // eval symbol binding
 		eval();
 	}
 }

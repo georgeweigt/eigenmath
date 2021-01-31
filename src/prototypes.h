@@ -255,7 +255,6 @@ void serfc(void);
 void serfc_nib(void);
 void eval(void);
 void eval_nib(void);
-void eval_keyword(void);
 void eval_user_symbol(void);
 void eval_binding(void);
 void eval_clear(void);

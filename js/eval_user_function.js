@@ -1,5 +1,5 @@
 function
-eval_userfunc(p1)
+eval_user_function(p1)
 {
 	var h, k, p2, p3, FUNC_NAME, FUNC_DEFN, FORMAL, ACTUAL, T;
 

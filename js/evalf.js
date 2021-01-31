@@ -1,28 +1,49 @@
 function
 evalf()
 {
-	var p1;
-
 	if (++evaldepth == 1000)
-		stopf("circular eval");
+		stopf("evaluation depth");
+
+	evalf_nib();
+
+	--evaldepth;
+}
+
+function
+evalf_nib()
+{
+	var p1;
 
 	p1 = pop();
 
-	if (iscons(p1) && issymbol(car(p1)))
+	if (iscons(p1) && iskeyword(car(p1))) {
 		car(p1).func(p1);
-	else if (iskeyword(p1)) {
-		// bare keyword
+		return;
+	}
+
+	if (iscons(p1) && isusersymbol(car(p1))) {
+		eval_user_function(p1);
+		return;
+	}
+
+	if (iskeyword(p1)) { // bare keyword
 		push(p1);
-		push_symbol(LAST);
+		push_symbol(LAST); // default arg
 		list(2);
 		p1 = pop();
 		car(p1).func(p1);
-	} else if (issymbol(p1))
-		eval_symbol(p1); // keyword already handled
-	else if (istensor(p1))
-		eval_tensor(p1);
-	else
-		push(p1);
+		return;
+	}
 
-	evaldepth--;
+	if (isusersymbol(p1)) {
+		eval_user_symbol(p1);
+		return;
+	}
+
+	if (istensor(p1)) {
+		eval_tensor(p1);
+		return;
+	}
+
+	push(p1); // rational, double, or string
 }

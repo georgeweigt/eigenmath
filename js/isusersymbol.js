@@ -1,5 +1,5 @@
 function
 isusersymbol(p)
 {
-	return p.func == eval_symbol;
+	return issymbol(p) && p.func == eval_user_symbol;
 }
