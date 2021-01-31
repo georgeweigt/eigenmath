@@ -2,7 +2,7 @@ function
 evalf()
 {
 	if (++evaldepth == 1000)
-		stopf("evaluation depth");
+		stopf("recursion level");
 
 	evalf_nib();
 
