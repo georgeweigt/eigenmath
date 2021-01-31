@@ -148,11 +148,9 @@ draw_func(double t)
 void
 draw_func_nib(double t)
 {
-	save();
 	drawing = 2; // causes stop() to jump to draw_stop_return
 	eval_draw_func(t);
 	drawing = 1;
-	restore();
 
 	p1 = pop();
 
