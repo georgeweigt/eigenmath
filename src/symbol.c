@@ -56,28 +56,20 @@ lookup(char *s)
 struct atom *
 dual(struct atom *p)
 {
-	int n;
-	char *buf, *s;
+	char buf[100], *s;
 
-	if (p->k != USYM)
+	if (!isusersymbol(p))
 		stop("symbol error");
 
 	s = p->u.usym.name;
-	n = (int) strlen(s) + 2; // add 2 for '$' and '\0'
 
-	buf = malloc(n);
-
-	if (buf == NULL)
-		malloc_kaput();
+	if (strlen(s) + 2 > sizeof buf)
+		stop("buffer kaput");
 
 	strcpy(buf, s);
 	strcat(buf, "$");
 
-	p = lookup(buf);
-
-	free(buf);
-
-	return p;
+	return lookup(buf);
 }
 
 // for function definitions
@@ -85,45 +77,40 @@ dual(struct atom *p)
 struct atom *
 ddual(struct atom *p)
 {
-	int n;
-	char *buf, *s;
+	char buf[100], *s;
 
-	if (p->k != USYM)
+	if (!isusersymbol(p))
 		stop("symbol error");
 
 	s = p->u.usym.name;
-	n = (int) strlen(s) + 3;
 
-	buf = malloc(n);
-
-	if (buf == NULL)
-		malloc_kaput();
+	if (strlen(s) + 3 > sizeof buf)
+		stop("buffer kaput");
 
 	strcpy(buf, s);
 	strcat(buf, "$$");
 
-	p = lookup(buf);
-
-	free(buf);
-
-	return p;
+	return lookup(buf);
 }
 
 char *
 printname(struct atom *p)
 {
-	if (p->k == KSYM)
+	if (iskeyword(p))
 		return p->u.ksym.name;
-	else if (p->k == USYM)
+
+	if (isusersymbol(p))
 		return p->u.usym.name;
-	else
-		return "?";
+
+	stop("symbol error");
+
+	return "?";
 }
 
 void
 set_binding(struct atom *p, struct atom *q)
 {
-	if (p->k != USYM)
+	if (!isusersymbol(p))
 		stop("symbol error");
 	binding[p->u.usym.index] = q;
 }
@@ -131,7 +118,7 @@ set_binding(struct atom *p, struct atom *q)
 void
 set_arglist(struct atom *p, struct atom *q)
 {
-	if (p->k != USYM)
+	if (!isusersymbol(p))
 		stop("symbol error");
 	arglist[p->u.usym.index] = q;
 }
@@ -139,7 +126,7 @@ set_arglist(struct atom *p, struct atom *q)
 struct atom *
 get_binding(struct atom *p)
 {
-	if (p->k != USYM)
+	if (!isusersymbol(p))
 		stop("symbol error");
 	return binding[p->u.usym.index];
 }
@@ -147,7 +134,7 @@ get_binding(struct atom *p)
 struct atom *
 get_arglist(struct atom *p)
 {
-	if (p->k != USYM)
+	if (!isusersymbol(p))
 		stop("symbol error");
 	return arglist[p->u.usym.index];
 }

@@ -4,38 +4,47 @@ void
 eval(void)
 {
 	save();
-
-	p1 = pop();
-
-	if (p1->k == CONS)
-		eval_cons();
-	else if (p1->k == KSYM)
-		eval_ksym();
-	else if (p1->k == USYM)
-		eval_usym();
-	else if (p1->k == TENSOR)
-		eval_tensor();
-	else
-		push(p1); // rational, double, or string
-
+	eval_nib();
 	restore();
 }
 
 void
-eval_cons(void)
+eval_nib(void)
 {
-	if (car(p1)->k == KSYM)
+	p1 = pop();
+
+	if (iscons(p1) && iskeyword(car(p1))) {
 		car(p1)->u.ksym.func(); // call through function pointer
-	else if (car(p1)->k == USYM)
+		return;
+	}
+
+	if (iscons(p1) && isusersymbol(car(p1))) {
 		eval_user_function();
-	else
-		push(p1); // not evaluated
+		return;
+	}
+
+	if (iskeyword(p1)) {
+		eval_keyword();
+		return;
+	}
+
+	if (isusersymbol(p1)) {
+		eval_user_symbol();
+		return;
+	}
+
+	if (istensor(p1)) {
+		eval_tensor();
+		return;
+	}
+
+	push(p1); // rational, double, or string
 }
 
 // bare keyword
 
 void
-eval_ksym(void)
+eval_keyword(void)
 {
 	push(p1);
 	push_symbol(LAST); // default arg
@@ -47,7 +56,7 @@ eval_ksym(void)
 // evaluate symbol's binding
 
 void
-eval_usym(void)
+eval_user_symbol(void)
 {
 	p2 = get_binding(p1);
 
