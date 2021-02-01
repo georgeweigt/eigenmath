@@ -237,6 +237,8 @@ struct se stab[] = {
 	{ "mag",		MAG,		eval_mag		},
 	{ "mathjax",		MATHJAX,	eval_mathjax		},
 	{ "mathml",		MATHML,		eval_mathml		},
+	{ "minor",		MINOR,		eval_minor		},
+	{ "minormatrix",	MINORMATRIX,	eval_minormatrix	},
 	{ "mod",		MOD,		eval_mod		},
 
 	{ "nil",		NIL,		eval_nil		},

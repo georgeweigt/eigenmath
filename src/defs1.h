@@ -175,7 +175,9 @@ struct atom {
 #define MAG		(12 * NSYM + 0)
 #define MATHJAX		(12 * NSYM + 1)
 #define MATHML		(12 * NSYM + 2)
-#define MOD		(12 * NSYM + 3)
+#define MINOR		(12 * NSYM + 3)
+#define MINORMATRIX	(12 * NSYM + 4)
+#define MOD		(12 * NSYM + 5)
 
 #define NIL		(13 * NSYM + 0)
 #define NOT		(13 * NSYM + 1)

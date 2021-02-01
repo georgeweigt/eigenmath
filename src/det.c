@@ -23,7 +23,12 @@ det_nib(void)
 
 	p1 = pop();
 
-	if (!istensor(p1) || p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
+	if (!istensor(p1)) {
+		push(p1);
+		return;
+	}
+
+	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
 		stop("det: square matrix expected");
 
 	n = p1->u.tensor->dim[0];

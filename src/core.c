@@ -20,6 +20,15 @@ alloc(void)
 }
 
 struct atom *
+alloc_vector(int nrow)
+{
+	struct atom *p = alloc_tensor(nrow);
+	p->u.tensor->ndim = 1;
+	p->u.tensor->dim[0] = nrow;
+	return p;
+}
+
+struct atom *
 alloc_matrix(int nrow, int ncol)
 {
 	struct atom *p = alloc_tensor(nrow * ncol);
