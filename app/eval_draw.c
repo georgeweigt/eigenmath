@@ -151,17 +151,12 @@ eval_func_arg(double t)
 	int volatile save_tos;
 	int volatile save_tof;
 
-	save();
-
-	save_tos = tos;
-	save_tof = tof;
-
 	if (setjmp(draw_stop_return)) {
+		drawing = 1;
+		expanding = 1; // in case stop() occurred in the middle of noexpand
 		tos = save_tos;
 		tof = save_tof;
-		expanding = 1; // in case stop() occurred in the middle of noexpand
-		drawing = 1;
-		restore(); // restore F, T, etc.
+		restore(); // restore F and T
 		p1 = symbol(NIL);
 		X = symbol(NIL);
 		Y = symbol(NIL);
@@ -172,16 +167,16 @@ eval_func_arg(double t)
 	p1 = pop();
 	set_binding(T, p1);
 
-	drawing = 2; // causes stop() to jump to draw_stop_return
-
+	save();
+	save_tos = tos;
+	save_tof = tof;
 	push(F);
+	drawing = 2; // causes stop() to jump to draw_stop_return
 	eval();
-	sfloat();
-
 	drawing = 1;
-
 	restore();
 
+	sfloat();
 	p1 = pop();
 
 	if (istensor(p1)) {
