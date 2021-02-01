@@ -148,9 +148,7 @@ draw_func(double t)
 void
 draw_func_nib(double t)
 {
-	drawing = 2; // causes stop() to jump to draw_stop_return
 	eval_draw_func(t);
-	drawing = 1;
 
 	p1 = pop();
 
@@ -181,6 +179,8 @@ eval_draw_func(double t)
 	int volatile save_tos;
 	int volatile save_tof;
 
+	save();
+
 	save_tos = tos;
 	save_tof = tof;
 
@@ -189,8 +189,12 @@ eval_draw_func(double t)
 		tof = save_tof;
 		expanding = 1; // in case stop() occurred in the middle of expanding == 0
 		push_symbol(NIL); // return value
+		drawing = 1;
+		restore(); // restore F, T, etc.
 		return;
 	}
+
+	drawing = 2; // causes stop() to jump to draw_stop_return
 
 	push_double(t);
 	p1 = pop();
@@ -199,6 +203,10 @@ eval_draw_func(double t)
 	push(F);
 	eval();
 	sfloat();
+
+	drawing = 1;
+
+	restore();
 }
 
 int
