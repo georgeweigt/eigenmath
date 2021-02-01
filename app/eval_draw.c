@@ -1,11 +1,9 @@
 #include "app.h"
 
-#define F p3
-#define T p4
-#define X p5
-#define Y p6
-#define XT p7
-#define YT p8
+#define F p4
+#define T p5
+#define X p6
+#define Y p7
 
 void
 eval_draw(void)
@@ -123,13 +121,13 @@ sample(double t)
 
 	sample_nib(t);
 
-	if (!isnum(XT) || !isnum(YT))
+	if (!isnum(X) || !isnum(Y))
 		return;
 
-	push(XT);
+	push(X);
 	x = pop_double();
 
-	push(YT);
+	push(Y);
 	y = pop_double();
 
 	x = DRAW_WIDTH * (x - xmin) / (xmax - xmin);
@@ -142,7 +140,7 @@ sample(double t)
 	draw_count++;
 }
 
-// evaluate F(t) and return in XT and YT
+// evaluate F(t) and return in X and Y
 
 void
 sample_nib(double t)
@@ -153,18 +151,18 @@ sample_nib(double t)
 
 	if (istensor(p1)) {
 		if (p1->u.tensor->nelem >= 2) {
-			XT = p1->u.tensor->elem[0];
-			YT = p1->u.tensor->elem[1];
+			X = p1->u.tensor->elem[0];
+			Y = p1->u.tensor->elem[1];
 		} else {
-			XT = symbol(NIL);
-			YT = symbol(NIL);
+			X = symbol(NIL);
+			Y = symbol(NIL);
 		}
 		return;
 	}
 
 	push_double(t);
-	XT = pop();
-	YT = p1;
+	X = pop();
+	Y = p1;
 }
 
 // evaluate F(t) without stopping due to an error such as divide by zero
@@ -217,14 +215,6 @@ invisible(double x, double y)
 void
 setup_trange(void)
 {
-	save();
-	setup_trange_nib();
-	restore();
-}
-
-void
-setup_trange_nib(void)
-{
 	// default range is (-pi, pi)
 
 	tmin = -M_PI;
@@ -263,14 +253,6 @@ setup_trange_nib(void)
 void
 setup_xrange(void)
 {
-	save();
-	setup_xrange_nib();
-	restore();
-}
-
-void
-setup_xrange_nib(void)
-{
 	// default range is (-10,10)
 
 	xmin = -10.0;
@@ -308,14 +290,6 @@ setup_xrange_nib(void)
 
 void
 setup_yrange(void)
-{
-	save();
-	setup_yrange_nib();
-	restore();
-}
-
-void
-setup_yrange_nib(void)
 {
 	// default range is (-10,10)
 
