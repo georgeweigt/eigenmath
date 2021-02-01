@@ -34,6 +34,7 @@ The Eigenmath manual and additional support materials are available at
 <a href="#circexp">circexp</a><br>
 <a href="#clear">clear</a><br>
 <a href="#clock">clock</a><br>
+<a href="#cofactor">cofactor</a><br>
 <a href="#conj">conj</a><br>
 <a href="#contract">contract</a><br>
 <a href="#cos">cos</a><br>
@@ -73,6 +74,8 @@ The Eigenmath manual and additional support materials are available at
 <a href="#last">last</a><br>
 <a href="#log">log</a><br>
 <a href="#mag">mag</a><br>
+<a href="#minor">minor</a><br>
+<a href="#minormatrix">minormatrix</a><br>
 <a href="#not">not</a><br>
 <a href="#numerator">numerator</a><br>
 <a href="#or">or</a><br>
@@ -300,6 +303,18 @@ clock(2 - 3i)
 <pre style="font-family:courier">
   1/2     arctan(-3,2)/pi
 13    (-1)
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="cofactor">cofactor(<i>m,i,j</i>)</a>
+<p>
+Returns the cofactor of matrix <i>m</i> for row <i>i</i> and column <i>j</i>.
+<pre style="font-family:courier;color:blue">
+A = ((a,b),(c,d))
+cofactor(A,1,2) == adj(A)[2,1]
+</pre>
+<pre style="font-family:courier">
+1
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -846,6 +861,32 @@ mag(x + i y)
          1/2
   2    2
 (x  + y )
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="minor">minor(<i>m,i,j</i>)</a>
+<p>
+Returns the minor of square matrix <i>m</i> for row <i>i</i> and column <i>j</i>.
+<pre style="font-family:courier;color:blue">
+A = ((1,2,3),(4,5,6),(7,8,9))
+minor(A,1,1) == det(minormatrix(A,1,1))
+</pre>
+<pre style="font-family:courier">
+1
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="minormatrix">minormatrix(<i>m,i,j</i>)</a>
+<p>
+Returns a copy of matrix <i>m</i> with row <i>i</i> and column <i>j</i> removed.
+<pre style="font-family:courier;color:blue">
+A = ((1,2,3),(4,5,6),(7,8,9))
+minormatrix(A,1,1)
+</pre>
+<pre style="font-family:courier">
+5   6 
+
+8   9 
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
