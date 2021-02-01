@@ -57,7 +57,7 @@ eval_draw_nib(void)
 void
 check_for_parametric_draw(void)
 {
-	eval_draw_func(tmin);
+	eval_func_arg(tmin);
 	p1 = pop();
 
 	if (istensor(p1))
@@ -67,62 +67,61 @@ check_for_parametric_draw(void)
 	tmax = xmax;
 }
 
-#define N (DRAW_WIDTH + 1)
-
 void
 draw_pass1(void)
 {
 	int i;
 	double t;
 
-	for (i = 0; i <= N; i++) {
-		t = tmin + (double) i / N * (tmax - tmin);
-		draw_func(t);
+	for (i = 0; i <= DRAW_WIDTH; i++) {
+		t = tmin + (double) i / DRAW_WIDTH * (tmax - tmin);
+		sample(t);
 	}
 }
 
 void
 draw_pass2(void)
 {
-	int i, n;
+	int i, j, m, n;
+	double dx, dy, t, t1, t2, x1, x2, y1, y2;
 
 	n = draw_count;
 
-	for (i = 0; i < n - 1; i++)
-		draw_pass2_nib(i, i + 1);
-}
+	for (i = 0; i < n - 1; i++) {
 
-void
-draw_pass2_nib(int i, int j)
-{
-	int k, n;
-	double dx, dy, dt, t;
+		t1 = draw_buf[i].t;
+		t2 = draw_buf[i + 1].t;
 
-	if (invisible(i) && invisible(j))
-		return;
+		x1 = draw_buf[i].x;
+		x2 = draw_buf[i + 1].x;
 
-	dx = draw_buf[i].x - draw_buf[j].x;
-	dy = draw_buf[i].y - draw_buf[j].y;
+		y1 = draw_buf[i].y;
+		y2 = draw_buf[i + 1].y;
 
-	n = sqrt(dx * dx + dy * dy);
+		if (invisible(x1, y1) && invisible(x2, y2))
+			continue;
 
-	dt = draw_buf[j].t - draw_buf[i].t;
+		dx = x2 - x1;
+		dy = y2 - y1;
 
-	for (k = 1; k < n; k++) {
-		t = draw_buf[i].t + (double) k / n * dt;
-		draw_func(t);
+		m = sqrt(dx * dx + dy * dy);
+
+		for (j = 1; j < m; j++) {
+			t = t1 + (double) j / m * (t2 - t1);
+			sample(t);
+		}
 	}
 }
 
 void
-draw_func(double t)
+sample(double t)
 {
 	double x, y;
 
 	if (draw_count == DRAW_MAX)
 		return;
 
-	draw_func_nib(t);
+	sample_nib(t);
 
 	if (!isnum(XT) || !isnum(YT))
 		return;
@@ -146,9 +145,9 @@ draw_func(double t)
 // evaluate F(t) and return in XT and YT
 
 void
-draw_func_nib(double t)
+sample_nib(double t)
 {
-	eval_draw_func(t);
+	eval_func_arg(t);
 
 	p1 = pop();
 
@@ -171,7 +170,7 @@ draw_func_nib(double t)
 // evaluate F(t) without stopping due to an error such as divide by zero
 
 void
-eval_draw_func(double t)
+eval_func_arg(double t)
 {
 	// These must be volatile or it crashes. (Compiler error?)
 	// Read it backwards, save_tos is a volatile int, etc.
@@ -194,11 +193,11 @@ eval_draw_func(double t)
 		return;
 	}
 
-	drawing = 2; // causes stop() to jump to draw_stop_return
-
 	push_double(t);
 	p1 = pop();
 	set_binding(T, p1);
+
+	drawing = 2; // causes stop() to jump to draw_stop_return
 
 	push(F);
 	eval();
@@ -210,13 +209,9 @@ eval_draw_func(double t)
 }
 
 int
-invisible(int i)
+invisible(double x, double y)
 {
-	if (draw_buf[i].x < 0 || draw_buf[i].x > DRAW_WIDTH)
-		return 1;
-	if (draw_buf[i].y < 0 || draw_buf[i].y > DRAW_HEIGHT)
-		return 1;
-	return 0;
+	return x < 0 || x > DRAW_WIDTH || y < 0 || y > DRAW_HEIGHT;
 }
 
 void
