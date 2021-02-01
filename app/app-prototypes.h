@@ -75,7 +75,6 @@ void check_for_parametric_draw(void);
 void draw_pass1(void);
 void draw_pass2(void);
 void sample(double t);
-void sample_nib(double t);
 void eval_func_arg(double t);
 int invisible(double x, double y);
 void setup_trange(void);

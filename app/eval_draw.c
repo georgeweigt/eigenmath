@@ -56,13 +56,11 @@ void
 check_for_parametric_draw(void)
 {
 	eval_func_arg(tmin);
-	p1 = pop();
 
-	if (istensor(p1))
-		return;
-
-	tmin = xmin;
-	tmax = xmax;
+	if (!istensor(p1)) {
+		tmin = xmin;
+		tmax = xmax;
+	}
 }
 
 void
@@ -119,7 +117,7 @@ sample(double t)
 	if (draw_count == DRAW_MAX)
 		return;
 
-	sample_nib(t);
+	eval_func_arg(t);
 
 	if (!isnum(X) || !isnum(Y))
 		return;
@@ -140,32 +138,9 @@ sample(double t)
 	draw_count++;
 }
 
-// evaluate F(t) and return in X and Y
-
-void
-sample_nib(double t)
-{
-	eval_func_arg(t);
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		if (p1->u.tensor->nelem >= 2) {
-			X = p1->u.tensor->elem[0];
-			Y = p1->u.tensor->elem[1];
-		} else {
-			X = symbol(NIL);
-			Y = symbol(NIL);
-		}
-		return;
-	}
-
-	push_double(t);
-	X = pop();
-	Y = p1;
-}
-
 // evaluate F(t) without stopping due to an error such as divide by zero
+
+// returns p1, X, Y
 
 void
 eval_func_arg(double t)
@@ -184,10 +159,12 @@ eval_func_arg(double t)
 	if (setjmp(draw_stop_return)) {
 		tos = save_tos;
 		tof = save_tof;
-		expanding = 1; // in case stop() occurred in the middle of expanding == 0
-		push_symbol(NIL); // return value
+		expanding = 1; // in case stop() occurred in the middle of noexpand
 		drawing = 1;
 		restore(); // restore F, T, etc.
+		p1 = symbol(NIL);
+		X = symbol(NIL);
+		Y = symbol(NIL);
 		return;
 	}
 
@@ -204,6 +181,17 @@ eval_func_arg(double t)
 	drawing = 1;
 
 	restore();
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		X = p1->u.tensor->elem[0];
+		Y = p1->u.tensor->elem[1];
+	} else {
+		push_double(t);
+		X = pop();
+		Y = p1;
+	}
 }
 
 int
