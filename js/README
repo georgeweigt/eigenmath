@@ -22,7 +22,6 @@ besselj
 binomial
 choose
 coeff
-cofactor
 cross
 curl
 deg
@@ -49,5 +48,4 @@ quotient
 roots
 status
 string
-subst
 taylor
