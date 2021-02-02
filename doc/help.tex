@@ -199,6 +199,20 @@ clock(2 - 3i)
 \noindent
 $13^{1/2}\,(-1)^{\arctan(-3,2)/\pi}$
 
+\subsection*{coeff($m,i,j$)}
+
+Returns the cofactor of matrix $m$ for row $i$ and column $j$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+cofactor(A,1,2) == adj(A)[2,1]
+\end{verbatim}
+}
+
+\noindent
+1
+
 \subsection*{conj($z$)}
 
 Returns the complex conjugate of $z$.
@@ -739,6 +753,39 @@ mag(x + i y)
 \noindent
 $\displaystyle (x^2+y^2)^{1/2}$
 
+\subsection*{minor($m,i,j$)}
+
+Returns the minor of square matrix $m$ for row $i$ and column $j$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2,3),(4,5,6),(7,8,9))
+minor(A,1,1) == det(minormatrix(A,1,1))
+\end{verbatim}
+}
+
+\noindent
+1
+
+\subsection*{minormatrix($m,i,j$)}
+
+Returns a copy of matrix $m$ with row $i$ and column $j$ removed.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2,3),(4,5,6),(7,8,9))
+minormatrix(A,1,1)
+\end{verbatim}
+}
+
+\noindent
+$
+\begin{bmatrix}
+5&6\cr
+8&9
+\end{bmatrix}
+$
+
 \subsection*{not($x$)}
 
 Returns 0 if $x$ is true (nonzero).
@@ -783,7 +830,6 @@ $1$
 \subsection*{outer($a,b,\ldots$)}
 
 Returns the outer product of vectors, matrices, and tensors.
-Also known as the tensor product.
 
 {\color{blue}
 \begin{verbatim}
