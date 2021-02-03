@@ -12,14 +12,27 @@ draw_eval_nib(F, X, x)
 		set_binding(X, x);
 
 		push(F);
+
+		drawmode = 2;
 		evalf();
+		drawmode = 1;
+
 		floatf();
 	}
 
 	catch(err) {
+
+		if (drawmode == 1) {
+			drawmode = 0;
+			stopf("draw");
+		}
+
+		drawmode = 1;
+		expanding = 1;
+
 		stack.splice(save_stack_length);
 		frame.splice(save_frame_length);
-		expanding = 1;
+
 		push_symbol(NIL); // return value
 	}
 
