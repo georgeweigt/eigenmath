@@ -20,12 +20,10 @@ draw_eval_nib(F, X, x)
 		floatf();
 	}
 
-	catch(err) {
+	catch(errmsg) {
 
-		if (drawmode == 1) {
-			drawmode = 0;
-			stopf("draw");
-		}
+		if (drawmode == 1)
+			throw errmsg;
 
 		drawmode = 1;
 		expanding = 1;
