@@ -10,6 +10,7 @@ eval_nonstop(void)
 	int volatile save_expanding;
 
 	if (setjmp(jmpbuf2)) {
+		drawing = 1;
 		tos = save_tos;
 		tof = save_tof;
 		expanding = save_expanding;
