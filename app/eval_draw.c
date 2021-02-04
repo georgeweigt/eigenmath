@@ -55,7 +55,7 @@ eval_draw_nib(void)
 void
 check_for_parametric_draw(void)
 {
-	eval_func_arg(tmin);
+	eval_sample(tmin);
 
 	if (!istensor(p1)) {
 		tmin = xmin;
@@ -117,7 +117,7 @@ sample(double t)
 	if (draw_count == DRAW_MAX)
 		return;
 
-	eval_func_arg(t);
+	eval_sample(t);
 
 	if (!isnum(X) || !isnum(Y))
 		return;
@@ -143,39 +143,14 @@ sample(double t)
 // returns p1, X, Y
 
 void
-eval_func_arg(double t)
+eval_sample(double t)
 {
-	// These must be volatile or it crashes. (Compiler error?)
-	// Read it backwards, save_tos is a volatile int, etc.
-
-	int volatile save_tos;
-	int volatile save_tof;
-
-	if (setjmp(draw_stop_return)) {
-		drawing = 1;
-		expanding = 1; // in case stop() occurred in the middle of noexpand
-		tos = save_tos;
-		tof = save_tof;
-		restore(); // restore F and T
-		p1 = symbol(NIL);
-		X = symbol(NIL);
-		Y = symbol(NIL);
-		return;
-	}
-
 	push_double(t);
 	p1 = pop();
 	set_binding(T, p1);
 
-	save();
-	save_tos = tos;
-	save_tof = tof;
 	push(F);
-	drawing = 2; // causes stop() to jump to draw_stop_return
-	eval();
-	drawing = 1;
-	restore();
-
+	eval_nonstop();
 	sfloat();
 	p1 = pop();
 

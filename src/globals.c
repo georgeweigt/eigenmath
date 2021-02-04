@@ -31,11 +31,10 @@ struct atom *imaginaryunit;
 
 int expanding;
 int drawing;
-
 int interrupt;
-
-jmp_buf stop_return;
-jmp_buf draw_stop_return;
+jmp_buf jmpbuf;
+jmp_buf jmpbuf2;
+char *errmsg;
 
 int block_count;
 int free_count;
