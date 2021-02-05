@@ -8,7 +8,7 @@ setup_xrange()
 
 	p1 = lookup("xrange");
 	push(p1);
-	evalf();
+	eval_nonstop();
 	floatf();
 	p1 = pop();
 

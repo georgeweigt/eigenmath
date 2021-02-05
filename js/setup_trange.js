@@ -8,7 +8,7 @@ setup_trange()
 
 	p1 = lookup("trange");
 	push(p1);
-	evalf();
+	eval_nonstop();
 	floatf();
 	p1 = pop();
 

@@ -34,9 +34,9 @@ eval_draw(void)
 
 	emit_graph();
 
-	restore_binding(T); // restore binding of 2nd arg
+	restore_binding(T);
 
-	push_symbol(NIL); // draw returns nil
+	push_symbol(NIL);
 
 	drawing = 0;
 }
@@ -44,27 +44,20 @@ eval_draw(void)
 void
 setup_trange(void)
 {
-	// default range is (-pi, pi)
-
 	tmin = -M_PI;
 	tmax = M_PI;
 
-	p1 = get_binding(lookup("trange"));
-
-	// must be two element vector
+	p1 = lookup("trange");
+	push(p1);
+	eval_nonstop();
+	sfloat();
+	p1 = pop();
 
 	if (!istensor(p1) || p1->u.tensor->ndim != 1 || p1->u.tensor->nelem != 2)
 		return;
 
-	push(p1->u.tensor->elem[0]);
-	eval();
-	sfloat();
-	p2 = pop();
-
-	push(p1->u.tensor->elem[1]);
-	eval();
-	sfloat();
-	p3 = pop();
+	p2 = p1->u.tensor->elem[0];
+	p3 = p1->u.tensor->elem[1];
 
 	if (!isnum(p2) || !isnum(p3))
 		return;
@@ -79,27 +72,20 @@ setup_trange(void)
 void
 setup_xrange(void)
 {
-	// default range is (-10,10)
-
 	xmin = -10.0;
 	xmax = 10.0;
 
-	p1 = get_binding(lookup("xrange"));
-
-	// must be two element vector
+	p1 = lookup("xrange");
+	push(p1);
+	eval_nonstop();
+	sfloat();
+	p1 = pop();
 
 	if (!istensor(p1) || p1->u.tensor->ndim != 1 || p1->u.tensor->nelem != 2)
 		return;
 
-	push(p1->u.tensor->elem[0]);
-	eval();
-	sfloat();
-	p2 = pop();
-
-	push(p1->u.tensor->elem[1]);
-	eval();
-	sfloat();
-	p3 = pop();
+	p2 = p1->u.tensor->elem[0];
+	p3 = p1->u.tensor->elem[1];
 
 	if (!isnum(p2) || !isnum(p3))
 		return;
@@ -114,27 +100,20 @@ setup_xrange(void)
 void
 setup_yrange(void)
 {
-	// default range is (-10,10)
-
 	ymin = -10.0;
 	ymax = 10.0;
 
-	p1 = get_binding(lookup("yrange"));
-
-	// must be two element vector
+	p1 = lookup("yrange");
+	push(p1);
+	eval_nonstop();
+	sfloat();
+	p1 = pop();
 
 	if (!istensor(p1) || p1->u.tensor->ndim != 1 || p1->u.tensor->nelem != 2)
 		return;
 
-	push(p1->u.tensor->elem[0]);
-	eval();
-	sfloat();
-	p2 = pop();
-
-	push(p1->u.tensor->elem[1]);
-	eval();
-	sfloat();
-	p3 = pop();
+	p2 = p1->u.tensor->elem[0];
+	p3 = p1->u.tensor->elem[1];
 
 	if (!isnum(p2) || !isnum(p3))
 		return;

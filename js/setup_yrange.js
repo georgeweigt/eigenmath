@@ -8,7 +8,7 @@ setup_yrange()
 
 	p1 = lookup("yrange");
 	push(p1);
-	evalf();
+	eval_nonstop();
 	floatf();
 	p1 = pop();
 
