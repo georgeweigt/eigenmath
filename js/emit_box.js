@@ -1,5 +1,5 @@
 function
-draw_box()
+emit_box()
 {
 	var x1 = 0;
 	var x2 = DRAW_WIDTH;

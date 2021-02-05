@@ -11,10 +11,10 @@ emit_graph()
 
 	outbuf = "<svg " + h + w + ">"
 
-	draw_axes();
-	draw_box();
-	draw_labels();
-	draw_points();
+	emit_axes();
+	emit_box();
+	emit_labels();
+	emit_points();
 
 	outbuf += "</svg><br>";
 

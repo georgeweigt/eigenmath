@@ -1,5 +1,5 @@
 function
-draw_points()
+emit_points()
 {
 	var i, n, x, y;
 

@@ -1,5 +1,5 @@
 function
-draw_axes()
+emit_axes()
 {
 	var dx, dy, x, y;
 

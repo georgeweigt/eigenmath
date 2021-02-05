@@ -1,5 +1,5 @@
 function
-draw_labels()
+emit_labels()
 {
 	var p, x, y;
 
