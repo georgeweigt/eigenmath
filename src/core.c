@@ -10,8 +10,10 @@ alloc(void)
 		gc();
 		if (free_count < BLOCKSIZE)
 			alloc_block();
-		if (free_count == 0)
-			stop("out of memory");
+		if (free_count == 0) {
+			errmsg = "out of memory";
+			longjmp(jmpbuf, 1);
+		}
 	}
 	p = free_list;
 	free_list = free_list->u.cons.cdr;

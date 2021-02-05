@@ -1,26 +1,39 @@
 function
 eval_draw(p1)
 {
-	var F, X;
+	var F, T;
 
-	push_symbol(NIL); // return value
-
-	if (drawmode)
+	if (drawmode) {
+		push_symbol(NIL); // return value
 		return;
+	}
 
 	drawmode = 1;
 
 	F = cadr(p1);
-	X = caddr(p1);
+	T = caddr(p1);
 
-	if (!isusersymbol(X))
-		X = symbol(SYMBOL_X);
+	if (!isusersymbol(T))
+		T = symbol(SYMBOL_X);
 
-	save_binding(X);
+	save_binding(T);
 
-	draw(F, X);
+	setup_trange();
+	setup_xrange();
+	setup_yrange();
 
-	restore_binding(X);
+	setup_final(F, T);
+
+	draw_array = [];
+
+	draw_pass1(F, T);
+	draw_pass2(F, T);
+
+	emit_graph();
+
+	restore_binding(T);
+
+	push_symbol(NIL);
 
 	drawmode = 0;
 }

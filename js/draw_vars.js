@@ -10,6 +10,9 @@ const DRAW_BOTTOM_PAD = 40;
 const DRAW_XLABEL_BASELINE = 30;
 const DRAW_YLABEL_MARGIN = 15;
 
+var tmin;
+var tmax;
+
 var xmin;
 var xmax;
 

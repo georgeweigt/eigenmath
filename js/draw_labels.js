@@ -21,7 +21,7 @@ draw_labels()
 	y = DRAW_TOP_PAD + DRAW_HEIGHT;
 	draw_formula(x, y, p);
 
-	push_double(xmin);
+	push_double(tmin);
 	p = pop();
 	emit_level = 1; // small font
 	emit_list(p);
@@ -30,7 +30,7 @@ draw_labels()
 	y = DRAW_TOP_PAD + DRAW_HEIGHT + DRAW_XLABEL_BASELINE;
 	draw_formula(x, y, p);
 
-	push_double(xmax);
+	push_double(tmax);
 	p = pop();
 	emit_level = 1; // small font
 	emit_list(p);

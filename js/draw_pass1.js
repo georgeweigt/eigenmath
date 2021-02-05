@@ -1,10 +1,9 @@
 function
-draw_pass1(F, X)
+draw_pass1(F, T)
 {
-	var i, n, x;
-	n = DRAW_WIDTH + 1; // +1 eliminates aliasing
-	for (i = 0; i <= n; i++) {
-		x = xmin + (xmax - xmin) * i / n;
-		draw_eval(F, X, x);
+	var i, t;
+	for (i = 0; i <= DRAW_WIDTH; i++) {
+		t = tmin + (tmax - tmin) * i / DRAW_WIDTH;
+		sample(F, T, t);
 	}
 }

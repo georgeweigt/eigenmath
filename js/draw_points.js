@@ -7,10 +7,10 @@ draw_points()
 
 	for (i = 0; i < n; i++) {
 
-		x = draw_array[i].dx;
-		y = draw_array[i].dy;
+		x = draw_array[i].x;
+		y = draw_array[i].y;
 
-		if (y < 0 || y > DRAW_HEIGHT)
+		if (x < 0 || x > DRAW_WIDTH || y < 0 || y > DRAW_HEIGHT)
 			continue;
 
 		x += DRAW_LEFT_PAD;
