@@ -3,8 +3,8 @@ setup_trange()
 {
 	var p1, p2, p3;
 
-	tmin = -10;
-	tmax = 10;
+	tmin = -Math.PI;
+	tmax = Math.PI;
 
 	p1 = lookup("trange");
 	push(p1);
