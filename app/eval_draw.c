@@ -211,7 +211,7 @@ draw_pass2(void)
 		m = sqrt(dx * dx + dy * dy);
 
 		for (j = 1; j < m; j++) {
-			t = t1 + (double) j / m * (t2 - t1);
+			t = t1 + (t2 - t1) * j / m;
 			sample(t);
 		}
 	}

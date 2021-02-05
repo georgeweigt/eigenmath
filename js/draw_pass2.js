@@ -27,7 +27,7 @@ draw_pass2(F, T)
 		m = Math.floor(m);
 
 		for (j = 1; j < m; j++) {
-			t = t1 + j / m * (t2 - t1);
+			t = t1 + (t2 - t1) * j / m;
 			sample(F, T, t);
 		}
 	}
