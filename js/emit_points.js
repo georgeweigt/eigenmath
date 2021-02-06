@@ -10,7 +10,7 @@ emit_points()
 		x = draw_array[i].x;
 		y = draw_array[i].y;
 
-		if (x < 0 || x > DRAW_WIDTH || y < 0 || y > DRAW_HEIGHT)
+		if (!inrange(x, y))
 			continue;
 
 		x += DRAW_LEFT_PAD;

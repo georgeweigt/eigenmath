@@ -77,6 +77,7 @@ void setup_final(void);
 void draw_pass1(void);
 void draw_pass2(void);
 void sample(double t);
+int inrange(double x, double y);
 void eval_exit(void);
 void eval_nonstop(void);
 void init_fonts(void);

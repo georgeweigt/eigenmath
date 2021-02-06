@@ -16,8 +16,8 @@ draw_pass2(F, T)
 		y1 = draw_array[i].y;
 		y2 = draw_array[i + 1].y;
 
-		if ((x1 < 0 || x1 > DRAW_WIDTH || y1 < 0 || y1 > DRAW_HEIGHT) && (x2 < 0 || x2 > DRAW_WIDTH || y2 < 0 || y2 > DRAW_HEIGHT))
-			continue; // both coordinates are off the graph
+		if (!inrange(x1, y1) && !inrange(x2, y2))
+			continue;
 
 		dt = t2 - t1;
 		dx = x2 - x1;
