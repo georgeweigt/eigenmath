@@ -112,11 +112,9 @@ stop(char *s)
 {
 	switch (jmpsel) {
 	case 0:
-		if (s) {
-			print_input_line();
-			sprintf(tbuf, "Stop: %s\n", s);
-			printbuf(tbuf, RED);
-		}
+		print_input_line();
+		sprintf(tbuf, "Stop: %s\n", s);
+		printbuf(tbuf, RED);
 		longjmp(jmpbuf0, 1);
 	case 1:
 		longjmp(jmpbuf1, 1);

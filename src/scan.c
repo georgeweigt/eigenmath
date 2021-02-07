@@ -489,7 +489,7 @@ scan_error(char *errmsg)
 	print_char('\n');
 	print_char('\0');
 	printbuf(outbuf, RED);
-	kaput(NULL);
+	longjmp(jmpbuf0, 1);
 }
 
 // There are n expressions on the stack, possibly tensors.
