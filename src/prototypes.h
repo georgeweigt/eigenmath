@@ -592,6 +592,7 @@ void prep(void);
 char * scan_input(char *s);
 void eval_and_print_result(void);
 void stop(char *s);
+void kaput(char *s);
 void eval_run(void);
 void run_file(char *filename);
 void trace_input(void);

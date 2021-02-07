@@ -9,7 +9,7 @@ run(char *s)
 	if (setjmp(jmpbuf0)) {
 		if (errmsg) {
 			print_input_line();
-			sprintf(tbuf, "Stop: %s\n", s);
+			sprintf(tbuf, "Stop: %s\n", errmsg);
 			printbuf(tbuf, RED);
 		}
 		return;
@@ -32,7 +32,7 @@ run(char *s)
 		eval_and_print_result();
 
 		if (tos || tof)
-			stop("internal error");
+			kaput("internal error");
 	}
 }
 
@@ -123,6 +123,13 @@ stop(char *s)
 	case 1:
 		longjmp(jmpbuf1, 1);
 	}
+}
+
+void
+kaput(char *s)
+{
+	errmsg = s;
+	longjmp(jmpbuf0, 1);
 }
 
 void

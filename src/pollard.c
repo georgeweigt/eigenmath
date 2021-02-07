@@ -143,7 +143,7 @@ factor_b(void)
 				mfree(global_n);
 				mfree(x);
 				mfree(xprime);
-				stop("Interrupt");
+				kaput("interrupt");
 			}
 
 			// g = gcd(x' - x, n)

@@ -3,20 +3,21 @@
 void
 push(struct atom *p)
 {
-	if (tos < 0 || tos > STACKSIZE)
-		stop("stack error 1");
-	if (tos == STACKSIZE)
-		stop("stack full");
+	if (tos < 0 || tos + 1 > STACKSIZE)
+		kaput("stack error");
+
 	stack[tos++] = p;
+
 	if (tos > max_stack)
-		max_stack = tos;
+		max_stack = tos; // new high
 }
 
 struct atom *
 pop(void)
 {
 	if (tos < 1 || tos > STACKSIZE)
-		stop("stack error 2");
+		kaput("stack error");
+
 	return stack[--tos];
 }
 
@@ -24,11 +25,11 @@ void
 save(void)
 {
 	if (interrupt)
-		stop("Interrupt");
-	if (tof < 0 || tof > FRAMESIZE)
-		stop("frame error 1");
-	if (tof + 10 > FRAMESIZE)
-		stop("frame error, circular definition?");
+		kaput("interrupt");
+
+	if (tof < 0 || tof + 10 > FRAMESIZE)
+		kaput("frame error, circular definition?");
+
 	frame[tof + 0] = p0;
 	frame[tof + 1] = p1;
 	frame[tof + 2] = p2;
@@ -39,17 +40,21 @@ save(void)
 	frame[tof + 7] = p7;
 	frame[tof + 8] = p8;
 	frame[tof + 9] = p9;
+
 	tof += 10;
+
 	if (tof > max_frame)
-		max_frame = tof;
+		max_frame = tof; // new high
 }
 
 void
 restore(void)
 {
 	if (tof < 10 || tof > FRAMESIZE)
-		stop("frame error 2");
+		kaput("frame error");
+
 	tof -= 10;
+
 	p0 = frame[tof + 0];
 	p1 = frame[tof + 1];
 	p2 = frame[tof + 2];
@@ -65,31 +70,34 @@ restore(void)
 void
 save_binding(struct atom *p)
 {
-	if (tof < 0 || tof > FRAMESIZE)
-		stop("frame error 3");
-	if (tof + 2 > FRAMESIZE)
-		stop("frame error, circular definition?");
-	if (p->k == USYM) {
-		frame[tof + 0] = binding[p->u.usym.index];
-		frame[tof + 1] = arglist[p->u.usym.index];
+	if (tof < 0 || tof + 2 > FRAMESIZE)
+		kaput("frame error, circular definition?");
+
+	if (isusersymbol(p)) {
+		frame[tof + 0] = get_binding(p);
+		frame[tof + 1] = get_arglist(p);
 	} else {
 		frame[tof + 0] = symbol(NIL);
 		frame[tof + 1] = symbol(NIL);
 	}
+
 	tof += 2;
+
 	if (tof > max_frame)
-		max_frame = tof;
+		max_frame = tof; // new high
 }
 
 void
 restore_binding(struct atom *p)
 {
 	if (tof < 2 || tof > FRAMESIZE)
-		stop("frame error 4");
+		kaput("frame error");
+
 	tof -= 2;
-	if (p->k == USYM) {
-		binding[p->u.usym.index] = frame[tof + 0];
-		arglist[p->u.usym.index] = frame[tof + 1];
+
+	if (isusersymbol(p)) {
+		set_binding(p, frame[tof + 0]);
+		set_arglist(p, frame[tof + 1]);
 	}
 }
 
