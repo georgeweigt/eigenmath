@@ -6,7 +6,7 @@ char *trace2;
 void
 run(char *s)
 {
-	if (setjmp(jmpbuf)) {
+	if (setjmp(jmpbuf0)) {
 		if (errmsg) {
 			print_input_line();
 			sprintf(tbuf, "Stop: %s\n", s);
@@ -66,8 +66,8 @@ prep(void)
 
 	expanding = 1;
 	drawing = 0;
-
 	interrupt = 0;
+	jmpsel = 0;
 
 	p0 = symbol(NIL);
 	p1 = symbol(NIL);
@@ -117,10 +117,12 @@ void
 stop(char *s)
 {
 	errmsg = s;
-	if (drawing == 2)
-		longjmp(jmpbuf2, 1);
-	else
-		longjmp(jmpbuf, 1);
+	switch (jmpsel) {
+	case 0:
+		longjmp(jmpbuf0, 1);
+	case 1:
+		longjmp(jmpbuf1, 1);
+	}
 }
 
 void

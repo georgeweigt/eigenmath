@@ -12,7 +12,7 @@ alloc(void)
 			alloc_block();
 		if (free_count == 0) {
 			errmsg = "out of memory";
-			longjmp(jmpbuf, 1);
+			longjmp(jmpbuf0, 1);
 		}
 	}
 	p = free_list;

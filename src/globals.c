@@ -32,8 +32,9 @@ struct atom *imaginaryunit;
 int expanding;
 int drawing;
 int interrupt;
-jmp_buf jmpbuf;
-jmp_buf jmpbuf2;
+int jmpsel;
+jmp_buf jmpbuf0;
+jmp_buf jmpbuf1;
 char *errmsg;
 
 int block_count;

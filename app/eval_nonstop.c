@@ -1,5 +1,7 @@
 #include "app.h"
 
+// not reentrant due to jmpbuf1
+
 void
 eval_nonstop(void)
 {
@@ -9,8 +11,8 @@ eval_nonstop(void)
 	int volatile save_tof;
 	int volatile save_expanding;
 
-	if (setjmp(jmpbuf2)) {
-		drawing = 1;
+	if (setjmp(jmpbuf1)) {
+		jmpsel = 0;
 		tos = save_tos;
 		tof = save_tof;
 		expanding = save_expanding;
@@ -26,9 +28,9 @@ eval_nonstop(void)
 	save_tof = tof;
 	save_expanding = expanding;
 
-	drawing = 2;
+	jmpsel = 1;
 	eval();
-	drawing = 1;
+	jmpsel = 0;
 
 	restore();
 }

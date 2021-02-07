@@ -33,8 +33,9 @@ extern struct atom *imaginaryunit;
 extern int expanding;
 extern int drawing;
 extern int interrupt;
-extern jmp_buf jmpbuf;
-extern jmp_buf jmpbuf2;
+extern int jmpsel;
+extern jmp_buf jmpbuf0;
+extern jmp_buf jmpbuf1;
 extern char *errmsg;
 
 extern int block_count;
