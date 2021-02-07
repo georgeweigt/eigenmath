@@ -6,14 +6,8 @@ char *trace2;
 void
 run(char *s)
 {
-	if (setjmp(jmpbuf0)) {
-		if (errmsg) {
-			print_input_line();
-			sprintf(tbuf, "Stop: %s\n", errmsg);
-			printbuf(tbuf, RED);
-		}
+	if (setjmp(jmpbuf0))
 		return;
-	}
 
 	if (zero == NULL)
 		init();
@@ -116,9 +110,13 @@ eval_and_print_result(void)
 void
 stop(char *s)
 {
-	errmsg = s;
 	switch (jmpsel) {
 	case 0:
+		if (s) {
+			print_input_line();
+			sprintf(tbuf, "Stop: %s\n", s);
+			printbuf(tbuf, RED);
+		}
 		longjmp(jmpbuf0, 1);
 	case 1:
 		longjmp(jmpbuf1, 1);
@@ -128,8 +126,8 @@ stop(char *s)
 void
 kaput(char *s)
 {
-	errmsg = s;
-	longjmp(jmpbuf0, 1);
+	jmpsel = 0;
+	stop(s);
 }
 
 void

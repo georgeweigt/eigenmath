@@ -36,7 +36,6 @@ extern int interrupt;
 extern int jmpsel;
 extern jmp_buf jmpbuf0;
 extern jmp_buf jmpbuf1;
-extern char *errmsg;
 
 extern int block_count;
 extern int free_count;

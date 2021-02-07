@@ -35,7 +35,6 @@ int interrupt;
 int jmpsel;
 jmp_buf jmpbuf0;
 jmp_buf jmpbuf1;
-char *errmsg;
 
 int block_count;
 int free_count;
