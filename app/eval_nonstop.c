@@ -1,7 +1,5 @@
 #include "app.h"
 
-// not reentrant due to jmpbuf1
-
 void
 eval_nonstop(void)
 {
@@ -10,6 +8,12 @@ eval_nonstop(void)
 	int volatile save_tos;
 	int volatile save_tof;
 	int volatile save_expanding;
+
+	if (jmpsel) {
+		pop();
+		push_symbol(NIL);
+		return; // not reentrant
+	}
 
 	if (setjmp(jmpbuf1)) {
 		jmpsel = 0;
