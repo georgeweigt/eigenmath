@@ -108,27 +108,6 @@ eval_and_print_result(void)
 }
 
 void
-stop(char *s)
-{
-	switch (jmpsel) {
-	case 0:
-		print_input_line();
-		sprintf(tbuf, "Stop: %s\n", s);
-		printbuf(tbuf, RED);
-		longjmp(jmpbuf0, 1);
-	case 1:
-		longjmp(jmpbuf1, 1);
-	}
-}
-
-void
-kaput(char *s)
-{
-	jmpsel = 0;
-	stop(s);
-}
-
-void
 eval_run(void)
 {
 	push(cadr(p1));
@@ -327,8 +306,28 @@ run_init_script(void)
 }
 
 void
+stop(char *s)
+{
+	switch (jmpsel) {
+	case 0:
+		print_input_line();
+		sprintf(tbuf, "Stop: %s\n", s);
+		printbuf(tbuf, RED);
+		longjmp(jmpbuf0, 1);
+	case 1:
+		longjmp(jmpbuf1, 1);
+	}
+}
+
+void
+kaput(char *s)
+{
+	jmpsel = 0;
+	stop(s);
+}
+
+void
 malloc_kaput(void)
 {
-	fprintf(stderr, "malloc kaput\n");
 	exit(1);
 }
