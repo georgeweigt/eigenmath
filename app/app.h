@@ -62,8 +62,6 @@
 
 #define DRAW_AXIS_STROKE 0.5
 
-#define DRAW_MAX (10 * DRAW_WIDTH)
-
 struct draw_buf_t {
 	double t, x, y; // x and y are functions of t
 };
@@ -97,7 +95,8 @@ extern struct display *fence;
 extern int running;
 
 extern int draw_count;
-extern struct draw_buf_t draw_buf[];
+extern int draw_max;
+extern struct draw_buf_t *draw_buf;
 
 extern double tmin, tmax;
 extern double xmin, xmax;

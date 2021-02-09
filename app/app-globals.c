@@ -9,7 +9,8 @@ double total_width;
 struct display *fence;
 
 int draw_count;
-struct draw_buf_t draw_buf[DRAW_MAX];
+int draw_max;
+struct draw_buf_t *draw_buf;
 
 double tmin, tmax;
 double xmin, xmax;

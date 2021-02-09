@@ -193,9 +193,6 @@ sample(double t)
 {
 	double x, y;
 
-	if (draw_count == DRAW_MAX)
-		return;
-
 	push_double(t);
 	p1 = pop();
 	set_binding(T, p1);
@@ -225,6 +222,13 @@ sample(double t)
 
 	x = DRAW_WIDTH * (x - xmin) / (xmax - xmin);
 	y = DRAW_HEIGHT * (y - ymin) / (ymax - ymin);
+
+	if (draw_count == draw_max) {
+		draw_max += 1000;
+		draw_buf = realloc(draw_buf, draw_max * sizeof (struct draw_buf_t));
+		if (draw_buf == NULL)
+			malloc_kaput();
+	}
 
 	draw_buf[draw_count].x = x;
 	draw_buf[draw_count].y = y;
