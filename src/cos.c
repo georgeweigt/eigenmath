@@ -85,13 +85,14 @@ scos_nib(void)
 		return;
 	}
 
-    // cos(arcsin(x)) = sqrt(1 - x^2)
-    if (car(p1) == symbol(ARCSIN)) {
+	// cos(arcsin(x)) = sqrt(1 - x^2)
+
+	if (car(p1) == symbol(ARCSIN)) {
 		push_integer(1);
 		push(cadr(p1));
 		push_integer(2);
 		power();
-        subtract();
+		subtract();
 		push_rational(1, 2);
 		power();
 		return;
