@@ -163,6 +163,8 @@ struct atom {
 
 #define SYMBOL_J	(9 * NSYM + 0)
 
+#define KRON		(10 * NSYM + 0)
+
 #define LAGUERRE	(11 * NSYM + 0)
 #define LAST		(11 * NSYM + 1)
 #define LATEX		(11 * NSYM + 2)

@@ -225,6 +225,8 @@ struct se stab[] = {
 
 	{ "j",			SYMBOL_J,	NULL			},
 
+	{ "kron",		KRON,		eval_kron		},
+
 	{ "laguerre",		LAGUERRE,	eval_laguerre		},
 	{ "last",		LAST,		NULL			},
 	{ "latex",		LATEX,		eval_latex		},
