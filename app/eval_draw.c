@@ -164,12 +164,11 @@ draw_pass2(void)
 	for (i = 0; i < n; i++) {
 
 		t1 = draw_buf[i].t;
-		t2 = draw_buf[i + 1].t;
-
 		x1 = draw_buf[i].x;
-		x2 = draw_buf[i + 1].x;
-
 		y1 = draw_buf[i].y;
+
+		t2 = draw_buf[i + 1].t;
+		x2 = draw_buf[i + 1].x;
 		y2 = draw_buf[i + 1].y;
 
 		if (!inrange(x1, y1) && !inrange(x2, y2))
