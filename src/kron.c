@@ -27,7 +27,7 @@ kron(void)
 void
 kron_nib(void)
 {
-	int i, j, k, l, m, n, p, q;
+	int h, i, j, k, l, m, n, p, q;
 
 	p2 = pop();
 	p1 = pop();
@@ -50,14 +50,18 @@ kron_nib(void)
 
 	p3 = alloc_tensor(m * n * p * q);
 
+	h = 0;
+
+	// result matrix has (m * p) rows and (n * q) columns
+
 	for (i = 0; i < m; i++)
-		for (j = 0; j < n; j++)
-			for (k = 0; k < p; k++)
+		for (j = 0; j < p; j++)
+			for (k = 0; k < n; k++)
 				for (l = 0; l < q; l++) {
-					push(p1->u.tensor->elem[n * i + j]);
-					push(p2->u.tensor->elem[q * k + l]);
+					push(p1->u.tensor->elem[n * i + k]);
+					push(p2->u.tensor->elem[q * j + l]);
 					multiply();
-					p3->u.tensor->elem[n * p * q * i + n * q * k + q * j + l] = pop();
+					p3->u.tensor->elem[h++] = pop();
 				}
 
 	p3->u.tensor->dim[0] = m * p;
