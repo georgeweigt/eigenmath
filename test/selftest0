@@ -1451,6 +1451,48 @@ B = ((0,0,0),(0,0,0),(0,0,0))
 for(i,1,3,for(j,1,3,B[j,i] = cofactor(A,i,j)))
 check(adj(A) == B)
 
+-- kronecker product
+
+A = (2,3)
+B = (a,b,c)
+check(kron(A,B) == (2a,2b,2c,3a,3b,3c))
+check(kron(B,A) == (2a,3a,2b,3b,2c,3c))
+
+A = (a,b)
+B = ((2,3,4),(5,6,7),(8,9,10),(11,12,13))
+
+C = ((2a,3a,4a),
+     (5a,6a,7a),
+     (8a,9a,10a),
+     (11a,12a,13a),
+     (2b,3b,4b),
+     (5b,6b,7b),
+     (8b,9b,10b),
+     (11b,12b,13b))
+
+check(kron(A,B) == C)
+
+C = ((2a,3a,4a),
+     (2b,3b,4b),
+     (5a,6a,7a),
+     (5b,6b,7b),
+     (8a,9a,10a),
+     (8b,9b,10b),
+     (11a,12a,13a),
+     (11b,12b,13b))
+
+check(kron(B,A) == C)
+
+A = ((2,3),(4,5))
+B = ((a,b),(c,d))
+
+C = ((2a,2b,3a,3b),
+     (2c,2d,3c,3d),
+     (4a,4b,5a,5b),
+     (4c,4d,5c,5d))
+
+check(kron(A,B) == C)
+
 -- done
 
 clear

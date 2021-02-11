@@ -1,5 +1,7 @@
 #include "defs.h"
 
+// kronecker product
+
 void
 eval_kron(void)
 {
