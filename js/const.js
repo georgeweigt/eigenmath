@@ -44,6 +44,7 @@ const IMAG = "imag";
 const INNER = "inner";
 const INTEGRAL = "integral";
 const INV = "inv";
+const KRON = "kron";
 const LOG = "log";
 const MAG = "mag";
 const MINOR = "minor";

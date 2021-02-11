@@ -62,6 +62,7 @@ var symtab = {
 "inner":	{printname:INNER,	func:eval_inner},
 "integral":	{printname:INTEGRAL,	func:eval_integral},
 "inv":		{printname:INV,		func:eval_inv},
+"kron":		{printname:KRON,	func:eval_kron},
 "log":		{printname:LOG,		func:eval_log},
 "mag":		{printname:MAG,		func:eval_mag},
 "minor":	{printname:MINOR,	func:eval_minor},
