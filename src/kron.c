@@ -60,14 +60,10 @@ kron_nib(void)
 					p3->u.tensor->elem[n * p * q * i + n * q * k + q * j + l] = pop();
 				}
 
-	if (n * q == 1) {
-		p3->u.tensor->ndim = 1;
-		p3->u.tensor->dim[0] = m * p;
-	} else {
-		p3->u.tensor->ndim = 2;
-		p3->u.tensor->dim[0] = m * p;
-		p3->u.tensor->dim[1] = n * q;
-	}
+	p3->u.tensor->dim[0] = m * p;
+	p3->u.tensor->dim[1] = n * q;
+
+	p3->u.tensor->ndim = n * q == 1 ? 1 : 2;
 
 	push(p3);
 }
