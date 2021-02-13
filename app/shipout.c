@@ -6,7 +6,6 @@ void
 shipout(struct display *p)
 {
 	p->dy = round(p->dy);
-
 	p->height = round(p->height);
 
 	total_height += p->height;
