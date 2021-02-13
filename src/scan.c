@@ -349,7 +349,7 @@ get_token_nib(void)
 {
 	// skip spaces
 
-	while (isspace(*scan_str) && *scan_str != '\n')
+	while (isspace(*scan_str) && *scan_str != '\n' && *scan_str != '\r')
 		scan_str++;
 
 	token_str = scan_str;
@@ -363,7 +363,7 @@ get_token_nib(void)
 
 	// newline?
 
-	if (*scan_str == '\n') {
+	if (*scan_str == '\n' || *scan_str == '\r') {
 		scan_str++;
 		token = T_NEWLINE;
 		return;
