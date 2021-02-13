@@ -370,7 +370,7 @@ get_token_nib()
 
 	for (;;) {
 		c = inchar();
-		if (c == "" || c == "\n" || (c.charCodeAt(0) > 32 && c.charCodeAt(0) < 127))
+		if (c == "" || c == "\n" || c == "\r" || (c.charCodeAt(0) > 32 && c.charCodeAt(0) < 127))
 			break;
 		scan_index++;
 	}
@@ -388,7 +388,7 @@ get_token_nib()
 
 	// newline?
 
-	if (c == "\n") {
+	if (c == "\n" || c == "\r") {
 		token = T_NEWLINE;
 		return;
 	}

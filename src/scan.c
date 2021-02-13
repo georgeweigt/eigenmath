@@ -349,7 +349,7 @@ get_token_nib(void)
 {
 	// skip spaces
 
-	while (isspace(*scan_str) && *scan_str != '\n' && *scan_str != '\r')
+	while (*scan_str != '\0' && *scan_str != '\n' && *scan_str != '\r' && (*scan_str < 33 || *scan_str > 126))
 		scan_str++;
 
 	token_str = scan_str;
