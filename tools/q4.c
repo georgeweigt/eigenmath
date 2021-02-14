@@ -1,4 +1,4 @@
-// generate hadamard and cnot operators for 4 qubits
+// generate hadamard and cnot operators for 4 qbits
 
 #include <stdio.h>
 
