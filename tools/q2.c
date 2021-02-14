@@ -8,15 +8,11 @@ void cnot(int c, int t);
 int
 main()
 {
-	int i, j;
-
 	hadamard(0);
 	hadamard(1);
 
-	for (i = 0; i < 2; i++)
-		for (j = 0; j < 2; j++)
-			if (i != j)
-				cnot(i, j);
+	cnot(0, 1);
+	cnot(1, 0);
 }
 
 void
