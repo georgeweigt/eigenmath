@@ -8,11 +8,8 @@ emit_numerators(struct atom *p)
 	struct atom *q;
 
 	t = tos;
-
 	n = count_numerators(p);
-
 	p = cdr(p);
-	q = car(p);
 
 	while (iscons(p)) {
 

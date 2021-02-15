@@ -117,19 +117,8 @@ emit_denominators(p)
 	var n, q, t;
 
 	t = stack.length;
-
 	n = count_denominators(p);
-
 	p = cdr(p);
-	q = car(p);
-
-	if (isrational(q)) {
-		if (q.b != 1) {
-			emit_roman_string(q.b.toFixed(0));
-			n++;
-		}
-		p = cdr(p);
-	}
 
 	while (iscons(p)) {
 
@@ -141,6 +130,11 @@ emit_denominators(p)
 
 		if (stack.length > t)
 			emit_medium_space();
+
+		if (isrational(q)) {
+			emit_roman_string(q.b.toFixed(0));
+			continue;
+		}
 
 		if (isminusone(caddr(q))) {
 			q = cadr(q);
@@ -514,31 +508,32 @@ emit_medium_space()
 function
 emit_numerators(p)
 {
-	var q, t;
+	var n, q, t;
 
 	t = stack.length;
-
+	n = count_numerators(p);
 	p = cdr(p);
-	q = car(p);
-
-	if (isrational(q)) {
-		if (Math.abs(q.a) != 1)
-			emit_roman_string(Math.abs(q.a).toFixed(0));
-		p = cdr(p);
-	}
 
 	while (iscons(p)) {
 
 		q = car(p);
 		p = cdr(p);
 
-		if (isdenominator(q))
+		if (!isnumerator(q))
 			continue;
 
 		if (stack.length > t)
 			emit_medium_space();
 
-		emit_factor(q);
+		if (isrational(q)) {
+			emit_roman_string(Math.abs(q.a).toFixed(0));
+			continue;
+		}
+
+		if (car(q) == symbol(ADD) && n == 1)
+			emit_expr(q); // parens not needed
+		else
+			emit_factor(q);
 	}
 
 	if (stack.length == t)
@@ -851,7 +846,7 @@ emit_term(p)
 function
 emit_term_nib(p)
 {
-	if (count_denominators(p) > 0) {
+	if (find_denominator(p)) {
 		emit_fraction(p);
 		return;
 	}
