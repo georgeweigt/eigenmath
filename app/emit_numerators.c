@@ -3,35 +3,38 @@
 void
 emit_numerators(struct atom *p)
 {
-	int t;
+	int n, t;
 	char *s;
 	struct atom *q;
 
 	t = tos;
 
+	n = count_numerators(p);
+
 	p = cdr(p);
 	q = car(p);
-
-	if (isrational(q)) {
-		if (!MEQUAL(q->u.q.a, 1)) {
-			s = mstr(q->u.q.a);
-			emit_roman_string(s);
-		}
-		p = cdr(p);
-	}
 
 	while (iscons(p)) {
 
 		q = car(p);
 		p = cdr(p);
 
-		if (isdenominator(q))
+		if (!isnumerator(q))
 			continue;
 
 		if (tos > t)
 			emit_medium_space();
 
-		emit_factor(q);
+		if (isrational(q)) {
+			s = mstr(q->u.q.a);
+			emit_roman_string(s);
+			continue;
+		}
+
+		if (car(q) == symbol(ADD) && n == 1)
+			emit_expr(q); // parens not needed
+		else
+			emit_factor(q);
 	}
 
 	if (t == tos)

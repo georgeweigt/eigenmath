@@ -12,7 +12,7 @@ emit_term(struct atom *p)
 void
 emit_term_nib(struct atom *p)
 {
-	if (count_denominators(p) > 0) {
+	if (find_denominator(p)) {
 		emit_frac(p);
 		return;
 	}

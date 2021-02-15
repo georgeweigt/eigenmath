@@ -14,15 +14,6 @@ emit_denominators(struct atom *p)
 	p = cdr(p);
 	q = car(p);
 
-	if (isrational(q)) {
-		if (!MEQUAL(q->u.q.b, 1)) {
-			s = mstr(q->u.q.b);
-			emit_roman_string(s);
-			n++;
-		}
-		p = cdr(p);
-	}
-
 	while (iscons(p)) {
 
 		q = car(p);
@@ -33,6 +24,12 @@ emit_denominators(struct atom *p)
 
 		if (tos > t)
 			emit_medium_space();
+
+		if (isrational(q)) {
+			s = mstr(q->u.q.b);
+			emit_roman_string(s);
+			continue;
+		}
 
 		if (isminusone(caddr(q))) {
 			q = cadr(q);
