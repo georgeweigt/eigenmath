@@ -50,6 +50,7 @@ const MAG = "mag";
 const MINOR = "minor";
 const MINORMATRIX = "minormatrix";
 const NIL = "nil";
+const NOEXPAND = "noexpand";
 const NOT = "not";
 const NUMBER = "number";
 const NUMERATOR = "numerator";

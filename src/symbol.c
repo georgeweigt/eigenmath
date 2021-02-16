@@ -244,6 +244,7 @@ struct se stab[] = {
 	{ "mod",		MOD,		eval_mod		},
 
 	{ "nil",		NIL,		eval_nil		},
+	{ "noexpand",		NOEXPAND,	eval_noexpand		},
 	{ "not",		NOT,		eval_not		},
 	{ "nroots",		NROOTS,		eval_nroots		},
 	{ "number",		NUMBER,		eval_number		},

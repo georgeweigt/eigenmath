@@ -292,6 +292,7 @@ void eval_sqrt(void);
 void eval_stop(void);
 void eval_subst(void);
 void expand_expr(void);
+void eval_noexpand(void);
 void eval_exp(void);
 void exponential(void);
 void eval_expand(void);

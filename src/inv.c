@@ -19,8 +19,6 @@ inv(void)
 void
 inv_nib(void)
 {
-	int t;
-
 	p1 = pop();
 
 	if (!istensor(p1)) {
@@ -35,13 +33,8 @@ inv_nib(void)
 	push(p1);
 	adj();
 
-	// ensure inv(A) gives the same result as adj(A)/det(A)
-
 	push(p1);
-	t = expanding;
-	expanding = 0;
 	det();
-	expanding = t;
 
 	divide();
 }

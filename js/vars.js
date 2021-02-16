@@ -68,6 +68,7 @@ var symtab = {
 "minor":	{printname:MINOR,	func:eval_minor},
 "minormatrix":	{printname:MINORMATRIX,	func:eval_minormatrix},
 "nil":		{printname:NIL,		func:eval_nil},
+"noexpand":	{printname:NOEXPAND,	func:eval_noexpand},
 "not":		{printname:NOT,		func:eval_not},
 "number":	{printname:NUMBER,	func:eval_number},
 "numerator":	{printname:NUMERATOR,	func:eval_numerator},

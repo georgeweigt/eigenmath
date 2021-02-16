@@ -1,7 +1,7 @@
 function
 inv()
 {
-	var t, p1;
+	var p1;
 
 	p1 = pop();
 
@@ -17,13 +17,8 @@ inv()
 	push(p1);
 	adj();
 
-	// ensure inv(A) gives the same result as adj(A)/det(A)
-
 	push(p1);
-	t = expanding;
-	expanding = 0;
 	det();
-	expanding = t;
 
 	divide();
 }

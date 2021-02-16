@@ -182,10 +182,11 @@ struct atom {
 #define MOD		(12 * NSYM + 5)
 
 #define NIL		(13 * NSYM + 0)
-#define NOT		(13 * NSYM + 1)
-#define NROOTS		(13 * NSYM + 2)
-#define NUMBER		(13 * NSYM + 3)
-#define NUMERATOR	(13 * NSYM + 4)
+#define NOEXPAND	(13 * NSYM + 1)
+#define NOT		(13 * NSYM + 2)
+#define NROOTS		(13 * NSYM + 3)
+#define NUMBER		(13 * NSYM + 4)
+#define NUMERATOR	(13 * NSYM + 5)
 
 #define OR		(14 * NSYM + 0)
 #define OUTER		(14 * NSYM + 1)
