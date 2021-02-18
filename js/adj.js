@@ -6,7 +6,7 @@ adj()
 	p1 = pop();
 
 	if (!istensor(p1)) {
-		push_integer(1); // adj of scalar is 1 by adj = det inv
+		push_integer(1); // adj of scalar is 1 because adj = det inv
 		return;
 	}
 
