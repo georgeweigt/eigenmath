@@ -85,22 +85,22 @@ struct atom {
 #define STR		5
 #define TENSOR		6
 
-#define ABS		0
-#define ADJ		1
-#define AND		2
-#define ARCCOS		3
-#define ARCCOSH		4
-#define ARCSIN		5
-#define ARCSINH		6
-#define ARCTAN		7
-#define ARCTANH		8
-#define ARG		9
-#define ATOMIZE		10
+#define ABS		(0 * NSYM + 0)
+#define ADJ		(0 * NSYM + 1)
+#define AND		(0 * NSYM + 2)
+#define ARCCOS		(0 * NSYM + 3)
+#define ARCCOSH		(0 * NSYM + 4)
+#define ARCSIN		(0 * NSYM + 5)
+#define ARCSINH		(0 * NSYM + 6)
+#define ARCTAN		(0 * NSYM + 7)
+#define ARCTANH		(0 * NSYM + 8)
+#define ARG		(0 * NSYM + 9)
+#define ATOMIZE		(0 * NSYM + 10)
 
-#define BESSELJ		(NSYM + 0)
-#define BESSELY		(NSYM + 1)
-#define BINDING		(NSYM + 2)
-#define BINOMIAL	(NSYM + 3)
+#define BESSELJ		(1 * NSYM + 0)
+#define BESSELY		(1 * NSYM + 1)
+#define BINDING		(1 * NSYM + 2)
+#define BINOMIAL	(1 * NSYM + 3)
 
 #define CEILING		(2 * NSYM + 0)
 #define CHECK		(2 * NSYM + 1)
