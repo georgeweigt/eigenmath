@@ -13,8 +13,16 @@
 void
 eval_defint(void)
 {
-	expanding++; // in case integral is in denominator
+	int t;
+	t = expanding;
+	expanding = 1;
+	eval_defint_nib();
+	expanding = t;
+}
 
+void
+eval_defint_nib(void)
+{
 	push(cadr(p1));
 	eval();
 	F = pop();
@@ -23,7 +31,7 @@ eval_defint(void)
 
 	do {
 		if (length(p1) < 3)
-			stop("defint: missing argument");
+			stop("defint");
 
 		push(car(p1));
 		p1 = cdr(p1);
@@ -63,6 +71,4 @@ eval_defint(void)
 	} while (iscons(p1));
 
 	push(F);
-
-	expanding--;
 }

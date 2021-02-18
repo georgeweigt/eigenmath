@@ -18,18 +18,18 @@ eval_gcd(void)
 void
 gcd(void)
 {
-	int x = expanding;
+	int t;
+	t = expanding;
+	expanding = 1;
 	save();
 	gcd_main();
 	restore();
-	expanding = x;
+	expanding = t;
 }
 
 void
 gcd_main(void)
 {
-	expanding = 1;
-
 	p2 = pop();
 	p1 = pop();
 

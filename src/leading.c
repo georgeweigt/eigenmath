@@ -1,15 +1,3 @@
-/* Return the leading coefficient of a polynomial.
-
-Example
-
-	leading(5x^2+x+1,x)
-
-Result
-
-	5
-
-The result is undefined if P is not a polynomial. */
-
 #include "defs.h"
 
 void
@@ -21,7 +9,7 @@ eval_leading(void)
 	eval();
 	p1 = pop();
 	if (p1 == symbol(NIL))
-		guess();
+		push_symbol(SYMBOL_X);
 	else
 		push(p1);
 	leading();

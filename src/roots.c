@@ -47,7 +47,7 @@ eval_roots(void)
 	eval();
 	p2 = pop();
 	if (p2 == symbol(NIL))
-		guess();
+		push_symbol(SYMBOL_X);
 	else
 		push(p2);
 

@@ -9,7 +9,7 @@ eval_degree(void)
 	eval();
 	p1 = pop();
 	if (p1 == symbol(NIL))
-		guess();
+		push_symbol(SYMBOL_X);
 	else
 		push(p1);
 	degree();

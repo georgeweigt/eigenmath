@@ -658,18 +658,25 @@ char *integral_tab[] = {
 void
 eval_integral(void)
 {
-	int i, n, flag;
+	int t;
+	t = expanding;
+	expanding = 1;
+	eval_integral_nib();
+	expanding = t;
+}
 
-	expanding++;
+void
+eval_integral_nib(void)
+{
+	int flag, i, n;
 
 	push(cadr(p1));
 	eval();
 	p1 = cddr(p1);
 
 	if (!iscons(p1)) {
-		guess();
+		push_symbol(SYMBOL_X);
 		integral();
-		expanding--;
 		return;
 	}
 
@@ -691,8 +698,8 @@ eval_integral(void)
 			push(X);
 			n = pop_integer();
 			if (n == ERR)
-				stop("integral: integer expected");
-			guess();
+				stop("integral");
+			push_symbol(SYMBOL_X);
 			X = pop();
 			for (i = 0; i < n; i++) {
 				push(X);
@@ -701,8 +708,8 @@ eval_integral(void)
 			continue;
 		}
 
-		if (!issymbol(X))
-			stop("integral: symbol expected");
+		if (!isusersymbol(X))
+			stop("integral");
 
 		if (iscons(p1)) {
 
@@ -715,7 +722,7 @@ eval_integral(void)
 				push(Y);
 				n = pop_integer();
 				if (n == ERR)
-					stop("integral: integer expected");
+					stop("integral");
 				for (i = 0; i < n; i++) {
 					push(X);
 					integral();
@@ -729,8 +736,6 @@ eval_integral(void)
 		push(X);
 		integral();
 	}
-
-	expanding--;
 }
 
 #undef F

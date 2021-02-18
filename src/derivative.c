@@ -16,7 +16,7 @@ eval_derivative(void)
 	p1 = cddr(p1);
 
 	if (!iscons(p1)) {
-		guess();
+		push_symbol(SYMBOL_X);
 		derivative();
 		return;
 	}
@@ -39,8 +39,8 @@ eval_derivative(void)
 			push(X);
 			n = pop_integer();
 			if (n == ERR)
-				stop("derivative: integer expected");
-			guess();
+				stop("derivative");
+			push_symbol(SYMBOL_X);
 			X = pop();
 			for (i = 0; i < n; i++) {
 				push(X);
@@ -60,7 +60,7 @@ eval_derivative(void)
 				push(Y);
 				n = pop_integer();
 				if (n == ERR)
-					stop("derivative: integer expected");
+					stop("derivative");
 				for (i = 0; i < n; i++) {
 					push(X);
 					derivative();
