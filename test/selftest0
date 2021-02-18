@@ -1493,6 +1493,14 @@ C = ((2a,2b,3a,3b),
 
 check(kron(A,B) == C)
 
+-- det
+
+A = ((a^2 - lambda,0,0),(0,b^2 - lambda,0),(0,0,c^2 - lambda))
+B = "1 / ((a^2 - lambda) (b^2 - lambda) (c^2 - lambda))"
+check(string(1/det(A)) == B)
+B = "(a^2 - lambda) (b^2 - lambda) (c^2 - lambda)"
+check(string(noexpand(det(A))) == B)
+
 -- noexpand
 
 A = ((a^2 - lambda,0,0),(0,b^2 - lambda,0),(0,0,c^2 - lambda))
