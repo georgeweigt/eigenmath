@@ -173,7 +173,9 @@ eval_subst(void)
 void
 expand_expr(void)
 {
-	expanding++;
+	int t;
+	t = expanding;
+	expanding = 1;
 	eval();
-	expanding--;
+	expanding = t;
 }

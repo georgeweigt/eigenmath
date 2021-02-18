@@ -626,9 +626,20 @@ reduce_radical_factors(int h)
 }
 
 void
+multiply_expand(void)
+{
+	int t;
+	t = expanding;
+	expanding = 1;
+	multiply();
+	expanding = t;
+}
+
+void
 multiply_noexpand(void)
 {
-	int t = expanding;
+	int t;
+	t = expanding;
 	expanding = 0;
 	multiply();
 	expanding = t;
@@ -637,7 +648,8 @@ multiply_noexpand(void)
 void
 multiply_factors_noexpand(int n)
 {
-	int t = expanding;
+	int t;
+	t = expanding;
 	expanding = 0;
 	multiply_factors(n);
 	expanding = t;

@@ -1,5 +1,3 @@
-// Find the least common multiple of two expressions.
-
 #include "defs.h"
 
 void
@@ -20,11 +18,13 @@ eval_lcm(void)
 void
 lcm(void)
 {
-	expanding++;
+	int t;
+	t = expanding;
+	expanding = 1;
 	save();
 	lcm_nib();
 	restore();
-	expanding--;
+	expanding = t;
 }
 
 void

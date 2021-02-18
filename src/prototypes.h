@@ -506,6 +506,7 @@ int order_factor(struct atom *p);
 void multiply_numbers(void);
 void multiply_rationals(void);
 void reduce_radical_factors(int h);
+void multiply_expand(void);
 void multiply_noexpand(void);
 void multiply_factors_noexpand(int n);
 void negate(void);
