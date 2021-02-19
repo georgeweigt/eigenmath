@@ -76,9 +76,7 @@ power()
 		push(cadr(BASE));
 		push(caddr(BASE));
 		push(EXPO);
-		expanding++; // expand products of exponents
-		multiply();
-		expanding--;
+		multiply_expand(); // always expand products of exponents
 		power();
 		return;
 	}

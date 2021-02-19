@@ -1,9 +1,9 @@
 function
-multiply_noexpand()
+multiply_expand()
 {
 	var t;
 	t = expanding;
-	expanding = 0;
+	expanding = 1;
 	multiply();
 	expanding = t;
 }
