@@ -1,9 +1,17 @@
 function
 eval_integral(p1)
 {
-	var flag, i, n, X, Y;
+	var t;
+	t = expanding;
+	expanding = 1;
+	eval_integral_nib(p1);
+	expanding = t;
+}
 
-	expanding++;
+function
+eval_integral_nib(p1)
+{
+	var flag, i, n, X, Y;
 
 	push(cadr(p1));
 	evalf();
@@ -12,7 +20,6 @@ eval_integral(p1)
 	if (!iscons(p1)) {
 		push_symbol(SYMBOL_X);
 		integral();
-		expanding--;
 		return;
 	}
 
@@ -65,6 +72,4 @@ eval_integral(p1)
 		push(X);
 		integral();
 	}
-
-	expanding--;
 }

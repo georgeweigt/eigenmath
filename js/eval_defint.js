@@ -1,9 +1,17 @@
 function
 eval_defint(p1)
 {
-	var A, B, F, X;
+	var t;
+	t = expanding;
+	expanding = 1;
+	eval_defint_nib(p1);
+	expanding = t;
+}
 
-	expanding++; // in case integral is in denominator
+function
+eval_defint_nib(p1)
+{
+	var A, B, F, X;
 
 	push(cadr(p1));
 	evalf();
@@ -53,6 +61,4 @@ eval_defint(p1)
 	} while (iscons(p1));
 
 	push(F);
-
-	expanding--;
 }
