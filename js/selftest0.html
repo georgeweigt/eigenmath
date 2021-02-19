@@ -74,113 +74,121 @@ check(zero(2,3) == ((0,0,0),(0,0,0)))
 check(prefixform(a-b)="(+ a (* -1 b))")
 check(prefixform(b-a)="(+ (* -1 a) b)")
 
-(-1)^(1/8)
-check(prefixform(last)="(^ -1 1/8)")
-(-1)^(3/8)
-check(prefixform(last)="(^ -1 3/8)")
-(-1)^(5/8)
-check(prefixform(last)="(* -1 (^ -1 -3/8))")
-(-1)^(7/8)
-check(prefixform(last)="(* -1 (^ -1 -1/8))")
-(-1)^(9/8)
-check(prefixform(last)="(* -1 (^ -1 1/8))")
-(-1)^(11/8)
-check(prefixform(last)="(* -1 (^ -1 3/8))")
-(-1)^(13/8)
-check(prefixform(last)="(^ -1 -3/8)")
-(-1)^(15/8)
-check(prefixform(last)="(^ -1 -1/8)")
+"Testing complex number arithmetic"
 
-(-1)^(-1/8)
-check(prefixform(last)="(^ -1 -1/8)")
-(-1)^(-3/8)
-check(prefixform(last)="(^ -1 -3/8)")
-(-1)^(-5/8)
-check(prefixform(last)="(* -1 (^ -1 3/8))")
-(-1)^(-7/8)
-check(prefixform(last)="(* -1 (^ -1 1/8))")
-(-1)^(-9/8)
-check(prefixform(last)="(* -1 (^ -1 -1/8))")
-(-1)^(-11/8)
-check(prefixform(last)="(* -1 (^ -1 -3/8))")
-(-1)^(-13/8)
-check(prefixform(last)="(^ -1 3/8)")
-(-1)^(-15/8)
-check(prefixform(last)="(^ -1 1/8)")
+A = (-1)^(1/8)
+check(prefixform(A)="(^ -1 1/8)")
+A = (-1)^(3/8)
+check(prefixform(A)="(^ -1 3/8)")
+A = (-1)^(5/8)
+check(prefixform(A)="(* -1 (^ -1 -3/8))")
+A = (-1)^(7/8)
+check(prefixform(A)="(* -1 (^ -1 -1/8))")
+A = (-1)^(9/8)
+check(prefixform(A)="(* -1 (^ -1 1/8))")
+A = (-1)^(11/8)
+check(prefixform(A)="(* -1 (^ -1 3/8))")
+A = (-1)^(13/8)
+check(prefixform(A)="(^ -1 -3/8)")
+A = (-1)^(15/8)
+check(prefixform(A)="(^ -1 -1/8)")
 
-(1+i)^2
-check(prefixform(last)="(* 2 (^ -1 1/2))")
+A = (-1)^(-1/8)
+check(prefixform(A)="(^ -1 -1/8)")
+A = (-1)^(-3/8)
+check(prefixform(A)="(^ -1 -3/8)")
+A = (-1)^(-5/8)
+check(prefixform(A)="(* -1 (^ -1 3/8))")
+A = (-1)^(-7/8)
+check(prefixform(A)="(* -1 (^ -1 1/8))")
+A = (-1)^(-9/8)
+check(prefixform(A)="(* -1 (^ -1 -1/8))")
+A = (-1)^(-11/8)
+check(prefixform(A)="(* -1 (^ -1 -3/8))")
+A = (-1)^(-13/8)
+check(prefixform(A)="(^ -1 3/8)")
+A = (-1)^(-15/8)
+check(prefixform(A)="(^ -1 1/8)")
 
-(2*i)^2
-check(last=-4)
+A = (1+i)^2
+check(prefixform(A)="(* 2 (^ -1 1/2))")
 
-(2+3*i)^2
-check(prefixform(last)="(+ -5 (* 12 (^ -1 1/2)))")
+A = (2*i)^2
+check(A=-4)
 
-(2+3*i)^(-2)
-check(prefixform(last)"(+ -5/169 (* -12/169 (^ -1 1/2)))")
+A = (2+3*i)^2
+check(prefixform(A)="(+ -5 (* 12 (^ -1 1/2)))")
 
-i^0
-check(last=1)
+A = (2+3*i)^(-2)
+check(prefixform(A)"(+ -5/169 (* -12/169 (^ -1 1/2)))")
 
-i^1
-check(prefixform(last)="(^ -1 1/2)")
+A = i^0
+check(A=1)
 
-i^2
-check(last=-1)
+A = i^1
+check(prefixform(A)="(^ -1 1/2)")
 
-i^3
-check(prefixform(last)="(* -1 (^ -1 1/2))")
+A = i^2
+check(A=-1)
 
-i^4
-check(last=1)
+A = i^3
+check(prefixform(A)="(* -1 (^ -1 1/2))")
 
-i^5
-check(prefixform(last)="(^ -1 1/2)")
+A = i^4
+check(A=1)
 
-i^6
-check(last=-1)
+A = i^5
+check(prefixform(A)="(^ -1 1/2)")
 
-i^7
-check(prefixform(last)="(* -1 (^ -1 1/2))")
+A = i^6
+check(A=-1)
 
-i^(-1)
-check(prefixform(last)="(* -1 (^ -1 1/2))")
+A = i^7
+check(prefixform(A)="(* -1 (^ -1 1/2))")
 
-i^(-2)
-check(last=-1)
+A = i^(-1)
+check(prefixform(A)="(* -1 (^ -1 1/2))")
 
-i^(-3)
-check(prefixform(last)="(^ -1 1/2)")
+A = i^(-2)
+check(A=-1)
 
-i^(-4)
-check(last=1)
+A = i^(-3)
+check(prefixform(A)="(^ -1 1/2)")
 
-i^(-5)
-check(prefixform(last)="(* -1 (^ -1 1/2))")
+A = i^(-4)
+check(A=1)
 
-i^(-6)
-check(last=-1)
+A = i^(-5)
+check(prefixform(A)="(* -1 (^ -1 1/2))")
 
-i^(-7)
-check(prefixform(last)="(^ -1 1/2)")
+A = i^(-6)
+check(A=-1)
+
+A = i^(-7)
+check(prefixform(A)="(^ -1 1/2)")
 
 for(k,1,100,
 N=2^32-k,
 M=sqrt(N),
 check(N/M=M))
 
+"Testing inv"
+clear
+
 A = ((A11,A12),(A21,A22))
-dot(A,inv(A))
-check(last=unit(2))
+B = dot(A,inv(A))
+check(B=unit(2))
 
 A = ((A11,A12,A13),(A21,A22,A23),(A31,A32,A33))
-dot(A,inv(A))
-check(last=unit(3))
+B = dot(A,inv(A))
+check(B=unit(3))
 
 A = ((A11,A12,A13,A14),(A21,A22,A23,A24),(A31,A32,A33,A34),(A41,A42,A43,A44))
-dot(A,inv(A))
-check(last=unit(4))
+B = dot(A,inv(A))
+check(B=unit(4))
+
+"Testing transpose"
+clear
 
 A = (A1,A2,A3)
 B = (B1,B2,B3,B4)
@@ -257,6 +265,8 @@ G = transpose(outer(A,B,C,D,E,F),5,6)
 H = outer(A,B,C,D,F,E)
 check(G=H)
 
+"Testing dot"
+
 A = (A1,A2,A3)
 B = (B1,B2,B3)
 check(contract(outer(A,B))=dot(A,B))
@@ -273,29 +283,29 @@ check(contract(outer(A,B,C))=dot(A,B)*C)
 
 clear
 
--3*x*A/(A-B) + 3*x*B/(A-B)
-check(last=-3*x)
+T = -3*x*A/(A-B) + 3*x*B/(A-B)
+check(T=-3*x)
 
--y/(x^2*(y^2/x^2+1))
-check(last=-y/(x^2+y^2))
+A = -y/(x^2*(y^2/x^2+1))
+check(A=-y/(x^2+y^2))
 
-1/(x*(y^2/x^2+1))
-check(last=x/(x^2+y^2))
+A = 1/(x*(y^2/x^2+1))
+check(A=x/(x^2+y^2))
 
--i * exp(i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x)))
-check(last=-i * exp(2 * i * x) / (exp(2 * i * x) + 1))
+A = -i * exp(i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x)))
+check(A=-i * exp(2 * i * x) / (exp(2 * i * x) + 1))
 
-i * exp(-i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x)))
-check(last=i / (exp(2 * i * x) + 1))
+A = i * exp(-i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x)))
+check(A=i / (exp(2 * i * x) + 1))
 
-numerator(-(-i + i * exp(2 * i * x)) / (exp(2 * i * x) + 1))
-check(last=i - i * exp(2 * i * x))
-denominator(-(-i + i * exp(2 * i * x)) / (exp(2 * i * x) + 1))
-check(last=exp(2 * i * x) + 1)
+A = numerator(-(-i + i * exp(2 * i * x)) / (exp(2 * i * x) + 1))
+check(A=i - i * exp(2 * i * x))
+A = denominator(-(-i + i * exp(2 * i * x)) / (exp(2 * i * x) + 1))
+check(A=exp(2 * i * x) + 1)
 
 check(exptan(z)=(exp(2*i*z)-1)/(i*(exp(2*i*z)+1)))
 
--- test arctan
+"Testing arctan"
 
 check(arctan(1,1)=pi/4)
 check(arctan(1,-1)=3*pi/4)
@@ -339,71 +349,71 @@ check(z1*z2=rect(clock(z1)*clock(z2)))
 check(z1*z2=rect(clock(z1)*polar(z2)))
 check(z1*z2=rect(polar(z1)*clock(z2)))
 
-prefixform(arccosh(x))
-check(last="(arccosh x)")
+A = prefixform(arccosh(x))
+check(A="(arccosh x)")
 
-prefixform(arccosh(cosh(x)))
-check(last="x")
+A = prefixform(arccosh(cosh(x)))
+check(A="x")
 
-prefixform(arccosh(0))
-check(last="(arccosh 0)")
+A = prefixform(arccosh(0))
+check(A="(arccosh 0)")
 
-prefixform(float(exp(x)))
-check(last="(^ (e) x)")
+A = prefixform(float(exp(x)))
+check(A="(^ (e) x)")
 
-prefixform(exp(0))
-check(last="1")
+A = prefixform(exp(0))
+check(A="1")
 
-prefixform(exp(0.0))
-check(last="1.00000")
+A = prefixform(exp(0.0))
+check(A="1.00000")
 
-prefixform(exp(1))
-check(last="(e)")
+A = prefixform(exp(1))
+check(A="(e)")
 
-prefixform(exp(1.0))
-check(last="2.71828")
+A = prefixform(exp(1.0))
+check(A="2.71828")
 
-prefixform(exp(1.0))
-check(last="2.71828")
+A = prefixform(exp(1.0))
+check(A="2.71828")
 
-prefixform(exp(2.0))
-check(last="7.38906")
+A = prefixform(exp(2.0))
+check(A="7.38906")
 
-prefixform(exp(2.0))
-check(last="7.38906")
+A = prefixform(exp(2.0))
+check(A="7.38906")
 
-prefixform(float(exp(1)))
-check(last="2.71828")
+A = prefixform(float(exp(1)))
+check(A="2.71828")
 
-prefixform(float(exp(i)))
-check(last="(+ 0.540302 (* 0.841471 (^ -1 1/2)))")
+A = prefixform(float(exp(i)))
+check(A="(+ 0.540302 (* 0.841471 (^ -1 1/2)))")
 
-prefixform(float(exp(-i)))
-check(last="(+ 0.540302 (* -0.841471 (^ -1 1/2)))")
+A = prefixform(float(exp(-i)))
+check(A="(+ 0.540302 (* -0.841471 (^ -1 1/2)))")
 
-prefixform(float(exp(-2 + 3 i)))
-check(last="(+ -0.133981 (* 0.0190985 (^ -1 1/2)))")
+A = prefixform(float(exp(-2 + 3 i)))
+check(A="(+ -0.133981 (* 0.0190985 (^ -1 1/2)))")
 
-prefixform(0^0)
-check(last="1")
+A = prefixform(0^0)
+check(A="1")
 
-prefixform(0^0.0)
-check(last="1.00000")
+A = prefixform(0^0.0)
+check(A="1.00000")
 
-prefixform(0.0^0)
-check(last="1.00000")
+A = prefixform(0.0^0)
+check(A="1.00000")
 
-prefixform(0.0^0.0)
-check(last="1.00000")
+A = prefixform(0.0^0.0)
+check(A="1.00000")
 
-prefixform(sqrt(-1.0))
-check(last="(* 1.00000 (^ -1 1/2))")
+A = prefixform(sqrt(-1.0))
+check(A="(* 1.00000 (^ -1 1/2))")
 
-prefixform((-1.0)^(1/3))
-check(last="(* 1.00000 (^ -1 1/3))")
+A = prefixform((-1.0)^(1/3))
+check(A="(* 1.00000 (^ -1 1/3))")
 
-prefixform((-1.0)^(-1/3))
-check(last="(* 1.00000 (^ -1 -1/3))")
+A = prefixform((-1.0)^(-1/3))
+check(A="(* 1.00000 (^ -1 -1/3))")
 
 clear
 
@@ -424,12 +434,12 @@ check(rationalize(A + B + C - X - Y - Z) == 0)
 clear
 
 psi = exp(i k z - i omega t)
-prefixform(1/psi)
-check(last == "(^ (e) (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
-psi^(-1)
-check(prefixform(last)=="(^ (e) (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
-psi/psi
-check(prefixform(last)=="1")
+A = prefixform(1/psi)
+check(A == "(^ (e) (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+A = psi^(-1)
+check(prefixform(A)=="(^ (e) (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+A = psi/psi
+check(prefixform(A)=="1")
 
 -- loop indices are not rewritten
 
@@ -441,20 +451,20 @@ check(A==(1,1,1))
 clear
 
 z = sqrt(i)
-z conj(z)
-check(last == 1)
+A = z conj(z)
+check(A == 1)
 
 z = (-1)^a
-z conj(z)
-check(last == 1)
+A = z conj(z)
+check(A == 1)
 
 -- tensor comparison
 
-(0,0) == (0,0,0) -- both are equal to scalar zero
-check(last = 1)
+A = (0,0) == (0,0,0) -- both are equal to scalar zero
+check(A = 1)
 
-(1,0) == (1,0,0) -- should not cause a stop like (1,0) - (1,0,0) does
-check(last = 0)
+A = (1,0) == (1,0,0) -- should not cause a stop like (1,0) - (1,0,0) does
+check(A = 0)
 
 -- tensor promotion
 
@@ -482,8 +492,8 @@ check(B[2,2] = d)
 clear
 
 I(y) = defint((1 + cos(theta)^2) sin(theta),theta,0,y)
-I(theta) / I(pi)
-check(last = -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2)
+A = I(theta) / I(pi)
+check(A = -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2)
 
 -- log of number is factored
 
