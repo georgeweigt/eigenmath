@@ -1,4 +1,4 @@
-/* github.com/georgeweigt/eigenmath/js
+/* github.com/georgeweigt/eigenmath
 
 BSD 2-Clause License
 
