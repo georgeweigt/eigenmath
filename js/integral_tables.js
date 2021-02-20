@@ -297,6 +297,14 @@ var integral_tab_trig = [
 	"x sin(a x) sin(b x)",
 	"1/2 ((x sin(x (a - b)))/(a - b) - (x sin(x (a + b)))/(a + b) + cos(x (a - b))/(a - b)^2 - cos(x (a + b))/(a + b)^2)",
 	"and(not(a + b == 0),not(a - b == 0))",
+
+	"sin(a x)/(cos(a x) - 1)^2",
+	"1/a * 1/(cos(a x) - 1)",
+	"1",
+
+	"sin(a x)/(1 - cos(a x))^2",
+	"1/a * 1/(cos(a x) - 1)",
+	"1",
 ];
 
 var integral_tab_power = [
