@@ -149,17 +149,19 @@ $\displaystyle \frac{\sin(x)}{x}$
 
 \bigskip
 \noindent
+Extra symbols at the end of an argument list can be added if local variables are needed.
+The caller does not have to supply all the arguments.
 The following example uses Rodrigues's formula to
 compute an associated Legendre function of $\cos\theta$.
 \begin{equation*}
 P_l^m(x)=\frac{1}{2^ll!}(1-x^2)^{m/2}\frac{d^{l+m}}{dx^{l+m}}(x^2-1)^l
 \end{equation*}
-The formula is computed for $x$ and then
-{\it eval} replaces $x$ in the result with $\cos\theta$.
+The formula is computed for local variable $x$ and then
+{\it eval} replaces $x$ in the result with $f$.
 
 \begin{Verbatim}[formatcom=\color{blue}]
-P(l,m) = eval(1/(2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,cos(theta))
-P(2,0)
+P(f,l,m,x) = eval(1/(2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,f)
+P(cos(theta),2,0) -- arguments f, l, m, but not x
 \end{Verbatim}
 
 \noindent

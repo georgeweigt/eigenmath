@@ -43,4 +43,24 @@ Use \verb$A==B$ or \verb$A-B==0$ to test for equality of $A$ and $B$.
 The equality operator \verb$==$ uses a cross multiply algorithm to eliminate denominators.
 Hence \verb$==$ can typically determine equality even when the unsimplified result of $A-B$ is nonzero.
 
+\item
+Extra symbols at the end of an argument list can be added if local variables are needed
+in a user defined function.
+The caller does not have to supply all the arguments.
+The following example uses Rodrigues's formula to
+compute an associated Legendre function of $\cos\theta$.
+\begin{equation*}
+P_l^m(x)=\frac{1}{2^ll!}(1-x^2)^{m/2}\frac{d^{l+m}}{dx^{l+m}}(x^2-1)^l
+\end{equation*}
+The formula is computed for local variable $x$ and then
+{\it eval} replaces $x$ with $f$.
+
+\begin{Verbatim}[formatcom=\color{blue}]
+P(f,l,m,x) = eval(1/(2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,f)
+P(cos(theta),2,0) -- arguments f, l, m, but not x
+\end{Verbatim}
+
+\noindent
+$\displaystyle \tfrac{3}{2} \cos(\theta)^2-\tfrac{1}{2}$
+
 \end{enumerate}
