@@ -50,14 +50,14 @@ The caller does not have to supply all the arguments.
 The following example uses Rodrigues's formula to
 compute an associated Legendre function of $\cos\theta$.
 \begin{equation*}
-P_l^m(x)=\frac{1}{2^ll!}(1-x^2)^{m/2}\frac{d^{l+m}}{dx^{l+m}}(x^2-1)^l
+P_n^m(x)=\frac{1}{2^n\,n!}(1-x^2)^{m/2}\frac{d^{n+m}}{dx^{n+m}}(x^2-1)^n
 \end{equation*}
 The formula is computed for local variable $x$ and then
 {\it eval} replaces $x$ with $f$.
 
 \begin{Verbatim}[formatcom=\color{blue}]
-P(f,l,m,x) = eval(1/(2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,f)
-P(cos(theta),2,0) -- arguments f, l, m, but not x
+P(f,n,m,x) = eval(1/(2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m),x,f)
+P(cos(theta),2,0) -- arguments f, n, m, but not x
 \end{Verbatim}
 
 \noindent
