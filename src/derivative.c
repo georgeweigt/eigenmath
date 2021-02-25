@@ -82,8 +82,6 @@ derivative(void)
 	save();
 	p2 = pop();
 	p1 = pop();
-	if (isnum(p2))
-		stop("undefined function");
 	if (istensor(p1))
 		if (istensor(p2))
 			d_tensor_tensor();
