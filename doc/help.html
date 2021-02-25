@@ -429,9 +429,9 @@ Returns the definite integral of <i>f</i> with respect to <i>x</i>
 evaluated from <i>a</i> to <i>b</i>.
 The argument list can be extended for multiple integrals.
 For example,
-<span style="font-family:courier">integral(f,x,a,b,y,c,d)</span>
+<span style="font-family:courier">defint(f,x,a,b,y,c,d)</span>
 is equivalent to
-<span style="font-family:courier">integral(integral(f,x,a,b),y,c,d)</span>.
+<span style="font-family:courier">defint(defint(f,x,a,b),y,c,d)</span>.
 <pre style="font-family:courier;color:blue">
 f = (1 + cos(theta)^2) sin(theta)
 defint(f, theta, 0, pi, phi, 0, 2pi)
