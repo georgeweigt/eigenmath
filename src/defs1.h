@@ -151,9 +151,6 @@ struct atom {
 
 #define GCD		(6 * NSYM + 0)
 
-#define HERMITE		(7 * NSYM + 0)
-#define HILBERT		(7 * NSYM + 1)
-
 #define SYMBOL_I	(8 * NSYM + 0)
 #define IMAG		(8 * NSYM + 1)
 #define INNER		(8 * NSYM + 2)
@@ -165,14 +162,12 @@ struct atom {
 
 #define KRON		(10 * NSYM + 0)
 
-#define LAGUERRE	(11 * NSYM + 0)
-#define LAST		(11 * NSYM + 1)
-#define LATEX		(11 * NSYM + 2)
-#define LCM		(11 * NSYM + 3)
-#define LEADING		(11 * NSYM + 4)
-#define LEGENDRE	(11 * NSYM + 5)
-#define LISP		(11 * NSYM + 6)
-#define LOG		(11 * NSYM + 7)
+#define LAST		(11 * NSYM + 0)
+#define LATEX		(11 * NSYM + 1)
+#define LCM		(11 * NSYM + 2)
+#define LEADING		(11 * NSYM + 3)
+#define LISP		(11 * NSYM + 4)
+#define LOG		(11 * NSYM + 5)
 
 #define MAG		(12 * NSYM + 0)
 #define MATHJAX		(12 * NSYM + 1)
@@ -222,16 +217,15 @@ struct atom {
 #define SYMBOL_T	(19 * NSYM + 0)
 #define TAN		(19 * NSYM + 1)
 #define TANH		(19 * NSYM + 2)
-#define TAYLOR		(19 * NSYM + 3)
-#define TEST		(19 * NSYM + 4)
-#define TESTEQ		(19 * NSYM + 5)
-#define TESTGE		(19 * NSYM + 6)
-#define TESTGT		(19 * NSYM + 7)
-#define TESTLE		(19 * NSYM + 8)
-#define TESTLT		(19 * NSYM + 9)
-#define TRACE		(19 * NSYM + 10)
-#define TRANSPOSE	(19 * NSYM + 11)
-#define TTY		(19 * NSYM + 12)
+#define TEST		(19 * NSYM + 3)
+#define TESTEQ		(19 * NSYM + 4)
+#define TESTGE		(19 * NSYM + 5)
+#define TESTGT		(19 * NSYM + 6)
+#define TESTLE		(19 * NSYM + 7)
+#define TESTLT		(19 * NSYM + 8)
+#define TRACE		(19 * NSYM + 9)
+#define TRANSPOSE	(19 * NSYM + 10)
+#define TTY		(19 * NSYM + 11)
 
 #define UNIT		(20 * NSYM + 0)
 

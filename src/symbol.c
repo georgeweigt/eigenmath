@@ -213,9 +213,6 @@ struct se stab[] = {
 
 	{ "gcd",		GCD,		eval_gcd		},
 
-	{ "hermite",		HERMITE,	eval_hermite		},
-	{ "hilbert",		HILBERT,	eval_hilbert		},
-
 	{ "i",			SYMBOL_I,	NULL			},
 	{ "imag",		IMAG,		eval_imag		},
 	{ "inner",		INNER,		eval_inner		},
@@ -227,12 +224,10 @@ struct se stab[] = {
 
 	{ "kron",		KRON,		eval_kron		},
 
-	{ "laguerre",		LAGUERRE,	eval_laguerre		},
 	{ "last",		LAST,		NULL			},
 	{ "latex",		LATEX,		eval_latex		},
 	{ "lcm",		LCM,		eval_lcm		},
 	{ "leading",		LEADING,	eval_leading		},
-	{ "legendre",		LEGENDRE,	eval_legendre		},
 	{ "lisp",		LISP,		eval_lisp		},
 	{ "log",		LOG,		eval_log		},
 
@@ -284,7 +279,6 @@ struct se stab[] = {
 	{ "t",			SYMBOL_T,	NULL			},
 	{ "tan",		TAN,		eval_tan		},
 	{ "tanh",		TANH,		eval_tanh		},
-	{ "taylor",		TAYLOR,		eval_taylor		},
 	{ "test",		TEST,		eval_test		},
 	{ "testeq",		TESTEQ,		eval_testeq		},
 	{ "testge",		TESTGE,		eval_testge		},
