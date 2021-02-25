@@ -56,6 +56,7 @@ The formula is computed for local variable $x$ and then
 {\it eval} replaces $x$ with $f$.
 
 \begin{Verbatim}[formatcom=\color{blue}]
+x = 123 -- global x in use, need local x in P
 P(f,n,m,x) = eval(1/(2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m),x,f)
 P(cos(theta),2,0) -- arguments f, n, m, but not x
 \end{Verbatim}
