@@ -8,44 +8,10 @@ See demo.html for a template web page that uses eigenmath.js
 
 
 
-Differences from original Eigenmath:
+Note:
 
-1. Big integers are not supported.
+Big integers are not supported in eigenmath.js
 
-   Rational numbers a/b are supported if both a and b are less than 10^15.
+Rational numbers a/b are supported if both a and b are less than 10^15.
 
-   Otherwise, conversion to floating point occurs automatically.
-
-2. The following functions are not supported:
-
-besselj
-binomial
-choose
-coeff
-cross
-curl
-deg
-div
-eigen
-erf
-erfc
-expand
-factor
-filter
-gcd
-hermite
-hilbert
-isprime
-laguerre
-lcm
-leading
-legendre
-lisp
-mod
-nroots
-prime
-quotient
-roots
-status
-string
-taylor
+Otherwise, conversion to floating point occurs automatically.
