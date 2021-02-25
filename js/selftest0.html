@@ -814,6 +814,13 @@ B = ((1 / (a^2 - lambda),0,0),(0,1 / (b^2 - lambda),0),(0,0,1 / (c^2 - lambda)))
 check(noexpand(inv(A)) == B)
 check(noexpand(adj(A)/det(A)) == B)
 
+"Testing local variables"
+
+clear
+x = 123 -- global x in use, need local x in P
+P(f,n,m,x) = eval(1/(2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m),x,f)
+check(P(cos(theta),2,0) == 3/2 cos(theta)^2- 1/2)
+
 "All tests passed"
 </textarea>
 </td><td>
