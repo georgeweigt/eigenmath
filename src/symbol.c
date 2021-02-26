@@ -162,11 +162,9 @@ struct se stab[] = {
 	{ "besselj",		BESSELJ,	eval_besselj		},
 	{ "bessely",		BESSELY,	eval_bessely		},
 	{ "binding",		BINDING,	eval_binding		},
-	{ "binomial",		BINOMIAL,	eval_binomial		},
 
 	{ "ceiling",		CEILING,	eval_ceiling		},
 	{ "check",		CHECK,		eval_check		},
-	{ "choose",		CHOOSE,		eval_choose		},
 	{ "circexp",		CIRCEXP,	eval_circexp		},
 	{ "clear",		CLEAR,		eval_clear		},
 	{ "clock",		CLOCK,		eval_clock		},

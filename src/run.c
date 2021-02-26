@@ -292,6 +292,8 @@ char *init_script[] = {
 	"laguerre(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))",
 	"legendre(f,n,m,x) = eval(1 / (2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m),x,f)",
 	"hermite(x,n) = (-1)^n exp(x^2) d(exp(-x^2),x,n)",
+	"binomial(n,k) = n! / (k! (n - k)!)",
+	"choose(n,k) = n! / (k! (n - k)!)",
 };
 
 void
