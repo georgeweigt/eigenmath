@@ -803,9 +803,9 @@ integral_of_form(void)
 {
 	int h;
 
-	save_symbol(METAA);
-	save_symbol(METAB);
-	save_symbol(METAX);
+	save_symbol(symbol(METAA));
+	save_symbol(symbol(METAB));
+	save_symbol(symbol(METAX));
 
 	set_binding(symbol(METAX), X);
 
@@ -823,9 +823,9 @@ integral_of_form(void)
 
 	integral_lookup(h);
 
-	restore_symbol(METAX);
-	restore_symbol(METAB);
-	restore_symbol(METAA);
+	restore_symbol(symbol(METAX));
+	restore_symbol(symbol(METAB));
+	restore_symbol(symbol(METAA));
 }
 
 void

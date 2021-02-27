@@ -7,7 +7,7 @@ eval_for(void)
 
 	p1 = cdr(p1);
 	p2 = car(p1);
-	if (!issymbol(p2))
+	if (!isusersymbol(p2))
 		stop("for: 1st arg?");
 
 	p1 = cdr(p1);
@@ -26,7 +26,7 @@ eval_for(void)
 
 	p1 = cdr(p1);
 
-	p4 = get_binding(p2); // save binding
+	save_symbol(p2);
 
 	for (;;) {
 		push_integer(j);
@@ -47,7 +47,7 @@ eval_for(void)
 			break;
 	}
 
-	set_binding(p2, p4); // restore binding
+	restore_symbol(p2);
 
 	push_symbol(NIL); // return value
 }

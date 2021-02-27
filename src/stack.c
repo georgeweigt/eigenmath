@@ -68,30 +68,33 @@ restore(void)
 }
 
 void
-save_symbol(int n)
+save_symbol(struct atom *p)
 {
 	if (tof < 0 || tof + 2 > FRAMESIZE)
 		kaput("frame error, circular definition?");
 
-	frame[tof + 0] = get_binding(symbol(n));
-	frame[tof + 1] = get_usrfunc(symbol(n));
+	frame[tof + 0] = get_binding(p);
+	frame[tof + 1] = get_usrfunc(p);
 
 	tof += 2;
 
 	if (tof > max_frame)
 		max_frame = tof; // new high
+
+	set_binding(p, symbol(NIL));
+	set_usrfunc(p, symbol(NIL));
 }
 
 void
-restore_symbol(int n)
+restore_symbol(struct atom *p)
 {
 	if (tof < 2 || tof > FRAMESIZE)
 		kaput("frame error");
 
 	tof -= 2;
 
-	set_binding(symbol(n), frame[tof + 0]);
-	set_usrfunc(symbol(n), frame[tof + 1]);
+	set_binding(p, frame[tof + 0]);
+	set_usrfunc(p, frame[tof + 1]);
 }
 
 void
