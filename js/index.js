@@ -5,7 +5,12 @@ index(k)
 
 	p1 = pop();
 
-	if (!istensor(p1) || k < 1 || k > p1.dim[0])
+	if (!istensor(p1)) {
+		push(p1);
+		return;
+	}
+
+	if (k < 1 || k > p1.dim[0])
 		stopf("index error");
 
 	k--; // make zero based

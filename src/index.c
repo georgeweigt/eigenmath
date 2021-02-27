@@ -32,22 +32,9 @@ index_function_nib(int n)
 	s = stack + tos - n;
 	p1 = s[0];
 
-	// index of number
-
-	if (isnum(p1)) {
-		tos -= n;
-		push(p1);
-		return;
-	}
-
-	// index of symbol (f.e., u[2] -> u[2])
-
 	if (!istensor(p1)) {
-		list(n);
-		p1 = pop();
-		push_symbol(INDEX);
-		push(p1);
-		append();
+		tos -= n;
+		push(p1); // quirky, but EVA2.txt depends on it
 		return;
 	}
 
