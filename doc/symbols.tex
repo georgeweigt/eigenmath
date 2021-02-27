@@ -121,7 +121,7 @@ There is also a facility for the user to define additional functions.
 \noindent
 User functions are defined using the syntax {\it function-name} ( {\it arg-list} ) = {\it expr}
 where {\it arg-list} is a comma separated list of zero to nine symbols that receive arguments.
-Unlike symbolic definitions, {\it expr} is not evaluated when {\it function-name} is defined.
+Unlike symbol definitions, {\it expr} is not evaluated when {\it function-name} is defined.
 Instead, {\it expr} is evaluated when {\it function-name} is used in a subsequent computation.
 
 \bigskip
@@ -149,15 +149,16 @@ $\displaystyle \frac{\sin(x)}{x}$
 
 \bigskip
 \noindent
-Extra symbols at the end of an argument list can be added if local variables are needed.
-The caller does not have to supply all the arguments.
+If local symbols are needed in a function, they can be appended to {\it arg-list}.
+(The caller does not have to supply all the arguments.)
 The following example uses Rodrigues's formula to
 compute an associated Legendre function of $\cos\theta$.
 \begin{equation*}
 P_n^m(x)=\frac{1}{2^n\,n!}(1-x^2)^{m/2}\frac{d^{n+m}}{dx^{n+m}}(x^2-1)^n
 \end{equation*}
-The formula is computed for local variable $x$ and then
-{\it eval} replaces $x$ with $f$.
+Function $P$ below first computes $P_n^m(x)$ for local variable
+$x$ and then uses {\it eval} to replace $x$ with $f$.
+In this case, $f=\cos\theta$.
 
 \begin{Verbatim}[formatcom=\color{blue}]
 x = 123 -- global x in use, need local x in P

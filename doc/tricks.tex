@@ -44,16 +44,15 @@ The equality operator \verb$==$ uses a cross multiply algorithm to eliminate den
 Hence \verb$==$ can typically determine equality even when the unsimplified result of $A-B$ is nonzero.
 
 \item
-In a user function,
-put local symbols at the end of the argument list.
+If local symbols are needed in a function, they can be appended to {\it arg-list}.
 (The caller does not have to supply all the arguments.)
 The following example uses Rodrigues's formula to
 compute an associated Legendre function of $\cos\theta$.
 \begin{equation*}
 P_n^m(x)=\frac{1}{2^n\,n!}(1-x^2)^{m/2}\frac{d^{n+m}}{dx^{n+m}}(x^2-1)^n
 \end{equation*}
-Function \verb$P(f,n,m,x)$ first computes $P_n^m(x)$ for local variable
-$x$ and then uses \verb$eval$ to replace $x$ with $f$.
+Function $P$ below first computes $P_n^m(x)$ for local variable
+$x$ and then uses {\it eval} to replace $x$ with $f$.
 In this case, $f=\cos\theta$.
 
 \begin{Verbatim}[formatcom=\color{blue}]
