@@ -49,17 +49,19 @@ hadamard(int t)
 		if (k > 0)
 			printf("     ");
 
-		printf("outer(ket%d%d%d%d,", q[0], q[1], q[2], q[3]);
+		printf("sqrt(1/2) outer(ket%d%d%d%d,", q[0], q[1], q[2], q[3]);
 
 		if (q[t] == 0)
-			printf("ket%d%d%d%d + ket%d%d%d%d)", q[0], q[1], q[2], q[3], r[0], r[1], r[2], r[3]); // |0> + |1>
+			// q = |0>, r = |1>, print |0> + |1>
+			printf("ket%d%d%d%d + ket%d%d%d%d)", q[0], q[1], q[2], q[3], r[0], r[1], r[2], r[3]);
 		else
-			printf("ket%d%d%d%d - ket%d%d%d%d)", r[0], r[1], r[2], r[3], q[0], q[1], q[2], q[3]); // |0> - |1>
+			// q = |1>, r = |0>, print |0> - |1>
+			printf("ket%d%d%d%d - ket%d%d%d%d)", r[0], r[1], r[2], r[3], q[0], q[1], q[2], q[3]);
 
 		if (k < 15)
-			printf(" / sqrt(2) +\n");
+			printf(" +\n");
 		else
-			printf(" / sqrt(2)\n\n");
+			printf("\n\n");
 
 		k++;
 	}
