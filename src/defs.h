@@ -12,7 +12,7 @@ extern struct atom *frame[FRAMESIZE];
  
 extern struct atom *symtab[];
 extern struct atom *binding[];
-extern struct atom *arglist[];
+extern struct atom *usrfunc[];
  
 extern struct atom *p0;
 extern struct atom *p1;

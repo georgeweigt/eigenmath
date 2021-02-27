@@ -1,42 +1,33 @@
 #include "defs.h"
 
 #undef FUNC_NAME
+#undef FUNC_ARGS
 #undef FUNC_DEFN
-#undef FORMAL
-#undef ACTUAL
-#undef T
 
 #define FUNC_NAME p4
-#define FUNC_DEFN p5
-#define FORMAL p6 // formal argument list
-#define ACTUAL p7 // actual argument list
-#define T p8
+#define FUNC_ARGS p5
+#define FUNC_DEFN p6
 
 void
 eval_user_function(void)
 {
-	int h, k;
-
-	h = tos;
+	int h, i;
 
 	FUNC_NAME = car(p1);
-	FUNC_DEFN = get_binding(FUNC_NAME);
+	FUNC_ARGS = cdr(p1);
 
-	FORMAL = get_arglist(FUNC_NAME);
-	ACTUAL = cdr(p1);
-
-	// use "derivative" instead of "d" if there is no user function "d"
-
-	if (FUNC_NAME == symbol(SYMBOL_D) && get_arglist(symbol(SYMBOL_D)) == symbol(NIL)) {
-		eval_derivative();
-		return;
-	}
+	FUNC_DEFN = get_usrfunc(FUNC_NAME);
 
 	// undefined function?
 
-	if (FUNC_NAME == FUNC_DEFN || FUNC_DEFN == symbol(NIL)) {
+	if (FUNC_DEFN == symbol(NIL)) {
+		if (FUNC_NAME == symbol(SYMBOL_D)) {
+			eval_derivative();
+			return;
+		}
+		h = tos;
 		push(FUNC_NAME);
-		p1 = ACTUAL;
+		p1 = FUNC_ARGS;
 		while (iscons(p1)) {
 			push(car(p1));
 			eval();
@@ -46,54 +37,71 @@ eval_user_function(void)
 		return;
 	}
 
-	FUNC_DEFN = get_binding(ddual(FUNC_NAME));
+	save_symbol(ARG1);
+	save_symbol(ARG2);
+	save_symbol(ARG3);
+	save_symbol(ARG4);
+	save_symbol(ARG5);
+	save_symbol(ARG6);
+	save_symbol(ARG7);
+	save_symbol(ARG8);
+	save_symbol(ARG9);
 
-	// eval actual args (ACTUAL can be shorter than FORMAL, NIL is pushed for missing args)
+	set_usrfunc(symbol(ARG1), symbol(NIL));
+	set_usrfunc(symbol(ARG2), symbol(NIL));
+	set_usrfunc(symbol(ARG3), symbol(NIL));
+	set_usrfunc(symbol(ARG4), symbol(NIL));
+	set_usrfunc(symbol(ARG5), symbol(NIL));
+	set_usrfunc(symbol(ARG6), symbol(NIL));
+	set_usrfunc(symbol(ARG7), symbol(NIL));
+	set_usrfunc(symbol(ARG8), symbol(NIL));
+	set_usrfunc(symbol(ARG9), symbol(NIL));
 
-	p1 = FORMAL;
-	p2 = ACTUAL;
+	p1 = FUNC_ARGS;
 
-	while (iscons(p1)) {
-		push(car(p2));
+	for (i = 0; i < 9; i++) {
+		push(car(p1));
 		eval();
 		p1 = cdr(p1);
-		p2 = cdr(p2);
 	}
 
-	// assign actual to formal
+	p1 = pop();
+	set_binding(symbol(ARG9), p1);
 
-	k = h;
-	p1 = FORMAL;
+	p1 = pop();
+	set_binding(symbol(ARG8), p1);
 
-	while (iscons(p1)) {
-		p2 = car(p1);
-		p3 = stack[k];
-		stack[k] = get_binding(p2);
-		set_binding(p2, p3);
-		k++;
-		p1 = cdr(p1);
-	}
+	p1 = pop();
+	set_binding(symbol(ARG7), p1);
 
-	// evaluate user function
+	p1 = pop();
+	set_binding(symbol(ARG6), p1);
+
+	p1 = pop();
+	set_binding(symbol(ARG5), p1);
+
+	p1 = pop();
+	set_binding(symbol(ARG4), p1);
+
+	p1 = pop();
+	set_binding(symbol(ARG3), p1);
+
+	p1 = pop();
+	set_binding(symbol(ARG2), p1);
+
+	p1 = pop();
+	set_binding(symbol(ARG1), p1);
 
 	push(FUNC_DEFN);
 	eval();
-	T = pop();
 
-	// restore bindings
-
-	k = h;
-	p1 = FORMAL;
-
-	while (iscons(p1)) {
-		p2 = car(p1);
-		p3 = stack[k];
-		set_binding(p2, p3);
-		k++;
-		p1 = cdr(p1);
-	}
-
-	tos = h; // pop all
-
-	push(T);
+	restore_symbol(ARG9);
+	restore_symbol(ARG8);
+	restore_symbol(ARG7);
+	restore_symbol(ARG6);
+	restore_symbol(ARG5);
+	restore_symbol(ARG4);
+	restore_symbol(ARG3);
+	restore_symbol(ARG2);
+	restore_symbol(ARG1);
 }

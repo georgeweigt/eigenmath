@@ -44,53 +44,11 @@ lookup(char *s)
 	symtab[k + i] = p;
 
 	binding[k + i] = symbol(NIL);
-	arglist[k + i] = symbol(NIL);
+	usrfunc[k + i] = symbol(NIL);
 
 	usym_count++;
 
 	return p;
-}
-
-// symbol with trailing '$'
-
-struct atom *
-dual(struct atom *p)
-{
-	char buf[100], *s;
-
-	if (!isusersymbol(p))
-		stop("symbol error");
-
-	s = p->u.usym.name;
-
-	if (strlen(s) + 2 > sizeof buf)
-		stop("buffer kaput");
-
-	strcpy(buf, s);
-	strcat(buf, "$");
-
-	return lookup(buf);
-}
-
-// for function definitions
-
-struct atom *
-ddual(struct atom *p)
-{
-	char buf[100], *s;
-
-	if (!isusersymbol(p))
-		stop("symbol error");
-
-	s = p->u.usym.name;
-
-	if (strlen(s) + 3 > sizeof buf)
-		stop("buffer kaput");
-
-	strcpy(buf, s);
-	strcat(buf, "$$");
-
-	return lookup(buf);
 }
 
 char *
@@ -116,11 +74,11 @@ set_binding(struct atom *p, struct atom *q)
 }
 
 void
-set_arglist(struct atom *p, struct atom *q)
+set_usrfunc(struct atom *p, struct atom *q)
 {
 	if (!isusersymbol(p))
 		stop("symbol error");
-	arglist[p->u.usym.index] = q;
+	usrfunc[p->u.usym.index] = q;
 }
 
 struct atom *
@@ -132,11 +90,11 @@ get_binding(struct atom *p)
 }
 
 struct atom *
-get_arglist(struct atom *p)
+get_usrfunc(struct atom *p)
 {
 	if (!isusersymbol(p))
 		stop("symbol error");
-	return arglist[p->u.usym.index];
+	return usrfunc[p->u.usym.index];
 }
 
 struct se {
@@ -306,6 +264,15 @@ struct se stab[] = {
 	{ "(b)",		METAB,		NULL			},
 	{ "(x)",		METAX,		NULL			},
 	{ "(X)",		SPECX,		NULL			},
+	{ "$1",			ARG1,		NULL,			},
+	{ "$2",			ARG2,		NULL,			},
+	{ "$3",			ARG3,		NULL,			},
+	{ "$4",			ARG4,		NULL,			},
+	{ "$5",			ARG5,		NULL,			},
+	{ "$6",			ARG6,		NULL,			},
+	{ "$7",			ARG7,		NULL,			},
+	{ "$8",			ARG8,		NULL,			},
+	{ "$9",			ARG9,		NULL,			},
 };
 
 void
@@ -348,6 +315,6 @@ clear_symbols(void)
 	int i;
 	for (i = 0; i < 27 * NSYM; i++) {
 		binding[i] = symbol(NIL);
-		arglist[i] = symbol(NIL);
+		usrfunc[i] = symbol(NIL);
 	}
 }

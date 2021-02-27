@@ -68,18 +68,13 @@ restore(void)
 }
 
 void
-save_binding(struct atom *p)
+save_symbol(int n)
 {
 	if (tof < 0 || tof + 2 > FRAMESIZE)
 		kaput("frame error, circular definition?");
 
-	if (isusersymbol(p)) {
-		frame[tof + 0] = get_binding(p);
-		frame[tof + 1] = get_arglist(p);
-	} else {
-		frame[tof + 0] = symbol(NIL);
-		frame[tof + 1] = symbol(NIL);
-	}
+	frame[tof + 0] = get_binding(symbol(n));
+	frame[tof + 1] = get_usrfunc(symbol(n));
 
 	tof += 2;
 
@@ -88,17 +83,15 @@ save_binding(struct atom *p)
 }
 
 void
-restore_binding(struct atom *p)
+restore_symbol(int n)
 {
 	if (tof < 2 || tof > FRAMESIZE)
 		kaput("frame error");
 
 	tof -= 2;
 
-	if (isusersymbol(p)) {
-		set_binding(p, frame[tof + 0]);
-		set_arglist(p, frame[tof + 1]);
-	}
+	set_binding(symbol(n), frame[tof + 0]);
+	set_usrfunc(symbol(n), frame[tof + 1]);
 }
 
 void

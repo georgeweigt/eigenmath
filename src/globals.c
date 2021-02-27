@@ -11,7 +11,7 @@ struct atom *frame[FRAMESIZE];
 
 struct atom *symtab[27 * NSYM];
 struct atom *binding[27 * NSYM];
-struct atom *arglist[27 * NSYM];
+struct atom *usrfunc[27 * NSYM];
 
 struct atom *p0;
 struct atom *p1;

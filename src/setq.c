@@ -8,12 +8,13 @@ eval_setq(void)
 	else if (iscons(cadr(p1)))
 		setq_userfunc();
 	else {
-		if (!issymbol(cadr(p1)))
-			stop("assignment: symbol expected");
+		if (!isusersymbol(cadr(p1)))
+			stop("user symbol expected");
 		push(caddr(p1));
 		eval();
 		p2 = pop();
 		set_binding(cadr(p1), p2);
+		set_usrfunc(cadr(p1), symbol(NIL));
 	}
 	push_symbol(NIL);
 }
@@ -45,8 +46,8 @@ setq_indexed(void)
 
 	S = cadadr(p1);
 
-	if (!issymbol(S))
-		stop("symbol expected");
+	if (!isusersymbol(S))
+		stop("user symbol expected");
 
 	push(S);
 	eval();
@@ -156,59 +157,106 @@ set_component_nib(int h)
 #undef F
 #undef A
 #undef B
-#undef T
+#undef C
 
-#define F p3 // F points to the function name
-#define A p4 // A points to the argument list
-#define B p5 // B points to the function body
-#define T p6
+#define F p3 // function name
+#define A p4 // argument list
+#define B p5 // function body
+#define C p6 // function body (converted)
 
 void
 setq_userfunc(void)
 {
-	int h;
-
 	F = caadr(p1);
 	A = cdadr(p1);
 	B = caddr(p1);
 
 	if (!isusersymbol(F))
-		stop("function definition error");
+		stop("user symbol expected");
 
-	// convert args
-
-	h = tos;
-	p1 = A;
-
-	while (iscons(p1)) {
-		p2 = car(p1);
-		if (!isusersymbol(p2))
-			stop("function definition error");
-		push(dual(p2));
-		p1 = cdr(p1);
-	}
-
-	list(tos - h);
-	T = pop();
-
-	set_binding(F, B);
-	set_arglist(F, T);
-
-	// convert body
+	if (length(A) > 9)
+		stop("more than 9 arguments");
 
 	push(B);
+	convert_body();
+	C = pop();
 
-	p1 = A;
-	p2 = T;
+	set_binding(F, B);
+	set_usrfunc(F, C);
+}
 
-	while (iscons(p1)) {
-		push(car(p1));
-		push(car(p2));
-		subst();
-		p1 = cdr(p1);
-		p2 = cdr(p2);
-	}
+void
+convert_body(void)
+{
+	if (!iscons(A))
+		return;
 
-	B = pop();
-	set_binding(ddual(F), B);
+	push(car(A));
+	push_symbol(ARG1);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG2);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG3);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG4);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG5);
+	subst();
+
+	A = cdr(A);
+
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG6);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG7);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG8);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG9);
+	subst();
 }

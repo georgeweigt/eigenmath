@@ -97,7 +97,7 @@ gc(void)
 		if (symtab[i]) {
 			untag(symtab[i]);
 			untag(binding[i]);
-			untag(arglist[i]);
+			untag(usrfunc[i]);
 		}
 
 	for (i = 0; i < tos; i++)
