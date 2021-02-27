@@ -37,6 +37,16 @@ eval_user_function(void)
 		return;
 	}
 
+	// eval all args before changing bindings
+
+	p1 = FUNC_ARGS;
+
+	for (i = 0; i < 9; i++) {
+		push(car(p1));
+		eval();
+		p1 = cdr(p1);
+	}
+
 	save_symbol(ARG1);
 	save_symbol(ARG2);
 	save_symbol(ARG3);
@@ -47,50 +57,41 @@ eval_user_function(void)
 	save_symbol(ARG8);
 	save_symbol(ARG9);
 
-	set_usrfunc(symbol(ARG1), symbol(NIL));
-	set_usrfunc(symbol(ARG2), symbol(NIL));
-	set_usrfunc(symbol(ARG3), symbol(NIL));
-	set_usrfunc(symbol(ARG4), symbol(NIL));
-	set_usrfunc(symbol(ARG5), symbol(NIL));
-	set_usrfunc(symbol(ARG6), symbol(NIL));
-	set_usrfunc(symbol(ARG7), symbol(NIL));
-	set_usrfunc(symbol(ARG8), symbol(NIL));
-	set_usrfunc(symbol(ARG9), symbol(NIL));
-
-	p1 = FUNC_ARGS;
-
-	for (i = 0; i < 9; i++) {
-		push(car(p1));
-		eval();
-		p1 = cdr(p1);
-	}
-
 	p1 = pop();
 	set_binding(symbol(ARG9), p1);
+	set_usrfunc(symbol(ARG9), symbol(NIL));
 
 	p1 = pop();
 	set_binding(symbol(ARG8), p1);
+	set_usrfunc(symbol(ARG8), symbol(NIL));
 
 	p1 = pop();
 	set_binding(symbol(ARG7), p1);
+	set_usrfunc(symbol(ARG7), symbol(NIL));
 
 	p1 = pop();
 	set_binding(symbol(ARG6), p1);
+	set_usrfunc(symbol(ARG6), symbol(NIL));
 
 	p1 = pop();
 	set_binding(symbol(ARG5), p1);
+	set_usrfunc(symbol(ARG5), symbol(NIL));
 
 	p1 = pop();
 	set_binding(symbol(ARG4), p1);
+	set_usrfunc(symbol(ARG4), symbol(NIL));
 
 	p1 = pop();
 	set_binding(symbol(ARG3), p1);
+	set_usrfunc(symbol(ARG3), symbol(NIL));
 
 	p1 = pop();
 	set_binding(symbol(ARG2), p1);
+	set_usrfunc(symbol(ARG2), symbol(NIL));
 
 	p1 = pop();
 	set_binding(symbol(ARG1), p1);
+	set_usrfunc(symbol(ARG1), symbol(NIL));
 
 	push(FUNC_DEFN);
 	eval();
