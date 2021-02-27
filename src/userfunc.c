@@ -27,11 +27,10 @@ eval_user_function(void)
 		}
 		h = tos;
 		push(FUNC_NAME);
-		p1 = FUNC_ARGS;
-		while (iscons(p1)) {
-			push(car(p1));
+		while (iscons(FUNC_ARGS)) {
+			push(car(FUNC_ARGS));
 			eval();
-			p1 = cdr(p1);
+			FUNC_ARGS = cdr(FUNC_ARGS);
 		}
 		list(tos - h);
 		return;
@@ -39,12 +38,10 @@ eval_user_function(void)
 
 	// eval all args before changing bindings
 
-	p1 = FUNC_ARGS;
-
 	for (i = 0; i < 9; i++) {
-		push(car(p1));
+		push(car(FUNC_ARGS));
 		eval();
-		p1 = cdr(p1);
+		FUNC_ARGS = cdr(FUNC_ARGS);
 	}
 
 	save_symbol(symbol(ARG1));
