@@ -3,20 +3,27 @@
 void
 eval_setq(void)
 {
-	if (caadr(p1) == symbol(INDEX))
+	push_symbol(NIL); // return value
+
+	if (caadr(p1) == symbol(INDEX)) {
 		setq_indexed();
-	else if (iscons(cadr(p1)))
-		setq_userfunc();
-	else {
-		if (!isusersymbol(cadr(p1)))
-			stop("user symbol expected");
-		push(caddr(p1));
-		eval();
-		p2 = pop();
-		set_binding(cadr(p1), p2);
-		set_usrfunc(cadr(p1), symbol(NIL));
+		return;
 	}
-	push_symbol(NIL);
+
+	if (iscons(cadr(p1))) {
+		setq_userfunc();
+		return;
+	}
+
+	if (!isusersymbol(cadr(p1)))
+		stop("user symbol expected");
+
+	push(caddr(p1));
+	eval();
+	p2 = pop();
+
+	set_binding(cadr(p1), p2);
+	set_usrfunc(cadr(p1), symbol(NIL));
 }
 
 //	Example: a[1] = b
