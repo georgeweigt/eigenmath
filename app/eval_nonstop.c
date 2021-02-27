@@ -21,14 +21,13 @@ eval_nonstop(void)
 		tof = save_tof;
 		expanding = save_expanding;
 		restore();
-		pop();
 		push_symbol(NIL);
 		return;
 	}
 
 	save();
 
-	save_tos = tos;
+	save_tos = tos - 1;
 	save_tof = tof;
 	save_expanding = expanding;
 
