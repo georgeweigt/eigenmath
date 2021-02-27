@@ -32,7 +32,7 @@ hadamard(int t)
 {
 	int k = 0, q[4], r[4];
 
-	printf("H%d = (", t);
+	printf("H%d = ", t);
 
 	for (q[0] = 0; q[0] < 2; q[0]++)
 	for (q[1] = 0; q[1] < 2; q[1]++)
@@ -44,19 +44,20 @@ hadamard(int t)
 		r[2] = q[2];
 		r[3] = q[3];
 
-		if (k > 0)
-			printf("      ");
+		r[t] = q[t] ? 0 : 1;
 
-		if (q[t] == 0) {
-			r[t] = 1;
-			printf("ket%d%d%d%d + ket%d%d%d%d", q[0], q[1], q[2], q[3], r[0], r[1], r[2], r[3]);
-		} else {
-			r[t] = 0;
+		if (k > 0)
+			printf("     ");
+
+		printf("outer(ket%d%d%d%d,", q[0], q[1], q[2], q[3]);
+
+		if (q[t] == 0)
+			printf("ket%d%d%d%d + ket%d%d%d%d", r[0], r[1], r[2], r[3], q[0], q[1], q[2], q[3]);
+		else
 			printf("ket%d%d%d%d - ket%d%d%d%d", r[0], r[1], r[2], r[3], q[0], q[1], q[2], q[3]);
-		}
 
 		if (k < 15)
-			printf(",\n");
+			printf(") / sqrt(2) +\n");
 		else
 			printf(") / sqrt(2)\n\n");
 
@@ -69,7 +70,7 @@ not(int t)
 {
 	int k = 0, q[4], r[4];
 
-	printf("X%d = (", t);
+	printf("X%d = ", t);
 
 	for (q[0] = 0; q[0] < 2; q[0]++)
 	for (q[1] = 0; q[1] < 2; q[1]++)
@@ -84,14 +85,14 @@ not(int t)
 		r[t] = q[t] ? 0 : 1; // flip target
 
 		if (k > 0)
-			printf("      ");
+			printf("     ");
 
-		printf("ket%d%d%d%d", r[0], r[1], r[2], r[3]);
+		printf("outer(ket%d%d%d%d,ket%d%d%d%d)", q[0], q[1], q[2], q[3], r[0], r[1], r[2], r[3]);
 
 		if (k < 15)
-			printf(",\n");
+			printf(" +\n");
 		else
-			printf(")\n\n");
+			printf("\n\n");
 
 		k++;
 	}
@@ -102,7 +103,7 @@ cnot(int c, int t)
 {
 	int k = 0, q[4], r[4];
 
-	printf("C%d%d = (", c, t);
+	printf("C%d%d = ", c, t);
 
 	for (q[0] = 0; q[0] < 2; q[0]++)
 	for (q[1] = 0; q[1] < 2; q[1]++)
@@ -118,14 +119,14 @@ cnot(int c, int t)
 			r[t] = q[t] ? 0 : 1; // flip target
 
 		if (k > 0)
-			printf("       ");
+			printf("      ");
 
-		printf("ket%d%d%d%d", r[0], r[1], r[2], r[3]);
+		printf("outer(ket%d%d%d%d,ket%d%d%d%d)", q[0], q[1], q[2], q[3], r[0], r[1], r[2], r[3]);
 
 		if (k < 15)
-			printf(",\n");
+			printf(" +\n");
 		else
-			printf(")\n\n");
+			printf("\n\n");
 
 		k++;
 	}
