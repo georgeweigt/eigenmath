@@ -52,14 +52,14 @@ hadamard(int t)
 		printf("outer(ket%d%d%d%d,", q[0], q[1], q[2], q[3]);
 
 		if (q[t] == 0)
-			printf("ket%d%d%d%d + ket%d%d%d%d", r[0], r[1], r[2], r[3], q[0], q[1], q[2], q[3]);
+			printf("ket%d%d%d%d + ket%d%d%d%d)", q[0], q[1], q[2], q[3], r[0], r[1], r[2], r[3]); // |0> + |1>
 		else
-			printf("ket%d%d%d%d - ket%d%d%d%d", r[0], r[1], r[2], r[3], q[0], q[1], q[2], q[3]);
+			printf("ket%d%d%d%d - ket%d%d%d%d)", r[0], r[1], r[2], r[3], q[0], q[1], q[2], q[3]); // |0> - |1>
 
 		if (k < 15)
-			printf(") / sqrt(2) +\n");
+			printf(" / sqrt(2) +\n");
 		else
-			printf(") / sqrt(2)\n\n");
+			printf(" / sqrt(2)\n\n");
 
 		k++;
 	}
