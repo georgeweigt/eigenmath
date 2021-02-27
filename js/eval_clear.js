@@ -1,14 +1,14 @@
 function
 eval_clear()
 {
-	save_binding(symbol(TRACE));
+	save_symbol(symbol(TRACE));
 
 	binding = {};
-	arglist = {};
+	usrfunc = {};
 
 	initscript();
 
-	restore_binding(symbol(TRACE));
+	restore_symbol(symbol(TRACE));
 
 	push_symbol(NIL);
 }

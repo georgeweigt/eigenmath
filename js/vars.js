@@ -4,7 +4,7 @@ var stdout;
 var stack;
 var frame;
 var binding;
-var arglist;
+var usrfunc;
 var zero;
 var one;
 var minusone;
@@ -129,4 +129,13 @@ var symtab = {
 "y":		{printname:SYMBOL_Y,	func:eval_user_symbol},
 "z":		{printname:SYMBOL_Z,	func:eval_user_symbol},
 
+"$1":		{printname:ARG1,	func:eval_user_symbol},
+"$2":		{printname:ARG2,	func:eval_user_symbol},
+"$3":		{printname:ARG3,	func:eval_user_symbol},
+"$4":		{printname:ARG4,	func:eval_user_symbol},
+"$5":		{printname:ARG5,	func:eval_user_symbol},
+"$6":		{printname:ARG6,	func:eval_user_symbol},
+"$7":		{printname:ARG7,	func:eval_user_symbol},
+"$8":		{printname:ARG8,	func:eval_user_symbol},
+"$9":		{printname:ARG9,	func:eval_user_symbol},
 };

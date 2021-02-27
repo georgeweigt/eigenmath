@@ -111,4 +111,14 @@ const SYMBOL_X = "x";
 const SYMBOL_Y = "y";
 const SYMBOL_Z = "z";
 
+const ARG1 = "$1";
+const ARG2 = "$2";
+const ARG3 = "$3";
+const ARG4 = "$4";
+const ARG5 = "$5";
+const ARG6 = "$6";
+const ARG7 = "$7";
+const ARG8 = "$8";
+const ARG9 = "$9";
+
 const MAXINT = 1e15;

@@ -8,8 +8,8 @@ init()
 	stack = [];
 	frame = [];
 
-	arglist = {};
 	binding = {};
+	usrfunc = {};
 
 	push_integer(0);
 	zero = pop();

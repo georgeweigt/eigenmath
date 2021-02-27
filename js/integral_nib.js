@@ -3,9 +3,9 @@ integral_nib(F, X)
 {
 	var h;
 
-	save_binding(symbol(METAA));
-	save_binding(symbol(METAB));
-	save_binding(symbol(METAX));
+	save_symbol(symbol(METAA));
+	save_symbol(symbol(METAB));
+	save_symbol(symbol(METAX));
 
 	set_binding(symbol(METAX), X);
 
@@ -21,7 +21,7 @@ integral_nib(F, X)
 
 	integral_lookup(F, h);
 
-	restore_binding(symbol(METAX));
-	restore_binding(symbol(METAB));
-	restore_binding(symbol(METAA));
+	restore_symbol(symbol(METAX));
+	restore_symbol(symbol(METAB));
+	restore_symbol(symbol(METAA));
 }

@@ -16,7 +16,7 @@ eval_draw(p1)
 	if (!isusersymbol(T))
 		T = symbol(SYMBOL_X);
 
-	save_binding(T);
+	save_symbol(T);
 
 	setup_trange();
 	setup_xrange();
@@ -31,7 +31,7 @@ eval_draw(p1)
 
 	emit_graph();
 
-	restore_binding(T);
+	restore_symbol(T);
 
 	push_symbol(NIL);
 

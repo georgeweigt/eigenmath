@@ -1,5 +1,5 @@
 function
-restore_binding(p)
+restore_symbol(p)
 {
 	var p1, p2;
 
@@ -7,5 +7,5 @@ restore_binding(p)
 	p1 = frame.pop();
 
 	set_binding(p, p1);
-	set_arglist(p, p2);
+	set_usrfunc(p, p2);
 }

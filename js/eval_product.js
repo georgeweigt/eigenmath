@@ -20,7 +20,7 @@ eval_product(p1)
 
 	p1 = caddr(p1);
 
-	save_binding(p2);
+	save_symbol(p2);
 
 	h = stack.length;
 
@@ -40,5 +40,5 @@ eval_product(p1)
 
 	multiply_factors(stack.length - h);
 
-	restore_binding(p2);
+	restore_symbol(p2);
 }

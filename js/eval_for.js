@@ -20,7 +20,7 @@ eval_for(p1)
 
 	p1 = cddr(p1);
 
-	save_binding(p2);
+	save_symbol(p2);
 
 	for (;;) {
 		push_integer(j);
@@ -41,7 +41,7 @@ eval_for(p1)
 			break;
 	}
 
-	restore_binding(p2);
+	restore_symbol(p2);
 
 	push_symbol(NIL); // return value
 }
