@@ -245,7 +245,7 @@ eval_status(void)
 {
 	outbuf_index = 0;
 
-	sprintf(tbuf, "block_count %d\n", block_count);
+	sprintf(tbuf, "block_count %d (%d%%)\n", block_count, 100 * block_count / MAXBLOCKS);
 	print_str(tbuf);
 
 	sprintf(tbuf, "free_count %d\n", free_count);
