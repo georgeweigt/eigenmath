@@ -71,7 +71,7 @@ void
 save_symbol(struct atom *p)
 {
 	if (tof < 0 || tof + 2 > FRAMESIZE)
-		kaput("frame error, circular definition?");
+		kaput("frame error");
 
 	frame[tof + 0] = get_binding(p);
 	frame[tof + 1] = get_usrfunc(p);
