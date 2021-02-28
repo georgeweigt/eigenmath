@@ -1,5 +1,5 @@
 function
-setq_userfunc(p1)
+setq_usrfunc(p1)
 {
 	var A, B, C, F;
 

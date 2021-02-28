@@ -11,7 +11,7 @@ eval_setq(p1)
 	}
 
 	if (iscons(cadr(p1))) {
-		setq_userfunc(p1);
+		setq_usrfunc(p1);
 		return;
 	}
 
@@ -21,5 +21,7 @@ eval_setq(p1)
 	push(caddr(p1));
 	evalf();
 	p2 = pop();
+
 	set_binding(cadr(p1), p2);
+	set_usrfunc(cadr(p1), symbol(NIL));
 }
