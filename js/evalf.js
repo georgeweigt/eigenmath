@@ -1,12 +1,14 @@
 function
 evalf()
 {
-	if (++evaldepth == 1000)
-		stopf("recursion level");
+	level++;
+
+	if (level == 100)
+		stopf("circular definition?");
 
 	evalf_nib();
 
-	--evaldepth;
+	level--;
 }
 
 function

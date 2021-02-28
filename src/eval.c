@@ -3,9 +3,19 @@
 void
 eval(void)
 {
+	level++;
+
+	if (level > max_level)
+		max_level = level;
+
+	if (level == 100)
+		kaput("circular definition?");
+
 	save();
 	eval_nib();
 	restore();
+
+	level--;
 }
 
 void

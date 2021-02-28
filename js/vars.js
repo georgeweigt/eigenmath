@@ -10,10 +10,10 @@ var zero;
 var one;
 var minusone;
 var imaginaryunit;
+var level;
 var expanding;
 var drawing;
 var journaling;
-var evaldepth;
 var trace1;
 var trace2;
 

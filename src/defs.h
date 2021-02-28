@@ -32,6 +32,7 @@ extern struct atom *one;
 extern struct atom *minusone;
 extern struct atom *imaginaryunit;
 
+extern int level;
 extern int expanding;
 extern int drawing;
 extern int journaling;
@@ -47,6 +48,7 @@ extern int ksym_count;
 extern int usym_count;
 extern int string_count;
 extern int tensor_count;
+extern int max_level;
 extern int max_stack;
 extern int max_frame;
 extern int max_journal;

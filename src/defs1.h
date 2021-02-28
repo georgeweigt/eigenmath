@@ -10,7 +10,7 @@
 #include <errno.h>
 
 #define STACKSIZE 1000000 // evaluation stack
-#define FRAMESIZE 10000 // limits recursion depth, prevents seg fault
+#define FRAMESIZE 10000
 #define BLOCKSIZE 100000
 #define MAXBLOCKS 250
 #define NSYM 100

@@ -55,14 +55,16 @@ init(void)
 void
 prep(void)
 {
+	interrupt = 0;
+
 	tos = 0;
 	tof = 0;
 	toj = 0;
 
+	level = 0;
 	expanding = 1;
 	drawing = 0;
 	journaling = 0;
-	interrupt = 0;
 
 	p0 = symbol(NIL);
 	p1 = symbol(NIL);
@@ -265,6 +267,9 @@ eval_status(void)
 	print_str(tbuf);
 
 	sprintf(tbuf, "tensor_count %d\n", tensor_count);
+	print_str(tbuf);
+
+	sprintf(tbuf, "max_level %d\n", max_level);
 	print_str(tbuf);
 
 	sprintf(tbuf, "max_stack %d (%d%%)\n", max_stack, 100 * max_stack / STACKSIZE);

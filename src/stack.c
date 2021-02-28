@@ -28,7 +28,7 @@ save(void)
 		kaput("interrupt");
 
 	if (tof < 0 || tof + 10 > FRAMESIZE)
-		kaput("frame error, circular definition?");
+		kaput("frame error");
 
 	frame[tof + 0] = p0;
 	frame[tof + 1] = p1;

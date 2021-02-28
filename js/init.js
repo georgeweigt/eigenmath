@@ -1,10 +1,10 @@
 function
 init()
 {
+	level = 0;
 	expanding = 1;
 	drawing = 0;
 	journaling = 0;
-	evaldepth = 0;
 
 	stack = [];
 	frame = [];
