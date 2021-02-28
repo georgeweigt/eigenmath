@@ -13,5 +13,5 @@ eval_and_print_result()
 	print_result();
 
 	if (p2 != symbol(NIL))
-		set_binding(symbol(LAST), p2);
+		set_symbol(symbol(LAST), p2, symbol(NIL));
 }

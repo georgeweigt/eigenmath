@@ -22,6 +22,5 @@ eval_setq(p1)
 	evalf();
 	p2 = pop();
 
-	set_binding(cadr(p1), p2);
-	set_usrfunc(cadr(p1), symbol(NIL));
+	set_symbol(cadr(p1), p2, symbol(NIL));
 }

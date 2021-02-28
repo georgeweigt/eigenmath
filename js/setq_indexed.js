@@ -28,7 +28,7 @@ setq_indexed(p1)
 
 	set_component(LVAL, RVAL, h);
 
-	set_binding(S, LVAL);
+	set_symbol(S, LVAL, symbol(NIL));
 }
 
 // Example: a[1] = b

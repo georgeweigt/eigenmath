@@ -77,7 +77,7 @@ set_symbol(struct atom *p, struct atom *b, struct atom *u)
 
 	if (journaling) {
 		if (toj + 3 > JOURNALSIZE)
-			kaput("journal size");
+			kaput("journal error");
 		journal[toj + 0] = p;
 		journal[toj + 1] = binding[k];
 		journal[toj + 2] = usrfunc[k];
@@ -97,6 +97,7 @@ undo(void)
 {
 	int k;
 	struct atom *p;
+	journaling = 0;
 	while (toj > 0) {
 		toj -= 3;
 		p = journal[toj + 0];

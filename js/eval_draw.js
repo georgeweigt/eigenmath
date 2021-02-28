@@ -3,12 +3,12 @@ eval_draw(p1)
 {
 	var F, T;
 
-	if (drawmode) {
+	if (drawing) {
 		push_symbol(NIL); // return value
 		return;
 	}
 
-	drawmode = 1;
+	drawing = 1;
 
 	F = cadr(p1);
 	T = caddr(p1);
@@ -33,7 +33,7 @@ eval_draw(p1)
 
 	restore_symbol(T);
 
-	push_symbol(NIL);
+	push_symbol(NIL); // return value
 
-	drawmode = 0;
+	drawing = 0;
 }

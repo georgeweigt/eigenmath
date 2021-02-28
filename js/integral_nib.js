@@ -7,7 +7,7 @@ integral_nib(F, X)
 	save_symbol(symbol(METAB));
 	save_symbol(symbol(METAX));
 
-	set_binding(symbol(METAX), X);
+	set_symbol(symbol(METAX), X, symbol(NIL));
 
 	// put constants in F(X) on the stack
 

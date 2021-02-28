@@ -2,11 +2,13 @@ function
 init()
 {
 	expanding = 1;
-	drawmode = 0;
+	drawing = 0;
+	journaling = 0;
 	evaldepth = 0;
 
 	stack = [];
 	frame = [];
+	journal = [];
 
 	binding = {};
 	usrfunc = {};

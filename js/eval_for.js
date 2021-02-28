@@ -25,7 +25,7 @@ eval_for(p1)
 	for (;;) {
 		push_integer(j);
 		p3 = pop();
-		set_binding(p2, p3);
+		set_symbol(p2, p3, symbol(NIL));
 		p3 = p1;
 		while (iscons(p3)) {
 			push(car(p3));

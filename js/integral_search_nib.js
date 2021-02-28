@@ -7,11 +7,11 @@ integral_search_nib(F, I, C, h)
 
 	for (i = h; i < n; i++) {
 
-		set_binding(symbol(METAA), stack[i]);
+		set_symbol(symbol(METAA), stack[i], symbol(NIL));
 
 		for (j = h; j < n; j++) {
 
-			set_binding(symbol(METAB), stack[j]);
+			set_symbol(symbol(METAB), stack[j], symbol(NIL));
 
 			push(C);			// condition ok?
 			evalf();

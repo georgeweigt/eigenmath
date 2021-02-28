@@ -27,7 +27,7 @@ eval_sum(p1)
 	for (;;) {
 		push_integer(j);
 		p3 = pop();
-		set_binding(p2, p3);
+		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
 		evalf();
 		if (j < k)

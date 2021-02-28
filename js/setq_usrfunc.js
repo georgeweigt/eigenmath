@@ -17,6 +17,5 @@ setq_usrfunc(p1)
 	convert_body(A);
 	C = pop();
 
-	set_binding(F, B);
-	set_usrfunc(F, C);
+	set_symbol(F, B, C);
 }

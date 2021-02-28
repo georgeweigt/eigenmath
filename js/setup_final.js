@@ -5,7 +5,7 @@ setup_final(F, T)
 
 	push_double(tmin);
 	p1 = pop();
-	set_binding(T, p1);
+	set_symbol(T, p1, symbol(NIL));
 
 	push(F);
 	eval_nonstop();
