@@ -11,7 +11,7 @@ eval_setq(void)
 	}
 
 	if (iscons(cadr(p1))) {
-		setq_userfunc();
+		setq_usrfunc();
 		return;
 	}
 
@@ -172,7 +172,7 @@ set_component_nib(int h)
 #define C p6 // function body (converted)
 
 void
-setq_userfunc(void)
+setq_usrfunc(void)
 {
 	F = caadr(p1);
 	A = cdadr(p1);

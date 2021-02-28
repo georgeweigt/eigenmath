@@ -624,7 +624,7 @@ void eval_setq(void);
 void setq_indexed(void);
 void set_component(int h);
 void set_component_nib(int h);
-void setq_userfunc(void);
+void setq_usrfunc(void);
 void convert_body(void);
 void eval_sgn(void);
 void sgn(void);
