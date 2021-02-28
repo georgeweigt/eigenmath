@@ -97,7 +97,6 @@ undo(void)
 {
 	int k;
 	struct atom *p;
-	journaling = 0;
 	while (toj > 0) {
 		toj -= 3;
 		p = journal[toj + 0];

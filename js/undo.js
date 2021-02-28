@@ -2,11 +2,11 @@ function
 undo()
 {
 	var p, b, u;
-	journaling = 0;
-	while (journal.length > 0) {
+	while (journal.length) {
 		u = journal.pop();
 		b = journal.pop();
 		p = journal.pop();
-		set_symbol(p, b, u);
+		binding[p.printname] = b;
+		usrfunc[p.printname] = u;
 	}
 }
