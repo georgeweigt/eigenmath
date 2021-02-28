@@ -106,6 +106,9 @@ gc(void)
 	for (i = 0; i < tof; i++)
 		untag(frame[i]);
 
+	for (i = 0; i < toj; i++)
+		untag(journal[i]);
+
 	// collect everything that's still tagged
 
 	free_count = 0;

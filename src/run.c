@@ -57,11 +57,12 @@ prep(void)
 {
 	tos = 0;
 	tof = 0;
+	toj = 0;
 
 	expanding = 1;
 	drawing = 0;
+	journaling = 0;
 	interrupt = 0;
-	jmpsel = 0;
 
 	p0 = symbol(NIL);
 	p1 = symbol(NIL);
@@ -272,6 +273,9 @@ eval_status(void)
 	sprintf(tbuf, "max_frame %d (%d%%)\n", max_frame, 100 * max_frame / FRAMESIZE);
 	print_str(tbuf);
 
+	sprintf(tbuf, "max_journal %d (%d%%)\n", max_journal, 100 * max_journal / JOURNALSIZE);
+	print_str(tbuf);
+
 	print_char('\0');
 
 	printbuf(outbuf, BLACK);
@@ -313,21 +317,19 @@ run_init_script(void)
 void
 stop(char *s)
 {
-	switch (jmpsel) {
-	case 0:
-		print_input_line();
-		sprintf(tbuf, "Stop: %s\n", s);
-		printbuf(tbuf, RED);
-		longjmp(jmpbuf0, 1);
-	case 1:
+	if (journaling)
 		longjmp(jmpbuf1, 1);
-	}
+
+	print_input_line();
+	sprintf(tbuf, "Stop: %s\n", s);
+	printbuf(tbuf, RED);
+	longjmp(jmpbuf0, 1);
 }
 
 void
 kaput(char *s)
 {
-	jmpsel = 0;
+	journaling = 0;
 	stop(s);
 }
 

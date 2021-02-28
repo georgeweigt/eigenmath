@@ -9,14 +9,15 @@ eval_nonstop(void)
 	int volatile save_tof;
 	int volatile save_expanding;
 
-	if (jmpsel) {
+	if (journaling) {
 		pop();
 		push_symbol(NIL);
 		return; // not reentrant
 	}
 
 	if (setjmp(jmpbuf1)) {
-		jmpsel = 0;
+		journaling = 0;
+		undo(); // restore symbol table
 		tos = save_tos;
 		tof = save_tof;
 		expanding = save_expanding;
@@ -31,9 +32,10 @@ eval_nonstop(void)
 	save_tof = tof;
 	save_expanding = expanding;
 
-	jmpsel = 1;
+	journaling = 1;
 	eval();
-	jmpsel = 0;
+	journaling = 0;
+	toj = 0;
 
 	restore();
 }

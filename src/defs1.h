@@ -15,6 +15,8 @@
 #define MAXBLOCKS 250
 #define NSYM 100
 
+#define JOURNALSIZE 1000
+
 // MAXBLOCKS * BLOCKSIZE * sizeof (struct atom) = 600,000,000 bytes
 
 // Symbolic expressions are built by linking structs of type "atom".
