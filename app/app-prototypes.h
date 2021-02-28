@@ -79,6 +79,7 @@ void sample(double t);
 int inrange(double x, double y);
 void eval_exit(void);
 void eval_nonstop(void);
+void eval_nonstop_nib(void);
 void init_fonts(void);
 double get_ascent(int font_num);
 double get_cap_height(int font_num);
