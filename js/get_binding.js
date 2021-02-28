@@ -1,8 +1,8 @@
 function
 get_binding(p)
 {
-	if (p.printname in binding)
-		return binding[p.printname];
-	else
-		return symbol(NIL);
+	p = binding[p.printname];
+	if (p == undefined)
+		p = symbol(NIL);
+	return p;
 }

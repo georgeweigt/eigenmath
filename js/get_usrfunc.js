@@ -1,8 +1,8 @@
 function
 get_usrfunc(p)
 {
-	if (p.printname in usrfunc)
-		return usrfunc[p.printname];
-	else
-		return symbol(NIL);
+	p = usrfunc[p.printname];
+	if (p == undefined)
+		p = symbol(NIL);
+	return p;
 }
