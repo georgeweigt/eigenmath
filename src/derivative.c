@@ -98,26 +98,6 @@ derivative(void)
 void
 d_scalar_scalar(void)
 {
-	if (issymbol(p2))
-		d_scalar_scalar_1();
-	else {
-		// Example: d(sin(cos(x)),cos(x))
-		// Replace cos(x) <- X, find derivative, then do X <- cos(x)
-		push(p1);		// sin(cos(x))
-		push(p2);		// cos(x)
-		push_symbol(SPECX);	// X
-		subst();		// sin(cos(x)) -> sin(X)
-		push_symbol(SPECX);	// X
-		derivative();
-		push_symbol(SPECX);	// X
-		push(p2);		// cos(x)
-		subst();		// cos(X) -> cos(cos(x))
-	}
-}
-
-void
-d_scalar_scalar_1(void)
-{
 	// d(x,x)?
 
 	if (equal(p1, p2)) {

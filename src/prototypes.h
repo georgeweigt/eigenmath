@@ -184,7 +184,6 @@ void denominator_nib(void);
 void eval_derivative(void);
 void derivative(void);
 void d_scalar_scalar(void);
-void d_scalar_scalar_1(void);
 void dsum(void);
 void dproduct(void);
 void dpower(void);

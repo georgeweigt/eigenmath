@@ -3,7 +3,7 @@ eval_setq(p1)
 {
 	var p2;
 
-	push_symbol(NIL); // result
+	push_symbol(NIL); // return value
 
 	if (caadr(p1) == symbol(INDEX)) {
 		setq_indexed(p1);
