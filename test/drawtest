@@ -81,3 +81,9 @@ xrange = (0,10^15)
 yrange = (0,10^(-8))
 
 draw(y,x)
+
+-- check undo
+clear
+f(x) = 1/x
+g(x) = f(x)
+draw(g)
