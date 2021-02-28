@@ -48,10 +48,10 @@ eval_eigen(void)
 	eigen(EIGEN);
 
 	p1 = lookup("D");
-	set_binding(p1, p2);
+	set_symbol(p1, p2, symbol(NIL));
 
 	p1 = lookup("Q");
-	set_binding(p1, p3);
+	set_symbol(p1, p3, symbol(NIL));
 
 	push_symbol(NIL);
 }

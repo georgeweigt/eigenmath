@@ -14,7 +14,7 @@ run(char *s)
 
 	prep();
 
-	set_binding(symbol(TRACE), zero);
+	set_symbol(symbol(TRACE), zero, symbol(NIL));
 
 	for (;;) {
 
@@ -102,7 +102,7 @@ eval_and_print_result(void)
 	print_result();
 
 	if (p2 != symbol(NIL))
-		set_binding(symbol(LAST), p2);
+		set_symbol(symbol(LAST), p2, symbol(NIL));
 
 	restore();
 }

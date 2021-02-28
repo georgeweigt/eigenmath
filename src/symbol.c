@@ -66,19 +66,13 @@ printname(struct atom *p)
 }
 
 void
-set_binding(struct atom *p, struct atom *q)
+set_symbol(struct atom *p, struct atom *b, struct atom *u)
 {
 	if (!isusersymbol(p))
 		stop("symbol error");
-	binding[p->u.usym.index] = q;
-}
 
-void
-set_usrfunc(struct atom *p, struct atom *q)
-{
-	if (!isusersymbol(p))
-		stop("symbol error");
-	usrfunc[p->u.usym.index] = q;
+	binding[p->u.usym.index] = b;
+	usrfunc[p->u.usym.index] = u;
 }
 
 struct atom *

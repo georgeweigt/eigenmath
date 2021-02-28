@@ -80,9 +80,6 @@ save_symbol(struct atom *p)
 
 	if (tof > max_frame)
 		max_frame = tof; // new high
-
-	set_binding(p, symbol(NIL));
-	set_usrfunc(p, symbol(NIL));
 }
 
 void
@@ -93,8 +90,7 @@ restore_symbol(struct atom *p)
 
 	tof -= 2;
 
-	set_binding(p, frame[tof + 0]);
-	set_usrfunc(p, frame[tof + 1]);
+	set_symbol(p, frame[tof + 0], frame[tof + 1]);
 }
 
 void

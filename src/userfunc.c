@@ -55,31 +55,31 @@ eval_user_function(void)
 	save_symbol(symbol(ARG9));
 
 	p1 = pop();
-	set_binding(symbol(ARG9), p1);
+	set_symbol(symbol(ARG9), p1, symbol(NIL));
 
 	p1 = pop();
-	set_binding(symbol(ARG8), p1);
+	set_symbol(symbol(ARG8), p1, symbol(NIL));
 
 	p1 = pop();
-	set_binding(symbol(ARG7), p1);
+	set_symbol(symbol(ARG7), p1, symbol(NIL));
 
 	p1 = pop();
-	set_binding(symbol(ARG6), p1);
+	set_symbol(symbol(ARG6), p1, symbol(NIL));
 
 	p1 = pop();
-	set_binding(symbol(ARG5), p1);
+	set_symbol(symbol(ARG5), p1, symbol(NIL));
 
 	p1 = pop();
-	set_binding(symbol(ARG4), p1);
+	set_symbol(symbol(ARG4), p1, symbol(NIL));
 
 	p1 = pop();
-	set_binding(symbol(ARG3), p1);
+	set_symbol(symbol(ARG3), p1, symbol(NIL));
 
 	p1 = pop();
-	set_binding(symbol(ARG2), p1);
+	set_symbol(symbol(ARG2), p1, symbol(NIL));
 
 	p1 = pop();
-	set_binding(symbol(ARG1), p1);
+	set_symbol(symbol(ARG1), p1, symbol(NIL));
 
 	push(FUNC_DEFN);
 	eval();

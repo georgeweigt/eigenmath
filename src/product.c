@@ -33,7 +33,7 @@ eval_product(void)
 	for (;;) {
 		push_integer(j);
 		p3 = pop();
-		set_binding(p2, p3);
+		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
 		eval();
 		if (j < k)

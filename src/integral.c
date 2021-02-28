@@ -807,7 +807,7 @@ integral_of_form(void)
 	save_symbol(symbol(METAB));
 	save_symbol(symbol(METAX));
 
-	set_binding(symbol(METAX), X);
+	set_symbol(symbol(METAX), X, symbol(NIL));
 
 	// put constants in F(X) on the stack
 
@@ -914,9 +914,9 @@ find_integral_nib(int h)
 {
 	int i, j;
 	for (i = h; i < tos; i++) {
-		set_binding(symbol(METAA), stack[i]);
+		set_symbol(symbol(METAA), stack[i], symbol(NIL));
 		for (j = h; j < tos; j++) {
-			set_binding(symbol(METAB), stack[j]);
+			set_symbol(symbol(METAB), stack[j], symbol(NIL));
 			push(C);			// condition ok?
 			eval();
 			p1 = pop();

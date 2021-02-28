@@ -22,8 +22,7 @@ eval_setq(void)
 	eval();
 	p2 = pop();
 
-	set_binding(cadr(p1), p2);
-	set_usrfunc(cadr(p1), symbol(NIL));
+	set_symbol(cadr(p1), p2, symbol(NIL));
 }
 
 //	Example: a[1] = b
@@ -78,7 +77,7 @@ setq_indexed(void)
 
 	set_component(h);
 
-	set_binding(S, LVAL);
+	set_symbol(S, LVAL, symbol(NIL));
 }
 
 void
@@ -188,8 +187,7 @@ setq_usrfunc(void)
 	convert_body();
 	C = pop();
 
-	set_binding(F, B);
-	set_usrfunc(F, C);
+	set_symbol(F, B, C);
 }
 
 void

@@ -130,7 +130,7 @@ setup_final(void)
 {
 	push_double(tmin);
 	p1 = pop();
-	set_binding(T, p1);
+	set_symbol(T, p1, symbol(NIL));
 
 	push(F);
 	eval_nonstop();
@@ -194,7 +194,7 @@ sample(double t)
 
 	push_double(t);
 	p1 = pop();
-	set_binding(T, p1);
+	set_symbol(T, p1, symbol(NIL));
 
 	push(F);
 	eval_nonstop();
