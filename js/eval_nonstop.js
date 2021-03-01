@@ -4,13 +4,12 @@ eval_nonstop()
 	if (journaling) {
 		pop();
 		push_symbol(NIL);
-		return;
+		return; // not reentrant
 	}
 
+	journal = [];
 	journaling = 1;
-
 	eval_nonstop_nib();
-
 	journaling = 0;
 	journal = [];
 }
