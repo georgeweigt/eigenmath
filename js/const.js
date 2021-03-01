@@ -92,12 +92,6 @@ const POWER = "^";
 const INDEX = "[";
 const SETQ = "=";
 
-const EXP1 = "(e)";
-const METAA = "(a)";
-const METAB = "(b)";
-const METAX = "(x)";
-const SPECX = "(X)";
-
 const LAST = "last";
 const PI = "pi";
 const TRACE = "trace";
@@ -110,6 +104,11 @@ const SYMBOL_T = "t";
 const SYMBOL_X = "x";
 const SYMBOL_Y = "y";
 const SYMBOL_Z = "z";
+
+const EXP1 = "$e";
+const SA = "$a";
+const SB = "$b";
+const SX = "$x";
 
 const ARG1 = "$1";
 const ARG2 = "$2";

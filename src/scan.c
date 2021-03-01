@@ -258,13 +258,13 @@ scan_symbol(void)
 	if (scan_mode && strlen(token_buf) == 1)
 		switch (token_buf[0]) {
 		case 'a':
-			push_symbol(METAA);
+			push_symbol(SA);
 			break;
 		case 'b':
-			push_symbol(METAB);
+			push_symbol(SB);
 			break;
 		case 'x':
-			push_symbol(METAX);
+			push_symbol(SX);
 			break;
 		default:
 			push(lookup(token_buf));

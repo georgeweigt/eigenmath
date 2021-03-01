@@ -29,3 +29,31 @@ integral()
 
 	integral_nib(F, X);
 }
+
+function
+integral_nib(F, X)
+{
+	var h;
+
+	save_symbol(symbol(SA));
+	save_symbol(symbol(SB));
+	save_symbol(symbol(SX));
+
+	set_symbol(symbol(SX), X, symbol(NIL));
+
+	// put constants in F(X) on the stack
+
+	h = stack.length;
+
+	push_integer(1); // 1 is a candidate for a or b
+
+	push(F);
+	push(X);
+	decomp();
+
+	integral_lookup(F, h);
+
+	restore_symbol(symbol(SX));
+	restore_symbol(symbol(SB));
+	restore_symbol(symbol(SA));
+}

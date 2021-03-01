@@ -112,12 +112,6 @@ var symtab = {
 "[":		{printname:INDEX,	func:eval_index},
 "=":		{printname:SETQ,	func:eval_setq},
 
-"(e)":		{printname:EXP1,	func:eval_user_symbol},
-"(a)":		{printname:METAA,	func:eval_user_symbol},
-"(b)":		{printname:METAB,	func:eval_user_symbol},
-"(x)":		{printname:METAX,	func:eval_user_symbol},
-"(X)":		{printname:SPECX,	func:eval_user_symbol},
-
 "last":		{printname:LAST,	func:eval_user_symbol},
 "pi":		{printname:PI,		func:eval_user_symbol},
 "trace":	{printname:TRACE,	func:eval_user_symbol},
@@ -130,6 +124,11 @@ var symtab = {
 "x":		{printname:SYMBOL_X,	func:eval_user_symbol},
 "y":		{printname:SYMBOL_Y,	func:eval_user_symbol},
 "z":		{printname:SYMBOL_Z,	func:eval_user_symbol},
+
+"$e":		{printname:EXP1,	func:eval_user_symbol},
+"$a":		{printname:SA,		func:eval_user_symbol},
+"$b":		{printname:SB,		func:eval_user_symbol},
+"$x":		{printname:SX,		func:eval_user_symbol},
 
 "$1":		{printname:ARG1,	func:eval_user_symbol},
 "$2":		{printname:ARG2,	func:eval_user_symbol},
