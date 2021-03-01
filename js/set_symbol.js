@@ -1,14 +1,8 @@
 function
 set_symbol(p, b, u)
 {
-	var t;
-	if (journaling) {
-		journal.push(p);
-		t = get_binding(p);
-		journal.push(t);
-		t = get_usrfunc(p);
-		journal.push(t);
-	}
+	if (journaling)
+		journal.push(p, get_binding(p), get_usrfunc(p));
 	binding[p.printname] = b;
 	usrfunc[p.printname] = u;
 }
