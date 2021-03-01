@@ -18,7 +18,7 @@ eval_nonstop()
 function
 eval_nonstop_nib()
 {
-	var save_tos, save_tof, save_level, save_expanding
+	var save_tos, save_tof, save_level, save_expanding;
 
 	try {
 		save_tos = stack.length - 1;
@@ -28,9 +28,8 @@ eval_nonstop_nib()
 		save_expanding = expanding;
 
 		evalf();
-	}
 
-	catch(errmsg) {
+	} catch (errmsg) {
 
 		undo(); // restore symbol table
 
@@ -41,9 +40,5 @@ eval_nonstop_nib()
 		expanding = save_expanding;
 
 		push_symbol(NIL); // return value
-	}
-
-	finally {
-		//
 	}
 }
