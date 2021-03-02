@@ -52,7 +52,7 @@ check(number(1) == 1)
 check(numerator(a/b) == a)
 check(or(0,0) == 0)
 check(outer((a,b),(c,d)) == ((a c,a d),(b c,b d)))
-check(prefixform(polar(2 - 3 i)) == "(* (^ 13 1/2) (^ (e) (* (^ -1 1/2) (arctan -3 2))))")
+check(prefixform(polar(2 - 3 i)) == "(* (^ 13 1/2) (^ $e (* (^ -1 1/2) (arctan -3 2))))")
 check(product(k,1,4,k) == 24)
 check(prefixform(quote(1 + 2)) == "(+ 1 2)")
 check(rank(outer((1,2),(3,4),(5,6))) == 3)
@@ -359,7 +359,7 @@ A = prefixform(arccosh(0))
 check(A="(arccosh 0)")
 
 A = prefixform(float(exp(x)))
-check(A="(^ (e) x)")
+check(A="(^ $e x)")
 
 A = prefixform(exp(0))
 check(A="1")
@@ -368,7 +368,7 @@ A = prefixform(exp(0.0))
 check(A="1.00000")
 
 A = prefixform(exp(1))
-check(A="(e)")
+check(A="$e")
 
 A = prefixform(exp(1.0))
 check(A="2.71828")
@@ -435,9 +435,9 @@ clear
 
 psi = exp(i k z - i omega t)
 A = prefixform(1/psi)
-check(A == "(^ (e) (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+check(A == "(^ $e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
 A = psi^(-1)
-check(prefixform(A)=="(^ (e) (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+check(prefixform(A)=="(^ $e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
 A = psi/psi
 check(prefixform(A)=="1")
 
@@ -614,10 +614,10 @@ A = simplify(1/(x*(y^2/x^2+1)))
 check(prefixform(A) = "(* x (^ (+ (^ x 2) (^ y 2)) -1))")
 
 A = simplify(-i * exp(i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x))))
-check(prefixform(A) = "(* -1 (^ -1 1/2) (^ (+ (^ (e) (* 2 (^ -1 1/2) x)) 1) -1) (^ (e) (* 2 (^ -1 1/2) x)))")
+check(prefixform(A) = "(* -1 (^ -1 1/2) (^ (+ (^ $e (* 2 (^ -1 1/2) x)) 1) -1) (^ $e (* 2 (^ -1 1/2) x)))")
 
 A = simplify(i * exp(-i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x))))
-check(prefixform(A) = "(* (^ -1 1/2) (^ (+ (^ (e) (* 2 (^ -1 1/2) x)) 1) -1))")
+check(prefixform(A) = "(* (^ -1 1/2) (^ (+ (^ $e (* 2 (^ -1 1/2) x)) 1) -1))")
 
 A = simplify(tan(x) - sin(x)/cos(x))
 check(prefixform(A) = "0")
