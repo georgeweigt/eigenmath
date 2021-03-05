@@ -35,12 +35,12 @@ kets(void)
 {
 	int i, k, q[4];
 
-	k = 0;
+	for (k = 0; k < 16; k++) {
 
-	for (q[0] = 0; q[0] < 2; q[0]++)
-	for (q[1] = 0; q[1] < 2; q[1]++)
-	for (q[2] = 0; q[2] < 2; q[2]++)
-	for (q[3] = 0; q[3] < 2; q[3]++) {
+		q[0] = (k & 8) ? 1 : 0;
+		q[1] = (k & 4) ? 1 : 0;
+		q[2] = (k & 2) ? 1 : 0;
+		q[3] = (k & 1) ? 1 : 0;
 
 		printf("ket%d%d%d%d = (", q[0], q[1], q[2], q[3]);
 
@@ -53,8 +53,6 @@ kets(void)
 			printf(",0");
 
 		printf(")\n");
-
-		k++;
 	}
 
 	printf("\n");
@@ -63,14 +61,16 @@ kets(void)
 void
 hadamard(int t)
 {
-	int k = 0, q[4], r[4];
+	int k, q[4], r[4];
 
 	printf("H%d = ", t);
 
-	for (q[0] = 0; q[0] < 2; q[0]++)
-	for (q[1] = 0; q[1] < 2; q[1]++)
-	for (q[2] = 0; q[2] < 2; q[2]++)
-	for (q[3] = 0; q[3] < 2; q[3]++) {
+	for (k = 0; k < 16; k++) {
+
+		q[0] = (k & 8) ? 1 : 0;
+		q[1] = (k & 4) ? 1 : 0;
+		q[2] = (k & 2) ? 1 : 0;
+		q[3] = (k & 1) ? 1 : 0;
 
 		r[0] = q[0];
 		r[1] = q[1];
@@ -95,22 +95,22 @@ hadamard(int t)
 			printf(" +\n");
 		else
 			printf("\n\n");
-
-		k++;
 	}
 }
 
 void
 not(int t)
 {
-	int k = 0, q[4], r[4];
+	int k, q[4], r[4];
 
 	printf("X%d = ", t);
 
-	for (q[0] = 0; q[0] < 2; q[0]++)
-	for (q[1] = 0; q[1] < 2; q[1]++)
-	for (q[2] = 0; q[2] < 2; q[2]++)
-	for (q[3] = 0; q[3] < 2; q[3]++) {
+	for (k = 0; k < 16; k++) {
+
+		q[0] = (k & 8) ? 1 : 0;
+		q[1] = (k & 4) ? 1 : 0;
+		q[2] = (k & 2) ? 1 : 0;
+		q[3] = (k & 1) ? 1 : 0;
 
 		r[0] = q[0];
 		r[1] = q[1];
@@ -128,22 +128,22 @@ not(int t)
 			printf(" +\n");
 		else
 			printf("\n\n");
-
-		k++;
 	}
 }
 
 void
 cnot(int c, int t)
 {
-	int k = 0, q[4], r[4];
+	int k, q[4], r[4];
 
 	printf("C%d%d = ", c, t);
 
-	for (q[0] = 0; q[0] < 2; q[0]++)
-	for (q[1] = 0; q[1] < 2; q[1]++)
-	for (q[2] = 0; q[2] < 2; q[2]++)
-	for (q[3] = 0; q[3] < 2; q[3]++) {
+	for (k = 0; k < 16; k++) {
+
+		q[0] = (k & 8) ? 1 : 0;
+		q[1] = (k & 4) ? 1 : 0;
+		q[2] = (k & 2) ? 1 : 0;
+		q[3] = (k & 1) ? 1 : 0;
 
 		r[0] = q[0];
 		r[1] = q[1];
@@ -162,7 +162,5 @@ cnot(int c, int t)
 			printf(" +\n");
 		else
 			printf("\n\n");
-
-		k++;
 	}
 }
