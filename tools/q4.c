@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 
+void kets(void);
 void hadamard(int t);
 void not(int t);
 void cnot(int c, int t);
@@ -10,6 +11,8 @@ int
 main()
 {
 	int i, j;
+
+	kets();
 
 	hadamard(0);
 	hadamard(1);
@@ -25,6 +28,36 @@ main()
 		for (j = 0; j < 4; j++)
 			if (i != j)
 				cnot(i, j);
+}
+
+void
+kets(void)
+{
+	int i, k, q[4];
+
+	k = 0;
+
+	for (q[0] = 0; q[0] < 2; q[0]++)
+	for (q[1] = 0; q[1] < 2; q[1]++)
+	for (q[2] = 0; q[2] < 2; q[2]++)
+	for (q[3] = 0; q[3] < 2; q[3]++) {
+
+		printf("ket%d%d%d%d = (", q[0], q[1], q[2], q[3]);
+
+		for (i = 0; i < k; i++)
+			printf("0,");
+
+		printf("1");
+
+		for (i = k + 1; i < 16; i++)
+			printf(",0");
+
+		printf(")\n");
+
+		k++;
+	}
+
+	printf("\n");
 }
 
 void
