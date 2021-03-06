@@ -851,6 +851,8 @@ T = integral(sin(A X) / (cos(A X) - 1)^2,X)
 check(T == 1/A * 1/(cos(A X) - 1))
 T = integral(sin(A X) / (1 - cos(A X))^2,X)
 check(T == 1/A * 1/(cos(A X) - 1))
+check(integral(d(arcsin(x))) == arcsin(x))
+check(integral(sqrt(1 + x^2 / (1 - x^2))) == arcsin(x))
 
 "All tests passed"
 </textarea>

@@ -3,7 +3,7 @@ evalf()
 {
 	level++;
 
-	if (level == 100)
+	if (level == 200)
 		stopf("circular definition?");
 
 	evalf_nib();

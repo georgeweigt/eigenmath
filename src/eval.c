@@ -8,7 +8,7 @@ eval(void)
 	if (level > max_level)
 		max_level = level;
 
-	if (level == 100)
+	if (level == 200)
 		kaput("circular definition?");
 
 	save();

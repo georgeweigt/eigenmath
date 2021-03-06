@@ -353,6 +353,14 @@ var integral_tab_power = [
 	"arctan(sqrt(a) x / sqrt(b)) / sqrt(a) / sqrt(b)",
 	"1",
 // 17
+	"1 / sqrt(1 - x^2)",
+	"arcsin(x)",
+	"1",
+
+	"sqrt(1 + x^2 / (1 - x^2))",
+	"arcsin(x)",
+	"1",
+
 	"1 / sqrt(a x^2 + b)",
 	"log(sqrt(a) sqrt(a x^2 + b) + a x) / sqrt(a)",
 	"1",
