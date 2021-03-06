@@ -1,11 +1,22 @@
 #include "defs.h"
 
+#undef NUM
+#undef DEN
+#undef R
+#undef T
+
+#define NUM p3
+#define DEN p4
+#define R p5
+#define T p6
+
 void
 eval_simplify(void)
 {
 	push(cadr(p1));
 	eval();
 	simplify();
+	simplify_trig();
 }
 
 void
@@ -19,7 +30,7 @@ simplify(void)
 void
 simplify_nib(void)
 {
-	int i, h, n;
+	int h, i, n;
 
 	p1 = pop();
 
@@ -37,56 +48,29 @@ simplify_nib(void)
 		return;
 	}
 
-	if (car(p1) == symbol(ADD)) {
-		// simplify each term
-		h = tos;
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			simplify_expr();
-			p1 = cdr(p1);
-		}
-		add_terms(tos - h);
-		p1 = pop();
-		if (car(p1) == symbol(ADD)) {
-			push(p1);
-			simplify_expr(); // try rationalizing
-			p1 = pop();
-		}
+	if (!iscons(p1)) {
 		push(p1);
-		simplify_trig();
 		return;
 	}
 
-	// p1 is a term (factor or product of factors)
+	h = tos;
+	push(car(p1));
+	p1 = cdr(p1);
 
-	push(p1);
-	simplify_expr();
-	simplify_trig();
-}
+	while (iscons(p1)) {
+		push(car(p1));
+		simplify();
+		p1 = cdr(p1);
+	}
 
-void
-simplify_expr(void)
-{
-	save();
-	simplify_expr_nib();
-	restore();
-}
-
-#undef NUM
-#undef DEN
-#undef R
-#undef T
-
-#define NUM p2
-#define DEN p3
-#define R p4
-#define T p5
-
-void
-simplify_expr_nib(void)
-{
+	list(tos - h);
+	eval();
 	p1 = pop();
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
 
 	if (car(p1) == symbol(ADD)) {
 		push(p1);
@@ -167,7 +151,31 @@ simplify_expr_nib(void)
 void
 simplify_trig(void)
 {
+	save();
+	simplify_trig_nib();
+	restore();
+}
+
+void
+simplify_trig_nib(void)
+{
+	int i, n;
+
 	p1 = pop();
+
+	if (istensor(p1)) {
+		push(p1);
+		copy_tensor();
+		p1 = pop();
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			simplify_trig();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	push(p1);
 	circexp();

@@ -467,6 +467,8 @@ check(last = (4 * M^2 * r^3 - 4 * M * r^4 + r^5) / ((-2 * M * r + r^2) * (-2 * M
 simplify
 check(last = 1)
 
+check(simplify(sqrt(1 + x^2 / (1 - x^2))) == 1 / sqrt(1 - x^2))
+
 -- test arctan
 
 check(string(arctan(0,0))="arctan(0,0)")

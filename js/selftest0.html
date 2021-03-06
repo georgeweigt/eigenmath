@@ -631,6 +631,9 @@ check(prefixform(A) = "-1")
 A = simplify(((sin(x)^2 + cos(x)^2,0),(0,sin(x))))
 check(A = ((1,0),(0,sin(x))))
 
+A = simplify(sqrt(1 + x^2 / (1 - x^2)))
+check(A == 1 / sqrt(1 - x^2))
+
 "Testing det"
 
 clear
