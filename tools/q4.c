@@ -4,6 +4,7 @@
 
 void kets(void);
 void X(int t);
+void Y(int t);
 void Z(int t);
 void H(int t);
 void C(int c, int t);
@@ -20,6 +21,7 @@ main()
 
 	for (i = 0; i < 4; i++) {
 		X(i);
+		Y(i);
 		Z(i);
 		H(i);
 	}
@@ -79,7 +81,7 @@ X(int t)
 		r[2] = q[2];
 		r[3] = q[3];
 
-		r[t] = q[t] ? 0 : 1; // flip target
+		r[t] = q[t] ? 0 : 1;
 
 		if (k > 0)
 			printf("     ");
@@ -92,6 +94,38 @@ X(int t)
 			printf("\n\n");
 	}
 }
+
+void
+Y(int t)
+{
+	int k;
+
+	printf("Y%d = ", t);
+
+	for (k = 0; k < 16; k++) {
+
+		q[0] = (k & 8) ? 1 : 0;
+		q[1] = (k & 4) ? 1 : 0;
+		q[2] = (k & 2) ? 1 : 0;
+		q[3] = (k & 1) ? 1 : 0;
+
+		r[t] = q[t] ? 0 : 1;
+
+		if (k > 0)
+			printf("     ");
+
+		if (q[t] == 0)
+			printf("outer(ket%d%d%d%d,i ket%d%d%d%d)", q[0], q[1], q[2], q[3], r[0], r[1], r[2], r[3]);
+		else
+			printf("outer(ket%d%d%d%d,-i ket%d%d%d%d)", q[0], q[1], q[2], q[3], r[0], r[1], r[2], r[3]);
+
+		if (k < 15)
+			printf(" +\n");
+		else
+			printf("\n\n");
+	}
+}
+
 
 void
 Z(int t)
@@ -110,10 +144,10 @@ Z(int t)
 		if (k > 0)
 			printf("     ");
 
-		if (q[t] == 1)
-			printf("outer(ket%d%d%d%d,-ket%d%d%d%d)", q[0], q[1], q[2], q[3], q[0], q[1], q[2], q[3]);
-		else
+		if (q[t] == 0)
 			printf("outer(ket%d%d%d%d,ket%d%d%d%d)", q[0], q[1], q[2], q[3], q[0], q[1], q[2], q[3]);
+		else
+			printf("outer(ket%d%d%d%d,-ket%d%d%d%d)", q[0], q[1], q[2], q[3], q[0], q[1], q[2], q[3]);
 
 		if (k < 15)
 			printf(" +\n");
