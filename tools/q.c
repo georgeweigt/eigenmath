@@ -1,6 +1,7 @@
 // generate kets, operators, and a measurement function
 
 #include <stdio.h>
+#include <stdlib.h>
 
 // N is number of qbits
 
@@ -24,8 +25,6 @@ main()
 {
 	int i, j;
 
-	printf("I = unit(%d)\n\n", M);
-
 	kets();
 
 	for (i = 0; i < N; i++) {
@@ -43,14 +42,9 @@ main()
 			}
 	}
 
-	printf("M(psi,P) = do(\n");
-	printf("  P = zero(2,%d),\n", M);
-	printf("  for(k,1,%d,P[1,k] = psi[k] conj(psi[k]),P[2,k] = k - 1),\n", M);
-	printf("  xrange = (0,%d),\n", M);
-	printf("  yrange = (0,1),\n");
-	printf("  draw(P[1,ceiling(x)],x),\n");
-	printf("  P\n");
-	printf(")\n");
+	fflush(stdout);
+
+	system("cat epilog");
 }
 
 void

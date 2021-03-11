@@ -1,0 +1,38 @@
+I = unit(16)
+
+QFT = dot(
+S03,
+S12,
+H0,
+P01(pi/2),
+H1,
+P12(pi/2),
+P02(pi/4),
+H2,
+P23(pi/2),
+P13(pi/4),
+P03(pi/8),
+H3)
+
+IQFT = dot(
+H3,
+P03(-pi/8),
+P13(-pi/4),
+P23(-pi/2),
+H2,
+P02(-pi/4),
+P12(-pi/2),
+H1,
+P01(-pi/2),
+H0,
+S12,
+S03)
+
+M(psi,P) = do(
+  P = zero(2,16),
+  for(k,1,16,P[1,k] = psi[k] conj(psi[k]),P[2,k] = k - 1),
+  xrange = (0,16),
+  yrange = (0,1),
+  draw(P[1,ceiling(x)],x),
+  P
+)
