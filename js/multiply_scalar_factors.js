@@ -15,7 +15,11 @@ multiply_scalar_factors(h)
 	}
 
 	combine_factors(h);
+	normalize_power_factors(h);
 
+	// do again in case exp(1/2 i pi) changed to i
+
+	combine_factors(h);
 	normalize_power_factors(h);
 
 	COEFF = combine_numerical_factors(h, COEFF);
