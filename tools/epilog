@@ -1,6 +1,6 @@
 I = unit(16)
 
-QFT = dot(
+Q = dot(
 S03,
 S12,
 H0,
@@ -14,7 +14,7 @@ P13(pi/4),
 P03(pi/8),
 H3)
 
-IQFT = dot(
+R = dot(
 H3,
 P03(-pi/8),
 P13(-pi/4),
