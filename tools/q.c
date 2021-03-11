@@ -16,7 +16,6 @@ void Y(int n);
 void Z(int n);
 void H(int n);
 void C(int m, int n);
-void K(int m, int n);
 void P(int m, int n);
 void S(int m, int n);
 
@@ -31,17 +30,16 @@ main()
 
 	for (i = 0; i < N; i++) {
 
-		X(i);
-		Y(i);
-		Z(i);
-		H(i);
+		X(i); // pauli x
+		Y(i); // pauli y
+		Z(i); // pauli z
+		H(i); // hadamard
 
 		for (j = 0; j < N; j++)
 			if (i != j) {
-				C(j, i);
-				K(j, i);
-				P(j, i);
-				S(j, i);
+				C(j, i); // controlled not
+				P(j, i); // controlled phase
+				S(j, i); // swap
 			}
 	}
 
@@ -216,12 +214,16 @@ C(int m, int n)
 	printf("\n");
 }
 
+// controlled phase
+
 void
-K(int m, int n)
+P(int m, int n)
 {
 	int i;
 
-	printf("K%d%d =\n", m, n);
+	printf("P%d%d(phi) = I - P%d%dM + exp(i phi) P%d%dM\n\n", m, n, m, n, m, n);
+
+	printf("P%d%dM =\n", m, n);
 
 	m = 1 << m;
 	n = 1 << n;
@@ -239,11 +241,7 @@ K(int m, int n)
 
 }
 
-void
-P(int m, int n)
-{
-	printf("P%d%d(phi) = I - K%d%d + exp(i phi) K%d%d\n\n", m, n, m, n, m, n);
-}
+// swap
 
 void
 S(int m, int n)
