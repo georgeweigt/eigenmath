@@ -16,8 +16,8 @@ void X(int n);
 void Y(int n);
 void Z(int n);
 void H(int n);
-void C(int m, int n);
-void P(int m, int n);
+void CX(int m, int n);
+void CP(int m, int n);
 void S(int m, int n);
 
 int
@@ -36,8 +36,8 @@ main()
 
 		for (j = 0; j < N; j++)
 			if (i != j) {
-				C(j, i); // controlled not
-				P(j, i); // controlled phase
+				CX(j, i); // controlled not
+				CP(j, i); // controlled phase
 				S(j, i); // swap
 			}
 	}
@@ -181,11 +181,11 @@ H(int n)
 }
 
 void
-C(int m, int n)
+CX(int m, int n)
 {
 	int i, j;
 
-	printf("C%d%d =\n", m, n);
+	printf("X%d%d =\n", m, n);
 
 	m = 1 << m;
 	n = 1 << n;
@@ -211,7 +211,7 @@ C(int m, int n)
 // controlled phase
 
 void
-P(int m, int n)
+CP(int m, int n)
 {
 	int i;
 

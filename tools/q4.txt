@@ -87,7 +87,7 @@ sqrt(1/2) outer(ket13,ket12 - ket13) +
 sqrt(1/2) outer(ket14,ket14 + ket15) +
 sqrt(1/2) outer(ket15,ket14 - ket15)
 
-C10 =
+X10 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket3) +
@@ -131,7 +131,7 @@ outer(ket13,ket14) +
 outer(ket14,ket13) +
 outer(ket15,ket15)
 
-C20 =
+X20 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
@@ -175,7 +175,7 @@ outer(ket13,ket13) +
 outer(ket14,ket11) +
 outer(ket15,ket15)
 
-C30 =
+X30 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
@@ -291,7 +291,7 @@ sqrt(1/2) outer(ket13,ket13 + ket15) +
 sqrt(1/2) outer(ket14,ket12 - ket14) +
 sqrt(1/2) outer(ket15,ket13 - ket15)
 
-C01 =
+X01 =
 outer(ket0,ket0) +
 outer(ket1,ket3) +
 outer(ket2,ket2) +
@@ -335,7 +335,7 @@ outer(ket13,ket14) +
 outer(ket14,ket13) +
 outer(ket15,ket15)
 
-C21 =
+X21 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
@@ -379,7 +379,7 @@ outer(ket13,ket11) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-C31 =
+X31 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
@@ -495,7 +495,7 @@ sqrt(1/2) outer(ket13,ket9 - ket13) +
 sqrt(1/2) outer(ket14,ket10 - ket14) +
 sqrt(1/2) outer(ket15,ket11 - ket15)
 
-C02 =
+X02 =
 outer(ket0,ket0) +
 outer(ket1,ket5) +
 outer(ket2,ket2) +
@@ -539,7 +539,7 @@ outer(ket13,ket13) +
 outer(ket14,ket11) +
 outer(ket15,ket15)
 
-C12 =
+X12 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket6) +
@@ -583,7 +583,7 @@ outer(ket13,ket11) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-C32 =
+X32 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
@@ -699,7 +699,7 @@ sqrt(1/2) outer(ket13,ket5 - ket13) +
 sqrt(1/2) outer(ket14,ket6 - ket14) +
 sqrt(1/2) outer(ket15,ket7 - ket15)
 
-C03 =
+X03 =
 outer(ket0,ket0) +
 outer(ket1,ket9) +
 outer(ket2,ket2) +
@@ -743,7 +743,7 @@ outer(ket13,ket13) +
 outer(ket14,ket7) +
 outer(ket15,ket15)
 
-C13 =
+X13 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket10) +
@@ -787,7 +787,7 @@ outer(ket13,ket7) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-C23 =
+X23 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
@@ -862,8 +862,8 @@ S12,
 S03)
 
 M(psi,P) = do(
-  P = zero(2,16),
-  for(k,1,16,P[1,k] = psi[k] conj(psi[k]),P[2,k] = k - 1),
+  P = ((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),("0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1000","1100","1101","1110","1111")),
+  for(k,1,16,P[1,k] = psi[k] conj(psi[k])),
   xrange = (0,16),
   yrange = (0,1),
   draw(P[1,ceiling(x)],x),
