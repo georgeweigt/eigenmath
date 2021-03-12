@@ -1,5 +1,11 @@
 #include "defs.h"
 
+#undef RE
+#undef IM
+
+#define RE p3
+#define IM p4
+
 void
 eval_mag(void)
 {
@@ -14,29 +20,52 @@ void
 mag(void)
 {
 	save();
-	p1 = pop();
-	push(p1);
-	numerator();
-	save();
 	mag_nib();
-	restore();
-	push(p1);
-	denominator();
-	save();
-	mag_nib();
-	restore();
-	divide();
 	restore();
 }
 
-#undef RE
-#undef IM
-
-#define RE p3
-#define IM p4
-
 void
 mag_nib(void)
+{
+	int i, n;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		push(p1);
+		copy_tensor();
+		p1 = pop();
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			mag();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	numerator();
+	mag1();
+
+	push(p1);
+	denominator();
+	mag1();
+
+	divide();
+}
+
+void
+mag1(void)
+{
+	save();
+	mag1_nib();
+	restore();
+}
+
+void
+mag1_nib(void)
 {
 	int h;
 

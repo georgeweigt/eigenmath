@@ -1,5 +1,11 @@
 #include "defs.h"
 
+#undef RE
+#undef IM
+
+#define RE p3
+#define IM p4
+
 void
 eval_arg(void)
 {
@@ -14,29 +20,52 @@ void
 arg(void)
 {
 	save();
-	p1 = pop();
-	push(p1);
-	numerator();
-	save();
 	arg_nib();
-	restore();
-	push(p1);
-	denominator();
-	save();
-	arg_nib();
-	restore();
-	subtract();
 	restore();
 }
 
-#undef RE
-#undef IM
-
-#define RE p2
-#define IM p3
-
 void
 arg_nib(void)
+{
+	int i, n;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		push(p1);
+		copy_tensor();
+		p1 = pop();
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arg();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	numerator();
+	arg1();
+
+	push(p1);
+	denominator();
+	arg1();
+
+	subtract();
+}
+
+void
+arg1(void)
+{
+	save();
+	arg1_nib();
+	restore();
+}
+
+void
+arg1_nib(void)
 {
 	int h;
 

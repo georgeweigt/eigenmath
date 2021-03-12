@@ -1,5 +1,11 @@
 #include "defs.h"
 
+#undef BASE
+#undef EXPO
+
+#define BASE p3
+#define EXPO p4
+
 void
 eval_rect(void)
 {
@@ -16,18 +22,26 @@ rect(void)
 	restore();
 }
 
-#undef BASE
-#undef EXPO
-
-#define BASE p3
-#define EXPO p4
-
 void
 rect_nib(void)
 {
-	int h;
+	int h, i, n;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		push(p1);
+		copy_tensor();
+		p1 = pop();
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			rect();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (car(p1) == symbol(ADD)) {
 		p1 = cdr(p1);
