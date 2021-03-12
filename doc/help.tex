@@ -591,6 +591,7 @@ If symbol {\tt i} is used for index variable $i$
 then the imaginary unit is overridden in the scope of {\tt for}.
 
 \subsection*{hadamard($a,b,\ldots$)}
+
 Returns the Hadamard (element-wise) product.
 
 {\color{blue}
@@ -610,6 +611,7 @@ c^2
 \end{bmatrix}$
 
 \subsection*{i}
+
 Symbol {\tt i} is initialized to the imaginary unit $\sqrt{-1}$.
 
 {\color{blue}
@@ -709,6 +711,29 @@ j = sqrt(-1)
 \noindent
 $-j$
 
+\subsection*{kronecker($a,b,\ldots$)}
+
+Returns the Kronecker product of vectors and matrices.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2),(3,4))
+B = ((a,b),(c,d))
+kronecker(A,B)
+\end{verbatim}
+}
+
+\noindent
+$\begin{bmatrix}
+a & b & 2a & 2b
+\\
+c & d & 2c & 2d
+\\
+3a & 3b & 4a & 4b
+\\
+3c & 3d & 3c & 4d
+\end{bmatrix}$
+
 \subsection*{last}
 
 The result of the previous calculation is stored in {\tt last}.
@@ -799,10 +824,24 @@ minormatrix(A,1,1)
 \noindent
 $
 \begin{bmatrix}
-5&6\cr
+5&6
+\\
 8&9
 \end{bmatrix}
 $
+
+\subsection*{noexpand($x$)}
+
+Evaluates expression $x$ without expanding products of sums.
+
+{\color{blue}
+\begin{verbatim}
+noexpand((x + 1)^2 / (x + 1))
+\end{verbatim}
+}
+
+\noindent
+$x + 1$
 
 \subsection*{not($x$)}
 
