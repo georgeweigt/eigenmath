@@ -73,7 +73,7 @@ kets(void)
 void
 X(int n)
 {
-	int i, j;
+	int i;
 
 	printf("X%d =\n", n);
 
@@ -81,9 +81,7 @@ X(int n)
 
 	for (i = 0; i < M; i++) {
 
-		j = i ^ n; // flip bit n
-
-		printf("outer(ket%d,ket%d)", i, j);
+		printf("outer(ket%d,ket%d)", i, i ^ n);
 
 		if (i < M - 1)
 			printf(" +");
@@ -97,7 +95,7 @@ X(int n)
 void
 Y(int n)
 {
-	int i, j;
+	int i;
 
 	printf("Y%d =\n", n);
 
@@ -105,12 +103,10 @@ Y(int n)
 
 	for (i = 0; i < M; i++) {
 
-		j = i ^ n; // flip bit n
-
 		if (i & n)
-			printf("outer(ket%d,-i ket%d)", i, j);
+			printf("outer(ket%d,-i ket%d)", i, i ^ n);
 		else
-			printf("outer(ket%d,i ket%d)", i, j);
+			printf("outer(ket%d,i ket%d)", i, i ^ n);
 
 		if (i < M - 1)
 			printf(" +");
@@ -121,11 +117,10 @@ Y(int n)
 	printf("\n");
 }
 
-
 void
 Z(int n)
 {
-	int i, j;
+	int i;
 
 	printf("Z%d =\n", n);
 
@@ -133,12 +128,10 @@ Z(int n)
 
 	for (i = 0; i < M; i++) {
 
-		j = i;
-
 		if (i & n)
-			printf("outer(ket%d,-ket%d)", i, j);
+			printf("outer(ket%d,-ket%d)", i, i);
 		else
-			printf("outer(ket%d,ket%d)", i, j);
+			printf("outer(ket%d,ket%d)", i, i);
 
 		if (i < M - 1)
 			printf(" +");
@@ -148,6 +141,8 @@ Z(int n)
 
 	printf("\n");
 }
+
+// hadamard
 
 void
 H(int n)
@@ -175,6 +170,8 @@ H(int n)
 
 	printf("\n");
 }
+
+// controlled x
 
 void
 CX(int m, int n)
