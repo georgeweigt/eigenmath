@@ -1,5 +1,5 @@
 function
-kron()
+kronecker()
 {
 	var i, j, k, l, m, n, p, q, p1, p2, p3, p4;
 

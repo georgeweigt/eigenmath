@@ -1,5 +1,5 @@
 function
-eval_kron(p1)
+eval_hadamard(p1)
 {
 	push(cadr(p1));
 	evalf();
@@ -7,7 +7,7 @@ eval_kron(p1)
 	while (iscons(p1)) {
 		push(car(p1));
 		evalf();
-		kron();
+		hadamard();
 		p1 = cdr(p1);
 	}
 }
