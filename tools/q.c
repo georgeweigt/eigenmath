@@ -36,7 +36,7 @@ main()
 
 		for (j = 0; j < N; j++)
 			if (i != j) {
-				CX(j, i); // controlled not
+				CX(j, i); // controlled x (cnot)
 				CP(j, i); // controlled phase
 				S(j, i); // swap
 			}
@@ -171,7 +171,7 @@ H(int n)
 	printf("\n");
 }
 
-// controlled x
+// controlled x (cnot)
 
 void
 CX(int m, int n)
