@@ -14,7 +14,7 @@ kronecker()
 	}
 
 	if (p1.dim.length > 2 || p2.dim.length > 2)
-		stopf("kron");
+		stopf("kronecker");
 
 	m = p1.dim[0];
 	n = p1.dim.length == 1 ? 1 : p1.dim[1];

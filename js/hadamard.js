@@ -14,13 +14,13 @@ hadamard()
 	}
 
 	if (p1.dim.length != p2.dim.length)
-		stop("hadamard");
+		stopf("hadamard");
 
 	n = p1.dim.length;
 
 	for (i = 0; i < n; i++)
 		if (p1.dim[i] != p2.dim[i])
-			stop("hadamard");
+			stopf("hadamard");
 
 	p1 = copy_tensor(p1);
 
