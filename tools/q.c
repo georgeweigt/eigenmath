@@ -214,16 +214,19 @@ CP(int m, int n)
 	n = 1 << n;
 
 	for (i = 0; i < M; i++) {
-		if ((i & m) && (i & n)) {
-			printf("outer(ket%d,ket%d)", i, i);
-			if (i < M - 1)
-				printf(" +");
-			printf("\n");
-		}
+
+		if ((i & m) == 0 || (i & n) == 0)
+			continue;
+
+		printf("outer(ket%d,ket%d)", i, i);
+
+		if (i < M - 1)
+			printf(" +");
+
+		printf("\n");
 	}
 
 	printf("\n");
-
 }
 
 // swap
