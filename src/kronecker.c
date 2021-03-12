@@ -1,9 +1,7 @@
 #include "defs.h"
 
-// kronecker product
-
 void
-eval_kron(void)
+eval_kronecker(void)
 {
 	push(cadr(p1));
 	eval();
@@ -11,21 +9,21 @@ eval_kron(void)
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
-		kron();
+		kronecker();
 		p1 = cdr(p1);
 	}
 }
 
 void
-kron(void)
+kronecker(void)
 {
 	save();
-	kron_nib();
+	kronecker_nib();
 	restore();
 }
 
 void
-kron_nib(void)
+kronecker_nib(void)
 {
 	int h, i, j, k, l, m, n, p, q;
 
@@ -40,7 +38,7 @@ kron_nib(void)
 	}
 
 	if (p1->u.tensor->ndim > 2 || p2->u.tensor->ndim > 2)
-		stop("kron");
+		stop("kronecker");
 
 	m = p1->u.tensor->dim[0];
 	n = p1->u.tensor->ndim == 1 ? 1 : p1->u.tensor->dim[1];

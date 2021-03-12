@@ -62,27 +62,30 @@ The Eigenmath manual and additional support materials are available at
 <a href="#float">float</a><br>
 <a href="#floor">floor</a><br>
 <a href="#for">for</a><br>
-<a href="#i">i</a><br>
+<a href="#hadamard">hadamard</a><br>
 </td>
 
 <td>
+<a href="#i">i</a><br>
 <a href="#imag">imag</a><br>
 <a href="#inner">inner</a><br>
 <a href="#integral">integral</a><br>
 <a href="#inv">inv</a><br>
 <a href="#j">j</a><br>
+<a href="#kronecker">kronecker</a><br>
 <a href="#last">last</a><br>
 <a href="#log">log</a><br>
 <a href="#mag">mag</a><br>
 <a href="#minor">minor</a><br>
 <a href="#minormatrix">minormatrix</a><br>
+<a href="#noexpand">noexpand</a><br>
 <a href="#not">not</a><br>
-<a href="#numerator">numerator</a><br>
-<a href="#or">or</a><br>
-<a href="#outer">outer</a><br>
 </td>
 
 <td>
+<a href="#numerator">numerator</a><br>
+<a href="#or">or</a><br>
+<a href="#outer">outer</a><br>
 <a href="#pi">pi</a><br>
 <a href="#polar">polar</a><br>
 <a href="#power">power</a><br>
@@ -94,12 +97,12 @@ The Eigenmath manual and additional support materials are available at
 <a href="#real">real</a><br>
 <a href="#rect">rect</a><br>
 <a href="#run">run</a><br>
-<a href="#simplify">simplify</a><br>
-<a href="#sin">sin</a><br>
-<a href="#sinh">sinh</a><br>
 </td>
 
 <td>
+<a href="#simplify">simplify</a><br>
+<a href="#sin">sin</a><br>
+<a href="#sinh">sinh</a><br>
 <a href="#sqrt">sqrt</a><br>
 <a href="#stop">stop</a><br>
 <a href="#sum">sum</a><br>
@@ -110,9 +113,6 @@ The Eigenmath manual and additional support materials are available at
 <a href="#transpose">transpose</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
-<br>
-<br>
-<br>
 <br>
 </td>
 
@@ -713,6 +713,24 @@ is used for index variable <i>i</i> then the imaginary unit is overridden in the
 <span style="font-family:courier">for</span>.
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="hadamard">hadamard(<i>a,b,...</i>)</a>
+<p>
+Returns the Hadamard (element-wise) product.
+<pre style="font-family:courier;color:blue">
+X = (a,b)
+hadamard(X,X)
+</pre>
+<pre style="font-family:courier">
+┌    ┐
+│  2 │
+│ a  │
+│    │
+│  2 │
+│ b  │
+└    ┘
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="i">i</a>
 <p>
 Symbol
@@ -814,6 +832,27 @@ j = sqrt(-1)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="kronecker">kronecker(<i>a,b,...</i>)</a>
+<p>
+Returns the Kronecker product of vectors and matrices.
+<pre style="font-family:courier;color:blue">
+A = ((1,2),(3,4))
+B = ((a,b),(c,d))
+kronecker(A,B)
+</pre>
+<pre style="font-family:courier">
+┌                       ┐
+│  a     b    2 a   2 b │
+│                       │
+│  c     d    2 c   2 d │
+│                       │
+│ 3 a   3 b   4 a   4 b │
+│                       │
+│ 3 c   3 d   4 c   4 d │
+└                       ┘
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="last">last</a>
 <p>
 The result of the previous calculation is stored in
@@ -904,6 +943,17 @@ minormatrix(A,1,1)
 │       │
 │ 8   9 │
 └       ┘
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="noexpand">noexpand(<i>x</i>)</a>
+<p>
+Evaluates expression <i>x</i> without expanding products of sums.
+<pre style="font-family:courier;color:blue">
+noexpand((x + 1)^2 / (x + 1))
+</pre>
+<pre style="font-family:courier">
+x + 1
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">

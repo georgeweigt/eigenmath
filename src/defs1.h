@@ -151,6 +151,8 @@ struct atom {
 
 #define GCD		(6 * NSYM + 0)
 
+#define HADAMARD	(7 * NSYM + 0)
+
 #define SYMBOL_I	(8 * NSYM + 0)
 #define IMAG		(8 * NSYM + 1)
 #define INNER		(8 * NSYM + 2)
@@ -160,7 +162,7 @@ struct atom {
 
 #define SYMBOL_J	(9 * NSYM + 0)
 
-#define KRON		(10 * NSYM + 0)
+#define KRONECKER	(10 * NSYM + 0)
 
 #define LAST		(11 * NSYM + 0)
 #define LATEX		(11 * NSYM + 1)

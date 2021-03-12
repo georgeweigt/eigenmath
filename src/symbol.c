@@ -194,6 +194,8 @@ struct se stab[] = {
 
 	{ "gcd",		GCD,		eval_gcd		},
 
+	{ "hadamard",		HADAMARD,	eval_hadamard		},
+
 	{ "i",			SYMBOL_I,	NULL			},
 	{ "imag",		IMAG,		eval_imag		},
 	{ "inner",		INNER,		eval_inner		},
@@ -203,7 +205,7 @@ struct se stab[] = {
 
 	{ "j",			SYMBOL_J,	NULL			},
 
-	{ "kron",		KRON,		eval_kron		},
+	{ "kronecker",		KRONECKER,	eval_kronecker		},
 
 	{ "last",		LAST,		NULL			},
 	{ "latex",		LATEX,		eval_latex		},
