@@ -590,8 +590,26 @@ Note: The original value of $i$ is restored after {\tt for} completes.
 If symbol {\tt i} is used for index variable $i$
 then the imaginary unit is overridden in the scope of {\tt for}.
 
-\subsection*{i}
+\subsection*{hadamard($a,b,\ldots$)}
+Returns the Hadamard (element-wise) product.
 
+{\color{blue}
+\begin{verbatim}
+X = (a,b,c)
+hadamard(X,X)
+\end{verbatim}
+}
+
+\noindent
+$\begin{bmatrix}
+a^2
+\\
+b^2
+\\
+c^2
+\end{bmatrix}$
+
+\subsection*{i}
 Symbol {\tt i} is initialized to the imaginary unit $\sqrt{-1}$.
 
 {\color{blue}
