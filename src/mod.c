@@ -68,7 +68,7 @@ smod_rationals(void)
 	push(p1);
 	push(p2);
 	divide();
-	absval();
+	absv();
 	sfloor();
 	push(p2);
 	multiply();

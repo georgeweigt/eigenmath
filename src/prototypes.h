@@ -1,7 +1,6 @@
 void eval_abs(void);
-void absval(void);
-void absval_nib(void);
-void absval_tensor(void);
+void absv(void);
+void absv_nib(void);
 void eval_add(void);
 void add(void);
 void add_terms(int n);
@@ -543,6 +542,7 @@ void power_complex_rational(void);
 void power_numbers(void);
 void power_rationals(void);
 void power_rationals_nib(void);
+void sqrtv(void);
 void eval_prime(void);
 void prime(void);
 void eval_print(void);

@@ -1,5 +1,11 @@
 #include "defs.h"
 
+#undef BASE
+#undef EXPO
+
+#define BASE p1
+#define EXPO p2
+
 void
 eval_power(void)
 {
@@ -23,12 +29,6 @@ eval_power(void)
 		power();
 	}
 }
-
-#undef BASE
-#undef EXPO
-
-#define BASE p1
-#define EXPO p2
 
 void
 power(void)
@@ -1016,4 +1016,11 @@ power_rationals_nib(void)
 		push_rational_number(MPLUS, b, a); // reciprocate
 	else
 		push_rational_number(MPLUS, a, b);
+}
+
+void
+sqrtv(void)
+{
+	push_rational(1, 2);
+	power();
 }

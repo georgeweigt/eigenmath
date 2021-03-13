@@ -561,7 +561,7 @@ reduce_radical_factors(int h)
 		return; // no radicals
 
 	push(COEF);
-	absval();
+	absv();
 	p1 = pop();
 
 	push(p1);

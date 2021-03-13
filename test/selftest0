@@ -1385,7 +1385,9 @@ f = circexp(f)
 defint(f,t,0,2pi)
 check(last = -4pi)
 
--- minormatrix
+trace = 0
+
+"Testing minormatrix"
 
 clear
 
@@ -1443,7 +1445,7 @@ B = ((0,0,0),(0,0,0),(0,0,0))
 for(i,1,3,for(j,1,3,B[j,i] = (-1)^(i + j) minor(A,i,j)))
 check(B == adj(A))
 
--- cofactor
+"Testing cofactor"
 
 clear
 
@@ -1457,7 +1459,7 @@ B = ((0,0,0),(0,0,0),(0,0,0))
 for(i,1,3,for(j,1,3,B[j,i] = cofactor(A,i,j)))
 check(adj(A) == B)
 
--- kronecker
+"Testing kronecker"
 
 clear
 
@@ -1500,8 +1502,6 @@ C = ((2a,2b,3a,3b),
      (4c,4d,5c,5d))
 
 check(kronecker(A,B) == C)
-
-trace = 0
 
 "Testing det"
 

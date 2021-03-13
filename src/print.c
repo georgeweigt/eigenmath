@@ -165,7 +165,7 @@ print_a_over_b(struct atom *p)
 	if (isrational(p2)) {
 		push(p2);
 		numerator();
-		absval();
+		absv();
 		A = pop();
 		push(p2);
 		denominator();
