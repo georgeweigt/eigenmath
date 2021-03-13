@@ -41,7 +41,7 @@ f(t) = test(
 
 draw(f,t)
 
-f = abs(x^x)
+f = quote(abs(x^x))
 xrange = (-2,2)
 yrange = (-2,2)
 draw(f,x)
