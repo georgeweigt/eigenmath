@@ -1259,5 +1259,7 @@ check(S(3,2,-2) == 1)
 -- done
 
 clear
+trace = 0
 status
-exit -- all tests passed
+"ok"
+exit

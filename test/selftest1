@@ -1972,5 +1972,7 @@ check(last=123456789123456789)
 -- done
 
 clear
+trace = 0
 status
-exit -- all tests passed
+"ok"
+exit

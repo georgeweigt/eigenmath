@@ -1648,5 +1648,7 @@ check(i exp(1/4 i pi) exp(1/4 i pi) == -1)
 -- done
 
 clear
+trace = 0
 status
-exit -- all tests passed
+"ok"
+exit

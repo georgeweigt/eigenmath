@@ -1,3 +1,5 @@
+trace = 1
+
 -- integrals
 check(integral(a) = a x)
 check(integral(x) = 1/2 x^2)
@@ -847,6 +849,8 @@ check(T == 1/A * 1/(cos(A X) - 1))
 check(integral(d(arcsin(x))) == arcsin(x))
 check(integral(sqrt(1 + x^2 / (1 - x^2))) == arcsin(x))
 
+clear
+trace = 0
 status
-"All tests passed"
+"ok"
 exit
