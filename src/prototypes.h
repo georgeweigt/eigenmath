@@ -1,6 +1,7 @@
 void eval_abs(void);
 void absv(void);
 void absv_nib(void);
+void absv_tensor(void);
 void eval_add(void);
 void add(void);
 void add_terms(int n);
