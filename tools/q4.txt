@@ -1,4 +1,4 @@
--- copy to Downloads folder on Mac
+-- save to Downloads folder on Mac
 
 ket0 = (1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
 ket1 = (0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0)

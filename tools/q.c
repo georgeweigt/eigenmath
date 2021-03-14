@@ -25,7 +25,7 @@ main()
 {
 	int i, j;
 
-	printf("-- copy to Downloads folder on Mac\n\n");
+	printf("-- save to Downloads folder on Mac\n\n");
 
 	kets();
 

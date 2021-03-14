@@ -1,4 +1,4 @@
-# make prototype files
+.PHONY: default eigenmath.c q4.txt
 
 default:
 	gcc make-prototypes.c
@@ -11,7 +11,7 @@ eigenmath.c:
 	./a.out >eigenmath.c
 	rm a.out
 
-q4:
+q4.txt:
 	gcc q.c
 	./a.out >q4.txt
 	rm a.out
