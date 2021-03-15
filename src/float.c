@@ -5,28 +5,28 @@ eval_float(void)
 {
 	push(cadr(p1));
 	eval();
-	sfloat();
+	floatv();
 }
 
 void
-sfloat(void)
+floatv(void)
 {
-	sfloat_subst();
+	float_subst();
 	eval();
-	sfloat_subst(); // in case pi popped up
+	float_subst(); // in case pi popped up
 	eval();
 }
 
 void
-sfloat_subst(void)
+float_subst(void)
 {
 	save();
-	sfloat_subst_nib();
+	float_subst_nib();
 	restore();
 }
 
 void
-sfloat_subst_nib(void)
+float_subst_nib(void)
 {
 	int h, i, n;
 
@@ -54,7 +54,7 @@ sfloat_subst_nib(void)
 		push_symbol(POWER);
 		push_symbol(EXP1);
 		push(caddr(p1));
-		sfloat_subst();
+		float_subst();
 		list(3);
 		return;
 	}
@@ -67,7 +67,7 @@ sfloat_subst_nib(void)
 		push_symbol(POWER);
 		push(cadr(p1));
 		push(caddr(p1));
-		sfloat_subst();
+		float_subst();
 		list(3);
 		list(3);
 		return;
@@ -79,7 +79,7 @@ sfloat_subst_nib(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			sfloat_subst();
+			float_subst();
 			p1 = cdr(p1);
 		}
 		list(tos - h);
@@ -93,7 +93,7 @@ sfloat_subst_nib(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			sfloat_subst();
+			float_subst();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);

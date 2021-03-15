@@ -1,7 +1,7 @@
 function
 abs()
 {
-	var h, p1;
+	var h, p1, p2, p3;
 
 	p1 = pop();
 
@@ -21,21 +21,28 @@ abs()
 		return;
 	}
 
-	if (isnum(p1)) {
-		push(p1);
-		if (isnegativenumber(p1))
-			negate();
-		return;
-	}
-
-	if (iscomplexnumber(p1)) {
-		push(p1);
-		push(p1);
-		conj();
-		multiply();
-		push_rational(1, 2);
-		power();
-		return;
+	push(p1);
+	push(p1);
+	conj();
+	multiply();
+	p2 = pop();
+	if (car(p2) != symbol(ADD)) {
+		push(p2);
+		floatf();
+		p3 = pop();
+		if (isdouble(p3)) {
+			push(p2);
+			push_rational(1, 2);
+			power();
+			p2 = pop();
+			push(p2);
+			push(p2);
+			floatf();
+			p2 = pop();
+			if (isnegativenumber(p2))
+				negate();
+			return;
+		}
 	}
 
 	// abs(1/a) evaluates to 1/abs(a)

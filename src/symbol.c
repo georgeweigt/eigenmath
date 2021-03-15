@@ -188,7 +188,7 @@ struct se stab[] = {
 	{ "factor",		FACTOR,		eval_factor		},
 	{ "factorial",		FACTORIAL,	eval_factorial		},
 	{ "filter",		FILTER,		eval_filter		},
-	{ "float",		FLOATF,		eval_float		},
+	{ "float",		FLOATV,		eval_float		},
 	{ "floor",		FLOOR,		eval_floor		},
 	{ "for",		FOR,		eval_for		},
 
