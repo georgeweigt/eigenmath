@@ -24,8 +24,12 @@ absv_nib(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		if (p1->u.tensor->ndim != 1)
-			stop("abs");
+		if (p1->u.tensor->ndim > 1) {
+			push_symbol(ABS);
+			push(p1);
+			list(2);
+			return;
+		}
 		push(p1);
 		push(p1);
 		conjugate();

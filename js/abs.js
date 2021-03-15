@@ -6,8 +6,12 @@ abs()
 	p1 = pop();
 
 	if (istensor(p1)) {
-		if (p1.dim.length != 1)
-			stopf("abs");
+		if (p1.dim.length > 1) {
+			push_symbol(ABS);
+			push(p1);
+			list(2);
+			return;
+		}
 		push(p1);
 		push(p1);
 		conj();
