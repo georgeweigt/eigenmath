@@ -841,6 +841,7 @@ check(abs(r exp(i theta)) == abs(r))
 check(abs(cos(5/8 pi)) == -cos(5/8 pi))
 check(abs(x y) == abs(x) abs(y))
 check(abs(1/x) == 1/abs(x))
+check(prefixform(abs(b - a)) == "(abs (+ a (* -1 b)))")
 
 -- check this is not expanded
 t = prefixform(abs(sin(1/16 pi) + cos(5/8 pi)))
