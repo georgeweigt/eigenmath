@@ -24,7 +24,14 @@ absv_nib(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		absv_tensor();
+		if (p1->u.tensor->ndim != 1)
+			stop("abs");
+		push(p1);
+		push(p1);
+		conjugate();
+		inner();
+		push_rational(1, 2);
+		power();
 		return;
 	}
 
@@ -78,17 +85,4 @@ absv_nib(void)
 	push_symbol(ABS);
 	push(p1);
 	list(2);
-}
-
-void
-absv_tensor(void)
-{
-	if (p1->u.tensor->ndim != 1)
-		stop("abs");
-	push(p1);
-	push(p1);
-	conjugate();
-	inner();
-	push_rational(1, 2);
-	power();
 }

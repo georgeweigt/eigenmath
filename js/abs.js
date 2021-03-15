@@ -7,7 +7,7 @@ abs()
 
 	if (istensor(p1)) {
 		if (p1.dim.length != 1)
-			stopf("abs: tensor rank > 1");
+			stopf("abs");
 		push(p1);
 		push(p1);
 		conj();
