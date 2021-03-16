@@ -87,6 +87,18 @@ sqrt(1/2) outer(ket13,ket12 - ket13) +
 sqrt(1/2) outer(ket14,ket14 + ket15) +
 sqrt(1/2) outer(ket15,ket14 - ket15)
 
+P0(phi) = I - P0M + exp(i phi) P0M
+
+P0M =
+outer(ket1,ket1) +
+outer(ket3,ket3) +
+outer(ket5,ket5) +
+outer(ket7,ket7) +
+outer(ket9,ket9) +
+outer(ket11,ket11) +
+outer(ket13,ket13) +
+outer(ket15,ket15)
+
 X10 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
@@ -290,6 +302,18 @@ sqrt(1/2) outer(ket12,ket12 + ket14) +
 sqrt(1/2) outer(ket13,ket13 + ket15) +
 sqrt(1/2) outer(ket14,ket12 - ket14) +
 sqrt(1/2) outer(ket15,ket13 - ket15)
+
+P1(phi) = I - P1M + exp(i phi) P1M
+
+P1M =
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
 
 X01 =
 outer(ket0,ket0) +
@@ -495,6 +519,18 @@ sqrt(1/2) outer(ket13,ket9 - ket13) +
 sqrt(1/2) outer(ket14,ket10 - ket14) +
 sqrt(1/2) outer(ket15,ket11 - ket15)
 
+P2(phi) = I - P2M + exp(i phi) P2M
+
+P2M =
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
 X02 =
 outer(ket0,ket0) +
 outer(ket1,ket5) +
@@ -699,6 +735,18 @@ sqrt(1/2) outer(ket13,ket5 - ket13) +
 sqrt(1/2) outer(ket14,ket6 - ket14) +
 sqrt(1/2) outer(ket15,ket7 - ket15)
 
+P3(phi) = I - P3M + exp(i phi) P3M
+
+P3M =
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
 X03 =
 outer(ket0,ket0) +
 outer(ket1,ket9) +
@@ -863,7 +911,8 @@ S03)
 
 M(psi,P) = do(
   P = ((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),("0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1011","1100","1101","1110","1111")),
-  P[1] = hadamard(psi,conj(psi)),
+  psi = float(psi),
+  P[1] = real(hadamard(psi,conj(psi))),
   xrange = (0,16),
   yrange = (0,1),
   draw(P[1,ceiling(x)],x),

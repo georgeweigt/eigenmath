@@ -16,6 +16,7 @@ void X(int n);
 void Y(int n);
 void Z(int n);
 void H(int n);
+void P(int n);
 void CX(int m, int n);
 void CP(int m, int n);
 void S(int m, int n);
@@ -33,6 +34,7 @@ main()
 		Y(i); // pauli y
 		Z(i); // pauli z
 		H(i); // hadamard
+		P(i); // phase
 
 		for (j = 0; j < N; j++)
 			if (i != j) {
@@ -161,6 +163,35 @@ H(int n)
 			printf("ket%d - ket%d)", i ^ n, i); // |0> - |1>
 		else
 			printf("ket%d + ket%d)", i, i ^ n); // |0> + |1>
+
+		if (i < M - 1)
+			printf(" +");
+
+		printf("\n");
+	}
+
+	printf("\n");
+}
+
+// phase
+
+void
+P(int n)
+{
+	int i;
+
+	printf("P%d(phi) = I - P%dM + exp(i phi) P%dM\n\n", n, n, n);
+
+	printf("P%dM =\n", n);
+
+	n = 1 << n;
+
+	for (i = 0; i < M; i++) {
+
+		if ((i & n) == 0)
+			continue;
+
+		printf("outer(ket%d,ket%d)", i, i);
 
 		if (i < M - 1)
 			printf(" +");
