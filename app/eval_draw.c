@@ -50,7 +50,7 @@ setup_trange(void)
 	p1 = lookup("trange");
 	push(p1);
 	eval_nonstop();
-	sfloat();
+	floatv();
 	p1 = pop();
 
 	if (!istensor(p1) || p1->u.tensor->ndim != 1 || p1->u.tensor->nelem != 2)
@@ -78,7 +78,7 @@ setup_xrange(void)
 	p1 = lookup("xrange");
 	push(p1);
 	eval_nonstop();
-	sfloat();
+	floatv();
 	p1 = pop();
 
 	if (!istensor(p1) || p1->u.tensor->ndim != 1 || p1->u.tensor->nelem != 2)
@@ -106,7 +106,7 @@ setup_yrange(void)
 	p1 = lookup("yrange");
 	push(p1);
 	eval_nonstop();
-	sfloat();
+	floatv();
 	p1 = pop();
 
 	if (!istensor(p1) || p1->u.tensor->ndim != 1 || p1->u.tensor->nelem != 2)
@@ -198,7 +198,7 @@ sample(double t)
 
 	push(F);
 	eval_nonstop();
-	sfloat();
+	floatv();
 	p1 = pop();
 
 	if (istensor(p1)) {
