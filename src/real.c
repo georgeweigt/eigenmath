@@ -42,7 +42,7 @@ real_nib(void)
 	p1 = pop();
 	push(p1);
 	push(p1);
-	conjugate();
+	conjv();
 	add();
 	push_rational(1, 2);
 	multiply();

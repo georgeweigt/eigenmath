@@ -5,26 +5,26 @@ eval_conj(void)
 {
 	push(cadr(p1));
 	eval();
-	conjugate();
+	conjv();
 }
 
 void
-conjugate(void)
+conjv(void)
 {
-	conjugate_subst();
+	conj_subst();
 	eval();
 }
 
 void
-conjugate_subst(void)
+conj_subst(void)
 {
 	save();
-	conjugate_subst_nib();
+	conj_subst_nib();
 	restore();
 }
 
 void
-conjugate_subst_nib(void)
+conj_subst_nib(void)
 {
 	int h, i, n;
 
@@ -37,7 +37,7 @@ conjugate_subst_nib(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			conjugate_subst();
+			conj_subst();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
@@ -61,7 +61,7 @@ conjugate_subst_nib(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			conjugate_subst();
+			conj_subst();
 			p1 = cdr(p1);
 		}
 		list(tos - h);

@@ -32,7 +32,7 @@ absv_nib(void)
 		}
 		push(p1);
 		push(p1);
-		conjugate();
+		conjv();
 		inner();
 		push_rational(1, 2);
 		power();
@@ -41,7 +41,7 @@ absv_nib(void)
 
 	push(p1);
 	push(p1);
-	conjugate();
+	conjv();
 	multiply();
 	push_rational(1, 2);
 	power();
