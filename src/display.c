@@ -192,16 +192,16 @@ void
 fmt_double(struct atom *p)
 {
 	int t;
-	char *s;
+	char buf[24], *s;
 
-	sprintf(tbuf, "%g", fabs(p->u.d));
+	sprintf(buf, "%g", fabs(p->u.d));
 
-	s = tbuf;
+	s = buf;
 
 	while (*s && *s != 'E' && *s != 'e')
 		fmt_roman_char(*s++);
 
-	if (*s != 'E' && *s != 'e')
+	if (!*s)
 		return;
 
 	s++;
