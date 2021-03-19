@@ -156,12 +156,12 @@ emit_double(p)
 {
 	var j, k, s, t;
 
-	s = Math.abs(p.d).toPrecision(6);
-
-	if (!isdigit(s.charAt(0))) {
-		emit_roman_string(s);
+	if (isNaN(p.d) || !isFinite(p.d)) {
+		emit_roman_string("nan");
 		return;
 	}
+
+	s = Math.abs(p.d).toPrecision(6);
 
 	k = 0;
 

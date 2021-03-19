@@ -135,12 +135,12 @@ emit_double(struct atom *p)
 {
 	int i, j, k, t;
 
-	sprintf(tbuf, "%g", fabs(p->u.d));
-
-	if (!isdigit(tbuf[0])) {
-		emit_roman_string(tbuf);
+	if (isnan(p->u.d) || isinf(p->u.d)) {
+		emit_roman_string("nan");
 		return;
 	}
+
+	sprintf(tbuf, "%g", fabs(p->u.d));
 
 	k = 0;
 

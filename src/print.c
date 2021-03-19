@@ -569,20 +569,16 @@ print_number(struct atom *p)
 		print_str(s);
 		break;
 	case DOUBLE:
-		sprintf(tbuf, "%g", p->u.d);
-		s = tbuf;
-		if (*s == '+' || *s == '-')
-			s++;
-		if (isinf(p->u.d) || isnan(p->u.d)) {
-			print_str(s);
-			break;
+		if (isnan(p->u.d) || isinf(p->u.d)) {
+			print_str("nan");
+			return;
 		}
+		sprintf(tbuf, "%g", fabs(p->u.d));
 		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))
 			print_char('(');
+		s = tbuf;
 		while (*s && *s != 'e' && *s != 'E')
 			print_char(*s++);
-		if (!strchr(tbuf, '.'))
-			print_str(".0");
 		if (*s == 'e' || *s == 'E') {
 			s++;
 			print_str(" 10^");
@@ -672,31 +668,7 @@ print_lisp_nib(struct atom *p)
 		break;
 	case DOUBLE:
 		sprintf(tbuf, "%g", p->u.d);
-		if (isinf(p->u.d) || isnan(p->u.d)) {
-			print_str(tbuf);
-			break;
-		}
-		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))
-			print_str("(* ");
-		s = tbuf;
-		while (*s && *s != 'e' && *s != 'E')
-			print_char(*s++);
-		if (!strchr(tbuf, '.'))
-			print_str(".0");
-		if (*s == 'e' || *s == 'E') {
-			s++;
-			print_str(" (^ 10 ");
-			if (*s == '+')
-				s++;
-			else if (*s == '-')
-				print_char(*s++);
-			while (*s == '0')
-				s++; // skip leading zeroes
-			print_str(s);
-			print_char(')');
-		}
-		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))
-			print_char(')');
+		print_str(tbuf);
 		break;
 	case KSYM:
 	case USYM:

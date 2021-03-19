@@ -193,8 +193,8 @@ fmt_double(struct atom *p)
 {
 	int i, j, k, t;
 
-	if (p->u.d == 0.0) {
-		fmt_roman_char('0');
+	if (isnan(p->u.d) || isinf(p->u.d)) {
+		fmt_roman_string("nan");
 		return;
 	}
 
