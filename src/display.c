@@ -191,37 +191,20 @@ fmt_denominators(struct atom *p)
 void
 fmt_double(struct atom *p)
 {
-	int i, j, k, t;
+	int t;
+	char *s;
 
 	sprintf(tbuf, "%g", fabs(p->u.d));
 
-	k = 0;
+	s = tbuf;
 
-	while (tbuf[k] && tbuf[k] != '.' && tbuf[k] != 'E' && tbuf[k] != 'e')
-		fmt_roman_char(tbuf[k++]);
+	while (*s && *s != 'E' && *s != 'e')
+		fmt_roman_char(*s++);
 
-	// handle trailing zeroes
-
-	if (tbuf[k] == '.') {
-
-		i = k++;
-
-		while (tbuf[k] && tbuf[k] != 'E' && tbuf[k] != 'e')
-			k++;
-
-		j = k;
-
-		while (tbuf[j - 1] == '0')
-			j--;
-
-		while (i < j)
-			fmt_roman_char(tbuf[i++]);
-	}
-
-	if (tbuf[k] != 'E' && tbuf[k] != 'e')
+	if (*s != 'E' && *s != 'e')
 		return;
 
-	k++;
+	s++;
 
 	fmt_roman_char(MULTIPLY_SIGN);
 
@@ -235,19 +218,19 @@ fmt_double(struct atom *p)
 
 	// sign of exponent
 
-	if (tbuf[k] == '+')
-		k++;
-	else if (tbuf[k] == '-') {
+	if (*s == '+')
+		s++;
+	else if (*s == '-') {
 		fmt_roman_char(MINUS_SIGN);
-		k++;
+		s++;
 	}
 
 	// skip leading zeroes in exponent
 
-	while (tbuf[k] == '0')
-		k++;
+	while (*s == '0')
+		s++;
 
-	fmt_roman_string(tbuf + k);
+	fmt_roman_string(s);
 
 	fmt_update_list(t);
 
