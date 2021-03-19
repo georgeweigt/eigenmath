@@ -158,6 +158,11 @@ emit_double(p)
 
 	s = Math.abs(p.d).toPrecision(6);
 
+	if (!isdigit(s.charAt(0))) {
+		emit_roman_string(s);
+		return;
+	}
+
 	k = 0;
 
 	while (isdigit(s.charAt(k)) || s.charAt(k) == ".")

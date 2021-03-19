@@ -135,12 +135,12 @@ emit_double(struct atom *p)
 {
 	int i, j, k, t;
 
-	if (p->u.d == 0.0) {
-		emit_roman_char('0');
+	sprintf(tbuf, "%g", fabs(p->u.d));
+
+	if (!isdigit(tbuf[0])) {
+		emit_roman_string(tbuf);
 		return;
 	}
-
-	sprintf(tbuf, "%g", fabs(p->u.d));
 
 	k = 0;
 
