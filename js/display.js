@@ -154,32 +154,34 @@ emit_denominators(p)
 function
 emit_double(p)
 {
-	var j, k, s, t;
-
-	if (isNaN(p.d) || !isFinite(p.d)) {
-		emit_roman_string("nan");
-		return;
-	}
+	var i, j, k, s, t;
 
 	s = Math.abs(p.d).toPrecision(6);
 
 	k = 0;
 
-	while (isdigit(s.charAt(k)) || s.charAt(k) == ".")
+	while (k < s.length && s.charAt(k) != "." && s.charAt(k) != "E" && s.charAt(k) != "e")
 		k++;
+
+	emit_roman_string(s.substr(0, k));
 
 	// handle trailing zeroes
 
-	j = k;
+	if (s.charAt(k) == ".") {
 
-	if (s.indexOf(".") > 0) {
+		i = k++;
+
+		while (k < s.length && s.charAt(k) != "E" && s.charAt(k) != "e")
+			k++;
+
+		j = k;
+
 		while (s.charAt(j - 1) == "0")
 			j--;
-		if (s.charAt(j - 1) == ".")
-			j--;
-	}
 
-	emit_roman_string(s.substring(0, j));
+		if (j - i > 1)
+			emit_roman_string(s.substr(i, j - i));
+	}
 
 	if (s.charAt(k) != "E" && s.charAt(k) != "e")
 		return;

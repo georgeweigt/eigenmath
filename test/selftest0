@@ -1,11 +1,5 @@
 trace = 1
 
--- string function
-
-check(string(0.0)="0")
-check(string(1.2*10^10)="(1.2 10^10)")
-check(string(-1.2*10^(-10))="-(1.2 10^(-10))")
-
 -- check sort order
 
 3+4*i
@@ -972,32 +966,6 @@ check(last = "(* 3 107 28059810762433)")
 
 lisp(factor(float(2^53 + 1)))
 check(last = "(^ 2 53)")
-
--- floating point format
-
-check(string(1.0 10^9) == "(1 10^9)")
-check(string(1.0 10^(-9)) == "(1 10^(-9))")
-
-check(string(-1.0 10^9) == "-(1 10^9)")
-check(string(-1.0 10^(-9)) == "-(1 10^(-9))")
-
-check(string(1.2 10^9) == "(1.2 10^9)")
-check(string(1.2 10^(-9)) == "(1.2 10^(-9))")
-
-check(string(-1.2 10^9) == "-(1.2 10^9)")
-check(string(-1.2 10^(-9)) == "-(1.2 10^(-9))")
-
-check(string(1.0 10^10) == "(1 10^10)")
-check(string(1.0 10^(-10)) == "(1 10^(-10))")
-
-check(string(-1.0 10^10) == "-(1 10^10)")
-check(string(-1.0 10^(-10)) == "-(1 10^(-10))")
-
-check(string(1.2 10^10) == "(1.2 10^10)")
-check(string(1.2 10^(-10)) == "(1.2 10^(-10))")
-
-check(string(-1.2 10^10) == "-(1.2 10^10)")
-check(string(-1.2 10^(-10)) == "-(1.2 10^(-10))")
 
 -- simplify polar
 

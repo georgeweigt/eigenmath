@@ -569,15 +569,9 @@ print_number(struct atom *p)
 		print_str(s);
 		break;
 	case DOUBLE:
-		if (isnan(p->u.d) || isinf(p->u.d)) {
-			print_str("nan");
-			return;
-		}
 		sprintf(tbuf, "%g", fabs(p->u.d));
-		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))
-			print_char('(');
 		s = tbuf;
-		while (*s && *s != 'e' && *s != 'E')
+		while (*s && *s != 'E' && *s != 'e')
 			print_char(*s++);
 		if (*s == 'e' || *s == 'E') {
 			s++;
@@ -597,8 +591,6 @@ print_number(struct atom *p)
 				print_str(s);
 			}
 		}
-		if (strchr(tbuf, 'e') || strchr(tbuf, 'E'))
-			print_char(')');
 		break;
 	default:
 		break;

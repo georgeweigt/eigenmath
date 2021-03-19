@@ -135,28 +135,30 @@ emit_double(struct atom *p)
 {
 	int i, j, k, t;
 
-	if (isnan(p->u.d) || isinf(p->u.d)) {
-		emit_roman_string("nan");
-		return;
-	}
-
 	sprintf(tbuf, "%g", fabs(p->u.d));
 
 	k = 0;
 
-	while (isdigit(tbuf[k]) || tbuf[k] == '.')
-		k++;
+	while (tbuf[k] && tbuf[k] != '.' && tbuf[k] != 'E' && tbuf[k] != 'e')
+		fmt_roman_char(tbuf[k++]);
 
 	// handle trailing zeroes
 
-	j = k;
+	if (tbuf[k] == '.') {
 
-	if (strchr(tbuf, '.'))
-		while (tbuf[j - 1] == '0' && tbuf[j - 2] != '.')
+		i = k++;
+
+		while (tbuf[k] && tbuf[k] != 'E' && tbuf[k] != 'e')
+			k++;
+
+		j = k;
+
+		while (tbuf[j - 1] == '0')
 			j--;
 
-	for (i = 0; i < j; i++)
-		emit_roman_char(tbuf[i]);
+		while (i < j)
+			fmt_roman_char(tbuf[i++]);
+	}
 
 	if (tbuf[k] != 'E' && tbuf[k] != 'e')
 		return;
