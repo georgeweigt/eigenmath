@@ -246,6 +246,8 @@ struct se stab[] = {
 	{ "print",		PRINT,		eval_print		},
 	{ "product",		PRODUCT,	eval_product		},
 
+	{ "Q",			Q_UPPER,	NULL			},
+	{ "q",			Q_LOWER,	NULL			},
 	{ "quote",		QUOTE,		eval_quote		},
 	{ "quotient",		QUOTIENT,	eval_quotient		},
 
@@ -284,7 +286,15 @@ struct se stab[] = {
 	{ "transpose",		TRANSPOSE,	eval_transpose		},
 	{ "tty",		TTY,		NULL			},
 
+	{ "U",			U_UPPER,	NULL			},
+	{ "u",			U_LOWER,	NULL			},
 	{ "unit",		UNIT,		eval_unit		},
+
+	{ "V",			V_UPPER,	NULL			},
+	{ "v",			V_LOWER,	NULL			},
+
+	{ "W",			W_UPPER,	NULL			},
+	{ "w",			W_LOWER,	NULL			},
 
 	{ "X",			X_UPPER,	NULL			},
 	{ "x",			X_LOWER,	NULL			},

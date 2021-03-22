@@ -203,8 +203,10 @@ struct atom {
 #define PRINT		(15 * NSYM + 5)
 #define PRODUCT		(15 * NSYM + 6)
 
-#define QUOTE		(16 * NSYM + 0)
-#define QUOTIENT	(16 * NSYM + 1)
+#define Q_UPPER		(16 * NSYM + 0)
+#define Q_LOWER		(16 * NSYM + 1)
+#define QUOTE		(16 * NSYM + 2)
+#define QUOTIENT	(16 * NSYM + 3)
 
 #define RANK		(17 * NSYM + 0)
 #define RATIONALIZE	(17 * NSYM + 1)
@@ -241,7 +243,15 @@ struct atom {
 #define TRANSPOSE	(19 * NSYM + 11)
 #define TTY		(19 * NSYM + 12)
 
-#define UNIT		(20 * NSYM + 0)
+#define U_UPPER		(20 * NSYM + 0)
+#define U_LOWER		(20 * NSYM + 1)
+#define UNIT		(20 * NSYM + 2)
+
+#define V_UPPER		(21 * NSYM + 0)
+#define V_LOWER		(21 * NSYM + 1)
+
+#define W_UPPER		(22 * NSYM + 0)
+#define W_LOWER		(22 * NSYM + 1)
 
 #define X_UPPER		(23 * NSYM + 0)
 #define X_LOWER		(23 * NSYM + 1)

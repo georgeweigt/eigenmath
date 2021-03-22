@@ -61,7 +61,7 @@ eval_rotate(void)
 		rotate_check(n);
 
 		if (OPCODE == symbol(H_LOWER)) {
-			rotate_h(c, n);
+			rotate_h(n);
 			continue;
 		}
 
@@ -79,6 +79,11 @@ eval_rotate(void)
 			continue;
 		}
 
+		if (OPCODE == symbol(Q_LOWER)) {
+			rotate_q(n);
+			continue;
+		}
+
 		if (OPCODE == symbol(S_LOWER)) {
 			m = n;
 			if (length(p1) < 1)
@@ -89,6 +94,11 @@ eval_rotate(void)
 			n = pop_integer();
 			rotate_check(n);
 			rotate_s(m, n);
+			continue;
+		}
+
+		if (OPCODE == symbol(V_LOWER)) {
+			rotate_v(n);
 			continue;
 		}
 
@@ -134,13 +144,12 @@ rotate_check(int n)
 }
 
 void
-rotate_h(int c, int n)
+rotate_h(int n)
 {
 	int i;
-	c = 1 << c;
 	n = 1 << n;
 	for (i = 0; i < N; i++)
-		if ((i & c) && (i & n)) {
+		if (i & n) {
 			push(KET0);
 			push(KET1);
 			add();
@@ -235,4 +244,55 @@ rotate_z(int c, int n)
 			negate();
 			KET1 = pop();
 		}
+}
+
+// quantum fourier transform
+
+void
+rotate_q(int n)
+{
+	int i, j;
+	for (i = n; i >= 0; i--) {
+		rotate_h(i);
+		for (j = 0; j < i; j++) {
+			push_rational(1, 2);
+			push_integer(i - j);
+			power();
+			push(imaginaryunit);
+			push_symbol(PI);
+			eval();
+			multiply_factors(3);
+			exponential();
+			PHASE = pop();
+			rotate_p(j, i);
+		}
+	}
+	for (i = 0; i < (n + 1) / 2; i++)
+		rotate_s(i, n - i);
+}
+
+// inverse qft
+
+void
+rotate_v(int n)
+{
+	int i, j;
+	for (i = 0; i < (n + 1) / 2; i++)
+		rotate_s(i, n - i);
+	for (i = 0; i <= n; i++) {
+		for (j = i - 1; j >= 0; j--) {
+			push_rational(1, 2);
+			push_integer(i - j);
+			power();
+			push(imaginaryunit);
+			push_symbol(PI);
+			eval();
+			multiply_factors(3);
+			negate();
+			exponential();
+			PHASE = pop();
+			rotate_p(j, i);
+		}
+		rotate_h(i);
+	}
 }
