@@ -20,7 +20,7 @@
 void
 eval_rotate(void)
 {
-	int control, target;
+	int control, target, target2;
 
 	push(cadr(p1));
 	eval();
@@ -38,6 +38,9 @@ eval_rotate(void)
 
 	while (iscons(p1)) {
 
+		if (length(p1) < 2)
+			stop("rotate");
+
 		OPCODE = car(p1);
 		push(cadr(p1));
 		eval();
@@ -47,6 +50,8 @@ eval_rotate(void)
 		control = target;
 
 		if (OPCODE == symbol(C_LOWER)) {
+			if (length(p1) < 2)
+				stop("rotate");
 			OPCODE = car(p1);
 			push(cadr(p1));
 			eval();
@@ -54,7 +59,8 @@ eval_rotate(void)
 			p1 = cddr(p1);
 		}
 
-		rotate_check(control, target);
+		rotate_check(control);
+		rotate_check(target);
 
 		if (OPCODE == symbol(H_LOWER)) {
 			rotate_h(control, target);
@@ -62,14 +68,28 @@ eval_rotate(void)
 		}
 
 		if (OPCODE == symbol(P_LOWER)) {
-			push(imaginaryunit);
+			if (length(p1) < 1)
+				stop("rotate");
 			push(car(p1));
+			p1 = cdr(p1);
 			eval();
+			push(imaginaryunit);
 			multiply();
 			exponential();
 			PHASE = pop();
-			p1 = cdr(p1);
 			rotate_p(control, target);
+			continue;
+		}
+
+		if (OPCODE == symbol(S_LOWER)) {
+			if (length(p1) < 1)
+				stop("rotate");
+			push(car(p1));
+			p1 = cdr(p1);
+			eval();
+			target2 = pop_integer();
+			rotate_check(target2);
+			rotate_s(target, target2);
 			continue;
 		}
 
@@ -95,17 +115,14 @@ eval_rotate(void)
 }
 
 void
-rotate_check(int control, int target)
+rotate_check(int n)
 {
-	int i, n;
+	int i;
 
-	if (control < 0 || control > 11 || target < 0 || target > 11)
+	if (n < 0 || n > 11)
 		stop("rotate");
 
-	if (control > target)
-		n = 1 << (control + 1);
-	else
-		n = 1 << (target + 1);
+	n = 1 << (n + 1);
 
 	if (n > N) {
 		T = alloc_tensor(n);
@@ -154,6 +171,21 @@ rotate_p(int control, int target)
 			push(PHASE);
 			multiply();
 			KET1 = pop();
+		}
+}
+
+void
+rotate_s(int m, int n)
+{
+	int i;
+	m = 1 << m;
+	n = 1 << n;
+	for (i = 0; i < N; i++)
+		if ((i & m) && !(i & n)) {
+			push(PSI->u.tensor->elem[i]);
+			push(PSI->u.tensor->elem[i ^ m ^ n]);
+			PSI->u.tensor->elem[i] = pop();
+			PSI->u.tensor->elem[i ^ m ^ n] = pop();
 		}
 }
 
