@@ -1001,5 +1001,11 @@ check(rotate(U,h,1) == dot(H1,U))
 check(rotate(U,h,2) == dot(H2,U))
 check(rotate(U,h,3) == dot(H3,U))
 
+-- Deutsch-Jozsa algorithm
+
+psi = rotate(0,h,0,h,1,h,2,x,3,h,3,c,0,x,3,c,1,x,3,c,2,x,3,h,0,h,1,h,2)
+P = hadamard(psi,conj(psi))
+check(P == (0,0,0,0,0,0,0,1/2,0,0,0,0,0,0,0,1/2))
+
 "ok"
 exit
