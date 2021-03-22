@@ -1007,5 +1007,11 @@ psi = rotate(0,h,0,h,1,h,2,x,3,h,3,c,0,x,3,c,1,x,3,c,2,x,3,h,0,h,1,h,2)
 P = hadamard(psi,conj(psi))
 check(P == (0,0,0,0,0,0,0,1/2,0,0,0,0,0,0,0,1/2))
 
+-- Bernstein-Vazirani algorithm
+
+psi = rotate(0,h,0,h,1,h,2,h,3,z,3,c,0,x,3,c,2,x,3,h,0,h,1,h,2)
+P = hadamard(psi,conj(psi))
+check(P == (0,0,0,0,0,1/2,0,0,0,0,0,0,0,1/2,0,0))
+
 "ok"
 exit
