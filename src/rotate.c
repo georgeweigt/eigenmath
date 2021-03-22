@@ -14,13 +14,13 @@
 #define T p6
 
 #define N PSI->u.tensor->nelem
-#define KET0 PSI->u.tensor->elem[i ^ target]
+#define KET0 PSI->u.tensor->elem[i ^ n]
 #define KET1 PSI->u.tensor->elem[i]
 
 void
 eval_rotate(void)
 {
-	int control, target, target2;
+	int c, m, n;
 
 	push(cadr(p1));
 	eval();
@@ -40,14 +40,11 @@ eval_rotate(void)
 
 		if (length(p1) < 2)
 			stop("rotate");
-
 		OPCODE = car(p1);
 		push(cadr(p1));
 		eval();
-		target = pop_integer();
+		c = pop_integer();
 		p1 = cddr(p1);
-
-		control = target;
 
 		if (OPCODE == symbol(C_LOWER)) {
 			if (length(p1) < 2)
@@ -55,15 +52,16 @@ eval_rotate(void)
 			OPCODE = car(p1);
 			push(cadr(p1));
 			eval();
-			target = pop_integer();
+			n = pop_integer();
 			p1 = cddr(p1);
-		}
+		} else
+			n = c;
 
-		rotate_check(control);
-		rotate_check(target);
+		rotate_check(c);
+		rotate_check(n);
 
 		if (OPCODE == symbol(H_LOWER)) {
-			rotate_h(control, target);
+			rotate_h(c, n);
 			continue;
 		}
 
@@ -77,34 +75,35 @@ eval_rotate(void)
 			multiply();
 			exponential();
 			PHASE = pop();
-			rotate_p(control, target);
+			rotate_p(c, n);
 			continue;
 		}
 
 		if (OPCODE == symbol(S_LOWER)) {
+			m = n;
 			if (length(p1) < 1)
 				stop("rotate");
 			push(car(p1));
 			p1 = cdr(p1);
 			eval();
-			target2 = pop_integer();
-			rotate_check(target2);
-			rotate_s(target, target2);
+			n = pop_integer();
+			rotate_check(n);
+			rotate_s(m, n);
 			continue;
 		}
 
 		if (OPCODE == symbol(X_LOWER)) {
-			rotate_x(control, target);
+			rotate_x(c, n);
 			continue;
 		}
 
 		if (OPCODE == symbol(Y_LOWER)) {
-			rotate_y(control, target);
+			rotate_y(c, n);
 			continue;
 		}
 
 		if (OPCODE == symbol(Z_LOWER)) {
-			rotate_z(control, target);
+			rotate_z(c, n);
 			continue;
 		}
 
@@ -135,13 +134,13 @@ rotate_check(int n)
 }
 
 void
-rotate_h(int control, int target)
+rotate_h(int c, int n)
 {
 	int i;
-	control = 1 << control;
-	target = 1 << target;
+	c = 1 << c;
+	n = 1 << n;
 	for (i = 0; i < N; i++)
-		if ((i & control) && (i & target)) {
+		if ((i & c) && (i & n)) {
 			push(KET0);
 			push(KET1);
 			add();
@@ -160,13 +159,13 @@ rotate_h(int control, int target)
 }
 
 void
-rotate_p(int control, int target)
+rotate_p(int c, int n)
 {
 	int i;
-	control = 1 << control;
-	target = 1 << target;
+	c = 1 << c;
+	n = 1 << n;
 	for (i = 0; i < N; i++)
-		if ((i & control) && (i & target)) {
+		if ((i & c) && (i & n)) {
 			push(KET1);
 			push(PHASE);
 			multiply();
@@ -190,13 +189,13 @@ rotate_s(int m, int n)
 }
 
 void
-rotate_x(int control, int target)
+rotate_x(int c, int n)
 {
 	int i;
-	control = 1 << control;
-	target = 1 << target;
+	c = 1 << c;
+	n = 1 << n;
 	for (i = 0; i < N; i++)
-		if ((i & control) && (i & target)) {
+		if ((i & c) && (i & n)) {
 			push(KET0);
 			push(KET1);
 			KET0 = pop();
@@ -205,13 +204,13 @@ rotate_x(int control, int target)
 }
 
 void
-rotate_y(int control, int target)
+rotate_y(int c, int n)
 {
 	int i;
-	control = 1 << control;
-	target = 1 << target;
+	c = 1 << c;
+	n = 1 << n;
 	for (i = 0; i < N; i++)
-		if ((i & control) && (i & target)) {
+		if ((i & c) && (i & n)) {
 			push(imaginaryunit);
 			negate();
 			push(KET0);
@@ -225,13 +224,13 @@ rotate_y(int control, int target)
 }
 
 void
-rotate_z(int control, int target)
+rotate_z(int c, int n)
 {
 	int i;
-	control = 1 << control;
-	target = 1 << target;
+	c = 1 << c;
+	n = 1 << n;
 	for (i = 0; i < N; i++)
-		if ((i & control) && (i & target)) {
+		if ((i & c) && (i & n)) {
 			push(KET1);
 			negate();
 			KET1 = pop();
