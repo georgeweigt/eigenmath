@@ -26,7 +26,7 @@ eval_nroots(void)
 	eval();
 	p2 = pop();
 	if (p2 == symbol(NIL))
-		push_symbol(SYMBOL_X);
+		push_symbol(X_LOWER);
 	else
 		push(p2);
 

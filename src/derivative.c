@@ -16,7 +16,7 @@ eval_derivative(void)
 	p1 = cddr(p1);
 
 	if (!iscons(p1)) {
-		push_symbol(SYMBOL_X);
+		push_symbol(X_LOWER);
 		derivative();
 		return;
 	}
@@ -40,7 +40,7 @@ eval_derivative(void)
 			n = pop_integer();
 			if (n == ERR)
 				stop("derivative");
-			push_symbol(SYMBOL_X);
+			push_symbol(X_LOWER);
 			X = pop();
 			for (i = 0; i < n; i++) {
 				push(X);

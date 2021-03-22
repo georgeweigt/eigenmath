@@ -21,7 +21,7 @@ eval_user_function(void)
 	// undefined function?
 
 	if (FUNC_DEFN == symbol(NIL)) {
-		if (FUNC_NAME == symbol(SYMBOL_D)) {
+		if (FUNC_NAME == symbol(D_LOWER)) {
 			eval_derivative();
 			return;
 		}

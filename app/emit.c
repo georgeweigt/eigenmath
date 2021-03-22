@@ -879,11 +879,11 @@ emit_power(struct atom *p)
 	}
 
 	if (isimaginaryunit(p)) {
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
+		if (isimaginaryunit(get_binding(symbol(J_LOWER)))) {
 			emit_italic_char('j');
 			return;
 		}
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
+		if (isimaginaryunit(get_binding(symbol(I_LOWER)))) {
 			emit_italic_char('i');
 			return;
 		}

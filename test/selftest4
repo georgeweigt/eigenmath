@@ -1,0 +1,1005 @@
+ket0 = (1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+ket1 = (0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+ket2 = (0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0)
+ket3 = (0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0)
+ket4 = (0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0)
+ket5 = (0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0)
+ket6 = (0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0)
+ket7 = (0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0)
+ket8 = (0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0)
+ket9 = (0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0)
+ket10 = (0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0)
+ket11 = (0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0)
+ket12 = (0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0)
+ket13 = (0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0)
+ket14 = (0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0)
+ket15 = (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1)
+
+X0 =
+outer(ket0,ket1) +
+outer(ket1,ket0) +
+outer(ket2,ket3) +
+outer(ket3,ket2) +
+outer(ket4,ket5) +
+outer(ket5,ket4) +
+outer(ket6,ket7) +
+outer(ket7,ket6) +
+outer(ket8,ket9) +
+outer(ket9,ket8) +
+outer(ket10,ket11) +
+outer(ket11,ket10) +
+outer(ket12,ket13) +
+outer(ket13,ket12) +
+outer(ket14,ket15) +
+outer(ket15,ket14)
+
+Y0 =
+outer(ket0,i ket1) +
+outer(ket1,-i ket0) +
+outer(ket2,i ket3) +
+outer(ket3,-i ket2) +
+outer(ket4,i ket5) +
+outer(ket5,-i ket4) +
+outer(ket6,i ket7) +
+outer(ket7,-i ket6) +
+outer(ket8,i ket9) +
+outer(ket9,-i ket8) +
+outer(ket10,i ket11) +
+outer(ket11,-i ket10) +
+outer(ket12,i ket13) +
+outer(ket13,-i ket12) +
+outer(ket14,i ket15) +
+outer(ket15,-i ket14)
+
+Z0 =
+outer(ket0,ket0) +
+outer(ket1,-ket1) +
+outer(ket2,ket2) +
+outer(ket3,-ket3) +
+outer(ket4,ket4) +
+outer(ket5,-ket5) +
+outer(ket6,ket6) +
+outer(ket7,-ket7) +
+outer(ket8,ket8) +
+outer(ket9,-ket9) +
+outer(ket10,ket10) +
+outer(ket11,-ket11) +
+outer(ket12,ket12) +
+outer(ket13,-ket13) +
+outer(ket14,ket14) +
+outer(ket15,-ket15)
+
+H0 =
+sqrt(1/2) outer(ket0,ket0 + ket1) +
+sqrt(1/2) outer(ket1,ket0 - ket1) +
+sqrt(1/2) outer(ket2,ket2 + ket3) +
+sqrt(1/2) outer(ket3,ket2 - ket3) +
+sqrt(1/2) outer(ket4,ket4 + ket5) +
+sqrt(1/2) outer(ket5,ket4 - ket5) +
+sqrt(1/2) outer(ket6,ket6 + ket7) +
+sqrt(1/2) outer(ket7,ket6 - ket7) +
+sqrt(1/2) outer(ket8,ket8 + ket9) +
+sqrt(1/2) outer(ket9,ket8 - ket9) +
+sqrt(1/2) outer(ket10,ket10 + ket11) +
+sqrt(1/2) outer(ket11,ket10 - ket11) +
+sqrt(1/2) outer(ket12,ket12 + ket13) +
+sqrt(1/2) outer(ket13,ket12 - ket13) +
+sqrt(1/2) outer(ket14,ket14 + ket15) +
+sqrt(1/2) outer(ket15,ket14 - ket15)
+
+P0(phi) = I - P0M + exp(i phi) P0M
+
+P0M =
+outer(ket1,ket1) +
+outer(ket3,ket3) +
+outer(ket5,ket5) +
+outer(ket7,ket7) +
+outer(ket9,ket9) +
+outer(ket11,ket11) +
+outer(ket13,ket13) +
+outer(ket15,ket15)
+
+X10 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket3) +
+outer(ket3,ket2) +
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket7) +
+outer(ket7,ket6) +
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket11) +
+outer(ket11,ket10) +
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket15) +
+outer(ket15,ket14)
+
+P10(phi) = I - P10M + exp(i phi) P10M
+
+P10M =
+outer(ket3,ket3) +
+outer(ket7,ket7) +
+outer(ket11,ket11) +
+outer(ket15,ket15)
+
+S10 =
+outer(ket0,ket0) +
+outer(ket1,ket2) +
+outer(ket2,ket1) +
+outer(ket3,ket3) +
+outer(ket4,ket4) +
+outer(ket5,ket6) +
+outer(ket6,ket5) +
+outer(ket7,ket7) +
+outer(ket8,ket8) +
+outer(ket9,ket10) +
+outer(ket10,ket9) +
+outer(ket11,ket11) +
+outer(ket12,ket12) +
+outer(ket13,ket14) +
+outer(ket14,ket13) +
+outer(ket15,ket15)
+
+X20 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket4,ket5) +
+outer(ket5,ket4) +
+outer(ket6,ket7) +
+outer(ket7,ket6) +
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket12,ket13) +
+outer(ket13,ket12) +
+outer(ket14,ket15) +
+outer(ket15,ket14)
+
+P20(phi) = I - P20M + exp(i phi) P20M
+
+P20M =
+outer(ket5,ket5) +
+outer(ket7,ket7) +
+outer(ket13,ket13) +
+outer(ket15,ket15)
+
+S20 =
+outer(ket0,ket0) +
+outer(ket1,ket4) +
+outer(ket2,ket2) +
+outer(ket3,ket6) +
+outer(ket4,ket1) +
+outer(ket5,ket5) +
+outer(ket6,ket3) +
+outer(ket7,ket7) +
+outer(ket8,ket8) +
+outer(ket9,ket12) +
+outer(ket10,ket10) +
+outer(ket11,ket14) +
+outer(ket12,ket9) +
+outer(ket13,ket13) +
+outer(ket14,ket11) +
+outer(ket15,ket15)
+
+X30 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket8,ket9) +
+outer(ket9,ket8) +
+outer(ket10,ket11) +
+outer(ket11,ket10) +
+outer(ket12,ket13) +
+outer(ket13,ket12) +
+outer(ket14,ket15) +
+outer(ket15,ket14)
+
+P30(phi) = I - P30M + exp(i phi) P30M
+
+P30M =
+outer(ket9,ket9) +
+outer(ket11,ket11) +
+outer(ket13,ket13) +
+outer(ket15,ket15)
+
+S30 =
+outer(ket0,ket0) +
+outer(ket1,ket8) +
+outer(ket2,ket2) +
+outer(ket3,ket10) +
+outer(ket4,ket4) +
+outer(ket5,ket12) +
+outer(ket6,ket6) +
+outer(ket7,ket14) +
+outer(ket8,ket1) +
+outer(ket9,ket9) +
+outer(ket10,ket3) +
+outer(ket11,ket11) +
+outer(ket12,ket5) +
+outer(ket13,ket13) +
+outer(ket14,ket7) +
+outer(ket15,ket15)
+
+X1 =
+outer(ket0,ket2) +
+outer(ket1,ket3) +
+outer(ket2,ket0) +
+outer(ket3,ket1) +
+outer(ket4,ket6) +
+outer(ket5,ket7) +
+outer(ket6,ket4) +
+outer(ket7,ket5) +
+outer(ket8,ket10) +
+outer(ket9,ket11) +
+outer(ket10,ket8) +
+outer(ket11,ket9) +
+outer(ket12,ket14) +
+outer(ket13,ket15) +
+outer(ket14,ket12) +
+outer(ket15,ket13)
+
+Y1 =
+outer(ket0,i ket2) +
+outer(ket1,i ket3) +
+outer(ket2,-i ket0) +
+outer(ket3,-i ket1) +
+outer(ket4,i ket6) +
+outer(ket5,i ket7) +
+outer(ket6,-i ket4) +
+outer(ket7,-i ket5) +
+outer(ket8,i ket10) +
+outer(ket9,i ket11) +
+outer(ket10,-i ket8) +
+outer(ket11,-i ket9) +
+outer(ket12,i ket14) +
+outer(ket13,i ket15) +
+outer(ket14,-i ket12) +
+outer(ket15,-i ket13)
+
+Z1 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,-ket2) +
+outer(ket3,-ket3) +
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,-ket6) +
+outer(ket7,-ket7) +
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,-ket10) +
+outer(ket11,-ket11) +
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,-ket14) +
+outer(ket15,-ket15)
+
+H1 =
+sqrt(1/2) outer(ket0,ket0 + ket2) +
+sqrt(1/2) outer(ket1,ket1 + ket3) +
+sqrt(1/2) outer(ket2,ket0 - ket2) +
+sqrt(1/2) outer(ket3,ket1 - ket3) +
+sqrt(1/2) outer(ket4,ket4 + ket6) +
+sqrt(1/2) outer(ket5,ket5 + ket7) +
+sqrt(1/2) outer(ket6,ket4 - ket6) +
+sqrt(1/2) outer(ket7,ket5 - ket7) +
+sqrt(1/2) outer(ket8,ket8 + ket10) +
+sqrt(1/2) outer(ket9,ket9 + ket11) +
+sqrt(1/2) outer(ket10,ket8 - ket10) +
+sqrt(1/2) outer(ket11,ket9 - ket11) +
+sqrt(1/2) outer(ket12,ket12 + ket14) +
+sqrt(1/2) outer(ket13,ket13 + ket15) +
+sqrt(1/2) outer(ket14,ket12 - ket14) +
+sqrt(1/2) outer(ket15,ket13 - ket15)
+
+P1(phi) = I - P1M + exp(i phi) P1M
+
+P1M =
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+X01 =
+outer(ket0,ket0) +
+outer(ket1,ket3) +
+outer(ket2,ket2) +
+outer(ket3,ket1) +
+outer(ket4,ket4) +
+outer(ket5,ket7) +
+outer(ket6,ket6) +
+outer(ket7,ket5) +
+outer(ket8,ket8) +
+outer(ket9,ket11) +
+outer(ket10,ket10) +
+outer(ket11,ket9) +
+outer(ket12,ket12) +
+outer(ket13,ket15) +
+outer(ket14,ket14) +
+outer(ket15,ket13)
+
+P01(phi) = I - P01M + exp(i phi) P01M
+
+P01M =
+outer(ket3,ket3) +
+outer(ket7,ket7) +
+outer(ket11,ket11) +
+outer(ket15,ket15)
+
+S01 =
+outer(ket0,ket0) +
+outer(ket1,ket2) +
+outer(ket2,ket1) +
+outer(ket3,ket3) +
+outer(ket4,ket4) +
+outer(ket5,ket6) +
+outer(ket6,ket5) +
+outer(ket7,ket7) +
+outer(ket8,ket8) +
+outer(ket9,ket10) +
+outer(ket10,ket9) +
+outer(ket11,ket11) +
+outer(ket12,ket12) +
+outer(ket13,ket14) +
+outer(ket14,ket13) +
+outer(ket15,ket15)
+
+X21 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket4,ket6) +
+outer(ket5,ket7) +
+outer(ket6,ket4) +
+outer(ket7,ket5) +
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket12,ket14) +
+outer(ket13,ket15) +
+outer(ket14,ket12) +
+outer(ket15,ket13)
+
+P21(phi) = I - P21M + exp(i phi) P21M
+
+P21M =
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+S21 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket4) +
+outer(ket3,ket5) +
+outer(ket4,ket2) +
+outer(ket5,ket3) +
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket12) +
+outer(ket11,ket13) +
+outer(ket12,ket10) +
+outer(ket13,ket11) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+X31 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket8,ket10) +
+outer(ket9,ket11) +
+outer(ket10,ket8) +
+outer(ket11,ket9) +
+outer(ket12,ket14) +
+outer(ket13,ket15) +
+outer(ket14,ket12) +
+outer(ket15,ket13)
+
+P31(phi) = I - P31M + exp(i phi) P31M
+
+P31M =
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+S31 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket8) +
+outer(ket3,ket9) +
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket12) +
+outer(ket7,ket13) +
+outer(ket8,ket2) +
+outer(ket9,ket3) +
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket12,ket6) +
+outer(ket13,ket7) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+X2 =
+outer(ket0,ket4) +
+outer(ket1,ket5) +
+outer(ket2,ket6) +
+outer(ket3,ket7) +
+outer(ket4,ket0) +
+outer(ket5,ket1) +
+outer(ket6,ket2) +
+outer(ket7,ket3) +
+outer(ket8,ket12) +
+outer(ket9,ket13) +
+outer(ket10,ket14) +
+outer(ket11,ket15) +
+outer(ket12,ket8) +
+outer(ket13,ket9) +
+outer(ket14,ket10) +
+outer(ket15,ket11)
+
+Y2 =
+outer(ket0,i ket4) +
+outer(ket1,i ket5) +
+outer(ket2,i ket6) +
+outer(ket3,i ket7) +
+outer(ket4,-i ket0) +
+outer(ket5,-i ket1) +
+outer(ket6,-i ket2) +
+outer(ket7,-i ket3) +
+outer(ket8,i ket12) +
+outer(ket9,i ket13) +
+outer(ket10,i ket14) +
+outer(ket11,i ket15) +
+outer(ket12,-i ket8) +
+outer(ket13,-i ket9) +
+outer(ket14,-i ket10) +
+outer(ket15,-i ket11)
+
+Z2 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket4,-ket4) +
+outer(ket5,-ket5) +
+outer(ket6,-ket6) +
+outer(ket7,-ket7) +
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket12,-ket12) +
+outer(ket13,-ket13) +
+outer(ket14,-ket14) +
+outer(ket15,-ket15)
+
+H2 =
+sqrt(1/2) outer(ket0,ket0 + ket4) +
+sqrt(1/2) outer(ket1,ket1 + ket5) +
+sqrt(1/2) outer(ket2,ket2 + ket6) +
+sqrt(1/2) outer(ket3,ket3 + ket7) +
+sqrt(1/2) outer(ket4,ket0 - ket4) +
+sqrt(1/2) outer(ket5,ket1 - ket5) +
+sqrt(1/2) outer(ket6,ket2 - ket6) +
+sqrt(1/2) outer(ket7,ket3 - ket7) +
+sqrt(1/2) outer(ket8,ket8 + ket12) +
+sqrt(1/2) outer(ket9,ket9 + ket13) +
+sqrt(1/2) outer(ket10,ket10 + ket14) +
+sqrt(1/2) outer(ket11,ket11 + ket15) +
+sqrt(1/2) outer(ket12,ket8 - ket12) +
+sqrt(1/2) outer(ket13,ket9 - ket13) +
+sqrt(1/2) outer(ket14,ket10 - ket14) +
+sqrt(1/2) outer(ket15,ket11 - ket15)
+
+P2(phi) = I - P2M + exp(i phi) P2M
+
+P2M =
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+X02 =
+outer(ket0,ket0) +
+outer(ket1,ket5) +
+outer(ket2,ket2) +
+outer(ket3,ket7) +
+outer(ket4,ket4) +
+outer(ket5,ket1) +
+outer(ket6,ket6) +
+outer(ket7,ket3) +
+outer(ket8,ket8) +
+outer(ket9,ket13) +
+outer(ket10,ket10) +
+outer(ket11,ket15) +
+outer(ket12,ket12) +
+outer(ket13,ket9) +
+outer(ket14,ket14) +
+outer(ket15,ket11)
+
+P02(phi) = I - P02M + exp(i phi) P02M
+
+P02M =
+outer(ket5,ket5) +
+outer(ket7,ket7) +
+outer(ket13,ket13) +
+outer(ket15,ket15)
+
+S02 =
+outer(ket0,ket0) +
+outer(ket1,ket4) +
+outer(ket2,ket2) +
+outer(ket3,ket6) +
+outer(ket4,ket1) +
+outer(ket5,ket5) +
+outer(ket6,ket3) +
+outer(ket7,ket7) +
+outer(ket8,ket8) +
+outer(ket9,ket12) +
+outer(ket10,ket10) +
+outer(ket11,ket14) +
+outer(ket12,ket9) +
+outer(ket13,ket13) +
+outer(ket14,ket11) +
+outer(ket15,ket15)
+
+X12 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket6) +
+outer(ket3,ket7) +
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket2) +
+outer(ket7,ket3) +
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket14) +
+outer(ket11,ket15) +
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket10) +
+outer(ket15,ket11)
+
+P12(phi) = I - P12M + exp(i phi) P12M
+
+P12M =
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+S12 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket4) +
+outer(ket3,ket5) +
+outer(ket4,ket2) +
+outer(ket5,ket3) +
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket12) +
+outer(ket11,ket13) +
+outer(ket12,ket10) +
+outer(ket13,ket11) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+X32 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket8,ket12) +
+outer(ket9,ket13) +
+outer(ket10,ket14) +
+outer(ket11,ket15) +
+outer(ket12,ket8) +
+outer(ket13,ket9) +
+outer(ket14,ket10) +
+outer(ket15,ket11)
+
+P32(phi) = I - P32M + exp(i phi) P32M
+
+P32M =
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+S32 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket4,ket8) +
+outer(ket5,ket9) +
+outer(ket6,ket10) +
+outer(ket7,ket11) +
+outer(ket8,ket4) +
+outer(ket9,ket5) +
+outer(ket10,ket6) +
+outer(ket11,ket7) +
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+X3 =
+outer(ket0,ket8) +
+outer(ket1,ket9) +
+outer(ket2,ket10) +
+outer(ket3,ket11) +
+outer(ket4,ket12) +
+outer(ket5,ket13) +
+outer(ket6,ket14) +
+outer(ket7,ket15) +
+outer(ket8,ket0) +
+outer(ket9,ket1) +
+outer(ket10,ket2) +
+outer(ket11,ket3) +
+outer(ket12,ket4) +
+outer(ket13,ket5) +
+outer(ket14,ket6) +
+outer(ket15,ket7)
+
+Y3 =
+outer(ket0,i ket8) +
+outer(ket1,i ket9) +
+outer(ket2,i ket10) +
+outer(ket3,i ket11) +
+outer(ket4,i ket12) +
+outer(ket5,i ket13) +
+outer(ket6,i ket14) +
+outer(ket7,i ket15) +
+outer(ket8,-i ket0) +
+outer(ket9,-i ket1) +
+outer(ket10,-i ket2) +
+outer(ket11,-i ket3) +
+outer(ket12,-i ket4) +
+outer(ket13,-i ket5) +
+outer(ket14,-i ket6) +
+outer(ket15,-i ket7)
+
+Z3 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket6) +
+outer(ket7,ket7) +
+outer(ket8,-ket8) +
+outer(ket9,-ket9) +
+outer(ket10,-ket10) +
+outer(ket11,-ket11) +
+outer(ket12,-ket12) +
+outer(ket13,-ket13) +
+outer(ket14,-ket14) +
+outer(ket15,-ket15)
+
+H3 =
+sqrt(1/2) outer(ket0,ket0 + ket8) +
+sqrt(1/2) outer(ket1,ket1 + ket9) +
+sqrt(1/2) outer(ket2,ket2 + ket10) +
+sqrt(1/2) outer(ket3,ket3 + ket11) +
+sqrt(1/2) outer(ket4,ket4 + ket12) +
+sqrt(1/2) outer(ket5,ket5 + ket13) +
+sqrt(1/2) outer(ket6,ket6 + ket14) +
+sqrt(1/2) outer(ket7,ket7 + ket15) +
+sqrt(1/2) outer(ket8,ket0 - ket8) +
+sqrt(1/2) outer(ket9,ket1 - ket9) +
+sqrt(1/2) outer(ket10,ket2 - ket10) +
+sqrt(1/2) outer(ket11,ket3 - ket11) +
+sqrt(1/2) outer(ket12,ket4 - ket12) +
+sqrt(1/2) outer(ket13,ket5 - ket13) +
+sqrt(1/2) outer(ket14,ket6 - ket14) +
+sqrt(1/2) outer(ket15,ket7 - ket15)
+
+P3(phi) = I - P3M + exp(i phi) P3M
+
+P3M =
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+X03 =
+outer(ket0,ket0) +
+outer(ket1,ket9) +
+outer(ket2,ket2) +
+outer(ket3,ket11) +
+outer(ket4,ket4) +
+outer(ket5,ket13) +
+outer(ket6,ket6) +
+outer(ket7,ket15) +
+outer(ket8,ket8) +
+outer(ket9,ket1) +
+outer(ket10,ket10) +
+outer(ket11,ket3) +
+outer(ket12,ket12) +
+outer(ket13,ket5) +
+outer(ket14,ket14) +
+outer(ket15,ket7)
+
+P03(phi) = I - P03M + exp(i phi) P03M
+
+P03M =
+outer(ket9,ket9) +
+outer(ket11,ket11) +
+outer(ket13,ket13) +
+outer(ket15,ket15)
+
+S03 =
+outer(ket0,ket0) +
+outer(ket1,ket8) +
+outer(ket2,ket2) +
+outer(ket3,ket10) +
+outer(ket4,ket4) +
+outer(ket5,ket12) +
+outer(ket6,ket6) +
+outer(ket7,ket14) +
+outer(ket8,ket1) +
+outer(ket9,ket9) +
+outer(ket10,ket3) +
+outer(ket11,ket11) +
+outer(ket12,ket5) +
+outer(ket13,ket13) +
+outer(ket14,ket7) +
+outer(ket15,ket15)
+
+X13 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket10) +
+outer(ket3,ket11) +
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket14) +
+outer(ket7,ket15) +
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket2) +
+outer(ket11,ket3) +
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket6) +
+outer(ket15,ket7)
+
+P13(phi) = I - P13M + exp(i phi) P13M
+
+P13M =
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+S13 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket8) +
+outer(ket3,ket9) +
+outer(ket4,ket4) +
+outer(ket5,ket5) +
+outer(ket6,ket12) +
+outer(ket7,ket13) +
+outer(ket8,ket2) +
+outer(ket9,ket3) +
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket12,ket6) +
+outer(ket13,ket7) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+X23 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket4,ket12) +
+outer(ket5,ket13) +
+outer(ket6,ket14) +
+outer(ket7,ket15) +
+outer(ket8,ket8) +
+outer(ket9,ket9) +
+outer(ket10,ket10) +
+outer(ket11,ket11) +
+outer(ket12,ket4) +
+outer(ket13,ket5) +
+outer(ket14,ket6) +
+outer(ket15,ket7)
+
+P23(phi) = I - P23M + exp(i phi) P23M
+
+P23M =
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+S23 =
+outer(ket0,ket0) +
+outer(ket1,ket1) +
+outer(ket2,ket2) +
+outer(ket3,ket3) +
+outer(ket4,ket8) +
+outer(ket5,ket9) +
+outer(ket6,ket10) +
+outer(ket7,ket11) +
+outer(ket8,ket4) +
+outer(ket9,ket5) +
+outer(ket10,ket6) +
+outer(ket11,ket7) +
+outer(ket12,ket12) +
+outer(ket13,ket13) +
+outer(ket14,ket14) +
+outer(ket15,ket15)
+
+I = unit(16)
+
+Q = dot(
+S03,
+S12,
+H0,
+P01(pi/2),
+H1,
+P12(pi/2),
+P02(pi/4),
+H2,
+P23(pi/2),
+P13(pi/4),
+P03(pi/8),
+H3)
+
+R = dot(
+H3,
+P03(-pi/8),
+P13(-pi/4),
+P23(-pi/2),
+H2,
+P02(-pi/4),
+P12(-pi/2),
+H1,
+P01(-pi/2),
+H0,
+S12,
+S03)
+
+M(psi,P) = do(
+  P = ((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),("0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1011","1100","1101","1110","1111")),
+  P[1] = hadamard(psi,conj(psi)),
+  xrange = (0,16),
+  yrange = (0,1),
+  draw(P[1,ceiling(x)],x),
+  P
+)
+
+U = (
+U0000,
+U0001,
+U0010,
+U0011,
+U0100,
+U0101,
+U0110,
+U0111,
+U1000,
+U1001,
+U1010,
+U1011,
+U1100,
+U1101,
+U1110,
+U1111)
+
+check(rotate(U,x,0) == dot(X0,U))
+check(rotate(U,x,1) == dot(X1,U))
+check(rotate(U,x,2) == dot(X2,U))
+check(rotate(U,x,3) == dot(X3,U))
+
+check(rotate(U,y,0) == dot(Y0,U))
+check(rotate(U,y,1) == dot(Y1,U))
+check(rotate(U,y,2) == dot(Y2,U))
+check(rotate(U,y,3) == dot(Y3,U))
+
+check(rotate(U,z,0) == dot(Z0,U))
+check(rotate(U,z,1) == dot(Z1,U))
+check(rotate(U,z,2) == dot(Z2,U))
+check(rotate(U,z,3) == dot(Z3,U))
+
+check(rotate(U,c,0,x,0) == dot(X0,U))
+check(rotate(U,c,0,x,1) == dot(X01,U))
+check(rotate(U,c,0,x,2) == dot(X02,U))
+check(rotate(U,c,0,x,3) == dot(X03,U))
+
+check(rotate(U,c,1,x,0) == dot(X10,U))
+check(rotate(U,c,1,x,1) == dot(X1,U))
+check(rotate(U,c,1,x,2) == dot(X12,U))
+check(rotate(U,c,1,x,3) == dot(X13,U))
+
+check(rotate(U,c,2,x,0) == dot(X20,U))
+check(rotate(U,c,2,x,1) == dot(X21,U))
+check(rotate(U,c,2,x,2) == dot(X2,U))
+check(rotate(U,c,2,x,3) == dot(X23,U))
+
+check(rotate(U,c,3,x,0) == dot(X30,U))
+check(rotate(U,c,3,x,1) == dot(X31,U))
+check(rotate(U,c,3,x,2) == dot(X32,U))
+check(rotate(U,c,3,x,3) == dot(X3,U))
+
+check(rotate(U,p,0,theta) == dot(P0(theta),U))
+check(rotate(U,p,1,theta) == dot(P1(theta),U))
+check(rotate(U,p,2,theta) == dot(P2(theta),U))
+check(rotate(U,p,3,theta) == dot(P3(theta),U))
+
+check(rotate(U,c,0,p,0,theta) == dot(P0(theta),U))
+check(rotate(U,c,0,p,1,theta) == dot(P01(theta),U))
+check(rotate(U,c,0,p,2,theta) == dot(P02(theta),U))
+check(rotate(U,c,0,p,3,theta) == dot(P03(theta),U))
+
+check(rotate(U,c,1,p,0,theta) == dot(P10(theta),U))
+check(rotate(U,c,1,p,1,theta) == dot(P1(theta),U))
+check(rotate(U,c,1,p,2,theta) == dot(P12(theta),U))
+check(rotate(U,c,1,p,3,theta) == dot(P13(theta),U))
+
+check(rotate(U,c,2,p,0,theta) == dot(P20(theta),U))
+check(rotate(U,c,2,p,1,theta) == dot(P21(theta),U))
+check(rotate(U,c,2,p,2,theta) == dot(P2(theta),U))
+check(rotate(U,c,2,p,3,theta) == dot(P23(theta),U))
+
+check(rotate(U,c,3,p,0,theta) == dot(P30(theta),U))
+check(rotate(U,c,3,p,1,theta) == dot(P31(theta),U))
+check(rotate(U,c,3,p,2,theta) == dot(P32(theta),U))
+check(rotate(U,c,3,p,3,theta) == dot(P3(theta),U))
+
+check(rotate(U,h,0) == dot(H0,U))
+check(rotate(U,h,1) == dot(H1,U))
+check(rotate(U,h,2) == dot(H2,U))
+check(rotate(U,h,3) == dot(H3,U))
+
+"ok"
+exit

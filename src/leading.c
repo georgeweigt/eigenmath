@@ -9,7 +9,7 @@ eval_leading(void)
 	eval();
 	p1 = pop();
 	if (p1 == symbol(NIL))
-		push_symbol(SYMBOL_X);
+		push_symbol(X_LOWER);
 	else
 		push(p1);
 	leading();

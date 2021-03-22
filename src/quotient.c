@@ -14,7 +14,7 @@ eval_quotient(void)
 
 	p1 = pop();			// default x
 	if (p1 == symbol(NIL))
-		p1 = symbol(SYMBOL_X);
+		p1 = symbol(X_LOWER);
 	push(p1);
 
 	divpoly();

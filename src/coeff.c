@@ -28,7 +28,7 @@ eval_coeff(void)
 
 	if (N == symbol(NIL)) {		// only 2 args?
 		N = X;
-		X = symbol(SYMBOL_X);
+		X = symbol(X_LOWER);
 	}
 
 	push(P);			// divide p by x^n

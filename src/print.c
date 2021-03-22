@@ -52,10 +52,10 @@ prep_symbol_equals(void)
 	if (iskeyword(p1))
 		return; // keyword like "float"
 
-	if (p1 == symbol(SYMBOL_I) && isimaginaryunit(p2))
+	if (p1 == symbol(I_LOWER) && isimaginaryunit(p2))
 		return;
 
-	if (p1 == symbol(SYMBOL_J) && isimaginaryunit(p2))
+	if (p1 == symbol(J_LOWER) && isimaginaryunit(p2))
 		return;
 
 	push_symbol(SETQ);
@@ -356,11 +356,11 @@ print_factor(struct atom *p)
 	if (car(p) == symbol(POWER)) {
 
 		if (isimaginaryunit(p)) {
-			if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
+			if (isimaginaryunit(get_binding(symbol(J_LOWER)))) {
 				print_char('j');
 				return;
 			}
-			if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
+			if (isimaginaryunit(get_binding(symbol(I_LOWER)))) {
 				print_char('i');
 				return;
 			}

@@ -146,6 +146,8 @@ struct se stab[] = {
 	{ "bessely",		BESSELY,	eval_bessely		},
 	{ "binding",		BINDING,	eval_binding		},
 
+	{ "C",			C_UPPER,	NULL			},
+	{ "c",			C_LOWER,	NULL			},
 	{ "ceiling",		CEILING,	eval_ceiling		},
 	{ "check",		CHECK,		eval_check		},
 	{ "circexp",		CIRCEXP,	eval_circexp		},
@@ -158,7 +160,8 @@ struct se stab[] = {
 	{ "cos",		COS,		eval_cos		},
 	{ "cosh",		COSH,		eval_cosh		},
 
-	{ "d",			SYMBOL_D,	NULL			},
+	{ "D",			D_UPPER,	NULL			},
+	{ "d",			D_LOWER,	NULL			},
 	{ "defint",		DEFINT,		eval_defint		},
 	{ "deg",		DEGREE,		eval_degree		},
 	{ "denominator",	DENOMINATOR,	eval_denominator	},
@@ -194,16 +197,20 @@ struct se stab[] = {
 
 	{ "gcd",		GCD,		eval_gcd		},
 
+	{ "H",			H_UPPER,	NULL			},
+	{ "h",			H_LOWER,	NULL			},
 	{ "hadamard",		HADAMARD,	eval_hadamard		},
 
-	{ "i",			SYMBOL_I,	NULL			},
+	{ "I",			I_UPPER,	NULL			},
+	{ "i",			I_LOWER,	NULL			},
 	{ "imag",		IMAG,		eval_imag		},
 	{ "inner",		INNER,		eval_inner		},
 	{ "integral",		INTEGRAL,	eval_integral		},
 	{ "inv",		INV,		eval_inv		},
 	{ "isprime",		ISPRIME,	eval_isprime		},
 
-	{ "j",			SYMBOL_J,	NULL			},
+	{ "J",			J_UPPER,	NULL			},
+	{ "j",			J_LOWER,	NULL			},
 
 	{ "kronecker",		KRONECKER,	eval_kronecker		},
 
@@ -231,6 +238,8 @@ struct se stab[] = {
 	{ "or",			OR,		eval_or			},
 	{ "outer",		OUTER,		eval_outer		},
 
+	{ "p",			P_LOWER,	NULL			},
+	{ "P",			P_UPPER,	NULL			},
 	{ "pi",			PI,		NULL			},
 	{ "polar",		POLAR,		eval_polar		},
 	{ "prime",		PRIME,		eval_prime		},
@@ -245,9 +254,11 @@ struct se stab[] = {
 	{ "real",		REAL,		eval_real		},
 	{ "rect",		RECTF,		eval_rect		},
 	{ "roots",		ROOTS,		eval_roots		},
+	{ "rotate",		ROTATE,		eval_rotate		},
 	{ "run",		RUN,		eval_run		},
 
-	{ "s",			SYMBOL_S,	NULL			},
+	{ "S",			S_UPPER,	NULL			},
+	{ "s",			S_LOWER,	NULL			},
 	{ "sgn",		SGN,		eval_sgn		},
 	{ "simplify",		SIMPLIFY,	eval_simplify		},
 	{ "sin",		SIN,		eval_sin		},
@@ -259,7 +270,8 @@ struct se stab[] = {
 	{ "subst",		SUBST,		eval_subst		},
 	{ "sum",		SUM,		eval_sum		},
 
-	{ "t",			SYMBOL_T,	NULL			},
+	{ "T",			T_UPPER,	NULL			},
+	{ "t",			T_LOWER,	NULL			},
 	{ "tan",		TAN,		eval_tan		},
 	{ "tanh",		TANH,		eval_tanh		},
 	{ "test",		TEST,		eval_test		},
@@ -274,11 +286,14 @@ struct se stab[] = {
 
 	{ "unit",		UNIT,		eval_unit		},
 
-	{ "x",			SYMBOL_X,	NULL			},
+	{ "X",			X_UPPER,	NULL			},
+	{ "x",			X_LOWER,	NULL			},
 
-	{ "y",			SYMBOL_Y,	NULL			},
+	{ "Y",			Y_UPPER,	NULL			},
+	{ "y",			Y_LOWER,	NULL			},
 
-	{ "z",			SYMBOL_Z,	NULL			},
+	{ "Z",			Z_UPPER,	NULL			},
+	{ "z",			Z_LOWER,	NULL			},
 	{ "zero",		ZERO,		eval_zero		},
 
 	{ "+",			ADD,		eval_add		},

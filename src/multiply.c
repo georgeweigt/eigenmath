@@ -437,7 +437,7 @@ order_factor(struct atom *p)
 	if (p == symbol(EXP1))
 		return 5;
 
-	if (car(p) == symbol(DERIVATIVE) || car(p) == symbol(SYMBOL_D))
+	if (car(p) == symbol(DERIVATIVE) || car(p) == symbol(D_LOWER))
 		return 6;
 
 	if (car(p) == symbol(POWER)) {
@@ -453,7 +453,7 @@ order_factor(struct atom *p)
 		if (p == symbol(EXP1))
 			return 5;
 
-		if (car(p) == symbol(DERIVATIVE) || car(p) == symbol(SYMBOL_D))
+		if (car(p) == symbol(DERIVATIVE) || car(p) == symbol(D_LOWER))
 			return 6;
 	}
 
