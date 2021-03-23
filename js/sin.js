@@ -90,7 +90,7 @@ sin()
 		return;
 	}
 
-	push(p2);
+	push(p2); // nonnegative by sin(-x) = -sin(x) above
 	push_integer(180);
 	multiply();
 	p2 = pop();

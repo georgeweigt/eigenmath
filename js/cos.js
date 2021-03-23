@@ -87,7 +87,7 @@ cos()
 		return;
 	}
 
-	push(p2);
+	push(p2); // nonnegative by cos(-x) = cos(x) above
 	push_integer(180);
 	multiply();
 	p2 = pop();

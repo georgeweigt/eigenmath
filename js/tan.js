@@ -67,7 +67,7 @@ tan()
 		return;
 	}
 
-	push(p2);
+	push(p2); // nonnegative by tan(-x) = -tan(x) above
 	push_integer(180);
 	multiply();
 	p2 = pop();
