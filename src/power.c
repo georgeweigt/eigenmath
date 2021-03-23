@@ -1,14 +1,22 @@
 #include "defs.h"
 
+#undef Q
 #undef BASE
 #undef EXPO
-#undef Q
 #undef R
+#undef X
+#undef Y
+#undef PX
+#undef PY
 
+#define Q p0
 #define BASE p1
 #define EXPO p2
-#define Q p8
-#define R p9
+#define R p5
+#define X p6
+#define Y p7
+#define PX p8
+#define PY p9
 
 void
 eval_power(void)
@@ -638,18 +646,6 @@ power_imaginary_unit(void)
 	mfree(r);
 	mfree(t);
 }
-
-#undef R
-#undef X
-#undef Y
-#undef PX
-#undef PY
-
-#define R p3
-#define X p4
-#define Y p5
-#define PX p6
-#define PY p7
 
 // BASE is rectangular complex numerical
 
