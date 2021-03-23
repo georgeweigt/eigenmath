@@ -532,6 +532,8 @@ int power_precheck(void);
 void power_natural_number(void);
 int simplify_polar_expr(void);
 int simplify_polar_term(struct atom *p);
+void normalize_polar_rational_coeff(struct atom *coeff);
+void normalize_polar_double_coeff(double coeff);
 void power_sum(void);
 void power_imaginary_unit(void);
 void power_complex_number(void);

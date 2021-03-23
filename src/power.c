@@ -1,6 +1,5 @@
 #include "defs.h"
 
-#undef Q
 #undef BASE
 #undef EXPO
 #undef R
@@ -9,7 +8,6 @@
 #undef PX
 #undef PY
 
-#define Q p0
 #define BASE p1
 #define EXPO p2
 #define R p5
@@ -253,9 +251,6 @@ simplify_polar_expr(void)
 int
 simplify_polar_term(struct atom *p)
 {
-	int n;
-	double d;
-
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
@@ -272,80 +267,73 @@ simplify_polar_term(struct atom *p)
 	p = cadr(p); // coeff
 
 	if (isdouble(p)) {
-		d = p->u.d;
-		if (floor(d) == d) {
-			if (fmod(d, 2.0) == 0.0)
-				push_double(1.0);
-			else
-				push_double(-1.0);
-			return 1;
-		}
-		if (floor(d) + 0.5 == d) {
-			n = (int) (d / 0.5) % 4;
-			if (n == 1 || n == -3) {
-				push_symbol(MULTIPLY);
-				push_double(1.0);
-				push(imaginaryunit);
-				list(3);
-			} else {
-				push_symbol(MULTIPLY);
-				push_double(-1.0);
-				push(imaginaryunit);
-				list(3);
-			}
-			return 1;
-		}
-		return 0;
+		if (0.0 < p->u.d && p->u.d < 0.5)
+			return 0;
+		normalize_polar_double_coeff(p->u.d);
+		return 1;
 	}
 
-	// coeff is rational, such as 5/8
+	// coeff is a rational number
 
-	push(p);
-	push_rational(1, 2);
-	subtract();
-	Q = pop();
+	if (p->sign == MPLUS) {
+		push(p);
+		push_rational(1, 2);
+		subtract();
+		p0 = pop();
+		if (p0->sign == MMINUS)
+			return 0; // 0 < coeff < 1/2
+	}
 
-	if (p->sign == MPLUS && Q->sign == MMINUS)
-		return 0; // nothing to do
+	normalize_polar_rational_coeff(p);
 
-	// coeff mod 2
+	return 1;
+}
 
-	push(p);
+// normalize exp(coeff i pi)
+
+void
+normalize_polar_rational_coeff(struct atom *coeff)
+{
+	save();
+
+	// mod 2
+
+	push(coeff);
 	push_integer(2);
 	smod();
-	Q = pop();
+	p1 = pop();
 
 	// convert negative rotation to positive
 
-	if (Q->sign == MMINUS) {
+	if (p1->sign == MMINUS) {
 		push_integer(2);
-		push(Q);
+		push(p1);
 		add();
-		Q = pop();
+		p1 = pop();
 	}
 
-	push(Q);
+	push(p1);
 	push_rational(1, 2);
 	smod();
-	R = pop();
+	p2 = pop(); // remainder
 
-	push(Q);
-	push(R);
+	push(p1);
+	push(p2);
 	subtract();
 	push_integer(2);
 	multiply();
-	Q = pop();
+	p3 = pop(); // 2 * quotient
 
-	switch (Q->u.q.a[0]) {
+	switch (p3->u.q.a[0]) {
 
 	case 0:
-		if (iszero(R))
+		if (iszero(p2))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(R);
+			push(p2);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -354,7 +342,7 @@ simplify_polar_term(struct atom *p)
 		break;
 
 	case 2:
-		if (iszero(R))
+		if (iszero(p2))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -362,7 +350,7 @@ simplify_polar_term(struct atom *p)
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(R);
+			push(p2);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -372,7 +360,7 @@ simplify_polar_term(struct atom *p)
 		break;
 
 	case 1:
-		if (iszero(R))
+		if (iszero(p2))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -380,7 +368,7 @@ simplify_polar_term(struct atom *p)
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(R);
+			push(p2);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -390,7 +378,7 @@ simplify_polar_term(struct atom *p)
 		break;
 
 	case 3:
-		if (iszero(R)) {
+		if (iszero(p2)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);
@@ -402,7 +390,7 @@ simplify_polar_term(struct atom *p)
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(R);
+			push(p2);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -412,7 +400,105 @@ simplify_polar_term(struct atom *p)
 		break;
 	}
 
-	return 1;
+	restore();
+}
+
+// normalize exp(coeff i pi)
+
+void
+normalize_polar_double_coeff(double coeff)
+{
+	int q;
+	double r;
+
+	// mod 2
+
+	coeff = fmod(coeff, 2.0);
+
+	// convert negative rotation to positive
+
+	if (coeff < 0.0)
+		coeff += 2.0;
+
+	q = 2.0 * coeff; // 2 * quotient
+
+	r = coeff - q / 2.0; // remainder
+
+	switch (q) {
+
+	case 0:
+		if (r == 0.0)
+			push_integer(1);
+		else {
+			push_symbol(POWER);
+			push_symbol(EXP1);
+			push_symbol(MULTIPLY);
+			push_double(r);
+			push(imaginaryunit);
+			push_symbol(PI);
+			list(4);
+			list(3);
+		}
+		break;
+
+	case 2:
+		if (r == 0.0)
+			push_integer(-1);
+		else {
+			push_symbol(MULTIPLY);
+			push_integer(-1);
+			push_symbol(POWER);
+			push_symbol(EXP1);
+			push_symbol(MULTIPLY);
+			push_double(r);
+			push(imaginaryunit);
+			push_symbol(PI);
+			list(4);
+			list(3);
+			list(3);
+		}
+		break;
+
+	case 1:
+		if (r == 0.0)
+			push(imaginaryunit);
+		else {
+			push_symbol(MULTIPLY);
+			push(imaginaryunit);
+			push_symbol(POWER);
+			push_symbol(EXP1);
+			push_symbol(MULTIPLY);
+			push_double(r);
+			push(imaginaryunit);
+			push_symbol(PI);
+			list(4);
+			list(3);
+			list(3);
+		}
+		break;
+
+	case 3:
+		if (r == 0.0) {
+			push_symbol(MULTIPLY);
+			push_integer(-1);
+			push(imaginaryunit);
+			list(3);
+		} else {
+			push_symbol(MULTIPLY);
+			push_integer(-1);
+			push(imaginaryunit);
+			push_symbol(POWER);
+			push_symbol(EXP1);
+			push_symbol(MULTIPLY);
+			push_double(r);
+			push(imaginaryunit);
+			push_symbol(PI);
+			list(4);
+			list(3);
+			list(4);
+		}
+		break;
+	}
 }
 
 // (a + b)^n -> (a + b) * (a + b) ...

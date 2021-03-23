@@ -1555,6 +1555,8 @@ check(t = 1/(abs(a^b)))
 
 "Testing complex exponentials"
 
+clear
+
 check(rect(exp(1/6 i pi)) == 1/2 (sqrt(3) + i))
 check(rect(exp(2/6 i pi)) == 1/2 (1 + sqrt(3) i))
 
@@ -1687,6 +1689,7 @@ check(string(exp(-31/8 i pi)) == "exp(1/8 i pi)")
 
 clear
 check(i exp(1/4 i pi) exp(1/4 i pi) == -1)
+check(i exp(1/8 i pi) == exp(5/8 i pi))
 
 -- done
 
