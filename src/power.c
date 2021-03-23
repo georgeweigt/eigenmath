@@ -294,9 +294,11 @@ simplify_polar_term(struct atom *p)
 void
 normalize_polar_rational_coeff(struct atom *coeff)
 {
+	int n;
+
 	save();
 
-	// mod 2
+	// coeff = coeff mod 2
 
 	push(coeff);
 	push_integer(2);
@@ -322,9 +324,9 @@ normalize_polar_rational_coeff(struct atom *coeff)
 	subtract();
 	push_integer(2);
 	multiply();
-	p3 = pop(); // 2 * quotient
+	n = pop_integer(); // 2 * quotient
 
-	switch (p3->u.q.a[0]) {
+	switch (n) {
 
 	case 0:
 		if (iszero(p2))
