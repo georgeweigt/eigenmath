@@ -48,23 +48,40 @@ tan()
 		return;
 	}
 
-	// multiply by 180/pi
+	// n pi ?
 
-	push(p1); // nonnegative by code above
-	push_integer(180);
-	multiply();
+	push(p1);
 	push_symbol(PI);
 	divide();
 	p2 = pop();
 
-	if (isrational(p2))
-		n = p2.a / p2.b;
-	else if (isdouble(p2))
-		n = p2.d;
-	else
-		n = 1; // force default case
+	if (!isnum(p2)) {
+		push_symbol(TAN);
+		push(p1);
+		list(2);
+		return;
+	}
 
-	switch (n % 360) {
+	if (isdouble(p2)) {
+		push_double(Math.tan(p2.d * Math.PI));
+		return;
+	}
+
+	push(p2);
+	push_integer(180);
+	multiply();
+	p2 = pop();
+
+	if (!isinteger(p2)) {
+		push_symbol(TAN);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	n = p2.a % 360;
+
+	switch (n) {
 	case 0:
 	case 180:
 		push_integer(0);
