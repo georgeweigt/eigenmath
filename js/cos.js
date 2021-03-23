@@ -10,6 +10,13 @@ cos()
 		return;
 	}
 
+	// 0?
+
+	if (iszero(p1)) {
+		push_integer(1);
+		return;
+	}
+
 	// cos(z) = 1/2 (exp(i z) + exp(-i z))
 
 	if (isdoublez(p1)) {

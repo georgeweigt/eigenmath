@@ -10,6 +10,13 @@ tan()
 		return;
 	}
 
+	// 0?
+
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
 	if (isdoublez(p1)) {
 		push(p1);
 		sin();
