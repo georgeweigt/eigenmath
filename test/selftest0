@@ -1555,6 +1555,54 @@ check(t = 1/(abs(a^b)))
 
 "Testing complex exponentials"
 
+check(rect(exp(1/6 i pi)) == 1/2 (sqrt(3) + i))
+check(rect(exp(2/6 i pi)) == 1/2 (1 + sqrt(3) i))
+
+check(rect(exp(4/6 i pi)) == 1/2 (-1 + sqrt(3) i))
+check(rect(exp(5/6 i pi)) == 1/2 (-sqrt(3) + i))
+
+check(rect(exp(7/6 i pi)) == 1/2 (-sqrt(3) - i))
+check(rect(exp(8/6 i pi)) == 1/2 (-1 - sqrt(3) i))
+
+check(rect(exp(10/6 i pi)) == 1/2 (1 - sqrt(3) i))
+check(rect(exp(11/6 i pi)) == 1/2 (sqrt(3) - i))
+
+check(rect(exp(13/6 i pi)) == 1/2 (sqrt(3) + i))
+check(rect(exp(14/6 i pi)) == 1/2 (1 + sqrt(3) i))
+
+check(rect(exp(16/6 i pi)) == 1/2 (-1 + sqrt(3) i))
+check(rect(exp(17/6 i pi)) == 1/2 (-sqrt(3) + i))
+
+check(rect(exp(19/6 i pi)) == 1/2 (-sqrt(3) - i))
+check(rect(exp(20/6 i pi)) == 1/2 (-1 - sqrt(3) i))
+
+check(rect(exp(22/6 i pi)) == 1/2 (1 - sqrt(3) i))
+check(rect(exp(23/6 i pi)) == 1/2 (sqrt(3) - i))
+
+check(rect(exp(-1/6 i pi)) == 1/2 (sqrt(3) - i))
+check(rect(exp(-2/6 i pi)) == 1/2 (1 - sqrt(3) i))
+
+check(rect(exp(-4/6 i pi)) == 1/2 (-1 - sqrt(3) i))
+check(rect(exp(-5/6 i pi)) == 1/2 (-sqrt(3) - i))
+
+check(rect(exp(-7/6 i pi)) == 1/2 (-sqrt(3) + i))
+check(rect(exp(-8/6 i pi)) == 1/2 (-1 + sqrt(3) i))
+
+check(rect(exp(-10/6 i pi)) == 1/2 (1 + sqrt(3) i))
+check(rect(exp(-11/6 i pi)) == 1/2 (sqrt(3) + i))
+
+check(rect(exp(-13/6 i pi)) == 1/2 (sqrt(3) - i))
+check(rect(exp(-14/6 i pi)) == 1/2 (1 - sqrt(3) i))
+
+check(rect(exp(-16/6 i pi)) == 1/2 (-1 - sqrt(3) i))
+check(rect(exp(-17/6 i pi)) == 1/2 (-sqrt(3) - i))
+
+check(rect(exp(-19/6 i pi)) == 1/2 (-sqrt(3) + i))
+check(rect(exp(-20/6 i pi)) == 1/2 (-1 + sqrt(3) i))
+
+check(rect(exp(-22/6 i pi)) == 1/2 (1 + sqrt(3) i))
+check(rect(exp(-23/6 i pi)) == 1/2 (sqrt(3) + i))
+
 check(string(exp(0/8 i pi)) == "1")
 check(string(exp(1/8 i pi)) == "exp(1/8 i pi)")
 check(string(exp(2/8 i pi)) == "exp(1/4 i pi)")
