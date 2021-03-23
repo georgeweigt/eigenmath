@@ -2,9 +2,13 @@
 
 #undef BASE
 #undef EXPO
+#undef Q
+#undef R
 
 #define BASE p1
 #define EXPO p2
+#define Q p8
+#define R p9
 
 void
 eval_power(void)
@@ -286,28 +290,121 @@ simplify_polar_term(struct atom *p)
 		return 0;
 	}
 
-	if (MEQUAL(p->u.q.b, 1)) {
-		if (p->u.q.a[0] % 2 == 0)
-			push_integer(1);
-		else
-			push_integer(-1);
-		return 1;
+	// coeff is rational, such as 5/8
+
+	push(p);
+	push_rational(1, 2);
+	subtract();
+	Q = pop();
+
+	if (p->sign == MPLUS && Q->sign == MMINUS)
+		return 0; // nothing to do
+
+	// coeff mod 2
+
+	push(p);
+	push_integer(2);
+	smod();
+	Q = pop();
+
+	// convert negative rotation to positive
+
+	if (Q->sign == MMINUS) {
+		push_integer(2);
+		push(Q);
+		add();
+		Q = pop();
 	}
 
-	if (MEQUAL(p->u.q.b, 2)) {
-		n = p->u.q.a[0] % 4;
-		if ((n == 1 && p->sign == MPLUS) || (n == 3 && p->sign == MMINUS))
+	push(Q);
+	push_rational(1, 2);
+	smod();
+	R = pop();
+
+	push(Q);
+	push(R);
+	subtract();
+	push_integer(2);
+	multiply();
+	Q = pop();
+
+	switch (Q->u.q.a[0]) {
+
+	case 0:
+		if (iszero(R))
+			push_integer(1);
+		else {
+			push_symbol(POWER);
+			push_symbol(EXP1);
+			push_symbol(MULTIPLY);
+			push(R);
+			push(imaginaryunit);
+			push_symbol(PI);
+			list(4);
+			list(3);
+		}
+		break;
+
+	case 2:
+		if (iszero(R))
+			push_integer(-1);
+		else {
+			push_symbol(MULTIPLY);
+			push_integer(-1);
+			push_symbol(POWER);
+			push_symbol(EXP1);
+			push_symbol(MULTIPLY);
+			push(R);
+			push(imaginaryunit);
+			push_symbol(PI);
+			list(4);
+			list(3);
+			list(3);
+		}
+		break;
+
+	case 1:
+		if (iszero(R))
 			push(imaginaryunit);
 		else {
+			push_symbol(MULTIPLY);
+			push(imaginaryunit);
+			push_symbol(POWER);
+			push_symbol(EXP1);
+			push_symbol(MULTIPLY);
+			push(R);
+			push(imaginaryunit);
+			push_symbol(PI);
+			list(4);
+			list(3);
+			list(3);
+		}
+		break;
+
+	case 3:
+		if (iszero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);
 			list(3);
+		} else {
+			push_symbol(MULTIPLY);
+			push_integer(-1);
+			push(imaginaryunit);
+			push_symbol(POWER);
+			push_symbol(EXP1);
+			push_symbol(MULTIPLY);
+			push(R);
+			push(imaginaryunit);
+			push_symbol(PI);
+			list(4);
+			list(3);
+			list(4);
 		}
-		return 1;
+		break;
 	}
 
-	return 0;
+	return 1;
 }
 
 // (a + b)^n -> (a + b) * (a + b) ...

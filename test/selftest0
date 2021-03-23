@@ -1553,6 +1553,88 @@ check(t = abs(a)/abs(b))
 t = abs(1/a^b)
 check(t = 1/(abs(a^b)))
 
+"Testing complex exponentials"
+
+check(string(exp(0/8 i pi)) == "1")
+check(string(exp(1/8 i pi)) == "exp(1/8 i pi)")
+check(string(exp(2/8 i pi)) == "exp(1/4 i pi)")
+check(string(exp(3/8 i pi)) == "exp(3/8 i pi)")
+
+check(string(exp(4/8 i pi)) == "i")
+check(string(exp(5/8 i pi)) == "i exp(1/8 i pi)")
+check(string(exp(6/8 i pi)) == "i exp(1/4 i pi)")
+check(string(exp(7/8 i pi)) == "i exp(3/8 i pi)")
+
+check(string(exp(8/8 i pi)) == "-1")
+check(string(exp(9/8 i pi)) == "-exp(1/8 i pi)")
+check(string(exp(10/8 i pi)) == "-exp(1/4 i pi)")
+check(string(exp(11/8 i pi)) == "-exp(3/8 i pi)")
+
+check(string(exp(12/8 i pi)) == "-i")
+check(string(exp(13/8 i pi)) == "-i exp(1/8 i pi)")
+check(string(exp(14/8 i pi)) == "-i exp(1/4 i pi)")
+check(string(exp(15/8 i pi)) == "-i exp(3/8 i pi)")
+
+check(string(exp(16/8 i pi)) == "1")
+check(string(exp(17/8 i pi)) == "exp(1/8 i pi)")
+check(string(exp(18/8 i pi)) == "exp(1/4 i pi)")
+check(string(exp(19/8 i pi)) == "exp(3/8 i pi)")
+
+check(string(exp(20/8 i pi)) == "i")
+check(string(exp(21/8 i pi)) == "i exp(1/8 i pi)")
+check(string(exp(22/8 i pi)) == "i exp(1/4 i pi)")
+check(string(exp(23/8 i pi)) == "i exp(3/8 i pi)")
+
+check(string(exp(24/8 i pi)) == "-1")
+check(string(exp(25/8 i pi)) == "-exp(1/8 i pi)")
+check(string(exp(26/8 i pi)) == "-exp(1/4 i pi)")
+check(string(exp(27/8 i pi)) == "-exp(3/8 i pi)")
+
+check(string(exp(28/8 i pi)) == "-i")
+check(string(exp(29/8 i pi)) == "-i exp(1/8 i pi)")
+check(string(exp(30/8 i pi)) == "-i exp(1/4 i pi)")
+check(string(exp(31/8 i pi)) == "-i exp(3/8 i pi)")
+
+check(string(exp(-0/8 i pi)) == "1")
+check(string(exp(-1/8 i pi)) == "-i exp(3/8 i pi)")
+check(string(exp(-2/8 i pi)) == "-i exp(1/4 i pi)")
+check(string(exp(-3/8 i pi)) == "-i exp(1/8 i pi)")
+
+check(string(exp(-4/8 i pi)) == "-i")
+check(string(exp(-5/8 i pi)) == "-exp(3/8 i pi)")
+check(string(exp(-6/8 i pi)) == "-exp(1/4 i pi)")
+check(string(exp(-7/8 i pi)) == "-exp(1/8 i pi)")
+
+check(string(exp(-8/8 i pi)) == "-1")
+check(string(exp(-9/8 i pi)) == "i exp(3/8 i pi)")
+check(string(exp(-10/8 i pi)) == "i exp(1/4 i pi)")
+check(string(exp(-11/8 i pi)) == "i exp(1/8 i pi)")
+
+check(string(exp(-12/8 i pi)) == "i")
+check(string(exp(-13/8 i pi)) == "exp(3/8 i pi)")
+check(string(exp(-14/8 i pi)) == "exp(1/4 i pi)")
+check(string(exp(-15/8 i pi)) == "exp(1/8 i pi)")
+
+check(string(exp(-16/8 i pi)) == "1")
+check(string(exp(-17/8 i pi)) == "-i exp(3/8 i pi)")
+check(string(exp(-18/8 i pi)) == "-i exp(1/4 i pi)")
+check(string(exp(-19/8 i pi)) == "-i exp(1/8 i pi)")
+
+check(string(exp(-20/8 i pi)) == "-i")
+check(string(exp(-21/8 i pi)) == "-exp(3/8 i pi)")
+check(string(exp(-22/8 i pi)) == "-exp(1/4 i pi)")
+check(string(exp(-23/8 i pi)) == "-exp(1/8 i pi)")
+
+check(string(exp(-24/8 i pi)) == "-1")
+check(string(exp(-25/8 i pi)) == "i exp(3/8 i pi)")
+check(string(exp(-26/8 i pi)) == "i exp(1/4 i pi)")
+check(string(exp(-27/8 i pi)) == "i exp(1/8 i pi)")
+
+check(string(exp(-28/8 i pi)) == "i")
+check(string(exp(-29/8 i pi)) == "exp(3/8 i pi)")
+check(string(exp(-30/8 i pi)) == "exp(1/4 i pi)")
+check(string(exp(-31/8 i pi)) == "exp(1/8 i pi)")
+
 "Testing bug fixes"
 
 clear
