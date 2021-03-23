@@ -59,14 +59,28 @@ stan_nib(void)
 		return;
 	}
 
-	// multiply by 180/pi
+	// divide by pi, check for numerical result
 
-	push(p1); // nonnegative by code above
-	push_integer(180);
-	multiply();
+	push(p1);
 	push_symbol(PI);
 	divide();
+	p2 = pop();
 
+	if (!isnum(p2)) {
+		push_symbol(TAN);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	if (isdouble(p2)) {
+		push_double(tan(p2->u.d * M_PI));
+		return;
+	}
+
+	push(p2); // nonnegative by code above
+	push_integer(180);
+	multiply();
 	n = pop_integer();
 
 	if (n == ERR) {
