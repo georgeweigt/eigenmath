@@ -130,16 +130,21 @@ ssin_nib(void)
 	push(p2); // nonnegative by sin(-x) = -sin(x) above
 	push_integer(180);
 	multiply();
-	n = pop_integer();
+	p2 = pop();
 
-	if (n == ERR) {
+	if (!isinteger(p2)) {
 		push_symbol(SIN);
 		push(p1);
 		list(2);
 		return;
 	}
 
-	switch (n % 360) {
+	push(p2);
+	push_integer(360);
+	smod();
+	n = pop_integer();
+
+	switch (n) {
 	case 0:
 	case 180:
 		push_integer(0);

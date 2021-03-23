@@ -88,16 +88,21 @@ stan_nib(void)
 	push(p2); // nonnegative by tan(-x) = -tan(x) above
 	push_integer(180);
 	multiply();
-	n = pop_integer();
+	p2 = pop();
 
-	if (n == ERR) {
+	if (!isinteger(p2)) {
 		push_symbol(TAN);
 		push(p1);
 		list(2);
 		return;
 	}
 
-	switch (n % 360) {
+	push(p2);
+	push_integer(360);
+	smod();
+	n = pop_integer();
+
+	switch (n) {
 	case 0:
 	case 180:
 		push_integer(0);

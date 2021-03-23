@@ -127,16 +127,21 @@ scos_nib(void)
 	push(p2); // nonnegative by cos(-x) = cos(x) above
 	push_integer(180);
 	multiply();
-	n = pop_integer();
+	p2 = pop();
 
-	if (n == ERR) {
+	if (!isinteger(p2)) {
 		push_symbol(COS);
 		push(p1);
 		list(2);
 		return;
 	}
 
-	switch (n % 360) {
+	push(p2);
+	push_integer(360);
+	smod();
+	n = pop_integer();
+
+	switch (n) {
 	case 90:
 	case 270:
 		push_integer(0);
