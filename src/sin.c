@@ -34,6 +34,13 @@ ssin_nib(void)
 		return;
 	}
 
+	// 0?
+
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
 	// sin(z) = -i/2 (exp(i z) - exp(-i z))
 
 	if (isdoublez(p1)) {
@@ -101,7 +108,7 @@ ssin_nib(void)
 		return;
 	}
 
-	// divide by pi, check for numerical result
+	// n pi ?
 
 	push(p1);
 	push_symbol(PI);

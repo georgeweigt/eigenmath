@@ -28,6 +28,13 @@ stan_nib(void)
 		return;
 	}
 
+	// 0?
+
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
 	if (isdoublez(p1)) {
 		push(p1);
 		ssin();
@@ -59,7 +66,7 @@ stan_nib(void)
 		return;
 	}
 
-	// divide by pi, check for numerical result
+	// n pi ?
 
 	push(p1);
 	push_symbol(PI);
