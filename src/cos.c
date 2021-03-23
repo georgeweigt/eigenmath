@@ -124,7 +124,7 @@ scos_nib(void)
 		return;
 	}
 
-	push(p2); // nonnegative by code above
+	push(p2); // nonnegative by cos(-x) = cos(x) above
 	push_integer(180);
 	multiply();
 	n = pop_integer();

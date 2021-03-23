@@ -85,7 +85,7 @@ stan_nib(void)
 		return;
 	}
 
-	push(p2); // nonnegative by code above
+	push(p2); // nonnegative by tan(-x) = -tan(x) above
 	push_integer(180);
 	multiply();
 	n = pop_integer();
