@@ -921,7 +921,7 @@ fmt_term_nib(struct atom *p)
 
 	p = cdr(p);
 
-	if (isminusone(car(p)) && !isdouble(car(p)))
+	if (isminusone(car(p)))
 		p = cdr(p); // sign already emitted
 
 	fmt_factor(car(p));

@@ -109,7 +109,7 @@ check(infixform(last)="a^2 + 2 a b + b^2")
 check(infixform(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
 
 1/(a+b)^2
-check(infixform(last)="(a + b)^(-2)")
+check(infixform(last)="1 / (a + b)^2")
 
 (a+b*i)/(c+d*i)
 check(infixform(last)="a / (c + i d) + i b / (c + i d)")
@@ -210,7 +210,7 @@ check(prefixform(last)"(+ -5/169 (* -12/169 (^ -1 1/2)))")
 check(infixform(last)="13^(1/4) (-1)^(arctan(3,2) / (2 pi))")
 
 (2+3*i)^(-1/2)
-check(infixform(last)="1 / (13^(1/4) (-1)^(arctan(3,2) / (2 pi)))")
+check(infixform(last)="(-1)^(-arctan(3,2) / (2 pi)) / 13^(1/4)")
 
 i^0
 check(last=1)
@@ -800,7 +800,7 @@ f = 1/x + 1/(x + 1)^2
 check(infixform(rationalize(f)) == "(x^2 + 3 x + 1) / (x (x + 1)^2)")
 
 numerator(f)/denominator(f)
-check(infixform(last) == "x / ((x + 1)^2) + 1 / (x (x + 1)^2) + 3 / ((x + 1)^2)")
+check(infixform(last) == "x / (x + 1)^2 + 1 / (x (x + 1)^2) + 3 / (x + 1)^2")
 
 -- this was broken, returned a complex number
 
@@ -1788,6 +1788,21 @@ check(prefixform(arg(2.0 + 3.0 i)) == prefixform(arg(clock(2.0 + 3.0 i))))
 check(prefixform(arg(2.0 - 3.0 i)) == prefixform(arg(clock(2.0 - 3.0 i))))
 check(prefixform(arg(-2.0 + 3.0 i)) == prefixform(arg(clock(-2.0 + 3.0 i))))
 check(prefixform(arg(-2.0 - 3.0 i)) == prefixform(arg(clock(-2.0 - 3.0 i))))
+
+"Testing infixform"
+
+check(infixform(1/x) == "1 / x")
+check(infixform(x^2) == "x^2")
+check(infixform(x^(-2)) == "1 / x^2")
+check(infixform((a+b)/(c+d)) == "a / (c + d) + b / (c + d)")
+check(infixform((a,b,c)) == "(a,b,c)")
+check(infixform(((a,b),(c,d))) == "((a,b),(c,d))")
+
+check(infixform(x^(a+b)) == "x^(a + b)")
+check(infixform(x^(a b)) == "x^(a b)")
+check(infixform(x^(a^b)) == "x^(a^b)")
+check(infixform(x^(n!)) == "x^(n!)")
+check(infixform(x^sin(x)) == "x^sin(x)")
 
 -- done
 
