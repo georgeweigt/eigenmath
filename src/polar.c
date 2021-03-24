@@ -42,7 +42,17 @@ polar_nib(void)
 	push(imaginaryunit);
 	push(p1);
 	arg();
-	multiply();
+	p2 = pop();
+	if (isdouble(p2)) {
+		push(p2);
+		push_double(M_PI);
+		divide();
+		push_symbol(PI);
+		multiply_factors(3);
+	} else {
+		push(p2);
+		multiply_factors(2);
+	}
 	exponential();
 	multiply();
 }

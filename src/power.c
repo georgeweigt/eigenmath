@@ -188,7 +188,7 @@ power_natural_number(void)
 
 	// exp(x + i y) = exp(x) (cos(y) + i sin(y))
 
-	if (car(EXPO) == symbol(ADD) && isdoublez(EXPO)) {
+	if (isdoublez(EXPO)) {
 		if (car(EXPO) == symbol(ADD)) {
 			x = cadr(EXPO)->u.d;
 			y = cadaddr(EXPO)->u.d;
