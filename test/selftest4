@@ -1036,7 +1036,7 @@ psi = rotate(psi,c,0,p,3,2 pi theta,c,1,p,3,4 pi theta,c,2,p,3,8 pi theta) -- U
 psi = rotate(psi,s,0,2,h,0,c,0,p,1,-pi/2,h,1,c,1,p,2,-pi/2,c,0,p,2,-pi/4,h,2) -- inverse qft
 P = hadamard(psi,conj(psi))
 theta = sum(k,0,15,k/8 P[k + 1]) - 1
-check(string(theta) == "0.30465")
+check(infixform(theta) == "0.30465")
 
 theta = 0.3
 pi = float(pi)
@@ -1045,7 +1045,7 @@ psi = rotate(psi,c,0,p,3,2 pi theta,c,1,p,3,4 pi theta,c,2,p,3,8 pi theta) -- U
 psi = rotate(psi,v,2) -- inverse qft
 P = hadamard(psi,conj(psi))
 theta = sum(k,0,15,k/8 P[k + 1]) - 1
-check(string(theta) == "0.30465")
+check(infixform(theta) == "0.30465")
 
 "ok"
 exit

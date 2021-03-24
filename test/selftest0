@@ -3,32 +3,32 @@ trace = 1
 -- check sort order
 
 3+4*i
-check(string(last)="3 + 4 i")
+check(infixform(last)="3 + 4 i")
 x^2*y
-check(string(last)="x^2 y")
+check(infixform(last)="x^2 y")
 y*x^2
-check(string(last)="x^2 y")
+check(infixform(last)="x^2 y")
 x*y^2
-check(string(last)="x y^2")
+check(infixform(last)="x y^2")
 y^2*x
-check(string(last)="x y^2")
+check(infixform(last)="x y^2")
 (x+1)^2
-check(string(last)="x^2 + 2 x + 1")
+check(infixform(last)="x^2 + 2 x + 1")
 (a+b)^2
-check(string(last)="a^2 + 2 a b + b^2")
+check(infixform(last)="a^2 + 2 a b + b^2")
 (a+b)^3
-check(string(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
+check(infixform(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
 x*cos(x)
-check(string(last)="x cos(x)")
+check(infixform(last)="x cos(x)")
 cos(x)*x
-check(string(last)="x cos(x)")
+check(infixform(last)="x cos(x)")
 
 -- test add.c
 
 A=((0,0),(0,0))
 B=((0,0),(0,0))
 A+B
-check(string(last)="((0,0),(0,0))")
+check(infixform(last)="((0,0),(0,0))")
 
 A=2
 B=3
@@ -50,24 +50,24 @@ A=quote(A)
 B=quote(B)
 
 -- term sort ignores coeff
-check(lisp(a-b)="(+ a (* -1 b))")
-check(lisp(b-a)="(+ (* -1 a) b)")
+check(prefixform(a-b)="(+ a (* -1 b))")
+check(prefixform(b-a)="(+ (* -1 a) b)")
 
 -- test multiply.c
 
 N = 2*3^100
 M = N/sqrt(2)
 check(M^2=N^2/2)
-check(string(M) = "515377520732011331036461129765621272702107522001 2^(1/2)")
+check(infixform(M) = "515377520732011331036461129765621272702107522001 2^(1/2)")
 M = sqrt(2)/N
 check(M^2=2/N^2)
-check(string(M) = "1 / (515377520732011331036461129765621272702107522001 2^(1/2))")
+check(infixform(M) = "1 / (515377520732011331036461129765621272702107522001 2^(1/2))")
 M = N/2^(2/3)
 check(M^3=N^3/4)
-check(string(M) = "515377520732011331036461129765621272702107522001 2^(1/3)")
+check(infixform(M) = "515377520732011331036461129765621272702107522001 2^(1/3)")
 M = 2^(2/3)/N
 check(M^3=4/N^3)
-check(string(M) = "1 / (515377520732011331036461129765621272702107522001 2^(1/3))")
+check(infixform(M) = "1 / (515377520732011331036461129765621272702107522001 2^(1/3))")
 
 N = -2^10 * 3^10 / 5^10 / 7^10 * x * y
 M = 2^(2/3) * 3^(2/3) / 5^(2/3) / 7^(2/3)
@@ -76,52 +76,52 @@ check(N*M = -2^(10+2/3) * 3^(10+2/3) / 5^(10+2/3) / 7^(10+2/3) * x * y)
 
 A = 1.0 * sqrt(2) * sqrt(3) * x * y
 B = sqrt(2.0) * sqrt(3.0) * x * y
-check(string(A) = "2.44949 x y")
-check(string(B) = "2.44949 x y")
+check(infixform(A) = "2.44949 x y")
+check(infixform(B) = "2.44949 x y")
 
 clear
 
 0^a
-check(string(last)="0^a")
+check(infixform(last)="0^a")
 
 2^(3/2)
-check(string(last)="2 2^(1/2)")
+check(infixform(last)="2 2^(1/2)")
 
 858/sqrt(2)
-check(string(last)="429 2^(1/2)")
+check(infixform(last)="429 2^(1/2)")
 
 (-3)^(3/2)
-check(string(last)="-3 3^(1/2) i")
+check(infixform(last)="-3 3^(1/2) i")
 
 (10^10)^(4/3)
-check(string(last)="10000000000 10000000000^(1/3)")
+check(infixform(last)="10000000000 10000000000^(1/3)")
 
 check(exp(i*pi)=-1)
-check(lisp(exp(i*pi+a))="(* -1 (^ $e a))")
+check(prefixform(exp(i*pi+a))="(* -1 (^ $e a))")
 
 6*sqrt(2)*sqrt(3)
-check(string(last)="6 2^(1/2) 3^(1/2)")
+check(infixform(last)="6 2^(1/2) 3^(1/2)")
 
 (a+b)*(a+b)
-check(string(last)="a^2 + 2 a b + b^2")
+check(infixform(last)="a^2 + 2 a b + b^2")
 
 (a+b)*(a+b)*(a+b)
-check(string(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
+check(infixform(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
 
 1/(a+b)^2
-check(string(last)="(a + b)^(-2)")
+check(infixform(last)="(a + b)^(-2)")
 
 (a+b*i)/(c+d*i)
-check(string(last)="a / (c + i d) + i b / (c + i d)")
+check(infixform(last)="a / (c + i d) + i b / (c + i d)")
 
 ((2+3*i)^2)^(-1)
-check(string(last)="-5/169 - 12/169 i")
+check(infixform(last)="-5/169 - 12/169 i")
 
 ((2+3*i)^(-1))^2
-check(string(last)="-5/169 - 12/169 i")
+check(infixform(last)="-5/169 - 12/169 i")
 
 s^(-8*pi*i)
-check(string(last)="s^(-8 i pi)")
+check(infixform(last)="s^(-8 i pi)")
 
 e^(-8*pi*i)
 check(last=1)
@@ -137,156 +137,156 @@ N - M^2
 check(last=0)
 
 (-1)^(1/2)
-check(string(last)="i")
+check(infixform(last)="i")
 (-1)^(3/2)
-check(string(last)="-i")
+check(infixform(last)="-i")
 (-1)^(5/2)
-check(string(last)="i")
+check(infixform(last)="i")
 (-1)^(7/2)
-check(string(last)="-i")
+check(infixform(last)="-i")
 
 (-1)^(-1/2)
-check(string(last)="-i")
+check(infixform(last)="-i")
 (-1)^(-3/2)
-check(string(last)="i")
+check(infixform(last)="i")
 (-1)^(-5/2)
-check(string(last)="-i")
+check(infixform(last)="-i")
 (-1)^(-7/2)
-check(string(last)="i")
+check(infixform(last)="i")
 
 (-1)^(1/8)
-check(lisp(last)="(^ -1 1/8)")
+check(prefixform(last)="(^ -1 1/8)")
 (-1)^(3/8)
-check(lisp(last)="(^ -1 3/8)")
+check(prefixform(last)="(^ -1 3/8)")
 (-1)^(5/8)
-check(lisp(last)="(* -1 (^ -1 -3/8))")
+check(prefixform(last)="(* -1 (^ -1 -3/8))")
 (-1)^(7/8)
-check(lisp(last)="(* -1 (^ -1 -1/8))")
+check(prefixform(last)="(* -1 (^ -1 -1/8))")
 (-1)^(9/8)
-check(lisp(last)="(* -1 (^ -1 1/8))")
+check(prefixform(last)="(* -1 (^ -1 1/8))")
 (-1)^(11/8)
-check(lisp(last)="(* -1 (^ -1 3/8))")
+check(prefixform(last)="(* -1 (^ -1 3/8))")
 (-1)^(13/8)
-check(lisp(last)="(^ -1 -3/8)")
+check(prefixform(last)="(^ -1 -3/8)")
 (-1)^(15/8)
-check(lisp(last)="(^ -1 -1/8)")
+check(prefixform(last)="(^ -1 -1/8)")
 
 (-1)^(-1/8)
-check(lisp(last)="(^ -1 -1/8)")
+check(prefixform(last)="(^ -1 -1/8)")
 (-1)^(-3/8)
-check(lisp(last)="(^ -1 -3/8)")
+check(prefixform(last)="(^ -1 -3/8)")
 (-1)^(-5/8)
-check(lisp(last)="(* -1 (^ -1 3/8))")
+check(prefixform(last)="(* -1 (^ -1 3/8))")
 (-1)^(-7/8)
-check(lisp(last)="(* -1 (^ -1 1/8))")
+check(prefixform(last)="(* -1 (^ -1 1/8))")
 (-1)^(-9/8)
-check(lisp(last)="(* -1 (^ -1 -1/8))")
+check(prefixform(last)="(* -1 (^ -1 -1/8))")
 (-1)^(-11/8)
-check(lisp(last)="(* -1 (^ -1 -3/8))")
+check(prefixform(last)="(* -1 (^ -1 -3/8))")
 (-1)^(-13/8)
-check(lisp(last)="(^ -1 3/8)")
+check(prefixform(last)="(^ -1 3/8)")
 (-1)^(-15/8)
-check(lisp(last)="(^ -1 1/8)")
+check(prefixform(last)="(^ -1 1/8)")
 
 (2+3*i)^c
-check(string(last)="(2 + 3 i)^c")
+check(infixform(last)="(2 + 3 i)^c")
 
 (a+b)^c
-check(string(last)="(a + b)^c")
+check(infixform(last)="(a + b)^c")
 
 (1+i)^2
-check(lisp(last)="(* 2 (^ -1 1/2))")
+check(prefixform(last)="(* 2 (^ -1 1/2))")
 
 (2*i)^2
 check(last=-4)
 
 (2+3*i)^2
-check(lisp(last)="(+ -5 (* 12 (^ -1 1/2)))")
+check(prefixform(last)="(+ -5 (* 12 (^ -1 1/2)))")
 
 (2+3*i)^(-2)
-check(lisp(last)"(+ -5/169 (* -12/169 (^ -1 1/2)))")
+check(prefixform(last)"(+ -5/169 (* -12/169 (^ -1 1/2)))")
 
 (2+3*i)^(1/2)
-check(string(last)="13^(1/4) (-1)^(arctan(3,2) / (2 pi))")
+check(infixform(last)="13^(1/4) (-1)^(arctan(3,2) / (2 pi))")
 
 (2+3*i)^(-1/2)
-check(string(last)="1 / (13^(1/4) (-1)^(arctan(3,2) / (2 pi)))")
+check(infixform(last)="1 / (13^(1/4) (-1)^(arctan(3,2) / (2 pi)))")
 
 i^0
 check(last=1)
 
 i^1
-check(lisp(last)="(^ -1 1/2)")
+check(prefixform(last)="(^ -1 1/2)")
 
 i^2
 check(last=-1)
 
 i^3
-check(lisp(last)="(* -1 (^ -1 1/2))")
+check(prefixform(last)="(* -1 (^ -1 1/2))")
 
 i^4
 check(last=1)
 
 i^5
-check(lisp(last)="(^ -1 1/2)")
+check(prefixform(last)="(^ -1 1/2)")
 
 i^6
 check(last=-1)
 
 i^7
-check(lisp(last)="(* -1 (^ -1 1/2))")
+check(prefixform(last)="(* -1 (^ -1 1/2))")
 
 i^(-1)
-check(lisp(last)="(* -1 (^ -1 1/2))")
+check(prefixform(last)="(* -1 (^ -1 1/2))")
 
 i^(-2)
 check(last=-1)
 
 i^(-3)
-check(lisp(last)="(^ -1 1/2)")
+check(prefixform(last)="(^ -1 1/2)")
 
 i^(-4)
 check(last=1)
 
 i^(-5)
-check(lisp(last)="(* -1 (^ -1 1/2))")
+check(prefixform(last)="(* -1 (^ -1 1/2))")
 
 i^(-6)
 check(last=-1)
 
 i^(-7)
-check(lisp(last)="(^ -1 1/2)")
+check(prefixform(last)="(^ -1 1/2)")
 
 sqrt(102)
-check(string(last)="2^(1/2) 3^(1/2) 17^(1/2)")
+check(infixform(last)="2^(1/2) 3^(1/2) 17^(1/2)")
 
 sqrt(204)
-check(string(last)="2 3^(1/2) 17^(1/2)")
+check(infixform(last)="2 3^(1/2) 17^(1/2)")
 
 sqrt(408)
-check(string(last)="2 2^(1/2) 3^(1/2) 17^(1/2)")
+check(infixform(last)="2 2^(1/2) 3^(1/2) 17^(1/2)")
 
 sqrt(816)
-check(string(last)="4 3^(1/2) 17^(1/2)")
+check(infixform(last)="4 3^(1/2) 17^(1/2)")
 
 sqrt(2^32-5)
-check(string(last)="4294967291^(1/2)")
+check(infixform(last)="4294967291^(1/2)")
 check(2^32-5=4294967291)
 
 sqrt(2^32-4)
-check(string(last)="6 7^(1/2) 11^(1/2) 31^(1/2) 151^(1/2) 331^(1/2)")
+check(infixform(last)="6 7^(1/2) 11^(1/2) 31^(1/2) 151^(1/2) 331^(1/2)")
 check(2^32-4=36*7*11*31*151*331)
 
 sqrt(2^32-3)
-check(string(last)="9241^(1/2) 464773^(1/2)")
+check(infixform(last)="9241^(1/2) 464773^(1/2)")
 check(2^32-3=9241*464773)
 
 sqrt(2^32-2)
-check(string(last)="2^(1/2) 2147483647^(1/2)")
+check(infixform(last)="2^(1/2) 2147483647^(1/2)")
 check(2^32-2=2*2147483647)
 
 sqrt(2^32-1)
-check(string(last)="3^(1/2) 5^(1/2) 17^(1/2) 257^(1/2) 65537^(1/2)")
+check(infixform(last)="3^(1/2) 5^(1/2) 17^(1/2) 257^(1/2) 65537^(1/2)")
 check(2^32-1=3*5*17*257*65537)
 
 for(k,1,100,
@@ -400,28 +400,28 @@ check(contract(outer(A,B,C))=dot(A,B)*C)
 clear
 
 simplify(-3*x*A/(A-B) + 3*x*B/(A-B))
-check(string(last)="-3 x")
+check(infixform(last)="-3 x")
 
 simplify(-y/(x^2*(y^2/x^2+1)))
-check(string(last) = "-y / (x^2 + y^2)")
+check(infixform(last) = "-y / (x^2 + y^2)")
 
 simplify(1/(x*(y^2/x^2+1)))
-check(string(last) = "x / (x^2 + y^2)")
+check(infixform(last) = "x / (x^2 + y^2)")
 
 simplify(-i * exp(i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x))))
-check(string(last) = "-i exp(2 i x) / (exp(2 i x) + 1)")
+check(infixform(last) = "-i exp(2 i x) / (exp(2 i x) + 1)")
 
 simplify(i * exp(-i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x))))
-check(string(last) = "i / (exp(2 i x) + 1)")
+check(infixform(last) = "i / (exp(2 i x) + 1)")
 
 simplify(tan(x) - sin(x)/cos(x))
-check(string(last) = "0")
+check(infixform(last) = "0")
 
 simplify(sin(x)^2 + cos(x)^2)
-check(string(last) = "1")
+check(infixform(last) = "1")
 
 simplify(sinh(x)^2 - cosh(x)^2)
-check(string(last) = "-1")
+check(infixform(last) = "-1")
 
 simplify(((sin(x)^2 + cos(x)^2,0),(0,sin(x))))
 check(last = ((1,0),(0,sin(x))))
@@ -449,9 +449,9 @@ check(simplify(sqrt(1 + x^2 / (1 - x^2))) == 1 / sqrt(1 - x^2))
 
 -- test arctan
 
-check(string(arctan(0,0))="arctan(0,0)")
+check(infixform(arctan(0,0))="arctan(0,0)")
 
-check(string(arctan(x))="arctan(x,1)")
+check(infixform(arctan(x))="arctan(x,1)")
 
 check(arctan(1,1)=pi/4)
 check(arctan(1,-1)=3*pi/4)
@@ -468,12 +468,12 @@ check(arctan(3,-3)=3*pi/4)
 check(arctan(-3,3)=-pi/4)
 check(arctan(-3,-3)=-3*pi/4)
 
-check(string(arctan(2,4))="arctan(1,2)")
-check(string(arctan(2,-4))="arctan(1,-2)")
-check(string(arctan(-2,4))="arctan(-1,2)")
-check(string(arctan(-2,-4))="arctan(-1,-2)")
+check(infixform(arctan(2,4))="arctan(1,2)")
+check(infixform(arctan(2,-4))="arctan(1,-2)")
+check(infixform(arctan(-2,4))="arctan(-1,2)")
+check(infixform(arctan(-2,-4))="arctan(-1,-2)")
 
-check(string(arctan(1/2))="arctan(1,2)")
+check(infixform(arctan(1/2))="arctan(1,2)")
 
 -- complex numbers (after arctan)
 
@@ -553,230 +553,230 @@ check(last=0)
 -- test float
 
 float(x + pi)
-check(string(last)="x + 3.14159")
+check(infixform(last)="x + 3.14159")
 float(x + e)
-check(string(last)="x + 2.71828")
+check(infixform(last)="x + 2.71828")
 float(x + y + 1/4)
-check(string(last)="x + y + 0.25")
+check(infixform(last)="x + y + 0.25")
 float(1/4 x y)
-check(string(last)="0.25 x y")
+check(infixform(last)="0.25 x y")
 float(sqrt(2))
-check(string(last)="1.41421")
+check(infixform(last)="1.41421")
 
 mag(1.0 + 3 i)
-check(string(last)="3.16228")
+check(infixform(last)="3.16228")
 real(1.0 + 3 i)
-check(string(last)="1")
+check(infixform(last)="1")
 imag(1.0 i)
-check(string(last)="1")
+check(infixform(last)="1")
 imag(-1.0 i)
-check(string(last)="-1")
+check(infixform(last)="-1")
 1.0 i
-check(lisp(last)="(* 1 (^ -1 1/2))")
+check(prefixform(last)="(* 1 (^ -1 1/2))")
 -1.0 i
-check(lisp(last)="(* -1 (^ -1 1/2))")
+check(prefixform(last)="(* -1 (^ -1 1/2))")
 
 -- test log of zero
 
 log(0)
-check(string(last)="log(0)")
+check(infixform(last)="log(0)")
 
 -- test log of complex number
 
 log(1 + i)
-check(string(last)="log(1 + i)")
+check(infixform(last)="log(1 + i)")
 
 float(log(1 + i))
-check(string(last)="0.346574 + 0.785398 i")
+check(infixform(last)="0.346574 + 0.785398 i")
 
 log(0.5)
-check(string(last)="-0.693147")
+check(infixform(last)="-0.693147")
 
 log(-0.5)
-check(string(last)="-0.693147 + 3.14159 i")
+check(infixform(last)="-0.693147 + 3.14159 i")
 
 --log(1.0 i)
---check(string(last)="1.5708 i")
+--check(infixform(last)="1.5708 i")
 
 --log(-1.0 i)
---check(string(last)="-1.5708 i")
+--check(infixform(last)="-1.5708 i")
 
 -- check arg function
 
 arg(-1)
-check(lisp(last)="(* -1 pi)")
+check(prefixform(last)="(* -1 pi)")
 
 arg(-1.0)
-check(lisp(last)="-3.14159")
+check(prefixform(last)="-3.14159")
 
 -- check arccosh
 
-lisp(arccosh(x))
+prefixform(arccosh(x))
 check(last="(arccosh x)")
 
-lisp(arccosh(cosh(x)))
+prefixform(arccosh(cosh(x)))
 check(last="x")
 
-lisp(arccosh(0))
+prefixform(arccosh(0))
 check(last="(arccosh 0)")
 
-lisp(arccosh(1))
+prefixform(arccosh(1))
 check(last="0")
 
-lisp(arccosh(1.0))
+prefixform(arccosh(1.0))
 check(last="0")
 
-lisp(arccosh(-1))
+prefixform(arccosh(-1))
 check(last="(arccosh -1)")
 
-lisp(arccosh(-1.0))
+prefixform(arccosh(-1.0))
 check(last="(* 3.14159 (^ -1 1/2))")
 
-lisp(float(arccosh(1+i)))
+prefixform(float(arccosh(1+i)))
 check(last="(+ 1.06128 (* 0.904557 (^ -1 1/2)))")
 
 -- check arcsinh
 
-lisp(arcsinh(x))
+prefixform(arcsinh(x))
 check(last="(arcsinh x)")
 
-lisp(arcsinh(sinh(x)))
+prefixform(arcsinh(sinh(x)))
 check(last="x")
 
-lisp(arcsinh(0))
+prefixform(arcsinh(0))
 check(last="0")
 
-lisp(arcsinh(1))
+prefixform(arcsinh(1))
 check(last="(arcsinh 1)")
 
-lisp(arcsinh(1.0))
+prefixform(arcsinh(1.0))
 check(last="0.881374")
 
-lisp(arcsinh(-1))
+prefixform(arcsinh(-1))
 check(last="(* -1 (arcsinh 1))")
 
-lisp(arcsinh(-1.0))
+prefixform(arcsinh(-1.0))
 check(last="-0.881374")
 
-lisp(float(arcsinh(1+i)))
+prefixform(float(arcsinh(1+i)))
 check(last="(+ 1.06128 (* 0.666239 (^ -1 1/2)))")
 
 -- check arctanh
 
-lisp(arctanh(x))
+prefixform(arctanh(x))
 check(last="(arctanh x)")
 
-lisp(arctanh(tanh(x)))
+prefixform(arctanh(tanh(x)))
 check(last="x")
 
-lisp(arctanh(0))
+prefixform(arctanh(0))
 check(last="0")
 
-lisp(arctanh(1))
+prefixform(arctanh(1))
 check(last="(arctanh 1)")
 
-lisp(arctanh(-1))
+prefixform(arctanh(-1))
 check(last="(arctanh -1)")
 
-lisp(arctanh(0.5))
+prefixform(arctanh(0.5))
 check(last="0.549306")
 
-lisp(arctanh(-0.5))
+prefixform(arctanh(-0.5))
 check(last="-0.549306")
 
-lisp(float(arctanh(1+i)))
+prefixform(float(arctanh(1+i)))
 check(last="(+ 0.402359 (* 1.01722 (^ -1 1/2)))")
 
 -- check exp
 
-lisp(float(exp(x)))
+prefixform(float(exp(x)))
 check(last="(^ $e x)")
 
-lisp(exp(0))
+prefixform(exp(0))
 check(last="1")
 
-lisp(exp(1))
+prefixform(exp(1))
 check(last="$e")
 
-lisp(exp(1.0))
+prefixform(exp(1.0))
 check(last="2.71828")
 
-lisp(e^1.0)
+prefixform(e^1.0)
 check(last="2.71828")
 
-lisp(exp(2.0))
+prefixform(exp(2.0))
 check(last="7.38906")
 
-lisp(e^2.0)
+prefixform(e^2.0)
 check(last="7.38906")
 
-lisp(float(e))
+prefixform(float(e))
 check(last="2.71828")
 
 -- check power
 
-lisp(0^0)
+prefixform(0^0)
 check(last="1")
 
 ((1,2),(3,4))^0
-check(string(last)="((1,0),(0,1))")
+check(infixform(last)="((1,0),(0,1))")
 
 ((1,2),(3,4))^1
-check(string(last)="((1,2),(3,4))")
+check(infixform(last)="((1,2),(3,4))")
 
-lisp(sqrt(-1.0))
+prefixform(sqrt(-1.0))
 check(last="(* 1 (^ -1 1/2))")
 
-lisp((-1.0)^(1/3))
+prefixform((-1.0)^(1/3))
 check(last="(* 1 (^ -1 1/3))")
 
-lisp((-1.0)^(-1/3))
+prefixform((-1.0)^(-1/3))
 check(last="(* 1 (^ -1 -1/3))")
 
 -- test sin function
 
 float(sin(1+i))
-check(string(last)="1.29846 + 0.634964 i")
+check(infixform(last)="1.29846 + 0.634964 i")
 
 -- test cos function
 
 float(cos(1+i))
-check(string(last)="0.83373 - 0.988898 i")
+check(infixform(last)="0.83373 - 0.988898 i")
 
 -- test tan function
 
 float(tan(1+i))
-check(string(last)="0.271753 + 1.08392 i")
+check(infixform(last)="0.271753 + 1.08392 i")
 
 -- test sinh function
 
 float(sinh(1+i))
-check(string(last)="0.634964 + 1.29846 i")
+check(infixform(last)="0.634964 + 1.29846 i")
 
 -- test cosh function
 
 float(cosh(1+i))
-check(string(last)="0.83373 + 0.988898 i")
+check(infixform(last)="0.83373 + 0.988898 i")
 
 -- test tanh function
 
 float(tanh(1+i))
-check(string(last)="1.08392 + 0.271753 i")
+check(infixform(last)="1.08392 + 0.271753 i")
 
 -- test arcsin function
 
 float(arcsin(1+i))
-check(string(last)="0.666239 + 1.06128 i")
+check(infixform(last)="0.666239 + 1.06128 i")
 
 -- test arccos function
 
 float(arccos(1+i))
-check(string(last)="0.904557 - 1.06128 i")
+check(infixform(last)="0.904557 - 1.06128 i")
 
 -- test arctan function
 
 float(arctan(1+i))
-check(string(last)="1.01722 + 0.402359 i")
+check(infixform(last)="1.01722 + 0.402359 i")
 
 -- test rationalize function (this used to get stuck)
 
@@ -797,20 +797,20 @@ Z = (1 + expsin(theta/2)^4) / expcos(theta/2)^4
 check(rationalize(A + B + C - X - Y - Z) == 0)
 
 f = 1/x + 1/(x + 1)^2
-check(string(rationalize(f)) == "(x^2 + 3 x + 1) / (x (x + 1)^2)")
+check(infixform(rationalize(f)) == "(x^2 + 3 x + 1) / (x (x + 1)^2)")
 
 numerator(f)/denominator(f)
-check(string(last) == "x / ((x + 1)^2) + 1 / (x (x + 1)^2) + 3 / ((x + 1)^2)")
+check(infixform(last) == "x / ((x + 1)^2) + 1 / (x (x + 1)^2) + 3 / ((x + 1)^2)")
 
 -- this was broken, returned a complex number
 
 arccos(0.4529)
-check(string(last)="1.10078")
+check(infixform(last)="1.10078")
 
 -- this was broken, now fixed
 
 expand((x^2+5*x+2)/(2*(x+1)),x)
-check(string(last) == "1/2 x - 1 / (x + 1) + 2")
+check(infixform(last) == "1/2 x - 1 / (x + 1) + 2")
 
 f = x / 2 / (x + 1)
 expand(f)
@@ -829,11 +829,11 @@ check(rationalize(last) == f)
 clear
 psi = exp(i k z - i omega t)
 1/psi
-check(lisp(last)=="(^ $e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+check(prefixform(last)=="(^ $e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
 psi^(-1)
-check(lisp(last)=="(^ $e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+check(prefixform(last)=="(^ $e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
 psi/psi
-check(lisp(last)=="1")
+check(prefixform(last)=="1")
 
 -- loop indices are not rewritten
 
@@ -922,40 +922,40 @@ check(log(1/10) = -log(2) - log(5))
 
 -- factor rational numbers
 
-lisp(factor(10))
+prefixform(factor(10))
 check(last = "(* 2 5)")
 
-lisp(factor(-10))
+prefixform(factor(-10))
 check(last = "(* -1 2 5)")
 
-lisp(factor(1/10))
+prefixform(factor(1/10))
 check(last = "(* (^ 2 -1) (^ 5 -1))")
 
-lisp(factor(-1/10))
+prefixform(factor(-1/10))
 check(last = "(* -1 (^ 2 -1) (^ 5 -1))")
 
 -- factor floating point
 
 for(i,-10,10,for(j,1,100,check(eval(factor(float(i / j))) == i / j)))
 
-lisp(factor(2^53 - 1))
+prefixform(factor(2^53 - 1))
 check(last = "(* 6361 69431 20394401)")
 
-lisp(factor(float(2^53 - 1)))
+prefixform(factor(float(2^53 - 1)))
 check(last = "(* 6361 69431 20394401)")
 
-lisp(factor(2^53))
+prefixform(factor(2^53))
 check(last = "(^ 2 53)")
 
-lisp(factor(float(2^53)))
+prefixform(factor(float(2^53)))
 check(last = "(^ 2 53)")
 
-lisp(factor(2^53 + 1))
+prefixform(factor(2^53 + 1))
 check(last = "(* 3 107 28059810762433)")
 
 -- 2^53 + 1 is the smallest positive integer that cannot be represented exactly as a double
 
-lisp(factor(float(2^53 + 1)))
+prefixform(factor(float(2^53 + 1)))
 check(last = "(^ 2 53)")
 
 -- simplify polar
@@ -1502,14 +1502,14 @@ check(P(cos(theta),2,0) == 3/2 cos(theta)^2 - 1/2)
 clear
 check(abs(7) == 7)
 check(abs(-7) == 7)
-check(string(abs(x)) == "abs(x)")
-check(string(abs(-x)) == "abs(x)")
+check(infixform(abs(x)) == "abs(x)")
+check(infixform(abs(-x)) == "abs(x)")
 check(abs(3 - 4 i) == 5)
 check(abs(r exp(i theta)) == abs(r))
 check(abs(cos(5/8 pi)) == -cos(5/8 pi))
 check(abs(x y) == abs(x) abs(y))
 check(abs(1/x) == 1/abs(x))
-check(lisp(abs(b - a)) == "(abs (+ a (* -1 b)))")
+check(prefixform(abs(b - a)) == "(abs (+ a (* -1 b)))")
 
 t = abs(2)
 check(t = 2)
@@ -1596,85 +1596,85 @@ check(rect(exp(-20/6 i pi)) == 1/2 (-1 + sqrt(3) i))
 check(rect(exp(-22/6 i pi)) == 1/2 (1 + sqrt(3) i))
 check(rect(exp(-23/6 i pi)) == 1/2 (sqrt(3) + i))
 
-check(string(exp(0/8 i pi)) == "1")
-check(string(exp(1/8 i pi)) == "exp(1/8 i pi)")
-check(string(exp(2/8 i pi)) == "exp(1/4 i pi)")
-check(string(exp(3/8 i pi)) == "exp(3/8 i pi)")
+check(infixform(exp(0/8 i pi)) == "1")
+check(infixform(exp(1/8 i pi)) == "exp(1/8 i pi)")
+check(infixform(exp(2/8 i pi)) == "exp(1/4 i pi)")
+check(infixform(exp(3/8 i pi)) == "exp(3/8 i pi)")
 
-check(string(exp(4/8 i pi)) == "i")
-check(string(exp(5/8 i pi)) == "i exp(1/8 i pi)")
-check(string(exp(6/8 i pi)) == "i exp(1/4 i pi)")
-check(string(exp(7/8 i pi)) == "i exp(3/8 i pi)")
+check(infixform(exp(4/8 i pi)) == "i")
+check(infixform(exp(5/8 i pi)) == "i exp(1/8 i pi)")
+check(infixform(exp(6/8 i pi)) == "i exp(1/4 i pi)")
+check(infixform(exp(7/8 i pi)) == "i exp(3/8 i pi)")
 
-check(string(exp(8/8 i pi)) == "-1")
-check(string(exp(9/8 i pi)) == "-exp(1/8 i pi)")
-check(string(exp(10/8 i pi)) == "-exp(1/4 i pi)")
-check(string(exp(11/8 i pi)) == "-exp(3/8 i pi)")
+check(infixform(exp(8/8 i pi)) == "-1")
+check(infixform(exp(9/8 i pi)) == "-exp(1/8 i pi)")
+check(infixform(exp(10/8 i pi)) == "-exp(1/4 i pi)")
+check(infixform(exp(11/8 i pi)) == "-exp(3/8 i pi)")
 
-check(string(exp(12/8 i pi)) == "-i")
-check(string(exp(13/8 i pi)) == "-i exp(1/8 i pi)")
-check(string(exp(14/8 i pi)) == "-i exp(1/4 i pi)")
-check(string(exp(15/8 i pi)) == "-i exp(3/8 i pi)")
+check(infixform(exp(12/8 i pi)) == "-i")
+check(infixform(exp(13/8 i pi)) == "-i exp(1/8 i pi)")
+check(infixform(exp(14/8 i pi)) == "-i exp(1/4 i pi)")
+check(infixform(exp(15/8 i pi)) == "-i exp(3/8 i pi)")
 
-check(string(exp(16/8 i pi)) == "1")
-check(string(exp(17/8 i pi)) == "exp(1/8 i pi)")
-check(string(exp(18/8 i pi)) == "exp(1/4 i pi)")
-check(string(exp(19/8 i pi)) == "exp(3/8 i pi)")
+check(infixform(exp(16/8 i pi)) == "1")
+check(infixform(exp(17/8 i pi)) == "exp(1/8 i pi)")
+check(infixform(exp(18/8 i pi)) == "exp(1/4 i pi)")
+check(infixform(exp(19/8 i pi)) == "exp(3/8 i pi)")
 
-check(string(exp(20/8 i pi)) == "i")
-check(string(exp(21/8 i pi)) == "i exp(1/8 i pi)")
-check(string(exp(22/8 i pi)) == "i exp(1/4 i pi)")
-check(string(exp(23/8 i pi)) == "i exp(3/8 i pi)")
+check(infixform(exp(20/8 i pi)) == "i")
+check(infixform(exp(21/8 i pi)) == "i exp(1/8 i pi)")
+check(infixform(exp(22/8 i pi)) == "i exp(1/4 i pi)")
+check(infixform(exp(23/8 i pi)) == "i exp(3/8 i pi)")
 
-check(string(exp(24/8 i pi)) == "-1")
-check(string(exp(25/8 i pi)) == "-exp(1/8 i pi)")
-check(string(exp(26/8 i pi)) == "-exp(1/4 i pi)")
-check(string(exp(27/8 i pi)) == "-exp(3/8 i pi)")
+check(infixform(exp(24/8 i pi)) == "-1")
+check(infixform(exp(25/8 i pi)) == "-exp(1/8 i pi)")
+check(infixform(exp(26/8 i pi)) == "-exp(1/4 i pi)")
+check(infixform(exp(27/8 i pi)) == "-exp(3/8 i pi)")
 
-check(string(exp(28/8 i pi)) == "-i")
-check(string(exp(29/8 i pi)) == "-i exp(1/8 i pi)")
-check(string(exp(30/8 i pi)) == "-i exp(1/4 i pi)")
-check(string(exp(31/8 i pi)) == "-i exp(3/8 i pi)")
+check(infixform(exp(28/8 i pi)) == "-i")
+check(infixform(exp(29/8 i pi)) == "-i exp(1/8 i pi)")
+check(infixform(exp(30/8 i pi)) == "-i exp(1/4 i pi)")
+check(infixform(exp(31/8 i pi)) == "-i exp(3/8 i pi)")
 
-check(string(exp(-0/8 i pi)) == "1")
-check(string(exp(-1/8 i pi)) == "-i exp(3/8 i pi)")
-check(string(exp(-2/8 i pi)) == "-i exp(1/4 i pi)")
-check(string(exp(-3/8 i pi)) == "-i exp(1/8 i pi)")
+check(infixform(exp(-0/8 i pi)) == "1")
+check(infixform(exp(-1/8 i pi)) == "-i exp(3/8 i pi)")
+check(infixform(exp(-2/8 i pi)) == "-i exp(1/4 i pi)")
+check(infixform(exp(-3/8 i pi)) == "-i exp(1/8 i pi)")
 
-check(string(exp(-4/8 i pi)) == "-i")
-check(string(exp(-5/8 i pi)) == "-exp(3/8 i pi)")
-check(string(exp(-6/8 i pi)) == "-exp(1/4 i pi)")
-check(string(exp(-7/8 i pi)) == "-exp(1/8 i pi)")
+check(infixform(exp(-4/8 i pi)) == "-i")
+check(infixform(exp(-5/8 i pi)) == "-exp(3/8 i pi)")
+check(infixform(exp(-6/8 i pi)) == "-exp(1/4 i pi)")
+check(infixform(exp(-7/8 i pi)) == "-exp(1/8 i pi)")
 
-check(string(exp(-8/8 i pi)) == "-1")
-check(string(exp(-9/8 i pi)) == "i exp(3/8 i pi)")
-check(string(exp(-10/8 i pi)) == "i exp(1/4 i pi)")
-check(string(exp(-11/8 i pi)) == "i exp(1/8 i pi)")
+check(infixform(exp(-8/8 i pi)) == "-1")
+check(infixform(exp(-9/8 i pi)) == "i exp(3/8 i pi)")
+check(infixform(exp(-10/8 i pi)) == "i exp(1/4 i pi)")
+check(infixform(exp(-11/8 i pi)) == "i exp(1/8 i pi)")
 
-check(string(exp(-12/8 i pi)) == "i")
-check(string(exp(-13/8 i pi)) == "exp(3/8 i pi)")
-check(string(exp(-14/8 i pi)) == "exp(1/4 i pi)")
-check(string(exp(-15/8 i pi)) == "exp(1/8 i pi)")
+check(infixform(exp(-12/8 i pi)) == "i")
+check(infixform(exp(-13/8 i pi)) == "exp(3/8 i pi)")
+check(infixform(exp(-14/8 i pi)) == "exp(1/4 i pi)")
+check(infixform(exp(-15/8 i pi)) == "exp(1/8 i pi)")
 
-check(string(exp(-16/8 i pi)) == "1")
-check(string(exp(-17/8 i pi)) == "-i exp(3/8 i pi)")
-check(string(exp(-18/8 i pi)) == "-i exp(1/4 i pi)")
-check(string(exp(-19/8 i pi)) == "-i exp(1/8 i pi)")
+check(infixform(exp(-16/8 i pi)) == "1")
+check(infixform(exp(-17/8 i pi)) == "-i exp(3/8 i pi)")
+check(infixform(exp(-18/8 i pi)) == "-i exp(1/4 i pi)")
+check(infixform(exp(-19/8 i pi)) == "-i exp(1/8 i pi)")
 
-check(string(exp(-20/8 i pi)) == "-i")
-check(string(exp(-21/8 i pi)) == "-exp(3/8 i pi)")
-check(string(exp(-22/8 i pi)) == "-exp(1/4 i pi)")
-check(string(exp(-23/8 i pi)) == "-exp(1/8 i pi)")
+check(infixform(exp(-20/8 i pi)) == "-i")
+check(infixform(exp(-21/8 i pi)) == "-exp(3/8 i pi)")
+check(infixform(exp(-22/8 i pi)) == "-exp(1/4 i pi)")
+check(infixform(exp(-23/8 i pi)) == "-exp(1/8 i pi)")
 
-check(string(exp(-24/8 i pi)) == "-1")
-check(string(exp(-25/8 i pi)) == "i exp(3/8 i pi)")
-check(string(exp(-26/8 i pi)) == "i exp(1/4 i pi)")
-check(string(exp(-27/8 i pi)) == "i exp(1/8 i pi)")
+check(infixform(exp(-24/8 i pi)) == "-1")
+check(infixform(exp(-25/8 i pi)) == "i exp(3/8 i pi)")
+check(infixform(exp(-26/8 i pi)) == "i exp(1/4 i pi)")
+check(infixform(exp(-27/8 i pi)) == "i exp(1/8 i pi)")
 
-check(string(exp(-28/8 i pi)) == "i")
-check(string(exp(-29/8 i pi)) == "exp(3/8 i pi)")
-check(string(exp(-30/8 i pi)) == "exp(1/4 i pi)")
-check(string(exp(-31/8 i pi)) == "exp(1/8 i pi)")
+check(infixform(exp(-28/8 i pi)) == "i")
+check(infixform(exp(-29/8 i pi)) == "exp(3/8 i pi)")
+check(infixform(exp(-30/8 i pi)) == "exp(1/4 i pi)")
+check(infixform(exp(-31/8 i pi)) == "exp(1/8 i pi)")
 
 check(exp(0/8.0 i pi) == 1)
 check(exp(1/8.0 i pi) == exp(1/8 i pi))
@@ -1761,9 +1761,9 @@ check(exp(-31/8.0 i pi) == exp(1/8 i pi))
 clear
 check(i exp(1/4 i pi) exp(1/4 i pi) == -1)
 check(i exp(1/8 i pi) == exp(5/8 i pi))
-check(string(cos(1/3.0 pi)) == "0.5")
-check(string(sin(1/6.0 pi)) == "0.5")
-check(string(polar(2.0 + 3.0 i)) == "3.60555 exp(0.312833 i pi)")
+check(infixform(cos(1/3.0 pi)) == "0.5")
+check(infixform(sin(1/6.0 pi)) == "0.5")
+check(infixform(polar(2.0 + 3.0 i)) == "3.60555 exp(0.312833 i pi)")
 
 "Testing arg"
 
@@ -1777,15 +1777,17 @@ check(arg(2 - 3 i) == arg(clock(2 - 3 i)))
 check(arg(-2 + 3 i) == arg(clock(-2 + 3 i)))
 check(arg(-2 - 3 i) == arg(clock(-2 - 3 i)))
 
-check(string(arg(2.0 + 3.0 i)) == string(arg(polar(2.0 + 3.0 i))))
-check(string(arg(2.0 - 3.0 i)) == string(arg(polar(2.0 - 3.0 i))))
-check(string(arg(-2.0 + 3.0 i)) == string(arg(polar(-2.0 + 3.0 i))))
-check(string(arg(-2.0 - 3.0 i)) == string(arg(polar(-2.0 - 3.0 i))))
+-- use prefixform to compare floating point numbers
 
-check(string(arg(2.0 + 3.0 i)) == string(arg(clock(2.0 + 3.0 i))))
-check(string(arg(2.0 - 3.0 i)) == string(arg(clock(2.0 - 3.0 i))))
-check(string(arg(-2.0 + 3.0 i)) == string(arg(clock(-2.0 + 3.0 i))))
-check(string(arg(-2.0 - 3.0 i)) == string(arg(clock(-2.0 - 3.0 i))))
+check(prefixform(arg(2.0 + 3.0 i)) == prefixform(arg(polar(2.0 + 3.0 i))))
+check(prefixform(arg(2.0 - 3.0 i)) == prefixform(arg(polar(2.0 - 3.0 i))))
+check(prefixform(arg(-2.0 + 3.0 i)) == prefixform(arg(polar(-2.0 + 3.0 i))))
+check(prefixform(arg(-2.0 - 3.0 i)) == prefixform(arg(polar(-2.0 - 3.0 i))))
+
+check(prefixform(arg(2.0 + 3.0 i)) == prefixform(arg(clock(2.0 + 3.0 i))))
+check(prefixform(arg(2.0 - 3.0 i)) == prefixform(arg(clock(2.0 - 3.0 i))))
+check(prefixform(arg(-2.0 + 3.0 i)) == prefixform(arg(clock(-2.0 + 3.0 i))))
+check(prefixform(arg(-2.0 - 3.0 i)) == prefixform(arg(clock(-2.0 - 3.0 i))))
 
 -- done
 

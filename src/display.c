@@ -101,8 +101,6 @@ display(void)
 
 	free(fmt_buf);
 
-	putchar('\n'); // double space
-
 	restore();
 }
 

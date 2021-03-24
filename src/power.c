@@ -749,13 +749,13 @@ power_complex_number(void)
 		return;
 	}
 
-	// lisp(2+3*i) = (add 2 (multiply 3 (power -1 1/2)))
+	// prefixform(2+3*i) = (add 2 (multiply 3 (power -1 1/2)))
 
-	// lisp(1+i) = (add 1 (power -1 1/2))
+	// prefixform(1+i) = (add 1 (power -1 1/2))
 
-	// lisp(3*i) = (multiply 3 (power -1 1/2))
+	// prefixform(3*i) = (multiply 3 (power -1 1/2))
 
-	// lisp(i) = (power -1 1/2)
+	// prefixform(i) = (power -1 1/2)
 
 	if (car(BASE) == symbol(ADD)) {
 		X = cadr(BASE);

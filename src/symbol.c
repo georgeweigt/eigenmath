@@ -204,6 +204,7 @@ struct se stab[] = {
 	{ "I",			I_UPPER,	NULL			},
 	{ "i",			I_LOWER,	NULL			},
 	{ "imag",		IMAG,		eval_imag		},
+	{ "infixform",		INFIXFORM,	eval_infixform		},
 	{ "inner",		INNER,		eval_inner		},
 	{ "integral",		INTEGRAL,	eval_integral		},
 	{ "inv",		INV,		eval_inv		},
@@ -218,7 +219,6 @@ struct se stab[] = {
 	{ "latex",		LATEX,		eval_latex		},
 	{ "lcm",		LCM,		eval_lcm		},
 	{ "leading",		LEADING,	eval_leading		},
-	{ "lisp",		LISP,		eval_lisp		},
 	{ "log",		LOG,		eval_log		},
 
 	{ "mag",		MAG,		eval_mag		},
@@ -242,6 +242,7 @@ struct se stab[] = {
 	{ "P",			P_UPPER,	NULL			},
 	{ "pi",			PI,		NULL			},
 	{ "polar",		POLAR,		eval_polar		},
+	{ "prefixform",		PREFIXFORM,	eval_prefixform		},
 	{ "prime",		PRIME,		eval_prime		},
 	{ "print",		PRINT,		eval_print		},
 	{ "product",		PRODUCT,	eval_product		},
@@ -268,7 +269,6 @@ struct se stab[] = {
 	{ "sqrt",		SQRT,		eval_sqrt		},
 	{ "status",		STATUS,		eval_status		},
 	{ "stop",		STOP,		eval_stop		},
-	{ "string",		STRING,		eval_string		},
 	{ "subst",		SUBST,		eval_subst		},
 	{ "sum",		SUM,		eval_sum		},
 

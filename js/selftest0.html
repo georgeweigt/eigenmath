@@ -887,6 +887,28 @@ check(prefixform(polar(2.0 + 3.0 i)) == "(* 3.60555 (^ $e (* 0.312833 (^ -1 1/2)
 check(arg(2.0 + 3.0 i) == arg(polar(2.0 + 3.0 i)))
 check(arg(2.0 + 3.0 i) == arg(clock(2.0 + 3.0 i)))
 
+"Testing arg"
+
+check(arg(2 + 3 i) == arg(polar(2 + 3 i)))
+check(arg(2 - 3 i) == arg(polar(2 - 3 i)))
+check(arg(-2 + 3 i) == arg(polar(-2 + 3 i)))
+check(arg(-2 - 3 i) == arg(polar(-2 - 3 i)))
+
+check(arg(2 + 3 i) == arg(clock(2 + 3 i)))
+check(arg(2 - 3 i) == arg(clock(2 - 3 i)))
+check(arg(-2 + 3 i) == arg(clock(-2 + 3 i)))
+check(arg(-2 - 3 i) == arg(clock(-2 - 3 i)))
+
+check(prefixform(arg(2.0 + 3.0 i)) == prefixform(arg(polar(2.0 + 3.0 i))))
+check(prefixform(arg(2.0 - 3.0 i)) == prefixform(arg(polar(2.0 - 3.0 i))))
+check(prefixform(arg(-2.0 + 3.0 i)) == prefixform(arg(polar(-2.0 + 3.0 i))))
+check(prefixform(arg(-2.0 - 3.0 i)) == prefixform(arg(polar(-2.0 - 3.0 i))))
+
+check(prefixform(arg(2.0 + 3.0 i)) == prefixform(arg(clock(2.0 + 3.0 i))))
+check(prefixform(arg(2.0 - 3.0 i)) == prefixform(arg(clock(2.0 - 3.0 i))))
+check(prefixform(arg(-2.0 + 3.0 i)) == prefixform(arg(clock(-2.0 + 3.0 i))))
+check(prefixform(arg(-2.0 - 3.0 i)) == prefixform(arg(clock(-2.0 - 3.0 i))))
+
 "All tests passed"
 </textarea>
 </td><td>
