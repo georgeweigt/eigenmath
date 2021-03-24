@@ -26,22 +26,16 @@ arg()
 	arg1();
 
 	subtract();
+
+	p1 = pop();
+	push(p1);
+
+	if (iscons(p1) && isdoublesomewhere(p1))
+		floatf();
 }
 
 function
 arg1()
-{
-	var p1;
-	arg1_nib();
-	p1 = pop();
-	if (lengthf(p1) == 3 && car(p1) == symbol(MULTIPLY) && isdouble(cadr(p1)) && caddr(p1) == symbol(PI))
-		push_double(cadr(p1).d * Math.PI);
-	else
-		push(p1);
-}
-
-function
-arg1_nib()
 {
 	var h, p1, RE, IM;
 

@@ -802,7 +802,7 @@ isnumerator(struct atom *p)
 }
 
 int
-isfloatexpr(struct atom *p)
+isdoublesomewhere(struct atom *p)
 {
 	if (isdouble(p))
 		return 1;
@@ -810,7 +810,7 @@ isfloatexpr(struct atom *p)
 	if (iscons(p)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (isfloatexpr(car(p)))
+			if (isdoublesomewhere(car(p)))
 				return 1;
 			p = cdr(p);
 		}

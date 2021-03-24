@@ -54,6 +54,12 @@ arg_nib(void)
 	arg1();
 
 	subtract();
+
+	p1 = pop();
+	push(p1);
+
+	if (iscons(p1) && isdoublesomewhere(p1))
+		floatv();
 }
 
 void
@@ -61,10 +67,6 @@ arg1(void)
 {
 	save();
 	arg1_nib();
-	p1 = pop();
-	push(p1);
-	if (iscons(p1) && isfloatexpr(p1))
-		floatv();
 	restore();
 }
 
