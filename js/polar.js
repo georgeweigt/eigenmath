@@ -1,7 +1,7 @@
 function
 polar()
 {
-	var i, n, p1;
+	var i, n, p1, p2;
 
 	p1 = pop();
 
@@ -22,7 +22,15 @@ polar()
 	push(imaginaryunit);
 	push(p1);
 	arg();
-	multiply();
+	p2 = pop();
+	if (isdouble(p2)) {
+		push_double(p2.d / Math.PI);
+		push_symbol(PI);
+		multiply_factors(3);
+	} else {
+		push(p2);
+		multiply_factors(2);
+	}
 	exp();
 	multiply();
 }

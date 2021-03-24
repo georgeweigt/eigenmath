@@ -44,9 +44,7 @@ polar_nib(void)
 	arg();
 	p2 = pop();
 	if (isdouble(p2)) {
-		push(p2);
-		push_double(M_PI);
-		divide();
+		push_double(p2->u.d / M_PI);
 		push_symbol(PI);
 		multiply_factors(3);
 	} else {
