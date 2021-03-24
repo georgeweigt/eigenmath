@@ -188,7 +188,7 @@ power_natural_number(void)
 
 	// exp(x + i y) = exp(x) (cos(y) + i sin(y))
 
-	if (isdoublez(EXPO)) {
+	if (car(EXPO) == symbol(ADD) && isdoublez(EXPO)) {
 		if (car(EXPO) == symbol(ADD)) {
 			x = cadr(EXPO)->u.d;
 			y = cadaddr(EXPO)->u.d;
@@ -324,7 +324,7 @@ normalize_polar_rational_coeff(struct atom *coeff)
 	subtract();
 	push_integer(2);
 	multiply();
-	n = pop_integer(); // 2 * quotient
+	n = pop_integer(); // number of 1/4 turns
 
 	switch (n) {
 
@@ -410,10 +410,9 @@ normalize_polar_rational_coeff(struct atom *coeff)
 void
 normalize_polar_double_coeff(double coeff)
 {
-	int q;
-	double r;
+	double n, r;
 
-	// mod 2
+	// coeff = coeff mod 2
 
 	coeff = fmod(coeff, 2.0);
 
@@ -422,11 +421,11 @@ normalize_polar_double_coeff(double coeff)
 	if (coeff < 0.0)
 		coeff += 2.0;
 
-	q = 2.0 * coeff; // 2 * quotient
+	n = floor(2.0 * coeff); // number of 1/4 turns
 
-	r = coeff - q / 2.0; // remainder
+	r = coeff - n / 2.0; // remainder
 
-	switch (q) {
+	switch ((int) n) {
 
 	case 0:
 		if (r == 0.0)
