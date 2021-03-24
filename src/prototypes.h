@@ -168,6 +168,7 @@ int count_denominators(struct atom *p);
 int count_numerators(struct atom *p);
 int isdenominator(struct atom *p);
 int isnumerator(struct atom *p);
+int isfloatexpr(struct atom *p);
 void eval_cos(void);
 void scos(void);
 void scos_nib(void);

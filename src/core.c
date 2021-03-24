@@ -800,3 +800,21 @@ isnumerator(struct atom *p)
 	else
 		return 1;
 }
+
+int
+isfloatexpr(struct atom *p)
+{
+	if (isdouble(p))
+		return 1;
+
+	if (iscons(p)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (isfloatexpr(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+	}
+
+	return 0;
+}
