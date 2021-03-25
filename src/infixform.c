@@ -14,6 +14,8 @@ eval_infixform(void)
 	push_string(outbuf);
 }
 
+// for tty mode and debugging
+
 void
 print_infixform(struct atom *p)
 {
