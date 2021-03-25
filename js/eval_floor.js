@@ -3,6 +3,14 @@ eval_floor(p1)
 {
 	push(cadr(p1));
 	evalf();
+	floor();
+}
+
+function
+floor()
+{
+	var p1;
+
 	p1 = pop();
 
 	if (isrational(p1)) {

@@ -377,7 +377,7 @@ void infixform_base(struct atom *p);
 void infixform_numeric_token(struct atom *p);
 void infixform_numeric_exponent(struct atom *p);
 void infixform_tensor(struct atom *p);
-void infixform_tensor_nib(struct atom *p, int j, int *k);
+void infixform_tensor_nib(struct atom *p, int d, int k);
 void eval_inner(void);
 void inner(void);
 void inner_nib(void);

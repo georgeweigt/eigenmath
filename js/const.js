@@ -42,6 +42,7 @@ const FLOOR = "floor";
 const FOR = "for";
 const HADAMARD = "hadamard";
 const IMAG = "imag";
+const INFIXFORM = "infixform";
 const INNER = "inner";
 const INTEGRAL = "integral";
 const INV = "inv";
