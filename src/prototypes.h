@@ -358,7 +358,6 @@ void indexf(int k);
 void indexf_nib(int k);
 void eval_infixform(void);
 void print_infixform(struct atom *p);
-void infixform(struct atom *p);
 void infixform_subexpr(struct atom *p);
 void infixform_expr(struct atom *p);
 void infixform_expr_nib(struct atom *p);

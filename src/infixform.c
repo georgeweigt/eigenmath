@@ -8,7 +8,7 @@ eval_infixform(void)
 	p1 = pop();
 
 	outbuf_index = 0;
-	infixform(p1);
+	infixform_expr(p1);
 	print_char('\0');
 
 	push_string(outbuf);
@@ -20,21 +20,10 @@ void
 print_infixform(struct atom *p)
 {
 	outbuf_index = 0;
-	infixform(p);
+	infixform_expr(p);
 	print_char('\n');
 	print_char('\0');
 	printbuf(outbuf, BLACK);
-}
-
-void
-infixform(struct atom *p)
-{
-	if (car(p) == symbol(SETQ)) {
-		infixform_expr(cadr(p));
-		print_str(" = ");
-		infixform_expr(caddr(p));
-	} else
-		infixform_expr(p);
 }
 
 void
