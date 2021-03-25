@@ -189,108 +189,6 @@ infixform_denominators(struct atom *p)
 }
 
 void
-infixform_base(struct atom *p)
-{
-	if (isnum(p))
-		infixform_numeric_token(p);
-	else if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY) || car(p) == symbol(POWER) || car(p) == symbol(FACTORIAL))
-		infixform_subexpr(p);
-	else
-		infixform_expr(p);
-}
-
-// p is rational or double
-
-void
-infixform_numeric_token(struct atom *p)
-{
-	char buf[24], *s;
-
-	if (isdouble(p)) {
-		if (p->u.d < 0.0) {
-			print_char('(');
-			infixform_double(p);
-			print_char(')');
-			return;
-		}
-		sprintf(buf, "%g", p->u.d);
-		if (strchr(buf, 'E') || strchr(buf, 'e')) {
-			print_char('(');
-			infixform_double(p);
-			print_char(')');
-			return;
-		}
-		print_str(buf);
-		return;
-	}
-
-	if (isinteger(p)) {
-		s = mstr(p->u.q.a);
-		if (p->sign == MPLUS)
-			print_str(s);
-		else {
-			print_str("(-");
-			print_str(s);
-			print_char(')');
-		}
-		return;
-	}
-
-	print_char('(');
-
-	if (p->sign == MMINUS)
-		print_char('-');
-
-	s = mstr(p->u.q.a);
-	print_str(s);
-
-	print_char('/');
-
-	s = mstr(p->u.q.b);
-	print_str(s);
-
-	print_char(')');
-
-}
-
-// p is rational or double, sign is not emitted
-
-void
-infixform_numeric_exponent(struct atom *p)
-{
-	char buf[24], *s;
-
-	if (isdouble(p)) {
-		sprintf(buf, "%g", fabs(p->u.d));
-		if (strchr(buf, 'E') || strchr(buf, 'e')) {
-			print_char('(');
-			infixform_double(p);
-			print_char(')');
-		} else
-			print_str(buf);
-		return;
-	}
-
-	if (isinteger(p)) {
-		s = mstr(p->u.q.a);
-		print_str(s);
-		return;
-	}
-
-	print_char('(');
-
-	s = mstr(p->u.q.a);
-	print_str(s);
-
-	print_char('/');
-
-	s = mstr(p->u.q.b);
-	print_str(s);
-
-	print_char(')');
-}
-
-void
 infixform_factor(struct atom *p)
 {
 	if (isrational(p)) {
@@ -513,6 +411,108 @@ infixform_double(struct atom *p)
 			s++; // skip leading zeroes
 		print_str(s);
 	}
+}
+
+void
+infixform_base(struct atom *p)
+{
+	if (isnum(p))
+		infixform_numeric_token(p);
+	else if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY) || car(p) == symbol(POWER) || car(p) == symbol(FACTORIAL))
+		infixform_subexpr(p);
+	else
+		infixform_expr(p);
+}
+
+// p is rational or double
+
+void
+infixform_numeric_token(struct atom *p)
+{
+	char buf[24], *s;
+
+	if (isdouble(p)) {
+		if (p->u.d < 0.0) {
+			print_char('(');
+			infixform_double(p);
+			print_char(')');
+			return;
+		}
+		sprintf(buf, "%g", p->u.d);
+		if (strchr(buf, 'E') || strchr(buf, 'e')) {
+			print_char('(');
+			infixform_double(p);
+			print_char(')');
+			return;
+		}
+		print_str(buf);
+		return;
+	}
+
+	if (isinteger(p)) {
+		s = mstr(p->u.q.a);
+		if (p->sign == MPLUS)
+			print_str(s);
+		else {
+			print_str("(-");
+			print_str(s);
+			print_char(')');
+		}
+		return;
+	}
+
+	print_char('(');
+
+	if (p->sign == MMINUS)
+		print_char('-');
+
+	s = mstr(p->u.q.a);
+	print_str(s);
+
+	print_char('/');
+
+	s = mstr(p->u.q.b);
+	print_str(s);
+
+	print_char(')');
+
+}
+
+// p is rational or double, sign is not emitted
+
+void
+infixform_numeric_exponent(struct atom *p)
+{
+	char buf[24], *s;
+
+	if (isdouble(p)) {
+		sprintf(buf, "%g", fabs(p->u.d));
+		if (strchr(buf, 'E') || strchr(buf, 'e')) {
+			print_char('(');
+			infixform_double(p);
+			print_char(')');
+		} else
+			print_str(buf);
+		return;
+	}
+
+	if (isinteger(p)) {
+		s = mstr(p->u.q.a);
+		print_str(s);
+		return;
+	}
+
+	print_char('(');
+
+	s = mstr(p->u.q.a);
+	print_str(s);
+
+	print_char('/');
+
+	s = mstr(p->u.q.b);
+	print_str(s);
+
+	print_char(')');
 }
 
 void
