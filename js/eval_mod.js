@@ -1,0 +1,9 @@
+function
+eval_mod(p1)
+{
+	push(cadr(p1));
+	evalf();
+	push(caddr(p1));
+	evalf();
+	mod();
+}

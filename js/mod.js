@@ -6,6 +6,14 @@ mod()
 	p2 = pop();
 	p1 = pop();
 
+	if (!isnum(p1) || !isnum(p2) || iszero(p2)) {
+		push_symbol(MOD);
+		push(p1);
+		push(p2);
+		list(3);
+		return;
+	}
+
 	if (isrational(p1) && isrational(p2)) {
 		push(p1);
 		push(p1);

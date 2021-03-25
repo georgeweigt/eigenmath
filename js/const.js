@@ -51,6 +51,7 @@ const LOG = "log";
 const MAG = "mag";
 const MINOR = "minor";
 const MINORMATRIX = "minormatrix";
+const MOD = "mod";
 const NIL = "nil";
 const NOEXPAND = "noexpand";
 const NOT = "not";

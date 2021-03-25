@@ -71,6 +71,7 @@ var symtab = {
 "mag":		{printname:MAG,		func:eval_mag},
 "minor":	{printname:MINOR,	func:eval_minor},
 "minormatrix":	{printname:MINORMATRIX,	func:eval_minormatrix},
+"mod":		{printname:MOD,		func:eval_mod},
 "nil":		{printname:NIL,		func:eval_nil},
 "noexpand":	{printname:NOEXPAND,	func:eval_noexpand},
 "not":		{printname:NOT,		func:eval_not},
