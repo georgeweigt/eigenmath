@@ -247,6 +247,48 @@ infixform_factor(struct atom *p)
 		return;
 	}
 
+	if (car(p) == symbol(SETQ)) {
+		infixform_expr(cadr(p));
+		print_str(" = ");
+		infixform_expr(caddr(p));
+		return;
+	}
+
+	if (car(p) == symbol(TESTEQ)) {
+		infixform_expr(cadr(p));
+		print_str(" == ");
+		infixform_expr(caddr(p));
+		return;
+	}
+
+	if (car(p) == symbol(TESTGE)) {
+		infixform_expr(cadr(p));
+		print_str(" >= ");
+		infixform_expr(caddr(p));
+		return;
+	}
+
+	if (car(p) == symbol(TESTGT)) {
+		infixform_expr(cadr(p));
+		print_str(" > ");
+		infixform_expr(caddr(p));
+		return;
+	}
+
+	if (car(p) == symbol(TESTLE)) {
+		infixform_expr(cadr(p));
+		print_str(" <= ");
+		infixform_expr(caddr(p));
+		return;
+	}
+
+	if (car(p) == symbol(TESTLT)) {
+		infixform_expr(cadr(p));
+		print_str(" < ");
+		infixform_expr(caddr(p));
+		return;
+	}
+
 	// other function
 
 	if (iscons(p)) {
