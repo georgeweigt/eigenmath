@@ -471,51 +471,25 @@ infixform_base(struct atom *p)
 void
 infixform_numeric_token(struct atom *p)
 {
-	char buf[24], *s;
+	char buf[24];
 
 	if (isdouble(p)) {
-		if (p->u.d < 0.0) {
-			print_char('(');
-			infixform_double(p);
-			print_char(')');
-		} else {
+		if (p->u.d < 0.0)
+			infixform_subexpr(p);
+		else {
 			sprintf(buf, "%g", p->u.d);
-			if (strchr(buf, 'E') || strchr(buf, 'e')) {
-				print_char('(');
-				infixform_double(p);
-				print_char(')');
-			} else
+			if (strchr(buf, 'E') || strchr(buf, 'e'))
+				infixform_subexpr(p);
+			else
 				print_str(buf);
 		}
 		return;
 	}
 
-	if (isinteger(p)) {
-		s = mstr(p->u.q.a);
-		if (p->sign == MPLUS)
-			print_str(s);
-		else {
-			print_str("(-");
-			print_str(s);
-			print_char(')');
-		}
-		return;
-	}
-
-	print_char('(');
-
-	if (p->sign == MMINUS)
-		print_char('-');
-
-	s = mstr(p->u.q.a);
-	print_str(s);
-
-	print_char('/');
-
-	s = mstr(p->u.q.b);
-	print_str(s);
-
-	print_char(')');
+	if (p->sign == MPLUS && isinteger(p))
+		infixform_rational(p);
+	else
+		infixform_subexpr(p);
 }
 
 // p is rational or double, sign is not emitted
@@ -523,7 +497,7 @@ infixform_numeric_token(struct atom *p)
 void
 infixform_numeric_exponent(struct atom *p)
 {
-	char buf[24], *s;
+	char buf[24];
 
 	if (isdouble(p)) {
 		sprintf(buf, "%g", fabs(p->u.d));
@@ -536,23 +510,13 @@ infixform_numeric_exponent(struct atom *p)
 		return;
 	}
 
-	if (isinteger(p)) {
-		s = mstr(p->u.q.a);
-		print_str(s);
-		return;
+	if (isinteger(p))
+		infixform_rational(p);
+	else {
+		print_char('(');
+		infixform_rational(p);
+		print_char(')');
 	}
-
-	print_char('(');
-
-	s = mstr(p->u.q.a);
-	print_str(s);
-
-	print_char('/');
-
-	s = mstr(p->u.q.b);
-	print_str(s);
-
-	print_char(')');
 }
 
 void
