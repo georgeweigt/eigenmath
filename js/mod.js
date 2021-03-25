@@ -29,15 +29,11 @@ mod()
 		return;
 	}
 
-	if (isrational(p1))
-		d1 = p1.a / p1.b;
-	else
-		d1 = p1.d;
+	push(p1);
+	d1 = pop_double();
 
-	if (isrational(p2))
-		d2 = p2.a / p2.b;
-	else
-		d2 = p2.d;
+	push(p2);
+	d2 = pop_double();
 
 	push_double(d1 % d2);
 }
