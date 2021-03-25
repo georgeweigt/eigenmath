@@ -561,7 +561,7 @@ reduce_radical_factors(int h)
 		return; // no radicals
 
 	push(COEF);
-	absv();
+	absfunc();
 	p1 = pop();
 
 	push(p1);
@@ -581,7 +581,7 @@ reduce_radical_factors(int h)
 		if (EXPO1->sign == MMINUS) {
 			push(NUMER);
 			push(BASE1);
-			smod();
+			modfunc();
 			p2 = pop();
 			if (iszero(p2)) {
 				push(NUMER);
@@ -600,7 +600,7 @@ reduce_radical_factors(int h)
 		} else {
 			push(DENOM);
 			push(BASE1);
-			smod();
+			modfunc();
 			p2 = pop();
 			if (iszero(p2)) {
 				push(DENOM);

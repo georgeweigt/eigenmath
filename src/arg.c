@@ -59,7 +59,7 @@ arg_nib(void)
 	push(p1);
 
 	if (iscons(p1) && isdoublesomewhere(p1))
-		floatv();
+		floatfunc();
 }
 
 void

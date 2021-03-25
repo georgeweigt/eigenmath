@@ -7,44 +7,35 @@ eval_mod(void)
 	eval();
 	push(caddr(p1));
 	eval();
-	smod();
+	modfunc();
 }
 
 void
-smod(void)
+modfunc(void)
 {
 	save();
-	smod_nib();
+	modfunc_nib();
 	restore();
 }
 
 void
-smod_nib(void)
-{
-	p2 = pop();
-	p1 = pop();
-
-	if (iszero(p2))
-		stop("mod: divide by zero");
-
-	if (isnum(p1) && isnum(p2)) {
-		smod_numbers();
-		return;
-	}
-
-	push_symbol(MOD);
-	push(p1);
-	push(p2);
-	list(3);
-}
-
-void
-smod_numbers(void)
+modfunc_nib(void)
 {
 	double d1, d2;
 
+	p2 = pop();
+	p1 = pop();
+
+	if (!isnum(p1) || !isnum(p2) || iszero(p2)) {
+		push_symbol(MOD);
+		push(p1);
+		push(p2);
+		list(3);
+		return;
+	}
+
 	if (isrational(p1) && isrational(p2)) {
-		smod_rationals();
+		modfunc_rationals();
 		return;
 	}
 
@@ -58,7 +49,7 @@ smod_numbers(void)
 }
 
 void
-smod_rationals(void)
+modfunc_rationals(void)
 {
 	if (isinteger(p1) && isinteger(p2)) {
 		push_rational_number(p1->sign, mmod(p1->u.q.a, p2->u.q.a), mint(1));
@@ -68,8 +59,8 @@ smod_rationals(void)
 	push(p1);
 	push(p2);
 	divide();
-	absv();
-	sfloor();
+	absfunc();
+	floorfunc();
 	push(p2);
 	multiply();
 	if (p1->sign == p2->sign)

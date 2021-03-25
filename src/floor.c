@@ -5,19 +5,19 @@ eval_floor(void)
 {
 	push(cadr(p1));
 	eval();
-	sfloor();
+	floorfunc();
 }
 
 void
-sfloor(void)
+floorfunc(void)
 {
 	save();
-	sfloor_nib();
+	floorfunc_nib();
 	restore();
 }
 
 void
-sfloor_nib(void)
+floorfunc_nib(void)
 {
 	double d;
 

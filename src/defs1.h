@@ -148,7 +148,7 @@ struct atom {
 #define FACTOR		(5 * NSYM + 0)
 #define FACTORIAL	(5 * NSYM + 1)
 #define FILTER		(5 * NSYM + 2)
-#define FLOATV		(5 * NSYM + 3)
+#define FLOATF		(5 * NSYM + 3)
 #define FLOOR		(5 * NSYM + 4)
 #define FOR		(5 * NSYM + 5)
 

@@ -300,7 +300,7 @@ normalize_polar_rational_coeff(struct atom *coeff)
 
 	push(coeff);
 	push_integer(2);
-	smod();
+	modfunc();
 	R = pop();
 
 	// convert negative rotation to positive
@@ -315,7 +315,7 @@ normalize_polar_rational_coeff(struct atom *coeff)
 	push(R);
 	push_integer(2);
 	multiply();
-	sfloor();
+	floorfunc();
 	n = pop_integer(); // number of 90 degree turns
 
 	push(R);

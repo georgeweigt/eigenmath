@@ -5,19 +5,19 @@ eval_abs(void)
 {
 	push(cadr(p1));
 	eval();
-	absv();
+	absfunc();
 }
 
 void
-absv(void)
+absfunc(void)
 {
 	save();
-	absv_nib();
+	absfunc_nib();
 	restore();
 }
 
 void
-absv_nib(void)
+absfunc_nib(void)
 {
 	int h;
 
@@ -48,7 +48,7 @@ absv_nib(void)
 
 	p2 = pop();
 	push(p2);
-	floatv();
+	floatfunc();
 	p3 = pop();
 	if (isdouble(p3)) {
 		push(p2);
@@ -62,7 +62,7 @@ absv_nib(void)
 	if (car(p1) == symbol(POWER) && isnegativeterm(caddr(p1))) {
 		push(p1);
 		reciprocate();
-		absv();
+		absfunc();
 		reciprocate();
 		return;
 	}
@@ -74,7 +74,7 @@ absv_nib(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			absv();
+			absfunc();
 			p1 = cdr(p1);
 		}
 		multiply_factors(tos - h);

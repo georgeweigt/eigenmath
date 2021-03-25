@@ -125,7 +125,7 @@ arctan_numerical_args(void)
 	push(Y);
 	push(X);
 	divide();
-	absv();
+	absfunc();
 	T = pop();
 
 	push(T);

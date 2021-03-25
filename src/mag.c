@@ -73,7 +73,7 @@ mag1_nib(void)
 
 	if (isnum(p1)) {
 		push(p1);
-		absv();
+		absfunc();
 		return;
 	}
 

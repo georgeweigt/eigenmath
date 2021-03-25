@@ -141,7 +141,7 @@ ssin_nib(void)
 
 	push(p2);
 	push_integer(360);
-	smod();
+	modfunc();
 	n = pop_integer();
 
 	switch (n) {
