@@ -30,7 +30,7 @@ mod()
 	}
 
 	if (isrational(p1))
-		d1 = p1.a / p1.b
+		d1 = p1.a / p1.b;
 	else
 		d1 = p1.d;
 
@@ -39,5 +39,5 @@ mod()
 	else
 		d2 = p2.d;
 
-	push_double(Math.mod(d1, d2))
+	push_double(d1 % d2);
 }

@@ -5,8 +5,14 @@
 
 <table><tr><td>
 <textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
+"Testing mod"
+
+-- Javascript remainder operator is used for floating point
+for(a,-20,20,for(b,-20,20,test(b==0,b=1),check(mod(a/4,b/4)==mod(a/4.0,b/4.0))))
+
 "Testing infixform"
 
+clear
 check(infixform(1/x) == "1 / x")
 check(infixform(x^2) == "x^2")
 check(infixform(x^(-2)) == "1 / x^2")
