@@ -1,7 +1,5 @@
 #include "defs.h"
 
-// change circular functions to exponentials
-
 void
 eval_circexp(void)
 {
@@ -128,7 +126,7 @@ exptan(void)
 	push_integer(2);
 	push(imaginaryunit);
 	multiply_factors(3);
-	exponential();
+	expfunc();
 
 	p1 = pop();
 
@@ -161,10 +159,10 @@ expcosh(void)
 	save();
 	p1 = pop();
 	push(p1);
-	exponential();
+	expfunc();
 	push(p1);
 	negate();
-	exponential();
+	expfunc();
 	add();
 	push_rational(1, 2);
 	multiply();
@@ -185,10 +183,10 @@ expsinh(void)
 	save();
 	p1 = pop();
 	push(p1);
-	exponential();
+	expfunc();
 	push(p1);
 	negate();
-	exponential();
+	expfunc();
 	subtract();
 	push_rational(1, 2);
 	multiply();
@@ -209,7 +207,7 @@ exptanh(void)
 	save();
 	push_integer(2);
 	multiply();
-	exponential();
+	expfunc();
 	p1 = pop();
 	push(p1);
 	push_integer(1);

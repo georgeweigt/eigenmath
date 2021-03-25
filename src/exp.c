@@ -5,11 +5,11 @@ eval_exp(void)
 {
 	push(cadr(p1));
 	eval();
-	exponential();
+	expfunc();
 }
 
 void
-exponential(void)
+expfunc(void)
 {
 	push_symbol(EXP1);
 	swap();

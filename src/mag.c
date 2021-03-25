@@ -87,7 +87,7 @@ mag1_nib(void)
 		// exponential
 		push(caddr(p1));
 		real();
-		exponential();
+		expfunc();
 		return;
 	}
 

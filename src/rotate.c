@@ -73,7 +73,7 @@ eval_rotate(void)
 			eval();
 			push(imaginaryunit);
 			multiply();
-			exponential();
+			expfunc();
 			PHASE = pop();
 			rotate_p(c, n);
 			continue;
@@ -262,7 +262,7 @@ rotate_q(int n)
 			push_symbol(PI);
 			eval();
 			multiply_factors(3);
-			exponential();
+			expfunc();
 			PHASE = pop();
 			rotate_p(j, i);
 		}
@@ -289,7 +289,7 @@ rotate_v(int n)
 			eval();
 			multiply_factors(3);
 			negate();
-			exponential();
+			expfunc();
 			PHASE = pop();
 			rotate_p(j, i);
 		}

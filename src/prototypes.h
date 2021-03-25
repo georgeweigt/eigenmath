@@ -288,7 +288,7 @@ void eval_stop(void);
 void eval_subst(void);
 void expand_expr(void);
 void eval_exp(void);
-void exponential(void);
+void expfunc(void);
 void eval_expand(void);
 void expand(void);
 void expand_tensor(void);

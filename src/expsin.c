@@ -1,5 +1,3 @@
-// exponential sine function
-
 #include "defs.h"
 
 void
@@ -20,7 +18,7 @@ expsin(void)
 	push(imaginaryunit);
 	push(p1);
 	multiply();
-	exponential();
+	expfunc();
 	push(imaginaryunit);
 	divide();
 	push_rational(1, 2);
@@ -30,7 +28,7 @@ expsin(void)
 	negate();
 	push(p1);
 	multiply();
-	exponential();
+	expfunc();
 	push(imaginaryunit);
 	divide();
 	push_rational(1, 2);

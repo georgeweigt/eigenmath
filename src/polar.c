@@ -51,6 +51,6 @@ polar_nib(void)
 		push(p2);
 		multiply_factors(2);
 	}
-	exponential();
+	expfunc();
 	multiply();
 }

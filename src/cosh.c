@@ -26,10 +26,10 @@ coshfunc_nib(void)
 	if (isdouble(p1) || isdoublez(p1)) {
 		push_rational(1, 2);
 		push(p1);
-		exponential();
+		expfunc();
 		push(p1);
 		negate();
-		exponential();
+		expfunc();
 		add();
 		multiply();
 		return;

@@ -1,5 +1,3 @@
-// exponential cosine function
-
 #include "defs.h"
 
 void
@@ -20,7 +18,7 @@ expcos(void)
 	push(imaginaryunit);
 	push(p1);
 	multiply();
-	exponential();
+	expfunc();
 	push_rational(1, 2);
 	multiply();
 
@@ -28,7 +26,7 @@ expcos(void)
 	negate();
 	push(p1);
 	multiply();
-	exponential();
+	expfunc();
 	push_rational(1, 2);
 	multiply();
 

@@ -578,7 +578,7 @@ derf(void)
 	power();
 	push_integer(-1);
 	multiply();
-	exponential();
+	expfunc();
 	push_symbol(PI);
 	push_rational(-1, 2);
 	power();
@@ -599,7 +599,7 @@ derfc(void)
 	power();
 	push_integer(-1);
 	multiply();
-	exponential();
+	expfunc();
 	push_symbol(PI);
 	push_rational(-1,2);
 	power();

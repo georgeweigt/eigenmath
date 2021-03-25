@@ -48,12 +48,12 @@ cosfunc_nib(void)
 		push(imaginaryunit);
 		push(p1);
 		multiply();
-		exponential();
+		expfunc();
 		push(imaginaryunit);
 		negate();
 		push(p1);
 		multiply();
-		exponential();
+		expfunc();
 		add();
 		multiply();
 		return;

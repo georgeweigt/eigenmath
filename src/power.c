@@ -236,7 +236,7 @@ simplify_polar_expr(void)
 				push(EXPO);
 				push(car(p3));
 				subtract();
-				exponential();
+				expfunc();
 				multiply();
 				return 1;
 			}
