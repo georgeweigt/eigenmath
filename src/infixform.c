@@ -48,7 +48,6 @@ infixform_expr(struct atom *p)
 {
 	if (isnegativeterm(p) || (car(p) == symbol(ADD) && isnegativeterm(cadr(p))))
 		print_char('-');
-
 	if (car(p) == symbol(ADD))
 		infixform_expr_nib(p);
 	else
@@ -58,9 +57,8 @@ infixform_expr(struct atom *p)
 void
 infixform_expr_nib(struct atom *p)
 {
-	p = cdr(p);
-	infixform_term(car(p));
-	p = cdr(p);
+	infixform_term(cadr(p));
+	p = cddr(p);
 	while (iscons(p)) {
 		if (isnegativeterm(car(p)))
 			print_str(" - ");
@@ -201,6 +199,8 @@ infixform_base(struct atom *p)
 		infixform_expr(p);
 }
 
+// p is rational or double
+
 void
 infixform_numeric_token(struct atom *p)
 {
@@ -331,17 +331,19 @@ infixform_factor(struct atom *p)
 		return;
 	}
 
-	if (car(p) == symbol(INDEX)) {
-		infixform_index(p);
-		return;
-	}
-
 	if (car(p) == symbol(FACTORIAL)) {
 		infixform_factorial(p);
 		return;
 	}
 
-	if (car(p) == symbol(DERIVATIVE)) {
+	if (car(p) == symbol(INDEX)) {
+		infixform_index(p);
+		return;
+	}
+
+	// use d if for derivative if d not defined
+
+	if (car(p) == symbol(DERIVATIVE) && get_usrfunc(symbol(D_LOWER)) == symbol(NIL)) {
 		print_char('d');
 		infixform_arglist(p);
 		return;
@@ -350,10 +352,7 @@ infixform_factor(struct atom *p)
 	// other function
 
 	if (iscons(p)) {
-		if (issymbol(car(p)))
-			infixform_expr(car(p));
-		else
-			infixform_subexpr(car(p));
+		infixform_base(car(p));
 		infixform_arglist(p);
 		return;
 	}
@@ -407,7 +406,6 @@ void
 infixform_reciprocal(struct atom *p)
 {
 	print_str("1 / "); // numerator
-
 	if (isminusone(caddr(p))) {
 		p = cadr(p);
 		infixform_factor(p);
@@ -419,19 +417,18 @@ infixform_reciprocal(struct atom *p)
 }
 
 void
+infixform_factorial(struct atom *p)
+{
+	infixform_base(cadr(p));
+	print_char('!');
+}
+
+void
 infixform_index(struct atom *p)
 {
-	p = cdr(p);
-
-	if (issymbol(car(p)))
-		infixform_expr(car(p));
-	else
-		infixform_subexpr(car(p));
-
-	p = cdr(p);
-
+	infixform_base(cadr(p));
 	print_char('[');
-
+	p = cddr(p);
 	if (iscons(p)) {
 		infixform_expr(car(p));
 		p = cdr(p);
@@ -441,46 +438,7 @@ infixform_index(struct atom *p)
 			p = cdr(p);
 		}
 	}
-
 	print_char(']');
-}
-
-void
-infixform_factorial(struct atom *p)
-{
-	p = cadr(p);
-
-	if (isposint(p) || issymbol(p))
-		infixform_expr(p);
-	else
-		infixform_subexpr(p);
-
-	print_char('!');
-}
-
-void
-infixform_tensor(struct atom *p)
-{
-	int k = 0;
-	infixform_tensor_nib(p, 0, &k);
-}
-
-void
-infixform_tensor_nib(struct atom *p, int j, int *k)
-{
-	int i;
-	print_char('(');
-	for (i = 0; i < p->u.tensor->dim[j]; i++) {
-		if (j + 1 == p->u.tensor->ndim) {
-			infixform_expr(p->u.tensor->elem[*k]);
-			*k = *k + 1;
-		} else
-			infixform_tensor_nib(p, j + 1, k);
-		if (i + 1 < p->u.tensor->dim[j]) {
-			print_char(',');
-		}
-	}
-	print_char(')');
 }
 
 void
@@ -555,4 +513,29 @@ infixform_double(struct atom *p)
 			s++; // skip leading zeroes
 		print_str(s);
 	}
+}
+
+void
+infixform_tensor(struct atom *p)
+{
+	int k = 0;
+	infixform_tensor_nib(p, 0, &k);
+}
+
+void
+infixform_tensor_nib(struct atom *p, int j, int *k)
+{
+	int i;
+	print_char('(');
+	for (i = 0; i < p->u.tensor->dim[j]; i++) {
+		if (j + 1 == p->u.tensor->ndim) {
+			infixform_expr(p->u.tensor->elem[*k]);
+			*k = *k + 1;
+		} else
+			infixform_tensor_nib(p, j + 1, k);
+		if (i + 1 < p->u.tensor->dim[j]) {
+			print_char(',');
+		}
+	}
+	print_char(')');
 }
