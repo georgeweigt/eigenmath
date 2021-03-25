@@ -436,16 +436,15 @@ infixform_numeric_token(struct atom *p)
 			print_char('(');
 			infixform_double(p);
 			print_char(')');
-			return;
+		} else {
+			sprintf(buf, "%g", p->u.d);
+			if (strchr(buf, 'E') || strchr(buf, 'e')) {
+				print_char('(');
+				infixform_double(p);
+				print_char(')');
+			} else
+				print_str(buf);
 		}
-		sprintf(buf, "%g", p->u.d);
-		if (strchr(buf, 'E') || strchr(buf, 'e')) {
-			print_char('(');
-			infixform_double(p);
-			print_char(')');
-			return;
-		}
-		print_str(buf);
 		return;
 	}
 
@@ -475,7 +474,6 @@ infixform_numeric_token(struct atom *p)
 	print_str(s);
 
 	print_char(')');
-
 }
 
 // p is rational or double, sign is not emitted
