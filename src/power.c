@@ -296,46 +296,45 @@ normalize_polar_rational_coeff(struct atom *coeff)
 {
 	int n;
 
-	save();
-
-	// coeff = coeff mod 2
+	// R = coeff mod 2
 
 	push(coeff);
 	push_integer(2);
 	smod();
-	p1 = pop();
+	R = pop();
 
 	// convert negative rotation to positive
 
-	if (p1->sign == MMINUS) {
+	if (R->sign == MMINUS) {
+		push(R);
 		push_integer(2);
-		push(p1);
 		add();
-		p1 = pop();
+		R = pop();
 	}
 
-	push(p1);
-	push_rational(1, 2);
-	smod();
-	p2 = pop(); // remainder
-
-	push(p1);
-	push(p2);
-	subtract();
+	push(R);
 	push_integer(2);
 	multiply();
-	n = pop_integer(); // number of 1/4 turns
+	sfloor();
+	n = pop_integer(); // number of 90 degree turns
+
+	push(R);
+	push_integer(n);
+	push_rational(1, 2);
+	multiply();
+	subtract();
+	R = pop(); // remainder
 
 	switch (n) {
 
 	case 0:
-		if (iszero(p2))
+		if (iszero(R))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(p2);
+			push(R);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -344,7 +343,7 @@ normalize_polar_rational_coeff(struct atom *coeff)
 		break;
 
 	case 2:
-		if (iszero(p2))
+		if (iszero(R))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -352,7 +351,7 @@ normalize_polar_rational_coeff(struct atom *coeff)
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(p2);
+			push(R);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -362,7 +361,7 @@ normalize_polar_rational_coeff(struct atom *coeff)
 		break;
 
 	case 1:
-		if (iszero(p2))
+		if (iszero(R))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -370,7 +369,7 @@ normalize_polar_rational_coeff(struct atom *coeff)
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(p2);
+			push(R);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -380,7 +379,7 @@ normalize_polar_rational_coeff(struct atom *coeff)
 		break;
 
 	case 3:
-		if (iszero(p2)) {
+		if (iszero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);
@@ -392,7 +391,7 @@ normalize_polar_rational_coeff(struct atom *coeff)
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(p2);
+			push(R);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -401,8 +400,6 @@ normalize_polar_rational_coeff(struct atom *coeff)
 		}
 		break;
 	}
-
-	restore();
 }
 
 // normalize exp(coeff i pi)
@@ -421,7 +418,7 @@ normalize_polar_double_coeff(double coeff)
 	if (coeff < 0.0)
 		coeff += 2.0;
 
-	n = floor(2.0 * coeff); // number of 1/4 turns
+	n = floor(2.0 * coeff); // number of 90 degree turns
 
 	r = coeff - n / 2.0; // remainder
 
