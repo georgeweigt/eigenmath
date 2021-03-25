@@ -19,7 +19,7 @@ simplify_polar_term(p)
 	p = cadr(p); // p = coeff
 
 	if (isdouble(p)) {
-		if (0.0 < p.d && p.d < 0.5)
+		if (0 < p.d && p.d < 0.5)
 			return 0; // nothing to do
 		normalize_polar_double_coeff(p.d);
 		return 1;
@@ -158,21 +158,21 @@ normalize_polar_double_coeff(coeff)
 
 	// coeff = coeff mod 2
 
-	coeff = coeff % 2.0;
+	coeff = coeff % 2;
 
 	// convert negative rotation to positive
 
-	if (coeff < 0.0)
-		coeff += 2.0;
+	if (coeff < 0)
+		coeff += 2;
 
-	n = Math.floor(2.0 * coeff); // number of 1/4 turns
+	n = Math.floor(2 * coeff); // number of 1/4 turns
 
-	r = coeff - n / 2.0; // remainder
+	r = coeff - n / 2; // remainder
 
 	switch (n) {
 
 	case 0:
-		if (r == 0.0)
+		if (r == 0)
 			push_integer(1);
 		else {
 			push_symbol(POWER);
@@ -187,7 +187,7 @@ normalize_polar_double_coeff(coeff)
 		break;
 
 	case 2:
-		if (r == 0.0)
+		if (r == 0)
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -205,7 +205,7 @@ normalize_polar_double_coeff(coeff)
 		break;
 
 	case 1:
-		if (r == 0.0)
+		if (r == 0)
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -223,7 +223,7 @@ normalize_polar_double_coeff(coeff)
 		break;
 
 	case 3:
-		if (r == 0.0) {
+		if (r == 0) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);
