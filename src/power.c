@@ -198,10 +198,10 @@ power_natural_number(void)
 		}
 		push_double(exp(x));
 		push_double(y);
-		scos();
+		cosfunc();
 		push(imaginaryunit);
 		push_double(y);
-		ssin();
+		sinfunc();
 		multiply();
 		add();
 		multiply();

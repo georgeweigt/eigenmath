@@ -400,7 +400,7 @@ dsin(void)
 	push(p2);
 	derivative();
 	push(cadr(p1));
-	scos();
+	cosfunc();
 	multiply();
 }
 
@@ -411,7 +411,7 @@ dcos(void)
 	push(p2);
 	derivative();
 	push(cadr(p1));
-	ssin();
+	sinfunc();
 	multiply();
 	negate();
 }
@@ -423,7 +423,7 @@ dtan(void)
 	push(p2);
 	derivative();
 	push(cadr(p1));
-	scos();
+	cosfunc();
 	push_integer(-2);
 	power();
 	multiply();
@@ -484,7 +484,7 @@ dsinh(void)
 	push(p2);
 	derivative();
 	push(cadr(p1));
-	scosh();
+	coshfunc();
 	multiply();
 }
 
@@ -495,7 +495,7 @@ dcosh(void)
 	push(p2);
 	derivative();
 	push(cadr(p1));
-	ssinh();
+	sinhfunc();
 	multiply();
 }
 
@@ -506,7 +506,7 @@ dtanh(void)
 	push(p2);
 	derivative();
 	push(cadr(p1));
-	scosh();
+	coshfunc();
 	push_integer(-2);
 	power();
 	multiply();

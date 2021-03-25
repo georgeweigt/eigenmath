@@ -11,19 +11,19 @@ eval_cos(void)
 {
 	push(cadr(p1));
 	eval();
-	scos();
+	cosfunc();
 }
 
 void
-scos(void)
+cosfunc(void)
 {
 	save();
-	scos_nib();
+	cosfunc_nib();
 	restore();
 }
 
 void
-scos_nib(void)
+cosfunc_nib(void)
 {
 	int n;
 
@@ -64,12 +64,12 @@ scos_nib(void)
 	if (isnegative(p1)) {
 		push(p1);
 		negate();
-		scos();
+		cosfunc();
 		return;
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		scos_of_sum();
+		cosfunc_sum();
 		return;
 	}
 
@@ -203,7 +203,7 @@ scos_nib(void)
 // cos(x + n/2 pi) = cos(x) cos(n/2 pi) - sin(x) sin(n/2 pi)
 
 void
-scos_of_sum(void)
+cosfunc_sum(void)
 {
 	int n;
 	p2 = cdr(p1);
@@ -220,14 +220,14 @@ scos_of_sum(void)
 			subtract();
 			p3 = pop();
 			push(p3);
-			scos();
+			cosfunc();
 			push(car(p2));
-			scos();
+			cosfunc();
 			multiply();
 			push(p3);
-			ssin();
+			sinfunc();
 			push(car(p2));
-			ssin();
+			sinfunc();
 			multiply();
 			subtract();
 			return;

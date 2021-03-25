@@ -1,4 +1,4 @@
-/* March 19, 2021
+/* github.com/georgeweigt/eigenmath
 
 To build and run:
 
@@ -6,8 +6,6 @@ To build and run:
 	./a.out
 
 Press ctrl-C to exit.
-
-See also github.com/georgeweigt/eigenmath
 
 
 BSD 2-Clause License

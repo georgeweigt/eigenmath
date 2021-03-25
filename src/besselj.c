@@ -104,7 +104,7 @@ besselj_nib(void)
 			push_rational(1, 2);
 			power();
 			push(X);
-			ssin();
+			sinfunc();
 			multiply();
 			return;
 		}
@@ -120,7 +120,7 @@ besselj_nib(void)
 			push_rational(1, 2);
 			power();
 			push(X);
-			scos();
+			cosfunc();
 			multiply();
 			return;
 		}

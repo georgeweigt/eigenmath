@@ -5,19 +5,19 @@ eval_tan(void)
 {
 	push(cadr(p1));
 	eval();
-	stan();
+	tanfunc();
 }
 
 void
-stan(void)
+tanfunc(void)
 {
 	save();
-	stan_nib();
+	tanfunc_nib();
 	restore();
 }
 
 void
-stan_nib(void)
+tanfunc_nib(void)
 {
 	int n;
 
@@ -37,9 +37,9 @@ stan_nib(void)
 
 	if (isdoublez(p1)) {
 		push(p1);
-		ssin();
+		sinfunc();
 		push(p1);
-		scos();
+		cosfunc();
 		divide();
 		return;
 	}
@@ -49,13 +49,13 @@ stan_nib(void)
 	if (isnegative(p1)) {
 		push(p1);
 		negate();
-		stan();
+		tanfunc();
 		negate();
 		return;
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		stan_of_sum();
+		tanfunc_sum();
 		return;
 	}
 
@@ -155,7 +155,7 @@ stan_nib(void)
 // tan(x + n pi) = tan(x)
 
 void
-stan_of_sum(void)
+tanfunc_sum(void)
 {
 	int n;
 	p2 = cdr(p1);
@@ -168,7 +168,7 @@ stan_of_sum(void)
 			push(p1);
 			push(car(p2));
 			subtract();
-			stan();
+			tanfunc();
 			return;
 		}
 		p2 = cdr(p2);

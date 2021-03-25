@@ -19,7 +19,7 @@ main()
 	struct dirent **p;
 	static char s[100];
 
-	system("cat preamble.h");
+	system("cat preamble");
 
 	emit_file(PATH "defs1.h");
 	emit_file(PATH "prototypes.h");

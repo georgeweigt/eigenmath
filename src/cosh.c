@@ -5,19 +5,19 @@ eval_cosh(void)
 {
 	push(cadr(p1));
 	eval();
-	scosh();
+	coshfunc();
 }
 
 void
-scosh(void)
+coshfunc(void)
 {
 	save();
-	scosh_nib();
+	coshfunc_nib();
 	restore();
 }
 
 void
-scosh_nib(void)
+coshfunc_nib(void)
 {
 	p1 = pop();
 
@@ -45,7 +45,7 @@ scosh_nib(void)
 	if (isnegative(p1)) {
 		push(p1);
 		negate();
-		scosh();
+		coshfunc();
 		return;
 	}
 

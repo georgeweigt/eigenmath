@@ -5,27 +5,27 @@ eval_tanh(void)
 {
 	push(cadr(p1));
 	eval();
-	stanh();
+	tanhfunc();
 }
 
 void
-stanh(void)
+tanhfunc(void)
 {
 	save();
-	stanh_nib();
+	tanhfunc_nib();
 	restore();
 }
 
 void
-stanh_nib(void)
+tanhfunc_nib(void)
 {
 	p1 = pop();
 
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
-		ssinh();
+		sinhfunc();
 		push(p1);
-		scosh();
+		coshfunc();
 		divide();
 		return;
 	}
@@ -40,7 +40,7 @@ stanh_nib(void)
 	if (isnegative(p1)) {
 		push(p1);
 		negate();
-		stanh();
+		tanhfunc();
 		negate();
 		return;
 	}
