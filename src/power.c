@@ -269,7 +269,7 @@ simplify_polar_term(struct atom *p)
 	if (isdouble(p)) {
 		if (0.0 < p->u.d && p->u.d < 0.5)
 			return 0;
-		normalize_polar_double_coeff(p->u.d);
+		simplify_polar_term_double(p->u.d);
 		return 1;
 	}
 
@@ -284,15 +284,13 @@ simplify_polar_term(struct atom *p)
 			return 0; // 0 < coeff < 1/2
 	}
 
-	normalize_polar_rational_coeff(p);
+	simplify_polar_term_rational(p);
 
 	return 1;
 }
 
-// normalize exp(coeff i pi)
-
 void
-normalize_polar_rational_coeff(struct atom *coeff)
+simplify_polar_term_rational(struct atom *coeff)
 {
 	int n;
 
@@ -402,10 +400,8 @@ normalize_polar_rational_coeff(struct atom *coeff)
 	}
 }
 
-// normalize exp(coeff i pi)
-
 void
-normalize_polar_double_coeff(double coeff)
+simplify_polar_term_double(double coeff)
 {
 	double n, r;
 
