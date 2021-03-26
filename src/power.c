@@ -570,7 +570,7 @@ power_minusone(void)
 		return;
 	}
 
-	// do this for better performance
+	// optimization
 
 	if (equalq(EXPO, 1, 2)) {
 		push(imaginaryunit);
