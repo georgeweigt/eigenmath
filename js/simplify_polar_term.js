@@ -56,8 +56,8 @@ normalize_polar_rational_coeff(p)
 	// convert negative rotation to positive
 
 	if (p.a < 0) {
-		push_integer(2);
 		push(p);
+		push_integer(2);
 		add();
 		p = pop();
 	}

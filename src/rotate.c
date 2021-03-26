@@ -154,13 +154,13 @@ rotate_h(int n)
 			push(KET1);
 			add();
 			push_rational(1, 2);
-			sqrtv();
+			sqrtfunc();
 			multiply();
 			push(KET0);
 			push(KET1);
 			subtract();
 			push_rational(1, 2);
-			sqrtv();
+			sqrtfunc();
 			multiply();
 			KET1 = pop();
 			KET0 = pop();
