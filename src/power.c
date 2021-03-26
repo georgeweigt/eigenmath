@@ -563,32 +563,6 @@ power_sum(void)
 	}
 }
 
-// convert (-1)^(a/b) to c*(-1)^(x) where c=1 or c=-1 and -1/2 < (x) <= 1/2
-//
-// r = a mod b (remainder of a/b)
-//
-// q = (a/b - r) mod 2
-//
-// s = sign of a/b
-//
-// case			c	x
-//
-// s=1 q=0 r/b <= 1/2	1	r/b
-// s=1 q=0 r/b > 1/2	-1	-(b - r)/b
-//
-// s=1 q=1 r/b <= 1/2	-1	r/b
-// s=1 q=1 r/b > 1/2	1	-(b - r)/b
-//
-// s=-1 q=0 r/b < 1/2	1	-r/b
-// s=-1 q=0 r/b >= 1/2	-1	(b - r)/b
-//
-// s=-1 q=1 r/b < 1/2	-1	-r/b
-// s=-1 q=1 r/b >= 1/2	1	(b - r)/b
-//
-// q=1 flips sign of c
-//
-// s=-1 flips sign of x
-
 void
 power_imaginary_unit(void)
 {
