@@ -21,7 +21,7 @@ simplify_polar_term(p)
 	if (isdouble(p)) {
 		if (0 < p.d && p.d < 0.5)
 			return 0; // nothing to do
-		normalize_polar_double_coeff(p.d);
+		simplify_polar_term_double(p.d);
 		return 1;
 	}
 
@@ -36,55 +36,55 @@ simplify_polar_term(p)
 			return 0; // 0 < coeff < 1/2
 	}
 
-	normalize_polar_rational_coeff(p);
+	simplify_polar_term_rational(p);
 
 	return 1;
 }
 
 function
-normalize_polar_rational_coeff(p)
+simplify_polar_term_rational(COEFF)
 {
-	var n, r;
+	var n, R;
 
-	// p = p mod 2
+	// COEFF = COEFF mod 2
 
-	push(p);
+	push(COEFF);
 	push_integer(2);
 	mod();
-	p = pop();
+	COEFF = pop();
 
 	// convert negative rotation to positive
 
-	if (p.a < 0) {
-		push(p);
+	if (COEFF.a < 0) {
+		push(COEFF);
 		push_integer(2);
 		add();
-		p = pop();
+		COEFF = pop();
 	}
 
-	push(p);
+	push(COEFF);
 	push_integer(2);
 	multiply();
 	floor();
 	n = pop_integer(); // number of 90 degree turns
 
-	push(p);
+	push(COEFF);
 	push_integer(n);
 	push_rational(1, 2);
 	multiply();
 	subtract();
-	r = pop(); // remainder
+	R = pop(); // remainder
 
 	switch (n) {
 
 	case 0:
-		if (iszero(r))
+		if (iszero(R))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(r);
+			push(R);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -93,7 +93,7 @@ normalize_polar_rational_coeff(p)
 		break;
 
 	case 1:
-		if (iszero(r))
+		if (iszero(R))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -101,7 +101,7 @@ normalize_polar_rational_coeff(p)
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(r);
+			push(R);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -111,7 +111,7 @@ normalize_polar_rational_coeff(p)
 		break;
 
 	case 2:
-		if (iszero(r))
+		if (iszero(R))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -119,7 +119,7 @@ normalize_polar_rational_coeff(p)
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(r);
+			push(R);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -129,7 +129,7 @@ normalize_polar_rational_coeff(p)
 		break;
 
 	case 3:
-		if (iszero(r)) {
+		if (iszero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);
@@ -141,7 +141,7 @@ normalize_polar_rational_coeff(p)
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
-			push(r);
+			push(R);
 			push(imaginaryunit);
 			push_symbol(PI);
 			list(4);
@@ -153,7 +153,7 @@ normalize_polar_rational_coeff(p)
 }
 
 function
-normalize_polar_double_coeff(coeff)
+simplify_polar_term_double(coeff)
 {
 	var n, r;
 
