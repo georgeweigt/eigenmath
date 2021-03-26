@@ -342,12 +342,12 @@ normalize_polar_rational_coeff(struct atom *coeff)
 		}
 		break;
 
-	case 2:
+	case 1:
 		if (iszero(R))
-			push_integer(-1);
+			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
-			push_integer(-1);
+			push(imaginaryunit);
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
@@ -360,12 +360,12 @@ normalize_polar_rational_coeff(struct atom *coeff)
 		}
 		break;
 
-	case 1:
+	case 2:
 		if (iszero(R))
-			push(imaginaryunit);
+			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
-			push(imaginaryunit);
+			push_integer(-1);
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
@@ -439,12 +439,12 @@ normalize_polar_double_coeff(double coeff)
 		}
 		break;
 
-	case 2:
+	case 1:
 		if (r == 0.0)
-			push_integer(-1);
+			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
-			push_integer(-1);
+			push(imaginaryunit);
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
@@ -457,12 +457,12 @@ normalize_polar_double_coeff(double coeff)
 		}
 		break;
 
-	case 1:
+	case 2:
 		if (r == 0.0)
-			push(imaginaryunit);
+			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
-			push(imaginaryunit);
+			push_integer(-1);
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
@@ -564,7 +564,7 @@ power_sum(void)
 }
 
 void
-power_imaginary_unit(void)
+power_minusone(void)
 {
 	if (!isnum(EXPO)) {
 		push_symbol(POWER);
@@ -575,13 +575,13 @@ power_imaginary_unit(void)
 	}
 
 	if (isrational(EXPO))
-		normalize_clock_rational();
+		power_minusone_rational();
 	else
-		normalize_clock_double();
+		power_minusone_double();
 }
 
 void
-normalize_clock_rational(void)
+power_minusone_rational(void)
 {
 	int n;
 
@@ -676,7 +676,7 @@ normalize_clock_rational(void)
 }
 
 void
-normalize_clock_double(void)
+power_minusone_double(void)
 {
 	double expo, n, r;
 
@@ -991,7 +991,7 @@ power_complex_rational(void)
 	push(EXPO);
 	multiply();
 	EXPO = pop();
-	power_imaginary_unit();
+	power_minusone();
 
 	// result = sqrt(X^2 + Y^2) ^ (1/2 * EXPO) * (-1) ^ (EXPO * arctan(Y, X) / pi)
 
@@ -1009,12 +1009,12 @@ power_numbers(void)
 		stop("divide by zero");
 
 	if (equaln(BASE, -1)) {
-		power_imaginary_unit();
+		power_minusone();
 		return;
 	}
 
 	if (isnegativenumber(BASE)) {
-		power_imaginary_unit();
+		power_minusone();
 		push(BASE);
 		negate();
 		BASE = pop();

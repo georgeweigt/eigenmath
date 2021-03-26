@@ -63,16 +63,17 @@ normalize_polar_rational_coeff(p)
 	}
 
 	push(p);
-	push_rational(1, 2);
-	mod();
-	r = pop(); // remainder
-
-	push(p);
-	push(r);
-	subtract();
 	push_integer(2);
 	multiply();
-	n = pop_integer(); // number of 1/4 turns
+	floor();
+	n = pop_integer(); // number of 90 degree turns
+
+	push(p);
+	push_integer(n);
+	push_rational(1, 2);
+	multiply();
+	subtract();
+	r = pop(); // remainder
 
 	switch (n) {
 
@@ -91,12 +92,12 @@ normalize_polar_rational_coeff(p)
 		}
 		break;
 
-	case 2:
+	case 1:
 		if (iszero(r))
-			push_integer(-1);
+			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
-			push_integer(-1);
+			push(imaginaryunit);
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
@@ -109,12 +110,12 @@ normalize_polar_rational_coeff(p)
 		}
 		break;
 
-	case 1:
+	case 2:
 		if (iszero(r))
-			push(imaginaryunit);
+			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
-			push(imaginaryunit);
+			push_integer(-1);
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
@@ -186,12 +187,12 @@ normalize_polar_double_coeff(coeff)
 		}
 		break;
 
-	case 2:
+	case 1:
 		if (r == 0)
-			push_integer(-1);
+			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
-			push_integer(-1);
+			push(imaginaryunit);
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
@@ -204,12 +205,12 @@ normalize_polar_double_coeff(coeff)
 		}
 		break;
 
-	case 1:
+	case 2:
 		if (r == 0)
-			push(imaginaryunit);
+			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
-			push(imaginaryunit);
+			push_integer(-1);
 			push_symbol(POWER);
 			push_symbol(EXP1);
 			push_symbol(MULTIPLY);
