@@ -51,9 +51,9 @@ power_minusone_rational(EXPO)
 
 	push(R);
 	push_integer(n);
-	push_rational(1, 2);
+	push_rational(-1, 2);
 	multiply();
-	subtract();
+	add();
 	R = pop(); // remainder
 
 	switch (n) {
@@ -78,8 +78,8 @@ power_minusone_rational(EXPO)
 			push_symbol(POWER);
 			push_integer(-1);
 			push(R);
-			push_rational(1, 2);
-			subtract();
+			push_rational(-1, 2);
+			add();
 			list(3);
 			list(3);
 		}
@@ -109,8 +109,8 @@ power_minusone_rational(EXPO)
 			push_symbol(POWER);
 			push_integer(-1);
 			push(R);
-			push_rational(1, 2);
-			subtract();
+			push_rational(-1, 2);
+			add();
 			list(3);
 		}
 		break;

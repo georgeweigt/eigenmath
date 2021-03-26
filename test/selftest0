@@ -735,10 +735,6 @@ imag(1.0 i)
 check(infixform(last)="1")
 imag(-1.0 i)
 check(infixform(last)="-1")
-1.0 i
-check(prefixform(last)="(* 1 (^ -1 1/2))")
--1.0 i
-check(prefixform(last)="(* -1 (^ -1 1/2))")
 
 -- test log of zero
 
