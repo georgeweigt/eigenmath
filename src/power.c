@@ -235,7 +235,7 @@ normalize_polar(void)
 		p1 = cdr(EXPO);
 		while (iscons(p1)) {
 			EXPO = car(p1);
-			if (isdenormalpolar(EXPO))
+			if (isdenormalpolarterm(EXPO))
 				normalize_polar_term();
 			else {
 				push_symbol(POWER);
