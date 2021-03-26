@@ -288,61 +288,6 @@ compare_tensors(struct atom *p1, struct atom *p2)
 	return 0;
 }
 
-// tensor p1 to the power p2
-
-void
-power_tensor(void)
-{
-	int i, k, n;
-
-	// first and last dims must be equal
-
-	k = p1->u.tensor->ndim - 1;
-
-	if (p1->u.tensor->dim[0] != p1->u.tensor->dim[k]) {
-		push_symbol(POWER);
-		push(p1);
-		push(p2);
-		list(3);
-		return;
-	}
-
-	push(p2);
-
-	n = pop_integer();
-
-	if (n == ERR) {
-		push_symbol(POWER);
-		push(p1);
-		push(p2);
-		list(3);
-		return;
-	}
-
-	if (n == 0) {
-		n = p1->u.tensor->dim[0];
-		p1 = alloc_matrix(n, n);
-		for (i = 0; i < n; i++)
-			p1->u.tensor->elem[n * i + i] = one;
-		push(p1);
-		return;
-	}
-
-	if (n < 0) {
-		n = -n;
-		push(p1);
-		inv();
-		p1 = pop();
-	}
-
-	push(p1);
-
-	for (i = 1; i < n; i++) {
-		push(p1);
-		inner();
-	}
-}
-
 void
 copy_tensor(void)
 {
