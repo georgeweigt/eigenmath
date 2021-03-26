@@ -42,7 +42,7 @@ arccos_nib(void)
 		push_rational(1, 2);
 		power();
 		add();
-		logarithm();
+		logfunc();
 		multiply();
 		return;
 	}

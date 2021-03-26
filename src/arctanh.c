@@ -39,11 +39,11 @@ arctanh_nib(void)
 		push_double(1.0);
 		push(p1);
 		add();
-		logarithm();
+		logfunc();
 		push_double(1.0);
 		push(p1);
 		subtract();
-		logarithm();
+		logfunc();
 		subtract();
 		push_double(0.5);
 		multiply();

@@ -38,7 +38,7 @@ arccosh_nib(void)
 		power();
 		push(p1);
 		add();
-		logarithm();
+		logfunc();
 		return;
 	}
 

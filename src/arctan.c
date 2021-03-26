@@ -1,5 +1,15 @@
 #include "defs.h"
 
+#undef T
+#undef X
+#undef Y
+#undef Z
+
+#define T p1
+#define X p2
+#define Y p3
+#define Z p4
+
 void
 eval_arctan(void)
 {
@@ -13,16 +23,6 @@ eval_arctan(void)
 	}
 	arctan();
 }
-
-#undef T
-#undef X
-#undef Y
-#undef Z
-
-#define T p1
-#define X p2
-#define Y p3
-#define Z p4
 
 void
 arctan(void)
@@ -60,7 +60,7 @@ arctan_nib(void)
 		push(Z);
 		subtract();
 		divide();
-		logarithm();
+		logfunc();
 		multiply();
 		return;
 	}

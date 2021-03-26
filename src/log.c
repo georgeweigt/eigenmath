@@ -1,25 +1,23 @@
 #include "defs.h"
 
-// natural log
-
 void
 eval_log(void)
 {
 	push(cadr(p1));
 	eval();
-	logarithm();
+	logfunc();
 }
 
 void
-logarithm(void)
+logfunc(void)
 {
 	save();
-	log_nib();
+	logfunc_nib();
 	restore();
 }
 
 void
-log_nib(void)
+logfunc_nib(void)
 {
 	int h, i;
 
@@ -52,7 +50,7 @@ log_nib(void)
 	if (isdoublez(p1)) {
 		push(p1);
 		mag();
-		logarithm();
+		logfunc();
 		push(imaginaryunit);
 		push(p1);
 		arg();
@@ -78,7 +76,7 @@ log_nib(void)
 	if (isnegativenumber(p1)) {
 		push(p1);
 		negate();
-		logarithm();
+		logfunc();
 		push(imaginaryunit);
 		push_symbol(PI);
 		multiply();
@@ -116,7 +114,7 @@ log_nib(void)
 	if (car(p1) == symbol(POWER)) {
 		push(caddr(p1));
 		push(cadr(p1));
-		logarithm();
+		logfunc();
 		multiply();
 		return;
 	}
@@ -128,7 +126,7 @@ log_nib(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			logarithm();
+			logfunc();
 			p1 = cdr(p1);
 		}
 		add_terms(tos - h);
