@@ -1,74 +1,74 @@
 function
-simplify_polar_term(p)
+normalize_polar(EXPO)
 {
-	var p0;
-
-	if (car(p) != symbol(MULTIPLY))
-		return 0;
-
-	// exp(i pi) -> -1
-
-	if (lengthf(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI)) {
-		push_integer(-1);
-		return 1;
-	}
-
-	if (lengthf(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
-		return 0;
-
-	p = cadr(p); // p = coeff
-
-	if (isdouble(p)) {
-		if (0 < p.d && p.d < 0.5)
-			return 0; // nothing to do
-		simplify_polar_term_double(p.d);
-		return 1;
-	}
-
-	// coeff is a rational number
-
-	if (p.a > 0) {
-		push(p);
-		push_rational(-1, 2);
-		add();
-		p0 = pop();
-		if (p0.a < 0)
-			return 0; // 0 < coeff < 1/2
-	}
-
-	simplify_polar_term_rational(p);
-
-	return 1;
+	var h, p3;
+	if (car(EXPO) == symbol(ADD)) {
+		h = stack.length;
+		p3 = cdr(EXPO);
+		while (iscons(p3)) {
+			EXPO = car(p3);
+			if (isdenormalpolar(EXPO))
+				normalize_polar_term(EXPO);
+			else {
+				push_symbol(POWER);
+				push_symbol(EXP1);
+				push(EXPO);
+				list(3);
+			}
+			p3 = cdr(p3);
+		}
+		multiply_factors(stack.length - h);
+	} else
+		normalize_polar_term(EXPO);
 }
 
 function
-simplify_polar_term_rational(COEFF)
+normalize_polar_term(EXPO)
 {
-	var n, R;
+	var R;
 
-	// COEFF = COEFF mod 2
+	// exp(i pi) = -1
 
-	push(COEFF);
+	if (lengthf(EXPO) == 3) {
+		push_integer(-1);
+		return;
+	}
+
+	R = cadr(EXPO); // R = coeff of term
+
+	if (isrational(R))
+		normalize_polar_term_rational(R);
+	else
+		normalize_polar_term_double(R);
+}
+function
+normalize_polar_term_rational(R)
+{
+	var n;
+
+	// R = R mod 2
+
+	push(R);
 	push_integer(2);
 	mod();
-	COEFF = pop();
+	R = pop();
 
 	// convert negative rotation to positive
 
-	if (COEFF.a < 0) {
-		push(COEFF);
+	if (R.a < 0) {
+		push(R);
 		push_integer(2);
 		add();
-		COEFF = pop();
+		R = pop();
 	}
 
-	push(COEFF);
+	push(R);
 	push_integer(2);
 	multiply();
 	floor();
 	n = pop_integer(); // number of 90 degree turns
 
-	push(COEFF);
+	push(R);
 	push_integer(n);
 	push_rational(-1, 2);
 	multiply();
@@ -153,9 +153,11 @@ simplify_polar_term_rational(COEFF)
 }
 
 function
-simplify_polar_term_double(coeff)
+normalize_polar_term_double(R)
 {
-	var n, r;
+	var coeff, n, r;
+
+	coeff = R.d;
 
 	// coeff = coeff mod 2
 

@@ -37,7 +37,7 @@ power()
 	// BASE = e ?
 
 	if (BASE == symbol(EXP1)) {
-		power_natural_number(BASE, EXPO);
+		power_natural_number(EXPO);
 		return;
 	}
 

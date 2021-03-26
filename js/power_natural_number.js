@@ -1,5 +1,5 @@
 function
-power_natural_number(BASE, EXPO)
+power_natural_number(EXPO)
 {
 	var x, y;
 
@@ -25,20 +25,20 @@ power_natural_number(BASE, EXPO)
 		return;
 	}
 
-	// e^log(expr) -> expr
+	// e^log(expr) = expr
 
 	if (car(EXPO) == symbol(LOG)) {
 		push(cadr(EXPO));
 		return;
 	}
 
-	if (simplify_polar_expr(EXPO))
+	if (isdenormalpolar(EXPO)) {
+		normalize_polar(EXPO);
 		return;
-
-	// none of the above
+	}
 
 	push_symbol(POWER);
-	push(BASE);
+	push_symbol(EXP1);
 	push(EXPO);
 	list(3);
 }
