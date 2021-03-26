@@ -1,7 +1,5 @@
 #include "defs.h"
 
-#undef T1
-#undef T2
 #undef BASE
 #undef EXPO
 #undef R
@@ -10,8 +8,6 @@
 #undef PX
 #undef PY
 
-#define T1 p1
-#define T2 p2
 #define BASE p3
 #define EXPO p4
 #define R p5
@@ -113,12 +109,12 @@ power_nib(void)
 
 	if (car(BASE) == symbol(MULTIPLY)) {
 		h = tos;
-		T1 = cdr(BASE);
-		while (iscons(T1)) {
-			push(car(T1));
+		p1 = cdr(BASE);
+		while (iscons(p1)) {
+			push(car(p1));
 			push(EXPO);
 			power();
-			T1 = cdr(T1);
+			p1 = cdr(p1);
 		}
 		multiply_factors(tos - h);
 		return;
@@ -236,9 +232,9 @@ normalize_polar(void)
 	int h;
 	if (car(EXPO) == symbol(ADD)) {
 		h = tos;
-		T1 = cdr(EXPO);
-		while (iscons(T1)) {
-			EXPO = car(T1);
+		p1 = cdr(EXPO);
+		while (iscons(p1)) {
+			EXPO = car(p1);
 			if (isdenormalpolar(EXPO))
 				normalize_polar_term();
 			else {
@@ -247,7 +243,7 @@ normalize_polar(void)
 				push(EXPO);
 				list(3);
 			}
-			T1 = cdr(T1);
+			p1 = cdr(p1);
 		}
 		multiply_factors(tos - h);
 	} else
@@ -512,17 +508,17 @@ power_sum(void)
 
 	h = tos;
 
-	T1 = cdr(BASE);
+	p1 = cdr(BASE);
 
-	while (iscons(T1)) {
-		T2 = cdr(BASE);
-		while (iscons(T2)) {
-			push(car(T1));
-			push(car(T2));
+	while (iscons(p1)) {
+		p2 = cdr(BASE);
+		while (iscons(p2)) {
+			push(car(p1));
+			push(car(p2));
 			multiply();
-			T2 = cdr(T2);
+			p2 = cdr(p2);
 		}
-		T1 = cdr(T1);
+		p1 = cdr(p1);
 	}
 
 	add_terms(tos - h);
@@ -1080,10 +1076,10 @@ power_rationals(void)
 	n = tos - h;
 
 	for (i = 0; i < n; i++) {
-		T1 = s[i];
-		if (car(T1) == symbol(POWER)) {
-			BASE = cadr(T1);
-			EXPO = caddr(T1);
+		p1 = s[i];
+		if (car(p1) == symbol(POWER)) {
+			BASE = cadr(p1);
+			EXPO = caddr(p1);
 			power_rationals_nib();
 			s[i] = pop(); // trick: fill hole
 		}
@@ -1091,17 +1087,17 @@ power_rationals(void)
 
 	// multiply rationals
 
-	T2 = one;
+	p2 = one;
 
 	n = tos - h;
 
 	for (i = 0; i < n; i++) {
-		T1 = s[i];
-		if (T1->k == RATIONAL) {
-			push(T1);
-			push(T2);
+		p1 = s[i];
+		if (p1->k == RATIONAL) {
+			push(p1);
+			push(p2);
 			multiply();
-			T2 = pop();
+			p2 = pop();
 			for (j = i + 1; j < n; j++)
 				s[j - 1] = s[j];
 			i--;
@@ -1112,8 +1108,8 @@ power_rationals(void)
 
 	// finalize
 
-	if (!equaln(T2, 1))
-		push(T2);
+	if (!equaln(p2, 1))
+		push(p2);
 
 	n = tos - h;
 
@@ -1242,10 +1238,10 @@ power_tensor(void)
 
 	if (n == 0) {
 		n = BASE->u.tensor->dim[0];
-		T1 = alloc_matrix(n, n);
+		p1 = alloc_matrix(n, n);
 		for (i = 0; i < n; i++)
-			T1->u.tensor->elem[n * i + i] = one;
-		push(T1);
+			p1->u.tensor->elem[n * i + i] = one;
+		push(p1);
 		return;
 	}
 

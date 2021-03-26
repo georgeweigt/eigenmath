@@ -1,12 +1,12 @@
 function
 normalize_polar(EXPO)
 {
-	var h, T1;
+	var h, p1;
 	if (car(EXPO) == symbol(ADD)) {
 		h = stack.length;
-		T1 = cdr(EXPO);
-		while (iscons(T1)) {
-			EXPO = car(T1);
+		p1 = cdr(EXPO);
+		while (iscons(p1)) {
+			EXPO = car(p1);
 			if (isdenormalpolar(EXPO))
 				normalize_polar_term(EXPO);
 			else {
@@ -15,7 +15,7 @@ normalize_polar(EXPO)
 				push(EXPO);
 				list(3);
 			}
-			T1 = cdr(T1);
+			p1 = cdr(p1);
 		}
 		multiply_factors(stack.length - h);
 	} else
