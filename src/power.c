@@ -208,95 +208,74 @@ power_natural_number(void)
 		return;
 	}
 
-	// e^log(expr) -> expr
+	// e^log(expr) = expr
 
 	if (car(EXPO) == symbol(LOG)) {
 		push(cadr(EXPO));
 		return;
 	}
 
-	if (simplify_polar_expr())
+	if (isdenormalpolar(EXPO)) {
+		normalize_polar();
 		return;
-
-	// none of the above
+	}
 
 	push_symbol(POWER);
-	push(BASE);
+	push_symbol(EXP1);
 	push(EXPO);
 	list(3);
 }
 
-int
-simplify_polar_expr(void)
+void
+normalize_polar(void)
 {
+	int h;
 	if (car(EXPO) == symbol(ADD)) {
+		h = tos;
 		p3 = cdr(EXPO);
 		while (iscons(p3)) {
-			if (simplify_polar_term(car(p3))) {
+			EXPO = car(p3);
+			if (isdenormalpolar(EXPO))
+				normalize_polar_term();
+			else {
+				push_symbol(POWER);
+				push_symbol(EXP1);
 				push(EXPO);
-				push(car(p3));
-				subtract();
-				expfunc();
-				multiply();
-				return 1;
+				list(3);
 			}
 			p3 = cdr(p3);
 		}
-		return 0;
-	}
-
-	return simplify_polar_term(EXPO);
-}
-
-int
-simplify_polar_term(struct atom *p)
-{
-	if (car(p) != symbol(MULTIPLY))
-		return 0;
-
-	// exp(i pi) -> -1
-
-	if (length(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI)) {
-		push_integer(-1);
-		return 1;
-	}
-
-	if (length(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
-		return 0;
-
-	p = cadr(p); // coeff
-
-	if (isdouble(p)) {
-		if (0.0 < p->u.d && p->u.d < 0.5)
-			return 0;
-		simplify_polar_term_double(p->u.d);
-		return 1;
-	}
-
-	// coeff is a rational number
-
-	if (p->sign == MPLUS) {
-		push(p);
-		push_rational(-1, 2);
-		add();
-		p0 = pop();
-		if (p0->sign == MMINUS)
-			return 0; // 0 < coeff < 1/2
-	}
-
-	simplify_polar_term_rational(p);
-
-	return 1;
+		multiply_factors(tos - h);
+	} else
+		normalize_polar_term();
 }
 
 void
-simplify_polar_term_rational(struct atom *coeff)
+normalize_polar_term(void)
+{
+	// exp(i pi) = -1
+
+	if (length(EXPO) == 3) {
+		push_integer(-1);
+		return;
+	}
+
+	R = cadr(EXPO); // R = coeff of term
+
+	if (isrational(R))
+		normalize_polar_term_rational();
+	else
+		normalize_polar_term_double();
+}
+
+void
+normalize_polar_term_rational(void)
 {
 	int n;
 
-	// R = coeff mod 2
+	// R = R mod 2
 
-	push(coeff);
+	push(R);
 	push_integer(2);
 	modfunc();
 	R = pop();
@@ -401,9 +380,11 @@ simplify_polar_term_rational(struct atom *coeff)
 }
 
 void
-simplify_polar_term_double(double coeff)
+normalize_polar_term_double(void)
 {
-	double n, r;
+	double coeff, n, r;
+
+	coeff = R->u.d;
 
 	// coeff = coeff mod 2
 
