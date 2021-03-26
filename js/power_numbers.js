@@ -14,12 +14,12 @@ power_numbers(BASE, EXPO)
 	}
 
 	if (isminusone(BASE)) {
-		power_minusone(BASE, EXPO);
+		power_minusone(EXPO);
 		return;
 	}
 
 	if (isnegativenumber(BASE)) {
-		power_minusone(BASE, EXPO);
+		power_minusone(EXPO);
 		push(BASE);
 		negate();
 		BASE = pop();

@@ -570,6 +570,13 @@ power_minusone(void)
 		return;
 	}
 
+	// do this for better performance
+
+	if (equalq(EXPO, 1, 2)) {
+		push(imaginaryunit);
+		return;
+	}
+
 	if (isrational(EXPO))
 		power_minusone_rational();
 	else

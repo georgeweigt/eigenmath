@@ -1,11 +1,18 @@
 function
-power_minusone(BASE, EXPO)
+power_minusone(EXPO)
 {
 	if (!isnum(EXPO)) {
 		push_symbol(POWER);
 		push_integer(-1);
 		push(EXPO);
 		list(3);
+		return;
+	}
+
+	// do this for better performance
+
+	if (equalq(EXPO, 1, 2)) {
+		push(imaginaryunit);
 		return;
 	}
 
