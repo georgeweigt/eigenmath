@@ -840,6 +840,8 @@ isdenormalpolar(struct atom *p)
 int
 isdenormalpolarterm(struct atom *p)
 {
+	struct atom *u; // ok, no gc
+
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
@@ -854,15 +856,10 @@ isdenormalpolarterm(struct atom *p)
 	if (isdouble(p))
 		return p->u.d < 0.0 || p->u.d >= 0.5;
 
-	if (p->sign == MMINUS)
-		return 1; // coeff less than zero
+	push_rational(1, 2);
+	u = pop();
 
-	push(p);
-	push_rational(-1, 2);
-	add();
-	p = pop();
-
-	return p->sign == MPLUS; // MPLUS indicates coeff greater than or equal to 1/2
+	return compare_rationals(p, u) >= 0 || compare_rationals(p, zero) < 0;
 }
 
 // returns 1 if p <= -1/2 or p > 1/2
