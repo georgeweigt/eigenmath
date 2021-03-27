@@ -131,8 +131,6 @@ cmpfunc(void)
 	save();
 	p2 = pop();
 	p1 = pop();
-	if (!isnum(p1) || !isnum(p2))
-		stop("compare");
 	t = cmp_numbers(p1, p2);
 	restore();
 	return t;
@@ -142,6 +140,9 @@ int
 cmp_numbers(struct atom *p1, struct atom *p2)
 {
 	double d1, d2;
+
+	if (!isnum(p1) || !isnum(p2))
+		stop("compare");
 
 	if (isrational(p1) && isrational(p2))
 		return cmp_rationals(p1, p2);

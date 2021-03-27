@@ -298,68 +298,16 @@ eval_or(void)
 	push_integer(0);
 }
 
-#if 0
 int
 cmp_args(void)
 {
-	int t;
-
 	push(cadr(p1));
 	eval();
 
 	push(caddr(p1));
 	eval();
 
-	p2 = pop();
-	p1 = pop();
-
-	if (istensor(p1) || istensor(p2))
-		stop("tensor comparison");
-
-	push(p1);
-	push(p2);
-	subtract();
-	p1 = pop();
-
-	if (!isnum(p1)) {
-		push(p1);
-		floatfunc(); // try converting pi and e
-		p1 = pop();
-		if (!isnum(p1))
-			stop("non-numerical comparison");
-	}
-
-	if (iszero(p1))
-		t = 0;
-	else if (isrational(p1))
-		t = (p1->sign == MMINUS) ? -1 : 1;
-	else
-		t = (p1->u.d < 0.0) ? -1 : 1;
-
-	return t;
-}
-#endif
-
-int
-cmp_args(void)
-{
-	int t;
-
-	save();
-
-	push(cadr(p1));
-	eval();
-	p2 = pop();
-
-	push(caddr(p1));
-	eval();
-	p3 = pop();
-
-	t = cmp_numbers(p2, p3);
-
-	restore();
-
-	return t;
+	return cmpfunc();
 }
 
 // like eval() except '=' is evaluated as '=='
