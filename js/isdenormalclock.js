@@ -1,7 +1,7 @@
 function
 isdenormalclock(p)
 {
-	var u, v;
+	var t;
 
 	if (!isnum(p))
 		return 0;
@@ -9,22 +9,19 @@ isdenormalclock(p)
 	if (isdouble(p))
 		return p.d <= -0.5 || p.d > 0.5;
 
-	if (equalq(p, 1, 2))
-		return 0;
+	push(p);
+	push_rational(1, 2);
+	t = cmpfunc();
 
-	if (equalq(p, -1, 2))
-		return 1;
+	if (t > 0)
+		return 1; // p > 1/2
 
 	push(p);
 	push_rational(-1, 2);
-	add();
+	t = cmpfunc();
 
-	push(p);
-	push_rational(1, 2);
-	add();
+	if (t <= 0)
+		return 1; // p <= -1/2
 
-	v = pop();
-	u = pop();
-
-	return u.a >= 0 || v.a < 0;
+	return 0;
 }
