@@ -878,22 +878,11 @@ isdenormalclock(struct atom *p)
 	if (isdouble(p))
 		return p->u.d <= -0.5 || p->u.d > 0.5;
 
-	if (equalq(p, 1, 2))
-		return 0;
-
-	if (equalq(p, -1, 2))
-		return 1;
-
-	push(p);
-	push_rational(-1, 2);
-	add();
-
-	push(p);
 	push_rational(1, 2);
-	add();
+	push_rational(-1, 2);
 
 	v = pop();
 	u = pop();
 
-	return u->sign == MPLUS || v->sign == MMINUS;
+	return compare_rationals(p, u) > 0 || compare_rationals(p, v) <= 0; // p > u or p <= v
 }
