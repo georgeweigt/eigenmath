@@ -30,7 +30,7 @@ arg()
 	subtract();
 
 	if (t)
-		floatf();
+		floatfunc();
 }
 
 function

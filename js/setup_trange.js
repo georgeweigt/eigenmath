@@ -9,7 +9,7 @@ setup_trange()
 	p1 = lookup("trange");
 	push(p1);
 	eval_nonstop();
-	floatf();
+	floatfunc();
 	p1 = pop();
 
 	if (!istensor(p1) || p1.dim.length != 1 || p1.dim[0] != 2)

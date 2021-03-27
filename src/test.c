@@ -303,9 +303,11 @@ cmp_args(void)
 {
 	push(cadr(p1));
 	eval();
+	floatfunc();
 
 	push(caddr(p1));
 	eval();
+	floatfunc();
 
 	return cmpfunc();
 }

@@ -30,7 +30,7 @@ abs()
 
 	p2 = pop();
 	push(p2);
-	floatf();
+	floatfunc();
 	p3 = pop();
 	if (isdouble(p3)) {
 		push(p2);

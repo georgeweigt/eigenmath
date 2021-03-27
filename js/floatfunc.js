@@ -1,5 +1,14 @@
 function
-float_subst()
+floatfunc()
+{
+	floatfunc_subst();
+	evalf();
+	floatfunc_subst(); // in case pi popped up
+	evalf();
+}
+
+function
+floatfunc_subst()
 {
 	var h, i, n, p1;
 
@@ -10,7 +19,7 @@ float_subst()
 		n = p1.elem.length
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			float_subst();
+			floatfunc_subst();
 			p1.elem[i] = pop();
 		}
 		push(p1);
@@ -38,7 +47,7 @@ float_subst()
 		push_symbol(POWER);
 		push_symbol(EXP1);
 		push(caddr(p1));
-		float_subst();
+		floatfunc_subst();
 		list(3);
 		return;
 	}
@@ -51,7 +60,7 @@ float_subst()
 		push_symbol(POWER);
 		push(cadr(p1));
 		push(caddr(p1));
-		float_subst();
+		floatfunc_subst();
 		list(3);
 		list(3);
 		return;
@@ -63,7 +72,7 @@ float_subst()
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			float_subst();
+			floatfunc_subst();
 			p1 = cdr(p1);
 		}
 		list(stack.length - h);

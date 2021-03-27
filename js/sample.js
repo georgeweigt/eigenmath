@@ -9,7 +9,7 @@ sample(F, T, t)
 
 	push(F);
 	eval_nonstop();
-	floatf();
+	floatfunc();
 	p1 = pop();
 
 	if (istensor(p1)) {
