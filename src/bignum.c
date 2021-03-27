@@ -125,23 +125,39 @@ equalq(struct atom *p, int a, int b)
 }
 
 int
-compare_numbers(struct atom *a, struct atom *b)
+cmpfunc(void)
 {
-	double aa, bb;
-	if (isrational(a) && isrational(b))
-		return compare_rationals(a, b);
-	if (isdouble(a))
-		aa = a->u.d;
-	else
-		aa = convert_rational_to_double(a);
-	if (isdouble(b))
-		bb = b->u.d;
-	else
-		bb = convert_rational_to_double(b);
-	if (aa < bb)
+	int t;
+	save();
+	p2 = pop();
+	p1 = pop();
+	if (!isnum(p1) || !isnum(p2))
+		stop("compare");
+	t = compare_numbers(p1, p2);
+	restore();
+	return t;
+}
+
+int
+compare_numbers(struct atom *p, struct atom *q)
+{
+	double a, b;
+
+	if (isrational(p) && isrational(q))
+		return compare_rationals(p, q);
+
+	push(p);
+	a = pop_double();
+
+	push(q);
+	b = pop_double();
+
+	if (a < b)
 		return -1;
-	if (aa > bb)
+
+	if (a > b)
 		return 1;
+
 	return 0;
 }
 

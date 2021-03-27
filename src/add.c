@@ -462,26 +462,3 @@ subtract(void)
 	negate();
 	add();
 }
-
-int
-cmpfunc(void)
-{
-	struct atom *p; // ok, no gc
-	subtract();
-	p = pop();
-	if (!isnum(p))
-		stop("compare");
-	if (iszero(p))
-		return 0;
-	if (isdouble(p)) {
-		if (p->u.d < 0.0)
-			return -1;
-		else
-			return 1;
-	} else {
-		if (p->sign == MMINUS)
-			return -1;
-		else
-			return 1;
-	}
-}

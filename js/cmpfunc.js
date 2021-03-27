@@ -1,22 +1,10 @@
 function
 cmpfunc()
 {
-	var p;
-	subtract();
-	p = pop();
-	if (!isnum(p))
-		stop("compare");
-	if (iszero(p))
-		return 0;
-	if (isdouble(p)) {
-		if (p.d < 0)
-			return -1;
-		else
-			return 1;
-	} else {
-		if (p.a < 0)
-			return -1;
-		else
-			return 1;
-	}
+	var p1, p2;
+	p2 = pop();
+	p1 = pop();
+	if (!isnum(p1) || !isnum(p2))
+		stopf("compare");
+	return cmp_numbers(p1, p2);
 }
