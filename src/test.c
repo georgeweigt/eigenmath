@@ -298,6 +298,7 @@ eval_or(void)
 	push_integer(0);
 }
 
+#if 0
 int
 cmp_args(void)
 {
@@ -334,6 +335,29 @@ cmp_args(void)
 		t = (p1->sign == MMINUS) ? -1 : 1;
 	else
 		t = (p1->u.d < 0.0) ? -1 : 1;
+
+	return t;
+}
+#endif
+
+int
+cmp_args(void)
+{
+	int t;
+
+	save();
+
+	push(cadr(p1));
+	eval();
+	p2 = pop();
+
+	push(caddr(p1));
+	eval();
+	p3 = pop();
+
+	t = cmp_numbers(p2, p3);
+
+	restore();
 
 	return t;
 }

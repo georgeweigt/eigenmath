@@ -1834,10 +1834,6 @@ check(last = ((1,0),(0,0)))
 a=quote(a)
 b=quote(b)
 c=quote(c)
-a<a+1
-check(last = 1)
-a-1<a
-check(last = 1)
 1==1
 check(last = 1)
 1==2
@@ -1889,8 +1885,6 @@ check(last = 1)
 or(0,0)
 check(last = 0)
 (0,0)==0
-check(last = 1)
-1<sqrt(3)
 check(last = 1)
 transpose(((a,b),(c,d)))
 check(last = ((a,c),(b,d)))

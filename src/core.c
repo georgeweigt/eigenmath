@@ -446,9 +446,9 @@ sort(int n)
 }
 
 int
-sort_func(const void *q1, const void *q2)
+sort_func(const void *p1, const void *p2)
 {
-	return cmp_expr(*((struct atom **) q1), *((struct atom **) q2));
+	return cmp_expr(*((struct atom **) p1), *((struct atom **) p2));
 }
 
 int
@@ -466,7 +466,7 @@ cmp_expr(struct atom *p1, struct atom *p2)
 		return 1;
 
 	if (isnum(p1) && isnum(p2))
-		return compare_numbers(p1, p2);
+		return cmp_numbers(p1, p2);
 
 	if (isnum(p1))
 		return -1;
