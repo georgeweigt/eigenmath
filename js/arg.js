@@ -1,7 +1,7 @@
 function
 arg()
 {
-	var i, n, p1;
+	var i, n, t, p1;
 
 	p1 = pop();
 
@@ -17,6 +17,8 @@ arg()
 		return;
 	}
 
+	t = isdoublesomewhere(p1);
+
 	push(p1);
 	numerator();
 	arg1();
@@ -27,10 +29,7 @@ arg()
 
 	subtract();
 
-	p1 = pop();
-	push(p1);
-
-	if (iscons(p1) && isdoublesomewhere(p1))
+	if (t)
 		floatf();
 }
 

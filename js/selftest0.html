@@ -1123,6 +1123,9 @@ check(infixform(sin(1/6.0 pi)) == "0.5")
 check(infixform(polar(2.0 + 3.0 i)) == "3.60555 exp(0.312833 i pi)")
 check(arg(2.0 + 3.0 i) == arg(polar(2.0 + 3.0 i)))
 check(arg(2.0 + 3.0 i) == arg(clock(2.0 + 3.0 i)))
+check(infixform(exp(0.5 i pi)) == "i") -- was 1 i
+check(infixform(arg(1.0 i)) == "1.5708") -- was 1/2 pi
+check(infixform(log(1.0 i)) == "1.5708 i") -- was 1/2 i pi
 
 "Testing arg"
 
