@@ -27,7 +27,7 @@ arg(void)
 void
 arg_nib(void)
 {
-	int i, n;
+	int i, n, t;
 
 	p1 = pop();
 
@@ -45,6 +45,8 @@ arg_nib(void)
 		return;
 	}
 
+	t = isdoublesomewhere(p1);
+
 	push(p1);
 	numerator();
 	arg1();
@@ -58,7 +60,7 @@ arg_nib(void)
 	p1 = pop();
 	push(p1);
 
-	if (iscons(p1) && isdoublesomewhere(p1))
+	if (t)
 		floatfunc();
 }
 

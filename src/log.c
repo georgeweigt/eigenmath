@@ -51,9 +51,9 @@ logfunc_nib(void)
 		push(p1);
 		mag();
 		logfunc();
-		push(imaginaryunit);
 		push(p1);
 		arg();
+		push(imaginaryunit);
 		multiply();
 		add();
 		return;

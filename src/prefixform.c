@@ -65,6 +65,9 @@ prefixform(struct atom *p)
 	case DOUBLE:
 		sprintf(buf, "%g", p->u.d);
 		print_str(buf);
+//		for debugging
+//		if (!strchr(buf, '.') && !strchr(buf, 'e') && !strchr(buf, 'E'))
+//			print_str(".0");
 		break;
 	case KSYM:
 	case USYM:
