@@ -17,6 +17,7 @@ void add_numbers(void);
 void add_rationals(void);
 void add_integers(void);
 void subtract(void);
+int cmpfunc(void);
 void eval_adj(void);
 void adj(void);
 void adj_nib(void);

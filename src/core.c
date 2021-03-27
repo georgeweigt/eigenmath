@@ -840,7 +840,7 @@ isdenormalpolar(struct atom *p)
 int
 isdenormalpolarterm(struct atom *p)
 {
-	struct atom *u; // ok, no gc
+	int t;
 
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
@@ -856,10 +856,21 @@ isdenormalpolarterm(struct atom *p)
 	if (isdouble(p))
 		return p->u.d < 0.0 || p->u.d >= 0.5;
 
+	push(p);
 	push_rational(1, 2);
-	u = pop();
+	t = cmpfunc();
 
-	return compare_rationals(p, u) >= 0 || compare_rationals(p, zero) < 0;
+	if (t >= 0)
+		return 1; // p >= 1/2
+
+	push(p);
+	push_integer(0);
+	t = cmpfunc();
+
+	if (t < 0)
+		return 1; // p < 0
+
+	return 0;
 }
 
 // returns 1 if p <= -1/2 or p > 1/2
@@ -867,7 +878,7 @@ isdenormalpolarterm(struct atom *p)
 int
 isdenormalclock(struct atom *p)
 {
-	struct atom *u, *v; // ok, no gc
+	int t;
 
 	if (!isnum(p))
 		return 0;
@@ -875,11 +886,19 @@ isdenormalclock(struct atom *p)
 	if (isdouble(p))
 		return p->u.d <= -0.5 || p->u.d > 0.5;
 
+	push(p);
 	push_rational(1, 2);
+	t = cmpfunc();
+
+	if (t > 0)
+		return 1; // p > 1/2
+
+	push(p);
 	push_rational(-1, 2);
+	t = cmpfunc();
 
-	v = pop();
-	u = pop();
+	if (t <= 0)
+		return 1; // p <= -1/2
 
-	return compare_rationals(p, u) > 0 || compare_rationals(p, v) <= 0; // p > u or p <= v
+	return 0;
 }
