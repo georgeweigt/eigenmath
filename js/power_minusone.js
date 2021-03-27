@@ -1,29 +1,35 @@
 function
 power_minusone(EXPO)
 {
-	if (!isnum(EXPO)) {
-		push_symbol(POWER);
-		push_integer(-1);
-		push(EXPO);
-		list(3);
-		return;
-	}
-
-	// optimization
+	// optimization for i
 
 	if (equalq(EXPO, 1, 2)) {
 		push(imaginaryunit);
 		return;
 	}
 
-	if (isrational(EXPO))
-		power_minusone_rational(EXPO);
-	else
-		power_minusone_double(EXPO);
+	if (isdenormalclock(EXPO)) {
+		normalize_clock(EXPO);
+		return;
+	}
+
+	push_symbol(POWER);
+	push_integer(-1);
+	push(EXPO);
+	list(3);
 }
 
 function
-power_minusone_rational(EXPO)
+normalize_clock(EXPO)
+{
+	if (isrational(EXPO))
+		normalize_clock_rational(EXPO);
+	else
+		normalize_clock_double(EXPO);
+}
+
+function
+normalize_clock_rational(EXPO)
 {
 	var n, R;
 
@@ -118,7 +124,7 @@ power_minusone_rational(EXPO)
 }
 
 function
-power_minusone_double(EXPO)
+normalize_clock_double(EXPO)
 {
 	var expo, n, r;
 

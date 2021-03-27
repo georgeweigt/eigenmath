@@ -543,29 +543,35 @@ power_sum(void)
 void
 power_minusone(void)
 {
-	if (!isnum(EXPO)) {
-		push_symbol(POWER);
-		push_integer(-1);
-		push(EXPO);
-		list(3);
-		return;
-	}
-
-	// optimization
+	// optimization for i
 
 	if (equalq(EXPO, 1, 2)) {
 		push(imaginaryunit);
 		return;
 	}
 
-	if (isrational(EXPO))
-		power_minusone_rational();
-	else
-		power_minusone_double();
+	if (isdenormalclock(EXPO)) {
+		normalize_clock();
+		return;
+	}
+
+	push_symbol(POWER);
+	push_integer(-1);
+	push(EXPO);
+	list(3);
 }
 
 void
-power_minusone_rational(void)
+normalize_clock(void)
+{
+	if (isrational(EXPO))
+		normalize_clock_rational();
+	else
+		normalize_clock_double();
+}
+
+void
+normalize_clock_rational(void)
 {
 	int n;
 
@@ -660,7 +666,7 @@ power_minusone_rational(void)
 }
 
 void
-power_minusone_double(void)
+normalize_clock_double(void)
 {
 	double expo, n, r;
 

@@ -835,6 +835,8 @@ isdenormalpolar(struct atom *p)
 	return isdenormalpolarterm(p);
 }
 
+// returns 1 if term is (coeff * i * pi) and coeff < 0 or coeff >= 1/2
+
 int
 isdenormalpolarterm(struct atom *p)
 {
@@ -861,4 +863,37 @@ isdenormalpolarterm(struct atom *p)
 	p = pop();
 
 	return p->sign == MPLUS; // MPLUS indicates coeff greater than or equal to 1/2
+}
+
+// returns 1 if p <= -1/2 or p > 1/2
+
+int
+isdenormalclock(struct atom *p)
+{
+	struct atom *u, *v; // ok, no gc
+
+	if (!isnum(p))
+		return 0;
+
+	if (isdouble(p))
+		return p->u.d <= -0.5 || p->u.d > 0.5;
+
+	if (equalq(p, 1, 2))
+		return 0;
+
+	if (equalq(p, -1, 2))
+		return 1;
+
+	push(p);
+	push_rational(-1, 2);
+	add();
+
+	push(p);
+	push_rational(1, 2);
+	add();
+
+	v = pop();
+	u = pop();
+
+	return u->sign == MPLUS || v->sign == MMINUS;
 }
