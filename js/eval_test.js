@@ -4,7 +4,7 @@ eval_test(p1)
 	var p2;
 	p1 = cdr(p1);
 	while (iscons(p1)) {
-		if (cdr(p1) == symbol(NIL)) {
+		if (!iscons(cdr(p1))) {
 			push(car(p1)); // default case
 			evalf();
 			return;

@@ -5,7 +5,7 @@ eval_test(void)
 {
 	p1 = cdr(p1);
 	while (iscons(p1)) {
-		if (cdr(p1) == symbol(NIL)) {
+		if (!iscons(cdr(p1))) {
 			push(car(p1)); // default case
 			eval();
 			return;
