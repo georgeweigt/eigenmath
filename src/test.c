@@ -20,7 +20,7 @@ eval_test(void)
 		}
 		p1 = cddr(p1);
 	}
-	push_integer(0);
+	push_symbol(NIL);
 }
 
 void

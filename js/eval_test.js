@@ -19,5 +19,5 @@ eval_test(p1)
 		}
 		p1 = cddr(p1);
 	}
-	push_integer(0);
+	push_symbol(NIL);
 }
