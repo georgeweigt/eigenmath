@@ -38,7 +38,7 @@ eval_rotate(void)
 
 	while (iscons(p1)) {
 
-		if (length(p1) < 2)
+		if (!iscons(cdr(p1)))
 			stop("rotate");
 		OPCODE = car(p1);
 		push(cadr(p1));
@@ -47,7 +47,7 @@ eval_rotate(void)
 		p1 = cddr(p1);
 
 		if (OPCODE == symbol(C_LOWER)) {
-			if (length(p1) < 2)
+			if (!iscons(cdr(p1)))
 				stop("rotate");
 			OPCODE = car(p1);
 			push(cadr(p1));
@@ -66,7 +66,7 @@ eval_rotate(void)
 		}
 
 		if (OPCODE == symbol(P_LOWER)) {
-			if (length(p1) < 1)
+			if (!iscons(p1))
 				stop("rotate");
 			push(car(p1));
 			p1 = cdr(p1);
@@ -86,7 +86,7 @@ eval_rotate(void)
 
 		if (OPCODE == symbol(S_LOWER)) {
 			m = n;
-			if (length(p1) < 1)
+			if (!iscons(p1))
 				stop("rotate");
 			push(car(p1));
 			p1 = cdr(p1);

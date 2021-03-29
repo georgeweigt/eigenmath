@@ -1,38 +1,45 @@
--- www.eigenmath.org/moller-scattering-3.txt
+-- Draw probability density for high energy Moller scattering
 
--- Draw a probability density for Moller scattering.
+-- eigenmath.org/moller-scattering-3.txt
 
-M = (1 + cos(theta/2)^4)/sin(theta/2)^4 +
-    8/sin(theta)^2 +
-    (1 + sin(theta/2)^4)/cos(theta/2)^4
+pi = float(pi) -- use numerical value of pi
+N = 6          -- number of bins
+a = pi / N
 
-ds(theta) = M sin(theta)
+I(theta) = -cos(theta) - 8 cos(theta) / sin(theta)^2
 
-pie = float(pi)
-alpha = pie/180
-N = 100
-dt = (pie - 2 alpha)/N
-C = sum(k,1,N,ds(alpha + (k - 0.5) dt)) dt
+C = I(pi - a) - I(a) -- normalization constant
 
-f(theta) = 1/C M sin(theta)
+"Probability density"
 
-xrange = (0,pi)
-yrange = (0,0.01)
+-- f is the probability density function for Moller scattering
+
+f = 1/C (cos(theta)^2 + 3)^2 / sin(theta)^3
+f
+
+xrange = (a,pi - a)
+yrange = (0,2)
 draw(f,theta)
 
-N = 9
+"Probability distribution"
+
 P = zero(N)
 
-I(a,b) = sum(k,1,100,f(a + (k - 0.5) (b - a)/100)) (b - a)/100
-
-for(k,1,N - 2,
-  a = k pie/N,
-  b = (k + 1) pie/N,
-  P[k + 1] = I(a,b)
+for(k,2,N - 1,
+  theta2 = k pi/N,
+  theta1 = theta2 - pi/N,
+  P[k] = I(theta2) - I(theta1)
 )
 
-P = P/sum(k,1,N,P[k])
-
+P = P / sum(k,1,N,P[k]) -- normalize
 P
+
+"Verify probability density formula (1=ok)"
+
+F = -expcos(theta) - 8 expcos(theta) / expsin(theta)^2
+
+f = (expcos(theta)^2 + 3)^2 / expsin(theta)^3
+
+d(F,theta) == f
 
 exit
