@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// N is number of qbits
+// N is number of qubits
 
 #define N 4
 
