@@ -16,8 +16,8 @@ emit_points()
 		x += DRAW_LEFT_PAD;
 		y = DRAW_HEIGHT - y + DRAW_TOP_PAD;
 
-		x = "cx='" + x.toFixed(2) + "'";
-		y = "cy='" + y.toFixed(2) + "'";
+		x = "cx='" + x + "'";
+		y = "cy='" + y + "'";
 
 		outbuf += "<circle " + x + y + "r='1.5' style='stroke:black;fill:black'/>\n";
 	}

@@ -510,7 +510,7 @@ scan_error(s)
 		t += instring.substring(token_index, scan_index);
 	}
 
-	print_buf(t, RED);
+	printbuf(t, RED);
 
 	stopf("");
 }

@@ -3,7 +3,7 @@ const BLUE = 2;
 const RED = 3;
 
 function
-print_buf(s, color)
+printbuf(s, color)
 {
 	s = s.replace(/&/g, "&amp;");
 	s = s.replace(/</g, "&lt;");
@@ -17,7 +17,7 @@ print_buf(s, color)
 	switch (color) {
 
 	case BLACK:
-		s = "<span style='color:black'>" + s + "</span>";
+		s = "<span style='color:black;font-family:courier'>" + s + "</span>";
 		break;
 
 	case BLUE:
