@@ -3,9 +3,12 @@
 void
 eval_denominator(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	denominator();
+	expanding = t;
 }
 
 void

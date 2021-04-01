@@ -9,9 +9,12 @@
 void
 eval_cos(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	cosfunc();
+	expanding = t;
 }
 
 void

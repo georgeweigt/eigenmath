@@ -81,6 +81,9 @@ eval_binding(void)
 void
 eval_clear(void)
 {
+	int t = expanding;
+	expanding = 1;
+
 	save_symbol(symbol(TRACE));
 	save_symbol(symbol(TTY));
 
@@ -94,11 +97,15 @@ eval_clear(void)
 	restore_symbol(symbol(TRACE));
 
 	push_symbol(NIL); // result
+
+	expanding = t;
 }
 
 void
 eval_do(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push_integer(0);
 	p1 = cdr(p1);
 	while (iscons(p1)) {
@@ -107,6 +114,7 @@ eval_do(void)
 		eval();
 		p1 = cdr(p1);
 	}
+	expanding = t;
 }
 
 // for example, eval(f,x,2)

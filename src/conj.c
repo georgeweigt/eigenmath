@@ -3,28 +3,31 @@
 void
 eval_conj(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
-	conjv();
+	conjfunc();
+	expanding = t;
 }
 
 void
-conjv(void)
+conjfunc(void)
 {
-	conj_subst();
+	conjfunc_subst();
 	eval();
 }
 
 void
-conj_subst(void)
+conjfunc_subst(void)
 {
 	save();
-	conj_subst_nib();
+	conjfunc_subst_nib();
 	restore();
 }
 
 void
-conj_subst_nib(void)
+conjfunc_subst_nib(void)
 {
 	int h, i, n;
 
@@ -37,7 +40,7 @@ conj_subst_nib(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			conj_subst();
+			conjfunc_subst();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
@@ -61,7 +64,7 @@ conj_subst_nib(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			conj_subst();
+			conjfunc_subst();
 			p1 = cdr(p1);
 		}
 		list(tos - h);

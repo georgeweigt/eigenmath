@@ -3,6 +3,15 @@
 void
 eval_contract(void)
 {
+	int t = expanding;
+	expanding = 1;
+	eval_contract_nib();
+	expanding = t;
+}
+
+void
+eval_contract_nib(void)
+{
 	push(cadr(p1));
 	eval();
 

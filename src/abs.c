@@ -35,7 +35,7 @@ absfunc_nib(void)
 		}
 		push(p1);
 		push(p1);
-		conjv();
+		conjfunc();
 		inner();
 		push_rational(1, 2);
 		power();
@@ -44,7 +44,7 @@ absfunc_nib(void)
 
 	push(p1);
 	push(p1);
-	conjv();
+	conjfunc();
 	multiply();
 	push_rational(1, 2);
 	power();

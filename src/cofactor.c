@@ -3,7 +3,10 @@
 void
 eval_cofactor(void)
 {
-	int i, j;
+	int i, j, t;
+
+	t = expanding;
+	expanding = 1;
 
 	push(cadr(p1));
 	eval();
@@ -31,4 +34,6 @@ eval_cofactor(void)
 
 	if ((i + j) % 2)
 		negate();
+
+	expanding = t;
 }

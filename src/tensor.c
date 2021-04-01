@@ -315,7 +315,9 @@ copy_tensor(void)
 void
 eval_dim(void)
 {
-	int n;
+	int n, t;
+	t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	p2 = pop();
@@ -331,6 +333,7 @@ eval_dim(void)
 		push(p1);
 	else
 		push_integer(p2->u.tensor->dim[n - 1]);
+	expanding = t;
 }
 
 void

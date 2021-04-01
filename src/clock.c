@@ -3,21 +3,24 @@
 void
 eval_clock(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
-	clockf();
+	clockfunc();
+	expanding = t;
 }
 
 void
-clockf(void)
+clockfunc(void)
 {
 	save();
-	clockf_nib();
+	clockfunc_nib();
 	restore();
 }
 
 void
-clockf_nib(void)
+clockfunc_nib(void)
 {
 	int i, n;
 
@@ -30,7 +33,7 @@ clockf_nib(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			clockf();
+			clockfunc();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);

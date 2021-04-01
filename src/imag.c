@@ -47,7 +47,7 @@ imag_nib(void)
 	push(imaginaryunit);
 	push(p1);
 	push(p1);
-	conjv();
+	conjfunc();
 	subtract();
 	multiply_factors(3);
 }

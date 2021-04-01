@@ -3,9 +3,12 @@
 void
 eval_cosh(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	coshfunc();
+	expanding = t;
 }
 
 void

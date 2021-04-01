@@ -3,9 +3,12 @@
 void
 eval_det(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	det();
+	expanding = t;
 }
 
 void

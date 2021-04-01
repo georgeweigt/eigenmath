@@ -3,6 +3,8 @@
 void
 eval_inner(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	p1 = cddr(p1);
@@ -12,6 +14,7 @@ eval_inner(void)
 		inner();
 		p1 = cdr(p1);
 	}
+	expanding = t;
 }
 
 void
