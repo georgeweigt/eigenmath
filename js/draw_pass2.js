@@ -23,7 +23,7 @@ draw_pass2(F, T)
 		dx = x2 - x1;
 		dy = y2 - y1;
 
-		m = 0.5 * Math.sqrt(dx * dx + dy * dy);
+		m = Math.sqrt(dx * dx + dy * dy);
 
 		m = Math.floor(m);
 
