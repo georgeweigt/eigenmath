@@ -6,6 +6,15 @@
 void
 eval_draw(void)
 {
+	int t = expanding;
+	expanding = 1;
+	eval_draw_nib();
+	expanding = t;
+}
+
+void
+eval_draw_nib(void)
+{
 	if (drawing) {
 		push_symbol(NIL);
 		return;

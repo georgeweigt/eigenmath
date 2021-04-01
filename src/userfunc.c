@@ -11,6 +11,15 @@
 void
 eval_user_function(void)
 {
+	int t = expanding;
+	expanding = 1;
+	eval_user_function_nib();
+	expanding = t;
+}
+
+void
+eval_user_function_nib(void)
+{
 	int h, i;
 
 	FUNC_NAME = car(p1);

@@ -3,9 +3,12 @@
 void
 eval_float(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	floatfunc();
+	expanding = t;
 }
 
 void

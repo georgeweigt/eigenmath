@@ -116,9 +116,12 @@ circexp_subst_nib(void)
 void
 eval_exptan(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	exptan();
+	expanding = t;
 }
 
 void
@@ -151,9 +154,12 @@ exptan(void)
 void
 eval_expcosh(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	expcosh();
+	expanding = t;
 }
 
 void
@@ -175,9 +181,12 @@ expcosh(void)
 void
 eval_expsinh(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	expsinh();
+	expanding = t;
 }
 
 void
@@ -199,9 +208,12 @@ expsinh(void)
 void
 eval_exptanh(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	exptanh();
+	expanding = t;
 }
 
 void

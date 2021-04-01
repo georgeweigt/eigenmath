@@ -122,6 +122,8 @@ eval_do(void)
 void
 eval_eval(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	p1 = cddr(p1);
@@ -134,6 +136,7 @@ eval_eval(void)
 		p1 = cddr(p1);
 	}
 	eval();
+	expanding = t;
 }
 
 void

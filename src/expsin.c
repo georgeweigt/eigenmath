@@ -3,9 +3,12 @@
 void
 eval_expsin(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	expsin();
+	expanding = t;
 }
 
 void

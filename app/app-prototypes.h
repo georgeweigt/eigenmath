@@ -69,6 +69,7 @@ void emit_vector(struct atom *p);
 void emit_xaxis(void);
 void emit_yaxis(void);
 void eval_draw(void);
+void eval_draw_nib(void);
 void setup_trange(void);
 void setup_xrange(void);
 void setup_yrange(void);

@@ -733,3 +733,4 @@ void eval_transpose(void);
 void transpose(void);
 void transpose_nib(void);
 void eval_user_function(void);
+void eval_user_function_nib(void);

@@ -3,9 +3,12 @@
 void
 eval_floor(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	floorfunc();
+	expanding = t;
 }
 
 void
