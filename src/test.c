@@ -258,6 +258,8 @@ eval_testlt(void)
 void
 eval_not(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	evalp();
 	p1 = pop();
@@ -265,6 +267,7 @@ eval_not(void)
 		push_integer(1);
 	else
 		push_integer(0);
+	expanding = t;
 }
 
 void
@@ -272,6 +275,13 @@ eval_and(void)
 {
 	int t = expanding;
 	expanding = 1;
+	eval_and_nib();
+	expanding = t;
+}
+
+void
+eval_and_nib(void)
+{
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
@@ -284,11 +294,19 @@ eval_and(void)
 		p1 = cdr(p1);
 	}
 	push_integer(1);
-	expanding = t;
 }
 
 void
 eval_or(void)
+{
+	int t = expanding;
+	expanding = 1;
+	eval_or_nib();
+	expanding = t;
+}
+
+void
+eval_or_nib(void)
 {
 	p1 = cdr(p1);
 	while (iscons(p1)) {

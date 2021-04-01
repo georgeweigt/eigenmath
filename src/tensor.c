@@ -339,6 +339,8 @@ eval_dim(void)
 void
 eval_rank(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	p1 = pop();
@@ -346,6 +348,7 @@ eval_rank(void)
 		push_integer(p1->u.tensor->ndim);
 	else
 		push_integer(0);
+	expanding = t;
 }
 
 void

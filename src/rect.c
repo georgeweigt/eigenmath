@@ -9,9 +9,12 @@
 void
 eval_rect(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	rect();
+	expanding = t;
 }
 
 void

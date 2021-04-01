@@ -113,6 +113,9 @@ eval_and_print_result(void)
 void
 eval_run(void)
 {
+	int t = expanding;
+	expanding = 1;
+
 	push(cadr(p1));
 	eval();
 	p1 = pop();
@@ -123,6 +126,8 @@ eval_run(void)
 	run_file(p1->u.str);
 
 	push_symbol(NIL);
+
+	expanding = t;
 }
 
 void

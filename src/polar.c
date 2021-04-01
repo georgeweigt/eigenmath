@@ -3,9 +3,12 @@
 void
 eval_polar(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	polar();
+	expanding = t;
 }
 
 void

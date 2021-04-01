@@ -3,9 +3,12 @@
 void
 eval_rationalize(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	rationalize();
+	expanding = t;
 }
 
 void
