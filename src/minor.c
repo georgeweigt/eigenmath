@@ -3,7 +3,10 @@
 void
 eval_minor(void)
 {
-	int i, j;
+	int i, j, t;
+
+	t = expanding;
+	expanding = 1;
 
 	push(cadr(p1));
 	eval();
@@ -28,12 +31,17 @@ eval_minor(void)
 	minormatrix(i, j);
 
 	det();
+
+	expanding = t;
 }
 
 void
 eval_minormatrix(void)
 {
-	int i, j;
+	int i, j, t;
+
+	t = expanding;
+	expanding = 1;
 
 	push(cadr(p1));
 	eval();
@@ -56,6 +64,8 @@ eval_minormatrix(void)
 	push(p2);
 
 	minormatrix(i, j);
+
+	expanding = t;
 }
 
 void

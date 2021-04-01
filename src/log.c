@@ -3,9 +3,12 @@
 void
 eval_log(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	logfunc();
+	expanding = t;
 }
 
 void

@@ -3,11 +3,14 @@
 void
 eval_mod(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	push(caddr(p1));
 	eval();
 	modfunc();
+	expanding = t;
 }
 
 void
