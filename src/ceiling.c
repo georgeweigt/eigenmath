@@ -3,9 +3,12 @@
 void
 eval_ceiling(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	ceiling_nib();
+	expanding = t;
 }
 
 void

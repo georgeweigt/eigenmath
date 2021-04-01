@@ -3,9 +3,12 @@
 void
 eval_arctanh(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	arctanh();
+	expanding = t;
 }
 
 void

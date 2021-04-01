@@ -3,9 +3,12 @@
 void
 eval_arccosh(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	arccosh();
+	expanding = t;
 }
 
 void

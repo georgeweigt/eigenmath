@@ -13,15 +13,17 @@
 void
 eval_arctan(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
-	if (caddr(p1) == symbol(NIL))
-		push_integer(1);
-	else {
+	if (iscons(cddr(p1))) {
 		push(caddr(p1));
 		eval();
-	}
+	} else
+		push_integer(1);
 	arctan();
+	expanding = t;
 }
 
 void

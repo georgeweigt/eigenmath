@@ -3,9 +3,12 @@
 void
 eval_arcsinh(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	arcsinh();
+	expanding = t;
 }
 
 void
