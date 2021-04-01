@@ -189,6 +189,7 @@ void eval_denominator(void);
 void denominator(void);
 void denominator_nib(void);
 void eval_derivative(void);
+void eval_derivative_nib(void);
 void derivative(void);
 void d_scalar_scalar(void);
 void dsum(void);

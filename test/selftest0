@@ -1921,7 +1921,9 @@ check(infixform(polar(2.0 + 3.0 i)) == "3.60555 exp(0.312833 i pi)")
 check(infixform(exp(0.5 i pi)) == "i") -- was 1.0 i
 check(infixform(arg(1.0 i)) == "1.5708") -- was 1/2 pi
 check(infixform(log(1.0 i)) == "1.5708 i") -- was 1/2 i pi
-check(infixform(1/abs(float(2+3i))) == "0.27735") -- was 1/abs(2+3i)
+check(infixform(1/abs(2.0+3.0i)) == "0.27735")
+check(infixform(1/arg(2.0+3.0i)) == "1.01751")
+check(infixform(1/mag(2.0+3.0i)) == "0.27735")
 
 "Testing arg"
 

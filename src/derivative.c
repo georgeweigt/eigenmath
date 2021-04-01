@@ -9,6 +9,15 @@
 void
 eval_derivative(void)
 {
+	int t = expanding;
+	expanding = 1;
+	eval_derivative_nib();
+	expanding = t;
+}
+
+void
+eval_derivative_nib(void)
+{
 	int flag, i, n;
 
 	push(cadr(p1));

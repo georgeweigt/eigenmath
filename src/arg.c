@@ -9,9 +9,12 @@
 void
 eval_arg(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	arg();
+	expanding = t;
 }
 
 // use numerator and denominator to handle (a+i*b)/(c+i*d)

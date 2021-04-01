@@ -267,6 +267,8 @@ eval_not(void)
 void
 eval_and(void)
 {
+	int t = expanding;
+	expanding = 1;
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
@@ -279,6 +281,7 @@ eval_and(void)
 		p1 = cdr(p1);
 	}
 	push_integer(1);
+	expanding = t;
 }
 
 void
