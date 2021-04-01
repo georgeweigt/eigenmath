@@ -11,9 +11,12 @@ eval_abs(void)
 void
 absfunc(void)
 {
+	int t = expanding;
+	expanding = 1;
 	save();
 	absfunc_nib();
 	restore();
+	expanding = t;
 }
 
 void

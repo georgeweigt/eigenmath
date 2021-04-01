@@ -1,6 +1,15 @@
 function
 abs()
 {
+	var t = expanding;
+	expanding = 1;
+	abs_nib();
+	expanding = t;
+}
+
+function
+abs_nib()
+{
 	var h, p1, p2, p3;
 
 	p1 = pop();

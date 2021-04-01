@@ -1127,6 +1127,10 @@ check(infixform(exp(0.5 i pi)) == "i") -- was 1 i
 check(infixform(arg(1.0 i)) == "1.5708") -- was 1/2 pi
 check(infixform(log(1.0 i)) == "1.5708 i") -- was 1/2 i pi
 
+psi = float((2+3i,4+5i))
+psi = psi / abs(psi)
+check(infixform(psi) == "(0.272166 + 0.408248 i,0.544331 + 0.680414 i)")
+
 "Testing arg"
 
 check(arg(2 + 3 i) == arg(polar(2 + 3 i)))
