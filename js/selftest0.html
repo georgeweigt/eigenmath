@@ -1126,10 +1126,7 @@ check(arg(2.0 + 3.0 i) == arg(clock(2.0 + 3.0 i)))
 check(infixform(exp(0.5 i pi)) == "i") -- was 1 i
 check(infixform(arg(1.0 i)) == "1.5708") -- was 1/2 pi
 check(infixform(log(1.0 i)) == "1.5708 i") -- was 1/2 i pi
-
-psi = float((2+3i,4+5i))
-psi = psi / abs(psi)
-check(infixform(psi) == "(0.272166 + 0.408248 i,0.544331 + 0.680414 i)")
+check(infixform(1/abs(float(2+3i))) == "0.27735") -- was 1/abs(2+3i)
 
 "Testing arg"
 
