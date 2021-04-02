@@ -354,6 +354,15 @@ eval_rank(void)
 void
 eval_unit(void)
 {
+	int t = expanding;
+	expanding = 1;
+	eval_unit_nib();
+	expanding = t;
+}
+
+void
+eval_unit_nib(void)
+{
 	int i, n;
 
 	push(cadr(p1));
@@ -379,6 +388,15 @@ eval_unit(void)
 
 void
 eval_zero(void)
+{
+	int t = expanding;
+	expanding = 1;
+	eval_zero_nib();
+	expanding = t;
+}
+
+void
+eval_zero_nib(void)
 {
 	int dim[MAXDIM], i, m, n;
 	m = 1;

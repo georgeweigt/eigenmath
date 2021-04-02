@@ -3,6 +3,15 @@
 void
 eval_test(void)
 {
+	int t = expanding;
+	expanding = 1;
+	eval_test_nib();
+	expanding = t;
+}
+
+void
+eval_test_nib(void)
+{
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		if (!iscons(cdr(p1))) {

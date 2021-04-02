@@ -3,9 +3,12 @@
 void
 eval_tan(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	tanfunc();
+	expanding = t;
 }
 
 void

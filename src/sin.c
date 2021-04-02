@@ -9,9 +9,12 @@
 void
 eval_sin(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	sinfunc();
+	expanding = t;
 }
 
 void

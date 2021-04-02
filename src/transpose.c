@@ -3,6 +3,15 @@
 void
 eval_transpose(void)
 {
+	int t = expanding;
+	expanding = 1;
+	eval_transpose_nib();
+	expanding = t;
+}
+
+void
+eval_transpose_nib(void)
+{
 	push(cadr(p1));
 	eval();
 	p2 = pop();

@@ -3,9 +3,12 @@
 void
 eval_sinh(void)
 {
+	int t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	eval();
 	sinhfunc();
+	expanding = t;
 }
 
 void
