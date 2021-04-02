@@ -1,7 +1,10 @@
 function
 eval_for(p1)
 {
-	var j, k, p2, p3;
+	var j, k, p2, p3, t;
+
+	t = expanding;
+	expanding = 1;
 
 	p2 = cadr(p1);
 
@@ -44,4 +47,6 @@ eval_for(p1)
 	restore_symbol(p2);
 
 	push_symbol(NIL); // return value
+
+	expanding = t;
 }
