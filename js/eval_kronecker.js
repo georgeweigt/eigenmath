@@ -1,6 +1,8 @@
 function
 eval_kronecker(p1)
 {
+	var t = expanding;
+	expanding = 1;
 	push(cadr(p1));
 	evalf();
 	p1 = cddr(p1);
@@ -10,4 +12,5 @@ eval_kronecker(p1)
 		kronecker();
 		p1 = cdr(p1);
 	}
+	expanding = t;
 }
