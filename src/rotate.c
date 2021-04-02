@@ -93,7 +93,7 @@ eval_rotate(void)
 			eval();
 			n = pop_integer();
 			rotate_check(n);
-			rotate_s(m, n);
+			rotate_s(c, m, n);
 			continue;
 		}
 
@@ -183,13 +183,14 @@ rotate_p(int c, int n)
 }
 
 void
-rotate_s(int m, int n)
+rotate_s(int c, int m, int n)
 {
 	int i;
+	c = 1 << c;
 	m = 1 << m;
 	n = 1 << n;
 	for (i = 0; i < N; i++)
-		if ((i & m) && !(i & n)) {
+		if ((i & c) && (i & m) && !(i & n)) {
 			push(PSI->u.tensor->elem[i]);
 			push(PSI->u.tensor->elem[i ^ m ^ n]);
 			PSI->u.tensor->elem[i] = pop();
@@ -268,7 +269,7 @@ rotate_q(int n)
 		}
 	}
 	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_s(i, n - i);
+		rotate_s(i, i, n - i);
 }
 
 // inverse qft
@@ -278,7 +279,7 @@ rotate_v(int n)
 {
 	int i, j;
 	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_s(i, n - i);
+		rotate_s(i, i, n - i);
 	for (i = 0; i <= n; i++) {
 		for (j = i - 1; j >= 0; j--) {
 			push_rational(1, 2);
