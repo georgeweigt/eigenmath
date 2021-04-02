@@ -1,6 +1,15 @@
 function
 eval_test(p1)
 {
+	var t = expanding;
+	expanding = 1;
+	eval_test_nib(p1);
+	expanding = t;
+}
+
+function
+eval_test_nib(p1)
+{
 	var p2;
 	p1 = cdr(p1);
 	while (iscons(p1)) {

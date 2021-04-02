@@ -1,7 +1,10 @@
 function
 eval_sum(p1)
 {
-	var h, j, k, p2, p3;
+	var h, j, k, p2, p3, t;
+
+	t = expanding;
+	expanding = 1;
 
 	p2 = cadr(p1);
 
@@ -41,4 +44,6 @@ eval_sum(p1)
 	add_terms(stack.length - h);
 
 	restore_symbol(p2);
+
+	expanding = t;
 }

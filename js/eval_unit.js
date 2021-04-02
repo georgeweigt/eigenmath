@@ -1,6 +1,15 @@
 function
 eval_unit(p1)
 {
+	var t = expanding;
+	expanding = 1;
+	eval_unit_nib(p1);
+	expanding = t;
+}
+
+function
+eval_unit_nib(p1)
+{
 	var i, j, n;
 
 	push(cadr(p1));

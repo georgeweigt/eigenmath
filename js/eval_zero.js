@@ -1,7 +1,10 @@
 function
 eval_zero(p1)
 {
-	var i, m, n, p2;
+	var i, m, n, p2, t;
+
+	t = expanding;
+	expanding = 1;
 
 	p1 = cdr(p1);
 	p2 = alloc_tensor();
@@ -13,7 +16,7 @@ eval_zero(p1)
 		evalf();
 		n = pop_integer();
 		if (n < 2)
-			stopf("zero: index error");
+			stopf("zero");
 		p2.dim.push(n);
 		m *= n;
 		p1 = cdr(p1);
@@ -23,4 +26,6 @@ eval_zero(p1)
 		p2.elem[i] = zero;
 
 	push(p2);
+
+	expanding = t;
 }
