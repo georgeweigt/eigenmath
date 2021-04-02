@@ -1,7 +1,10 @@
 function
 eval_product(p1)
 {
-	var h, j, k, p2, p3;
+	var h, j, k, p2, p3, t;
+
+	t = expanding;
+	expanding = 1;
 
 	p2 = cadr(p1);
 
@@ -41,4 +44,6 @@ eval_product(p1)
 	multiply_factors(stack.length - h);
 
 	restore_symbol(p2);
+
+	expanding = t;
 }
