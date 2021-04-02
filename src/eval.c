@@ -106,7 +106,7 @@ eval_do(void)
 {
 	int t = expanding;
 	expanding = 1;
-	push_integer(0);
+	push_symbol(NIL);
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		pop();
