@@ -606,7 +606,6 @@ void roots2(void);
 void roots3(void);
 void mini_solve(void);
 void eval_rotate(void);
-void rotate_check(int n);
 void rotate_h(int n);
 void rotate_p(int c, int n);
 void rotate_s(int c, int m, int n);

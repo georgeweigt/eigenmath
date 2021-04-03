@@ -31,7 +31,7 @@ eval_rotate(void)
 	eval();
 	PSI = pop();
 
-	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || !POWEROF2(PSI->u.tensor->nelem))
+	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || PSI->u.tensor->nelem > 32768 || !POWEROF2(PSI->u.tensor->nelem))
 		stop("rotate");
 
 	p1 = cddr(p1);
@@ -40,10 +40,15 @@ eval_rotate(void)
 
 		if (!iscons(cdr(p1)))
 			stop("rotate");
+
 		OPCODE = car(p1);
 		push(cadr(p1));
 		eval();
 		c = pop_integer();
+
+		if (c > 14 || (1 << c) >= PSI->u.tensor->nelem)
+			stop("rotate");
+
 		p1 = cddr(p1);
 
 		if (OPCODE == symbol(C_UPPER)) {
@@ -53,12 +58,11 @@ eval_rotate(void)
 			push(cadr(p1));
 			eval();
 			n = pop_integer();
+			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
+				stop("rotate");
 			p1 = cddr(p1);
 		} else
 			n = c;
-
-		rotate_check(c);
-		rotate_check(n);
 
 		if (OPCODE == symbol(H_UPPER)) {
 			rotate_h(n);
@@ -97,7 +101,8 @@ eval_rotate(void)
 			p1 = cdr(p1);
 			eval();
 			n = pop_integer();
-			rotate_check(n);
+			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
+				stop("rotate");
 			rotate_s(c, m, n);
 			continue;
 		}
@@ -123,26 +128,6 @@ eval_rotate(void)
 	push(PSI);
 
 	expanding = t;
-}
-
-void
-rotate_check(int n)
-{
-	int i;
-
-	if (n < 0 || n > 11)
-		stop("rotate");
-
-	n = 1 << (n + 1);
-
-	if (n > N) {
-		T = alloc_tensor(n);
-		T->u.tensor->ndim = 1;
-		T->u.tensor->dim[0] = n;
-		for (i = 0; i < N; i++)
-			T->u.tensor->elem[i] = PSI->u.tensor->elem[i];
-		PSI = T;
-	}
 }
 
 void

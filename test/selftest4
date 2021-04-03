@@ -1017,13 +1017,13 @@ check(rotate(psi,R,3) == dot(R,psi))
 
 -- Deutsch-Jozsa algorithm
 
-psi = rotate((1,0),H,0,H,1,H,2,X,3,H,3,C,0,X,3,C,1,X,3,C,2,X,3,H,0,H,1,H,2)
+psi = rotate(ket0,H,0,H,1,H,2,X,3,H,3,C,0,X,3,C,1,X,3,C,2,X,3,H,0,H,1,H,2)
 P = hadamard(psi,conj(psi))
 check(P == (0,0,0,0,0,0,0,1/2,0,0,0,0,0,0,0,1/2))
 
 -- Bernstein-Vazirani algorithm
 
-psi = rotate((1,0),H,0,H,1,H,2,H,3,Z,3,C,0,X,3,C,2,X,3,H,0,H,1,H,2)
+psi = rotate(ket0,H,0,H,1,H,2,H,3,Z,3,C,0,X,3,C,2,X,3,H,0,H,1,H,2)
 P = hadamard(psi,conj(psi))
 check(P == (0,0,0,0,0,1/2,0,0,0,0,0,0,0,1/2,0,0))
 
@@ -1031,7 +1031,7 @@ check(P == (0,0,0,0,0,1/2,0,0,0,0,0,0,0,1/2,0,0))
 
 theta = 0.3
 pi = float(pi)
-psi = rotate((1,0),H,0,H,1,H,2,X,3)
+psi = rotate(ket0,H,0,H,1,H,2,X,3)
 psi = rotate(psi,C,0,P,3,2 pi theta,C,1,P,3,4 pi theta,C,2,P,3,8 pi theta) -- U
 psi = rotate(psi,S,0,2,H,0,C,0,P,1,-pi/2,H,1,C,1,P,2,-pi/2,C,0,P,2,-pi/4,H,2) -- inverse qft
 P = hadamard(psi,conj(psi))
@@ -1040,7 +1040,7 @@ check(infixform(theta) == "0.30465")
 
 theta = 0.3
 pi = float(pi)
-psi = rotate((1,0),H,0,H,1,H,2,X,3)
+psi = rotate(ket0,H,0,H,1,H,2,X,3)
 psi = rotate(psi,C,0,P,3,2 pi theta,C,1,P,3,4 pi theta,C,2,P,3,8 pi theta) -- U
 psi = rotate(psi,R,2) -- inverse qft
 P = hadamard(psi,conj(psi))

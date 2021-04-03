@@ -10,7 +10,7 @@ eval_rotate(p1)
 	evalf();
 	psi = pop();
 
-	if (!istensor(psi) || psi.dim.length > 1 || (psi.elem.length & (psi.elem.length - 1)) != 0)
+	if (!istensor(psi) || psi.dim.length > 1 || psi.elem.length > 32768 || (psi.elem.length & (psi.elem.length - 1)) != 0)
 		stopf("rotate");
 
 	p1 = cddr(p1);
@@ -19,10 +19,15 @@ eval_rotate(p1)
 
 		if (!iscons(cdr(p1)))
 			stopf("rotate");
+
 		opcode = car(p1);
 		push(cadr(p1));
 		evalf();
 		c = pop_integer();
+
+		if (c > 14 || (1 << c) >= psi.elem.length)
+			stopf("rotate");
+
 		p1 = cddr(p1);
 
 		if (opcode == symbol("C")) {
@@ -32,12 +37,11 @@ eval_rotate(p1)
 			push(cadr(p1));
 			evalf();
 			n = pop_integer();
+			if (n > 14 || (1 << n) >= psi.elem.length)
+				stopf("rotate");
 			p1 = cddr(p1);
 		} else
 			n = c;
-
-		psi = rotate_check(psi, c);
-		psi = rotate_check(psi, n);
 
 		if (opcode == symbol("H")) {
 			rotate_h(psi, n);
@@ -76,7 +80,8 @@ eval_rotate(p1)
 			p1 = cdr(p1);
 			evalf();
 			n = pop_integer();
-			psi = rotate_check(psi, n);
+			if (n > 14 || (1 << n) >= psi.elem.length)
+				stopf("rotate");
 			rotate_s(psi, c, m, n);
 			continue;
 		}
@@ -102,29 +107,6 @@ eval_rotate(p1)
 	push(psi);
 
 	expanding = t;
-}
-
-function
-rotate_check(psi, n)
-{
-	var i, t;
-
-	if (n < 0 || n > 11)
-		stopf("rotate");
-
-	n = 1 << (n + 1);
-
-	if (n > psi.elem.length) {
-		t = alloc_tensor();
-		t.dim.push(n);
-		for (i = 0; i < n; i++)
-			t.elem.push(zero);
-		for (i = 0; i < psi.elem.length; i++)
-			t.elem[i] = psi.elem[i];
-		psi = t;
-	}
-
-	return psi;
 }
 
 // hadamard
