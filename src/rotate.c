@@ -17,6 +17,8 @@
 #define KET0 PSI->u.tensor->elem[i ^ n]
 #define KET1 PSI->u.tensor->elem[i]
 
+#define POWEROF2(x) ((x & (x - 1)) == 0)
+
 void
 eval_rotate(void)
 {
@@ -26,13 +28,8 @@ eval_rotate(void)
 	eval();
 	PSI = pop();
 
-	if (!istensor(PSI)) {
-		PSI = alloc_tensor(2);
-		PSI->u.tensor->ndim = 1;
-		PSI->u.tensor->dim[0] = 2;
-		push_integer(1);
-		PSI->u.tensor->elem[0] = pop();
-	}
+	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || !POWEROF2(PSI->u.tensor->nelem))
+		stop("rotate");
 
 	p1 = cddr(p1);
 
@@ -46,7 +43,7 @@ eval_rotate(void)
 		c = pop_integer();
 		p1 = cddr(p1);
 
-		if (OPCODE == symbol(C_LOWER)) {
+		if (OPCODE == symbol(C_UPPER)) {
 			if (!iscons(cdr(p1)))
 				stop("rotate");
 			OPCODE = car(p1);
@@ -60,12 +57,12 @@ eval_rotate(void)
 		rotate_check(c);
 		rotate_check(n);
 
-		if (OPCODE == symbol(H_LOWER)) {
+		if (OPCODE == symbol(H_UPPER)) {
 			rotate_h(n);
 			continue;
 		}
 
-		if (OPCODE == symbol(P_LOWER)) {
+		if (OPCODE == symbol(P_UPPER)) {
 			if (!iscons(p1))
 				stop("rotate");
 			push(car(p1));
@@ -79,12 +76,17 @@ eval_rotate(void)
 			continue;
 		}
 
-		if (OPCODE == symbol(Q_LOWER)) {
+		if (OPCODE == symbol(Q_UPPER)) {
 			rotate_q(n);
 			continue;
 		}
 
-		if (OPCODE == symbol(S_LOWER)) {
+		if (OPCODE == symbol(R_UPPER)) {
+			rotate_r(n);
+			continue;
+		}
+
+		if (OPCODE == symbol(S_UPPER)) {
 			m = n;
 			if (!iscons(p1))
 				stop("rotate");
@@ -97,22 +99,17 @@ eval_rotate(void)
 			continue;
 		}
 
-		if (OPCODE == symbol(V_LOWER)) {
-			rotate_v(n);
-			continue;
-		}
-
-		if (OPCODE == symbol(X_LOWER)) {
+		if (OPCODE == symbol(X_UPPER)) {
 			rotate_x(c, n);
 			continue;
 		}
 
-		if (OPCODE == symbol(Y_LOWER)) {
+		if (OPCODE == symbol(Y_UPPER)) {
 			rotate_y(c, n);
 			continue;
 		}
 
-		if (OPCODE == symbol(Z_LOWER)) {
+		if (OPCODE == symbol(Z_UPPER)) {
 			rotate_z(c, n);
 			continue;
 		}
@@ -275,7 +272,7 @@ rotate_q(int n)
 // inverse qft
 
 void
-rotate_v(int n)
+rotate_r(int n)
 {
 	int i, j;
 	for (i = 0; i < (n + 1) / 2; i++)

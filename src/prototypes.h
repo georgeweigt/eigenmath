@@ -614,7 +614,7 @@ void rotate_x(int c, int n);
 void rotate_y(int c, int n);
 void rotate_z(int c, int n);
 void rotate_q(int n);
-void rotate_v(int n);
+void rotate_r(int n);
 void run(char *s);
 void init(void);
 void prep(void);

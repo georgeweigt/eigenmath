@@ -252,6 +252,8 @@ struct se stab[] = {
 	{ "quote",		QUOTE,		eval_quote		},
 	{ "quotient",		QUOTIENT,	eval_quotient		},
 
+	{ "R",			R_UPPER,	NULL			},
+	{ "r",			R_LOWER,	NULL			},
 	{ "rank",		RANK,		eval_rank		},
 	{ "rationalize",	RATIONALIZE,	eval_rationalize	},
 	{ "real",		REAL,		eval_real		},
