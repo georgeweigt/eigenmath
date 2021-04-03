@@ -22,7 +22,10 @@
 void
 eval_rotate(void)
 {
-	int c, m, n;
+	int c, m, n, t;
+
+	t = expanding;
+	expanding = 1;
 
 	push(cadr(p1));
 	eval();
@@ -118,6 +121,8 @@ eval_rotate(void)
 	}
 
 	push(PSI);
+
+	expanding = t;
 }
 
 void
