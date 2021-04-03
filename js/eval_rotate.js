@@ -7,6 +7,9 @@ eval_rotate(p1)
 	evalf();
 	psi = pop();
 
+	if (!istensor(psi) || psi.dim.length > 1 || (psi.elem.length & (psi.elem.length - 1)) != 0)
+		stopf("rotate");
+
 	p1 = cddr(p1);
 
 	while (iscons(p1)) {
