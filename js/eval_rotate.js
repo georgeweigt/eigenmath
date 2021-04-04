@@ -23,9 +23,10 @@ eval_rotate(p1)
 		opcode = car(p1);
 		push(cadr(p1));
 		evalf();
-		c = pop_integer();
+		n = pop_integer();
+		c = n; // control bit
 
-		if (c > 14 || (1 << c) >= psi.elem.length)
+		if (n > 14 || (1 << n) >= psi.elem.length)
 			stopf("rotate");
 
 		p1 = cddr(p1);
@@ -40,8 +41,7 @@ eval_rotate(p1)
 			if (n > 14 || (1 << n) >= psi.elem.length)
 				stopf("rotate");
 			p1 = cddr(p1);
-		} else
-			n = c;
+		}
 
 		if (opcode == symbol("H")) {
 			rotate_h(psi, n);
