@@ -21,6 +21,12 @@ multiply_scalar_factors(h)
 
 	COEFF = combine_numerical_factors(h, COEFF);
 
+	if (iszero(COEFF) || h == stack.length) {
+		stack.splice(h); // pop all
+		push(COEFF);
+		return;
+	}
+
 	COEFF = reduce_radical_factors(h, COEFF);
 
 	if (!isplusone(COEFF) || isdouble(COEFF))

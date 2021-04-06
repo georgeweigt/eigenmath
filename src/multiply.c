@@ -68,57 +68,6 @@ multiply_factors_nib(int n)
 }
 
 void
-multiply_scalar_factors(int h)
-{
-	int n;
-
-	COEF = one;
-
-	combine_numerical_factors(h);
-
-	if (iszero(COEF) || h == tos) {
-		tos = h;
-		push(COEF);
-		return;
-	}
-
-	combine_factors(h);
-	normalize_power_factors(h);
-
-	// do again in case exp(1/2 i pi) changed to i
-
-	combine_factors(h);
-	normalize_power_factors(h);
-
-	combine_numerical_factors(h);
-
-	reduce_radical_factors(h);
-
-	if (isdouble(COEF) || !isplusone(COEF))
-		push(COEF);
-
-	if (expanding)
-		expand_sum_factors(h); // success leaves one expr on stack
-
-	n = tos - h;
-
-	switch (n) {
-	case 0:
-		push_integer(1); // all factors canceled
-		break;
-	case 1:
-		break;
-	default:
-		sort_factors(n);
-		list(n);
-		push_symbol(MULTIPLY);
-		swap();
-		cons();
-		break;
-	}
-}
-
-void
 flatten_factors(int h)
 {
 	int i, n = tos - h;
@@ -163,6 +112,63 @@ multiply_tensor_factors(int h)
 }
 
 void
+multiply_scalar_factors(int h)
+{
+	int n;
+
+	COEF = one;
+
+	combine_numerical_factors(h);
+
+	if (iszero(COEF) || h == tos) {
+		tos = h;
+		push(COEF);
+		return;
+	}
+
+	combine_factors(h);
+	normalize_power_factors(h);
+
+	// do again in case exp(1/2 i pi) changed to i
+
+	combine_factors(h);
+	normalize_power_factors(h);
+
+	combine_numerical_factors(h);
+
+	if (iszero(COEF) || h == tos) {
+		tos = h;
+		push(COEF);
+		return;
+	}
+
+	reduce_radical_factors(h);
+
+	if (isdouble(COEF) || !isplusone(COEF))
+		push(COEF);
+
+	if (expanding)
+		expand_sum_factors(h); // success leaves one expr on stack
+
+	n = tos - h;
+
+	switch (n) {
+	case 0:
+		push_integer(1); // all factors canceled
+		break;
+	case 1:
+		break;
+	default:
+		sort_factors(n);
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons();
+		break;
+	}
+}
+
+void
 combine_numerical_factors(int h)
 {
 	int i, j, n = tos - h;
@@ -182,8 +188,6 @@ combine_numerical_factors(int h)
 		}
 	}
 	COEF = p1;
-	if (iszero(COEF))
-		tos = h; // pop all
 }
 
 // factors that have the same base are combined by adding exponents
