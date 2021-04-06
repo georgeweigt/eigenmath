@@ -10,7 +10,7 @@ multiply_factors(n) // n is number of factors on stack
 
 	flatten_factors(h);
 
-	T = tensor_factor(h);
+	T = multiply_tensor_factors(h);
 
 	multiply_scalar_factors(h);
 

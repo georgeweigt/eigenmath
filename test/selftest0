@@ -1972,6 +1972,16 @@ check(infixform(x^(a^b)) == "x^(a^b)")
 check(infixform(x^(n!)) == "x^(n!)")
 check(infixform(x^sin(x)) == "x^sin(x)")
 
+"Testing hadamard"
+
+clear
+X = (a,b,c)
+check(hadamard(X,X) == (a^2,b^2,c^2))
+A = (A1,A2)
+B = (B1,B2)
+check(A B == (A1 B1, A2 B2))
+check(0 A B == (0,0))
+
 -- done
 
 clear

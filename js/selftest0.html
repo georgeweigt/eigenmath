@@ -1007,11 +1007,17 @@ check(adj(A) == B)
 
 "Testing hadamard"
 
+clear
 X = (a,b,c)
 check(hadamard(X,X) == (a^2,b^2,c^2))
+A = (A1,A2)
+B = (B1,B2)
+check(A B == (A1 B1, A2 B2))
+check(0 A B == (0,0))
 
 "Testing kronecker"
 
+clear
 A = (2,3)
 B = (a,b,c)
 check(kronecker(A,B) == (2a,2b,2c,3a,3b,3c))

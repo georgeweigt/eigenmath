@@ -3,9 +3,6 @@ multiply_scalar_factors(h)
 {
 	var n, COEFF;
 
-	if (stack.length - h < 2)
-		return;
-
 	COEFF = combine_numerical_factors(h, one);
 
 	if (iszero(COEFF) || h == stack.length) {

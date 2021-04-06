@@ -509,7 +509,7 @@ void multiply_factors(int n);
 void multiply_factors_nib(int n);
 void multiply_scalar_factors(int h);
 void flatten_factors(int h);
-void pop_tensor_factor(int h);
+void multiply_tensor_factors(int h);
 void combine_numerical_factors(int h);
 void combine_factors(int h);
 void sort_factors_provisional(int n);
