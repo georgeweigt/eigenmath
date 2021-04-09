@@ -32,14 +32,14 @@ eval_rotate(void)
 	PSI = pop();
 
 	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || PSI->u.tensor->nelem > 32768 || !POWEROF2(PSI->u.tensor->nelem))
-		stop("rotate");
+		stop("rotate error 1");
 
 	p1 = cddr(p1);
 
 	while (iscons(p1)) {
 
 		if (!iscons(cdr(p1)))
-			stop("rotate");
+			stop("rotate error 2");
 
 		OPCODE = car(p1);
 		push(cadr(p1));
@@ -48,19 +48,19 @@ eval_rotate(void)
 		c = n; // control bit
 
 		if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
-			stop("rotate");
+			stop("rotate error 3");
 
 		p1 = cddr(p1);
 
 		if (OPCODE == symbol(C_UPPER)) {
 			if (!iscons(cdr(p1)))
-				stop("rotate");
+				stop("rotate error 2");
 			OPCODE = car(p1);
 			push(cadr(p1));
 			eval();
 			n = pop_integer();
 			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
-				stop("rotate");
+				stop("rotate error 3");
 			p1 = cddr(p1);
 		}
 
@@ -71,7 +71,7 @@ eval_rotate(void)
 
 		if (OPCODE == symbol(P_UPPER)) {
 			if (!iscons(p1))
-				stop("rotate");
+				stop("rotate error 2");
 			push(car(p1));
 			p1 = cdr(p1);
 			eval();
@@ -96,13 +96,13 @@ eval_rotate(void)
 		if (OPCODE == symbol(S_UPPER)) {
 			m = n;
 			if (!iscons(p1))
-				stop("rotate");
+				stop("rotate error 2");
 			push(car(p1));
 			p1 = cdr(p1);
 			eval();
 			n = pop_integer();
 			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
-				stop("rotate");
+				stop("rotate error 3");
 			rotate_s(c, m, n);
 			continue;
 		}
@@ -122,7 +122,7 @@ eval_rotate(void)
 			continue;
 		}
 
-		stop("rotate");
+		stop("rotate error 4");
 	}
 
 	push(PSI);
