@@ -88,12 +88,12 @@ eval_rotate(void)
 			continue;
 		}
 
-		if (OPCODE == symbol(R_UPPER)) {
-			rotate_r(n);
+		if (OPCODE == symbol(V_UPPER)) {
+			rotate_v(n);
 			continue;
 		}
 
-		if (OPCODE == symbol(S_UPPER)) {
+		if (OPCODE == symbol(W_UPPER)) {
 			m = n;
 			if (!iscons(p1))
 				stop("rotate error 2");
@@ -103,7 +103,7 @@ eval_rotate(void)
 			n = pop_integer();
 			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
 				stop("rotate error 3");
-			rotate_s(c, m, n);
+			rotate_w(c, m, n);
 			continue;
 		}
 
@@ -130,6 +130,8 @@ eval_rotate(void)
 	expanding = t;
 }
 
+// hadamard
+
 void
 rotate_h(int n)
 {
@@ -154,6 +156,8 @@ rotate_h(int n)
 		}
 }
 
+// phase
+
 void
 rotate_p(int c, int n)
 {
@@ -169,8 +173,10 @@ rotate_p(int c, int n)
 		}
 }
 
+// swap
+
 void
-rotate_s(int c, int m, int n)
+rotate_w(int c, int m, int n)
 {
 	int i;
 	c = 1 << c;
@@ -256,17 +262,17 @@ rotate_q(int n)
 		}
 	}
 	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_s(i, i, n - i);
+		rotate_w(i, i, n - i);
 }
 
 // inverse qft
 
 void
-rotate_r(int n)
+rotate_v(int n)
 {
 	int i, j;
 	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_s(i, i, n - i);
+		rotate_w(i, i, n - i);
 	for (i = 0; i <= n; i++) {
 		for (j = i - 1; j >= 0; j--) {
 			push_rational(1, 2);

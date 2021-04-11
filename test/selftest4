@@ -125,7 +125,7 @@ outer(ket7,ket7) +
 outer(ket11,ket11) +
 outer(ket15,ket15)
 
-S10 =
+W10 =
 outer(ket0,ket0) +
 outer(ket1,ket2) +
 outer(ket2,ket1) +
@@ -169,7 +169,7 @@ outer(ket7,ket7) +
 outer(ket13,ket13) +
 outer(ket15,ket15)
 
-S20 =
+W20 =
 outer(ket0,ket0) +
 outer(ket1,ket4) +
 outer(ket2,ket2) +
@@ -213,7 +213,7 @@ outer(ket11,ket11) +
 outer(ket13,ket13) +
 outer(ket15,ket15)
 
-S30 =
+W30 =
 outer(ket0,ket0) +
 outer(ket1,ket8) +
 outer(ket2,ket2) +
@@ -341,7 +341,7 @@ outer(ket7,ket7) +
 outer(ket11,ket11) +
 outer(ket15,ket15)
 
-S01 =
+W01 =
 outer(ket0,ket0) +
 outer(ket1,ket2) +
 outer(ket2,ket1) +
@@ -385,7 +385,7 @@ outer(ket7,ket7) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S21 =
+W21 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket4) +
@@ -429,7 +429,7 @@ outer(ket11,ket11) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S31 =
+W31 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket8) +
@@ -557,7 +557,7 @@ outer(ket7,ket7) +
 outer(ket13,ket13) +
 outer(ket15,ket15)
 
-S02 =
+W02 =
 outer(ket0,ket0) +
 outer(ket1,ket4) +
 outer(ket2,ket2) +
@@ -601,7 +601,7 @@ outer(ket7,ket7) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S12 =
+W12 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket4) +
@@ -645,7 +645,7 @@ outer(ket13,ket13) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S32 =
+W32 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
@@ -773,7 +773,7 @@ outer(ket11,ket11) +
 outer(ket13,ket13) +
 outer(ket15,ket15)
 
-S03 =
+W03 =
 outer(ket0,ket0) +
 outer(ket1,ket8) +
 outer(ket2,ket2) +
@@ -817,7 +817,7 @@ outer(ket11,ket11) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S13 =
+W13 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket8) +
@@ -861,7 +861,7 @@ outer(ket13,ket13) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S23 =
+W23 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
@@ -882,8 +882,8 @@ outer(ket15,ket15)
 I = unit(16)
 
 Q = dot(
-S03,
-S12,
+W03,
+W12,
 H0,
 P01(pi/2),
 H1,
@@ -895,7 +895,7 @@ P13(pi/4),
 P03(pi/8),
 H3)
 
-R = dot(
+V = dot(
 H3,
 P03(-pi/8),
 P13(-pi/4),
@@ -906,8 +906,8 @@ P12(-pi/2),
 H1,
 P01(-pi/2),
 H0,
-S12,
-S03)
+W12,
+W03)
 
 psi = (
 psi0,
@@ -992,28 +992,28 @@ check(rotate(psi,H,1) == dot(H1,psi))
 check(rotate(psi,H,2) == dot(H2,psi))
 check(rotate(psi,H,3) == dot(H3,psi))
 
-check(rotate(psi,S,0,0) == psi)
-check(rotate(psi,S,0,1) == dot(S01,psi))
-check(rotate(psi,S,0,2) == dot(S02,psi))
-check(rotate(psi,S,0,3) == dot(S03,psi))
+check(rotate(psi,W,0,0) == psi)
+check(rotate(psi,W,0,1) == dot(W01,psi))
+check(rotate(psi,W,0,2) == dot(W02,psi))
+check(rotate(psi,W,0,3) == dot(W03,psi))
 
-check(rotate(psi,S,1,0) == dot(S10,psi))
-check(rotate(psi,S,1,1) == psi)
-check(rotate(psi,S,1,2) == dot(S12,psi))
-check(rotate(psi,S,1,3) == dot(S13,psi))
+check(rotate(psi,W,1,0) == dot(W10,psi))
+check(rotate(psi,W,1,1) == psi)
+check(rotate(psi,W,1,2) == dot(W12,psi))
+check(rotate(psi,W,1,3) == dot(W13,psi))
 
-check(rotate(psi,S,2,0) == dot(S20,psi))
-check(rotate(psi,S,2,1) == dot(S21,psi))
-check(rotate(psi,S,2,2) == psi)
-check(rotate(psi,S,2,3) == dot(S23,psi))
+check(rotate(psi,W,2,0) == dot(W20,psi))
+check(rotate(psi,W,2,1) == dot(W21,psi))
+check(rotate(psi,W,2,2) == psi)
+check(rotate(psi,W,2,3) == dot(W23,psi))
 
-check(rotate(psi,S,3,0) == dot(S30,psi))
-check(rotate(psi,S,3,1) == dot(S31,psi))
-check(rotate(psi,S,3,2) == dot(S32,psi))
-check(rotate(psi,S,3,3) == psi)
+check(rotate(psi,W,3,0) == dot(W30,psi))
+check(rotate(psi,W,3,1) == dot(W31,psi))
+check(rotate(psi,W,3,2) == dot(W32,psi))
+check(rotate(psi,W,3,3) == psi)
 
 check(rotate(psi,Q,3) == dot(Q,psi))
-check(rotate(psi,R,3) == dot(R,psi))
+check(rotate(psi,V,3) == dot(V,psi))
 
 -- Deutsch-Jozsa algorithm
 
@@ -1033,8 +1033,8 @@ theta = 0.3
 pi = float(pi)
 psi = rotate(ket0,H,0,H,1,H,2,X,3)
 psi = rotate(psi,C,0,P,3,2 pi theta,C,1,P,3,4 pi theta,C,2,P,3,8 pi theta) -- U
-psi = rotate(psi,S,0,2,H,0,C,0,P,1,-pi/2,H,1,C,1,P,2,-pi/2,C,0,P,2,-pi/4,H,2) -- inverse qft
-P = hadamard(psi,conj(psi))
+psi = rotate(psi,W,0,2,H,0,C,0,P,1,-pi/2,H,1,C,1,P,2,-pi/2,C,0,P,2,-pi/4,H,2) -- inverse qft
+P = psi conj(psi)
 theta = sum(k,0,15,k/8 P[k + 1]) - 1
 check(infixform(theta) == "0.30465")
 
@@ -1042,8 +1042,8 @@ theta = 0.3
 pi = float(pi)
 psi = rotate(ket0,H,0,H,1,H,2,X,3)
 psi = rotate(psi,C,0,P,3,2 pi theta,C,1,P,3,4 pi theta,C,2,P,3,8 pi theta) -- U
-psi = rotate(psi,R,2) -- inverse qft
-P = hadamard(psi,conj(psi))
+psi = rotate(psi,V,2) -- inverse qft
+P = psi conj(psi)
 theta = sum(k,0,15,k/8 P[k + 1]) - 1
 check(infixform(theta) == "0.30465")
 

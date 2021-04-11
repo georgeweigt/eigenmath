@@ -67,12 +67,12 @@ eval_rotate(p1)
 			continue;
 		}
 
-		if (opcode == symbol("R")) {
-			rotate_r(psi, n);
+		if (opcode == symbol("V")) {
+			rotate_v(psi, n);
 			continue;
 		}
 
-		if (opcode == symbol("S")) {
+		if (opcode == symbol("W")) {
 			m = n;
 			if (!iscons(p1))
 				stopf("rotate error 2");
@@ -82,7 +82,7 @@ eval_rotate(p1)
 			n = pop_integer();
 			if (n > 14 || (1 << n) >= psi.elem.length)
 				stopf("rotate error 3");
-			rotate_s(psi, c, m, n);
+			rotate_w(psi, c, m, n);
 			continue;
 		}
 
@@ -155,7 +155,7 @@ rotate_p(psi, c, n, phase)
 // swap
 
 function
-rotate_s(psi, c, m, n)
+rotate_w(psi, c, m, n)
 {
 	var i;
 	c = 1 << c;
@@ -247,17 +247,17 @@ rotate_q(psi, n)
 		}
 	}
 	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_s(psi, i, i, n - i);
+		rotate_w(psi, i, i, n - i);
 }
 
 // inverse qft
 
 function
-rotate_r(psi, n)
+rotate_v(psi, n)
 {
 	var i, j, phase;
 	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_s(psi, i, i, n - i);
+		rotate_w(psi, i, i, n - i);
 	for (i = 0; i <= n; i++) {
 		for (j = i - 1; j >= 0; j--) {
 			push_rational(1, 2);
