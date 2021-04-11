@@ -19,7 +19,7 @@ void H(int n);
 void P(int n);
 void CX(int m, int n);
 void CP(int m, int n);
-void S(int m, int n);
+void W(int m, int n);
 
 int
 main()
@@ -40,7 +40,7 @@ main()
 			if (i != j) {
 				CX(j, i); // controlled x (cnot)
 				CP(j, i); // controlled phase
-				S(j, i); // swap
+				W(j, i); // swap
 			}
 	}
 
@@ -263,11 +263,11 @@ CP(int m, int n)
 // swap
 
 void
-S(int m, int n)
+W(int m, int n)
 {
 	int i, t;
 
-	printf("S%d%d =\n", m, n);
+	printf("W%d%d =\n", m, n);
 
 	m = 1 << m;
 	n = 1 << n;

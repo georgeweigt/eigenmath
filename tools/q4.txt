@@ -125,7 +125,7 @@ outer(ket7,ket7) +
 outer(ket11,ket11) +
 outer(ket15,ket15)
 
-S10 =
+W10 =
 outer(ket0,ket0) +
 outer(ket1,ket2) +
 outer(ket2,ket1) +
@@ -169,7 +169,7 @@ outer(ket7,ket7) +
 outer(ket13,ket13) +
 outer(ket15,ket15)
 
-S20 =
+W20 =
 outer(ket0,ket0) +
 outer(ket1,ket4) +
 outer(ket2,ket2) +
@@ -213,7 +213,7 @@ outer(ket11,ket11) +
 outer(ket13,ket13) +
 outer(ket15,ket15)
 
-S30 =
+W30 =
 outer(ket0,ket0) +
 outer(ket1,ket8) +
 outer(ket2,ket2) +
@@ -341,7 +341,7 @@ outer(ket7,ket7) +
 outer(ket11,ket11) +
 outer(ket15,ket15)
 
-S01 =
+W01 =
 outer(ket0,ket0) +
 outer(ket1,ket2) +
 outer(ket2,ket1) +
@@ -385,7 +385,7 @@ outer(ket7,ket7) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S21 =
+W21 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket4) +
@@ -429,7 +429,7 @@ outer(ket11,ket11) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S31 =
+W31 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket8) +
@@ -557,7 +557,7 @@ outer(ket7,ket7) +
 outer(ket13,ket13) +
 outer(ket15,ket15)
 
-S02 =
+W02 =
 outer(ket0,ket0) +
 outer(ket1,ket4) +
 outer(ket2,ket2) +
@@ -601,7 +601,7 @@ outer(ket7,ket7) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S12 =
+W12 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket4) +
@@ -645,7 +645,7 @@ outer(ket13,ket13) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S32 =
+W32 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
@@ -773,7 +773,7 @@ outer(ket11,ket11) +
 outer(ket13,ket13) +
 outer(ket15,ket15)
 
-S03 =
+W03 =
 outer(ket0,ket0) +
 outer(ket1,ket8) +
 outer(ket2,ket2) +
@@ -817,7 +817,7 @@ outer(ket11,ket11) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S13 =
+W13 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket8) +
@@ -861,7 +861,7 @@ outer(ket13,ket13) +
 outer(ket14,ket14) +
 outer(ket15,ket15)
 
-S23 =
+W23 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
@@ -882,8 +882,8 @@ outer(ket15,ket15)
 I = unit(16)
 
 Q = dot(
-S03,
-S12,
+W03,
+W12,
 H0,
 P01(pi/2),
 H1,
@@ -895,7 +895,7 @@ P13(pi/4),
 P03(pi/8),
 H3)
 
-R = dot(
+V = dot(
 H3,
 P03(-pi/8),
 P13(-pi/4),
@@ -906,8 +906,8 @@ P12(-pi/2),
 H1,
 P01(-pi/2),
 H0,
-S12,
-S03)
+W12,
+W03)
 
 M(psi,P) = do(
   P = ((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),("0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1011","1100","1101","1110","1111")),
