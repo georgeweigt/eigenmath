@@ -1,7 +1,7 @@
 #include "app.h"
 
 void
-cmdisplay(void)
+display(void)
 {
 	double d, h, w;
 

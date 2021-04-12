@@ -39,7 +39,7 @@ print_result_nib(void)
 
 	if (iszero(get_binding(symbol(TTY)))) {
 		push(p2);
-		cmdisplay();
+		display();
 		return;
 	}
 

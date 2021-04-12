@@ -48,7 +48,7 @@ int fmt_ncol;
 int *fmt_buf;
 
 void
-display(void)
+fmt(void)
 {
 	int c, d, h, i, j, n, w;
 

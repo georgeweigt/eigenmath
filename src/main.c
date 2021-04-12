@@ -198,7 +198,7 @@ printbuf(char *s, int color)
 }
 
 void
-cmdisplay(void)
+display(void)
 {
 	switch (doc_type) {
 
@@ -235,7 +235,7 @@ cmdisplay(void)
 		break;
 
 	default:
-		display();
+		fmt();
 		break;
 	}
 
