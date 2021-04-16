@@ -84,15 +84,15 @@ struct display {
 
 extern CGContextRef gcontext;
 
-extern double document_height;	// for parent process
+extern int running;
+
+extern double document_height;	// parent process
 extern double document_width;
 
-extern double total_height;	// for thread process
+extern double total_height;	// thread process
 extern double total_width;
 
 extern struct display *fence;
-
-extern int running;
 
 extern int draw_count;
 extern int draw_max;
@@ -102,9 +102,9 @@ extern double tmin, tmax;
 extern double xmin, xmax;
 extern double ymin, ymax;
 
-extern struct display *emit_display;
 extern int emit_level;
 extern int emit_index;
 extern int emit_count;
+extern struct display *emit_display;
 
 #include "app-prototypes.h"

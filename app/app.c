@@ -1,9 +1,11 @@
 #include "app.h"
 
-double document_height;	// for parent process
+int running;
+
+double document_height;	// parent process
 double document_width;
 
-double total_height;	// for thread process
+double total_height;	// thread process
 double total_width;
 
 struct display *fence;
@@ -16,11 +18,10 @@ double tmin, tmax;
 double xmin, xmax;
 double ymin, ymax;
 
-int running;
-struct display *emit_display;
 int emit_level;
 int emit_index;
 int emit_count;
+struct display *emit_display;
 
 void
 eval_exit(void)
