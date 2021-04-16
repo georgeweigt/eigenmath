@@ -44,7 +44,7 @@ eval_rotate(p1)
 		}
 
 		if (opcode == symbol("H")) {
-			rotate_h(psi, n);
+			rotate_h(psi, c, n);
 			continue;
 		}
 
@@ -112,12 +112,13 @@ eval_rotate(p1)
 // hadamard
 
 function
-rotate_h(psi, n)
+rotate_h(psi, c, n)
 {
 	var i;
+	c = 1 << c;
 	n = 1 << n;
 	for (i = 0; i < psi.elem.length; i++)
-		if (i & n) {
+		if ((i & c) && (i & n)) {
 			push(psi.elem[i ^ n]);		// KET0
 			push(psi.elem[i]);		// KET1
 			add();
@@ -232,7 +233,7 @@ rotate_q(psi, n)
 {
 	var i, j, phase;
 	for (i = n; i >= 0; i--) {
-		rotate_h(psi, i);
+		rotate_h(psi, i, i);
 		for (j = 0; j < i; j++) {
 			push_rational(1, 2);
 			push_integer(i - j);
@@ -272,6 +273,6 @@ rotate_v(psi, n)
 			phase = pop();
 			rotate_p(psi, j, i, phase);
 		}
-		rotate_h(psi, i);
+		rotate_h(psi, i, i);
 	}
 }
