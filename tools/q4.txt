@@ -100,21 +100,21 @@ outer(ket14,ket14) +
 outer(ket15,-ket15)
 
 H00 =
-outer(ket0,ket0) +
+sqrt(1/2) outer(ket0,ket0 + ket1) +
 sqrt(1/2) outer(ket1,ket0 - ket1) +
-outer(ket2,ket2) +
+sqrt(1/2) outer(ket2,ket2 + ket3) +
 sqrt(1/2) outer(ket3,ket2 - ket3) +
-outer(ket4,ket4) +
+sqrt(1/2) outer(ket4,ket4 + ket5) +
 sqrt(1/2) outer(ket5,ket4 - ket5) +
-outer(ket6,ket6) +
+sqrt(1/2) outer(ket6,ket6 + ket7) +
 sqrt(1/2) outer(ket7,ket6 - ket7) +
-outer(ket8,ket8) +
+sqrt(1/2) outer(ket8,ket8 + ket9) +
 sqrt(1/2) outer(ket9,ket8 - ket9) +
-outer(ket10,ket10) +
+sqrt(1/2) outer(ket10,ket10 + ket11) +
 sqrt(1/2) outer(ket11,ket10 - ket11) +
-outer(ket12,ket12) +
+sqrt(1/2) outer(ket12,ket12 + ket13) +
 sqrt(1/2) outer(ket13,ket12 - ket13) +
-outer(ket14,ket14) +
+sqrt(1/2) outer(ket14,ket14 + ket15) +
 sqrt(1/2) outer(ket15,ket14 - ket15)
 
 P00(phi) = I - P00M + exp(i phi) P00M
@@ -130,39 +130,39 @@ outer(ket13,ket13) +
 outer(ket15,ket15)
 
 X00 =
-outer(ket0,ket0) +
+outer(ket0,ket1) +
 outer(ket1,ket0) +
-outer(ket2,ket2) +
+outer(ket2,ket3) +
 outer(ket3,ket2) +
-outer(ket4,ket4) +
+outer(ket4,ket5) +
 outer(ket5,ket4) +
-outer(ket6,ket6) +
+outer(ket6,ket7) +
 outer(ket7,ket6) +
-outer(ket8,ket8) +
+outer(ket8,ket9) +
 outer(ket9,ket8) +
-outer(ket10,ket10) +
+outer(ket10,ket11) +
 outer(ket11,ket10) +
-outer(ket12,ket12) +
+outer(ket12,ket13) +
 outer(ket13,ket12) +
-outer(ket14,ket14) +
+outer(ket14,ket15) +
 outer(ket15,ket14)
 
 Y00 =
-outer(ket0,ket0) +
+outer(ket0,i ket1) +
 outer(ket1,-i ket0) +
-outer(ket2,ket2) +
+outer(ket2,i ket3) +
 outer(ket3,-i ket2) +
-outer(ket4,ket4) +
+outer(ket4,i ket5) +
 outer(ket5,-i ket4) +
-outer(ket6,ket6) +
+outer(ket6,i ket7) +
 outer(ket7,-i ket6) +
-outer(ket8,ket8) +
+outer(ket8,i ket9) +
 outer(ket9,-i ket8) +
-outer(ket10,ket10) +
+outer(ket10,i ket11) +
 outer(ket11,-i ket10) +
-outer(ket12,ket12) +
+outer(ket12,i ket13) +
 outer(ket13,-i ket12) +
-outer(ket14,ket14) +
+outer(ket14,i ket15) +
 outer(ket15,-i ket14)
 
 Z00 =
@@ -678,20 +678,20 @@ outer(ket14,ket13) +
 outer(ket15,ket15)
 
 H11 =
-outer(ket0,ket0) +
-outer(ket1,ket1) +
+sqrt(1/2) outer(ket0,ket0 + ket2) +
+sqrt(1/2) outer(ket1,ket1 + ket3) +
 sqrt(1/2) outer(ket2,ket0 - ket2) +
 sqrt(1/2) outer(ket3,ket1 - ket3) +
-outer(ket4,ket4) +
-outer(ket5,ket5) +
+sqrt(1/2) outer(ket4,ket4 + ket6) +
+sqrt(1/2) outer(ket5,ket5 + ket7) +
 sqrt(1/2) outer(ket6,ket4 - ket6) +
 sqrt(1/2) outer(ket7,ket5 - ket7) +
-outer(ket8,ket8) +
-outer(ket9,ket9) +
+sqrt(1/2) outer(ket8,ket8 + ket10) +
+sqrt(1/2) outer(ket9,ket9 + ket11) +
 sqrt(1/2) outer(ket10,ket8 - ket10) +
 sqrt(1/2) outer(ket11,ket9 - ket11) +
-outer(ket12,ket12) +
-outer(ket13,ket13) +
+sqrt(1/2) outer(ket12,ket12 + ket14) +
+sqrt(1/2) outer(ket13,ket13 + ket15) +
 sqrt(1/2) outer(ket14,ket12 - ket14) +
 sqrt(1/2) outer(ket15,ket13 - ket15)
 
@@ -708,38 +708,38 @@ outer(ket14,ket14) +
 outer(ket15,ket15)
 
 X11 =
-outer(ket0,ket0) +
-outer(ket1,ket1) +
+outer(ket0,ket2) +
+outer(ket1,ket3) +
 outer(ket2,ket0) +
 outer(ket3,ket1) +
-outer(ket4,ket4) +
-outer(ket5,ket5) +
+outer(ket4,ket6) +
+outer(ket5,ket7) +
 outer(ket6,ket4) +
 outer(ket7,ket5) +
-outer(ket8,ket8) +
-outer(ket9,ket9) +
+outer(ket8,ket10) +
+outer(ket9,ket11) +
 outer(ket10,ket8) +
 outer(ket11,ket9) +
-outer(ket12,ket12) +
-outer(ket13,ket13) +
+outer(ket12,ket14) +
+outer(ket13,ket15) +
 outer(ket14,ket12) +
 outer(ket15,ket13)
 
 Y11 =
-outer(ket0,ket0) +
-outer(ket1,ket1) +
+outer(ket0,i ket2) +
+outer(ket1,i ket3) +
 outer(ket2,-i ket0) +
 outer(ket3,-i ket1) +
-outer(ket4,ket4) +
-outer(ket5,ket5) +
+outer(ket4,i ket6) +
+outer(ket5,i ket7) +
 outer(ket6,-i ket4) +
 outer(ket7,-i ket5) +
-outer(ket8,ket8) +
-outer(ket9,ket9) +
+outer(ket8,i ket10) +
+outer(ket9,i ket11) +
 outer(ket10,-i ket8) +
 outer(ket11,-i ket9) +
-outer(ket12,ket12) +
-outer(ket13,ket13) +
+outer(ket12,i ket14) +
+outer(ket13,i ket15) +
 outer(ket14,-i ket12) +
 outer(ket15,-i ket13)
 
@@ -1256,18 +1256,18 @@ outer(ket14,ket14) +
 outer(ket15,ket15)
 
 H22 =
-outer(ket0,ket0) +
-outer(ket1,ket1) +
-outer(ket2,ket2) +
-outer(ket3,ket3) +
+sqrt(1/2) outer(ket0,ket0 + ket4) +
+sqrt(1/2) outer(ket1,ket1 + ket5) +
+sqrt(1/2) outer(ket2,ket2 + ket6) +
+sqrt(1/2) outer(ket3,ket3 + ket7) +
 sqrt(1/2) outer(ket4,ket0 - ket4) +
 sqrt(1/2) outer(ket5,ket1 - ket5) +
 sqrt(1/2) outer(ket6,ket2 - ket6) +
 sqrt(1/2) outer(ket7,ket3 - ket7) +
-outer(ket8,ket8) +
-outer(ket9,ket9) +
-outer(ket10,ket10) +
-outer(ket11,ket11) +
+sqrt(1/2) outer(ket8,ket8 + ket12) +
+sqrt(1/2) outer(ket9,ket9 + ket13) +
+sqrt(1/2) outer(ket10,ket10 + ket14) +
+sqrt(1/2) outer(ket11,ket11 + ket15) +
 sqrt(1/2) outer(ket12,ket8 - ket12) +
 sqrt(1/2) outer(ket13,ket9 - ket13) +
 sqrt(1/2) outer(ket14,ket10 - ket14) +
@@ -1286,36 +1286,36 @@ outer(ket14,ket14) +
 outer(ket15,ket15)
 
 X22 =
-outer(ket0,ket0) +
-outer(ket1,ket1) +
-outer(ket2,ket2) +
-outer(ket3,ket3) +
+outer(ket0,ket4) +
+outer(ket1,ket5) +
+outer(ket2,ket6) +
+outer(ket3,ket7) +
 outer(ket4,ket0) +
 outer(ket5,ket1) +
 outer(ket6,ket2) +
 outer(ket7,ket3) +
-outer(ket8,ket8) +
-outer(ket9,ket9) +
-outer(ket10,ket10) +
-outer(ket11,ket11) +
+outer(ket8,ket12) +
+outer(ket9,ket13) +
+outer(ket10,ket14) +
+outer(ket11,ket15) +
 outer(ket12,ket8) +
 outer(ket13,ket9) +
 outer(ket14,ket10) +
 outer(ket15,ket11)
 
 Y22 =
-outer(ket0,ket0) +
-outer(ket1,ket1) +
-outer(ket2,ket2) +
-outer(ket3,ket3) +
+outer(ket0,i ket4) +
+outer(ket1,i ket5) +
+outer(ket2,i ket6) +
+outer(ket3,i ket7) +
 outer(ket4,-i ket0) +
 outer(ket5,-i ket1) +
 outer(ket6,-i ket2) +
 outer(ket7,-i ket3) +
-outer(ket8,ket8) +
-outer(ket9,ket9) +
-outer(ket10,ket10) +
-outer(ket11,ket11) +
+outer(ket8,i ket12) +
+outer(ket9,i ket13) +
+outer(ket10,i ket14) +
+outer(ket11,i ket15) +
 outer(ket12,-i ket8) +
 outer(ket13,-i ket9) +
 outer(ket14,-i ket10) +
@@ -1834,14 +1834,14 @@ outer(ket14,ket14) +
 outer(ket15,ket15)
 
 H33 =
-outer(ket0,ket0) +
-outer(ket1,ket1) +
-outer(ket2,ket2) +
-outer(ket3,ket3) +
-outer(ket4,ket4) +
-outer(ket5,ket5) +
-outer(ket6,ket6) +
-outer(ket7,ket7) +
+sqrt(1/2) outer(ket0,ket0 + ket8) +
+sqrt(1/2) outer(ket1,ket1 + ket9) +
+sqrt(1/2) outer(ket2,ket2 + ket10) +
+sqrt(1/2) outer(ket3,ket3 + ket11) +
+sqrt(1/2) outer(ket4,ket4 + ket12) +
+sqrt(1/2) outer(ket5,ket5 + ket13) +
+sqrt(1/2) outer(ket6,ket6 + ket14) +
+sqrt(1/2) outer(ket7,ket7 + ket15) +
 sqrt(1/2) outer(ket8,ket0 - ket8) +
 sqrt(1/2) outer(ket9,ket1 - ket9) +
 sqrt(1/2) outer(ket10,ket2 - ket10) +
@@ -1864,14 +1864,14 @@ outer(ket14,ket14) +
 outer(ket15,ket15)
 
 X33 =
-outer(ket0,ket0) +
-outer(ket1,ket1) +
-outer(ket2,ket2) +
-outer(ket3,ket3) +
-outer(ket4,ket4) +
-outer(ket5,ket5) +
-outer(ket6,ket6) +
-outer(ket7,ket7) +
+outer(ket0,ket8) +
+outer(ket1,ket9) +
+outer(ket2,ket10) +
+outer(ket3,ket11) +
+outer(ket4,ket12) +
+outer(ket5,ket13) +
+outer(ket6,ket14) +
+outer(ket7,ket15) +
 outer(ket8,ket0) +
 outer(ket9,ket1) +
 outer(ket10,ket2) +
@@ -1882,14 +1882,14 @@ outer(ket14,ket6) +
 outer(ket15,ket7)
 
 Y33 =
-outer(ket0,ket0) +
-outer(ket1,ket1) +
-outer(ket2,ket2) +
-outer(ket3,ket3) +
-outer(ket4,ket4) +
-outer(ket5,ket5) +
-outer(ket6,ket6) +
-outer(ket7,ket7) +
+outer(ket0,i ket8) +
+outer(ket1,i ket9) +
+outer(ket2,i ket10) +
+outer(ket3,i ket11) +
+outer(ket4,i ket12) +
+outer(ket5,i ket13) +
+outer(ket6,i ket14) +
+outer(ket7,i ket15) +
 outer(ket8,-i ket0) +
 outer(ket9,-i ket1) +
 outer(ket10,-i ket2) +

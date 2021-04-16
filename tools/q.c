@@ -52,9 +52,10 @@ main()
 		}
 	}
 
-	fflush(stdout);
-
-	system("cat qfile.txt");
+	if (N == 4) {
+		fflush(stdout);
+		system("cat qfile.txt");
+	}
 }
 
 void
@@ -119,7 +120,7 @@ CH(int c, int n)
 
 	for (i = 0; i < M; i++) {
 
-		if ((i & c) == 0)
+		if (c != n && (i & c) == 0)
 			printf("outer(ket%d,ket%d)", i, i);
 		else if (i & n)
 			printf("sqrt(1/2) outer(ket%d,ket%d - ket%d)", i, i ^ n, i); // do this for state 1
@@ -229,7 +230,7 @@ CX(int c, int n)
 
 	for (i = 0; i < M; i++) {
 
-		if ((i & c) == 0)
+		if (c != n && (i & c) == 0)
 			printf("outer(ket%d,ket%d)", i, i);
 		else if (i & n)
 			printf("outer(ket%d,ket%d)", i, i ^ n); // do this for state 1
@@ -282,7 +283,7 @@ CY(int c, int n)
 
 	for (i = 0; i < M; i++) {
 
-		if ((i & c) == 0)
+		if (c != n && (i & c) == 0)
 			printf("outer(ket%d,ket%d)", i, i);
 		else if (i & n)
 			printf("outer(ket%d,-i ket%d)", i, i ^ n); // do this for state 1
@@ -335,7 +336,7 @@ CZ(int c, int n)
 
 	for (i = 0; i < M; i++) {
 
-		if ((i & c) == 0)
+		if (c != n && (i & c) == 0)
 			printf("outer(ket%d,ket%d)", i, i);
 		else if (i & n)
 			printf("outer(ket%d,-ket%d)", i, i); // do this for state 1
