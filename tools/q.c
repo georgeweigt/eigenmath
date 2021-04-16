@@ -5,7 +5,7 @@
 
 // N is number of qubits
 
-#define N 2
+#define N 4
 
 // M is number of states
 
