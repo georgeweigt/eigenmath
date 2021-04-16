@@ -82,6 +82,8 @@ struct display {
 	double mem[0];
 };
 
+#include "app-prototypes.h"
+
 extern CGContextRef gcontext;
 
 extern int running;
@@ -106,5 +108,3 @@ extern int emit_level;
 extern int emit_index;
 extern int emit_count;
 extern struct display *emit_display;
-
-#include "app-prototypes.h"
