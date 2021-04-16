@@ -91,12 +91,10 @@ H(int n)
 
 	for (i = 0; i < M; i++) {
 
-		printf("sqrt(1/2) outer(ket%d,", i);
-
 		if (i & n)
-			printf("ket%d - ket%d)", i ^ n, i); // |0> - |1>
+			printf("sqrt(1/2) outer(ket%d,ket%d - ket%d)", i, i ^ n, i); // do this for state 1
 		else
-			printf("ket%d + ket%d)", i, i ^ n); // |0> + |1>
+			printf("sqrt(1/2) outer(ket%d,ket%d + ket%d)", i, i, i ^ n); // do this for state 0
 
 		if (i < M - 1)
 			printf(" +");
@@ -119,12 +117,12 @@ CH(int c, int n)
 
 	for (i = 0; i < M; i++) {
 
-		printf("sqrt(1/2) outer(ket%d,", i);
-
-		if ((i & c) && (i & n))
-			printf("ket%d - ket%d)", i ^ n, i); // |0> - |1>
+		if ((i & c) == 0)
+			printf("outer(ket%d,ket%d)", i, i);
+		else if (i & n)
+			printf("sqrt(1/2) outer(ket%d,ket%d - ket%d)", i, i ^ n, i); // do this for state 1
 		else
-			printf("ket%d + ket%d)", i, i ^ n); // |0> + |1>
+			printf("sqrt(1/2) outer(ket%d,ket%d + ket%d)", i, i, i ^ n); // do this for state 0
 
 		if (i < M - 1)
 			printf(" +");
@@ -203,7 +201,10 @@ X(int n)
 
 	for (i = 0; i < M; i++) {
 
-		printf("outer(ket%d,ket%d)", i, i ^ n);
+		if (i & n)
+			printf("outer(ket%d,ket%d)", i, i ^ n); // do this for state 1
+		else
+			printf("outer(ket%d,ket%d)", i, i ^ n); // do this for state 0
 
 		if (i < M - 1)
 			printf(" +");
@@ -226,10 +227,12 @@ CX(int c, int n)
 
 	for (i = 0; i < M; i++) {
 
-		if (i & c)
-			printf("outer(ket%d,ket%d)", i, i ^ n);
-		else
+		if ((i & c) == 0)
 			printf("outer(ket%d,ket%d)", i, i);
+		else if (i & n)
+			printf("outer(ket%d,ket%d)", i, i ^ n); // do this for state 1
+		else
+			printf("outer(ket%d,ket%d)", i, i ^ n); // do this for state 0
 
 		if (i < M - 1)
 			printf(" +");
@@ -252,9 +255,9 @@ Y(int n)
 	for (i = 0; i < M; i++) {
 
 		if (i & n)
-			printf("outer(ket%d,-i ket%d)", i, i ^ n);
+			printf("outer(ket%d,-i ket%d)", i, i ^ n); // do this for state 1
 		else
-			printf("outer(ket%d,i ket%d)", i, i ^ n);
+			printf("outer(ket%d,i ket%d)", i, i ^ n); // do this for state 0
 
 		if (i < M - 1)
 			printf(" +");
@@ -280,9 +283,9 @@ CY(int c, int n)
 		if ((i & c) == 0)
 			printf("outer(ket%d,ket%d)", i, i);
 		else if (i & n)
-			printf("outer(ket%d,-i ket%d)", i, i ^ n);
+			printf("outer(ket%d,-i ket%d)", i, i ^ n); // do this for state 1
 		else
-			printf("outer(ket%d,i ket%d)", i, i ^ n);
+			printf("outer(ket%d,i ket%d)", i, i ^ n); // do this for state 0
 
 		if (i < M - 1)
 			printf(" +");
@@ -305,9 +308,9 @@ Z(int n)
 	for (i = 0; i < M; i++) {
 
 		if (i & n)
-			printf("outer(ket%d,-ket%d)", i, i);
+			printf("outer(ket%d,-ket%d)", i, i); // do this for state 1
 		else
-			printf("outer(ket%d,ket%d)", i, i);
+			printf("outer(ket%d,ket%d)", i, i); // do this for state 0
 
 		if (i < M - 1)
 			printf(" +");
@@ -330,10 +333,12 @@ CZ(int c, int n)
 
 	for (i = 0; i < M; i++) {
 
-		if ((i & c) && (i & n))
-			printf("outer(ket%d,-ket%d)", i, i);
-		else
+		if ((i & c) == 0)
 			printf("outer(ket%d,ket%d)", i, i);
+		else if (i & n)
+			printf("outer(ket%d,-ket%d)", i, i); // do this for state 1
+		else
+			printf("outer(ket%d,ket%d)", i, i); // do this for state 0
 
 		if (i < M - 1)
 			printf(" +");
