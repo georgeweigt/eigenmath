@@ -19,6 +19,7 @@ void X(int n);
 void Y(int n);
 void Z(int n);
 
+void CH(int c, int n);
 void CP(int c, int n);
 void CX(int c, int n);
 void CY(int c, int n);
@@ -35,17 +36,18 @@ main()
 
 	for (i = 0; i < N; i++) {
 
+		H(i);
+		P(i);
 		X(i);
 		Y(i);
 		Z(i);
-		H(i);
-		P(i);
 
 		for (j = 0; j < N; j++) {
+			CH(j, i);
+			CP(j, i);
 			CX(j, i);
 			CY(j, i);
 			CZ(j, i);
-			CP(j, i);
 			W(j, i);
 		}
 	}

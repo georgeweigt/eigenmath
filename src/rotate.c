@@ -65,7 +65,7 @@ eval_rotate(void)
 		}
 
 		if (OPCODE == symbol(H_UPPER)) {
-			rotate_h(n);
+			rotate_h(c, n);
 			continue;
 		}
 
@@ -133,12 +133,13 @@ eval_rotate(void)
 // hadamard
 
 void
-rotate_h(int n)
+rotate_h(int c, int n)
 {
 	int i;
+	c = 1 << c;
 	n = 1 << n;
 	for (i = 0; i < N; i++)
-		if (i & n) {
+		if ((i & c) && (i & n)) {
 			push(KET0);
 			push(KET1);
 			add();
@@ -247,7 +248,7 @@ rotate_q(int n)
 {
 	int i, j;
 	for (i = n; i >= 0; i--) {
-		rotate_h(i);
+		rotate_h(i, i);
 		for (j = 0; j < i; j++) {
 			push_rational(1, 2);
 			push_integer(i - j);
@@ -287,6 +288,6 @@ rotate_v(int n)
 			PHASE = pop();
 			rotate_p(j, i);
 		}
-		rotate_h(i);
+		rotate_h(i, i);
 	}
 }
