@@ -5,20 +5,25 @@
 
 // N is number of qubits
 
-#define N 4
+#define N 2
 
 // M is number of states
 
 #define M (1 << N)
 
 void kets(void);
+
+void H(int n);
+void P(int n);
 void X(int n);
 void Y(int n);
 void Z(int n);
-void H(int n);
-void P(int n);
-void CX(int m, int n);
-void CP(int m, int n);
+
+void CP(int c, int n);
+void CX(int c, int n);
+void CY(int c, int n);
+void CZ(int c, int n);
+
 void W(int m, int n);
 
 int
@@ -30,18 +35,19 @@ main()
 
 	for (i = 0; i < N; i++) {
 
-		X(i); // pauli x
-		Y(i); // pauli y
-		Z(i); // pauli z
-		H(i); // hadamard
-		P(i); // phase
+		X(i);
+		Y(i);
+		Z(i);
+		H(i);
+		P(i);
 
-		for (j = 0; j < N; j++)
-			if (i != j) {
-				CX(j, i); // controlled x (cnot)
-				CP(j, i); // controlled phase
-				W(j, i); // swap
-			}
+		for (j = 0; j < N; j++) {
+			CX(j, i);
+			CY(j, i);
+			CZ(j, i);
+			CP(j, i);
+			W(j, i);
+		}
 	}
 
 	fflush(stdout);
@@ -72,78 +78,6 @@ kets(void)
 	printf("\n");
 }
 
-void
-X(int n)
-{
-	int i;
-
-	printf("X%d =\n", n);
-
-	n = 1 << n;
-
-	for (i = 0; i < M; i++) {
-
-		printf("outer(ket%d,ket%d)", i, i ^ n);
-
-		if (i < M - 1)
-			printf(" +");
-
-		printf("\n");
-	}
-
-	printf("\n");
-}
-
-void
-Y(int n)
-{
-	int i;
-
-	printf("Y%d =\n", n);
-
-	n = 1 << n;
-
-	for (i = 0; i < M; i++) {
-
-		if (i & n)
-			printf("outer(ket%d,-i ket%d)", i, i ^ n);
-		else
-			printf("outer(ket%d,i ket%d)", i, i ^ n);
-
-		if (i < M - 1)
-			printf(" +");
-
-		printf("\n");
-	}
-
-	printf("\n");
-}
-
-void
-Z(int n)
-{
-	int i;
-
-	printf("Z%d =\n", n);
-
-	n = 1 << n;
-
-	for (i = 0; i < M; i++) {
-
-		if (i & n)
-			printf("outer(ket%d,-ket%d)", i, i);
-		else
-			printf("outer(ket%d,ket%d)", i, i);
-
-		if (i < M - 1)
-			printf(" +");
-
-		printf("\n");
-	}
-
-	printf("\n");
-}
-
 // hadamard
 
 void
@@ -160,6 +94,34 @@ H(int n)
 		printf("sqrt(1/2) outer(ket%d,", i);
 
 		if (i & n)
+			printf("ket%d - ket%d)", i ^ n, i); // |0> - |1>
+		else
+			printf("ket%d + ket%d)", i, i ^ n); // |0> + |1>
+
+		if (i < M - 1)
+			printf(" +");
+
+		printf("\n");
+	}
+
+	printf("\n");
+}
+
+void
+CH(int c, int n)
+{
+	int i;
+
+	printf("H%d%d =\n", c, n);
+
+	c = 1 << c;
+	n = 1 << n;
+
+	for (i = 0; i < M; i++) {
+
+		printf("sqrt(1/2) outer(ket%d,", i);
+
+		if ((i & c) && (i & n))
 			printf("ket%d - ket%d)", i ^ n, i); // |0> - |1>
 		else
 			printf("ket%d + ket%d)", i, i ^ n); // |0> + |1>
@@ -202,21 +164,69 @@ P(int n)
 	printf("\n");
 }
 
-// controlled x (cnot)
-
 void
-CX(int m, int n)
+CP(int c, int n)
 {
 	int i;
 
-	printf("X%d%d =\n", m, n);
+	printf("P%d%d(phi) = I - P%d%dM + exp(i phi) P%d%dM\n\n", c, n, c, n, c, n);
 
-	m = 1 << m;
+	printf("P%d%dM =\n", c, n);
+
+	c = 1 << c;
 	n = 1 << n;
 
 	for (i = 0; i < M; i++) {
 
-		if (i & m)
+		if ((i & c) == 0 || (i & n) == 0)
+			continue;
+
+		printf("outer(ket%d,ket%d)", i, i);
+
+		if (i < M - 1)
+			printf(" +");
+
+		printf("\n");
+	}
+
+	printf("\n");
+}
+
+void
+X(int n)
+{
+	int i;
+
+	printf("X%d =\n", n);
+
+	n = 1 << n;
+
+	for (i = 0; i < M; i++) {
+
+		printf("outer(ket%d,ket%d)", i, i ^ n);
+
+		if (i < M - 1)
+			printf(" +");
+
+		printf("\n");
+	}
+
+	printf("\n");
+}
+
+void
+CX(int c, int n)
+{
+	int i;
+
+	printf("X%d%d =\n", c, n);
+
+	c = 1 << c;
+	n = 1 << n;
+
+	for (i = 0; i < M; i++) {
+
+		if (i & c)
 			printf("outer(ket%d,ket%d)", i, i ^ n);
 		else
 			printf("outer(ket%d,ket%d)", i, i);
@@ -230,26 +240,100 @@ CX(int m, int n)
 	printf("\n");
 }
 
-// controlled phase
-
 void
-CP(int m, int n)
+Y(int n)
 {
 	int i;
 
-	printf("P%d%d(phi) = I - P%d%dM + exp(i phi) P%d%dM\n\n", m, n, m, n, m, n);
+	printf("Y%d =\n", n);
 
-	printf("P%d%dM =\n", m, n);
-
-	m = 1 << m;
 	n = 1 << n;
 
 	for (i = 0; i < M; i++) {
 
-		if ((i & m) == 0 || (i & n) == 0)
-			continue;
+		if (i & n)
+			printf("outer(ket%d,-i ket%d)", i, i ^ n);
+		else
+			printf("outer(ket%d,i ket%d)", i, i ^ n);
 
-		printf("outer(ket%d,ket%d)", i, i);
+		if (i < M - 1)
+			printf(" +");
+
+		printf("\n");
+	}
+
+	printf("\n");
+}
+
+void
+CY(int c, int n)
+{
+	int i;
+
+	printf("Y%d%d =\n", c, n);
+
+	c = 1 << c;
+	n = 1 << n;
+
+	for (i = 0; i < M; i++) {
+
+		if ((i & c) == 0)
+			printf("outer(ket%d,ket%d)", i, i);
+		else if (i & n)
+			printf("outer(ket%d,-i ket%d)", i, i ^ n);
+		else
+			printf("outer(ket%d,i ket%d)", i, i ^ n);
+
+		if (i < M - 1)
+			printf(" +");
+
+		printf("\n");
+	}
+
+	printf("\n");
+}
+
+void
+Z(int n)
+{
+	int i;
+
+	printf("Z%d =\n", n);
+
+	n = 1 << n;
+
+	for (i = 0; i < M; i++) {
+
+		if (i & n)
+			printf("outer(ket%d,-ket%d)", i, i);
+		else
+			printf("outer(ket%d,ket%d)", i, i);
+
+		if (i < M - 1)
+			printf(" +");
+
+		printf("\n");
+	}
+
+	printf("\n");
+}
+
+void
+CZ(int c, int n)
+{
+	int i;
+
+	printf("Z%d%d =\n", c, n);
+
+	c = 1 << c;
+	n = 1 << n;
+
+	for (i = 0; i < M; i++) {
+
+		if ((i & c) && (i & n))
+			printf("outer(ket%d,-ket%d)", i, i);
+		else
+			printf("outer(ket%d,ket%d)", i, i);
 
 		if (i < M - 1)
 			printf(" +");
