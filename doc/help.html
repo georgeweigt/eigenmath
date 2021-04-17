@@ -29,10 +29,10 @@ The Eigenmath manual and additional support materials are available at
 <a href="#ceiling">ceiling</a><br>
 <a href="#check">check</a><br>
 <a href="#circexp">circexp</a><br>
+<a href="#clear">clear</a><br>
 </td>
 
 <td>
-<a href="#clear">clear</a><br>
 <a href="#clock">clock</a><br>
 <a href="#cofactor">cofactor</a><br>
 <a href="#conj">conj</a><br>
@@ -46,11 +46,11 @@ The Eigenmath manual and additional support materials are available at
 <a href="#dim">dim</a><br>
 <a href="#do">do</a><br>
 <a href="#dot">dot</a><br>
+<a href="#draw">draw</a><br>
+<a href="#eval">eval</a><br>
 </td>
 
 <td>
-<a href="#draw">draw</a><br>
-<a href="#eval">eval</a><br>
 <a href="#exp">exp</a><br>
 <a href="#expcos">expcos</a><br>
 <a href="#expcosh">expcosh</a><br>
@@ -63,12 +63,12 @@ The Eigenmath manual and additional support materials are available at
 <a href="#floor">floor</a><br>
 <a href="#for">for</a><br>
 <a href="#hadamard">hadamard</a><br>
-</td>
-
-<td>
 <a href="#i">i</a><br>
 <a href="#imag">imag</a><br>
 <a href="#inner">inner</a><br>
+</td>
+
+<td>
 <a href="#integral">integral</a><br>
 <a href="#inv">inv</a><br>
 <a href="#j">j</a><br>
@@ -80,13 +80,13 @@ The Eigenmath manual and additional support materials are available at
 <a href="#minormatrix">minormatrix</a><br>
 <a href="#mod">mod</a><br>
 <a href="#noexpand">noexpand</a><br>
-</td>
-
-<td>
 <a href="#not">not</a><br>
 <a href="#numerator">numerator</a><br>
 <a href="#or">or</a><br>
 <a href="#outer">outer</a><br>
+</td>
+
+<td>
 <a href="#pi">pi</a><br>
 <a href="#polar">polar</a><br>
 <a href="#power">power</a><br>
@@ -97,13 +97,14 @@ The Eigenmath manual and additional support materials are available at
 <a href="#rationalize">rationalize</a><br>
 <a href="#real">real</a><br>
 <a href="#rect">rect</a><br>
-</td>
-
-<td>
+<a href="#rotate">rotate</a><br>
 <a href="#run">run</a><br>
 <a href="#simplify">simplify</a><br>
 <a href="#sin">sin</a><br>
 <a href="#sinh">sinh</a><br>
+</td>
+
+<td>
 <a href="#sqrt">sqrt</a><br>
 <a href="#stop">stop</a><br>
 <a href="#sum">sum</a><br>
@@ -114,6 +115,11 @@ The Eigenmath manual and additional support materials are available at
 <a href="#transpose">transpose</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </td>
 
 </tr>
@@ -716,21 +722,21 @@ is used for index variable <i>i</i> then the imaginary unit is overridden in the
 <a id="hadamard">hadamard(<i>a,b,...</i>)</a>
 <p>
 Returns the Hadamard (element-wise) product.
+The arguments are required to have the same dimensions.
+The Hadamard product is also accomplished by simply multiplying the arguments.
 <pre style="font-family:courier;color:blue">
-X = (a,b,c)
-hadamard(X,X)
+A = ((A11,A12),(A21,A22))
+B = ((B11,B12),(B21,B22))
+A B
 </pre>
 <pre style="font-family:courier">
-┌    ┐
-│  2 │
-│ a  │
-│    │
-│  2 │
-│ b  │
-│    │
-│  2 │
-│ c  │
-└    ┘
+┌                   ┐
+│ A   B     A   B   │
+│  11  11    12  12 │
+│                   │
+│ A   B     A   B   │
+│  21  21    22  22 │
+└                   ┘
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -1178,6 +1184,60 @@ rect(exp(i x))
 </pre>
 <pre style="font-family:courier">
 cos(x) + i sin(x)
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="rotate">rotate(<i>u,s,k,...</i>)</a>
+<p>
+Rotates vector <i>u</i> and returns the result.
+Vector <i>u</i> is required to have 2<sup><i>n</i></sup> elements
+where <i>n</i> is an integer from 1 to 15.
+Arguments <i>s,k,...</i> are a sequence of rotation codes
+where <i>s</i> is an upper case letter and <i>k</i> is a qubit number
+0 to <i>n</i> &minus; 1.
+Rotations are evaluated from left to right.
+The available rotations are
+<table>
+<tr><td>C, <i>k</i></td><td>Control prefix</td></tr>
+
+<tr><td>H, <i>k</i></td><td>Hadamard</td></tr>
+
+<tr><td>P, <i>k, &phi;</i></td><td>Phase shift</td></tr>
+
+<tr><td>Q, <i>k</i></td><td>Quantum Fourier transform</td></tr>
+
+<tr><td>V, <i>k</i></td><td>Inverse quantum Fourier transform</td></tr>
+
+<tr><td>W, <i>k, j</i>&nbsp;</td><td>Swap qubits</td></tr>
+
+<tr><td>X, <i>k</i></td><td>Pauli X</td></tr>
+
+<tr><td>Y, <i>k</i></td><td>Pauli Y</td></tr>
+
+<tr><td>Z, <i>k</i></td><td>Pauli Z</td></tr>
+</table>
+<p>
+See section 3 of the Eigenmath manual.
+<pre style="font-family:courier;color:blue">
+psi = (1,0,0,0)
+rotate(psi,H,0)
+</pre>
+<pre style="font-family:courier">
+┌        ┐
+│   1    │
+│ ╶────╴ │
+│   1/2  │
+│  2     │
+│        │
+│   1    │
+│ ╶────╴ │
+│   1/2  │
+│  2     │
+│        │
+│   0    │
+│        │
+│   0    │
+└        ┘
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
