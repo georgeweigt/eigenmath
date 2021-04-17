@@ -1,0 +1,114 @@
+A quantum computer can be simulated by applying rotations to a
+unit vector
+$u\in\mathbb{C}^{2^n}$ where $n$ is the number of qubits.
+For example, four qubits would have $u\in\mathbb{C}^{16}$.
+The dimension is $2^n$ because a register with $n$ qubits
+has $2^n$ eigenstates.
+Quantum operations are ``rotations'' because they preserve $|u|=1$.
+
+\bigskip
+\noindent
+The Eigenmath function
+$rotate(u,s,k,\ldots)$ rotates vector $u$ by rotation code
+$s,k$ where $s$ is an upper case letter and $k$ is a qubit index.
+Index numbering starts at zero and counts up to $n-1$.
+Multiple rotation codes can be specified
+and are evaluated from left to right.
+
+\bigskip
+\noindent
+The following table summarizes the available rotation codes.
+
+\begin{center}
+\begin{tabular}{ll}
+$C,k$ & Control prefix
+\\
+$H,k$ & Hadamard
+\\
+$P,k,\phi$ & Phase modifier
+\\
+$Q,k$ & Quantum Fourier transform
+\\
+$V,k$ & Inverse quantum Fourier transform
+\\
+$W,k,j$ & Swap bits
+\\
+$X,k$ & Pauli X
+\\
+$Y,k$ & Pauli Y
+\\
+$Z,k$ & Pauli Z
+\end{tabular}
+\end{center}
+
+\noindent
+Control prefix $C,k$ modifies the next rotation code so that it
+is a controlled rotation where $k$ is the controlling qubit.
+The Fourier transforms $Q,k$ and $V,k$ are applied to bits $0\ldots k$.
+Also, $Q$ and $V$ ignore any control prefix.
+
+\bigskip
+\noindent
+Error codes
+\begin{itemize}
+\item[1] Argument $u$ is not a vector or does not have $2^n$ elements where $n=1,2,\ldots,15$.
+\item[2] Missing argument.
+\item[3] Bit number format error or range error.
+\item[4] Unknown rotation code.
+\end{itemize}
+
+\bigskip
+\noindent
+Eigenstates $|j\rangle$ are represented by the following vectors.
+(Each vector has $2^n$ elements.)
+\begin{align*}
+&|0\rangle=(1,0,0,\dots,0)
+\\
+&|1\rangle=(0,1,0,\ldots,0)
+\\
+&|2\rangle=(0,0,1,\ldots,0)
+\\
+&\vdots
+\\
+&|2^n-1\rangle=(0,0,0,\ldots,1)
+\end{align*}
+
+\noindent
+A quantum computing algorithm is a sequence of rotations
+applied to the initial state $|0\rangle$.
+(Mathematically, the sequence can be collapsed into a single rotation.)
+Let $\psi$ be the final state of the quantum computer
+after all the rotations have been applied.
+Like any other state, $\psi$ is a linear combination of eigenstates.
+\begin{equation*}
+\psi=\sum_{j=0}^{2^n-1}c_j|j\rangle,\quad|\psi|=1
+\end{equation*}
+The final step is to measure $\psi$ which will
+change it to an eigenstate $|j\rangle$ with
+probability
+\begin{equation*}
+P_j=c_jc_j^*
+\end{equation*}
+The output from a real quantum computer is always an eigenstate.
+We can never measure the $c_j$'s directly.
+However, we can run the same calculation multiple times
+to obtain an estimate of the probability distribution.
+
+\bigskip
+\noindent
+In Eigenmath, the probability distribution can be computed as follows.
+\begin{center}
+\tt P = psi conj(psi)
+\end{center}
+
+\noindent
+Hence
+\begin{align*}
+&\text{\tt P[1]}=\text{probability that $|0\rangle$ will be the result}
+\\
+&\text{\tt P[2]}=\text{probability that $|1\rangle$ will be the result}
+\\
+&\vdots
+\\
+&\text{etc.}
+\end{align*}
