@@ -150,4 +150,25 @@ sum(k,1,N, (k - 1) P[k])
 \end{verbatim}}
 
 \noindent
+Make high order bit ``don't care'' (in this case, make qubit 3 don't care).
+{\color{blue}
+\begin{verbatim}
+for(k,1,8, P[k] = P[k] + P[k + 8])
+\end{verbatim}}
+
+\noindent
+Hence
+\begin{align*}
+&\text{\tt P[1]}=\text{probability that the result will be $|0\rangle$ or $|8\rangle$}
+\\
+&\text{\tt P[2]}=\text{probability that the result will be $|1\rangle$ or $|9\rangle$}
+\\
+&\text{\tt P[3]}=\text{probability that the result will be $|2\rangle$ or $|10\rangle$}
+\\
+&\vdots
+\\
+&\text{\tt P[8]}=\text{probability that the result will be $|7\rangle$ or $|15\rangle$}
+\end{align*}
+
+\noindent
 See ``Quantum Computing'' at eigenmath.org for examples.
