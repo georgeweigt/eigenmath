@@ -2211,5 +2211,73 @@ P = psi conj(psi)
 theta = sum(k,0,15,k/8 P[k + 1]) - 1
 check(infixform(theta) == "0.30465")
 
+-- order finding
+
+clear
+
+U(psi,k) = rotate(psi,
+
+  C,k,W,10,11,  -- conditional swap bits 10 and 11
+  C,k,W,9,10,   -- conditional swap bits 9 and 10
+  C,k,W,8,9,    -- conditional swap bits 8 and 9
+  C,k,X,8,      -- conditional not bit 8
+  C,k,X,9,      -- conditional not bit 9
+  C,k,X,10,     -- conditional not bit 10
+  C,k,X,11)     -- conditional not bit 11
+
+-- 12 quantum bits have 2^12 = 4096 eigenstates
+
+psi = zero(4096)
+
+-- initial state is eigenstate zero
+
+psi[1] = 1
+
+-- start computing
+
+psi = rotate(psi,
+
+  H,0,   -- hadamard bit 0
+  H,1,   -- hadamard bit 1
+  H,2,   -- hadamard bit 2
+  H,3,   -- hadamard bit 3
+  H,4,   -- hadamard bit 4
+  H,5,   -- hadamard bit 5
+  H,6,   -- hadamard bit 6
+  H,7,   -- hadamard bit 7
+  X,8)   -- not bit 8
+
+-- U^(2^0) U^(2^1) U^(2^2) ... U^(2^7)
+
+for(k,1,1,   psi = U(psi,0))
+for(k,1,2,   psi = U(psi,1))
+for(k,1,4,   psi = U(psi,2))
+for(k,1,8,   psi = U(psi,3))
+for(k,1,16,  psi = U(psi,4))
+for(k,1,32,  psi = U(psi,5))
+for(k,1,64,  psi = U(psi,6))
+for(k,1,128, psi = U(psi,7))
+
+-- inverse QFT on bits 0-7
+
+psi = rotate(psi,V,7)
+
+-- result is a probability distribution
+
+P = psi conj(psi)
+
+-- qubits 8-11 are don't care, sum probabilities over eigenstates modulo 256
+
+for(j,1,256, P[j] = sum(k,0,15,P[j + 256 k]))
+
+n = 0
+for(k,1,256,test(P[k],n=n+1))
+test(n<2,n=2)
+M = zero(2,n) -- 2 rows, n columns
+n = 1
+for(k,1,256,test(P[k],do(M[1,n]=float(P[k]),M[2,n]=(k-1)/256,n=n+1)))
+
+check(M[2] == (0,1/4,1/2,3/4))
+
 "ok"
 exit
