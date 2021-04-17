@@ -1067,6 +1067,28 @@ rect(exp(i x))
 \noindent
 $\displaystyle \cos(x)+i\sin(x)$
 
+\subsection*{rotate($u,s,k,\ldots$)}
+Rotate unit vector $u$ by rotation code $s,k$.
+See section 3 for rotation codes.
+
+{\color{blue}
+\begin{verbatim}
+psi = (1,0,0,0)
+rotate(psi,H,0)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle\begin{bmatrix}
+\frac{1}{2^{1/2}}
+\\
+\frac{1}{2^{1/2}}
+\\
+0
+\\
+0
+\end{bmatrix}$
+
 \subsection*{run({\it file})}
 
 Run script {\it file}.
