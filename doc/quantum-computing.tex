@@ -99,10 +99,25 @@ $c_jc_j^*$ for each eigenstate.
 
 \bigskip
 \noindent
-In Eigenmath, the probability distribution can be computed as follows.
-\begin{center}
-\tt P = psi conj(psi)
-\end{center}
+Eigenmath code for before and after {\it rotate}:
+
+\bigskip
+\noindent
+Initialize $\psi=|0\rangle$.
+{\color{blue}
+\begin{verbatim}
+n = 4           -- number of qubits
+N = 2^n         -- number of eigenstates
+psi = zero(N)
+psi[1] = 1
+\end{verbatim}}
+
+\noindent
+Compute the probability distribution for state $\psi$.
+{\color{blue}
+\begin{verbatim}
+P = psi conj(psi)
+\end{verbatim}}
 
 \noindent
 Hence
@@ -115,8 +130,17 @@ Hence
 \\
 &\vdots
 \\
-&\text{etc.}
+&\text{\tt P[N]}=\text{probability that $|N-1\rangle$ will be the result}
 \end{align*}
+
+\noindent
+Draw the probability distribution.
+{\color{blue}
+\begin{verbatim}
+xrange = (0,N)
+yrange = (0,1)
+draw(P[ceiling(x)],x)
+\end{verbatim}}
 
 \noindent
 See ``Quantum Computing'' at eigenmath.org for examples.
