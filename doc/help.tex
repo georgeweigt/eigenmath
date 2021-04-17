@@ -1068,8 +1068,14 @@ rect(exp(i x))
 $\displaystyle \cos(x)+i\sin(x)$
 
 \subsection*{rotate($u,s,k,\ldots$)}
-Rotate unit vector $u$ by rotation code $s,k$.
-See section 3 for rotation codes.
+Rotates vector $u$ and returns the result.
+Vector $u$ is required to have $2^n$ elements where
+$n$ is an integer from 1 to 15.
+Arguments $s,k,\ldots$ are a sequence of rotation codes
+where $s$ is an upper case letter and $k$ is a qubit number
+from 0 to $n-1$.
+Rotations are evaluated from left to right.
+See section 3 for a list of rotation codes.
 
 {\color{blue}
 \begin{verbatim}

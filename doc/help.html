@@ -1217,7 +1217,12 @@ The available rotations are
 <tr><td>Z, <i>k</i></td><td>Pauli Z</td></tr>
 </table>
 <p>
-See section 3 of the Eigenmath manual.
+Control prefix C, <i>k</i> modifies the next rotation code so that it is
+a controlled rotation with <i>k</i> as the controlling qubit.
+Fourier rotations Q, <i>k</i> and V, <i>k</i> are applied
+to qubits 0 through <i>k</i>.
+(Q and V ignore any control prefix.)
+See also section 3 of the Eigenmath manual.
 <pre style="font-family:courier;color:blue">
 psi = (1,0,0,0)
 rotate(psi,H,0)

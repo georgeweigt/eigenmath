@@ -9,15 +9,14 @@ Quantum operations are ``rotations'' because they preserve $|u|=1$.
 \bigskip
 \noindent
 The Eigenmath function
-$rotate(u,s,k,\ldots)$ rotates vector $u$ by rotation code
-$s,k$ where $s$ is an upper case letter and $k$ is a qubit index.
-Index numbering starts at zero and counts up to $n-1$.
-Multiple rotation codes can be specified
-and are evaluated from left to right.
-
-\bigskip
-\noindent
-The following table summarizes the available rotation codes.
+$rotate(u,s,k,\ldots)$ rotates vector $u$ and returns the result.
+Vector $u$ is required to have $2^n$ elements where $n$ is an
+integer from 1 to 15.
+Arguments $s,k,\ldots$ are a sequence of rotation codes
+where $s$ is an upper case letter and $k$ is a qubit number
+from 0 to $n-1$.
+Rotations are evaluated from left to right.
+The available rotation codes are
 
 \begin{center}
 \begin{tabular}{ll}
@@ -43,9 +42,9 @@ $Z,k$ & Pauli Z
 
 \noindent
 Control prefix $C,k$ modifies the next rotation code so that it
-is a controlled rotation where $k$ is the controlling qubit.
-The Fourier transforms $Q,k$ and $V,k$ are applied to bits $0\ldots k$.
-Also, $Q$ and $V$ ignore any control prefix.
+is a controlled rotation with $k$ is the controlling qubit.
+Fourier rotations $Q,k$ and $V,k$ are applied to qubits 0 through $k$.
+($Q$ and $V$ ignore any control prefix.)
 
 \bigskip
 \noindent
