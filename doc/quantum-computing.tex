@@ -150,14 +150,14 @@ sum(k,1,N, (k - 1) P[k])
 \end{verbatim}}
 
 \noindent
-Make high order bit ``don't care'' (in this case, make qubit 3 don't care).
+Make the high order bit ``don't care.''
 {\color{blue}
 \begin{verbatim}
-for(k,1,8, P[k] = P[k] + P[k + 8])
+for(k,1,N/2, P[k] = P[k] + P[k + N/2])
 \end{verbatim}}
 
 \noindent
-Hence
+Hence for $N=16$
 \begin{align*}
 &\text{\tt P[1]}=\text{probability that the result will be $|0\rangle$ or $|8\rangle$}
 \\
