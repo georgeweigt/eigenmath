@@ -4,6 +4,8 @@ $u\in\mathbb{C}^{2^n}$ where $n$ is the number of qubits.
 The dimension is $2^n$ because a register with $n$ qubits
 has $2^n$ eigenstates.
 Quantum operations are ``rotations'' because they preserve $|u|=1$.
+Mathematically, a rotation of $u$ is equivalent to the product $Ru$
+where $R$ is a $2^n\times2^n$ matrix.
 
 \bigskip
 \noindent
@@ -57,7 +59,7 @@ Error codes
 
 \bigskip
 \noindent
-Eigenstates $|j\rangle$ are represented by the following vectors.
+Quantum computer eigenstates $|j\rangle$ are represented by the following vectors.
 (Each vector has $2^n$ elements.)
 \begin{align*}
 &|0\rangle=(1,0,0,\dots,0)
@@ -72,10 +74,10 @@ Eigenstates $|j\rangle$ are represented by the following vectors.
 \end{align*}
 
 \noindent
-A quantum computing algorithm is a sequence of rotations
+A quantum computer algorithm is a sequence of rotations
 applied to the initial state $|0\rangle$.
-(Mathematically, the sequence could be combined into a single rotation
-by associativity of rotations.)
+(The sequence could be combined into a single rotation
+by associativity of matrix multiplication.)
 Let $\psi_f$ be the final state of the quantum computer
 after all the rotations have been applied.
 Like any other state, $\psi_f$ is a linear combination of eigenstates.
@@ -94,7 +96,7 @@ Note that if $\psi_f$ is already an eigenstate then no rotation occurs.
 Since the measurement result is always an eigenstate,
 the coefficients $c_j$ cannot be observed.
 However, the same calculation can be run multiple times
-to obtain a probability distribution.
+to obtain a probability distribution of results.
 The probability distribution is an estimate
 of $|c_j|^2$ for each $|j\rangle$ in $\psi_f$.
 
@@ -151,7 +153,7 @@ sum(k,1,N, (k - 1) P[k])
 \end{verbatim}}
 
 \noindent
-Make the high order bit ``don't care.''
+Make the high order qubit ``don't care.''
 {\color{blue}
 \begin{verbatim}
 for(k,1,N/2, P[k] = P[k] + P[k + N/2])
