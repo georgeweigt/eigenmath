@@ -10,7 +10,8 @@ where $R$ is a $2^n\times2^n$ matrix.
 \bigskip
 \noindent
 The Eigenmath function
-$rotate(u,s,k,\ldots)$ rotates vector $u$ and returns the result.
+$rotate(u,s,k,\ldots)$
+rotates vector $u$ and returns the result.
 Vector $u$ is required to have $2^n$ elements where $n$ is an
 integer from 1 to 15.
 Arguments $s,k,\ldots$ are a sequence of rotation codes
@@ -137,7 +138,7 @@ Hence
 \end{align*}
 
 \noindent
-Draw the probability distribution.
+Draw a probability distribution.
 {\color{blue}
 \begin{verbatim}
 xrange = (0,N)
@@ -172,3 +173,32 @@ Hence for $N=16$
 \\
 &\text{\tt P[8]}=\text{probability that the result will be $|7\rangle$ or $|15\rangle$}
 \end{align*}
+
+\newpage
+\noindent
+Example.
+
+{\color{blue}
+\begin{verbatim}
+U(psi) = rotate(psi,C,0,X,1) -- cnot
+
+M(psi) = psi conj(psi) -- measure
+
+ket00 = (1,0,0,0)
+ket01 = (0,1,0,0)
+ket10 = (0,0,1,0)
+ket11 = (0,0,0,1)
+
+-- Verify the following truth table for cnot
+
+--    Input Output
+--    00    00
+--    01    11
+--    10    10
+--    11    01
+
+M(U(ket00)) == M(ket00)
+M(U(ket01)) == M(ket11)
+M(U(ket10)) == M(ket10)
+M(U(ket11)) == M(ket01)
+\end{verbatim}}
