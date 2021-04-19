@@ -180,6 +180,14 @@ Example.
 
 {\color{blue}
 \begin{verbatim}
+-- Verify the following truth table for cnot
+
+--    Input Output
+--    00    00
+--    01    11
+--    10    10
+--    11    01
+
 U(psi) = rotate(psi,C,0,X,1) -- cnot
 
 M(psi) = psi conj(psi) -- measure
@@ -188,14 +196,6 @@ ket00 = (1,0,0,0)
 ket01 = (0,1,0,0)
 ket10 = (0,0,1,0)
 ket11 = (0,0,0,1)
-
--- Verify the following truth table for cnot
-
---    Input Output
---    00    00
---    01    11
---    10    10
---    11    01
 
 M(U(ket00)) == M(ket00)
 M(U(ket01)) == M(ket11)
