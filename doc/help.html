@@ -1202,7 +1202,7 @@ The available rotations are
 
 <tr><td>H, <i>k</i></td><td>Hadamard</td></tr>
 
-<tr><td>P, <i>k, &phi;</i></td><td>Phase shift</td></tr>
+<tr><td>P, <i>k, &phi;</i></td><td>Phase modifier (use <i>&phi;</i> = 1/4 <i>&pi;</i> for T)</td></tr>
 
 <tr><td>Q, <i>k</i></td><td>Quantum Fourier transform</td></tr>
 
@@ -1222,7 +1222,6 @@ a controlled rotation with <i>k</i> as the control qubit.
 Fourier rotations Q, <i>k</i> and V, <i>k</i> are applied
 to qubits 0 through <i>k</i>.
 (Q and V ignore any control prefix.)
-Use P with phase 1/4 pi for a T rotation.
 See also section 3 of the Eigenmath manual.
 <pre style="font-family:courier;color:blue">
 psi = (1,0,0,0)
