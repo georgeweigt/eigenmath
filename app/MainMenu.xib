@@ -195,6 +195,33 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Menu" state="on" id="Wq3-L7-ruP">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Menu" id="oeq-aK-7f7">
+                        <items>
+                            <menuItem title="Clear" keyEquivalent="k" id="wIn-Jv-O77">
+                                <connections>
+                                    <action selector="clearButtonHandler:" target="494" id="6Xr-pE-FHV"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Draw" keyEquivalent="d" id="AuL-B7-Muo">
+                                <connections>
+                                    <action selector="drawButtonHandler:" target="494" id="iRg-bH-oqK"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Float" keyEquivalent="." id="6eE-Pp-mRE">
+                                <connections>
+                                    <action selector="floatButtonHandler:" target="494" id="dzh-wB-aOF"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Simplify" keyEquivalent="=" id="h5k-Ef-8E9">
+                                <connections>
+                                    <action selector="simplifyButtonHandler:" target="494" id="iWO-Lb-zqx"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="Help" id="490">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="491">
@@ -206,9 +233,6 @@
                             </menuItem>
                         </items>
                     </menu>
-                </menuItem>
-                <menuItem title="File" id="C1B-vt-Cy4">
-                    <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
             </items>
             <point key="canvasLocation" x="37" y="120"/>
@@ -234,8 +258,8 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="977">
-                        <rect key="frame" x="20" y="564" width="80" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <rect key="frame" x="20" y="20" width="80" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="square" title="Run  ⌘R" bezelStyle="shadowlessSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="978">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -247,18 +271,18 @@
                         </connections>
                     </button>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1307">
-                        <rect key="frame" x="20" y="54" width="652" height="502"/>
+                        <rect key="frame" x="20" y="54" width="652" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="dof-EP-aEj">
-                            <rect key="frame" x="1" y="1" width="650" height="500"/>
+                            <rect key="frame" x="1" y="1" width="650" height="534"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsUndo="YES" spellingCorrection="YES" id="1308">
-                                    <rect key="frame" x="0.0" y="0.0" width="650" height="500"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="650" height="534"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="650" height="500"/>
+                                    <size key="minSize" width="650" height="534"/>
                                     <size key="maxSize" width="652" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 </textView>
@@ -269,13 +293,13 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="1310">
-                            <rect key="frame" x="635" y="1" width="16" height="485"/>
+                            <rect key="frame" x="635" y="1" width="16" height="534"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2aK-XJ-vfu">
-                        <rect key="frame" x="108" y="564" width="80" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <rect key="frame" x="110" y="20" width="80" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="square" title="Stop" bezelStyle="shadowlessSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JLJ-Eo-oG0">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -284,81 +308,15 @@
                             <action selector="stopButtonHandler:" target="494" id="nRJ-jT-tPX"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tlr-2c-fKD">
-                        <rect key="frame" x="1076" y="564" width="80" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" title="Float" bezelStyle="shadowlessSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xs2-nE-4ev">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="floatButtonHandler:" target="494" id="iky-nn-C2i"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R6d-VS-eqq">
-                        <rect key="frame" x="900" y="564" width="80" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" title="Draw" bezelStyle="shadowlessSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yIl-LM-u2G">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="drawButtonHandler:" target="494" id="avU-2l-uU3"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qU0-IV-zV0">
-                        <rect key="frame" x="988" y="564" width="80" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" title="Simplify" bezelStyle="shadowlessSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YL8-1E-eDb">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="simplifyButtonHandler:" target="494" id="QUe-PC-pSC"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lyq-NJ-xht">
-                        <rect key="frame" x="812" y="564" width="80" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" title="Clear" bezelStyle="shadowlessSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IIe-ym-Z7A">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="clearButtonHandler:" target="494" id="U49-CO-erB"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8j8-87-ApK">
-                        <rect key="frame" x="1252" y="564" width="80" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" title="Integral" bezelStyle="shadowlessSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lUD-xG-gjE">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="integralButtonHandler:" target="494" id="80Y-Np-pmR"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="krR-l0-pAe">
-                        <rect key="frame" x="1164" y="564" width="80" height="26"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="square" title="Derivative" bezelStyle="shadowlessSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aL0-gC-2Xe">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="derivativeButtonHandler:" target="494" id="wF4-NT-YtX"/>
-                        </connections>
-                    </button>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="552">
-                        <rect key="frame" x="680" y="54" width="652" height="502"/>
+                        <rect key="frame" x="680" y="54" width="652" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" copiesOnScroll="NO" id="DI6-41-VNL">
-                            <rect key="frame" x="1" y="1" width="650" height="500"/>
+                            <rect key="frame" x="1" y="1" width="650" height="534"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="553" customClass="EigenmathView">
-                                    <rect key="frame" x="0.0" y="0.0" width="650" height="500"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="650" height="534"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                             </subviews>
@@ -374,8 +332,8 @@
                         </scroller>
                     </scrollView>
                     <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="991">
-                        <rect key="frame" x="196" y="569" width="16" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <rect key="frame" x="198" y="25" width="16" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </progressIndicator>
                 </subviews>
             </view>
