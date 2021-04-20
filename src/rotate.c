@@ -23,7 +23,7 @@ void
 eval_rotate(void)
 {
 	int m, n, t;
-	uint32_t c = 0;
+	uint32_t c;
 
 	t = expanding;
 	expanding = 1;
@@ -34,6 +34,8 @@ eval_rotate(void)
 
 	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || PSI->u.tensor->nelem > 32768 || !POWEROF2(PSI->u.tensor->nelem))
 		stop("rotate error 1 first argument is not a vector or dimension error");
+
+	c = 0;
 
 	p1 = cddr(p1);
 

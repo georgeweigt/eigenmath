@@ -2211,7 +2211,7 @@ P = psi conj(psi)
 theta = sum(k,0,15,k/8 P[k + 1]) - 1
 check(infixform(theta) == "0.30465")
 
--- order finding
+"Testing order finding"
 
 clear
 
@@ -2276,11 +2276,10 @@ test(n<2,n=2)
 M = zero(2,n) -- 2 rows, n columns
 n = 1
 for(k,1,256,test(P[k],do(M[1,n]=float(P[k]),M[2,n]=(k-1)/256,n=n+1)))
-M
 
 check(M[2] == (0,1/4,1/2,3/4))
 
--- full adder
+"Testing full adder"
 
 clear
 
