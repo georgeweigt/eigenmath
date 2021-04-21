@@ -1,4 +1,4 @@
-// generate kets, operators, and a measurement function
+// emit kets, operators
 
 #include <stdio.h>
 #include <stdlib.h>
