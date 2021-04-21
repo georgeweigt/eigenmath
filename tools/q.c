@@ -51,11 +51,6 @@ main()
 			W(j, i);
 		}
 	}
-
-	if (N == 4) {
-		fflush(stdout);
-		system("cat qfile.txt");
-	}
 }
 
 void
