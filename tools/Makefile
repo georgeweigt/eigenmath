@@ -1,4 +1,4 @@
-.PHONY: default eigenmath.c q4.txt
+.PHONY: default eigenmath.c
 
 default:
 	gcc make-prototypes.c
@@ -10,11 +10,3 @@ eigenmath.c:
 	gcc gen.c
 	./a.out >eigenmath.c
 	rm a.out
-
-q4.txt:
-	gcc q.c
-	./a.out >q4.txt
-	rm a.out
-	cp q4.txt ~/Downloads
-	cp q4.txt ../../georgeweigt.github.io
-	cp q4.txt ../../georgeweigt.github.io/Downloads
