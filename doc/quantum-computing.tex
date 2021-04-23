@@ -10,6 +10,62 @@ where $R$ is a $2^n\times2^n$ matrix.
 
 \bigskip
 \noindent
+Eigenstates $|j\rangle$ are represented by the following vectors.
+(Each vector has $2^n$ elements.)
+\begin{align*}
+&|0\rangle=(1,0,0,\dots,0)
+\\
+&|1\rangle=(0,1,0,\ldots,0)
+\\
+&|2\rangle=(0,0,1,\ldots,0)
+\\
+&\vdots
+\\
+&|2^n-1\rangle=(0,0,0,\ldots,1)
+\end{align*}
+
+\noindent
+A quantum computer algorithm is a sequence of rotations
+applied to the initial state $|0\rangle$.
+(The sequence could be combined into a single rotation
+by associativity of matrix multiplication.)
+Let $\psi_f$ be the final state of the quantum computer
+after all the rotations have been applied.
+Like any other state, $\psi_f$ is a linear combination of eigenstates.
+\begin{equation*}
+\psi_f=\sum_{j=0}^{2^n-1}c_j|j\rangle,\quad|\psi_f|=1
+\end{equation*}
+
+\noindent
+The last step is to measure $\psi_f$ and get a result.
+Measurement rotates $\psi_f$ to an eigenstate $|j\rangle$.
+The measurement result is $|j\rangle$.
+The probability $P_j$ of getting a specific result $|j\rangle$ is
+\begin{equation*}
+P_j=|c_j|^2=c_jc_j^*
+\end{equation*}
+
+\noindent
+Note that if $\psi_f$ is already an eigenstate then no rotation occurs.
+(The probability of rotating to a different eigenstate is zero.)
+Since the measurement result is always an eigenstate,
+the coefficients $c_j$ cannot be observed.
+However, the same calculation can be run multiple times
+to obtain a probability distribution of results.
+The probability distribution is an estimate
+of $|c_j|^2$ for each $|j\rangle$ in $\psi_f$.
+
+\bigskip
+\noindent
+Unlike a real quantum computer, in a simulation
+the final state $\psi_f$, or any other state, is available for inspection.
+Hence there is no need to simulate the measurement process.
+The probability distribution of the result can be computed directly as
+\begin{equation*}
+P=\psi_f^\dagger\psi_f
+\end{equation*}
+
+\noindent
 The Eigenmath function
 $rotate(u,s,k,\ldots)$
 rotates vector $u$ and returns the result.
@@ -63,58 +119,8 @@ Error codes
 
 \bigskip
 \noindent
-Eigenstates $|j\rangle$ are represented by the following vectors.
-(Each vector has $2^n$ elements.)
-\begin{align*}
-&|0\rangle=(1,0,0,\dots,0)
-\\
-&|1\rangle=(0,1,0,\ldots,0)
-\\
-&|2\rangle=(0,0,1,\ldots,0)
-\\
-&\vdots
-\\
-&|2^n-1\rangle=(0,0,0,\ldots,1)
-\end{align*}
-
-\noindent
-A quantum computer algorithm is a sequence of rotations
-applied to the initial state $|0\rangle$.
-(The sequence could be combined into a single rotation
-by associativity of matrix multiplication.)
-Let $\psi_f$ be the final state of the quantum computer
-after all the rotations have been applied.
-Like any other state, $\psi_f$ is a linear combination of eigenstates.
-\begin{equation*}
-\psi_f=\sum_{j=0}^{2^n-1}c_j|j\rangle,\quad|\psi_f|=1
-\end{equation*}
-The last step is to measure $\psi_f$ and get a result.
-Measurement rotates $\psi_f$ to an eigenstate $|j\rangle$.
-The measurement result is $|j\rangle$.
-The probability $P_j$ of getting a specific result $|j\rangle$ is
-\begin{equation*}
-P_j=|c_j|^2=c_jc_j^*
-\end{equation*}
-Note that if $\psi_f$ is already an eigenstate then no rotation occurs.
-(The probability of rotating to a different eigenstate is zero.)
-Since the measurement result is always an eigenstate,
-the coefficients $c_j$ cannot be observed.
-However, the same calculation can be run multiple times
-to obtain a probability distribution of results.
-The probability distribution is an estimate
-of $|c_j|^2$ for each $|j\rangle$ in $\psi_f$.
-
-\bigskip
-\noindent
-Unlike a real quantum computer, in a simulation
-the final state $\psi_f$, or any other state, is available for inspection.
-Hence there is no need to simulate the measurement process.
-The probability distribution of the result can be computed directly from $\psi_f$.
-
-\bigskip
-\noindent
 Here are some useful Eigenmath code snippets for setting up a simulation
-and observing the result.
+and computing the result.
 
 \bigskip
 \noindent
