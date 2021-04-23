@@ -106,11 +106,19 @@ of $|c_j|^2$ for each $|j\rangle$ in $\psi_f$.
 
 \bigskip
 \noindent
-Eigenmath code snippets for before and after {\it rotate}:
+Unlike a real quantum computer, in a simulation
+the final state $\psi_f$, or any other state, is available for inspection.
+Hence there is no need to simulate the measurement process.
+The probability distribution of the result can be computed directly.
 
 \bigskip
 \noindent
-Initialize $\psi=|0\rangle$.
+Here are some useful Eigenmath code snippets for setting up a simulation
+and observing the result.
+
+\bigskip
+\noindent
+1. Initialize $\psi=|0\rangle$.
 {\color{blue}
 \begin{verbatim}
 n = 4           -- number of qubits (example)
@@ -120,7 +128,7 @@ psi[1] = 1
 \end{verbatim}}
 
 \noindent
-Compute the probability distribution for state $\psi$.
+2. Compute the probability distribution for state $\psi$.
 {\color{blue}
 \begin{verbatim}
 P = psi conj(psi)
@@ -141,7 +149,7 @@ Hence
 \end{align*}
 
 \noindent
-Draw a probability distribution.
+3. Draw a probability distribution.
 {\color{blue}
 \begin{verbatim}
 xrange = (0,N)
@@ -150,14 +158,14 @@ draw(P[ceiling(x)],x)
 \end{verbatim}}
 
 \noindent
-Compute an expectation value.
+4. Compute an expectation value.
 {\color{blue}
 \begin{verbatim}
 sum(k,1,N, (k - 1) P[k])
 \end{verbatim}}
 
 \noindent
-Make the high order qubit ``don't care.''
+5. Make the high order qubit ``don't care.''
 {\color{blue}
 \begin{verbatim}
 for(k,1,N/2, P[k] = P[k] + P[k + N/2])
