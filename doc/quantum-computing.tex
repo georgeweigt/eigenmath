@@ -70,9 +70,14 @@ where operator $\odot$ indicates a Hadamard (element-wise) product.
 The result $P$ is a vector with component $P_j$ the
 probability of eigenstate $|j\rangle$ and
 \begin{equation*}
-\sum P_j=1
+\sum_{j=0}^{2^n-1} P_j=1
 \end{equation*}
 
+\noindent
+Note: Eigenmath index numbering begins with 1 hence
+\verb$P[1]$ is the probability of eigenstate $|0\rangle$, etc.
+
+\bigskip
 \noindent
 The Eigenmath function
 $rotate(u,s,k,\ldots)$
