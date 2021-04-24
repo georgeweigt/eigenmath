@@ -62,9 +62,13 @@ the final state $\psi_f$, or any other state, is available for inspection.
 Hence there is no need to simulate the measurement process.
 The probability distribution of the result can be computed directly as
 \begin{equation*}
-P=\psi_f^\dagger\psi_f
+P=\psi_f\odot\psi_f^*
 \end{equation*}
 
+\noindent
+where $\odot$ is the element-wise product of vectors.
+
+\bigskip
 \noindent
 The Eigenmath function
 $rotate(u,s,k,\ldots)$
