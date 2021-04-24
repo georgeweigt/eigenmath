@@ -66,10 +66,13 @@ P=\psi_f\odot\psi_f^*
 \end{equation*}
 
 \noindent
-where $\odot$ is the element-wise product operator.
-The result $P$ is a vector consisting of a probability per eigenstate.
+where operator $\odot$ indicates a Hadamard (element-wise) product.
+The result $P$ is a vector with component $P_j$ the
+probability of eigenstate $|j\rangle$ and
+\begin{equation*}
+\sum P_j=1
+\end{equation*}
 
-\bigskip
 \noindent
 The Eigenmath function
 $rotate(u,s,k,\ldots)$
