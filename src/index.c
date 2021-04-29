@@ -90,7 +90,7 @@ indexfunc(int h)
 
 	p1->u.tensor->ndim = m - n;
 
-	for (i = 0; i < m; i++)
+	for (i = 0; i < m - n; i++)
 		p1->u.tensor->dim[i] = T->u.tensor->dim[n + i];
 
 	push(p1);
