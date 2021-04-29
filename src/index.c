@@ -1,67 +1,97 @@
 #include "defs.h"
 
+#undef T
+#define T p3
+
 void
 eval_index(void)
 {
-	int k;
+	int h, n;
 
-	push(cadr(p1));
-	eval();
+	T = cadr(p1);
 
 	p1 = cddr(p1);
+
+	h = tos;
 
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
-		k = pop_integer();
-		indexf(k);
 		p1 = cdr(p1);
 	}
-}
 
-void
-indexf(int k)
-{
-	save();
-	indexf_nib(k);
-	restore();
-}
+	n = tos - h; // number of indices on stack
 
-void
-indexf_nib(int k)
-{
-	int i, n;
+	// try to optimize by indexing before eval
 
-	p1 = pop();
+	if (isusersymbol(T)) {
+		p1 = get_binding(T);
+		if (istensor(p1) && n <= p1->u.tensor->ndim) {
+			T = p1;
+			indexfunc(h);
+			eval();
+			return;
+		}
+	}
 
-	if (!istensor(p1)) {
-		push(p1); // quirky, but EVA2.txt depends on it
+	push(T);
+	eval();
+	T = pop();
+
+	if (!istensor(T)) {
+		tos = h; // pop all
+		push(T); // quirky, but EVA2.txt depends on it
 		return;
 	}
 
-	if (k < 1 || k > p1->u.tensor->dim[0])
+	indexfunc(h);
+}
+
+void
+indexfunc(int h)
+{
+	int i, k, m, n, t, w;
+
+	n = tos - h; // number of indices
+
+	m = T->u.tensor->ndim;
+
+	if (n < 1 || n > m)
 		stop("index error");
 
-	k--; // make zero based
+	k = 0;
 
-	n = p1->u.tensor->nelem / p1->u.tensor->dim[0];
+	for (i = 0; i < n; i++) {
+		push(stack[h + i]);
+		t = pop_integer();
+		if (t < 1 || t > T->u.tensor->dim[i])
+			stop("index error");
+		k = k * T->u.tensor->dim[i] + t - 1;
+	}
 
-	if (n == 1) {
-		push(p1->u.tensor->elem[k]);
+	tos = h; // pop all
+
+	if (n == m) {
+		push(T->u.tensor->elem[k]); // scalar result
 		return;
 	}
 
-	p2 = alloc_tensor(n);
+	w = 1;
 
-	for (i = 0; i < n; i++)
-		p2->u.tensor->elem[i] = p1->u.tensor->elem[k * n + i];
+	for (i = n; i < m; i++)
+		w *= T->u.tensor->dim[i];
 
-	n = p1->u.tensor->ndim;
+	p1 = alloc_tensor(w);
 
-	for (i = 1; i < n; i++)
-		p2->u.tensor->dim[i - 1] = p1->u.tensor->dim[i];
+	k *= w;
 
-	p2->u.tensor->ndim = n - 1;
+	for (i = 0; i < w; i++)
+		p1->u.tensor->elem[i] = T->u.tensor->elem[k + i];
 
-	push(p2);
+	p1->u.tensor->ndim = m - n;
+
+	for (i = 0; i < m; i++)
+		p1->u.tensor->dim[i] = T->u.tensor->dim[n + i];
+
+	push(p1);
 }
