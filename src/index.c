@@ -81,9 +81,9 @@ indexfunc(int h)
 	for (i = n; i < m; i++)
 		w *= T->u.tensor->dim[i];
 
-	p1 = alloc_tensor(w);
-
 	k *= w;
+
+	p1 = alloc_tensor(w);
 
 	for (i = 0; i < w; i++)
 		p1->u.tensor->elem[i] = T->u.tensor->elem[k + i];

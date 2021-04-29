@@ -76,9 +76,9 @@ indexfunc(T, h)
 	for (i = n; i < m; i++)
 		w *= T.dim[i];
 
-	p1 = alloc_tensor();
-
 	k *= w;
+
+	p1 = alloc_tensor();
 
 	for (i = 0; i < w; i++)
 		p1.elem[i] = T.elem[k + i];
