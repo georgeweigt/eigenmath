@@ -20,12 +20,11 @@ eval_index(void)
 		p1 = cdr(p1);
 	}
 
-	n = tos - h; // number of indices on stack
-
 	// try to optimize by indexing before eval
 
 	if (isusersymbol(T)) {
 		p1 = get_binding(T);
+		n = tos - h;
 		if (istensor(p1) && n <= p1->u.tensor->ndim) {
 			T = p1;
 			indexfunc(h);
@@ -50,13 +49,15 @@ eval_index(void)
 void
 indexfunc(int h)
 {
-	int i, k, m, n, t, w;
-
-	n = tos - h; // number of indices
+	int i, k, m, n, r, t, w;
 
 	m = T->u.tensor->ndim;
 
-	if (n < 1 || n > m)
+	n = tos - h;
+
+	r = m - n; // rank of result
+
+	if (r < 0)
 		stop("index error");
 
 	k = 0;
@@ -71,7 +72,7 @@ indexfunc(int h)
 
 	tos = h; // pop all
 
-	if (n == m) {
+	if (r == 0) {
 		push(T->u.tensor->elem[k]); // scalar result
 		return;
 	}
@@ -88,9 +89,9 @@ indexfunc(int h)
 	for (i = 0; i < w; i++)
 		p1->u.tensor->elem[i] = T->u.tensor->elem[k + i];
 
-	p1->u.tensor->ndim = m - n;
+	p1->u.tensor->ndim = r;
 
-	for (i = 0; i < m - n; i++)
+	for (i = 0; i < r; i++)
 		p1->u.tensor->dim[i] = T->u.tensor->dim[n + i];
 
 	push(p1);

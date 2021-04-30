@@ -15,12 +15,11 @@ eval_index(p1)
 		p1 = cdr(p1);
 	}
 
-	n = stack.length - h; // number of indices on stack
-
 	// try to optimize by indexing before eval
 
 	if (isusersymbol(T)) {
 		p1 = get_binding(T);
+		n = stack.length - h;
 		if (istensor(p1) && n <= p1.dim.length) {
 			T = p1;
 			indexfunc(T, h);
@@ -45,13 +44,15 @@ eval_index(p1)
 function
 indexfunc(T, h)
 {
-	var i, k, m, n, t, w, p1;
-
-	n = stack.length - h; // number of indices
+	var i, k, m, n, p1, r, t, w;
 
 	m = T.dim.length;
 
-	if (n < 1 || n > m)
+	n = stack.length - h;
+
+	r = m - n; // rank of result
+
+	if (r < 0)
 		stopf("index error");
 
 	k = 0;
@@ -66,7 +67,7 @@ indexfunc(T, h)
 
 	stack.splice(h); // pop all
 
-	if (n == m) {
+	if (r == 0) {
 		push(T.elem[k]); // scalar result
 		return;
 	}
@@ -83,7 +84,7 @@ indexfunc(T, h)
 	for (i = 0; i < w; i++)
 		p1.elem[i] = T.elem[k + i];
 
-	for (i = 0; i < m - n; i++)
+	for (i = 0; i < r; i++)
 		p1.dim[i] = T.dim[n + i];
 
 	push(p1);
