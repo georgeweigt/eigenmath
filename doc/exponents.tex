@@ -1,49 +1,54 @@
 \subsection{Exponents}
 
-Eigenmath requires parentheses around negative exponents.
+Parentheses are required around negative exponents.
 For example,
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 10^(-3)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 instead of
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 10^-3
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
-The reason for this is that the binding of the negative sign is not always
-obvious.
+The reason for this is that the binding of the negative sign is not always obvious.
 For example, consider
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 x^-1/2
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 It is not clear whether the exponent should be $-1$ or $-1/2$.
-So Eigenmath requires
+Hence the following syntax is required.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 x^(-1/2)
-\end{Verbatim}
+\end{verbatim}
+}
 
-\noindent
-which is unambiguous.
-
-\bigskip
 \noindent
 In general, parentheses are always required when the exponent
 is an expression.
 For example, \verb$x^1/2$ is evaluated as $(x^1)/2$ which
 is probably not the desired result.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 x^1/2
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{1}{2}x$
@@ -52,9 +57,11 @@ $\displaystyle \tfrac{1}{2}x$
 \noindent
 Using \verb$x^(1/2)$ yields the desired result.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 x^(1/2)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle x^{1/2}$
