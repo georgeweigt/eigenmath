@@ -562,7 +562,6 @@ void normalize_polar_term_rational(void);
 void normalize_polar_term_double(void);
 void power_sum(void);
 void power_minusone(void);
-void normalize_clock(void);
 void normalize_clock_rational(void);
 void normalize_clock_double(void);
 void power_complex_number(void);

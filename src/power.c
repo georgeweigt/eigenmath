@@ -115,6 +115,20 @@ power_nib(void)
 		return;
 	}
 
+	// BASE is a negative number?
+
+	if (isnegativenumber(BASE) && !isminusone(BASE)) {
+		push_integer(-1);
+		push(EXPO);
+		power();
+		push(BASE);
+		negate();
+		push(EXPO);
+		power();
+		multiply();
+		return;
+	}
+
 	// BASE is a fraction?
 
 	if (isfraction(BASE)) {
@@ -557,8 +571,14 @@ power_minusone(void)
 		return;
 	}
 
-	if (isdenormalclock(EXPO)) {
-		normalize_clock();
+	if (isrational(EXPO)) {
+		normalize_clock_rational();
+		return;
+	}
+
+	if (isdouble(EXPO)) {
+		normalize_clock_double();
+		rect();
 		return;
 	}
 
@@ -566,15 +586,6 @@ power_minusone(void)
 	push_integer(-1);
 	push(EXPO);
 	list(3);
-}
-
-void
-normalize_clock(void)
-{
-	if (isrational(EXPO))
-		normalize_clock_rational();
-	else
-		normalize_clock_double();
 }
 
 void
@@ -1012,7 +1023,7 @@ power_numbers(void)
 		return;
 	}
 
-	if (BASE->k == RATIONAL && EXPO->k == RATIONAL) {
+	if (isrational(BASE) && isrational(EXPO)) {
 		power_rationals();
 		return;
 	}
@@ -1098,7 +1109,7 @@ power_rationals(void)
 
 	for (i = 0; i < n; i++) {
 		p1 = s[i];
-		if (p1->k == RATIONAL) {
+		if (isrational(p1)) {
 			push(p1);
 			push(p2);
 			multiply();

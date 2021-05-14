@@ -873,6 +873,8 @@ isdenormalpolarterm(struct atom *p)
 	return 0;
 }
 
+#if 0
+
 // returns 1 if p <= -1/2 or p > 1/2
 
 int
@@ -902,3 +904,5 @@ isdenormalclock(struct atom *p)
 
 	return 0;
 }
+
+#endif

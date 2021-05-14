@@ -65,6 +65,20 @@ power()
 		return;
 	}
 
+	// BASE is a negative number?
+
+	if (isnegativenumber(BASE) && !isminusone(BASE)) {
+		push_integer(-1);
+		push(EXPO);
+		power();
+		push(BASE);
+		negate();
+		push(EXPO);
+		power();
+		multiply();
+		return;
+	}
+
 	// BASE is a fraction?
 
 	if (isfraction(BASE)) {

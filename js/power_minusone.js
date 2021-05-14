@@ -8,8 +8,14 @@ power_minusone(EXPO)
 		return;
 	}
 
-	if (isdenormalclock(EXPO)) {
-		normalize_clock(EXPO);
+	if (isrational(EXPO)) {
+		normalize_clock_rational(EXPO);
+		return;
+	}
+
+	if (isdouble(EXPO)) {
+		normalize_clock_double(EXPO);
+		rect();
 		return;
 	}
 
@@ -17,15 +23,6 @@ power_minusone(EXPO)
 	push_integer(-1);
 	push(EXPO);
 	list(3);
-}
-
-function
-normalize_clock(EXPO)
-{
-	if (isrational(EXPO))
-		normalize_clock_rational(EXPO);
-	else
-		normalize_clock_double(EXPO);
 }
 
 function
