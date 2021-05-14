@@ -3,14 +3,6 @@ power_complex_number(BASE, EXPO)
 {
 	var n, X, Y;
 
-	if (!isnum(EXPO)) {
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		return;
-	}
-
 	// lisp(2+3*i) = (add 2 (multiply 3 (power -1 1/2)))
 
 	// lisp(1+i) = (add 1 (power -1 1/2))

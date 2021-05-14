@@ -59,7 +59,7 @@ power()
 
 	// do this before checking for (a + b)^n
 
-	if (iscomplexnumber(BASE)) {
+	if (iscomplexnumber(BASE) && isnum(EXPO)) {
 		power_complex_number(BASE, EXPO);
 		return;
 	}
