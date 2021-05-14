@@ -555,7 +555,6 @@ void push_factor(uint32_t *d, int count);
 void eval_power(void);
 void power(void);
 void power_nib(void);
-int power_precheck(void);
 void power_natural_number(void);
 void normalize_polar(void);
 void normalize_polar_term(void);

@@ -74,8 +74,39 @@ power_nib(void)
 		BASE = pop();
 	}
 
-	if (power_precheck())
+	// 1^expr = expr^0 = 1
+
+	if (equaln(BASE, 1) || equaln(EXPO, 0)) {
+		if (isdouble(BASE) || isdouble(EXPO))
+			push_double(1.0);
+		else
+			push_integer(1);
 		return;
+	}
+
+	// expr^1 = expr
+
+	if (equaln(EXPO, 1)) {
+		push(BASE);
+		return;
+	}
+
+	// 0^expr
+
+	if (equaln(BASE, 0)) {
+		if (isnum(EXPO)) {
+			if (isdouble(BASE) || isdouble(EXPO))
+				push_double(0.0);
+			else
+				push_integer(0);
+		} else {
+			push_symbol(POWER);
+			push(BASE);
+			push(EXPO);
+			list(3);
+		}
+		return;
+	}
 
 	// BASE and EXPO numerical?
 
@@ -153,46 +184,6 @@ power_nib(void)
 	push(BASE);
 	push(EXPO);
 	list(3);
-}
-
-int
-power_precheck(void)
-{
-	// 1^expr = expr^0 = 1
-
-	if (equaln(BASE, 1) || equaln(EXPO, 0)) {
-		if (isdouble(BASE) || isdouble(EXPO))
-			push_double(1.0);
-		else
-			push_integer(1);
-		return 1;
-	}
-
-	// expr^1 = expr
-
-	if (equaln(EXPO, 1)) {
-		push(BASE);
-		return 1;
-	}
-
-	// 0^expr
-
-	if (equaln(BASE, 0)) {
-		if (isnum(EXPO)) {
-			if (isdouble(BASE) || isdouble(EXPO))
-				push_double(0.0);
-			else
-				push_integer(0);
-		} else {
-			push_symbol(POWER);
-			push(BASE);
-			push(EXPO);
-			list(3);
-		}
-		return 1;
-	}
-
-	return 0;
 }
 
 // BASE = e
@@ -758,7 +749,7 @@ normalize_clock_double(void)
 	}
 }
 
-// BASE is rectangular complex numerical
+// BASE is rectangular complex numerical, EXPO is numerical
 
 void
 power_complex_number(void)
