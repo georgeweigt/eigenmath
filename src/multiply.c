@@ -449,7 +449,7 @@ order_factor(struct atom *p)
 
 		p = cadr(p); // p = base
 
-		if (equaln(p, -1))
+		if (isminusone(p))
 			return 3;
 
 		if (isnum(p))

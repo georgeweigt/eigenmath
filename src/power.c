@@ -51,7 +51,7 @@ power(void)
 void
 power_nib(void)
 {
-	int h;
+	int h, i, n;
 
 	EXPO = pop();
 	BASE = pop();
@@ -115,21 +115,41 @@ power_nib(void)
 		return;
 	}
 
-	// BASE is a negative number?
+	// BASE is an integer? (EXPO is not numerical)
 
-	if (isnegativenumber(BASE) && !isminusone(BASE)) {
-		push_integer(-1);
-		push(EXPO);
-		power();
+	if (isinteger(BASE)) {
+		h = tos;
 		push(BASE);
-		negate();
-		push(EXPO);
-		power();
-		multiply();
+		factor_factor();
+		n = tos - h;
+		for (i = 0; i < n; i++) {
+			p1 = stack[h + i];
+			if (car(p1) == symbol(POWER)) {
+				push_symbol(POWER);
+				push(cadr(p1)); // base
+				push(caddr(p1)); // expo
+				push(EXPO);
+				multiply_expand();
+				list(3);
+			} else {
+				push_symbol(POWER);
+				push(p1);
+				push(EXPO);
+				list(3);
+			}
+			stack[h + i] = pop();
+		}
+		if (n > 1) {
+			sort_factors(n);
+			list(n);
+			push_symbol(MULTIPLY);
+			swap();
+			cons();
+		}
 		return;
 	}
 
-	// BASE is a fraction?
+	// BASE is a fraction? (EXPO is not numerical)
 
 	if (isfraction(BASE)) {
 		push(BASE);

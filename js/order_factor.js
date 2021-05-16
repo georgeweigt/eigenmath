@@ -22,7 +22,7 @@ order_factor(p)
 		p = cadr(p); // p = base
 
 		if (isminusone(p))
-			return 3; // base = -1
+			return 3;
 
 		if (isnum(p))
 			return 2;
