@@ -159,9 +159,9 @@ power_nib(void)
 		push(BASE);
 		denominator();
 		push(EXPO);
-		negate();
+		negate_expand();
 		power();
-		multiply();
+		multiply_expand();
 		return;
 	}
 

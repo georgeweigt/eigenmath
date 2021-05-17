@@ -672,6 +672,16 @@ negate(void)
 }
 
 void
+negate_expand(void)
+{
+	int t;
+	t = expanding;
+	expanding = 1;
+	negate();
+	expanding = t;
+}
+
+void
 negate_noexpand(void)
 {
 	int t;
