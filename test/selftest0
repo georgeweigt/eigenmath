@@ -816,6 +816,8 @@ check(infixform(last)="((1,0),(0,1))")
 ((1,2),(3,4))^1
 check(infixform(last)="((1,2),(3,4))")
 
+check(infixform(1 / ((a + b) (c + d))^2) == "1 / ((a + b)^2 (c + d)^2)")
+
 -- test sin function
 
 float(sin(1+i))

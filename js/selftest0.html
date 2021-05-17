@@ -320,6 +320,10 @@ check(zero(2,3) == ((0,0,0),(0,0,0)))
 check(prefixform(a-b)="(+ a (* -1 b))")
 check(prefixform(b-a)="(+ (* -1 a) b)")
 
+"Testing power"
+
+check(infixform(1 / ((a + b) (c + d))^2) == "1 / ((a + b)^2 (c + d)^2)")
+
 "Testing complex number arithmetic"
 
 A = (-1)^(1/8)
