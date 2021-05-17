@@ -529,7 +529,6 @@ void multiply_expand(void);
 void multiply_noexpand(void);
 void multiply_factors_noexpand(int n);
 void negate(void);
-void negate_expand(void);
 void negate_noexpand(void);
 void reciprocate(void);
 void divide(void);
