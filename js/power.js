@@ -7,7 +7,7 @@ power()
 	BASE = pop();
 
 	if (istensor(BASE)) {
-		power_tensor();
+		power_tensor(BASE, EXPO);
 		return;
 	}
 
@@ -24,20 +24,25 @@ power()
 		BASE = pop();
 	}
 
-	// 1^expr = expr^0 = 1
+	if (isrational(BASE) && isdouble(EXPO)) {
+		push(BASE);
+		push_double(pop_double());
+		BASE = pop();
+	}
 
-	if (isplusone(BASE) || iszero(EXPO)) {
-		if (isdouble(BASE) || isdouble(EXPO))
+	if (isdouble(BASE) && isrational(EXPO)) {
+		push(EXPO);
+		push_double(pop_double());
+		EXPO = pop();
+	}
+
+	// expr^0
+
+	if (iszero(EXPO)) {
+		if (isdouble(BASE))
 			push_double(1.0);
 		else
 			push_integer(1);
-		return;
-	}
-
-	// expr^1 = expr
-
-	if (isplusone(EXPO)) {
-		push(BASE);
 		return;
 	}
 
@@ -45,7 +50,7 @@ power()
 
 	if (iszero(BASE)) {
 		if (isnum(EXPO)) {
-			if (isdouble(BASE) || isdouble(EXPO))
+			if (isdouble(BASE))
 				push_double(0.0);
 			else
 				push_integer(0);
@@ -55,6 +60,20 @@ power()
 			push(EXPO);
 			list(3);
 		}
+		return;
+	}
+
+	// expr^1
+
+	if (isplusone(EXPO)) {
+		push(BASE);
+		return;
+	}
+
+	// 1^expr
+
+	if (isplusone(BASE)) {
+		push(BASE);
 		return;
 	}
 

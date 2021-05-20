@@ -805,16 +805,26 @@ check(last="7.38906")
 prefixform(float(e))
 check(last="2.71828")
 
--- check power
+"Testing power"
 
-prefixform(0^0)
-check(last="1")
+clear
 
-((1,2),(3,4))^0
-check(infixform(last)="((1,0),(0,1))")
+check(0^0 == 1)
+check(x^0 == 1)
+check(infixform(0^x) == "0^x")
 
-((1,2),(3,4))^1
-check(infixform(last)="((1,2),(3,4))")
+check(1^1 == 1)
+check(1^x == 1)
+check(x^1 == x)
+
+A = ((1,2),(3,4))^0
+check(A == ((1,0),(0,1)))
+
+A = ((1,2),(3,4))^1
+check(A == ((1,2),(3,4)))
+
+A = ((1,2),(3,4))^2
+check(A == ((7,10),(15,22)))
 
 check(infixform(1 / ((a + b) (c + d))^2) == "1 / ((a + b)^2 (c + d)^2)")
 

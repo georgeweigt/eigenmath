@@ -48,6 +48,7 @@ power_tensor(BASE, EXPO)
 					BASE.elem[k++] = one;
 				else
 					BASE.elem[k++] = zero;
+		push(BASE);
 		return;
 	}
 
