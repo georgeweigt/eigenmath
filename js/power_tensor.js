@@ -28,7 +28,7 @@ power_tensor(BASE, EXPO)
 	else
 		n = EXPO.d;
 
-	if (n < 0 || n != Math.floor(n)) {
+	if (n != Math.floor(n)) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
@@ -50,6 +50,13 @@ power_tensor(BASE, EXPO)
 					BASE.elem[k++] = zero;
 		push(BASE);
 		return;
+	}
+
+	if (n < 0) {
+		n = -n;
+		push(BASE);
+		inv();
+		BASE = pop();
 	}
 
 	push(BASE);
