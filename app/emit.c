@@ -751,8 +751,6 @@ emit_list(struct atom *p)
 {
 	int t = tos;
 	emit_expr(p);
-	if (t == tos)
-		emit_roman_string(" ");
 	emit_update_list(t);
 }
 
@@ -1324,7 +1322,7 @@ emit_update_list_nib(int t)
 
 	n = tos - t;
 
-	if (n < 2)
+	if (n == 1)
 		return;
 
 	h = 0.0;
