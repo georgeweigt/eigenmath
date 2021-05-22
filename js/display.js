@@ -462,6 +462,8 @@ emit_list(p)
 {
 	var t = stack.length;
 	emit_expr(p);
+	if (t == stack.length)
+		emit_roman_string(" ");
 	emit_update_list(t);
 }
 

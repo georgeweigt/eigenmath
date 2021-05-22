@@ -3,10 +3,7 @@
 void
 eval_product(void)
 {
-	int h, j, k, t;
-
-	t = expanding;
-	expanding = 1;
+	int h, j, k;
 
 	p1 = cdr(p1);
 	p2 = car(p1);
@@ -50,6 +47,4 @@ eval_product(void)
 	multiply_factors(tos - h);
 
 	restore_symbol(p2);
-
-	expanding = t;
 }

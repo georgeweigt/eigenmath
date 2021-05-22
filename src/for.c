@@ -3,10 +3,7 @@
 void
 eval_for(void)
 {
-	int j, k, t;
-
-	t = expanding;
-	expanding = 1;
+	int j, k;
 
 	p1 = cdr(p1);
 	p2 = car(p1);
@@ -53,6 +50,4 @@ eval_for(void)
 	restore_symbol(p2);
 
 	push_symbol(NIL); // return value
-
-	expanding = t;
 }

@@ -752,7 +752,7 @@ emit_list(struct atom *p)
 	int t = tos;
 	emit_expr(p);
 	if (t == tos)
-		emit_roman_char(' ');
+		emit_roman_string(" ");
 	emit_update_list(t);
 }
 
