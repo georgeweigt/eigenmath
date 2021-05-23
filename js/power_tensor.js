@@ -3,18 +3,6 @@ power_tensor(BASE, EXPO)
 {
 	var i, j, k, n;
 
-	// first and last dims must be equal
-
-	n = BASE.dim.length;
-
-	if (BASE.dim[0] != BASE.dim[n - 1]) {
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		return;
-	}
-
 	if (!isnum(EXPO)) {
 		push_symbol(POWER);
 		push(BASE);
@@ -37,6 +25,8 @@ power_tensor(BASE, EXPO)
 	}
 
 	if (n == 0) {
+		if (!issquarematrix(BASE))
+			stopf("square matrix expected");
 		n = BASE.dim[0];
 		BASE = alloc_tensor();
 		BASE.dim[0] = n;
@@ -63,6 +53,6 @@ power_tensor(BASE, EXPO)
 
 	for (i = 1; i < n; i++) {
 		push(BASE);
-		inner();
+		hadamard();
 	}
 }

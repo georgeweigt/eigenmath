@@ -174,6 +174,7 @@ int isdoublesomewhere(struct atom *p);
 int isdenormalpolar(struct atom *p);
 int isdenormalpolarterm(struct atom *p);
 int isdenormalclock(struct atom *p);
+int issquarematrix(struct atom *p);
 void eval_cos(void);
 void cosfunc(void);
 void cosfunc_nib(void);

@@ -1271,19 +1271,7 @@ sqrtfunc(void)
 void
 power_tensor(void)
 {
-	int i, k, n;
-
-	// first and last dims must be equal
-
-	k = BASE->u.tensor->ndim - 1;
-
-	if (BASE->u.tensor->dim[0] != BASE->u.tensor->dim[k]) {
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		return;
-	}
+	int i, n;
 
 	push(EXPO);
 
@@ -1298,6 +1286,8 @@ power_tensor(void)
 	}
 
 	if (n == 0) {
+		if (!issquarematrix(BASE))
+			stop("square matrix expected");
 		n = BASE->u.tensor->dim[0];
 		p1 = alloc_matrix(n, n);
 		for (i = 0; i < n; i++)
@@ -1317,6 +1307,6 @@ power_tensor(void)
 
 	for (i = 1; i < n; i++) {
 		push(BASE);
-		inner();
+		hadamard();
 	}
 }

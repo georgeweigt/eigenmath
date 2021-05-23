@@ -906,3 +906,9 @@ isdenormalclock(struct atom *p)
 }
 
 #endif
+
+int
+issquarematrix(struct atom *p)
+{
+	return istensor(p) && p->u.tensor->ndim == 2 && p->u.tensor->dim[0] == p->u.tensor->dim[1];
+}
