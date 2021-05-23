@@ -146,14 +146,16 @@ n = 4           -- number of qubits (example)
 N = 2^n         -- number of eigenstates
 psi = zero(N)
 psi[1] = 1
-\end{verbatim}}
+\end{verbatim}
+}
 
 \noindent
 2. Compute the probability distribution for state $\psi$.
 {\color{blue}
 \begin{verbatim}
 P = psi conj(psi)
-\end{verbatim}}
+\end{verbatim}
+}
 
 \noindent
 Hence
@@ -176,21 +178,24 @@ Hence
 xrange = (0,N)
 yrange = (0,1)
 draw(P[ceiling(x)],x)
-\end{verbatim}}
+\end{verbatim}
+}
 
 \noindent
 4. Compute an expectation value.
 {\color{blue}
 \begin{verbatim}
 sum(k,1,N, (k - 1) P[k])
-\end{verbatim}}
+\end{verbatim}
+}
 
 \noindent
 5. Make the high order qubit ``don't care.''
 {\color{blue}
 \begin{verbatim}
 for(k,1,N/2, P[k] = P[k] + P[k + N/2])
-\end{verbatim}}
+\end{verbatim}
+}
 
 \noindent
 Hence for $N=16$
@@ -229,4 +234,5 @@ U(ket00) == ket00
 U(ket01) == ket11
 U(ket10) == ket10
 U(ket11) == ket01
-\end{verbatim}}
+\end{verbatim}
+}
