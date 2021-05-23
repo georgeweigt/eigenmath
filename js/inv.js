@@ -11,8 +11,8 @@ inv()
 		return;
 	}
 
-	if (p1.dim.length != 2 || p1.dim[0] != p1.dim[1])
-		stopf("inv");
+	if (!issquarematrix(p1))
+		stopf("square matrix expected");
 
 	push(p1);
 	adj();

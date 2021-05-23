@@ -30,8 +30,8 @@ inv_nib(void)
 		return;
 	}
 
-	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
-		stop("inv");
+	if (!issquarematrix(p1))
+		stop("square matrix expected");
 
 	push(p1);
 	adj();
