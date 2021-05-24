@@ -6,7 +6,7 @@ void add(void);
 void add_terms(int n);
 void add_terms_nib(int n);
 void flatten_terms(int h);
-void combine_terms(int h);
+void combine_tensors(int h);
 void combine_terms(int h);
 int combine_terms_nib(int i, int j);
 void sort_terms(int n);

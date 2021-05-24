@@ -1,5 +1,8 @@
 #include "defs.h"
 
+#undef T
+#define T p5
+
 void
 eval_add(void)
 {
@@ -30,30 +33,51 @@ add_terms(int n)
 void
 add_terms_nib(int n)
 {
-	int h = tos - n;
+	int i, h = tos - n;
 
 	if (n < 2)
 		return;
 
 	flatten_terms(h);
 
+	combine_tensors(h);
+
 	combine_terms(h);
 
 	n = tos - h;
 
-	switch (n) {
-	case 0:
-		push_integer(0); // all terms canceled
-		break;
-	case 1:
-		break;
-	default:
+	if (n == 0) {
+		if (istensor(T))
+			push(T);
+		else
+			push_integer(0);
+		return;
+	}
+
+	if (n > 1) {
 		list(n);
 		push_symbol(ADD);
 		swap();
 		cons();
-		break;
 	}
+
+	if (!istensor(T))
+		return;
+
+	p2 = pop();
+
+	push(T);
+	copy_tensor();
+	p1 = pop();
+
+	for (i = 0; i < p1->u.tensor->nelem; i++) {
+		push(p1->u.tensor->elem[i]);
+		push(p2);
+		add();
+		p1->u.tensor->elem[i] = pop();
+	}
+
+	push(p1);
 }
 
 void
@@ -74,6 +98,29 @@ flatten_terms(int h)
 	}
 }
 
+void
+combine_tensors(int h)
+{
+	int i, j;
+	T = symbol(NIL);
+	for (i = h; i < tos; i++) {
+		p1 = stack[i];
+		if (istensor(p1)) {
+			if (istensor(T)) {
+				push(T);
+				push(p1);
+				add_tensors();
+				T = pop();
+			} else
+				T = p1;
+			for (j = i + 1; j < tos; j++)
+				stack[j - 1] = stack[j];
+			tos--;
+			i--;
+		}
+	}
+}
+
 // congruent terms are combined by adding numerical coefficients
 
 void
@@ -83,7 +130,7 @@ combine_terms(int h)
 	sort_terms(tos - h);
 	for (i = h; i < tos - 1; i++) {
 		if (combine_terms_nib(i, i + 1)) {
-			if (!istensor(stack[i]) && iszero(stack[i])) {
+			if (iszero(stack[i])) {
 				for (j = i + 2; j < tos; j++)
 					stack[j - 2] = stack[j]; // remove 2
 				tos -= 2;
@@ -92,36 +139,10 @@ combine_terms(int h)
 					stack[j - 1] = stack[j]; // remove 1
 				tos -= 1;
 			}
-			i--; // use same index again
-		}
-	}
-	if (tos - h == 1 && !istensor(stack[h]) && iszero(stack[h]))
-		tos = h; // all terms canceled
-}
-
-#if 0 // brute force method
-void
-combine_terms(int h)
-{
-	int i, j, k;
-	for (i = h; i < tos - 1; i++) {
-		for (j = i + 1; j < tos; j++) {
-			if (combine_terms_nib(i, j)) {
-				for (k = j + 1; k < tos; k++)
-					stack[k - 1] = stack[k]; // remove jth element
-				j--; // use same index again
-				tos--;
-				if (!istensor(stack[i]) && iszero(stack[i])) {
-					for (k = i + 1; k < tos; k++)
-						stack[k - 1] = stack[k]; // remove ith element
-					j = i; // start over
-					tos--;
-				}
-			}
+			i--;
 		}
 	}
 }
-#endif
 
 int
 combine_terms_nib(int i, int j)
@@ -130,17 +151,6 @@ combine_terms_nib(int i, int j)
 
 	p1 = stack[i];
 	p2 = stack[j];
-
-	if (istensor(p1) && istensor(p2)) {
-		push(p1);
-		push(p2);
-		add_tensors();
-		stack[i] = pop();
-		return 1;
-	}
-
-	if (istensor(p1) || istensor(p2))
-		stop("incompatible tensor arithmetic");
 
 	if (iszero(p2))
 		return 1;
