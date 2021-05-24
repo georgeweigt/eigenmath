@@ -64,20 +64,22 @@ add_terms_nib(int n)
 	if (!istensor(T))
 		return;
 
-	p2 = pop();
+	p1 = pop();
 
 	push(T);
 	copy_tensor();
-	p1 = pop();
+	T = pop();
 
-	for (i = 0; i < p1->u.tensor->nelem; i++) {
-		push(p1->u.tensor->elem[i]);
-		push(p2);
+	n = p1->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		push(T->u.tensor->elem[i]);
+		push(p1);
 		add();
-		p1->u.tensor->elem[i] = pop();
+		T->u.tensor->elem[i] = pop();
 	}
 
-	push(p1);
+	push(T);
 }
 
 void

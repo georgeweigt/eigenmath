@@ -1,7 +1,7 @@
 function
 add_terms(n) // n is number of terms on stack
 {
-	var h;
+	var h, i, p1, T;
 
 	if (n < 2)
 		return;
@@ -10,21 +10,42 @@ add_terms(n) // n is number of terms on stack
 
 	flatten_terms(h);
 
+	T = combine_tensors(h);
+
 	combine_terms(h);
 
 	n = stack.length - h;
 
-	switch (n) {
-	case 0:
-		push_integer(0); // all terms canceled
-		break;
-	case 1:
-		break;
-	default:
+	if (n == 0) {
+		if (istensor(T))
+			push(T);
+		else
+			push_integer(0);
+		return;
+	}
+
+	if (n > 1) {
 		list(n);
 		push_symbol(ADD);
 		swap();
 		cons();
-		break;
 	}
+
+	if (!istensor(T))
+		return;
+
+	p1 = pop();
+
+	T = copy_tensor(T);
+
+	n = T.elem.length;
+
+	for (i = 0; i < n; i++) {
+		push(T.elem[i]);
+		push(p1);
+		add();
+		T.elem[i] = pop();
+	}
+
+	push(T);
 }
