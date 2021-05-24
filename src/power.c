@@ -1273,40 +1273,18 @@ power_tensor(void)
 {
 	int i, n;
 
-	push(EXPO);
-
-	n = pop_integer();
-
-	if (n == ERR) {
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		return;
-	}
-
-	if (n == 0) {
-		if (!issquarematrix(BASE))
-			stop("square matrix expected");
-		n = BASE->u.tensor->dim[0];
-		p1 = alloc_matrix(n, n);
-		for (i = 0; i < n; i++)
-			p1->u.tensor->elem[n * i + i] = one;
-		push(p1);
-		return;
-	}
-
-	if (n < 0) {
-		n = -n;
-		push(BASE);
-		inv();
-		BASE = pop();
-	}
-
 	push(BASE);
+	copy_tensor();
+	p1 = pop();
 
-	for (i = 1; i < n; i++) {
-		push(BASE);
-		hadamard();
+	n = p1->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		push(p1->u.tensor->elem[i]);
+		push(EXPO);
+		power();
+		p1->u.tensor->elem[i] = pop();
 	}
+
+	push(p1);
 }
