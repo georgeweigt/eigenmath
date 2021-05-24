@@ -6,15 +6,6 @@ combine_terms_nib(i, j)
 	p1 = stack[i];
 	p2 = stack[j];
 
-	if (istensor(p1) && istensor(p2)) {
-		add_tensors(p1, p2);
-		stack[i] = pop();
-		return 1;
-	}
-
-	if (istensor(p1) || istensor(p2))
-		stopf("incompatible tensor arithmetic");
-
 	if (iszero(p2))
 		return 1;
 

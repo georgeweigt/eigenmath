@@ -7,7 +7,9 @@ combine_tensors(h)
 		p1 = stack[i];
 		if (istensor(p1)) {
 			if (istensor(T)) {
-				add_tensors(T, p1);
+				push(T);
+				push(p1);
+				add_tensors();
 				T = pop();
 			} else
 				T = p1;

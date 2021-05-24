@@ -1,7 +1,10 @@
 function
-add_tensors(p1, p2)
+add_tensors()
 {
-	var i, n;
+	var i, n, p1, p2;
+
+	p2 = pop();
+	p1 = pop();
 
 	if (!compatible_dimensions(p1, p2))
 		stopf("incompatible tensor arithmetic");
