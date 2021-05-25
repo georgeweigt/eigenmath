@@ -33,10 +33,12 @@ add_terms(int n)
 void
 add_terms_nib(int n)
 {
-	int i, h = tos - n;
+	int i, h;
 
 	if (n < 2)
 		return;
+
+	h = tos - n;
 
 	flatten_terms(h);
 
@@ -118,12 +120,10 @@ combine_tensors(int h)
 			for (j = i + 1; j < tos; j++)
 				stack[j - 1] = stack[j];
 			tos--;
-			i--;
+			i--; // use same index again
 		}
 	}
 }
-
-// congruent terms are combined by adding numerical coefficients
 
 void
 combine_terms(int h)
@@ -134,14 +134,14 @@ combine_terms(int h)
 		if (combine_terms_nib(i, i + 1)) {
 			if (iszero(stack[i])) {
 				for (j = i + 2; j < tos; j++)
-					stack[j - 2] = stack[j]; // remove 2
+					stack[j - 2] = stack[j]; // remove 2 terms
 				tos -= 2;
 			} else {
 				for (j = i + 2; j < tos; j++)
-					stack[j - 1] = stack[j]; // remove 1
+					stack[j - 1] = stack[j]; // remove 1 term
 				tos -= 1;
 			}
-			i--;
+			i--; // use same index again
 		}
 	}
 }
@@ -149,7 +149,7 @@ combine_terms(int h)
 int
 combine_terms_nib(int i, int j)
 {
-	int denorm = 0;
+	int denorm;
 
 	p1 = stack[i];
 	p2 = stack[j];
@@ -176,6 +176,8 @@ combine_terms_nib(int i, int j)
 
 	p1 = one;
 	p2 = one;
+
+	denorm = 0;
 
 	if (car(p3) == symbol(MULTIPLY)) {
 		p3 = cdr(p3);
