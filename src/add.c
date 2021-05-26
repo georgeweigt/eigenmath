@@ -126,6 +126,37 @@ combine_tensors(int h)
 }
 
 void
+add_tensors(void)
+{
+	int i, n;
+
+	save();
+
+	p2 = pop();
+	p1 = pop();
+
+	if (!compatible_dimensions(p1, p2))
+		stop("incompatible tensor arithmetic");
+
+	push(p1);
+	copy_tensor();
+	p1 = pop();
+
+	n = p1->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		push(p1->u.tensor->elem[i]);
+		push(p2->u.tensor->elem[i]);
+		add();
+		p1->u.tensor->elem[i] = pop();
+	}
+
+	push(p1);
+
+	restore();
+}
+
+void
 combine_terms(int h)
 {
 	int i, j;
