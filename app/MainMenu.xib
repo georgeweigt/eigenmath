@@ -195,9 +195,9 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Menu" state="on" id="Wq3-L7-ruP">
+                <menuItem title="⌘" state="on" id="Wq3-L7-ruP">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Menu" id="oeq-aK-7f7">
+                    <menu key="submenu" title="⌘" id="oeq-aK-7f7">
                         <items>
                             <menuItem title="Clear" keyEquivalent="k" id="wIn-Jv-O77">
                                 <connections>
@@ -209,12 +209,12 @@
                                     <action selector="drawButtonHandler:" target="494" id="iRg-bH-oqK"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Float" keyEquivalent="." id="6eE-Pp-mRE">
+                            <menuItem title="Float" keyEquivalent="t" id="6eE-Pp-mRE">
                                 <connections>
                                     <action selector="floatButtonHandler:" target="494" id="dzh-wB-aOF"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Simplify" keyEquivalent="=" id="h5k-Ef-8E9">
+                            <menuItem title="Simplify" keyEquivalent="y" id="h5k-Ef-8E9">
                                 <connections>
                                     <action selector="simplifyButtonHandler:" target="494" id="iWO-Lb-zqx"/>
                                 </connections>
