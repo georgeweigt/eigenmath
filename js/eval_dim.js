@@ -1,28 +1,29 @@
 function
 eval_dim(p1)
 {
-	var k, p2, t;
-
-	t = expanding;
-	expanding = 1;
+	var k, p2;
 
 	push(cadr(p1));
 	evalf();
 	p2 = pop();
 
-	p1 = cddr(p1);
+	if (lengthf(p1) < 3) {
+		if (istensor(p2))
+			push_integer(p2.elem.length);
+		else
+			push_integer(1);
+		return;
+	}
 
-	if (iscons(p1)) {
-		push(car(p1));
-		evalf();
-		k = pop_integer();
-	} else
-		k = 1;
+	if (!istensor(p2))
+		stopf("dim 1st arg: tensor expected");
 
-	if (!istensor(p2) || k < 1 || k > p2.dim.length)
-		stopf("dim");
+	push(caddr(p1));
+	evalf();
+	k = pop_integer();
+
+	if (k < 1 || k > p2.dim.length)
+		stopf("dim 2nd arg: range error");
 
 	push_integer(p2.dim[k - 1]);
-
-	expanding = t;
 }

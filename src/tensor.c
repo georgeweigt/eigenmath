@@ -280,25 +280,34 @@ copy_tensor(void)
 void
 eval_dim(void)
 {
-	int n, t;
-	t = expanding;
-	expanding = 1;
+	int k;
+
 	push(cadr(p1));
 	eval();
 	p2 = pop();
-	if (iscons(cddr(p1))) {
-		push(caddr(p1));
-		eval();
-		n = pop_integer();
-	} else
-		n = 1;
+
+	if (length(p1) < 3) {
+		if (istensor(p2))
+			push_integer(p2->u.tensor->nelem);
+		else
+			push_integer(1);
+		return;
+	}
+
 	if (!istensor(p2))
-		push_integer(1); // dim of scalar is 1
-	else if (n < 1 || n > p2->u.tensor->ndim)
-		push(p1);
-	else
-		push_integer(p2->u.tensor->dim[n - 1]);
-	expanding = t;
+		stop("dim 1st arg: tensor expected");
+
+	push(caddr(p1));
+	eval();
+	k = pop_integer();
+
+	if (k == ERR)
+		stop("dim 2nd arg: integer value expected");
+
+	if (k < 1 || k > p2->u.tensor->ndim)
+		stop("dim 2nd arg: range error");
+
+	push_integer(p2->u.tensor->dim[k - 1]);
 }
 
 void

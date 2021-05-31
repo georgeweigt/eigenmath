@@ -1940,8 +1940,19 @@ check(0 A B == (0,0))
 "Testing vector arithmetic"
 
 clear
+check((1,2,3,4) + 10 == (11,12,13,14))
+check((1,2,3,4)^2 == (1,4,9,16))
 check(sum((1,2,3,4)) == 10)
 check(product((1,2,3,4)) == 24)
+
+"Testing dim"
+
+clear
+A = ((1,2,3),(4,5,6))
+check(dim(A,1) == 2)
+check(dim(A,2) == 3)
+check(dim(A) == 6)
+check(dim(x) == 1)
 
 -- done
 
