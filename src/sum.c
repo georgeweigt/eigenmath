@@ -5,7 +5,9 @@ eval_sum(void)
 {
 	int h, i, j, k, n;
 
-	if (length(p1) == 2) {
+	n = length(p1);
+
+	if (n == 2) {
 		push(cadr(p1));
 		eval();
 		p1 = pop();
@@ -20,10 +22,13 @@ eval_sum(void)
 		return;
 	}
 
+	if (n != 5)
+		stop("sum: 4 args expected");
+
 	p2 = cadr(p1);
 
 	if (!isusersymbol(p2))
-		stop("sum: 1st arg?");
+		stop("sum 1st arg: symbol expected");
 
 	p1 = cddr(p1);
 
@@ -32,14 +37,14 @@ eval_sum(void)
 	j = pop_integer();
 
 	if (j == ERR)
-		stop("sum: 2nd arg?");
+		stop("sum 2nd arg: integer value expected");
 
 	push(cadr(p1));
 	eval();
 	k = pop_integer();
 
 	if (k == ERR)
-		stop("sum: 3rd arg?");
+		stop("sum 3rd arg: integer value expected");
 
 	p1 = caddr(p1);
 

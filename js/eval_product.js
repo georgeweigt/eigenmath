@@ -1,12 +1,32 @@
 function
 eval_product(p1)
 {
-	var h, j, k, p2, p3;
+	var h, i, j, k, n, p2, p3;
+
+	n = lengthf(p1);
+
+	if (n == 2) {
+		push(cadr(p1));
+		evalf();
+		p1 = pop();
+		if (!istensor(p1)) {
+			push(p1);
+			return;
+		}
+		n = p1.elem.length;
+		for (i = 0; i < n; i++)
+			push(p1.elem[i]);
+		multiply_factors(n);
+		return;
+	}
+
+	if (n != 5)
+		stopf("product: 4 args expected");
 
 	p2 = cadr(p1);
 
 	if (!isusersymbol(p2))
-		stopf("symbol expected");
+		stopf("product 1st arg: symbol expected");
 
 	p1 = cddr(p1);
 

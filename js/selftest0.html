@@ -1333,6 +1333,12 @@ check(infixform(T)="-i")
 T = (-1)^(-15/2.0)
 check(infixform(T)="i")
 
+"Testing vector arithmetic"
+
+clear
+check(sum((1,2,3,4)) == 10)
+check(product((1,2,3,4)) == 24)
+
 "ok"
 </textarea>
 </td><td>

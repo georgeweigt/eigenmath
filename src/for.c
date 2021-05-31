@@ -8,21 +8,21 @@ eval_for(void)
 	p1 = cdr(p1);
 	p2 = car(p1);
 	if (!isusersymbol(p2))
-		stop("for: 1st arg?");
+		stop("for 1st arg: symbol expected");
 
 	p1 = cdr(p1);
 	push(car(p1));
 	eval();
 	j = pop_integer();
 	if (j == ERR)
-		stop("for: 2nd arg?");
+		stop("for 2nd arg: integer value expected");
 
 	p1 = cdr(p1);
 	push(car(p1));
 	eval();
 	k = pop_integer();
 	if (k == ERR)
-		stop("for: 3rd arg?");
+		stop("for 3rd arg: integer value expected");
 
 	p1 = cdr(p1);
 

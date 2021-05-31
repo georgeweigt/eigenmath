@@ -3,7 +3,9 @@ eval_sum(p1)
 {
 	var h, i, j, k, n, p2, p3;
 
-	if (lengthf(p1) == 2) {
+	n = lengthf(p1);
+
+	if (n == 2) {
 		push(cadr(p1));
 		evalf();
 		p1 = pop();
@@ -18,10 +20,13 @@ eval_sum(p1)
 		return;
 	}
 
+	if (n != 5)
+		stopf("sum: 4 args expected");
+
 	p2 = cadr(p1);
 
 	if (!isusersymbol(p2))
-		stopf("symbol expected");
+		stopf("sum 1st arg: symbol expected");
 
 	p1 = cddr(p1);
 

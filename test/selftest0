@@ -1937,6 +1937,12 @@ B = (B1,B2)
 check(A B == (A1 B1, A2 B2))
 check(0 A B == (0,0))
 
+"Testing vector arithmetic"
+
+clear
+check(sum((1,2,3,4)) == 10)
+check(product((1,2,3,4)) == 24)
+
 -- done
 
 clear
