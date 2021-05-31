@@ -280,13 +280,15 @@ copy_tensor(void)
 void
 eval_dim(void)
 {
-	int k;
+	int n;
 
 	push(cadr(p1));
 	eval();
 	p2 = pop();
 
-	if (length(p1) < 3) {
+	n = length(p1);
+
+	if (n == 2) {
 		if (istensor(p2))
 			push_integer(p2->u.tensor->nelem);
 		else
@@ -294,20 +296,23 @@ eval_dim(void)
 		return;
 	}
 
+	if (n != 3)
+		stop("dim: 2 args expected");
+
 	if (!istensor(p2))
 		stop("dim 1st arg: tensor expected");
 
 	push(caddr(p1));
 	eval();
-	k = pop_integer();
+	n = pop_integer();
 
-	if (k == ERR)
+	if (n == ERR)
 		stop("dim 2nd arg: integer value expected");
 
-	if (k < 1 || k > p2->u.tensor->ndim)
+	if (n < 1 || n > p2->u.tensor->ndim)
 		stop("dim 2nd arg: range error");
 
-	push_integer(p2->u.tensor->dim[k - 1]);
+	push_integer(p2->u.tensor->dim[n - 1]);
 }
 
 void
