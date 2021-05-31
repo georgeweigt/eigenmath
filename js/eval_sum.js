@@ -1,7 +1,22 @@
 function
 eval_sum(p1)
 {
-	var h, j, k, p2, p3;
+	var h, i, j, k, n, p2, p3;
+
+	if (lengthf(p1) == 2) {
+		push(cadr(p1));
+		evalf();
+		p1 = pop();
+		if (!istensor(p1)) {
+			push(p1);
+			return;
+		}
+		n = p1.elem.length;
+		for (i = 0; i < n; i++)
+			push(p1.elem[i]);
+		add_terms(n);
+		return;
+	}
 
 	p2 = cadr(p1);
 
