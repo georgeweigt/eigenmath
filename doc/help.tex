@@ -977,9 +977,22 @@ $\displaystyle x^3+6x^2+11x+6$
 
 \bigskip
 \noindent
-Note: The original value of $i$ is restored after {\tt product} completes.
+The original value of $i$ is restored after {\tt product} completes.
 If symbol {\tt i} is used for index variable $i$
 then the imaginary unit is overridden in the scope of {\tt product}.
+
+\subsection*{product($y$)}
+
+Returns the product of elements in $y$.
+
+{\color{blue}
+\begin{verbatim}
+product((1,2,3,4))
+\end{verbatim}
+}
+
+\noindent
+$24$
 
 \subsection*{quote($x$)}
 
@@ -1181,9 +1194,22 @@ $\displaystyle x^5+x^4+x^3+x^2+x$
 
 \bigskip
 \noindent
-Note: The original value of $i$ is restored after {\tt sum} completes.
+The original value of $i$ is restored after {\tt sum} completes.
 If symbol {\tt i} is used for index variable $i$
 then the imaginary unit is overridden in the scope of {\tt sum}.
+
+\subsection*{sum($y$)}
+
+Returns the sum of elements in $y$.
+
+{\color{blue}
+\begin{verbatim}
+sum((1,2,3,4))
+\end{verbatim}
+}
+
+\noindent
+$10$
 
 \subsection*{tan($x$)}
 

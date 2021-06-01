@@ -1101,7 +1101,6 @@ product(j,1,3,x + j)
 x  + 6 x  + 11 x + 6
 </pre>
 <p>
-Note:
 The original value of <i>i</i> is restored after
 <span style="font-family:courier">product</span>
 completes.
@@ -1109,6 +1108,17 @@ If symbol
 <span style="font-family:courier">i</span>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
 <span style="font-family:courier">product</span>.
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
+product(<i>y</i>)
+<p>
+Returns the product of elements in <i>y</i>.
+<pre style="font-family:courier;color:blue">
+product((1,2,3,4))
+</pre>
+<pre style="font-family:courier">
+24
+</pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="quote">quote(<i>x</i>)</a>
@@ -1327,7 +1337,6 @@ sum(j,1,5,x^j)
 x  + x  + x  + x  + x
 </pre>
 <p>
-Note:
 The original value of <i>i</i> is restored after
 <span style="font-family:courier">sum</span>
 completes.
@@ -1335,6 +1344,17 @@ If symbol
 <span style="font-family:courier">i</span>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
 <span style="font-family:courier">sum</span>.
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
+sum(<i>y</i>)
+<p>
+Returns the sum of elements in <i>y</i>.
+<pre style="font-family:courier;color:blue">
+sum((1,2,3,4))
+</pre>
+<pre style="font-family:courier">
+10
+</pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="tan">tan(<i>x</i>)</a>
