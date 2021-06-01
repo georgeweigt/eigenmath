@@ -1951,7 +1951,7 @@ clear
 A = ((1,2,3),(4,5,6))
 check(dim(A,1) == 2)
 check(dim(A,2) == 3)
-check(dim(A) == 6)
+check(dim(A) == 2)
 check(dim(x) == 1)
 
 -- done
