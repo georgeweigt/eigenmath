@@ -4,6 +4,7 @@ $u\in\mathbb{C}^{2^n}$ where $\mathbb{C}$ is the set of complex numbers
 and $n$ is the number of qubits.
 The dimension is $2^n$ because a register with $n$ qubits
 has $2^n$ eigenstates.
+(Recall that an eigenstate is the output of a quantum computer.)
 Quantum operations are ``rotations'' because they preserve $|u|=1$.
 Mathematically, a rotation of $u$ is equivalent to the product $Ru$
 where $R$ is a $2^n\times2^n$ matrix.
@@ -132,6 +133,37 @@ Error codes
 \item[4] Unknown rotation code.
 \end{itemize}
 
+\noindent
+Example:
+Verify the following truth table for quantum operator CNOT
+where qubit 0 is the control and qubit 1 is the target.
+(Target is inverted when control is set.)
+\begin{center}
+\begin{tabular}{ccc}
+Target & Control & Output \\
+0 & 0 & 00 \\
+0 & 1 & 11 \\
+1 & 0 & 10 \\
+1 & 1 & 01
+\end{tabular}
+\end{center}
+
+{\color{blue}
+\begin{verbatim}
+U(psi) = rotate(psi,C,0,X,1) -- CNOT, control 0, target 1
+
+ket00 = (1,0,0,0)
+ket01 = (0,1,0,0)
+ket10 = (0,0,1,0)
+ket11 = (0,0,0,1)
+
+U(ket00) == ket00
+U(ket01) == ket11
+U(ket10) == ket10
+U(ket11) == ket01
+\end{verbatim}
+}
+
 \bigskip
 \noindent
 Here are some useful Eigenmath code snippets for setting up a simulation
@@ -210,29 +242,3 @@ Hence for $N=16$
 \\
 &\text{\tt P[8]}=\text{probability that the result will be $|7\rangle$ or $|15\rangle$}
 \end{align*}
-
-\noindent
-Example.
-{\color{blue}
-\begin{verbatim}
--- Verify the following truth table for cnot
-
--- Input Output
---    00     00
---    01     11
---    10     10
---    11     01
-
-U(psi) = rotate(psi,C,0,X,1) -- cnot
-
-ket00 = (1,0,0,0)
-ket01 = (0,1,0,0)
-ket10 = (0,0,1,0)
-ket11 = (0,0,0,1)
-
-U(ket00) == ket00
-U(ket01) == ket11
-U(ket10) == ket10
-U(ket11) == ket01
-\end{verbatim}
-}
