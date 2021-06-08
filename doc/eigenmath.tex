@@ -5,7 +5,7 @@
 \usepackage{xcolor}
 
 \title{Eigenmath Manual}
-\date{June 1, 2021}
+\date{June 7, 2021}
 \author{}
 
 \begin{document}
@@ -49,6 +49,29 @@ can be problematic due to roundoff error.
 \input{complex}
 
 \input{linear-algebra}
+
+\subsection{Mixed tensor and scalar arithmetic}
+
+\noindent
+Tensor plus a scalar adds the scalar to each component of the tensor.
+
+{\color{blue}\begin{verbatim}
+(x,y,z) + 10
+\end{verbatim}}
+
+\noindent
+$\begin{bmatrix}x+10\\y+10\\z+10\end{bmatrix}$
+
+\bigskip
+\noindent
+Tensor raised to a power raises each component to the power.
+
+{\color{blue}\begin{verbatim}
+(x,y,z)^2
+\end{verbatim}}
+
+\noindent
+$\begin{bmatrix}x^2\\y^2\\z^2\end{bmatrix}$
 
 \newpage
 
