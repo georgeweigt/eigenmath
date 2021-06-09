@@ -5,7 +5,7 @@
 \usepackage{xcolor}
 
 \title{Eigenmath Manual}
-\date{June 7, 2021}
+\date{June 9, 2021}
 \author{}
 
 \begin{document}
@@ -53,7 +53,7 @@ can be problematic due to roundoff error.
 \subsection{Component arithmetic}
 
 \noindent
-Vector, matrix, or higher rank tensor plus a scalar adds the scalar to each component of the tensor.
+Tensor plus scalar adds the scalar to each component of the tensor.
 
 {\color{blue}\begin{verbatim}
 (x,y,z) + 10
@@ -61,6 +61,19 @@ Vector, matrix, or higher rank tensor plus a scalar adds the scalar to each comp
 
 \noindent
 $\begin{bmatrix}x+10\\y+10\\z+10\end{bmatrix}$
+
+\bigskip
+\noindent
+The product of two tensors is the Hadamard product.
+
+{\color{blue}\begin{verbatim}
+A = ((1,2),(3,4))
+B = ((a,b),(c,d))
+A B
+\end{verbatim}}
+
+\noindent
+$\begin{bmatrix}a&2b\\3c&4d\end{bmatrix}$
 
 \bigskip
 \noindent
