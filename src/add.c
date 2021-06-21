@@ -175,7 +175,7 @@ combine_terms(int h)
 			i--; // use same index again
 		}
 	}
-	if (i == tos - 1 && iszero(stack[i]))
+	if (h < tos && iszero(stack[tos - 1]))
 		tos--;
 }
 
