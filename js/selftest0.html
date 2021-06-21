@@ -1168,6 +1168,8 @@ check(i^x == (-1)^(x/2))
 check((-2/3)^x == 2^x 3^(-x) (-1)^x)
 check(infixform((-2/3)^1.2) == "-0.497334 - 0.361334 i")
 check((-192)^x == 2^(6 x) 3^x (-1)^x)
+check((3,4,5) - 2 == (1,2,3))
+check(infixform(A + B - B + 0) == "A")
 
 "Testing arg"
 

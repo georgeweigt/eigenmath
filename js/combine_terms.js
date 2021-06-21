@@ -12,4 +12,6 @@ combine_terms(h)
 			i--; // use same index again
 		}
 	}
+	if (i == stack.length - 1 && iszero(stack[i]))
+		stack.pop();
 }
