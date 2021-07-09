@@ -7,8 +7,6 @@ uint32_t *global_n;
 void
 factor_number(void)
 {
-	int h;
-
 	save();
 
 	p1 = pop();
@@ -22,8 +20,6 @@ factor_number(void)
 	}
 
 	global_n = mcopy(p1->u.q.a);
-
-	h = tos;
 
 	if (p1->sign == MMINUS)
 		push_integer(-1);
