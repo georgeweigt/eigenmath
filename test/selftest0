@@ -1955,6 +1955,39 @@ check(dim(A,2) == 3)
 check(dim(A) == 2)
 check(dim(x) == 1)
 
+"Testing equality"
+
+clear
+
+r = sqrt(x^2 + y^2 + z^2)
+
+Px(f) = -i hbar d(f,x)
+Py(f) = -i hbar d(f,y)
+Pz(f) = -i hbar d(f,z)
+
+Lx(f) = -i hbar (y d(f,z) - z d(f,y))
+Ly(f) = -i hbar (z d(f,x) - x d(f,z))
+Lz(f) = -i hbar (x d(f,y) - y d(f,x))
+
+Ax(f) = 1 / m (Py(Lz(f)) - Pz(Ly(f))) -
+        i hbar / m Px(f) - kappa / r x f
+
+Ay(f) = 1 / m (Pz(Lx(f)) - Px(Lz(f))) -
+        i hbar / m Py(f) - kappa / r y f
+
+Az(f) = 1 / m (Px(Ly(f)) - Py(Lx(f))) -
+        i hbar / m Pz(f) - kappa / r z f
+
+P2(f) = Px(Px(f)) + Py(Py(f)) + Pz(Pz(f))
+L2(f) = Lx(Lx(f)) + Ly(Ly(f)) + Lz(Lz(f))
+A2(f) = Ax(Ax(f)) + Ay(Ay(f)) + Az(Az(f))
+
+H(f) = 1 / (2 m) P2(f) - kappa / r f
+
+psi = f(x,y,z)
+
+check(A2(psi) == 2 / m H(L2(psi) + hbar^2 psi) + kappa^2 psi)
+
 -- done
 
 clear
