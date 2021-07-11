@@ -120,24 +120,14 @@ int
 testeq(struct atom *q1, struct atom *q2)
 {
 	int t;
-
 	save();
-
 	push(q1);
 	push(q2);
 	subtract();
+	simplify();
 	p1 = pop();
-
-	while (cross_expr(p1)) {
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-	}
-
 	t = iszero(p1);
-
 	restore();
-
 	return t;
 }
 
