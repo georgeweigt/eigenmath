@@ -20,7 +20,9 @@ eval_testeq(p1)
 	}
 
 	if (!istensor(p1) && !istensor(p2)) {
-		if (testeq(p1, p2))
+		push(p1);
+		push(p2);
+		if (testeq())
 			push_integer(1);
 		else
 			push_integer(0);
@@ -40,7 +42,9 @@ eval_testeq(p1)
 		}
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
-			if (!testeq(p1.elem[i], zero)) {
+			push(p1.elem[i]);
+			push(p2);
+			if (!testeq()) {
 				push_integer(0);
 				return;
 			}
@@ -59,11 +63,23 @@ eval_testeq(p1)
 	n = p1.elem.length;
 
 	for (i = 0; i < n; i++) {
-		if (!testeq(p1.elem[i], p2.elem[i])) {
+		push(p1.elem[i]);
+		push(p2.elem[i]);
+		if (!testeq()) {
 			push_integer(0);
 			return;
 		}
 	}
 
 	push_integer(1);
+}
+
+function
+testeq()
+{
+	var p1;
+	subtract();
+	simplify();
+	p1 = pop();
+	return iszero(p1);
 }

@@ -715,7 +715,7 @@ void eval_test(void);
 void eval_test_nib(void);
 void eval_check(void);
 void eval_testeq(void);
-int testeq(struct atom *q1, struct atom *q2);
+int testeq(void);
 int cross_expr(struct atom *p);
 int cross_term(struct atom *p);
 int cross_factor(struct atom *p);

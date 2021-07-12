@@ -68,7 +68,9 @@ eval_testeq(void)
 	}
 
 	if (!istensor(p1) && !istensor(p2)) {
-		if (testeq(p1, p2))
+		push(p1);
+		push(p2);
+		if (testeq())
 			push_integer(1);
 		else
 			push_integer(0);
@@ -88,7 +90,9 @@ eval_testeq(void)
 		}
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
-			if (testeq(p1->u.tensor->elem[i], zero))
+			push(p1->u.tensor->elem[i]);
+			push(p2);
+			if (testeq())
 				continue;
 			push_integer(0);
 			return;
@@ -107,7 +111,9 @@ eval_testeq(void)
 	n = p1->u.tensor->nelem;
 
 	for (i = 0; i < n; i++) {
-		if (testeq(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+		push(p1->u.tensor->elem[i]);
+		push(p2->u.tensor->elem[i]);
+		if (testeq())
 			continue;
 		push_integer(0);
 		return;
@@ -117,12 +123,10 @@ eval_testeq(void)
 }
 
 int
-testeq(struct atom *q1, struct atom *q2)
+testeq(void)
 {
 	int t;
 	save();
-	push(q1);
-	push(q2);
 	subtract();
 	simplify();
 	p1 = pop();
