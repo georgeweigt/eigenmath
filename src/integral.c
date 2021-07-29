@@ -36,7 +36,111 @@ char *integral_tab_exp[] = {
 	"(a^3 x^3 - 3 a^2 x^2 + 6 a x - 6) exp(a x + b) / a^4",
 	"1",
 
-// x^n exp(a x^2 + b)
+	"x^4 exp(a x)",
+	"((a^4*x^4-4*a^3*x^3+12*a^2*x^2-24*a*x+24)*exp(a*x))/a^5",
+	"1",
+
+	"x^4 exp(a x + b)",
+	"((a^4*x^4-4*a^3*x^3+12*a^2*x^2-24*a*x+24)*exp(a*x+b))/a^5",
+	"1",
+
+	"x^5 exp(a x)",
+	"((a^5*x^5-5*a^4*x^4+20*a^3*x^3-60*a^2*x^2+120*a*x-120)*exp(a*x))/a^6",
+	"1",
+
+	"x^5 exp(a x + b)",
+	"((a^5*x^5-5*a^4*x^4+20*a^3*x^3-60*a^2*x^2+120*a*x-120)*exp(a*x+b))/a^6",
+	"1",
+
+	"x^6 exp(a x)",
+	"((a^6*x^6-6*a^5*x^5+30*a^4*x^4-120*a^3*x^3+360*a^2*x^2-720*a*x+720)*exp(a*x))/a^7",
+	"1",
+
+	"x^6 exp(a x + b)",
+	"((a^6*x^6-6*a^5*x^5+30*a^4*x^4-120*a^3*x^3+360*a^2*x^2-720*a*x+720)*exp(a*x+b))/a^7",
+	"1",
+
+	"x^7 exp(a x)",
+	"((a^7*x^7-7*a^6*x^6+42*a^5*x^5-210*a^4*x^4+840*a^3*x^3-2520*a^2*x^2+5040*a*x-5040)*exp(a*x))/a^8",
+	"1",
+
+	"x^7 exp(a x + b)",
+	"((a^7*x^7-7*a^6*x^6+42*a^5*x^5-210*a^4*x^4+840*a^3*x^3-2520*a^2*x^2+5040*a*x-5040)*exp(a*x+b))/a^8",
+	"1",
+
+	"x^8 exp(a x)",
+	"((a^8*x^8-8*a^7*x^7+56*a^6*x^6-336*a^5*x^5+1680*a^4*x^4-6720*a^3*x^3+20160*a^2*x^2-40320*a*x+40320)*exp(a*x))/a^9",
+	"1",
+
+	"x^8 exp(a x + b)",
+	"((a^8*x^8-8*a^7*x^7+56*a^6*x^6-336*a^5*x^5+1680*a^4*x^4-6720*a^3*x^3+20160*a^2*x^2-40320*a*x+40320)*exp(a*x+b))/a^9",
+	"1",
+
+	"x^9 exp(a x)",
+	"((a^9*x^9-9*a^8*x^8+72*a^7*x^7-504*a^6*x^6+3024*a^5*x^5-15120*a^4*x^4+60480*a^3*x^3-181440*a^2*x^2+362880*a*x-362880)*exp(a*x))/a^10",
+	"1",
+
+	"x^9 exp(a x + b)",
+	"((a^9*x^9-9*a^8*x^8+72*a^7*x^7-504*a^6*x^6+3024*a^5*x^5-15120*a^4*x^4+60480*a^3*x^3-181440*a^2*x^2+362880*a*x-362880)*exp(a*x+b))/a^10",
+	"1",
+
+// sin exp
+
+	"sin(x) exp(a x)",
+	"a sin(x) exp(a x) / (a^2 + 1) - cos(x) exp(a x) / (a^2 + 1)",
+	"a^2 + 1", // denominator not zero
+
+	"sin(x) exp(a x + b)",
+	"a sin(x) exp(a x + b) / (a^2 + 1) - cos(x) exp(a x + b) / (a^2 + 1)",
+	"a^2 + 1", // denominator not zero
+
+	"sin(x) exp(i x)",
+	"-1/4 exp(2 i x) + 1/2 i x",
+	"1",
+
+	"sin(x) exp(i x + b)",
+	"-1/4 exp(b + 2 i x) + 1/2 i x exp(b)",
+	"1",
+
+	"sin(x) exp(-i x)",
+	"-1/4 exp(-2 i x) - 1/2 i x",
+	"1",
+
+	"sin(x) exp(-i x + b)",
+	"-1/4 exp(b - 2 i x) - 1/2 i x exp(b)",
+	"1",
+
+// cos exp
+
+	"cos(x) exp(a x)",
+	"a cos(x) exp(a x) / (a^2 + 1) + sin(x) exp(a x) / (a^2 + 1)",
+	"a^2 + 1", // denominator not zero
+
+	"cos(x) exp(a x + b)",
+	"a cos(x) exp(a x + b) / (a^2 + 1) + sin(x) exp(a x + b) / (a^2 + 1)",
+	"a^2 + 1", // denominator not zero
+
+	"cos(x) exp(i x)",
+	"1/2 x - 1/4 i exp(2 i x)",
+	"1",
+
+	"cos(x) exp(i x + b)",
+	"1/2 x exp(b) - 1/4 i exp(b + 2 i x)",
+	"1",
+
+	"cos(x) exp(-i x)",
+	"1/2 x + 1/4 i exp(-2 i x)",
+	"1",
+
+	"cos(x) exp(-i x + b)",
+	"1/2 x exp(b) + 1/4 i exp(b - 2 i x)",
+	"1",
+
+// sin cos exp
+
+	"sin(x) cos(x) exp(a x)",
+	"a sin(2 x) exp(a x) / (2 (a^2 + 4)) - cos(2 x) exp(a x) / (a^2 + 4)",
+	"a^2 + 4", // denominator not zero
 
 // erfi(x) = -i erf(i x)
 
