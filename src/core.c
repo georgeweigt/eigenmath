@@ -293,15 +293,24 @@ list(int n)
 void
 subst(void)
 {
-	int i;
 	save();
+	subst_nib();
+	restore();
+}
+
+void
+subst_nib(void)
+{
+	int h, i;
+
 	p3 = pop(); // new expr
-	p2 = pop(); // old expr
-	if (p2 == symbol(NIL) || p3 == symbol(NIL)) {
-		restore();
+	p2 = pop(); // target expr
+
+	if (p2 == symbol(NIL) || p3 == symbol(NIL))
 		return;
-	}
+
 	p1 = pop(); // expr
+
 	if (istensor(p1)) {
 		push(p1);
 		copy_tensor();
@@ -314,21 +323,28 @@ subst(void)
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
-	} else if (equal(p1, p2))
+		return;
+	}
+
+	if (equal(p1, p2)) {
 		push(p3);
-	else if (iscons(p1)) {
-		push(car(p1));
-		push(p2);
-		push(p3);
-		subst();
-		push(cdr(p1));
-		push(p2);
-		push(p3);
-		subst();
-		cons();
-	} else
-		push(p1);
-	restore();
+		return;
+	}
+
+	if (iscons(p1)) {
+		h = tos;
+		while (iscons(p1)) {
+			push(car(p1));
+			push(p2);
+			push(p3);
+			subst();
+			p1 = cdr(p1);
+		}
+		list(tos - h);
+		return;
+	}
+
+	push(p1);
 }
 
 int

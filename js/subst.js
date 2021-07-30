@@ -25,6 +25,11 @@ subst()
 		return;
 	}
 
+	if (equal(p1, p2)) {
+		push(p3);
+		return;
+	}
+
 	if (iscons(p1)) {
 		h = stack.length;
 		while (iscons(p1)) {
@@ -38,8 +43,5 @@ subst()
 		return;
 	}
 
-	if (equal(p1, p2))
-		push(p3);
-	else
-		push(p1);
+	push(p1);
 }

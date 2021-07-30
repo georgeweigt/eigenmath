@@ -1385,6 +1385,12 @@ psi = f(x,y,z)
 
 check(A2(psi) == 2 / m H(L2(psi) + hbar^2 psi) + kappa^2 psi)
 
+"Testing eval"
+
+clear
+f = sqrt(1 - cos(theta)^2)
+check(eval(f,sqrt(1 - cos(theta)^2),sin(theta)) == sin(theta))
+
 "ok"
 </textarea>
 </td><td>

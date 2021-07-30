@@ -137,6 +137,7 @@ void cons(void);
 int find(struct atom *p, struct atom *q);
 void list(int n);
 void subst(void);
+void subst_nib(void);
 int length(struct atom *p);
 int complexity(struct atom *p);
 int equal(struct atom *p1, struct atom *p2);
