@@ -19,6 +19,15 @@ eval_testeq(p1)
 		return;
 	}
 
+	// for trivial equality
+
+	if (equal(p1, p2)) {
+		push_integer(1);
+		return;
+	}
+
+	// otherwise use simplify
+
 	if (!istensor(p1) && !istensor(p2)) {
 		push(p1);
 		push(p2);
