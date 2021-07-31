@@ -65,14 +65,14 @@ eval_testeq(void)
 		return;
 	}
 
-	// for trivial equality
+	// optimize for trivial equality
 
 	if (equal(p1, p2)) {
 		push_integer(1);
 		return;
 	}
 
-	// otherwise use simplify
+	// otherwise use subtract and simplify
 
 	if (!istensor(p1) && !istensor(p2)) {
 		push(p1);
