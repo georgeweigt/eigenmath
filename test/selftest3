@@ -981,15 +981,6 @@ check(d(integral(f)) == f)
 f = cos(a x)^4 sin(a x)
 check(d(integral(f)) == f)
 
-f = cos(a x)^6
-check(d(integral(f)) == f)
-
-f = cos(a x)^6 / sin(a x)
-check(d(integral(f)) == f)
-
-f = cos(a x)^4 / sin(a x)
-check(d(integral(f)) == f)
-
 f = cos(a x)^7 / sin(a x)^2
 check(d(integral(f)) == f)
 
@@ -1007,6 +998,9 @@ check(d(integral(f)) == f)
 f = sin(a x)^5
 check(d(integral(f)) == f)
 
+f = sin(a x)^6
+check(d(integral(f)) == f)
+
 -- cos(a x)^n
 
 f = cos(a x)^2
@@ -1019,6 +1013,20 @@ f = cos(a x)^4
 check(d(integral(f)) == f)
 
 f = cos(a x)^5
+check(d(integral(f)) == f)
+
+f = cos(a x)^6
+check(d(integral(f)) == f)
+
+-- cos(a x)^n / sin(a x)
+
+f = cos(a x)^2 / sin(a x)
+check(d(integral(f)) == f)
+
+f = cos(a x)^4 / sin(a x)
+check(d(integral(f)) == f)
+
+f = cos(a x)^6 / sin(a x)
 check(d(integral(f)) == f)
 
 clear
