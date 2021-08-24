@@ -248,29 +248,43 @@ char *integral_tab_trig[] = {
 	"-log(cos(a x)) / a",
 	"1",
 
+// sin(a x)^n
+
 	"sin(a x)^2",
-	"x 1/2 - sin(2 a x) / (4 a)",
+	"-sin(2 a x) / (4 a) + 1/2 x",
 	"1",
 
 	"sin(a x)^3",
-	"-cos(a x) (sin(a x)^2 + 2) / (3 a)",
+	"-2 cos(a x) / (3 a) - cos(a x) sin(a x)^2 / (3 a)",
 	"1",
 
 	"sin(a x)^4",
-	"3/8 x - sin(2 a x) / (4 a) + sin(4 a x) / (32 a)",
+	"-sin(2 a x) / (4 a) + sin(4 a x) / (32 a) + 3/8 x",
 	"1",
 
+	"sin(a x)^5",
+	"-cos(a x)^5 / (5 a) + 2 cos(a x)^3 / (3 a) - cos(a x) / a",
+	"1",
+
+// cos(a x)^n
+
 	"cos(a x)^2",
-	"x 1/2 + sin(2 a x) / (4 a)",
+	"sin(2 a x) / (4 a) + 1/2 x",
 	"1",
 
 	"cos(a x)^3",
-	"sin(a x) (cos(a x)^2 + 2) / (3 a)",
+	"cos(a x)^2 sin(a x) / (3 a) + 2 sin(a x) / (3 a)",
 	"1",
 
 	"cos(a x)^4",
-	"3/8 x + sin(2 a x) / (4 a) + sin(4 a x) / (32 a)",
+	"sin(2 a x) / (4 a) + sin(4 a x) / (32 a) + 3/8 x",
 	"1",
+
+	"cos(a x)^5",
+	"sin(a x)^5 / (5 a) - 2 sin(a x)^3 / (3 a) + sin(a x) / a",
+	"1",
+
+//
 
 	"sin(a x) cos(a x)",
 	"1/2 sin(a x)^2 / a",
@@ -478,6 +492,10 @@ char *integral_tab_trig[] = {
 
 	"cos(a x)^4 / sin(a x)",
 	"cos(a x)^3 / (3 a) + cos(a x) / a + log(-cos(a x) + 1) / (2 a) - log(cos(a x) + 1) / (2 a)",
+	"1",
+
+	"cos(a x)^7 / sin(a x)^2",
+	"-sin(a x)^5 / (5 a) + sin(a x)^3 / a - 3 sin(a x) / a - 1 / (a sin(a x))",
 	"1",
 
 	NULL,
