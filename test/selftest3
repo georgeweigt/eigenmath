@@ -936,9 +936,6 @@ check(d(integral(f)) == f)
 f = sin(x) cos(x) exp(a x)
 check(d(integral(f)) == f)
 
-f = cos(a x) / (1 - cos(a x)^2)
-check(d(integral(f)) == f)
-
 f = cos(x)^3 sin(x)
 check(d(integral(f)) == f)
 
@@ -948,13 +945,7 @@ check(d(integral(f)) == f)
 f = cos(a x)^5 / sin(a x)^2
 check(d(integral(f)) == f)
 
-f = cos(a x)^5 / (1 - cos(a x)^2)
-check(d(integral(f)) == f)
-
 f = cos(a x)^3 / sin(a x)^2
-check(d(integral(f)) == f)
-
-f = cos(a x)^3 / (1 - cos(a x)^2)
 check(d(integral(f)) == f)
 
 f = cos(a x)^5 / sin(a x)
