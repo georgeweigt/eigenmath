@@ -335,16 +335,12 @@ var integral_tab_trig = [
 	"sin(a x)^2 / cos(a x)^2",
 	"tan(a x) / a - x",
 	"1",
-//
+
 	"cos(a x) / sin(a x)",
 	"log(sin(a x)) / a",
 	"1",
 
 	"cos(a x) / sin(a x)^2",
-	"-1 / (a sin(a x))",
-	"1",
-
-	"cos(a x) / (1 - cos(a x)^2)",
 	"-1 / (a sin(a x))",
 	"1",
 
@@ -444,15 +440,7 @@ var integral_tab_trig = [
 	"sin(a x)^3 / (3 a) - 2 sin(a x) / a - 1 / (a sin(a x))",
 	"1",
 
-	"cos(a x)^5 / (1 - cos(a x)^2)",
-	"sin(a x)^3 / (3 a) - 2 sin(a x) / a - 1 / (a sin(a x))",
-	"1",
-
 	"cos(a x)^3 / sin(a x)^2",
-	"-sin(a x) / a - 1 / (a sin(a x))",
-	"1",
-
-	"cos(a x)^3 / (1 - cos(a x)^2)",
 	"-sin(a x) / a - 1 / (a sin(a x))",
 	"1",
 
