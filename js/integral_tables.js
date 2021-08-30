@@ -140,7 +140,7 @@ var integral_tab_exp = [
 	"a sin(2 x) exp(a x) / (2 (a^2 + 4)) - cos(2 x) exp(a x) / (a^2 + 4)",
 	"a^2 + 4", // denominator not zero
 
-// erfi(x) = -i erf(i x)
+// x^n exp(a x^2 + b)
 
 	"exp(a x^2)",
 	"-1/2 i sqrt(pi) erf(i sqrt(a) x) / sqrt(a)",
@@ -173,6 +173,56 @@ var integral_tab_exp = [
 	"x^3 exp(a x^2 + b)",
 	"1/2 exp(a x^2) exp(b) (x^2 / a - 1 / a^2)",
 	"1",
+
+	"x^4 exp(a x^2)",
+	"x^3 exp(a x^2) / (2 a) - 3 x exp(a x^2) / (4 a^2) - 3 i pi^(1/2) erf(i a^(1/2) x) / (8 a^(5/2))",
+	"1",
+
+	"x^4 exp(a x^2 + b)",
+	"x^3 exp(a x^2 + b) / (2 a) - 3 x exp(a x^2 + b) / (4 a^2) - 3 i pi^(1/2) erf(i a^(1/2) x) exp(b) / (8 a^(5/2))",
+	"1",
+
+	"x^5 exp(a x^2)",
+	"x^4 exp(a x^2) / (2 a) - x^2 exp(a x^2) / a^2 + exp(a x^2) / a^3",
+	"1",
+
+	"x^5 exp(a x^2 + b)",
+	"x^4 exp(a x^2 + b) / (2 a) - x^2 exp(a x^2 + b) / a^2 + exp(a x^2 + b) / a^3",
+	"1",
+
+	"x^6 exp(a x^2)",
+	"x^5 exp(a x^2) / (2 a) - 5 x^3 exp(a x^2) / (4 a^2) + 15 x exp(a x^2) / (8 a^3) + 15 i pi^(1/2) erf(i a^(1/2) x) / (16 a^(7/2))",
+	"1",
+
+	"x^6 exp(a x^2 + b)",
+	"x^5 exp(a x^2 + b) / (2 a) - 5 x^3 exp(a x^2 + b) / (4 a^2) + 15 x exp(a x^2 + b) / (8 a^3) + 15 i pi^(1/2) erf(i a^(1/2) x) exp(b) / (16 a^(7/2))",
+	"1",
+
+	"x^7 exp(a x^2)",
+	"x^6 exp(a x^2) / (2 a) - 3 x^4 exp(a x^2) / (2 a^2) + 3 x^2 exp(a x^2) / a^3 - 3 exp(a x^2) / a^4",
+	"1",
+
+	"x^7 exp(a x^2 + b)",
+	"x^6 exp(a x^2 + b) / (2 a) - 3 x^4 exp(a x^2 + b) / (2 a^2) + 3 x^2 exp(a x^2 + b) / a^3 - 3 exp(a x^2 + b) / a^4",
+	"1",
+
+	"x^8 exp(a x^2)",
+	"x^7 exp(a x^2) / (2 a) - 7 x^5 exp(a x^2) / (4 a^2) + 35 x^3 exp(a x^2) / (8 a^3) - 105 x exp(a x^2) / (16 a^4) - 105 i pi^(1/2) erf(i a^(1/2) x) / (32 a^(9/2))",
+	"1",
+
+	"x^8 exp(a x^2 + b)",
+	"x^7 exp(a x^2 + b) / (2 a) - 7 x^5 exp(a x^2 + b) / (4 a^2) + 35 x^3 exp(a x^2 + b) / (8 a^3) - 105 x exp(a x^2 + b) / (16 a^4) - 105 i pi^(1/2) erf(i a^(1/2) x) exp(b) / (32 a^(9/2))",
+	"1",
+
+	"x^9 exp(a x^2)",
+	"x^8 exp(a x^2) / (2 a) - 2 x^6 exp(a x^2) / a^2 + 6 x^4 exp(a x^2) / a^3 - 12 x^2 exp(a x^2) / a^4 + 12 exp(a x^2) / a^5",
+	"1",
+
+	"x^9 exp(a x^2 + b)",
+	"x^8 exp(a x^2 + b) / (2 a) - 2 x^6 exp(a x^2 + b) / a^2 + 6 x^4 exp(a x^2 + b) / a^3 - 12 x^2 exp(a x^2 + b) / a^4 + 12 exp(a x^2 + b) / a^5",
+	"1",
+
+//
 
 	"x exp(a x + b x)",
 	"exp(a x + b x) (a x + b x + 1) / (a + b)^2",
