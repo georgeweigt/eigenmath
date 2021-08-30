@@ -1,6 +1,6 @@
 #include "defs.h"
 
-#define CLIP 120 // max width of display
+#define CLIP 1000 // max width of display
 
 #define TABLE_HSPACE 3
 #define TABLE_VSPACE 1
