@@ -1040,6 +1040,17 @@ check(d(integral(f)) == f)
 f = x^10 exp(a x + b)
 check(d(integral(f)) == f)
 
+f = x^11 exp(a x)
+check(d(integral(f)) == f)
+f = x^11 exp(x)
+check(d(integral(f)) == f)
+f = x^11 exp(-x)
+check(d(integral(f)) == f)
+f = x^11 exp(-a x)
+check(d(integral(f)) == f)
+f = x^11 exp(a x + b)
+check(d(integral(f)) == f)
+
 -- x^n exp(a x^2 + b)
 
 f = x^0 exp(a x^2)
