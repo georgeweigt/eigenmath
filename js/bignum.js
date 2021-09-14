@@ -367,7 +367,7 @@ bignum_eq(u, v)
 	return 1;
 }
 
-// returns nil if not perfect root, otherwise returns u^(1/n)
+// returns null if not perfect root, otherwise returns u^(1/n)
 
 function
 bignum_root(u, n)
@@ -375,12 +375,12 @@ bignum_root(u, n)
 	var i, j, k, m, r = [], t = [];
 
 	if (n.length > 1)
-		return null; // n must be less 24 bits or less
+		return null; // n must be 24 bits or less
 
 	if (n[0] == 0)
 		return null; // divide by zero
 
-	// k is bit length of a
+	// k is bit length of u
 
 	k = 24 * (u.length - 1);
 
@@ -406,9 +406,9 @@ bignum_root(u, n)
 	while (k >= 0) {
 
 		i = Math.floor(k / 24);
-		j = 2 << (k % 24);
+		m = 2 << (k % 24);
 
-		r[i] |= j;
+		r[i] |= m; // set bit
 
 		bignum_norm(r);
 
@@ -420,7 +420,7 @@ bignum_root(u, n)
 		case 0:
 			return r;
 		case 1:
-			r[i] ^= j;
+			r[i] ^= m; // clear bit
 			break;
 		}
 
