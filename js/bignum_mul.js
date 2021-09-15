@@ -1,7 +1,7 @@
 function
 bignum_mul(u, v)
 {
-	var i, j, nu, nv, nw, t, w = [];
+	var i, j, nu, nv, t, w = [];
 
 	nu = u.length;
 	nv = v.length;
@@ -15,9 +15,7 @@ bignum_mul(u, v)
 		return w;
 	}
 
-	nw = nu + nv;
-
-	for (i = 0; i < nw; i++)
+	for (i = 0; i < nu; i++)
 		w[i] = 0;
 
 	for (j = 0; j < nv; j++) {
