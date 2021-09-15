@@ -127,7 +127,7 @@ bignum_mul(u, v)
 			w[i + j] = t & 0xffffff;
 			t >>= 24;
 		}
-		w[i + j] = t & 0xffffff;
+		w[i + j] = t;
 	}
 
 	bignum_norm(w);
@@ -149,7 +149,7 @@ bignum_div(u, v)
 		stopf("divide by zero");
 
 	if (nu == 1 && nv == 1) {
-		q[0] = (u[0] / v[0]) & 0xffffff;
+		q[0] = Math.floor(u[0] / v[0]);
 		return q;
 	}
 
@@ -160,37 +160,53 @@ bignum_div(u, v)
 		return q; // u < v, return zero
 	}
 
+	for (i = 0; i <= k; i++)
+		q[i] = 0;
+
 	u = bignum_copy(u);
 
 	b = v[nv - 1];
 
 	do {
-		q[k] = 0;
 		while (nu >= nv + k) {
+
 			// estimate partial quotient
+
 			a = u[nu - 1];
+
 			if (nu > nv + k)
-				a = (a << 24) | u[nu - 2];
+				a = (a << 24) + u[nu - 2];
+
 			if (a < b)
 				break;
-			qhat = (a / (b + 1)) & 0xffffff; // mask to truncate
+
+			qhat = Math.floor(a / (b + 1)) & 0xffffff;
+
 			if (qhat == 0)
 				qhat = 1;
+
 			// w = qhat * v
+
 			t = 0;
+
 			for (i = 0; i < nv; i++) {
 				t += qhat * v[i];
 				w[i] = t & 0xffffff;
 				t >>= 24;
 			}
-			w[nv] = t & 0xffffff;
+
+			w[nv] = t;
+
 			// u = u - w
+
 			t = 0;
+
 			for (i = k; i < nu; i++) {
 				t += u[i] - w[i - k];
 				u[i] = Math.abs(t) & 0xffffff;
 				t >>= 24;
 			}
+
 			if (t != 0) {
 				// u is negative, restore u and break
 				t = 0;
@@ -201,13 +217,16 @@ bignum_div(u, v)
 				}
 				break;
 			}
-			q[k] += qhat;
+
 			bignum_norm(u);
 			nu = u.length;
+
+			q[k] += qhat;
 		}
+
 	} while (--k >= 0);
 
-	q = bignum_norm(q);
+	bignum_norm(q);
 
 	return q;
 }
@@ -225,6 +244,11 @@ bignum_mod(u, v)
 	if (nv == 1 && v[0] == 0)
 		stopf("divide by zero"); // v = 0
 
+	if (nu == 1 && nv == 1) {
+		w[0] = u[0] % v[0];
+		return w;
+	}
+
 	u = bignum_copy(u);
 
 	k = nu - nv;
@@ -236,30 +260,44 @@ bignum_mod(u, v)
 
 	do {
 		while (nu >= nv + k) {
+
 			// estimate partial quotient
+
 			a = u[nu - 1];
+
 			if (nu > nv + k)
 				a = (a << 24) + u[nu - 2];
+
 			if (a < b)
 				break;
-			qhat = (a / (b + 1)) & 0xffffff; // mask to truncate
+
+			qhat = Math.floor(a / (b + 1)) & 0xffffff;
+
 			if (qhat == 0)
 				qhat = 1;
+
 			// w = qhat * v
+
 			t = 0;
+
 			for (i = 0; i < nv; i++) {
 				t += qhat * v[i];
 				w[i] = t & 0xffffff;
 				t >>= 24;
 			}
-			w[nv] = t & 0xffffff;
+
+			w[nv] = t;
+
 			// u = u - w
+
 			t = 0;
+
 			for (i = k; i < nu; i++) {
 				t += u[i] - w[i - k];
 				u[i] = Math.abs(t) & 0xffffff;
 				t >>= 24;
 			}
+
 			if (t != 0) {
 				// u is negative, restore u and break
 				t = 0;
@@ -270,9 +308,11 @@ bignum_mod(u, v)
 				}
 				break;
 			}
-			u = bignum_norm(u);
+
+			bignum_norm(u);
 			nu = u.length;
 		}
+
 	} while (--k >= 0);
 
 	return u;
@@ -285,17 +325,20 @@ bignum_pow(u, v)
 {
 	var w = [];
 
-	u = bignum_copy(u);
 	v = bignum_copy(v);
 
 	w[0] = 1;
 
 	for (;;) {
+
 		if (v[0] & 1)
 			w = bignum_mul(w, u);
+
 		bignum_shr(v);
+
 		if (v.length == 1 && v[0] == 0)
-			break;
+			break; // v = 0
+
 		u = bignum_mul(u, u);
 	}
 
@@ -330,7 +373,6 @@ bignum_gcd(u, v)
 
 	return bignum_copy(u);
 }
-
 
 // compare u and v
 
