@@ -10,7 +10,7 @@ bignum_scan(s)
 		return u;
 	}
 
-	m = bignum_int(BIGNUM);
+	m = bignum_int(10000000); // 10^7
 	t = bignum_int(0);
 
 	n = s.length % 7;
