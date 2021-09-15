@@ -3,21 +3,21 @@
 function
 bignum_scan(s)
 {
-	var m, n, t, u;
-
-	u = bignum_int(0);
+	var m, n, t, u = [];
 
 	if (s.length <= 7) {
 		u[0] = Number(s);
 		return u;
 	}
 
-	m = bignum_int(10000000);
+	m = bignum_int(BIGNUM);
 	t = bignum_int(0);
 
 	n = s.length % 7;
 
-	if (n) {
+	if (n == 0)
+		u[0] = 0;
+	else {
 		u[0] = Number(s.substring(0, n));
 		s = s.substring(n);
 	}
