@@ -8,8 +8,11 @@ bignum_add(u, v)
 
 	if (nu == 1 && nv == 1) {
 		w[0] = u[0] + v[0];
-		if (w[0] < BIGM)
-			return w;
+		if (w[0] >= BIGM) {
+			w[0] -= BIGM;
+			w[1] = 1;
+		}
+		return w;
 	}
 
 	if (nu > nv)

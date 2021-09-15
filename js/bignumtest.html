@@ -11,21 +11,102 @@
 <script src="bignum_str.js"></script>
 
 <script>
+var stdout;
+
 function
 run()
 {
-	var d, n, r, s, stdout;
-
         stdout = document.getElementById("stdout");
 	stdout.innerHTML = "";
 
-	stdout.innerHTML += "hello, world<br>";
+	test_bignum_add();
+	test_bignum_sub();
 
-	n = bignum_scan("4294967296");
+	printline("ok");
+}
 
-	s = bignum_str(n);
+function
+test_bignum_add()
+{
+	var a, b, s, u, v, w;
 
-	stdout.innerHTML += "result " + s + " " + (s == "4294967296") + "<br>";
+	printline("Testing bignum_add");
+
+	for (i = 0; i < 10000; i++) {
+		a = Math.floor(Math.random() * BIGM);
+		b = Math.floor(Math.random() * BIGM);
+		u = bignum_scan(String(a));
+		v = bignum_scan(String(b));
+		w = bignum_add(u, v);
+		s = bignum_str(w);
+		if (a + b != Number(s)) {
+			printline("fail");
+			break;
+		}
+	}
+
+	for (i = 0; i < 10000; i++) {
+		a = Math.floor(Math.random() * 100 * BIGM);
+		b = Math.floor(Math.random() * 100 * BIGM);
+		u = bignum_scan(String(a));
+		v = bignum_scan(String(b));
+		w = bignum_add(u, v);
+		s = bignum_str(w);
+		if (a + b != Number(s)) {
+			printline("fail");
+			break;
+		}
+	}
+}
+
+function
+test_bignum_sub()
+{
+	var a, b, s, t, u, v, w;
+
+	printline("Testing bignum_sub");
+
+	for (i = 0; i < 10000; i++) {
+		a = Math.floor(Math.random() * BIGM);
+		b = Math.floor(Math.random() * BIGM);
+		if (a < b) {
+			t = a;
+			a = b;
+			b = t;
+		}
+		u = bignum_scan(String(a));
+		v = bignum_scan(String(b));
+		w = bignum_sub(u, v);
+		s = bignum_str(w);
+		if (a - b != Number(s)) {
+			printline("fail");
+			break;
+		}
+	}
+
+	for (i = 0; i < 10000; i++) {
+		a = Math.floor(Math.random() * 100 * BIGM);
+		b = Math.floor(Math.random() * 100 * BIGM);
+		if (a < b) {
+			t = a;
+			a = b;
+			b = t;
+		}
+		u = bignum_scan(String(a));
+		v = bignum_scan(String(b));
+		w = bignum_sub(u, v);
+		s = bignum_str(w);
+		if (a - b != Number(s)) {
+			printline("fail");
+			break;
+		}
+	}
+}
+
+function
+printline(s)
+{
+	stdout.innerHTML += s + "<br>";
 }
 </script>
 

@@ -8,8 +8,11 @@ bignum_mul(u, v)
 
 	if (nu == 1 && nv == 1) {
 		w[0] = u[0] * v[0];
-		if (w[0] < BIGM)
-			return w;
+		if (w[0] >= BIGM) {
+			w[1] = Math.floor(w[0] / BIGM);
+			w[0] %= BIGM;
+		}
+		return w;
 	}
 
 	for (i = 0; i < nu; i++)

@@ -10,8 +10,7 @@ bignum_sub(u, v)
 
 	if (nu == 1 && nv == 1) {
 		w[0] = u[0] - v[0];
-		if (w[0] < BIGM)
-			return w;
+		return w;
 	}
 
 	if (nu > nv)
