@@ -35,8 +35,8 @@ test_bignum_add()
 	printline("Testing bignum_add");
 
 	for (i = 0; i < 10000; i++) {
-		a = Math.floor(Math.random() * 10 * BIGM);
-		b = Math.floor(Math.random() * 10 * BIGM);
+		a = Math.floor(Math.random() * 16 * BIGM);
+		b = Math.floor(Math.random() * 16 * BIGM);
 		u = bignum_scan(String(a));
 		v = bignum_scan(String(b));
 		w = bignum_add(u, v);
@@ -54,8 +54,8 @@ test_bignum_sub()
 	printline("Testing bignum_sub");
 
 	for (i = 0; i < 10000; i++) {
-		a = Math.floor(Math.random() * 10 * BIGM);
-		b = Math.floor(Math.random() * 10 * BIGM);
+		a = Math.floor(Math.random() * 16 * BIGM);
+		b = Math.floor(Math.random() * 16 * BIGM);
 		if (a < b) {
 			t = a;
 			a = b;
@@ -78,8 +78,8 @@ test_bignum_mul()
 	printline("Testing bignum_mul");
 
 	for (i = 0; i < 10000; i++) {
-		a = Math.floor(Math.random() * BIGM);
-		b = Math.floor(Math.random() * BIGM);
+		a = Math.floor(Math.random() * 16 * BIGM);
+		b = Math.floor(Math.random() * BIGM / 16);
 		u = bignum_scan(String(a));
 		v = bignum_scan(String(b));
 		w = bignum_sub(u, v);
@@ -97,8 +97,8 @@ test_bignum_div()
 	printline("Testing bignum_div");
 
 	for (i = 0; i < 10000; i++) {
-		a = Math.floor(Math.random() * 10 * BIGM);
-		b = Math.floor(Math.random() * 10 * BIGM);
+		a = Math.floor(Math.random() * 16 * BIGM);
+		b = Math.floor(Math.random() * BIGM / 16);
 		u = bignum_scan(String(a));
 		v = bignum_scan(String(b));
 		w = bignum_div(u, v);
@@ -116,8 +116,8 @@ test_bignum_mod()
 	printline("Testing bignum_mod");
 
 	for (i = 0; i < 10000; i++) {
-		a = Math.floor(Math.random() * 10 * BIGM);
-		b = Math.floor(Math.random() * 10 * BIGM);
+		a = Math.floor(Math.random() * 16 * BIGM);
+		b = Math.floor(Math.random() * BIGM / 16);
 		u = bignum_scan(String(a));
 		v = bignum_scan(String(b));
 		w = bignum_mod(u, v);
