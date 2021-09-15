@@ -3,9 +3,7 @@
 function
 bignum_sub(u, v)
 {
-	var i, nu, nv, nw, t, w;
-
-	w = bignum_int(0);
+	var i, nu, nv, nw, t, w = [];
 
 	nu = u.length;
 	nv = v.length;
