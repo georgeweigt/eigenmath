@@ -11,6 +11,7 @@
 <script src="bignum_str.js"></script>
 
 <script>
+
 var stdout;
 
 function
@@ -21,6 +22,9 @@ run()
 
 	test_bignum_add();
 	test_bignum_sub();
+	test_bignum_mul();
+	test_bignum_div();
+	test_bignum_mod();
 
 	printline("ok");
 }
@@ -28,32 +32,17 @@ run()
 function
 test_bignum_add()
 {
-	var a, b, s, u, v, w;
-
 	printline("Testing bignum_add");
 
 	for (i = 0; i < 10000; i++) {
-		a = Math.floor(Math.random() * BIGM);
-		b = Math.floor(Math.random() * BIGM);
+		a = Math.floor(Math.random() * 10 * BIGM);
+		b = Math.floor(Math.random() * 10 * BIGM);
 		u = bignum_scan(String(a));
 		v = bignum_scan(String(b));
 		w = bignum_add(u, v);
 		s = bignum_str(w);
 		if (a + b != Number(s)) {
-			printline("fail");
-			break;
-		}
-	}
-
-	for (i = 0; i < 10000; i++) {
-		a = Math.floor(Math.random() * 100 * BIGM);
-		b = Math.floor(Math.random() * 100 * BIGM);
-		u = bignum_scan(String(a));
-		v = bignum_scan(String(b));
-		w = bignum_add(u, v);
-		s = bignum_str(w);
-		if (a + b != Number(s)) {
-			printline("fail");
+			printline("fail a " + a + " b " + b + " s " + s);
 			break;
 		}
 	}
@@ -62,42 +51,79 @@ test_bignum_add()
 function
 test_bignum_sub()
 {
-	var a, b, s, t, u, v, w;
-
 	printline("Testing bignum_sub");
+
+	for (i = 0; i < 10000; i++) {
+		a = Math.floor(Math.random() * 10 * BIGM);
+		b = Math.floor(Math.random() * 10 * BIGM);
+		if (a < b) {
+			t = a;
+			a = b;
+			b = t;
+		}
+		u = bignum_scan(String(a));
+		v = bignum_scan(String(b));
+		w = bignum_sub(u, v);
+		s = bignum_str(w);
+		if (a - b != Number(s)) {
+			printline("fail a " + a + " b " + b + " s " + s);
+			break;
+		}
+	}
+}
+
+function
+test_bignum_mul()
+{
+	printline("Testing bignum_mul");
 
 	for (i = 0; i < 10000; i++) {
 		a = Math.floor(Math.random() * BIGM);
 		b = Math.floor(Math.random() * BIGM);
-		if (a < b) {
-			t = a;
-			a = b;
-			b = t;
-		}
 		u = bignum_scan(String(a));
 		v = bignum_scan(String(b));
 		w = bignum_sub(u, v);
 		s = bignum_str(w);
 		if (a - b != Number(s)) {
-			printline("fail");
+			printline("fail a " + a + " b " + b + " s " + s);
 			break;
 		}
 	}
+}
+
+function
+test_bignum_div()
+{
+	printline("Testing bignum_div");
 
 	for (i = 0; i < 10000; i++) {
-		a = Math.floor(Math.random() * 100 * BIGM);
-		b = Math.floor(Math.random() * 100 * BIGM);
-		if (a < b) {
-			t = a;
-			a = b;
-			b = t;
-		}
+		a = Math.floor(Math.random() * 10 * BIGM);
+		b = Math.floor(Math.random() * 10 * BIGM);
 		u = bignum_scan(String(a));
 		v = bignum_scan(String(b));
-		w = bignum_sub(u, v);
+		w = bignum_div(u, v);
 		s = bignum_str(w);
-		if (a - b != Number(s)) {
-			printline("fail");
+		if (Math.floor(a / b) != Number(s)) {
+			printline("fail a " + a + " b " + b + " s " + s);
+			break;
+		}
+	}
+}
+
+function
+test_bignum_mod()
+{
+	printline("Testing bignum_mod");
+
+	for (i = 0; i < 10000; i++) {
+		a = Math.floor(Math.random() * 10 * BIGM);
+		b = Math.floor(Math.random() * 10 * BIGM);
+		u = bignum_scan(String(a));
+		v = bignum_scan(String(b));
+		w = bignum_mod(u, v);
+		s = bignum_str(w);
+		if (a % b != Number(s)) {
+			printline("fail a " + a + " b " + b + " s " + s);
 			break;
 		}
 	}
