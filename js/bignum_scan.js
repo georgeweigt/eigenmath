@@ -3,7 +3,9 @@
 function
 bignum_scan(s)
 {
-	var m, n, t, u = [];
+	var m, n, t, u;
+
+	u = bignum_int(0);
 
 	if (s.length <= 7) {
 		u[0] = Number(s);

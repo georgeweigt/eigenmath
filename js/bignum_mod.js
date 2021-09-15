@@ -3,13 +3,15 @@
 function
 bignum_mod(u, v)
 {
-	var a, b, i, k, nu, nv, qhat, t, w = [];
+	var a, b, i, k, nu, nv, qhat, t, w;
 
 	nu = u.length;
 	nv = v.length;
 
 	if (nv == 1 && v[0] == 0)
 		stopf("divide by zero"); // v = 0
+
+	w = bignum_int(0);
 
 	if (nu == 1 && nv == 1) {
 		w[0] = u[0] % v[0];

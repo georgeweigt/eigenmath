@@ -20,11 +20,11 @@ const BIGM = 0x1000000;
 function
 bignum_pow(u, v)
 {
-	var w = [];
+	var w;
 
 	v = bignum_copy(v);
 
-	w[0] = 1;
+	w = bignum_int(1);
 
 	for (;;) {
 
@@ -111,7 +111,7 @@ bignum_eq(u, v)
 function
 bignum_root(u, n)
 {
-	var i, j, k, m, r = [], t = [];
+	var i, j, k, m, r, t;
 
 	if (n.length > 1)
 		return null; // n must be 24 bits or less
@@ -138,6 +138,8 @@ bignum_root(u, n)
 	k = (k - 1) / n[0];
 
 	j = Math.floor(k / 24) + 1; // k is bit index, not number of bits
+
+	r = bignum_int(0);
 
 	for (i = 0; i < j; i++)
 		r[i] = 0;

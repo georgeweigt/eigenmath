@@ -1,7 +1,9 @@
 function
 bignum_add(u, v)
 {
-	var i, nu, nv, nw, t, w = [];
+	var i, nu, nv, nw, t, w;
+
+	w = bignum_int(0);
 
 	nu = u.length;
 	nv = v.length;
