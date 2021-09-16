@@ -6,7 +6,7 @@ bignum_root(u, v)
 	var i, j, k, m, r, t;
 
 	if (v.length > 1)
-		return null; // n must be 24 bits or less
+		return null; // v must be 24 bits or less
 
 	if (v[0] == 0)
 		return null; // divide by zero
@@ -18,7 +18,7 @@ bignum_root(u, v)
 	m = u[u.length - 1];
 
 	while (m) {
-		m >>= 1;
+		m = Math.floor(m / 2);
 		k++;
 	}
 
@@ -27,7 +27,7 @@ bignum_root(u, v)
 
 	// initial guess of index of ms bit in result
 
-	k = (k - 1) / v[0];
+	k = Math.floor((k - 1) / v[0]);
 
 	j = Math.floor(k / 24) + 1; // k is bit index, not number of bits
 

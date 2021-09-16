@@ -8,6 +8,8 @@
 <script src="bignum_div.js"></script>
 <script src="bignum_mod.js"></script>
 <script src="bignum_pow.js"></script>
+<script src="bignum_root.js"></script>
+<script src="bignum_cmp.js"></script>
 <script src="bignum_scan.js"></script>
 <script src="bignum_str.js"></script>
 
@@ -27,6 +29,7 @@ run()
 	test_bignum_div();
 	test_bignum_mod();
 	test_bignum_pow();
+	test_bignum_root();
 
 	printline("ok");
 }
@@ -148,6 +151,29 @@ test_bignum_pow()
 			break;
 		}
 	}
+}
+
+function
+test_bignum_root()
+{
+	printline("Testing bignum_root");
+
+	for (a = 0; a < 13; a++)
+		for (b = 1; b < 13; b++) {
+			u = bignum_scan(String(a));
+			v = bignum_scan(String(b));
+			w = bignum_pow(u, v);
+			w = bignum_root(w, v);
+			if (w == null) {
+				printline("fail a=" + a + " b=" + b);
+				break;
+			}
+			s = bignum_str(w);
+			if (a != Number(s)) {
+				printline("fail a=" + a + " b=" + b + " s=" + s);
+				break;
+			}
+		}
 }
 
 function
