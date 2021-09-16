@@ -1,7 +1,5 @@
-/* exported bignum_scan */
-
 function
-bignum_scan(s)
+bignum_atoi(s)
 {
 	var m, n, t, u;
 

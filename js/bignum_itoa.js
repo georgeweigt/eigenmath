@@ -1,7 +1,5 @@
-/* exported bignum_str */
-
 function
-bignum_str(u)
+bignum_itoa(u)
 {
 	var d, r, s;
 

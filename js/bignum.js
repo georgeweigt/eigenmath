@@ -11,6 +11,8 @@
 /* exported bignum_int */
 /* exported bignum_copy */
 /* exported bignum_norm */
+/* exported bignum_atoi */
+/* exported bignum_itoa */
 
 const BIGM = 0x1000000; // 24 bits
 
