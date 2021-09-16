@@ -47,8 +47,8 @@ test_bignum_add()
 		w = bignum_add(u, v);
 		s = bignum_str(w);
 		if (a + b != Number(s)) {
-			printline("fail a " + a + " b " + b + " s " + s);
-			break;
+			fail(a, b, s);
+			return;
 		}
 	}
 }
@@ -71,8 +71,8 @@ test_bignum_sub()
 		w = bignum_sub(u, v);
 		s = bignum_str(w);
 		if (a - b != Number(s)) {
-			printline("fail a " + a + " b " + b + " s " + s);
-			break;
+			fail(a, b, s);
+			return;
 		}
 	}
 }
@@ -87,11 +87,11 @@ test_bignum_mul()
 		b = Math.floor(Math.random() * BIGM / 16);
 		u = bignum_scan(String(a));
 		v = bignum_scan(String(b));
-		w = bignum_sub(u, v);
+		w = bignum_mul(u, v);
 		s = bignum_str(w);
-		if (a - b != Number(s)) {
-			printline("fail a " + a + " b " + b + " s " + s);
-			break;
+		if (a * b != Number(s)) {
+			fail(a, b, s);
+			return;
 		}
 	}
 }
@@ -109,8 +109,8 @@ test_bignum_div()
 		w = bignum_div(u, v);
 		s = bignum_str(w);
 		if (Math.floor(a / b) != Number(s)) {
-			printline("fail a " + a + " b " + b + " s " + s);
-			break;
+			fail(a, b, s);
+			return;
 		}
 	}
 }
@@ -128,8 +128,8 @@ test_bignum_mod()
 		w = bignum_mod(u, v);
 		s = bignum_str(w);
 		if (a % b != Number(s)) {
-			printline("fail a " + a + " b " + b + " s " + s);
-			break;
+			fail(a, b, s);
+			return;
 		}
 	}
 }
@@ -146,7 +146,7 @@ test_bignum_pow()
 			w = bignum_pow(u, v);
 			s = bignum_str(w);
 			if (Math.pow(a, b) != Number(s)) {
-				printline("fail");
+				fail(a, b, s);
 				return;
 			}
 		}
@@ -156,21 +156,21 @@ test_bignum_pow()
 	w = bignum_pow(u, v);
 	s = bignum_str(w);
 	if (Number(s) != 281474976710656)
-		printline("fail");
+		printline("fail 2^48");
 
 	u = bignum_scan("3");
 	v = bignum_scan("30");
 	w = bignum_pow(u, v);
 	s = bignum_str(w);
 	if (Number(s) != 205891132094649)
-		printline("fail");
+		printline("fail 3^30");
 
 	u = bignum_scan("5");
 	v = bignum_scan("20");
 	w = bignum_pow(u, v);
 	s = bignum_str(w);
 	if (Number(s) != 95367431640625)
-		printline("fail");
+		printline("fail 5^20");
 }
 
 function
@@ -185,12 +185,12 @@ test_bignum_root()
 			w = bignum_pow(u, v);
 			w = bignum_root(w, v);
 			if (w == null) {
-				printline("fail a=" + a + " b=" + b);
+				fail(a, b, "?");
 				return;
 			}
 			s = bignum_str(w);
 			if (a != Number(s)) {
-				printline("fail a=" + a + " b=" + b + " s=" + s);
+				fail(a, b, s);
 				return;
 			}
 		}
@@ -215,6 +215,12 @@ test_bignum_root()
 	s = bignum_str(w);
 	if (Number(s) != 5)
 		printline("fail 5^20");
+}
+
+function
+fail(a, b, s)
+{
+	printline("fail " + a + " " + b + " " + s);
 }
 
 function

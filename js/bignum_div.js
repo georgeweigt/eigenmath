@@ -3,7 +3,7 @@
 function
 bignum_div(u, v)
 {
-	var a, b, i, k, nu, nv, q = [], qhat, t, w;
+	var a, b, i, k, nu, nv, q, qhat, t, w;
 
 	nu = u.length;
 	nv = v.length;
@@ -11,28 +11,24 @@ bignum_div(u, v)
 	if (nv == 1 && v[0] == 0)
 		stopf("divide by zero");
 
-	if (nu == 1 && nv == 1) {
-		q[0] = Math.floor(u[0] / v[0]);
-		return q;
-	}
+	if (nu == 1 && nv == 1)
+		return bignum_int(Math.floor(u[0] / v[0]));
 
 	k = nu - nv;
 
-	if (k < 0) {
-		q[0] = 0;
-		return q; // u < v, return zero
-	}
-
-	for (i = 0; i <= k; i++)
-		q[i] = 0;
+	if (k < 0)
+		return bignum_int(0); // u < v
 
 	u = bignum_copy(u);
 
 	b = v[nv - 1];
 
+	q = [];
 	w = [];
 
 	do {
+		q[k] = 0;
+
 		while (nu >= nv + k) {
 
 			// estimate partial quotient

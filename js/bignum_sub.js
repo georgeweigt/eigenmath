@@ -8,11 +8,6 @@ bignum_sub(u, v)
 	nu = u.length;
 	nv = v.length;
 
-	if (nu == 1 && nv == 1) {
-		w[0] = u[0] - v[0];
-		return w;
-	}
-
 	if (nu > nv)
 		nw = nu;
 	else

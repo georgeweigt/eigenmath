@@ -3,18 +3,16 @@
 function
 bignum_mod(u, v)
 {
-	var a, b, i, k, nu, nv, qhat, t, w = [];
+	var a, b, i, k, nu, nv, qhat, t, w;
 
 	nu = u.length;
 	nv = v.length;
 
 	if (nv == 1 && v[0] == 0)
-		stopf("divide by zero"); // v = 0
+		stopf("divide by zero");
 
-	if (nu == 1 && nv == 1) {
-		w[0] = u[0] % v[0];
-		return w;
-	}
+	if (nu == 1 && nv == 1)
+		return bignum_int(u[0] % v[0]);
 
 	u = bignum_copy(u);
 
@@ -24,6 +22,8 @@ bignum_mod(u, v)
 		return u; // u < v
 
 	b = v[nv - 1];
+
+	w = [];
 
 	do {
 		while (nu >= nv + k) {

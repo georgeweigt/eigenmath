@@ -6,15 +6,6 @@ bignum_mul(u, v)
 	nu = u.length;
 	nv = v.length;
 
-	if (nu == 1 && nv == 1) {
-		w[0] = u[0] * v[0];
-		if (w[0] >= BIGM) {
-			w[1] = Math.floor(w[0] / BIGM);
-			w[0] %= BIGM;
-		}
-		return w;
-	}
-
 	nw = nu + nv;
 
 	for (i = 0; i < nw; i++)
