@@ -166,14 +166,35 @@ test_bignum_root()
 			w = bignum_root(w, v);
 			if (w == null) {
 				printline("fail a=" + a + " b=" + b);
-				break;
+				return;
 			}
 			s = bignum_str(w);
 			if (a != Number(s)) {
 				printline("fail a=" + a + " b=" + b + " s=" + s);
-				break;
+				return;
 			}
 		}
+
+	u = bignum_scan("281474976710656");
+	v = bignum_scan("48");
+	w = bignum_root(u, v);
+	s = bignum_str(w);
+	if (Number(s) != 2)
+		printline("fail 2^48");
+
+	u = bignum_scan("205891132094649");
+	v = bignum_scan("30");
+	w = bignum_root(u, v);
+	s = bignum_str(w);
+	if (Number(s) != 3)
+		printline("fail 3^30");
+
+	u = bignum_scan("95367431640625");
+	v = bignum_scan("20");
+	w = bignum_root(u, v);
+	s = bignum_str(w);
+	if (Number(s) != 5)
+		printline("fail 5^20");
 }
 
 function
