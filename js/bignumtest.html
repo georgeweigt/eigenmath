@@ -139,18 +139,38 @@ test_bignum_pow()
 {
 	printline("Testing bignum_pow");
 
-	for (i = 0; i < 10000; i++) {
-		a = Math.floor(Math.random() * 100); // 100^7 < 2^48
-		b = Math.floor(Math.random() * 8);
-		u = bignum_scan(String(a));
-		v = bignum_scan(String(b));
-		w = bignum_pow(u, v);
-		s = bignum_str(w);
-		if (Math.pow(a, b) != Number(s)) {
-			printline("fail a " + a + " b " + b + " s " + s);
-			break;
+	for (a = 0; a < 13; a++)
+		for (b = 0; b < 13; b++) {
+			u = bignum_scan(String(a));
+			v = bignum_scan(String(b));
+			w = bignum_pow(u, v);
+			s = bignum_str(w);
+			if (Math.pow(a, b) != Number(s)) {
+				printline("fail");
+				return;
+			}
 		}
-	}
+
+	u = bignum_scan("2");
+	v = bignum_scan("48");
+	w = bignum_pow(u, v);
+	s = bignum_str(w);
+	if (Number(s) != 281474976710656)
+		printline("fail");
+
+	u = bignum_scan("3");
+	v = bignum_scan("30");
+	w = bignum_pow(u, v);
+	s = bignum_str(w);
+	if (Number(s) != 205891132094649)
+		printline("fail");
+
+	u = bignum_scan("5");
+	v = bignum_scan("20");
+	w = bignum_pow(u, v);
+	s = bignum_str(w);
+	if (Number(s) != 95367431640625)
+		printline("fail");
 }
 
 function

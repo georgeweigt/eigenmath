@@ -8,8 +8,20 @@ bignum_pow(u, v)
 	if (v.length == 1 && v[0] == 0)
 		return bignum_int(1); // v = 0
 
+	if (u.length == 1 && u[0] == 1)
+		return bignum_int(1); // u = 1
+
 	if (u.length == 1 && u[0] == 0)
 		return bignum_int(0); // u = 0
+
+	if (v.length == 1 && v[0] == 1)
+		return bignum_copy(u); // v = 1
+
+	if (u.length == 1 && v.length == 1) {
+		w = Math.pow(u[0], v[0]);
+		if (isFinite(w) && w < BIGM)
+			return bignum_int(w);
+	}
 
 	v = bignum_copy(v);
 
