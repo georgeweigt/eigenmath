@@ -11,14 +11,6 @@ bignum_root(u, v)
 	if (v[0] == 0)
 		return null; // divide by zero
 
-	if (u.length == 1 && v.length == 1) {
-		r = Math.round(Math.pow(u[0], 1 / v[0]));
-		if (Math.pow(r, v[0]) == u[0])
-			return bignum_int(r);
-		else
-			return null;
-	}
-
 	// k is bit length of u
 
 	k = 24 * (u.length - 1);
