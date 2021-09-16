@@ -6,7 +6,7 @@ bignum_itoa(u)
 	if (u.length == 1)
 		return String(u[0]);
 
-	d = bignum_int(10000000);
+	d = bignum_int(10000000); // d = 10^7
 
 	s = "";
 
