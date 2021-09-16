@@ -1,14 +1,14 @@
-// returns null if not perfect root, otherwise returns u^(1/n)
+// returns null if not perfect root, otherwise returns u^(1/v)
 
 function
-bignum_root(u, n)
+bignum_root(u, v)
 {
 	var i, j, k, m, r, t;
 
-	if (n.length > 1)
+	if (v.length > 1)
 		return null; // n must be 24 bits or less
 
-	if (n[0] == 0)
+	if (v[0] == 0)
 		return null; // divide by zero
 
 	// k is bit length of u
@@ -27,11 +27,11 @@ bignum_root(u, n)
 
 	// initial guess of index of ms bit in result
 
-	k = (k - 1) / n[0];
+	k = (k - 1) / v[0];
 
 	j = Math.floor(k / 24) + 1; // k is bit index, not number of bits
 
-	r = bignum_int(0);
+	r = [];
 
 	for (i = 0; i < j; i++)
 		r[i] = 0;
@@ -39,13 +39,13 @@ bignum_root(u, n)
 	while (k >= 0) {
 
 		i = Math.floor(k / 24);
-		m = 2 << (k % 24);
+		m = Math.pow(2, k % 24);
 
-		r[i] |= m; // set bit
+		r[i] += m; // set bit
 
 		bignum_norm(r);
 
-		t = bignum_pow(r, n);
+		t = bignum_pow(r, v);
 
 		switch (bignum_cmp(t, u)) {
 		case -1:
@@ -53,7 +53,7 @@ bignum_root(u, n)
 		case 0:
 			return r;
 		case 1:
-			r[i] ^= m; // clear bit
+			r[i] -= m; // clear bit
 			break;
 		}
 

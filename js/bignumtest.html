@@ -7,6 +7,7 @@
 <script src="bignum_mul.js"></script>
 <script src="bignum_div.js"></script>
 <script src="bignum_mod.js"></script>
+<script src="bignum_pow.js"></script>
 <script src="bignum_scan.js"></script>
 <script src="bignum_str.js"></script>
 
@@ -25,6 +26,7 @@ run()
 	test_bignum_mul();
 	test_bignum_div();
 	test_bignum_mod();
+	test_bignum_pow();
 
 	printline("ok");
 }
@@ -123,6 +125,25 @@ test_bignum_mod()
 		w = bignum_mod(u, v);
 		s = bignum_str(w);
 		if (a % b != Number(s)) {
+			printline("fail a " + a + " b " + b + " s " + s);
+			break;
+		}
+	}
+}
+
+function
+test_bignum_pow()
+{
+	printline("Testing bignum_pow");
+
+	for (i = 0; i < 10000; i++) {
+		a = Math.floor(Math.random() * 100); // 100^7 < 2^48
+		b = Math.floor(Math.random() * 8);
+		u = bignum_scan(String(a));
+		v = bignum_scan(String(b));
+		w = bignum_pow(u, v);
+		s = bignum_str(w);
+		if (Math.pow(a, b) != Number(s)) {
 			printline("fail a " + a + " b " + b + " s " + s);
 			break;
 		}
