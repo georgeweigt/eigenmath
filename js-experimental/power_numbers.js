@@ -27,6 +27,11 @@ power_numbers(BASE, EXPO)
 		return;
 	}
 
+	if (isdouble(BASE) || isdouble(EXPO)) {
+		power_double(BASE, EXPO);
+		return;
+	}
+
 	if (isrational(BASE) && isinteger(EXPO)) {
 		a = bignum_pow(BASE.a, EXPO.a);
 		b = bignum_pow(BASE.b, EXPO.a);
@@ -43,15 +48,6 @@ power_numbers(BASE, EXPO)
 		return;
 	}
 
-	if (isdouble(BASE) && isinteger(EXPO)) {
-		push(BASE);
-		a = pop_double();
-		push(EXPO);
-		b = pop_double();
-		push_double(Math.pow(a, b);
-		return;
-	}
-
 	if (isminusone(BASE)) {
 		power_minusone(EXPO);
 		return;
@@ -62,38 +58,12 @@ power_numbers(BASE, EXPO)
 		push(BASE);
 		negate();
 		BASE = pop();
-		power_numbers_nib(BASE, EXPO);
+		power_rationals(BASE, EXPO);
 		multiply();
 		return;
 	}
 
-	power_numbers_nib(BASE, EXPO);
-}
-
-// BASE is nonnegative
-
-function
-power_numbers_nib(BASE, EXPO)
-{
-	var d;
-
-	if (isrational(BASE) && isrational(EXPO)) {
-		power_rationals(BASE, EXPO);
-		return;
-	}
-
-	push(BASE);
-	BASE = pop_double();
-
-	push(EXPO);
-	EXPO = pop_double();
-
-	d = Math.pow(BASE, EXPO);
-
-	if (!isFinite(d))
-		stopf("floating point nan or infinity");
-
-	push_double(d);
+	power_rationals(BASE, EXPO);
 }
 
 // BASE is nonnegative
@@ -240,4 +210,34 @@ power_rationals_nib(BASE, EXPO)
 		push_rational_number(1, bignum_int(1), n); // reciprocate
 	else
 		push_rational_number(1, n, bignum_int(1));
+}
+
+function
+power_double(BASE, EXPO)
+{
+	var base, d, expo;
+
+	push(BASE);
+	base = pop_double();
+
+	push(EXPO);
+	expo = pop_double();
+
+	if (base > 0 || expo == Math.floor(expo)) {
+		d = Math.pow(base, expo);
+		push_double(d);
+		return;
+	}
+
+	// BASE is negative and EXPO is fractional
+
+	power_minusone(EXPO);
+
+	if (base == -1)
+		return;
+
+	d = Math.pow(-base, expo);
+	push_double(d);
+
+	multiply();
 }
