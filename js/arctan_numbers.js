@@ -23,7 +23,7 @@ arctan_numbers(X, Y)
 	// X and Y are rational numbers
 
 	if (iszero(Y)) {
-		if (X.a >= 0)
+		if (!isnegativenumber(X))
 			push_integer(0);
 		else
 			push_integer(-1);
@@ -33,7 +33,7 @@ arctan_numbers(X, Y)
 	}
 
 	if (iszero(X)) {
-		if (Y.a >= 0)
+		if (!isnegativenumber(Y))
 			push_rational(1, 2);
 		else
 			push_rational(-1, 2);
@@ -52,13 +52,13 @@ arctan_numbers(X, Y)
 
 	push(T);
 	numerator();
-	if (Y.a < 0)
+	if (isnegativenumber(Y))
 		negate();
 	Y = pop();
 
 	push(T);
 	denominator();
-	if (X.a < 0)
+	if (isnegativenumber(X))
 		negate();
 	X = pop();
 
@@ -75,13 +75,13 @@ arctan_numbers(X, Y)
 
 	// X == Y (modulo sign)
 
-	if (X.a >= 0)
-		if (Y.a >= 0)
+	if (!isnegativenumber(X))
+		if (!isnegativenumber(Y))
 			push_rational(1, 4);
 		else
 			push_rational(-1, 4);
 	else
-		if (Y.a >= 0)
+		if (!isnegativenumber(Y))
 			push_rational(3, 4);
 		else
 			push_rational(-3, 4);
