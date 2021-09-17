@@ -183,7 +183,7 @@ scan_power()
 function
 scan_factor()
 {
-	var h, n;
+	var a, b, d, h;
 
 	h = stack.length;
 
@@ -202,17 +202,15 @@ scan_factor()
 		break;
 
 	case T_INTEGER:
-		n = parseFloat(token_buf);
-		if (n > MAXINT)
-			push_double(n);
-		else
-			push_integer(n);
+		a = bignum_atoi(token_buf);
+		b = bignum_int(1);
+		push_rational_number(1, a, b);
 		get_token();
 		break;
 
 	case T_DOUBLE:
-		n = parseFloat(token_buf);
-		push_double(n);
+		d = parseFloat(token_buf);
+		push_double(d);
 		get_token();
 		break;
 
