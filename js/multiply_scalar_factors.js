@@ -29,7 +29,7 @@ multiply_scalar_factors(h)
 
 	COEFF = reduce_radical_factors(h, COEFF);
 
-	if (!isplusone(COEFF) || isdouble(COEFF))
+	if (!isplusone(COEFF) || isdouble(COEFF)) //FIXME would like to get rid of pushing 1.0
 		push(COEFF);
 
 	if (expanding)

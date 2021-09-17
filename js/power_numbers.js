@@ -27,6 +27,11 @@ power_numbers(BASE, EXPO)
 		return;
 	}
 
+	if (isdouble(BASE) || isdouble(EXPO)) {
+		power_double(BASE, EXPO);
+		return;
+	}
+
 
 
 	if (iszero(BASE) && isnegativenumber(EXPO))
@@ -197,4 +202,34 @@ power_rationals_nib(BASE, EXPO) // BASE is prime number, EXPO is rational
 	push(BASE);
 	push_rational(r, EXPO.b);
 	list(3);
+}
+
+function
+power_double(BASE, EXPO)
+{
+	var base, d, expo;
+
+	push(BASE);
+	base = pop_double();
+
+	push(EXPO);
+	expo = pop_double();
+
+	if (base > 0 || expo == Math.floor(expo)) {
+		d = Math.pow(base, expo);
+		push_double(d);
+		return;
+	}
+
+	// BASE is negative and EXPO is fractional
+
+	power_minusone(EXPO);
+
+	if (base == -1.0)
+		return; // FIXME this is needed so we get i instead of 1 i
+
+	d = Math.pow(-base, expo);
+	push_double(d);
+
+	multiply();
 }
