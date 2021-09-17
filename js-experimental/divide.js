@@ -1,0 +1,6 @@
+function
+divide()
+{
+	reciprocate();
+	multiply();
+}

@@ -1,0 +1,6 @@
+function
+subtract()
+{
+	negate();
+	add();
+}

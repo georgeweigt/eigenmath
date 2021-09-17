@@ -191,7 +191,6 @@ cmp_rationals(struct atom *a, struct atom *b)
 double
 convert_rational_to_double(struct atom *p)
 {
-
 	int i, n;
 	double a = 0.0, b = 0.0;
 

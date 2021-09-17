@@ -1,0 +1,107 @@
+<html>
+<body>
+
+<script src="eigenmath.js"></script>
+
+<table><tr><td>
+<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
+draw((0,0))
+draw(x)
+draw(-x)
+draw(25*x)
+draw(-25*x)
+draw(100*x)
+draw(-100*x)
+draw(x^2)
+draw(1/x)
+draw(5*(sin(x),cos(x)))
+draw(10*(sin(x),cos(x)))
+draw(5*sin(x)/x)
+draw(5*cos(x)/x)
+
+-- lemniscate
+X = cos(t)/(1+sin(t)^2)
+Y = sin(t)*cos(t)/(1+sin(t)^2)
+f = (X,Y)
+draw(5*f,t)
+
+-- cardioid
+r = (1+cos(t))/2
+u = (cos(t),sin(t))
+xrange = (-1,1)
+yrange = (-1,1)
+trange = (0,2*pi)
+draw(r*u,t)
+
+-- smiley face
+
+xrange = (-10,10)
+yrange = (-10,10)
+trange = (-pi,pi)
+
+f(t) = test(
+  t < 0, 5 * (cos(2*t),sin(2*t)),
+  t < pi/4, (cos(8*t)/2,sin(8*t)) + (-2,2),
+  t < pi/2, (cos(8*t)/2,sin(8*t)) + (2,2),
+  3 * (cos(2*t),sin(2*t))
+)
+
+draw(f,t)
+
+f = quote(abs(x^x))
+xrange = (-2,2)
+yrange = (-2,2)
+draw(f,x)
+
+f(t) = (real(t^t),imag(t^t))
+xrange = (-2,2)
+yrange = (-2,2)
+trange = (-4,2)
+draw(f,t)
+
+-- fundamental theorem of calculus
+
+xrange = (-1,1)
+yrange = (-1,1)
+f = d(x^2/2)
+draw(f,x)
+f = integral(d(x^2/2))
+draw(f,x)
+
+draw(abs(x),x)
+
+-- Draw black-body spectrum for 3000 Kelvin
+
+rho = (2 h nu^3 / c^2) / (exp(h nu / (k T)) - 1)
+
+T = 3000 kelvin
+c = 299792458 meter/second
+h = 6.62607004 10^(-34) joule second
+k = 1.38064852 10^(-23) joule/kelvin
+
+hertz = 1/second
+joule = kilogram meter^2 / second^2
+
+y = eval(rho,nu,x hertz) meter^2 / joule
+
+xrange = (0,10^15)
+yrange = (0,10^(-8))
+
+draw(y,x)
+
+-- check undo
+clear
+f(x) = 1/x
+g(x) = f(x)
+draw(g)
+
+</textarea>
+</td><td>
+<button onclick="run()" style="font-size:20pt">Run</button>
+</td></tr></table>
+
+<p>
+<div id="stdout"></div>
+
+</body>
+</html>

@@ -1,0 +1,709 @@
+<html>
+<body>
+
+<script src="eigenmath.js"></script>
+
+<table><tr><td>
+<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
+ket0 = (1,0,0,0)
+ket1 = (0,1,0,0)
+ket2 = (0,0,1,0)
+ket3 = (0,0,0,1)
+
+"Energy operator"
+
+Ehat = 0.38 "eV" outer(ket1,ket1) +
+       1.50 "eV" outer(ket2,ket2) +
+       6.55 "eV" outer(ket3,ket3)
+Ehat
+
+"State vector"
+
+xi = 1/2 ket0 + 1/2 ket1 + 1/2 ket2 + 1/2 ket3
+xi
+
+"Expected energy"
+
+dot(xi,Ehat,xi)
+
+check(prefixform(last) == "(* 2.10750 'eV')")
+
+clear
+
+"Verify anticommutation relations (1=ok)"
+
+ket00 = (1,0,0,0)
+ket10 = (0,1,0,0)
+ket01 = (0,0,1,0)
+ket11 = (0,0,0,1)
+
+b1 = outer(ket00,ket10) - outer(ket01,ket11)
+b2 = outer(ket00,ket01) + outer(ket10,ket11)
+
+b1
+b2
+
+b1dag = transpose(b1)
+b2dag = transpose(b2)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+"Eq. 16.22"
+
+dot(b1,b1) + dot(b1,b1) == 0
+check(last == 1)
+
+dot(b1,b2) + dot(b2,b1) == 0
+check(last == 1)
+
+dot(b2,b2) + dot(b2,b2) == 0
+check(last == 1)
+
+"Eq. 16.14"
+
+dot(b1dag,b1dag) + dot(b1dag,b1dag) == 0
+check(last == 1)
+
+dot(b1dag,b2dag) + dot(b2dag,b1dag) == 0
+check(last == 1)
+
+dot(b2dag,b2dag) + dot(b2dag,b2dag) == 0
+check(last == 1)
+
+"Eq. 16.32"
+
+dot(b1dag,b1) + dot(b1,b1dag) == I
+check(last == 1)
+
+dot(b1dag,b2) + dot(b2,b1dag) == 0
+check(last == 1)
+
+dot(b2dag,b1) + dot(b1,b2dag) == 0
+check(last == 1)
+
+dot(b2dag,b2) + dot(b2,b2dag) == I
+check(last == 1)
+
+clear
+
+phi(n,x) = sqrt(2 / L) expsin(n pi x / L)
+
+ket00 = (1,0,0,0)
+ket10 = (0,1,0,0)
+ket01 = (0,0,1,0)
+ket11 = (0,0,0,1)
+
+b1 = outer(ket00,ket10) - outer(ket01,ket11)
+b2 = outer(ket00,ket01) + outer(ket10,ket11)
+
+b1dag = transpose(b1)
+b2dag = transpose(b2)
+
+psihat(x,y) = sqrt(1/2) dot(b1,b1) phi(1,x) phi(1,y) +
+              sqrt(1/2) dot(b1,b2) phi(1,x) phi(2,y) +
+              sqrt(1/2) dot(b2,b1) phi(2,x) phi(1,y) +
+              sqrt(1/2) dot(b2,b2) phi(2,x) phi(2,y)
+
+"Wavefunction operator"
+
+psihat
+
+"Verify wavefunction operator (1=ok)"
+
+dot(psihat(x,y),ket11) == sqrt(1/2) (phi(1,x) phi(2,y) - phi(1,y) phi(2,x)) ket00
+check(last == 1)
+
+clear
+
+phi(n,x) = sqrt(2 / L) sin(n pi x / L)
+
+ket000 = (1,0,0,0,0,0,0)
+ket100 = (0,1,0,0,0,0,0)
+ket010 = (0,0,1,0,0,0,0)
+ket001 = (0,0,0,1,0,0,0)
+ket110 = (0,0,0,0,1,0,0)
+ket101 = (0,0,0,0,0,1,0)
+ket011 = (0,0,0,0,0,0,1)
+
+b1dag = outer(ket100,ket000) -
+        outer(ket110,ket010) -
+        outer(ket101,ket001)
+
+b2dag = outer(ket010,ket000) +
+        outer(ket110,ket100) -
+        outer(ket011,ket001)
+
+b3dag = outer(ket001,ket000) +
+        outer(ket101,ket100) +
+        outer(ket011,ket010)
+
+b1 = transpose(b1dag)
+b2 = transpose(b2dag)
+b3 = transpose(b3dag)
+
+psihat(x,y) = sqrt(1/2) phi(1,x) phi(1,y) dot(b1,b1) +
+              sqrt(1/2) phi(1,x) phi(2,y) dot(b1,b2) +
+              sqrt(1/2) phi(1,x) phi(3,y) dot(b1,b3) +
+              sqrt(1/2) phi(2,x) phi(1,y) dot(b2,b1) +
+              sqrt(1/2) phi(2,x) phi(2,y) dot(b2,b2) +
+              sqrt(1/2) phi(2,x) phi(3,y) dot(b2,b3) +
+              sqrt(1/2) phi(3,x) phi(1,y) dot(b3,b1) +
+              sqrt(1/2) phi(3,x) phi(2,y) dot(b3,b2) +
+              sqrt(1/2) phi(3,x) phi(3,y) dot(b3,b3)
+
+"Wavefunction operator"
+
+psihat
+
+"Verify wavefunction operator (1=ok)"
+
+dot(psihat(x,y),ket110) == sqrt(1/2) (phi(1,x) phi(2,y) - phi(1,y) phi(2,x)) ket000
+check(last == 1)
+
+dot(psihat(x,y),ket101) == sqrt(1/2) (phi(1,x) phi(3,y) - phi(1,y) phi(3,x)) ket000
+check(last == 1)
+
+dot(psihat(x,y),ket011) == sqrt(1/2) (phi(2,x) phi(3,y) - phi(2,y) phi(3,x)) ket000
+check(last == 1)
+
+clear
+
+-- This script can be copied and pasted into the Eigenmath script window
+
+"How Planck calculated h and k"
+
+-- base units
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- derived units
+
+coulomb = ampere second
+farad = ampere^2 kilogram^(-1) meter^(-2) second^4
+joule = kilogram meter^2 second^(-2)
+volt = ampere^(-1) kilogram meter^2 second^(-3)
+
+centimeter = 10^(-2) meter
+erg = 10^(-7) joule
+
+"Kurlbaum measurement"
+
+S = 7.31 10^5 erg / (centimeter^2 second)
+S
+
+"Lummer and Pringsheim measurement"
+
+lambdam = 0.294 centimeter kelvin
+lambdam
+
+-- calculate
+
+c = 299792458 meter / second
+pie = float(pi)
+
+-- sigma is the Stefan-Boltzmann constant
+
+sigma = S / ((373 kelvin)^4 - (273 kelvin)^4)
+
+-- E is the energy density at theta = 1
+
+E = 4 sigma / c
+
+-- R is h/k in Planck's paper
+
+R = 4.9651 lambdam / c
+
+"Solve for k"
+
+k = E (15/8 c^3 / pie^5) R^3
+k
+
+"Solve for h"
+
+h = k R
+h
+
+check(prefixform(k) == "(* 1.34674e-23 (^ 'kelvin' -1) 'kilogram' (^ 'meter' 2) (^ 'second' -2))")
+check(prefixform(h) == "(* 6.55749e-34 'kilogram' (^ 'meter' 2) (^ 'second' -1))")
+
+clear
+
+e = quote(e) -- clear e, was exponential, now elementary charge
+
+-- E is total energy
+
+E = hbar^2 / (2 mu a0^2) - e^2 / (4 pi epsilon0 a0)
+
+dE = d(E,a0)
+
+-- Bohr radius minimizes total energy
+
+a0 = 4 pi epsilon0 hbar^2 / (e^2 mu)
+
+"Bohr radius"
+
+a0
+
+"Verify that total energy is minimized for Bohr radius (1=ok)"
+
+dE == 0
+check(last == 1)
+
+-- base units
+
+ampere = "ampere"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- derived units
+
+coulomb = ampere second
+farad = ampere^2 kilogram^(-1) meter^(-2) second^4
+joule = kilogram meter^2 second^(-2)
+volt = ampere^(-1) kilogram meter^2 second^(-3)
+
+"Numerical value for Bohr radius"
+
+pi = float(pi)
+
+hbar = 1.054572 10^(-34) joule second      -- Planck's constant
+epsilon0 = 8.854188 10^(-12) farad / meter -- electric constant
+e = 1.602176 10^(-19) coulomb              -- elementary charge
+me = 9.109382 10^(-31) kilogram            -- mass of electron
+mp = 1.672622 10^(-27) kilogram            -- mass of proton
+
+mu = me mp / (me + mp)
+
+a0
+
+"Numerical value for Rydberg unit of energy"
+
+-E 1/(1.602177 10^(-19)) "electron-volt" / joule
+
+check(prefixform(last) == "(* 13.5983 'electron-volt')")
+check(prefixform(a0) == "(* 5.29466e-11 'meter')")
+
+clear
+
+-- R returns a radial eigenfunction
+
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0),n - l - 1,2 l + 1) *
+         exp(-r / (n a0))
+
+-- L returns a Laguerre function
+
+L(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))
+
+-- print radial eigenfunctions
+
+R(1,0)
+R(2,0)
+R(2,1)
+R(3,0)
+R(3,1)
+R(3,2)
+
+"Verify radial eigenfunctions (1=ok)"
+
+rho = r / a0
+A = a0^(-3/2)
+
+R(1,0) == A 2 exp(-rho)
+check(last == 1)
+
+R(2,0) == A sqrt(2)/4 (2 - rho) exp(-rho/2)
+check(last == 1)
+
+R(2,1) == A sqrt(6)/12 rho exp(-rho/2)
+check(last == 1)
+
+R(3,0) == A 2 sqrt(3)/27 (3 - 2 rho + 2/9 rho^2) exp(-rho/3)
+check(last == 1)
+
+R(3,1) == A sqrt(6)/81 rho (4 - 2/3 rho) exp(-rho/3)
+check(last == 1)
+
+R(3,2) == A 2 sqrt(30)/1215 rho^2 exp(-rho/3)
+check(last == 1)
+
+clear
+
+ket00 = (1,0,0,0)
+ket10 = (0,1,0,0)
+ket01 = (0,0,1,0)
+ket11 = (0,0,0,1)
+
+b1 = outer(ket00,ket10) - outer(ket01,ket11)
+b2 = outer(ket00,ket01) + outer(ket10,ket11)
+
+b1dag = transpose(b1)
+b2dag = transpose(b2)
+
+psi(n) = sqrt(2 / L) sin(n pi x / L)
+
+f = conj(psi(n)) x psi(m)
+f = defint(f,x,0,L)
+
+r(n,m) = test(n = m,1/2 L,f)
+
+"Position operator"
+
+rhat = r(1,1) dot(b1dag,b1) +
+       r(1,2) dot(b1dag,b2) +
+       r(2,1) dot(b2dag,b1) +
+       r(2,2) dot(b2dag,b2)
+rhat
+
+"Verify operator (1=ok)"
+
+dot(ket10,rhat,ket10) == r(1,1)
+check(last == 1)
+
+dot(ket10,rhat,ket01) == r(1,2)
+check(last == 1)
+
+dot(ket01,rhat,ket10) == r(2,1)
+check(last == 1)
+
+dot(ket01,rhat,ket01) == r(2,2)
+check(last == 1)
+
+clear
+
+Lx(f) = -i hbar (y d(f,z) - z d(f,y))
+Ly(f) = -i hbar (z d(f,x) - x d(f,z))
+Lz(f) = -i hbar (x d(f,y) - y d(f,x))
+
+f = psi(x,y,z)
+
+"Angular momentum operators"
+
+--Lx(f)
+--Ly(f)
+--Lz(f)
+
+"Verify commutation relations (1=ok)"
+
+check(Lx(Ly(f)) - Ly(Lx(f)) == i hbar Lz(f))
+check(Ly(Lz(f)) - Lz(Ly(f)) == i hbar Lx(f))
+check(Lz(Lx(f)) - Lx(Lz(f)) == i hbar Ly(f))
+
+-- angular momentum operators in spherical coordinates
+
+Lx(f) = i hbar expsin(phi) d(f,theta) +
+        i hbar expcos(theta) / expsin(theta) expcos(phi) d(f,phi)
+
+Ly(f) = -i hbar expcos(phi) d(f,theta) +
+         i hbar expcos(theta) / expsin(theta) expsin(phi) d(f,phi)
+
+Lz(f) = -i hbar d(f,phi)
+
+"Verify commutation relations in spherical coordinates (1=ok)"
+
+f = psi(r,theta,phi)
+
+check(Lx(Ly(f)) - Ly(Lx(f)) == i hbar Lz(f))
+check(Ly(Lz(f)) - Lz(Ly(f)) == i hbar Lx(f))
+check(Lz(Lx(f)) - Lx(Lz(f)) == i hbar Ly(f))
+
+clear
+
+P(n,m) = 1/(2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m)
+
+"Legendre polynomials"
+
+--P(0,0)
+--P(1,0)
+--P(1,1)
+--P(1,-1)
+--P(2,0)
+--P(2,1)
+--P(2,2)
+--P(2,-1)
+--P(2,-2)
+
+"Verify polynomials (1=ok)"
+
+check(P(0,0) == 1)
+check(P(1,0) == x)
+check(P(1,1) == sqrt(1 - x^2))
+check(P(1,-1) == -1/2 sqrt(1 - x^2))
+check(P(2,0) == 1/2 (3 x^2 - 1))
+check(P(2,1) == 3 x sqrt(1 - x^2))
+check(P(2,-1) == -1/2 x sqrt(1 - x^2))
+check(P(2,2) == 3 (1 - x^2))
+check(P(2,-2) == 1/8 (1 - x^2))
+
+clear
+
+-- Y returns a spherical harmonic eigenfunction
+
+Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
+         P(expcos(theta),l,m) exp(i m phi)
+
+-- P returns an associated Lengendre function
+
+P(f,n,m) = eval(1/(2^n n!) (1 - x^2)^(m/2) *
+           d((x^2 - 1)^n,x,n + m),x,f)
+
+"Eigenfunctions"
+
+--Y(0,0)
+--Y(1,0)
+--Y(1,1)
+--Y(1,-1)
+--Y(2,0)
+--Y(2,1)
+--Y(2,2)
+--Y(2,-1)
+--Y(2,-2)
+
+"Verify spherical harmonic eigenfunctions (1=ok)"
+
+S(l,m) = -Lap(Y(l,m)) == l (l + 1) Y(l,m)
+
+Lap(f) = 1/expsin(theta) d(expsin(theta) d(f,theta),theta) +
+         1/expsin(theta)^2 d(f,phi,2)
+
+check(S(0,0) = 1)
+check(S(1,0) = 1)
+check(S(1,1) = 1)
+check(S(1,-1) = 1)
+check(S(2,0) = 1)
+check(S(2,1) = 1)
+check(S(2,2) = 1)
+check(S(2,-1) = 1)
+check(S(2,-2) = 1)
+
+clear
+
+"Verify linear combinations of spherical harmonic eigenfunctions (1=ok)"
+
+Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
+         P(expcos(theta),l,m) exp(i m phi)
+
+P(f,n,m) = eval(1/(2^n n!) (1 - x^2)^(m/2) *
+           d((x^2 - 1)^n,x,n + m),x,f)
+
+-- Laplacian
+
+Lap(f) = 1/expsin(theta) d(expsin(theta) d(f,theta),theta) +
+         1/expsin(theta)^2 d(f,phi,2)
+
+c1 = x1 + i y1
+c2 = x2 + i y2
+c3 = x3 + i y3
+c4 = x4 + i y4
+c5 = x5 + i y5
+
+"Verify for l=1"
+
+psi = c1 Y(1,0) + c2 Y(1,1) + c3 Y(1,-1)
+
+check(-Lap(psi) == 1 (1 + 1) psi)
+
+"Verify for l=2"
+
+psi = c1 Y(2,0) + c2 Y(2,1) + c3 Y(2,2) + c4 Y(2,-1) + c5 Y(2,-2)
+
+check(-Lap(psi) == 2 (2 + 1) psi)
+
+"Testing hydrogen atom eigenfunctions"
+
+clear
+
+-- psi returns a hydrogen atom eigenfunction
+
+psi(n,l,m) = R(n,l) Y(l,m)
+
+-- R returns a radial eigenfunction
+ 
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0),n - l - 1,2 l + 1) *
+         exp(-r / (n a0))
+
+L(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))
+
+e = quote(e) -- clear symbol e
+
+a0 = 4 pi epsilon0 hbar^2 / (e^2 mu)
+
+-- Y returns a spherical harmonic eigenfunction
+
+Y(l,m) = (-1)^m sqrt((2l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(expcos(theta),l,m) exp(i m phi)
+
+P(f,n,m) = eval(1 / (2^n n!) (1 - x^2)^(m/2) *
+           d((x^2 - 1)^n,x,n + m),x,f)
+
+-- H is the Hamiltonian
+
+H(psi) = -hbar^2 Lap(psi) / (2 mu) - e^2 / (4 pi epsilon0 r) psi
+
+Lap(f) = 1/r^2 d(r^2 d(f,r),r) +
+         1/(r^2 expsin(theta)) d(expsin(theta) d(f,theta),theta) +
+         1/(r expsin(theta))^2 d(f,phi,2)
+
+-- E returns the energy eigenvalue
+
+E(n) = -mu / (2 n^2) (e^2 / (4 pi epsilon0 hbar))^2
+
+-- S checks the Schrodinger equation
+
+S(n,l,m) = H(psi(n,l,m)) == E(n) psi(n,l,m)
+
+check(S(1,0,0) == 1)
+check(S(2,0,0) == 1)
+check(S(2,1,0) == 1)
+check(S(2,1,1) == 1)
+check(S(2,1,-1) == 1)
+check(S(3,0,0) == 1)
+check(S(3,1,0) == 1)
+check(S(3,1,1) == 1)
+check(S(3,1,-1) == 1)
+check(S(3,2,0) == 1)
+check(S(3,2,1) == 1)
+check(S(3,2,2) == 1)
+check(S(3,2,-1) == 1)
+check(S(3,2,-1) == 1)
+
+"Testing vector calculus identities"
+
+-- also tests symbol collisions (for example, the f in curl collides with argument f())
+
+clear()
+
+cross(u,v) = (
+  u[2] v[3] - u[3] v[2],
+  u[3] v[1] - u[1] v[3],
+  u[1] v[2] - u[2] v[1]
+)
+
+div(v) = contract(d(v,(x,y,z)),1,2)
+
+grad(v) = d(v,(x,y,z))
+
+curl(f) = (
+  d(f[3],y) - d(f[2],z),
+  d(f[1],z) - d(f[3],x),
+  d(f[2],x) - d(f[1],y)
+)
+
+laplacian(f) = d(d(f,x),x) + d(d(f,y),y) + d(d(f,z),z)
+
+# Note: Functions can be left undefined, such as FX(), FY(), etc.
+# These "generic" functions, when evaluated by the derivative function d(),
+# are considered to be dependent on all variables.
+# Basically what this means is that d() does no evaluation at all.
+# For example, d(FX(),x) returns the expression d(FX(),x).
+
+# Define generic vector functions F and G.
+
+F = (FX(),FY(),FZ())
+G = (GX(),GY(),GZ())
+
+# Now check the 10 identities.
+
+-- "Checking the following identities:"
+
+-- "1. div(curl F) = 0"
+
+A = div(curl(F))
+
+check(A = 0)
+
+-- "2. curl(grad f) = 0"
+
+A = curl(grad(f())) # Note the use of generic scalar function f() here.
+
+check(A = 0)
+
+-- "3. div(grad f) = laplacian f"
+
+A = div(grad(f()))
+
+B = laplacian(f())
+
+check(A = B)
+
+-- "4. curl(curl F) = grad(div F) - laplacian F"
+
+A = curl(curl(F))
+
+B = grad(div(F)) - laplacian(F)
+
+check(A = B)
+
+-- "5. grad(fg) = f grad g + g grad(f)"
+
+A = grad(f() g())
+
+B = f() grad(g()) + g() grad(f())
+
+check(A = B)
+
+-- "6. grad(F . G) = (G . grad)F + (F . grad)G + G x curl F + F x curl G"
+
+A = grad(dot(F,G))
+
+B = dot(grad(F),G)+dot(grad(G),F)+cross(G,curl(F))+cross(F,curl(G))
+
+check(A = B)
+
+# Note: It turns out that (G . grad)F actually means (grad F) . G
+
+-- "7. div(fF) = f div F + grad f . F"
+
+A = div(f() F)
+
+B = f() div(F) + dot(grad(f()),F)
+
+check(A = B)
+
+-- "8. div(F x G) = G . curl F - F . curl G"
+
+A = div(cross(F,G))
+
+B = dot(G,curl(F)) - dot(F,curl(G))
+
+check(A = B)
+
+-- "9. curl(fF) = f curl F + grad f x F"
+
+A = curl(f() F)
+
+B = f() curl(F) + cross(grad(f()),F)
+
+check(A = B)
+
+-- "10. curl(F x G) = F div G - G div F + (G . grad)F - (F . grad)G"
+
+A = curl(cross(F,G))
+
+B = F div(G) - G div(F) + dot(grad(F),G) - dot(grad(G),F)
+
+check(A = B)
+
+"ok"
+</textarea>
+</td><td>
+<button onclick="run()" style="font-size:20pt">Run</button>
+</td></tr></table>
+
+<p>
+<div id="stdout"></div>
+
+</body>
+</html>
