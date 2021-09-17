@@ -7,7 +7,7 @@ reduce_radical_rational(h, COEFF)
 		return COEFF; // COEFF has no factors, no cancellation is possible
 
 	push(COEFF);
-	abs();
+	absfunc();
 	p1 = pop();
 
 	push(p1);

@@ -47,7 +47,7 @@ arctan_numbers(X, Y)
 	push(Y);
 	push(X);
 	divide();
-	abs();
+	absfunc();
 	T = pop();
 
 	push(T);

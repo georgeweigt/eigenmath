@@ -19,7 +19,7 @@ mod()
 		push(p1);
 		push(p2);
 		divide();
-		abs();
+		absfunc();
 		floor();
 		push(p2);
 		multiply();
