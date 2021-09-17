@@ -19,7 +19,7 @@ mag()
 
 	if (isnum(p1)) {
 		push(p1);
-		abs();
+		absfunc();
 		return;
 	}
 
