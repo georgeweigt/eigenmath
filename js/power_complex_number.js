@@ -3,13 +3,13 @@ power_complex_number(BASE, EXPO)
 {
 	var n, X, Y;
 
-	// lisp(2+3*i) = (add 2 (multiply 3 (power -1 1/2)))
+	// prefixform(2 + 3 i) = (add 2 (multiply 3 (power -1 1/2)))
 
-	// lisp(1+i) = (add 1 (power -1 1/2))
+	// prefixform(1 + i) = (add 1 (power -1 1/2))
 
-	// lisp(3*i) = (multiply 3 (power -1 1/2))
+	// prefixform(3 i) = (multiply 3 (power -1 1/2))
 
-	// lisp(i) = (power -1 1/2)
+	// prefixform(i) = (power -1 1/2)
 
 	if (car(BASE) == symbol(ADD)) {
 		X = cadr(BASE);
@@ -35,15 +35,8 @@ power_complex_number(BASE, EXPO)
 		return;
 	}
 
-	if (!isinteger(EXPO)) {
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		return;
-	}
-
-	n = EXPO.a;
+	push(EXPO);
+	n = pop_integer();
 
 	if (n > 0)
 		power_complex_plus(X, Y, n);

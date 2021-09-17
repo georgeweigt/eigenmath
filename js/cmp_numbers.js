@@ -3,9 +3,6 @@ cmp_numbers(p1, p2)
 {
 	var d1, d2;
 
-	if (!isnum(p1) || !isnum(p2))
-		stopf("compare");
-
 	if (isrational(p1) && isrational(p2))
 		return cmp_rationals(p1, p2);
 
@@ -22,4 +19,15 @@ cmp_numbers(p1, p2)
 		return 1;
 
 	return 0;
+}
+
+function
+cmp_rationals(p1, p2)
+{
+	var a, b;
+
+	a = p1.a * p2.b;
+	b = p2.a * p1.b;
+
+	return a - b;
 }

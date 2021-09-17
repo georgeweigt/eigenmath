@@ -1,9 +1,16 @@
+// BASE is a sum of terms
+
 function
 power_sum(BASE, EXPO)
 {
 	var h, i, n, p3, p4;
 
-	if (expanding == 0 || !isnum(EXPO)) {
+	if (iszero(EXPO)) {
+		push_integer(1);
+		return;
+	}
+
+	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO) || isfraction(EXPO) || (isdouble(EXPO) && EXPO.d != Math.floor(EXPO.d))) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
@@ -11,18 +18,8 @@ power_sum(BASE, EXPO)
 		return;
 	}
 
-	if (isrational(EXPO))
-		n = EXPO.a / EXPO.b;
-	else
-		n = EXPO.d;
-
-	if (n < 0 || n != Math.floor(n)) {
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		return;
-	}
+	push(EXPO);
+	n = pop_integer();
 
 	// square the sum first (prevents infinite loop through multiply)
 

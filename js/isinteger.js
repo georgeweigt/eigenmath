@@ -1,5 +1,5 @@
 function
 isinteger(p)
 {
-	return ("b" in p) && p.b == 1;
+	return isrational(p) && p.b == 1;
 }

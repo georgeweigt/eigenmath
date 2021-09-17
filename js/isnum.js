@@ -1,8 +1,5 @@
 function
 isnum(p)
 {
-	if ("d" in p || "a" in p)
-		return 1;
-	else
-		return 0;
+	return isrational(p) || isdouble(p);
 }

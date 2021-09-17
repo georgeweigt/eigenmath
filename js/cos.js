@@ -99,9 +99,10 @@ cos()
 		return;
 	}
 
-	n = p2.a % 360;
+	push(p2);
+	n = pop_integer();
 
-	switch (n) {
+	switch (n % 360) {
 	case 90:
 	case 270:
 		push_integer(0);

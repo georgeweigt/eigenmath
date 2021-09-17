@@ -1,5 +1,5 @@
 function
 isposint(p)
 {
-	return isinteger(p) && p.a > 0;
+	return isinteger(p) && !isnegativenumber(p);
 }

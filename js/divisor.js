@@ -33,9 +33,10 @@ divisor_term(p)
 function
 divisor_factor(p)
 {
+	if (isinteger(p))
+		return 0;
+
 	if (isrational(p)) {
-		if (isinteger(p))
-			return 0;
 		push_integer(p.b);
 		return 1;
 	}
