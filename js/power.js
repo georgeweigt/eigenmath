@@ -11,9 +11,6 @@ power()
 		return;
 	}
 
-	if (iszero(BASE) && isnegativenumber(EXPO))
-		stopf("divide by zero");
-
 	if (BASE == symbol(EXP1) && isdouble(EXPO)) {
 		push_double(Math.E);
 		BASE = pop();
@@ -24,42 +21,25 @@ power()
 		BASE = pop();
 	}
 
-	if (isrational(BASE) && isdouble(EXPO)) {
-		push(BASE);
-		push_double(pop_double());
-		BASE = pop();
-	}
-
-	if (isdouble(BASE) && isrational(EXPO)) {
-		push(EXPO);
-		push_double(pop_double());
-		EXPO = pop();
+	if (isnum(BASE) && isnum(EXPO)) {
+		power_numbers(BASE, EXPO);
+		return;
 	}
 
 	// expr^0
 
 	if (iszero(EXPO)) {
-		if (isdouble(BASE))
-			push_double(1.0);
-		else
-			push_integer(1);
+		push_integer(1);
 		return;
 	}
 
 	// 0^expr
 
 	if (iszero(BASE)) {
-		if (isnum(EXPO)) {
-			if (isdouble(BASE))
-				push_double(0.0);
-			else
-				push_integer(0);
-		} else {
-			push_symbol(POWER);
-			push(BASE);
-			push(EXPO);
-			list(3);
-		}
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
 		return;
 	}
 
@@ -73,16 +53,7 @@ power()
 	// 1^expr
 
 	if (isplusone(BASE)) {
-		push(BASE);
-		return;
-	}
-
-	// BASE and EXPO numerical?
-
-	if (isnum(BASE) && isnum(EXPO)) {
-		expanding++;
-		power_numbers(BASE, EXPO);
-		expanding--;
+		push_integer(1);
 		return;
 	}
 
