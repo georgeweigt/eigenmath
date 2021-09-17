@@ -61,10 +61,15 @@ arcsin()
 	multiply();
 	p2 = pop();
 
-	if (isinteger(p2))
-		n = p2.a;
-	else
-		n = 99;
+	if (!isinteger(p2)) {
+		push_symbol(ARCSIN);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	push(p2);
+	n = pop_integer();
 
 	switch (n) {
 
