@@ -99,7 +99,7 @@ cos()
 		return;
 	}
 
-	push(p2)
+	push(p2);
 	n = pop_integer();
 
 	switch (n % 360) {
