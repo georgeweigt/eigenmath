@@ -6,13 +6,6 @@ power()
 	EXPO = pop();
 	BASE = pop();
 
-	if (isnum(BASE) && isnum(EXPO)) {
-		expanding++; //FIXME
-		power_numbers(BASE, EXPO);
-		expanding--;
-		return;
-	}
-
 	if (istensor(BASE)) {
 		power_tensor(BASE, EXPO);
 		return;
@@ -28,30 +21,25 @@ power()
 		BASE = pop();
 	}
 
+	if (isnum(BASE) && isnum(EXPO)) {
+		power_numbers(BASE, EXPO);
+		return;
+	}
+
 	// expr^0
 
 	if (iszero(EXPO)) {
-		if (isdouble(BASE))
-			push_double(1.0);
-		else
-			push_integer(1);
+		push_integer(1);
 		return;
 	}
 
 	// 0^expr
 
 	if (iszero(BASE)) {
-		if (isnum(EXPO)) {
-			if (isdouble(BASE))
-				push_double(0.0);
-			else
-				push_integer(0);
-		} else {
-			push_symbol(POWER);
-			push(BASE);
-			push(EXPO);
-			list(3);
-		}
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
 		return;
 	}
 
@@ -65,7 +53,7 @@ power()
 	// 1^expr
 
 	if (isplusone(BASE)) {
-		push(BASE);
+		push_integer(1);
 		return;
 	}
 

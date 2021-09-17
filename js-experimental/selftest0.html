@@ -623,6 +623,8 @@ check(z1*z2=rect(clock(z1)*clock(z2)))
 check(z1*z2=rect(clock(z1)*polar(z2)))
 check(z1*z2=rect(polar(z1)*clock(z2)))
 
+"Testing arccosh"
+
 A = prefixform(arccosh(x))
 check(A="(arccosh x)")
 
@@ -637,9 +639,6 @@ check(A="(^ $e x)")
 
 A = prefixform(exp(0))
 check(A="1")
-
-A = prefixform(exp(0.0))
-check(A="1.00000")
 
 A = prefixform(exp(1))
 check(A="$e")
@@ -670,15 +669,6 @@ check(A="(+ -0.133981 (* 0.0190985 (^ -1 1/2)))")
 
 A = prefixform(0^0)
 check(A="1")
-
-A = prefixform(0^0.0)
-check(A="1.00000")
-
-A = prefixform(0.0^0)
-check(A="1.00000")
-
-A = prefixform(0.0^0.0)
-check(A="1.00000")
 
 clear
 
