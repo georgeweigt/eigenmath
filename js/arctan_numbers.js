@@ -23,20 +23,20 @@ arctan_numbers(X, Y)
 	// X and Y are rational numbers
 
 	if (iszero(Y)) {
-		if (!isnegativenumber(X))
-			push_integer(0);
-		else
+		if (isnegativenumber(X)) {
 			push_integer(-1);
-		push_symbol(PI);
-		multiply();
+			push_symbol(PI);
+			multiply();
+		} else
+			push_integer(0);
 		return;
 	}
 
 	if (iszero(X)) {
-		if (!isnegativenumber(Y))
-			push_rational(1, 2);
-		else
+		if (isnegativenumber(Y))
 			push_rational(-1, 2);
+		else
+			push_rational(1, 2);
 		push_symbol(PI);
 		multiply();
 		return;
@@ -64,7 +64,7 @@ arctan_numbers(X, Y)
 
 	// compare numerators and denominators, ignore signs
 
-	if (Math.abs(X.a) != Math.abs(Y.a) || X.b != Y.b) {
+	if (bignum_cmp(X.a, Y.a) != 0 || bignum_cmp(X.b, Y.b) != 0) {
 		// not equal
 		push_symbol(ARCTAN);
 		push(Y);
@@ -75,16 +75,16 @@ arctan_numbers(X, Y)
 
 	// X == Y (modulo sign)
 
-	if (!isnegativenumber(X))
-		if (!isnegativenumber(Y))
-			push_rational(1, 4);
-		else
-			push_rational(-1, 4);
-	else
-		if (!isnegativenumber(Y))
-			push_rational(3, 4);
-		else
+	if (isnegativenumber(X))
+		if (isnegativenumber(Y))
 			push_rational(-3, 4);
+		else
+			push_rational(3, 4);
+	else
+		if (isnegativenumber(Y))
+			push_rational(-1, 4);
+		else
+			push_rational(1, 4);
 
 	push_symbol(PI);
 	multiply();

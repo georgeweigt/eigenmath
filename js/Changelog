@@ -3,3 +3,6 @@ Use SVG instead of MathML.
 
 October 23, 2020
 Add draw function.
+
+September 17, 2021
+Add bignum support.

@@ -21,6 +21,8 @@ abs()
 		return;
 	}
 
+//FIXME abs of number
+
 	push(p1);
 	push(p1);
 	conj();

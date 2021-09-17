@@ -39,13 +39,13 @@ N^(3/2)
 check(prefixform(last) == "(* 13/8000000000 (^ 13 1/2))")
 
 N^(5/2)
-check(prefixform(last) == "1.90418e-14")
+check(prefixform(last) == "(* 169/32000000000000000 (^ 13 1/2))")
 
 N^(-3/2)
 check(prefixform(last) == "(* 8000000000/13 (^ 13 -1/2))")
 
 N^(-5/2)
-check(prefixform(last) == "5.25160e+13")
+check(prefixform(last) == "(* 32000000000000000/169 (^ 13 -1/2))")
 
 check(prefixform((-1)^( 0/8)) == "1")
 check(prefixform((-1)^( 1/8)) == "(^ -1 1/8)")

@@ -114,7 +114,7 @@ emit_base(p)
 function
 emit_denominators(p)
 {
-	var n, q, t;
+	var n, q, s, t;
 
 	t = stack.length;
 	n = count_denominators(p);
@@ -132,7 +132,8 @@ emit_denominators(p)
 			emit_medium_space();
 
 		if (isrational(q)) {
-			emit_roman_string(q.b.toFixed(0));
+			s = bignum_itoa(q.b);
+			emit_roman_string(s);
 			continue;
 		}
 
@@ -515,7 +516,7 @@ emit_medium_space()
 function
 emit_numerators(p)
 {
-	var n, q, t;
+	var n, q, s, t;
 
 	t = stack.length;
 	n = count_numerators(p);
@@ -533,7 +534,8 @@ emit_numerators(p)
 			emit_medium_space();
 
 		if (isrational(q)) {
-			emit_roman_string(Math.abs(q.a).toFixed(0));
+			s = bignum_itoa(q.a);
+			emit_roman_string(s);
 			continue;
 		}
 
@@ -554,17 +556,19 @@ emit_numerators(p)
 function
 emit_numeric_exponent(p)
 {
-	var t;
+	var s, t;
 
 	emit_level++;
 
 	t = stack.length;
 
 	if (isrational(p)) {
-		emit_roman_string(Math.abs(p.a).toFixed(0));
-		if (p.b != 1) {
+		s = bignum_itoa(p.a);
+		emit_roman_string(s);
+		if (isfraction(p)) {
 			emit_roman_string("/");
-			emit_roman_string(p.b.toFixed(0));
+			s = bignum_itoa(p.b);
+			emit_roman_string(s);
 		}
 	} else
 		emit_double(p);
@@ -608,21 +612,24 @@ emit_power(p)
 function
 emit_rational(p)
 {
-	var t;
+	var s, t;
 
-	if (p.b == 1) {
-		emit_roman_string(Math.abs(p.a).toFixed(0));
+	if (isinteger(p)) {
+		s = bignum_itoa(p.a);
+		emit_roman_string(s);
 		return;
 	}
 
 	emit_level++;
 
 	t = stack.length;
-	emit_roman_string(Math.abs(p.a).toFixed(0));
+	s = bignum_itoa(p.a);
+	emit_roman_string(s);
 	emit_update_list(t);
 
 	t = stack.length;
-	emit_roman_string(p.b.toFixed(0));
+	s = bignum_itoa(p.b);
+	emit_roman_string(s);
 	emit_update_list(t);
 
 	emit_level--;

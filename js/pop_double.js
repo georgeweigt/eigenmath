@@ -1,13 +1,20 @@
 function
 pop_double()
 {
-	var p = pop();
+	var a, b, p;
 
-	if (isrational(p))
-		return p.a / p.b;
+	p = pop();
+
+	if (isrational(p)) {
+		a = bignum_float(p.a);
+		b = bignum_float(p.b);
+		if (isnegativenumber(p))
+			a = -a;
+		return a / b;
+	}
 
 	if (isdouble(p))
 		return p.d;
 
-	return 0;
+	stopf("number expected"); //FIXME
 }

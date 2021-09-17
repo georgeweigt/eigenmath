@@ -1,5 +1,5 @@
 function
 isinteger(p)
 {
-	return isrational(p) && p.b == 1;
+	return isrational(p) && bignum_equal(p.b, 1);
 }

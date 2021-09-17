@@ -1,19 +1,15 @@
 function
 push_rational(a, b)
 {
-	if (b == 0)
-		stopf("divide by zero");
+	var sign;
 
-	if (a == 0)
-		b = 1;
-
-	if (b < 0) {
-		a = -a;
-		b = -b;
-	}
-
-	if (Math.abs(a) > MAXINT || b > MAXINT)
-		push_double(a / b);
+	if (a < 0)
+		sign = -1;
 	else
-		push({a:a, b:b});
+		sign = 1;
+
+	a = bignum_int(Math.abs(a));
+	b = bignum_int(b);
+
+	push_rational_number(sign, a, b);
 }

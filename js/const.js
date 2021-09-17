@@ -123,5 +123,3 @@ const ARG6 = "$6";
 const ARG7 = "$7";
 const ARG8 = "$8";
 const ARG9 = "$9";
-
-const MAXINT = 1e15;

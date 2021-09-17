@@ -9,12 +9,18 @@ eval_floor(p1)
 function
 floor()
 {
-	var p1;
+	var a, b, p1;
 
 	p1 = pop();
 
 	if (isrational(p1)) {
-		push_integer(Math.floor(p1.a / p1.b));
+		a = bignum_div(p1.a, p1.b);
+		b = bignum_int(1);
+		push_rational_number(p1.sign, a, b);
+		if (isnegativenumber(p1)) {
+			push_integer(-1);
+			add();
+		}
 		return;
 	}
 

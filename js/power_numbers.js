@@ -3,6 +3,8 @@
 function
 power_numbers(BASE, EXPO)
 {
+	var a, b;
+
 	if (iszero(EXPO)) {
 		push_integer(1); // 0^0 = 1
 		return;
@@ -30,8 +32,19 @@ power_numbers(BASE, EXPO)
 		return;
 	}
 
-	if (isinteger(EXPO)) {
-		power_simple(BASE, EXPO);
+	if (isrational(BASE) && isinteger(EXPO)) {
+		a = bignum_pow(BASE.a, EXPO.a);
+		b = bignum_pow(BASE.b, EXPO.a);
+		if (isnegativenumber(BASE) && bignum_odd(EXPO.a))
+			if (isnegativenumber(EXPO))
+				push_rational_number(-1, b, a); // reciprocate
+			else
+				push_rational_number(-1, a, b);
+		else
+			if (isnegativenumber(EXPO))
+				push_rational_number(1, b, a); // reciprocate
+			else
+				push_rational_number(1, a, b);
 		return;
 	}
 
@@ -53,10 +66,12 @@ power_numbers(BASE, EXPO)
 	power_rationals(BASE, EXPO);
 }
 
+// BASE is nonnegative
+
 function
 power_rationals(BASE, EXPO)
 {
-	var d, h, i, n, base, expo, p1, COEFF;
+	var h, i, n, p1, COEFF;
 
 	h = stack.length;
 
@@ -67,7 +82,7 @@ power_rationals(BASE, EXPO)
 	push(EXPO);
 	list(3);
 
-	factor();
+	factor(); // factor detects POWER and applies EXPO to factors of BASE
 
 	// normalize factors
 
@@ -102,31 +117,11 @@ power_rationals(BASE, EXPO)
 		}
 	}
 
-	// float radicals if COEFF is double (can happen due to auto conversion of rational to double)
-
-	n = stack.length;
-
-	if (isdouble(COEFF) && n - h > 0) {
-		d = COEFF.d;
-		n = stack.length;
-		for (i = h; i < n; i++) {
-			p1 = stack[i];
-			BASE = cadr(p1);
-			EXPO = caddr(p1);
-			base = BASE.a / BASE.b;
-			expo = EXPO.a / EXPO.b;
-			d *= Math.pow(base, expo);
-		}
-		stack.splice(h); // pop all
-		push_double(d);
-		COEFF = pop();
-	}
-
 	// finalize
 
 	n = stack.length - h;
 
-	if (n == 0 || !isplusone(COEFF) || isdouble(COEFF)) {
+	if (n == 0 || !isplusone(COEFF) /* || isdouble(COEFF) */) { //FIXME
 		push(COEFF);
 		n++;
 	}
@@ -141,49 +136,80 @@ power_rationals(BASE, EXPO)
 	cons();
 }
 
+// BASE is nonnegative integer, EXPO is signed rational
+
 function
-power_rationals_nib(BASE, EXPO) // BASE is prime number, EXPO is rational
+power_rationals_nib(BASE, EXPO)
 {
-	var n, q, r;
+	var a, b, n, q, r;
 
 	// integer power?
 
-	if (EXPO.b == 1) {
+	if (isinteger(EXPO)) {
 
-		n = Math.pow(BASE.a, Math.abs(EXPO.a));
+		a = bignum_pow(BASE.a, EXPO.a);
+		b = bignum_int(1);
 
-		if (EXPO.a < 0)
-			push_rational(1, n); // reciprocate
+		if (isnegativenumber(EXPO))
+			push_rational_number(1, b, a); // reciprocate
 		else
-			push_rational(n, 1);
+			push_rational_number(1, a, b);
 
 		return;
 	}
 
-	q = Math.floor(Math.abs(EXPO.a) / EXPO.b);
-	r = Math.abs(EXPO.a) % EXPO.b;
+	// EXPO.a          r
+	// ------ == q + ------
+	// EXPO.b        EXPO.b
 
-	// whole part
+	q = bignum_div(EXPO.a, EXPO.b);
+	r = bignum_mod(EXPO.a, EXPO.b);
 
-	if (q > 0) {
+	// process q
 
-		n = Math.pow(BASE.a, q);
+	if (!bignum_iszero(q)) {
 
-		if (EXPO.a < 0)
-			push_rational(1, n); // reciprocate
+		a = bignum_pow(BASE.a, q);
+		b = bignum_int(1);
+
+		if (isnegativenumber(EXPO))
+			push_rational_number(1, b, a); // reciprocate
 		else
-			push_rational(n, 1);
+			push_rational_number(1, a, b);
 	}
 
-	// remainder (BASE is prime hence no roots)
+	// process r
 
-	if (EXPO.a < 0)
-		r = -r;
+	if (BASE.a.length == 1 || (BASE.a.length == 2 && BASE.a[1] < 256)) {
+		// BASE is 32 bits or less, hence a prime number, no root
+		push_symbol(POWER);
+		push(BASE);
+		push_rational_number(EXPO.sign, r, bignum_copy(EXPO.b));
+		list(3);
+		return;
+	}
 
-	push_symbol(POWER);
-	push(BASE);
-	push_rational(r, EXPO.b);
-	list(3);
+	// BASE was too big to factor, try finding root
+
+	n = bignum_root(BASE.a, EXPO.b);
+
+	if (n == null) {
+		// no root
+		push_symbol(POWER);
+		push(BASE);
+		push_rational_number(EXPO.sign, r, bignum_copy(EXPO.b));
+		list(3);
+		return;
+	}
+
+	// raise root to rth power
+
+	n = bignum_pow(n, r);
+
+	if (isnegativenumber(EXPO))
+		push_rational_number(1, bignum_int(1), n); // reciprocate
+	else
+		push_rational_number(1, n, bignum_int(1));
 }
 
 function
@@ -207,8 +233,8 @@ power_double(BASE, EXPO)
 
 	power_minusone(EXPO);
 
-	if (base == -1.0)
-		return; // FIXME this is needed so we get i instead of 1 i
+	if (base == -1)
+		return;
 
 	d = Math.pow(-base, expo);
 	push_double(d);

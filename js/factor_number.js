@@ -1,9 +1,26 @@
-// n is a number, exponent is a rational
+// n is a bignum, exponent is a rational
 
 function
 factor_number(n, exponent)
 {
 	var d, k, m, t;
+
+	if (n.length > 2 || (n.length == 2 && n[1] > 255)) {
+		// more than 32 bits
+		push_rational_number(1, bignum_copy(n), bignum_int(1));
+		if (!equaln(exponent, 1)) {
+			push_symbol(POWER);
+			swap();
+			push(exponent);
+			list(3);
+		}
+		return;
+	}
+
+	if (n.length == 1)
+		n = n[0];
+	else
+		n = BIGM * n[1] + n[0];
 
 	for (k = 0; k < 10000; k++) {
 

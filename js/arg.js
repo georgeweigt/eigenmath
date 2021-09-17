@@ -41,20 +41,19 @@ arg1()
 	p1 = pop();
 
 	if (isrational(p1)) {
-		if (p1.a >= 0)
-			push_integer(0);
-		else {
+		if (isnegativenumber(p1)) {
 			push_symbol(PI);
 			negate();
-		}
+		} else
+			push_integer(0);
 		return;
 	}
 
 	if (isdouble(p1)) {
-		if (p1.d >= 0.0)
-			push_double(0.0);
-		else
+		if (p1.d < 0)
 			push_double(-Math.PI);
+		else
+			push_double(0);
 		return;
 	}
 

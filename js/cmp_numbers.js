@@ -26,8 +26,23 @@ cmp_rationals(p1, p2)
 {
 	var a, b;
 
-	a = p1.a * p2.b;
-	b = p2.a * p1.b;
+	if (isnegativenumber(p1) && !isnegativenumber(p2))
+		return -1;
 
-	return a - b;
+	if (!isnegativenumber(p1) && isnegativenumber(p2))
+		return 1;
+
+	if (isinteger(p1) && isinteger(p2))
+		if (isnegativenumber(p1))
+			return bignum_cmp(p2.a, p1.a);
+		else
+			return bignum_cmp(p1.a, p2.a);
+
+	a = bignum_mul(p1.a, p2.b);
+	b = bignum_mul(p1.b, p2.a);
+
+	if (isnegativenumber(p1))
+		return bignum_cmp(b, a);
+	else
+		return bignum_cmp(a, b);
 }

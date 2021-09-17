@@ -5,13 +5,3 @@ To build:
 Result is eigenmath.js
 
 See demo.html for a template web page that uses eigenmath.js
-
-
-
-Note:
-
-Big integers are not supported in eigenmath.js
-
-Rational numbers a/b are supported if both a and b are less than 10^15.
-
-Otherwise, conversion to floating point occurs automatically.
