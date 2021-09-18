@@ -5,24 +5,27 @@ factorial()
 
 	p = pop();
 
-	if (isrational(p) && p.a >= 0 && p.b == 1)
-		n = p.a;
-	else if (isdouble(p) && p.d >= 0 && Math.floor(p.d) == p.d)
-		n = p.d;
-	else {
-		push_symbol(FACTORIAL);
+	if (isposint(p)) {
 		push(p);
-		list(2);
+		n = pop_integer();
+		push_integer(1);
+		for (i = 2; i <= n; i++) {
+			push_integer(i);
+			multiply();
+		}
 		return;
 	}
 
-	m = 1;
-
-	for (i = 2; i <= n; i++)
-		m *= i;
-
-	if (isrational(p))
-		push_integer(m);
-	else
+	if (isdouble(p) && p.d >= 0 && Math.floor(p.d) == p.d) {
+		n = p.d;
+		m = 1;
+		for (i = 2; i <= n; i++)
+			m *= i;
 		push_double(m);
+		return;
+	}
+
+	push_symbol(FACTORIAL);
+	push(p);
+	list(2);
 }

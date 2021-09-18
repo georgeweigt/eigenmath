@@ -10,7 +10,7 @@ floatfunc()
 function
 floatfunc_subst()
 {
-	var h, i, n, p1;
+	var a, b, h, i, n, p1;
 
 	p1 = pop();
 
@@ -37,7 +37,11 @@ floatfunc_subst()
 	}
 
 	if (isrational(p1)) {
-		push_double(p1.a / p1.b);
+		a = bignum_float(p1.a);
+		b = bignum_float(p1.b);
+		if (isnegativenumber(p1))
+			a = -a;
+		push_double(a / b);
 		return;
 	}
 

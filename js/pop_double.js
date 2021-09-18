@@ -16,5 +16,5 @@ pop_double()
 	if (isdouble(p))
 		return p.d;
 
-	stopf("number expected"); //FIXME
+	stopf("number expected");
 }

@@ -143,3 +143,10 @@ bignum_smallnum(u)
 	else
 		return null;
 }
+
+function
+bignum_float(u)
+{
+	u = Math.abs(u);
+	return u;
+}

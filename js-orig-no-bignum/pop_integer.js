@@ -1,19 +1,21 @@
 function
 pop_integer()
 {
-	var n, p1;
+	var n, p;
 
-	p1 = pop();
+	p = pop();
 
-	if (isinteger(p1)) {
-		n = bignum_smallnum(p1.a);
+	if (isinteger(p)) {
+		n = bignum_smallnum(p.a);
 		if (n == null)
 			stopf("bignum exceeds 4294967295");
-		return p1.sign * n;
+		if (isnegativenumber(p))
+			n = -n;
+		return n;
 	}
 
-	if (isdouble(p1) && Math.floor(p1.d) == p1.d)
-		return p1.d;
+	if (isdouble(p) && Math.floor(p.d) == p.d)
+		return p.d;
 
 	stopf("integer expected");
 }
