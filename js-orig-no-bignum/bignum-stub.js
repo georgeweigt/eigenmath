@@ -127,3 +127,11 @@ bignum_odd(u)
 	u = Math.abs(u);
 	return u % 2 == 1;
 }
+
+function
+bignum_equal(u, v)
+{
+	u = Math.abs(u);
+	v = Math.abs(v);
+	return u == v;
+}

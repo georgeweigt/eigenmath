@@ -30,17 +30,8 @@ equal(p1, p2)
 		return p1 == symbol(NIL) && p2 == symbol(NIL);
 	}
 
-	if (isrational(p1) && isrational(p2))
-		return p1.a == p2.a && p1.b == p2.b;
-
-	if (isrational(p1) && isdouble(p2))
-		return p1.a / p1.b == p2.d;
-
-	if (isdouble(p1) && isrational(p2))
-		return p1.d == p2.a / p2.b;
-
-	if (isdouble(p1) && isdouble(p1))
-		return p1.d == p2.d;
+	if (isnum(p1) && isnum(p2))
+		return cmp_numbers(p1, p2) == 0;
 
 	if (issymbol(p1) && issymbol(p2))
 		return p1.printname == p2.printname;
@@ -48,5 +39,5 @@ equal(p1, p2)
 	if (isstring(p1) && isstring(p2))
 		return p1.string == p2.string;
 
-	return 0; // no need to compare tensors
+	return 0;
 }

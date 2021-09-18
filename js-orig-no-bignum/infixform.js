@@ -90,7 +90,7 @@ infixform_numerators(p)
 			infixform_write(" "); // space in between factors
 
 		if (isrational(q)) {
-			s = Math.abs(q.a).toFixed(0);
+			s = bignum_itoa(q.a);
 			infixform_write(s);
 			continue;
 		}
@@ -128,7 +128,7 @@ infixform_denominators(p)
 			infixform_write(" "); // space in between factors
 
 		if (isrational(q)) {
-			s = q.b.toFixed(0);
+			s = bignum_itoa(q.b);
 			infixform_write(s);
 			continue;
 		}
@@ -364,15 +364,15 @@ infixform_rational(p)
 {
 	var s;
 
-	s = Math.abs(p.a).toFixed(0);
+	s = bignum_itoa(p.a);
 	infixform_write(s);
 
-	if (p.b == 1)
+	if (isinteger(p))
 		return;
 
 	infixform_write("/");
 
-	s = p.b.toFixed(0);
+	s = bignum_itoa(p.b);
 	infixform_write(s);
 }
 
@@ -460,7 +460,7 @@ infixform_numeric_token(p)
 		return;
 	}
 
-	if (p.a >= 0 && isinteger(p))
+	if (!isnegativenumber(p) && isinteger(p))
 		infixform_rational(p);
 	else
 		infixform_subexpr(p);

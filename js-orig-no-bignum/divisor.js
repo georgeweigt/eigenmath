@@ -37,7 +37,8 @@ divisor_factor(p)
 		return 0;
 
 	if (isrational(p)) {
-		push_integer(p.b);
+		push(p);
+		denominator();
 		return 1;
 	}
 
