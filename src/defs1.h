@@ -332,8 +332,6 @@ struct tensor {
 #define cdddaddr(p) cdr(cdr(cdr(car(cdr(cdr(p))))))
 #define caddaddr(p) car(cdr(cdr(car(cdr(cdr(p))))))
 
-#define ERR ((int) 0x80000000)
-
 #define MPLUS 0
 #define MMINUS 1
 #define MLENGTH(p) (((int *) (p))[-1])

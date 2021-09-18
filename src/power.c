@@ -61,9 +61,6 @@ power_nib(void)
 		return;
 	}
 
-	if (iszero(BASE) && isnegativenumber(EXPO))
-		stop("divide by zero");
-
 	if (BASE == symbol(EXP1) && isdouble(EXPO)) {
 		push_double(M_E);
 		BASE = pop();
@@ -74,42 +71,25 @@ power_nib(void)
 		BASE = pop();
 	}
 
-	if (isrational(BASE) && isdouble(EXPO)) {
-		push(BASE);
-		push_double(pop_double());
-		BASE = pop();
-	}
-
-	if (isdouble(BASE) && isrational(EXPO)) {
-		push(EXPO);
-		push_double(pop_double());
-		EXPO = pop();
+	if (isnum(BASE) && isnum(EXPO)) {
+		power_numbers();
+		return;
 	}
 
 	// expr^0
 
 	if (iszero(EXPO)) {
-		if (isdouble(BASE))
-			push_double(1.0);
-		else
-			push_integer(1);
+		push_integer(1);
 		return;
 	}
 
 	// 0^expr
 
 	if (iszero(BASE)) {
-		if (isnum(EXPO)) {
-			if (isdouble(BASE))
-				push_double(0.0);
-			else
-				push_integer(0);
-		} else {
-			push_symbol(POWER);
-			push(BASE);
-			push(EXPO);
-			list(3);
-		}
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
 		return;
 	}
 
@@ -124,15 +104,6 @@ power_nib(void)
 
 	if (isplusone(BASE)) {
 		push(BASE);
-		return;
-	}
-
-	// BASE and EXPO numerical?
-
-	if (isnum(BASE) && isnum(EXPO)) {
-		expanding++;
-		power_numbers();
-		expanding--;
 		return;
 	}
 
@@ -549,7 +520,7 @@ power_sum(void)
 {
 	int h, i, m, n;
 
-	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO)) {
+	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO) || isfraction(EXPO) || (isdouble(EXPO) && EXPO->u.d != floor(EXPO->u.d))) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
@@ -558,17 +529,7 @@ power_sum(void)
 	}
 
 	push(EXPO);
-
 	n = pop_integer();
-
-	if (n == ERR) {
-		// expo exceeds int max
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		return;
-	}
 
 	// square the sum first (prevents infinite loop through multiply)
 
@@ -844,17 +805,16 @@ power_complex_number(void)
 		return;
 	}
 
-	push(EXPO);
-	n = pop_integer();
-
-	if (n == ERR) {
-		// exponent exceeds int max
+	if (!issmallinteger(EXPO)) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
 		list(3);
 		return;
 	}
+
+	push(EXPO);
+	n = pop_integer();
 
 	if (n > 0)
 		power_complex_plus(n);
@@ -1043,17 +1003,57 @@ power_complex_rational(void)
 	multiply();
 }
 
-// BASE and EXPO are numerical (rational or double)
+// BASE and EXPO are numbers
 
 void
 power_numbers(void)
 {
-	double base, expo;
+	uint32_t *a, *b;
 
-	if (iszero(BASE) && isnegativenumber(EXPO))
-		stop("divide by zero");
+	if (iszero(EXPO)) {
+		push_integer(1); // 0^0 = 1
+		return;
+	}
 
-	if (equaln(BASE, -1)) {
+	if (iszero(BASE)) {
+		if (isnegativenumber(EXPO))
+			stop("divide by zero");
+		push_integer(0);
+		return;
+	}
+
+	if (isplusone(BASE)) {
+		push_integer(1);
+		return;
+	}
+
+	if (isplusone(EXPO)) {
+		push(BASE);
+		return;
+	}
+
+	if (isdouble(BASE) || isdouble(EXPO)) {
+		power_double();
+		return;
+	}
+
+	if (isinteger(EXPO)) {
+		a = mpow(BASE->u.q.a, EXPO->u.q.a);
+		b = mpow(BASE->u.q.b, EXPO->u.q.a);
+		if (isnegativenumber(BASE) && (EXPO->u.q.a[0] & 1))
+			if (isnegativenumber(EXPO))
+				push_bignum(MMINUS, b, a); // reciprocate
+			else
+				push_bignum(MMINUS, a, b);
+		else
+			if (isnegativenumber(EXPO))
+				push_bignum(MPLUS, b, a); // reciprocate
+			else
+				push_bignum(MPLUS, a, b);
+		return;
+	}
+
+	if (isminusone(BASE)) {
 		power_minusone();
 		return;
 	}
@@ -1063,33 +1063,19 @@ power_numbers(void)
 		push(BASE);
 		negate();
 		BASE = pop();
-		power_numbers();
+		power_rationals();
 		multiply();
 		return;
 	}
 
-	if (isrational(BASE) && isrational(EXPO)) {
-		power_rationals();
-		return;
-	}
-
-	push(BASE);
-	base = pop_double();
-
-	push(EXPO);
-	expo = pop_double();
-
-	push_double(pow(base, expo));
+	power_rationals();
 }
-
-// BASE and EXPO are rational numbers, BASE is nonnegative
 
 void
 power_rationals(void)
 {
 	int i, j, h, n;
 	struct atom **s;
-	uint32_t *a, *b;
 	uint32_t *base_numer, *base_denom;
 	uint32_t *expo_numer, *expo_denom;
 
@@ -1098,27 +1084,6 @@ power_rationals(void)
 
 	expo_numer = EXPO->u.q.a;
 	expo_denom = EXPO->u.q.b;
-
-	// if EXPO is -1 then return reciprocal of BASE
-
-	if (equaln(EXPO, -1)) {
-		a = mcopy(base_numer);
-		b = mcopy(base_denom);
-		push_bignum(MPLUS, b, a); // reciprocate
-		return;
-	}
-
-	// if EXPO is integer then return BASE ^ EXPO
-
-	if (MEQUAL(expo_denom, 1)) {
-		a = mpow(base_numer, expo_numer);
-		b = mpow(base_denom, expo_numer);
-		if (EXPO->sign == MMINUS)
-			push_bignum(MPLUS, b, a); // reciprocate
-		else
-			push_bignum(MPLUS, a, b);
-		return;
-	}
 
 	h = tos;
 	s = stack + h;
@@ -1146,7 +1111,7 @@ power_rationals(void)
 		}
 	}
 
-	// multiply rationals
+	// combine numbers (leaves radicals on stack)
 
 	p2 = one;
 
@@ -1154,7 +1119,7 @@ power_rationals(void)
 
 	for (i = 0; i < n; i++) {
 		p1 = s[i];
-		if (isrational(p1)) {
+		if (isnum(p1)) {
 			push(p1);
 			push(p2);
 			multiply();
@@ -1169,18 +1134,21 @@ power_rationals(void)
 
 	// finalize
 
-	if (!equaln(p2, 1))
-		push(p2);
-
 	n = tos - h;
 
-	if (n > 1) {
-		sort_factors(n);
-		list(n);
-		push_symbol(MULTIPLY);
-		swap();
-		cons();
+	if (n == 0 || !isplusone(p2)) {
+		push(p2);
+		n++;
 	}
+
+	if (n == 1)
+		return;
+
+	sort_factors(n);
+	list(n);
+	push_symbol(MULTIPLY);
+	swap();
+	cons();
 }
 
 // BASE is an integer, EXPO is an integer or rational number
@@ -1188,7 +1156,7 @@ power_rationals(void)
 void
 power_rationals_nib(void)
 {
-	uint32_t *a, *b, *base, *expo_numer, *expo_denom, *t;
+	uint32_t *a, *b, *base, *expo_numer, *expo_denom, *n, *q, *r;
 
 	base = BASE->u.q.a;
 
@@ -1197,68 +1165,102 @@ power_rationals_nib(void)
 
 	// integer power?
 
-	if (MEQUAL(expo_denom, 1)) {
+	if (isinteger(EXPO)) {
 		a = mpow(base, expo_numer);
 		b = mint(1);
-		if (EXPO->sign == MMINUS)
+		if (isnegativenumber(EXPO))
 			push_bignum(MPLUS, b, a); // reciprocate
 		else
 			push_bignum(MPLUS, a, b);
 		return;
 	}
 
-	// evaluate whole part
+	// EXPO.a          r
+	// ------ == q + ------
+	// EXPO.b        EXPO.b
 
-	if (mcmp(expo_numer, expo_denom) > 0) {
-		t = mdiv(expo_numer, expo_denom);
-		a = mpow(base, t);
+	q = mdiv(expo_numer, expo_denom);
+	r = mmod(expo_numer, expo_denom);
+
+	// process q
+
+	if (!MZERO(q)) {
+		a = mpow(base, q);
 		b = mint(1);
-		mfree(t);
-		if (EXPO->sign == MMINUS)
+		if (isnegativenumber(EXPO))
 			push_bignum(MPLUS, b, a); // reciprocate
 		else
 			push_bignum(MPLUS, a, b);
-		// reduce EXPO to fractional part
-		a = mmod(expo_numer, expo_denom);
-		b = mcopy(expo_denom);
-		push_bignum(EXPO->sign, a, b);
-		EXPO = pop();
-		expo_numer = EXPO->u.q.a;
-		expo_denom = EXPO->u.q.b;
 	}
+
+	mfree(q);
+
+	// process r
 
 	if (MLENGTH(base) == 1) {
-		// base is a prime number from factor_factor()
+		// BASE is 32 bits or less, hence a prime number, no root
 		push_symbol(POWER);
-		a = mcopy(base);
-		b = mint(1);
-		push_bignum(MPLUS, a, b);
-		push(EXPO);
+		push(BASE);
+		push_bignum(EXPO->sign, r, mcopy(expo_denom));
 		list(3);
 		return;
 	}
 
-	t = mroot(base, expo_denom);
+	// BASE was too big to factor, try finding root
 
-	if (t == NULL) {
+	n = mroot(base, expo_denom);
+
+	if (n == NULL) {
+		// no root
 		push_symbol(POWER);
-		a = mcopy(base);
-		b = mint(1);
-		push_bignum(MPLUS, a, b);
-		push(EXPO);
+		push(BASE);
+		push_bignum(EXPO->sign, r, mcopy(expo_denom));
 		list(3);
 		return;
 	}
 
-	a = mpow(t, expo_numer);
+	// raise root n to rth power
+
+	a = mpow(n, r);
 	b = mint(1);
 
-	mfree(t);
+	mfree(n);
+	mfree(r);
 
-	if (EXPO->sign == MMINUS)
+	if (isnegativenumber(EXPO))
 		push_bignum(MPLUS, b, a); // reciprocate
 	else
 		push_bignum(MPLUS, a, b);
+}
+
+void
+power_double(void)
+{
+	double base, d, expo;
+
+	push(BASE);
+	base = pop_double();
+
+	push(EXPO);
+	expo = pop_double();
+
+	if (base > 0.0 || expo == floor(expo)) {
+		d = pow(base, expo);
+		push_double(d);
+		return;
+	}
+
+	// BASE is negative and EXPO is fractional
+
+	power_minusone();
+
+	if (base == -1.0)
+		return;
+
+	d = pow(-base, expo);
+	push_double(d);
+
+	multiply();
 }
 
 void

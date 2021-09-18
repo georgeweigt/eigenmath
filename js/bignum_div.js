@@ -9,7 +9,7 @@ bignum_div(u, v)
 	nv = v.length;
 
 	if (nv == 1 && v[0] == 0)
-		stopf("divide by zero in bignum_div");
+		stopf("divide by zero");
 
 	if (nu == 1 && nv == 1)
 		return bignum_int(Math.floor(u[0] / v[0]));

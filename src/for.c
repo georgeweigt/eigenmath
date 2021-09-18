@@ -14,15 +14,11 @@ eval_for(void)
 	push(car(p1));
 	eval();
 	j = pop_integer();
-	if (j == ERR)
-		stop("for 2nd arg: integer value expected");
 
 	p1 = cdr(p1);
 	push(car(p1));
 	eval();
 	k = pop_integer();
-	if (k == ERR)
-		stop("for 3rd arg: integer value expected");
 
 	p1 = cdr(p1);
 

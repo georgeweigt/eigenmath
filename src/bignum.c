@@ -64,19 +64,30 @@ push_bignum(int sign, uint32_t *a, uint32_t *b)
 int
 pop_integer(void)
 {
-	int n = ERR;
+	int n;
 	struct atom *p; // ok, no gc
+
 	p = pop();
-	if (isinteger(p) && MLENGTH(p->u.q.a) == 1 && p->u.q.a[0] < 0x80000000) {
+
+	if (isinteger(p)) {
+		if (MLENGTH(p->u.q.a) > 1 || (p->u.q.a[0] & 0x80000000))
+			stop("bignum exceeds 2^31 - 1");
 		n = p->u.q.a[0];
-		if (p->sign == MMINUS)
+		if (isnegativenumber(p))
 			n = -n;
-	} else if (isdouble(p)) {
+		return n;
+	}
+
+	if (isdouble(p)) {
 		n = (int) p->u.d;
 		if ((double) n != p->u.d)
-			n = ERR;
+			stop("integer value expected");
+		return n;
 	}
-	return n;
+
+	stop("integer value expected");
+
+	return 0;
 }
 
 void
@@ -93,13 +104,18 @@ double
 pop_double(void)
 {
 	struct atom *p;
+
 	p = pop();
+
 	if (isrational(p))
 		return convert_rational_to_double(p);
-	else if (isdouble(p))
+
+	if (isdouble(p))
 		return p->u.d;
-	else
-		return 0.0;
+
+	stop("number expected");
+
+	return 0.0;
 }
 
 int

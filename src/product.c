@@ -36,15 +36,9 @@ eval_product(void)
 	eval();
 	j = pop_integer();
 
-	if (j == ERR)
-		stop("product 2nd arg: integer value expected");
-
 	push(cadr(p1));
 	eval();
 	k = pop_integer();
-
-	if (k == ERR)
-		stop("product 3rd arg: integer value expected");
 
 	p1 = caddr(p1);
 

@@ -36,15 +36,9 @@ eval_sum(void)
 	eval();
 	j = pop_integer();
 
-	if (j == ERR)
-		stop("sum 2nd arg: integer value expected");
-
 	push(cadr(p1));
 	eval();
 	k = pop_integer();
-
-	if (k == ERR)
-		stop("sum 3rd arg: integer value expected");
 
 	p1 = caddr(p1);
 

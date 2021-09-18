@@ -959,8 +959,6 @@ eval_integral_nib(void)
 		if (isnum(X)) {
 			push(X);
 			n = pop_integer();
-			if (n == ERR)
-				stop("integral");
 			push_symbol(X_LOWER);
 			X = pop();
 			for (i = 0; i < n; i++) {
@@ -983,8 +981,6 @@ eval_integral_nib(void)
 			if (isnum(Y)) {
 				push(Y);
 				n = pop_integer();
-				if (n == ERR)
-					stop("integral");
 				for (i = 0; i < n; i++) {
 					push(X);
 					integral();

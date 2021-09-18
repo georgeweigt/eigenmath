@@ -53,7 +53,7 @@ power()
 	// 1^expr
 
 	if (isplusone(BASE)) {
-		push_integer(1);
+		push(BASE);
 		return;
 	}
 

@@ -190,10 +190,10 @@ remove_negative_exponents(void)
 			continue;
 		if (cadr(p1) != X)
 			continue;
+		if (!isinteger(caddr(p1))) // FIXME check for small integer?
+			continue;
 		push(caddr(p1));
 		k = pop_integer();
-		if (k == ERR)
-			continue;
 		if (k < j)
 			j = k;
 	}

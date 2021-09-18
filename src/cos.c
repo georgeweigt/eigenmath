@@ -208,7 +208,6 @@ cosfunc_nib(void)
 void
 cosfunc_sum(void)
 {
-	int n;
 	p2 = cdr(p1);
 	while (iscons(p2)) {
 		push_integer(2);
@@ -216,8 +215,8 @@ cosfunc_sum(void)
 		multiply();
 		push_symbol(PI);
 		divide();
-		n = pop_integer();
-		if (n != ERR) {
+		p3 = pop();
+		if (isinteger(p3)) {
 			push(p1);
 			push(car(p2));
 			subtract();

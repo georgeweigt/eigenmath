@@ -169,9 +169,6 @@ factor_small_number(void)
 
 	n = pop_integer();
 
-	if (n == ERR)
-		stop("number too big to factor");
-
 	if (n < 0)
 		n = -n;
 

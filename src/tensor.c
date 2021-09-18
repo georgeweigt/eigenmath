@@ -377,7 +377,7 @@ eval_zero_nib(void)
 		push(car(p1));
 		eval();
 		i = pop_integer();
-		if (i == ERR || i < 2)
+		if (i < 2)
 			stop("zero: dimension error");
 		m *= i;
 		dim[n++] = i;

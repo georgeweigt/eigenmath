@@ -33,10 +33,9 @@ bessely_nib(void)
 	N = pop();
 	X = pop();
 
-	push(N);
-	n = pop_integer();
-
-	if (isdouble(X) && n != ERR) {
+	if (isdouble(X)) {
+		push(N);
+		n = pop_integer();
 		d = yn(n, X->u.d); // math.h
 		push_double(d);
 		return;

@@ -1,32 +1,3 @@
-/* Bessel J function
-
-	1st arg		x
-
-	2nd arg		n
-
-Recurrence relation
-
-	besselj(x,n) = (2/x) (n-1) besselj(x,n-1) - besselj(x,n-2)
-
-	besselj(x,1/2) = sqrt(2/pi/x) sin(x)
-
-	besselj(x,-1/2) = sqrt(2/pi/x) cos(x)
-
-For negative n, reorder the recurrence relation as
-
-	besselj(x,n-2) = (2/x) (n-1) besselj(x,n-1) - besselj(x,n)
-
-Substitute n+2 for n to obtain
-
-	besselj(x,n) = (2/x) (n+1) besselj(x,n+1) - besselj(x,n+2)
-
-Examples
-
-	besselj(x,3/2) = (1/x) besselj(x,1/2) - besselj(x,-1/2)
-
-	besselj(x,-3/2) = -(1/x) besselj(x,-1/2) - besselj(x,1/2)
-*/
-
 #include "defs.h"
 
 void
@@ -64,12 +35,9 @@ besselj_nib(void)
 	N = pop();
 	X = pop();
 
-	push(N);
-	n = pop_integer();
-
-	// numerical result
-
-	if (isdouble(X) && n != ERR) {
+	if (isdouble(X) && issmallinteger(N)) {
+		push(N);
+		n = pop_integer();
 		d = jn(n, X->u.d);
 		push_double(d);
 		return;
@@ -84,7 +52,7 @@ besselj_nib(void)
 
 	// besselj(0,n) = 0
 
-	if (iszero(X) && n != ERR) {
+	if (iszero(X) && isinteger(N)) {
 		push_integer(0);
 		return;
 	}

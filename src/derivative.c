@@ -47,8 +47,6 @@ eval_derivative_nib(void)
 		if (isnum(X)) {
 			push(X);
 			n = pop_integer();
-			if (n == ERR)
-				stop("derivative");
 			push_symbol(X_LOWER);
 			X = pop();
 			for (i = 0; i < n; i++) {
@@ -68,8 +66,6 @@ eval_derivative_nib(void)
 			if (isnum(Y)) {
 				push(Y);
 				n = pop_integer();
-				if (n == ERR)
-					stop("derivative");
 				for (i = 0; i < n; i++) {
 					push(X);
 					derivative();

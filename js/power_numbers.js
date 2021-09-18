@@ -12,7 +12,7 @@ power_numbers(BASE, EXPO)
 
 	if (iszero(BASE)) {
 		if (isnegativenumber(EXPO))
-			stopf("divide by zero in power_numbers");
+			stopf("divide by zero");
 		push_integer(0);
 		return;
 	}
@@ -32,7 +32,7 @@ power_numbers(BASE, EXPO)
 		return;
 	}
 
-	if (isrational(BASE) && isinteger(EXPO)) {
+	if (isinteger(EXPO)) {
 		a = bignum_pow(BASE.a, EXPO.a);
 		b = bignum_pow(BASE.b, EXPO.a);
 		if (isnegativenumber(BASE) && bignum_odd(EXPO.a))
@@ -121,7 +121,7 @@ power_rationals(BASE, EXPO)
 
 	n = stack.length - h;
 
-	if (n == 0 || !isplusone(COEFF) /* || isdouble(COEFF) */) { //FIXME
+	if (n == 0 || !isplusone(COEFF)) {
 		push(COEFF);
 		n++;
 	}
@@ -204,7 +204,7 @@ power_rationals_nib(BASE, EXPO)
 		return;
 	}
 
-	// raise root to rth power
+	// raise root n to rth power
 
 	n = bignum_pow(n, r);
 
