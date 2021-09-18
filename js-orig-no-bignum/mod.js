@@ -23,7 +23,7 @@ mod()
 		floor();
 		push(p2);
 		multiply();
-		if ((p1.a < 0 && p2.a < 0) || (p1.a >= 0 && p2.a >= 0))
+		if (p1.sign == p2.sign)
 			negate(); // p1 and p2 have same sign
 		add();
 		return;
