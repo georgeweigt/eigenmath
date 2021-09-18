@@ -106,3 +106,24 @@ bignum_itoa(u)
 	u = Math.abs(u);
 	return u.toFixed(0);
 }
+
+function
+bignum_copy(u)
+{
+	u = Math.abs(u);
+	return u;
+}
+
+function
+bignum_iszero(u)
+{
+	u = Math.abs(u);
+	return u == 0;
+}
+
+function
+bignum_odd(u)
+{
+	u = Math.abs(u);
+	return u % 2 == 1;
+}
