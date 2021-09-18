@@ -1,13 +1,3 @@
-/*
-exported bignum_add
-exported bignum_sub
-exported bignum_mul
-exported bignum_div
-exported bignum_mod
-exported bignum_pow
-exported bignum_root
-*/
-
 function
 bignum_add(u, v)
 {
@@ -154,7 +144,7 @@ bignum_float(u)
 const MAXINT = 1e15;
 
 function
-push_bigint(sign, a, b)
+push_bignum(sign, a, b)
 {
 	if (a < MAXINT && b < MAXINT)
 		push({sign:sign, a:a, b:b});
