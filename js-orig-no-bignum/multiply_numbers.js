@@ -20,26 +20,41 @@ multiply_numbers(p1, p2)
 function
 multiply_rationals(p1, p2)
 {
-	var a, b, c;
+	var a, b, d, sign;
 
-	a = p1.a * p2.a;
-	b = p1.b * p2.b;
-
-	if (a == 0) {
-		push_integer(0);
+	if (isinteger(p1) && isinteger(p2)) {
+		multiply_integers(p1, p2);
 		return;
 	}
 
-	if (Math.abs(a) > MAXINT || b > MAXINT) {
-		push_double(a / b);
-		return;
-	}
+	if (p1.sign == p2.sign)
+		sign = 1;
+	else
+		sign = -1;
 
-	if (b > 1) {
-		c = gcd_integers(a, b)
-		a /= c;
-		b /= c;
-	}
+	a = bignum_mul(p1.a, p2.a);
+	b = bignum_mul(p1.b, p2.b);
 
-	push_rational(a, b);
+	d = bignum_gcd(a, b);
+
+	a = bignum_div(a, d);
+	b = bignum_div(b, d);
+
+	push_rational_number(sign, a, b);
+}
+
+function
+multiply_integers(p1, p2)
+{
+	var a, b, sign;
+
+	if (p1.sign == p2.sign)
+		sign = 1;
+	else
+		sign = -1;
+
+	a = bignum_mul(p1.a, p2.a);
+	b = bignum_int(1);
+
+	push_rational_number(sign, a, b);
 }
