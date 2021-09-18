@@ -539,11 +539,11 @@ mmul(uint32_t *u, uint32_t *v)
 	nv = MLENGTH(v);
 	nw = nu + nv;
 	w = mnew(nw);
-	for (i = 0; i < nu; i++)
+	for (i = 0; i < nw; i++)
 		w[i] = 0;
-	for (j = 0; j < nv; j++) {
+	for (i = 0; i < nu; i++) {
 		t = 0;
-		for (i = 0; i < nu; i++) {
+		for (j = 0; j < nv; j++) {
 			t += (uint64_t) u[i] * v[j] + w[i + j];
 			w[i + j] = (uint32_t) t;
 			t >>= 32;
