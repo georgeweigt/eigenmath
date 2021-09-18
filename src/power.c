@@ -110,7 +110,7 @@ power_nib(void)
 	// BASE is an integer? (EXPO is not numerical)
 
 	if (isinteger(BASE)) {
-		expanding++;
+		// raise each factor in BASE to power EXPO
 		h = tos;
 		push(BASE);
 		factor_factor();
@@ -139,14 +139,13 @@ power_nib(void)
 			swap();
 			cons();
 		}
-		expanding--;
 		return;
 	}
 
-	// BASE is a fraction? (EXPO is not numerical)
+	// BASE is a numerical fraction? (EXPO is not numerical)
 
 	if (isfraction(BASE)) {
-		expanding++;
+		// power numerator, power denominator
 		push(BASE);
 		numerator();
 		push(EXPO);
@@ -157,7 +156,6 @@ power_nib(void)
 		negate();
 		power();
 		multiply();
-		expanding--;
 		return;
 	}
 
