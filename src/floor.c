@@ -44,7 +44,7 @@ floorfunc_nib(void)
 		return;
 	}
 
-	push_rational_number(p1->sign, mdiv(p1->u.q.a, p1->u.q.b), mint(1));
+	push_bignum(p1->sign, mdiv(p1->u.q.a, p1->u.q.b), mint(1));
 
 	if (p1->sign == MMINUS) {
 		push_integer(-1);

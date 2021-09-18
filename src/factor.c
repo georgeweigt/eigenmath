@@ -299,7 +299,7 @@ factor_bignum(uint32_t *a)
 
 	if (MLENGTH(a) > 1) {
 		// too big to factor
-		push_rational_number(MPLUS, mcopy(a), mint(1));
+		push_bignum(MPLUS, mcopy(a), mint(1));
 		if (!equaln(EXPO, 1)) {
 			push_symbol(POWER);
 			swap();
@@ -328,7 +328,7 @@ factor_bignum(uint32_t *a)
 		if (m == 0)
 			continue;
 
-		push_rational_number(MPLUS, mint(d), mint(1));
+		push_bignum(MPLUS, mint(d), mint(1));
 
 		push_integer(m);
 		push(EXPO);
@@ -344,7 +344,7 @@ factor_bignum(uint32_t *a)
 	}
 
 	if (n > 1) {
-		push_rational_number(MPLUS, mint(n), mint(1));
+		push_bignum(MPLUS, mint(n), mint(1));
 		if (!equaln(EXPO, 1)) {
 			push_symbol(POWER);
 			swap();

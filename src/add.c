@@ -465,7 +465,7 @@ add_rationals(void)
 	b = mmul(p1->u.q.b, p2->u.q.b);
 	c = mgcd(a, b);
 
-	push_rational_number(sign, mdiv(a, c), mdiv(b, c));
+	push_bignum(sign, mdiv(a, c), mdiv(b, c));
 
 	mfree(a);
 	mfree(b);
@@ -500,7 +500,7 @@ add_integers(void)
 		}
 	}
 
-	push_rational_number(sign, c, mint(1));
+	push_bignum(sign, c, mint(1));
 }
 
 void

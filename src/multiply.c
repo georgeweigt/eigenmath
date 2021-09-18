@@ -503,14 +503,14 @@ multiply_rationals(void)
 		sign = MMINUS;
 
 	if (isinteger(p1) && isinteger(p2)) {
-		push_rational_number(sign, mmul(p1->u.q.a, p2->u.q.a), mint(1));
+		push_bignum(sign, mmul(p1->u.q.a, p2->u.q.a), mint(1));
 		return;
 	}
 
 	a = mmul(p1->u.q.a, p2->u.q.a);
 	b = mmul(p1->u.q.b, p2->u.q.b);
 	c = mgcd(a, b);
-	push_rational_number(sign, mdiv(a, c), mdiv(b, c));
+	push_bignum(sign, mdiv(a, c), mdiv(b, c));
 
 	mfree(a);
 	mfree(b);

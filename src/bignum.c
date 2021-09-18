@@ -3,11 +3,11 @@
 void
 init_bignums(void)
 {
-	push_rational_number(MPLUS, mint(0), mint(1));
+	push_bignum(MPLUS, mint(0), mint(1));
 	zero = pop();
-	push_rational_number(MPLUS, mint(1), mint(1));
+	push_bignum(MPLUS, mint(1), mint(1));
 	one = pop();
-	push_rational_number(MMINUS, mint(1), mint(1));
+	push_bignum(MMINUS, mint(1), mint(1));
 	minusone = pop();
 }
 
@@ -26,9 +26,9 @@ push_integer(int n)
 		break;
 	default:
 		if (n < 0)
-			push_rational_number(MMINUS, mint(-n), mint(1));
+			push_bignum(MMINUS, mint(-n), mint(1));
 		else
-			push_rational_number(MPLUS, mint(n), mint(1));
+			push_bignum(MPLUS, mint(n), mint(1));
 		break;
 	}
 }
@@ -37,13 +37,13 @@ void
 push_rational(int a, int b)
 {
 	if (a < 0)
-		push_rational_number(MMINUS, mint(-a), mint(b));
+		push_bignum(MMINUS, mint(-a), mint(b));
 	else
-		push_rational_number(MPLUS, mint(a), mint(b));
+		push_bignum(MPLUS, mint(a), mint(b));
 }
 
 void
-push_rational_number(int sign, uint32_t *a, uint32_t *b)
+push_bignum(int sign, uint32_t *a, uint32_t *b)
 {
 	struct atom *p;
 	if (MZERO(a)) {
@@ -245,7 +245,7 @@ convert_double_to_rational(double d)
 		a = mnew(2);
 		a[0] = (uint32_t) u;
 		a[1] = (uint32_t) (u >> 32);
-		push_rational_number(d < 0.0 ? MMINUS : MPLUS, a, mint(1));
+		push_bignum(d < 0.0 ? MMINUS : MPLUS, a, mint(1));
 		push_integer(2);
 		push_integer(n - 64);
 		power();
@@ -316,7 +316,7 @@ bignum_scan_integer(char *s)
 	a = mscan(s);
 	if (a == NULL)
 		stop("parse error");
-	push_rational_number(sign, a, mint(1));
+	push_bignum(sign, a, mint(1));
 }
 
 void
@@ -332,7 +332,7 @@ bignum_float(void)
 void
 bignum_factorial(int n)
 {
-	push_rational_number(MPLUS, bignum_factorial_nib(n), mint(1));
+	push_bignum(MPLUS, bignum_factorial_nib(n), mint(1));
 }
 
 uint32_t *

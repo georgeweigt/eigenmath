@@ -168,7 +168,7 @@ cross_factor(struct atom *p)
 	if (isrational(p)) {
 		if (MEQUAL(p->u.q.b, 1))
 			return 0;
-		push_rational_number(MPLUS, mcopy(p->u.q.b), mint(1));
+		push_bignum(MPLUS, mcopy(p->u.q.b), mint(1));
 		return 1;
 	}
 

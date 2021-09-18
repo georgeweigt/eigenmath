@@ -210,11 +210,11 @@ void
 push_factor(uint32_t *d, int count)
 {
 	if (count < 2)
-		push_rational_number(MPLUS, d, mint(1));
+		push_bignum(MPLUS, d, mint(1));
 	else {
 		push_symbol(POWER);
-		push_rational_number(MPLUS, d, mint(1));
-		push_rational_number(MPLUS, mint(count), mint(1));
+		push_bignum(MPLUS, d, mint(1));
+		push_bignum(MPLUS, mint(count), mint(1));
 		list(3);
 	}
 }

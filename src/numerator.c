@@ -25,7 +25,7 @@ numerator_nib(void)
 	p1 = pop();
 
 	if (isrational(p1)) {
-		push_rational_number(p1->sign, mcopy(p1->u.q.a), mint(1));
+		push_bignum(p1->sign, mcopy(p1->u.q.a), mint(1));
 		return;
 	}
 

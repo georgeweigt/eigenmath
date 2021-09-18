@@ -55,7 +55,7 @@ void
 modfunc_rationals(void)
 {
 	if (isinteger(p1) && isinteger(p2)) {
-		push_rational_number(p1->sign, mmod(p1->u.q.a, p2->u.q.a), mint(1));
+		push_bignum(p1->sign, mmod(p1->u.q.a, p2->u.q.a), mint(1));
 		return;
 	}
 	push(p1);

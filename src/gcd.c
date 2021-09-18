@@ -288,6 +288,6 @@ gcd_numbers(void)
 	}
 	a = mgcd(p1->u.q.a, p2->u.q.a);
 	b = mgcd(p1->u.q.b, p2->u.q.b);
-	push_rational_number(MPLUS, a, b);
+	push_bignum(MPLUS, a, b);
 	restore();
 }

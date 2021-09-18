@@ -56,7 +56,7 @@ void bessely_nib(void);
 void init_bignums(void);
 void push_integer(int n);
 void push_rational(int a, int b);
-void push_rational_number(int sign, uint32_t *a, uint32_t *b);
+void push_bignum(int sign, uint32_t *a, uint32_t *b);
 int pop_integer(void);
 void push_double(double d);
 double pop_double(void);

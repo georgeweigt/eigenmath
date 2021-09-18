@@ -1104,7 +1104,7 @@ power_rationals(void)
 	if (equaln(EXPO, -1)) {
 		a = mcopy(base_numer);
 		b = mcopy(base_denom);
-		push_rational_number(MPLUS, b, a); // reciprocate
+		push_bignum(MPLUS, b, a); // reciprocate
 		return;
 	}
 
@@ -1114,9 +1114,9 @@ power_rationals(void)
 		a = mpow(base_numer, expo_numer);
 		b = mpow(base_denom, expo_numer);
 		if (EXPO->sign == MMINUS)
-			push_rational_number(MPLUS, b, a); // reciprocate
+			push_bignum(MPLUS, b, a); // reciprocate
 		else
-			push_rational_number(MPLUS, a, b);
+			push_bignum(MPLUS, a, b);
 		return;
 	}
 
@@ -1201,9 +1201,9 @@ power_rationals_nib(void)
 		a = mpow(base, expo_numer);
 		b = mint(1);
 		if (EXPO->sign == MMINUS)
-			push_rational_number(MPLUS, b, a); // reciprocate
+			push_bignum(MPLUS, b, a); // reciprocate
 		else
-			push_rational_number(MPLUS, a, b);
+			push_bignum(MPLUS, a, b);
 		return;
 	}
 
@@ -1215,13 +1215,13 @@ power_rationals_nib(void)
 		b = mint(1);
 		mfree(t);
 		if (EXPO->sign == MMINUS)
-			push_rational_number(MPLUS, b, a); // reciprocate
+			push_bignum(MPLUS, b, a); // reciprocate
 		else
-			push_rational_number(MPLUS, a, b);
+			push_bignum(MPLUS, a, b);
 		// reduce EXPO to fractional part
 		a = mmod(expo_numer, expo_denom);
 		b = mcopy(expo_denom);
-		push_rational_number(EXPO->sign, a, b);
+		push_bignum(EXPO->sign, a, b);
 		EXPO = pop();
 		expo_numer = EXPO->u.q.a;
 		expo_denom = EXPO->u.q.b;
@@ -1232,7 +1232,7 @@ power_rationals_nib(void)
 		push_symbol(POWER);
 		a = mcopy(base);
 		b = mint(1);
-		push_rational_number(MPLUS, a, b);
+		push_bignum(MPLUS, a, b);
 		push(EXPO);
 		list(3);
 		return;
@@ -1244,7 +1244,7 @@ power_rationals_nib(void)
 		push_symbol(POWER);
 		a = mcopy(base);
 		b = mint(1);
-		push_rational_number(MPLUS, a, b);
+		push_bignum(MPLUS, a, b);
 		push(EXPO);
 		list(3);
 		return;
@@ -1256,9 +1256,9 @@ power_rationals_nib(void)
 	mfree(t);
 
 	if (EXPO->sign == MMINUS)
-		push_rational_number(MPLUS, b, a); // reciprocate
+		push_bignum(MPLUS, b, a); // reciprocate
 	else
-		push_rational_number(MPLUS, a, b);
+		push_bignum(MPLUS, a, b);
 }
 
 void
