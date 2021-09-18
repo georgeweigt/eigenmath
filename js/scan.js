@@ -204,7 +204,7 @@ scan_factor()
 	case T_INTEGER:
 		a = bignum_atoi(token_buf);
 		b = bignum_int(1);
-		push_rational_number(1, a, b);
+		push_bignum(1, a, b);
 		get_token();
 		break;
 

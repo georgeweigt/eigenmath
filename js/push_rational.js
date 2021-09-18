@@ -8,8 +8,10 @@ push_rational(a, b)
 	else
 		sign = 1;
 
-	a = bignum_int(Math.abs(a));
+	a = Math.abs(a);
+
+	a = bignum_int(a);
 	b = bignum_int(b);
 
-	push_rational_number(sign, a, b);
+	push_bignum(sign, a, b);
 }

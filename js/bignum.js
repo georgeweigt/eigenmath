@@ -1,21 +1,3 @@
-/* exported bignum_int */
-/* exported bignum_add */
-/* exported bignum_sub */
-/* exported bignum_mul */
-/* exported bignum_div */
-/* exported bignum_mod */
-/* exported bignum_pow */
-/* exported bignum_shr */
-/* exported bignum_gcd */
-/* exported bignum_cmp */
-/* exported bignum_root */
-/* exported bignum_copy */
-/* exported bignum_norm */
-/* exported bignum_atoi */
-/* exported bignum_itoa */
-/* exported bignum_iszero */
-/* exported bignum_equal */
-
 const BIGM = 0x1000000; // 24 bits
 
 function
@@ -97,4 +79,10 @@ bignum_smallnum(u)
 		return BIGM * u[1] + u[0];
 
 	return null;
+}
+
+function
+push_bignum(sign, a, b)
+{
+	push({sign:sign, a:a, b:b});
 }

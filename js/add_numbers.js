@@ -56,7 +56,7 @@ add_rationals(p1, p2)
 	a = bignum_div(a, d);
 	b = bignum_div(b, d);
 
-	push_rational_number(sign, a, b);
+	push_bignum(sign, a, b);
 }
 
 function
@@ -85,5 +85,5 @@ add_integers(p1, p2)
 
 	b = bignum_int(1);
 
-	push_rational_number(sign, a, b);
+	push_bignum(sign, a, b);
 }

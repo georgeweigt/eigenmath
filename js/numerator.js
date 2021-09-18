@@ -1,18 +1,18 @@
 function
 numerator()
 {
-	var p1 = pop();
+	var p = pop();
 
-	if (isrational(p1)) {
-		push_rational_number(p1.sign, bignum_copy(p1.a), bignum_int(1));
+	if (isrational(p)) {
+		push_bignum(p.sign, bignum_copy(p.a), bignum_int(1));
 		return;
 	}
 
-	while (divisor(p1)) {
-		push(p1);
+	while (divisor(p)) {
+		push(p);
 		cancel_factor();
-		p1 = pop();
+		p = pop();
 	}
 
-	push(p1);
+	push(p);
 }

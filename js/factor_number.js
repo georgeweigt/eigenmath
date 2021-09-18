@@ -1,7 +1,7 @@
-// N is a bignum, exponent is a rational
+// N is bignum, EXPO is rational
 
 function
-factor_number(N, exponent)
+factor_number(N, EXPO)
 {
 	var d, k, m, n, t;
 
@@ -9,11 +9,11 @@ factor_number(N, exponent)
 
 	if (n == null) {
 		// more than 32 bits
-		push_rational_number(1, bignum_copy(N), bignum_int(1));
-		if (!equaln(exponent, 1)) {
+		push_bignum(1, bignum_copy(N), bignum_int(1));
+		if (!isplusone(EXPO)) {
 			push_symbol(POWER);
 			swap();
-			push(exponent);
+			push(EXPO);
 			list(3);
 		}
 		return;
@@ -39,7 +39,7 @@ factor_number(N, exponent)
 		push_integer(d);
 
 		push_integer(m);
-		push(exponent);
+		push(EXPO);
 		multiply();
 		t = pop();
 
@@ -53,10 +53,10 @@ factor_number(N, exponent)
 
 	if (n > 1) {
 		push_integer(n);
-		if (!isplusone(exponent)) {
+		if (!isplusone(EXPO)) {
 			push_symbol(POWER);
 			swap();
-			push(exponent);
+			push(EXPO);
 			list(3);
 		}
 	}

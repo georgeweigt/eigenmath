@@ -37,14 +37,14 @@ power_numbers(BASE, EXPO)
 		b = bignum_pow(BASE.b, EXPO.a);
 		if (isnegativenumber(BASE) && bignum_odd(EXPO.a))
 			if (isnegativenumber(EXPO))
-				push_rational_number(-1, b, a); // reciprocate
+				push_bignum(-1, b, a); // reciprocate
 			else
-				push_rational_number(-1, a, b);
+				push_bignum(-1, a, b);
 		else
 			if (isnegativenumber(EXPO))
-				push_rational_number(1, b, a); // reciprocate
+				push_bignum(1, b, a); // reciprocate
 			else
-				push_rational_number(1, a, b);
+				push_bignum(1, a, b);
 		return;
 	}
 
@@ -151,9 +151,9 @@ power_rationals_nib(BASE, EXPO)
 		b = bignum_int(1);
 
 		if (isnegativenumber(EXPO))
-			push_rational_number(1, b, a); // reciprocate
+			push_bignum(1, b, a); // reciprocate
 		else
-			push_rational_number(1, a, b);
+			push_bignum(1, a, b);
 
 		return;
 	}
@@ -173,9 +173,9 @@ power_rationals_nib(BASE, EXPO)
 		b = bignum_int(1);
 
 		if (isnegativenumber(EXPO))
-			push_rational_number(1, b, a); // reciprocate
+			push_bignum(1, b, a); // reciprocate
 		else
-			push_rational_number(1, a, b);
+			push_bignum(1, a, b);
 	}
 
 	// process r
@@ -186,7 +186,7 @@ power_rationals_nib(BASE, EXPO)
 		// BASE is 32 bits or less, hence a prime number, no root
 		push_symbol(POWER);
 		push(BASE);
-		push_rational_number(EXPO.sign, r, bignum_copy(EXPO.b));
+		push_bignum(EXPO.sign, r, bignum_copy(EXPO.b));
 		list(3);
 		return;
 	}
@@ -199,7 +199,7 @@ power_rationals_nib(BASE, EXPO)
 		// no root
 		push_symbol(POWER);
 		push(BASE);
-		push_rational_number(EXPO.sign, r, bignum_copy(EXPO.b));
+		push_bignum(EXPO.sign, r, bignum_copy(EXPO.b));
 		list(3);
 		return;
 	}
@@ -209,9 +209,9 @@ power_rationals_nib(BASE, EXPO)
 	n = bignum_pow(n, r);
 
 	if (isnegativenumber(EXPO))
-		push_rational_number(1, bignum_int(1), n); // reciprocate
+		push_bignum(1, bignum_int(1), n); // reciprocate
 	else
-		push_rational_number(1, n, bignum_int(1));
+		push_bignum(1, n, bignum_int(1));
 }
 
 function

@@ -40,7 +40,7 @@ multiply_rationals(p1, p2)
 	a = bignum_div(a, d);
 	b = bignum_div(b, d);
 
-	push_rational_number(sign, a, b);
+	push_bignum(sign, a, b);
 }
 
 function
@@ -56,5 +56,5 @@ multiply_integers(p1, p2)
 	a = bignum_mul(p1.a, p2.a);
 	b = bignum_int(1);
 
-	push_rational_number(sign, a, b);
+	push_bignum(sign, a, b);
 }

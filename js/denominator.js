@@ -6,7 +6,7 @@ denominator()
 	p1 = pop();
 
 	if (isrational(p1)) {
-		push_rational_number(1, bignum_copy(p1.b), bignum_int(1));
+		push_bignum(1, bignum_copy(p1.b), bignum_int(1));
 		return;
 	}
 
