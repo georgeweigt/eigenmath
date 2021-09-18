@@ -117,8 +117,14 @@ bignum_copy(u)
 function
 bignum_iszero(u)
 {
+	return bignum_equal(u, 0);
+}
+
+function
+bignum_equal(u, n)
+{
 	u = Math.abs(u);
-	return u == 0;
+	return u == n;
 }
 
 function
@@ -129,9 +135,11 @@ bignum_odd(u)
 }
 
 function
-bignum_equal(u, v)
+bignum_smallnum(u)
 {
 	u = Math.abs(u);
-	v = Math.abs(v);
-	return u == v;
+	if (u < 0x100000000)
+		return u;
+	else
+		return null;
 }

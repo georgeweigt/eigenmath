@@ -4,7 +4,7 @@ iszero(p)
 	var i, n;
 
 	if (isrational(p))
-		return p.a == 0;
+		return bignum_iszero(p.a);
 
 	if (isdouble(p))
 		return p.d == 0;

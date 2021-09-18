@@ -23,18 +23,17 @@ factor()
 		numer = BASE.a;
 		denom = BASE.b;
 
-		if (numer < 0) {
+		if (isnegativenumber(BASE)) {
 			push_symbol(POWER);
 			push_integer(-1);
 			push(EXPO);
 			list(3); // leave on stack
-			numer = -numer;
 		}
 
-		if (numer != 1)
+		if (!bignum_equal(numer, 1))
 			factor_number(numer, EXPO);
 
-		if (denom != 1) {
+		if (!bignum_equal(denom, 1)) {
 			// flip sign of exponent
 			push(EXPO);
 			negate();
@@ -53,14 +52,12 @@ factor()
 	numer = INPUT.a;
 	denom = INPUT.b;
 
-	if (numer < 0) {
+	if (isnegativenumber(INPUT))
 		push_integer(-1);
-		numer = -numer;
-	}
 
-	if (numer != 1)
+	if (!bignum_equal(numer, 1))
 		factor_number(numer, one);
 
-	if (denom != 1)
+	if (!bignum_equal(denom, 1))
 		factor_number(denom, minusone);
 }

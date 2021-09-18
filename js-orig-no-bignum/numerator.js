@@ -4,7 +4,7 @@ numerator()
 	var p1 = pop();
 
 	if (isrational(p1)) {
-		push_integer(p1.a);
+		push_rational_number(p1.sign, bignum_copy(p1.a), bignum_int(1));
 		return;
 	}
 

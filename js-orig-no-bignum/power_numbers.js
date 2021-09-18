@@ -180,7 +180,9 @@ power_rationals_nib(BASE, EXPO)
 
 	// process r
 
-	if (BASE.a.length == 1 || (BASE.a.length == 2 && BASE.a[1] < 256)) {
+	n = bignum_smallnum(BASE.a);
+
+	if (n != null) {
 		// BASE is 32 bits or less, hence a prime number, no root
 		push_symbol(POWER);
 		push(BASE);
