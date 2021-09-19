@@ -3,7 +3,7 @@
 function
 power_numbers(BASE, EXPO)
 {
-	var a, b;
+	var a, b, h, i, n, p, COEFF;
 
 	if (iszero(EXPO)) {
 		push_integer(1); // 0^0 = 1
@@ -48,31 +48,6 @@ power_numbers(BASE, EXPO)
 		return;
 	}
 
-	if (isminusone(BASE)) {
-		power_minusone(EXPO);
-		return;
-	}
-
-	if (isnegativenumber(BASE)) {
-		power_minusone(EXPO);
-		push(BASE);
-		negate();
-		BASE = pop();
-		power_rationals(BASE, EXPO);
-		multiply();
-		return;
-	}
-
-	power_rationals(BASE, EXPO);
-}
-
-// BASE is nonnegative
-
-function
-power_rationals(BASE, EXPO)
-{
-	var h, i, n, p1, COEFF;
-
 	h = stack.length;
 
 	// put factors on stack
@@ -82,19 +57,19 @@ power_rationals(BASE, EXPO)
 	push(EXPO);
 	list(3);
 
-	factor(); // factor detects POWER and applies EXPO to factors of BASE
+	factor();
 
 	// normalize factors
 
 	n = stack.length;
 
 	for (i = h; i < n; i++) {
-		p1 = stack[i];
-		if (car(p1) == symbol(POWER)) {
-			BASE = cadr(p1);
-			EXPO = caddr(p1);
-			power_rationals_nib(BASE, EXPO);
-			stack[i] = pop(); // 1 or 2 factors on stack, fill hole with tos
+		p = stack[i];
+		if (car(p) == symbol(POWER)) {
+			BASE = cadr(p);
+			EXPO = caddr(p);
+			power_numbers_factor(BASE, EXPO);
+			stack[i] = pop(); // fill hole with result
 		}
 	}
 
@@ -105,10 +80,10 @@ power_rationals(BASE, EXPO)
 	n = stack.length;
 
 	for (i = h; i < n; i++) {
-		p1 = stack[i];
-		if (isnum(p1)) {
+		p = stack[i];
+		if (isnum(p)) {
 			push(COEFF);
-			push(p1);
+			push(p);
 			multiply();
 			COEFF = pop();
 			stack.splice(i, 1);
@@ -136,14 +111,17 @@ power_rationals(BASE, EXPO)
 	cons();
 }
 
-// BASE is nonnegative integer, EXPO is signed rational
+// BASE is an integer factor
 
 function
-power_rationals_nib(BASE, EXPO)
+power_numbers_factor(BASE, EXPO)
 {
 	var a, b, n, q, r;
 
-	// integer power?
+	if (isminusone(BASE)) {
+		power_minusone(EXPO);
+		return;
+	}
 
 	if (isinteger(EXPO)) {
 
@@ -183,7 +161,7 @@ power_rationals_nib(BASE, EXPO)
 	n = bignum_smallnum(BASE.a);
 
 	if (n != null) {
-		// BASE is 32 bits or less, hence a prime number, no root
+		// BASE is 32 bits or less, hence BASE is a prime number, no root
 		push_symbol(POWER);
 		push(BASE);
 		push_bignum(EXPO.sign, r, bignum_copy(EXPO.b));
@@ -204,7 +182,7 @@ power_rationals_nib(BASE, EXPO)
 		return;
 	}
 
-	// raise root n to rth power
+	// raise n to rth power
 
 	n = bignum_pow(n, r);
 

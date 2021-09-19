@@ -1075,7 +1075,7 @@ power_numbers(void)
 			BASE = cadr(p1);
 			EXPO = caddr(p1);
 			power_numbers_factor();
-			s[i] = pop(); // trick: fill hole with result
+			s[i] = pop(); // fill hole with result
 		}
 	}
 
@@ -1119,7 +1119,7 @@ power_numbers(void)
 	cons();
 }
 
-// BASE is an integer, EXPO is an integer or rational number
+// BASE is an integer factor
 
 void
 power_numbers_factor(void)
@@ -1164,7 +1164,7 @@ power_numbers_factor(void)
 	// process r
 
 	if (MLENGTH(BASE->u.q.a) == 1) {
-		// BASE is 32 bits or less, hence a prime number, no root
+		// BASE is 32 bits or less, hence BASE is a prime number, no root
 		push_symbol(POWER);
 		push(BASE);
 		push_bignum(EXPO->sign, r, mcopy(EXPO->u.q.b)); // r used here, r is not leaked
