@@ -1036,6 +1036,8 @@ power_numbers(void)
 		return;
 	}
 
+	// integer exponent?
+
 	if (isinteger(EXPO)) {
 		a = mpow(BASE->u.q.a, EXPO->u.q.a);
 		b = mpow(BASE->u.q.b, EXPO->u.q.a);
@@ -1051,6 +1053,8 @@ power_numbers(void)
 				push_bignum(MPLUS, a, b);
 		return;
 	}
+
+	// exponent is a root
 
 	h = tos;
 

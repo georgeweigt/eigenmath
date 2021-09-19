@@ -32,6 +32,8 @@ power_numbers(BASE, EXPO)
 		return;
 	}
 
+	// integer exponent?
+
 	if (isinteger(EXPO)) {
 		a = bignum_pow(BASE.a, EXPO.a);
 		b = bignum_pow(BASE.b, EXPO.a);
@@ -47,6 +49,8 @@ power_numbers(BASE, EXPO)
 				push_bignum(1, a, b);
 		return;
 	}
+
+	// exponent is a root
 
 	h = stack.length;
 
