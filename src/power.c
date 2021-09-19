@@ -1006,7 +1006,9 @@ power_complex_rational(void)
 void
 power_numbers(void)
 {
+	int i, j, h, n;
 	uint32_t *a, *b;
+	struct atom **s;
 
 	if (iszero(EXPO)) {
 		push_integer(1); // 0^0 = 1
@@ -1051,38 +1053,6 @@ power_numbers(void)
 		return;
 	}
 
-	if (isminusone(BASE)) {
-		power_minusone();
-		return;
-	}
-
-	if (isnegativenumber(BASE)) {
-		power_minusone();
-		push(BASE);
-		negate();
-		BASE = pop();
-		power_rationals();
-		multiply();
-		return;
-	}
-
-	power_rationals();
-}
-
-void
-power_rationals(void)
-{
-	int i, j, h, n;
-	struct atom **s;
-	uint32_t *base_numer, *base_denom;
-	uint32_t *expo_numer, *expo_denom;
-
-	base_numer = BASE->u.q.a;
-	base_denom = BASE->u.q.b;
-
-	expo_numer = EXPO->u.q.a;
-	expo_denom = EXPO->u.q.b;
-
 	h = tos;
 	s = stack + h;
 
@@ -1104,8 +1074,8 @@ power_rationals(void)
 		if (car(p1) == symbol(POWER)) {
 			BASE = cadr(p1);
 			EXPO = caddr(p1);
-			power_rationals_nib();
-			s[i] = pop(); // trick: fill hole
+			power_numbers_factor();
+			s[i] = pop(); // trick: fill hole with result
 		}
 	}
 
@@ -1152,19 +1122,17 @@ power_rationals(void)
 // BASE is an integer, EXPO is an integer or rational number
 
 void
-power_rationals_nib(void)
+power_numbers_factor(void)
 {
-	uint32_t *a, *b, *base, *expo_numer, *expo_denom, *n, *q, *r;
+	uint32_t *a, *b, *n, *q, *r;
 
-	base = BASE->u.q.a;
-
-	expo_numer = EXPO->u.q.a;
-	expo_denom = EXPO->u.q.b;
-
-	// integer power?
+	if (isminusone(BASE)) {
+		power_minusone();
+		return;
+	}
 
 	if (isinteger(EXPO)) {
-		a = mpow(base, expo_numer);
+		a = mpow(BASE->u.q.a, EXPO->u.q.a);
 		b = mint(1);
 		if (isnegativenumber(EXPO))
 			push_bignum(MPLUS, b, a); // reciprocate
@@ -1177,13 +1145,13 @@ power_rationals_nib(void)
 	// ------ == q + ------
 	// EXPO.b        EXPO.b
 
-	q = mdiv(expo_numer, expo_denom);
-	r = mmod(expo_numer, expo_denom);
+	q = mdiv(EXPO->u.q.a, EXPO->u.q.b);
+	r = mmod(EXPO->u.q.a, EXPO->u.q.b);
 
 	// process q
 
 	if (!MZERO(q)) {
-		a = mpow(base, q);
+		a = mpow(BASE->u.q.a, q);
 		b = mint(1);
 		if (isnegativenumber(EXPO))
 			push_bignum(MPLUS, b, a); // reciprocate
@@ -1195,29 +1163,29 @@ power_rationals_nib(void)
 
 	// process r
 
-	if (MLENGTH(base) == 1) {
+	if (MLENGTH(BASE->u.q.a) == 1) {
 		// BASE is 32 bits or less, hence a prime number, no root
 		push_symbol(POWER);
 		push(BASE);
-		push_bignum(EXPO->sign, r, mcopy(expo_denom));
+		push_bignum(EXPO->sign, r, mcopy(EXPO->u.q.b)); // r used here, r is not leaked
 		list(3);
 		return;
 	}
 
 	// BASE was too big to factor, try finding root
 
-	n = mroot(base, expo_denom);
+	n = mroot(BASE->u.q.a, EXPO->u.q.b);
 
 	if (n == NULL) {
 		// no root
 		push_symbol(POWER);
 		push(BASE);
-		push_bignum(EXPO->sign, r, mcopy(expo_denom));
+		push_bignum(EXPO->sign, r, mcopy(EXPO->u.q.b)); // r used here, r is not leaked
 		list(3);
 		return;
 	}
 
-	// raise root n to rth power
+	// raise n to rth power
 
 	a = mpow(n, r);
 	b = mint(1);
