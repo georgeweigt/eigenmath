@@ -1006,12 +1006,11 @@ power_complex_rational(void)
 void
 power_numbers(void)
 {
-	int i, j, h, n;
+	int h, i, j, n;
 	uint32_t *a, *b;
-	struct atom **s;
 
 	if (iszero(EXPO)) {
-		push_integer(1); // 0^0 = 1
+		push_integer(1);
 		return;
 	}
 
@@ -1054,7 +1053,6 @@ power_numbers(void)
 	}
 
 	h = tos;
-	s = stack + h;
 
 	// put factors on stack
 
@@ -1067,36 +1065,33 @@ power_numbers(void)
 
 	// normalize factors
 
-	n = tos - h;
+	n = tos - h; // fix n now, stack can grow
 
 	for (i = 0; i < n; i++) {
-		p1 = s[i];
+		p1 = stack[h + i];
 		if (car(p1) == symbol(POWER)) {
 			BASE = cadr(p1);
 			EXPO = caddr(p1);
 			power_numbers_factor();
-			s[i] = pop(); // fill hole with result
+			stack[h + i] = pop(); // fill hole
 		}
 	}
 
 	// combine numbers (leaves radicals on stack)
 
-	p2 = one;
+	p1 = one;
 
-	n = tos - h;
-
-	for (i = 0; i < n; i++) {
-		p1 = s[i];
-		if (isnum(p1)) {
+	for (i = h; i < tos; i++) {
+		p2 = stack[i];
+		if (isnum(p2)) {
 			push(p1);
 			push(p2);
 			multiply();
-			p2 = pop();
-			for (j = i + 1; j < n; j++)
-				s[j - 1] = s[j];
-			i--;
-			n--;
+			p1 = pop();
+			for (j = i + 1; j < tos; j++)
+				stack[j - 1] = stack[j];
 			tos--;
+			i--;
 		}
 	}
 
@@ -1104,8 +1099,8 @@ power_numbers(void)
 
 	n = tos - h;
 
-	if (n == 0 || !isplusone(p2)) {
-		push(p2);
+	if (n == 0 || !isplusone(p1)) {
+		push(p1);
 		n++;
 	}
 

@@ -3,10 +3,10 @@
 function
 power_numbers(BASE, EXPO)
 {
-	var a, b, h, i, n, p, COEFF;
+	var a, b, h, i, n, p1, p2;
 
 	if (iszero(EXPO)) {
-		push_integer(1); // 0^0 = 1
+		push_integer(1);
 		return;
 	}
 
@@ -61,34 +61,31 @@ power_numbers(BASE, EXPO)
 
 	// normalize factors
 
-	n = stack.length;
+	n = stack.length - h; // fix n now, stack can grow
 
-	for (i = h; i < n; i++) {
-		p = stack[i];
-		if (car(p) == symbol(POWER)) {
-			BASE = cadr(p);
-			EXPO = caddr(p);
+	for (i = 0; i < n; i++) {
+		p1 = stack[h + i];
+		if (car(p1) == symbol(POWER)) {
+			BASE = cadr(p1);
+			EXPO = caddr(p1);
 			power_numbers_factor(BASE, EXPO);
-			stack[i] = pop(); // fill hole with result
+			stack[h + i] = pop(); // fill hole
 		}
 	}
 
 	// combine numbers (leaves radicals on stack)
 
-	COEFF = one;
+	p1 = one;
 
-	n = stack.length;
-
-	for (i = h; i < n; i++) {
-		p = stack[i];
-		if (isnum(p)) {
-			push(COEFF);
-			push(p);
+	for (i = h; i < stack.length; i++) {
+		p2 = stack[i];
+		if (isnum(p2)) {
+			push(p1);
+			push(p2);
 			multiply();
-			COEFF = pop();
+			p1 = pop();
 			stack.splice(i, 1);
 			i--;
-			n--;
 		}
 	}
 
@@ -96,8 +93,8 @@ power_numbers(BASE, EXPO)
 
 	n = stack.length - h;
 
-	if (n == 0 || !isplusone(COEFF)) {
-		push(COEFF);
+	if (n == 0 || !isplusone(p1)) {
+		push(p1);
 		n++;
 	}
 
