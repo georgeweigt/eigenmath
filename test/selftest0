@@ -860,8 +860,6 @@ check(prefixform(1.0 ^ x) == "1")
 check(prefixform(x ^ 1) == "x")
 check(prefixform(x ^ 1.0) == "x")
 
---
-
 A = ((1,2),(3,4))
 check(1/A == ((1,1/2),(1/3,1/4)))
 check(A^(-1) == ((1,1/2),(1/3,1/4)))
