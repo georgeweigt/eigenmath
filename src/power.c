@@ -93,16 +93,16 @@ power_nib(void)
 		return;
 	}
 
-	// expr^1
-
-	if (isplusone(EXPO)) {
-		push(BASE);
-		return;
-	}
-
 	// 1^expr
 
 	if (isplusone(BASE)) {
+		push_integer(1);
+		return;
+	}
+
+	// expr^1
+
+	if (isplusone(EXPO)) {
 		push(BASE);
 		return;
 	}
@@ -1009,10 +1009,14 @@ power_numbers(void)
 	int h, i, j, n;
 	uint32_t *a, *b;
 
+	// n^0
+
 	if (iszero(EXPO)) {
 		push_integer(1);
 		return;
 	}
+
+	// 0^n
 
 	if (iszero(BASE)) {
 		if (isnegativenumber(EXPO))
@@ -1021,10 +1025,14 @@ power_numbers(void)
 		return;
 	}
 
+	// 1^n
+
 	if (isplusone(BASE)) {
 		push_integer(1);
 		return;
 	}
+
+	// n^1
 
 	if (isplusone(EXPO)) {
 		push(BASE);

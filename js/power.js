@@ -43,16 +43,16 @@ power()
 		return;
 	}
 
-	// expr^1
-
-	if (isplusone(EXPO)) {
-		push(BASE);
-		return;
-	}
-
 	// 1^expr
 
 	if (isplusone(BASE)) {
+		push_integer(1);
+		return;
+	}
+
+	// expr^1
+
+	if (isplusone(EXPO)) {
 		push(BASE);
 		return;
 	}

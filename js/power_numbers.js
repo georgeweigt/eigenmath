@@ -5,10 +5,14 @@ power_numbers(BASE, EXPO)
 {
 	var a, b, h, i, n, p1, p2;
 
+	// n^0
+
 	if (iszero(EXPO)) {
 		push_integer(1);
 		return;
 	}
+
+	// 0^n
 
 	if (iszero(BASE)) {
 		if (isnegativenumber(EXPO))
@@ -17,10 +21,14 @@ power_numbers(BASE, EXPO)
 		return;
 	}
 
+	// 1^n
+
 	if (isplusone(BASE)) {
 		push_integer(1);
 		return;
 	}
+
+	// n^1
 
 	if (isplusone(EXPO)) {
 		push(BASE);
