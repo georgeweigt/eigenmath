@@ -50,6 +50,7 @@ A=quote(A)
 B=quote(B)
 
 -- term sort ignores coeff
+
 check(prefixform(a-b)="(+ a (* -1 b))")
 check(prefixform(b-a)="(+ (* -1 a) b)")
 
@@ -693,7 +694,7 @@ arg(-1)
 check(prefixform(last)="(* -1 pi)")
 
 arg(-1.0)
-check(prefixform(last)="(-3.14159)")
+check(prefixform(last)="-3.14159")
 
 -- check arccosh
 
@@ -710,16 +711,16 @@ prefixform(arccosh(1))
 check(last="0")
 
 prefixform(arccosh(1.0))
-check(last="(0)")
+check(last="0.0")
 
 prefixform(arccosh(-1))
 check(last="(arccosh -1)")
 
 prefixform(arccosh(-1.0))
-check(last="(* (3.14159) (^ -1 1/2))")
+check(last="(* 3.14159 (^ -1 1/2))")
 
 prefixform(float(arccosh(1+i)))
-check(last="(+ (1.06128) (* (0.904557) (^ -1 1/2)))")
+check(last="(+ 1.06128 (* 0.904557 (^ -1 1/2)))")
 
 -- check arcsinh
 
@@ -736,16 +737,16 @@ prefixform(arcsinh(1))
 check(last="(arcsinh 1)")
 
 prefixform(arcsinh(1.0))
-check(last="(0.881374)")
+check(last="0.881374")
 
 prefixform(arcsinh(-1))
 check(last="(* -1 (arcsinh 1))")
 
 prefixform(arcsinh(-1.0))
-check(last="(-0.881374)")
+check(last="-0.881374")
 
 prefixform(float(arcsinh(1+i)))
-check(last="(+ (1.06128) (* (0.666239) (^ -1 1/2)))")
+check(last="(+ 1.06128 (* 0.666239 (^ -1 1/2)))")
 
 -- check arctanh
 
@@ -765,13 +766,13 @@ prefixform(arctanh(-1))
 check(last="(arctanh -1)")
 
 prefixform(arctanh(0.5))
-check(last="(0.549306)")
+check(last="0.549306")
 
 prefixform(arctanh(-0.5))
-check(last="(-0.549306)")
+check(last="-0.549306")
 
 prefixform(float(arctanh(1+i)))
-check(last="(+ (0.402359) (* (1.01722) (^ -1 1/2)))")
+check(last="(+ 0.402359 (* 1.01722 (^ -1 1/2)))")
 
 -- check exp
 
@@ -785,19 +786,19 @@ prefixform(exp(1))
 check(last="$e")
 
 prefixform(exp(1.0))
-check(last="(2.71828)")
+check(last="2.71828")
 
 prefixform(e^1.0)
-check(last="(2.71828)")
+check(last="2.71828")
 
 prefixform(exp(2.0))
-check(last="(7.38906)")
+check(last="7.38906")
 
 prefixform(e^2.0)
-check(last="(7.38906)")
+check(last="7.38906")
 
 prefixform(float(e))
-check(last="(2.71828)")
+check(last="2.71828")
 
 "Testing simple powers"
 
@@ -840,19 +841,19 @@ check(prefixform(2.0 ^ 0.0) == "1")
 
 check(prefixform(2 ^ 1) == "2")
 check(prefixform(2 ^ 1.0) == "2")
-check(prefixform(2.0 ^ 1) == "(2)")
-check(prefixform(2.0 ^ 1.0) == "(2)")
+check(prefixform(2.0 ^ 1) == "2.0")
+check(prefixform(2.0 ^ 1.0) == "2.0")
 
 check(prefixform(2 ^ 2) == "4")
-check(prefixform(2 ^ 2.0) == "(4)")
-check(prefixform(2.0 ^ 2) == "(4)")
-check(prefixform(2.0 ^ 2.0) == "(4)")
+check(prefixform(2 ^ 2.0) == "4.0")
+check(prefixform(2.0 ^ 2) == "4.0")
+check(prefixform(2.0 ^ 2.0) == "4.0")
 
 check(prefixform(x ^ 0) == "1")
 check(prefixform(x ^ 0.0) == "1")
 
 check(prefixform(0 ^ x) == "(^ 0 x)")
-check(prefixform(0.0 ^ x) == "(^ (0) x)")
+check(prefixform(0.0 ^ x) == "(^ 0.0 x)")
 
 check(prefixform(1 ^ x) == "1")
 check(prefixform(1.0 ^ x) == "1")
