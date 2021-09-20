@@ -8,6 +8,16 @@ power_minusone(EXPO)
 		return;
 	}
 
+	// root is an odd number?
+
+	if (isrational(EXPO) && bignum_odd(EXPO.b)) {
+		if (bignum_odd(EXPO.a))
+			push_integer(-1);
+		else
+			push_integer(1);
+		return;
+	}
+
 	if (isrational(EXPO)) {
 		normalize_clock_rational(EXPO);
 		return;

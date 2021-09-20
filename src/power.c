@@ -575,6 +575,16 @@ power_minusone(void)
 		return;
 	}
 
+	// root is an odd number?
+
+	if (isrational(EXPO) && EXPO->u.q.b[0] & 1) {
+		if (EXPO->u.q.a[0] & 1)
+			push_integer(-1);
+		else
+			push_integer(1);
+		return;
+	}
+
 	if (isrational(EXPO)) {
 		normalize_clock_rational();
 		return;
