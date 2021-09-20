@@ -378,12 +378,7 @@ divisors_onstack(void)
 //		12
 
 #undef ACCUM
-#undef BASE
-#undef EXPO
-
 #define ACCUM p1
-#define BASE p2
-#define EXPO p3
 
 void
 gen(int h, int k)

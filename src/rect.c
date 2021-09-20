@@ -1,11 +1,5 @@
 #include "defs.h"
 
-#undef BASE
-#undef EXPO
-
-#define BASE p3
-#define EXPO p4
-
 void
 eval_rect(void)
 {

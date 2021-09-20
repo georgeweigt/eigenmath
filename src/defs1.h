@@ -344,4 +344,7 @@ struct tensor {
 
 #define Trace fprintf(stderr, "%s %d\n", __func__, __LINE__);
 
+#define BASE p8
+#define EXPO p9
+
 extern int primetab[MAXPRIMETAB];

@@ -201,13 +201,9 @@ factor_small_number(void)
 }
 
 #undef FARG
-#undef BASE
-#undef EXPO
 #undef P
 
-#define FARG p1
-#define BASE p2
-#define EXPO p3
+#define FARG p3
 #define P p4
 
 // factors N or N^M where N and M are rational numbers, returns factors on stack
