@@ -2,27 +2,26 @@ The Eigenmath manual and sample scripts are available at https://georgeweigt.git
 
 To build and run:
 
-	cd src
-	make
-	./eigenmath
+	gcc eigenmath.c
+	./a.out
 
 Press ctrl-C to exit.
 
 To run a script:
 
-	./eigenmath scriptfilename
+	./a.out scriptfilename
 
 To generate LaTeX output:
 
-	./eigenmath --latex scriptfilename | tee foo.tex
+	./a.out --latex scriptfilename | tee foo.tex
 
 To generate MathML output:
 
-	./eigenmath --mathml scriptfilename | tee foo.html
+	./a.out --mathml scriptfilename | tee foo.html
 
 To generate MathJax output:
 
-	./eigenmath --mathjax scriptfilename | tee foo.html
+	./a.out --mathjax scriptfilename | tee foo.html
 
 Eigenmath uses UTF-8 encoding to display Greek letters and large delimiters.
 
@@ -40,3 +39,7 @@ Eigenmath uses UTF-8 encoding to display Greek letters and large delimiters.
 	      │   0       0      0    r  sin(θ)  │
 	      └                                  ┘
 
+To build eigenmath.c:
+
+	cd tools
+	make eigenmath.c
