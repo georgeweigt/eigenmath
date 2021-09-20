@@ -8,5 +8,5 @@ default:
 
 eigenmath.c:
 	gcc gen.c
-	./a.out >eigenmath.c
+	./a.out >../eigenmath.c
 	rm a.out
