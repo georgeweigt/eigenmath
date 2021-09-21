@@ -9,7 +9,8 @@ static_reciprocate()
 	// save divide by zero error for runtime
 
 	if (iszero(p2)) {
-		push(p1);
+		if (!isinteger1(p1))
+			push(p1);
 		push_symbol(POWER);
 		push(p2);
 		push_integer(-1);
@@ -25,13 +26,27 @@ static_reciprocate()
 	}
 
 	if (isnum(p2)) {
-		push(p1);
+		if (!isinteger1(p1))
+			push(p1);
 		push(p2);
 		reciprocate();
 		return;
 	}
 
-	push(p1);
+	if (car(p2) == symbol(POWER) && isnum(caddr(p2))) {
+		if (!isinteger1(p1))
+			push(p1);
+		push_symbol(POWER);
+		push(cadr(p2));
+		push(caddr(p2));
+		negate();
+		list(3);
+		return;
+	}
+
+	if (!isinteger1(p1))
+		push(p1);
+
 	push_symbol(POWER);
 	push(p2);
 	push_integer(-1);

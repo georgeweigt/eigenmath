@@ -128,10 +128,17 @@ function
 bignum_smallnum(u)
 {
 	u = Math.abs(u);
-	if (u < 0x100000000)
+	if (bignum_issmallnum(u))
 		return u;
 	else
 		return null;
+}
+
+function
+bignum_issmallnum(u)
+{
+	u = Math.abs(u);
+	return u < 0x80000000;
 }
 
 function

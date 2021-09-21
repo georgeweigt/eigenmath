@@ -3,14 +3,14 @@
 function
 power_sum(BASE, EXPO)
 {
-	var h, i, n, p3, p4;
+	var h, i, n, p1, p2;
 
 	if (iszero(EXPO)) {
 		push_integer(1);
 		return;
 	}
 
-	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO) || isfraction(EXPO) || (isdouble(EXPO) && EXPO.d != Math.floor(EXPO.d))) {
+	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO) || isfraction(EXPO) || !issmallinteger(EXPO)) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
@@ -25,17 +25,17 @@ power_sum(BASE, EXPO)
 
 	h = stack.length;
 
-	p3 = cdr(BASE);
+	p1 = cdr(BASE);
 
-	while (iscons(p3)) {
-		p4 = cdr(BASE);
-		while (iscons(p4)) {
-			push(car(p3));
-			push(car(p4));
+	while (iscons(p1)) {
+		p2 = cdr(BASE);
+		while (iscons(p2)) {
+			push(car(p1));
+			push(car(p2));
 			multiply();
-			p4 = cdr(p4);
+			p2 = cdr(p2);
 		}
-		p3 = cdr(p3);
+		p1 = cdr(p1);
 	}
 
 	add_terms(stack.length - h);

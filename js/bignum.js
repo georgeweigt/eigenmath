@@ -67,18 +67,25 @@ bignum_float(u)
 	return d;
 }
 
-// returns 32-bit value
+// returns 31-bit value
 
 function
 bignum_smallnum(u)
 {
-	if (u.length == 1)
-		return u[0];
-
-	if (u.length == 2 && u[1] < 256)
-		return BIGM * u[1] + u[0];
+	if (bignum_issmallnum(u)) {
+		if (u.length == 1)
+			return u[0];
+		else
+			return BIGM * u[1] + u[0];
+	}
 
 	return null;
+}
+
+function
+bignum_issmallnum(u)
+{
+	return u.length == 1 || (u.length == 2 && u[1] < 128);
 }
 
 function

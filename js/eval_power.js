@@ -3,23 +3,25 @@ eval_power(p1)
 {
 	var t, p2;
 
-	push(caddr(p1)); // exponent
+	// evaluate exponent
+
+	push(caddr(p1));
 	evalf();
 	p2 = pop();
 
+	// if exponent is negative then evaluate base without expanding
+
+	push(cadr(p1));
+
 	if (isnegativenumber(p2)) {
-		// don't expand in denominators
 		t = expanding;
 		expanding = 0;
-		push(cadr(p1)); // base
 		evalf();
-		push(p2);
-		power();
 		expanding = t;
-	} else {
-		push(cadr(p1)); // base
+	} else
 		evalf();
-		push(p2);
-		power();
-	}
+
+	push(p2);
+
+	power();
 }
