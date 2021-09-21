@@ -15618,7 +15618,7 @@ void
 power_sum(void)
 {
 	int h, i, n;
-	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO) || isfraction(EXPO) || !issmallinteger(EXPO)) {
+	if (expanding == 0 || !issmallinteger(EXPO) || isnegativenumber(EXPO)) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
