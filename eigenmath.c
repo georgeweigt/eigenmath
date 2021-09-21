@@ -534,6 +534,7 @@ int iszero(struct atom *p);
 int isplusone(struct atom *p);
 int isminusone(struct atom *p);
 int isinteger(struct atom *p);
+int isinteger1(struct atom *p);
 int isfraction(struct atom *p);
 int isposint(struct atom *p);
 int iseveninteger(struct atom *p);
@@ -4659,6 +4660,12 @@ int
 isinteger(struct atom *p)
 {
 	return isrational(p) && MEQUAL(p->u.q.b, 1);
+}
+
+int
+isinteger1(struct atom *p)
+{
+	return isinteger(p) && isplusone(p);
 }
 
 int
@@ -15443,24 +15450,21 @@ void
 eval_power(void)
 {
 	int t;
-	push(caddr(p1)); // exponent
+	// evaluate exponent
+	push(caddr(p1));
 	eval();
 	p2 = pop();
+	// if exponent is negative then evaluate base without expanding
+	push(cadr(p1));
 	if (isnegativenumber(p2)) {
-		// don't expand in denominators
 		t = expanding;
 		expanding = 0;
-		push(cadr(p1)); // base
 		eval();
-		push(p2);
-		power();
 		expanding = t;
-	} else {
-		push(cadr(p1)); // base
+	} else
 		eval();
-		push(p2);
-		power();
-	}
+	push(p2);
+	power();
 }
 
 void
@@ -19585,9 +19589,10 @@ static_reciprocate_nib(void)
 {
 	p2 = pop();
 	p1 = pop();
-	push(p1);
 	// save divide by zero error for runtime
 	if (iszero(p2)) {
+		if (!isinteger1(p1))
+			push(p1);
 		push_symbol(POWER);
 		push(p2);
 		push_integer(-1);
@@ -19595,15 +19600,30 @@ static_reciprocate_nib(void)
 		return;
 	}
 	if (isnum(p1) && isnum(p2)) {
+		push(p1);
 		push(p2);
 		divide();
 		return;
 	}
 	if (isnum(p2)) {
+		if (!isinteger1(p1))
+			push(p1);
 		push(p2);
 		reciprocate();
 		return;
 	}
+	if (car(p2) == symbol(POWER) && isnum(caddr(p2))) {
+		if (!isinteger1(p1))
+			push(p1);
+		push_symbol(POWER);
+		push(cadr(p2));
+		push(caddr(p2));
+		negate();
+		list(3);
+		return;
+	}
+	if (!isinteger1(p1))
+		push(p1);
 	push_symbol(POWER);
 	push(p2);
 	push_integer(-1);

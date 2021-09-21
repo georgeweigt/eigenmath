@@ -438,6 +438,12 @@ isinteger(struct atom *p)
 }
 
 int
+isinteger1(struct atom *p)
+{
+	return isinteger(p) && isplusone(p);
+}
+
+int
 isfraction(struct atom *p)
 {
 	return isrational(p) && !MEQUAL(p->u.q.b, 1);

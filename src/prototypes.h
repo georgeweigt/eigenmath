@@ -147,6 +147,7 @@ int iszero(struct atom *p);
 int isplusone(struct atom *p);
 int isminusone(struct atom *p);
 int isinteger(struct atom *p);
+int isinteger1(struct atom *p);
 int isfraction(struct atom *p);
 int isposint(struct atom *p);
 int iseveninteger(struct atom *p);
