@@ -5,11 +5,6 @@ power_sum(BASE, EXPO)
 {
 	var h, i, n, p1, p2;
 
-	if (iszero(EXPO)) {
-		push_integer(1);
-		return;
-	}
-
 	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO) || isfraction(EXPO) || !issmallinteger(EXPO)) {
 		push_symbol(POWER);
 		push(BASE);
