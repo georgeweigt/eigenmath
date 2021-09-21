@@ -15613,8 +15613,8 @@ power_nib(void)
 void
 power_sum(void)
 {
-	int h, i, m, n;
-	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO) || isfraction(EXPO) || (isdouble(EXPO) && EXPO->u.d != floor(EXPO->u.d))) {
+	int h, i, n;
+	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO) || isfraction(EXPO) || !issmallinteger(EXPO)) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
@@ -15637,17 +15637,10 @@ power_sum(void)
 		p1 = cdr(p1);
 	}
 	add_terms(tos - h);
-	// continue up to power m
-	m = abs(n);
-	for (i = 2; i < m; i++) {
+	// continue up to power n
+	for (i = 2; i < n; i++) {
 		push(BASE);
 		multiply();
-	}
-	if (n < 0) {
-		push_symbol(POWER);
-		swap();
-		push_integer(-1);
-		list(3);
 	}
 }
 

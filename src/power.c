@@ -203,9 +203,9 @@ power_nib(void)
 void
 power_sum(void)
 {
-	int h, i, m, n;
+	int h, i, n;
 
-	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO) || isfraction(EXPO) || (isdouble(EXPO) && EXPO->u.d != floor(EXPO->u.d))) {
+	if (expanding == 0 || !isnum(EXPO) || isnegativenumber(EXPO) || isfraction(EXPO) || !issmallinteger(EXPO)) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
@@ -235,20 +235,11 @@ power_sum(void)
 
 	add_terms(tos - h);
 
-	// continue up to power m
+	// continue up to power n
 
-	m = abs(n);
-
-	for (i = 2; i < m; i++) {
+	for (i = 2; i < n; i++) {
 		push(BASE);
 		multiply();
-	}
-
-	if (n < 0) {
-		push_symbol(POWER);
-		swap();
-		push_integer(-1);
-		list(3);
 	}
 }
 
