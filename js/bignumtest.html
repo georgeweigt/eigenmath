@@ -219,26 +219,33 @@ test_bignum_root()
 		printline("fail 5^20");
 }
 
-const A1 = [0x000000,0x000000,0x000001]
-const A2 = [0x000000,0x000000,0x800000];
-const A3 = [0xffffff,0xffffff,0xffffff];
+const A = [
+[0x000000],
+[0x000001],
+[0x800000],
+[0xffffff],
+[0x000000,0x000000,0x000001],
+[0x000000,0x000000,0x800000],
+[0xffffff,0xffffff,0xffffff]
+];
 
-const B1 = [0x000000,0x000001];
-const B2 = [0xffffff];
+const B = [
+[0x000001],
+[0x800000],
+[0xffffff],
+[0x000000,0x000001],
+];
 
 function
 test_combo()
 {
 	printline("Testing combo");
 
-	test_combo_nib(A1, B1);
-	test_combo_nib(A1, B2);
+	for (i = 0; i < A.length; i++)
+		for (j = 0; j < B.length; j++)
+			test_combo_nib(A[i], B[j]);
 
-	test_combo_nib(A2, B1);
-	test_combo_nib(A2, B2);
-
-	test_combo_nib(A3, B1);
-	test_combo_nib(A3, B2);
+	printline("");
 }
 
 function
@@ -250,7 +257,9 @@ test_combo_nib(a, c)
 	t = bignum_mul(b, q);
 	t = bignum_add(t, r);
 
-	if (bignum_cmp(a, t))
+	if (bignum_cmp(a, t) == 0)
+		stdout.innerHTML += ".";
+	else
 		printline("fail");
 }
 
