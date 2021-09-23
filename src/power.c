@@ -23,7 +23,7 @@ eval_power(void)
 	} else
 		eval();
 
-	push(p2);
+	push(p2); // push exponent
 
 	power();
 }

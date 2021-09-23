@@ -31,6 +31,8 @@ run()
 	test_bignum_pow();
 	test_bignum_root();
 
+	test_combo();
+
 	printline("ok");
 }
 
@@ -215,6 +217,41 @@ test_bignum_root()
 	s = bignum_itoa(w);
 	if (Number(s) != 5)
 		printline("fail 5^20");
+}
+
+const A1 = [0x000000,0x000000,0x000001]
+const A2 = [0x000000,0x000000,0x800000];
+const A3 = [0xffffff,0xffffff,0xffffff];
+
+const B1 = [0x000000,0x000001];
+const B2 = [0xffffff];
+
+function
+test_combo()
+{
+	printline("Testing combo");
+
+	test_combo_nib(A1, B1);
+	test_combo_nib(A1, B2);
+
+	test_combo_nib(A2, B1);
+	test_combo_nib(A2, B2);
+
+	test_combo_nib(A3, B1);
+	test_combo_nib(A3, B2);
+}
+
+function
+test_combo_nib(a, c)
+{
+	q = bignum_div(a, b);
+	r = bignum_mod(a, b);
+
+	t = bignum_mul(b, q);
+	t = bignum_add(t, r);
+
+	if (bignum_cmp(a, t))
+		printline("fail");
 }
 
 function

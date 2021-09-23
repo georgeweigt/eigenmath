@@ -21,7 +21,7 @@ eval_power(p1)
 	} else
 		evalf();
 
-	push(p2);
+	push(p2); // push exponent
 
 	power();
 }
