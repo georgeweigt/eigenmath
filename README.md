@@ -10,7 +10,7 @@ Enter a calculation at the prompt.
 
 UTF-8 encoding is used to display Greek letters and large delimiters.
 
-	? gmunu = ((-xi(r),0,0,0),(0,1/xi(r),0,0),(0,0,0,r^2),(0,0,0,r^2 sin(theta)^2))
+	? gmunu = ((-xi(r),0,0,0),(0,1/xi(r),0,0),(0,0,r^2,0),(0,0,0,r^2 sin(theta)^2))
 	? gmunu
 	      ┌                                  ┐
 	      │ −ξ(r)     0      0        0      │
