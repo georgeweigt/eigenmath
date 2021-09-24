@@ -8,7 +8,7 @@ Enter a calculation at the prompt.
 	? 212^17
 	3529471145760275132301897342055866171392
 
-UTF-8 encoding is used to display Greek letters and large delimiters.
+UTF-8 is used to display Greek letters and large delimiters.
 
 	? gmunu = ((-xi(r),0,0,0),(0,1/xi(r),0,0),(0,0,r^2,0),(0,0,0,r^2 sin(theta)^2))
 	? gmunu
