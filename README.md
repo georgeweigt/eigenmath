@@ -1,11 +1,16 @@
-The Eigenmath manual and sample scripts are available at https://georgeweigt.github.io
-
 To build and run:
 
 	gcc eigenmath.c
 	./a.out
 
+Enter a calculation at the prompt.
+
+	? 212^17
+	3529471145760275132301897342055866171392
+
 Press ctrl-C to exit.
+
+	? ^C
 
 To run a script:
 

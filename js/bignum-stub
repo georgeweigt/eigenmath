@@ -1,48 +1,36 @@
 function
 bignum_add(u, v)
 {
-	u = Math.abs(u);
-	v = Math.abs(v);
 	return u + v;
 }
 
 function
 bignum_sub(u, v)
 {
-	u = Math.abs(u);
-	v = Math.abs(v);
 	return u - v;
 }
 
 function
 bignum_mul(u, v)
 {
-	u = Math.abs(u);
-	v = Math.abs(v);
 	return u * v;
 }
 
 function
 bignum_div(u, v)
 {
-	u = Math.abs(u);
-	v = Math.abs(v);
 	return Math.floor(u / v);
 }
 
 function
 bignum_mod(u, v)
 {
-	u = Math.abs(u);
-	v = Math.abs(v);
 	return u % v;
 }
 
 function
 bignum_pow(u, v)
 {
-	u = Math.abs(u);
-	v = Math.abs(v);
 	return Math.pow(u, v);
 }
 
@@ -55,8 +43,6 @@ bignum_root()
 function
 bignum_cmp(u, v)
 {
-	u = Math.abs(u);
-	v = Math.abs(v);
 	if (u < v)
 		return -1;
 	if (u > v)
@@ -68,8 +54,6 @@ function
 bignum_gcd(u, v)
 {
 	var r;
-	u = Math.abs(u);
-	v = Math.abs(v);
 	while (v) {
 		r = u % v;
 		u = v;
@@ -93,14 +77,12 @@ bignum_atoi(s)
 function
 bignum_itoa(u)
 {
-	u = Math.abs(u);
 	return u.toFixed(0);
 }
 
 function
 bignum_copy(u)
 {
-	u = Math.abs(u);
 	return u;
 }
 
@@ -113,21 +95,18 @@ bignum_iszero(u)
 function
 bignum_equal(u, n)
 {
-	u = Math.abs(u);
 	return u == n;
 }
 
 function
 bignum_odd(u)
 {
-	u = Math.abs(u);
 	return u % 2 == 1;
 }
 
 function
 bignum_smallnum(u)
 {
-	u = Math.abs(u);
 	if (bignum_issmallnum(u))
 		return u;
 	else
@@ -137,14 +116,12 @@ bignum_smallnum(u)
 function
 bignum_issmallnum(u)
 {
-	u = Math.abs(u);
 	return u < 0x80000000;
 }
 
 function
 bignum_float(u)
 {
-	u = Math.abs(u);
 	return u;
 }
 
