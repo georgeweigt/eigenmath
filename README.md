@@ -9,6 +9,8 @@ To run a script:
 
 	./a.out scriptfilename
 
+Sample scripts are available at eigenmath.org
+
 To generate LaTeX output:
 
 	./a.out --latex scriptfilename | tee foo.tex
