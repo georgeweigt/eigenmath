@@ -3,7 +3,7 @@ To build and run:
 	gcc eigenmath.c
 	./a.out
 
-Enter a calculation at the prompt.
+Enter calculations at the prompt.
 
 	? 212^17
 	3529471145760275132301897342055866171392
