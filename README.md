@@ -3,29 +3,7 @@ To build and run:
 	gcc eigenmath.c
 	./a.out
 
-Enter calculations at the prompt.
-
-	? 212^17
-	3529471145760275132301897342055866171392
-	? gmunu = ((-xi(r),0,0,0),(0,1/xi(r),0,0),(0,0,r^2,0),(0,0,0,r^2 sin(theta)^2))
-	? gmunu
-	      ┌                                  ┐
-	      │ −ξ(r)     0      0        0      │
-	      │                                  │
-	      │           1                      │
-	      │   0     ╶────╴   0        0      │
-	      │          ξ(r)                    │
-	g   = │                                  │
-	 μν   │                   2              │
-	      │   0       0      r        0      │
-	      │                                  │
-	      │                        2       2 │
-	      │   0       0      0    r  sin(θ)  │
-	      └                                  ┘
-
 Press ctrl-C to exit.
-
-	? ^C
 
 To run a script:
 
