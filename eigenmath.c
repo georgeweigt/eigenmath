@@ -10548,10 +10548,10 @@ infixform_numeric_token(struct atom *p)
 			infixform_subexpr(p);
 		else {
 			sprintf(buf, "%g", p->u.d);
-			if (strchr(buf, 'E') || strchr(buf, 'e'))
-				infixform_subexpr(p);
+			if (strchr(buf, 'E') == NULL && strchr(buf, 'e') == NULL)
+				infixform_double(p);
 			else
-				print_str(buf);
+				infixform_subexpr(p);
 		}
 		return;
 	}
@@ -10569,12 +10569,13 @@ infixform_numeric_exponent(struct atom *p)
 	char buf[24];
 	if (isdouble(p)) {
 		sprintf(buf, "%g", fabs(p->u.d));
-		if (strchr(buf, 'E') || strchr(buf, 'e')) {
+		if (strchr(buf, 'E') == NULL && strchr(buf, 'e') == NULL)
+			infixform_double(p);
+		else {
 			print_char('(');
 			infixform_double(p);
 			print_char(')');
-		} else
-			print_str(buf);
+		}
 		return;
 	}
 	if (isinteger(p))
@@ -15463,7 +15464,7 @@ eval_power(void)
 		expanding = t;
 	} else
 		eval();
-	push(p2);
+	push(p2); // push exponent
 	power();
 }
 
