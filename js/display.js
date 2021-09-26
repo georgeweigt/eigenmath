@@ -157,7 +157,7 @@ emit_double(p)
 {
 	var i, j, k, s, t;
 
-	s = Math.abs(p.d).toPrecision(6);
+	s = fmtnum(p.d);
 
 	k = 0;
 
