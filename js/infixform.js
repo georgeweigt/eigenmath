@@ -456,7 +456,7 @@ infixform_numeric_token(p)
 			infixform_subexpr(p);
 		else {
 			s = fmtnum(p.d);
-			if (s.indexOf("E") == -1 && s.indexOf("e") == -1)
+			if (s.indexOf("E") < 0 && s.indexOf("e") < 0)
 				infixform_double(p);
 			else
 				infixform_subexpr(p);
@@ -479,7 +479,7 @@ infixform_numeric_exponent(p)
 
 	if (isdouble(p)) {
 		s = fmtnum(p.d);
-		if (s.indexOf("E") == -1 && s.indexOf("e") == -1)
+		if (s.indexOf("E") < 0 && s.indexOf("e") < 0)
 			infixform_double(p);
 		else {
 			infixform_write("(");
