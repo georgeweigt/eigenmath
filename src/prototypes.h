@@ -382,7 +382,7 @@ void infixform_arglist(struct atom *p);
 void infixform_rational(struct atom *p);
 void infixform_double(struct atom *p);
 void infixform_base(struct atom *p);
-void infixform_numeric_token(struct atom *p);
+void infixform_numeric_base(struct atom *p);
 void infixform_numeric_exponent(struct atom *p);
 void infixform_tensor(struct atom *p);
 void infixform_tensor_nib(struct atom *p, int d, int k);

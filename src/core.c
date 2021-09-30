@@ -452,7 +452,7 @@ isfraction(struct atom *p)
 int
 isposint(struct atom *p)
 {
-	return isinteger(p) && p->sign == MPLUS;
+	return isinteger(p) && !isnegativenumber(p);
 }
 
 int

@@ -437,34 +437,17 @@ function
 infixform_base(p)
 {
 	if (isnum(p))
-		infixform_numeric_token(p);
+		infixform_numeric_base(p);
 	else if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY) || car(p) == symbol(POWER) || car(p) == symbol(FACTORIAL))
 		infixform_subexpr(p);
 	else
 		infixform_expr(p);
 }
 
-// p is rational or double
-
 function
-infixform_numeric_token(p)
+infixform_numeric_base(p)
 {
-	var s;
-
-	if (isdouble(p)) {
-		if (p.d < 0)
-			infixform_subexpr(p);
-		else {
-			s = fmtnum(p.d);
-			if (s.indexOf("E") < 0 && s.indexOf("e") < 0)
-				infixform_double(p);
-			else
-				infixform_subexpr(p);
-		}
-		return;
-	}
-
-	if (!isnegativenumber(p) && isinteger(p))
+	if (isposint(p))
 		infixform_rational(p);
 	else
 		infixform_subexpr(p);
