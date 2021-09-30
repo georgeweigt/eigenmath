@@ -453,32 +453,26 @@ infixform_numeric_base(p)
 		infixform_subexpr(p);
 }
 
-// p is rational or double, sign is not emitted
+// sign is not emitted
 
 function
 infixform_numeric_exponent(p)
 {
-	var s;
-
 	if (isdouble(p)) {
-		s = fmtnum(p.d);
-		if (s.indexOf("E") < 0 && s.indexOf("e") < 0)
-			infixform_double(p);
-		else {
-			infixform_write("(");
-			infixform_double(p);
-			infixform_write(")");
-		}
+		infixform_write("(");
+		infixform_double(p);
+		infixform_write(")");
 		return;
 	}
 
-	if (isinteger(p))
+	if (isinteger(p)) {
 		infixform_rational(p);
-	else {
-		infixform_write("(");
-		infixform_rational(p);
-		infixform_write(")");
+		return;
 	}
+
+	infixform_write("(");
+	infixform_rational(p);
+	infixform_write(")");
 }
 
 function

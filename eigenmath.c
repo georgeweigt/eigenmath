@@ -10546,30 +10546,24 @@ infixform_numeric_base(struct atom *p)
 		infixform_subexpr(p);
 }
 
-// p is rational or double, sign is not emitted
+// sign is not emitted
 
 void
 infixform_numeric_exponent(struct atom *p)
 {
-	char buf[24];
 	if (isdouble(p)) {
-		sprintf(buf, "%g", fabs(p->u.d));
-		if (strchr(buf, 'E') == NULL && strchr(buf, 'e') == NULL)
-			infixform_double(p);
-		else {
-			print_char('(');
-			infixform_double(p);
-			print_char(')');
-		}
+		print_char('(');
+		infixform_double(p);
+		print_char(')');
 		return;
 	}
-	if (isinteger(p))
+	if (isinteger(p)) {
 		infixform_rational(p);
-	else {
-		print_char('(');
-		infixform_rational(p);
-		print_char(')');
+		return;
 	}
+	print_char('(');
+	infixform_rational(p);
+	print_char(')');
 }
 
 void
