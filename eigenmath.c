@@ -769,7 +769,7 @@ void infixform_arglist(struct atom *p);
 void infixform_rational(struct atom *p);
 void infixform_double(struct atom *p);
 void infixform_base(struct atom *p);
-void infixform_numeric_token(struct atom *p);
+void infixform_numeric_base(struct atom *p);
 void infixform_numeric_exponent(struct atom *p);
 void infixform_tensor(struct atom *p);
 void infixform_tensor_nib(struct atom *p, int d, int k);
@@ -4677,7 +4677,7 @@ isfraction(struct atom *p)
 int
 isposint(struct atom *p)
 {
-	return isinteger(p) && p->sign == MPLUS;
+	return isinteger(p) && !isnegativenumber(p);
 }
 
 int
@@ -10530,32 +10530,17 @@ void
 infixform_base(struct atom *p)
 {
 	if (isnum(p))
-		infixform_numeric_token(p);
+		infixform_numeric_base(p);
 	else if (car(p) == symbol(ADD) || car(p) == symbol(MULTIPLY) || car(p) == symbol(POWER) || car(p) == symbol(FACTORIAL))
 		infixform_subexpr(p);
 	else
 		infixform_expr(p);
 }
 
-// p is rational or double
-
 void
-infixform_numeric_token(struct atom *p)
+infixform_numeric_base(struct atom *p)
 {
-	char buf[24];
-	if (isdouble(p)) {
-		if (p->u.d < 0.0)
-			infixform_subexpr(p);
-		else {
-			sprintf(buf, "%g", p->u.d);
-			if (strchr(buf, 'E') == NULL && strchr(buf, 'e') == NULL)
-				infixform_double(p);
-			else
-				infixform_subexpr(p);
-		}
-		return;
-	}
-	if (p->sign == MPLUS && isinteger(p))
+	if (isposint(p))
 		infixform_rational(p);
 	else
 		infixform_subexpr(p);
