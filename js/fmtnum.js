@@ -1,8 +1,10 @@
 function
 fmtnum(n)
 {
-	if (Math.abs(n) > 0 && Math.abs(n) < 0.0001)
-		return Math.abs(n).toExponential(5);
+	n = Math.abs(n);
+
+	if (n > 0 && n < 0.0001)
+		return n.toExponential(5);
 	else
-		return Math.abs(n).toPrecision(6);
+		return n.toPrecision(6);
 }
