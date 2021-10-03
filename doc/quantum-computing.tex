@@ -43,7 +43,7 @@ Measurement rotates $\psi_f$ to an eigenstate $|j\rangle$.
 The measurement result is $|j\rangle$.
 The probability $P_j$ of getting a specific result $|j\rangle$ is
 \begin{equation*}
-P_j=|c_j|^2=c_j\overline{c_j}
+P_j=|c_j|^2=c_jc_j^*
 \end{equation*}
 
 \noindent
@@ -63,11 +63,11 @@ the final state $\psi_f$, or any other state, is available for inspection.
 Hence there is no need to simulate the measurement process.
 The probability distribution of the result can be computed directly as
 \begin{equation*}
-P=\psi_f\,\overline{\psi_f}
+P=\psi_f\,\psi_f^*
 \end{equation*}
 
 \noindent
-where $\psi_f\,\overline{\psi_f}$
+where $\psi_f\,\psi_f^*$
 is the Hadamard (element-wise) product of $\psi_f$ and its complex conjugate.
 The result $P$ is a vector such that $P_j$ is the
 probability of eigenstate $|j\rangle$ and
