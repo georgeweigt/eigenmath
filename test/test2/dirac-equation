@@ -1,0 +1,29 @@
+"Dirac equation"
+
+clear
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+omega = sqrt(kx^2 + ky^2 + kz^2 + m^2)
+psi1 = (omega+m, 0, kz, kx+i*ky) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi2 = (0, omega+m, kx-i*ky, -kz) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi3 = (kz, kx+i*ky, omega-m, 0) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi4 = (kx-i*ky, -kz, 0, omega-m) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi5 = (omega-m, 0, kz, kx+i*ky) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+psi6 = (0, omega-m, kx-i*ky, -kz) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+psi7 = (kz, kx+i*ky, omega+m, 0) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+psi8 = (kx-i*ky, -kz, 0, omega+m) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+D(psi) = i*dot(gamma0,d(psi,t)) +
+         i*dot(gamma1,d(psi,x)) +
+         i*dot(gamma2,d(psi,y)) +
+         i*dot(gamma3,d(psi,z)) - m*psi
+check(D(psi1)=0)
+check(D(psi2)=0)
+check(D(psi3)=0)
+check(D(psi4)=0)
+check(D(psi5)=0)
+check(D(psi6)=0)
+check(D(psi7)=0)
+check(D(psi8)=0)

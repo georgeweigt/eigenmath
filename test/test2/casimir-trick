@@ -1,0 +1,52 @@
+"Casimir trick"
+
+clear
+
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
+E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
+E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
+p1 = (E1,p1x,p1y,p1z)
+p2 = (E2,p2x,p2y,p2z)
+p3 = (E3,p3x,p3y,p3z)
+p4 = (E4,p4x,p4y,p4z)
+u11 = (E1+m1,0,p1z,p1x+i*p1y)
+u12 = (0,E1+m1,p1x-i*p1y,-p1z)
+v21 = (p2z,p2x+i*p2y,E2+m2,0)
+v22 = (p2x-i*p2y,-p2z,0,E2+m2)
+u31 = (E3+m3,0,p3z,p3x+i*p3y)
+u32 = (0,E3+m3,p3x-i*p3y,-p3z)
+v41 = (p4z,p4x+i*p4y,E4+m4,0)
+v42 = (p4x-i*p4y,-p4z,0,E4+m4)
+u1 = (u11,u12)
+v2 = (v21,v22)
+u3 = (u31,u32)
+v4 = (v41,v42)
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+pslash1 = dot(gmunu,p1,gamma)
+pslash2 = dot(gmunu,p2,gamma)
+pslash3 = dot(gmunu,p3,gamma)
+pslash4 = dot(gmunu,p4,gamma)
+gammaT = transpose(gamma)
+bar(u) = dot(conj(u),gamma0)
+-- A is the sum over spins
+A = sum(s1,1,2,sum(s2,1,2,sum(s3,1,2,sum(s4,1,2,
+mag(dot(dot(bar(u3[s3]),gammaT,v4[s4]),gmunu,dot(bar(v2[s2]),gammaT,u1[s1])))^2
+))))
+-- T1 is the first trace matrix
+T1 = contract(dot(pslash1+m1*I,gammaT,pslash2-m2*I,gammaT),1,4)
+-- T2 is the second trace matrix
+T2 = contract(dot(pslash4-m4*I,gammaT,pslash3+m3*I,gammaT),1,4)
+T2 = dot(gmunu,T2,gmunu)
+-- B is the product of T1 and T2
+B = contract(dot(T1,transpose(T2)))
+-- N is the normalization constant
+N = (E1+m1)*(E2+m2)*(E3+m3)*(E4+m4)
+
+check(A - N B == 0)

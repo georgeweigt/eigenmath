@@ -1,0 +1,25 @@
+"Spherical harmomics"
+
+-- spherical harmonic eigenfunctions
+
+clear
+
+Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
+         P(expcos(theta),l,m) exp(i m phi)
+
+P(y,l,m) = eval(1 / (2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,y)
+
+S(l,m) = -Lap(Y(l,m)) == l (l + 1) Y(l,m)
+
+Lap(f) = 1 / expsin(theta) d(expsin(theta) d(f,theta),theta) +
+         1 / expsin(theta)^2 d(f,phi,2)
+
+check(S(0,0) == 1)
+check(S(1,0) == 1)
+check(S(1,1) == 1)
+check(S(1,-1) == 1)
+check(S(2,0) == 1)
+check(S(2,1) == 1)
+check(S(2,2) == 1)
+check(S(2,-1) == 1)
+check(S(2,-2) == 1)

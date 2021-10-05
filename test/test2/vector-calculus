@@ -1,0 +1,117 @@
+"Vector calculus"
+
+clear
+
+# This script tests 10 vector calculus identities.
+
+# Define the cross product, div, grad, curl and laplacian for
+# rectangular coordinates.
+
+cross(u,v) = (
+  u[2] v[3] - u[3] v[2],
+  u[3] v[1] - u[1] v[3],
+  u[1] v[2] - u[2] v[1]
+)
+
+div(v) = contract(d(v,(x,y,z)),1,2)
+
+grad(v) = d(v,(x,y,z))
+
+curl(f) = (
+  d(f[3],y) - d(f[2],z),
+  d(f[1],z) - d(f[3],x),
+  d(f[2],x) - d(f[1],y)
+)
+
+laplacian(f) = d(d(f,x),x) + d(d(f,y),y) + d(d(f,z),z)
+
+# Note: Functions can be left undefined, such as FX(), FY(), etc.
+# These "generic" functions, when evaluated by the derivative function d(),
+# are considered to be dependent on all variables.
+# Basically what this means is that d() does no evaluation at all.
+# For example, d(FX(),x) returns the expression d(FX(),x).
+
+# Define generic vector functions F and G.
+
+F = (FX(),FY(),FZ())
+G = (GX(),GY(),GZ())
+
+# Now check the 10 identities.
+
+-- 1. div(curl F) = 0
+
+A = div(curl(F))
+
+check(A = 0)
+
+-- 2. curl(grad f) = 0
+
+A = curl(grad(f())) # Note the use of generic scalar function f() here.
+
+check(A = 0)
+
+-- 3. div(grad f) = laplacian f
+
+A = div(grad(f()))
+
+B = laplacian(f())
+
+check(A = B)
+
+-- 4. curl(curl F) = grad(div F) - laplacian F
+
+A = curl(curl(F))
+
+B = grad(div(F)) - laplacian(F)
+
+check(A = B)
+
+-- 5. grad(fg) = f grad g + g grad(f)
+
+A = grad(f() g())
+
+B = f() grad(g()) + g() grad(f())
+
+check(A = B)
+
+-- 6. grad(F . G) = (G . grad)F + (F . grad)G + G x curl F + F x curl G
+
+A = grad(dot(F,G))
+
+B = dot(grad(F),G)+dot(grad(G),F)+cross(G,curl(F))+cross(F,curl(G))
+
+check(A = B)
+
+# Note: It turns out that (G . grad)F actually means (grad F) . G
+
+-- 7. div(fF) = f div F + grad f . F
+
+A = div(f() F)
+
+B = f() div(F) + dot(grad(f()),F)
+
+check(A = B)
+
+-- 8. div(F x G) = G . curl F - F . curl G
+
+A = div(cross(F,G))
+
+B = dot(G,curl(F)) - dot(F,curl(G))
+
+check(A = B)
+
+-- 9. curl(fF) = f curl F + grad f x F
+
+A = curl(f() F)
+
+B = f() curl(F) + cross(grad(f()),F)
+
+check(A = B)
+
+-- 10. curl(F x G) = F div G - G div F + (G . grad)F - (F . grad)G
+
+A = curl(cross(F,G))
+
+B = F div(G) - G div(F) + dot(grad(F),G) - dot(grad(G),F)
+
+check(A = B)

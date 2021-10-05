@@ -1,0 +1,18 @@
+"Quantum electric field"
+
+clear
+
+-- derived units
+joule = kilogram * meter^2 * second^(-2)
+volt = kilogram * meter^2 * second^(-3) * ampere^(-1)
+farad = kilogram^(-1) * meter^(-2) * second^4 * ampere^2
+-- physical values
+hbar = 1.054572 * 10^(-34) * joule * second
+epsilon0 = 8.854188 * 10^(-12) * farad * meter^(-1)
+c = 299792458 * meter * second^(-1)
+lambda = 600 * 10^(-9) * meter
+omega = 2 * float(pi) * c / lambda
+-- conversion constant
+C = sqrt(0.5 * hbar * omega * epsilon0^(-1) * meter^(-3))
+check(infixform(C) == "0.000136733 kilogram meter / (ampere second^3)")
+check(infixform(volt * meter^(-1)) == "kilogram meter / (ampere second^3)")

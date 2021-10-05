@@ -1,6 +1,32 @@
-trace = 1
+"Angular momentum"
 
--- bondi metric
+-- commutation relations for angular momentum operators
+
+clear
+
+Lx(f) = -i hbar (y d(f,z) - z d(f,y))
+Ly(f) = -i hbar (z d(f,x) - x d(f,z))
+Lz(f) = -i hbar (x d(f,y) - y d(f,x))
+
+check(Lx(Ly(psi(x,y,z))) - Ly(Lx(psi(x,y,z))) == i hbar Lz(psi(x,y,z)))
+check(Ly(Lz(psi(x,y,z))) - Lz(Ly(psi(x,y,z))) == i hbar Lx(psi(x,y,z)))
+check(Lz(Lx(psi(x,y,z))) - Lx(Lz(psi(x,y,z))) == i hbar Ly(psi(x,y,z)))
+"Birthday problem"
+
+clear
+
+-- Product method
+p = product(k,1,23,(365-k+1)/365)
+check(infixform(float(p)) == "0.492703")
+
+-- Factorial method
+p = 365! / (365 - 23)! / 365^23
+check(infixform(float(p)) == "0.492703")
+
+-- Probability of at least one shared birthday
+check(infixform(1.0 - p) == "0.507297")
+"Bondi metric"
+clear
 guu=V(u,r,theta)*1/r*exp(2*beta(u,r,theta))-U(u,r,theta)^2*r^2*exp(2*gamma(u,r,theta))
 gur=2*exp(2*beta(u,r,theta))
 gutheta=2*U(u,r,theta)*r^2*exp(2*gamma(u,r,theta))
@@ -17,15 +43,101 @@ RUDDD=transpose(tmp1,3,4)-tmp1+transpose(tmp2,2,3)-transpose(transpose(tmp2,2,3)
 RDD=contract(RUDDD,1,3)
 R=contract(contract(outer(guu,RDD),2,3),1,2)
 GDD=RDD-1/2*gdd*R
+
+G11 = 3/4 r^4 U(u,r,theta)^4 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(gamma(u,r,theta),r)^2 - 3/4 r^4 U(u,r,theta)^2 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(U(u,r,theta),r)^2 - 3 r^3 U(u,r,theta)^4 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(beta(u,r,theta),r) + 3/2 r^3 U(u,r,theta)^4 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(gamma(u,r,theta),r) + 3/2 r^3 U(u,r,theta)^3 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(U(u,r,theta),r) + 9/4 r^2 U(u,r,theta)^4 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) + 2 r^2 U(u,r,theta)^3 cos(theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) / sin(theta) - 2 r^2 U(u,r,theta)^3 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),theta) + 2 r^2 U(u,r,theta)^3 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),theta) - 2 r^2 U(u,r,theta)^3 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) d(gamma(u,r,theta),theta) - 3 r^2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),theta) + 3 r^2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),theta) + r^2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(U(u,r,theta),r),theta) - 4 r^2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),u) + 4 r^2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),u) - r^2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) d(gamma(u,r,theta),u) + 2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(U(u,r,theta),theta) - 4 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),u) + 4 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),u) + 2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(U(u,r,theta),r),u) - 2 r U(u,r,theta)^3 cos(theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) / sin(theta) + 2 r U(u,r,theta)^3 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),theta) + r U(u,r,theta)^2 V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),r) - r U(u,r,theta)^2 V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),r) - 1/2 r U(u,r,theta)^2 V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r)^2 + r U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(V(u,r,theta),r) d(beta(u,r,theta),r) - r U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(V(u,r,theta),r) d(gamma(u,r,theta),r) - 6 r U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(beta(u,r,theta),u) + 1/2 r U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(V(u,r,theta),r),r) + 7 r U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),u) + 2 r U(u,r,theta) V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),r) - 2 r U(u,r,theta) V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),r) - r U(u,r,theta) V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(U(u,r,theta),r),r) + 3 r U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),u) - 1/4 r V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r)^2 - 9 U(u,r,theta)^2 V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) / (4 r) - U(u,r,theta) V(u,r,theta) cos(theta) d(beta(u,r,theta),r) / (r sin(theta)) - U(u,r,theta) V(u,r,theta) cos(theta) d(gamma(u,r,theta),r) / (r sin(theta)) + 2 U(u,r,theta) V(u,r,theta) d(gamma(u,r,theta),r) d(gamma(u,r,theta),theta) / r - U(u,r,theta) cos(theta) d(V(u,r,theta),r) / (2 r sin(theta)) - 2 U(u,r,theta) d(V(u,r,theta),theta) d(beta(u,r,theta),r) / r + 2 U(u,r,theta) d(V(u,r,theta),theta) d(gamma(u,r,theta),r) / r - U(u,r,theta) d(d(V(u,r,theta),r),theta) / r + V(u,r,theta) cos(theta) d(U(u,r,theta),r) / (r sin(theta)) - V(u,r,theta) d(U(u,r,theta),theta) d(beta(u,r,theta),r) / r + V(u,r,theta) d(U(u,r,theta),theta) d(gamma(u,r,theta),r) / r + V(u,r,theta) d(d(U(u,r,theta),r),theta) / r + V(u,r,theta) d(gamma(u,r,theta),r) d(gamma(u,r,theta),u) / r + d(U(u,r,theta),r) d(V(u,r,theta),theta) / (2 r) - d(U(u,r,theta),theta) d(V(u,r,theta),r) / (2 r) + 7 U(u,r,theta) V(u,r,theta) cos(theta) / (2 r^2 sin(theta)) - 2 U(u,r,theta) V(u,r,theta) d(beta(u,r,theta),theta) / r^2 + 2 U(u,r,theta) d(V(u,r,theta),theta) / r^2 - V(u,r,theta)^2 d(gamma(u,r,theta),r)^2 / (4 r^2) + 7 V(u,r,theta) d(U(u,r,theta),theta) / (2 r^2) - V(u,r,theta) d(beta(u,r,theta),u) / r^2 + d(V(u,r,theta),u) / (2 r^2) + V(u,r,theta)^2 d(beta(u,r,theta),r) / (2 r^3) - V(u,r,theta) cos(theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(beta(u,r,theta),theta) / (r^3 sin(theta)) + 3 V(u,r,theta) cos(theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(gamma(u,r,theta),theta) / (r^3 sin(theta)) + V(u,r,theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) / r^3 - V(u,r,theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(beta(u,r,theta),theta)^2 / r^3 + 2 V(u,r,theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(beta(u,r,theta),theta) d(gamma(u,r,theta),theta) / r^3 - V(u,r,theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(beta(u,r,theta),theta),theta) / r^3 + V(u,r,theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),theta),theta) / r^3 - 2 V(u,r,theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(gamma(u,r,theta),theta)^2 / r^3 - V(u,r,theta) d(V(u,r,theta),r) / (4 r^3) + cos(theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(V(u,r,theta),theta) / (2 r^3 sin(theta)) + exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(V(u,r,theta),theta) d(beta(u,r,theta),theta) / r^3 - exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(V(u,r,theta),theta) d(gamma(u,r,theta),theta) / r^3 + exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(V(u,r,theta),theta),theta) / (2 r^3) - U(u,r,theta)^2 + 7/2 U(u,r,theta)^2 V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(beta(u,r,theta),r) - 5/2 U(u,r,theta)^2 V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) + 2 U(u,r,theta)^2 cos(theta) d(beta(u,r,theta),theta) / sin(theta) - 4 U(u,r,theta)^2 cos(theta) d(gamma(u,r,theta),theta) / sin(theta) - 3/4 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(V(u,r,theta),r) + U(u,r,theta)^2 d(beta(u,r,theta),theta)^2 - 2 U(u,r,theta)^2 d(beta(u,r,theta),theta) d(gamma(u,r,theta),theta) + 2 U(u,r,theta)^2 d(d(beta(u,r,theta),theta),theta) - 2 U(u,r,theta)^2 d(d(gamma(u,r,theta),theta),theta) + 2 U(u,r,theta)^2 d(gamma(u,r,theta),theta)^2 - 11/2 U(u,r,theta) V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) - U(u,r,theta) cos(theta) d(U(u,r,theta),theta) / sin(theta) + 4 U(u,r,theta) cos(theta) d(beta(u,r,theta),u) / sin(theta) - 4 U(u,r,theta) cos(theta) d(gamma(u,r,theta),u) / sin(theta) + 2 U(u,r,theta) d(U(u,r,theta),theta) d(beta(u,r,theta),theta) - 2 U(u,r,theta) d(U(u,r,theta),theta) d(gamma(u,r,theta),theta) - U(u,r,theta) d(d(U(u,r,theta),theta),theta) + 4 U(u,r,theta) d(d(beta(u,r,theta),theta),u) - 4 U(u,r,theta) d(d(gamma(u,r,theta),theta),u) - 2 cos(theta) d(U(u,r,theta),u) / sin(theta) - d(U(u,r,theta),theta)^2 + 4 d(U(u,r,theta),theta) d(beta(u,r,theta),u) - 4 d(U(u,r,theta),theta) d(gamma(u,r,theta),u) - 2 d(d(U(u,r,theta),theta),u) - 2 d(gamma(u,r,theta),u)^2
+
+G12 = -3/2 r^2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r)^2 + 2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),r) - 2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),r) - r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(U(u,r,theta),r),r) - 1/2 r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r)^2 + 6 r U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(beta(u,r,theta),r) - 3 r U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) - 7 r U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) + 4 U(u,r,theta) cos(theta) / (r sin(theta)) - 4 U(u,r,theta) d(beta(u,r,theta),theta) / r - V(u,r,theta) d(gamma(u,r,theta),r)^2 / (2 r) + 4 d(U(u,r,theta),theta) / r + V(u,r,theta) d(beta(u,r,theta),r) / r^2 - 2 cos(theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(beta(u,r,theta),theta) / (r^2 sin(theta)) + 6 cos(theta) exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(gamma(u,r,theta),theta) / (r^2 sin(theta)) + 2 exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) / r^2 - 2 exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(beta(u,r,theta),theta)^2 / r^2 + 4 exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(beta(u,r,theta),theta) d(gamma(u,r,theta),theta) / r^2 - 2 exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(beta(u,r,theta),theta),theta) / r^2 + 2 exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),theta),theta) / r^2 - 4 exp(2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(gamma(u,r,theta),theta)^2 / r^2 - d(V(u,r,theta),r) / (2 r^2) - 9/2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) - 4 U(u,r,theta) cos(theta) d(gamma(u,r,theta),r) / sin(theta) + 2 U(u,r,theta) d(d(beta(u,r,theta),r),theta) - 2 U(u,r,theta) d(d(gamma(u,r,theta),r),theta) + 4 U(u,r,theta) d(gamma(u,r,theta),r) d(gamma(u,r,theta),theta) + cos(theta) d(U(u,r,theta),r) / sin(theta) + d(d(U(u,r,theta),r),theta)
+
+G13 = -3/2 r^4 U(u,r,theta)^3 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(gamma(u,r,theta),r)^2 + 3/2 r^4 U(u,r,theta)^2 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),r) - 3/2 r^4 U(u,r,theta)^2 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),r) - 3/4 r^4 U(u,r,theta)^2 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(d(U(u,r,theta),r),r) + 6 r^3 U(u,r,theta)^3 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(beta(u,r,theta),r) - 3 r^3 U(u,r,theta)^3 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(gamma(u,r,theta),r) - 6 r^3 U(u,r,theta)^2 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(U(u,r,theta),r) - 9/2 r^2 U(u,r,theta)^3 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) - 4 r^2 U(u,r,theta)^2 cos(theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) / sin(theta) + 5/2 r^2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),theta) - 5/2 r^2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),theta) + 4 r^2 U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) d(gamma(u,r,theta),theta) + r^2 U(u,r,theta) cos(theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) / sin(theta) + r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),theta) - r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),theta) + 1/2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(U(u,r,theta),r),theta) + 2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),u) - 2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),u) + 2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) d(gamma(u,r,theta),u) - 1/2 r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(U(u,r,theta),theta) + r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),u) - r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),u) - 1/2 r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(U(u,r,theta),r),u) + 4 r U(u,r,theta)^2 cos(theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) / sin(theta) - 3 r U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(beta(u,r,theta),theta) - r U(u,r,theta)^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),theta) - 1/2 r U(u,r,theta) V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),r) + 1/2 r U(u,r,theta) V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),r) - 1/2 r U(u,r,theta) V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r)^2 + 3 r U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),theta) - 1/2 r U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(V(u,r,theta),r) d(beta(u,r,theta),r) + 1/2 r U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(V(u,r,theta),r) d(gamma(u,r,theta),r) - 1/4 r U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(V(u,r,theta),r),r) - 2 r U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),u) - 1/2 r V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),r) + 1/2 r V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),r) + 1/4 r V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(U(u,r,theta),r),r) + d(V(u,r,theta),theta) d(beta(u,r,theta),r) / (2 r) - d(V(u,r,theta),theta) d(gamma(u,r,theta),r) / (2 r) + d(d(V(u,r,theta),r),theta) / (4 r) - d(V(u,r,theta),theta) / (4 r^2) + 2 U(u,r,theta) + 1/2 U(u,r,theta) V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(beta(u,r,theta),r) + 1/2 U(u,r,theta) V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) - 2 U(u,r,theta) cos(theta) d(beta(u,r,theta),theta) / sin(theta) + 6 U(u,r,theta) cos(theta) d(gamma(u,r,theta),theta) / sin(theta) - 2 U(u,r,theta) d(beta(u,r,theta),theta)^2 + 4 U(u,r,theta) d(beta(u,r,theta),theta) d(gamma(u,r,theta),theta) - 2 U(u,r,theta) d(d(beta(u,r,theta),theta),theta) + 2 U(u,r,theta) d(d(gamma(u,r,theta),theta),theta) - 4 U(u,r,theta) d(gamma(u,r,theta),theta)^2 + V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) + 2 cos(theta) d(gamma(u,r,theta),u) / sin(theta) - d(d(beta(u,r,theta),theta),u) + d(d(gamma(u,r,theta),theta),u) - 2 d(gamma(u,r,theta),theta) d(gamma(u,r,theta),u)
+
+G22 = 4 d(beta(u,r,theta),r) / r - 2 d(gamma(u,r,theta),r)^2
+
+G23 = -r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),r) + r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),r) + 1/2 r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(U(u,r,theta),r),r) + 2 r exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) + 2 d(beta(u,r,theta),theta) / r + 2 cos(theta) d(gamma(u,r,theta),r) / sin(theta) - d(d(beta(u,r,theta),r),theta) + d(d(gamma(u,r,theta),r),theta) - 2 d(gamma(u,r,theta),r) d(gamma(u,r,theta),theta)
+
+G33 = 3/4 r^4 U(u,r,theta)^2 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(gamma(u,r,theta),r)^2 - 3/2 r^4 U(u,r,theta) exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),r) + 3/2 r^4 U(u,r,theta) exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),r) + 3/4 r^4 U(u,r,theta) exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(d(U(u,r,theta),r),r) - 3 r^3 U(u,r,theta)^2 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(beta(u,r,theta),r) + 3/2 r^3 U(u,r,theta)^2 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(gamma(u,r,theta),r) + 9/2 r^3 U(u,r,theta) exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) d(U(u,r,theta),r) + 9/4 r^2 U(u,r,theta)^2 exp(-4 beta(u,r,theta) + 4 gamma(u,r,theta)) + 2 r^2 U(u,r,theta) cos(theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) / sin(theta) - 2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),theta) + 2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),theta) - 2 r^2 U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) d(gamma(u,r,theta),theta) - r^2 cos(theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) / sin(theta) - r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),theta) + r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),theta) - r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),u) + r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),u) - r^2 exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) d(gamma(u,r,theta),u) - 2 r U(u,r,theta) cos(theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) / sin(theta) + 2 r U(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),theta) + 1/4 r V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),r) - 1/4 r V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),r) + 1/4 r V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r)^2 + 1/4 r exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(V(u,r,theta),r) d(beta(u,r,theta),r) - 1/4 r exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(V(u,r,theta),r) d(gamma(u,r,theta),r) + 1/8 r exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(d(V(u,r,theta),r),r) + r exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),u) - 1/4 V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(beta(u,r,theta),r) - 1/4 V(u,r,theta) exp(-2 beta(u,r,theta) + 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) + 2 cos(theta) d(beta(u,r,theta),theta) / sin(theta) + d(beta(u,r,theta),theta)^2 - 2 d(beta(u,r,theta),theta) d(gamma(u,r,theta),theta)
+
+G44 = -3 r^4 U(u,r,theta)^2 sin(theta)^2 exp(-4 beta(u,r,theta)) d(beta(u,r,theta),r) d(gamma(u,r,theta),r) + 3/2 r^4 U(u,r,theta)^2 sin(theta)^2 exp(-4 beta(u,r,theta)) d(d(gamma(u,r,theta),r),r) + 15/4 r^4 U(u,r,theta)^2 sin(theta)^2 exp(-4 beta(u,r,theta)) d(gamma(u,r,theta),r)^2 - 3/2 r^4 U(u,r,theta) sin(theta)^2 exp(-4 beta(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),r) + 9/2 r^4 U(u,r,theta) sin(theta)^2 exp(-4 beta(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),r) + 3/4 r^4 U(u,r,theta) sin(theta)^2 exp(-4 beta(u,r,theta)) d(d(U(u,r,theta),r),r) + 1/2 r^4 sin(theta)^2 exp(-4 beta(u,r,theta)) d(U(u,r,theta),r)^2 - 3 r^3 U(u,r,theta)^2 sin(theta)^2 exp(-4 beta(u,r,theta)) d(beta(u,r,theta),r) + 15/2 r^3 U(u,r,theta)^2 sin(theta)^2 exp(-4 beta(u,r,theta)) d(gamma(u,r,theta),r) + 9/2 r^3 U(u,r,theta) sin(theta)^2 exp(-4 beta(u,r,theta)) d(U(u,r,theta),r) + 9/4 r^2 U(u,r,theta)^2 sin(theta)^2 exp(-4 beta(u,r,theta)) - 2 r^2 U(u,r,theta) sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),theta) - 2 r^2 U(u,r,theta) sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),theta) - 2 r^2 U(u,r,theta) sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) d(gamma(u,r,theta),theta) - r^2 sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(beta(u,r,theta),theta) - r^2 sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(U(u,r,theta),r) d(gamma(u,r,theta),theta) - 2 r^2 sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(U(u,r,theta),theta) d(gamma(u,r,theta),r) - r^2 sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(U(u,r,theta),r),theta) - r^2 sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),u) - r^2 sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),u) - r^2 sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) d(gamma(u,r,theta),u) - 2 r U(u,r,theta) sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(gamma(u,r,theta),theta) + 1/4 r V(u,r,theta) sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(beta(u,r,theta),r),r) + 1/4 r V(u,r,theta) sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(gamma(u,r,theta),r),r) + 1/4 r V(u,r,theta) sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(gamma(u,r,theta),r)^2 - 2 r sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(U(u,r,theta),theta) + 1/4 r sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(V(u,r,theta),r) d(beta(u,r,theta),r) + 1/4 r sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(V(u,r,theta),r) d(gamma(u,r,theta),r) + 1/8 r sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(d(V(u,r,theta),r),r) - r sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(gamma(u,r,theta),u) - 1/4 V(u,r,theta) sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(beta(u,r,theta),r) + 1/4 V(u,r,theta) sin(theta)^2 exp(-2 beta(u,r,theta) - 2 gamma(u,r,theta)) d(gamma(u,r,theta),r) + 3 sin(theta)^2 exp(-4 gamma(u,r,theta)) d(beta(u,r,theta),theta)^2 - 2 sin(theta)^2 exp(-4 gamma(u,r,theta)) d(beta(u,r,theta),theta) d(gamma(u,r,theta),theta) + 2 sin(theta)^2 exp(-4 gamma(u,r,theta)) d(d(beta(u,r,theta),theta),theta)
+
+check(GDD[1,1] == G11)
+check(GDD[1,2] == G12)
+check(GDD[1,3] == G13)
+check(GDD[1,4] == 0)
+
+check(GDD[2,1] == G12)
+check(GDD[2,2] == G22)
+check(GDD[2,3] == G23)
+check(GDD[2,4] == 0)
+
+check(GDD[3,1] == G13)
+check(GDD[3,2] == G23)
+check(GDD[3,3] == G33)
+check(GDD[3,4] == 0)
+
+check(GDD[4,1] == 0)
+check(GDD[4,2] == 0)
+check(GDD[4,3] == 0)
+check(GDD[4,4] == G44)
+
 GUD=contract(outer(guu,GDD),2,3)
 GUU=contract(outer(GUD,guu),2,3)
 tmp=outer(GUU,GAMUDD)
 tmp=d(GUU,(u,r,theta,phi))+transpose(contract(tmp,1,4),1,2)+contract(tmp,2,4)
-contract(tmp,2,3)
-check(last=(0,0,0,0))
+T = contract(tmp,2,3)
+check(T=(0,0,0,0))
+"Casimir trick"
 
 clear
 
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
+E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
+E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
+p1 = (E1,p1x,p1y,p1z)
+p2 = (E2,p2x,p2y,p2z)
+p3 = (E3,p3x,p3y,p3z)
+p4 = (E4,p4x,p4y,p4z)
+u11 = (E1+m1,0,p1z,p1x+i*p1y)
+u12 = (0,E1+m1,p1x-i*p1y,-p1z)
+v21 = (p2z,p2x+i*p2y,E2+m2,0)
+v22 = (p2x-i*p2y,-p2z,0,E2+m2)
+u31 = (E3+m3,0,p3z,p3x+i*p3y)
+u32 = (0,E3+m3,p3x-i*p3y,-p3z)
+v41 = (p4z,p4x+i*p4y,E4+m4,0)
+v42 = (p4x-i*p4y,-p4z,0,E4+m4)
+u1 = (u11,u12)
+v2 = (v21,v22)
+u3 = (u31,u32)
+v4 = (v41,v42)
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+pslash1 = dot(gmunu,p1,gamma)
+pslash2 = dot(gmunu,p2,gamma)
+pslash3 = dot(gmunu,p3,gamma)
+pslash4 = dot(gmunu,p4,gamma)
+gammaT = transpose(gamma)
+bar(u) = dot(conj(u),gamma0)
+-- A is the sum over spins
+A = sum(s1,1,2,sum(s2,1,2,sum(s3,1,2,sum(s4,1,2,
+mag(dot(dot(bar(u3[s3]),gammaT,v4[s4]),gmunu,dot(bar(v2[s2]),gammaT,u1[s1])))^2
+))))
+-- T1 is the first trace matrix
+T1 = contract(dot(pslash1+m1*I,gammaT,pslash2-m2*I,gammaT),1,4)
+-- T2 is the second trace matrix
+T2 = contract(dot(pslash4-m4*I,gammaT,pslash3+m3*I,gammaT),1,4)
+T2 = dot(gmunu,T2,gmunu)
+-- B is the product of T1 and T2
+B = contract(dot(T1,transpose(T2)))
+-- N is the normalization constant
+N = (E1+m1)*(E2+m2)*(E3+m3)*(E4+m4)
+
+check(A - N B == 0)
+"Circular polarization"
+clear
 --Simple example of clockwise (right hand) circular polarization.
 --Both E and B rotate clockwise while remaining at right angles to each other.
 --To see the rotation, suppose you are standing at location z=0 at time t=0.
@@ -47,9 +159,8 @@ check(dot(E,B) = 0)
 --Already shown to be true by Maxwell above but do this anyway...
 check(dot(E,B) = 0)              --Check right angle
 check(dot(E,E) - dot(B,B) = 0)   --Check equal length
-
+"Complex numbers as real vectors"
 clear
-
 --Can complex number multiplication be simulated using real vectors?
 --Yes, if a rank-3 tensor is used to do the multiply.
 A = (AX, AY)
@@ -61,9 +172,37 @@ T21 = (0, -1)
 T22 = (1, 0)
 T = ((T11, T12), (T21, T22))
 check(dot(A,T,B) - P = 0)
+"Dirac equation"
 
 clear
 
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+omega = sqrt(kx^2 + ky^2 + kz^2 + m^2)
+psi1 = (omega+m, 0, kz, kx+i*ky) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi2 = (0, omega+m, kx-i*ky, -kz) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi3 = (kz, kx+i*ky, omega-m, 0) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi4 = (kx-i*ky, -kz, 0, omega-m) * exp(i*(kx*x + ky*y + kz*z - omega*t))
+psi5 = (omega-m, 0, kz, kx+i*ky) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+psi6 = (0, omega-m, kx-i*ky, -kz) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+psi7 = (kz, kx+i*ky, omega+m, 0) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+psi8 = (kx-i*ky, -kz, 0, omega+m) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
+D(psi) = i*dot(gamma0,d(psi,t)) +
+         i*dot(gamma1,d(psi,x)) +
+         i*dot(gamma2,d(psi,y)) +
+         i*dot(gamma3,d(psi,z)) - m*psi
+check(D(psi1)=0)
+check(D(psi2)=0)
+check(D(psi3)=0)
+check(D(psi4)=0)
+check(D(psi5)=0)
+check(D(psi6)=0)
+check(D(psi7)=0)
+check(D(psi8)=0)
+"Elliptical polarization"
+clear
 --Simple example of clockwise (right hand) elliptical polarization.
 --As in "circular polarization" except E and B trace out ellipses.
 --Becomes linear polarization for EX=0 or EY=0.
@@ -80,6 +219,267 @@ check(dot(E,B) = 0)
 --Already shown to be true by Maxwell above but do this anyway...
 check(dot(E,B) = 0)              --Check right angle
 check(dot(E,E) - dot(B,B) = 0)   --Check equal length
+"Gordon identity"
+
+clear
+
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m^2)
+p1 = (E1,p1x,p1y,p1z)
+p2 = (E2,p2x,p2y,p2z)
+u11 = (E1+m,0,p1z,p1x+i*p1y)
+u12 = (0,E1+m,p1x-i*p1y,-p1z)
+u21 = (E2+m,0,p2z,p2x+i*p2y)
+u22 = (0,E2+m,p2x-i*p2y,-p2z)
+u1 = (u11,u12)
+u2 = (u21,u22)
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+T = transpose(dot(gamma,transpose(gamma)),2,3)
+sigmamunu = i/2 * (T - transpose(T))
+for(s1,1,2,for(s2,1,2,for(mu,1,4,
+  T = 1/(2*m) * ((p2+p1)[mu]*I + i*dot(gmunu,p2-p1,sigmamunu[mu])),
+  A = dot(conj(u2[s2]),gamma0,T,u1[s1]),
+  B = dot(conj(u2[s2]),gamma0,gamma[mu],u1[s1]),
+  check(A=B)
+)))
+"Hydrogen atom"
+
+-- hydrogen atom eigenfunctions
+
+clear
+
+e = quote(e)
+
+psi(n,l,m) = R(n,l) Y(l,m)
+
+R(n,l) = 2 / (n^2 a0^(3/2)) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 rho / n)^l *
+         L(2 rho / n,n - l - 1,2 l + 1) *
+         exp(-rho / n)
+
+L(x,m,j) = sum(k,0,m,(-x)^k (m + j)! / ((m - k)! (j + k)! k!))
+
+rho = r / a0
+
+a0 = 4 pi epsilon0 hbar^2 / (e^2 mu)
+
+Y(l,m) = (-1)^m sqrt((2l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(expcos(theta),l,m) exp(i m phi)
+
+P(y,l,m) = eval(1 / (2^l l!) (1 - x^2)^(m/2) *
+           d((x^2 - 1)^l,x,l + m),x,y)
+
+H(psi) = -hbar^2 Lap(psi) / (2 mu) - e^2 / (4 pi epsilon0 r) psi
+
+Lap(f) = 1/r^2 d(r^2 d(f,r),r) +
+         1/(r^2 expsin(theta)) d(expsin(theta) d(f,theta),theta) +
+         1/(r expsin(theta))^2 d(f,phi,2)
+
+E(n) = -mu / (2 n^2) (e^2 / (4 pi epsilon0 hbar))^2
+
+S(n,l,m) = H(psi(n,l,m)) == E(n) psi(n,l,m)
+
+check(S(1,0,0) == 1)
+check(S(2,0,0) == 1)
+check(S(2,1,0) == 1)
+check(S(2,1,1) == 1)
+check(S(2,1,-1) == 1)
+check(S(3,0,0) == 1)
+check(S(3,1,0) == 1)
+check(S(3,1,1) == 1)
+check(S(3,1,-1) == 1)
+check(S(3,2,0) == 1)
+check(S(3,2,1) == 1)
+check(S(3,2,2) == 1)
+check(S(3,2,-1) == 1)
+check(S(3,2,-2) == 1)
+"Mandl and Shaw problem 5.1"
+
+clear
+
+# Mandl and Shaw problem 5.1
+#
+#    g    Spacetime metric
+#    x    Coordinate system
+#    A    Vector potential
+#    F    Electromagnetic field
+
+g = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+x = (x0,x1,x2,x3)
+
+A =(A0(x0,x1,x2,x3),
+    A1(x0,x1,x2,x3),
+    A2(x0,x1,x2,x3),
+    A3(x0,x1,x2,x3))
+
+#                                    mu
+# Note: d(A,x) is equivalent to d   A
+#                                nu
+#
+# where mu is the 1st index of tensor T = d(A,x)
+
+T = dot(d(A,x),g) # g raises 2nd index (nu)
+
+#  mu nu    nu  mu    mu  nu
+# F      = d   A   - d   A
+
+F = T - transpose(T)
+
+#        1         mu nu   1      mu      nu
+# L  = - - F      F      - - d   A   d   A
+#  1     4  mu nu          2  mu      nu
+
+T = outer(dot(g,F,g),F)
+T = contract(T,1,3) # sum over mu
+T = contract(T)     # sum over nu
+
+L1 = -1/4 * T - 1/2 * contract(d(A,x))^2
+
+#        1            nu  mu
+# L  = - - (d   A  )(d   A  )
+#  2     2   nu  mu
+
+T = d(A,x)
+T1 = dot(g,T) # lower 1st index (mu)
+T2 = dot(T,g) # raise 2nd index (nu)
+T = outer(T1,T2)
+T = contract(T,1,3) # sum over mu
+T = contract(T)     # sum over nu
+
+L2 = -1/2 * T
+
+# Show that
+#         _                _
+#        |   d (L1 - L2)    |
+# d      | ---------------- | = 0
+#  alpha |            beta  |
+#        | d (d      A    ) |
+#        |_    alpha       _|
+#
+# for each beta.
+
+L = L1 - L2
+
+-- beta = 0
+dA = d(A[1],x)
+T = d(d(L,dA),x)
+check(contract(T) == 0) # sum over alpha
+
+-- beta = 1
+dA = d(A[2],x)
+T = d(d(L,dA),x)
+check(contract(T) == 0) # sum over alpha
+
+-- beta = 2
+dA = d(A[3],x)
+T = d(d(L,dA),x)
+check(contract(T) == 0) # sum over alpha
+
+-- beta = 3
+dA = d(A[4],x)
+T = d(d(L,dA),x)
+check(contract(T) == 0) # sum over alpha
+"Maxwell in tensor form"
+
+clear
+
+--Maxwell equations in tensor form.
+--See the book Gravitation p. 81.
+--
+--   F     + F     + F     = 0
+--    ab,c    bc,a    ca,b
+--
+--    ab           a
+--   F     = 4 pi J
+--      ,b
+--
+--For this demo, use circular polarized light.
+--
+EX = sin(t+z)
+EY = cos(t+z)
+EZ = 0
+BX = cos(t+z)
+BY = -sin(t+z)
+BZ = 0
+FDD = ((  0, -EX, -EY, -EZ),
+       ( EX,   0,  BZ, -BY),
+       ( EY, -BZ,   0,  BX),
+       ( EZ,  BY, -BX,   0))   --See p. 74. Here, DD means "down down" indices.
+X = (t,x,y,z)   --Coordinate system
+FDDD = d(FDD,X)   --Gradient of F
+T1 = transpose(transpose(FDDD,2,3),1,2)   --Transpose bca to abc
+T2 = transpose(transpose(FDDD,1,2),2,3)   --Transpose cab to abc
+check(FDDD + T1 + T2 = 0)
+guu = ((-1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+FDDU = contract(outer(FDDD,guu),3,4)   --Easier to make FDDU than FUUD.
+check(contract(FDDU,2,3) = 0)   --For light J is zero.
+"Muon pair production"
+
+clear
+
+p = sqrt(E^2 - m^2)
+rho = sqrt(E^2 - M^2)
+p1 = (E,0,0,p)
+p2 = (E,0,0,-p)
+p3 = (E,
+      rho*expsin(theta)*expcos(phi),
+      rho*expsin(theta)*expsin(phi),
+      rho*expcos(theta))
+p4 = (E,
+      -rho*expsin(theta)*expcos(phi),
+      -rho*expsin(theta)*expsin(phi),
+      -rho*expcos(theta))
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+pslash1 = dot(gmunu,p1,gamma)
+pslash2 = dot(gmunu,p2,gamma)
+pslash3 = dot(gmunu,p3,gamma)
+pslash4 = dot(gmunu,p4,gamma)
+gammaT = transpose(gamma)
+-- T1 is the first trace matrix
+T1 = contract(dot(pslash1+m*I,gammaT,pslash2-m*I,gammaT),1,4)
+-- T2 is the second trace matrix
+T2 = contract(dot(pslash4-M*I,gammaT,pslash3+M*I,gammaT),1,4)
+T2 = dot(gmunu,T2,gmunu)
+-- A is the product of T1 and T2
+A = contract(dot(T1,transpose(T2)))
+-- B is the expression in theta
+B = 1 + expcos(theta)^2 +
+    (m^2+M^2)/E^2 * expsin(theta)^2 +
+    m^2*M^2/E^4 * expcos(theta)^2
+
+check(A/(64*E^4)-B == 0)
+"Quantum electric field"
+
+clear
+
+-- derived units
+joule = kilogram * meter^2 * second^(-2)
+volt = kilogram * meter^2 * second^(-3) * ampere^(-1)
+farad = kilogram^(-1) * meter^(-2) * second^4 * ampere^2
+-- physical values
+hbar = 1.054572 * 10^(-34) * joule * second
+epsilon0 = 8.854188 * 10^(-12) * farad * meter^(-1)
+c = 299792458 * meter * second^(-1)
+lambda = 600 * 10^(-9) * meter
+omega = 2 * float(pi) * c / lambda
+-- conversion constant
+C = sqrt(0.5 * hbar * omega * epsilon0^(-1) * meter^(-3))
+check(infixform(C) == "0.000136733 kilogram meter / (ampere second^3)")
+check(infixform(volt * meter^(-1)) == "kilogram meter / (ampere second^3)")
+"Quantum electrodynamics"
 
 clear
 
@@ -202,15 +602,11 @@ cslash = dot(gamma,metric,c)
 -- Now we are ready to try the exercises. We want to show that each of the
 -- following identities is true.
 
-"Checking the following identities:"
-
 --------------------------------------------------------------------------------
 --
 --     aslash = at gammat - ax gammax - ay gammay - az gammaz
 --
 --------------------------------------------------------------------------------
-
-quote(aslash = at gammat - ax gammax - ay gammay - az gammaz)
 
 A = aslash
 
@@ -224,8 +620,6 @@ check(A = B) -- if A = B then continue, else stop
 --
 --------------------------------------------------------------------------------
 
-quote(aslash bslash = -bslash aslash + 2 a b)
-
 A = dot(aslash,bslash)
 
 B = -dot(bslash,aslash) + 2 dot(a,metric,b) I
@@ -237,8 +631,6 @@ check(A = B)
 --     gamma gamma = 4
 --
 --------------------------------------------------------------------------------
-
-quote(gamma gamma = 4)
 
 A = DOT(gamma,gamma)
 
@@ -252,8 +644,6 @@ check(A = B)
 --
 --------------------------------------------------------------------------------
 
-quote(gamma aslash gamma = -2 aslash)
-
 A = DOT(gamma,dot(aslash,gamma))
 
 B = -2 aslash
@@ -265,8 +655,6 @@ check(A = B)
 --     gamma aslash bslash gamma = 4 a b
 --
 --------------------------------------------------------------------------------
-
-quote(gamma aslash bslash gamma = 4 a b)
 
 A = DOT(gamma,dot(aslash,bslash,gamma))
 
@@ -280,8 +668,6 @@ check(A = B)
 --
 --------------------------------------------------------------------------------
 
-quote(gamma aslash bslash cslash gamma = -2 cslash bslash aslash)
-
 A = DOT(gamma,dot(aslash,bslash,cslash,gamma))
 
 B = -2 dot(cslash,bslash,aslash)
@@ -293,124 +679,7 @@ check(A = B)
 --     If we get here then everything worked.
 --
 --------------------------------------------------------------------------------
-
-clear
-
-# Mandl and Shaw problem 5.1
-#
-#    g    Spacetime metric
-#    x    Coordinate system
-#    A    Vector potential
-#    F    Electromagnetic field
-
-g = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-x = (x0,x1,x2,x3)
-
-A =(A0(x0,x1,x2,x3),
-    A1(x0,x1,x2,x3),
-    A2(x0,x1,x2,x3),
-    A3(x0,x1,x2,x3))
-
-#                                    mu
-# Note: d(A,x) is equivalent to d   A
-#                                nu
-#
-# where mu is the 1st index of tensor T = d(A,x)
-
-T = dot(d(A,x),g) # g raises 2nd index (nu)
-
-#  mu nu    nu  mu    mu  nu
-# F      = d   A   - d   A
-
-F = T - transpose(T)
-
-#        1         mu nu   1      mu      nu
-# L  = - - F      F      - - d   A   d   A
-#  1     4  mu nu          2  mu      nu
-
-T = outer(dot(g,F,g),F)
-T = contract(T,1,3) # sum over mu
-T = contract(T)     # sum over nu
-
-L1 = -1/4 * T - 1/2 * contract(d(A,x))^2
-
-#        1            nu  mu
-# L  = - - (d   A  )(d   A  )
-#  2     2   nu  mu
-
-T = d(A,x)
-T1 = dot(g,T) # lower 1st index (mu)
-T2 = dot(T,g) # raise 2nd index (nu)
-T = outer(T1,T2)
-T = contract(T,1,3) # sum over mu
-T = contract(T)     # sum over nu
-
-L2 = -1/2 * T
-
-# Show that
-#         _                _
-#        |   d (L1 - L2)    |
-# d      | ---------------- | = 0
-#  alpha |            beta  |
-#        | d (d      A    ) |
-#        |_    alpha       _|
-#
-# for each beta.
-
-L = L1 - L2
-
-"beta = 0"
-dA = d(A[1],x)
-T = d(d(L,dA),x)
-contract(T) # sum over alpha
-
-"beta = 1"
-dA = d(A[2],x)
-T = d(d(L,dA),x)
-contract(T) # sum over alpha
-
-"beta = 2"
-dA = d(A[3],x)
-T = d(d(L,dA),x)
-contract(T) # sum over alpha
-
-"beta = 3"
-dA = d(A[4],x)
-T = d(d(L,dA),x)
-contract(T) # sum over alpha
-
-clear
-
---Maxwell equations in tensor form.
---See the book Gravitation p. 81.
---
---   F     + F     + F     = 0
---    ab,c    bc,a    ca,b
---
---    ab           a
---   F     = 4 pi J
---      ,b
---
---For this demo, use circular polarized light.
---
-EX = sin(t+z)
-EY = cos(t+z)
-EZ = 0
-BX = cos(t+z)
-BY = -sin(t+z)
-BZ = 0
-FDD = ((  0, -EX, -EY, -EZ),
-       ( EX,   0,  BZ, -BY),
-       ( EY, -BZ,   0,  BX),
-       ( EZ,  BY, -BX,   0))   --See p. 74. Here, DD means "down down" indices.
-X = (t,x,y,z)   --Coordinate system
-FDDD = d(FDD,X)   --Gradient of F
-T1 = transpose(transpose(FDDD,2,3),1,2)   --Transpose bca to abc
-T2 = transpose(transpose(FDDD,1,2),2,3)   --Transpose cab to abc
-check(FDDD + T1 + T2 = 0)
-guu = ((-1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
-FDDU = contract(outer(FDDD,guu),3,4)   --Easier to make FDDU than FUUD.
-check(contract(FDDU,2,3) = 0)   --For light J is zero.
+"Quantum harmonic oscillator"
 
 clear
 
@@ -430,28 +699,52 @@ psi = C * exp(-m * omega * x^2 / 2 / hbar) * H
 d = 1/10
 summa(f) = float(d*sum(k,-50,50,eval(f,x,d*k)))
 
-"Check normalization"
-summa(psi * psi)
+-- Check normalization
+check(infixform(summa(psi * psi)) == "1")
 
-"Expectation value for position"
-summa(psi * x * psi)
+-- Expectation value for position
+check(infixform(summa(psi * x * psi)) == "0")
 
-"Expectation value for momentum"
-summa(psi * (-i * hbar) * d(psi,x))
+-- Expectation value for momentum
+check(infixform(summa(psi * (-i * hbar) * d(psi,x))) == "0")
 
-"Expectation value for kinetic energy"
+-- Expectation value for kinetic energy
 K = psi * (-hbar^2 / 2 / m) * d(psi,x,2)
-summa(K)
+check(infixform(summa(K)) == "1.75 hbar omega")
 
-"Expectation value for potential energy"
+-- Expectation value for potential energy
 V = psi * (m * omega^2 / 2) * x^2 * psi
-summa(V)
+check(infixform(summa(V)) == "1.75 hbar omega")
 
-"Expectation value for Hamiltonian (total energy)"
-summa(K + V)
+-- Expectation value for Hamiltonian (total energy)
+check(infixform(summa(K + V)) == "3.5 hbar omega")
 
-"Energy eigenvalue"
-hbar * omega * (n + 0.5)
+-- Energy eigenvalue
+check(infixform(hbar * omega * (n + 0.5)) == "3.5 hbar omega")
+"Radial eigenfunctions"
+
+clear
+
+e = quote(e)
+
+R(n,l) = 2 / (n^2 a0^(3/2)) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 rho / n)^l *
+         L(2 rho / n,n - l - 1,2 l + 1) *
+         exp(-rho / n)
+
+L(x,m,j) = sum(k,0,m,(-x)^k (m + j)! / ((m - k)! (j + k)! k!))
+
+rho = r / a0
+A = a0^(3/2)
+
+check(R(1,0) A == 2 exp(-rho))
+check(R(2,0) A == sqrt(2)/4 (2 - rho) exp(-rho/2))
+check(R(2,1) A == sqrt(6)/12 rho exp(-rho/2))
+check(R(3,0) A == 2 sqrt(3)/27 (3 - 2 rho + 2/9 rho^2) exp(-rho/3))
+check(R(3,1) A == sqrt(6)/81 rho (4 - 2/3 rho) exp(-rho/3))
+check(R(3,2) A == 2 sqrt(30)/1215 rho^2 exp(-rho/3))
+"Rotation matrix"
 
 clear
 
@@ -488,6 +781,209 @@ check(det(R) = 1)
 U = (U1,U2,U3)
 
 check(abs(U) = abs(dot(R,U)))
+"Rutherford scattering"
+
+clear
+
+p = sqrt(E^2 - m^2)
+p1 = (E,0,0,p)
+p2 = (E,
+      p*expsin(theta)*expcos(phi),
+      p*expsin(theta)*expsin(phi),
+      p*expcos(theta))
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+pslash1 = dot(gmunu,p1,gamma)
+pslash2 = dot(gmunu,p2,gamma)
+A = contract(dot(pslash1+m*I,gamma0,pslash2+m*I,gamma0))
+B = E^2 + m^2 + p^2*expcos(theta)
+
+check(A/4-B == 0)
+"Schwarzchild metric"
+
+clear
+
+-- www.eigenmath.org/schwarzchild-metric.txt
+
+gdd = ((-F(r),      0,   0,                0),
+       (    0, 1/F(r),   0,                0),
+       (    0,      0, r^2,                0),
+       (    0,      0,   0, r^2*sin(theta)^2))
+
+-- Note: "dd" stands for two "down" indices, "uu" stands for two "up" indices.
+
+-- X is for computing gradients.
+
+X = (t,r,theta,phi)
+
+-- Step 1: Calculate guu.
+
+guu = inv(gdd)
+
+-- Step 2: Calculate the connection coefficients. ("Gravitation" by MTW p. 210)
+--
+-- Gamma    = 1/2 (g     + g     - g    )
+--      abc         ab,c    ac,b    bc,a
+--
+-- Note: The comma means gradient which increases the rank of gdd by 1.
+
+gddd = d(gdd,X)
+
+-- Transpose indices to match abc.
+
+GAMDDD = 1/2 * (gddd +              -- indices are already in correct order
+transpose(gddd,2,3) -               -- transpose c and b
+transpose(transpose(gddd,2,3),1,2)) -- transpose c and a, then b and a
+
+-- Raise first index.
+--
+--      a      au
+-- Gamma    = g   Gamma
+--       bc            ubc
+--
+-- Note: Sum over index u means contraction.
+
+GAMUDD = dot(guu,GAMDDD)
+
+-- Step 3. Calculate the Riemann tensor. ("Gravitation" by MTW p. 219)
+--
+-- a is alpha
+-- b is beta
+-- c is gamma
+-- d is delta
+-- u is mu
+--
+--  a           a            a            a        u          a        u
+-- R     = Gamma      - Gamma      + Gamma    Gamma    - Gamma    Gamma
+--   bcd         bd,c         bc,d         uc       bd         ud       bc
+--
+-- Do the gradient once and save in a temporary variable.
+
+T1 = d(GAMUDD,X)
+
+-- T2 is the product Gamma Gamma contracted over u.
+
+T2 = dot(transpose(GAMUDD,2,3),GAMUDD)
+
+-- Now put it all together. Transpose indices to match abcd.
+
+RUDDD = transpose(T1,3,4) -             -- transpose d and c
+  T1 +                                  -- already in correct order
+  transpose(T2,2,3) -                   -- transpose c and b
+  transpose(transpose(T2,2,3),3,4)      -- transpose d and b, then d and c
+
+-- Step 4: Calculate the Ricci tensor. ("Gravitation" by MTW p. 343)
+--
+--        a
+-- R   = R
+--  uv     uav
+--
+-- Contract over "a" (1st and 3rd indices).
+
+RDD = contract(RUDDD,1,3)
+
+-- Step 5: Calculate the Ricci scalar. ("Gravitation" by MTW p. 343)
+--
+--      uv
+-- R = g   R
+--          uv
+
+R = contract(dot(guu,transpose(RDD)))
+
+-- Step 6: Finally, calculate the Einstein tensor. ("Gravitation" by MTW p. 343)
+--
+-- G   = R   - 1/2 g   R
+--  uv    uv        uv
+
+GDD = RDD - 1/2 * gdd * R
+
+-- Define F(r) and simplify.
+
+F(r) = 1 - 2*M/r
+
+check(GDD == 0)
+"Spherical harmomics"
+
+-- spherical harmonic eigenfunctions
+
+clear
+
+Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
+         P(expcos(theta),l,m) exp(i m phi)
+
+P(y,l,m) = eval(1 / (2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,y)
+
+S(l,m) = -Lap(Y(l,m)) == l (l + 1) Y(l,m)
+
+Lap(f) = 1 / expsin(theta) d(expsin(theta) d(f,theta),theta) +
+         1 / expsin(theta)^2 d(f,phi,2)
+
+check(S(0,0) == 1)
+check(S(1,0) == 1)
+check(S(1,1) == 1)
+check(S(1,-1) == 1)
+check(S(2,0) == 1)
+check(S(2,1) == 1)
+check(S(2,2) == 1)
+check(S(2,-1) == 1)
+check(S(2,-2) == 1)
+"Spinor identities"
+
+clear
+
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
+E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
+E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
+p1 = (E1,p1x,p1y,p1z)
+p2 = (E2,p2x,p2y,p2z)
+p3 = (E3,p3x,p3y,p3z)
+p4 = (E4,p4x,p4y,p4z)
+u11 = (E1+m1,0,p1z,p1x+i*p1y)
+u12 = (0,E1+m1,p1x-i*p1y,-p1z)
+v21 = (p2z,p2x+i*p2y,E2+m2,0)
+v22 = (p2x-i*p2y,-p2z,0,E2+m2)
+u31 = (E3+m3,0,p3z,p3x+i*p3y)
+u32 = (0,E3+m3,p3x-i*p3y,-p3z)
+v41 = (p4z,p4x+i*p4y,E4+m4,0)
+v42 = (p4x-i*p4y,-p4z,0,E4+m4)
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+pslash1 = dot(gmunu,p1,gamma)
+pslash2 = dot(gmunu,p2,gamma)
+pslash3 = dot(gmunu,p3,gamma)
+pslash4 = dot(gmunu,p4,gamma)
+
+-- dirac equation
+check(dot(pslash1-m1*I,u11) == 0)
+check(dot(pslash1-m1*I,u12) == 0)
+check(dot(pslash2+m2*I,v21) == 0)
+check(dot(pslash2+m2*I,v22) == 0)
+check(dot(pslash3-m3*I,u31) == 0)
+check(dot(pslash3-m3*I,u32) == 0)
+check(dot(pslash4+m4*I,v41) == 0)
+check(dot(pslash4+m4*I,v42) == 0)
+
+-- completeness
+check(outer(u11,dot(conj(u11),gamma0))+outer(u12,dot(conj(u12),gamma0))-
+  (E1+m1)*(pslash1+m1*I) == 0)
+check(outer(v21,dot(conj(v21),gamma0))+outer(v22,dot(conj(v22),gamma0))-
+  (E2+m2)*(pslash2-m2*I) == 0)
+check(outer(u31,dot(conj(u31),gamma0))+outer(u32,dot(conj(u32),gamma0))-
+  (E3+m3)*(pslash3+m3*I) == 0)
+check(outer(v41,dot(conj(v41),gamma0))+outer(v42,dot(conj(v42),gamma0))-
+  (E4+m4)*(pslash4-m4*I) == 0)
+"Static metric"
 
 clear
 
@@ -653,13 +1149,7 @@ T = ((Gtt,   0,           0,       0),
 # Check that GDD is correct.
 
 check(GDD = T)
-
-# Display the non-zero components of GDD.
-
-Gtt
-Grr
-Gthetatheta
-Gphiphi
+"Vector calculus"
 
 clear
 
@@ -699,21 +1189,19 @@ G = (GX(),GY(),GZ())
 
 # Now check the 10 identities.
 
-"Checking the following identities:"
-
-"1. div(curl F) = 0"
+-- 1. div(curl F) = 0
 
 A = div(curl(F))
 
 check(A = 0)
 
-"2. curl(grad f) = 0"
+-- 2. curl(grad f) = 0
 
 A = curl(grad(f())) # Note the use of generic scalar function f() here.
 
 check(A = 0)
 
-"3. div(grad f) = laplacian f"
+-- 3. div(grad f) = laplacian f
 
 A = div(grad(f()))
 
@@ -721,7 +1209,7 @@ B = laplacian(f())
 
 check(A = B)
 
-"4. curl(curl F) = grad(div F) - laplacian F"
+-- 4. curl(curl F) = grad(div F) - laplacian F
 
 A = curl(curl(F))
 
@@ -729,7 +1217,7 @@ B = grad(div(F)) - laplacian(F)
 
 check(A = B)
 
-"5. grad(fg) = f grad g + g grad(f)"
+-- 5. grad(fg) = f grad g + g grad(f)
 
 A = grad(f() g())
 
@@ -737,7 +1225,7 @@ B = f() grad(g()) + g() grad(f())
 
 check(A = B)
 
-"6. grad(F . G) = (G . grad)F + (F . grad)G + G x curl F + F x curl G"
+-- 6. grad(F . G) = (G . grad)F + (F . grad)G + G x curl F + F x curl G
 
 A = grad(dot(F,G))
 
@@ -747,7 +1235,7 @@ check(A = B)
 
 # Note: It turns out that (G . grad)F actually means (grad F) . G
 
-"7. div(fF) = f div F + grad f . F"
+-- 7. div(fF) = f div F + grad f . F
 
 A = div(f() F)
 
@@ -755,7 +1243,7 @@ B = f() div(F) + dot(grad(f()),F)
 
 check(A = B)
 
-"8. div(F x G) = G . curl F - F . curl G"
+-- 8. div(F x G) = G . curl F - F . curl G
 
 A = div(cross(F,G))
 
@@ -763,7 +1251,7 @@ B = dot(G,curl(F)) - dot(F,curl(G))
 
 check(A = B)
 
-"9. curl(fF) = f curl F + grad f x F"
+-- 9. curl(fF) = f curl F + grad f x F
 
 A = curl(f() F)
 
@@ -771,495 +1259,12 @@ B = f() curl(F) + cross(grad(f()),F)
 
 check(A = B)
 
-"10. curl(F x G) = F div G - G div F + (G . grad)F - (F . grad)G"
+-- 10. curl(F x G) = F div G - G div F + (G . grad)F - (F . grad)G
 
 A = curl(cross(F,G))
 
 B = F div(G) - G div(F) + dot(grad(F),G) - dot(grad(G),F)
 
 check(A = B)
-
-clear
-
--- www.eigenmath.org/birthday.txt
-"Product method"
-p = product(k,1,23,(365-k+1)/365)
-float(p)
-"Factorial method"
-p = 365! / (365 - 23)! / 365^23
-float(p)
-"Probability of at least one shared birthday"
-1.0 - p
-
-clear
-
--- www.eigenmath.org/casimir.txt (15 seconds)
-E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
-E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
-E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
-E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
-p1 = (E1,p1x,p1y,p1z)
-p2 = (E2,p2x,p2y,p2z)
-p3 = (E3,p3x,p3y,p3z)
-p4 = (E4,p4x,p4y,p4z)
-u11 = (E1+m1,0,p1z,p1x+i*p1y)
-u12 = (0,E1+m1,p1x-i*p1y,-p1z)
-v21 = (p2z,p2x+i*p2y,E2+m2,0)
-v22 = (p2x-i*p2y,-p2z,0,E2+m2)
-u31 = (E3+m3,0,p3z,p3x+i*p3y)
-u32 = (0,E3+m3,p3x-i*p3y,-p3z)
-v41 = (p4z,p4x+i*p4y,E4+m4,0)
-v42 = (p4x-i*p4y,-p4z,0,E4+m4)
-u1 = (u11,u12)
-v2 = (v21,v22)
-u3 = (u31,u32)
-v4 = (v41,v42)
-I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
-gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
-gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
-gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
-gamma = (gamma0,gamma1,gamma2,gamma3)
-pslash1 = dot(gmunu,p1,gamma)
-pslash2 = dot(gmunu,p2,gamma)
-pslash3 = dot(gmunu,p3,gamma)
-pslash4 = dot(gmunu,p4,gamma)
-gammaT = transpose(gamma)
-bar(u) = dot(conj(u),gamma0)
--- A is the sum over spins
-A = sum(s1,1,2,sum(s2,1,2,sum(s3,1,2,sum(s4,1,2,
-mag(dot(dot(bar(u3[s3]),gammaT,v4[s4]),gmunu,dot(bar(v2[s2]),gammaT,u1[s1])))^2
-))))
--- T1 is the first trace matrix
-T1 = contract(dot(pslash1+m1*I,gammaT,pslash2-m2*I,gammaT),1,4)
--- T2 is the second trace matrix
-T2 = contract(dot(pslash4-m4*I,gammaT,pslash3+m3*I,gammaT),1,4)
-T2 = dot(gmunu,T2,gmunu)
--- B is the product of T1 and T2
-B = contract(dot(T1,transpose(T2)))
--- N is the normalization constant
-N = (E1+m1)*(E2+m2)*(E3+m3)*(E4+m4)
--- this difference should be zero
-A-N*B
-check(last=0)
-
-clear
-
--- www.eigenmath.org/dirac.txt
-gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
-gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
-gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
-omega = sqrt(kx^2 + ky^2 + kz^2 + m^2)
-psi1 = (omega+m, 0, kz, kx+i*ky) * exp(i*(kx*x + ky*y + kz*z - omega*t))
-psi2 = (0, omega+m, kx-i*ky, -kz) * exp(i*(kx*x + ky*y + kz*z - omega*t))
-psi3 = (kz, kx+i*ky, omega-m, 0) * exp(i*(kx*x + ky*y + kz*z - omega*t))
-psi4 = (kx-i*ky, -kz, 0, omega-m) * exp(i*(kx*x + ky*y + kz*z - omega*t))
-psi5 = (omega-m, 0, kz, kx+i*ky) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
-psi6 = (0, omega-m, kx-i*ky, -kz) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
-psi7 = (kz, kx+i*ky, omega+m, 0) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
-psi8 = (kx-i*ky, -kz, 0, omega+m) * exp(-i*(kx*x + ky*y + kz*z - omega*t))
-D(psi) = i*dot(gamma0,d(psi,t)) +
-         i*dot(gamma1,d(psi,x)) +
-         i*dot(gamma2,d(psi,y)) +
-         i*dot(gamma3,d(psi,z)) - m*psi
-check(D(psi1)=0)
-check(D(psi2)=0)
-check(D(psi3)=0)
-check(D(psi4)=0)
-check(D(psi5)=0)
-check(D(psi6)=0)
-check(D(psi7)=0)
-check(D(psi8)=0)
-
-clear
-
--- www.eigenmath.org/spinors.txt
-E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
-E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
-E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
-E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
-p1 = (E1,p1x,p1y,p1z)
-p2 = (E2,p2x,p2y,p2z)
-p3 = (E3,p3x,p3y,p3z)
-p4 = (E4,p4x,p4y,p4z)
-u11 = (E1+m1,0,p1z,p1x+i*p1y)
-u12 = (0,E1+m1,p1x-i*p1y,-p1z)
-v21 = (p2z,p2x+i*p2y,E2+m2,0)
-v22 = (p2x-i*p2y,-p2z,0,E2+m2)
-u31 = (E3+m3,0,p3z,p3x+i*p3y)
-u32 = (0,E3+m3,p3x-i*p3y,-p3z)
-v41 = (p4z,p4x+i*p4y,E4+m4,0)
-v42 = (p4x-i*p4y,-p4z,0,E4+m4)
-I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
-gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
-gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
-gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
-gamma = (gamma0,gamma1,gamma2,gamma3)
-pslash1 = dot(gmunu,p1,gamma)
-pslash2 = dot(gmunu,p2,gamma)
-pslash3 = dot(gmunu,p3,gamma)
-pslash4 = dot(gmunu,p4,gamma)
-"dirac equation"
-dot(pslash1-m1*I,u11)
-dot(pslash1-m1*I,u12)
-dot(pslash2+m2*I,v21)
-dot(pslash2+m2*I,v22)
-dot(pslash3-m3*I,u31)
-dot(pslash3-m3*I,u32)
-dot(pslash4+m4*I,v41)
-dot(pslash4+m4*I,v42)
-"completeness"
-outer(u11,dot(conj(u11),gamma0))+outer(u12,dot(conj(u12),gamma0))-
-  (E1+m1)*(pslash1+m1*I)
-outer(v21,dot(conj(v21),gamma0))+outer(v22,dot(conj(v22),gamma0))-
-  (E2+m2)*(pslash2-m2*I)
-outer(u31,dot(conj(u31),gamma0))+outer(u32,dot(conj(u32),gamma0))-
-  (E3+m3)*(pslash3+m3*I)
-outer(v41,dot(conj(v41),gamma0))+outer(v42,dot(conj(v42),gamma0))-
-  (E4+m4)*(pslash4-m4*I)
-
-clear
-
--- www.eigenmath.org/gordon.txt
-E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m^2)
-E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m^2)
-p1 = (E1,p1x,p1y,p1z)
-p2 = (E2,p2x,p2y,p2z)
-u11 = (E1+m,0,p1z,p1x+i*p1y)
-u12 = (0,E1+m,p1x-i*p1y,-p1z)
-u21 = (E2+m,0,p2z,p2x+i*p2y)
-u22 = (0,E2+m,p2x-i*p2y,-p2z)
-u1 = (u11,u12)
-u2 = (u21,u22)
-I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
-gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
-gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
-gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
-gamma = (gamma0,gamma1,gamma2,gamma3)
-T = transpose(dot(gamma,transpose(gamma)),2,3)
-sigmamunu = i/2 * (T - transpose(T))
-for(s1,1,2,for(s2,1,2,for(mu,1,4,
-  T = 1/(2*m) * ((p2+p1)[mu]*I + i*dot(gmunu,p2-p1,sigmamunu[mu])),
-  A = dot(conj(u2[s2]),gamma0,T,u1[s1]),
-  B = dot(conj(u2[s2]),gamma0,gamma[mu],u1[s1]),
-  check(A=B)
-)))
-
-clear
-
--- www.eigenmath.org/muon.txt
-p = sqrt(E^2 - m^2)
-rho = sqrt(E^2 - M^2)
-p1 = (E,0,0,p)
-p2 = (E,0,0,-p)
-p3 = (E,
-      rho*expsin(theta)*expcos(phi),
-      rho*expsin(theta)*expsin(phi),
-      rho*expcos(theta))
-p4 = (E,
-      -rho*expsin(theta)*expcos(phi),
-      -rho*expsin(theta)*expsin(phi),
-      -rho*expcos(theta))
-I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
-gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
-gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
-gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
-gamma = (gamma0,gamma1,gamma2,gamma3)
-pslash1 = dot(gmunu,p1,gamma)
-pslash2 = dot(gmunu,p2,gamma)
-pslash3 = dot(gmunu,p3,gamma)
-pslash4 = dot(gmunu,p4,gamma)
-gammaT = transpose(gamma)
--- T1 is the first trace matrix
-T1 = contract(dot(pslash1+m*I,gammaT,pslash2-m*I,gammaT),1,4)
--- T2 is the second trace matrix
-T2 = contract(dot(pslash4-M*I,gammaT,pslash3+M*I,gammaT),1,4)
-T2 = dot(gmunu,T2,gmunu)
--- A is the product of T1 and T2
-A = contract(dot(T1,transpose(T2)))
--- B is the expression in theta
-B = 1 + expcos(theta)^2 +
-    (m^2+M^2)/E^2 * expsin(theta)^2 +
-    m^2*M^2/E^4 * expcos(theta)^2
--- this difference should be zero
-A/(64*E^4)-B
-check(last=0)
-
-clear
-
--- www.eigenmath.org/rutherford.txt
-p = sqrt(E^2 - m^2)
-p1 = (E,0,0,p)
-p2 = (E,
-      p*expsin(theta)*expcos(phi),
-      p*expsin(theta)*expsin(phi),
-      p*expcos(theta))
-I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
-gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
-gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
-gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
-gamma = (gamma0,gamma1,gamma2,gamma3)
-pslash1 = dot(gmunu,p1,gamma)
-pslash2 = dot(gmunu,p2,gamma)
-A = contract(dot(pslash1+m*I,gamma0,pslash2+m*I,gamma0))
-B = E^2 + m^2 + p^2*expcos(theta)
--- this difference should be zero
-A/4-B
-check(last=0)
-
-clear
-
--- www.eigenmath.org/quantum-electric-field.txt
--- derived units
-joule = kilogram * meter^2 * second^(-2)
-volt = kilogram * meter^2 * second^(-3) * ampere^(-1)
-farad = kilogram^(-1) * meter^(-2) * second^4 * ampere^2
--- physical values
-hbar = 1.054572 * 10^(-34) * joule * second
-epsilon0 = 8.854188 * 10^(-12) * farad * meter^(-1)
-c = 299792458 * meter * second^(-1)
-lambda = 600 * 10^(-9) * meter
-omega = 2 * float(pi) * c / lambda
--- conversion constant
-C = sqrt(0.5 * hbar * omega * epsilon0^(-1) * meter^(-3))
-C
-volt * meter^(-1)
-
-clear
-
--- www.eigenmath.org/schwarzchild-metric.txt
-
-gdd = ((-F(r),      0,   0,                0),
-       (    0, 1/F(r),   0,                0),
-       (    0,      0, r^2,                0),
-       (    0,      0,   0, r^2*sin(theta)^2))
-
--- Note: "dd" stands for two "down" indices, "uu" stands for two "up" indices.
-
--- X is for computing gradients.
-
-X = (t,r,theta,phi)
-
--- Step 1: Calculate guu.
-
-guu = inv(gdd)
-
--- Step 2: Calculate the connection coefficients. ("Gravitation" by MTW p. 210)
---
--- Gamma    = 1/2 (g     + g     - g    )
---      abc         ab,c    ac,b    bc,a
---
--- Note: The comma means gradient which increases the rank of gdd by 1.
-
-gddd = d(gdd,X)
-
--- Transpose indices to match abc.
-
-GAMDDD = 1/2 * (gddd +              -- indices are already in correct order
-transpose(gddd,2,3) -               -- transpose c and b
-transpose(transpose(gddd,2,3),1,2)) -- transpose c and a, then b and a
-
--- Raise first index.
---
---      a      au
--- Gamma    = g   Gamma
---       bc            ubc
---
--- Note: Sum over index u means contraction.
-
-GAMUDD = dot(guu,GAMDDD)
-
--- Step 3. Calculate the Riemann tensor. ("Gravitation" by MTW p. 219)
---
--- a is alpha
--- b is beta
--- c is gamma
--- d is delta
--- u is mu
---
---  a           a            a            a        u          a        u
--- R     = Gamma      - Gamma      + Gamma    Gamma    - Gamma    Gamma
---   bcd         bd,c         bc,d         uc       bd         ud       bc
---
--- Do the gradient once and save in a temporary variable.
-
-T1 = d(GAMUDD,X)
-
--- T2 is the product Gamma Gamma contracted over u.
-
-T2 = dot(transpose(GAMUDD,2,3),GAMUDD)
-
--- Now put it all together. Transpose indices to match abcd.
-
-RUDDD = transpose(T1,3,4) -             -- transpose d and c
-  T1 +                                  -- already in correct order
-  transpose(T2,2,3) -                   -- transpose c and b
-  transpose(transpose(T2,2,3),3,4)      -- transpose d and b, then d and c
-
--- Step 4: Calculate the Ricci tensor. ("Gravitation" by MTW p. 343)
---
---        a
--- R   = R
---  uv     uav
---
--- Contract over "a" (1st and 3rd indices).
-
-RDD = contract(RUDDD,1,3)
-
--- Step 5: Calculate the Ricci scalar. ("Gravitation" by MTW p. 343)
---
---      uv
--- R = g   R
---          uv
-
-R = contract(dot(guu,transpose(RDD)))
-
--- Step 6: Finally, calculate the Einstein tensor. ("Gravitation" by MTW p. 343)
---
--- G   = R   - 1/2 g   R
---  uv    uv        uv
-
-GDD = RDD - 1/2 * gdd * R
-
-GDD[1,1]
-GDD[2,2]
-GDD[3,3]
-GDD[4,4]
-
--- Define F(r) and simplify.
-
-F(r) = 1 - 2*M/r
-
-GDD = simplify(GDD)
-GDD
-
-check(GDD=0)
-
--- commutation relations for angular momentum operators
-
-clear
-
-Lx(f) = -i hbar (y d(f,z) - z d(f,y))
-Ly(f) = -i hbar (z d(f,x) - x d(f,z))
-Lz(f) = -i hbar (x d(f,y) - y d(f,x))
-
-check(Lx(Ly(psi(x,y,z))) - Ly(Lx(psi(x,y,z))) == i hbar Lz(psi(x,y,z)))
-check(Ly(Lz(psi(x,y,z))) - Lz(Ly(psi(x,y,z))) == i hbar Lx(psi(x,y,z)))
-check(Lz(Lx(psi(x,y,z))) - Lx(Lz(psi(x,y,z))) == i hbar Ly(psi(x,y,z)))
-
--- spherical harmonic eigenfunctions
-
-clear
-
-Y(l,m) = (-1)^m sqrt((2l + 1)/(4pi) (l - m)!/(l + m)!) *
-         P(expcos(theta),l,m) exp(i m phi)
-
-P(y,l,m) = eval(1 / (2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l,x,l + m),x,y)
-
-S(l,m) = -Lap(Y(l,m)) == l (l + 1) Y(l,m)
-
-Lap(f) = 1 / expsin(theta) d(expsin(theta) d(f,theta),theta) +
-         1 / expsin(theta)^2 d(f,phi,2)
-
-check(S(0,0) == 1)
-check(S(1,0) == 1)
-check(S(1,1) == 1)
-check(S(1,-1) == 1)
-check(S(2,0) == 1)
-check(S(2,1) == 1)
-check(S(2,2) == 1)
-check(S(2,-1) == 1)
-check(S(2,-2) == 1)
-
--- radial eigenfunctions
-
-clear
-
-e = quote(e)
-
-R(n,l) = 2 / (n^2 a0^(3/2)) *
-         sqrt((n - l - 1)! / (n + l)!) *
-         (2 rho / n)^l *
-         L(2 rho / n,n - l - 1,2 l + 1) *
-         exp(-rho / n)
-
-L(x,m,j) = sum(k,0,m,(-x)^k (m + j)! / ((m - k)! (j + k)! k!))
-
-rho = r / a0
-A = a0^(3/2)
-
-check(R(1,0) A == 2 exp(-rho))
-check(R(2,0) A == sqrt(2)/4 (2 - rho) exp(-rho/2))
-check(R(2,1) A == sqrt(6)/12 rho exp(-rho/2))
-check(R(3,0) A == 2 sqrt(3)/27 (3 - 2 rho + 2/9 rho^2) exp(-rho/3))
-check(R(3,1) A == sqrt(6)/81 rho (4 - 2/3 rho) exp(-rho/3))
-check(R(3,2) A == 2 sqrt(30)/1215 rho^2 exp(-rho/3))
-
--- hydrogen atom eigenfunctions
-
-clear
-
-e = quote(e)
-
-psi(n,l,m) = R(n,l) Y(l,m)
-
-R(n,l) = 2 / (n^2 a0^(3/2)) *
-         sqrt((n - l - 1)! / (n + l)!) *
-         (2 rho / n)^l *
-         L(2 rho / n,n - l - 1,2 l + 1) *
-         exp(-rho / n)
-
-L(x,m,j) = sum(k,0,m,(-x)^k (m + j)! / ((m - k)! (j + k)! k!))
-
-rho = r / a0
-
-a0 = 4 pi epsilon0 hbar^2 / (e^2 mu)
-
-Y(l,m) = (-1)^m sqrt((2l + 1) / (4 pi) (l - m)! / (l + m)!) *
-         P(expcos(theta),l,m) exp(i m phi)
-
-P(y,l,m) = eval(1 / (2^l l!) (1 - x^2)^(m/2) *
-           d((x^2 - 1)^l,x,l + m),x,y)
-
-H(psi) = -hbar^2 Lap(psi) / (2 mu) - e^2 / (4 pi epsilon0 r) psi
-
-Lap(f) = 1/r^2 d(r^2 d(f,r),r) +
-         1/(r^2 expsin(theta)) d(expsin(theta) d(f,theta),theta) +
-         1/(r expsin(theta))^2 d(f,phi,2)
-
-E(n) = -mu / (2 n^2) (e^2 / (4 pi epsilon0 hbar))^2
-
-S(n,l,m) = H(psi(n,l,m)) == E(n) psi(n,l,m)
-
-check(S(1,0,0) == 1)
-check(S(2,0,0) == 1)
-check(S(2,1,0) == 1)
-check(S(2,1,1) == 1)
-check(S(2,1,-1) == 1)
-check(S(3,0,0) == 1)
-check(S(3,1,0) == 1)
-check(S(3,1,1) == 1)
-check(S(3,1,-1) == 1)
-check(S(3,2,0) == 1)
-check(S(3,2,1) == 1)
-check(S(3,2,2) == 1)
-check(S(3,2,-1) == 1)
-check(S(3,2,-2) == 1)
-
--- done
-
-clear
-trace = 0
-status
 "ok"
 exit

@@ -1,0 +1,14 @@
+"Birthday problem"
+
+clear
+
+-- Product method
+p = product(k,1,23,(365-k+1)/365)
+check(infixform(float(p)) == "0.492703")
+
+-- Factorial method
+p = 365! / (365 - 23)! / 365^23
+check(infixform(float(p)) == "0.492703")
+
+-- Probability of at least one shared birthday
+check(infixform(1.0 - p) == "0.507297")
