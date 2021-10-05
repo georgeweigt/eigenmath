@@ -1,0 +1,18 @@
+"Elliptical polarization"
+clear
+--Simple example of clockwise (right hand) elliptical polarization.
+--As in "circular polarization" except E and B trace out ellipses.
+--Becomes linear polarization for EX=0 or EY=0.
+--Becomes circular polarization for EX=EY.
+--Note that at any given time E and B have the same length.
+E = (EX sin(t+z), EY cos(t+z), 0)
+B = (EY cos(t+z), -EX sin(t+z), 0)
+--Check Maxwell's equations.
+check(div(E) = 0)
+check(curl(E) + d(B,t) = 0)
+check(div(B) = 0)
+check(curl(B) - d(E,t) = 0)
+check(dot(E,B) = 0)
+--Already shown to be true by Maxwell above but do this anyway...
+check(dot(E,B) = 0)              --Check right angle
+check(dot(E,E) - dot(B,B) = 0)   --Check equal length

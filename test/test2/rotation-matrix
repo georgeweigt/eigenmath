@@ -1,0 +1,37 @@
+"Rotation matrix"
+
+clear
+
+-- This script demonstrates some properties of a rotation matrix.
+
+-- These are the matrix components.
+
+R11 = expcos(phi2) expcos(phi1) - expcos(theta) expsin(phi1) expsin(phi2)
+R12 = -expcos(phi2) expsin(phi1) - expcos(theta) expcos(phi1) expsin(phi2)
+R13 = expsin(phi2) expsin(theta)
+
+R21 = expsin(phi2) expcos(phi1) + expcos(theta) expsin(phi1) expcos(phi2)
+R22 = -expsin(phi2) expsin(phi1) + expcos(theta) expcos(phi1) expcos(phi2)
+R23 = -expcos(phi2) expsin(theta)
+
+R31 = expsin(theta) expsin(phi1)
+R32 = expsin(theta) expcos(phi1)
+R33 = expcos(theta)
+
+-- R is a rotation matrix.
+
+R = ((R11,R12,R13),(R21,R22,R23),(R31,R32,R33))
+
+-- Inverse and transpose are equivalent.
+
+check(inv(R) = transpose(R))
+
+-- Determinant is 1.
+
+check(det(R) = 1)
+
+-- Does not change the length of a vector.
+
+U = (U1,U2,U3)
+
+check(abs(U) = abs(dot(R,U)))

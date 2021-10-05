@@ -1,0 +1,13 @@
+"Complex numbers as real vectors"
+clear
+--Can complex number multiplication be simulated using real vectors?
+--Yes, if a rank-3 tensor is used to do the multiply.
+A = (AX, AY)
+B = (BX, BY)
+P = (AX BX - AY BY, AX BY + AY BX) --Complex number product in vector form
+T11 = (1, 0)
+T12 = (0, 1)
+T21 = (0, -1)
+T22 = (1, 0)
+T = ((T11, T12), (T21, T22))
+check(dot(A,T,B) - P = 0)

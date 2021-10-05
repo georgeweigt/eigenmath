@@ -57,5 +57,3 @@ tmp=outer(GUU,GAMUDD)
 tmp=d(GUU,(u,r,theta,phi))+transpose(contract(tmp,1,4),1,2)+contract(tmp,2,4)
 T = contract(tmp,2,3)
 check(T=(0,0,0,0))
-
-"ok"
