@@ -5,6 +5,8 @@ To build and run:
 
 Press ctrl-C to exit.
 
+Eigenmath uses UTF-8 encoding. The terminal window should have UTF-8 enabled.
+
 To run a script:
 
 	./a.out scriptfilename
