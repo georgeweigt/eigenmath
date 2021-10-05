@@ -25,7 +25,34 @@ To generate MathJax output:
 
 	./a.out --mathjax scriptfilename | tee foo.html
 
-To build eigenmath.c:
+To build eigenmath.c
 
 	cd tools
 	make eigenmath.c
+
+To build eigenmath.js
+
+	cd js
+	make
+
+Here is a template web page that uses eigenmath.js
+
+	<html>
+	<body>
+
+	<script src="https://georgeweigt.github.io/eigenmath.js"></script>
+
+	<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
+
+	-- Eigenmath script goes here, for example:
+	draw(sin(x))
+
+	</textarea>
+
+	<button onclick="run()" style="font-size:20pt">Run</button>
+
+	<p>
+	<div id="stdout"></div>
+
+	</body>
+	</html>
