@@ -1,7 +1,0 @@
-To build:
-
-	make
-
-Result is eigenmath.js
-
-See demo.html for a template web page that uses eigenmath.js
