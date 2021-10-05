@@ -37,7 +37,7 @@ To build eigenmath.js
 	cd js
 	make
 
-Here is an example web page using eigenmath.js
+Here is an example.
 
 	<html>
 	<body>
