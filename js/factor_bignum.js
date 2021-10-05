@@ -1,7 +1,7 @@
 // N is bignum, EXPO is rational
 
 function
-factor_number(N, EXPO)
+factor_bignum(N, EXPO)
 {
 	var d, k, m, n, t;
 
