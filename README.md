@@ -32,12 +32,8 @@ To build eigenmath.c
 
 eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
 
-To build eigenmath.js
 
-	cd js
-	make
-
-Here is an example.
+For example
 
 	<html>
 	<body>
@@ -58,3 +54,9 @@ Here is an example.
 
 	</body>
 	</html>
+
+To build eigenmath.js
+
+	cd js
+	make
+
