@@ -1,4 +1,4 @@
-trace = 1
+"Testing integral"
 
 -- basic integrals
 
@@ -1163,8 +1163,4 @@ check(d(integral(f)) == f)
 f = x^9 exp(a x^2 + b)
 check(d(integral(f)) == f)
 
-clear
-trace = 0
-status
 "ok"
-exit

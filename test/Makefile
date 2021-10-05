@@ -1,2 +1,2 @@
 default:
-	cat test2/* >selftest2
+	cat selftest2-source-files/* >selftest2

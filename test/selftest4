@@ -2308,4 +2308,3 @@ check(U(ket0010) == ket0110)
 check(U(ket0011) == ket1011)
 
 "ok"
-exit
