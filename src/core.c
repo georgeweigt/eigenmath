@@ -796,19 +796,11 @@ issquarematrix(struct atom *p)
 int
 issmallinteger(struct atom *p)
 {
-	if (isinteger(p)) {
-		if (MLENGTH(p->u.q.a) == 1 && p->u.q.a[0] <= 0x7fffffff)
-			return 1;
-		else
-			return 0;
-	}
+	if (isinteger(p))
+		return MLENGTH(p->u.q.a) == 1 && p->u.q.a[0] < (uint32_t) 0x80000000;
 
-	if (isdouble(p)) {
-		if (p->u.d == floor(p->u.d) && fabs(p->u.d) <= 0x7fffffff)
-			return 1;
-		else
-			return 0;
-	}
+	if (isdouble(p))
+		return p->u.d == floor(p->u.d) && fabs(p->u.d) < (uint32_t) 0x80000000;
 
 	return 0;
 }
