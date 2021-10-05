@@ -105,9 +105,18 @@ bignum_odd(u)
 }
 
 function
+bignum_uint32(u)
+{
+	if (u < 0x100000000)
+		return u;
+	else
+		return null;
+}
+
+function
 bignum_smallnum(u)
 {
-	if (bignum_issmallnum(u))
+	if (u < 0x80000000)
 		return u;
 	else
 		return null;

@@ -5,7 +5,7 @@ factor_number(N, EXPO)
 {
 	var d, k, m, n, t;
 
-	n = bignum_smallnum(N);
+	n = bignum_uint32(N);
 
 	if (n == null) {
 		// more than 32 bits

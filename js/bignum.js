@@ -67,17 +67,30 @@ bignum_float(u)
 	return d;
 }
 
-// returns 32-bit value
+// convert bignum to uint32
+
+function
+bignum_uint32(u)
+{
+	if (u.length == 1)
+		return u[0];
+
+	if (u.length == 2 && u[1] < 256)
+		return BIGM * u[1] + u[0];
+
+	return null;
+}
+
+// convert bignum to int32
 
 function
 bignum_smallnum(u)
 {
-	if (bignum_issmallnum(u)) {
-		if (u.length == 1)
-			return u[0];
-		else
-			return BIGM * u[1] + u[0];
-	}
+	if (u.length == 1)
+		return u[0];
+
+	if (u.length == 2 && u[1] < 128)
+		return BIGM * u[1] + u[0];
 
 	return null;
 }
