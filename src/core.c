@@ -797,14 +797,14 @@ int
 issmallinteger(struct atom *p)
 {
 	if (isinteger(p)) {
-		if (MLENGTH(p->u.q.a) == 1 && p->u.q.a[0] <= 0xfffffff)
+		if (MLENGTH(p->u.q.a) == 1 && p->u.q.a[0] <= 0x7fffffff)
 			return 1;
 		else
 			return 0;
 	}
 
 	if (isdouble(p)) {
-		if (p->u.d == floor(p->u.d) && fabs(p->u.d) <= 0xfffffff)
+		if (p->u.d == floor(p->u.d) && fabs(p->u.d) <= 0x7fffffff)
 			return 1;
 		else
 			return 0;

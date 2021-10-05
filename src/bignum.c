@@ -69,25 +69,17 @@ pop_integer(void)
 
 	p = pop();
 
-	if (isinteger(p)) {
-		if (MLENGTH(p->u.q.a) > 1 || (p->u.q.a[0] & 0x80000000))
-			stop("bignum exceeds 2^31 - 1");
+	if (!issmallinteger(p))
+		stop("small integer expected");
+
+	if (isrational(p)) {
 		n = p->u.q.a[0];
 		if (isnegativenumber(p))
 			n = -n;
-		return n;
-	}
-
-	if (isdouble(p)) {
+	} else
 		n = (int) p->u.d;
-		if ((double) n != p->u.d)
-			stop("integer value expected");
-		return n;
-	}
 
-	stop("integer value expected");
-
-	return 0;
+	return n;
 }
 
 void

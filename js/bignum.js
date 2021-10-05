@@ -85,7 +85,7 @@ bignum_smallnum(u)
 function
 bignum_issmallnum(u)
 {
-	return u.length == 1 || (u.length == 2 && u[1] < 256);
+	return u.length == 1 || (u.length == 2 && u[1] < 128);
 }
 
 function

@@ -5,17 +5,15 @@ pop_integer()
 
 	p = pop();
 
-	if (isinteger(p)) {
+	if (!issmallinteger(p))
+		stopf("small integer expected");
+
+	if (isrational(p)) {
 		n = bignum_smallnum(p.a);
-		if (n == null)
-			stopf("value exceeds 2^31 - 1");
 		if (isnegativenumber(p))
 			n = -n;
-		return n;
-	}
+	} else
+		n = p.d;
 
-	if (isdouble(p) && Math.floor(p.d) == p.d)
-		return p.d;
-
-	stopf("integer expected");
+	return n;
 }
