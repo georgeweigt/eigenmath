@@ -1,2 +1,2 @@
 default:
-	cat test2/* epilogue >selftest2
+	cat test2/* >selftest2
