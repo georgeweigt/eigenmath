@@ -30,14 +30,14 @@ To build eigenmath.c
 	cd tools
 	make eigenmath.c
 
-eigenmath.js is a Javascript file that evaluates an Eigenmath script in a web browser.
+eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
 
 To build eigenmath.js
 
 	cd js
 	make
 
-Here is a template web page that uses eigenmath.js
+Here is an example web page using eigenmath.js
 
 	<html>
 	<body>
