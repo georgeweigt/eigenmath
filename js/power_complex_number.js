@@ -35,6 +35,14 @@ power_complex_number(BASE, EXPO)
 		return;
 	}
 
+	if (!issmallinteger(EXPO)) {
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
+		return;
+	}
+
 	push(EXPO);
 	n = pop_integer();
 

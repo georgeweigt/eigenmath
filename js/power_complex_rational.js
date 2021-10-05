@@ -24,9 +24,8 @@ power_complex_rational(BASE, EXPO, X, Y)
 	divide();
 	push(EXPO);
 	multiply();
-
 	EXPO = pop();
-	power_minusone(BASE, EXPO);
+	power_minusone(EXPO);
 
 	// result = sqrt(X^2 + Y^2) ^ (1/2 * EXPO) * (-1) ^ (EXPO * arctan(Y, X) / pi)
 

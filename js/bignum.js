@@ -67,7 +67,7 @@ bignum_float(u)
 	return d;
 }
 
-// returns 31-bit value
+// returns 32-bit value
 
 function
 bignum_smallnum(u)
@@ -85,7 +85,7 @@ bignum_smallnum(u)
 function
 bignum_issmallnum(u)
 {
-	return u.length == 1 || (u.length == 2 && u[1] < 128);
+	return u.length == 1 || (u.length == 2 && u[1] < 256);
 }
 
 function
