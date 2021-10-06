@@ -1,0 +1,12 @@
+"Laguerre function"
+
+clear
+
+L(x,m,j) = sum(k,0,m,(-x)^k (m + j)! / ((m - k)! (j + k)! k!))
+
+check(L(x,1,0) == laguerre(x,1,0))
+check(L(x,2,0) == laguerre(x,2,0))
+check(L(x,2,1) == laguerre(x,2,1))
+check(L(x,3,0) == laguerre(x,3,0))
+check(L(x,3,1) == laguerre(x,3,1))
+check(L(x,3,2) == laguerre(x,3,2))

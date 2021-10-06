@@ -1,0 +1,14 @@
+"Surface integral"
+clear
+M1 = ((0,0,0),(0,0,-1),(0,1,0))
+M2 = ((0,0,1),(0,0,0),(-1,0,0))
+M3 = ((0,-1,0),(1,0,0),(0,0,0))
+M = (M1,M2,M3)
+cross(u,v) = dot(u,M,v)
+z = 1 - x^2 - y^2
+F = (x y^2 z,-2 x^3,y z^2)
+S = (x,y,z)
+f = dot(F,cross(d(S,x),d(S,y)))
+h = sqrt(1 - x^2)
+T = defint(f,y,-h,h,x,-1,1)
+check(T = 1/48 pi)
