@@ -2,26 +2,26 @@
 
 clear
 
-prefixform(arcsinh(x))
-check(last="(arcsinh x)")
+T = prefixform(arcsinh(x))
+check(T="(arcsinh x)")
 
-prefixform(arcsinh(sinh(x)))
-check(last="x")
+T = prefixform(arcsinh(sinh(x)))
+check(T="x")
 
-prefixform(arcsinh(0))
-check(last="0")
+T = prefixform(arcsinh(0))
+check(T="0")
 
-prefixform(arcsinh(1))
-check(last="(arcsinh 1)")
+T = prefixform(arcsinh(1))
+check(T="(arcsinh 1)")
 
-prefixform(arcsinh(1.0))
-check(last="0.881374")
+T = prefixform(arcsinh(1.0))
+check(T="0.881374")
 
-prefixform(arcsinh(-1))
-check(last="(* -1 (arcsinh 1))")
+T = prefixform(arcsinh(-1))
+check(T="(* -1 (arcsinh 1))")
 
-prefixform(arcsinh(-1.0))
-check(last="-0.881374")
+T = prefixform(arcsinh(-1.0))
+check(T="-0.881374")
 
-prefixform(float(arcsinh(1+i)))
-check(last="(+ 1.06128 (* 0.666239 (^ -1 1/2)))")
+T = prefixform(float(arcsinh(1+i)))
+check(T="(+ 1.06128 (* 0.666239 (^ -1 1/2)))")

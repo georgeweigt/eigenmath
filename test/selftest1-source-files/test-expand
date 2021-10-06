@@ -1,17 +1,17 @@
 
 -- FIXME
 
---expand((x^2+5*x+2)/(2*(x+1)),x)
---check(infixform(last) == "1/2 x - 1 / (x + 1) + 2")
+--T = expand((x^2+5*x+2)/(2*(x+1)),x)
+--check(infixform(T) == "1/2 x - 1 / (x + 1) + 2")
 
 --f = x / 2 / (x + 1)
---expand(f)
---check(rationalize(last) == f)
+--T = expand(f)
+--check(rationalize(T) == f)
 
 --f = x / 2 / (x + 1) / (x + 2)
---expand(f)
---check(rationalize(last) == f)
+--T = expand(f)
+--check(rationalize(T) == f)
 
 --f = x / 2 / (x + 1) / (x + 2) / (x + 3)
---expand(f)
---check(rationalize(last) == f)
+--T = expand(f)
+--check(rationalize(T) == f)

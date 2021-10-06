@@ -2,26 +2,26 @@
 
 clear
 
-prefixform(arctanh(x))
-check(last="(arctanh x)")
+T = prefixform(arctanh(x))
+check(T="(arctanh x)")
 
-prefixform(arctanh(tanh(x)))
-check(last="x")
+T = prefixform(arctanh(tanh(x)))
+check(T="x")
 
-prefixform(arctanh(0))
-check(last="0")
+T = prefixform(arctanh(0))
+check(T="0")
 
-prefixform(arctanh(1))
-check(last="(arctanh 1)")
+T = prefixform(arctanh(1))
+check(T="(arctanh 1)")
 
-prefixform(arctanh(-1))
-check(last="(arctanh -1)")
+T = prefixform(arctanh(-1))
+check(T="(arctanh -1)")
 
-prefixform(arctanh(0.5))
-check(last="0.549306")
+T = prefixform(arctanh(0.5))
+check(T="0.549306")
 
-prefixform(arctanh(-0.5))
-check(last="-0.549306")
+T = prefixform(arctanh(-0.5))
+check(T="-0.549306")
 
-prefixform(float(arctanh(1+i)))
-check(last="(+ 0.402359 (* 1.01722 (^ -1 1/2)))")
+T = prefixform(float(arctanh(1+i)))
+check(T="(+ 0.402359 (* 1.01722 (^ -1 1/2)))")

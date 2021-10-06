@@ -1,33 +1,39 @@
+"Testing 1st"
 
 -- check sort order
 
-3+4*i
-check(infixform(last)="3 + 4 i")
-x^2*y
-check(infixform(last)="x^2 y")
-y*x^2
-check(infixform(last)="x^2 y")
-x*y^2
-check(infixform(last)="x y^2")
-y^2*x
-check(infixform(last)="x y^2")
-(x+1)^2
-check(infixform(last)="x^2 + 2 x + 1")
-(a+b)^2
-check(infixform(last)="a^2 + 2 a b + b^2")
-(a+b)^3
-check(infixform(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
-x*cos(x)
-check(infixform(last)="x cos(x)")
-cos(x)*x
-check(infixform(last)="x cos(x)")
+T = 3+4*i
+check(infixform(T)="3 + 4 i")
+T = x^2*y
+check(infixform(T)="x^2 y")
+T = y*x^2
+check(infixform(T)="x^2 y")
+T = x*y^2
+check(infixform(T)="x y^2")
+T = y^2*x
+check(infixform(T)="x y^2")
+T = (x+1)^2
+check(infixform(T)="x^2 + 2 x + 1")
+T = (a+b)^2
+check(infixform(T)="a^2 + 2 a b + b^2")
+T = (a+b)^3
+check(infixform(T)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
+T = x*cos(x)
+check(infixform(T)="x cos(x)")
+T = cos(x)*x
+check(infixform(T)="x cos(x)")
 
--- test add.c
+-- term sort ignores coeff
+
+check(prefixform(a-b)="(+ a (* -1 b))")
+check(prefixform(b-a)="(+ (* -1 a) b)")
+
+-- test addition
 
 A=((0,0),(0,0))
 B=((0,0),(0,0))
-A+B
-check(infixform(last)="((0,0),(0,0))")
+T = A+B
+check(infixform(T)="((0,0),(0,0))")
 
 A=2
 B=3
@@ -48,12 +54,7 @@ check(B-A=-1)
 A=quote(A)
 B=quote(B)
 
--- term sort ignores coeff
-
-check(prefixform(a-b)="(+ a (* -1 b))")
-check(prefixform(b-a)="(+ (* -1 a) b)")
-
--- test multiply.c
+-- test multiplication
 
 N = 2*3^100
 M = N/sqrt(2)
@@ -79,164 +80,166 @@ B = sqrt(2.0) * sqrt(3.0) * x * y
 check(infixform(A) = "2.44949 x y")
 check(infixform(B) = "2.44949 x y")
 
+-- test power function
+
 clear
 
-0^a
-check(infixform(last)="0^a")
+T = 0^a
+check(infixform(T)="0^a")
 
-2^(3/2)
-check(infixform(last)="2 2^(1/2)")
+T = 2^(3/2)
+check(infixform(T)="2 2^(1/2)")
 
-858/sqrt(2)
-check(infixform(last)="429 2^(1/2)")
+T = 858/sqrt(2)
+check(infixform(T)="429 2^(1/2)")
 
-(-3)^(3/2)
-check(infixform(last)="-3 3^(1/2) i")
+T = (-3)^(3/2)
+check(infixform(T)="-3 3^(1/2) i")
 
-(10^10)^(4/3)
-check(infixform(last)="10000000000 10000000000^(1/3)")
+T = (10^10)^(4/3)
+check(infixform(T)="10000000000 10000000000^(1/3)")
 
 check(exp(i*pi)=-1)
 check(prefixform(exp(i*pi+a))="(* -1 (^ $e a))")
 
-6*sqrt(2)*sqrt(3)
-check(infixform(last)="6 2^(1/2) 3^(1/2)")
+T = 6*sqrt(2)*sqrt(3)
+check(infixform(T)="6 2^(1/2) 3^(1/2)")
 
-(a+b)*(a+b)
-check(infixform(last)="a^2 + 2 a b + b^2")
+T = (a+b)*(a+b)
+check(infixform(T)="a^2 + 2 a b + b^2")
 
-(a+b)*(a+b)*(a+b)
-check(infixform(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
+T = (a+b)*(a+b)*(a+b)
+check(infixform(T)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
 
-1/(a+b)^2
-check(infixform(last)="1 / (a + b)^2")
+T = 1/(a+b)^2
+check(infixform(T)="1 / (a + b)^2")
 
-(a+b*i)/(c+d*i)
-check(infixform(last)="a / (c + i d) + i b / (c + i d)")
+T = (a+b*i)/(c+d*i)
+check(infixform(T)="a / (c + i d) + i b / (c + i d)")
 
-((2+3*i)^2)^(-1)
-check(infixform(last)="-5/169 - 12/169 i")
+T = ((2+3*i)^2)^(-1)
+check(infixform(T)="-5/169 - 12/169 i")
 
-((2+3*i)^(-1))^2
-check(infixform(last)="-5/169 - 12/169 i")
+T = ((2+3*i)^(-1))^2
+check(infixform(T)="-5/169 - 12/169 i")
 
-s^(-8*pi*i)
-check(infixform(last)="s^(-8 i pi)")
+T = s^(-8*pi*i)
+check(infixform(T)="s^(-8 i pi)")
 
-exp(-8*pi*i)
-check(last=1)
+T = exp(-8*pi*i)
+check(T=1)
 
 N = 102/2^64
 M = sqrt(N)
-N - M^2
-check(last=0)
+T = N - M^2
+check(T=0)
 
 N = 2^64/102
 M = sqrt(N)
-N - M^2
-check(last=0)
+T = N - M^2
+check(T=0)
 
 clear
 
-(2+3*i)^c
-check(infixform(last)="(2 + 3 i)^c")
+T = (2+3*i)^c
+check(infixform(T)="(2 + 3 i)^c")
 
-(a+b)^c
-check(infixform(last)="(a + b)^c")
+T = (a+b)^c
+check(infixform(T)="(a + b)^c")
 
-(1+i)^2
-check(prefixform(last)="(* 2 (^ -1 1/2))")
+T = (1+i)^2
+check(prefixform(T)="(* 2 (^ -1 1/2))")
 
-(2*i)^2
-check(last=-4)
+T = (2*i)^2
+check(T=-4)
 
-(2+3*i)^2
-check(prefixform(last)="(+ -5 (* 12 (^ -1 1/2)))")
+T = (2+3*i)^2
+check(prefixform(T)="(+ -5 (* 12 (^ -1 1/2)))")
 
-(2+3*i)^(-2)
-check(prefixform(last)"(+ -5/169 (* -12/169 (^ -1 1/2)))")
+T = (2+3*i)^(-2)
+check(prefixform(T)"(+ -5/169 (* -12/169 (^ -1 1/2)))")
 
-(2+3*i)^(1/2)
-check(infixform(last)="13^(1/4) (-1)^(arctan(3,2) / (2 pi))")
+T = (2+3*i)^(1/2)
+check(infixform(T)="13^(1/4) (-1)^(arctan(3,2) / (2 pi))")
 
-(2+3*i)^(-1/2)
-check(infixform(last)="(-1)^(-arctan(3,2) / (2 pi)) / 13^(1/4)")
+T = (2+3*i)^(-1/2)
+check(infixform(T)="(-1)^(-arctan(3,2) / (2 pi)) / 13^(1/4)")
 
-i^0
-check(last=1)
+T = i^0
+check(T=1)
 
-i^1
-check(prefixform(last)="(^ -1 1/2)")
+T = i^1
+check(prefixform(T)="(^ -1 1/2)")
 
-i^2
-check(last=-1)
+T = i^2
+check(T=-1)
 
-i^3
-check(prefixform(last)="(* -1 (^ -1 1/2))")
+T = i^3
+check(prefixform(T)="(* -1 (^ -1 1/2))")
 
-i^4
-check(last=1)
+T = i^4
+check(T=1)
 
-i^5
-check(prefixform(last)="(^ -1 1/2)")
+T = i^5
+check(prefixform(T)="(^ -1 1/2)")
 
-i^6
-check(last=-1)
+T = i^6
+check(T=-1)
 
-i^7
-check(prefixform(last)="(* -1 (^ -1 1/2))")
+T = i^7
+check(prefixform(T)="(* -1 (^ -1 1/2))")
 
-i^(-1)
-check(prefixform(last)="(* -1 (^ -1 1/2))")
+T = i^(-1)
+check(prefixform(T)="(* -1 (^ -1 1/2))")
 
-i^(-2)
-check(last=-1)
+T = i^(-2)
+check(T=-1)
 
-i^(-3)
-check(prefixform(last)="(^ -1 1/2)")
+T = i^(-3)
+check(prefixform(T)="(^ -1 1/2)")
 
-i^(-4)
-check(last=1)
+T = i^(-4)
+check(T=1)
 
-i^(-5)
-check(prefixform(last)="(* -1 (^ -1 1/2))")
+T = i^(-5)
+check(prefixform(T)="(* -1 (^ -1 1/2))")
 
-i^(-6)
-check(last=-1)
+T = i^(-6)
+check(T=-1)
 
-i^(-7)
-check(prefixform(last)="(^ -1 1/2)")
+T = i^(-7)
+check(prefixform(T)="(^ -1 1/2)")
 
-sqrt(102)
-check(infixform(last)="2^(1/2) 3^(1/2) 17^(1/2)")
+T = sqrt(102)
+check(infixform(T)="2^(1/2) 3^(1/2) 17^(1/2)")
 
-sqrt(204)
-check(infixform(last)="2 3^(1/2) 17^(1/2)")
+T = sqrt(204)
+check(infixform(T)="2 3^(1/2) 17^(1/2)")
 
-sqrt(408)
-check(infixform(last)="2 2^(1/2) 3^(1/2) 17^(1/2)")
+T = sqrt(408)
+check(infixform(T)="2 2^(1/2) 3^(1/2) 17^(1/2)")
 
-sqrt(816)
-check(infixform(last)="4 3^(1/2) 17^(1/2)")
+T = sqrt(816)
+check(infixform(T)="4 3^(1/2) 17^(1/2)")
 
-sqrt(2^32-5)
-check(infixform(last)="4294967291^(1/2)")
+T = sqrt(2^32-5)
+check(infixform(T)="4294967291^(1/2)")
 check(2^32-5=4294967291)
 
-sqrt(2^32-4)
-check(infixform(last)="6 7^(1/2) 11^(1/2) 31^(1/2) 151^(1/2) 331^(1/2)")
+T = sqrt(2^32-4)
+check(infixform(T)="6 7^(1/2) 11^(1/2) 31^(1/2) 151^(1/2) 331^(1/2)")
 check(2^32-4=36*7*11*31*151*331)
 
-sqrt(2^32-3)
-check(infixform(last)="9241^(1/2) 464773^(1/2)")
+T = sqrt(2^32-3)
+check(infixform(T)="9241^(1/2) 464773^(1/2)")
 check(2^32-3=9241*464773)
 
-sqrt(2^32-2)
-check(infixform(last)="2^(1/2) 2147483647^(1/2)")
+T = sqrt(2^32-2)
+check(infixform(T)="2^(1/2) 2147483647^(1/2)")
 check(2^32-2=2*2147483647)
 
-sqrt(2^32-1)
-check(infixform(last)="3^(1/2) 5^(1/2) 17^(1/2) 257^(1/2) 65537^(1/2)")
+T = sqrt(2^32-1)
+check(infixform(T)="3^(1/2) 5^(1/2) 17^(1/2) 257^(1/2) 65537^(1/2)")
 check(2^32-1=3*5*17*257*65537)
 
 for(k,1,100,
@@ -244,53 +247,55 @@ N=2^32-k,
 M=sqrt(N),
 check(N/M=M))
 
+--
+
 check(exptan(z)=(exp(2*i*z)-1)/(i*(exp(2*i*z)+1)))
 check(circexp(expsin(z)/expcos(z)-exptan(z))=0)
 
 -- test sin function
 
-float(sin(1+i))
-check(infixform(last)="1.29846 + 0.634964 i")
+T = float(sin(1+i))
+check(infixform(T)="1.29846 + 0.634964 i")
 
 -- test cos function
 
-float(cos(1+i))
-check(infixform(last)="0.83373 - 0.988898 i")
+T = float(cos(1+i))
+check(infixform(T)="0.83373 - 0.988898 i")
 
 -- test tan function
 
-float(tan(1+i))
-check(infixform(last)="0.271753 + 1.08392 i")
+T = float(tan(1+i))
+check(infixform(T)="0.271753 + 1.08392 i")
 
 -- test sinh function
 
-float(sinh(1+i))
-check(infixform(last)="0.634964 + 1.29846 i")
+T = float(sinh(1+i))
+check(infixform(T)="0.634964 + 1.29846 i")
 
 -- test cosh function
 
-float(cosh(1+i))
-check(infixform(last)="0.83373 + 0.988898 i")
+T = float(cosh(1+i))
+check(infixform(T)="0.83373 + 0.988898 i")
 
 -- test tanh function
 
-float(tanh(1+i))
-check(infixform(last)="1.08392 + 0.271753 i")
+T = float(tanh(1+i))
+check(infixform(T)="1.08392 + 0.271753 i")
 
 -- test arcsin function
 
-float(arcsin(1+i))
-check(infixform(last)="0.666239 + 1.06128 i")
+T = float(arcsin(1+i))
+check(infixform(T)="0.666239 + 1.06128 i")
 
 -- test arccos function
 
-float(arccos(1+i))
-check(infixform(last)="0.904557 - 1.06128 i")
+T = float(arccos(1+i))
+check(infixform(T)="0.904557 - 1.06128 i")
 
 -- test arctan function
 
-float(arctan(1+i))
-check(infixform(last)="1.01722 + 0.402359 i")
+T = float(arctan(1+i))
+check(infixform(T)="1.01722 + 0.402359 i")
 
 -- loop indices are not rewritten
 
@@ -301,11 +306,9 @@ check(A==(1,1,1))
 
 -- tensor comparison
 
-(0,0) == (0,0,0) -- both are equal to scalar zero
-check(last = 1)
+check((0,0) == (0,0,0)) -- both are equal to scalar zero
 
-(1,0) == (1,0,0) -- should not cause a stop like (1,0) - (1,0,0) does
-check(last = 0)
+check(not((1,0) == (1,0,0))) -- should not cause a stop like (1,0) - (1,0,0) does
 
 -- best rational approximation
 
@@ -322,41 +325,41 @@ check(last = 0)
 
 -- FIXME
 
---prefixform(factor(10))
---check(last = "(* 2 5)")
+--T = prefixform(factor(10))
+--check(T = "(* 2 5)")
 
---prefixform(factor(-10))
---check(last = "(* -1 2 5)")
+--T = prefixform(factor(-10))
+--check(T = "(* -1 2 5)")
 
---prefixform(factor(1/10))
---check(last = "(* (^ 2 -1) (^ 5 -1))")
+--T = prefixform(factor(1/10))
+--check(T = "(* (^ 2 -1) (^ 5 -1))")
 
---prefixform(factor(-1/10))
---check(last = "(* -1 (^ 2 -1) (^ 5 -1))")
+--T = prefixform(factor(-1/10))
+--check(T = "(* -1 (^ 2 -1) (^ 5 -1))")
 
 -- factor floating point
 
 --for(i,-10,10,for(j,1,100,check(eval(factor(float(i / j))) == i / j)))
 
---prefixform(factor(2^53 - 1))
---check(last = "(* 6361 69431 20394401)")
+--T = prefixform(factor(2^53 - 1))
+--check(T = "(* 6361 69431 20394401)")
 
---prefixform(factor(float(2^53 - 1)))
---check(last = "(* 6361 69431 20394401)")
+--T = prefixform(factor(float(2^53 - 1)))
+--check(T = "(* 6361 69431 20394401)")
 
---prefixform(factor(2^53))
---check(last = "(^ 2 53)")
+--T = prefixform(factor(2^53))
+--check(T = "(^ 2 53)")
 
---prefixform(factor(float(2^53)))
---check(last = "(^ 2 53)")
+--T = prefixform(factor(float(2^53)))
+--check(T = "(^ 2 53)")
 
---prefixform(factor(2^53 + 1))
---check(last = "(* 3 107 28059810762433)")
+--T = prefixform(factor(2^53 + 1))
+--check(T = "(* 3 107 28059810762433)")
 
 -- 2^53 + 1 is the smallest positive integer that cannot be represented exactly as a double
 
---prefixform(factor(float(2^53 + 1)))
---check(last = "(^ 2 53)")
+--T = prefixform(factor(float(2^53 + 1)))
+--check(T = "(^ 2 53)")
 
 -- tensor equality test
 
@@ -450,5 +453,3 @@ check(A2(psi) == 2 / m H(L2(psi) + hbar^2 psi) + kappa^2 psi)
 clear
 f = sqrt(1 - cos(theta)^2)
 check(eval(f,sqrt(1 - cos(theta)^2),sin(theta)) == sin(theta))
-
-"ok"

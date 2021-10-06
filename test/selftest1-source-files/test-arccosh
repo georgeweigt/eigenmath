@@ -2,26 +2,26 @@
 
 clear
 
-prefixform(arccosh(x))
-check(last="(arccosh x)")
+T = prefixform(arccosh(x))
+check(T="(arccosh x)")
 
-prefixform(arccosh(cosh(x)))
-check(last="x")
+T = prefixform(arccosh(cosh(x)))
+check(T="x")
 
-prefixform(arccosh(0))
-check(last="(arccosh 0)")
+T = prefixform(arccosh(0))
+check(T="(arccosh 0)")
 
-prefixform(arccosh(1))
-check(last="0")
+T = prefixform(arccosh(1))
+check(T="0")
 
-prefixform(arccosh(1.0))
-check(last="0.0")
+T = prefixform(arccosh(1.0))
+check(T="0.0")
 
-prefixform(arccosh(-1))
-check(last="(arccosh -1)")
+T = prefixform(arccosh(-1))
+check(T="(arccosh -1)")
 
-prefixform(arccosh(-1.0))
-check(last="(* 3.14159 (^ -1 1/2))")
+T = prefixform(arccosh(-1.0))
+check(T="(* 3.14159 (^ -1 1/2))")
 
-prefixform(float(arccosh(1+i)))
-check(last="(+ 1.06128 (* 0.904557 (^ -1 1/2)))")
+T = prefixform(float(arccosh(1+i)))
+check(T="(+ 1.06128 (* 0.904557 (^ -1 1/2)))")

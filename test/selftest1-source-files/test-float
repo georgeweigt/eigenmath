@@ -2,13 +2,13 @@
 
 clear
 
-float(x + pi)
-check(infixform(last)="x + 3.14159")
-float(x + exp(1))
-check(infixform(last)="x + 2.71828")
-float(x + y + 1/4)
-check(infixform(last)="x + y + 0.25")
-float(1/4 x y)
-check(infixform(last)="0.25 x y")
-float(sqrt(2))
-check(infixform(last)="1.41421")
+T = float(x + pi)
+check(infixform(T)="x + 3.14159")
+T = float(x + exp(1))
+check(infixform(T)="x + 2.71828")
+T = float(x + y + 1/4)
+check(infixform(T)="x + y + 0.25")
+T = float(1/4 x y)
+check(infixform(T)="0.25 x y")
+T = float(sqrt(2))
+check(infixform(T)="1.41421")
