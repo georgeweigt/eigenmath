@@ -1,0 +1,27 @@
+"Testing arccosh"
+
+clear
+
+prefixform(arccosh(x))
+check(last="(arccosh x)")
+
+prefixform(arccosh(cosh(x)))
+check(last="x")
+
+prefixform(arccosh(0))
+check(last="(arccosh 0)")
+
+prefixform(arccosh(1))
+check(last="0")
+
+prefixform(arccosh(1.0))
+check(last="0.0")
+
+prefixform(arccosh(-1))
+check(last="(arccosh -1)")
+
+prefixform(arccosh(-1.0))
+check(last="(* 3.14159 (^ -1 1/2))")
+
+prefixform(float(arccosh(1+i)))
+check(last="(+ 1.06128 (* 0.904557 (^ -1 1/2)))")

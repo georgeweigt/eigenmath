@@ -1,0 +1,31 @@
+"Testing arg"
+
+clear
+
+T = arg(-1)
+check(prefixform(T)="(* -1 pi)")
+
+T = arg(-1.0)
+check(prefixform(T)="-3.14159")
+
+check(arg(2 + 3 i) == arg(polar(2 + 3 i)))
+check(arg(2 - 3 i) == arg(polar(2 - 3 i)))
+check(arg(-2 + 3 i) == arg(polar(-2 + 3 i)))
+check(arg(-2 - 3 i) == arg(polar(-2 - 3 i)))
+
+check(arg(2 + 3 i) == arg(clock(2 + 3 i)))
+check(arg(2 - 3 i) == arg(clock(2 - 3 i)))
+check(arg(-2 + 3 i) == arg(clock(-2 + 3 i)))
+check(arg(-2 - 3 i) == arg(clock(-2 - 3 i)))
+
+-- use prefixform to compare floating point numbers
+
+check(prefixform(arg(2.0 + 3.0 i)) == prefixform(arg(polar(2.0 + 3.0 i))))
+check(prefixform(arg(2.0 - 3.0 i)) == prefixform(arg(polar(2.0 - 3.0 i))))
+check(prefixform(arg(-2.0 + 3.0 i)) == prefixform(arg(polar(-2.0 + 3.0 i))))
+check(prefixform(arg(-2.0 - 3.0 i)) == prefixform(arg(polar(-2.0 - 3.0 i))))
+
+check(prefixform(arg(2.0 + 3.0 i)) == prefixform(arg(clock(2.0 + 3.0 i))))
+check(prefixform(arg(2.0 - 3.0 i)) == prefixform(arg(clock(2.0 - 3.0 i))))
+check(prefixform(arg(-2.0 + 3.0 i)) == prefixform(arg(clock(-2.0 + 3.0 i))))
+check(prefixform(arg(-2.0 - 3.0 i)) == prefixform(arg(clock(-2.0 - 3.0 i))))

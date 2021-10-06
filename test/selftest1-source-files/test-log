@@ -1,0 +1,22 @@
+"Testing log"
+
+clear
+
+-- test log of zero
+
+T = log(0)
+check(infixform(T)="log(0)")
+
+-- test log of complex number
+
+T = log(1 + i)
+check(infixform(T)="log(1 + i)")
+
+T = float(log(1 + i))
+check(infixform(T)="0.346574 + 0.785398 i")
+
+T = log(0.5)
+check(infixform(T)="-0.693147")
+
+T = log(-0.5)
+check(infixform(T)="-0.693147 + 3.14159 i")

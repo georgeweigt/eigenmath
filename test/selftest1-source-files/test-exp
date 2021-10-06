@@ -1,0 +1,27 @@
+"Testing exp"
+
+clear
+
+T = prefixform(float(exp(x)))
+check(T="(^ $e x)")
+
+T = prefixform(exp(0))
+check(T="1")
+
+T = prefixform(exp(1))
+check(T="$e")
+
+T = prefixform(exp(1.0))
+check(T="2.71828")
+
+T = prefixform(exp(1.0))
+check(T="2.71828")
+
+T = prefixform(exp(2.0))
+check(T="7.38906")
+
+T = prefixform(exp(2.0))
+check(T="7.38906")
+
+T = prefixform(float(exp(1)))
+check(T="2.71828")

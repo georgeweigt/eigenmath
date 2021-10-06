@@ -1,0 +1,92 @@
+"Testing tensor arithmetic"
+
+clear
+
+A = (A1,A2,A3)
+B = (B1,B2,B3,B4)
+C = (C1,C2,C3,C4,C5)
+D = (D1,D2,D3,D4,D5)
+E = (E1,E2,E3,E4,E5,E6)
+F = (F1,F2,F3,F4,F5,F6,F7)
+
+G = dot(outer(A,B,C),outer(D,E,F))
+H = contract(outer(A,B,C,D,E,F),3,4)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F))
+H = outer(B,A,C,D,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),1,2)
+H = outer(B,A,C,D,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),1,3)
+H = outer(C,B,A,D,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),1,4)
+H = outer(D,B,C,A,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),1,5)
+H = outer(E,B,C,D,A,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),1,6)
+H = outer(F,B,C,D,E,A)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),2,3)
+H = outer(A,C,B,D,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),2,4)
+H = outer(A,D,C,B,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),2,5)
+H = outer(A,E,C,D,B,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),2,6)
+H = outer(A,F,C,D,E,B)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),3,4)
+H = outer(A,B,D,C,E,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),3,5)
+H = outer(A,B,E,D,C,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),3,6)
+H = outer(A,B,F,D,E,C)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),4,5)
+H = outer(A,B,C,E,D,F)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),4,6)
+H = outer(A,B,C,F,E,D)
+check(G=H)
+
+G = transpose(outer(A,B,C,D,E,F),5,6)
+H = outer(A,B,C,D,F,E)
+check(G=H)
+
+A = (A1,A2,A3)
+B = (B1,B2,B3)
+check(contract(outer(A,B))=dot(A,B))
+
+A = (A1,A2,A3,A4)
+B = (B1,B2,B3)
+C = (C1,C2,C3)
+check(contract(outer(A,B,C),2,3)=dot(B,C)*A)
+
+A = (A1,A2,A3)
+B = (B1,B2,B3)
+C = (C1,C2,C3,C4)
+check(contract(outer(A,B,C))=dot(A,B)*C)

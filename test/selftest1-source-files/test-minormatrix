@@ -1,0 +1,87 @@
+"Testing minormatrix"
+
+clear
+
+A = ((1,2),
+     (3,4))
+
+check(minormatrix(A,1,1) == 4)
+check(minormatrix(A,1,2) == 3)
+
+check(minormatrix(A,2,1) == 2)
+check(minormatrix(A,2,2) == 1)
+
+A = ((1,2,3),
+     (4,5,6))
+
+check(minormatrix(A,1,1) == (5,6))
+check(minormatrix(A,1,2) == (4,6))
+check(minormatrix(A,1,3) == (4,5))
+
+check(minormatrix(A,2,1) == (2,3))
+check(minormatrix(A,2,2) == (1,3))
+check(minormatrix(A,2,3) == (1,2))
+
+A = ((1,2),
+     (3,4),
+     (5,6))
+
+check(minormatrix(A,1,1) == (4,6))
+check(minormatrix(A,1,2) == (3,5))
+
+check(minormatrix(A,2,1) == (2,6))
+check(minormatrix(A,2,2) == (1,5))
+
+check(minormatrix(A,3,1) == (2,4))
+check(minormatrix(A,3,2) == (1,3))
+
+A = ((1,2,3),
+     (4,5,6),
+     (7,8,9))
+
+check(minormatrix(A,1,1) == ((5,6),(8,9)))
+check(minormatrix(A,1,2) == ((4,6),(7,9)))
+check(minormatrix(A,1,3) == ((4,5),(7,8)))
+
+check(minormatrix(A,2,1) == ((2,3),(8,9)))
+check(minormatrix(A,2,2) == ((1,3),(7,9)))
+check(minormatrix(A,2,3) == ((1,2),(7,8)))
+
+check(minormatrix(A,3,1) == ((2,3),(5,6)))
+check(minormatrix(A,3,2) == ((1,3),(4,6)))
+check(minormatrix(A,3,3) == ((1,2),(4,5)))
+
+A = ((A11,A12),
+     (A21,A22))
+
+for(i,1,2,for(j,1,2,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+
+A = ((A11,A12,A13),
+     (A21,A22,A23),
+     (A31,A32,A33))
+
+for(i,1,3,for(j,1,3,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+
+A = ((A11,A12,A13,A14),
+     (A21,A22,A23,A24),
+     (A31,A32,A33,A34),
+     (A41,A42,A43,A44))
+
+for(i,1,4,for(j,1,4,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+
+A = ((A11,A12,A13,A14,A15),
+     (A21,A22,A23,A24,A25),
+     (A31,A32,A33,A34,A35),
+     (A41,A42,A43,A44,A45),
+     (A51,A52,A53,A54,A55))
+
+for(i,1,5,for(j,1,5,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+
+A = ((A11,A12,A13,A14,A15,A16),
+     (A21,A22,A23,A24,A25,A26),
+     (A31,A32,A33,A34,A35,A36),
+     (A41,A42,A43,A44,A45,A46),
+     (A51,A52,A53,A54,A55,A56),
+     (A61,A62,A63,A64,A65,A66))
+
+for(i,1,6,for(j,1,6,check(det(minormatrix(A,i,j)) == minor(A,i,j))))

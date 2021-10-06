@@ -1,0 +1,27 @@
+"Testing arcsinh"
+
+clear
+
+prefixform(arcsinh(x))
+check(last="(arcsinh x)")
+
+prefixform(arcsinh(sinh(x)))
+check(last="x")
+
+prefixform(arcsinh(0))
+check(last="0")
+
+prefixform(arcsinh(1))
+check(last="(arcsinh 1)")
+
+prefixform(arcsinh(1.0))
+check(last="0.881374")
+
+prefixform(arcsinh(-1))
+check(last="(* -1 (arcsinh 1))")
+
+prefixform(arcsinh(-1.0))
+check(last="-0.881374")
+
+prefixform(float(arcsinh(1+i)))
+check(last="(+ 1.06128 (* 0.666239 (^ -1 1/2)))")

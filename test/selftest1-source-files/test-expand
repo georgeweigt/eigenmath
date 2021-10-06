@@ -1,0 +1,17 @@
+
+-- FIXME
+
+--expand((x^2+5*x+2)/(2*(x+1)),x)
+--check(infixform(last) == "1/2 x - 1 / (x + 1) + 2")
+
+--f = x / 2 / (x + 1)
+--expand(f)
+--check(rationalize(last) == f)
+
+--f = x / 2 / (x + 1) / (x + 2)
+--expand(f)
+--check(rationalize(last) == f)
+
+--f = x / 2 / (x + 1) / (x + 2) / (x + 3)
+--expand(f)
+--check(rationalize(last) == f)

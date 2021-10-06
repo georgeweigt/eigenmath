@@ -1,0 +1,23 @@
+"Testing cofactor"
+
+clear
+
+A = ((a11,a12),(a21,a22))
+B = A
+for(i,1,2,for(j,1,2,B[i,j] = cofactor(A,i,j)))
+check(B = transpose(adj(A)))
+
+A = ((a11,a12,a13),(a21,a22,a23),(a31,a32,a33))
+B = A
+for(i,1,3,for(j,1,3,B[i,j] = cofactor(A,i,j)))
+check(B = transpose(adj(A)))
+
+A = ((A11,A12),(A21,A22))
+B = ((0,0),(0,0))
+for(i,1,2,for(j,1,2,B[j,i] = cofactor(A,i,j)))
+check(adj(A) == B)
+
+A = ((A11,A12,A13),(A21,A22,A23),(A31,A32,A33))
+B = ((0,0,0),(0,0,0),(0,0,0))
+for(i,1,3,for(j,1,3,B[j,i] = cofactor(A,i,j)))
+check(adj(A) == B)

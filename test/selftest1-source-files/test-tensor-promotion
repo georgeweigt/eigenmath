@@ -1,0 +1,22 @@
+"Testing tensor promotion"
+
+clear
+
+a = quote(a)
+b = quote(b)
+c = quote(c)
+d = quote(d)
+
+A = ((a,b),(c,d))
+
+a = (11,12,13)
+b = (21,22,23)
+c = (31,32,33)
+d = (41,42,43)
+
+B = A
+
+check(B[1,1] = a)
+check(B[1,2] = b)
+check(B[2,1] = c)
+check(B[2,2] = d)

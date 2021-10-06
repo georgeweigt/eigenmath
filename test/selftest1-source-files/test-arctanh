@@ -1,0 +1,27 @@
+"Testing arctanh"
+
+clear
+
+prefixform(arctanh(x))
+check(last="(arctanh x)")
+
+prefixform(arctanh(tanh(x)))
+check(last="x")
+
+prefixform(arctanh(0))
+check(last="0")
+
+prefixform(arctanh(1))
+check(last="(arctanh 1)")
+
+prefixform(arctanh(-1))
+check(last="(arctanh -1)")
+
+prefixform(arctanh(0.5))
+check(last="0.549306")
+
+prefixform(arctanh(-0.5))
+check(last="-0.549306")
+
+prefixform(float(arctanh(1+i)))
+check(last="(+ 0.402359 (* 1.01722 (^ -1 1/2)))")

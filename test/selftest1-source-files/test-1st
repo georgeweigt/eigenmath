@@ -1,0 +1,454 @@
+
+-- check sort order
+
+3+4*i
+check(infixform(last)="3 + 4 i")
+x^2*y
+check(infixform(last)="x^2 y")
+y*x^2
+check(infixform(last)="x^2 y")
+x*y^2
+check(infixform(last)="x y^2")
+y^2*x
+check(infixform(last)="x y^2")
+(x+1)^2
+check(infixform(last)="x^2 + 2 x + 1")
+(a+b)^2
+check(infixform(last)="a^2 + 2 a b + b^2")
+(a+b)^3
+check(infixform(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
+x*cos(x)
+check(infixform(last)="x cos(x)")
+cos(x)*x
+check(infixform(last)="x cos(x)")
+
+-- test add.c
+
+A=((0,0),(0,0))
+B=((0,0),(0,0))
+A+B
+check(infixform(last)="((0,0),(0,0))")
+
+A=2
+B=3
+check(A-B=-1)
+check(B-A=1)
+A=-2
+B=3
+check(A-B=-5)
+check(B-A=5)
+A=2
+B=-3
+check(A-B=5)
+check(B-A=-5)
+A=-2
+B=-3
+check(A-B=1)
+check(B-A=-1)
+A=quote(A)
+B=quote(B)
+
+-- term sort ignores coeff
+
+check(prefixform(a-b)="(+ a (* -1 b))")
+check(prefixform(b-a)="(+ (* -1 a) b)")
+
+-- test multiply.c
+
+N = 2*3^100
+M = N/sqrt(2)
+check(M^2=N^2/2)
+check(infixform(M) = "515377520732011331036461129765621272702107522001 2^(1/2)")
+M = sqrt(2)/N
+check(M^2=2/N^2)
+check(infixform(M) = "1 / (515377520732011331036461129765621272702107522001 2^(1/2))")
+M = N/2^(2/3)
+check(M^3=N^3/4)
+check(infixform(M) = "515377520732011331036461129765621272702107522001 2^(1/3)")
+M = 2^(2/3)/N
+check(M^3=4/N^3)
+check(infixform(M) = "1 / (515377520732011331036461129765621272702107522001 2^(1/3))")
+
+N = -2^10 * 3^10 / 5^10 / 7^10 * x * y
+M = 2^(2/3) * 3^(2/3) / 5^(2/3) / 7^(2/3)
+check(N/M = -2^(10-2/3) * 3^(10-2/3) / 5^(10-2/3) / 7^(10-2/3) * x * y)
+check(N*M = -2^(10+2/3) * 3^(10+2/3) / 5^(10+2/3) / 7^(10+2/3) * x * y)
+
+A = 1.0 * sqrt(2) * sqrt(3) * x * y
+B = sqrt(2.0) * sqrt(3.0) * x * y
+check(infixform(A) = "2.44949 x y")
+check(infixform(B) = "2.44949 x y")
+
+clear
+
+0^a
+check(infixform(last)="0^a")
+
+2^(3/2)
+check(infixform(last)="2 2^(1/2)")
+
+858/sqrt(2)
+check(infixform(last)="429 2^(1/2)")
+
+(-3)^(3/2)
+check(infixform(last)="-3 3^(1/2) i")
+
+(10^10)^(4/3)
+check(infixform(last)="10000000000 10000000000^(1/3)")
+
+check(exp(i*pi)=-1)
+check(prefixform(exp(i*pi+a))="(* -1 (^ $e a))")
+
+6*sqrt(2)*sqrt(3)
+check(infixform(last)="6 2^(1/2) 3^(1/2)")
+
+(a+b)*(a+b)
+check(infixform(last)="a^2 + 2 a b + b^2")
+
+(a+b)*(a+b)*(a+b)
+check(infixform(last)="a^3 + 3 a^2 b + 3 a b^2 + b^3")
+
+1/(a+b)^2
+check(infixform(last)="1 / (a + b)^2")
+
+(a+b*i)/(c+d*i)
+check(infixform(last)="a / (c + i d) + i b / (c + i d)")
+
+((2+3*i)^2)^(-1)
+check(infixform(last)="-5/169 - 12/169 i")
+
+((2+3*i)^(-1))^2
+check(infixform(last)="-5/169 - 12/169 i")
+
+s^(-8*pi*i)
+check(infixform(last)="s^(-8 i pi)")
+
+exp(-8*pi*i)
+check(last=1)
+
+N = 102/2^64
+M = sqrt(N)
+N - M^2
+check(last=0)
+
+N = 2^64/102
+M = sqrt(N)
+N - M^2
+check(last=0)
+
+clear
+
+(2+3*i)^c
+check(infixform(last)="(2 + 3 i)^c")
+
+(a+b)^c
+check(infixform(last)="(a + b)^c")
+
+(1+i)^2
+check(prefixform(last)="(* 2 (^ -1 1/2))")
+
+(2*i)^2
+check(last=-4)
+
+(2+3*i)^2
+check(prefixform(last)="(+ -5 (* 12 (^ -1 1/2)))")
+
+(2+3*i)^(-2)
+check(prefixform(last)"(+ -5/169 (* -12/169 (^ -1 1/2)))")
+
+(2+3*i)^(1/2)
+check(infixform(last)="13^(1/4) (-1)^(arctan(3,2) / (2 pi))")
+
+(2+3*i)^(-1/2)
+check(infixform(last)="(-1)^(-arctan(3,2) / (2 pi)) / 13^(1/4)")
+
+i^0
+check(last=1)
+
+i^1
+check(prefixform(last)="(^ -1 1/2)")
+
+i^2
+check(last=-1)
+
+i^3
+check(prefixform(last)="(* -1 (^ -1 1/2))")
+
+i^4
+check(last=1)
+
+i^5
+check(prefixform(last)="(^ -1 1/2)")
+
+i^6
+check(last=-1)
+
+i^7
+check(prefixform(last)="(* -1 (^ -1 1/2))")
+
+i^(-1)
+check(prefixform(last)="(* -1 (^ -1 1/2))")
+
+i^(-2)
+check(last=-1)
+
+i^(-3)
+check(prefixform(last)="(^ -1 1/2)")
+
+i^(-4)
+check(last=1)
+
+i^(-5)
+check(prefixform(last)="(* -1 (^ -1 1/2))")
+
+i^(-6)
+check(last=-1)
+
+i^(-7)
+check(prefixform(last)="(^ -1 1/2)")
+
+sqrt(102)
+check(infixform(last)="2^(1/2) 3^(1/2) 17^(1/2)")
+
+sqrt(204)
+check(infixform(last)="2 3^(1/2) 17^(1/2)")
+
+sqrt(408)
+check(infixform(last)="2 2^(1/2) 3^(1/2) 17^(1/2)")
+
+sqrt(816)
+check(infixform(last)="4 3^(1/2) 17^(1/2)")
+
+sqrt(2^32-5)
+check(infixform(last)="4294967291^(1/2)")
+check(2^32-5=4294967291)
+
+sqrt(2^32-4)
+check(infixform(last)="6 7^(1/2) 11^(1/2) 31^(1/2) 151^(1/2) 331^(1/2)")
+check(2^32-4=36*7*11*31*151*331)
+
+sqrt(2^32-3)
+check(infixform(last)="9241^(1/2) 464773^(1/2)")
+check(2^32-3=9241*464773)
+
+sqrt(2^32-2)
+check(infixform(last)="2^(1/2) 2147483647^(1/2)")
+check(2^32-2=2*2147483647)
+
+sqrt(2^32-1)
+check(infixform(last)="3^(1/2) 5^(1/2) 17^(1/2) 257^(1/2) 65537^(1/2)")
+check(2^32-1=3*5*17*257*65537)
+
+for(k,1,100,
+N=2^32-k,
+M=sqrt(N),
+check(N/M=M))
+
+check(exptan(z)=(exp(2*i*z)-1)/(i*(exp(2*i*z)+1)))
+check(circexp(expsin(z)/expcos(z)-exptan(z))=0)
+
+-- test sin function
+
+float(sin(1+i))
+check(infixform(last)="1.29846 + 0.634964 i")
+
+-- test cos function
+
+float(cos(1+i))
+check(infixform(last)="0.83373 - 0.988898 i")
+
+-- test tan function
+
+float(tan(1+i))
+check(infixform(last)="0.271753 + 1.08392 i")
+
+-- test sinh function
+
+float(sinh(1+i))
+check(infixform(last)="0.634964 + 1.29846 i")
+
+-- test cosh function
+
+float(cosh(1+i))
+check(infixform(last)="0.83373 + 0.988898 i")
+
+-- test tanh function
+
+float(tanh(1+i))
+check(infixform(last)="1.08392 + 0.271753 i")
+
+-- test arcsin function
+
+float(arcsin(1+i))
+check(infixform(last)="0.666239 + 1.06128 i")
+
+-- test arccos function
+
+float(arccos(1+i))
+check(infixform(last)="0.904557 - 1.06128 i")
+
+-- test arctan function
+
+float(arctan(1+i))
+check(infixform(last)="1.01722 + 0.402359 i")
+
+-- loop indices are not rewritten
+
+A = zero(3)
+f(x) = for(i,1,3,A[i] = x)
+f(1)
+check(A==(1,1,1))
+
+-- tensor comparison
+
+(0,0) == (0,0,0) -- both are equal to scalar zero
+check(last = 1)
+
+(1,0) == (1,0,0) -- should not cause a stop like (1,0) - (1,0,0) does
+check(last = 0)
+
+-- best rational approximation
+
+-- FIXME
+
+--x = quote(x)
+
+--for(a,-10,10,
+-- for(b,1,10,
+--  check(factor(1.0 a/b x) = a/b x)
+--))
+
+-- factor rational numbers
+
+-- FIXME
+
+--prefixform(factor(10))
+--check(last = "(* 2 5)")
+
+--prefixform(factor(-10))
+--check(last = "(* -1 2 5)")
+
+--prefixform(factor(1/10))
+--check(last = "(* (^ 2 -1) (^ 5 -1))")
+
+--prefixform(factor(-1/10))
+--check(last = "(* -1 (^ 2 -1) (^ 5 -1))")
+
+-- factor floating point
+
+--for(i,-10,10,for(j,1,100,check(eval(factor(float(i / j))) == i / j)))
+
+--prefixform(factor(2^53 - 1))
+--check(last = "(* 6361 69431 20394401)")
+
+--prefixform(factor(float(2^53 - 1)))
+--check(last = "(* 6361 69431 20394401)")
+
+--prefixform(factor(2^53))
+--check(last = "(^ 2 53)")
+
+--prefixform(factor(float(2^53)))
+--check(last = "(^ 2 53)")
+
+--prefixform(factor(2^53 + 1))
+--check(last = "(* 3 107 28059810762433)")
+
+-- 2^53 + 1 is the smallest positive integer that cannot be represented exactly as a double
+
+--prefixform(factor(float(2^53 + 1)))
+--check(last = "(^ 2 53)")
+
+-- tensor equality test
+
+clear
+
+A = ((0,0,0,0),(0,2 M / (r^3 (-2 M / r + 1)) + r^(-2) - 1 / (r^2 (-2 M / r + 1)),0,0),(0,0,0,0),(0,0,0,0))
+check(A == 0)
+check(0 == A)
+check(A == zero(4,4))
+check(zero(4,4) == A)
+B = A
+check(A == B)
+B[1,1] = 1
+check(not(A == B))
+
+-- moore-penrose inverse of vector
+
+A = (1,2)
+check(inv(dot(transpose(A),A)) == 1/5)
+
+-- set component
+
+clear
+I = ((1,1,1,1),(1,1,1,1))
+A = (I,I,I)
+A[1] = a I
+A[2] = b I
+A[3] = c I
+check(A == (((a,a,a,a),(a,a,a,a)),((b,b,b,b),(b,b,b,b)),((c,c,c,c),(c,c,c,c))))
+
+trace = 0
+
+"Testing noexpand"
+
+clear
+A = ((a^2 - lambda,0,0),(0,b^2 - lambda,0),(0,0,c^2 - lambda))
+B = ((1 / (a^2 - lambda),0,0),(0,1 / (b^2 - lambda),0),(0,0,1 / (c^2 - lambda)))
+check(noexpand(inv(A)) == B)
+check(noexpand(adj(A)/det(A)) == B)
+
+"Testing local variables"
+
+clear
+x = 123 -- global x in use, need local x in P
+P(f,n,m,x) = eval(1/(2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m),x,f)
+check(P(cos(theta),2,0) == 3/2 cos(theta)^2 - 1/2)
+
+"Testing vector arithmetic"
+
+clear
+check((1,2,3,4) + 10 == (11,12,13,14))
+check((1,2,3,4)^2 == (1,4,9,16))
+check(sum((1,2,3,4)) == 10)
+check(product((1,2,3,4)) == 24)
+
+"Testing equality"
+
+clear
+
+r = sqrt(x^2 + y^2 + z^2)
+
+Px(f) = -i hbar d(f,x)
+Py(f) = -i hbar d(f,y)
+Pz(f) = -i hbar d(f,z)
+
+Lx(f) = -i hbar (y d(f,z) - z d(f,y))
+Ly(f) = -i hbar (z d(f,x) - x d(f,z))
+Lz(f) = -i hbar (x d(f,y) - y d(f,x))
+
+Ax(f) = 1 / m (Py(Lz(f)) - Pz(Ly(f))) -
+        i hbar / m Px(f) - kappa / r x f
+
+Ay(f) = 1 / m (Pz(Lx(f)) - Px(Lz(f))) -
+        i hbar / m Py(f) - kappa / r y f
+
+Az(f) = 1 / m (Px(Ly(f)) - Py(Lx(f))) -
+        i hbar / m Pz(f) - kappa / r z f
+
+P2(f) = Px(Px(f)) + Py(Py(f)) + Pz(Pz(f))
+L2(f) = Lx(Lx(f)) + Ly(Ly(f)) + Lz(Lz(f))
+A2(f) = Ax(Ax(f)) + Ay(Ay(f)) + Az(Az(f))
+
+H(f) = 1 / (2 m) P2(f) - kappa / r f
+
+psi = f(x,y,z)
+
+check(A2(psi) == 2 / m H(L2(psi) + hbar^2 psi) + kappa^2 psi)
+
+"Testing eval"
+
+clear
+f = sqrt(1 - cos(theta)^2)
+check(eval(f,sqrt(1 - cos(theta)^2),sin(theta)) == sin(theta))
+
+"ok"

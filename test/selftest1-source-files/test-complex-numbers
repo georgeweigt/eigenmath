@@ -1,0 +1,85 @@
+"Test complex numbers"
+
+clear
+
+z1 = 1+i     -- z1 does not have arctan in polar form
+z2 = 2+3*i   -- z2 does have arctan in polar form
+
+check(arg(z1)=pi/4)
+check(mag(z1)=sqrt(2))
+
+check(arg(z2)=arctan(3,2))
+check(mag(z2)=sqrt(13))
+
+check(arg(polar(z1))=pi/4)
+check(arg(clock(z1))=pi/4)
+
+check(arg(polar(z2))=arctan(3,2))
+check(arg(clock(z2))=arctan(3,2))
+
+check(mag(polar(z1))=sqrt(2))
+check(mag(clock(z1))=sqrt(2))
+
+check(mag(polar(z2))=sqrt(13))
+check(mag(clock(z2))=sqrt(13))
+
+check(z1*z2=rect(clock(z1)*clock(z2)))
+check(z1*z2=rect(clock(z1)*polar(z2)))
+check(z1*z2=rect(polar(z1)*clock(z2)))
+check(z1*z2=rect(polar(z1)*polar(z2)))
+
+z = sqrt(1+i)
+check(rect(z^2)=1+i)
+z = sqrt(1-i)
+check(rect(z^2)=1-i)
+z = sqrt(-1+i)
+check(rect(z^2)=-1+i)
+z = sqrt(-1-i)
+check(rect(z^2)=-1-i)
+
+z = sqrt(2+3*i)
+check(rect(z^2)=2+3*i)
+z = sqrt(2-3*i)
+check(rect(z^2)=2-3*i)
+z = sqrt(-2+3*i)
+check(rect(z^2)=-2+3*i)
+z = sqrt(-2-3*i)
+check(rect(z^2)=-2-3*i)
+
+z1 = sqrt(2+3*i)
+z2 = sqrt(4+5*i)
+check(sqrt(z1*z2)=sqrt(z1)*sqrt(z2))
+check(sqrt(z1/z2)=sqrt(z1)/sqrt(z2))
+
+z1 = 1+i     -- z1 does not have arctan
+z2 = 2+3*i   -- z2 does have arctan
+check(z1*z2=rect(clock(z1)*clock(z2)))
+check(z1*z2=rect(polar(z1)*polar(z2)))
+
+check(arg(z1)=pi/4)
+check(arg(polar(z1))=pi/4)
+check(arg(clock(z1))=pi/4)
+
+check(arg(z2)=arctan(3,2))
+check(arg(polar(z2))=arctan(3,2))
+check(arg(clock(z2))=arctan(3,2))
+
+check(mag(z1)=sqrt(2))
+check(mag(polar(z1))=sqrt(2))
+check(mag(clock(z1))=sqrt(2))
+
+check(mag(z2)=sqrt(13))
+check(mag(polar(z2))=sqrt(13))
+check(mag(clock(z2))=sqrt(13))
+
+clock(2+3*i) - clock(2+3*i)
+check(last=0)
+
+mag(1.0 + 3 i)
+check(infixform(last)="3.16228")
+real(1.0 + 3 i)
+check(infixform(last)="1")
+imag(1.0 i)
+check(infixform(last)="1")
+imag(-1.0 i)
+check(infixform(last)="-1")

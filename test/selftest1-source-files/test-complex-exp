@@ -1,0 +1,282 @@
+"Testing complex exponentials"
+
+clear
+
+check(exp(-12/2 i pi) == 1)
+check(exp(-11/2 i pi) == i)
+check(exp(-10/2 i pi) == -1)
+check(exp(-9/2 i pi) == -i)
+
+check(exp(-8/2 i pi) == 1)
+check(exp(-7/2 i pi) == i)
+check(exp(-6/2 i pi) == -1)
+check(exp(-5/2 i pi) == -i)
+
+check(exp(-4/2 i pi) == 1)
+check(exp(-3/2 i pi) == i)
+check(exp(-2/2 i pi) == -1)
+check(exp(-1/2 i pi) == -i)
+
+check(exp(0/2 i pi) == 1)
+check(exp(1/2 i pi) == i)
+check(exp(2/2 i pi) == -1)
+check(exp(3/2 i pi) == -i)
+
+check(exp(4/2 i pi) == 1)
+check(exp(5/2 i pi) == i)
+check(exp(6/2 i pi) == -1)
+check(exp(7/2 i pi) == -i)
+
+check(exp(8/2 i pi) == 1)
+check(exp(9/2 i pi) == i)
+check(exp(10/2 i pi) == -1)
+check(exp(11/2 i pi) == -i)
+
+check(exp(-12/2.0 i pi) == 1)
+check(exp(-11/2.0 i pi) == i)
+check(exp(-10/2.0 i pi) == -1)
+check(exp(-9/2.0 i pi) == -i)
+
+check(exp(-8/2.0 i pi) == 1)
+check(exp(-7/2.0 i pi) == i)
+check(exp(-6/2.0 i pi) == -1)
+check(exp(-5/2.0 i pi) == -i)
+
+check(exp(-4/2.0 i pi) == 1)
+check(exp(-3/2.0 i pi) == i)
+check(exp(-2/2.0 i pi) == -1)
+check(exp(-1/2.0 i pi) == -i)
+
+check(exp(0/2.0 i pi) == 1)
+check(exp(1/2.0 i pi) == i)
+check(exp(2/2.0 i pi) == -1)
+check(exp(3/2.0 i pi) == -i)
+
+check(exp(4/2.0 i pi) == 1)
+check(exp(5/2.0 i pi) == i)
+check(exp(6/2.0 i pi) == -1)
+check(exp(7/2.0 i pi) == -i)
+
+check(exp(8/2.0 i pi) == 1)
+check(exp(9/2.0 i pi) == i)
+check(exp(10/2.0 i pi) == -1)
+check(exp(11/2.0 i pi) == -i)
+
+check(rect(exp(1/6 i pi)) == 1/2 (sqrt(3) + i))
+check(rect(exp(2/6 i pi)) == 1/2 (1 + sqrt(3) i))
+
+check(rect(exp(4/6 i pi)) == 1/2 (-1 + sqrt(3) i))
+check(rect(exp(5/6 i pi)) == 1/2 (-sqrt(3) + i))
+
+check(rect(exp(7/6 i pi)) == 1/2 (-sqrt(3) - i))
+check(rect(exp(8/6 i pi)) == 1/2 (-1 - sqrt(3) i))
+
+check(rect(exp(10/6 i pi)) == 1/2 (1 - sqrt(3) i))
+check(rect(exp(11/6 i pi)) == 1/2 (sqrt(3) - i))
+
+check(rect(exp(13/6 i pi)) == 1/2 (sqrt(3) + i))
+check(rect(exp(14/6 i pi)) == 1/2 (1 + sqrt(3) i))
+
+check(rect(exp(16/6 i pi)) == 1/2 (-1 + sqrt(3) i))
+check(rect(exp(17/6 i pi)) == 1/2 (-sqrt(3) + i))
+
+check(rect(exp(19/6 i pi)) == 1/2 (-sqrt(3) - i))
+check(rect(exp(20/6 i pi)) == 1/2 (-1 - sqrt(3) i))
+
+check(rect(exp(22/6 i pi)) == 1/2 (1 - sqrt(3) i))
+check(rect(exp(23/6 i pi)) == 1/2 (sqrt(3) - i))
+
+check(rect(exp(-1/6 i pi)) == 1/2 (sqrt(3) - i))
+check(rect(exp(-2/6 i pi)) == 1/2 (1 - sqrt(3) i))
+
+check(rect(exp(-4/6 i pi)) == 1/2 (-1 - sqrt(3) i))
+check(rect(exp(-5/6 i pi)) == 1/2 (-sqrt(3) - i))
+
+check(rect(exp(-7/6 i pi)) == 1/2 (-sqrt(3) + i))
+check(rect(exp(-8/6 i pi)) == 1/2 (-1 + sqrt(3) i))
+
+check(rect(exp(-10/6 i pi)) == 1/2 (1 + sqrt(3) i))
+check(rect(exp(-11/6 i pi)) == 1/2 (sqrt(3) + i))
+
+check(rect(exp(-13/6 i pi)) == 1/2 (sqrt(3) - i))
+check(rect(exp(-14/6 i pi)) == 1/2 (1 - sqrt(3) i))
+
+check(rect(exp(-16/6 i pi)) == 1/2 (-1 - sqrt(3) i))
+check(rect(exp(-17/6 i pi)) == 1/2 (-sqrt(3) - i))
+
+check(rect(exp(-19/6 i pi)) == 1/2 (-sqrt(3) + i))
+check(rect(exp(-20/6 i pi)) == 1/2 (-1 + sqrt(3) i))
+
+check(rect(exp(-22/6 i pi)) == 1/2 (1 + sqrt(3) i))
+check(rect(exp(-23/6 i pi)) == 1/2 (sqrt(3) + i))
+
+check(infixform(exp(0/8 i pi)) == "1")
+check(infixform(exp(1/8 i pi)) == "exp(1/8 i pi)")
+check(infixform(exp(2/8 i pi)) == "exp(1/4 i pi)")
+check(infixform(exp(3/8 i pi)) == "exp(3/8 i pi)")
+
+check(infixform(exp(4/8 i pi)) == "i")
+check(infixform(exp(5/8 i pi)) == "i exp(1/8 i pi)")
+check(infixform(exp(6/8 i pi)) == "i exp(1/4 i pi)")
+check(infixform(exp(7/8 i pi)) == "i exp(3/8 i pi)")
+
+check(infixform(exp(8/8 i pi)) == "-1")
+check(infixform(exp(9/8 i pi)) == "-exp(1/8 i pi)")
+check(infixform(exp(10/8 i pi)) == "-exp(1/4 i pi)")
+check(infixform(exp(11/8 i pi)) == "-exp(3/8 i pi)")
+
+check(infixform(exp(12/8 i pi)) == "-i")
+check(infixform(exp(13/8 i pi)) == "-i exp(1/8 i pi)")
+check(infixform(exp(14/8 i pi)) == "-i exp(1/4 i pi)")
+check(infixform(exp(15/8 i pi)) == "-i exp(3/8 i pi)")
+
+check(infixform(exp(16/8 i pi)) == "1")
+check(infixform(exp(17/8 i pi)) == "exp(1/8 i pi)")
+check(infixform(exp(18/8 i pi)) == "exp(1/4 i pi)")
+check(infixform(exp(19/8 i pi)) == "exp(3/8 i pi)")
+
+check(infixform(exp(20/8 i pi)) == "i")
+check(infixform(exp(21/8 i pi)) == "i exp(1/8 i pi)")
+check(infixform(exp(22/8 i pi)) == "i exp(1/4 i pi)")
+check(infixform(exp(23/8 i pi)) == "i exp(3/8 i pi)")
+
+check(infixform(exp(24/8 i pi)) == "-1")
+check(infixform(exp(25/8 i pi)) == "-exp(1/8 i pi)")
+check(infixform(exp(26/8 i pi)) == "-exp(1/4 i pi)")
+check(infixform(exp(27/8 i pi)) == "-exp(3/8 i pi)")
+
+check(infixform(exp(28/8 i pi)) == "-i")
+check(infixform(exp(29/8 i pi)) == "-i exp(1/8 i pi)")
+check(infixform(exp(30/8 i pi)) == "-i exp(1/4 i pi)")
+check(infixform(exp(31/8 i pi)) == "-i exp(3/8 i pi)")
+
+check(infixform(exp(-0/8 i pi)) == "1")
+check(infixform(exp(-1/8 i pi)) == "-i exp(3/8 i pi)")
+check(infixform(exp(-2/8 i pi)) == "-i exp(1/4 i pi)")
+check(infixform(exp(-3/8 i pi)) == "-i exp(1/8 i pi)")
+
+check(infixform(exp(-4/8 i pi)) == "-i")
+check(infixform(exp(-5/8 i pi)) == "-exp(3/8 i pi)")
+check(infixform(exp(-6/8 i pi)) == "-exp(1/4 i pi)")
+check(infixform(exp(-7/8 i pi)) == "-exp(1/8 i pi)")
+
+check(infixform(exp(-8/8 i pi)) == "-1")
+check(infixform(exp(-9/8 i pi)) == "i exp(3/8 i pi)")
+check(infixform(exp(-10/8 i pi)) == "i exp(1/4 i pi)")
+check(infixform(exp(-11/8 i pi)) == "i exp(1/8 i pi)")
+
+check(infixform(exp(-12/8 i pi)) == "i")
+check(infixform(exp(-13/8 i pi)) == "exp(3/8 i pi)")
+check(infixform(exp(-14/8 i pi)) == "exp(1/4 i pi)")
+check(infixform(exp(-15/8 i pi)) == "exp(1/8 i pi)")
+
+check(infixform(exp(-16/8 i pi)) == "1")
+check(infixform(exp(-17/8 i pi)) == "-i exp(3/8 i pi)")
+check(infixform(exp(-18/8 i pi)) == "-i exp(1/4 i pi)")
+check(infixform(exp(-19/8 i pi)) == "-i exp(1/8 i pi)")
+
+check(infixform(exp(-20/8 i pi)) == "-i")
+check(infixform(exp(-21/8 i pi)) == "-exp(3/8 i pi)")
+check(infixform(exp(-22/8 i pi)) == "-exp(1/4 i pi)")
+check(infixform(exp(-23/8 i pi)) == "-exp(1/8 i pi)")
+
+check(infixform(exp(-24/8 i pi)) == "-1")
+check(infixform(exp(-25/8 i pi)) == "i exp(3/8 i pi)")
+check(infixform(exp(-26/8 i pi)) == "i exp(1/4 i pi)")
+check(infixform(exp(-27/8 i pi)) == "i exp(1/8 i pi)")
+
+check(infixform(exp(-28/8 i pi)) == "i")
+check(infixform(exp(-29/8 i pi)) == "exp(3/8 i pi)")
+check(infixform(exp(-30/8 i pi)) == "exp(1/4 i pi)")
+check(infixform(exp(-31/8 i pi)) == "exp(1/8 i pi)")
+
+check(exp(0/8.0 i pi) == 1)
+check(exp(1/8.0 i pi) == exp(1/8 i pi))
+check(exp(2/8.0 i pi) == exp(1/4 i pi))
+check(exp(3/8.0 i pi) == exp(3/8 i pi))
+
+check(exp(4/8.0 i pi) == i)
+check(exp(5/8.0 i pi) == i exp(1/8 i pi))
+check(exp(6/8.0 i pi) == i exp(1/4 i pi))
+check(exp(7/8.0 i pi) == i exp(3/8 i pi))
+
+check(exp(8/8.0 i pi) == -1)
+check(exp(9/8.0 i pi) == -exp(1/8 i pi))
+check(exp(10/8.0 i pi) == -exp(1/4 i pi))
+check(exp(11/8.0 i pi) == -exp(3/8 i pi))
+
+check(exp(12/8.0 i pi) == -i)
+check(exp(13/8.0 i pi) == -i exp(1/8 i pi))
+check(exp(14/8.0 i pi) == -i exp(1/4 i pi))
+check(exp(15/8.0 i pi) == -i exp(3/8 i pi))
+
+check(exp(16/8.0 i pi) == 1)
+check(exp(17/8.0 i pi) == exp(1/8 i pi))
+check(exp(18/8.0 i pi) == exp(1/4 i pi))
+check(exp(19/8.0 i pi) == exp(3/8 i pi))
+
+check(exp(20/8.0 i pi) == i)
+check(exp(21/8.0 i pi) == i exp(1/8 i pi))
+check(exp(22/8.0 i pi) == i exp(1/4 i pi))
+check(exp(23/8.0 i pi) == i exp(3/8 i pi))
+
+check(exp(24/8.0 i pi) == -1)
+check(exp(25/8.0 i pi) == -exp(1/8 i pi))
+check(exp(26/8.0 i pi) == -exp(1/4 i pi))
+check(exp(27/8.0 i pi) == -exp(3/8 i pi))
+
+check(exp(28/8.0 i pi) == -i)
+check(exp(29/8.0 i pi) == -i exp(1/8 i pi))
+check(exp(30/8.0 i pi) == -i exp(1/4 i pi))
+check(exp(31/8.0 i pi) == -i exp(3/8 i pi))
+
+check(exp(-0/8.0 i pi) == 1)
+check(exp(-1/8.0 i pi) == -i exp(3/8 i pi))
+check(exp(-2/8.0 i pi) == -i exp(1/4 i pi))
+check(exp(-3/8.0 i pi) == -i exp(1/8 i pi))
+
+check(exp(-4/8.0 i pi) == -i)
+check(exp(-5/8.0 i pi) == -exp(3/8 i pi))
+check(exp(-6/8.0 i pi) == -exp(1/4 i pi))
+check(exp(-7/8.0 i pi) == -exp(1/8 i pi))
+
+check(exp(-8/8.0 i pi) == -1)
+check(exp(-9/8.0 i pi) == i exp(3/8 i pi))
+check(exp(-10/8.0 i pi) == i exp(1/4 i pi))
+check(exp(-11/8.0 i pi) == i exp(1/8 i pi))
+
+check(exp(-12/8.0 i pi) == i)
+check(exp(-13/8.0 i pi) == exp(3/8 i pi))
+check(exp(-14/8.0 i pi) == exp(1/4 i pi))
+check(exp(-15/8.0 i pi) == exp(1/8 i pi))
+
+check(exp(-16/8.0 i pi) == 1)
+check(exp(-17/8.0 i pi) == -i exp(3/8 i pi))
+check(exp(-18/8.0 i pi) == -i exp(1/4 i pi))
+check(exp(-19/8.0 i pi) == -i exp(1/8 i pi))
+
+check(exp(-20/8.0 i pi) == -i)
+check(exp(-21/8.0 i pi) == -exp(3/8 i pi))
+check(exp(-22/8.0 i pi) == -exp(1/4 i pi))
+check(exp(-23/8.0 i pi) == -exp(1/8 i pi))
+
+check(exp(-24/8.0 i pi) == -1)
+check(exp(-25/8.0 i pi) == i exp(3/8 i pi))
+check(exp(-26/8.0 i pi) == i exp(1/4 i pi))
+check(exp(-27/8.0 i pi) == i exp(1/8 i pi))
+
+check(exp(-28/8.0 i pi) == i)
+check(exp(-29/8.0 i pi) == exp(3/8 i pi))
+check(exp(-30/8.0 i pi) == exp(1/4 i pi))
+check(exp(-31/8.0 i pi) == exp(1/8 i pi))
+
+-- exponentials are expanded
+
+clear
+psi = exp(i k z - i omega t)
+T = 1/psi
+check(prefixform(T)=="(^ $e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+T = psi^(-1)
+check(prefixform(T)=="(^ $e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
+T = psi/psi
+check(prefixform(T)=="1")
