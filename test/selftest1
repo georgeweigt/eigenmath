@@ -1085,6 +1085,74 @@ T = imag(1.0 i)
 check(infixform(T)="1")
 T = imag(-1.0 i)
 check(infixform(T)="-1")
+"Testing cos"
+
+clear
+
+check(cos(-x) == cos(x))
+check(cos(arctan(y,x)) == x (x^2 + y^2)^(-1/2))
+check(cos(arcsin(x)) == sqrt(1 - x^2))
+
+check(cos(90/360 2 pi) == 0)
+check(cos(270/360 2 pi) == 0)
+
+check(cos(60/360 2 pi) == 1/2)
+check(cos(300/360 2 pi) == 1/2)
+
+check(cos(120/360 2 pi) == -1/2)
+check(cos(240/360 2 pi) == -1/2)
+
+check(cos(45/360 2 pi) == 1/2 sqrt(2))
+check(cos(315/360 2 pi) == 1/2 sqrt(2))
+
+check(cos(135/360 2 pi) == -1/2 sqrt(2))
+check(cos(225/360 2 pi) == -1/2 sqrt(2))
+
+check(cos(30/360 2 pi) == 1/2 sqrt(3))
+check(cos(330/360 2 pi) == 1/2 sqrt(3))
+
+check(cos(150/360 2 pi) == -1/2 sqrt(3))
+check(cos(210/360 2 pi) == -1/2 sqrt(3))
+
+check(cos(0/360 2 pi) == 1)
+check(cos(180/360 2 pi) == -1)
+
+-- negative angles
+
+check(cos(-90/360 2 pi) == 0)
+check(cos(-270/360 2 pi) == 0)
+
+check(cos(-60/360 2 pi) == 1/2)
+check(cos(-300/360 2 pi) == 1/2)
+
+check(cos(-120/360 2 pi) == -1/2)
+check(cos(-240/360 2 pi) == -1/2)
+
+check(cos(-45/360 2 pi) == 1/2 sqrt(2))
+check(cos(-315/360 2 pi) == 1/2 sqrt(2))
+
+check(cos(-135/360 2 pi) == -1/2 sqrt(2))
+check(cos(-225/360 2 pi) == -1/2 sqrt(2))
+
+check(cos(-30/360 2 pi) == 1/2 sqrt(3))
+check(cos(-330/360 2 pi) == 1/2 sqrt(3))
+
+check(cos(-150/360 2 pi) == -1/2 sqrt(3))
+check(cos(-210/360 2 pi) == -1/2 sqrt(3))
+
+check(cos(-0/360 2 pi) == 1)
+check(cos(-180/360 2 pi) == -1)
+
+-- compare with intrinsic floating point sin
+
+for(n,-144,144,
+  a = 5 n / 360 2 pi,
+  d = float(cos(a)) - cos(float(a)),
+  check(abs(d) < 1.0 10^(-6))
+)
+
+z = 3.0 + 4.0 i
+check(infixform(cos(z)) == "-27.0349 - 3.85115 i")
 "Testing det"
 
 clear
