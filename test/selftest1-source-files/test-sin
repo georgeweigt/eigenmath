@@ -1,0 +1,66 @@
+"Testing sin"
+
+clear
+
+check(sin(-x) == -sin(x))
+check(sin(arctan(y,x)) == y (x^2 + y^2)^(-1/2))
+check(sin(arccos(x)) == sqrt(1 - x^2))
+
+check(sin(0/360 2 pi) == 0)
+check(sin(180/360 2 pi) == 0)
+
+check(sin(30/360 2 pi) == 1/2)
+check(sin(150/360 2 pi) == 1/2)
+
+check(sin(210/360 2 pi) == -1/2)
+check(sin(330/360 2 pi) == -1/2)
+
+check(sin(45/360 2 pi) == 1/2 sqrt(2))
+check(sin(135/360 2 pi) == 1/2 sqrt(2))
+
+check(sin(225/360 2 pi) == -1/2 sqrt(2))
+check(sin(315/360 2 pi) == -1/2 sqrt(2))
+
+check(sin(60/360 2 pi) == 1/2 sqrt(3))
+check(sin(120/360 2 pi) == 1/2 sqrt(3))
+
+check(sin(240/360 2 pi) == -1/2 sqrt(3))
+check(sin(300/360 2 pi) == -1/2 sqrt(3))
+
+check(sin(90/360 2 pi) == 1)
+
+-- negative angles
+
+check(sin(-0/360 2 pi) == 0)
+check(sin(-180/360 2 pi) == 0)
+
+check(sin(-30/360 2 pi) == -1/2)
+check(sin(-150/360 2 pi) == -1/2)
+
+check(sin(-210/360 2 pi) == 1/2)
+check(sin(-330/360 2 pi) == 1/2)
+
+check(sin(-45/360 2 pi) == -1/2 sqrt(2))
+check(sin(-135/360 2 pi) == -1/2 sqrt(2))
+
+check(sin(-225/360 2 pi) == 1/2 sqrt(2))
+check(sin(-315/360 2 pi) == 1/2 sqrt(2))
+
+check(sin(-60/360 2 pi) == -1/2 sqrt(3))
+check(sin(-120/360 2 pi) == -1/2 sqrt(3))
+
+check(sin(-240/360 2 pi) == 1/2 sqrt(3))
+check(sin(-300/360 2 pi) == 1/2 sqrt(3))
+
+check(sin(-90/360 2 pi) == -1)
+
+-- compare with intrinsic floating point sin
+
+for(n,-144,144,
+  a = 5 n / 360 2 pi,
+  d = float(sin(a)) - sin(float(a)),
+  check(abs(d) < 1.0 10^(-6))
+)
+
+z = 3.0 + 4.0 i
+check(infixform(sin(z)) == "3.85374 - 27.0168 i")

@@ -71,6 +71,19 @@ sin()
 		return;
 	}
 
+	// sin(arccos(x)) = sqrt(1 - x^2)
+
+	if (car(p1) == symbol(ARCCOS)) {
+		push_integer(1);
+		push(cadr(p1));
+		push_integer(2);
+		power();
+		subtract();
+		push_rational(1, 2);
+		power();
+		return;
+	}
+
 	// n pi ?
 
 	push(p1);
