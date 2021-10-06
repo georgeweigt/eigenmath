@@ -62,5 +62,6 @@ for(n,-144,144,
   check(abs(d) < 1.0 10^(-6))
 )
 
-z = 3.0 + 4.0 i
-check(infixform(sin(z)) == "3.85374 - 27.0168 i")
+check(infixform(sin(pi / 6.0)) == "0.5")
+
+check(infixform(sin(3.0 + 4.0 i)) == "3.85374 - 27.0168 i")

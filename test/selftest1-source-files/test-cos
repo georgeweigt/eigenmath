@@ -64,5 +64,6 @@ for(n,-144,144,
   check(abs(d) < 1.0 10^(-6))
 )
 
-z = 3.0 + 4.0 i
-check(infixform(cos(z)) == "-27.0349 - 3.85115 i")
+check(infixform(cos(pi / 3.0)) == "0.5")
+
+check(infixform(cos(3.0 + 4.0 i)) == "-27.0349 - 3.85115 i")
