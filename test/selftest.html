@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eigenmath Demo</title>
+</head>
+<body>
+
+<script src="../js/eigenmath.js"></script>
+
+<table><tr>
+
+<td>
+<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
+</textarea>
+</td>
+
+<td>
+<button onclick="run()" style="font-size:20pt">Run</button>
+</td>
+
+<td>
+<input type="submit" value="selftest0" onclick="readfile('selftest0')">
+<br>
+<input type="submit" value="selftest1" onclick="readfile('selftest1')">
+<br>
+<input type="submit" value="selftest2" onclick="readfile('selftest2')">
+<br>
+<input type="submit" value="selftest3" onclick="readfile('selftest3')">
+<br>
+<input type="submit" value="selftest4" onclick="readfile('selftest4')">
+<br>
+<input type="submit" value="drawtest" onclick="readfile('drawtest')">
+<br>
+<input type="submit" value="chartest" onclick="readfile('chartest')">
+<br>
+<input type="file" id="openfile">
+</td>
+
+</tr></table>
+
+<p>
+<div id="stdout"></div>
+
+<script>
+document.getElementById("openfile").addEventListener("change",
+function()
+{
+	var f = new FileReader();
+	f.onload = function()
+	{
+		document.getElementById("stdin").value = f.result;
+		document.getElementById("stdout").innerHTML = "";
+	}
+	f.readAsText(this.files[0]);
+});
+
+function readfile(s)
+{
+	foo = new XMLHttpRequest();
+	foo.open('GET', s);
+	foo.addEventListener("load", readfile_complete);
+	foo.send();
+}
+
+function readfile_complete(event)
+{
+	var stdin = document.getElementById('stdin');
+	stdin.value = foo.responseText;
+	var stdout = document.getElementById('stdout');
+	stdout.innerHTML = '';
+}
+
+</script>
+
+</body>
+</html>
