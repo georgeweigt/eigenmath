@@ -34,7 +34,7 @@
 <br>
 <input type="submit" value="chartest" onclick="readfile('chartest')">
 <br>
-<input type="file" id="openfile">
+<input type="file" id="choosefile">
 </td>
 
 </tr></table>
@@ -43,8 +43,11 @@
 <div id="stdout"></div>
 
 <script>
-document.getElementById("openfile").addEventListener("change",
-function()
+
+document.getElementById("choosefile").addEventListener("change", choosefile);
+
+function
+choosefile()
 {
 	var f = new FileReader();
 	f.onload = function()
@@ -53,9 +56,10 @@ function()
 		document.getElementById("stdout").innerHTML = "";
 	}
 	f.readAsText(this.files[0]);
-});
+}
 
-function readfile(s)
+function
+readfile(s)
 {
 	foo = new XMLHttpRequest();
 	foo.open('GET', s);
@@ -63,12 +67,11 @@ function readfile(s)
 	foo.send();
 }
 
-function readfile_complete(event)
+function
+readfile_complete(event)
 {
-	var stdin = document.getElementById('stdin');
-	stdin.value = foo.responseText;
-	var stdout = document.getElementById('stdout');
-	stdout.innerHTML = '';
+	document.getElementById("stdin").value = foo.responseText;
+	document.getElementById("stdout").innerHTML = "";
 }
 
 </script>

@@ -1,4 +1,3 @@
-trace = 1
 
 -- check sort order
 
@@ -2043,10 +2042,4 @@ clear
 f = sqrt(1 - cos(theta)^2)
 check(eval(f,sqrt(1 - cos(theta)^2),sin(theta)) == sin(theta))
 
--- done
-
-clear
-trace = 0
-status
 "ok"
-exit
