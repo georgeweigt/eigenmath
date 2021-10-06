@@ -1318,49 +1318,6 @@ h = sqrt(1 - x^2)
 defint(f,y,-h,h,x,-1,1)
 check(last = 1/48 pi)
 
--- 2.9 green's theorem
-
-clear
-P = 2x^3 - y^3
-Q = x^3 + y^3
-f = d(Q,x) - d(P,y)
-x = r cos(theta)
-y = r sin(theta)
-defint(f r,r,0,1,theta,0,2pi)
-check(last = 3/2 pi)
-
-clear
-x = cos(t)
-y = sin(t)
-P = 2x^3 - y^3
-Q = x^3 + y^3
-f = P d(x,t) + Q d(y,t)
-f = circexp(f)
-defint(f,t,0,2pi)
-check(last = 3/2 pi)
-
-clear
-P = 1 - y
-Q = x
-x = 2 cos(t)
-y = 2 sin(t)
-defint(P d(x,t) + Q d(y,t),t,0,2pi)
-check(last = 8 pi)
-
-x = quote(x) --clear x
-y = quote(y) --clear y
-h = sqrt(4 - x^2)
-defint(d(Q,x) - d(P,y),y,-h,h,x,-2,2)
-check(last = 8 pi)
-
-f = d(Q,x) - d(P,y) -- do before change of coordinates
-x = r cos(theta)
-y = r sin(theta)
-defint(f r,r,0,2,theta,0,2pi)
-check(last = 8 pi)
-
-defint(f r,theta,0,2pi,r,0,2) -- try integrating over theta first
-
 trace = 0
 
 "Testing minormatrix"
