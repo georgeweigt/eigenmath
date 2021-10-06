@@ -1361,35 +1361,6 @@ check(last = 8 pi)
 
 defint(f r,theta,0,2pi,r,0,2) -- try integrating over theta first
 
--- 2.10 stokes' theorem
-
-clear
-M1 = ((0,0,0),(0,0,-1),(0,1,0))
-M2 = ((0,0,1),(0,0,0),(-1,0,0))
-M3 = ((0,-1,0),(1,0,0),(0,0,0))
-M = (M1,M2,M3)
-cross(u,v) = dot(u,M,v)
-"Surface integral"
-z = 4 - x^2 - y^2
-F = (y,z,x)
-S = (x,y,z)
-f = dot(curl(F),cross(d(S,x),d(S,y)))
-x = r cos(theta)
-y = r sin(theta)
-defint(f r,r,0,2,theta,0,2pi)
-check(last = -4pi)
-"Line integral"
-x = 2 cos(t)
-y = 2 sin(t)
-z = 4 - x^2 - y^2
-P = y
-Q = z
-R = x
-f = P d(x,t) + Q d(y,t) + R d(z,t)
-f = circexp(f)
-defint(f,t,0,2pi)
-check(last = -4pi)
-
 trace = 0
 
 "Testing minormatrix"
