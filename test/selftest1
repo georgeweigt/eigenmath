@@ -1000,7 +1000,7 @@ T = psi^(-1)
 check(prefixform(T)=="(^ $e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
 T = psi/psi
 check(prefixform(T)=="1")
-"Test complex numbers"
+"Testng complex numbers"
 
 clear
 
