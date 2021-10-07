@@ -519,7 +519,12 @@ for(x,-12,12,
   check(abs(d) < 1.0 10^(-6))
 )
 
-check(infixform(arcsin(0.5 + 0.5 i)) == "0.452278 + 0.530638 i")
+-- complex arg
+
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  check(arcsin(z) == -i log(i z + sqrt(1 - z conj(z))))
+))
 "Testing arcsinh"
 
 clear
@@ -1012,7 +1017,7 @@ T = psi^(-1)
 check(prefixform(T)=="(^ $e (+ (* -1 (^ -1 1/2) k z) (* (^ -1 1/2) omega t)))")
 T = psi/psi
 check(prefixform(T)=="1")
-"Testng complex numbers"
+"Testing complex numbers"
 
 clear
 
@@ -1163,9 +1168,12 @@ for(n,-144,144,
   check(abs(d) < 1.0 10^(-6))
 )
 
-check(infixform(cos(pi / 3.0)) == "0.5")
+-- complex arg
 
-check(infixform(cos(3.0 + 4.0 i)) == "-27.0349 - 3.85115 i")
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  check(abs(cos(z) - 1/2 exp(i z) - 1/2 exp(-i z)) < 1.0 10^(-6))
+))
 "Testing cosh"
 
 clear
@@ -1179,7 +1187,12 @@ for(x,-12,12,
   check(abs(d) < 1.0 10^(-6))
 )
 
-check(infixform(cosh(0.5 + 0.5 i)) == "0.989585 + 0.249826 i")
+-- complex arg
+
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  check(abs(cosh(z) - 1/2 exp(z) - 1/2 exp(-z)) < 1.0 10^(-6))
+))
 "Testing det"
 
 clear
@@ -1886,9 +1899,12 @@ for(n,-144,144,
   check(abs(d) < 1.0 10^(-6))
 )
 
-check(infixform(sin(pi / 6.0)) == "0.5")
+-- complex arg
 
-check(infixform(sin(3.0 + 4.0 i)) == "3.85374 - 27.0168 i")
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  check(abs(sin(z) + i/2 exp(i z) - i/2 exp(-i z)) < 1.0 10^(-6))
+))
 "Testing sinh"
 
 clear
@@ -1902,7 +1918,12 @@ for(x,-12,12,
   check(abs(d) < 1.0 10^(-6))
 )
 
-check(infixform(sinh(0.5 + 0.5 i)) == "0.457304 + 0.540613 i")
+-- complex arg
+
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  check(abs(sinh(z) - 1/2 exp(z) + 1/2 exp(-z)) < 1.0 10^(-6))
+))
 "Testing tan"
 
 clear
@@ -1962,9 +1983,12 @@ for(n,-144,144,
   check(abs(d) < 1.0 10^(-6))
 )
 
-check(infixform(tan(pi / 3.0)) == "1.73205")
+-- complex arg
 
-check(infixform(tan(1.0 - 1.0 i)) == "0.271753 - 1.08392 i")
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  test(cos(z), check(abs(tan(z) - sin(z) / cos(z)) < 1.0 10^(-6)))
+))
 "Testing tanh"
 
 clear
@@ -1978,7 +2002,12 @@ for(x,-12,12,
   check(abs(d) < 1.0 10^(-6))
 )
 
-check(infixform(tanh(0.5 + 0.5 i)) == "0.564083 + 0.403896 i")
+-- complex arg
+
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  test(cosh(z), check(abs(tanh(z) - sinh(z) / cosh(z)) < 1.0 10^(-6)))
+))
 "Testing tensor arithmetic"
 
 clear

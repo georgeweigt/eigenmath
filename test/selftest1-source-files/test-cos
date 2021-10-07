@@ -64,6 +64,9 @@ for(n,-144,144,
   check(abs(d) < 1.0 10^(-6))
 )
 
-check(infixform(cos(pi / 3.0)) == "0.5")
+-- complex arg
 
-check(infixform(cos(3.0 + 4.0 i)) == "-27.0349 - 3.85115 i")
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  check(abs(cos(z) - 1/2 exp(i z) - 1/2 exp(-i z)) < 1.0 10^(-6))
+))

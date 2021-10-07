@@ -24,7 +24,7 @@ sinhfunc_nib(void)
 {
 	p1 = pop();
 
-	// sinh(z) = 1/2 (exp(z) - exp(-z))
+	// sinh(z) = 1/2 exp(z) - 1/2 exp(-z)
 
 	if (isdouble(p1) || isdoublez(p1)) {
 		push_rational(1, 2);

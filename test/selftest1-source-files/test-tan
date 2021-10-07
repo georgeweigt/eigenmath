@@ -57,6 +57,9 @@ for(n,-144,144,
   check(abs(d) < 1.0 10^(-6))
 )
 
-check(infixform(tan(pi / 3.0)) == "1.73205")
+-- complex arg
 
-check(infixform(tan(1.0 - 1.0 i)) == "0.271753 - 1.08392 i")
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  test(cos(z), check(abs(tan(z) - sin(z) / cos(z)) < 1.0 10^(-6)))
+))

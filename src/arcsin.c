@@ -29,7 +29,7 @@ arcsin_nib(void)
 		return;
 	}
 
-	// arcsin(z) = -i log(i z + (1 - z^2)^(1/2))
+	// arcsin(z) = -i log(i z + sqrt(1 - z conj(z)))
 
 	if (isdoublez(p1)) {
 		push(imaginaryunit);
@@ -40,6 +40,7 @@ arcsin_nib(void)
 		push_double(1.0);
 		push(p1);
 		push(p1);
+		conjfunc();
 		multiply();
 		subtract();
 		push_rational(1, 2);

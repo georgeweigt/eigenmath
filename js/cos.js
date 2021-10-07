@@ -10,7 +10,7 @@ cos()
 		return;
 	}
 
-	// cos(z) = 1/2 (exp(i z) + exp(-i z))
+	// cos(z) = 1/2 exp(i z) + 1/2 exp(-i z)
 
 	if (isdoublez(p1)) {
 		push_double(0.5);

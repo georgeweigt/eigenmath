@@ -10,7 +10,7 @@ sin()
 		return;
 	}
 
-	// sin(z) = -i/2 (exp(i z) - exp(-i z))
+	// sin(z) = -i/2 exp(i z) + i/2 exp(-i z)
 
 	if (isdoublez(p1)) {
 		push_double(-0.5);

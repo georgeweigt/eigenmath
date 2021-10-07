@@ -3,7 +3,7 @@ cosh()
 {
 	var p1 = pop();
 
-	// cosh(z) = 1/2 (exp(z) + exp(-z))
+	// cosh(z) = 1/2 exp(z) + 1/2 exp(-z)
 
 	if (isdouble(p1) || isdoublez(p1)) {
 		push_rational(1, 2);
