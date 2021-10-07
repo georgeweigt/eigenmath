@@ -2008,7 +2008,10 @@ for(n,-144,144,
 
 for(x,-3,3,for(y,-3,3,
   z = 1/3.0 (x + i y),
-  test(cos(z), check(abs(tan(z) - sin(z) / cos(z)) < 1.0 10^(-6)))
+  test(cos(z),do(
+    w = sin(z) / cos(z),
+    check(abs(tan(z) - w) < 1.0 10^(-6))
+  ))
 ))
 "Testing tanh"
 
@@ -2027,7 +2030,10 @@ for(x,-12,12,
 
 for(x,-3,3,for(y,-3,3,
   z = 1/3.0 (x + i y),
-  test(cosh(z), check(abs(tanh(z) - sinh(z) / cosh(z)) < 1.0 10^(-6)))
+  test(cosh(z),do(
+    w = sinh(z) / cosh(z),
+    check(abs(tanh(z) - w) < 1.0 10^(-6))
+  ))
 ))
 "Testing tensor arithmetic"
 

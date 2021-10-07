@@ -1799,21 +1799,22 @@ arccos_nib(void)
 		push_double(acos(p1->u.d));
 		return;
 	}
-	// arccos(z) = -i log(z + sqrt(z^2 - 1))
+	// arccos(z) = -i log(z + i sqrt(1 - z^2))
 	if (isdoublez(p1)) {
-		push(imaginaryunit);
-		negate();
-		push(p1);
+		push_double(1.0);
 		push(p1);
 		push(p1);
 		multiply();
-		push_double(-1.0);
-		add();
-		push_rational(1, 2);
-		power();
+		subtract();
+		sqrtfunc();
+		push(imaginaryunit);
+		multiply();
+		push(p1);
 		add();
 		logfunc();
+		push(imaginaryunit);
 		multiply();
+		negate();
 		return;
 	}
 	// arccos(1 / sqrt(2)) = 1/4 pi
@@ -1947,7 +1948,7 @@ arcsin_nib(void)
 		push_double(asin(p1->u.d));
 		return;
 	}
-	// arcsin(z) = -i log(i z + (1 - z^2)^(1/2))
+	// arcsin(z) = -i log(i z + sqrt(1 - z^2))
 	if (isdoublez(p1)) {
 		push(imaginaryunit);
 		negate();
@@ -2110,21 +2111,21 @@ arctan_nib(void)
 		arctan_numbers();
 		return;
 	}
-	// arctan(z) = 1/2 i log((i + z) / (i - z))
+	// arctan(z) = -1/2 i log((i - z) / (i + z))
 	if (!iszero(X) && (isdoublez(X) || isdoublez(Y))) {
 		push(Y);
 		push(X);
 		divide();
 		Z = pop();
-		push_double(0.5);
+		push_double(-0.5);
 		push(imaginaryunit);
 		multiply();
 		push(imaginaryunit);
 		push(Z);
-		add();
+		subtract();
 		push(imaginaryunit);
 		push(Z);
-		subtract();
+		add();
 		divide();
 		logfunc();
 		multiply();
@@ -5215,7 +5216,7 @@ void
 coshfunc_nib(void)
 {
 	p1 = pop();
-	// cosh(z) = 1/2 (exp(z) + exp(-z))
+	// cosh(z) = 1/2 exp(z) + 1/2 exp(-z)
 	if (isdouble(p1) || isdoublez(p1)) {
 		push_rational(1, 2);
 		push(p1);
@@ -20007,7 +20008,7 @@ sinfunc_nib(void)
 		push_double(sin(p1->u.d));
 		return;
 	}
-	// sin(z) = -i/2 (exp(i z) - exp(-i z))
+	// sin(z) = -i/2 exp(i z) + i/2 exp(-i z)
 	if (isdoublez(p1)) {
 		push_double(-0.5);
 		push(imaginaryunit);
@@ -20214,7 +20215,7 @@ void
 sinhfunc_nib(void)
 {
 	p1 = pop();
-	// sinh(z) = 1/2 (exp(z) - exp(-z))
+	// sinh(z) = 1/2 exp(z) - 1/2 exp(-z)
 	if (isdouble(p1) || isdoublez(p1)) {
 		push_rational(1, 2);
 		push(p1);
