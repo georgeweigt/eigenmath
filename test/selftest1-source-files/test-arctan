@@ -34,3 +34,13 @@ for(y,-12,12,for(x,-12,12,
   d = float(arctan(y/12,x/12)) - arctan(float(y/12),float(x/12)),
   check(abs(d) < 1.0 10^(-6))
 ))
+
+-- complex arg
+
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  test(i + z, do(
+    w = -1/2 i log((i - z) / (i + z)),
+    check(abs(arctan(z) - w) < 1.0 10^(-6))
+  ))
+))

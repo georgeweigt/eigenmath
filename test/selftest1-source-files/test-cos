@@ -68,5 +68,6 @@ for(n,-144,144,
 
 for(x,-3,3,for(y,-3,3,
   z = 1/3.0 (x + i y),
-  check(abs(cos(z) - 1/2 exp(i z) - 1/2 exp(-i z)) < 1.0 10^(-6))
+  w = 1/2 exp(i z) + 1/2 exp(-i z),
+  check(abs(cos(z) - w) < 1.0 10^(-6))
 ))

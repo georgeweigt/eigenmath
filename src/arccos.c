@@ -29,22 +29,23 @@ arccos_nib(void)
 		return;
 	}
 
-	// arccos(z) = -i log(z + sqrt(z^2 - 1))
+	// arccos(z) = -i log(z + i sqrt(1 - z^2))
 
 	if (isdoublez(p1)) {
-		push(imaginaryunit);
-		negate();
-		push(p1);
+		push_double(1.0);
 		push(p1);
 		push(p1);
 		multiply();
-		push_double(-1.0);
-		add();
-		push_rational(1, 2);
-		power();
+		subtract();
+		sqrtfunc();
+		push(imaginaryunit);
+		multiply();
+		push(p1);
 		add();
 		logfunc();
+		push(imaginaryunit);
 		multiply();
+		negate();
 		return;
 	}
 

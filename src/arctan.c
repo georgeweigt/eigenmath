@@ -45,22 +45,22 @@ arctan_nib(void)
 		return;
 	}
 
-	// arctan(z) = 1/2 i log((i + z) / (i - z))
+	// arctan(z) = -1/2 i log((i - z) / (i + z))
 
 	if (!iszero(X) && (isdoublez(X) || isdoublez(Y))) {
 		push(Y);
 		push(X);
 		divide();
 		Z = pop();
-		push_double(0.5);
+		push_double(-0.5);
 		push(imaginaryunit);
 		multiply();
 		push(imaginaryunit);
 		push(Z);
-		add();
+		subtract();
 		push(imaginaryunit);
 		push(Z);
-		subtract();
+		add();
 		divide();
 		logfunc();
 		multiply();

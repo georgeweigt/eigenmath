@@ -22,5 +22,6 @@ for(x,-12,12,
 
 for(x,-3,3,for(y,-3,3,
   z = 1/3.0 (x + i y),
-  check(abs(arcsin(z) + i log(i z + sqrt(1 - z^2))) < 1.0 10^(-6))
+  w = -i log(i z + sqrt(1 - z^2)),
+  check(abs(arcsin(z) - w) < 1.0 10^(-6))
 ))
