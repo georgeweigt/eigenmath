@@ -1,5 +1,5 @@
 function
 isminusone(p)
 {
-	return equaln(p, -1);
+	return isequaln(p, -1);
 }

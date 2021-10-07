@@ -1,5 +1,5 @@
 function
-equalq(p, a, b)
+isequalq(p, a, b)
 {
 	if (isrational(p)) {
 		if (isnegativenumber(p) && a >= 0)

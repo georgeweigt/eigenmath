@@ -51,7 +51,7 @@ arcsin()
 
 	// arcsin(-1) = -1/2 pi)
 
-	if (equaln(p1, -1)) {
+	if (isequaln(p1, -1)) {
 		push_rational(-1, 2);
 		push_symbol(PI);
 		multiply();
@@ -60,7 +60,7 @@ arcsin()
 
 	// arcsin(-1/2) = -1/6 pi)
 
-	if (equalq(p1, -1, 2)) {
+	if (isequalq(p1, -1, 2)) {
 		push_rational(-1, 6);
 		push_symbol(PI);
 		multiply();
@@ -76,7 +76,7 @@ arcsin()
 
 	// arcsin(1/2) = 1/6 pi
 
-	if (equalq(p1, 1, 2)) {
+	if (isequalq(p1, 1, 2)) {
 		push_rational(1, 6);
 		push_symbol(PI);
 		multiply();
@@ -85,7 +85,7 @@ arcsin()
 
 	// arcsin(1) = 1/2 pi
 
-	if (equaln(p1, 1)) {
+	if (isequaln(p1, 1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();

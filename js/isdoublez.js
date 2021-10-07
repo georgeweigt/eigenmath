@@ -26,10 +26,10 @@ isdoublez(p)
 	if (car(p) != symbol(POWER))
 		return 0;
 
-	if (!equaln(cadr(p), -1))
+	if (!isequaln(cadr(p), -1))
 		return 0;
 
-	if (!equalq(caddr(p), 1, 2))
+	if (!isequalq(caddr(p), 1, 2))
 		return 0;
 
 	return 1;
