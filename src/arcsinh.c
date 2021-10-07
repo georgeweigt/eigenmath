@@ -52,7 +52,7 @@ arcsinh_nib(void)
 
 	// arcsinh(-x) = -arcsinh(x)
 
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		arcsinh();

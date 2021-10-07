@@ -37,14 +37,7 @@ cosfunc_nib(void)
 		return;
 	}
 
-	// 0?
-
-	if (iszero(p1)) {
-		push_integer(1);
-		return;
-	}
-
-	// cos(z) = 1/2 (exp(i z) + exp(-i z))
+	// cos(z) = 1/2 exp(i z) + 1/2 exp(-i z)
 
 	if (isdoublez(p1)) {
 		push_double(0.5);
@@ -64,7 +57,7 @@ cosfunc_nib(void)
 
 	// cos(-x) = cos(x)
 
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		cosfunc();

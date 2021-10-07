@@ -45,7 +45,7 @@ sinhfunc_nib(void)
 
 	// sinh(-x) -> -sinh(x)
 
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		sinhfunc();

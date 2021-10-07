@@ -19,7 +19,7 @@ tanh()
 
 	// tanh(-x) = -tanh(x)
 
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		tanh();

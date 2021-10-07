@@ -37,13 +37,6 @@ sinfunc_nib(void)
 		return;
 	}
 
-	// 0?
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
 	// sin(z) = -i/2 (exp(i z) - exp(-i z))
 
 	if (isdoublez(p1)) {
@@ -66,7 +59,7 @@ sinfunc_nib(void)
 
 	// sin(-x) = -sin(x)
 
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		sinfunc();

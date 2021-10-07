@@ -539,7 +539,6 @@ int isfraction(struct atom *p);
 int isposint(struct atom *p);
 int iseveninteger(struct atom *p);
 int isradical(struct atom *p);
-int isnegative(struct atom *p);
 int isnegativeterm(struct atom *p);
 int isnegativenumber(struct atom *p);
 int iscomplexnumber(struct atom *p);
@@ -1967,30 +1966,17 @@ arcsin_nib(void)
 		multiply();
 		return;
 	}
+	// arcsin(-x) = -arcsin(x)
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		arcsin();
+		negate();
+		return;
+	}
 	// arcsin(1 / sqrt(2)) = 1/4 pi
 	if (isoneoversqrttwo(p1)) {
 		push_rational(1, 4);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-	// arcsin(-1 / sqrt(2)) = -1/4 pi
-	if (isminusoneoversqrttwo(p1)) {
-		push_rational(-1, 4);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-	// arcsin(-1) = -1/2 pi)
-	if (isequaln(p1, -1)) {
-		push_rational(-1, 2);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-	// arcsin(-1/2) = -1/6 pi)
-	if (isequalq(p1, -1, 2)) {
-		push_rational(-1, 6);
 		push_symbol(PI);
 		multiply();
 		return;
@@ -2065,7 +2051,7 @@ arcsinh_nib(void)
 		return;
 	}
 	// arcsinh(-x) = -arcsinh(x)
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		arcsinh();
@@ -2285,7 +2271,7 @@ arctanh_nib(void)
 		return;
 	}
 	// arctanh(-x) = -arctanh(x)
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		arctanh();
@@ -4676,12 +4662,6 @@ isradical(struct atom *p)
 }
 
 int
-isnegative(struct atom *p)
-{
-	return isnegativeterm(p) || (car(p) == symbol(ADD) && isnegativeterm(cadr(p)));
-}
-
-int
 isnegativeterm(struct atom *p)
 {
 	return isnegativenumber(p) || (car(p) == symbol(MULTIPLY) && isnegativenumber(cadr(p)));
@@ -5014,12 +4994,7 @@ cosfunc_nib(void)
 		push_double(cos(p1->u.d));
 		return;
 	}
-	// 0?
-	if (iszero(p1)) {
-		push_integer(1);
-		return;
-	}
-	// cos(z) = 1/2 (exp(i z) + exp(-i z))
+	// cos(z) = 1/2 exp(i z) + 1/2 exp(-i z)
 	if (isdoublez(p1)) {
 		push_double(0.5);
 		push(imaginaryunit);
@@ -5036,7 +5011,7 @@ cosfunc_nib(void)
 		return;
 	}
 	// cos(-x) = cos(x)
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		cosfunc();
@@ -5240,7 +5215,7 @@ coshfunc_nib(void)
 		return;
 	}
 	// cosh(-x) = cosh(x)
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		coshfunc();
@@ -20015,11 +19990,6 @@ sinfunc_nib(void)
 		push_double(sin(p1->u.d));
 		return;
 	}
-	// 0?
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
 	// sin(z) = -i/2 (exp(i z) - exp(-i z))
 	if (isdoublez(p1)) {
 		push_double(-0.5);
@@ -20039,7 +20009,7 @@ sinfunc_nib(void)
 		return;
 	}
 	// sin(-x) = -sin(x)
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		sinfunc();
@@ -20244,7 +20214,7 @@ sinhfunc_nib(void)
 		return;
 	}
 	// sinh(-x) -> -sinh(x)
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		sinhfunc();
@@ -20850,11 +20820,6 @@ tanfunc_nib(void)
 		push_double(tan(p1->u.d));
 		return;
 	}
-	// 0?
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
 	if (isdoublez(p1)) {
 		push(p1);
 		sinfunc();
@@ -20864,7 +20829,7 @@ tanfunc_nib(void)
 		return;
 	}
 	// tan(-x) = -tan(x)
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		tanfunc();
@@ -21021,7 +20986,7 @@ tanhfunc_nib(void)
 		return;
 	}
 	// tanh(-x) = -tanh(x)
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		tanhfunc();

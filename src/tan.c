@@ -31,13 +31,6 @@ tanfunc_nib(void)
 		return;
 	}
 
-	// 0?
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
 	if (isdoublez(p1)) {
 		push(p1);
 		sinfunc();
@@ -49,7 +42,7 @@ tanfunc_nib(void)
 
 	// tan(-x) = -tan(x)
 
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		tanfunc();

@@ -468,12 +468,6 @@ isradical(struct atom *p)
 }
 
 int
-isnegative(struct atom *p)
-{
-	return isnegativeterm(p) || (car(p) == symbol(ADD) && isnegativeterm(cadr(p)));
-}
-
-int
 isnegativeterm(struct atom *p)
 {
 	return isnegativenumber(p) || (car(p) == symbol(MULTIPLY) && isnegativenumber(cadr(p)));

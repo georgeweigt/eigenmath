@@ -499,6 +499,8 @@ check(T="(+ 1.06128 (* 0.904557 (^ -1 1/2)))")
 
 clear
 
+check(arcsin(-x) == -arcsin(x))
+
 check(arcsin(1 / sqrt(2)) == 1/4 pi)
 check(arcsin(-1 / sqrt(2)) == -1/4 pi)
 
@@ -684,6 +686,7 @@ check(infixform((-2/3)^1.2) == "-0.497334 - 0.361334 i")
 check((-192)^x == 2^(6 x) 3^x (-1)^x)
 check((3,4,5) - 2 == (1,2,3))
 check(infixform(A + B - B + 0) == "A")
+check(infixform(0.0) == "0")
 "Testing cofactor"
 
 clear

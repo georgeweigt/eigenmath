@@ -2,6 +2,8 @@
 
 clear
 
+check(arcsin(-x) == -arcsin(x))
+
 check(arcsin(1 / sqrt(2)) == 1/4 pi)
 check(arcsin(-1 / sqrt(2)) == -1/4 pi)
 

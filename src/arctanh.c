@@ -60,7 +60,7 @@ arctanh_nib(void)
 
 	// arctanh(-x) = -arctanh(x)
 
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		arctanh();

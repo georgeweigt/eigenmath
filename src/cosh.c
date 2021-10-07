@@ -45,7 +45,7 @@ coshfunc_nib(void)
 
 	// cosh(-x) = cosh(x)
 
-	if (isnegative(p1)) {
+	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
 		coshfunc();
