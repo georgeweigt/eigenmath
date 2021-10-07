@@ -45,7 +45,7 @@ arccosh_nib(void)
 		return;
 	}
 
-	if (equaln(p1, 1)) {
+	if (isequaln(p1, 1)) {
 		push_integer(0);
 		return;
 	}

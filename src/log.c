@@ -64,7 +64,7 @@ logfunc_nib(void)
 
 	// log(1) -> 0
 
-	if (equaln(p1, 1)) {
+	if (isequaln(p1, 1)) {
 		push_integer(0);
 		return;
 	}

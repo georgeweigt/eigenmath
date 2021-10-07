@@ -13,7 +13,7 @@ factor_number(void)
 
 	// 0 or 1?
 
-	if (equaln(p1, 0) || equaln(p1, 1) || equaln(p1, -1)) {
+	if (isequaln(p1, 0) || isequaln(p1, 1) || isequaln(p1, -1)) {
 		push(p1);
 		restore();
 		return;

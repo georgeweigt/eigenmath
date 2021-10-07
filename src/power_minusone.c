@@ -18,7 +18,7 @@ power_minusone_nib(void)
 {
 	// optimization for i
 
-	if (equalq(EXPO, 1, 2)) {
+	if (isequalq(EXPO, 1, 2)) {
 		push(imaginaryunit);
 		return;
 	}

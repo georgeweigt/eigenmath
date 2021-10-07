@@ -24,7 +24,7 @@ arctanh_nib(void)
 {
 	p1 = pop();
 
-	if (equaln(p1, 1) || equaln(p1, -1)) {
+	if (isequaln(p1, 1) || isequaln(p1, -1)) {
 		push_symbol(ARCTANH);
 		push(p1);
 		list(2);

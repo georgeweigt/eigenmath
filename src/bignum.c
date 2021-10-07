@@ -111,7 +111,7 @@ pop_double(void)
 }
 
 int
-equaln(struct atom *p, int n)
+isequaln(struct atom *p, int n)
 {
 	if (isrational(p))
 		return p->sign == (n < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(n)) && MEQUAL(p->u.q.b, 1);
@@ -122,7 +122,7 @@ equaln(struct atom *p, int n)
 }
 
 int
-equalq(struct atom *p, int a, int b)
+isequalq(struct atom *p, int a, int b)
 {
 	if (isrational(p))
 		return p->sign == (a < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(a)) && MEQUAL(p->u.q.b, b);

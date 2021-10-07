@@ -382,12 +382,12 @@ cmp_terms(struct atom *p1, struct atom *p2)
 int
 is_imaginary_term(struct atom *p)
 {
-	if (car(p) == symbol(POWER) && equaln(cadr(p), -1))
+	if (car(p) == symbol(POWER) && isequaln(cadr(p), -1))
 		return 1;
 	if (iscons(p)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (caar(p) == symbol(POWER) && equaln(cadar(p), -1))
+			if (caar(p) == symbol(POWER) && isequaln(cadar(p), -1))
 				return 1;
 			p = cdr(p);
 		}

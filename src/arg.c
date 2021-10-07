@@ -102,7 +102,7 @@ arg1_nib(void)
 
 	// (-1) ^ expr
 
-	if (car(p1) == symbol(POWER) && equaln(cadr(p1), -1)) {
+	if (car(p1) == symbol(POWER) && isequaln(cadr(p1), -1)) {
 		push(symbol(PI));
 		push(caddr(p1));
 		multiply();

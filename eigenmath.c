@@ -447,8 +447,8 @@ void push_bignum(int sign, uint32_t *a, uint32_t *b);
 int pop_integer(void);
 void push_double(double d);
 double pop_double(void);
-int equaln(struct atom *p, int n);
-int equalq(struct atom *p, int a, int b);
+int isequaln(struct atom *p, int n);
+int isequalq(struct atom *p, int a, int b);
 int cmpfunc(void);
 int cmp_numbers(struct atom *p1, struct atom *p2);
 int cmp_rationals(struct atom *a, struct atom *b);
@@ -1597,12 +1597,12 @@ cmp_terms(struct atom *p1, struct atom *p2)
 int
 is_imaginary_term(struct atom *p)
 {
-	if (car(p) == symbol(POWER) && equaln(cadr(p), -1))
+	if (car(p) == symbol(POWER) && isequaln(cadr(p), -1))
 		return 1;
 	if (iscons(p)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (caar(p) == symbol(POWER) && equaln(cadar(p), -1))
+			if (caar(p) == symbol(POWER) && isequaln(cadar(p), -1))
 				return 1;
 			p = cdr(p);
 		}
@@ -1795,7 +1795,6 @@ arccos(void)
 void
 arccos_nib(void)
 {
-	int n;
 	p1 = pop();
 	if (isdouble(p1)) {
 		push_double(acos(p1->u.d));
@@ -1818,58 +1817,54 @@ arccos_nib(void)
 		multiply();
 		return;
 	}
-	// if p1 == 1/sqrt(2) then return 1/4*pi (45 degrees)
+	// arccos(1 / sqrt(2)) = 1/4 pi
 	if (isoneoversqrttwo(p1)) {
 		push_rational(1, 4);
 		push_symbol(PI);
 		multiply();
 		return;
 	}
-	// if p1 == -1/sqrt(2) then return 3/4*pi (135 degrees)
+	// arccos(-1 / sqrt(2)) = 3/4 pi
 	if (isminusoneoversqrttwo(p1)) {
 		push_rational(3, 4);
 		push_symbol(PI);
 		multiply();
 		return;
 	}
-	if (!isrational(p1)) {
-		push_symbol(ARCCOS);
-		push(p1);
-		list(2);
-		return;
-	}
-	push(p1);
-	push_integer(2);
-	multiply();
-	n = pop_integer();
-	switch (n) {
-	case -2:
-		push_symbol(PI);
-		break;
-	case -1:
-		push_rational(2, 3);
-		push_symbol(PI);
-		multiply();
-		break;
-	case 0:
+	// arccos(0) = 1/2 pi
+	if (iszero(p1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();
-		break;
-	case 1:
+		return;
+	}
+	// arccos(1/2) = 1/3 pi
+	if (isequalq(p1, 1 ,2)) {
 		push_rational(1, 3);
 		push_symbol(PI);
 		multiply();
-		break;
-	case 2:
-		push_integer(0);
-		break;
-	default:
-		push_symbol(ARCCOS);
-		push(p1);
-		list(2);
-		break;
+		return;
 	}
+	// arccos(1) = 0
+	if (isequaln(p1, 1)) {
+		push_integer(0);
+		return;
+	}
+	// arccos(-1/2) = 2/3 pi
+	if (isequalq(p1, -1, 2)) {
+		push_rational(2, 3);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+	// arccos(-1) = pi
+	if (isequaln(p1, -1)) {
+		push_symbol(PI);
+		return;
+	}
+	push_symbol(ARCCOS);
+	push(p1);
+	list(2);
 }
 
 void
@@ -1913,7 +1908,7 @@ arccosh_nib(void)
 		logfunc();
 		return;
 	}
-	if (equaln(p1, 1)) {
+	if (isequaln(p1, 1)) {
 		push_integer(0);
 		return;
 	}
@@ -1948,7 +1943,6 @@ arcsin(void)
 void
 arcsin_nib(void)
 {
-	int n;
 	p1 = pop();
 	if (isdouble(p1)) {
 		push_double(asin(p1->u.d));
@@ -1973,60 +1967,56 @@ arcsin_nib(void)
 		multiply();
 		return;
 	}
-	// if p1 == 1/sqrt(2) then return 1/4*pi (45 degrees)
+	// arcsin(1 / sqrt(2)) = 1/4 pi
 	if (isoneoversqrttwo(p1)) {
 		push_rational(1, 4);
 		push_symbol(PI);
 		multiply();
 		return;
 	}
-	// if p1 == -1/sqrt(2) then return -1/4*pi (-45 degrees)
+	// arcsin(-1 / sqrt(2)) = -1/4 pi
 	if (isminusoneoversqrttwo(p1)) {
 		push_rational(-1, 4);
 		push_symbol(PI);
 		multiply();
 		return;
 	}
-	if (!isrational(p1)) {
-		push_symbol(ARCSIN);
-		push(p1);
-		list(2);
-		return;
-	}
-	push(p1);
-	push_integer(2);
-	multiply();
-	n = pop_integer();
-	switch (n) {
-	case -2:
+	// arcsin(-1) = -1/2 pi)
+	if (isequaln(p1, -1)) {
 		push_rational(-1, 2);
 		push_symbol(PI);
 		multiply();
-		break;
-	case -1:
+		return;
+	}
+	// arcsin(-1/2) = -1/6 pi)
+	if (isequalq(p1, -1, 2)) {
 		push_rational(-1, 6);
 		push_symbol(PI);
 		multiply();
-		break;
-	case 0:
+		return;
+	}
+	// arcsin(0) = 0
+	if (iszero(p1)) {
 		push_integer(0);
-		break;
-	case 1:
+		return;
+	}
+	// arcsin(1/2) = 1/6 pi
+	if (isequalq(p1, 1, 2)) {
 		push_rational(1, 6);
 		push_symbol(PI);
 		multiply();
-		break;
-	case 2:
+		return;
+	}
+	// arcsin(1) = 1/2 pi
+	if (isequaln(p1, 1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();
-		break;
-	default:
-		push_symbol(ARCSIN);
-		push(p1);
-		list(2);
-		break;
+		return;
 	}
+	push_symbol(ARCSIN);
+	push(p1);
+	list(2);
 }
 
 void
@@ -2265,7 +2255,7 @@ void
 arctanh_nib(void)
 {
 	p1 = pop();
-	if (equaln(p1, 1) || equaln(p1, -1)) {
+	if (isequaln(p1, 1) || isequaln(p1, -1)) {
 		push_symbol(ARCTANH);
 		push(p1);
 		list(2);
@@ -2400,7 +2390,7 @@ arg1_nib(void)
 		return;
 	}
 	// (-1) ^ expr
-	if (car(p1) == symbol(POWER) && equaln(cadr(p1), -1)) {
+	if (car(p1) == symbol(POWER) && isequaln(cadr(p1), -1)) {
 		push(symbol(PI));
 		push(caddr(p1));
 		multiply();
@@ -2746,7 +2736,7 @@ pop_double(void)
 }
 
 int
-equaln(struct atom *p, int n)
+isequaln(struct atom *p, int n)
 {
 	if (isrational(p))
 		return p->sign == (n < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(n)) && MEQUAL(p->u.q.b, 1);
@@ -2757,7 +2747,7 @@ equaln(struct atom *p, int n)
 }
 
 int
-equalq(struct atom *p, int a, int b)
+isequalq(struct atom *p, int a, int b)
 {
 	if (isrational(p))
 		return p->sign == (a < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(a)) && MEQUAL(p->u.q.b, b);
@@ -4640,13 +4630,13 @@ iszero(struct atom *p)
 int
 isplusone(struct atom *p)
 {
-	return equaln(p, 1);
+	return isequaln(p, 1);
 }
 
 int
 isminusone(struct atom *p)
 {
-	return equaln(p, -1);
+	return isequaln(p, -1);
 }
 
 int
@@ -4723,7 +4713,7 @@ isimaginarynumber(struct atom *p)
 int
 isimaginaryunit(struct atom *p)
 {
-	return car(p) == symbol(POWER) && equaln(cadr(p), -1) && equalq(caddr(p), 1, 2);
+	return car(p) == symbol(POWER) && isequaln(cadr(p), -1) && isequalq(caddr(p), 1, 2);
 }
 
 // p == 1/sqrt(2) ?
@@ -4731,7 +4721,7 @@ isimaginaryunit(struct atom *p)
 int
 isoneoversqrttwo(struct atom *p)
 {
-	return car(p) == symbol(POWER) && equaln(cadr(p), 2) && equalq(caddr(p), -1, 2);
+	return car(p) == symbol(POWER) && isequaln(cadr(p), 2) && isequalq(caddr(p), -1, 2);
 }
 
 // p == -1/sqrt(2) ?
@@ -4739,7 +4729,7 @@ isoneoversqrttwo(struct atom *p)
 int
 isminusoneoversqrttwo(struct atom *p)
 {
-	return length(p) == 3 && car(p) == symbol(MULTIPLY) && equaln(cadr(p), -1) && isoneoversqrttwo(caddr(p));
+	return length(p) == 3 && car(p) == symbol(MULTIPLY) && isequaln(cadr(p), -1) && isoneoversqrttwo(caddr(p));
 }
 
 // x + y * (-1)^(1/2) where x and y are double?
@@ -4763,9 +4753,9 @@ isdoublez(struct atom *p)
 	p = caddr(p);
 	if (car(p) != symbol(POWER))
 		return 0;
-	if (!equaln(cadr(p), -1))
+	if (!isequaln(cadr(p), -1))
 		return 0;
-	if (!equalq(caddr(p), 1, 2))
+	if (!isequalq(caddr(p), 1, 2))
 		return 0;
 	return 1;
 }
@@ -7706,7 +7696,7 @@ factor_factor_nib(void)
 			push(FARG);
 			return;
 		}
-		if (equaln(BASE, -1)) {
+		if (isequaln(BASE, -1)) {
 			push(FARG); // -1 to the M
 			return;
 		}
@@ -7755,7 +7745,7 @@ factor_bignum(uint32_t *a)
 	if (MLENGTH(a) > 1) {
 		// too big to factor
 		push_bignum(MPLUS, mcopy(a), mint(1));
-		if (!equaln(EXPO, 1)) {
+		if (!isequaln(EXPO, 1)) {
 			push_symbol(POWER);
 			swap();
 			push(EXPO);
@@ -7780,7 +7770,7 @@ factor_bignum(uint32_t *a)
 		push(EXPO);
 		multiply();
 		P = pop();
-		if (!equaln(P, 1)) {
+		if (!isequaln(P, 1)) {
 			push_symbol(POWER);
 			swap();
 			push(P);
@@ -7789,7 +7779,7 @@ factor_bignum(uint32_t *a)
 	}
 	if (n > 1) {
 		push_bignum(MPLUS, mint(n), mint(1));
-		if (!equaln(EXPO, 1)) {
+		if (!isequaln(EXPO, 1)) {
 			push_symbol(POWER);
 			swap();
 			push(EXPO);
@@ -12883,7 +12873,7 @@ logfunc_nib(void)
 		return;
 	}
 	// log(1) -> 0
-	if (equaln(p1, 1)) {
+	if (isequaln(p1, 1)) {
 		push_integer(0);
 		return;
 	}
@@ -13022,7 +13012,7 @@ mag1_nib(void)
 		absfunc();
 		return;
 	}
-	if (car(p1) == symbol(POWER) && equaln(cadr(p1), -1)) {
+	if (car(p1) == symbol(POWER) && isequaln(cadr(p1), -1)) {
 		// -1 to a power
 		push_integer(1);
 		return;
@@ -15248,7 +15238,7 @@ factor_number(void)
 	save();
 	p1 = pop();
 	// 0 or 1?
-	if (equaln(p1, 0) || equaln(p1, 1) || equaln(p1, -1)) {
+	if (isequaln(p1, 0) || isequaln(p1, 1) || isequaln(p1, -1)) {
 		push(p1);
 		restore();
 		return;
@@ -15869,7 +15859,7 @@ void
 power_minusone_nib(void)
 {
 	// optimization for i
-	if (equalq(EXPO, 1, 2)) {
+	if (isequalq(EXPO, 1, 2)) {
 		push(imaginaryunit);
 		return;
 	}

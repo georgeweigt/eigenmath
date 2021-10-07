@@ -80,7 +80,7 @@ mag1_nib(void)
 		return;
 	}
 
-	if (car(p1) == symbol(POWER) && equaln(cadr(p1), -1)) {
+	if (car(p1) == symbol(POWER) && isequaln(cadr(p1), -1)) {
 		// -1 to a power
 		push_integer(1);
 		return;
