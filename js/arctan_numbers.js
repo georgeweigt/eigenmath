@@ -23,11 +23,9 @@ arctan_numbers(X, Y)
 	// X and Y are rational numbers
 
 	if (iszero(Y)) {
-		if (isnegativenumber(X)) {
-			push_integer(-1);
+		if (isnegativenumber(X))
 			push_symbol(PI);
-			multiply();
-		} else
+		else
 			push_integer(0);
 		return;
 	}
@@ -66,25 +64,35 @@ arctan_numbers(X, Y)
 
 	if (bignum_cmp(X.a, Y.a) != 0 || bignum_cmp(X.b, Y.b) != 0) {
 		// not equal
-		push_symbol(ARCTAN);
-		push(Y);
-		push(X);
-		list(3);
+		if (isnegativenumber(Y)) {
+			push_symbol(ARCTAN);
+			push(Y);
+			negate();
+			push(X);
+			list(3);
+			negate();
+		} else {
+			push_symbol(ARCTAN);
+			push(Y);
+			push(X);
+			list(3);
+		}
 		return;
 	}
 
 	// X == Y (modulo sign)
 
-	if (isnegativenumber(X))
+	if (isnegativenumber(X)) {
 		if (isnegativenumber(Y))
 			push_rational(-3, 4);
 		else
 			push_rational(3, 4);
-	else
+	} else {
 		if (isnegativenumber(Y))
 			push_rational(-1, 4);
 		else
 			push_rational(1, 4);
+	}
 
 	push_symbol(PI);
 	multiply();

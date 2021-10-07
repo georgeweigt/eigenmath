@@ -41,7 +41,7 @@ arctan_nib(void)
 	Y = pop();
 
 	if (isnum(X) && isnum(Y)) {
-		arctan_numerical_args();
+		arctan_numbers();
 		return;
 	}
 
@@ -67,6 +67,17 @@ arctan_nib(void)
 		return;
 	}
 
+	// arctan(-y,x) = -arctan(y,x)
+
+	if (isnegativeterm(Y)) {
+		push(Y);
+		negate();
+		push(X);
+		arctan();
+		negate();
+		return;
+	}
+
 	if (car(Y) == symbol(TAN) && isplusone(X)) {
 		push(cadr(Y)); // x of tan(x)
 		return;
@@ -79,7 +90,7 @@ arctan_nib(void)
 }
 
 void
-arctan_numerical_args(void)
+arctan_numbers(void)
 {
 	double x, y;
 
@@ -103,20 +114,18 @@ arctan_numerical_args(void)
 	// X and Y are rational numbers
 
 	if (iszero(Y)) {
-		if (X->sign == MPLUS)
-			push_integer(0);
+		if (isnegativenumber(X))
+			push_symbol(PI);
 		else
-			push_integer(-1);
-		push_symbol(PI);
-		multiply();
+			push_integer(0);
 		return;
 	}
 
 	if (iszero(X)) {
-		if (Y->sign == MPLUS)
-			push_rational(1, 2);
-		else
+		if (isnegativenumber(Y))
 			push_rational(-1, 2);
+		else
+			push_rational(1, 2);
 		push_symbol(PI);
 		multiply();
 		return;
@@ -132,39 +141,49 @@ arctan_numerical_args(void)
 
 	push(T);
 	numerator();
-	if (Y->sign == MMINUS)
+	if (isnegativenumber(Y))
 		negate();
 	Y = pop();
 
 	push(T);
 	denominator();
-	if (X->sign == MMINUS)
+	if (isnegativenumber(X))
 		negate();
 	X = pop();
 
 	// compare numerators and denominators, ignore signs
 
-	if (mcmp(X->u.q.a, Y->u.q.a) || mcmp(X->u.q.b, Y->u.q.b)) {
+	if (mcmp(X->u.q.a, Y->u.q.a) != 0 || mcmp(X->u.q.b, Y->u.q.b) != 0) {
 		// not equal
-		push_symbol(ARCTAN);
-		push(Y);
-		push(X);
-		list(3);
+		if (isnegativenumber(Y)) {
+			push_symbol(ARCTAN);
+			push(Y);
+			negate();
+			push(X);
+			list(3);
+			negate();
+		} else {
+			push_symbol(ARCTAN);
+			push(Y);
+			push(X);
+			list(3);
+		}
 		return;
 	}
 
 	// X = Y modulo sign
 
-	if (X->sign == MPLUS)
-		if (Y->sign == MPLUS)
-			push_rational(1, 4);
-		else
-			push_rational(-1, 4);
-	else
-		if (Y->sign == MPLUS)
-			push_rational(3, 4);
-		else
+	if (isnegativenumber(X)) {
+		if (isnegativenumber(Y))
 			push_rational(-3, 4);
+		else
+			push_rational(3, 4);
+	} else {
+		if (isnegativenumber(Y))
+			push_rational(-1, 4);
+		else
+			push_rational(1, 4);
+	}
 
 	push_symbol(PI);
 	multiply();

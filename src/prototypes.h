@@ -36,7 +36,7 @@ void arcsinh_nib(void);
 void eval_arctan(void);
 void arctan(void);
 void arctan_nib(void);
-void arctan_numerical_args(void);
+void arctan_numbers(void);
 void eval_arctanh(void);
 void arctanh(void);
 void arctanh_nib(void);

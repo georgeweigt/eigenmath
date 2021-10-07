@@ -33,6 +33,17 @@ arctan()
 		return;
 	}
 
+	// arctan(-y,x) = -arctan(y,x)
+
+	if (isnegativeterm(Y)) {
+		push(Y);
+		negate();
+		push(X);
+		arctan();
+		negate();
+		return;
+	}
+
 	if (car(Y) == symbol(TAN) && isplusone(X)) {
 		push(cadr(Y)); // x of tan(x)
 		return;
