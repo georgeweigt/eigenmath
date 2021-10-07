@@ -1,0 +1,14 @@
+"Testing tanh"
+
+clear
+
+check(tanh(0) == 0)
+check(tanh(-x) == -tanh(x))
+check(tanh(arctanh(x)) == x)
+
+for(x,-3,3,
+  d = float(tanh(x)) - tanh(float(x)),
+  check(abs(d) < 1.0 10^(-6))
+)
+
+check(infixform(tanh(0.5 + 0.5 i)) == "0.564083 + 0.403896 i")

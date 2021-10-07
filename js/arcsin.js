@@ -1,7 +1,7 @@
 function
 arcsin()
 {
-	var n, p1, p2;
+	var p1;
 
 	p1 = pop();
 
@@ -31,7 +31,7 @@ arcsin()
 		return;
 	}
 
-	// if p1 == 1/sqrt(2) then return 1/4*pi (45 degrees)
+	// arcsin(1 / sqrt(2)) = 1/4 pi
 
 	if (isoneoversqrttwo(p1)) {
 		push_rational(1, 4);
@@ -40,7 +40,7 @@ arcsin()
 		return;
 	}
 
-	// if p1 == -1/sqrt(2) then return -1/4*pi (-45 degrees)
+	// arcsin(-1 / sqrt(2)) = -1/4 pi
 
 	if (isminusoneoversqrttwo(p1)) {
 		push_rational(-1, 4);
@@ -49,62 +49,50 @@ arcsin()
 		return;
 	}
 
-	if (!isrational(p1)) {
-		push_symbol(ARCSIN);
-		push(p1);
-		list(2);
-		return;
-	}
+	// arcsin(-1) = -1/2 pi)
 
-	push(p1);
-	push_integer(2);
-	multiply();
-	p2 = pop();
-
-	if (!isinteger(p2)) {
-		push_symbol(ARCSIN);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	push(p2);
-	n = pop_integer();
-
-	switch (n) {
-
-	case -2:
+	if (equaln(p1, -1)) {
 		push_rational(-1, 2);
 		push_symbol(PI);
 		multiply();
-		break;
+		return;
+	}
 
-	case -1:
+	// arcsin(-1/2) = -1/6 pi)
+
+	if (equalq(p1, -1, 2)) {
 		push_rational(-1, 6);
 		push_symbol(PI);
 		multiply();
-		break;
+		return;
+	}
 
-	case 0:
+	// arcsin(0) = 0
+
+	if (iszero(p1)) {
 		push_integer(0);
-		break;
+		return;
+	}
 
-	case 1:
+	// arcsin(1/2) = 1/6 pi
+
+	if (equalq(p1, 1, 2)) {
 		push_rational(1, 6);
 		push_symbol(PI);
 		multiply();
-		break;
+		return;
+	}
 
-	case 2:
+	// arcsin(1) = 1/2 pi
+
+	if (equaln(p1, 1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();
-		break;
-
-	default:
-		push_symbol(ARCSIN);
-		push(p1);
-		list(2);
-		break;
+		return;
 	}
+
+	push_symbol(ARCSIN);
+	push(p1);
+	list(2);
 }

@@ -29,7 +29,7 @@ arccos()
 		return;
 	}
 
-	// if p1 == 1/sqrt(2) then return 1/4*pi (45 degrees)
+	// arccos(1 / sqrt(2)) = 1/4 pi
 
 	if (isoneoversqrttwo(p1)) {
 		push_rational(1, 4);
@@ -38,7 +38,7 @@ arccos()
 		return;
 	}
 
-	// if p1 == -1/sqrt(2) then return 3/4*pi (135 degrees)
+	// arccos(-1 / sqrt(2)) = 3/4 pi
 
 	if (isminusoneoversqrttwo(p1)) {
 		push_rational(3, 4);

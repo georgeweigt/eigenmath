@@ -22,8 +22,6 @@ arccos(void)
 void
 arccos_nib(void)
 {
-	int n;
-
 	p1 = pop();
 
 	if (isdouble(p1)) {
@@ -50,7 +48,7 @@ arccos_nib(void)
 		return;
 	}
 
-	// if p1 == 1/sqrt(2) then return 1/4*pi (45 degrees)
+	// arccos(1 / sqrt(2)) = 1/4 pi
 
 	if (isoneoversqrttwo(p1)) {
 		push_rational(1, 4);
@@ -59,7 +57,7 @@ arccos_nib(void)
 		return;
 	}
 
-	// if p1 == -1/sqrt(2) then return 3/4*pi (135 degrees)
+	// arccos(-1 / sqrt(2)) = 3/4 pi
 
 	if (isminusoneoversqrttwo(p1)) {
 		push_rational(3, 4);
@@ -68,50 +66,48 @@ arccos_nib(void)
 		return;
 	}
 
-	if (!isrational(p1)) {
-		push_symbol(ARCCOS);
-		push(p1);
-		list(2);
-		return;
-	}
+	// arccos(0) = 1/2 pi
 
-	push(p1);
-	push_integer(2);
-	multiply();
-	n = pop_integer();
-
-	switch (n) {
-
-	case -2:
-		push_symbol(PI);
-		break;
-
-	case -1:
-		push_rational(2, 3);
-		push_symbol(PI);
-		multiply();
-		break;
-
-	case 0:
+	if (iszero(p1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();
-		break;
+		return;
+	}
 
-	case 1:
+	// arccos(1/2) = 1/3 pi
+
+	if (equalq(p1, 1 ,2)) {
 		push_rational(1, 3);
 		push_symbol(PI);
 		multiply();
-		break;
-
-	case 2:
-		push_integer(0);
-		break;
-
-	default:
-		push_symbol(ARCCOS);
-		push(p1);
-		list(2);
-		break;
+		return;
 	}
+
+	// arccos(1) = 0
+
+	if (equaln(p1, 1)) {
+		push_integer(0);
+		return;
+	}
+
+	// arccos(-1/2) = 2/3 pi
+
+	if (equalq(p1, -1, 2)) {
+		push_rational(2, 3);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(-1) = pi
+
+	if (equaln(p1, -1)) {
+		push_symbol(PI);
+		return;
+	}
+
+	push_symbol(ARCCOS);
+	push(p1);
+	list(2);
 }

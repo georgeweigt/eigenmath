@@ -1,0 +1,20 @@
+"Testing arccos"
+
+clear
+
+check(arccos(1 / sqrt(2)) == 1/4 pi)
+check(arccos(-1 / sqrt(2)) == 3/4 pi)
+
+check(arccos(-1) == pi)
+check(arccos(-1/2) == 2/3 pi)
+check(arccos(0) == 1/2 pi)
+check(arccos(1/2) == 1/3 pi)
+check(arccos(1) == 0)
+
+for(n,-10,10,
+  x = n / 10,
+  d = float(arccos(x)) - arccos(float(x)),
+  check(abs(d) < 1.0 10^(-6))
+)
+
+check(infixform(arccos(0.5 + 0.5 i)) == "1.11852 - 0.530638 i")

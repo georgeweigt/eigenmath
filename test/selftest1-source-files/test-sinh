@@ -1,0 +1,14 @@
+"Testing sinh"
+
+clear
+
+check(sinh(0) == 0)
+check(sinh(-x) == -sinh(x))
+check(sinh(arcsinh(x)) == x)
+
+for(x,-3,3,
+  d = float(sinh(x)) - sinh(float(x)),
+  check(abs(d) < 1.0 10^(-6))
+)
+
+check(infixform(sinh(0.5 + 0.5 i)) == "0.457304 + 0.540613 i")

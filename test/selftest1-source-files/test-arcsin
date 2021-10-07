@@ -1,0 +1,20 @@
+"Testing arcsin"
+
+clear
+
+check(arcsin(1 / sqrt(2)) == 1/4 pi)
+check(arcsin(-1 / sqrt(2)) == -1/4 pi)
+
+check(arcsin(-1) == -1/2 pi)
+check(arcsin(-1/2) == -1/6 pi)
+check(arcsin(0) == 0)
+check(arcsin(1/2) == 1/6 pi)
+check(arcsin(1) == 1/2 pi)
+
+for(n,-10,10,
+  x = n / 10,
+  d = float(arcsin(x)) - arcsin(float(x)),
+  check(abs(d) < 1.0 10^(-6))
+)
+
+check(infixform(arcsin(0.5 + 0.5 i)) == "0.452278 + 0.530638 i")

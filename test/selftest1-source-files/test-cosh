@@ -1,0 +1,14 @@
+"Testing cosh"
+
+clear
+
+check(cosh(0) == 1)
+check(cosh(-x) == cosh(x))
+check(cosh(arccosh(x)) == x)
+
+for(x,-3,3,
+  d = float(cosh(x)) - cosh(float(x)),
+  check(abs(d) < 1.0 10^(-6))
+)
+
+check(infixform(cosh(0.5 + 0.5 i)) == "0.989585 + 0.249826 i")
