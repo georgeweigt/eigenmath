@@ -11,9 +11,8 @@ check(arccos(0) == 1/2 pi)
 check(arccos(1/2) == 1/3 pi)
 check(arccos(1) == 0)
 
-for(n,-10,10,
-  x = n / 10,
-  d = float(arccos(x)) - arccos(float(x)),
+for(x,-12,12,
+  d = float(arccos(x/12)) - arccos(float(x/12)),
   check(abs(d) < 1.0 10^(-6))
 )
 

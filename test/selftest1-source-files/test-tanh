@@ -6,8 +6,8 @@ check(tanh(0) == 0)
 check(tanh(-x) == -tanh(x))
 check(tanh(arctanh(x)) == x)
 
-for(x,-3,3,
-  d = float(tanh(x)) - tanh(float(x)),
+for(x,-12,12,
+  d = float(tanh(x/12)) - tanh(float(x/12)),
   check(abs(d) < 1.0 10^(-6))
 )
 

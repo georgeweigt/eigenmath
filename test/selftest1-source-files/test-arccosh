@@ -25,3 +25,8 @@ check(T="(* 3.14159 (^ -1 1/2))")
 
 T = prefixform(float(arccosh(1+i)))
 check(T="(+ 1.06128 (* 0.904557 (^ -1 1/2)))")
+
+for(x,-12,12,
+  d = float(arccosh(x/12)) - arccosh(float(x/12)),
+  check(abs(d) < 1.0 10^(-6))
+)
