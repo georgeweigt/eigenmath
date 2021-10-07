@@ -36,7 +36,7 @@ arctanh_nib(void)
 		return;
 	}
 
-	// arctanh(z) = 1/2 (log(1 + z) - log(1 - z))
+	// arctanh(z) = 1/2 log(1 + z) - 1/2 log(1 - z)
 
 	if (isdoublez(p1)) {
 		push_double(1.0);
