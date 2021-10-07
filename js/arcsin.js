@@ -10,7 +10,7 @@ arcsin()
 		return;
 	}
 
-	// arcsin(z) = -i log(i z + sqrt(1 - z conj(z)))
+	// arcsin(z) = -i log(i z + sqrt(1 - z^2))
 
 	if (isdoublez(p1)) {
 		push(imaginaryunit);
@@ -21,7 +21,6 @@ arcsin()
 		push_double(1.0);
 		push(p1);
 		push(p1);
-		conj();
 		multiply();
 		subtract();
 		push_rational(1, 2);
