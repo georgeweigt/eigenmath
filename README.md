@@ -32,6 +32,7 @@ To build eigenmath.c
 
 eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
 
+Input is read from "stdin" and results are written to "stdout".
 
 For example
 
