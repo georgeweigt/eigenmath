@@ -25,3 +25,13 @@ for(x,-3,3,for(y,-3,3,
   w = -i log(i z + sqrt(1 - z^2)),
   check(abs(arcsin(z) - w) < 1.0 10^(-6))
 ))
+
+z1 =  0.2 + 0.3 i
+z2 =  0.2 - 0.3 i
+z3 = -0.2 + 0.3 i
+z4 = -0.2 - 0.3 i
+
+check(infixform(arcsin(sin(z1))) == infixform(z1))
+check(infixform(arcsin(sin(z2))) == infixform(z2))
+check(infixform(arcsin(sin(z3))) == infixform(z3))
+check(infixform(arcsin(sin(z4))) == infixform(z4))
