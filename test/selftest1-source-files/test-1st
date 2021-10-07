@@ -252,11 +252,6 @@ check(N/M=M))
 check(exptan(z)=(exp(2*i*z)-1)/(i*(exp(2*i*z)+1)))
 check(circexp(expsin(z)/expcos(z)-exptan(z))=0)
 
--- test tan function
-
-T = float(tan(1+i))
-check(infixform(T)="0.271753 + 1.08392 i")
-
 -- test sinh function
 
 T = float(sinh(1+i))
@@ -281,11 +276,6 @@ check(infixform(T)="0.666239 + 1.06128 i")
 
 T = float(arccos(1+i))
 check(infixform(T)="0.904557 - 1.06128 i")
-
--- test arctan function
-
-T = float(arctan(1+i))
-check(infixform(T)="1.01722 + 0.402359 i")
 
 -- loop indices are not rewritten
 

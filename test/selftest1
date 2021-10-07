@@ -252,11 +252,6 @@ check(N/M=M))
 check(exptan(z)=(exp(2*i*z)-1)/(i*(exp(2*i*z)+1)))
 check(circexp(expsin(z)/expcos(z)-exptan(z))=0)
 
--- test tan function
-
-T = float(tan(1+i))
-check(infixform(T)="0.271753 + 1.08392 i")
-
 -- test sinh function
 
 T = float(sinh(1+i))
@@ -281,11 +276,6 @@ check(infixform(T)="0.666239 + 1.06128 i")
 
 T = float(arccos(1+i))
 check(infixform(T)="0.904557 - 1.06128 i")
-
--- test arctan function
-
-T = float(arctan(1+i))
-check(infixform(T)="1.01722 + 0.402359 i")
 
 -- loop indices are not rewritten
 
@@ -1127,7 +1117,7 @@ check(cos(-210/360 2 pi) == -1/2 sqrt(3))
 check(cos(-0/360 2 pi) == 1)
 check(cos(-180/360 2 pi) == -1)
 
--- compare with intrinsic floating point sin
+-- compare with intrinsic floating point cos
 
 for(n,-144,144,
   a = 5 n / 360 2 pi,
@@ -1847,6 +1837,68 @@ for(n,-144,144,
 check(infixform(sin(pi / 6.0)) == "0.5")
 
 check(infixform(sin(3.0 + 4.0 i)) == "3.85374 - 27.0168 i")
+"Testing tan"
+
+clear
+
+check(tan(-x) == -tan(x))
+check(tan(arctan(y,x)) == y / x)
+
+check(tan(0/360 2 pi) == 0)
+check(tan(180/360 2 pi) == 0)
+
+check(tan(30/360 2 pi) == 1/3 sqrt(3))
+check(tan(210/360 2 pi) == 1/3 sqrt(3))
+
+check(tan(150/360 2 pi) == -1/3 sqrt(3))
+check(tan(330/360 2 pi) == -1/3 sqrt(3))
+
+check(tan(45/360 2 pi) == 1)
+check(tan(225/360 2 pi) == 1)
+
+check(tan(135/360 2 pi) == -1)
+check(tan(315/360 2 pi) == -1)
+
+check(tan(60/360 2 pi) == sqrt(3))
+check(tan(240/360 2 pi) == sqrt(3))
+
+check(tan(120/360 2 pi) == -sqrt(3))
+check(tan(300/360 2 pi) == -sqrt(3))
+
+-- negative angles
+
+check(tan(-0/360 2 pi) == 0)
+check(tan(-180/360 2 pi) == 0)
+
+check(tan(-30/360 2 pi) == -1/3 sqrt(3))
+check(tan(-210/360 2 pi) == -1/3 sqrt(3))
+
+check(tan(-150/360 2 pi) == 1/3 sqrt(3))
+check(tan(-330/360 2 pi) == 1/3 sqrt(3))
+
+check(tan(-45/360 2 pi) == -1)
+check(tan(-225/360 2 pi) == -1)
+
+check(tan(-135/360 2 pi) == 1)
+check(tan(-315/360 2 pi) == 1)
+
+check(tan(-60/360 2 pi) == -sqrt(3))
+check(tan(-240/360 2 pi) == -sqrt(3))
+
+check(tan(-120/360 2 pi) == sqrt(3))
+check(tan(-300/360 2 pi) == sqrt(3))
+
+-- compare with intrinsic floating point tan
+
+for(n,-144,144,
+  a = 5 n / 360 2 pi,
+  d = float(tan(a)) - tan(float(a)),
+  check(abs(d) < 1.0 10^(-6))
+)
+
+check(infixform(tan(pi / 3.0)) == "1.73205")
+
+check(infixform(tan(1.0 - 1.0 i)) == "0.271753 - 1.08392 i")
 "Testing tensor arithmetic"
 
 clear

@@ -1,0 +1,62 @@
+"Testing tan"
+
+clear
+
+check(tan(-x) == -tan(x))
+check(tan(arctan(y,x)) == y / x)
+
+check(tan(0/360 2 pi) == 0)
+check(tan(180/360 2 pi) == 0)
+
+check(tan(30/360 2 pi) == 1/3 sqrt(3))
+check(tan(210/360 2 pi) == 1/3 sqrt(3))
+
+check(tan(150/360 2 pi) == -1/3 sqrt(3))
+check(tan(330/360 2 pi) == -1/3 sqrt(3))
+
+check(tan(45/360 2 pi) == 1)
+check(tan(225/360 2 pi) == 1)
+
+check(tan(135/360 2 pi) == -1)
+check(tan(315/360 2 pi) == -1)
+
+check(tan(60/360 2 pi) == sqrt(3))
+check(tan(240/360 2 pi) == sqrt(3))
+
+check(tan(120/360 2 pi) == -sqrt(3))
+check(tan(300/360 2 pi) == -sqrt(3))
+
+-- negative angles
+
+check(tan(-0/360 2 pi) == 0)
+check(tan(-180/360 2 pi) == 0)
+
+check(tan(-30/360 2 pi) == -1/3 sqrt(3))
+check(tan(-210/360 2 pi) == -1/3 sqrt(3))
+
+check(tan(-150/360 2 pi) == 1/3 sqrt(3))
+check(tan(-330/360 2 pi) == 1/3 sqrt(3))
+
+check(tan(-45/360 2 pi) == -1)
+check(tan(-225/360 2 pi) == -1)
+
+check(tan(-135/360 2 pi) == 1)
+check(tan(-315/360 2 pi) == 1)
+
+check(tan(-60/360 2 pi) == -sqrt(3))
+check(tan(-240/360 2 pi) == -sqrt(3))
+
+check(tan(-120/360 2 pi) == sqrt(3))
+check(tan(-300/360 2 pi) == sqrt(3))
+
+-- compare with intrinsic floating point tan
+
+for(n,-144,144,
+  a = 5 n / 360 2 pi,
+  d = float(tan(a)) - tan(float(a)),
+  check(abs(d) < 1.0 10^(-6))
+)
+
+check(infixform(tan(pi / 3.0)) == "1.73205")
+
+check(infixform(tan(1.0 - 1.0 i)) == "0.271753 - 1.08392 i")
