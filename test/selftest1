@@ -661,14 +661,14 @@ check(arctanh(-x) == -arctanh(x))
 
 -- compare intrinsic
 
-for(x,-12,12,
-  d = float(arctanh(x/12)) - arctanh(float(x/12)),
+for(x,-2,2,
+  d = float(arctanh(x/3)) - arctanh(float(x/3)),
   check(abs(d) < 1.0 10^(-6))
 )
 
 -- complex arg
 
-for(x,-3,3,for(y,-3,3,
+for(x,-2,2,for(y,-2,2,
   z = 1/3.0 (x + i y),
   test(and(1 + z,1 - z),do(
     w = 1/2 log(1 + z) - 1/2 log(1 - z),

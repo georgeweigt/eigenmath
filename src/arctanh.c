@@ -24,13 +24,6 @@ arctanh_nib(void)
 {
 	p1 = pop();
 
-	if (isequaln(p1, 1) || isequaln(p1, -1)) {
-		push_symbol(ARCTANH);
-		push(p1);
-		list(2);
-		return;
-	}
-
 	if (isdouble(p1)) {
 		push_double(atanh(p1->u.d));
 		return;
