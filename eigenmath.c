@@ -1794,9 +1794,12 @@ arccos(void)
 void
 arccos_nib(void)
 {
+	double d;
 	p1 = pop();
 	if (isdouble(p1)) {
-		push_double(acos(p1->u.d));
+		push(p1);
+		d = pop_double();
+		push_double(acos(d));
 		return;
 	}
 	// arccos(z) = -i log(z + i sqrt(1 - z^2))
@@ -1889,26 +1892,30 @@ arccosh(void)
 void
 arccosh_nib(void)
 {
+	double d;
 	p1 = pop();
-	if (isdouble(p1) && p1->u.d >= 1.0) {
-		push_double(acosh(p1->u.d));
-		return;
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (d >= 1.0) {
+			push_double(acosh(d));
+			return;
+		}
 	}
-	// arccosh(z) = log(z + sqrt(z^2 - 1))
+	// arccosh(z) = log(sqrt(z^2 - 1) + z)
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
 		push(p1);
 		multiply();
 		push_double(-1.0);
 		add();
-		push_rational(1, 2);
-		power();
+		sqrtfunc();
 		push(p1);
 		add();
 		logfunc();
 		return;
 	}
-	if (isequaln(p1, 1)) {
+	if (isplusone(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -2033,15 +2040,14 @@ arcsinh_nib(void)
 		push_double(asinh(p1->u.d));
 		return;
 	}
-	// arcsinh(z) = log(z + sqrt(z^2 + 1))
+	// arcsinh(z) = log(sqrt(z^2 + 1) + z)
 	if (isdoublez(p1)) {
 		push(p1);
 		push(p1);
 		multiply();
 		push_double(1.0);
 		add();
-		push_rational(1, 2);
-		power();
+		sqrtfunc();
 		push(p1);
 		add();
 		logfunc();
@@ -2258,19 +2264,20 @@ arctanh(void)
 void
 arctanh_nib(void)
 {
+	double d;
 	p1 = pop();
-	if (isequaln(p1, 1) || isequaln(p1, -1)) {
-		push_symbol(ARCTANH);
-		push(p1);
-		list(2);
-		return;
-	}
+	if (isplusone(p1) || isminusone(p1))
+		stop("arctanh");
 	if (isdouble(p1)) {
-		push_double(atanh(p1->u.d));
-		return;
+		push(p1);
+		d = pop_double();
+		if (-1.0 < d && d < 1.0) {
+			push_double(atanh(d));
+			return;
+		}
 	}
 	// arctanh(z) = 1/2 log(1 + z) - 1/2 log(1 - z)
-	if (isdoublez(p1)) {
+	if (isdouble(p1) || isdoublez(p1)) {
 		push_double(1.0);
 		push(p1);
 		add();
@@ -12833,24 +12840,21 @@ void
 logfunc_nib(void)
 {
 	int h, i;
+	double d;
 	p1 = pop();
-	// log(0), log(0.0) unchanged
-	if (iszero(p1)) {
-		push_symbol(LOG);
-		push(p1);
-		list(2);
-		return;
-	}
+	if (iszero(p1))
+		stop("log of zero");
 	if (isdouble(p1)) {
-		if (p1->u.d > 0.0)
-			push_double(log(p1->u.d));
-		else {
-			push_double(log(-p1->u.d));
+		push(p1);
+		d = pop_double();
+		if (d < 0.0) {
+			push_double(log(-d));
 			push(imaginaryunit);
 			push_double(M_PI);
 			multiply();
 			add();
-		}
+		} else
+			push_double(log(d));
 		return;
 	}
 	// log(z) -> log(mag(z)) + i arg(z)
@@ -12866,7 +12870,7 @@ logfunc_nib(void)
 		return;
 	}
 	// log(1) -> 0
-	if (isequaln(p1, 1)) {
+	if (isplusone(p1)) {
 		push_integer(0);
 		return;
 	}
