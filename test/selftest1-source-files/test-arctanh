@@ -2,29 +2,14 @@
 
 clear
 
-T = prefixform(arctanh(x))
-check(T="(arctanh x)")
+check(arctanh(0) == 0)
+check(infixform(arctanh(1)) == "arctanh(1)")
+check(infixform(arctanh(-1)) == "arctanh(-1)")
 
-T = prefixform(arctanh(tanh(x)))
-check(T="x")
+check(arctanh(tanh(x)) == x)
+check(arctanh(-x) == -arctanh(x))
 
-T = prefixform(arctanh(0))
-check(T="0")
-
-T = prefixform(arctanh(1))
-check(T="(arctanh 1)")
-
-T = prefixform(arctanh(-1))
-check(T="(arctanh -1)")
-
-T = prefixform(arctanh(0.5))
-check(T="0.549306")
-
-T = prefixform(arctanh(-0.5))
-check(T="-0.549306")
-
-T = prefixform(float(arctanh(1+i)))
-check(T="(+ 0.402359 (* 1.01722 (^ -1 1/2)))")
+-- compare intrinsic
 
 for(x,-12,12,
   d = float(arctanh(x/12)) - arctanh(float(x/12)),

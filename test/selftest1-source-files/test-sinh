@@ -6,6 +6,8 @@ check(sinh(0) == 0)
 check(sinh(-x) == -sinh(x))
 check(sinh(arcsinh(x)) == x)
 
+-- compare intrinsic
+
 for(x,-12,12,
   d = float(sinh(x/12)) - sinh(float(x/12)),
   check(abs(d) < 1.0 10^(-6))

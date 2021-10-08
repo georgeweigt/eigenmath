@@ -13,6 +13,8 @@ check(arcsin(0) == 0)
 check(arcsin(1/2) == 1/6 pi)
 check(arcsin(1) == 1/2 pi)
 
+-- compare intrinsic
+
 for(x,-12,12,
   d = float(arcsin(x/12)) - arcsin(float(x/12)),
   check(abs(d) < 1.0 10^(-6))

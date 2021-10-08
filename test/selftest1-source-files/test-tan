@@ -49,7 +49,7 @@ check(tan(-240/360 2 pi) == -sqrt(3))
 check(tan(-120/360 2 pi) == sqrt(3))
 check(tan(-300/360 2 pi) == sqrt(3))
 
--- compare with intrinsic floating point tan
+-- compare intrinsic
 
 for(n,-144,144,
   a = 5 n / 360 2 pi,

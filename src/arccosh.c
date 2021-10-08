@@ -29,7 +29,7 @@ arccosh_nib(void)
 		return;
 	}
 
-	// arccosh(z) = log(z + (z^2 - 1)^(1/2))
+	// arccosh(z) = log(z + sqrt(z^2 - 1))
 
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);

@@ -2,36 +2,24 @@
 
 clear
 
-T = prefixform(arccosh(x))
-check(T="(arccosh x)")
+check(arccosh(1) == 0)
 
-T = prefixform(arccosh(cosh(x)))
-check(T="x")
+check(arccosh(cosh(x)) == x)
 
-T = prefixform(arccosh(0))
-check(T="(arccosh 0)")
-
-T = prefixform(arccosh(1))
-check(T="0")
-
-T = prefixform(arccosh(1.0))
-check(T="0.0")
-
-T = prefixform(arccosh(-1))
-check(T="(arccosh -1)")
-
-T = prefixform(arccosh(-1.0))
-check(T="(* 3.14159 (^ -1 1/2))")
-
-T = prefixform(float(arccosh(1+i)))
-check(T="(+ 1.06128 (* 0.904557 (^ -1 1/2)))")
-
--- complex arg
+-- compare intrinsic
 
 for(x,-12,12,
   d = float(arccosh(x/12)) - arccosh(float(x/12)),
   check(abs(d) < 1.0 10^(-6))
 )
+
+-- complex arg
+
+for(x,0,3,for(y,0,3,
+  z = 1/3.0 (x + i y),
+  w = log(z + sqrt(z^2 - 1)),
+  check(abs(arccosh(z) - w) < 1.0 10^(-6))
+))
 
 z1 =  0.2 + 0.3 i
 z2 =  0.2 - 0.3 i

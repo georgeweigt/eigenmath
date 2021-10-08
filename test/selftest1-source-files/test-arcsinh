@@ -2,36 +2,25 @@
 
 clear
 
-T = prefixform(arcsinh(x))
-check(T="(arcsinh x)")
+check(arcsinh(0) == 0)
 
-T = prefixform(arcsinh(sinh(x)))
-check(T="x")
+check(arcsinh(sinh(x)) == x)
+check(arcsinh(-x) == -arcsinh(x))
 
-T = prefixform(arcsinh(0))
-check(T="0")
-
-T = prefixform(arcsinh(1))
-check(T="(arcsinh 1)")
-
-T = prefixform(arcsinh(1.0))
-check(T="0.881374")
-
-T = prefixform(arcsinh(-1))
-check(T="(* -1 (arcsinh 1))")
-
-T = prefixform(arcsinh(-1.0))
-check(T="-0.881374")
-
-T = prefixform(float(arcsinh(1+i)))
-check(T="(+ 1.06128 (* 0.666239 (^ -1 1/2)))")
-
--- complex arg
+-- compare intrinsic
 
 for(x,-12,12,
   d = float(arcsinh(x/12)) - arcsinh(float(x/12)),
   check(abs(d) < 1.0 10^(-6))
 )
+
+-- complex arg
+
+for(x,-3,3,for(y,-3,3,
+  z = 1/3.0 (x + i y),
+  w = log(z + sqrt(z^2 + 1)),
+  check(abs(arcsinh(z) - w) < 1.0 10^(-6))
+))
 
 z1 =  0.2 + 0.3 i
 z2 =  0.2 - 0.3 i

@@ -6,6 +6,8 @@ check(cosh(0) == 1)
 check(cosh(-x) == cosh(x))
 check(cosh(arccosh(x)) == x)
 
+-- compare intrinsic
+
 for(x,-12,12,
   d = float(cosh(x/12)) - cosh(float(x/12)),
   check(abs(d) < 1.0 10^(-6))

@@ -56,7 +56,7 @@ check(cos(-210/360 2 pi) == -1/2 sqrt(3))
 check(cos(-0/360 2 pi) == 1)
 check(cos(-180/360 2 pi) == -1)
 
--- compare with intrinsic floating point cos
+-- compare intrinsic
 
 for(n,-144,144,
   a = 5 n / 360 2 pi,

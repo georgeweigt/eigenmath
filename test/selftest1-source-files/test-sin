@@ -54,7 +54,7 @@ check(sin(-300/360 2 pi) == 1/2 sqrt(3))
 
 check(sin(-90/360 2 pi) == -1)
 
--- compare with intrinsic floating point sin
+-- compare intrinsic
 
 for(n,-144,144,
   a = 5 n / 360 2 pi,

@@ -1894,7 +1894,7 @@ arccosh_nib(void)
 		push_double(acosh(p1->u.d));
 		return;
 	}
-	// arccosh(z) = log(z + (z^2 - 1)^(1/2))
+	// arccosh(z) = log(z + sqrt(z^2 - 1))
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
 		push(p1);
@@ -2033,7 +2033,7 @@ arcsinh_nib(void)
 		push_double(asinh(p1->u.d));
 		return;
 	}
-	// arcsinh(z) = log(z + (z^2 + 1)^(1/2))
+	// arcsinh(z) = log(z + sqrt(z^2 + 1))
 	if (isdoublez(p1)) {
 		push(p1);
 		push(p1);
@@ -2269,7 +2269,7 @@ arctanh_nib(void)
 		push_double(atanh(p1->u.d));
 		return;
 	}
-	// arctanh(z) = 1/2 (log(1 + z) - log(1 - z))
+	// arctanh(z) = 1/2 log(1 + z) - 1/2 log(1 - z)
 	if (isdoublez(p1)) {
 		push_double(1.0);
 		push(p1);
