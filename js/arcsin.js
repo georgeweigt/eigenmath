@@ -8,7 +8,8 @@ arcsin()
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
-		push_double(Math.asin(d));
+		d = Math.asin(d);
+		push_double(d);
 		return;
 	}
 
