@@ -15,7 +15,7 @@ factor()
 			return;
 		}
 
-		if (isequaln(BASE, -1)) {
+		if (isminusone(BASE)) {
 			push(INPUT); // -1 to the M
 			return;
 		}

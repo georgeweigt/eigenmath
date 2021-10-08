@@ -1,12 +1,14 @@
 function
 arcsin()
 {
-	var p1;
+	var d, p1;
 
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		push_double(Math.asin(p1.d));
+		push(p1);
+		d = pop_double();
+		push_double(Math.asin(d));
 		return;
 	}
 
@@ -68,7 +70,7 @@ arcsin()
 
 	// arcsin(1) = 1/2 pi
 
-	if (isequaln(p1, 1)) {
+	if (isplusone(p1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();

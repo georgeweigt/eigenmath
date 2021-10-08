@@ -26,7 +26,7 @@ isdoublez(p)
 	if (car(p) != symbol(POWER))
 		return 0;
 
-	if (!isequaln(cadr(p), -1))
+	if (!isminusone(cadr(p)))
 		return 0;
 
 	if (!isequalq(caddr(p), 1, 2))
