@@ -5013,9 +5013,13 @@ void
 cosfunc_nib(void)
 {
 	int n;
+	double d;
 	p1 = pop();
 	if (isdouble(p1)) {
-		push_double(cos(p1->u.d));
+		push(p1);
+		d = pop_double();
+		d = cos(d);
+		push_double(d);
 		return;
 	}
 	// cos(z) = 1/2 exp(i z) + 1/2 exp(-i z)
@@ -5085,7 +5089,10 @@ cosfunc_nib(void)
 		return;
 	}
 	if (isdouble(p2)) {
-		push_double(cos(p2->u.d * M_PI));
+		push(p2);
+		d = pop_double();
+		d = cos(d * M_PI);
+		push_double(d);
 		return;
 	}
 	push(p2); // nonnegative by cos(-x) = cos(x) above
@@ -20001,9 +20008,13 @@ void
 sinfunc_nib(void)
 {
 	int n;
+	double d;
 	p1 = pop();
 	if (isdouble(p1)) {
-		push_double(sin(p1->u.d));
+		push(p1);
+		d = pop_double();
+		d = sin(d);
+		push_double(d);
 		return;
 	}
 	// sin(z) = -i/2 exp(i z) + i/2 exp(-i z)
@@ -20076,7 +20087,10 @@ sinfunc_nib(void)
 		return;
 	}
 	if (isdouble(p2)) {
-		push_double(sin(p2->u.d * M_PI));
+		push(p2);
+		d = pop_double();
+		d = sin(d * M_PI);
+		push_double(d);
 		return;
 	}
 	push(p2); // nonnegative by sin(-x) = -sin(x) above
@@ -20831,9 +20845,13 @@ void
 tanfunc_nib(void)
 {
 	int n;
+	double d;
 	p1 = pop();
 	if (isdouble(p1)) {
-		push_double(tan(p1->u.d));
+		push(p1);
+		d = pop_double();
+		d = tan(d);
+		push_double(d);
 		return;
 	}
 	if (isdoublez(p1)) {
@@ -20874,7 +20892,10 @@ tanfunc_nib(void)
 		return;
 	}
 	if (isdouble(p2)) {
-		push_double(tan(p2->u.d * M_PI));
+		push(p2);
+		d = pop_double();
+		d = tan(d * M_PI);
+		push_double(d);
 		return;
 	}
 	push(p2); // nonnegative by tan(-x) = -tan(x) above

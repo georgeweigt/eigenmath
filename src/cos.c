@@ -29,11 +29,15 @@ void
 cosfunc_nib(void)
 {
 	int n;
+	double d;
 
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		push_double(cos(p1->u.d));
+		push(p1);
+		d = pop_double();
+		d = cos(d);
+		push_double(d);
 		return;
 	}
 
@@ -116,7 +120,10 @@ cosfunc_nib(void)
 	}
 
 	if (isdouble(p2)) {
-		push_double(cos(p2->u.d * M_PI));
+		push(p2);
+		d = pop_double();
+		d = cos(d * M_PI);
+		push_double(d);
 		return;
 	}
 
