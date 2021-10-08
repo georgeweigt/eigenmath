@@ -233,7 +233,7 @@ factor_factor_nib(void)
 			return;
 		}
 
-		if (isequaln(BASE, -1)) {
+		if (isminusone(BASE)) {
 			push(FARG); // -1 to the M
 			return;
 		}
@@ -293,7 +293,7 @@ factor_bignum(uint32_t *a)
 	if (MLENGTH(a) > 1) {
 		// too big to factor
 		push_bignum(MPLUS, mcopy(a), mint(1));
-		if (!isequaln(EXPO, 1)) {
+		if (!isplusone(EXPO)) {
 			push_symbol(POWER);
 			swap();
 			push(EXPO);
@@ -328,7 +328,7 @@ factor_bignum(uint32_t *a)
 		multiply();
 		P = pop();
 
-		if (!isequaln(P, 1)) {
+		if (!isplusone(P)) {
 			push_symbol(POWER);
 			swap();
 			push(P);
@@ -338,7 +338,7 @@ factor_bignum(uint32_t *a)
 
 	if (n > 1) {
 		push_bignum(MPLUS, mint(n), mint(1));
-		if (!isequaln(EXPO, 1)) {
+		if (!isplusone(EXPO)) {
 			push_symbol(POWER);
 			swap();
 			push(EXPO);

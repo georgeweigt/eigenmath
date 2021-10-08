@@ -13,7 +13,7 @@ factor_number(void)
 
 	// 0 or 1?
 
-	if (isequaln(p1, 0) || isequaln(p1, 1) || isequaln(p1, -1)) {
+	if (iszero(p1) || isplusone(p1) || isminusone(p1)) {
 		push(p1);
 		restore();
 		return;
@@ -21,7 +21,7 @@ factor_number(void)
 
 	global_n = mcopy(p1->u.q.a);
 
-	if (p1->sign == MMINUS)
+	if (isnegativenumber(p1))
 		push_integer(-1);
 
 	factor_a();
