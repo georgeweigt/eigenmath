@@ -219,7 +219,7 @@ check(dot(E,B) = 0)
 --Already shown to be true by Maxwell above but do this anyway...
 check(dot(E,B) = 0)              --Check right angle
 check(dot(E,E) - dot(B,B) = 0)   --Check equal length
-"Gordon identity"
+"Gordon decomposition"
 
 clear
 

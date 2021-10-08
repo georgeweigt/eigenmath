@@ -1596,12 +1596,12 @@ cmp_terms(struct atom *p1, struct atom *p2)
 int
 is_imaginary_term(struct atom *p)
 {
-	if (car(p) == symbol(POWER) && isequaln(cadr(p), -1))
+	if (car(p) == symbol(POWER) && isminusone(cadr(p)))
 		return 1;
 	if (iscons(p)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (caar(p) == symbol(POWER) && isequaln(cadar(p), -1))
+			if (caar(p) == symbol(POWER) && isminusone(cadar(p)))
 				return 1;
 			p = cdr(p);
 		}
@@ -1849,7 +1849,7 @@ arccos_nib(void)
 		return;
 	}
 	// arccos(1) = 0
-	if (isequaln(p1, 1)) {
+	if (isplusone(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -1861,7 +1861,7 @@ arccos_nib(void)
 		return;
 	}
 	// arccos(-1) = pi
-	if (isequaln(p1, -1)) {
+	if (isminusone(p1)) {
 		push_symbol(PI);
 		return;
 	}
@@ -2002,7 +2002,7 @@ arcsin_nib(void)
 		return;
 	}
 	// arcsin(1) = 1/2 pi
-	if (isequaln(p1, 1)) {
+	if (isplusone(p1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();
@@ -2385,23 +2385,22 @@ arg1_nib(void)
 	int h;
 	p1 = pop();
 	if (isrational(p1)) {
-		if (p1->sign == MPLUS)
-			push_integer(0);
-		else {
+		if (isnegativenumber(p1)) {
 			push_symbol(PI);
 			negate();
-		}
+		} else
+			push_integer(0);
 		return;
 	}
 	if (isdouble(p1)) {
-		if (p1->u.d >= 0.0)
-			push_double(0.0);
-		else
+		if (isnegativenumber(p1))
 			push_double(-M_PI);
+		else
+			push_double(0.0);
 		return;
 	}
 	// (-1) ^ expr
-	if (car(p1) == symbol(POWER) && isequaln(cadr(p1), -1)) {
+	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
 		push(symbol(PI));
 		push(caddr(p1));
 		multiply();
@@ -4718,7 +4717,7 @@ isimaginarynumber(struct atom *p)
 int
 isimaginaryunit(struct atom *p)
 {
-	return car(p) == symbol(POWER) && isequaln(cadr(p), -1) && isequalq(caddr(p), 1, 2);
+	return car(p) == symbol(POWER) && isminusone(cadr(p)) && isequalq(caddr(p), 1, 2);
 }
 
 // p == 1/sqrt(2) ?
@@ -4734,7 +4733,7 @@ isoneoversqrttwo(struct atom *p)
 int
 isminusoneoversqrttwo(struct atom *p)
 {
-	return length(p) == 3 && car(p) == symbol(MULTIPLY) && isequaln(cadr(p), -1) && isoneoversqrttwo(caddr(p));
+	return length(p) == 3 && car(p) == symbol(MULTIPLY) && isminusone(cadr(p)) && isoneoversqrttwo(caddr(p));
 }
 
 // x + y * (-1)^(1/2) where x and y are double?
@@ -4758,7 +4757,7 @@ isdoublez(struct atom *p)
 	p = caddr(p);
 	if (car(p) != symbol(POWER))
 		return 0;
-	if (!isequaln(cadr(p), -1))
+	if (!isminusone(cadr(p)))
 		return 0;
 	if (!isequalq(caddr(p), 1, 2))
 		return 0;
@@ -7696,7 +7695,7 @@ factor_factor_nib(void)
 			push(FARG);
 			return;
 		}
-		if (isequaln(BASE, -1)) {
+		if (isminusone(BASE)) {
 			push(FARG); // -1 to the M
 			return;
 		}
@@ -7745,7 +7744,7 @@ factor_bignum(uint32_t *a)
 	if (MLENGTH(a) > 1) {
 		// too big to factor
 		push_bignum(MPLUS, mcopy(a), mint(1));
-		if (!isequaln(EXPO, 1)) {
+		if (!isplusone(EXPO)) {
 			push_symbol(POWER);
 			swap();
 			push(EXPO);
@@ -7770,7 +7769,7 @@ factor_bignum(uint32_t *a)
 		push(EXPO);
 		multiply();
 		P = pop();
-		if (!isequaln(P, 1)) {
+		if (!isplusone(P)) {
 			push_symbol(POWER);
 			swap();
 			push(P);
@@ -7779,7 +7778,7 @@ factor_bignum(uint32_t *a)
 	}
 	if (n > 1) {
 		push_bignum(MPLUS, mint(n), mint(1));
-		if (!isequaln(EXPO, 1)) {
+		if (!isplusone(EXPO)) {
 			push_symbol(POWER);
 			swap();
 			push(EXPO);
@@ -13004,7 +13003,7 @@ mag1_nib(void)
 		absfunc();
 		return;
 	}
-	if (car(p1) == symbol(POWER) && isequaln(cadr(p1), -1)) {
+	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
 		// -1 to a power
 		push_integer(1);
 		return;
@@ -15230,13 +15229,13 @@ factor_number(void)
 	save();
 	p1 = pop();
 	// 0 or 1?
-	if (isequaln(p1, 0) || isequaln(p1, 1) || isequaln(p1, -1)) {
+	if (iszero(p1) || isplusone(p1) || isminusone(p1)) {
 		push(p1);
 		restore();
 		return;
 	}
 	global_n = mcopy(p1->u.q.a);
-	if (p1->sign == MMINUS)
+	if (isnegativenumber(p1))
 		push_integer(-1);
 	factor_a();
 	restore();
