@@ -30,6 +30,9 @@ sample(F, T, t)
 	push(Y);
 	y = pop_double();
 
+	if (!isFinite(x) || !isFinite(y))
+		return;
+
 	x = DRAW_WIDTH * (x - xmin) / (xmax - xmin);
 	y = DRAW_HEIGHT * (y - ymin) / (ymax - ymin);
 

@@ -228,6 +228,9 @@ sample(double t)
 	push(p3);
 	y = pop_double();
 
+	if (!isfinite(x) || !isfinite(y))
+		return;
+
 	x = DRAW_WIDTH * (x - xmin) / (xmax - xmin);
 	y = DRAW_HEIGHT * (y - ymin) / (ymax - ymin);
 
