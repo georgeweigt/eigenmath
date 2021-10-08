@@ -13,6 +13,14 @@ To run a script:
 
 Sample scripts are available at eigenmath.org
 
+To run test scripts:
+
+	./a.out test/selftest1
+	./a.out test/selftest2
+
+If something goes wrong, "stop" is printed.
+Otherwise, all good.
+
 To generate LaTeX output:
 
 	./a.out --latex scriptfilename | tee foo.tex
