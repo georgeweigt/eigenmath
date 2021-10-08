@@ -30,7 +30,8 @@ arccosh_nib(void)
 		push(p1);
 		d = pop_double();
 		if (d >= 1.0) {
-			push_double(acosh(d));
+			d = acosh(d);
+			push_double(d);
 			return;
 		}
 	}

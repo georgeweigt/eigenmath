@@ -33,7 +33,8 @@ arctanh_nib(void)
 		push(p1);
 		d = pop_double();
 		if (-1.0 < d && d < 1.0) {
-			push_double(atanh(d));
+			d = atanh(d);
+			push_double(d);
 			return;
 		}
 	}

@@ -1899,7 +1899,8 @@ arccosh_nib(void)
 		push(p1);
 		d = pop_double();
 		if (d >= 1.0) {
-			push_double(acosh(d));
+			d = acosh(d);
+			push_double(d);
 			return;
 		}
 	}
@@ -2039,9 +2040,13 @@ arcsinh(void)
 void
 arcsinh_nib(void)
 {
+	double d;
 	p1 = pop();
 	if (isdouble(p1)) {
-		push_double(asinh(p1->u.d));
+		push(p1);
+		d = pop_double();
+		d = asinh(d);
+		push_double(d);
 		return;
 	}
 	// arcsinh(z) = log(sqrt(z^2 + 1) + z)
@@ -2276,7 +2281,8 @@ arctanh_nib(void)
 		push(p1);
 		d = pop_double();
 		if (-1.0 < d && d < 1.0) {
-			push_double(atanh(d));
+			d = atanh(d);
+			push_double(d);
 			return;
 		}
 	}

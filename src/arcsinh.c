@@ -22,10 +22,15 @@ arcsinh(void)
 void
 arcsinh_nib(void)
 {
+	double d;
+
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		push_double(asinh(p1->u.d));
+		push(p1);
+		d = pop_double();
+		d = asinh(d);
+		push_double(d);
 		return;
 	}
 
