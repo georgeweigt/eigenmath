@@ -12847,18 +12847,13 @@ logfunc_nib(void)
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
-		if (d < 0.0) {
-			push_double(log(-d));
-			push(imaginaryunit);
-			push_double(M_PI);
-			multiply();
-			add();
-		} else
+		if (d > 0.0) {
 			push_double(log(d));
-		return;
+			return;
+		}
 	}
 	// log(z) -> log(mag(z)) + i arg(z)
-	if (isdoublez(p1)) {
+	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
 		mag();
 		logfunc();
