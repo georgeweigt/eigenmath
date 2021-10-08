@@ -87,3 +87,8 @@ clear
 f(x) = 1/x
 g(x) = f(x)
 draw(g)
+
+-- check that inf is handled (log(0.0), arctanh(1.0), etc.)
+
+draw(arctanh(x))
+draw(log(x))

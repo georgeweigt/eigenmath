@@ -1,29 +1,21 @@
 function
 log()
 {
-	var h, i, n, p1, p2;
+	var d, h, i, n, p1, p2;
 
 	p1 = pop();
 
-	// log(0), log(0.0) unchanged
-
-	if (iszero(p1)) {
-		push_symbol(LOG);
-		push(p1);
-		list(2);
-		return;
-	}
-
 	if (isdouble(p1)) {
-		if (p1.d > 0.0)
-			push_double(Math.log(p1.d));
-		else {
-			push_double(Math.log(-p1.d));
+		push(p1);
+		d = pop_double();
+		if (d < 0) {
+			push_double(Math.log(-d));
 			push(imaginaryunit);
 			push_double(Math.PI);
 			multiply();
 			add();
-		}
+		} else
+			push_double(Math.log(d));
 		return;
 	}
 

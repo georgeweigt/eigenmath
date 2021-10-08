@@ -23,28 +23,21 @@ void
 logfunc_nib(void)
 {
 	int h, i;
+	double d;
 
 	p1 = pop();
 
-	// log(0), log(0.0) unchanged
-
-	if (iszero(p1)) {
-		push_symbol(LOG);
-		push(p1);
-		list(2);
-		return;
-	}
-
 	if (isdouble(p1)) {
-		if (p1->u.d > 0.0)
-			push_double(log(p1->u.d));
-		else {
-			push_double(log(-p1->u.d));
+		push(p1);
+		d = pop_double();
+		if (d < 0.0) {
+			push_double(log(-d));
 			push(imaginaryunit);
 			push_double(M_PI);
 			multiply();
 			add();
-		}
+		} else
+			push_double(log(d));
 		return;
 	}
 
@@ -64,7 +57,7 @@ logfunc_nib(void)
 
 	// log(1) -> 0
 
-	if (isequaln(p1, 1)) {
+	if (isplusone(p1)) {
 		push_integer(0);
 		return;
 	}
