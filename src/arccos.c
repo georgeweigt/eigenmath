@@ -22,10 +22,14 @@ arccos(void)
 void
 arccos_nib(void)
 {
+	double d;
+
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		push_double(acos(p1->u.d));
+		push(p1);
+		d = pop_double();
+		push_double(acos(d));
 		return;
 	}
 

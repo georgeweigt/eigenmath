@@ -22,14 +22,20 @@ arccosh(void)
 void
 arccosh_nib(void)
 {
+	double d;
+
 	p1 = pop();
 
-	if (isdouble(p1) && p1->u.d >= 1.0) {
-		push_double(acosh(p1->u.d));
-		return;
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (d >= 1.0) {
+			push_double(acosh(d));
+			return;
+		}
 	}
 
-	// arccosh(z) = log(z + sqrt(z^2 - 1))
+	// arccosh(z) = log(sqrt(z^2 - 1) + z)
 
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
@@ -37,15 +43,14 @@ arccosh_nib(void)
 		multiply();
 		push_double(-1.0);
 		add();
-		push_rational(1, 2);
-		power();
+		sqrtfunc();
 		push(p1);
 		add();
 		logfunc();
 		return;
 	}
 
-	if (isequaln(p1, 1)) {
+	if (isplusone(p1)) {
 		push_integer(0);
 		return;
 	}

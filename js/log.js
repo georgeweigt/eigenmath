@@ -5,6 +5,9 @@ log()
 
 	p1 = pop();
 
+	if (iszero(p1))
+		stopf("log of zero");
+
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();

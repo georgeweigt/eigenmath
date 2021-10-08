@@ -1,16 +1,25 @@
 function
 arctanh()
 {
-	var p1 = pop();
+	var d, p1;
+
+	p1 = pop();
+
+	if (isplusone(p1) || isminusone(p1))
+		stopf("arctanh");
 
 	if (isdouble(p1)) {
-		push_double(Math.atanh(p1.d));
-		return;
+		push(p1);
+		d = pop_double();
+		if (-1 < d && d < 1) {
+			push_double(Math.atanh(d));
+			return;
+		}
 	}
 
 	// arctanh(z) = 1/2 log(1 + z) - 1/2 log(1 - z)
 
-	if (isdoublez(p1)) {
+	if (isdouble(p1) || isdoublez(p1)) {
 		push_double(1.0);
 		push(p1);
 		add();

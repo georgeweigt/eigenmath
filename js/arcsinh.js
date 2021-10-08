@@ -1,14 +1,18 @@
 function
 arcsinh()
 {
-	var p1 = pop();
+	var d, p1;
+
+	p1 = pop();
 
 	if (isdouble(p1)) {
-		push_double(Math.asinh(p1.d));
+		push(p1);
+		d = pop_double();
+		push_double(Math.asinh(d));
 		return;
 	}
 
-	// arcsinh(z) = log(z + sqrt(z^2 + 1))
+	// arcsinh(z) = log(sqrt(z^2 + 1) + z)
 
 	if (isdoublez(p1)) {
 		push(p1);
@@ -16,8 +20,7 @@ arcsinh()
 		multiply();
 		push_double(1.0);
 		add();
-		push_rational(1, 2);
-		power();
+		sqrtfunc();
 		push(p1);
 		add();
 		log();

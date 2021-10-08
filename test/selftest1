@@ -470,7 +470,7 @@ for(x,-12,12,
 
 -- complex arg
 
-for(x,-3,3,for(y,-3,3,
+for(x,-2,2,for(y,-2,2,
   z = 1/3.0 (x + i y),
   w = -i log(z + i sqrt(1 - z^2)),
   check(abs(arccos(z) - w) < 1.0 10^(-6))
@@ -636,7 +636,7 @@ for(y,-12,12,for(x,-12,12,
 
 for(x,-3,3,for(y,-3,3,
   z = 1/3.0 (x + i y),
-  test(i + z, do(
+  test(and(i - z,i + z),do(
     w = -1/2 i log((i - z) / (i + z)),
     check(abs(arctan(z) - w) < 1.0 10^(-6))
   ))
@@ -1614,24 +1614,30 @@ check(kronecker(A,B) == C)
 
 clear
 
--- test log of zero
+check(log(exp(x)) == x)
 
-T = log(0)
-check(infixform(T)="log(0)")
+-- compare intrinsic
 
--- test log of complex number
+for(x,1,10,
+  d = float(log(x/3)) - log(float(x/3)),
+  check(abs(d) < 1.0 10^(-6))
+)
 
-T = log(1 + i)
-check(infixform(T)="log(1 + i)")
+-- negative arg
 
-T = float(log(1 + i))
-check(infixform(T)="0.346574 + 0.785398 i")
+check(abs(exp(log(-0.7)) + 0.7) < 1.0 10^(-6))
 
-T = log(0.5)
-check(infixform(T)="-0.693147")
+-- complex arg
 
-T = log(-0.5)
-check(infixform(T)="-0.693147 + 3.14159 i")
+z1 =  0.2 + 0.3 i
+z2 =  0.2 - 0.3 i
+z3 = -0.2 + 0.3 i
+z4 = -0.2 - 0.3 i
+
+check(infixform(exp(log(z1))) == infixform(z1))
+check(infixform(exp(log(z2))) == infixform(z2))
+check(infixform(exp(log(z3))) == infixform(z3))
+check(infixform(exp(log(z4))) == infixform(z4))
 "Testing minor"
 
 clear

@@ -29,7 +29,7 @@ arcsinh_nib(void)
 		return;
 	}
 
-	// arcsinh(z) = log(z + sqrt(z^2 + 1))
+	// arcsinh(z) = log(sqrt(z^2 + 1) + z)
 
 	if (isdoublez(p1)) {
 		push(p1);
@@ -37,8 +37,7 @@ arcsinh_nib(void)
 		multiply();
 		push_double(1.0);
 		add();
-		push_rational(1, 2);
-		power();
+		sqrtfunc();
 		push(p1);
 		add();
 		logfunc();

@@ -27,6 +27,9 @@ logfunc_nib(void)
 
 	p1 = pop();
 
+	if (iszero(p1))
+		stop("log of zero");
+
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
