@@ -1625,7 +1625,10 @@ for(x,1,10,
 
 -- negative arg
 
-check(abs(exp(log(-0.7)) + 0.7) < 1.0 10^(-6))
+for(x,1,10,
+  d = exp(log(-x/3.0)) + x/3.0,
+  check(abs(d) < 1.0 10^(-6))
+)
 
 -- complex arg
 

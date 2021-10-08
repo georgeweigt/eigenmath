@@ -11,20 +11,15 @@ log()
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
-		if (d < 0) {
-			push_double(Math.log(-d));
-			push(imaginaryunit);
-			push_double(Math.PI);
-			multiply();
-			add();
-		} else
+		if (d > 0) {
 			push_double(Math.log(d));
-		return;
+			return;
+		}
 	}
 
 	// log(z) -> log(mag(z)) + i arg(z)
 
-	if (isdoublez(p1)) {
+	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
 		mag();
 		log();
