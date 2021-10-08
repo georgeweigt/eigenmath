@@ -493,7 +493,6 @@ check(infixform(arccos(cos(z4))) == infixform(z1)) -- because cos(-x) = cos(x)
 clear
 
 check(arccosh(1) == 0)
-
 check(arccosh(cosh(x)) == x)
 
 -- compare intrinsic
@@ -567,7 +566,6 @@ check(infixform(arcsin(sin(z4))) == infixform(z4))
 clear
 
 check(arcsinh(0) == 0)
-
 check(arcsinh(sinh(x)) == x)
 check(arcsinh(-x) == -arcsinh(x))
 
@@ -658,9 +656,6 @@ check(infixform(arctan(tan(z4))) == infixform(z4))
 clear
 
 check(arctanh(0) == 0)
-check(infixform(arctanh(1)) == "arctanh(1)")
-check(infixform(arctanh(-1)) == "arctanh(-1)")
-
 check(arctanh(tanh(x)) == x)
 check(arctanh(-x) == -arctanh(x))
 

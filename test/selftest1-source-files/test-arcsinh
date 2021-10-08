@@ -3,7 +3,6 @@
 clear
 
 check(arcsinh(0) == 0)
-
 check(arcsinh(sinh(x)) == x)
 check(arcsinh(-x) == -arcsinh(x))
 

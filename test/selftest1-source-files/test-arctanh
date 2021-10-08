@@ -3,9 +3,6 @@
 clear
 
 check(arctanh(0) == 0)
-check(infixform(arctanh(1)) == "arctanh(1)")
-check(infixform(arctanh(-1)) == "arctanh(-1)")
-
 check(arctanh(tanh(x)) == x)
 check(arctanh(-x) == -arctanh(x))
 
