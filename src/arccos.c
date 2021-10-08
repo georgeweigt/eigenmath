@@ -29,7 +29,8 @@ arccos_nib(void)
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
-		push_double(acos(d));
+		d = acos(d);
+		push_double(d);
 		return;
 	}
 

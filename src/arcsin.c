@@ -22,10 +22,15 @@ arcsin(void)
 void
 arcsin_nib(void)
 {
+	double d;
+
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		push_double(asin(p1->u.d));
+		push(p1);
+		d = pop_double();
+		d = asin(d);
+		push_double(d);
 		return;
 	}
 
@@ -42,8 +47,7 @@ arcsin_nib(void)
 		push(p1);
 		multiply();
 		subtract();
-		push_rational(1, 2);
-		power();
+		sqrtfunc();
 		add();
 		logfunc();
 		multiply();
