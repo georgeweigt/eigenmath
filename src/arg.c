@@ -83,26 +83,25 @@ arg1_nib(void)
 	p1 = pop();
 
 	if (isrational(p1)) {
-		if (p1->sign == MPLUS)
-			push_integer(0);
-		else {
+		if (isnegativenumber(p1)) {
 			push_symbol(PI);
 			negate();
-		}
+		} else
+			push_integer(0);
 		return;
 	}
 
 	if (isdouble(p1)) {
-		if (p1->u.d >= 0.0)
-			push_double(0.0);
-		else
+		if (isnegativenumber(p1))
 			push_double(-M_PI);
+		else
+			push_double(0.0);
 		return;
 	}
 
 	// (-1) ^ expr
 
-	if (car(p1) == symbol(POWER) && isequaln(cadr(p1), -1)) {
+	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
 		push(symbol(PI));
 		push(caddr(p1));
 		multiply();

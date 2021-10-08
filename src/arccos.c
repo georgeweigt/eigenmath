@@ -91,7 +91,7 @@ arccos_nib(void)
 
 	// arccos(1) = 0
 
-	if (isequaln(p1, 1)) {
+	if (isplusone(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -107,7 +107,7 @@ arccos_nib(void)
 
 	// arccos(-1) = pi
 
-	if (isequaln(p1, -1)) {
+	if (isminusone(p1)) {
 		push_symbol(PI);
 		return;
 	}

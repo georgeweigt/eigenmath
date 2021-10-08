@@ -87,7 +87,7 @@ arcsin_nib(void)
 
 	// arcsin(1) = 1/2 pi
 
-	if (isequaln(p1, 1)) {
+	if (isplusone(p1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();

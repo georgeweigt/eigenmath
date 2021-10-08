@@ -499,7 +499,7 @@ isimaginarynumber(struct atom *p)
 int
 isimaginaryunit(struct atom *p)
 {
-	return car(p) == symbol(POWER) && isequaln(cadr(p), -1) && isequalq(caddr(p), 1, 2);
+	return car(p) == symbol(POWER) && isminusone(cadr(p)) && isequalq(caddr(p), 1, 2);
 }
 
 // p == 1/sqrt(2) ?
@@ -515,7 +515,7 @@ isoneoversqrttwo(struct atom *p)
 int
 isminusoneoversqrttwo(struct atom *p)
 {
-	return length(p) == 3 && car(p) == symbol(MULTIPLY) && isequaln(cadr(p), -1) && isoneoversqrttwo(caddr(p));
+	return length(p) == 3 && car(p) == symbol(MULTIPLY) && isminusone(cadr(p)) && isoneoversqrttwo(caddr(p));
 }
 
 // x + y * (-1)^(1/2) where x and y are double?
@@ -548,7 +548,7 @@ isdoublez(struct atom *p)
 	if (car(p) != symbol(POWER))
 		return 0;
 
-	if (!isequaln(cadr(p), -1))
+	if (!isminusone(cadr(p)))
 		return 0;
 
 	if (!isequalq(caddr(p), 1, 2))
