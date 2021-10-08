@@ -1,12 +1,15 @@
 function
 tan()
 {
-	var n, p1, p2;
+	var d, n, p1, p2;
 
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		push_double(Math.tan(p1.d));
+		push(p1);
+		d = pop_double();
+		d = Math.tan(d);
+		push_double(d);
 		return;
 	}
 
@@ -56,7 +59,10 @@ tan()
 	}
 
 	if (isdouble(p2)) {
-		push_double(Math.tan(p2.d * Math.PI));
+		push(p2);
+		d = pop_double();
+		d = Math.tan(d * Math.PI);
+		push_double(d);
 		return;
 	}
 

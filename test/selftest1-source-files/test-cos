@@ -71,3 +71,11 @@ for(x,-3,3,for(y,-3,3,
   w = 1/2 exp(i z) + 1/2 exp(-i z),
   check(abs(cos(z) - w) < 1.0 10^(-6))
 ))
+
+-- implicit float pi
+
+for(x,-1,1,
+  a = infixform(cos(x pi / 3.0)),
+  b = infixform(cos(x float(pi) / 3.0)),
+  check(a == b)
+)

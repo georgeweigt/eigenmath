@@ -1235,6 +1235,14 @@ for(x,-3,3,for(y,-3,3,
   w = 1/2 exp(i z) + 1/2 exp(-i z),
   check(abs(cos(z) - w) < 1.0 10^(-6))
 ))
+
+-- implicit float pi
+
+for(x,-1,1,
+  a = infixform(cos(x pi / 3.0)),
+  b = infixform(cos(x float(pi) / 3.0)),
+  check(a == b)
+)
 "Testing cosh"
 
 clear
@@ -1979,6 +1987,14 @@ for(x,-3,3,for(y,-3,3,
   w = -i/2 exp(i z) + i/2 exp(-i z),
   check(abs(sin(z) - w) < 1.0 10^(-6))
 ))
+
+-- implicit float pi
+
+for(x,-1,1,
+  a = infixform(sin(x pi / 3.0)),
+  b = infixform(sin(x float(pi) / 3.0)),
+  check(a == b)
+)
 "Testing sinh"
 
 clear
@@ -2069,6 +2085,14 @@ for(x,-3,3,for(y,-3,3,
     check(abs(tan(z) - w) < 1.0 10^(-6))
   ))
 ))
+
+-- implicit float pi
+
+for(x,-1,1,
+  a = infixform(tan(x pi / 3.0)),
+  b = infixform(tan(x float(pi) / 3.0)),
+  check(a == b)
+)
 "Testing tanh"
 
 clear

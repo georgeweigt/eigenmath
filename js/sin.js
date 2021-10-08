@@ -1,12 +1,15 @@
 function
 sin()
 {
-	var n, p1, p2, X, Y;
+	var d, n, p1, p2, X, Y;
 
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		push_double(Math.sin(p1.d));
+		push(p1);
+		d = pop_double();
+		d = Math.sin(d);
+		push_double(d);
 		return;
 	}
 
@@ -92,7 +95,10 @@ sin()
 	}
 
 	if (isdouble(p2)) {
-		push_double(Math.sin(p2.d * Math.PI));
+		push(p2);
+		d = pop_double();
+		d = Math.sin(d * Math.PI);
+		push_double(d);
 		return;
 	}
 
