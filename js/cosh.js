@@ -1,11 +1,21 @@
 function
 cosh()
 {
-	var p1 = pop();
+	var d, p1;
+
+	p1 = pop();
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = Math.cosh(d);
+		push_double(d);
+		return;
+	}
 
 	// cosh(z) = 1/2 exp(z) + 1/2 exp(-z)
 
-	if (isdouble(p1) || isdoublez(p1)) {
+	if (isdoublez(p1)) {
 		push_rational(1, 2);
 		push(p1);
 		exp();

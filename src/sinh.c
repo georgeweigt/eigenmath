@@ -22,7 +22,17 @@ sinhfunc(void)
 void
 sinhfunc_nib(void)
 {
+	double d;
+
 	p1 = pop();
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = sinh(d);
+		push_double(d);
+		return;
+	}
 
 	// sinh(z) = 1/2 exp(z) - 1/2 exp(-z)
 

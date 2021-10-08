@@ -12,7 +12,8 @@ arctanh()
 		push(p1);
 		d = pop_double();
 		if (-1 < d && d < 1) {
-			push_double(Math.atanh(d));
+			d = Math.atanh(d);
+			push_double(d);
 			return;
 		}
 	}

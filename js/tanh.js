@@ -1,9 +1,19 @@
 function
 tanh()
 {
-	var p1 = pop();
+	var d, p1;
 
-	if (isdouble(p1) || isdoublez(p1)) {
+	p1 = pop();
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = Math.tanh(d);
+		push_double(d);
+		return;
+	}
+
+	if (isdoublez(p1)) {
 		push(p1);
 		sinh();
 		push(p1);

@@ -8,8 +8,9 @@ arccosh()
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
-		if (d >= 1.0) {
-			push_double(Math.acosh(d));
+		if (d >= 1) {
+			d = Math.acosh(d);
+			push_double(d);
 			return;
 		}
 	}

@@ -22,9 +22,19 @@ tanhfunc(void)
 void
 tanhfunc_nib(void)
 {
+	double d;
+
 	p1 = pop();
 
-	if (isdouble(p1) || isdoublez(p1)) {
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = tanh(d);
+		push_double(d);
+		return;
+	}
+
+	if (isdoublez(p1)) {
 		push(p1);
 		sinhfunc();
 		push(p1);

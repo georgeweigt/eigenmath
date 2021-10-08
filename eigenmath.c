@@ -5232,9 +5232,17 @@ coshfunc(void)
 void
 coshfunc_nib(void)
 {
+	double d;
 	p1 = pop();
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = cosh(d);
+		push_double(d);
+		return;
+	}
 	// cosh(z) = 1/2 exp(z) + 1/2 exp(-z)
-	if (isdouble(p1) || isdoublez(p1)) {
+	if (isdoublez(p1)) {
 		push_rational(1, 2);
 		push(p1);
 		expfunc();
@@ -20230,7 +20238,15 @@ sinhfunc(void)
 void
 sinhfunc_nib(void)
 {
+	double d;
 	p1 = pop();
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = sinh(d);
+		push_double(d);
+		return;
+	}
 	// sinh(z) = 1/2 exp(z) - 1/2 exp(-z)
 	if (isdouble(p1) || isdoublez(p1)) {
 		push_rational(1, 2);
@@ -21013,8 +21029,16 @@ tanhfunc(void)
 void
 tanhfunc_nib(void)
 {
+	double d;
 	p1 = pop();
-	if (isdouble(p1) || isdoublez(p1)) {
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = tanh(d);
+		push_double(d);
+		return;
+	}
+	if (isdoublez(p1)) {
 		push(p1);
 		sinhfunc();
 		push(p1);
