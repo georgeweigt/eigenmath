@@ -8,14 +8,16 @@ arccos()
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
-		d = Math.acos(d);
-		push_double(d);
-		return;
+		if (-1 <= d && d <= 1) {
+			d = Math.acos(d);
+			push_double(d);
+			return;
+		}
 	}
 
 	// arccos(z) = -i log(z + i sqrt(1 - z^2))
 
-	if (isdoublez(p1)) {
+	if (isdouble(p1) || isdoublez(p1)) {
 		push_double(1.0);
 		push(p1);
 		push(p1);

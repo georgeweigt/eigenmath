@@ -29,14 +29,16 @@ arcsin_nib(void)
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
-		d = asin(d);
-		push_double(d);
-		return;
+		if (-1.0 <= d && d <= 1.0) {
+			d = asin(d);
+			push_double(d);
+			return;
+		}
 	}
 
 	// arcsin(z) = -i log(i z + sqrt(1 - z^2))
 
-	if (isdoublez(p1)) {
+	if (isdouble(p1) || isdoublez(p1)) {
 		push(imaginaryunit);
 		negate();
 		push(imaginaryunit);
