@@ -51,9 +51,8 @@ check(tan(-300/360 2 pi) == sqrt(3))
 
 -- compare intrinsic
 
-for(n,-144,144,
-  a = 5 n / 360 2 pi,
-  d = float(tan(a)) - tan(float(a)),
+for(x,-720,720,
+  d = float(tan(pi x / 360)) - tan(float(pi x / 360)),
   check(abs(d) < 1.0 10^(-6))
 )
 

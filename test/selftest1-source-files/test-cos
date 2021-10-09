@@ -58,9 +58,8 @@ check(cos(-180/360 2 pi) == -1)
 
 -- compare intrinsic
 
-for(n,-144,144,
-  a = 5 n / 360 2 pi,
-  d = float(cos(a)) - cos(float(a)),
+for(x,-720,720,
+  d = float(cos(pi x / 360)) - cos(float(pi x / 360)),
   check(abs(d) < 1.0 10^(-6))
 )
 
