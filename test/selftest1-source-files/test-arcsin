@@ -38,7 +38,7 @@ check(infixform(arcsin(sin(z2))) == infixform(z2))
 check(infixform(arcsin(sin(z3))) == infixform(z3))
 check(infixform(arcsin(sin(z4))) == infixform(z4))
 
--- test domain beyond (-1,1)
+-- test domain beyond [-1,1]
 
 for(x,-10,10,
   d = sin(arcsin(x/3.0)) - x/3.0,

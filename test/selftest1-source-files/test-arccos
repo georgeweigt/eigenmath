@@ -39,7 +39,7 @@ check(infixform(arccos(cos(z2))) == infixform(z2))
 check(infixform(arccos(cos(z3))) == infixform(z2)) -- because cos(-x) = cos(x)
 check(infixform(arccos(cos(z4))) == infixform(z1)) -- because cos(-x) = cos(x)
 
--- test domain beyond (-1,1)
+-- test domain beyond [-1,1]
 
 for(x,-10,10,
   d = cos(arccos(x/3.0)) - x/3.0,
