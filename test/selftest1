@@ -488,6 +488,13 @@ check(infixform(arccos(cos(z1))) == infixform(z1))
 check(infixform(arccos(cos(z2))) == infixform(z2))
 check(infixform(arccos(cos(z3))) == infixform(z2)) -- because cos(-x) = cos(x)
 check(infixform(arccos(cos(z4))) == infixform(z1)) -- because cos(-x) = cos(x)
+
+-- test domain beyond (-1,1)
+
+for(x,-10,10,
+  d = cos(arccos(x/3.0)) - x/3.0,
+  check(abs(d) < 1.0 10^(-6))
+)
 "Testing arccosh"
 
 clear
@@ -561,6 +568,13 @@ check(infixform(arcsin(sin(z1))) == infixform(z1))
 check(infixform(arcsin(sin(z2))) == infixform(z2))
 check(infixform(arcsin(sin(z3))) == infixform(z3))
 check(infixform(arcsin(sin(z4))) == infixform(z4))
+
+-- test domain beyond (-1,1)
+
+for(x,-10,10,
+  d = sin(arcsin(x/3.0)) - x/3.0,
+  check(abs(d) < 1.0 10^(-6))
+)
 "Testing arcsinh"
 
 clear
