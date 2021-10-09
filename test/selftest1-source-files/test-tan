@@ -5,6 +5,8 @@ clear
 check(tan(-x) == -tan(x))
 check(tan(arctan(y,x)) == y / x)
 
+-- special angles
+
 check(tan(0/360 2 pi) == 0)
 check(tan(180/360 2 pi) == 0)
 
@@ -26,7 +28,7 @@ check(tan(240/360 2 pi) == sqrt(3))
 check(tan(120/360 2 pi) == -sqrt(3))
 check(tan(300/360 2 pi) == -sqrt(3))
 
--- negative angles
+-- negative
 
 check(tan(-0/360 2 pi) == 0)
 check(tan(-180/360 2 pi) == 0)
@@ -52,7 +54,7 @@ check(tan(-300/360 2 pi) == sqrt(3))
 -- compare intrinsic
 
 for(x,-720,720,
-  d = float(tan(pi x / 360)) - tan(float(pi x / 360)),
+  d = float(tan(2 pi x / 360)) - tan(float(2 pi x / 360)),
   check(abs(d) < 1.0 10^(-6))
 )
 

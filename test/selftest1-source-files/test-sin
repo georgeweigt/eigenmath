@@ -6,6 +6,8 @@ check(sin(-x) == -sin(x))
 check(sin(arctan(y,x)) == y (x^2 + y^2)^(-1/2))
 check(sin(arccos(x)) == sqrt(1 - x^2))
 
+-- special angles
+
 check(sin(0/360 2 pi) == 0)
 check(sin(180/360 2 pi) == 0)
 
@@ -29,7 +31,7 @@ check(sin(300/360 2 pi) == -1/2 sqrt(3))
 
 check(sin(90/360 2 pi) == 1)
 
--- negative angles
+-- negative
 
 check(sin(-0/360 2 pi) == 0)
 check(sin(-180/360 2 pi) == 0)
@@ -57,7 +59,7 @@ check(sin(-90/360 2 pi) == -1)
 -- compare intrinsic
 
 for(x,-720,720,
-  d = float(sin(pi x / 360)) - sin(float(pi x / 360)),
+  d = float(sin(2 pi x / 360)) - sin(float(2 pi x / 360)),
   check(abs(d) < 1.0 10^(-6))
 )
 
