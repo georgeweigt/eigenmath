@@ -1,0 +1,11 @@
+"Testing conj"
+
+clear
+
+z = sqrt(i)
+A = z conj(z)
+check(A == 1)
+
+z = (-1)^a
+A = z conj(z)
+check(A == 1)

@@ -11,6 +11,10 @@ check(log(1/3) + log(3) == 0)
 check(log(-1) == i pi)
 check(infixform(log(-1.0)) == "-3.14159 i")
 
+-- log of number is factored
+
+check(infixform(log(1/10)) = "-log(2) - log(5)")
+
 -- compare intrinsic
 
 for(x,1,10,

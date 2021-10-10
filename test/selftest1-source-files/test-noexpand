@@ -1,0 +1,8 @@
+"Testing noexpand"
+
+clear
+
+A = ((a^2 - lambda,0,0),(0,b^2 - lambda,0),(0,0,c^2 - lambda))
+B = ((1 / (a^2 - lambda),0,0),(0,1 / (b^2 - lambda),0),(0,0,1 / (c^2 - lambda)))
+check(noexpand(inv(A)) == B)
+check(noexpand(adj(A)/det(A)) == B)

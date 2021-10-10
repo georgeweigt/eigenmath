@@ -20,3 +20,11 @@ check(T == 1/48 pi)
 f = 3 r^3 cos(theta)^2 + 3 r^3 sin(theta)^2
 T = defint(f,r,0,1,theta,0,2pi)
 check(T == 3/2 pi)
+
+-- verify that defint works in a denominator
+
+clear
+
+I(y) = defint((1 + cos(theta)^2) sin(theta),theta,0,y)
+A = I(theta) / I(pi)
+check(A = -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2)

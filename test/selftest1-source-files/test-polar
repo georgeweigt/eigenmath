@@ -10,3 +10,8 @@ T = polar(-1-i)
 check(T = -2^(1/2)*exp(1/4*i*pi))
 T = polar(1-i)
 check(T = -2^(1/2)*i*exp(1/4*i*pi))
+
+check(infixform(polar(2 + 3 i)) == "13^(1/2) exp(i arctan(3,2))")
+check(infixform(polar(2 - 3 i)) == "13^(1/2) exp(-i arctan(3,2))")
+check(infixform(polar(-2 + 3 i)) == "13^(1/2) exp(i arctan(3,-2))")
+check(infixform(polar(-2 - 3 i)) == "13^(1/2) exp(-i arctan(3,-2))")
