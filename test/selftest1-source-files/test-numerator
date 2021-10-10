@@ -1,0 +1,14 @@
+"Testing numerator"
+
+clear
+
+T = numerator(2/3)
+check(T = 2) 
+T = numerator(x)
+check(T = x) 
+T = numerator(1/x)
+check(T = 1) 
+T = numerator(a+b)
+check(T = a+b) 
+T = numerator(1/a+1/b)
+check(T = a+b)
