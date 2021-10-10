@@ -1,0 +1,12 @@
+"Testing polar"
+
+clear
+
+T = polar(1+i)
+check(T = 2^(1/2)*exp(1/4*i*pi))
+T = polar(-1+i)
+check(T = 2^(1/2)*i*exp(1/4*i*pi))
+T = polar(-1-i)
+check(T = -2^(1/2)*exp(1/4*i*pi))
+T = polar(1-i)
+check(T = -2^(1/2)*i*exp(1/4*i*pi))

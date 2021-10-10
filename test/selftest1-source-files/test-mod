@@ -2,5 +2,9 @@
 
 clear
 
--- uses fmod for test reference
-for(a,-20,20,for(b,-20,20,test(b = 0,b = 1),check(mod(a/4,b/4) = mod(a/4.0,b/4.0))))
+-- compare intrinsic
+
+for(a,-20,20,for(b,-20,20,
+  test(b = 0,b = 1),
+  check(mod(a/4,b/4) = mod(a/4.0,b/4.0))
+))
