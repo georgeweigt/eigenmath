@@ -1,0 +1,12 @@
+"Testing floor"
+
+clear
+
+check(infixform(floor(x)) == "floor(x)")
+
+-- compare intrinsic
+
+for(x,-10,10,
+  d = float(floor(x/3)) - floor(float(x/3)),
+  check(abs(d) < 1.0 10^(-6))
+)

@@ -13,6 +13,11 @@ floor()
 
 	p = pop();
 
+	if (isinteger(p)) {
+		push(p);
+		return;
+	}
+
 	if (isrational(p)) {
 		a = bignum_div(p.a, p.b);
 		b = bignum_int(1);

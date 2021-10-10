@@ -1,0 +1,5 @@
+"Testing choose"
+
+clear
+
+check(choose(52,5) == 2598960)

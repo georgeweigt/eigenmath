@@ -1,0 +1,12 @@
+"Testing ceiling"
+
+clear
+
+check(infixform(ceiling(x)) == "ceiling(x)")
+
+-- compare intrinsic
+
+for(x,-10,10,
+  d = float(ceiling(x/3)) - ceiling(float(x/3)),
+  check(abs(d) < 1.0 10^(-6))
+)
