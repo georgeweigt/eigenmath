@@ -22,32 +22,37 @@ floorfunc(void)
 void
 floorfunc_nib(void)
 {
+	uint32_t *a, *b;
 	double d;
 
 	p1 = pop();
-
-	if (!isnum(p1)) {
-		push_symbol(FLOOR);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		d = floor(p1->u.d);
-		push_double(d);
-		return;
-	}
 
 	if (isinteger(p1)) {
 		push(p1);
 		return;
 	}
 
-	push_bignum(p1->sign, mdiv(p1->u.q.a, p1->u.q.b), mint(1));
-
-	if (p1->sign == MMINUS) {
-		push_integer(-1);
-		add();
+	if (isrational(p1)) {
+		a = mdiv(p1->u.q.a, p1->u.q.b);
+		b = mint(1);
+		if (isnegativenumber(p1)) {
+			push_bignum(MMINUS, a, b);
+			push_integer(-1);
+			add();
+		} else
+			push_bignum(MPLUS, a, b);
+		return;
 	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = floor(d);
+		push_double(d);
+		return;
+	}
+
+	push_symbol(FLOOR);
+	push(p1);
+	list(2);
 }
