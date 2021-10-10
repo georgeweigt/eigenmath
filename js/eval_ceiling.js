@@ -9,32 +9,37 @@ eval_ceiling(p1)
 function
 ceiling()
 {
-	var a, b, p;
+	var a, b, d, p1;
 
-	p = pop();
+	p1 = pop();
 
-	if (isinteger(p)) {
-		push(p);
+	if (isinteger(p1)) {
+		push(p1);
 		return;
 	}
 
-	if (isrational(p)) {
-		a = bignum_div(p.a, p.b);
+	if (isrational(p1)) {
+		a = bignum_div(p1.a, p1.b);
 		b = bignum_int(1);
-		push_bignum(p.sign, a, b);
-		if (!isnegativenumber(p)) {
+		if (isnegativenumber(p1))
+			push_bignum(-1, a, b);
+		else {
+			push_bignum(1, a, b);
 			push_integer(1);
 			add();
 		}
 		return;
 	}
 
-	if (isdouble(p)) {
-		push_double(Math.ceil(p.d));
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = Math.ceil(d);
+		push_double(d);
 		return;
 	}
 
 	push_symbol(CEILING);
-	push(p);
+	push(p1);
 	list(2);
 }
