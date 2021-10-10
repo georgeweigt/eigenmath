@@ -840,8 +840,6 @@ check(sum(k,1,3,A) = 12)
 tan(b-a)
 check(last = -tan(a-b))
 
-
-
 x=quote(x)
 taylor(1/(5+4*cos(x)),x,6,0)-(1/9+2/81*x^2+5/1458*x^4+49/131220*x^6)
 check(last = 0)
@@ -854,67 +852,16 @@ check(last = 2)
 check(last = ((1,2,3),(4,5,6),(7,8,9)))
 ((1,0),(0,0))
 check(last = ((1,0),(0,0)))
-a=quote(a)
-b=quote(b)
-c=quote(c)
-1==1
-check(last = 1)
-1==2
-check(last = 0)
-1>=1
-check(last = 1)
-1>=2
-check(last = 0)
-2>=1
-check(last = 1)
-1>1
-check(last = 0)
-1>2
-check(last = 0)
-2>1
-check(last = 1)
-1<=1
-check(last = 1)
-1<=2
-check(last = 1)
-2<=1
-check(last = 0)
-1<1
-check(last = 0)
-1<2
-check(last = 1)
-2<1
-check(last = 0)
+
+clear
+
 test(0,A,B)
 check(last = B)
 test(1,A,B)
 check(last = A)
 test(0,A,0,B,C)
 check(last = C)
-not(1)
-check(last = 0)
-not(0)
-check(last = 1)
-not(a=a)
-check(last = 0)
-and(1,1)
-check(last = 1)
-and(1,0)
-check(last = 0)
-or(1,0)
-check(last = 1)
-or(0,0)
-check(last = 0)
-(0,0)==0
-check(last = 1)
-transpose(((a,b),(c,d)))
-check(last = ((a,c),(b,d)))
-transpose(((a,b),(c,d)),1,2)
-check(last = ((a,c),(b,d)))
-transpose(((a,b,c),(d,e,f)),1,2)
-check(last = ((a,d),(b,e),(c,f)))
-transpose(((a,d),(b,e),(c,f)),1,2)
-check(last = ((a,b,c),(d,e,f)))
+
 f(1+2,3*4)
 check(last = f(3,12))
 f(x)=x^2

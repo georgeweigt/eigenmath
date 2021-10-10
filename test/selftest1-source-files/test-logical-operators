@@ -1,0 +1,28 @@
+"Testing logical operators"
+
+clear
+
+F = 0
+
+check(and(T,T,T) == 1)
+check(and(T,T,F) == 0)
+check(and(T,F,T) == 0)
+check(and(T,F,F) == 0)
+
+check(and(F,T,T) == 0)
+check(and(F,T,F) == 0)
+check(and(F,F,T) == 0)
+check(and(F,F,F) == 0)
+
+check(or(T,T,T) == 1)
+check(or(T,T,F) == 1)
+check(or(T,F,T) == 1)
+check(or(T,F,F) == 1)
+
+check(or(F,T,T) == 1)
+check(or(F,T,F) == 1)
+check(or(F,F,T) == 1)
+check(or(F,F,F) == 0)
+
+check(not(T) == 0)
+check(not(F) == 1)
