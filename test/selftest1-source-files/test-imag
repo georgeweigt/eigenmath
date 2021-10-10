@@ -1,0 +1,12 @@
+"Testing imag"
+
+clear
+
+T=imag(a+i*b)
+check(T=b)
+T=imag(1+exp(i*pi/3))
+check(T=1/2*3^(1/2))
+T=imag(i)
+check(T=1)
+T=imag(-i)
+check(T=-1)

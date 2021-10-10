@@ -2,7 +2,14 @@
 
 clear
 
+check(log(x^2) == 2 log(x))
+check(log(1 / x) == -log(x))
+check(log(x y) == log(x) + log(y))
+check(log(x^y) == y log(x))
 check(log(exp(x)) == x)
+check(log(1/3) + log(3) == 0)
+check(log(-1) == i pi)
+check(infixform(log(-1.0)) == "-3.14159 i")
 
 -- compare intrinsic
 

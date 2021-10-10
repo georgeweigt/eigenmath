@@ -1,0 +1,5 @@
+"Testing expsin"
+
+clear
+
+check(expsin(x) == 1/2*i*exp(-i*x)-1/2*i*exp(i*x))

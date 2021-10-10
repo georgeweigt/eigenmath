@@ -1,0 +1,12 @@
+"Testing laguerre"
+
+clear
+
+T=laguerre(x,0,0)-1
+check(T=0)
+T=laguerre(x,1,0)-(-x+1)
+check(T=0)
+T=laguerre(x,2,0)-1/2*(x^2-4*x+2)
+check(T=0)
+T=laguerre(x,3,0)-1/6*(-x^3+9*x^2-18*x+6)
+check(T=0)
