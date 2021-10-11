@@ -1,4 +1,4 @@
-To build and run:
+To build and run
 
 	gcc eigenmath.c
 	./a.out
@@ -7,13 +7,13 @@ Press ctrl-C to exit.
 
 Eigenmath uses UTF-8 encoding. The terminal window should have UTF-8 enabled.
 
-To run a script:
+To run a script
 
 	./a.out scriptfilename
 
 Sample scripts are available at eigenmath.org
 
-To run test scripts:
+To run test scripts
 
 	./a.out test/selftest1
 	./a.out test/selftest2
@@ -21,15 +21,15 @@ To run test scripts:
 If something goes wrong, "stop" is printed.
 Otherwise, all good.
 
-To generate LaTeX output:
+To generate LaTeX output
 
 	./a.out --latex scriptfilename | tee foo.tex
 
-To generate MathML output:
+To generate MathML output
 
 	./a.out --mathml scriptfilename | tee foo.html
 
-To generate MathJax output:
+To generate MathJax output
 
 	./a.out --mathjax scriptfilename | tee foo.html
 
@@ -54,7 +54,7 @@ For example
 
 <textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
 
--- Eigenmath script goes here, for example:
+-- Eigenmath script goes here, for example
 draw(sin(x))
 
 </textarea>
