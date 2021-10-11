@@ -2,7 +2,7 @@
 
 To build and run
 
-```
+```console
 gcc eigenmath.c
 ./a.out
 ```
