@@ -40,9 +40,9 @@ To build eigenmath.c
 
 eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
 
-The script is read from document.getElementById("stdin").value
+The script is read from <code>document.getElementById("stdin").value</code>
 
-Results are written to document.getElementById("stdout").innerHTML
+Results are written to <code>document.getElementById("stdout").innerHTML</code>
 
 For example
 
