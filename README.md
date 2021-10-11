@@ -1,3 +1,5 @@
+# eigenmath.c
+
 To build and run
 
 	gcc eigenmath.c
@@ -38,6 +40,8 @@ To build eigenmath.c
 	cd tools
 	make eigenmath.c
 
+# eigenmath.js
+
 eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
 
 Script is read from `document.getElementById("stdin").value`
@@ -72,4 +76,3 @@ To build eigenmath.js
 
 	cd js
 	make
-
