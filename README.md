@@ -2,7 +2,7 @@
 
 To build and run
 
-```console
+```
 gcc eigenmath.c
 ./a.out
 ```
@@ -13,7 +13,7 @@ Eigenmath uses UTF-8 encoding. The terminal window should have UTF-8 enabled.
 
 To run a script
 
-```console
+```
 ./a.out scriptfilename
 ```
 
@@ -21,7 +21,7 @@ Sample scripts are available at eigenmath.org
 
 To run test scripts
 
-```console
+```
 ./a.out test/selftest1
 ./a.out test/selftest2
 ```
@@ -31,25 +31,25 @@ Otherwise, all good.
 
 To generate LaTeX output
 
-```console
+```
 ./a.out --latex scriptfilename | tee foo.tex
 ```
 
 To generate MathML output
 
-```console
+```
 ./a.out --mathml scriptfilename | tee foo.html
 ```
 
 To generate MathJax output
 
-```console
+```
 ./a.out --mathjax scriptfilename | tee foo.html
 ```
 
 To build eigenmath.c
 
-```console
+```
 cd tools
 make eigenmath.c
 ```
@@ -88,7 +88,7 @@ draw(sin(x))
 
 To build eigenmath.js
 
-```console
+```
 cd js
 make
 ```
