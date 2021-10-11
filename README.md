@@ -2,8 +2,10 @@
 
 To build and run
 
-	gcc eigenmath.c
-	./a.out
+```csh
+gcc eigenmath.c
+./a.out
+```
 
 Press ctrl-C to exit.
 
