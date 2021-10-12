@@ -444,17 +444,3 @@ check(A == (((a,a,a,a),(a,a,a,a)),((b,b,b,b),(b,b,b,b)),((c,c,c,c),(c,c,c,c))))
 clear
 f = sqrt(1 - cos(theta)^2)
 check(eval(f,sqrt(1 - cos(theta)^2),sin(theta)) == sin(theta))
-
-N = 13/4000000
-
-T = N^(3/2)
-check(prefixform(T) == "(* 13/8000000000 (^ 13 1/2))")
-
-T = N^(5/2)
-check(prefixform(T) == "(* 169/32000000000000000 (^ 13 1/2))")
-
-T = N^(-3/2)
-check(prefixform(T) == "(* 8000000000/13 (^ 13 -1/2))")
-
-T = N^(-5/2)
-check(prefixform(T) == "(* 32000000000000000/169 (^ 13 -1/2))")
