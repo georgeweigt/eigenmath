@@ -1,0 +1,6 @@
+"Testing exptan"
+
+clear
+
+check(exptan(z)=(exp(2*i*z)-1)/(i*(exp(2*i*z)+1)))
+check(circexp(expsin(z)/expcos(z)-exptan(z))=0)

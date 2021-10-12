@@ -1,0 +1,7 @@
+"Testing product"
+
+clear
+
+k = 123
+check(product(k,1,10,k) == 3628800)
+check(k == 123)

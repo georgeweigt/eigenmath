@@ -1,0 +1,7 @@
+"Testing sum"
+
+clear
+
+k = 123
+check(sum(k,1,10,k) == 55)
+check(k == 123)
