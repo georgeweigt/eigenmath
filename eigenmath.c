@@ -1127,7 +1127,6 @@ void eval_transpose_nib(void);
 void transpose(void);
 void transpose_nib(void);
 void eval_user_function(void);
-void eval_user_function_nib(void);
 
 struct atom *mem[MAXBLOCKS];
 struct atom *free_list;
@@ -21842,15 +21841,6 @@ transpose_nib(void)
 
 void
 eval_user_function(void)
-{
-	int t = expanding;
-	expanding = 1;
-	eval_user_function_nib();
-	expanding = t;
-}
-
-void
-eval_user_function_nib(void)
 {
 	int h, i;
 	FUNC_NAME = car(p1);
