@@ -91,10 +91,10 @@ eval_clear(void)
 
 	run_init_script();
 
-	gc(); // garbage collection
-
 	restore_symbol(symbol(TTY));
 	restore_symbol(symbol(TRACE));
+
+	gc(); // garbage collection
 
 	push_symbol(NIL); // result
 

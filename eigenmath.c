@@ -6845,9 +6845,9 @@ eval_clear(void)
 	save_symbol(symbol(TTY));
 	clear_symbols();
 	run_init_script();
-	gc(); // garbage collection
 	restore_symbol(symbol(TTY));
 	restore_symbol(symbol(TRACE));
+	gc(); // garbage collection
 	push_symbol(NIL); // result
 	expanding = t;
 }
