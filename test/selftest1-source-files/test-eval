@@ -1,0 +1,6 @@
+"Testing eval"
+
+clear
+
+f = sqrt(1 - cos(theta)^2)
+check(eval(f,sqrt(1 - cos(theta)^2),sin(theta)) == sin(theta))
