@@ -1,3 +1,7 @@
+"Testing associativity"
+
+clear
+
 -- associativity was broken due to exp (now fixed)
 
 ket0 = (1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
@@ -1981,11 +1985,7 @@ m2 = P03(pi/8)
 m3 = P13(pi/4)
 m6 = P02(pi/4)
 
-"Testing associativity"
-
 A = dot(dot(m6,m3),m2)
 B = dot(m6,dot(m3,m2))
 
 check(A == B)
-
-"ok"
