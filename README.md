@@ -1,5 +1,6 @@
 Eigenmath is a symbolic math program for computing with symbols as well as numbers.
-The Eigenmath manual and additional support materials are available at eigenmath.org
+
+[Eigenmath Manual](https://georgeweigt.github.io/eigenmath.pdf)
 
 # eigenmath.c
 
