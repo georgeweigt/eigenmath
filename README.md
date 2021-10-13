@@ -1,4 +1,3 @@
-Eigenmath is a symbolic math program for computing with symbols as well as numbers.
 
 [Eigenmath Manual](https://georgeweigt.github.io/eigenmath.pdf)
 
