@@ -345,6 +345,7 @@ void fmt_draw_delims(int x, int y, int h, int d, int w);
 void fmt_draw_ldelim(int x, int y, int h, int d, int w);
 void fmt_draw_rdelim(int x, int y, int h, int d, int w);
 void fmt_draw_table(int x, int y, struct atom *p);
+void writeu(uint32_t u);
 void eval_for(void);
 void eval_gcd(void);
 void gcd(void);

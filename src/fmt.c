@@ -45,12 +45,13 @@
 int fmt_level;
 int fmt_nrow;
 int fmt_ncol;
-int *fmt_buf;
+uint32_t *fmt_buf;
 
 void
 fmt(void)
 {
-	int c, d, h, i, j, n, w;
+	int d, h, i, j, n, w;
+	uint32_t u;
 
 	save();
 
@@ -82,21 +83,10 @@ fmt(void)
 
 	for (i = 0; i < fmt_nrow; i++) {
 		for (j = 0; j < fmt_ncol; j++) {
-			c = fmt_buf[i * fmt_ncol + j];
-			if (c == 0)
-				putchar(' ');
-			else if (c < 256)
-				putchar(c);
-			else if (c < 65536) {
-				putchar(c >> 8);
-				putchar(c & 0xff);
-			} else {
-				putchar(c >> 16);
-				putchar(c >> 8 & 0xff);
-				putchar(c & 0xff);
-			}
+			u = fmt_buf[i * fmt_ncol + j];
+			writeu(u);
 		}
-		putchar('\n');
+		writeu('\n');
 	}
 
 	free(fmt_buf);
@@ -1380,4 +1370,30 @@ fmt_draw_table(int x, int y, struct atom *p)
 		h = cdr(h);
 		d = cdr(d);
 	}
+}
+
+void
+writeu(uint32_t u)
+{
+	int f;
+	uint8_t buf[4];
+
+	fflush(stdout);
+
+	f = fileno(stdout);
+
+	if (u == 0)
+		u = ' ';
+
+	buf[0] = u >> 24;
+	buf[1] = u >> 16;
+	buf[2] = u >> 8;
+	buf[3] = u;
+
+	if (u < 256)
+		write(f, buf + 3, 1);
+	else if (u < 65536)
+		write(f, buf + 2, 2);
+	else
+		write(f, buf + 1, 3);
 }
