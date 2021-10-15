@@ -732,7 +732,7 @@ void fmt_draw_delims(int x, int y, int h, int d, int w);
 void fmt_draw_ldelim(int x, int y, int h, int d, int w);
 void fmt_draw_rdelim(int x, int y, int h, int d, int w);
 void fmt_draw_table(int x, int y, struct atom *p);
-void writeu(uint32_t u);
+void writec(int c);
 void eval_for(void);
 void eval_gcd(void);
 void gcd(void);
@@ -8605,13 +8605,12 @@ floorfunc_nib(void)
 int fmt_level;
 int fmt_nrow;
 int fmt_ncol;
-uint32_t *fmt_buf;
+int *fmt_buf;
 
 void
 fmt(void)
 {
-	int d, h, i, j, n, w;
-	uint32_t u;
+	int c, d, h, i, j, n, w;
 	save();
 	fmt_level = 0;
 	p1 = pop();
@@ -8630,10 +8629,10 @@ fmt(void)
 	fmt_draw(0, h - 1, p1);
 	for (i = 0; i < fmt_nrow; i++) {
 		for (j = 0; j < fmt_ncol; j++) {
-			u = fmt_buf[i * fmt_ncol + j];
-			writeu(u);
+			c = fmt_buf[i * fmt_ncol + j];
+			writec(c);
 		}
-		writeu('\n');
+		writec('\n');
 	}
 	free(fmt_buf);
 	restore();
@@ -9679,21 +9678,21 @@ fmt_draw_table(int x, int y, struct atom *p)
 }
 
 void
-writeu(uint32_t u)
+writec(int c)
 {
 	int f;
 	uint8_t buf[4];
 	fflush(stdout);
 	f = fileno(stdout);
-	if (u == 0)
-		u = ' ';
-	buf[0] = u >> 24;
-	buf[1] = u >> 16;
-	buf[2] = u >> 8;
-	buf[3] = u;
-	if (u < 256)
+	if (c == 0)
+		c = ' ';
+	buf[0] = c >> 24;
+	buf[1] = c >> 16;
+	buf[2] = c >> 8;
+	buf[3] = c;
+	if (c < 256)
 		write(f, buf + 3, 1);
-	else if (u < 65536)
+	else if (c < 65536)
 		write(f, buf + 2, 2);
 	else
 		write(f, buf + 1, 3);
