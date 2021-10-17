@@ -6,8 +6,8 @@
 To build and run
 
 ```
-gcc eigenmath.c
-./a.out
+make
+./eigenmath
 ```
 
 Press ctrl-C to exit.
@@ -17,7 +17,7 @@ Eigenmath uses UTF-8 encoding. The terminal window should have UTF-8 enabled.
 To run a script
 
 ```
-./a.out scriptfilename
+./eigenmath scriptfilename
 ```
 
 Sample scripts are available at eigenmath.org
@@ -25,8 +25,8 @@ Sample scripts are available at eigenmath.org
 To run test scripts
 
 ```
-./a.out test/selftest1
-./a.out test/selftest2
+./eigenmath test/selftest1
+./eigenmath test/selftest2
 ```
 
 If something goes wrong, "stop" is printed.
@@ -35,19 +35,19 @@ Otherwise, all good.
 To generate LaTeX output
 
 ```
-./a.out --latex scriptfilename | tee foo.tex
+./eigenmath --latex scriptfilename | tee foo.tex
 ```
 
 To generate MathML output
 
 ```
-./a.out --mathml scriptfilename | tee foo.html
+./eigenmath --mathml scriptfilename | tee foo.html
 ```
 
 To generate MathJax output
 
 ```
-./a.out --mathjax scriptfilename | tee foo.html
+./eigenmath --mathjax scriptfilename | tee foo.html
 ```
 
 To build eigenmath.c
