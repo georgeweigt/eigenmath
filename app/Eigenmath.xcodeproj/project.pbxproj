@@ -793,6 +793,7 @@
 				CODE_SIGN_ENTITLEMENTS = eigenmath/eigenmath.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = eigenmath/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
