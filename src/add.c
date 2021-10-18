@@ -417,8 +417,8 @@ add_numbers(void)
 void
 add_rationals(void)
 {
-	int sign;
-	uint32_t *a, *ab, *b, *ba, *c;
+	int sign = MPLUS;
+	uint32_t *a = NULL, *ab, *b, *ba, *c;
 
 	if (iszero(p1)) {
 		push(p2);
@@ -475,8 +475,8 @@ add_rationals(void)
 void
 add_integers(void)
 {
-	int sign;
-	uint32_t *a, *b, *c;
+	int sign = MPLUS;
+	uint32_t *a, *b, *c = NULL;
 
 	a = p1->u.q.a;
 	b = p2->u.q.a;

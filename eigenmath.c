@@ -840,7 +840,7 @@ void mag1_nib(void);
 int main(int argc, char *argv[]);
 void run_stdin(void);
 void prompt(void);
-void echo(void);
+void echo_stdin(void);
 void run_infile(void);
 void printbuf(char *s, int color);
 void display(void);
@@ -1627,8 +1627,8 @@ add_numbers(void)
 void
 add_rationals(void)
 {
-	int sign;
-	uint32_t *a, *ab, *b, *ba, *c;
+	int sign = MPLUS;
+	uint32_t *a = NULL, *ab, *b, *ba, *c;
 	if (iszero(p1)) {
 		push(p2);
 		return;
@@ -1676,8 +1676,8 @@ add_rationals(void)
 void
 add_integers(void)
 {
-	int sign;
-	uint32_t *a, *b, *c;
+	int sign = MPLUS;
+	uint32_t *a, *b, *c = NULL;
 	a = p1->u.q.a;
 	b = p2->u.q.a;
 	if (p1->sign == p2->sign) {
@@ -13143,7 +13143,7 @@ run_stdin(void)
 	for (;;) {
 		prompt();
 		fgets(inbuf, sizeof inbuf, stdin);
-		echo();
+		echo_stdin();
 		run(inbuf);
 	}
 }
@@ -13166,7 +13166,7 @@ prompt(void)
 }
 
 void
-echo(void)
+echo_stdin(void)
 {
 	switch (doc_type) {
 	case DOC_LATEX:
