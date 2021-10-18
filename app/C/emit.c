@@ -1114,7 +1114,7 @@ int symbol_italic_tab[N] = {
 int
 emit_symbol_fragment(char *s, int k)
 {
-	int char_num, i, n;
+	int char_num, i, n = 0;
 	char *t;
 
 	for (i = 0; i < N; i++) {

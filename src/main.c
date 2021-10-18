@@ -44,7 +44,7 @@ run_stdin(void)
 	for (;;) {
 		prompt();
 		fgets(inbuf, sizeof inbuf, stdin);
-		echo();
+		echo_stdin();
 		run(inbuf);
 	}
 }
@@ -70,7 +70,7 @@ prompt(void)
 }
 
 void
-echo(void)
+echo_stdin(void)
 {
 	switch (doc_type) {
 
