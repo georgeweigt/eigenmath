@@ -417,8 +417,8 @@ add_numbers(void)
 void
 add_rationals(void)
 {
-	int sign = MPLUS;
-	uint32_t *a = NULL, *ab, *b, *ba, *c;
+	int sign;
+	uint32_t *a, *ab, *b, *ba, *c;
 
 	if (iszero(p1)) {
 		push(p2);
@@ -456,6 +456,9 @@ add_rationals(void)
 			a = msub(ba, ab);
 			sign = p2->sign;
 			break;
+		default:
+			// never gets here, fix compiler warning
+			return;
 		}
 	}
 
@@ -475,8 +478,8 @@ add_rationals(void)
 void
 add_integers(void)
 {
-	int sign = MPLUS;
-	uint32_t *a, *b, *c = NULL;
+	int sign;
+	uint32_t *a, *b, *c;
 
 	a = p1->u.q.a;
 	b = p2->u.q.a;
@@ -497,6 +500,9 @@ add_integers(void)
 			c = msub(b, a);
 			sign = p2->sign;
 			break;
+		default:
+			// never gets here, fix compiler warning
+			return;
 		}
 	}
 
