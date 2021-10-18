@@ -129,6 +129,7 @@
 		7FAE1431271D0FD4001234C6 /* run_thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1425271D0FD4001234C6 /* run_thread.c */; };
 		7FAE1432271D0FD4001234C6 /* app.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1426271D0FD4001234C6 /* app.c */; };
 		7FAE1433271D0FD4001234C6 /* fontinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1427271D0FD4001234C6 /* fontinfo.c */; };
+		7FFC84C5271DB0B70065B3F7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FFC84C4271DB0B70065B3F7 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -264,6 +265,7 @@
 		7FAE1425271D0FD4001234C6 /* run_thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = run_thread.c; sourceTree = "<group>"; };
 		7FAE1426271D0FD4001234C6 /* app.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = app.c; sourceTree = "<group>"; };
 		7FAE1427271D0FD4001234C6 /* fontinfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fontinfo.c; sourceTree = "<group>"; };
+		7FFC84C4271DB0B70065B3F7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -306,6 +308,7 @@
 				7F2C0614271CFF3F00128330 /* Info.plist */,
 				7F2C0615271CFF3F00128330 /* main.m */,
 				7F2C0617271CFF3F00128330 /* Eigenmath.entitlements */,
+				7FFC84C4271DB0B70065B3F7 /* Images.xcassets */,
 			);
 			path = Eigenmath;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FAB24B4271D083A007ED5D2 /* MainMenu.xib in Resources */,
+				7FFC84C5271DB0B70065B3F7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,6 +772,7 @@
 		7F2C061B271CFF3F00128330 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = eigenmath/eigenmath.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -783,6 +788,7 @@
 		7F2C061C271CFF3F00128330 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = eigenmath/eigenmath.entitlements;
 				CODE_SIGN_STYLE = Automatic;
