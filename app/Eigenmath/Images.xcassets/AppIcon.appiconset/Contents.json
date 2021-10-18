@@ -21,7 +21,6 @@
       "size" : "32x32"
     },
     {
-      "filename" : "icon.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
@@ -42,11 +41,13 @@
       "size" : "256x256"
     },
     {
+      "filename" : "icon512x512.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
+      "filename" : "icon1024x1024.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
