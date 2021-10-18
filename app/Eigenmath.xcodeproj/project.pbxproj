@@ -129,6 +129,7 @@
 		7FAE1431271D0FD4001234C6 /* run_thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1425271D0FD4001234C6 /* run_thread.c */; };
 		7FAE1432271D0FD4001234C6 /* app.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1426271D0FD4001234C6 /* app.c */; };
 		7FAE1433271D0FD4001234C6 /* fontinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1427271D0FD4001234C6 /* fontinfo.c */; };
+		7FF6B91C271DCAC20047F0A7 /* Eigenmath.help in Resources */ = {isa = PBXBuildFile; fileRef = 7FF6B91A271DCAC20047F0A7 /* Eigenmath.help */; };
 		7FFC84C5271DB0B70065B3F7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FFC84C4271DB0B70065B3F7 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -265,6 +266,7 @@
 		7FAE1425271D0FD4001234C6 /* run_thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = run_thread.c; sourceTree = "<group>"; };
 		7FAE1426271D0FD4001234C6 /* app.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = app.c; sourceTree = "<group>"; };
 		7FAE1427271D0FD4001234C6 /* fontinfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fontinfo.c; sourceTree = "<group>"; };
+		7FF6B91B271DCAC20047F0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base; path = Base.lproj/Eigenmath.help; sourceTree = "<group>"; };
 		7FFC84C4271DB0B70065B3F7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -299,6 +301,7 @@
 		7F2C060B271CFF3300128330 /* Eigenmath */ = {
 			isa = PBXGroup;
 			children = (
+				7FF6B91A271DCAC20047F0A7 /* Eigenmath.help */,
 				7FAE1419271D0FD4001234C6 /* C */,
 				7FAB24B2271D083A007ED5D2 /* MainMenu.xib */,
 				7FAB24A3271D0556007ED5D2 /* EigenmathView.m */,
@@ -492,6 +495,7 @@
 			knownRegions = (
 				en,
 				Base,
+				English,
 			);
 			mainGroup = 7F2C0600271CFF3300128330;
 			productRefGroup = 7F2C060A271CFF3300128330 /* Products */;
@@ -508,6 +512,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FF6B91C271DCAC20047F0A7 /* Eigenmath.help in Resources */,
 				7FAB24B4271D083A007ED5D2 /* MainMenu.xib in Resources */,
 				7FFC84C5271DB0B70065B3F7 /* Images.xcassets in Resources */,
 			);
@@ -655,6 +660,14 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
+		7FF6B91A271DCAC20047F0A7 /* Eigenmath.help */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7FF6B91B271DCAC20047F0A7 /* Base */,
+			);
+			name = Eigenmath.help;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -780,7 +793,7 @@
 				INFOPLIST_FILE = eigenmath/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = eigenmath;
+				PRODUCT_BUNDLE_IDENTIFIER = Eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -797,7 +810,7 @@
 				INFOPLIST_FILE = eigenmath/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = eigenmath;
+				PRODUCT_BUNDLE_IDENTIFIER = Eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
