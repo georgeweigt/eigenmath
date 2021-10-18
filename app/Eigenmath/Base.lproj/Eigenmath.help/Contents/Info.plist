@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>en_US</string>
     <key>CFBundleIdentifier</key>
-    <string>Eigenmath.help</string>
+    <string>com.gweigt.Eigenmath.help</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
