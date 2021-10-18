@@ -2,6 +2,7 @@
 
 clear
 
+check(infixform(log(0)) == "log(0)")
 check(log(x^2) == 2 log(x))
 check(log(1 / x) == -log(x))
 check(log(x y) == log(x) + log(y))

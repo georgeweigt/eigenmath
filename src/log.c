@@ -27,8 +27,14 @@ logfunc_nib(void)
 
 	p1 = pop();
 
-	if (iszero(p1))
-		stop("log of zero");
+	// log of zero is not evaluated
+
+	if (iszero(p1)) {
+		push_symbol(LOG);
+		push_integer(0);
+		list(2);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);

@@ -1627,8 +1627,8 @@ add_numbers(void)
 void
 add_rationals(void)
 {
-	int sign = MPLUS;
-	uint32_t *a = NULL, *ab, *b, *ba, *c;
+	int sign;
+	uint32_t *a, *ab, *b, *ba, *c;
 	if (iszero(p1)) {
 		push(p2);
 		return;
@@ -1661,6 +1661,9 @@ add_rationals(void)
 			a = msub(ba, ab);
 			sign = p2->sign;
 			break;
+		default:
+			// never gets here, fix compiler warning
+			return;
 		}
 	}
 	mfree(ab);
@@ -1676,8 +1679,8 @@ add_rationals(void)
 void
 add_integers(void)
 {
-	int sign = MPLUS;
-	uint32_t *a, *b, *c = NULL;
+	int sign;
+	uint32_t *a, *b, *c;
 	a = p1->u.q.a;
 	b = p2->u.q.a;
 	if (p1->sign == p2->sign) {
@@ -1696,6 +1699,9 @@ add_integers(void)
 			c = msub(b, a);
 			sign = p2->sign;
 			break;
+		default:
+			// never gets here, fix compiler warning
+			return;
 		}
 	}
 	push_bignum(sign, c, mint(1));
@@ -12893,8 +12899,13 @@ logfunc_nib(void)
 	int h, i;
 	double d;
 	p1 = pop();
-	if (iszero(p1))
-		stop("log of zero");
+	// log of zero is not evaluated
+	if (iszero(p1)) {
+		push_symbol(LOG);
+		push_integer(0);
+		list(2);
+		return;
+	}
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
