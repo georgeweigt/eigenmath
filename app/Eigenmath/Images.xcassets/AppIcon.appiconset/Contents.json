@@ -41,13 +41,13 @@
       "size" : "256x256"
     },
     {
-      "filename" : "icon512x512.png",
+      "filename" : "Sigma512x512x1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "icon1024x1024.png",
+      "filename" : "Sigma512x512x2.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
