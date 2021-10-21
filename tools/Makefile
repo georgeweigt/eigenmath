@@ -1,4 +1,4 @@
-# build header files
+# build prototype files
 default:
 	gcc make-prototypes.c
 	./a.out ../src/ >../src/prototypes.h
