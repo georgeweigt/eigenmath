@@ -1,1 +1,1 @@
-Xcode project files
+Xcode project files for macOS
