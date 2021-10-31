@@ -20,7 +20,7 @@ To run a script
 ./eigenmath scriptfilename
 ```
 
-Sample scripts are available at eigenmath.org
+Sample scripts are available at georgeweigt.github.io
 
 To run test scripts
 
