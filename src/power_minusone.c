@@ -1,5 +1,8 @@
 #include "defs.h"
 
+// define BASE p8 (defs1.h)
+// define EXPO p9 (defs1.h)
+
 #undef R
 #define R p3
 

@@ -385,6 +385,7 @@ struct tensor {
 
 extern int primetab[MAXPRIMETAB];
 
+// Run 'make' in 'eigenmath/tools' directory to update this file
 void eval_abs(void);
 void absfunc(void);
 void absfunc_nib(void);
@@ -7547,6 +7548,9 @@ expsin(void)
 	restore();
 }
 
+// define BASE p8 (defs1.h)
+// define EXPO p9 (defs1.h)
+
 void
 eval_factor(void)
 {
@@ -7871,6 +7875,9 @@ factorial_nib(void)
 	if (isdouble(p1))
 		bignum_float();
 }
+
+// define BASE p8 (defs1.h)
+// define EXPO p9 (defs1.h)
 
 int expo;
 struct atom **polycoeff;
@@ -15455,6 +15462,9 @@ push_factor(uint32_t *d, int count)
 	}
 }
 
+// define BASE p8 (defs1.h)
+// define EXPO p9 (defs1.h)
+
 void
 eval_power(void)
 {
@@ -15681,6 +15691,9 @@ power_tensor(void)
 	push(p1);
 }
 
+// define BASE p8 (defs1.h)
+// define EXPO p9 (defs1.h)
+
 #undef R
 #undef X
 #undef Y
@@ -15896,6 +15909,9 @@ power_complex_rational(void)
 	multiply();
 }
 
+// define BASE p8 (defs1.h)
+// define EXPO p9 (defs1.h)
+
 #undef R
 #define R p3
 
@@ -16088,6 +16104,9 @@ normalize_clock_double(void)
 		break;
 	}
 }
+
+// define BASE p8 (defs1.h)
+// define EXPO p9 (defs1.h)
 
 #undef R
 #define R p3
@@ -16362,6 +16381,9 @@ normalize_polar_term_double(void)
 		break;
 	}
 }
+
+// define BASE p8 (defs1.h)
+// define EXPO p9 (defs1.h)
 
 // BASE and EXPO are numbers
 
@@ -18221,6 +18243,9 @@ real_nib(void)
 	push_rational(1, 2);
 	multiply();
 }
+
+// define BASE p8 (defs1.h)
+// define EXPO p9 (defs1.h)
 
 void
 eval_rect(void)
