@@ -1,3 +1,4 @@
+// Run 'make' in 'eigenmath/tools' directory to update this file
 void eval_exit(void);
 void echo_input(char *s);
 int check_display(void);

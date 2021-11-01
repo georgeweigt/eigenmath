@@ -14,6 +14,7 @@ main(int argc, char *argv[])
 {
 	int i, n;
 	struct dirent **p;
+	printf("// Run 'make' in 'eigenmath/tools' directory to update this file\n");
 	n = scandir(argv[1], &p, filter, alphasort);
 	for (i = 0; i < n; i++) {
 		strcpy(filename, argv[1]);

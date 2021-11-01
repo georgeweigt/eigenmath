@@ -1,3 +1,4 @@
+// Run 'make' in 'eigenmath/tools' directory to update this file
 void eval_abs(void);
 void absfunc(void);
 void absfunc_nib(void);
