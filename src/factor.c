@@ -290,8 +290,8 @@ factor_factor_nib(void)
 void
 factor_bignum(uint32_t *a)
 {
-	int d, k, m;
-	uint32_t n;
+	int k, m;
+	uint32_t d, n;
 
 	if (MLENGTH(a) > 1) {
 		// too big to factor

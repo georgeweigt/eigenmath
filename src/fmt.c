@@ -1292,8 +1292,8 @@ void
 fmt_draw_delims(int x, int y, int h, int d, int w)
 {
 	if (h > 1 || d > 0) {
-		fmt_draw_ldelim(x, y, h, d, w);
-		fmt_draw_rdelim(x + w - 1, y, h, d, w);
+		fmt_draw_ldelim(x, y, h, d);
+		fmt_draw_rdelim(x + w - 1, y, h, d);
 	} else {
 		fmt_draw_char(x, y, '(');
 		fmt_draw_char(x + w - 1, y, ')');
@@ -1301,7 +1301,7 @@ fmt_draw_delims(int x, int y, int h, int d, int w)
 }
 
 void
-fmt_draw_ldelim(int x, int y, int h, int d, int w)
+fmt_draw_ldelim(int x, int y, int h, int d)
 {
 	int i;
 
@@ -1314,7 +1314,7 @@ fmt_draw_ldelim(int x, int y, int h, int d, int w)
 }
 
 void
-fmt_draw_rdelim(int x, int y, int h, int d, int w)
+fmt_draw_rdelim(int x, int y, int h, int d)
 {
 	int i;
 

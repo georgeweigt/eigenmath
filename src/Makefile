@@ -1,4 +1,4 @@
-CFLAGS = -Wall -O0
+CFLAGS = -Wall -Wextra -Werror -O0
 CC = gcc
 
 # := means evaluate then assign result to variable

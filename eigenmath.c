@@ -372,7 +372,7 @@ struct tensor {
 #define MMINUS 1
 #define MLENGTH(p) (((int *) (p))[-1])
 #define MZERO(p) (MLENGTH(p) == 1 && (p)[0] == 0)
-#define MEQUAL(p, n) (MLENGTH(p) == 1 && (p)[0] == (n))
+#define MEQUAL(p, n) (MLENGTH(p) == 1 && (p)[0] == ((uint32_t) n))
 
 #define BLACK 0
 #define BLUE 1
@@ -730,8 +730,8 @@ void fmt_vector(struct atom *p);
 void fmt_draw(int x, int y, struct atom *p);
 void fmt_draw_char(int x, int y, int c);
 void fmt_draw_delims(int x, int y, int h, int d, int w);
-void fmt_draw_ldelim(int x, int y, int h, int d, int w);
-void fmt_draw_rdelim(int x, int y, int h, int d, int w);
+void fmt_draw_ldelim(int x, int y, int h, int d);
+void fmt_draw_rdelim(int x, int y, int h, int d);
 void fmt_draw_table(int x, int y, struct atom *p);
 void writec(int c);
 void eval_for(void);
@@ -7785,8 +7785,8 @@ factor_factor_nib(void)
 void
 factor_bignum(uint32_t *a)
 {
-	int d, k, m;
-	uint32_t n;
+	int k, m;
+	uint32_t d, n;
 	if (MLENGTH(a) > 1) {
 		// too big to factor
 		push_bignum(MPLUS, mcopy(a), mint(1));
@@ -9629,8 +9629,8 @@ void
 fmt_draw_delims(int x, int y, int h, int d, int w)
 {
 	if (h > 1 || d > 0) {
-		fmt_draw_ldelim(x, y, h, d, w);
-		fmt_draw_rdelim(x + w - 1, y, h, d, w);
+		fmt_draw_ldelim(x, y, h, d);
+		fmt_draw_rdelim(x + w - 1, y, h, d);
 	} else {
 		fmt_draw_char(x, y, '(');
 		fmt_draw_char(x + w - 1, y, ')');
@@ -9638,7 +9638,7 @@ fmt_draw_delims(int x, int y, int h, int d, int w)
 }
 
 void
-fmt_draw_ldelim(int x, int y, int h, int d, int w)
+fmt_draw_ldelim(int x, int y, int h, int d)
 {
 	int i;
 	fmt_draw_char(x, y - h + 1, BDLDAR);
@@ -9648,7 +9648,7 @@ fmt_draw_ldelim(int x, int y, int h, int d, int w)
 }
 
 void
-fmt_draw_rdelim(int x, int y, int h, int d, int w)
+fmt_draw_rdelim(int x, int y, int h, int d)
 {
 	int i;
 	fmt_draw_char(x, y - h + 1, BDLDAL);
