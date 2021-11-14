@@ -215,7 +215,7 @@
                                     <action selector="clearButtonHandler:" target="494" id="6Xr-pE-FHV"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Draw" keyEquivalent="w" id="AuL-B7-Muo">
+                            <menuItem title="Draw" keyEquivalent="d" id="AuL-B7-Muo">
                                 <connections>
                                     <action selector="drawButtonHandler:" target="494" id="iRg-bH-oqK"/>
                                 </connections>
@@ -231,12 +231,12 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="vpR-4g-eak"/>
-                            <menuItem title="Derivative" keyEquivalent="d" id="HUL-wG-Wbd">
+                            <menuItem title="Derivative" keyEquivalent="1" id="HUL-wG-Wbd">
                                 <connections>
                                     <action selector="derivativeButtonHandler:" target="494" id="derivativeButtonHandler"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Integral" keyEquivalent="i" id="0KR-Nb-wgG">
+                            <menuItem title="Integral" keyEquivalent="2" id="0KR-Nb-wgG">
                                 <connections>
                                     <action selector="integralButtonHandler:" target="494" id="integralButtonHandler"/>
                                 </connections>
@@ -298,7 +298,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="dof-EP-aEj">
                             <rect key="frame" x="1" y="1" width="694" height="624"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsUndo="YES" spellingCorrection="YES" id="1308">
                                     <rect key="frame" x="0.0" y="0.0" width="694" height="624"/>
@@ -336,7 +336,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" copiesOnScroll="NO" id="DI6-41-VNL">
                             <rect key="frame" x="1" y="1" width="694" height="624"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="553" customClass="EigenmathView">
                                     <rect key="frame" x="0.0" y="0.0" width="694" height="624"/>
