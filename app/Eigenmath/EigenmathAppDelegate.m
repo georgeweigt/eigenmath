@@ -21,10 +21,14 @@ extern void clear_display(void);
 extern int check_display(void);
 extern void prep_display(void);
 
+extern char *history_up(char *);
+extern char *history_down(char *);
+extern void history_push(char *);
+
 NSString *filename;
 NSTimer *timer;
 int spinner;
-char *input_c_string;
+char *instring;
 
 @implementation EigenmathAppDelegate
 
@@ -118,14 +122,16 @@ char *input_c_string;
 	if (running)
 		return;
 
-	if (input_c_string)
-		free((void *) input_c_string);
+	if (instring)
+		free((void *) instring);
 
-	input_c_string = strdup([s UTF8String]);
+	instring = strdup([s UTF8String]);
 
-	echo_input(input_c_string);
+	history_push(instring);
 
-	run_thread(input_c_string);
+	echo_input(instring);
+
+	run_thread(instring);
 
 	// start timer to update display
 
@@ -144,10 +150,10 @@ char *input_c_string;
 	if (running)
 		return;
 
-	if (input_c_string)
-		free((void *) input_c_string);
+	if (instring)
+		free((void *) instring);
 
-	input_c_string = strdup([[_textview string] UTF8String]);
+	instring = strdup([[_textview string] UTF8String]);
 
 	clear_display();
 
@@ -155,7 +161,7 @@ char *input_c_string;
 
 	zero = NULL; // force full init
 
-	run_thread(input_c_string);
+	run_thread(instring);
 
 	// start timer to update display
 
@@ -218,6 +224,44 @@ char *input_c_string;
 -(IBAction)integralButtonHandler:(id)sender
 {
 	[self evalString:@"integral"];
+}
+
+// to here on history up
+
+-(IBAction)historyUpHandler:(id)sender
+{
+	if (running)
+		return;
+
+	if (instring)
+		free((void *) instring);
+
+	instring = strdup([[_input stringValue] UTF8String]);
+
+	char *cstr = history_up(instring);
+	NSString *str = [[NSString alloc] initWithCString:cstr encoding:NSASCIIStringEncoding];
+
+	[_input setStringValue:str];
+	[[_input currentEditor] setSelectedRange:NSMakeRange(strlen(cstr),0)];
+}
+
+// to here on history down
+
+-(IBAction)historyDownHandler:(id)sender
+{
+	if (running)
+		return;
+
+	if (instring)
+		free((void *) instring);
+
+	instring = strdup([[_input stringValue] UTF8String]);
+
+	char *cstr = history_down(instring);
+	NSString *str = [[NSString alloc] initWithCString:cstr encoding:NSASCIIStringEncoding];
+
+	[_input setStringValue:str];
+	[[_input currentEditor] setSelectedRange:NSMakeRange(strlen(cstr),0)];
 }
 
 // to here when user resizes app

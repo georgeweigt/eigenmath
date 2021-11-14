@@ -23,6 +23,11 @@ int emit_index;
 int emit_count;
 struct display *emit_display;
 
+int history_index;
+int history_count;
+char *history_instring;
+char **history_tab;
+
 void
 eval_exit(void)
 {
@@ -79,4 +84,58 @@ clear_display(void)
 
 	total_height = 0.0;
 	total_width = 0.0;
+}
+
+char *
+history_up(char *instring)
+{
+	if (history_count == 0)
+		return instring;
+
+	if (history_index == history_count) {
+		if (history_instring)
+			free(history_instring);
+		history_instring = strdup(instring);
+	}
+
+	if (history_index > 0)
+		history_index--;
+
+	return history_tab[history_index];
+}
+
+char *
+history_down(char *instring)
+{
+	if (history_index == history_count)
+		return instring;
+
+	history_index++;
+
+	if (history_index == history_count)
+		return history_instring;
+	else
+		return history_tab[history_index];
+}
+
+void
+history_push(char *instring)
+{
+	int i, n;
+
+	// don't push if blank
+
+	n = (int) strlen(instring);
+
+	for (i = 0; i < n; i++)
+		if (!isspace(instring[i]))
+			break;
+
+	if (i == n)
+		return;
+
+	history_count++;
+	history_tab = (char **) realloc(history_tab, history_count * sizeof (char *));
+	history_tab[history_count - 1] = strdup(instring);
+	history_index = history_count;
 }
