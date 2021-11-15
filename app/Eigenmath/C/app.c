@@ -89,8 +89,8 @@ clear_display(void)
 char *
 history_up(char *instring)
 {
-	if (history_count == 0)
-		return instring;
+	if (history_index == 0)
+		return instring; // no change
 
 	if (history_index == history_count) {
 		if (history_instring)
@@ -98,8 +98,7 @@ history_up(char *instring)
 		history_instring = strdup(instring);
 	}
 
-	if (history_index > 0)
-		history_index--;
+	history_index--;
 
 	return history_tab[history_index];
 }
@@ -108,7 +107,7 @@ char *
 history_down(char *instring)
 {
 	if (history_index == history_count)
-		return instring;
+		return instring; // no change
 
 	history_index++;
 
