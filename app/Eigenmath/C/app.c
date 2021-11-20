@@ -124,14 +124,17 @@ history_push(char *instring)
 
 	// don't push if blank
 
+	if (instring == NULL)
+		return;
+
 	n = (int) strlen(instring);
 
 	for (i = 0; i < n; i++)
-		if (!isspace(instring[i]))
+		if (instring[i] >= '!' && instring[i] <= '~')
 			break;
 
 	if (i == n)
-		return;
+		return; // blank
 
 	history_count++;
 	history_tab = (char **) realloc(history_tab, history_count * sizeof (char *));
