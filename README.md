@@ -65,7 +65,7 @@ Script is read from `document.getElementById("stdin").value`
 
 Results are written to `document.getElementById("stdout").innerHTML`
 
-For example (click [here](https://georgeweigt.github.io/demo.html) to run)
+For example (click [here](https://georgeweigt.github.io/demo.html) to try)
 
 ```html
 <html>
