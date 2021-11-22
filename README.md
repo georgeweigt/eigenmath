@@ -77,6 +77,7 @@ For example (click [here](https://georgeweigt.github.io/demo.html) to run)
 -- Eigenmath script goes here, for example
 f = sin(x) / x
 f
+yrange = (-1,1)
 draw(f,x)
 
 </textarea>
