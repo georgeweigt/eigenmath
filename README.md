@@ -82,11 +82,6 @@ f
 yrange = (-1,1)
 draw(f,x)
 
-g = d(f,x)
-g
-
-draw(g,x)
-
 </textarea>
 
 <button onclick="run()" style="font-size:20pt">Run</button>
