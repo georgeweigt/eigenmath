@@ -74,7 +74,7 @@ For example (click [here](https://georgeweigt.github.io/demo.html) to try)
 <script src="https://georgeweigt.github.io/eigenmath.js"></script>
 
 <textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
--- Eigenmath script goes here, for example
+-- Eigenmath script goes here
 
 f = sin(x) / x
 f
