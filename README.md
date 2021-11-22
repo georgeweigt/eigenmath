@@ -75,10 +75,17 @@ For example (click [here](https://georgeweigt.github.io/demo.html) to try)
 
 <textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
 -- Eigenmath script goes here, for example
+
 f = sin(x) / x
 f
+
 yrange = (-1,1)
 draw(f,x)
+
+g = d(f,x)
+g
+
+draw(g,x)
 
 </textarea>
 
