@@ -1,7 +1,8 @@
-
 [Eigenmath Manual](https://georgeweigt.github.io/eigenmath.pdf)
 
 # eigenmath.c
+
+There are pre-built binaries for Windows, Linux, and MacOS at github action.
 
 To build and run
 
@@ -69,24 +70,28 @@ For example (click [here](https://georgeweigt.github.io/demo.html) to try)
 
 ```html
 <html>
-<body>
+  <body>
+    <script src="https://georgeweigt.github.io/eigenmath.js"></script>
 
-<script src="https://georgeweigt.github.io/eigenmath.js"></script>
-
-<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
+    <textarea
+      id="stdin"
+      rows="24"
+      cols="80"
+      style="font-family:courier;font-size:12pt"
+    >
 -- Eigenmath script goes here
 f = sin(x) / x
 f
 yrange = (-1,1)
 draw(f,x)
-</textarea>
+</textarea
+    >
 
-<button onclick="run()" style="font-size:20pt">Run</button>
+    <button onclick="run()" style="font-size:20pt">Run</button>
 
-<p>
-<div id="stdout"></div>
-
-</body>
+    <p></p>
+    <div id="stdout"></div>
+  </body>
 </html>
 ```
 
