@@ -29,7 +29,7 @@ To run test scripts
 ./eigenmath test/selftest2
 ```
 
-If something goes wrong, "stop" is printed.
+If something goes wrong, "Stop" is printed.
 Otherwise, all good.
 
 To generate LaTeX output
