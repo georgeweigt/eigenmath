@@ -179,7 +179,7 @@ power_nib(void)
 		return;
 	}
 
-	// (a ^ b) ^ c  -->  a ^(b c)
+	// (a ^ b) ^ c  -->  a ^ (b c)
 
 	if (car(BASE) == symbol(POWER)) {
 		push(cadr(BASE));

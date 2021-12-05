@@ -15610,7 +15610,7 @@ power_nib(void)
 		multiply_factors(tos - h);
 		return;
 	}
-	// (a ^ b) ^ c  -->  a ^(b c)
+	// (a ^ b) ^ c  -->  a ^ (b c)
 	if (car(BASE) == symbol(POWER)) {
 		push(cadr(BASE));
 		push(caddr(BASE));
