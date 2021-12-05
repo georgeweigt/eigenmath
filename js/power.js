@@ -116,21 +116,14 @@ power()
 		return;
 	}
 
-	// do this before checking for (a + b)^n
-
-	if (iscomplexnumber(BASE) && isnum(EXPO)) {
-		power_complex_number(BASE, EXPO);
-		return;
-	}
-
-	// (a + b)^n -> (a + b) * (a + b) ...
+	// (a + b) ^ c
 
 	if (car(BASE) == symbol(ADD)) {
 		power_sum(BASE, EXPO);
 		return;
 	}
 
-	// (a * b) ^ c -> (a ^ c) * (b ^ c)
+	// (a b) ^ c  -->  (a ^ c) (b ^ c)
 
 	if (car(BASE) == symbol(MULTIPLY)) {
 		h = stack.length;
@@ -145,7 +138,7 @@ power()
 		return;
 	}
 
-	// (a^b)^c -> a^(b * c)
+	// (a ^ b) ^ c  -->  a ^ (b c)
 
 	if (car(BASE) == symbol(POWER)) {
 		push(cadr(BASE));

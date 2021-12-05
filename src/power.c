@@ -157,21 +157,14 @@ power_nib(void)
 		return;
 	}
 
-	// do this before checking for (a + b)^n
-
-	if (iscomplexnumber(BASE) && isnum(EXPO)) {
-		power_complex_number();
-		return;
-	}
-
-	// (a + b)^n -> (a + b) * (a + b) ...
+	// (a + b) ^ c
 
 	if (car(BASE) == symbol(ADD)) {
 		power_sum();
 		return;
 	}
 
-	// (a * b) ^ c -> (a ^ c) * (b ^ c)
+	// (a b) ^ c  -->  (a ^ c) (b ^ c)
 
 	if (car(BASE) == symbol(MULTIPLY)) {
 		h = tos;
@@ -186,7 +179,7 @@ power_nib(void)
 		return;
 	}
 
-	// (a^b)^c -> a^(b * c)
+	// (a ^ b) ^ c  -->  a ^(b c)
 
 	if (car(BASE) == symbol(POWER)) {
 		push(cadr(BASE));
@@ -205,12 +198,17 @@ power_nib(void)
 	list(3);
 }
 
-// (a + b)^n -> (a + b) * (a + b) ...
+// BASE is a sum of terms
 
 void
 power_sum(void)
 {
 	int h, i, n;
+
+	if (iscomplexnumber(BASE) && isnum(EXPO)) {
+		power_complex_number();
+		return;
+	}
 
 	if (expanding == 0 || !issmallinteger(EXPO) || isnegativenumber(EXPO)) {
 		push_symbol(POWER);

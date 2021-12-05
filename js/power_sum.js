@@ -5,6 +5,11 @@ power_sum(BASE, EXPO)
 {
 	var h, i, n, p1, p2;
 
+	if (iscomplexnumber(BASE) && isnum(EXPO)) {
+		power_complex_number(BASE, EXPO);
+		return;
+	}
+
 	if (expanding == 0 || !issmallinteger(EXPO)|| isnegativenumber(EXPO)) {
 		push_symbol(POWER);
 		push(BASE);
