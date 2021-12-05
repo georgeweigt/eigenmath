@@ -57,10 +57,11 @@ power()
 		return;
 	}
 
-	// BASE is an integer? (EXPO is not numerical)
+	// BASE is an integer?
 
 	if (isinteger(BASE)) {
 		// raise each factor in BASE to power EXPO
+		// EXPO is not numerical, that case was handled by power_numbers() above
 		h = stack.length;
 		push(BASE);
 		factor();
@@ -92,10 +93,11 @@ power()
 		return;
 	}
 
-	// BASE is a numerical fraction? (EXPO is not numerical)
+	// BASE is a numerical fraction?
 
 	if (isfraction(BASE)) {
 		// power numerator, power denominator
+		// EXPO is not numerical, that case was handled by power_numbers() above
 		push(BASE);
 		numerator();
 		push(EXPO);
