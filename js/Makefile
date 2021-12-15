@@ -1,6 +1,6 @@
 default:
 	rm -f eigenmath.js
-	cat preamble *.js >eigenmath.js
+	cat *.js >eigenmath.js
 	npx eslint eigenmath.js
 
 clean:
