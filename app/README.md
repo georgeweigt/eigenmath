@@ -1,1 +1,2 @@
-Xcode project files for macOS
+# Eigenmath.zip
+App binary for macOS
