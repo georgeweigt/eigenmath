@@ -87,7 +87,16 @@ power_numbers(void)
 			BASE = cadr(p1);
 			EXPO = caddr(p1);
 			power_numbers_factor();
-			stack[h + i] = pop(); // fill hole
+			p2 = pop();
+			if (car(p2) == symbol(MULTIPLY)) {
+				stack[h + i] = cadr(p2);
+				p2 = cddr(p2);
+				while (iscons(p2)) {
+					push(car(p2));
+					p2 = cdr(p2);
+				}
+			} else
+				stack[h + i] = p2;
 		}
 	}
 
