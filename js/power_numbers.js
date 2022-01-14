@@ -81,16 +81,7 @@ power_numbers(BASE, EXPO)
 			BASE = cadr(p1);
 			EXPO = caddr(p1);
 			power_numbers_factor(BASE, EXPO);
-			p2 = pop();
-			if (car(p2) == symbol(MULTIPLY)) {
-				stack[h + i] = cadr(p2);
-				p2 = cddr(p2);
-				while (iscons(p2)) {
-					push(car(p2));
-					p2 = cdr(p2);
-				}
-			} else
-				stack[h + i] = p2;
+			stack[h + i] = pop(); // fill hole
 		}
 	}
 
@@ -134,10 +125,16 @@ power_numbers(BASE, EXPO)
 function
 power_numbers_factor(BASE, EXPO)
 {
-	var a, b, n, q, r;
+	var a, b, n, q, r, p1;
 
 	if (isminusone(BASE)) {
 		power_minusone(EXPO);
+		p1 = pop();
+		if (car(p1) == symbol(MULTIPLY)) {
+			push(cadr(p1));
+			push(caddr(p1));
+		} else
+			push(p1);
 		return;
 	}
 
