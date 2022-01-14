@@ -16451,16 +16451,7 @@ power_numbers(void)
 			BASE = cadr(p1);
 			EXPO = caddr(p1);
 			power_numbers_factor();
-			p2 = pop();
-			if (car(p2) == symbol(MULTIPLY)) {
-				stack[h + i] = cadr(p2);
-				p2 = cddr(p2);
-				while (iscons(p2)) {
-					push(car(p2));
-					p2 = cdr(p2);
-				}
-			} else
-				stack[h + i] = p2;
+			stack[h + i] = pop(); // fill hole
 		}
 	}
 	// combine numbers (leaves radicals on stack)
@@ -16501,6 +16492,14 @@ power_numbers_factor(void)
 	uint32_t *a, *b, *n, *q, *r;
 	if (isminusone(BASE)) {
 		power_minusone();
+		save();
+		p1 = pop();
+		if (car(p1) == symbol(MULTIPLY)) {
+			push(cadr(p1));
+			push(caddr(p1));
+		} else
+			push(p1);
+		restore();
 		return;
 	}
 	if (isinteger(EXPO)) {
