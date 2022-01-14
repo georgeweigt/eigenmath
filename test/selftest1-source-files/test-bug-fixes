@@ -55,3 +55,5 @@ check((3,4,5) - 2 == (1,2,3))
 check(infixform(A + B - B + 0) == "A")
 check(infixform(0.0) == "0")
 check(sqrt(-i) == sqrt(-1) sqrt(i))
+check(prefixform((-2 i pi hbar epsilon / m)^(3/2)) ==
+"(* 2 (^ 2 1/2) (^ -1 1/4) (^ epsilon 3/2) (^ hbar 3/2) (^ m -3/2) (^ pi 3/2))")
