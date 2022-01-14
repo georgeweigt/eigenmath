@@ -120,21 +120,21 @@ power_numbers(BASE, EXPO)
 	cons();
 }
 
-// BASE is an integer factor
+// BASE is an integer
 
 function
 power_numbers_factor(BASE, EXPO)
 {
-	var a, b, n, q, r, p1;
+	var a, b, n, q, r, p0;
 
 	if (isminusone(BASE)) {
 		power_minusone(EXPO);
-		p1 = pop();
-		if (car(p1) == symbol(MULTIPLY)) {
-			push(cadr(p1));
-			push(caddr(p1));
+		p0 = pop();
+		if (car(p0) == symbol(MULTIPLY)) {
+			push(cadr(p0));
+			push(caddr(p0));
 		} else
-			push(p1);
+			push(p0);
 		return;
 	}
 

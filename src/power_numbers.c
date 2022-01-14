@@ -128,7 +128,7 @@ power_numbers(void)
 	cons();
 }
 
-// BASE is an integer factor
+// BASE is an integer
 
 void
 power_numbers_factor(void)
@@ -137,14 +137,12 @@ power_numbers_factor(void)
 
 	if (isminusone(BASE)) {
 		power_minusone();
-		save();
-		p1 = pop();
-		if (car(p1) == symbol(MULTIPLY)) {
-			push(cadr(p1));
-			push(caddr(p1));
+		p0 = pop();
+		if (car(p0) == symbol(MULTIPLY)) {
+			push(cadr(p0));
+			push(caddr(p0));
 		} else
-			push(p1);
-		restore();
+			push(p0);
 		return;
 	}
 
