@@ -21,6 +21,7 @@ emit_args(struct atom *p)
 
 	while (iscons(p)) {
 		emit_roman_char(',');
+		emit_thin_space();
 		emit_expr(car(p));
 		p = cdr(p);
 	}
@@ -642,6 +643,7 @@ emit_indices(struct atom *p)
 		p = cdr(p);
 		while (iscons(p)) {
 			emit_roman_char(',');
+			emit_thin_space();
 			emit_expr(car(p));
 			p = cdr(p);
 		}

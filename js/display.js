@@ -93,6 +93,7 @@ emit_args(p)
 
 	while (iscons(p)) {
 		emit_roman_string(",");
+		emit_thin_space();
 		emit_expr(car(p));
 		p = cdr(p);
 	}
@@ -407,6 +408,7 @@ emit_indices(p)
 		p = cdr(p);
 		while (iscons(p)) {
 			emit_roman_string(",");
+			emit_thin_space();
 			emit_expr(car(p));
 			p = cdr(p);
 		}
