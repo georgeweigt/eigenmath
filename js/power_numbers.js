@@ -131,8 +131,11 @@ power_numbers_factor(BASE, EXPO)
 		power_minusone(EXPO);
 		p0 = pop();
 		if (car(p0) == symbol(MULTIPLY)) {
-			push(cadr(p0));
-			push(caddr(p0));
+			p0 = cdr(p0);
+			while (iscons(p0)) {
+				push(car(p0));
+				p0 = cdr(p0);
+			}
 		} else
 			push(p0);
 		return;
