@@ -2,6 +2,8 @@
 
 In Xcode, open the project file `app/Eigenmath`
 
+[Eigenmath Manual for macOS](https://georgeweigt.github.io/eigenmath-macos.pdf)
+
 # Build for Linux
 
 In the current directory, do
@@ -36,32 +38,9 @@ To run test scripts
 ```
 
 If something goes wrong, "Stop" is printed.
-Otherwise, all good.
+Otherwise, all is well.
 
-To generate LaTeX output
-
-```
-./eigenmath --latex scriptfilename | tee foo.tex
-```
-
-To generate MathML output
-
-```
-./eigenmath --mathml scriptfilename | tee foo.html
-```
-
-To generate MathJax output
-
-```
-./eigenmath --mathjax scriptfilename | tee foo.html
-```
-
-To build eigenmath.c
-
-```
-cd tools
-make eigenmath.c
-```
+[Eigenmath Manual for Linux](https://georgeweigt.github.io/eigenmath.pdf)
 
 # eigenmath.js
 
