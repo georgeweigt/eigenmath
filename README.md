@@ -1,10 +1,10 @@
-# Build for macOS
+# macOS
 
 In Xcode, open the project file `app/Eigenmath`
 
 [Eigenmath Manual for macOS](https://georgeweigt.github.io/eigenmath-macos.pdf)
 
-# Build for Linux
+# Linux
 
 In the current directory, do
 
