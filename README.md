@@ -4,8 +4,17 @@ In Xcode, open the project file `eigenmath/app/Eigenmath`
 
 # Build for Linux
 
+In the top directory `eigenmath` do
+
 ```
 make
+```
+
+to compile `eigenmath.c`
+
+Then
+
+```
 ./eigenmath
 ```
 
