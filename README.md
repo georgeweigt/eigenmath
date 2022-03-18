@@ -1,6 +1,6 @@
 # Build for macOS
 
-In Xcode, open the project file `eigenmath/app/Eigenmath`
+In Xcode, open the project file `app/Eigenmath`
 
 # Build for Linux
 
