@@ -1,9 +1,8 @@
+# Build for macOS
 
-[Eigenmath Manual](https://georgeweigt.github.io/eigenmath.pdf)
+In Xcode, open the project file `eigenmath/app/Eigenmath`
 
-# eigenmath.c
-
-To build and run
+# Build for Linux
 
 ```
 make
