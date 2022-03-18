@@ -1,6 +1,6 @@
 # macOS
 
-In Xcode, open the project file `app/Eigenmath`
+In Xcode, open the project `app/Eigenmath`
 
 [Eigenmath Manual for macOS](https://georgeweigt.github.io/eigenmath-macos.pdf)
 
