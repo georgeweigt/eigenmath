@@ -43,7 +43,7 @@ Otherwise, all is well.
 
 [Eigenmath Manual for Linux](https://georgeweigt.github.io/eigenmath.pdf)
 
-# eigenmath.js
+# Javascript
 
 eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
 
