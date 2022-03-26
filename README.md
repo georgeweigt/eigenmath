@@ -47,7 +47,7 @@ Otherwise, all is well.
 
 eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
 
-Script is read from `document.getElementById("stdin").value`
+The script is read from `document.getElementById("stdin").value`
 
 Results are written to `document.getElementById("stdout").innerHTML`
 
