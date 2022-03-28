@@ -75,10 +75,3 @@ draw(f,x)
 </body>
 </html>
 ```
-
-To build eigenmath.js
-
-```
-cd js
-make
-```
