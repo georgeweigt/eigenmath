@@ -1,10 +1,12 @@
-In the current directory, do
+[Eigenmath Manual](https://georgeweigt.github.io/eigenmath.pdf)
+
+To build and run, do
 
 ```
 make
 ```
 
-Then
+then
 
 ```
 ./eigenmath
@@ -31,8 +33,6 @@ To run test scripts
 
 If something goes wrong, "Stop" is printed.
 Otherwise, all is well.
-
-[Eigenmath Manual for Linux](https://georgeweigt.github.io/eigenmath.pdf)
 
 # Javascript
 
