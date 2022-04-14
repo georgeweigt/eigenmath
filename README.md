@@ -1,14 +1,9 @@
 [Eigenmath Manual](https://georgeweigt.github.io/eigenmath.pdf)
 
-To build and run, do
+To build and run
 
 ```
 make
-```
-
-then
-
-```
 ./eigenmath
 ```
 
