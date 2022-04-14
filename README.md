@@ -1,5 +1,7 @@
 [Eigenmath Manual](https://georgeweigt.github.io/eigenmath.pdf)
 
+# eigenmath.c
+
 To build and run
 
 ```
