@@ -1,11 +1,20 @@
-# pdflatex twice for table of contents
+.PHONY: default clean
 
 default:
+	make eigenmath.pdf
+	make eigenmath-macos.pdf
+
+# pdflatex twice for table of contents
+
+eigenmath.pdf: *.tex
 	pdflatex eigenmath.tex
 	pdflatex eigenmath.tex
+	rm *.aux *.log *.toc
+
+eigenmath-macos.pdf: *.tex
 	pdflatex eigenmath-macos.tex
 	pdflatex eigenmath-macos.tex
-	make clean
+	rm *.aux *.log *.toc
 
 clean:
-	rm -f *.aux *.log *.synctex.gz *.toc
+	rm -f eigenmath.pdf eigenmath-macos.pdf
