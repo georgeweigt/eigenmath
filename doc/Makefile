@@ -9,12 +9,12 @@ default:
 eigenmath.pdf: *.tex
 	pdflatex eigenmath.tex
 	pdflatex eigenmath.tex
-	rm *.aux *.log *.toc
+	rm -f *.aux *.log *.toc
 
 eigenmath-macos.pdf: *.tex
 	pdflatex eigenmath-macos.tex
 	pdflatex eigenmath-macos.tex
-	rm *.aux *.log *.toc
+	rm -f *.aux *.log *.toc
 
 clean:
 	rm -f eigenmath.pdf eigenmath-macos.pdf
