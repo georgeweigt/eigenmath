@@ -198,14 +198,7 @@ simplify_pass3(void)
 {
 	p1 = pop();
 
-	// already simple?
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	if (car(p1) != symbol(ADD) || !find(p1, imaginaryunit)) {
+	if (car(p1) != symbol(ADD) || isusersymbolsomewhere(p1) || !find(p1, imaginaryunit)) {
 		push(p1);
 		return;
 	}

@@ -7,14 +7,7 @@ simplify_pass3()
 
 	p1 = pop();
 
-	// already simple?
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	if (car(p1) != symbol(ADD) || !findf(p1, imaginaryunit)) {
+	if (car(p1) != symbol(ADD) || isusersymbolsomewhere(p1) || !findf(p1, imaginaryunit)) {
 		push(p1);
 		return;
 	}
