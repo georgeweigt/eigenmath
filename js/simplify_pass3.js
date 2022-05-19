@@ -14,7 +14,7 @@ simplify_pass3()
 		return;
 	}
 
-	if (!findf(p1, imaginaryunit)) {
+	if (car(p1) != symbol(ADD) || !findf(p1, imaginaryunit)) {
 		push(p1);
 		return;
 	}

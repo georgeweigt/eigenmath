@@ -20094,7 +20094,7 @@ simplify_pass3(void)
 		push(p1);
 		return;
 	}
-	if (!find(p1, imaginaryunit)) {
+	if (car(p1) != symbol(ADD) || !find(p1, imaginaryunit)) {
 		push(p1);
 		return;
 	}
