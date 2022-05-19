@@ -1,4 +1,4 @@
-// try rectangular form
+// try polar form
 
 function
 simplify_pass3()
@@ -20,7 +20,7 @@ simplify_pass3()
 	}
 
 	push(p1);
-	rect();
+	polar();
 	p2 = pop();
 
 	if (!iscons(p2)) {

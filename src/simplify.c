@@ -72,7 +72,7 @@ simplify_nib(void)
 
 	simplify_pass1();
 	simplify_pass2(); // try exponential form
-	simplify_pass3(); // try rectangular form
+	simplify_pass3(); // try polar form
 }
 
 void
@@ -191,7 +191,7 @@ simplify_pass2(void)
 	push(p1);
 }
 
-// try rectangular form
+// try polar form
 
 void
 simplify_pass3(void)
@@ -211,7 +211,7 @@ simplify_pass3(void)
 	}
 
 	push(p1);
-	rect();
+	polar();
 	p2 = pop();
 
 	if (!iscons(p2)) {

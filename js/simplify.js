@@ -39,5 +39,5 @@ simplify()
 
 	simplify_pass1();
 	simplify_pass2(); // try exponential form
-	simplify_pass3(); // try rectangular form
+	simplify_pass3(); // try polar form
 }
