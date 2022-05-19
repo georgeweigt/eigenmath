@@ -5,6 +5,13 @@ simplify_pass1()
 
 	p1 = pop();
 
+	// already simple?
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
 	if (car(p1) == symbol(ADD)) {
 		push(p1);
 		rationalize();

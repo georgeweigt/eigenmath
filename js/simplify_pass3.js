@@ -1,7 +1,7 @@
-// try exponential form
+// try rectangular form
 
 function
-simplify_pass2()
+simplify_pass3()
 {
 	var p1, p2;
 
@@ -14,13 +14,16 @@ simplify_pass2()
 		return;
 	}
 
+	if (!findf(p1, imaginaryunit)) {
+		push(p1);
+		return;
+	}
+
 	push(p1);
-	circexp();
-	rationalize();
-	evalf(); // to normalize
+	rect();
 	p2 = pop();
 
-	if (complexity(p2) < complexity(p1)) {
+	if (!iscons(p2)) {
 		push(p2);
 		return;
 	}

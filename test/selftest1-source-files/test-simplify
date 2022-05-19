@@ -55,3 +55,9 @@ check(T=unit(3))
 A = ((A11,A12,A13,A14),(A21,A22,A23,A24),(A31,A32,A33,A34),(A41,A42,A43,A44))
 T = simplify(dot(A,inv(A)))
 check(T=unit(4))
+
+-- simplify mixed forms of complex numbers
+
+A = exp(i pi / 4)
+B = (1 + i) / sqrt(2)
+check(A == B)

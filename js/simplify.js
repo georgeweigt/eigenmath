@@ -17,6 +17,8 @@ simplify()
 		return;
 	}
 
+	// already simple?
+
 	if (!iscons(p1)) {
 		push(p1);
 		return;
@@ -34,12 +36,8 @@ simplify()
 
 	list(stack.length - h);
 	evalf();
-	p1 = pop();
-	push(p1);
-
-	if (!iscons(p1))
-		return;
 
 	simplify_pass1();
-	simplify_pass2();
+	simplify_pass2(); // try exponential form
+	simplify_pass3(); // try rectangular form
 }

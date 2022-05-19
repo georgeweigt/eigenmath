@@ -50,6 +50,8 @@ simplify_nib(void)
 		return;
 	}
 
+	// already simple?
+
 	if (!iscons(p1)) {
 		push(p1);
 		return;
@@ -67,20 +69,23 @@ simplify_nib(void)
 
 	list(tos - h);
 	eval();
-	p1 = pop();
-	push(p1);
-
-	if (!iscons(p1))
-		return;
 
 	simplify_pass1();
-	simplify_pass2();
+	simplify_pass2(); // try exponential form
+	simplify_pass3(); // try rectangular form
 }
 
 void
 simplify_pass1(void)
 {
 	p1 = pop();
+
+	// already simple?
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
 
 	if (car(p1) == symbol(ADD)) {
 		push(p1);
@@ -158,10 +163,19 @@ simplify_pass1(void)
 	push(p1);
 }
 
+// try exponential form
+
 void
 simplify_pass2(void)
 {
 	p1 = pop();
+
+	// already simple?
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
 
 	push(p1);
 	circexp();
@@ -169,8 +183,41 @@ simplify_pass2(void)
 	eval(); // to normalize
 	p2 = pop();
 
-	if (complexity(p2) < complexity(p1))
-		p1 = p2;
+	if (complexity(p2) < complexity(p1)) {
+		push(p2);
+		return;
+	}
+
+	push(p1);
+}
+
+// try rectangular form
+
+void
+simplify_pass3(void)
+{
+	p1 = pop();
+
+	// already simple?
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	if (!find(p1, imaginaryunit)) {
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	rect();
+	p2 = pop();
+
+	if (!iscons(p2)) {
+		push(p2);
+		return;
+	}
 
 	push(p1);
 }

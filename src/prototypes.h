@@ -670,6 +670,7 @@ void simplify(void);
 void simplify_nib(void);
 void simplify_pass1(void);
 void simplify_pass2(void);
+void simplify_pass3(void);
 void eval_sin(void);
 void sinfunc(void);
 void sinfunc_nib(void);
