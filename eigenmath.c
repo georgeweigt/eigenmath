@@ -271,15 +271,16 @@ struct atom {
 #define T_LOWER		(19 * NSYM + 1)
 #define TAN		(19 * NSYM + 2)
 #define TANH		(19 * NSYM + 3)
-#define TEST		(19 * NSYM + 4)
-#define TESTEQ		(19 * NSYM + 5)
-#define TESTGE		(19 * NSYM + 6)
-#define TESTGT		(19 * NSYM + 7)
-#define TESTLE		(19 * NSYM + 8)
-#define TESTLT		(19 * NSYM + 9)
-#define TRACE		(19 * NSYM + 10)
-#define TRANSPOSE	(19 * NSYM + 11)
-#define TTY		(19 * NSYM + 12)
+#define TAYLOR		(19 * NSYM + 4)
+#define TEST		(19 * NSYM + 5)
+#define TESTEQ		(19 * NSYM + 6)
+#define TESTGE		(19 * NSYM + 7)
+#define TESTGT		(19 * NSYM + 8)
+#define TESTLE		(19 * NSYM + 9)
+#define TESTLT		(19 * NSYM + 10)
+#define TRACE		(19 * NSYM + 11)
+#define TRANSPOSE	(19 * NSYM + 12)
+#define TTY		(19 * NSYM + 13)
 
 #define U_UPPER		(20 * NSYM + 0)
 #define U_LOWER		(20 * NSYM + 1)
@@ -1092,6 +1093,7 @@ void tanfunc_sum(void);
 void eval_tanh(void);
 void tanhfunc(void);
 void tanhfunc_nib(void);
+void eval_taylor(void);
 void eval_tensor(void);
 void promote_tensor(void);
 void promote_tensor_nib(void);
@@ -19086,7 +19088,6 @@ char *init_script[] = {
 	"curl(u)=(d(u[3],y)-d(u[2],z),d(u[1],z)-d(u[3],x),d(u[2],x)-d(u[1],y))",
 	"div(u)=d(u[1],x)+d(u[2],y)+d(u[3],z)",
 	"ln(x)=log(x)",
-	"taylor(f,x,n,a) = sum(k,0,n,eval(d(f,x,k),x,a) (x - a)^k / k!)",
 	"laguerre(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))",
 	"legendre(f,n,m,x) = eval(1 / (2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m),x,f)",
 	"hermite(x,n) = (-1)^n exp(x^2) d(exp(-x^2),x,n)",
@@ -20881,6 +20882,7 @@ struct se stab[] = {
 	{ "t",			T_LOWER,	NULL			},
 	{ "tan",		TAN,		eval_tan		},
 	{ "tanh",		TANH,		eval_tanh		},
+	{ "taylor",		TAYLOR,		eval_taylor		},
 	{ "test",		TEST,		eval_test		},
 	{ "testeq",		TESTEQ,		eval_testeq		},
 	{ "testge",		TESTGE,		eval_testge		},
@@ -21194,6 +21196,72 @@ tanhfunc_nib(void)
 	push_symbol(TANH);
 	push(p1);
 	list(2);
+}
+
+#undef F
+#undef X
+#undef A
+#undef C
+
+#define F p3
+#define X p4
+#define A p5
+#define C p6
+
+void
+eval_taylor(void)
+{
+	int h, i, n, t;
+	t = expanding;
+	expanding = 1;
+	push(cadr(p1));
+	eval();
+	F = pop();
+	push(caddr(p1));
+	eval();
+	X = pop();
+	push(cadddr(p1));
+	eval();
+	n = pop_integer();
+	if (iscons(cddddr(p1))) {
+		push(caddddr(p1));
+		eval();
+	} else
+		push_integer(0); // default expansion point
+	A = pop();
+	h = tos;
+	push(F);	// f(a)
+	push(X);
+	push(A);
+	subst();
+	eval();
+	C = one;
+	for (i = 1; i <= n; i++) {
+		push(F);	// f = f'
+		push(X);
+		derivative();
+		F = pop();
+		if (iszero(F))
+			break;
+		push(C);	// c = c * (x - a)
+		push(X);
+		push(A);
+		subtract();
+		multiply();
+		C = pop();
+		push(F);	// f(a)
+		push(X);
+		push(A);
+		subst();
+		eval();
+		push(C);
+		multiply();
+		push_integer(i);
+		factorial();
+		divide();
+	}
+	add_terms(tos - h);
+	expanding = t;
 }
 
 void

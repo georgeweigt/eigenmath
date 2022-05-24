@@ -278,6 +278,7 @@ struct se stab[] = {
 	{ "t",			T_LOWER,	NULL			},
 	{ "tan",		TAN,		eval_tan		},
 	{ "tanh",		TANH,		eval_tanh		},
+	{ "taylor",		TAYLOR,		eval_taylor		},
 	{ "test",		TEST,		eval_test		},
 	{ "testeq",		TESTEQ,		eval_testeq		},
 	{ "testge",		TESTGE,		eval_testge		},

@@ -80,6 +80,7 @@ const SUBST = "subst";
 const SUM = "sum";
 const TAN = "tan";
 const TANH = "tanh";
+const TAYLOR = "taylor";
 const TEST = "test";
 const TESTEQ = "testeq";
 const TESTGE = "testge";

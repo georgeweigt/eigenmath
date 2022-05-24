@@ -705,6 +705,7 @@ void tanfunc_sum(void);
 void eval_tanh(void);
 void tanhfunc(void);
 void tanhfunc_nib(void);
+void eval_taylor(void);
 void eval_tensor(void);
 void promote_tensor(void);
 void promote_tensor_nib(void);

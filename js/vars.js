@@ -100,6 +100,7 @@ var symtab = {
 "sum":		{printname:SUM,		func:eval_sum},
 "tan":		{printname:TAN,		func:eval_tan},
 "tanh":		{printname:TANH,	func:eval_tanh},
+"taylor":	{printname:TAYLOR,	func:eval_taylor},
 "test":		{printname:TEST,	func:eval_test},
 "testeq":	{printname:TESTEQ,	func:eval_testeq},
 "testge":	{printname:TESTGE,	func:eval_testge},
