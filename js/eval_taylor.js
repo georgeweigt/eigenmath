@@ -19,7 +19,7 @@ eval_taylor(p1)
 
 	if (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 	} else
 		push_integer(0); // default expansion point
 
