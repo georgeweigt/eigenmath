@@ -1384,12 +1384,11 @@ circexp(tanh(x))
 Returns the <i>n</i>th order Taylor series expansion of <i>f</i>(<i>x</i>) at <i>a</i>.
 If argument <i>a</i> is omitted then zero is used for the expansion point.
 <pre style="font-family:courier;color:blue">
-taylor(sin(x),x,5)
+taylor(1/(1-x),x,5)
 </pre>
 <pre style="font-family:courier">
-  1    5    1   3    
-╶───╴ x  − ╶─╴ x  + x
- 120        6        
+ 5    4    3    2        
+x  + x  + x  + x  + x + 1
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
