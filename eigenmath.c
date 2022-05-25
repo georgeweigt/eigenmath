@@ -21211,9 +21211,7 @@ tanhfunc_nib(void)
 void
 eval_taylor(void)
 {
-	int h, i, n, t;
-	t = expanding;
-	expanding = 1;
+	int h, i, n;
 	push(cadr(p1));
 	eval();
 	F = pop();
@@ -21223,8 +21221,9 @@ eval_taylor(void)
 	push(cadddr(p1));
 	eval();
 	n = pop_integer();
-	if (iscons(cddddr(p1))) {
-		push(caddddr(p1));
+	p1 = cddddr(p1);
+	if (iscons(p1)) {
+		push(car(p1));
 		eval();
 	} else
 		push_integer(0); // default expansion point
@@ -21235,7 +21234,8 @@ eval_taylor(void)
 	push(A);
 	subst();
 	eval();
-	C = one;
+	push_integer(1);
+	C = pop();
 	for (i = 1; i <= n; i++) {
 		push(F);	// f = f'
 		push(X);
@@ -21261,7 +21261,6 @@ eval_taylor(void)
 		divide();
 	}
 	add_terms(tos - h);
-	expanding = t;
 }
 
 void

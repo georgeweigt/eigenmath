@@ -1,10 +1,7 @@
 function
 eval_taylor(p1)
 {
-	var h, i, n, t, F, X, A, C;
-
-	t = expanding;
-	expanding = 1;
+	var h, i, n, F, X, A, C;
 
 	push(cadr(p1));
 	evalf();
@@ -18,8 +15,10 @@ eval_taylor(p1)
 	evalf();
 	n = pop_integer();
 
-	if (iscons(cddddr(p1))) {
-		push(caddddr(p1));
+	p1 = cddddr(p1);
+
+	if (iscons(p1)) {
+		push(car(p1));
 		eval();
 	} else
 		push_integer(0); // default expansion point
@@ -34,7 +33,8 @@ eval_taylor(p1)
 	subst();
 	evalf();
 
-	C = one;
+	push_integer(1);
+	C = pop();
 
 	for (i = 1; i <= n; i++) {
 
@@ -67,6 +67,4 @@ eval_taylor(p1)
 	}
 
 	add_terms(stack.length - h);
-
-	expanding = t;
 }

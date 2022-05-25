@@ -13,10 +13,7 @@
 void
 eval_taylor(void)
 {
-	int h, i, n, t;
-
-	t = expanding;
-	expanding = 1;
+	int h, i, n;
 
 	push(cadr(p1));
 	eval();
@@ -30,8 +27,10 @@ eval_taylor(void)
 	eval();
 	n = pop_integer();
 
-	if (iscons(cddddr(p1))) {
-		push(caddddr(p1));
+	p1 = cddddr(p1);
+
+	if (iscons(p1)) {
+		push(car(p1));
 		eval();
 	} else
 		push_integer(0); // default expansion point
@@ -46,7 +45,8 @@ eval_taylor(void)
 	subst();
 	eval();
 
-	C = one;
+	push_integer(1);
+	C = pop();
 
 	for (i = 1; i <= n; i++) {
 
@@ -79,6 +79,4 @@ eval_taylor(void)
 	}
 
 	add_terms(tos - h);
-
-	expanding = t;
 }

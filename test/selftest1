@@ -2838,6 +2838,14 @@ A = taylor(cos(x),x,5)
 B = 1/24 x^4 - 1/2 x^2 + 1
 check(A == B)
 
+A = taylor(sin(x),x,5,a)
+B = -1/120 a^5 cos(a) + 1/24 a^4 x cos(a) + 1/24 a^4 sin(a) - 1/12 a^3 x^2 cos(a) - 1/6 a^3 x sin(a) + 1/6 a^3 cos(a) + 1/12 a^2 x^3 cos(a) + 1/4 a^2 x^2 sin(a) - 1/2 a^2 x cos(a) - 1/2 a^2 sin(a) - 1/24 a x^4 cos(a) - 1/6 a x^3 sin(a) + 1/2 a x^2 cos(a) + a x sin(a) - a cos(a) + 1/120 x^5 cos(a) + 1/24 x^4 sin(a) - 1/6 x^3 cos(a) - 1/2 x^2 sin(a) + x cos(a) + sin(a)
+check(A == B)
+
+A = eval(A,a,0)
+B = 1/120 x^5 - 1/6 x^3 + x
+check(A == B)
+
 A = taylor(1/(5+4*cos(x)),x,6,0)
 B = 1/9+2/81*x^2+5/1458*x^4+49/131220*x^6
 check(A == B)
