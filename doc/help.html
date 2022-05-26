@@ -107,12 +107,12 @@
 <a href="#sum">sum</a><br>
 <a href="#tan">tan</a><br>
 <a href="#tanh">tanh</a><br>
+<a href="#taylor">taylor</a><br>
 <a href="#test">test</a><br>
 <a href="#trace">trace</a><br>
 <a href="#transpose">transpose</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
-<br>
 <br>
 <br>
 <br>
@@ -1369,6 +1369,19 @@ circexp(tanh(x))
        1             exp(2 x)   
 −╶────────────╴ + ╶────────────╴
   exp(2 x) + 1     exp(2 x) + 1 
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="taylor">taylor(<i>f,x,n,a</i>)</a>
+<p>
+Returns the <i>n</i>th order Taylor series expansion of <i>f</i>(<i>x</i>) at <i>a</i>.
+If argument <i>a</i> is omitted then zero is used for the expansion point.
+<pre style="font-family:courier;color:blue">
+taylor(1/(1-x),x,5)
+</pre>
+<pre style="font-family:courier">
+ 5    4    3    2        
+x  + x  + x  + x  + x + 1
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
