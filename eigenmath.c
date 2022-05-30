@@ -9735,19 +9735,16 @@ void
 eval_for(void)
 {
 	int j, k;
-	p1 = cdr(p1);
-	p2 = car(p1);
+	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stop("for 1st arg: symbol expected");
-	p1 = cdr(p1);
-	push(car(p1));
+		stop("for: symbol error");
+	push(caddr(p1));
 	eval();
 	j = pop_integer();
-	p1 = cdr(p1);
-	push(car(p1));
+	push(cadddr(p1));
 	eval();
 	k = pop_integer();
-	p1 = cdr(p1);
+	p1 = cddddr(p1);
 	save_symbol(p2);
 	for (;;) {
 		push_integer(j);
@@ -18039,8 +18036,7 @@ void
 eval_product(void)
 {
 	int h, i, j, k, n;
-	n = length(p1);
-	if (n == 2) {
+	if (length(p1) == 2) {
 		push(cadr(p1));
 		eval();
 		p1 = pop();
@@ -18054,19 +18050,16 @@ eval_product(void)
 		multiply_factors(n);
 		return;
 	}
-	if (n != 5)
-		stop("product: 4 args expected");
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stop("product 1st arg: symbol expected");
-	p1 = cddr(p1);
-	push(car(p1));
+		stop("product: symbol error");
+	push(caddr(p1));
 	eval();
 	j = pop_integer();
-	push(cadr(p1));
+	push(cadddr(p1));
 	eval();
 	k = pop_integer();
-	p1 = caddr(p1);
+	p1 = caddddr(p1);
 	save_symbol(p2);
 	h = tos;
 	for (;;) {
@@ -20576,8 +20569,7 @@ void
 eval_sum(void)
 {
 	int h, i, j, k, n;
-	n = length(p1);
-	if (n == 2) {
+	if (length(p1) == 2) {
 		push(cadr(p1));
 		eval();
 		p1 = pop();
@@ -20591,19 +20583,16 @@ eval_sum(void)
 		add_terms(n);
 		return;
 	}
-	if (n != 5)
-		stop("sum: 4 args expected");
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stop("sum 1st arg: symbol expected");
-	p1 = cddr(p1);
-	push(car(p1));
+		stop("sum: symbol error");
+	push(caddr(p1));
 	eval();
 	j = pop_integer();
-	push(cadr(p1));
+	push(cadddr(p1));
 	eval();
 	k = pop_integer();
-	p1 = caddr(p1);
+	p1 = caddddr(p1);
 	save_symbol(p2);
 	h = tos;
 	for (;;) {

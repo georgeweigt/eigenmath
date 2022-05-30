@@ -5,9 +5,7 @@ eval_product(void)
 {
 	int h, i, j, k, n;
 
-	n = length(p1);
-
-	if (n == 2) {
+	if (length(p1) == 2) {
 		push(cadr(p1));
 		eval();
 		p1 = pop();
@@ -22,25 +20,19 @@ eval_product(void)
 		return;
 	}
 
-	if (n != 5)
-		stop("product: 4 args expected");
-
 	p2 = cadr(p1);
-
 	if (!isusersymbol(p2))
-		stop("product 1st arg: symbol expected");
+		stop("product: symbol error");
 
-	p1 = cddr(p1);
-
-	push(car(p1));
+	push(caddr(p1));
 	eval();
 	j = pop_integer();
 
-	push(cadr(p1));
+	push(cadddr(p1));
 	eval();
 	k = pop_integer();
 
-	p1 = caddr(p1);
+	p1 = caddddr(p1);
 
 	save_symbol(p2);
 

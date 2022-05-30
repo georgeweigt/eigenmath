@@ -5,22 +5,19 @@ eval_for(void)
 {
 	int j, k;
 
-	p1 = cdr(p1);
-	p2 = car(p1);
+	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stop("for 1st arg: symbol expected");
+		stop("for: symbol error");
 
-	p1 = cdr(p1);
-	push(car(p1));
+	push(caddr(p1));
 	eval();
 	j = pop_integer();
 
-	p1 = cdr(p1);
-	push(car(p1));
+	push(cadddr(p1));
 	eval();
 	k = pop_integer();
 
-	p1 = cdr(p1);
+	p1 = cddddr(p1);
 
 	save_symbol(p2);
 

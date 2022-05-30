@@ -3,9 +3,7 @@ eval_product(p1)
 {
 	var h, i, j, k, n, p2, p3;
 
-	n = lengthf(p1);
-
-	if (n == 2) {
+	if (lengthf(p1) == 2) {
 		push(cadr(p1));
 		evalf();
 		p1 = pop();
@@ -20,25 +18,19 @@ eval_product(p1)
 		return;
 	}
 
-	if (n != 5)
-		stopf("product: 4 args expected");
-
 	p2 = cadr(p1);
-
 	if (!isusersymbol(p2))
-		stopf("product 1st arg: symbol expected");
+		stopf("product: symbol error");
 
-	p1 = cddr(p1);
-
-	push(car(p1));
+	push(caddr(p1));
 	evalf();
 	j = pop_integer();
 
-	push(cadr(p1));
+	push(cadddr(p1));
 	evalf();
 	k = pop_integer();
 
-	p1 = caddr(p1);
+	p1 = caddddr(p1);
 
 	save_symbol(p2);
 

@@ -4,21 +4,18 @@ eval_for(p1)
 	var j, k, p2, p3;
 
 	p2 = cadr(p1);
-
 	if (!isusersymbol(p2))
-		stopf("symbol expected");
+		stopf("for: symbol error");
 
-	p1 = cddr(p1);
-
-	push(car(p1));
+	push(caddr(p1));
 	evalf();
 	j = pop_integer();
 
-	push(cadr(p1));
+	push(cadddr(p1));
 	evalf();
 	k = pop_integer();
 
-	p1 = cddr(p1);
+	p1 = cddddr(p1);
 
 	save_symbol(p2);
 
