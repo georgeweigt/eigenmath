@@ -131,6 +131,7 @@
 		7FAE1431271D0FD4001234C6 /* run_thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1425271D0FD4001234C6 /* run_thread.c */; };
 		7FAE1432271D0FD4001234C6 /* app.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1426271D0FD4001234C6 /* app.c */; };
 		7FAE1433271D0FD4001234C6 /* fontinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1427271D0FD4001234C6 /* fontinfo.c */; };
+		7FC9CC1528491F4B00808C60 /* taylor.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FC9CC1428491F4B00808C60 /* taylor.c */; };
 		7FF6B91C271DCAC20047F0A7 /* Eigenmath.help in Resources */ = {isa = PBXBuildFile; fileRef = 7FF6B91A271DCAC20047F0A7 /* Eigenmath.help */; };
 /* End PBXBuildFile section */
 
@@ -269,6 +270,7 @@
 		7FAE1425271D0FD4001234C6 /* run_thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = run_thread.c; sourceTree = "<group>"; };
 		7FAE1426271D0FD4001234C6 /* app.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = app.c; sourceTree = "<group>"; };
 		7FAE1427271D0FD4001234C6 /* fontinfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fontinfo.c; sourceTree = "<group>"; };
+		7FC9CC1428491F4B00808C60 /* taylor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = taylor.c; sourceTree = "<group>"; };
 		7FF6B91B271DCAC20047F0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base; path = Base.lproj/Eigenmath.help; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -321,6 +323,7 @@
 		7FAB23B9271D0293007ED5D2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				7FC9CC1428491F4B00808C60 /* taylor.c */,
 				7FAB2428271D0293007ED5D2 /* abs.c */,
 				7FAB2417271D0293007ED5D2 /* add.c */,
 				7FAB241F271D0293007ED5D2 /* adj.c */,
@@ -581,6 +584,7 @@
 				7FAB2430271D0293007ED5D2 /* rect.c in Sources */,
 				7FAB2434271D0293007ED5D2 /* factor.c in Sources */,
 				7FAB2488271D0294007ED5D2 /* primetab.c in Sources */,
+				7FC9CC1528491F4B00808C60 /* taylor.c in Sources */,
 				7FAB2472271D0293007ED5D2 /* infixform.c in Sources */,
 				7FAB2455271D0293007ED5D2 /* exp.c in Sources */,
 				7FAB244E271D0293007ED5D2 /* integral.c in Sources */,
