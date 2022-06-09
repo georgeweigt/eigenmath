@@ -19073,7 +19073,6 @@ eval_status(void)
 }
 
 char *init_script[] = {
-	"e=exp(1)",
 	"i=sqrt(-1)",
 	"last=0",
 	"tty=0",
