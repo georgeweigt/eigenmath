@@ -1,3 +1,7 @@
+"Testing rotate"
+
+clear
+
 ket0 = (1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
 ket1 = (0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
 ket2 = (0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0)
@@ -2211,7 +2215,7 @@ P = psi conj(psi)
 theta = sum(k,0,15,k/8 P[k + 1]) - 1
 check(infixform(theta) == "0.30465")
 
-"Testing order finding"
+-- Test order finding
 
 clear
 
@@ -2279,7 +2283,7 @@ for(k,1,256,test(P[k],do(M[1,n]=float(P[k]),M[2,n]=(k-1)/256,n=n+1)))
 
 check(M[2] == (0,1/4,1/2,3/4))
 
-"Testing full adder"
+-- Test full adder
 
 clear
 
@@ -2306,5 +2310,3 @@ check(U(ket0000) == ket0000)
 check(U(ket0001) == ket0101)
 check(U(ket0010) == ket0110)
 check(U(ket0011) == ket1011)
-
-"ok"
