@@ -225,9 +225,8 @@ struct atom {
 #define PI		(15 * NSYM + 2)
 #define POLAR		(15 * NSYM + 3)
 #define PREFIXFORM	(15 * NSYM + 4)
-#define PRIME		(15 * NSYM + 5)
-#define PRINT		(15 * NSYM + 6)
-#define PRODUCT		(15 * NSYM + 7)
+#define PRINT		(15 * NSYM + 5)
+#define PRODUCT		(15 * NSYM + 6)
 
 #define Q_UPPER		(16 * NSYM + 0)
 #define Q_LOWER		(16 * NSYM + 1)
@@ -884,8 +883,6 @@ void power_double(struct atom *BASE, struct atom *EXPO);
 void eval_prefixform(struct atom *p1);
 void print_prefixform(struct atom *p);
 void prefixform(struct atom *p);
-void eval_prime(struct atom *p1);
-void prime(void);
 void eval_print(struct atom *p1);
 void print_result(void);
 void prep_symbol_equals(struct atom *p1, struct atom *p2);
@@ -1050,6 +1047,7 @@ int interrupt;
 jmp_buf jmpbuf0;
 jmp_buf jmpbuf1;
 
+int alloc_count;
 int block_count;
 int free_count;
 int gc_count;
@@ -3957,6 +3955,7 @@ struct atom *
 alloc(void)
 {
 	struct atom *p;
+	alloc_count++;
 	if (free_count == 0) {
 		alloc_block();
 		if (free_count == 0)
@@ -14871,31 +14870,6 @@ prefixform(struct atom *p)
 	}
 }
 
-//	Look up the nth prime
-//
-//	Input:		n on stack (0 < n < 10001)
-//
-//	Output:		nth prime on stack
-
-void
-eval_prime(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	prime();
-}
-
-void
-prime(void)
-{
-	int n;
-	n = pop_integer();
-	if (n < 1 || n > MAXPRIMETAB)
-		stop("prime: arg out of range");
-	n = primetab[n - 1];
-	push_integer(n);
-}
-
 int primetab[10000] = {
 2,3,5,7,11,13,17,19,
 23,29,31,37,41,43,47,53,
@@ -16967,7 +16941,10 @@ run(char *s)
 	prep();
 	set_symbol(symbol(TRACE), zero, symbol(NIL));
 	for (;;) {
-		gc();
+		if (alloc_count > BLOCKSIZE * block_count / 5) {
+			gc();
+			alloc_count = 0;
+		}
 		s = scan_input(s);
 		if (s == NULL)
 			break; // end of input
@@ -18808,7 +18785,6 @@ struct se stab[] = {
 	{ "pi",			PI,		NULL			},
 	{ "polar",		POLAR,		eval_polar		},
 	{ "prefixform",		PREFIXFORM,	eval_prefixform		},
-	{ "prime",		PRIME,		eval_prime		},
 	{ "print",		PRINT,		eval_print		},
 	{ "product",		PRODUCT,	eval_product		},
 

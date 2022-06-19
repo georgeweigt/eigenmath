@@ -510,8 +510,6 @@ void power_double(struct atom *BASE, struct atom *EXPO);
 void eval_prefixform(struct atom *p1);
 void print_prefixform(struct atom *p);
 void prefixform(struct atom *p);
-void eval_prime(struct atom *p1);
-void prime(void);
 void eval_print(struct atom *p1);
 void print_result(void);
 void prep_symbol_equals(struct atom *p1, struct atom *p2);

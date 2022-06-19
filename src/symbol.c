@@ -243,7 +243,6 @@ struct se stab[] = {
 	{ "pi",			PI,		NULL			},
 	{ "polar",		POLAR,		eval_polar		},
 	{ "prefixform",		PREFIXFORM,	eval_prefixform		},
-	{ "prime",		PRIME,		eval_prime		},
 	{ "print",		PRINT,		eval_print		},
 	{ "product",		PRODUCT,	eval_product		},
 

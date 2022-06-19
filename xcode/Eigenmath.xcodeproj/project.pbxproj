@@ -91,7 +91,6 @@
 		7FAB247A271D0294007ED5D2 /* for.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB240C271D0293007ED5D2 /* for.c */; };
 		7FAB247B271D0294007ED5D2 /* equal.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB240D271D0293007ED5D2 /* equal.c */; };
 		7FAB247C271D0294007ED5D2 /* symbol.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB240E271D0293007ED5D2 /* symbol.c */; };
-		7FAB247D271D0294007ED5D2 /* prime.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB240F271D0293007ED5D2 /* prime.c */; };
 		7FAB247E271D0294007ED5D2 /* mathml.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2410271D0293007ED5D2 /* mathml.c */; };
 		7FAB247F271D0294007ED5D2 /* product.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2411271D0293007ED5D2 /* product.c */; };
 		7FAB2480271D0294007ED5D2 /* float.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2412271D0293007ED5D2 /* float.c */; };
@@ -227,7 +226,6 @@
 		7FAB240C271D0293007ED5D2 /* for.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = for.c; sourceTree = "<group>"; };
 		7FAB240D271D0293007ED5D2 /* equal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = equal.c; sourceTree = "<group>"; };
 		7FAB240E271D0293007ED5D2 /* symbol.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = symbol.c; sourceTree = "<group>"; };
-		7FAB240F271D0293007ED5D2 /* prime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = prime.c; sourceTree = "<group>"; };
 		7FAB2410271D0293007ED5D2 /* mathml.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mathml.c; sourceTree = "<group>"; };
 		7FAB2411271D0293007ED5D2 /* product.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = product.c; sourceTree = "<group>"; };
 		7FAB2412271D0293007ED5D2 /* float.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = float.c; sourceTree = "<group>"; };
@@ -405,7 +403,6 @@
 				7FAB23D4271D0293007ED5D2 /* power_numbers.c */,
 				7FAB23FF271D0293007ED5D2 /* power.c */,
 				7FAB23EE271D0293007ED5D2 /* prefixform.c */,
-				7FAB240F271D0293007ED5D2 /* prime.c */,
 				7FAB241A271D0293007ED5D2 /* primetab.c */,
 				7FAB23CB271D0293007ED5D2 /* print.c */,
 				7FAB2411271D0293007ED5D2 /* product.c */,
@@ -558,7 +555,6 @@
 				7FAB244A271D0293007ED5D2 /* conj.c in Sources */,
 				7FAB24A4271D0556007ED5D2 /* EigenmathView.m in Sources */,
 				7FAB2457271D0293007ED5D2 /* scan.c in Sources */,
-				7FAB247D271D0294007ED5D2 /* prime.c in Sources */,
 				7FAB2445271D0293007ED5D2 /* hadamard.c in Sources */,
 				7FAB2432271D0293007ED5D2 /* sgn.c in Sources */,
 				7FAB2493271D0294007ED5D2 /* kronecker.c in Sources */,

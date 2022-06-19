@@ -189,9 +189,8 @@ struct atom {
 #define PI		(15 * NSYM + 2)
 #define POLAR		(15 * NSYM + 3)
 #define PREFIXFORM	(15 * NSYM + 4)
-#define PRIME		(15 * NSYM + 5)
-#define PRINT		(15 * NSYM + 6)
-#define PRODUCT		(15 * NSYM + 7)
+#define PRINT		(15 * NSYM + 5)
+#define PRODUCT		(15 * NSYM + 6)
 
 #define Q_UPPER		(16 * NSYM + 0)
 #define Q_LOWER		(16 * NSYM + 1)
