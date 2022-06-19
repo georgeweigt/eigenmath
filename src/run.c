@@ -18,7 +18,7 @@ run(char *s)
 
 	for (;;) {
 
-		if (alloc_count > BLOCKSIZE * block_count / 10) {
+		if (alloc_count > BLOCKSIZE * block_count / 5) {
 			gc();
 			alloc_count = 0;
 		}
