@@ -18,7 +18,10 @@ run(char *s)
 
 	for (;;) {
 
-		gc();
+		if (alloc_count > BLOCKSIZE) {
+			gc();
+			alloc_count = 0;
+		}
 
 		s = scan_input(s);
 

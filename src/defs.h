@@ -29,6 +29,7 @@ extern int interrupt;
 extern jmp_buf jmpbuf0;
 extern jmp_buf jmpbuf1;
 
+extern int alloc_count;
 extern int block_count;
 extern int free_count;
 extern int gc_count;
