@@ -1,12 +1,11 @@
 #include "defs.h"
 
 void
-eval_hadamard(void)
+eval_hadamard(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
+
 	p1 = cddr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
@@ -14,21 +13,13 @@ eval_hadamard(void)
 		hadamard();
 		p1 = cdr(p1);
 	}
-	expanding = t;
 }
 
 void
 hadamard(void)
 {
-	save();
-	hadamard_nib();
-	restore();
-}
-
-void
-hadamard_nib(void)
-{
 	int i, n;
+	struct atom *p1, *p2;
 
 	p2 = pop();
 	p1 = pop();

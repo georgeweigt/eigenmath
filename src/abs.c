@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_abs(void)
+eval_abs(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	absfunc();
-	expanding = t;
 }
 
 void
 absfunc(void)
 {
-	save();
-	absfunc_nib();
-	restore();
-}
-
-void
-absfunc_nib(void)
-{
 	int h;
+	struct atom *p1, *p2, *p3;
 
 	p1 = pop();
 

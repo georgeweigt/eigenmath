@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_sinh(void)
+eval_sinh(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	sinhfunc();
-	expanding = t;
 }
 
 void
 sinhfunc(void)
 {
-	save();
-	sinhfunc_nib();
-	restore();
-}
-
-void
-sinhfunc_nib(void)
-{
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

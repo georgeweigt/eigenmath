@@ -11,8 +11,8 @@
 
 #define STACKSIZE 1000000 // evaluation stack
 #define FRAMESIZE 10000
-#define BLOCKSIZE 100000
-#define MAXBLOCKS 200
+#define BLOCKSIZE 10000
+#define MAXBLOCKS 2000
 #define NSYM 100
 
 #define JOURNALSIZE 1000
@@ -42,17 +42,6 @@
 //              |SYM    |    |SYM    |    |SYM    |
 //              |"mul"  |    |"a"    |    |"b"    |
 //              |_______|    |_______|    |_______|
-//
-// Programming notes:
-//
-// 1. Automatic C variables of type "struct atom *" should not be used.
-//    Use the global variables p0-p9 instead.
-//    Call save() before using p0-p9, then call restore() when finished.
-//    The use of p0-p9 is required by the garbage collector.
-//
-// 2. Do not use NULL for a car or cdr.
-//    Use the pointer returned by symbol(NIL) instead.
-//    The code does not test for NULL.
 
 struct atom {
 	union {
@@ -62,7 +51,7 @@ struct atom {
 		} cons;
 		struct {
 			char *name;
-			void (*func)(void);
+			void (*func)(struct atom *);
 		} ksym;
 		struct {
 			char *name;
@@ -344,8 +333,5 @@ struct tensor {
 #define RED 2
 
 #define Trace fprintf(stderr, "%s %d\n", __func__, __LINE__);
-
-#define BASE p8
-#define EXPO p9
 
 extern int primetab[MAXPRIMETAB];

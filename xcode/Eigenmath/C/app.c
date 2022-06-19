@@ -24,8 +24,9 @@ int emit_count;
 struct display *emit_display;
 
 void
-eval_exit(void)
+eval_exit(struct atom *p1)
 {
+	(void) p1;
 	push_symbol(NIL);
 }
 

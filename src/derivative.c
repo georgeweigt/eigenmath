@@ -1,24 +1,12 @@
 #include "defs.h"
 
-#undef X
-#undef Y
-
-#define X p4
-#define Y p5
-
 void
-eval_derivative(void)
-{
-	int t = expanding;
-	expanding = 1;
-	eval_derivative_nib();
-	expanding = t;
-}
-
-void
-eval_derivative_nib(void)
+eval_derivative(struct atom *p1)
 {
 	int flag, i, n;
+	struct atom *X, *Y;
+
+	Y = symbol(NIL); // silence compiler
 
 	push(cadr(p1));
 	eval();
@@ -84,165 +72,166 @@ eval_derivative_nib(void)
 void
 derivative(void)
 {
-	save();
-	p2 = pop();
-	p1 = pop();
-	if (istensor(p1))
-		if (istensor(p2))
-			d_tensor_tensor();
+	struct atom *F, *X;
+
+	X = pop();
+	F = pop();
+
+	if (istensor(F))
+		if (istensor(X))
+			d_tensor_tensor(F, X);
 		else
-			d_tensor_scalar();
+			d_tensor_scalar(F, X);
 	else
-		if (istensor(p2))
-			d_scalar_tensor();
+		if (istensor(X))
+			d_scalar_tensor(F, X);
 		else
-			d_scalar_scalar();
-	restore();
+			d_scalar_scalar(F, X);
 }
 
 void
-d_scalar_scalar(void)
+d_scalar_scalar(struct atom *F, struct atom *X)
 {
 	// d(x,x)?
 
-	if (equal(p1, p2)) {
+	if (equal(F, X)) {
 		push_integer(1);
 		return;
 	}
 
 	// d(a,x)?
 
-	if (!iscons(p1)) {
+	if (!iscons(F)) {
 		push_integer(0);
 		return;
 	}
 
-	if (car(p1) == symbol(ADD)) {
-		dsum();
+	if (car(F) == symbol(ADD)) {
+		dsum(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(MULTIPLY)) {
-		dproduct();
+	if (car(F) == symbol(MULTIPLY)) {
+		dproduct(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(POWER)) {
-		dpower();
+	if (car(F) == symbol(POWER)) {
+		dpower(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(DERIVATIVE)) {
-		dd();
+	if (car(F) == symbol(DERIVATIVE)) {
+		dd(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(LOG)) {
-		dlog();
+	if (car(F) == symbol(LOG)) {
+		dlog(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(SIN)) {
-		dsin();
+	if (car(F) == symbol(SIN)) {
+		dsin(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(COS)) {
-		dcos();
+	if (car(F) == symbol(COS)) {
+		dcos(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(TAN)) {
-		dtan();
+	if (car(F) == symbol(TAN)) {
+		dtan(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(ARCSIN)) {
-		darcsin();
+	if (car(F) == symbol(ARCSIN)) {
+		darcsin(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(ARCCOS)) {
-		darccos();
+	if (car(F) == symbol(ARCCOS)) {
+		darccos(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(ARCTAN)) {
-		darctan();
+	if (car(F) == symbol(ARCTAN)) {
+		darctan(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(SINH)) {
-		dsinh();
+	if (car(F) == symbol(SINH)) {
+		dsinh(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(COSH)) {
-		dcosh();
+	if (car(F) == symbol(COSH)) {
+		dcosh(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(TANH)) {
-		dtanh();
+	if (car(F) == symbol(TANH)) {
+		dtanh(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(ARCSINH)) {
-		darcsinh();
+	if (car(F) == symbol(ARCSINH)) {
+		darcsinh(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(ARCCOSH)) {
-		darccosh();
+	if (car(F) == symbol(ARCCOSH)) {
+		darccosh(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(ARCTANH)) {
-		darctanh();
+	if (car(F) == symbol(ARCTANH)) {
+		darctanh(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(ABS)) {
-		dabs();
+	if (car(F) == symbol(ABS)) {
+		dabs(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(ERF)) {
-		derf();
+	if (car(F) == symbol(ERF)) {
+		derf(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(ERFC)) {
-		derfc();
+	if (car(F) == symbol(ERFC)) {
+		derfc(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(BESSELJ)) {
-		if (iszero(caddr(p1)))
-			dbesselj0();
+	if (car(F) == symbol(BESSELJ)) {
+		if (iszero(caddr(F)))
+			dbesselj0(F, X);
 		else
-			dbesseljn();
+			dbesseljn(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(BESSELY)) {
-		if (iszero(caddr(p1)))
-			dbessely0();
+	if (car(F) == symbol(BESSELY)) {
+		if (iszero(caddr(F)))
+			dbessely0(F, X);
 		else
-			dbesselyn();
+			dbesselyn(F, X);
 		return;
 	}
 
-	if (car(p1) == symbol(INTEGRAL) && caddr(p1) == p2) {
-		derivative_of_integral();
+	if (car(F) == symbol(INTEGRAL) && caddr(F) == X) {
+		derivative_of_integral(F, X);
 		return;
 	}
 
-	dfunction();
+	dfunction(F, X);
 }
 
 void
-dsum(void)
+dsum(struct atom *p1, struct atom *p2)
 {
 	int h = tos;
 	p1 = cdr(p1);
@@ -256,9 +245,10 @@ dsum(void)
 }
 
 void
-dproduct(void)
+dproduct(struct atom *p1, struct atom *p2)
 {
 	int i, j, n;
+	struct atom *p3;
 	n = length(p1) - 1;
 	for (i = 0; i < n; i++) {
 		p3 = cdr(p1);
@@ -289,7 +279,7 @@ dproduct(void)
 //	dx       u dx           dx
 
 void
-dpower(void)
+dpower(struct atom *p1, struct atom *p2)
 {
 	if (isnum(cadr(p1)) && isnum(caddr(p1))) {
 		push_integer(0); // irr or imag
@@ -323,7 +313,7 @@ dpower(void)
 }
 
 void
-dlog(void)
+dlog(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -345,8 +335,10 @@ dlog(void)
 //	caddr(p1) = y
 
 void
-dd(void)
+dd(struct atom *p1, struct atom *p2)
 {
+	struct atom *p3;
+
 	// d(f(x,y),x)
 
 	push(cadr(p1));
@@ -385,8 +377,10 @@ dd(void)
 // derivative of a generic function
 
 void
-dfunction(void)
+dfunction(struct atom *p1, struct atom *p2)
 {
+	struct atom *p3;
+
 	p3 = cdr(p1);	// p3 is the argument list for the function
 
 	if (p3 == symbol(NIL) || find(p3, p2)) {
@@ -399,7 +393,7 @@ dfunction(void)
 }
 
 void
-dsin(void)
+dsin(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -410,7 +404,7 @@ dsin(void)
 }
 
 void
-dcos(void)
+dcos(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -422,7 +416,7 @@ dcos(void)
 }
 
 void
-dtan(void)
+dtan(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -435,7 +429,7 @@ dtan(void)
 }
 
 void
-darcsin(void)
+darcsin(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -451,7 +445,7 @@ darcsin(void)
 }
 
 void
-darccos(void)
+darccos(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -468,7 +462,7 @@ darccos(void)
 }
 
 void
-darctan(void)
+darctan(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -483,7 +477,7 @@ darctan(void)
 }
 
 void
-dsinh(void)
+dsinh(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -494,7 +488,7 @@ dsinh(void)
 }
 
 void
-dcosh(void)
+dcosh(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -505,7 +499,7 @@ dcosh(void)
 }
 
 void
-dtanh(void)
+dtanh(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -518,7 +512,7 @@ dtanh(void)
 }
 
 void
-darcsinh(void)
+darcsinh(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -534,7 +528,7 @@ darcsinh(void)
 }
 
 void
-darccosh(void)
+darccosh(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -550,7 +544,7 @@ darccosh(void)
 }
 
 void
-darctanh(void)
+darctanh(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -565,7 +559,7 @@ darctanh(void)
 }
 
 void
-dabs(void)
+dabs(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -576,7 +570,7 @@ dabs(void)
 }
 
 void
-derf(void)
+derf(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push_integer(2);
@@ -597,7 +591,7 @@ derf(void)
 }
 
 void
-derfc(void)
+derfc(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push_integer(2);
@@ -615,11 +609,10 @@ derfc(void)
 	push(p2);
 	derivative();
 	multiply();
-
 }
 
 void
-dbesselj0(void)
+dbesselj0(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -633,7 +626,7 @@ dbesselj0(void)
 }
 
 void
-dbesseljn(void)
+dbesseljn(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -656,9 +649,8 @@ dbesseljn(void)
 	multiply();
 }
 
-
 void
-dbessely0(void)
+dbessely0(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -671,9 +663,8 @@ dbessely0(void)
 	multiply();
 }
 
-
 void
-dbesselyn(void)
+dbesselyn(struct atom *p1, struct atom *p2)
 {
 	push(cadr(p1));
 	push(p2);
@@ -697,7 +688,8 @@ dbesselyn(void)
 }
 
 void
-derivative_of_integral(void)
+derivative_of_integral(struct atom *p1, struct atom *p2)
 {
+	(void) p2; // silence compiler
 	push(cadr(p1));
 }

@@ -1,19 +1,10 @@
 #include "defs.h"
 
-#undef F
-#undef X
-#undef A
-#undef C
-
-#define F p3
-#define X p4
-#define A p5
-#define C p6
-
 void
-eval_taylor(void)
+eval_taylor(struct atom *p1)
 {
 	int h, i, n;
+	struct atom *F, *X, *A, *C;
 
 	push(cadr(p1));
 	eval();

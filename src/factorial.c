@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_factorial(void)
+eval_factorial(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	factorial();
-	expanding = t;
 }
 
 void
 factorial(void)
 {
-	save();
-	factorial_nib();
-	restore();
-}
-
-void
-factorial_nib(void)
-{
 	int n;
+	struct atom *p1;
 
 	p1 = pop();
 

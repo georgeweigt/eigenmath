@@ -1,36 +1,23 @@
 #include "defs.h"
 
 void
-eval_besselj(void)
+eval_besselj(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
+
 	push(caddr(p1));
 	eval();
+
 	besselj();
 }
 
 void
 besselj(void)
 {
-	save();
-	besselj_nib();
-	restore();
-}
-
-#undef X
-#undef N
-#undef SIGN
-
-#define X p1
-#define N p2
-#define SIGN p3
-
-void
-besselj_nib(void)
-{
-	double d;
 	int n;
+	double d;
+	struct atom *X, *N, *SIGN;
 
 	N = pop();
 	X = pop();

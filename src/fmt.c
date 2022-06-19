@@ -51,8 +51,7 @@ void
 fmt(void)
 {
 	int c, d, h, i, j, n, w;
-
-	save();
+	struct atom *p1;
 
 	fmt_level = 0;
 
@@ -89,8 +88,6 @@ fmt(void)
 	}
 
 	free(fmt_buf);
-
-	restore();
 }
 
 void
@@ -928,8 +925,7 @@ void
 fmt_update_fraction(void)
 {
 	int d, h, w;
-
-	save();
+	struct atom *p1, *p2;
 
 	p2 = pop(); // denominator
 	p1 = pop(); // numerator
@@ -949,19 +945,16 @@ fmt_update_fraction(void)
 	push(p2);
 
 	list(6);
-
-	restore();
 }
 
 void
 fmt_update_list(int t)
 {
 	int d, h, i, w;
+	struct atom *p1;
 
 	if (tos - t == 1)
 		return;
-
-	save();
 
 	h = 0;
 	d = 0;
@@ -984,16 +977,13 @@ fmt_update_list(int t)
 	push(p1);
 
 	list(5);
-
-	restore();
 }
 
 void
 fmt_update_subexpr(void)
 {
 	int d, h, w;
-
-	save();
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -1017,16 +1007,13 @@ fmt_update_subexpr(void)
 	push(p1);
 
 	list(5);
-
-	restore();
 }
 
 void
 fmt_update_subscript(void)
 {
 	int d, dx, dy, h, w;
-
-	save();
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -1046,16 +1033,13 @@ fmt_update_subscript(void)
 	push(p1);
 
 	list(7);
-
-	restore();
 }
 
 void
 fmt_update_superscript(void)
 {
 	int d, dx, dy, h, w, y;
-
-	save();
+	struct atom *p1, *p2;
 
 	p2 = pop(); // exponent
 	p1 = pop(); // base
@@ -1092,8 +1076,6 @@ fmt_update_superscript(void)
 	push(p2);
 
 	list(7);
-
-	restore();
 }
 
 void
@@ -1102,8 +1084,7 @@ fmt_update_table(int n, int m)
 	int i, j, t;
 	int d, h, w;
 	int total_height, total_width;
-
-	save();
+	struct atom *p1, *p2, *p3, *p4;
 
 	total_height = 0;
 	total_width = 0;
@@ -1179,8 +1160,6 @@ fmt_update_table(int n, int m)
 	push(p4);
 
 	list(10);
-
-	restore();
 }
 
 void

@@ -8,7 +8,7 @@
 #define MML_RB "<mo>]</mo></mrow>"
 
 void
-eval_mathml(void)
+eval_mathml(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
@@ -21,17 +21,10 @@ eval_mathml(void)
 void
 mathml(void)
 {
-	save();
-	mathml_nib();
-	restore();
-}
-
-void
-mathml_nib(void)
-{
-	outbuf_index = 0;
-
+	struct atom *p1;
 	p1 = pop();
+
+	outbuf_index = 0;
 
 	if (isstr(p1))
 		mml_string(p1, 0);

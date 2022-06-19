@@ -1,16 +1,7 @@
 #include "defs.h"
 
 void
-eval_contract(void)
-{
-	int t = expanding;
-	expanding = 1;
-	eval_contract_nib();
-	expanding = t;
-}
-
-void
-eval_contract_nib(void)
+eval_contract(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
@@ -37,17 +28,9 @@ eval_contract_nib(void)
 void
 contract(void)
 {
-	save();
-	contract_nib();
-	restore();
-}
-
-void
-contract_nib(void)
-{
 	int h, i, j, k, m, n, ncol, ndim, nelem, nrow;
 	int index[MAXDIM];
-	struct atom **a, **b;
+	struct atom **a, **b, *p1, *p2, *p3;
 
 	p3 = pop();
 	p2 = pop();

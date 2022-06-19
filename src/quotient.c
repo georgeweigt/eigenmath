@@ -1,7 +1,7 @@
 #include "defs.h"
 
 void
-eval_quotient(void)
+eval_quotient(struct atom *p1)
 {
 	push(cadr(p1));			// 1st arg, p(x)
 	eval();
@@ -30,25 +30,12 @@ eval_quotient(void)
 //
 //	Output:		tos-1		Quotient
 
-#undef DIVIDEND
-#undef DIVISOR
-#undef X
-#undef Q
-#undef QQUOTIENT
-
-#define DIVIDEND p1
-#define DIVISOR p2
-#define X p3
-#define Q p4
-#define QQUOTIENT p5
-
 void
 divpoly(void)
 {
 	int h, i, m, n, x;
 	struct atom **dividend, **divisor;
-
-	save();
+	struct atom *DIVIDEND, *DIVISOR, *X, *Q, *QQUOTIENT;
 
 	X = pop();
 	DIVISOR = pop();
@@ -105,6 +92,4 @@ divpoly(void)
 	tos = h;
 
 	push(QQUOTIENT);
-
-	restore();
 }

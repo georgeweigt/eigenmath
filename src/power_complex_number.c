@@ -1,34 +1,12 @@
 #include "defs.h"
 
-// define BASE p8 (defs1.h)
-// define EXPO p9 (defs1.h)
-
-#undef R
-#undef X
-#undef Y
-#undef PX
-#undef PY
-
-#define R p3
-#define X p4
-#define Y p5
-#define PX p6
-#define PY p7
-
 // BASE is rectangular complex numerical, EXPO is numerical
 
 void
-power_complex_number(void)
-{
-	save();
-	power_complex_number_nib();
-	restore();
-}
-
-void
-power_complex_number_nib(void)
+power_complex_number(struct atom *BASE, struct atom *EXPO)
 {
 	int n;
+	struct atom *X, *Y;
 
 	// prefixform(2+3*i) = (add 2 (multiply 3 (power -1 1/2)))
 
@@ -53,12 +31,12 @@ power_complex_number_nib(void)
 	}
 
 	if (isdouble(X) || isdouble(Y) || isdouble(EXPO)) {
-		power_complex_double();
+		power_complex_double(X, Y, EXPO);
 		return;
 	}
 
 	if (!isinteger(EXPO)) {
-		power_complex_rational();
+		power_complex_rational(X, Y, EXPO);
 		return;
 	}
 
@@ -74,17 +52,18 @@ power_complex_number_nib(void)
 	n = pop_integer();
 
 	if (n > 0)
-		power_complex_plus(n);
+		power_complex_plus(X, Y, n);
 	else if (n < 0)
-		power_complex_minus(-n);
+		power_complex_minus(X, Y, -n);
 	else
 		push_integer(1);
 }
 
 void
-power_complex_plus(int n)
+power_complex_plus(struct atom *X, struct atom *Y, int n)
 {
 	int i;
+	struct atom *PX, *PY;
 
 	PX = X;
 	PY = Y;
@@ -130,9 +109,10 @@ power_complex_plus(int n)
 // X and Y are rational numbers
 
 void
-power_complex_minus(int n)
+power_complex_minus(struct atom *X, struct atom *Y, int n)
 {
 	int i;
+	struct atom *PX, *PY, *R;
 
 	// R = X^2 + Y^2
 
@@ -195,7 +175,7 @@ power_complex_minus(int n)
 }
 
 void
-power_complex_double(void)
+power_complex_double(struct atom *X, struct atom *Y, struct atom *EXPO)
 {
 	double expo, r, theta, x, y;
 
@@ -227,7 +207,7 @@ power_complex_double(void)
 // X and Y are rational, EXPO is rational and not an integer
 
 void
-power_complex_rational(void)
+power_complex_rational(struct atom *X, struct atom *Y, struct atom *EXPO)
 {
 	// calculate sqrt(X^2 + Y^2) ^ (1/2 * EXPO)
 
@@ -253,7 +233,7 @@ power_complex_rational(void)
 	push(EXPO);
 	multiply();
 	EXPO = pop();
-	power_minusone();
+	power_minusone(EXPO);
 
 	// result = sqrt(X^2 + Y^2) ^ (1/2 * EXPO) * (-1) ^ (EXPO * arctan(Y, X) / pi)
 

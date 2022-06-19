@@ -1,12 +1,10 @@
 #include "defs.h"
 
 void
-eval_minor(void)
+eval_minor(struct atom *p1)
 {
-	int i, j, t;
-
-	t = expanding;
-	expanding = 1;
+	int i, j;
+	struct atom *p2;
 
 	push(cadr(p1));
 	eval();
@@ -31,17 +29,13 @@ eval_minor(void)
 	minormatrix(i, j);
 
 	det();
-
-	expanding = t;
 }
 
 void
-eval_minormatrix(void)
+eval_minormatrix(struct atom *p1)
 {
-	int i, j, t;
-
-	t = expanding;
-	expanding = 1;
+	int i, j;
+	struct atom *p2;
 
 	push(cadr(p1));
 	eval();
@@ -64,22 +58,15 @@ eval_minormatrix(void)
 	push(p2);
 
 	minormatrix(i, j);
-
-	expanding = t;
 }
 
 void
 minormatrix(int row, int col)
 {
-	save();
-	minormatrix_nib(row, col);
-	restore();
-}
-
-void
-minormatrix_nib(int row, int col)
-{
 	int i, j, k, m, n;
+	struct atom *p1, *p2;
+
+	p2 = symbol(NIL); // silence compiler
 
 	p1 = pop();
 

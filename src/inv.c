@@ -1,27 +1,18 @@
 #include "defs.h"
 
 void
-eval_inv(void)
+eval_inv(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	inv();
-	expanding = t;
 }
 
 void
 inv(void)
 {
-	save();
-	inv_nib();
-	restore();
-}
+	struct atom *p1;
 
-void
-inv_nib(void)
-{
 	p1 = pop();
 
 	if (!istensor(p1)) {
@@ -31,7 +22,7 @@ inv_nib(void)
 	}
 
 	if (!issquarematrix(p1))
-		stop("square matrix expected");
+		stop("inv: square matrix expected");
 
 	push(p1);
 	adj();

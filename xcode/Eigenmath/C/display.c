@@ -4,8 +4,7 @@ void
 display(void)
 {
 	double d, h, w;
-
-	save();
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -40,6 +39,4 @@ display(void)
 	emit_display->dy = VPAD + h;
 
 	shipout(emit_display);
-
-	restore();
 }

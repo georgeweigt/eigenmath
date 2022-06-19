@@ -2,17 +2,11 @@
 
 // get the coefficient of x^n in polynomial p(x)
 
-#undef P
-#undef X
-#undef N
-
-#define P p1
-#define X p2
-#define N p3
-
 void
-eval_coeff(void)
+eval_coeff(struct atom *p1)
 {
+	struct atom *P, *X, *N;
+
 	push(cadr(p1));			// 1st arg, p
 	eval();
 
@@ -57,8 +51,7 @@ int
 coeff(void)
 {
 	int h, n;
-
-	save();
+	struct atom *p1, *p2, *p3;
 
 	p2 = pop();
 	p1 = pop();
@@ -84,7 +77,6 @@ coeff(void)
 
 		if (iszero(p1)) {
 			n = tos - h;
-			restore();
 			return n;
 		}
 

@@ -1,22 +1,10 @@
 #include "defs.h"
 
-#undef POLY
-#undef X
-#undef A
-#undef B
-#undef C
-#undef Y
-
-#define POLY p1
-#define X p2
-#define A p3
-#define B p4
-#define C p5
-#define Y p6
-
 void
-eval_roots(void)
+eval_roots(struct atom *p1)
 {
+	struct atom *p2;
+
 	// A == B -> A - B
 
 	p2 = cadr(p1);
@@ -67,6 +55,7 @@ void
 roots(void)
 {
 	int h, i, n;
+	struct atom *p1;
 	h = tos - 2;
 	roots2();
 	n = tos - h;
@@ -75,7 +64,6 @@ roots(void)
 	if (n == 1)
 		return;
 	sort(n);
-	save();
 	p1 = alloc_tensor(n);
 	p1->u.tensor->ndim = 1;
 	p1->u.tensor->dim[0] = n;
@@ -83,13 +71,12 @@ roots(void)
 		p1->u.tensor->elem[i] = stack[h + i];
 	tos = h;
 	push(p1);
-	restore();
 }
 
 void
 roots2(void)
 {
-	save();
+	struct atom *p1, *p2;
 
 	p2 = pop();
 	p1 = pop();
@@ -113,14 +100,12 @@ roots2(void)
 		push(p2);
 		roots3();
 	}
-
-	restore();
 }
 
 void
 roots3(void)
 {
-	save();
+	struct atom *p1, *p2;
 	p2 = pop();
 	p1 = pop();
 	if (car(p1) == symbol(POWER) && ispoly(cadr(p1), p2) && isposint(caddr(p1))) {
@@ -132,7 +117,6 @@ roots3(void)
 		push(p2);
 		mini_solve();
 	}
-	restore();
 }
 
 //	Input:		stack[tos - 2]		polynomial
@@ -147,8 +131,7 @@ void
 mini_solve(void)
 {
 	int n;
-
-	save();
+	struct atom *POLY, *A, *B, *C, *X, *Y;
 
 	X = pop();
 	POLY = pop();
@@ -167,7 +150,6 @@ mini_solve(void)
 		push(A);
 		divide();
 		negate();
-		restore();
 		return;
 	}
 
@@ -204,11 +186,8 @@ mini_solve(void)
 		divide();
 		push_rational(1, 2);
 		multiply();
-		restore();
 		return;
 	}
 
 	tos -= n;
-
-	restore();
 }

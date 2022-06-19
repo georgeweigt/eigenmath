@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_polar(void)
+eval_polar(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	polar();
-	expanding = t;
 }
 
 void
 polar(void)
 {
-	save();
-	polar_nib();
-	restore();
-}
-
-void
-polar_nib(void)
-{
 	int i, n;
+	struct atom *p1, *p2;
 
 	p1 = pop();
 

@@ -1,20 +1,10 @@
 #include "app.h"
 
-#define F p4
-#define T p5
-
 void
-eval_draw(void)
+eval_draw(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
-	eval_draw_nib();
-	expanding = t;
-}
+	struct atom *F, *T;
 
-void
-eval_draw_nib(void)
-{
 	if (drawing) {
 		push_symbol(NIL);
 		return;
@@ -34,12 +24,12 @@ eval_draw_nib(void)
 	setup_xrange();
 	setup_yrange();
 
-	setup_final();
+	setup_final(F, T);
 
 	draw_count = 0;
 
-	draw_pass1();
-	draw_pass2();
+	draw_pass1(F, T);
+	draw_pass2(F, T);
 
 	emit_graph();
 
@@ -53,6 +43,8 @@ eval_draw_nib(void)
 void
 setup_trange(void)
 {
+	struct atom *p1, *p2, *p3;
+
 	tmin = -M_PI;
 	tmax = M_PI;
 
@@ -81,6 +73,8 @@ setup_trange(void)
 void
 setup_xrange(void)
 {
+	struct atom *p1, *p2, *p3;
+
 	xmin = -10.0;
 	xmax = 10.0;
 
@@ -109,6 +103,8 @@ setup_xrange(void)
 void
 setup_yrange(void)
 {
+	struct atom *p1, *p2, *p3;
+
 	ymin = -10.0;
 	ymax = 10.0;
 
@@ -135,8 +131,10 @@ setup_yrange(void)
 }
 
 void
-setup_final(void)
+setup_final(struct atom *F, struct atom *T)
 {
+	struct atom *p1;
+
 	push_double(tmin);
 	p1 = pop();
 	set_symbol(T, p1, symbol(NIL));
@@ -152,18 +150,18 @@ setup_final(void)
 }
 
 void
-draw_pass1(void)
+draw_pass1(struct atom *F, struct atom *T)
 {
 	int i;
 	double t;
 	for (i = 0; i <= DRAW_WIDTH; i++) {
 		t = tmin + (tmax - tmin) * i / DRAW_WIDTH;
-		sample(t);
+		sample(F, T, t);
 	}
 }
 
 void
-draw_pass2(void)
+draw_pass2(struct atom *F, struct atom *T)
 {
 	int i, j, m, n;
 	double dt, dx, dy, t, t1, t2, x1, x2, y1, y2;
@@ -191,15 +189,16 @@ draw_pass2(void)
 
 		for (j = 1; j < m; j++) {
 			t = t1 + dt * j / m;
-			sample(t);
+			sample(F, T, t);
 		}
 	}
 }
 
 void
-sample(double t)
+sample(struct atom *F, struct atom *T, double t)
 {
 	double x, y;
+	struct atom *p1, *p2, *p3;
 
 	push_double(t);
 	p1 = pop();

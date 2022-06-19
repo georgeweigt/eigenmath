@@ -1,35 +1,19 @@
 #include "defs.h"
 
-#undef X
-#undef Y
-
-#define X p5
-#define Y p6
-
 void
-eval_cos(void)
+eval_cos(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	cosfunc();
-	expanding = t;
 }
 
 void
 cosfunc(void)
 {
-	save();
-	cosfunc_nib();
-	restore();
-}
-
-void
-cosfunc_nib(void)
-{
 	int n;
 	double d;
+	struct atom *p1, *p2, *X, *Y;
 
 	p1 = pop();
 
@@ -69,7 +53,7 @@ cosfunc_nib(void)
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		cosfunc_sum();
+		cosfunc_sum(p1);
 		return;
 	}
 
@@ -206,8 +190,9 @@ cosfunc_nib(void)
 // cos(x + n/2 pi) = cos(x) cos(n/2 pi) - sin(x) sin(n/2 pi)
 
 void
-cosfunc_sum(void)
+cosfunc_sum(struct atom *p1)
 {
+	struct atom *p2, *p3;
 	p2 = cdr(p1);
 	while (iscons(p2)) {
 		push_integer(2);

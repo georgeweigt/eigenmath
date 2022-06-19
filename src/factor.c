@@ -1,11 +1,10 @@
 #include "defs.h"
 
-// define BASE p8 (defs1.h)
-// define EXPO p9 (defs1.h)
-
 void
-eval_factor(void)
+eval_factor(struct atom *p1)
 {
+	struct atom *p2;
+
 	push(cadr(p1));
 	eval();
 
@@ -52,8 +51,7 @@ void
 factor_again(void)
 {
 	int h, n;
-
-	save();
+	struct atom *p1, *p2;
 
 	p2 = pop();
 	p1 = pop();
@@ -78,14 +76,12 @@ factor_again(void)
 
 	if (n > 1)
 		multiply_factors_noexpand(n);
-
-	restore();
 }
 
 void
 factor_term(void)
 {
-	save();
+	struct atom *p1;
 	factorpoly();
 	p1 = pop();
 	if (car(p1) == symbol(MULTIPLY)) {
@@ -96,15 +92,13 @@ factor_term(void)
 		}
 	} else
 		push(p1);
-	restore();
 }
 
 void
 factor_rational(void)
 {
 	int h, i, n, t;
-
-	save();
+	struct atom *p1, *p2;
 
 	p1 = pop();
 
@@ -157,8 +151,6 @@ factor_rational(void)
 		swap();
 		cons(); // make MULTIPLY head of list
 	}
-
-	restore();
 }
 
 // for factoring small integers (2^32 or less)
@@ -167,8 +159,6 @@ void
 factor_small_number(void)
 {
 	int d, k, m, n;
-
-	save();
 
 	n = pop_integer();
 
@@ -199,30 +189,15 @@ factor_small_number(void)
 		push_integer(n);
 		push_integer(1);
 	}
-
-	restore();
 }
-
-#undef FARG
-#undef P
-
-#define FARG p3
-#define P p4
 
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
 void
 factor_factor(void)
 {
-	save();
-	factor_factor_nib();
-	restore();
-}
-
-void
-factor_factor_nib(void)
-{
 	uint32_t *numer, *denom;
+	struct atom *FARG, *BASE, *EXPO;
 
 	FARG = pop();
 
@@ -252,14 +227,14 @@ factor_factor_nib(void)
 		denom = BASE->u.q.b;
 
 		if (!MEQUAL(numer, 1))
-			factor_bignum(numer);
+			factor_bignum(numer, EXPO);
 
 		if (!MEQUAL(denom, 1)) {
 			// flip sign of exponent
 			push(EXPO);
 			negate();
 			EXPO = pop();
-			factor_bignum(denom);
+			factor_bignum(denom, EXPO);
 		}
 
 		return;
@@ -278,20 +253,21 @@ factor_factor_nib(void)
 
 	if (!MEQUAL(numer, 1)) {
 		EXPO = one;
-		factor_bignum(numer);
+		factor_bignum(numer, EXPO);
 	}
 
 	if (!MEQUAL(denom, 1)) {
 		EXPO = minusone;
-		factor_bignum(denom);
+		factor_bignum(denom, EXPO);
 	}
 }
 
 void
-factor_bignum(uint32_t *a)
+factor_bignum(uint32_t *a, struct atom *EXPO)
 {
 	int k, m;
 	uint32_t d, n;
+	struct atom *P;
 
 	if (MLENGTH(a) > 1) {
 		// too big to factor

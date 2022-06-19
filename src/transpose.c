@@ -1,19 +1,13 @@
 #include "defs.h"
 
 void
-eval_transpose(void)
+eval_transpose(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
-	eval_transpose_nib();
-	expanding = t;
-}
+	struct atom *p2;
 
-void
-eval_transpose_nib(void)
-{
 	push(cadr(p1));
 	eval();
+
 	p2 = pop();
 	push(p2);
 
@@ -42,17 +36,9 @@ eval_transpose_nib(void)
 void
 transpose(void)
 {
-	save();
-	transpose_nib();
-	restore();
-}
-
-void
-transpose_nib(void)
-{
 	int i, j, k, m, n, ndim, nelem;
 	int index[MAXDIM];
-	struct atom **a, **b;
+	struct atom **a, **b, *p1, *p2, *p3;
 
 	p3 = pop();
 	p2 = pop();

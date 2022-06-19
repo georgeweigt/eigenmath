@@ -1,34 +1,26 @@
 #include "defs.h"
 
 void
-eval_kronecker(void)
+eval_kronecker(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
+
 	p1 = cddr(p1);
+
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
 		kronecker();
 		p1 = cdr(p1);
 	}
-	expanding = t;
 }
 
 void
 kronecker(void)
 {
-	save();
-	kronecker_nib();
-	restore();
-}
-
-void
-kronecker_nib(void)
-{
 	int h, i, j, k, l, m, n, p, q;
+	struct atom *p1, *p2, *p3;
 
 	p2 = pop();
 	p1 = pop();

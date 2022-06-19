@@ -15,17 +15,6 @@ struct atom *symtab[27 * NSYM];
 struct atom *binding[27 * NSYM];
 struct atom *usrfunc[27 * NSYM];
 
-struct atom *p0;
-struct atom *p1;
-struct atom *p2;
-struct atom *p3;
-struct atom *p4;
-struct atom *p5;
-struct atom *p6;
-struct atom *p7;
-struct atom *p8;
-struct atom *p9;
-
 struct atom *zero;
 struct atom *one;
 struct atom *minusone;

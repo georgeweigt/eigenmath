@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_arccos(void)
+eval_arccos(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	arccos();
-	expanding = t;
 }
 
 void
 arccos(void)
 {
-	save();
-	arccos_nib();
-	restore();
-}
-
-void
-arccos_nib(void)
-{
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

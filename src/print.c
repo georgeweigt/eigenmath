@@ -1,11 +1,10 @@
 #include "defs.h"
 
 void
-eval_print(void)
+eval_print(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	p1 = cdr(p1);
+
 	while (iscons(p1)) {
 		push(car(p1));
 		push(car(p1));
@@ -13,21 +12,15 @@ eval_print(void)
 		print_result();
 		p1 = cdr(p1);
 	}
+
 	push_symbol(NIL);
-	expanding = t;
 }
 
 void
 print_result(void)
 {
-	save();
-	print_result_nib();
-	restore();
-}
+	struct atom *p1, *p2;
 
-void
-print_result_nib(void)
-{
 	p2 = pop(); // result
 	p1 = pop(); // input
 
@@ -35,7 +28,7 @@ print_result_nib(void)
 		return;
 
 	if (issymbol(p1))
-		prep_symbol_equals();
+		prep_symbol_equals(p1, p2);
 
 	if (iszero(get_binding(symbol(TTY)))) {
 		push(p2);
@@ -47,7 +40,7 @@ print_result_nib(void)
 }
 
 void
-prep_symbol_equals(void)
+prep_symbol_equals(struct atom *p1, struct atom *p2)
 {
 	if (p1 == p2)
 		return; // A = A

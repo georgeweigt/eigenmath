@@ -1,12 +1,10 @@
 #include "defs.h"
 
-// define BASE p8 (defs1.h)
-// define EXPO p9 (defs1.h)
-
 void
-eval_power(void)
+eval_power(struct atom *p1)
 {
 	int t;
+	struct atom *p2;
 
 	// evaluate exponent
 
@@ -34,21 +32,14 @@ eval_power(void)
 void
 power(void)
 {
-	save();
-	power_nib();
-	restore();
-}
-
-void
-power_nib(void)
-{
 	int h, i, n;
+	struct atom *p1, *BASE, *EXPO;
 
 	EXPO = pop();
 	BASE = pop();
 
 	if (istensor(BASE)) {
-		power_tensor();
+		power_tensor(BASE, EXPO);
 		return;
 	}
 
@@ -63,7 +54,7 @@ power_nib(void)
 	}
 
 	if (isnum(BASE) && isnum(EXPO)) {
-		power_numbers();
+		power_numbers(BASE, EXPO);
 		return;
 	}
 
@@ -155,14 +146,14 @@ power_nib(void)
 	// BASE = e ?
 
 	if (BASE == symbol(EXP1)) {
-		power_natural_number();
+		power_natural_number(EXPO);
 		return;
 	}
 
 	// (a + b) ^ c
 
 	if (car(BASE) == symbol(ADD)) {
-		power_sum();
+		power_sum(BASE, EXPO);
 		return;
 	}
 
@@ -203,12 +194,13 @@ power_nib(void)
 // BASE is a sum of terms
 
 void
-power_sum(void)
+power_sum(struct atom *BASE, struct atom *EXPO)
 {
 	int h, i, n;
+	struct atom *p1, *p2;
 
 	if (iscomplexnumber(BASE) && isnum(EXPO)) {
-		power_complex_number();
+		power_complex_number(BASE, EXPO);
 		return;
 	}
 
@@ -258,9 +250,10 @@ sqrtfunc(void)
 }
 
 void
-power_tensor(void)
+power_tensor(struct atom *BASE, struct atom *EXPO)
 {
 	int i, n;
+	struct atom *p1;
 
 	push(BASE);
 	copy_tensor();

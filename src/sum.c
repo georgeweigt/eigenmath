@@ -1,9 +1,10 @@
 #include "defs.h"
 
 void
-eval_sum(void)
+eval_sum(struct atom *p1)
 {
 	int h, i, j, k, n;
+	struct atom *p2, *p3;
 
 	if (length(p1) == 2) {
 		push(cadr(p1));

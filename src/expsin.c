@@ -1,20 +1,17 @@
 #include "defs.h"
 
 void
-eval_expsin(void)
+eval_expsin(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	expsin();
-	expanding = t;
 }
 
 void
 expsin(void)
 {
-	save();
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -38,6 +35,4 @@ expsin(void)
 	multiply();
 
 	subtract();
-
-	restore();
 }

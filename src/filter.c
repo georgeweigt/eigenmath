@@ -8,12 +8,13 @@
 #include "defs.h"
 
 void
-eval_filter(void)
+eval_filter(struct atom *p1)
 {
-	p1 = cdr(p1);
-	push(car(p1));
+	push(cadr(p1));
 	eval();
-	p1 = cdr(p1);
+
+	p1 = cddr(p1);
+
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
@@ -22,31 +23,18 @@ eval_filter(void)
 	}
 }
 
-/* For example...
-
-	push(F)
-	push(X)
-	filter()
-	F = pop()
-*/
-
 void
 filter(void)
 {
-	save();
+	struct atom *p1, *p2;
+
 	p2 = pop();
 	p1 = pop();
-	filter_main();
-	restore();
-}
 
-void
-filter_main(void)
-{
 	if (car(p1) == symbol(ADD))
-		filter_sum();
+		filter_sum(p1, p2);
 	else if (istensor(p1))
-		filter_tensor();
+		filter_tensor(p1, p2);
 	else if (find(p1, p2))
 		push_integer(0);
 	else
@@ -54,7 +42,7 @@ filter_main(void)
 }
 
 void
-filter_sum(void)
+filter_sum(struct atom *p1, struct atom *p2)
 {
 	push_integer(0);
 	p1 = cdr(p1);
@@ -68,9 +56,10 @@ filter_sum(void)
 }
 
 void
-filter_tensor(void)
+filter_tensor(struct atom *p1, struct atom *p2)
 {
 	int i, n;
+	struct atom *p3;
 	n = p1->u.tensor->nelem;
 	p3 = alloc_tensor(n);
 	p3->u.tensor->ndim = p1->u.tensor->ndim;

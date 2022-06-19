@@ -501,9 +501,7 @@ void
 build_tensor(int h)
 {
 	int i, n = tos - h;
-	struct atom **s = stack + h;
-
-	save();
+	struct atom **s = stack + h, *p2;
 
 	p2 = alloc_tensor(n);
 	p2->u.tensor->ndim = 1;
@@ -514,21 +512,13 @@ build_tensor(int h)
 	tos = h;
 
 	push(p2);
-
-	restore();
 }
 
 void
 static_negate(void)
 {
-	save();
-	static_negate_nib();
-	restore();
-}
+	struct atom *p1;
 
-void
-static_negate_nib(void)
-{
 	p1 = pop();
 
 	if (isnum(p1)) {
@@ -561,14 +551,8 @@ static_negate_nib(void)
 void
 static_reciprocate(void)
 {
-	save();
-	static_reciprocate_nib();
-	restore();
-}
+	struct atom *p1, *p2;
 
-void
-static_reciprocate_nib(void)
-{
 	p2 = pop();
 	p1 = pop();
 

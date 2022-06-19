@@ -1,29 +1,19 @@
 #include "defs.h"
 
 void
-eval_log(void)
+eval_log(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	logfunc();
-	expanding = t;
 }
 
 void
 logfunc(void)
 {
-	save();
-	logfunc_nib();
-	restore();
-}
-
-void
-logfunc_nib(void)
-{
 	int h, i;
 	double d;
+	struct atom *p1, *p2;
 
 	p1 = pop();
 

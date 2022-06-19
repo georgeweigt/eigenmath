@@ -911,29 +911,17 @@ char *integral_tab[] = {
 // integral(f,x,2)
 // integral(f,x,y)
 
-#undef X
-#undef Y
-
-#define X p4
-#define Y p5
-
 void
-eval_integral(void)
-{
-	int t;
-	t = expanding;
-	expanding = 1;
-	eval_integral_nib();
-	expanding = t;
-}
-
-void
-eval_integral_nib(void)
+eval_integral(struct atom *p1)
 {
 	int flag, i, n;
+	struct atom *X, *Y;
+
+	Y = symbol(NIL); // silence compiler
 
 	push(cadr(p1));
 	eval();
+
 	p1 = cddr(p1);
 
 	if (!iscons(p1)) {
@@ -996,28 +984,11 @@ eval_integral_nib(void)
 	}
 }
 
-#undef F
-#undef X
-#undef I
-#undef C
-
-#define F p3
-#define X p4
-#define I p5
-#define C p6
-
 void
 integral(void)
 {
-	save();
-	integral_nib();
-	restore();
-}
-
-void
-integral_nib(void)
-{
 	int h;
+	struct atom *p1, *F, *X;
 
 	X = pop();
 	F = pop();
@@ -1040,16 +1011,16 @@ integral_nib(void)
 		push(X);
 		partition_integrand();	// push const part then push var part
 		F = pop();		// pop var part
-		integral_of_form();
+		integral_of_form(F, X);
 		multiply();		// multiply by const part
 		return;
 	}
 
-	integral_of_form();
+	integral_of_form(F, X);
 }
 
 void
-integral_of_form(void)
+integral_of_form(struct atom *F, struct atom *X)
 {
 	int h;
 
@@ -1071,7 +1042,7 @@ integral_of_form(void)
 	push(X);
 	decomp();
 
-	integral_lookup(h);
+	integral_lookup(h, F);
 
 	restore_symbol(symbol(SX));
 	restore_symbol(symbol(SB));
@@ -1079,20 +1050,20 @@ integral_of_form(void)
 }
 
 void
-integral_lookup(int h)
+integral_lookup(int h, struct atom *F)
 {
 	int t;
 	char **s;
 
 	t = integral_classify(F);
 
-	if ((t & 1) && find_integral(h, integral_tab_exp))
+	if ((t & 1) && find_integral(h, integral_tab_exp, F))
 		return;
 
-	if ((t & 2) && find_integral(h, integral_tab_log))
+	if ((t & 2) && find_integral(h, integral_tab_log, F))
 		return;
 
-	if ((t & 4) && find_integral(h, integral_tab_trig))
+	if ((t & 4) && find_integral(h, integral_tab_trig, F))
 		return;
 
 	if (car(F) == symbol(POWER))
@@ -1100,10 +1071,10 @@ integral_lookup(int h)
 	else
 		s = integral_tab;
 
-	if (find_integral(h, s))
+	if (find_integral(h, s, F))
 		return;
 
-	stop("integral: could not find a solution");
+	stop("integral: no solution found");
 }
 
 int
@@ -1132,8 +1103,10 @@ integral_classify(struct atom *p)
 }
 
 int
-find_integral(int h, char **s)
+find_integral(int h, char **s, struct atom *F)
 {
+	struct atom *C, *I;
+
 	for (;;) {
 
 		if (*s == NULL)
@@ -1145,7 +1118,7 @@ find_integral(int h, char **s)
 		scan1(s[2]); // condition
 		C = pop();
 
-		if (find_integral_nib(h))
+		if (find_integral_nib(h, F, I, C))
 			break;
 
 		s += 3;
@@ -1160,9 +1133,10 @@ find_integral(int h, char **s)
 }
 
 int
-find_integral_nib(int h)
+find_integral_nib(int h, struct atom *F, struct atom *I, struct atom *C)
 {
 	int i, j;
+	struct atom *p1;
 	for (i = h; i < tos; i++) {
 		set_symbol(symbol(SA), stack[i], symbol(NIL));
 		for (j = h; j < tos; j++) {
@@ -1189,14 +1163,8 @@ find_integral_nib(int h)
 void
 decomp(void)
 {
-	save();
-	decomp_nib();
-	restore();
-}
+	struct atom *p1, *p2, *p3;
 
-void
-decomp_nib(void)
-{
 	p2 = pop(); // x
 	p1 = pop(); // expr
 
@@ -1210,14 +1178,14 @@ decomp_nib(void)
 	// sum?
 
 	if (car(p1) == symbol(ADD)) {
-		decomp_sum();
+		decomp_sum(p1, p2);
 		return;
 	}
 
 	// product?
 
 	if (car(p1) == symbol(MULTIPLY)) {
-		decomp_product();
+		decomp_product(p1, p2);
 		return;
 	}
 
@@ -1233,9 +1201,10 @@ decomp_nib(void)
 }
 
 void
-decomp_sum(void)
+decomp_sum(struct atom *p1, struct atom *p2)
 {
 	int h;
+	struct atom *p3;
 
 	// decomp terms involving x
 
@@ -1269,9 +1238,10 @@ decomp_sum(void)
 }
 
 void
-decomp_product(void)
+decomp_product(struct atom *p1, struct atom *p2)
 {
 	int h;
+	struct atom *p3;
 
 	// decomp factors involving x
 
@@ -1304,16 +1274,8 @@ decomp_product(void)
 void
 collect_coeffs(void)
 {
-	save();
-	collect_coeffs_nib();
-	restore();
-}
-
-void
-collect_coeffs_nib(void)
-{
 	int h, i, j, n, t;
-	struct atom **s;
+	struct atom **s, *p1, *p2, *p3;
 
 	p2 = pop(); // x
 	p1 = pop(); // expr
@@ -1417,8 +1379,7 @@ void
 partition_integrand(void)
 {
 	int h;
-
-	save();
+	struct atom *p1, *p2, *p3;
 
 	p2 = pop(); // x
 	p1 = pop(); // expr
@@ -1452,6 +1413,4 @@ partition_integrand(void)
 		push_integer(1);
 	else
 		multiply_factors(tos - h);
-
-	restore();
 }

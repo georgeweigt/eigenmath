@@ -1,12 +1,13 @@
 #include "defs.h"
 
 void
-eval_lcm(void)
+eval_lcm(struct atom *p1)
 {
-	p1 = cdr(p1);
-	push(car(p1));
+	push(cadr(p1));
 	eval();
-	p1 = cdr(p1);
+
+	p1 = cddr(p1);
+
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
@@ -18,18 +19,8 @@ eval_lcm(void)
 void
 lcm(void)
 {
-	int t;
-	t = expanding;
-	expanding = 1;
-	save();
-	lcm_nib();
-	restore();
-	expanding = t;
-}
+	struct atom *p1, *p2;
 
-void
-lcm_nib(void)
-{
 	p2 = pop();
 	p1 = pop();
 

@@ -1,17 +1,9 @@
 #include "defs.h"
 
 void
-eval_test(void)
+eval_test(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
-	eval_test_nib();
-	expanding = t;
-}
-
-void
-eval_test_nib(void)
-{
+	struct atom *p2;
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		if (!iscons(cdr(p1))) {
@@ -33,22 +25,21 @@ eval_test_nib(void)
 }
 
 void
-eval_check(void)
+eval_check(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	evalp();
 	p1 = pop();
 	if (iszero(p1))
 		stop("check");
 	push_symbol(NIL); // no result is printed
-	expanding = t;
 }
 
 void
-eval_testeq(void)
+eval_testeq(struct atom *p1)
 {
+	struct atom *p2, *p3;
+
 	push(cadr(p1));
 	eval();
 
@@ -192,8 +183,7 @@ void
 cancel_factor(void)
 {
 	int h;
-
-	save();
+	struct atom *p1, *p2;
 
 	p2 = pop();
 	p1 = pop();
@@ -213,51 +203,47 @@ cancel_factor(void)
 		push(p2);
 		multiply();
 	}
-
-	restore();
 }
 
 void
-eval_testge(void)
+eval_testge(struct atom *p1)
 {
-	if (cmp_args() >= 0)
+	if (cmp_args(p1) >= 0)
 		push_integer(1);
 	else
 		push_integer(0);
 }
 
 void
-eval_testgt(void)
+eval_testgt(struct atom *p1)
 {
-	if (cmp_args() > 0)
+	if (cmp_args(p1) > 0)
 		push_integer(1);
 	else
 		push_integer(0);
 }
 
 void
-eval_testle(void)
+eval_testle(struct atom *p1)
 {
-	if (cmp_args() <= 0)
+	if (cmp_args(p1) <= 0)
 		push_integer(1);
 	else
 		push_integer(0);
 }
 
 void
-eval_testlt(void)
+eval_testlt(struct atom *p1)
 {
-	if (cmp_args() < 0)
+	if (cmp_args(p1) < 0)
 		push_integer(1);
 	else
 		push_integer(0);
 }
 
 void
-eval_not(void)
+eval_not(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	evalp();
 	p1 = pop();
@@ -265,21 +251,12 @@ eval_not(void)
 		push_integer(1);
 	else
 		push_integer(0);
-	expanding = t;
 }
 
 void
-eval_and(void)
+eval_and(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
-	eval_and_nib();
-	expanding = t;
-}
-
-void
-eval_and_nib(void)
-{
+	struct atom *p2;
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
@@ -295,17 +272,9 @@ eval_and_nib(void)
 }
 
 void
-eval_or(void)
+eval_or(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
-	eval_or_nib();
-	expanding = t;
-}
-
-void
-eval_or_nib(void)
-{
+	struct atom *p2;
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
@@ -321,8 +290,10 @@ eval_or_nib(void)
 }
 
 int
-cmp_args(void)
+cmp_args(struct atom *p1)
 {
+	struct atom *p2;
+
 	push(cadr(p1));
 	eval();
 	p2 = pop();
@@ -345,13 +316,12 @@ cmp_args(void)
 void
 evalp(void)
 {
-	save();
+	struct atom *p1;
 	p1 = pop();
 	if (car(p1) == symbol(SETQ))
-		eval_testeq();
+		eval_testeq(p1);
 	else {
 		push(p1);
 		eval();
 	}
-	restore();
 }

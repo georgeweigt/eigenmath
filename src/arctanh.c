@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_arctanh(void)
+eval_arctanh(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	arctanh();
-	expanding = t;
 }
 
 void
 arctanh(void)
 {
-	save();
-	arctanh_nib();
-	restore();
-}
-
-void
-arctanh_nib(void)
-{
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

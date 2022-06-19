@@ -1,17 +1,10 @@
 #include "defs.h"
 
-#undef FUNC_NAME
-#undef FUNC_ARGS
-#undef FUNC_DEFN
-
-#define FUNC_NAME p4
-#define FUNC_ARGS p5
-#define FUNC_DEFN p6
-
 void
-eval_user_function(void)
+eval_user_function(struct atom *p1)
 {
 	int h, i;
+	struct atom *FUNC_NAME, *FUNC_ARGS, *FUNC_DEFN;
 
 	FUNC_NAME = car(p1);
 	FUNC_ARGS = cdr(p1);
@@ -22,7 +15,9 @@ eval_user_function(void)
 
 	if (FUNC_DEFN == symbol(NIL)) {
 		if (FUNC_NAME == symbol(D_LOWER)) {
-			eval_derivative();
+			expanding++;
+			eval_derivative(p1);
+			expanding--;
 			return;
 		}
 		h = tos;

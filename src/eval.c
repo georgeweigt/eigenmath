@@ -11,9 +11,7 @@ eval(void)
 	if (level == 200)
 		kaput("circular definition?");
 
-	save();
 	eval_nib();
-	restore();
 
 	level--;
 }
@@ -21,15 +19,19 @@ eval(void)
 void
 eval_nib(void)
 {
+	struct atom *p1;
+
 	p1 = pop();
 
 	if (iscons(p1) && iskeyword(car(p1))) {
-		car(p1)->u.ksym.func(); // call through function pointer
+		expanding++;
+		car(p1)->u.ksym.func(p1); // call through function pointer
+		expanding--;
 		return;
 	}
 
 	if (iscons(p1) && isusersymbol(car(p1))) {
-		eval_user_function();
+		eval_user_function(p1);
 		return;
 	}
 
@@ -38,17 +40,19 @@ eval_nib(void)
 		push_symbol(LAST); // default arg
 		list(2);
 		p1 = pop();
-		car(p1)->u.ksym.func(); // call through function pointer
+		expanding++;
+		car(p1)->u.ksym.func(p1); // call through function pointer
+		expanding--;
 		return;
 	}
 
 	if (isusersymbol(p1)) {
-		eval_user_symbol();
+		eval_user_symbol(p1);
 		return;
 	}
 
 	if (istensor(p1)) {
-		eval_tensor();
+		eval_tensor(p1);
 		return;
 	}
 
@@ -56,8 +60,10 @@ eval_nib(void)
 }
 
 void
-eval_user_symbol(void)
+eval_user_symbol(struct atom *p1)
 {
+	struct atom *p2;
+
 	p2 = get_binding(p1);
 
 	if (p1 == p2 || p2 == symbol(NIL))
@@ -69,8 +75,9 @@ eval_user_symbol(void)
 }
 
 void
-eval_binding(void)
+eval_binding(struct atom *p1)
 {
+	struct atom *p2;
 	p1 = cadr(p1);
 	p2 = get_binding(p1);
 	if (p2 == symbol(NIL))
@@ -79,10 +86,11 @@ eval_binding(void)
 }
 
 void
-eval_clear(void)
+eval_clear(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
+	(void) p1; // silence compiler
+
+	expanding++;
 
 	save_symbol(symbol(TRACE));
 	save_symbol(symbol(TTY));
@@ -94,18 +102,14 @@ eval_clear(void)
 	restore_symbol(symbol(TTY));
 	restore_symbol(symbol(TRACE));
 
-	gc(); // garbage collection
-
 	push_symbol(NIL); // result
 
-	expanding = t;
+	expanding--;
 }
 
 void
-eval_do(void)
+eval_do(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push_symbol(NIL);
 	p1 = cdr(p1);
 	while (iscons(p1)) {
@@ -114,16 +118,13 @@ eval_do(void)
 		eval();
 		p1 = cdr(p1);
 	}
-	expanding = t;
 }
 
 // for example, eval(f,x,2)
 
 void
-eval_eval(void)
+eval_eval(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	p1 = cddr(p1);
@@ -136,21 +137,23 @@ eval_eval(void)
 		p1 = cddr(p1);
 	}
 	eval();
-	expanding = t;
 }
 
 void
-eval_nil(void)
+eval_nil(struct atom *p1)
 {
+	(void) p1; // silence compiler
 	push_symbol(NIL);
 }
 
 void
-eval_number(void)
+eval_number(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
+
 	p1 = pop();
+
 	if (isnum(p1))
 		push_integer(1);
 	else
@@ -158,13 +161,13 @@ eval_number(void)
 }
 
 void
-eval_quote(void)
+eval_quote(struct atom *p1)
 {
 	push(cadr(p1));
 }
 
 void
-eval_sqrt(void)
+eval_sqrt(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
@@ -173,13 +176,14 @@ eval_sqrt(void)
 }
 
 void
-eval_stop(void)
+eval_stop(struct atom *p1)
 {
+	(void) p1; // silence compiler
 	stop("stop function");
 }
 
 void
-eval_subst(void)
+eval_subst(struct atom *p1)
 {
 	push(cadddr(p1));
 	eval();

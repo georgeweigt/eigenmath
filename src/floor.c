@@ -1,29 +1,19 @@
 #include "defs.h"
 
 void
-eval_floor(void)
+eval_floor(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	floorfunc();
-	expanding = t;
 }
 
 void
 floorfunc(void)
 {
-	save();
-	floorfunc_nib();
-	restore();
-}
-
-void
-floorfunc_nib(void)
-{
 	uint32_t *a, *b;
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

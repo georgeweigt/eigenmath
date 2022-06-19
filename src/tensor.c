@@ -1,7 +1,7 @@
 #include "defs.h"
 
 void
-eval_tensor(void)
+eval_tensor(struct atom *p1)
 {
 	int i;
 
@@ -25,15 +25,8 @@ eval_tensor(void)
 void
 promote_tensor(void)
 {
-	save();
-	promote_tensor_nib();
-	restore();
-}
-
-void
-promote_tensor_nib(void)
-{
 	int i, j, k, ndim1, ndim2, nelem1, nelem2;
+	struct atom *p1, *p2, *p3;
 
 	p1 = pop();
 
@@ -121,10 +114,10 @@ compatible_dimensions(struct atom *p, struct atom *q)
 // gradient of tensor p1 wrt vector p2
 
 void
-d_tensor_tensor(void)
+d_tensor_tensor(struct atom *p1, struct atom *p2)
 {
 	int i, j, n1, n2, ndim;
-	struct atom **a, **b, **c;
+	struct atom **a, **b, **c, *p3;
 
 	if (p2->u.tensor->ndim != 1)
 		stop("vector expected");
@@ -169,10 +162,10 @@ d_tensor_tensor(void)
 // gradient of scalar p1 wrt vector p2
 
 void
-d_scalar_tensor(void)
+d_scalar_tensor(struct atom *p1, struct atom *p2)
 {
 	int i, n;
-	struct atom **a, **b;
+	struct atom **a, **b, *p3;
 
 	if (p2->u.tensor->ndim != 1)
 		stop("vector expected");
@@ -199,10 +192,10 @@ d_scalar_tensor(void)
 // derivative of tensor p1 wrt scalar p2
 
 void
-d_tensor_scalar(void)
+d_tensor_scalar(struct atom *p1, struct atom *p2)
 {
 	int i, n;
-	struct atom **a, **b;
+	struct atom **a, **b, *p3;
 
 	push(p1);
 	copy_tensor();
@@ -257,8 +250,7 @@ void
 copy_tensor(void)
 {
 	int i;
-
-	save();
+	struct atom *p1, *p2;
 
 	p1 = pop();
 
@@ -273,14 +265,13 @@ copy_tensor(void)
 		p2->u.tensor->elem[i] = p1->u.tensor->elem[i];
 
 	push(p2);
-
-	restore();
 }
 
 void
-eval_dim(void)
+eval_dim(struct atom *p1)
 {
 	int k;
+	struct atom *p2;
 
 	push(cadr(p1));
 	eval();
@@ -306,31 +297,21 @@ eval_dim(void)
 }
 
 void
-eval_rank(void)
+eval_rank(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
+
 	p1 = pop();
+
 	if (istensor(p1))
 		push_integer(p1->u.tensor->ndim);
 	else
 		push_integer(0);
-	expanding = t;
 }
 
 void
-eval_unit(void)
-{
-	int t = expanding;
-	expanding = 1;
-	eval_unit_nib();
-	expanding = t;
-}
-
-void
-eval_unit_nib(void)
+eval_unit(struct atom *p1)
 {
 	int i, n;
 
@@ -356,16 +337,7 @@ eval_unit_nib(void)
 }
 
 void
-eval_zero(void)
-{
-	int t = expanding;
-	expanding = 1;
-	eval_zero_nib();
-	expanding = t;
-}
-
-void
-eval_zero_nib(void)
+eval_zero(struct atom *p1)
 {
 	int dim[MAXDIM], i, m, n;
 	m = 1;

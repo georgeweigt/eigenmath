@@ -125,7 +125,7 @@ get_usrfunc(struct atom *p)
 struct se {
 	char *str;
 	int index;
-	void (*func)(void);
+	void (*func)(struct atom *);
 };
 
 struct se stab[] = {

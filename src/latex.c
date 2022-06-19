@@ -1,7 +1,7 @@
 #include "defs.h"
 
 void
-eval_latex(void)
+eval_latex(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
@@ -14,17 +14,10 @@ eval_latex(void)
 void
 latex(void)
 {
-	save();
-	latex_nib();
-	restore();
-}
-
-void
-latex_nib(void)
-{
-	outbuf_index = 0;
-
+	struct atom *p1;
 	p1 = pop();
+
+	outbuf_index = 0;
 
 	if (isstr(p1)) {
 		print_str("\\begin{verbatim}\n");

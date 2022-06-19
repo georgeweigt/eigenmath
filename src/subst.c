@@ -13,15 +13,8 @@
 void
 subst(void)
 {
-	save();
-	subst_nib();
-	restore();
-}
-
-void
-subst_nib(void)
-{
 	int h, i;
+	struct atom *p1, *p2, *p3;
 
 	p3 = pop();
 	p2 = pop();

@@ -4,12 +4,8 @@ struct atom *
 alloc(void)
 {
 	struct atom *p;
-	if (block_count == 0)
-		alloc_block();
 	if (free_count == 0) {
-		gc();
-		if (free_count < BLOCKSIZE)
-			alloc_block();
+		alloc_block();
 		if (free_count == 0)
 			kaput("out of memory");
 	}
@@ -42,7 +38,7 @@ struct atom *
 alloc_tensor(int nelem)
 {
 	int i;
-	struct atom *p; // ok, no gc before return
+	struct atom *p;
 	p = alloc();
 	p->k = TENSOR;
 	p->u.tensor = (struct tensor *) malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
@@ -55,7 +51,7 @@ alloc_tensor(int nelem)
 	return p;
 }
 
-// garbage collector
+// gc can only be called from main run loop
 
 void
 gc(void)
@@ -74,17 +70,6 @@ gc(void)
 	}
 
 	// untag what's used
-
-	untag(p0);
-	untag(p1);
-	untag(p2);
-	untag(p3);
-	untag(p4);
-	untag(p5);
-	untag(p6);
-	untag(p7);
-	untag(p8);
-	untag(p9);
 
 	untag(zero);
 	untag(one);
@@ -201,8 +186,7 @@ void
 append(void)
 {
 	int h;
-
-	save();
+	struct atom *p1, *p2;
 
 	p2 = pop();
 	p1 = pop();
@@ -226,8 +210,6 @@ append(void)
 		push(p2);
 
 	list(tos - h);
-
-	restore();
 }
 
 // Cons two things on the stack.
@@ -235,7 +217,7 @@ append(void)
 void
 cons(void)
 {
-	struct atom *p; // ok, no gc before push
+	struct atom *p;
 	p = alloc();
 	p->k = CONS;
 	p->u.cons.cdr = pop();

@@ -18,6 +18,8 @@ run(char *s)
 
 	for (;;) {
 
+		gc();
+
 		s = scan_input(s);
 
 		if (s == NULL)
@@ -48,8 +50,6 @@ init(void)
 	run_init_script();
 
 	prep();
-
-	gc();
 }
 
 void
@@ -65,17 +65,6 @@ prep(void)
 	expanding = 1;
 	drawing = 0;
 	journaling = 0;
-
-	p0 = symbol(NIL);
-	p1 = symbol(NIL);
-	p2 = symbol(NIL);
-	p3 = symbol(NIL);
-	p4 = symbol(NIL);
-	p5 = symbol(NIL);
-	p6 = symbol(NIL);
-	p7 = symbol(NIL);
-	p8 = symbol(NIL);
-	p9 = symbol(NIL);
 }
 
 char *
@@ -93,7 +82,7 @@ scan_input(char *s)
 void
 eval_and_print_result(void)
 {
-	save();
+	struct atom *p1, *p2;
 
 	p1 = pop();
 	push(p1);
@@ -106,16 +95,11 @@ eval_and_print_result(void)
 
 	if (p2 != symbol(NIL))
 		set_symbol(symbol(LAST), p2, symbol(NIL));
-
-	restore();
 }
 
 void
-eval_run(void)
+eval_run(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
-
 	push(cadr(p1));
 	eval();
 	p1 = pop();
@@ -126,8 +110,6 @@ eval_run(void)
 	run_file(p1->u.str);
 
 	push_symbol(NIL);
-
-	expanding = t;
 }
 
 void
@@ -135,6 +117,7 @@ run_file(char *filename)
 {
 	int fd, n;
 	char *buf, *s, *t1, *t2;
+	struct atom *p1;
 
 	fd = open(filename, O_RDONLY, 0);
 
@@ -246,8 +229,10 @@ print_scan_line(char *s)
 }
 
 void
-eval_status(void)
+eval_status(struct atom *p1)
 {
+	(void) p1; // silence compiler
+
 	outbuf_index = 0;
 
 	sprintf(tbuf, "block_count %d (%d%%)\n", block_count, 100 * block_count / MAXBLOCKS);

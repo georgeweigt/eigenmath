@@ -1,25 +1,18 @@
 #include "defs.h"
 
 void
-eval_erfc(void)
+eval_erfc(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
-	serfc();
+	erfcfunc();
 }
 
 void
-serfc(void)
-{
-	save();
-	serfc_nib();
-	restore();
-}
-
-void
-serfc_nib(void)
+erfcfunc(void)
 {
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

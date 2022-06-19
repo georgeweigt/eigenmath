@@ -1,12 +1,10 @@
 #include "defs.h"
 
-#undef T
-#define T p3
-
 void
-eval_index(void)
+eval_index(struct atom *p1)
 {
 	int h, n;
+	struct atom *T;
 
 	T = cadr(p1);
 
@@ -27,7 +25,7 @@ eval_index(void)
 		n = tos - h;
 		if (istensor(p1) && n <= p1->u.tensor->ndim) {
 			T = p1;
-			indexfunc(h);
+			indexfunc(T, h);
 			eval();
 			return;
 		}
@@ -43,13 +41,14 @@ eval_index(void)
 		return;
 	}
 
-	indexfunc(h);
+	indexfunc(T, h);
 }
 
 void
-indexfunc(int h)
+indexfunc(struct atom *T, int h)
 {
 	int i, k, m, n, r, t, w;
+	struct atom *p1;
 
 	m = T->u.tensor->ndim;
 

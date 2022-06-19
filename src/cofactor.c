@@ -1,12 +1,10 @@
 #include "defs.h"
 
 void
-eval_cofactor(void)
+eval_cofactor(struct atom *p1)
 {
-	int i, j, t;
-
-	t = expanding;
-	expanding = 1;
+	int i, j;
+	struct atom *p2;
 
 	push(cadr(p1));
 	eval();
@@ -34,6 +32,4 @@ eval_cofactor(void)
 
 	if ((i + j) % 2)
 		negate();
-
-	expanding = t;
 }

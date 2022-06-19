@@ -1,12 +1,10 @@
 #include "defs.h"
 
-#undef T
-#define T p5
-
 void
-eval_add(void)
+eval_add(struct atom *p1)
 {
 	int h = tos;
+	expanding--; // undo expanding++ in eval
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
@@ -14,6 +12,7 @@ eval_add(void)
 		p1 = cdr(p1);
 	}
 	add_terms(tos - h);
+	expanding++;
 }
 
 void
@@ -25,15 +24,8 @@ add(void)
 void
 add_terms(int n)
 {
-	save();
-	add_terms_nib(n);
-	restore();
-}
-
-void
-add_terms_nib(int n)
-{
 	int i, h;
+	struct atom *p1, *T;
 
 	if (n < 2)
 		return;
@@ -42,7 +34,7 @@ add_terms_nib(int n)
 
 	flatten_terms(h);
 
-	combine_tensors(h);
+	T = combine_tensors(h);
 
 	combine_terms(h);
 
@@ -88,6 +80,7 @@ void
 flatten_terms(int h)
 {
 	int i, n;
+	struct atom *p1;
 	n = tos;
 	for (i = h; i < n; i++) {
 		p1 = stack[i];
@@ -102,10 +95,11 @@ flatten_terms(int h)
 	}
 }
 
-void
+struct atom *
 combine_tensors(int h)
 {
 	int i, j;
+	struct atom *p1, *T;
 	T = symbol(NIL);
 	for (i = h; i < tos; i++) {
 		p1 = stack[i];
@@ -123,14 +117,14 @@ combine_tensors(int h)
 			i--; // use same index again
 		}
 	}
+	return T;
 }
 
 void
 add_tensors(void)
 {
 	int i, n;
-
-	save();
+	struct atom *p1, *p2;
 
 	p2 = pop();
 	p1 = pop();
@@ -152,8 +146,6 @@ add_tensors(void)
 	}
 
 	push(p1);
-
-	restore();
 }
 
 void
@@ -183,6 +175,7 @@ int
 combine_terms_nib(int i, int j)
 {
 	int denorm;
+	struct atom *p1, *p2, *p3, *p4;
 
 	p1 = stack[i];
 	p2 = stack[j];
@@ -196,7 +189,7 @@ combine_terms_nib(int i, int j)
 	}
 
 	if (isnum(p1) && isnum(p2)) {
-		add_numbers();
+		add_numbers(p1, p2);
 		stack[i] = pop();
 		return 1;
 	}
@@ -239,7 +232,7 @@ combine_terms_nib(int i, int j)
 	if (!equal(p3, p4))
 		return 0;
 
-	add_numbers(); // add p1 and p2
+	add_numbers(p1, p2); // add p1 and p2
 
 	p4 = pop(); // new coeff
 
@@ -396,12 +389,12 @@ is_imaginary_term(struct atom *p)
 }
 
 void
-add_numbers(void)
+add_numbers(struct atom *p1, struct atom *p2)
 {
 	double d1, d2;
 
-	if (p1->k == RATIONAL && p2->k == RATIONAL) {
-		add_rationals();
+	if (isrational(p1) && isrational(p2)) {
+		add_rationals(p1, p2);
 		return;
 	}
 
@@ -415,7 +408,7 @@ add_numbers(void)
 }
 
 void
-add_rationals(void)
+add_rationals(struct atom *p1, struct atom *p2)
 {
 	int sign;
 	uint32_t *a, *ab, *b, *ba, *c;
@@ -431,7 +424,7 @@ add_rationals(void)
 	}
 
 	if (isinteger(p1) && isinteger(p2)) {
-		add_integers();
+		add_integers(p1, p2);
 		return;
 	}
 
@@ -476,7 +469,7 @@ add_rationals(void)
 }
 
 void
-add_integers(void)
+add_integers(struct atom *p1, struct atom *p2)
 {
 	int sign;
 	uint32_t *a, *b, *c;

@@ -136,11 +136,10 @@ int
 cmpfunc(void)
 {
 	int t;
-	save();
+	struct atom *p1, *p2;
 	p2 = pop();
 	p1 = pop();
 	t = cmp_numbers(p1, p2);
-	restore();
 	return t;
 }
 
@@ -274,8 +273,7 @@ convert_double_to_rational(double d)
 		negate();
 }
 
-#undef N
-#define N 1000
+#define BRAN 1000
 
 void
 best_rational_approximation(double x)
@@ -289,20 +287,20 @@ best_rational_approximation(double x)
 		if (x < m) {
 			c += a;
 			d += b;
-			if (d > N) {
+			if (d > BRAN) {
 				push_rational(a, b);
 				return;
 			}
 		} else {
 			a += c;
 			b += d;
-			if (b > N) {
+			if (b > BRAN) {
 				push_rational(c, d);
 				return;
 			}
 		}
 	}
-	if (b + d <= N)
+	if (b + d <= BRAN)
 		push_rational(a + c, b + d);
 	else if (d > b)
 		push_rational(c, d); // largest denominator is most accurate

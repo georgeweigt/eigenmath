@@ -1,21 +1,7 @@
 #include "defs.h"
 
-// define BASE p8 (defs1.h)
-// define EXPO p9 (defs1.h)
-
-#undef R
-#define R p3
-
 void
-power_natural_number(void)
-{
-	save();
-	power_natural_number_nib();
-	restore();
-}
-
-void
-power_natural_number_nib(void)
+power_natural_number(struct atom *EXPO)
 {
 	double x, y;
 
@@ -49,7 +35,7 @@ power_natural_number_nib(void)
 	}
 
 	if (isdenormalpolar(EXPO)) {
-		normalize_polar();
+		normalize_polar(EXPO);
 		return;
 	}
 
@@ -60,16 +46,17 @@ power_natural_number_nib(void)
 }
 
 void
-normalize_polar(void)
+normalize_polar(struct atom *EXPO)
 {
 	int h;
+	struct atom *p1;
 	if (car(EXPO) == symbol(ADD)) {
 		h = tos;
 		p1 = cdr(EXPO);
 		while (iscons(p1)) {
 			EXPO = car(p1);
 			if (isdenormalpolarterm(EXPO))
-				normalize_polar_term();
+				normalize_polar_term(EXPO);
 			else {
 				push_symbol(POWER);
 				push_symbol(EXP1);
@@ -80,12 +67,14 @@ normalize_polar(void)
 		}
 		multiply_factors(tos - h);
 	} else
-		normalize_polar_term();
+		normalize_polar_term(EXPO);
 }
 
 void
-normalize_polar_term(void)
+normalize_polar_term(struct atom *EXPO)
 {
+	struct atom *R;
+
 	// exp(i pi) = -1
 
 	if (length(EXPO) == 3) {
@@ -96,13 +85,13 @@ normalize_polar_term(void)
 	R = cadr(EXPO); // R = coeff of term
 
 	if (isrational(R))
-		normalize_polar_term_rational();
+		normalize_polar_term_rational(R);
 	else
-		normalize_polar_term_double();
+		normalize_polar_term_double(R);
 }
 
 void
-normalize_polar_term_rational(void)
+normalize_polar_term_rational(struct atom *R)
 {
 	int n;
 
@@ -213,7 +202,7 @@ normalize_polar_term_rational(void)
 }
 
 void
-normalize_polar_term_double(void)
+normalize_polar_term_double(struct atom *R)
 {
 	double coeff, n, r;
 

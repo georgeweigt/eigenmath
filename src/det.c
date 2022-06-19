@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_det(void)
+eval_det(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	det();
-	expanding = t;
 }
 
 void
 det(void)
 {
-	save();
-	det_nib();
-	restore();
-}
-
-void
-det_nib(void)
-{
 	int h, i, j, k, m, n;
+	struct atom *p1, *p2;
 
 	p1 = pop();
 

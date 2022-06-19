@@ -37,15 +37,40 @@
 #define Q(i, j) yyqq[eigen_n * (i) + (j)]
 
 int eigen_n;
-double *yydd, *yyqq;
+double *yydd; // eigenvalues
+double *yyqq; // eigenvectors
 
 void
-eval_eigen(void)
+eval_eigen(struct atom *p1)
 {
-	if (eigen_check_arg() == 0)
-		stop("eigen: argument is not a square matrix");
+	int i, j;
+	struct atom *p2, *p3;
 
-	eigen(EIGEN);
+	p1 = eigen_check_arg(p1);
+
+	eigen(p1);
+
+	push(p1);
+	copy_tensor();
+	p2 = pop();
+
+	push(p1);
+	copy_tensor();
+	p3 = pop();
+
+	for (i = 0; i < eigen_n; i++) {
+		for (j = 0; j < eigen_n; j++) {
+			push_double(D(i, j));
+			p2->u.tensor->elem[eigen_n * i + j] = pop();
+		}
+	}
+
+	for (i = 0; i < eigen_n; i++) {
+		for (j = 0; j < eigen_n; j++) {
+			push_double(Q(i, j));
+			p3->u.tensor->elem[eigen_n * i + j] = pop();
+		}
+	}
 
 	p1 = lookup("D");
 	set_symbol(p1, p2, symbol(NIL));
@@ -57,37 +82,53 @@ eval_eigen(void)
 }
 
 void
-eval_eigenval(void)
+eval_eigenval(struct atom *p1)
 {
-	if (eigen_check_arg() == 0) {
-		push_symbol(EIGENVAL);
-		push(p1);
-		list(2);
-		return;
+	int i, j;
+
+	p1 = eigen_check_arg(p1);
+
+	eigen(p1);
+
+	push(p1);
+	copy_tensor();
+	p1 = pop();
+
+	for (i = 0; i < eigen_n; i++) {
+		for (j = 0; j < eigen_n; j++) {
+			push_double(D(i, j));
+			p1->u.tensor->elem[eigen_n * i + j] = pop();
+		}
 	}
 
-	eigen(EIGENVAL);
-
-	push(p2);
+	push(p1);
 }
 
 void
-eval_eigenvec(void)
+eval_eigenvec(struct atom *p1)
 {
-	if (eigen_check_arg() == 0) {
-		push_symbol(EIGENVEC);
-		push(p1);
-		list(2);
-		return;
+	int i, j;
+
+	p1 = eigen_check_arg(p1);
+
+	eigen(p1);
+
+	push(p1);
+	copy_tensor();
+	p1 = pop();
+
+	for (i = 0; i < eigen_n; i++) {
+		for (j = 0; j < eigen_n; j++) {
+			push_double(Q(i, j));
+			p1->u.tensor->elem[eigen_n * i + j] = pop();
+		}
 	}
 
-	eigen(EIGENVEC);
-
-	push(p3);
+	push(p1);
 }
 
-int
-eigen_check_arg(void)
+struct atom *
+eigen_check_arg(struct atom *p1)
 {
 	int i, j;
 
@@ -96,10 +137,7 @@ eigen_check_arg(void)
 	floatfunc();
 	p1 = pop();
 
-	if (!istensor(p1))
-		return 0;
-
-	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
+	if (!istensor(p1) || p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
 		stop("eigen: argument is not a square matrix");
 
 	eigen_n = p1->u.tensor->dim[0];
@@ -114,19 +152,23 @@ eigen_check_arg(void)
 			if (fabs(p1->u.tensor->elem[eigen_n * i + j]->u.d - p1->u.tensor->elem[eigen_n * j + i]->u.d) > 1e-10)
 				stop("eigen: matrix is not symmetrical");
 
-	return 1;
+	return p1;
 }
 
-//	Input:		p1		matrix
-//
-//	Output:		p2		eigenvalues
-//
-//			p3		eigenvectors
-
 void
-eigen(int op)
+eigen(struct atom *p1)
 {
 	int i, j;
+
+	if (yydd) {
+		free(yydd);
+		yydd = NULL;
+	}
+
+	if (yyqq) {
+		free(yyqq);
+		yyqq = NULL;
+	}
 
 	// malloc working vars
 
@@ -167,44 +209,7 @@ eigen(int op)
 			break;
 
 	if (i == 100)
-		printbuf("note: eigen did not converge\n", RED);
-
-	// p2 = D
-
-	if (op == EIGEN || op == EIGENVAL) {
-
-		push(p1);
-		copy_tensor();
-		p2 = pop();
-
-		for (i = 0; i < eigen_n; i++) {
-			for (j = 0; j < eigen_n; j++) {
-				push_double(D(i, j));
-				p2->u.tensor->elem[eigen_n * i + j] = pop();
-			}
-		}
-	}
-
-	// p3 = Q
-
-	if (op == EIGEN || op == EIGENVEC) {
-
-		push(p1);
-		copy_tensor();
-		p3 = pop();
-
-		for (i = 0; i < eigen_n; i++) {
-			for (j = 0; j < eigen_n; j++) {
-				push_double(Q(i, j));
-				p3->u.tensor->elem[eigen_n * i + j] = pop();
-			}
-		}
-	}
-
-	// free working vars
-
-	free(yydd);
-	free(yyqq);
+		stop("eigen did not converge");
 }
 
 //	Example: p = 1, q = 3

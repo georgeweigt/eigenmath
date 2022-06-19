@@ -7,7 +7,7 @@
 #include "defs.h"
 
 void
-eval_prime(void)
+eval_prime(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();

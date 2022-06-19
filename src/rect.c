@@ -1,31 +1,18 @@
 #include "defs.h"
 
-// define BASE p8 (defs1.h)
-// define EXPO p9 (defs1.h)
-
 void
-eval_rect(void)
+eval_rect(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	rect();
-	expanding = t;
 }
 
 void
 rect(void)
 {
-	save();
-	rect_nib();
-	restore();
-}
-
-void
-rect_nib(void)
-{
 	int h, i, n;
+	struct atom *p1, *p2, *BASE, *EXPO;
 
 	p1 = pop();
 

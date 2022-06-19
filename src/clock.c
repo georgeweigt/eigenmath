@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_clock(void)
+eval_clock(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	clockfunc();
-	expanding = t;
 }
 
 void
 clockfunc(void)
 {
-	save();
-	clockfunc_nib();
-	restore();
-}
-
-void
-clockfunc_nib(void)
-{
 	int i, n;
+	struct atom *p1;
 
 	p1 = pop();
 

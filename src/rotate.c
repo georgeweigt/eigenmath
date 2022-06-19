@@ -1,17 +1,8 @@
 #include "defs.h"
 
-#undef PSI
-#undef OPCODE
-#undef PHASE
-#undef T
 #undef N
 #undef KET0
 #undef KET1
-
-#define PSI p3
-#define OPCODE p4
-#define PHASE p5
-#define T p6
 
 #define N PSI->u.tensor->nelem
 #define KET0 PSI->u.tensor->elem[i ^ n]
@@ -20,13 +11,11 @@
 #define POWEROF2(x) ((x & (x - 1)) == 0)
 
 void
-eval_rotate(void)
+eval_rotate(struct atom *p1)
 {
-	int m, n, t;
+	int m, n;
 	uint32_t c;
-
-	t = expanding;
-	expanding = 1;
+	struct atom *PSI, *OPCODE, *PHASE;
 
 	push(cadr(p1));
 	eval();
@@ -60,7 +49,7 @@ eval_rotate(void)
 		}
 
 		if (OPCODE == symbol(H_UPPER)) {
-			rotate_h(c, n);
+			rotate_h(PSI, c, n);
 			c = 0;
 			continue;
 		}
@@ -75,19 +64,19 @@ eval_rotate(void)
 			multiply();
 			expfunc();
 			PHASE = pop();
-			rotate_p(c, n);
+			rotate_p(PSI, PHASE, c, n);
 			c = 0;
 			continue;
 		}
 
 		if (OPCODE == symbol(Q_UPPER)) {
-			rotate_q(n);
+			rotate_q(PSI, n);
 			c = 0;
 			continue;
 		}
 
 		if (OPCODE == symbol(V_UPPER)) {
-			rotate_v(n);
+			rotate_v(PSI, n);
 			c = 0;
 			continue;
 		}
@@ -102,25 +91,25 @@ eval_rotate(void)
 			n = pop_integer();
 			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
 				stop("rotate error 3 qubit number format or range");
-			rotate_w(c, m, n);
+			rotate_w(PSI, c, m, n);
 			c = 0;
 			continue;
 		}
 
 		if (OPCODE == symbol(X_UPPER)) {
-			rotate_x(c, n);
+			rotate_x(PSI, c, n);
 			c = 0;
 			continue;
 		}
 
 		if (OPCODE == symbol(Y_UPPER)) {
-			rotate_y(c, n);
+			rotate_y(PSI, c, n);
 			c = 0;
 			continue;
 		}
 
 		if (OPCODE == symbol(Z_UPPER)) {
-			rotate_z(c, n);
+			rotate_z(PSI, c, n);
 			c = 0;
 			continue;
 		}
@@ -129,14 +118,12 @@ eval_rotate(void)
 	}
 
 	push(PSI);
-
-	expanding = t;
 }
 
 // hadamard
 
 void
-rotate_h(uint32_t c, int n)
+rotate_h(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
@@ -165,7 +152,7 @@ rotate_h(uint32_t c, int n)
 // phase
 
 void
-rotate_p(uint32_t c, int n)
+rotate_p(struct atom *PSI, struct atom *PHASE, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
@@ -184,7 +171,7 @@ rotate_p(uint32_t c, int n)
 // swap
 
 void
-rotate_w(uint32_t c, int m, int n)
+rotate_w(struct atom *PSI, uint32_t c, int m, int n)
 {
 	int i;
 	m = 1 << m;
@@ -202,7 +189,7 @@ rotate_w(uint32_t c, int m, int n)
 }
 
 void
-rotate_x(uint32_t c, int n)
+rotate_x(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
@@ -219,7 +206,7 @@ rotate_x(uint32_t c, int n)
 }
 
 void
-rotate_y(uint32_t c, int n)
+rotate_y(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
@@ -241,7 +228,7 @@ rotate_y(uint32_t c, int n)
 }
 
 void
-rotate_z(uint32_t c, int n)
+rotate_z(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
@@ -259,11 +246,12 @@ rotate_z(uint32_t c, int n)
 // quantum fourier transform
 
 void
-rotate_q(int n)
+rotate_q(struct atom *PSI, int n)
 {
 	int i, j;
+	struct atom *PHASE;
 	for (i = n; i >= 0; i--) {
-		rotate_h(0, i);
+		rotate_h(PSI, 0, i);
 		for (j = 0; j < i; j++) {
 			push_rational(1, 2);
 			push_integer(i - j);
@@ -274,21 +262,22 @@ rotate_q(int n)
 			multiply_factors(3);
 			expfunc();
 			PHASE = pop();
-			rotate_p(1 << j, i);
+			rotate_p(PSI, PHASE, 1 << j, i);
 		}
 	}
 	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_w(0, i, n - i);
+		rotate_w(PSI, 0, i, n - i);
 }
 
 // inverse qft
 
 void
-rotate_v(int n)
+rotate_v(struct atom *PSI, int n)
 {
 	int i, j;
+	struct atom *PHASE;
 	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_w(0, i, n - i);
+		rotate_w(PSI, 0, i, n - i);
 	for (i = 0; i <= n; i++) {
 		for (j = i - 1; j >= 0; j--) {
 			push_rational(1, 2);
@@ -301,8 +290,8 @@ rotate_v(int n)
 			negate();
 			expfunc();
 			PHASE = pop();
-			rotate_p(1 << j, i);
+			rotate_p(PSI, PHASE, 1 << j, i);
 		}
-		rotate_h(0, i);
+		rotate_h(PSI, 0, i);
 	}
 }

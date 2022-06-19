@@ -339,14 +339,16 @@ end_mathjax(void)
 }
 
 void
-eval_draw(void)
+eval_draw(struct atom *p1)
 {
+	(void) p1; // silence compiler
 	push_symbol(NIL);
 }
 
 void
-eval_exit(void)
+eval_exit(struct atom *p1)
 {
+	(void) p1; // silence compiler
 	end_document();
 	exit(0);
 }

@@ -7,7 +7,7 @@ uint32_t *global_n;
 void
 factor_number(void)
 {
-	save();
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -15,7 +15,6 @@ factor_number(void)
 
 	if (iszero(p1) || isplusone(p1) || isminusone(p1)) {
 		push(p1);
-		restore();
 		return;
 	}
 
@@ -25,8 +24,6 @@ factor_number(void)
 		push_integer(-1);
 
 	factor_a();
-
-	restore();
 }
 
 // factor using table look-up, then switch to rho method if necessary

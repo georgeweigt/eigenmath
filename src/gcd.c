@@ -1,12 +1,12 @@
 #include "defs.h"
 
 void
-eval_gcd(void)
+eval_gcd(struct atom *p1)
 {
-	p1 = cdr(p1);
-	push(car(p1));
+	push(cadr(p1));
 	eval();
-	p1 = cdr(p1);
+
+	p1 = cddr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
@@ -18,18 +18,8 @@ eval_gcd(void)
 void
 gcd(void)
 {
-	int t;
-	t = expanding;
-	expanding = 1;
-	save();
-	gcd_main();
-	restore();
-	expanding = t;
-}
+	struct atom *p1, *p2, *p3, *p4, *p5, *p6;
 
-void
-gcd_main(void)
-{
 	p2 = pop();
 	p1 = pop();
 
@@ -46,7 +36,7 @@ gcd_main(void)
 	}
 
 	if (car(p1) == symbol(ADD) && car(p2) == symbol(ADD)) {
-		gcd_expr_expr();
+		gcd_expr_expr(p1, p2);
 		return;
 	}
 
@@ -61,17 +51,17 @@ gcd_main(void)
 	}
 
 	if (car(p1) == symbol(MULTIPLY) && car(p2) == symbol(MULTIPLY)) {
-		gcd_term_term();
+		gcd_term_term(p1, p2);
 		return;
 	}
 
 	if (car(p1) == symbol(MULTIPLY)) {
-		gcd_term_factor();
+		gcd_term_factor(p1, p2);
 		return;
 	}
 
 	if (car(p2) == symbol(MULTIPLY)) {
-		gcd_factor_term();
+		gcd_factor_term(p1, p2);
 		return;
 	}
 
@@ -165,8 +155,10 @@ gcd_main(void)
 // in this case gcd is used as a composite function, i.e. gcd(gcd(gcd...
 
 void
-gcd_expr_expr(void)
+gcd_expr_expr(struct atom *p1, struct atom *p2)
 {
+	struct atom *p3, *p4, *p5, *p6;
+
 	if (length(p1) != length(p2)) {
 		push_integer(1);
 		return;
@@ -226,8 +218,9 @@ gcd_expr(struct atom *p)
 }
 
 void
-gcd_term_term(void)
+gcd_term_term(struct atom *p1, struct atom *p2)
 {
+	struct atom *p3, *p4;
 	push_integer(1);
 	p3 = cdr(p1);
 	while (iscons(p3)) {
@@ -244,8 +237,9 @@ gcd_term_term(void)
 }
 
 void
-gcd_term_factor(void)
+gcd_term_factor(struct atom *p1, struct atom *p2)
 {
+	struct atom *p3;
 	push_integer(1);
 	p3 = cdr(p1);
 	while (iscons(p3)) {
@@ -258,8 +252,9 @@ gcd_term_factor(void)
 }
 
 void
-gcd_factor_term(void)
+gcd_factor_term(struct atom *p1, struct atom *p2)
 {
+	struct atom *p4;
 	push_integer(1);
 	p4 = cdr(p2);
 	while (iscons(p4)) {
@@ -275,19 +270,22 @@ void
 gcd_numbers(void)
 {
 	uint32_t *a, *b;
-	save();
+	struct atom *p1, *p2;
+
 	p2 = pop();
 	p1 = pop();
+
 	if (isdouble(p1)) {
 		convert_double_to_rational(p1->u.d);
 		p1 = pop();
 	}
+
 	if (isdouble(p2)) {
 		convert_double_to_rational(p2->u.d);
 		p2 = pop();
 	}
+
 	a = mgcd(p1->u.q.a, p2->u.q.a);
 	b = mgcd(p1->u.q.b, p2->u.q.b);
 	push_bignum(MPLUS, a, b);
-	restore();
 }

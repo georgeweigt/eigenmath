@@ -1,27 +1,10 @@
 #include "defs.h"
 
-#undef TFACT
-#undef BASE1
-#undef BASE2
-#undef EXPO1
-#undef EXPO2
-#undef COEF
-#undef NUMER
-#undef DENOM
-
-#define TFACT p0
-#define BASE1 p3
-#define BASE2 p4
-#define EXPO1 p5
-#define EXPO2 p6
-#define COEF p7
-#define NUMER p8
-#define DENOM p9
-
 void
-eval_multiply(void)
+eval_multiply(struct atom *p1)
 {
 	int h = tos;
+	expanding--; // undo expanding++ in eval
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
@@ -29,6 +12,7 @@ eval_multiply(void)
 		p1 = cdr(p1);
 	}
 	multiply_factors(tos - h);
+	expanding++;
 }
 
 void
@@ -40,15 +24,8 @@ multiply(void)
 void
 multiply_factors(int n)
 {
-	save();
-	multiply_factors_nib(n);
-	restore();
-}
-
-void
-multiply_factors_nib(int n)
-{
 	int h;
+	struct atom *T;
 
 	if (n < 2)
 		return;
@@ -57,12 +34,12 @@ multiply_factors_nib(int n)
 
 	flatten_factors(h);
 
-	multiply_tensor_factors(h);
+	T = multiply_tensor_factors(h);
 
 	multiply_scalar_factors(h);
 
-	if (istensor(TFACT)) {
-		push(TFACT);
+	if (istensor(T)) {
+		push(T);
 		inner();
 	}
 }
@@ -70,12 +47,13 @@ multiply_factors_nib(int n)
 void
 flatten_factors(int h)
 {
-	int i, n = tos - h;
-	struct atom **s = stack + h;
-	for (i = 0; i < n; i++) {
-		p1 = s[i];
+	int i, n;
+	struct atom *p1;
+	n = tos;
+	for (i = h; i < n; i++) {
+		p1 = stack[i];
 		if (car(p1) == symbol(MULTIPLY)) {
-			s[i] = cadr(p1);
+			stack[i] = cadr(p1);
 			p1 = cddr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
@@ -85,40 +63,41 @@ flatten_factors(int h)
 	}
 }
 
-void
+struct atom *
 multiply_tensor_factors(int h)
 {
-	int i, j, n = tos - h;
-	struct atom **s = stack + h;
-	TFACT = symbol(NIL);
-	for (i = 0; i < n; i++) {
-		p1 = s[i];
+	int i, j;
+	struct atom *p1, *T;
+	T = symbol(NIL);
+	for (i = h; i < tos; i++) {
+		p1 = stack[i];
 		if (!istensor(p1))
 			continue;
-		if (istensor(TFACT)) {
-			push(TFACT);
+		if (istensor(T)) {
+			push(T);
 			push(p1);
 			hadamard();
-			TFACT = pop();
+			T = pop();
 		} else
-			TFACT = p1;
+			T = p1;
 		// remove the factor
-		for (j = i + 1; j < n; j++)
-			s[j - 1] = s[j];
+		for (j = i + 1; j < tos; j++)
+			stack[j - 1] = stack[j];
 		i--;
-		n--;
 		tos--;
 	}
+	return T;
 }
 
 void
 multiply_scalar_factors(int h)
 {
 	int n;
+	struct atom *COEF;
 
 	COEF = one;
 
-	combine_numerical_factors(h);
+	COEF = combine_numerical_factors(h, COEF);
 
 	if (iszero(COEF) || h == tos) {
 		tos = h;
@@ -134,7 +113,7 @@ multiply_scalar_factors(int h)
 	combine_factors(h);
 	normalize_power_factors(h);
 
-	combine_numerical_factors(h);
+	COEF = combine_numerical_factors(h, COEF);
 
 	if (iszero(COEF) || h == tos) {
 		tos = h;
@@ -142,7 +121,7 @@ multiply_scalar_factors(int h)
 		return;
 	}
 
-	reduce_radical_factors(h);
+	COEF = reduce_radical_factors(h, COEF);
 
 	if (isdouble(COEF) || !isplusone(COEF))
 		push(COEF);
@@ -168,26 +147,24 @@ multiply_scalar_factors(int h)
 	}
 }
 
-void
-combine_numerical_factors(int h)
+struct atom *
+combine_numerical_factors(int h, struct atom *COEF)
 {
-	int i, j, n = tos - h;
-	struct atom **s = stack + h;
-	p1 = COEF;
-	for (i = 0; i < n; i++) {
-		p2 = s[i];
-		if (isnum(p2)) {
-			multiply_numbers();
-			p1 = pop();
+	int i, j;
+	struct atom *p1;
+	for (i = h; i < tos; i++) {
+		p1 = stack[i];
+		if (isnum(p1)) {
+			multiply_numbers(COEF, p1);
+			COEF = pop();
 			// remove the factor
-			for (j = i + 1; j < n; j++)
-				s[j - 1] = s[j];
+			for (j = i + 1; j < tos; j++)
+				stack[j - 1] = stack[j];
 			i--;
-			n--;
 			tos--;
 		}
 	}
-	COEF = p1;
+	return COEF;
 }
 
 // factors that have the same base are combined by adding exponents
@@ -195,25 +172,23 @@ combine_numerical_factors(int h)
 void
 combine_factors(int h)
 {
-	int i, j, n = tos - h;
-	struct atom **s = stack + h;
-	sort_factors_provisional(n);
-	for (i = 0; i < n - 1; i++) {
-		if (combine_adjacent_factors(s + i)) {
+	int i, j;
+	sort_factors_provisional(h);
+	for (i = h; i < tos - 1; i++) {
+		if (combine_adjacent_factors(i)) {
 			// remove the factor
-			for (j = i + 2; j < n; j++)
-				s[j - 1] = s[j];
+			for (j = i + 2; j < tos; j++)
+				stack[j - 1] = stack[j];
 			i--;
-			n--;
 			tos--;
 		}
 	}
 }
 
 void
-sort_factors_provisional(int n)
+sort_factors_provisional(int h)
 {
-	qsort(stack + tos - n, n, sizeof (struct atom *), sort_factors_provisional_func);
+	qsort(stack + h, tos - h, sizeof (struct atom *), sort_factors_provisional_func);
 }
 
 int
@@ -235,10 +210,12 @@ cmp_factors_provisional(struct atom *p1, struct atom *p2)
 }
 
 int
-combine_adjacent_factors(struct atom **s)
+combine_adjacent_factors(int i)
 {
-	p1 = s[0];
-	p2 = s[1];
+	struct atom *p1, *p2, *BASE1, *EXPO1, *BASE2, *EXPO2;
+
+	p1 = stack[i];
+	p2 = stack[i + 1];
 
 	if (car(p1) == symbol(POWER)) {
 		BASE1 = cadr(p1);
@@ -269,7 +246,7 @@ combine_adjacent_factors(struct atom **s)
 	add();
 	list(3);
 
-	s[0] = pop();
+	stack[i] = pop();
 
 	return 1;
 }
@@ -278,7 +255,7 @@ void
 factor_factors_maybe(int h)
 {
 	int i, n = tos - h;
-	struct atom **s = stack + h;
+	struct atom **s = stack + h, *p1;
 
 	// is there at least one power with a numerical base?
 
@@ -304,7 +281,7 @@ void
 normalize_power_factors(int h)
 {
 	int i, n = tos - h;
-	struct atom **s = stack + h;
+	struct atom **s = stack + h, *p1;
 	for (i = 0; i < n; i++) {
 		p1 = s[i];
 		if (car(p1) == symbol(POWER)) {
@@ -329,7 +306,9 @@ void
 expand_sum_factors(int h)
 {
 	int i, j, n = tos - h;
-	struct atom **s = stack + h;
+	struct atom **s = stack + h, *p1, *p2;
+
+	p2 = symbol(NIL); // silence compiler
 
 	if (n < 2)
 		return;
@@ -465,15 +444,13 @@ order_factor(struct atom *p)
 	return 4;
 }
 
-// multiply numbers p1 and p2
-
 void
-multiply_numbers(void)
+multiply_numbers(struct atom *p1, struct atom *p2)
 {
 	double d1, d2;
 
 	if (isrational(p1) && isrational(p2)) {
-		multiply_rationals();
+		multiply_rationals(p1, p2);
 		return;
 	}
 
@@ -487,7 +464,7 @@ multiply_numbers(void)
 }
 
 void
-multiply_rationals(void)
+multiply_rationals(struct atom *p1, struct atom *p2)
 {
 	int sign;
 	uint32_t *a, *b, *c;
@@ -519,51 +496,76 @@ multiply_rationals(void)
 
 // for example, 2 / sqrt(2) -> sqrt(2)
 
-void
-reduce_radical_factors(int h)
+struct atom *
+reduce_radical_factors(int h, struct atom *COEF)
 {
-	int i, j, k = 0, n = tos - h;
+	if (!any_radical_factors(h))
+		return COEF;
+
+	if (isrational(COEF))
+		return reduce_radical_rational(h, COEF);
+	else
+		return reduce_radical_double(h, COEF);
+}
+
+int
+any_radical_factors(int h)
+{
+	int i, n;
+	n = tos;
+	for (i = h; i < n; i++)
+		if (isradical(stack[i]))
+			return 1;
+	return 0;
+}
+
+struct atom *
+reduce_radical_double(int h, struct atom *COEF)
+{
+	int i, j;
 	double a, b, c;
-	struct atom **s = stack + h;
+	struct atom *p1;
 
-	if (iszero(COEF))
-		return;
+	c = COEF->u.d;
 
-	if (isdouble(COEF)) {
-		c = COEF->u.d;
-		for (i = 0; i < n; i++) {
-			p1 = s[i];
-			if (isradical(p1)) {
-				k++;
-				push(cadr(p1)); // base
-				a = pop_double();
-				push(caddr(p1)); // exponent
-				b = pop_double();
-				c = c * pow(a, b); // a > 0 by isradical above
-				// remove the factor
-				for (j = i + 1; j < n; j++)
-					s[j - 1] = s[j];
-				i--;
-				n--;
-				tos--;
-			}
+	for (i = h; i < tos; i++) {
+
+		p1 = stack[i];
+
+		if (isradical(p1)) {
+
+			push(cadr(p1)); // base
+			a = pop_double();
+
+			push(caddr(p1)); // exponent
+			b = pop_double();
+
+			c = c * pow(a, b); // a > 0 by isradical above
+
+			// remove the factor
+
+			for (j = i + 1; j < tos; j++)
+				stack[j - 1] = stack[j];
+
+			i--; // use same index again
+			tos--;
 		}
-		if (k) {
-			push_double(c);
-			COEF = pop();
-		}
-		return;
 	}
 
+	push_double(c);
+	COEF = pop();
+
+	return COEF;
+}
+
+struct atom *
+reduce_radical_rational(int h, struct atom *COEF)
+{
+	int i, k;
+	struct atom *p1, *p2, *NUMER, *DENOM, *BASE, *EXPO;
+
 	if (isplusone(COEF) || isminusone(COEF))
-		return; // COEF has no factors, no cancellation is possible
-
-	for (i = 0; i < n; i++)
-		if (isradical(s[i]))
-			break;
-
-	if (i == n)
-		return; // no radicals
+		return COEF; // COEF has no factors, no cancellation is possible
 
 	push(COEF);
 	absfunc();
@@ -577,48 +579,46 @@ reduce_radical_factors(int h)
 	denominator();
 	DENOM = pop();
 
-	for (; i < n; i++) {
-		p1 = s[i];
+	k = 0;
+
+	for (i = h; i < tos; i++) {
+		p1 = stack[i];
 		if (!isradical(p1))
 			continue;
-		BASE1 = cadr(p1);
-		EXPO1 = caddr(p1);
-		if (EXPO1->sign == MMINUS) {
-			push(NUMER);
-			push(BASE1);
-			modfunc();
+		BASE = cadr(p1);
+		EXPO = caddr(p1);
+		if (isnegativenumber(EXPO)) {
+			mod_integers(NUMER, BASE);
 			p2 = pop();
 			if (iszero(p2)) {
 				push(NUMER);
-				push(BASE1);
+				push(BASE);
 				divide();
 				NUMER = pop();
 				push_symbol(POWER);
-				push(BASE1);
+				push(BASE);
 				push_integer(1);
-				push(EXPO1);
+				push(EXPO);
 				add();
 				list(3);
-				s[i] = pop();
+				stack[i] = pop();
 				k++;
 			}
 		} else {
-			push(DENOM);
-			push(BASE1);
-			modfunc();
+			mod_integers(DENOM, BASE);
 			p2 = pop();
 			if (iszero(p2)) {
 				push(DENOM);
-				push(BASE1);
+				push(BASE);
 				divide();
 				DENOM = pop();
 				push_symbol(POWER);
-				push(BASE1);
+				push(BASE);
 				push_integer(-1);
-				push(EXPO1);
+				push(EXPO);
 				add();
 				list(3);
-				s[i] = pop();
+				stack[i] = pop();
 				k++;
 			}
 		}
@@ -628,20 +628,20 @@ reduce_radical_factors(int h)
 		push(NUMER);
 		push(DENOM);
 		divide();
-		if (COEF->sign == MMINUS)
+		if (isnegativenumber(COEF))
 			negate();
 		COEF = pop();
 	}
+
+	return COEF;
 }
 
 void
 multiply_expand(void)
 {
-	int t;
-	t = expanding;
-	expanding = 1;
+	expanding++;
 	multiply();
-	expanding = t;
+	expanding--;
 }
 
 void

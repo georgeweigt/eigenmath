@@ -1,20 +1,17 @@
 #include "defs.h"
 
 void
-eval_expcos(void)
+eval_expcos(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	expcos();
-	expanding = t;
 }
 
 void
 expcos(void)
 {
-	save();
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -34,6 +31,4 @@ expcos(void)
 	multiply();
 
 	add();
-
-	restore();
 }

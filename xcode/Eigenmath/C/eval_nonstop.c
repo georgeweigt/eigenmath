@@ -9,13 +9,11 @@ eval_nonstop(void)
 		return; // not reentrant
 	}
 
-	save();
 	toj = 0;
 	journaling = 1;
 	eval_nonstop_nib();
 	journaling = 0;
 	toj = 0;
-	restore();
 }
 
 void

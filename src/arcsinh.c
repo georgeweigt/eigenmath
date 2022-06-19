@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_arcsinh(void)
+eval_arcsinh(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	arcsinh();
-	expanding = t;
 }
 
 void
 arcsinh(void)
 {
-	save();
-	arcsinh_nib();
-	restore();
-}
-
-void
-arcsinh_nib(void)
-{
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

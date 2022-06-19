@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_real(void)
+eval_real(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	real();
-	expanding = t;
 }
 
 void
 real(void)
 {
-	save();
-	real_nib();
-	restore();
-}
-
-void
-real_nib(void)
-{
 	int i, n;
+	struct atom *p1;
 
 	p1 = pop();
 

@@ -1,27 +1,18 @@
 #include "defs.h"
 
 void
-eval_numerator(void)
+eval_numerator(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	numerator();
-	expanding = t;
 }
 
 void
 numerator(void)
 {
-	save();
-	numerator_nib();
-	restore();
-}
+	struct atom *p1;
 
-void
-numerator_nib(void)
-{
 	p1 = pop();
 
 	if (isrational(p1)) {

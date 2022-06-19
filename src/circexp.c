@@ -1,14 +1,11 @@
 #include "defs.h"
 
 void
-eval_circexp(void)
+eval_circexp(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	circexp();
-	expanding = t;
 }
 
 void
@@ -21,15 +18,8 @@ circexp(void)
 void
 circexp_subst(void)
 {
-	save();
-	circexp_subst_nib();
-	restore();
-}
-
-void
-circexp_subst_nib(void)
-{
 	int i, h, n;
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -114,20 +104,17 @@ circexp_subst_nib(void)
 // tan(z) = (i - i * exp(2*i*z)) / (exp(2*i*z) + 1)
 
 void
-eval_exptan(void)
+eval_exptan(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	exptan();
-	expanding = t;
 }
 
 void
 exptan(void)
 {
-	save();
+	struct atom *p1;
 
 	push_integer(2);
 	push(imaginaryunit);
@@ -147,25 +134,20 @@ exptan(void)
 	add();
 
 	divide();
-
-	restore();
 }
 
 void
-eval_expcosh(void)
+eval_expcosh(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	expcosh();
-	expanding = t;
 }
 
 void
 expcosh(void)
 {
-	save();
+	struct atom *p1;
 	p1 = pop();
 	push(p1);
 	expfunc();
@@ -175,24 +157,20 @@ expcosh(void)
 	add();
 	push_rational(1, 2);
 	multiply();
-	restore();
 }
 
 void
-eval_expsinh(void)
+eval_expsinh(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	expsinh();
-	expanding = t;
 }
 
 void
 expsinh(void)
 {
-	save();
+	struct atom *p1;
 	p1 = pop();
 	push(p1);
 	expfunc();
@@ -202,24 +180,20 @@ expsinh(void)
 	subtract();
 	push_rational(1, 2);
 	multiply();
-	restore();
 }
 
 void
-eval_exptanh(void)
+eval_exptanh(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	exptanh();
-	expanding = t;
 }
 
 void
 exptanh(void)
 {
-	save();
+	struct atom *p1;
 	push_integer(2);
 	multiply();
 	expfunc();
@@ -231,5 +205,4 @@ exptanh(void)
 	push_integer(1);
 	add();
 	divide();
-	restore();
 }

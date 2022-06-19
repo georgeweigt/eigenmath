@@ -1,14 +1,11 @@
 #include "defs.h"
 
 void
-eval_float(void)
+eval_float(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	floatfunc();
-	expanding = t;
 }
 
 void
@@ -23,15 +20,8 @@ floatfunc(void)
 void
 floatfunc_subst(void)
 {
-	save();
-	floatfunc_subst_nib();
-	restore();
-}
-
-void
-floatfunc_subst_nib(void)
-{
 	int h, i, n;
+	struct atom *p1;
 
 	p1 = pop();
 

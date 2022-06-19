@@ -1,30 +1,22 @@
 #include "defs.h"
 
 void
-eval_mod(void)
+eval_mod(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
+
 	push(caddr(p1));
 	eval();
+
 	modfunc();
-	expanding = t;
 }
 
 void
 modfunc(void)
 {
-	save();
-	modfunc_nib();
-	restore();
-}
-
-void
-modfunc_nib(void)
-{
 	double d1, d2;
+	struct atom *p1, *p2;
 
 	p2 = pop();
 	p1 = pop();
@@ -38,7 +30,7 @@ modfunc_nib(void)
 	}
 
 	if (isrational(p1) && isrational(p2)) {
-		modfunc_rationals();
+		mod_rationals(p1, p2);
 		return;
 	}
 
@@ -52,10 +44,10 @@ modfunc_nib(void)
 }
 
 void
-modfunc_rationals(void)
+mod_rationals(struct atom *p1, struct atom *p2)
 {
 	if (isinteger(p1) && isinteger(p2)) {
-		push_bignum(p1->sign, mmod(p1->u.q.a, p2->u.q.a), mint(1));
+		mod_integers(p1, p2);
 		return;
 	}
 	push(p1);
@@ -69,4 +61,10 @@ modfunc_rationals(void)
 	if (p1->sign == p2->sign)
 		negate();
 	add();
+}
+
+void
+mod_integers(struct atom *p1, struct atom *p2)
+{
+	push_bignum(p1->sign, mmod(p1->u.q.a, p2->u.q.a), mint(1));
 }

@@ -1,38 +1,18 @@
 #include "defs.h"
 
-#undef NUM
-#undef DEN
-#undef R
-#undef T
-
-#define NUM p3
-#define DEN p4
-#define R p5
-#define T p6
-
 void
-eval_simplify(void)
+eval_simplify(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	simplify();
-	expanding = t;
 }
 
 void
 simplify(void)
 {
-	save();
-	simplify_nib();
-	restore();
-}
-
-void
-simplify_nib(void)
-{
 	int h, i, n;
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -78,6 +58,8 @@ simplify_nib(void)
 void
 simplify_pass1(void)
 {
+	struct atom *p1, *NUM, *DEN, *R, *T;
+
 	p1 = pop();
 
 	// already simple?
@@ -168,6 +150,8 @@ simplify_pass1(void)
 void
 simplify_pass2(void)
 {
+	struct atom *p1, *p2;
+
 	p1 = pop();
 
 	// already simple?
@@ -196,6 +180,8 @@ simplify_pass2(void)
 void
 simplify_pass3(void)
 {
+	struct atom *p1, *p2;
+
 	p1 = pop();
 
 	if (car(p1) != symbol(ADD) || isusersymbolsomewhere(p1) || !find(p1, imaginaryunit)) {

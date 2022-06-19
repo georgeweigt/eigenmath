@@ -1,35 +1,26 @@
 #include "defs.h"
 
 void
-eval_outer(void)
+eval_outer(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
+
 	p1 = cddr(p1);
+
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
 		outer();
 		p1 = cdr(p1);
 	}
-	expanding = t;
 }
 
 void
 outer(void)
 {
-	save();
-	outer_nib();
-	restore();
-}
-
-void
-outer_nib(void)
-{
 	int i, j, k, n, ncol, ndim, nrow;
-	struct atom **a, **b, **c;
+	struct atom **a, **b, **c, *p1, *p2, *p3;
 
 	p2 = pop();
 	p1 = pop();

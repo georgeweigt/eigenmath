@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_cosh(void)
+eval_cosh(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	coshfunc();
-	expanding = t;
 }
 
 void
 coshfunc(void)
 {
-	save();
-	coshfunc_nib();
-	restore();
-}
-
-void
-coshfunc_nib(void)
-{
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

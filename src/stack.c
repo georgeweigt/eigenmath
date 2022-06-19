@@ -22,52 +22,6 @@ pop(void)
 }
 
 void
-save(void)
-{
-	if (interrupt)
-		kaput("interrupt");
-
-	if (tof < 0 || tof + 10 > FRAMESIZE)
-		kaput("frame error");
-
-	frame[tof + 0] = p0;
-	frame[tof + 1] = p1;
-	frame[tof + 2] = p2;
-	frame[tof + 3] = p3;
-	frame[tof + 4] = p4;
-	frame[tof + 5] = p5;
-	frame[tof + 6] = p6;
-	frame[tof + 7] = p7;
-	frame[tof + 8] = p8;
-	frame[tof + 9] = p9;
-
-	tof += 10;
-
-	if (tof > max_frame)
-		max_frame = tof; // new high
-}
-
-void
-restore(void)
-{
-	if (tof < 10 || tof > FRAMESIZE)
-		kaput("frame error");
-
-	tof -= 10;
-
-	p0 = frame[tof + 0];
-	p1 = frame[tof + 1];
-	p2 = frame[tof + 2];
-	p3 = frame[tof + 3];
-	p4 = frame[tof + 4];
-	p5 = frame[tof + 5];
-	p6 = frame[tof + 6];
-	p7 = frame[tof + 7];
-	p8 = frame[tof + 8];
-	p9 = frame[tof + 9];
-}
-
-void
 save_symbol(struct atom *p)
 {
 	if (tof < 0 || tof + 2 > FRAMESIZE)

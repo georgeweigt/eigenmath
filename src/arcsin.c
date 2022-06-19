@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_arcsin(void)
+eval_arcsin(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	arcsin();
-	expanding = t;
 }
 
 void
 arcsin(void)
 {
-	save();
-	arcsin_nib();
-	restore();
-}
-
-void
-arcsin_nib(void)
-{
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

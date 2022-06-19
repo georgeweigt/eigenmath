@@ -1,15 +1,13 @@
 #include "defs.h"
 
-// define BASE p8 (defs1.h)
-// define EXPO p9 (defs1.h)
-
 // BASE and EXPO are numbers
 
 void
-power_numbers(void)
+power_numbers(struct atom *BASE, struct atom *EXPO)
 {
 	int h, i, j, n;
 	uint32_t *a, *b;
+	struct atom *p1, *p2;
 
 	// n^0
 
@@ -42,7 +40,7 @@ power_numbers(void)
 	}
 
 	if (isdouble(BASE) || isdouble(EXPO)) {
-		power_double();
+		power_double(BASE, EXPO);
 		return;
 	}
 
@@ -86,7 +84,7 @@ power_numbers(void)
 		if (car(p1) == symbol(POWER)) {
 			BASE = cadr(p1);
 			EXPO = caddr(p1);
-			power_numbers_factor();
+			power_numbers_factor(BASE, EXPO);
 			stack[h + i] = pop(); // fill hole
 		}
 	}
@@ -131,12 +129,13 @@ power_numbers(void)
 // BASE is an integer
 
 void
-power_numbers_factor(void)
+power_numbers_factor(struct atom *BASE, struct atom *EXPO)
 {
 	uint32_t *a, *b, *n, *q, *r;
+	struct atom *p0;
 
 	if (isminusone(BASE)) {
-		power_minusone();
+		power_minusone(EXPO);
 		p0 = pop();
 		if (car(p0) == symbol(MULTIPLY)) {
 			p0 = cdr(p0);
@@ -218,7 +217,7 @@ power_numbers_factor(void)
 }
 
 void
-power_double(void)
+power_double(struct atom *BASE, struct atom *EXPO)
 {
 	double base, d, expo;
 
@@ -236,7 +235,7 @@ power_double(void)
 
 	// BASE is negative and EXPO is fractional
 
-	power_minusone();
+	power_minusone(EXPO);
 
 	if (base == -1.0)
 		return;

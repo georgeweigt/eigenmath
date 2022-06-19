@@ -1,7 +1,7 @@
 #include "defs.h"
 
 void
-eval_mathjax(void)
+eval_mathjax(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
@@ -14,17 +14,10 @@ eval_mathjax(void)
 void
 mathjax(void)
 {
-	save();
-	mathjax_nib();
-	restore();
-}
-
-void
-mathjax_nib(void)
-{
-	outbuf_index = 0;
-
+	struct atom *p1;
 	p1 = pop();
+
+	outbuf_index = 0;
 
 	if (isstr(p1))
 		mml_string(p1, 0);

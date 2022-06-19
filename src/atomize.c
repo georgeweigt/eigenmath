@@ -1,21 +1,20 @@
 #include "defs.h"
 
 void
-eval_atomize(void)
-{
-	push(cadr(p1));
-	eval();
-	p1 = pop();
-	if (iscons(p1))
-		atomize();
-	else
-		push(p1);
-}
-
-void
-atomize(void)
+eval_atomize(struct atom *p1)
 {
 	int i, n;
+	struct atom *p2;
+
+	push(cadr(p1));
+	eval();
+
+	p1 = pop();
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
 	p1 = cdr(p1);
 	n = length(p1);
 	if (n == 1) {

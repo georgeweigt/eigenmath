@@ -1,47 +1,32 @@
 #include "defs.h"
 
-#undef T
-#undef X
-#undef Y
-#undef Z
-
-#define T p1
-#define X p2
-#define Y p3
-#define Z p4
-
 void
-eval_arctan(void)
+eval_arctan(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
-	if (iscons(cddr(p1))) {
-		push(caddr(p1));
+
+	p1 = cddr(p1);
+
+	if (iscons(p1)) {
+		push(car(p1));
 		eval();
 	} else
 		push_integer(1);
+
 	arctan();
-	expanding = t;
 }
 
 void
 arctan(void)
 {
-	save();
-	arctan_nib();
-	restore();
-}
+	struct atom *X, *Y, *Z;
 
-void
-arctan_nib(void)
-{
 	X = pop();
 	Y = pop();
 
 	if (isnum(X) && isnum(Y)) {
-		arctan_numbers();
+		arctan_numbers(X, Y);
 		return;
 	}
 
@@ -90,9 +75,10 @@ arctan_nib(void)
 }
 
 void
-arctan_numbers(void)
+arctan_numbers(struct atom *X, struct atom *Y)
 {
 	double x, y;
+	struct atom *T;
 
 	if (iszero(X) && iszero(Y)) {
 		push_symbol(ARCTAN);

@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_arccosh(void)
+eval_arccosh(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	arccosh();
-	expanding = t;
 }
 
 void
 arccosh(void)
 {
-	save();
-	arccosh_nib();
-	restore();
-}
-
-void
-arccosh_nib(void)
-{
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

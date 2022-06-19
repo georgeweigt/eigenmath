@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_adj(void)
+eval_adj(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	adj();
-	expanding = t;
 }
 
 void
 adj(void)
 {
-	save();
-	adj_nib();
-	restore();
-}
-
-void
-adj_nib(void)
-{
 	int col, i, j, k, n, row;
+	struct atom *p1, *p2, *p3;
 
 	p1 = pop();
 

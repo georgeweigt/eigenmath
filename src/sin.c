@@ -1,35 +1,19 @@
 #include "defs.h"
 
-#undef X
-#undef Y
-
-#define X p5
-#define Y p6
-
 void
-eval_sin(void)
+eval_sin(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	sinfunc();
-	expanding = t;
 }
 
 void
 sinfunc(void)
 {
-	save();
-	sinfunc_nib();
-	restore();
-}
-
-void
-sinfunc_nib(void)
-{
 	int n;
 	double d;
+	struct atom *p1, *p2, *X, *Y;
 
 	p1 = pop();
 
@@ -72,7 +56,7 @@ sinfunc_nib(void)
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		sinfunc_sum();
+		sinfunc_sum(p1);
 		return;
 	}
 
@@ -209,8 +193,9 @@ sinfunc_nib(void)
 // sin(x + n/2 pi) = sin(x) cos(n/2 pi) + cos(x) sin(n/2 pi)
 
 void
-sinfunc_sum(void)
+sinfunc_sum(struct atom *p1)
 {
+	struct atom *p2, *p3;
 	p2 = cdr(p1);
 	while (iscons(p2)) {
 		push_integer(2);

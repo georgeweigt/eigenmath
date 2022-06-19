@@ -1,20 +1,11 @@
 #include "defs.h"
 
-#undef RE
-#undef IM
-
-#define RE p3
-#define IM p4
-
 void
-eval_mag(void)
+eval_mag(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	mag();
-	expanding = t;
 }
 
 // use numerator and denominator to handle (a+i*b)/(c+i*d)
@@ -22,15 +13,8 @@ eval_mag(void)
 void
 mag(void)
 {
-	save();
-	mag_nib();
-	restore();
-}
-
-void
-mag_nib(void)
-{
 	int i, n;
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -62,15 +46,8 @@ mag_nib(void)
 void
 mag1(void)
 {
-	save();
-	mag1_nib();
-	restore();
-}
-
-void
-mag1_nib(void)
-{
 	int h;
+	struct atom *p1, *RE, *IM;
 
 	p1 = pop();
 

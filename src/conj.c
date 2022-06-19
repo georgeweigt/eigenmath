@@ -1,14 +1,11 @@
 #include "defs.h"
 
 void
-eval_conj(void)
+eval_conj(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	conjfunc();
-	expanding = t;
 }
 
 void
@@ -21,15 +18,8 @@ conjfunc(void)
 void
 conjfunc_subst(void)
 {
-	save();
-	conjfunc_subst_nib();
-	restore();
-}
-
-void
-conjfunc_subst_nib(void)
-{
 	int h, i, n;
+	struct atom *p1;
 
 	p1 = pop();
 

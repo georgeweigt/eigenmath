@@ -1,29 +1,18 @@
 #include "defs.h"
 
 void
-eval_rationalize(void)
+eval_rationalize(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	rationalize();
-	expanding = t;
 }
 
 void
 rationalize(void)
 {
-	save();
-	rationalize_nib();
-	restore();
-
-}
-
-void
-rationalize_nib(void)
-{
 	int i, n;
+	struct atom *p0, *p1, *p2;
 
 	p1 = pop();
 

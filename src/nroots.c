@@ -15,9 +15,10 @@ struct {
 } a, b, x, y, fa, fb, dx, df, c[YMAX];
 
 void
-eval_nroots(void)
+eval_nroots(struct atom *p1)
 {
 	int h, i, k, n;
+	struct atom *p2;
 
 	push(cadr(p1));
 	eval();

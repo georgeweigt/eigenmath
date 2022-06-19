@@ -1,7 +1,7 @@
 #include "defs.h"
 
 void
-eval_isprime(void)
+eval_isprime(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();

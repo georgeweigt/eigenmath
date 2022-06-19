@@ -1,21 +1,19 @@
 #include "defs.h"
 
 void
-eval_ceiling(void)
+eval_ceiling(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
-	ceiling_nib();
-	expanding = t;
+	ceilingfunc();
 }
 
 void
-ceiling_nib(void)
+ceilingfunc(void)
 {
 	uint32_t *a, *b;
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

@@ -1,14 +1,11 @@
 #include "defs.h"
 
 void
-eval_exp(void)
+eval_exp(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	expfunc();
-	expanding = t;
 }
 
 void

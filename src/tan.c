@@ -1,29 +1,19 @@
 #include "defs.h"
 
 void
-eval_tan(void)
+eval_tan(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	tanfunc();
-	expanding = t;
 }
 
 void
 tanfunc(void)
 {
-	save();
-	tanfunc_nib();
-	restore();
-}
-
-void
-tanfunc_nib(void)
-{
 	int n;
 	double d;
+	struct atom *p1, *p2;
 
 	p1 = pop();
 
@@ -55,7 +45,7 @@ tanfunc_nib(void)
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		tanfunc_sum();
+		tanfunc_sum(p1);
 		return;
 	}
 
@@ -158,8 +148,9 @@ tanfunc_nib(void)
 // tan(x + n pi) = tan(x)
 
 void
-tanfunc_sum(void)
+tanfunc_sum(struct atom *p1)
 {
+	struct atom *p2, *p3;
 	p2 = cdr(p1);
 	while (iscons(p2)) {
 		push(car(p2));

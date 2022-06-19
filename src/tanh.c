@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_tanh(void)
+eval_tanh(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	tanhfunc();
-	expanding = t;
 }
 
 void
 tanhfunc(void)
 {
-	save();
-	tanhfunc_nib();
-	restore();
-}
-
-void
-tanhfunc_nib(void)
-{
 	double d;
+	struct atom *p1;
 
 	p1 = pop();
 

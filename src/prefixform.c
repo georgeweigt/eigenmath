@@ -1,7 +1,7 @@
 #include "defs.h"
 
 void
-eval_prefixform(void)
+eval_prefixform(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();

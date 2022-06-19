@@ -1,28 +1,18 @@
 #include "defs.h"
 
 void
-eval_imag(void)
+eval_imag(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	imag();
-	expanding = t;
 }
 
 void
 imag(void)
 {
-	save();
-	imag_nib();
-	restore();
-}
-
-void
-imag_nib(void)
-{
 	int i, n;
+	struct atom *p1;
 
 	p1 = pop();
 

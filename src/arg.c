@@ -1,20 +1,11 @@
 #include "defs.h"
 
-#undef RE
-#undef IM
-
-#define RE p3
-#define IM p4
-
 void
-eval_arg(void)
+eval_arg(struct atom *p1)
 {
-	int t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	eval();
 	arg();
-	expanding = t;
 }
 
 // use numerator and denominator to handle (a+i*b)/(c+i*d)
@@ -22,15 +13,8 @@ eval_arg(void)
 void
 arg(void)
 {
-	save();
-	arg_nib();
-	restore();
-}
-
-void
-arg_nib(void)
-{
 	int i, n, t;
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -70,15 +54,8 @@ arg_nib(void)
 void
 arg1(void)
 {
-	save();
-	arg1_nib();
-	restore();
-}
-
-void
-arg1_nib(void)
-{
 	int h;
+	struct atom *p1, *RE, *IM;
 
 	p1 = pop();
 

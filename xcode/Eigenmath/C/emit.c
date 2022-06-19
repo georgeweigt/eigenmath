@@ -568,6 +568,7 @@ emit_graph(void)
 {
 	int i;
 	double x, y;
+	struct atom *p1;
 
 	emit_level = 1; // small font
 	emit_index = 0;
@@ -701,6 +702,7 @@ void
 emit_labels(void)
 {
 	double h, w, x, y;
+	struct atom *p1;
 
 	// ymax
 
@@ -1267,8 +1269,7 @@ emit_update_fraction(void)
 {
 	int font_num, opcode;
 	double d, h, m, v, w;
-
-	save();
+	struct atom *p1, *p2;
 
 	p2 = pop(); // denominator
 	p1 = pop(); // numerator
@@ -1304,23 +1305,14 @@ emit_update_fraction(void)
 	list(6);
 
 	emit_count += 6; // alloc 6 for drawing horizontal line
-
-	restore();
 }
 
 void
 emit_update_list(int t)
 {
-	save();
-	emit_update_list_nib(t);
-	restore();
-}
-
-void
-emit_update_list_nib(int t)
-{
 	int i, n;
 	double d, h, w;
+	struct atom *p1;
 
 	n = tos - t;
 
@@ -1355,8 +1347,7 @@ emit_update_subexpr(void)
 {
 	int font_num, opcode;
 	double d, h, m, w;
-
-	save();
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -1394,8 +1385,6 @@ emit_update_subexpr(void)
 	list(5);
 
 	emit_count += 36; // alloc 36 for drawing delimiters
-
-	restore();
 }
 
 void
@@ -1403,8 +1392,7 @@ emit_update_subscript(void)
 {
 	int font_num;
 	double d, dx, dy, h, t, w;
-
-	save();
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -1433,8 +1421,6 @@ emit_update_subscript(void)
 	push(p1);
 
 	list(7);
-
-	restore();
 }
 
 void
@@ -1442,8 +1428,7 @@ emit_update_superscript(void)
 {
 	int font_num;
 	double d, dx, dy, h, t, w, y;
-
-	save();
+	struct atom *p1, *p2;
 
 	p2 = pop(); // exponent
 	p1 = pop(); // base
@@ -1491,8 +1476,6 @@ emit_update_superscript(void)
 	push(p2);
 
 	list(7);
-
-	restore();
 }
 
 void
@@ -1501,8 +1484,7 @@ emit_update_table(int n, int m)
 	int i, j, t;
 	double d, h, w;
 	double total_height, total_width;
-
-	save();
+	struct atom *p1, *p2, *p3, *p4;
 
 	total_height = 0.0;
 	total_width = 0.0;
@@ -1580,8 +1562,6 @@ emit_update_table(int n, int m)
 	list(10);
 
 	emit_count += 36; // alloc 36 for drawing delimiters
-
-	restore();
 }
 
 void

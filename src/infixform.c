@@ -1,7 +1,7 @@
 #include "defs.h"
 
 void
-eval_infixform(void)
+eval_infixform(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();

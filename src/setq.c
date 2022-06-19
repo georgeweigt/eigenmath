@@ -1,17 +1,19 @@
 #include "defs.h"
 
 void
-eval_setq(void)
+eval_setq(struct atom *p1)
 {
+	struct atom *p2;
+
 	push_symbol(NIL); // return value
 
 	if (caadr(p1) == symbol(INDEX)) {
-		setq_indexed();
+		setq_indexed(p1);
 		return;
 	}
 
 	if (iscons(cadr(p1))) {
-		setq_usrfunc();
+		setq_usrfunc(p1);
 		return;
 	}
 
@@ -37,18 +39,11 @@ eval_setq(void)
 //	cadadr(p1) = a
 //	caddr(p1) = b
 
-#undef S
-#undef LVAL
-#undef RVAL
-
-#define S p3
-#define LVAL p4
-#define RVAL p5
-
 void
-setq_indexed(void)
+setq_indexed(struct atom *p1)
 {
 	int h;
+	struct atom *S, *LVAL, *RVAL;
 
 	S = cadadr(p1);
 
@@ -75,21 +70,13 @@ setq_indexed(void)
 		p1 = cdr(p1);
 	}
 
-	set_component(h);
+	set_component(LVAL, RVAL, h);
 
 	set_symbol(S, LVAL, symbol(NIL));
 }
 
 void
-set_component(int h)
-{
-	save();
-	set_component_nib(h);
-	restore();
-}
-
-void
-set_component_nib(int h)
+set_component(struct atom *LVAL, struct atom *RVAL, int h)
 {
 	int i, k, m, n, t;
 
@@ -160,19 +147,11 @@ set_component_nib(int h)
 //	cdadr(p1) points to the list (x y)
 //	caddr(p1) points to (power x y)
 
-#undef F
-#undef A
-#undef B
-#undef C
-
-#define F p3 // function name
-#define A p4 // argument list
-#define B p5 // function body
-#define C p6 // function body (converted)
-
 void
-setq_usrfunc(void)
+setq_usrfunc(struct atom *p1)
 {
+	struct atom *F, *A, *B, *C;
+
 	F = caadr(p1);
 	A = cdadr(p1);
 	B = caddr(p1);
@@ -184,14 +163,14 @@ setq_usrfunc(void)
 		stop("more than 9 arguments");
 
 	push(B);
-	convert_body();
+	convert_body(A);
 	C = pop();
 
 	set_symbol(F, B, C);
 }
 
 void
-convert_body(void)
+convert_body(struct atom *A)
 {
 	if (!iscons(A))
 		return;

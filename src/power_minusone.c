@@ -1,23 +1,9 @@
 #include "defs.h"
 
-// define BASE p8 (defs1.h)
-// define EXPO p9 (defs1.h)
-
-#undef R
-#define R p3
-
 // power -1 to EXPO
 
 void
-power_minusone(void)
-{
-	save();
-	power_minusone_nib();
-	restore();
-}
-
-void
-power_minusone_nib(void)
+power_minusone(struct atom *EXPO)
 {
 	// optimization for i
 
@@ -37,12 +23,12 @@ power_minusone_nib(void)
 	}
 
 	if (isrational(EXPO)) {
-		normalize_clock_rational();
+		normalize_clock_rational(EXPO);
 		return;
 	}
 
 	if (isdouble(EXPO)) {
-		normalize_clock_double();
+		normalize_clock_double(EXPO);
 		rect();
 		return;
 	}
@@ -54,9 +40,10 @@ power_minusone_nib(void)
 }
 
 void
-normalize_clock_rational(void)
+normalize_clock_rational(struct atom *EXPO)
 {
 	int n;
+	struct atom *R;
 
 	// R = EXPO mod 2
 
@@ -149,7 +136,7 @@ normalize_clock_rational(void)
 }
 
 void
-normalize_clock_double(void)
+normalize_clock_double(struct atom *EXPO)
 {
 	double expo, n, r;
 

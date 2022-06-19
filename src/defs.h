@@ -16,17 +16,6 @@ extern struct atom *symtab[];
 extern struct atom *binding[];
 extern struct atom *usrfunc[];
  
-extern struct atom *p0;
-extern struct atom *p1;
-extern struct atom *p2;
-extern struct atom *p3;
-extern struct atom *p4;
-extern struct atom *p5;
-extern struct atom *p6;
-extern struct atom *p7;
-extern struct atom *p8;
-extern struct atom *p9;
- 
 extern struct atom *zero;
 extern struct atom *one;
 extern struct atom *minusone;

@@ -1,7 +1,7 @@
 #include "defs.h"
 
 void
-eval_sgn(void)
+eval_sgn(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
@@ -11,7 +11,7 @@ eval_sgn(void)
 void
 sgn(void)
 {
-	save();
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -25,6 +25,4 @@ sgn(void)
 		push_integer(-1);
 	else
 		push_integer(1);
-
-	restore();
 }

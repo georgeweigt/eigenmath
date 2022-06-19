@@ -1,9 +1,10 @@
 #include "defs.h"
 
 void
-eval_for(void)
+eval_for(struct atom *p1)
 {
 	int j, k;
+	struct atom *p2, *p3;
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
