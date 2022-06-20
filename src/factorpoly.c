@@ -116,7 +116,7 @@ factorpoly_coeffs(struct atom *P, struct atom *X)
 int
 factorpoly_root(int h)
 {
-	int i, j, h1, h2, n, n1, n2;
+	int a, i, j, h1, h2, n, n1, n2;
 	struct atom *C, *T, *X;
 
 	n = tos - h;
@@ -134,13 +134,15 @@ factorpoly_root(int h)
 	h1 = tos;
 	push(C);
 	numerator();
-	push_divisors();
+	a = pop_integer();
+	push_divisors(a);
 	n1 = tos - h1;
 
 	h2 = tos;
 	push(C);
 	denominator();
-	push_divisors();
+	a = pop_integer();
+	push_divisors(a);
 	n2 = tos - h2;
 
 	for (i = 0; i < n1; i++) {
@@ -226,51 +228,13 @@ factorpoly_eval(int h, int n, struct atom *X)
 }
 
 void
-push_divisors(void)
+push_divisors(int a)
 {
 	int h, i, k, n;
-	struct atom *p1;
-
-	p1 = pop();
 
 	h = tos;
 
-	push(p1);
-	factor_small_number();
-
-#if 0
-	if (isnum(p1)) {
-		push(p1);
-		factor_small_number();
-	} else if (car(p1) == symbol(ADD)) {
-		push(p1);
-		factor_add();
-	} else if (car(p1) == symbol(MULTIPLY)) {
-		p1 = cdr(p1);
-		if (isnum(car(p1))) {
-			push(car(p1));
-			factor_small_number();
-			p1 = cdr(p1);
-		}
-		while (iscons(p1)) {
-			p2 = car(p1);
-			if (car(p2) == symbol(POWER)) {
-				push(cadr(p2));
-				push(caddr(p2));
-			} else {
-				push(p2);
-				push_integer(1);
-			}
-			p1 = cdr(p1);
-		}
-	} else if (car(p1) == symbol(POWER)) {
-		push(cadr(p1));
-		push(caddr(p1));
-	} else {
-		push(p1);
-		push_integer(1);
-	}
-#endif
+	factor_small_number(a);
 
 	k = tos;
 
@@ -338,82 +302,38 @@ gen(int h, int k)
 	}
 }
 
-//	Factor ADD expression
-//
-//	Input:		Expression on stack
-//
-//	Output:		Factors on stack
-//
-//	Each factor consists of two expressions, the factor itself followed
-//	by the exponent.
+// n is 32 bits or less
 
 void
-factor_add(void)
+factor_small_number(int n)
 {
-	struct atom *p1, *p2, *p3;
+	int d, k, m;
 
-	p1 = pop();
+	if (n < 0)
+		n = -n;
 
-	// get gcd of all terms
+	for (k = 0; k < MAXPRIMETAB; k++) {
 
-	p3 = cdr(p1);
-	push(car(p3));
-	p3 = cdr(p3);
-	while (iscons(p3)) {
-		push(car(p3));
-		gcd();
-		p3 = cdr(p3);
+		d = primetab[k];
+
+		if (n / d < d)
+			break; // n is 1 or prime
+
+		m = 0;
+
+		while (n % d == 0) {
+			n /= d;
+			m++;
+		}
+
+		if (m) {
+			push_integer(d); // push pair
+			push_integer(m);
+		}
 	}
 
-	// check gcd
-
-	p2 = pop();
-	if (isplusone(p2)) {
-		push(p1);
-		push_integer(1);
-		return;
-	}
-
-	// push factored gcd
-
-	if (isnum(p2)) {
-		push(p2);
-		factor_small_number();
-	} else if (car(p2) == symbol(MULTIPLY)) {
-		p3 = cdr(p2);
-		if (isnum(car(p3))) {
-			push(car(p3));
-			factor_small_number();
-		} else {
-			push(car(p3));
-			push_integer(1);
-		}
-		p3 = cdr(p3);
-		while (iscons(p3)) {
-			push(car(p3));
-			push_integer(1);
-			p3 = cdr(p3);
-		}
-	} else {
-		push(p2);
+	if (n > 1) {
+		push_integer(n); // push pair
 		push_integer(1);
 	}
-
-	// divide each term by gcd
-
-	push(p2);
-	reciprocate();
-	p2 = pop();
-
-	push_integer(0);
-	p3 = cdr(p1);
-	while (iscons(p3)) {
-		push(p2);
-		push(car(p3));
-		multiply();
-		add();
-		p3 = cdr(p3);
-	}
-
-	push_integer(1);
 }

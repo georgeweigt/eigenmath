@@ -153,44 +153,6 @@ factor_rational(void)
 	}
 }
 
-// for factoring small integers (2^32 or less)
-
-void
-factor_small_number(void)
-{
-	int d, k, m, n;
-
-	n = pop_integer();
-
-	if (n < 0)
-		n = -n;
-
-	for (k = 0; k < MAXPRIMETAB; k++) {
-
-		d = primetab[k];
-
-		if (n / d < d)
-			break; // n is 1 or prime
-
-		m = 0;
-
-		while (n % d == 0) {
-			n /= d;
-			m++;
-		}
-
-		if (m) {
-			push_integer(d);
-			push_integer(m);
-		}
-	}
-
-	if (n > 1) {
-		push_integer(n);
-		push_integer(1);
-	}
-}
-
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
 void
