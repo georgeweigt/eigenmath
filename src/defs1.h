@@ -10,7 +10,7 @@
 #include <errno.h>
 
 #define STACKSIZE 1000000 // evaluation stack
-#define FRAMESIZE 10000
+#define FRAMESIZE 1000
 #define BLOCKSIZE 10000
 #define MAXBLOCKS 2000
 #define NSYM 100

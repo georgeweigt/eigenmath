@@ -4,63 +4,55 @@ void
 factorpoly(void)
 {
 	int h, i, n;
-	struct atom *A, *B, *F, *P, *X;
-
-stop("factorpoly"); // under construction
+	struct atom *C, *F, *P, *R, *X;
 
 	X = pop();
 	P = pop();
 
 	h = tos;
 
-	push(P);
-	push(X);
-	push_coeffs();
+	factorpoly_coeffs(P, X); // put coeffs on stack
 
-	rationalize_coeffs(h);
-
-	F = pop();
+	F = one;
 
 	while (tos - h > 1) {
 
-		A = pop();
+		C = pop(); // leading coeff
 
-		if (iszero(A))
+		if (iszero(C))
 			continue;
 
-		push(A);
-
-		if (isnegativeterm(A)) {
-
-			for (i = h; i < tos; i++) {
-				push(stack[i]);
-				negate();
-				stack[i] = pop();
-			}
-
-			push(F);
-			negate_noexpand();
-			F = pop();
-		}
-
-		if (factorpoly_divisor(h) == 0)
-			break;
-
-		B = pop();
-		A = pop();
-
-		push(A);
-		push(X);
-		multiply();
-		push(B);
-		add();
 		push(F);
+		push(C);
 		multiply_noexpand();
 		F = pop();
 
-		factorpoly_divide(h, A, B);
+		// divide through by C 
 
-		pop();
+		for (i = h; i < tos; i++) {
+			push(stack[i]);
+			push(C);
+			divide();
+			stack[i] = pop();
+		}
+
+		push_integer(1); // leading coeff
+
+		if (factorpoly_root(h) == 0)
+			break;
+
+		R = pop();
+
+		push(F);
+		push(X);
+		push(R);
+		subtract();
+		multiply_noexpand();
+		F = pop();
+
+		factorpoly_divide(h, R);
+
+		pop(); // remove leading coeff
 	}
 
 	n = tos - h;
@@ -88,13 +80,10 @@ stop("factorpoly"); // under construction
 }
 
 void
-push_coeffs(void)
+factorpoly_coeffs(struct atom *P, struct atom *X)
 {
 	int h;
-	struct atom *P, *X, *C;
-
-	X = pop();
-	P = pop();
+	struct atom *C;
 
 	h = tos;
 
@@ -124,146 +113,112 @@ push_coeffs(void)
 	}
 }
 
-void
-rationalize_coeffs(int h)
-{
-	int i;
-	struct atom *R;
-
-	// R = lcm of coefficients
-
-	R = one;
-
-	for (i = h; i < tos; i++) {
-		if (isdouble(stack[i])) {
-			convert_double_to_rational(stack[i]->u.d);
-			stack[i] = pop();
-		}
-		push(stack[i]);
-		denominator();
-		push(R);
-		lcm();
-		R = pop();
-	}
-
-	// multiply coefficients by R
-
-	for (i = h; i < tos; i++) {
-		push(R);
-		push(stack[i]);
-		multiply();
-		stack[i] = pop();
-	}
-
-	// return 1/R
-
-	push(R);
-	reciprocate();
-}
-
 int
-factorpoly_divisor(int h)
+factorpoly_root(int h)
 {
 	int i, j, h1, h2, n, n1, n2;
-	struct atom *A, *B, *Q, *Z;
+	struct atom *C, *T, *X;
 
 	n = tos - h;
 
+	C = stack[h]; // constant term
+
+	if (!isrational(C))
+		stop("factor");
+
+	if (iszero(C)) {
+		push(C);
+		return 1;
+	}
+
 	h1 = tos;
-	push(stack[h + n - 1]);
+	push(C);
+	numerator();
 	push_divisors();
 	n1 = tos - h1;
 
 	h2 = tos;
-	push(stack[h]);
+	push(C);
+	denominator();
 	push_divisors();
 	n2 = tos - h2;
 
 	for (i = 0; i < n1; i++) {
 		for (j = 0; j < n2; j++) {
 
-			A = stack[h1 + i];
-			B = stack[h2 + j];
-
-			push(B);
-			push(A);
+			push(stack[h1 + i]);
+			push(stack[h2 + j]);
 			divide();
-			negate();
-			Z = pop();
+			X = pop();
 
-			evalpoly(h, n, Z);
+			factorpoly_eval(h, n, X);
 
-			Q = pop();
+			T = pop();
 
-			if (iszero(Q)) {
-				tos = h; // pop all
-				push(A);
-				push(B);
+			if (iszero(T)) {
+				tos = h + n; // pop all
+				push(X);
 				return 1;
 			}
 
-			push(B);
+			push(X);
 			negate();
-			B = pop();
+			X = pop();
 
-			push(Z);
-			negate();
-			Z = pop();
+			factorpoly_eval(h, n, X);
 
-			evalpoly(h, n, Z);
+			T = pop();
 
-			Q = pop();
-
-			if (iszero(Q)) {
-				tos = h1; // pop all
-				push(A);
-				push(B);
+			if (iszero(T)) {
+				tos = h + n; // pop all
+				push(X);
 				return 1;
 			}
 		}
 	}
 
-	tos = h1; // pop all
+	tos = h + n; // pop all
 
-	return 0;
+	return 0; // no root
 }
 
-// divide by A X + B
+// divide by X - R where R is a root
 
 void
-factorpoly_divide(int h, struct atom *A, struct atom *B)
+factorpoly_divide(int h, struct atom *R)
 {
 	int i;
-	struct atom *Q;
+	struct atom *C;
 
-	Q = zero;
+	C = one;
 
-	for (i = tos - h - 1; i > 0; i--) {
+	for (i = tos - 2; i > h; i--) {
 
-		push(stack[h + i]);
-		stack[h + i] = Q;
-		push(A);
-		divide();
-		Q = pop();
-
-		push(stack[h + i - 1]);
-		push(Q);
-		push(B);
+		push(stack[i]);
+		push(C);
+		push(R);
 		multiply();
-		subtract();
-		stack[h + i - 1] = pop();
+		add();
+
+		stack[i] = C;
+
+		C = pop();
 	}
 
-	stack[h] = Q;
+	stack[h] = C;
 }
 
+// evaluate p(x) at x = X using horner's rule
+
 void
-evalpoly(int h, int n, struct atom *Q)
+factorpoly_eval(int h, int n, struct atom *X)
 {
 	int i;
-	push_integer(0);
-	for (i = n; i > 0; i--) {
-		push(Q);
+
+	push(stack[h + n - 1]);
+
+	for (i = n - 1; i > 0; i--) {
+		push(X);
 		multiply();
 		push(stack[h + i - 1]);
 		add();
@@ -274,12 +229,16 @@ void
 push_divisors(void)
 {
 	int h, i, k, n;
-	struct atom *p1, *p2;
+	struct atom *p1;
 
 	p1 = pop();
 
 	h = tos;
 
+	push(p1);
+	factor_small_number();
+
+#if 0
 	if (isnum(p1)) {
 		push(p1);
 		factor_small_number();
@@ -311,6 +270,7 @@ push_divisors(void)
 		push(p1);
 		push_integer(1);
 	}
+#endif
 
 	k = tos;
 
