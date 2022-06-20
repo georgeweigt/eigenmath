@@ -27,7 +27,7 @@ factorpoly(void)
 		multiply_noexpand();
 		F = pop();
 
-		// divide through by C 
+		// divide through by C
 
 		for (i = h; i < tos; i++) {
 			push(stack[i]);

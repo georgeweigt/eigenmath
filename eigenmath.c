@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <errno.h>
 
 #define STACKSIZE 1000000 // evaluation stack
-#define FRAMESIZE 10000
+#define FRAMESIZE 1000
 #define BLOCKSIZE 10000
 #define MAXBLOCKS 2000
 #define NSYM 100
@@ -607,12 +607,18 @@ void eval_factor(struct atom *p1);
 void factor_again(void);
 void factor_term(void);
 void factor_rational(void);
-void factor_small_number(void);
 void factor_factor(void);
 void factor_bignum(uint32_t *a, struct atom *EXPO);
 void eval_factorial(struct atom *p1);
 void factorial(void);
 void factorpoly(void);
+void factorpoly_coeffs(struct atom *P, struct atom *X);
+int factorpoly_root(int h);
+void factorpoly_divide(int h, struct atom *R);
+void factorpoly_eval(int h, int n, struct atom *X);
+void push_divisors(int a);
+void gen(int h, int k);
+void factor_small_number(int n);
 int factors(struct atom *p);
 void push_term_factors(struct atom *p);
 void eval_filter(struct atom *p1);
@@ -898,9 +904,6 @@ void eval_rect(struct atom *p1);
 void rect(void);
 void eval_roots(struct atom *p1);
 void roots(void);
-void roots2(void);
-void roots3(void);
-void mini_solve(void);
 void eval_rotate(struct atom *p1);
 void rotate_h(struct atom *PSI, uint32_t c, int n);
 void rotate_p(struct atom *PSI, struct atom *PHASE, uint32_t c, int n);
@@ -3714,69 +3717,52 @@ void
 eval_coeff(struct atom *p1)
 {
 	struct atom *P, *X, *N;
-	push(cadr(p1));			// 1st arg, p
+	push(cadr(p1));
 	eval();
-	push(caddr(p1));		// 2nd arg, x
+	P = pop();
+	push(caddr(p1));
 	eval();
-	push(cadddr(p1));		// 3rd arg, n
+	X = pop();
+	push(cadddr(p1));
 	eval();
 	N = pop();
-	X = pop();
-	P = pop();
-	if (N == symbol(NIL)) {		// only 2 args?
-		N = X;
-		X = symbol(X_LOWER);
-	}
-	push(P);			// divide p by x^n
+	push(P); // divide p by x^n
 	push(X);
 	push(N);
 	power();
 	divide();
-	push(X);			// keep the constant part
+	push(X); // keep the constant part
 	filter();
 }
-
-//	Put polynomial coefficients on the stack
-//
-//	Input:		tos-2		p(x)
-//
-//			tos-1		x
-//
-//	Output:		Returns number of coefficients on stack
-//
-//			tos-n		Coefficient of x^0
-//
-//			tos-1		Coefficient of x^(n-1)
 
 int
 coeff(void)
 {
-	int h, n;
-	struct atom *p1, *p2, *p3;
-	p2 = pop();
-	p1 = pop();
+	int h;
+	struct atom *P, *X, *C;
+	X = pop();
+	P = pop();
 	h = tos;
 	for (;;) {
-		push(p1);
-		push(p2);
+		push(P);
+		push(X);
 		push_integer(0);
 		subst();
 		eval();
-		p3 = pop();
-		push(p3);
-		push(p1);
-		push(p3);
+		C = pop();
+		push(C);
+		push(P);
+		push(C);
 		subtract();
-		p1 = pop();
-		if (iszero(p1)) {
-			n = tos - h;
-			return n;
-		}
-		push(p1);
-		push(p2);
+		P = pop();
+		if (iszero(P))
+			break;
+		push(P);
+		push(X);
 		divide();
-		p1 = pop();
+		P = pop();
 	}
+	return tos - h;
 }
 
 void
@@ -6671,35 +6657,6 @@ factor_rational(void)
 	}
 }
 
-// for factoring small integers (2^32 or less)
-
-void
-factor_small_number(void)
-{
-	int d, k, m, n;
-	n = pop_integer();
-	if (n < 0)
-		n = -n;
-	for (k = 0; k < MAXPRIMETAB; k++) {
-		d = primetab[k];
-		if (n / d < d)
-			break; // n is 1 or prime
-		m = 0;
-		while (n % d == 0) {
-			n /= d;
-			m++;
-		}
-		if (m) {
-			push_integer(d);
-			push_integer(m);
-		}
-	}
-	if (n > 1) {
-		push_integer(n);
-		push_integer(1);
-	}
-}
-
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
 void
@@ -6844,10 +6801,262 @@ factorial(void)
 void
 factorpoly(void)
 {
-	struct atom *p1, *p2;
-	p2 = pop();
-	p1 = pop();
-	stop("factorpoly"); //FIXME
+	int h, i, n;
+	struct atom *C, *F, *P, *R, *X;
+	X = pop();
+	P = pop();
+	h = tos;
+	factorpoly_coeffs(P, X); // put coeffs on stack
+	F = one;
+	while (tos - h > 1) {
+		C = pop(); // leading coeff
+		if (iszero(C))
+			continue;
+		push(F);
+		push(C);
+		multiply_noexpand();
+		F = pop();
+		// divide through by C
+		for (i = h; i < tos; i++) {
+			push(stack[i]);
+			push(C);
+			divide();
+			stack[i] = pop();
+		}
+		push_integer(1); // leading coeff
+		if (factorpoly_root(h) == 0)
+			break;
+		R = pop();
+		push(F);
+		push(X);
+		push(R);
+		subtract();
+		multiply_noexpand();
+		F = pop();
+		factorpoly_divide(h, R);
+		pop(); // remove leading coeff
+	}
+	n = tos - h;
+	if (n == 0) {
+		push(F);
+		return;
+	}
+	// remainder
+	for (i = 0; i < n; i++) {
+		push(stack[h + i]);
+		push(X);
+		push_integer(i);
+		power();
+		multiply();
+		stack[h + i] = pop();
+	}
+	add_terms(n);
+	push(F);
+	multiply_noexpand();
+}
+
+void
+factorpoly_coeffs(struct atom *P, struct atom *X)
+{
+	int h;
+	struct atom *C;
+	h = tos;
+	for (;;) {
+		push(P);
+		push(X);
+		push_integer(0);
+		subst();
+		eval();
+		C = pop();
+		push(C);
+		push(P);
+		push(C);
+		subtract();
+		P = pop();
+		if (iszero(P))
+			break;
+		push(P);
+		push(X);
+		divide();
+		P = pop();
+	}
+}
+
+int
+factorpoly_root(int h)
+{
+	int a, i, j, h1, h2, n, n1, n2;
+	struct atom *C, *T, *X;
+	n = tos - h;
+	C = stack[h]; // constant term
+	if (!isrational(C))
+		stop("factor");
+	if (iszero(C)) {
+		push(C);
+		return 1;
+	}
+	h1 = tos;
+	push(C);
+	numerator();
+	a = pop_integer();
+	push_divisors(a);
+	n1 = tos - h1;
+	h2 = tos;
+	push(C);
+	denominator();
+	a = pop_integer();
+	push_divisors(a);
+	n2 = tos - h2;
+	for (i = 0; i < n1; i++) {
+		for (j = 0; j < n2; j++) {
+			push(stack[h1 + i]);
+			push(stack[h2 + j]);
+			divide();
+			X = pop();
+			factorpoly_eval(h, n, X);
+			T = pop();
+			if (iszero(T)) {
+				tos = h + n; // pop all
+				push(X);
+				return 1;
+			}
+			push(X);
+			negate();
+			X = pop();
+			factorpoly_eval(h, n, X);
+			T = pop();
+			if (iszero(T)) {
+				tos = h + n; // pop all
+				push(X);
+				return 1;
+			}
+		}
+	}
+	tos = h + n; // pop all
+	return 0; // no root
+}
+
+// divide by X - R where R is a root
+
+void
+factorpoly_divide(int h, struct atom *R)
+{
+	int i;
+	struct atom *C;
+	C = one;
+	for (i = tos - 2; i > h; i--) {
+		push(stack[i]);
+		push(C);
+		push(R);
+		multiply();
+		add();
+		stack[i] = C;
+		C = pop();
+	}
+	stack[h] = C;
+}
+
+// evaluate p(x) at x = X using horner's rule
+
+void
+factorpoly_eval(int h, int n, struct atom *X)
+{
+	int i;
+	push(stack[h + n - 1]);
+	for (i = n - 1; i > 0; i--) {
+		push(X);
+		multiply();
+		push(stack[h + i - 1]);
+		add();
+	}
+}
+
+void
+push_divisors(int a)
+{
+	int h, i, k, n;
+	h = tos;
+	factor_small_number(a);
+	k = tos;
+	// contruct divisors by recursive descent
+	push_integer(1);
+	gen(h, k);
+	// move
+	n = tos - k;
+	for (i = 0; i < n; i++)
+		stack[h + i] = stack[k + i];
+	tos = h + n;
+}
+
+//	Generate divisors
+//
+//	Input:		Base-exponent pairs on stack
+//
+//			h	first pair
+//
+//			k	just past last pair
+//
+//	Output:		Divisors on stack
+//
+//	For example, factor list 2 2 3 1 results in 6 divisors,
+//
+//		1
+//		3
+//		2
+//		6
+//		4
+//		12
+
+void
+gen(int h, int k)
+{
+	int expo, i;
+	struct atom *ACCUM, *BASE, *EXPO;
+	ACCUM = pop();
+	if (h == k) {
+		push(ACCUM);
+		return;
+	}
+	BASE = stack[h + 0];
+	EXPO = stack[h + 1];
+	push(EXPO);
+	expo = pop_integer();
+	for (i = 0; i <= abs(expo); i++) {
+		push(ACCUM);
+		push(BASE);
+		push_integer(sign(expo) * i);
+		power();
+		multiply();
+		gen(h + 2, k);
+	}
+}
+
+// n is 32 bits or less
+
+void
+factor_small_number(int n)
+{
+	int d, k, m;
+	if (n < 0)
+		n = -n;
+	for (k = 0; k < MAXPRIMETAB; k++) {
+		d = primetab[k];
+		if (n / d < d)
+			break; // n is 1 or prime
+		m = 0;
+		while (n % d == 0) {
+			n /= d;
+			m++;
+		}
+		if (m) {
+			push_integer(d); // push pair
+			push_integer(m);
+		}
+	}
+	if (n > 1) {
+		push_integer(n); // push pair
+		push_integer(1);
+	}
 }
 
 // Push expression factors onto the stack. For example...
@@ -16470,42 +16679,14 @@ rect(void)
 void
 eval_roots(struct atom *p1)
 {
-	struct atom *p2;
-	// A == B -> A - B
-	p2 = cadr(p1);
-	if (car(p2) == symbol(SETQ) || car(p2) == symbol(TESTEQ)) {
-		push(cadr(p2));
-		eval();
-		push(caddr(p2));
-		eval();
-		subtract();
-	} else {
-		push(p2);
-		eval();
-		p2 = pop();
-		if (car(p2) == symbol(SETQ) || car(p2) == symbol(TESTEQ)) {
-			push(cadr(p2));
-			eval();
-			push(caddr(p2));
-			eval();
-			subtract();
-		} else
-			push(p2);
-	}
-	// 2nd arg, x
-	push(caddr(p1));
+	push(cadr(p1));
 	eval();
-	p2 = pop();
-	if (p2 == symbol(NIL))
+	p1 = cddr(p1);
+	if (iscons(p1)) {
+		push(car(p1));
+		eval();
+	} else
 		push_symbol(X_LOWER);
-	else
-		push(p2);
-	p2 = pop();
-	p1 = pop();
-	if (!ispoly(p1, p2))
-		stop("roots: 1st argument is not a polynomial");
-	push(p1);
-	push(p2);
 	roots();
 }
 
@@ -16513,129 +16694,48 @@ void
 roots(void)
 {
 	int h, i, n;
-	struct atom *p1;
-	h = tos - 2;
-	roots2();
-	n = tos - h;
-	if (n == 0)
-		stop("roots: the polynomial is not factorable, try nroots");
-	if (n == 1)
-		return;
-	sort(n);
-	p1 = alloc_tensor(n);
-	p1->u.tensor->ndim = 1;
-	p1->u.tensor->dim[0] = n;
-	for (i = 0; i < n; i++)
-		p1->u.tensor->elem[i] = stack[h + i];
-	tos = h;
-	push(p1);
-}
-
-void
-roots2(void)
-{
-	struct atom *p1, *p2;
-	p2 = pop();
-	p1 = pop();
-	push(p1);
-	push(p2);
-	factorpoly();
-	p1 = pop();
-	if (car(p1) == symbol(MULTIPLY)) {
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			push(p2);
-			roots3();
-			p1 = cdr(p1);
-		}
-	} else {
-		push(p1);
-		push(p2);
-		roots3();
-	}
-}
-
-void
-roots3(void)
-{
-	struct atom *p1, *p2;
-	p2 = pop();
-	p1 = pop();
-	if (car(p1) == symbol(POWER) && ispoly(cadr(p1), p2) && isposint(caddr(p1))) {
-		push(cadr(p1));
-		push(p2);
-		mini_solve();
-	} else if (ispoly(p1, p2)) {
-		push(p1);
-		push(p2);
-		mini_solve();
-	}
-}
-
-//	Input:		stack[tos - 2]		polynomial
-//
-//			stack[tos - 1]		dependent symbol
-//
-//	Output:		stack			roots on stack
-//
-//						(input args are popped first)
-
-void
-mini_solve(void)
-{
-	int n;
-	struct atom *POLY, *A, *B, *C, *X, *Y;
+	struct atom *C, *F, *P, *R, *X;
 	X = pop();
-	POLY = pop();
-	push(POLY);
-	push(X);
-	n = coeff();
-	// AX + B, X = -B/A
-	if (n == 2) {
-		A = pop();
-		B = pop();
-		push(B);
-		push(A);
-		divide();
-		negate();
+	P = pop();
+	h = tos;
+	factorpoly_coeffs(P, X); // put coeffs on stack
+	F = symbol(NIL);
+	while (tos - h > 1) {
+		C = pop(); // leading coeff
+		if (iszero(C))
+			continue;
+		// divide through by C
+		for (i = h; i < tos; i++) {
+			push(stack[i]);
+			push(C);
+			divide();
+			stack[i] = pop();
+		}
+		push_integer(1); // leading coeff
+		if (factorpoly_root(h) == 0)
+			break;
+		R = pop();
+		push(R);
+		push(F);
+		cons();
+		F = pop();
+		factorpoly_divide(h, R);
+		pop(); // remove leading coeff
+	}
+	tos = h; // pop all
+	n = length(F);
+	if (n == 0)
+		stop("roots");
+	if (n == 1) {
+		push(car(F));
 		return;
 	}
-	// AX^2 + BX + C, X = (-B +/- (B^2 - 4AC)^(1/2)) / (2A)
-	if (n == 3) {
-		A = pop();
-		B = pop();
-		C = pop();
-		push(B);
-		push(B);
-		multiply();
-		push_integer(4);
-		push(A);
-		multiply();
-		push(C);
-		multiply();
-		subtract();
-		push_rational(1, 2);
-		power();
-		Y = pop();
-		push(Y);			// 1st root
-		push(B);
-		subtract();
-		push(A);
-		divide();
-		push_rational(1, 2);
-		multiply();
-		push(Y);			// 2nd root
-		push(B);
-		add();
-		negate();
-		push(A);
-		divide();
-		push_rational(1, 2);
-		multiply();
-		return;
+	R = alloc_vector(n);
+	for (i = 0; i < n; i++) {
+		R->u.tensor->elem[i] = car(F);
+		F = cdr(F);
 	}
-	tos -= n;
+	push(R);
 }
 
 #undef N
