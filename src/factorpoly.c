@@ -135,14 +135,14 @@ factorpoly_root(int h)
 	push(C);
 	numerator();
 	a = pop_integer();
-	push_divisors(a);
+	factorpoly_push_divisors(a);
 	n1 = tos - h1;
 
 	h2 = tos;
 	push(C);
 	denominator();
 	a = pop_integer();
-	push_divisors(a);
+	factorpoly_push_divisors(a);
 	n2 = tos - h2;
 
 	for (i = 0; i < n1; i++) {
@@ -228,13 +228,13 @@ factorpoly_eval(int h, int n, struct atom *X)
 }
 
 void
-push_divisors(int a)
+factorpoly_push_divisors(int a)
 {
 	int h, i, k, n;
 
 	h = tos;
 
-	factor_small_number(a);
+	factorpoly_factor_small_number(a);
 
 	k = tos;
 
@@ -242,7 +242,7 @@ push_divisors(int a)
 
 	push_integer(1);
 
-	gen(h, k);
+	factorpoly_gen(h, k);
 
 	// move
 
@@ -274,7 +274,7 @@ push_divisors(int a)
 //		12
 
 void
-gen(int h, int k)
+factorpoly_gen(int h, int k)
 {
 	int expo, i;
 	struct atom *ACCUM, *BASE, *EXPO;
@@ -298,14 +298,14 @@ gen(int h, int k)
 		push_integer(sign(expo) * i);
 		power();
 		multiply();
-		gen(h + 2, k);
+		factorpoly_gen(h + 2, k);
 	}
 }
 
 // n is 32 bits or less
 
 void
-factor_small_number(int n)
+factorpoly_factor_small_number(int n)
 {
 	int d, k, m;
 
