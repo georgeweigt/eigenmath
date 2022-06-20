@@ -1,10 +1,7 @@
 function
 eval_minor(p1)
 {
-	var i, j, p2, t;
-
-	t = expanding;
-	expanding = 1;
+	var i, j, p2;
 
 	push(cadr(p1));
 	evalf();
@@ -29,6 +26,4 @@ eval_minor(p1)
 	minormatrix(i, j);
 
 	det();
-
-	expanding = t;
 }

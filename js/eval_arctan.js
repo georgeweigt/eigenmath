@@ -1,8 +1,6 @@
 function
 eval_arctan(p1)
 {
-	var t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	evalf();
 	if (iscons(cddr(p1))) {
@@ -11,5 +9,4 @@ eval_arctan(p1)
 	} else
 		push_integer(1);
 	arctan();
-	expanding = t;
 }

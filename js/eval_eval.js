@@ -1,8 +1,6 @@
 function
 eval_eval(p1)
 {
-	var t = expanding;
-	expanding = 1;
 	push(cadr(p1));
 	evalf();
 	p1 = cddr(p1);
@@ -15,5 +13,4 @@ eval_eval(p1)
 		p1 = cddr(p1);
 	}
 	evalf();
-	expanding = t;
 }

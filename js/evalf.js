@@ -19,7 +19,9 @@ evalf_nib()
 	p1 = pop();
 
 	if (iscons(p1) && iskeyword(car(p1))) {
+		expanding++;
 		car(p1).func(p1);
+		expanding--;
 		return;
 	}
 
@@ -33,7 +35,9 @@ evalf_nib()
 		push_symbol(LAST); // default arg
 		list(2);
 		p1 = pop();
+		expanding++;
 		car(p1).func(p1);
+		expanding--;
 		return;
 	}
 

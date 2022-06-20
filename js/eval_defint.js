@@ -1,16 +1,6 @@
 function
 eval_defint(p1)
 {
-	var t;
-	t = expanding;
-	expanding = 1;
-	eval_defint_nib(p1);
-	expanding = t;
-}
-
-function
-eval_defint_nib(p1)
-{
 	var A, B, F, X;
 
 	push(cadr(p1));

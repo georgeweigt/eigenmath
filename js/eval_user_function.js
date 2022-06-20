@@ -12,7 +12,9 @@ eval_user_function(p1)
 
 	if (FUNC_DEFN == symbol(NIL)) {
 		if (FUNC_NAME == symbol(SYMBOL_D)) {
+			expanding++;
 			eval_derivative(p1);
+			expanding--;
 			return;
 		}
 		h = stack.length;

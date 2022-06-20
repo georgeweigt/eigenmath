@@ -1,16 +1,6 @@
 function
 eval_integral(p1)
 {
-	var t;
-	t = expanding;
-	expanding = 1;
-	eval_integral_nib(p1);
-	expanding = t;
-}
-
-function
-eval_integral_nib(p1)
-{
 	var flag, i, n, X, Y;
 
 	push(cadr(p1));

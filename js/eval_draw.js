@@ -1,15 +1,6 @@
 function
 eval_draw(p1)
 {
-	var t = expanding;
-	expanding = 1;
-	eval_draw_nib(p1);
-	expanding = t;
-}
-
-function
-eval_draw_nib(p1)
-{
 	var F, T;
 
 	if (drawing) {

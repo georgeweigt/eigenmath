@@ -1,15 +1,6 @@
 function
 eval_derivative(p1)
 {
-	var t = expanding;
-	expanding = 1;
-	eval_derivative_nib(p1);
-	expanding = t;
-}
-
-function
-eval_derivative_nib(p1)
-{
 	var i, n, flag, X, Y;
 
 	push(cadr(p1));

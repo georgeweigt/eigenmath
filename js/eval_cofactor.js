@@ -1,10 +1,7 @@
 function
 eval_cofactor(p1)
 {
-	var i, j, p2, t;
-
-	t = expanding;
-	expanding = 1;
+	var i, j, p2;
 
 	push(cadr(p1));
 	evalf();
@@ -32,6 +29,4 @@ eval_cofactor(p1)
 
 	if ((i + j) % 2)
 		negate();
-
-	expanding = t;
 }

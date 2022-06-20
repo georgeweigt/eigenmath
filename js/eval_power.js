@@ -3,6 +3,8 @@ eval_power(p1)
 {
 	var t, p2;
 
+	expanding--; // undo expanding++ in evalf
+
 	// evaluate exponent
 
 	push(caddr(p1));
@@ -24,4 +26,6 @@ eval_power(p1)
 	push(p2); // push exponent
 
 	power();
+
+	expanding++;
 }

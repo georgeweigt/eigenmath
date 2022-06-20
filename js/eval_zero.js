@@ -1,10 +1,7 @@
 function
 eval_zero(p1)
 {
-	var i, m, n, p2, t;
-
-	t = expanding;
-	expanding = 1;
+	var i, m, n, p2;
 
 	p1 = cdr(p1);
 	p2 = alloc_tensor();
@@ -26,6 +23,4 @@ eval_zero(p1)
 		p2.elem[i] = zero;
 
 	push(p2);
-
-	expanding = t;
 }

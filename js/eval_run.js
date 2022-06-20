@@ -1,10 +1,7 @@
 function
 eval_run(p1)
 {
-	var f, k, save_inbuf, save_trace1, save_trace2, t;
-
-	t = expanding;
-	expanding = 1;
+	var f, k, save_inbuf, save_trace1, save_trace2;
 
 	push(cadr(p1));
 	evalf();
@@ -44,6 +41,4 @@ eval_run(p1)
 	trace2 = save_trace2;
 
 	push_symbol(NIL);
-
-	expanding = t;
 }
