@@ -596,7 +596,6 @@ void eval_quote(struct atom *p1);
 void eval_sqrt(struct atom *p1);
 void eval_stop(struct atom *p1);
 void eval_subst(struct atom *p1);
-void expand_expr(void);
 void eval_exp(struct atom *p1);
 void expfunc(void);
 void eval_expand(struct atom *p1);
@@ -6363,7 +6362,6 @@ void
 eval_clear(struct atom *p1)
 {
 	(void) p1; // silence compiler
-	expanding++;
 	save_symbol(symbol(TRACE));
 	save_symbol(symbol(TTY));
 	clear_symbols();
@@ -6371,7 +6369,6 @@ eval_clear(struct atom *p1)
 	restore_symbol(symbol(TTY));
 	restore_symbol(symbol(TRACE));
 	push_symbol(NIL); // result
-	expanding--;
 }
 
 void
@@ -6458,16 +6455,6 @@ eval_subst(struct atom *p1)
 	eval();
 	subst();
 	eval(); // normalize
-}
-
-void
-expand_expr(void)
-{
-	int t;
-	t = expanding;
-	expanding = 1;
-	eval();
-	expanding = t;
 }
 
 void
@@ -10436,7 +10423,7 @@ decomp_product(struct atom *p1, struct atom *p2)
 void
 collect_coeffs(void)
 {
-	int h, i, j, n, t;
+	int h, i, j, n;
 	struct atom **s, *p1, *p2, *p3;
 	p2 = pop(); // x
 	p1 = pop(); // expr
@@ -10496,18 +10483,15 @@ collect_coeffs(void)
 		}
 	}
 	// combine all the parts without expanding
-	t = expanding;
-	expanding = 0;
 	n = tos - h;
 	for (i = 0; i < n; i += 2) {
 		push(s[i]);		// const part
 		push(s[i + 1]);		// var part
-		multiply();
+		multiply_noexpand();
 		s[i / 2] = pop();
 	}
 	tos -= n / 2;
 	add_terms(tos - h);
-	expanding = t;
 }
 
 int
@@ -13732,6 +13716,7 @@ eval_power(struct atom *p1)
 {
 	int t;
 	struct atom *p2;
+	expanding--; // undo expanding++ in eval
 	// evaluate exponent
 	push(caddr(p1));
 	eval();
@@ -13747,6 +13732,7 @@ eval_power(struct atom *p1)
 		eval();
 	push(p2); // push exponent
 	power();
+	expanding++;
 }
 
 void

@@ -90,8 +90,6 @@ eval_clear(struct atom *p1)
 {
 	(void) p1; // silence compiler
 
-	expanding++;
-
 	save_symbol(symbol(TRACE));
 	save_symbol(symbol(TTY));
 
@@ -103,8 +101,6 @@ eval_clear(struct atom *p1)
 	restore_symbol(symbol(TRACE));
 
 	push_symbol(NIL); // result
-
-	expanding--;
 }
 
 void
@@ -193,14 +189,4 @@ eval_subst(struct atom *p1)
 	eval();
 	subst();
 	eval(); // normalize
-}
-
-void
-expand_expr(void)
-{
-	int t;
-	t = expanding;
-	expanding = 1;
-	eval();
-	expanding = t;
 }

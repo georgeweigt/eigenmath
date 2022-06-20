@@ -6,6 +6,8 @@ eval_power(struct atom *p1)
 	int t;
 	struct atom *p2;
 
+	expanding--; // undo expanding++ in eval
+
 	// evaluate exponent
 
 	push(caddr(p1));
@@ -27,6 +29,8 @@ eval_power(struct atom *p1)
 	push(p2); // push exponent
 
 	power();
+
+	expanding++;
 }
 
 void

@@ -223,7 +223,6 @@ void eval_quote(struct atom *p1);
 void eval_sqrt(struct atom *p1);
 void eval_stop(struct atom *p1);
 void eval_subst(struct atom *p1);
-void expand_expr(void);
 void eval_exp(struct atom *p1);
 void expfunc(void);
 void eval_expand(struct atom *p1);

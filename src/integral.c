@@ -1274,7 +1274,7 @@ decomp_product(struct atom *p1, struct atom *p2)
 void
 collect_coeffs(void)
 {
-	int h, i, j, n, t;
+	int h, i, j, n;
 	struct atom **s, *p1, *p2, *p3;
 
 	p2 = pop(); // x
@@ -1350,23 +1350,18 @@ collect_coeffs(void)
 
 	// combine all the parts without expanding
 
-	t = expanding;
-	expanding = 0;
-
 	n = tos - h;
 
 	for (i = 0; i < n; i += 2) {
 		push(s[i]);		// const part
 		push(s[i + 1]);		// var part
-		multiply();
+		multiply_noexpand();
 		s[i / 2] = pop();
 	}
 
 	tos -= n / 2;
 
 	add_terms(tos - h);
-
-	expanding = t;
 }
 
 int

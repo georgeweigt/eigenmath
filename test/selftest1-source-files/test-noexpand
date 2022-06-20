@@ -2,6 +2,12 @@
 
 clear
 
+check(infixform(noexpand((x + 1) (x + 2) + (y + 1) (y + 2))) ==
+"(x + 1) (x + 2) + (y + 1) (y + 2)")
+
+check(infixform(noexpand((x + 1)^2 (y + 1)^2)) ==
+"(x + 1)^2 (y + 1)^2")
+
 A = ((a^2 - lambda,0,0),(0,b^2 - lambda,0),(0,0,c^2 - lambda))
 B = ((1 / (a^2 - lambda),0,0),(0,1 / (b^2 - lambda),0),(0,0,1 / (c^2 - lambda)))
 check(noexpand(inv(A)) == B)
