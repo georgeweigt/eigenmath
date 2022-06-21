@@ -2,9 +2,7 @@
 
 #include "defs.h"
 
-#undef YMAX
-
-#define YMAX 101
+#define MAXROOTS 100
 #define DELTA 1.0e-6
 #define EPSILON 1.0e-9
 #define YABS(z) sqrt((z).r * (z).r + (z).i * (z).i)
@@ -12,41 +10,37 @@
 
 struct {
 	double r, i;
-} a, b, x, y, fa, fb, dx, df, c[YMAX];
+} a, b, x, y, fa, fb, dx, df, c[MAXROOTS];
 
 void
 eval_nroots(struct atom *p1)
 {
 	int h, i, k, n;
-	struct atom *p2;
+	struct atom *P, *X, *RE, *IM;
 
 	push(cadr(p1));
 	eval();
 
-	push(caddr(p1));
-	eval();
-	p2 = pop();
-	if (p2 == symbol(NIL))
+	p1 = cddr(p1);
+
+	if (iscons(p1)) {
+		push(car(p1));
+		eval();
+	}
 		push_symbol(X_LOWER);
-	else
-		push(p2);
 
-	p2 = pop();
-	p1 = pop();
-
-	if (!ispoly(p1, p2))
-		stop("nroots: polynomial?");
-
-	// mark the stack
+	X = pop();
+	P = pop();
 
 	h = tos;
 
-	// get the coefficients
+	// push coefficients
 
-	push(p1);
-	push(p2);
-	n = coeff();
-	if (n > YMAX)
+	factorpoly_coeffs(P, X);
+
+	n = tos - h;
+
+	if (n > MAXROOTS)
 		stop("nroots: degree?");
 
 	// convert the coefficients to real and imaginary doubles
@@ -55,15 +49,15 @@ eval_nroots(struct atom *p1)
 		push(stack[h + i]);
 		real();
 		floatfunc();
-		p1 = pop();
+		RE = pop();
 		push(stack[h + i]);
 		imag();
 		floatfunc();
-		p2 = pop();
-		if (!isdouble(p1) || !isdouble(p2))
+		IM = pop();
+		if (!isdouble(RE) || !isdouble(IM))
 			stop("nroots: coefficients?");
-		c[i].r = p1->u.d;
-		c[i].i = p2->u.d;
+		c[i].r = RE->u.d;
+		c[i].i = IM->u.d;
 	}
 
 	// pop the coefficients
@@ -94,9 +88,7 @@ eval_nroots(struct atom *p1)
 
 	if (n > 1) {
 		sort(n);
-		p1 = alloc_tensor(n);
-		p1->u.tensor->ndim = 1;
-		p1->u.tensor->dim[0] = n;
+		p1 = alloc_vector(n);
 		for (i = 0; i < n; i++)
 			p1->u.tensor->elem[i] = stack[h + i];
 		tos = h;
