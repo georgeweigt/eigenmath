@@ -1,6 +1,13 @@
-.PHONY: default all
+.PHONY: default check
 
 default:
+	make make-prototypes
+	./make-prototypes ../src/ >../src/prototypes.h
+	./make-prototypes ../xcode/Eigenmath/C/ >../xcode/Eigenmath/C/app-prototypes.h
+	make gen
+	./gen >../eigenmath.c
+
+check:
 	make make-prototypes
 	make ../src/prototypes.h
 	make ../xcode/Eigenmath/C/app-prototypes.h
@@ -20,11 +27,4 @@ gen: gen.c
 	gcc -O0 -o gen gen.c
 
 ../eigenmath.c: ../src/*.c
-	./gen >../eigenmath.c
-
-all:
-	make make-prototypes
-	./make-prototypes ../src/ >../src/prototypes.h
-	./make-prototypes ../xcode/Eigenmath/C/ >../xcode/Eigenmath/C/app-prototypes.h
-	make gen
 	./gen >../eigenmath.c

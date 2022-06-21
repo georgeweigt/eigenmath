@@ -145,14 +145,13 @@ struct atom {
 #define D_UPPER		(3 * NSYM + 0)
 #define D_LOWER		(3 * NSYM + 1)
 #define DEFINT		(3 * NSYM + 2)
-#define DEGREE		(3 * NSYM + 3)
-#define DENOMINATOR	(3 * NSYM + 4)
-#define DERIVATIVE	(3 * NSYM + 5)
-#define DET		(3 * NSYM + 6)
-#define DIM		(3 * NSYM + 7)
-#define DO		(3 * NSYM + 8)
-#define DOT		(3 * NSYM + 9)
-#define DRAW		(3 * NSYM + 10)
+#define DENOMINATOR	(3 * NSYM + 3)
+#define DERIVATIVE	(3 * NSYM + 4)
+#define DET		(3 * NSYM + 5)
+#define DIM		(3 * NSYM + 6)
+#define DO		(3 * NSYM + 7)
+#define DOT		(3 * NSYM + 8)
+#define DRAW		(3 * NSYM + 9)
 
 #define EIGEN		(4 * NSYM + 0)
 #define EIGENVAL	(4 * NSYM + 1)
@@ -162,13 +161,12 @@ struct atom {
 #define EVAL		(4 * NSYM + 5)
 #define EXIT		(4 * NSYM + 6)
 #define EXP		(4 * NSYM + 7)
-#define EXPAND		(4 * NSYM + 8)
-#define EXPCOS		(4 * NSYM + 9)
-#define EXPCOSH		(4 * NSYM + 10)
-#define EXPSIN		(4 * NSYM + 11)
-#define EXPSINH		(4 * NSYM + 12)
-#define EXPTAN		(4 * NSYM + 13)
-#define EXPTANH		(4 * NSYM + 14)
+#define EXPCOS		(4 * NSYM + 8)
+#define EXPCOSH		(4 * NSYM + 9)
+#define EXPSIN		(4 * NSYM + 10)
+#define EXPSINH		(4 * NSYM + 11)
+#define EXPTAN		(4 * NSYM + 12)
+#define EXPTANH		(4 * NSYM + 13)
 
 #define FACTOR		(5 * NSYM + 0)
 #define FACTORIAL	(5 * NSYM + 1)
@@ -535,7 +533,6 @@ void cosfunc_sum(struct atom *p1);
 void eval_cosh(struct atom *p1);
 void coshfunc(void);
 void eval_defint(struct atom *p1);
-void eval_degree(struct atom *p1);
 void eval_denominator(struct atom *p1);
 void denominator(void);
 void eval_derivative(struct atom *p1);
@@ -596,7 +593,6 @@ void eval_stop(struct atom *p1);
 void eval_subst(struct atom *p1);
 void eval_exp(struct atom *p1);
 void expfunc(void);
-void eval_expand(struct atom *p1);
 void eval_expcos(struct atom *p1);
 void expcos(void);
 void eval_expsin(struct atom *p1);
@@ -4923,13 +4919,6 @@ eval_defint(struct atom *p1)
 }
 
 void
-eval_degree(struct atom *p1)
-{
-	(void) p1;
-	stop("degree");
-}
-
-void
 eval_denominator(struct atom *p1)
 {
 	push(cadr(p1));
@@ -6427,13 +6416,6 @@ expfunc(void)
 	push_symbol(EXP1);
 	swap();
 	power();
-}
-
-void
-eval_expand(struct atom *p1)
-{
-	(void) p1;
-	stop("expand");
 }
 
 void
@@ -18758,7 +18740,6 @@ struct se stab[] = {
 	{ "D",			D_UPPER,	NULL			},
 	{ "d",			D_LOWER,	NULL			},
 	{ "defint",		DEFINT,		eval_defint		},
-	{ "deg",		DEGREE,		eval_degree		},
 	{ "denominator",	DENOMINATOR,	eval_denominator	},
 	{ "derivative",		DERIVATIVE,	eval_derivative		},
 	{ "det",		DET,		eval_det		},
@@ -18775,7 +18756,6 @@ struct se stab[] = {
 	{ "eval",		EVAL,		eval_eval		},
 	{ "exit",		EXIT,		eval_exit		},
 	{ "exp",		EXP,		eval_exp		},
-	{ "expand",		EXPAND,		eval_expand		},
 	{ "expcos",		EXPCOS,		eval_expcos		},
 	{ "expcosh",		EXPCOSH,	eval_expcosh		},
 	{ "expsin",		EXPSIN,		eval_expsin		},
