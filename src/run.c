@@ -140,7 +140,7 @@ run_file(char *filename)
 
 	if (buf == NULL) {
 		close(fd);
-		malloc_kaput();
+		kaput("malloc");
 	}
 
 	p1 = alloc(); // do this so gc can free the buf in case of stop
@@ -323,10 +323,4 @@ kaput(char *s)
 {
 	journaling = 0;
 	stop(s);
-}
-
-void
-malloc_kaput(void)
-{
-	exit(1);
 }

@@ -466,7 +466,7 @@ update_token_buf(char *a, char *b)
 	token_buf = (char *) malloc(n + 1);
 
 	if (token_buf == NULL)
-		malloc_kaput();
+		kaput("malloc");
 
 	strncpy(token_buf, a, n);
 

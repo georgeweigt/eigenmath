@@ -29,7 +29,7 @@ alloc_block(void)
 	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
 
 	if (p == NULL)
-		malloc_kaput();
+		kaput("malloc");
 
 	mem[block_count++] = p;
 
@@ -73,7 +73,7 @@ alloc_tensor(int nelem)
 	p->k = TENSOR;
 	p->u.tensor = (struct tensor *) malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
 	if (p->u.tensor == NULL)
-		malloc_kaput();
+		kaput("malloc");
 	p->u.tensor->nelem = nelem;
 	for (i = 0; i < nelem; i++)
 		p->u.tensor->elem[i] = zero;

@@ -73,7 +73,7 @@ fmt(void)
 	fmt_buf = malloc(n);
 
 	if (fmt_buf == NULL)
-		malloc_kaput();
+		kaput("malloc");
 
 	memset(fmt_buf, 0, n);
 

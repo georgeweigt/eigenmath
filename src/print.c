@@ -75,7 +75,7 @@ print_char(int c)
 		outbuf_length += 1000;
 		outbuf = (char *) realloc(outbuf, outbuf_length);
 		if (outbuf == NULL)
-			malloc_kaput();
+			kaput("malloc");
 	}
 	outbuf[outbuf_index++] = c;
 }

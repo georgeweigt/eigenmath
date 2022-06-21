@@ -540,7 +540,6 @@ void eval_status(struct atom *p1);
 void run_init_script(void);
 void stop(char *s);
 void kaput(char *s);
-void malloc_kaput(void);
 char * scan(char *s);
 char * scan1(char *s);
 char * scan_nib(char *s);
