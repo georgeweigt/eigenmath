@@ -58,9 +58,7 @@ eval_nroots(struct atom *p1)
 		c[i].i = IM->u.d;
 	}
 
-	// pop the coefficients
-
-	tos = h;
+	tos = h; // pop all
 
 	// n is the number of coefficients, n = deg(p) + 1
 
@@ -89,7 +87,7 @@ eval_nroots(struct atom *p1)
 		V = alloc_vector(n);
 		for (i = 0; i < n; i++)
 			V->u.tensor->elem[i] = stack[h + i];
-		tos = h;
+		tos = h; // pop all
 		push(V);
 	}
 }
