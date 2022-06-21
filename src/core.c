@@ -24,7 +24,7 @@ alloc_block(void)
 	struct atom *p;
 
 	if (block_count == MAXBLOCKS)
-		stop("out of memory");
+		kaput("out of memory");
 
 	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
 

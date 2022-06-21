@@ -316,7 +316,7 @@ stop(char *s)
 	longjmp(jmpbuf0, 1);
 }
 
-// kaput stops even in drawing mode
+// kaput stops even in eval_nonstop()
 
 void
 kaput(char *s)

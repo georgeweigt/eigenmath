@@ -3934,7 +3934,7 @@ alloc_block(void)
 	int i;
 	struct atom *p;
 	if (block_count == MAXBLOCKS)
-		stop("out of memory");
+		kaput("out of memory");
 	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
 	if (p == NULL)
 		malloc_kaput();
@@ -16870,7 +16870,7 @@ stop(char *s)
 	longjmp(jmpbuf0, 1);
 }
 
-// kaput stops even in drawing mode
+// kaput stops even in eval_nonstop()
 
 void
 kaput(char *s)
