@@ -51,8 +51,6 @@ init(void)
 	imaginaryunit = pop();
 
 	run_init_script();
-
-	prep();
 }
 
 void

@@ -693,3 +693,108 @@ derivative_of_integral(struct atom *p1, struct atom *p2)
 	(void) p2; // silence compiler
 	push(cadr(p1));
 }
+
+// gradient of tensor p1 wrt vector p2
+
+void
+d_tensor_tensor(struct atom *p1, struct atom *p2)
+{
+	int i, j, n1, n2, ndim;
+	struct atom **a, **b, **c, *p3;
+
+	if (p2->u.tensor->ndim != 1)
+		stop("vector expected");
+
+	ndim = p1->u.tensor->ndim;
+
+	if (ndim + 1 > MAXDIM)
+		stop("rank exceeds max");
+
+	n1 = p1->u.tensor->nelem;
+	n2 = p2->u.tensor->nelem;
+
+	p3 = alloc_tensor(n1 * n2);
+
+	// add dim info
+
+	p3->u.tensor->ndim = ndim + 1;
+
+	for (i = 0; i < ndim; i++)
+		p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
+
+	p3->u.tensor->dim[ndim] = n2;
+
+	// gradient
+
+	a = p1->u.tensor->elem;
+	b = p2->u.tensor->elem;
+	c = p3->u.tensor->elem;
+
+	for (i = 0; i < n1; i++) {
+		for (j = 0; j < n2; j++) {
+			push(a[i]);
+			push(b[j]);
+			derivative();
+			c[n2 * i + j] = pop();
+		}
+	}
+
+	push(p3);
+}
+
+// gradient of scalar p1 wrt vector p2
+
+void
+d_scalar_tensor(struct atom *p1, struct atom *p2)
+{
+	int i, n;
+	struct atom **a, **b, *p3;
+
+	if (p2->u.tensor->ndim != 1)
+		stop("vector expected");
+
+	push(p2);
+	copy_tensor();
+	p3 = pop();
+
+	a = p2->u.tensor->elem;
+	b = p3->u.tensor->elem;
+
+	n = p2->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		push(p1);
+		push(a[i]);
+		derivative();
+		b[i] = pop();
+	}
+
+	push(p3);
+}
+
+// derivative of tensor p1 wrt scalar p2
+
+void
+d_tensor_scalar(struct atom *p1, struct atom *p2)
+{
+	int i, n;
+	struct atom **a, **b, *p3;
+
+	push(p1);
+	copy_tensor();
+	p3 = pop();
+
+	a = p1->u.tensor->elem;
+	b = p3->u.tensor->elem;
+
+	n = p1->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		push(a[i]);
+		push(p2);
+		derivative();
+		b[i] = pop();
+	}
+
+	push(p3);
+}

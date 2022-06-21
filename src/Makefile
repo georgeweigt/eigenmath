@@ -1,3 +1,8 @@
+# To update prototypes.h, run make in the tools directory:
+#
+#	cd ../tools
+#	make
+
 CFLAGS = -Wall -Wextra -Werror -O0
 CC = gcc
 
