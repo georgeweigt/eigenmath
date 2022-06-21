@@ -6563,7 +6563,7 @@ void
 factorpoly(void)
 {
 	int h, i, n;
-	struct atom *C, *F, *P, *R, *X;
+	struct atom *A, *C, *F, *P, *X;
 	X = pop();
 	P = pop();
 	h = tos;
@@ -6573,6 +6573,7 @@ factorpoly(void)
 		C = pop(); // leading coeff
 		if (iszero(C))
 			continue;
+		// F = C * F
 		push(F);
 		push(C);
 		multiply_noexpand();
@@ -6587,14 +6588,15 @@ factorpoly(void)
 		push_integer(1); // leading coeff
 		if (factorpoly_root(h) == 0)
 			break;
-		R = pop();
+		A = pop();
+		// F = F * (X - A)
 		push(F);
 		push(X);
-		push(R);
+		push(A);
 		subtract();
 		multiply_noexpand();
 		F = pop();
-		factorpoly_divide(h, R);
+		factorpoly_divide(h, A);
 		pop(); // remove leading coeff
 	}
 	n = tos - h;
