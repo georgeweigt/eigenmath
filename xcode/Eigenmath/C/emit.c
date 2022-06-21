@@ -593,7 +593,7 @@ emit_graph(void)
 	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (double));
 
 	if (emit_display == NULL)
-		malloc_kaput();
+		kaput("malloc");
 
 	emit_labels(); // uses the above results on stack
 
@@ -1202,7 +1202,7 @@ emit_text(char *buf, int len, int color)
 	p = malloc(sizeof (struct display) + len);
 
 	if (p == NULL)
-		malloc_kaput();
+		kaput("malloc");
 
 	p->len = len;
 

@@ -237,7 +237,7 @@ sample(struct atom *F, struct atom *T, double t)
 		draw_max += 1000;
 		draw_buf = realloc(draw_buf, draw_max * sizeof (struct draw_buf_t));
 		if (draw_buf == NULL)
-			malloc_kaput();
+			kaput("malloc");
 	}
 
 	draw_buf[draw_count].x = x;

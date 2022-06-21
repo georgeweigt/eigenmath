@@ -321,6 +321,8 @@ stop(char *s)
 void
 kaput(char *s)
 {
+	if (strcmp(s, "malloc") == 0)
+		exit(1);
 	journaling = 0;
 	stop(s);
 }
