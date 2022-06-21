@@ -4,12 +4,16 @@ struct atom *
 alloc(void)
 {
 	struct atom *p;
-	alloc_count++;
+
 	if (free_count == 0)
 		alloc_block();
+
 	p = free_list;
-	free_list = free_list->u.next;
+	free_list = p->u.next;
+
 	free_count--;
+	alloc_count++;
+
 	return p;
 }
 
@@ -18,18 +22,25 @@ alloc_block(void)
 {
 	int i;
 	struct atom *p;
+
 	if (block_count == MAXBLOCKS)
 		stop("out of memory");
+
 	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
+
 	if (p == NULL)
 		malloc_kaput();
+
 	mem[block_count++] = p;
+
 	for (i = 0; i < BLOCKSIZE - 1; i++) {
 		p[i].k = FREEATOM;
 		p[i].u.next = p + i + 1;
 	}
+
 	p[i].k = FREEATOM;
 	p[i].u.next = NULL;
+
 	free_list = p;
 	free_count = BLOCKSIZE;
 }
@@ -97,21 +108,11 @@ gc(void)
 
 	// symbol table
 
-	for (i = 0; i < 27 * NSYM; i++)
-		if (symtab[i]) {
-			untag(symtab[i]);
-			untag(binding[i]);
-			untag(usrfunc[i]);
-		}
-
-	for (i = 0; i < tos; i++)
-		untag(stack[i]);
-
-	for (i = 0; i < tof; i++)
-		untag(frame[i]);
-
-	for (i = 0; i < toj; i++)
-		untag(journal[i]);
+	for (i = 0; i < 27 * NSYM; i++) {
+		untag(symtab[i]);
+		untag(binding[i]);
+		untag(usrfunc[i]);
+	}
 
 	// collect everything that's still tagged
 
@@ -119,11 +120,16 @@ gc(void)
 	free_count = 0;
 
 	for (i = 0; i < block_count; i++) {
+
 		p = mem[i];
+
 		for (j = 0; j < BLOCKSIZE; j++) {
+
 			if (p[j].tag == 0)
 				continue;
+
 			// still tagged so it's unused, put on free list
+
 			switch (p[j].k) {
 			case KSYM:
 				free(p[j].u.ksym.name);
@@ -148,8 +154,10 @@ gc(void)
 			default:
 				break; // FREEATOM, CONS, or DOUBLE
 			}
+
 			p[j].k = FREEATOM;
 			p[j].u.next = free_list;
+
 			free_list = p + j;
 			free_count++;
 		}
@@ -162,7 +170,7 @@ untag(struct atom *p)
 	int i;
 
 	if (p == NULL)
-		return; // in case gc is called before everything is initialized
+		return;
 
 	while (iscons(p)) {
 		if (p->tag == 0)

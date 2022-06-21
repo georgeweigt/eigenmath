@@ -30,7 +30,7 @@ run(char *s)
 
 		eval_and_print_result();
 
-		if (tos || tof)
+		if (tos || tof || toj)
 			kaput("internal error");
 	}
 }
@@ -315,6 +315,8 @@ stop(char *s)
 	printbuf(tbuf, RED);
 	longjmp(jmpbuf0, 1);
 }
+
+// kaput stops even in drawing mode
 
 void
 kaput(char *s)

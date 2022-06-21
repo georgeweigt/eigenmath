@@ -3919,12 +3919,12 @@ struct atom *
 alloc(void)
 {
 	struct atom *p;
-	alloc_count++;
 	if (free_count == 0)
 		alloc_block();
 	p = free_list;
-	free_list = free_list->u.next;
+	free_list = p->u.next;
 	free_count--;
+	alloc_count++;
 	return p;
 }
 
@@ -4005,18 +4005,11 @@ gc(void)
 	untag(minusone);
 	untag(imaginaryunit);
 	// symbol table
-	for (i = 0; i < 27 * NSYM; i++)
-		if (symtab[i]) {
-			untag(symtab[i]);
-			untag(binding[i]);
-			untag(usrfunc[i]);
-		}
-	for (i = 0; i < tos; i++)
-		untag(stack[i]);
-	for (i = 0; i < tof; i++)
-		untag(frame[i]);
-	for (i = 0; i < toj; i++)
-		untag(journal[i]);
+	for (i = 0; i < 27 * NSYM; i++) {
+		untag(symtab[i]);
+		untag(binding[i]);
+		untag(usrfunc[i]);
+	}
 	// collect everything that's still tagged
 	free_list = NULL;
 	free_count = 0;
@@ -4063,7 +4056,7 @@ untag(struct atom *p)
 {
 	int i;
 	if (p == NULL)
-		return; // in case gc is called before everything is initialized
+		return;
 	while (iscons(p)) {
 		if (p->tag == 0)
 			return;
@@ -16639,7 +16632,7 @@ run(char *s)
 		if (s == NULL)
 			break; // end of input
 		eval_and_print_result();
-		if (tos || tof)
+		if (tos || tof || toj)
 			kaput("internal error");
 	}
 }
@@ -16876,6 +16869,8 @@ stop(char *s)
 	printbuf(tbuf, RED);
 	longjmp(jmpbuf0, 1);
 }
+
+// kaput stops even in drawing mode
 
 void
 kaput(char *s)
