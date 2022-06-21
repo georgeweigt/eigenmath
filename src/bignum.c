@@ -65,7 +65,7 @@ int
 pop_integer(void)
 {
 	int n;
-	struct atom *p; // ok, no gc
+	struct atom *p;
 
 	p = pop();
 
@@ -329,7 +329,7 @@ void
 bignum_float(void)
 {
 	double d;
-	struct atom *p; // ok, no gc
+	struct atom *p;
 	p = pop();
 	d = convert_rational_to_double(p);
 	push_double(d);
