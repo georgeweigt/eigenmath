@@ -1,8 +1,6 @@
-// find the roots of a polynomial numerically
-
 #include "defs.h"
 
-#define MAXROOTS 100
+#define MAXCOEFFS 100
 #define DELTA 1.0e-6
 #define EPSILON 1.0e-9
 #define YABS(z) sqrt((z).r * (z).r + (z).i * (z).i)
@@ -10,13 +8,13 @@
 
 struct {
 	double r, i;
-} a, b, x, y, fa, fb, dx, df, c[MAXROOTS];
+} a, b, x, y, fa, fb, dx, df, c[MAXCOEFFS];
 
 void
 eval_nroots(struct atom *p1)
 {
 	int h, i, k, n;
-	struct atom *P, *X, *RE, *IM;
+	struct atom *P, *X, *RE, *IM, *V;
 
 	push(cadr(p1));
 	eval();
@@ -40,8 +38,8 @@ eval_nroots(struct atom *p1)
 
 	n = tos - h;
 
-	if (n > MAXROOTS)
-		stop("nroots: degree?");
+	if (n < 2 || n > MAXCOEFFS)
+		stop("nroots");
 
 	// convert the coefficients to real and imaginary doubles
 
@@ -88,11 +86,11 @@ eval_nroots(struct atom *p1)
 
 	if (n > 1) {
 		sort(n);
-		p1 = alloc_vector(n);
+		V = alloc_vector(n);
 		for (i = 0; i < n; i++)
-			p1->u.tensor->elem[i] = stack[h + i];
+			V->u.tensor->elem[i] = stack[h + i];
 		tos = h;
-		push(p1);
+		push(V);
 	}
 }
 
