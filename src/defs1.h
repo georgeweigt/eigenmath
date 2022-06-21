@@ -64,17 +64,19 @@ struct atom {
 		double d;
 		char *str;
 		struct tensor *tensor;
+		struct atom *next;
 	} u;
 	uint8_t k, tag, sign;
 };
 
-#define CONS		0
-#define KSYM		1
-#define USYM		2
-#define RATIONAL	3
-#define DOUBLE		4
-#define STR		5
-#define TENSOR		6
+#define FREEATOM	0
+#define CONS		1
+#define KSYM		2
+#define USYM		3
+#define RATIONAL	4
+#define DOUBLE		5
+#define STR		6
+#define TENSOR		7
 
 #define ABS		(0 * NSYM + 0)
 #define ADJ		(0 * NSYM + 1)

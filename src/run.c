@@ -148,8 +148,6 @@ run_file(char *filename)
 	p1->u.str = buf;
 	string_count++;
 
-	push(p1); // popped below
-
 	if (read(fd, buf, n) != n) {
 		close(fd);
 		stop("run: read error");
@@ -176,8 +174,6 @@ run_file(char *filename)
 
 	trace1 = t1;
 	trace2 = t2;
-
-	pop(); // pop file buffer
 }
 
 void

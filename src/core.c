@@ -5,15 +5,33 @@ alloc(void)
 {
 	struct atom *p;
 	alloc_count++;
-	if (free_count == 0) {
+	if (free_count == 0)
 		alloc_block();
-		if (free_count == 0)
-			kaput("out of memory");
-	}
 	p = free_list;
-	free_list = free_list->u.cons.cdr;
+	free_list = free_list->u.next;
 	free_count--;
 	return p;
+}
+
+void
+alloc_block(void)
+{
+	int i;
+	struct atom *p;
+	if (block_count == MAXBLOCKS)
+		stop("out of memory");
+	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
+	if (p == NULL)
+		malloc_kaput();
+	mem[block_count++] = p;
+	for (i = 0; i < BLOCKSIZE - 1; i++) {
+		p[i].k = FREEATOM;
+		p[i].u.next = p + i + 1;
+	}
+	p[i].k = FREEATOM;
+	p[i].u.next = NULL;
+	free_list = p;
+	free_count = BLOCKSIZE;
 }
 
 struct atom *
@@ -97,6 +115,7 @@ gc(void)
 
 	// collect everything that's still tagged
 
+	free_list = NULL;
 	free_count = 0;
 
 	for (i = 0; i < block_count; i++) {
@@ -126,9 +145,11 @@ gc(void)
 				free(p[j].u.tensor);
 				tensor_count--;
 				break;
+			default:
+				break; // FREEATOM, CONS, or DOUBLE
 			}
-			p[j].k = CONS; // so no double free occurs above
-			p[j].u.cons.cdr = free_list;
+			p[j].k = FREEATOM;
+			p[j].u.next = free_list;
 			free_list = p + j;
 			free_count++;
 		}
@@ -162,28 +183,6 @@ untag(struct atom *p)
 }
 
 void
-alloc_block(void)
-{
-	int i;
-	struct atom *p;
-	if (block_count == MAXBLOCKS)
-		return;
-	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
-	if (p == NULL)
-		return;
-	mem[block_count++] = p;
-	for (i = 0; i < BLOCKSIZE; i++) {
-		p[i].k = CONS; // so no free in gc
-		p[i].u.cons.cdr = p + i + 1;
-	}
-	p[BLOCKSIZE - 1].u.cons.cdr = free_list;
-	free_list = p;
-	free_count += BLOCKSIZE;
-}
-
-// Append one list to another.
-
-void
 append(void)
 {
 	int h;
@@ -212,8 +211,6 @@ append(void)
 
 	list(tos - h);
 }
-
-// Cons two things on the stack.
 
 void
 cons(void)
@@ -252,7 +249,7 @@ find(struct atom *p, struct atom *q)
 	return 0;
 }
 
-// Create a list from n things on the stack.
+// create a list from n things on the stack
 
 void
 list(int n)

@@ -50,7 +50,7 @@ restore_symbol(struct atom *p)
 void
 swap(void)
 {
-	struct atom *p1, *p2; // ok, no gc before push
+	struct atom *p1, *p2;
 	p1 = pop();
 	p2 = pop();
 	push(p1);
@@ -60,12 +60,18 @@ swap(void)
 void
 push_string(char *s)
 {
-	struct atom *p; // ok, no gc before push
+	struct atom *p;
+
+	s = strdup(s);
+
+	if (s == NULL)
+		malloc_kaput();
+
 	p = alloc();
 	p->k = STR;
-	p->u.str = strdup(s);
-	if (p->u.str == NULL)
-		malloc_kaput();
+	p->u.str = s;
+
 	push(p);
+
 	string_count++;
 }

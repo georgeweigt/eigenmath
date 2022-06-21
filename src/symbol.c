@@ -31,12 +31,12 @@ lookup(char *s)
 	if (i == NSYM)
 		stop("symbol table full");
 
-	p = alloc();
 	s = strdup(s);
 
 	if (s == NULL)
 		malloc_kaput();
 
+	p = alloc();
 	p->k = USYM;
 	p->u.usym.name = s;
 	p->u.usym.index = k + i;
@@ -335,16 +335,17 @@ init_symbol_table(void)
 	n = sizeof stab / sizeof (struct se);
 
 	for (i = 0; i < n; i++) {
-		p = alloc();
 		s = strdup(stab[i].str);
 		if (s == NULL)
 			malloc_kaput();
 		if (stab[i].func) {
+			p = alloc();
 			p->k = KSYM;
 			p->u.ksym.name = s;
 			p->u.ksym.func = stab[i].func;
 			ksym_count++;
 		} else {
+			p = alloc();
 			p->k = USYM;
 			p->u.usym.name = s;
 			p->u.usym.index = stab[i].index;

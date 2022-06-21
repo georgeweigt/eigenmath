@@ -100,17 +100,19 @@ struct atom {
 		double d;
 		char *str;
 		struct tensor *tensor;
+		struct atom *next;
 	} u;
 	uint8_t k, tag, sign;
 };
 
-#define CONS		0
-#define KSYM		1
-#define USYM		2
-#define RATIONAL	3
-#define DOUBLE		4
-#define STR		5
-#define TENSOR		6
+#define FREEATOM	0
+#define CONS		1
+#define KSYM		2
+#define USYM		3
+#define RATIONAL	4
+#define DOUBLE		5
+#define STR		6
+#define TENSOR		7
 
 #define ABS		(0 * NSYM + 0)
 #define ADJ		(0 * NSYM + 1)
@@ -475,12 +477,12 @@ void conjfunc_subst(void);
 void eval_contract(struct atom *p1);
 void contract(void);
 struct atom * alloc(void);
+void alloc_block(void);
 struct atom * alloc_vector(int nrow);
 struct atom * alloc_matrix(int nrow, int ncol);
 struct atom * alloc_tensor(int nelem);
 void gc(void);
 void untag(struct atom *p);
-void alloc_block(void);
 void append(void);
 void cons(void);
 int find(struct atom *p, struct atom *q);
@@ -3918,15 +3920,33 @@ alloc(void)
 {
 	struct atom *p;
 	alloc_count++;
-	if (free_count == 0) {
+	if (free_count == 0)
 		alloc_block();
-		if (free_count == 0)
-			kaput("out of memory");
-	}
 	p = free_list;
-	free_list = free_list->u.cons.cdr;
+	free_list = free_list->u.next;
 	free_count--;
 	return p;
+}
+
+void
+alloc_block(void)
+{
+	int i;
+	struct atom *p;
+	if (block_count == MAXBLOCKS)
+		stop("out of memory");
+	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
+	if (p == NULL)
+		malloc_kaput();
+	mem[block_count++] = p;
+	for (i = 0; i < BLOCKSIZE - 1; i++) {
+		p[i].k = FREEATOM;
+		p[i].u.next = p + i + 1;
+	}
+	p[i].k = FREEATOM;
+	p[i].u.next = NULL;
+	free_list = p;
+	free_count = BLOCKSIZE;
 }
 
 struct atom *
@@ -3998,6 +4018,7 @@ gc(void)
 	for (i = 0; i < toj; i++)
 		untag(journal[i]);
 	// collect everything that's still tagged
+	free_list = NULL;
 	free_count = 0;
 	for (i = 0; i < block_count; i++) {
 		p = mem[i];
@@ -4026,9 +4047,11 @@ gc(void)
 				free(p[j].u.tensor);
 				tensor_count--;
 				break;
+			default:
+				break; // FREEATOM, CONS, or DOUBLE
 			}
-			p[j].k = CONS; // so no double free occurs above
-			p[j].u.cons.cdr = free_list;
+			p[j].k = FREEATOM;
+			p[j].u.next = free_list;
 			free_list = p + j;
 			free_count++;
 		}
@@ -4057,28 +4080,6 @@ untag(struct atom *p)
 }
 
 void
-alloc_block(void)
-{
-	int i;
-	struct atom *p;
-	if (block_count == MAXBLOCKS)
-		return;
-	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
-	if (p == NULL)
-		return;
-	mem[block_count++] = p;
-	for (i = 0; i < BLOCKSIZE; i++) {
-		p[i].k = CONS; // so no free in gc
-		p[i].u.cons.cdr = p + i + 1;
-	}
-	p[BLOCKSIZE - 1].u.cons.cdr = free_list;
-	free_list = p;
-	free_count += BLOCKSIZE;
-}
-
-// Append one list to another.
-
-void
 append(void)
 {
 	int h;
@@ -4102,8 +4103,6 @@ append(void)
 		push(p2);
 	list(tos - h);
 }
-
-// Cons two things on the stack.
 
 void
 cons(void)
@@ -4138,7 +4137,7 @@ find(struct atom *p, struct atom *q)
 	return 0;
 }
 
-// Create a list from n things on the stack.
+// create a list from n things on the stack
 
 void
 list(int n)
@@ -16736,7 +16735,6 @@ run_file(char *filename)
 	p1->k = STR;
 	p1->u.str = buf;
 	string_count++;
-	push(p1); // popped below
 	if (read(fd, buf, n) != n) {
 		close(fd);
 		stop("run: read error");
@@ -16754,7 +16752,6 @@ run_file(char *filename)
 	}
 	trace1 = t1;
 	trace2 = t2;
-	pop(); // pop file buffer
 }
 
 void
@@ -18130,7 +18127,7 @@ restore_symbol(struct atom *p)
 void
 swap(void)
 {
-	struct atom *p1, *p2; // ok, no gc before push
+	struct atom *p1, *p2;
 	p1 = pop();
 	p2 = pop();
 	push(p1);
@@ -18140,12 +18137,13 @@ swap(void)
 void
 push_string(char *s)
 {
-	struct atom *p; // ok, no gc before push
+	struct atom *p;
+	s = strdup(s);
+	if (s == NULL)
+		malloc_kaput();
 	p = alloc();
 	p->k = STR;
-	p->u.str = strdup(s);
-	if (p->u.str == NULL)
-		malloc_kaput();
+	p->u.str = s;
 	push(p);
 	string_count++;
 }
@@ -18276,10 +18274,10 @@ lookup(char *s)
 	}
 	if (i == NSYM)
 		stop("symbol table full");
-	p = alloc();
 	s = strdup(s);
 	if (s == NULL)
 		malloc_kaput();
+	p = alloc();
 	p->k = USYM;
 	p->u.usym.name = s;
 	p->u.usym.index = k + i;
@@ -18564,16 +18562,17 @@ init_symbol_table(void)
 		symtab[i] = NULL;
 	n = sizeof stab / sizeof (struct se);
 	for (i = 0; i < n; i++) {
-		p = alloc();
 		s = strdup(stab[i].str);
 		if (s == NULL)
 			malloc_kaput();
 		if (stab[i].func) {
+			p = alloc();
 			p->k = KSYM;
 			p->u.ksym.name = s;
 			p->u.ksym.func = stab[i].func;
 			ksym_count++;
 		} else {
+			p = alloc();
 			p->k = USYM;
 			p->u.usym.name = s;
 			p->u.usym.index = stab[i].index;
