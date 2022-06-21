@@ -383,7 +383,6 @@ void latex_tensor_matrix(struct tensor *t, int d, int *k);
 void latex_string(struct atom *p);
 void eval_lcm(struct atom *p1);
 void lcm(void);
-void eval_leading(struct atom *p1);
 void eval_log(struct atom *p1);
 void logfunc(void);
 void eval_mag(struct atom *p1);

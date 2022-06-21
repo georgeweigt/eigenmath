@@ -164,8 +164,7 @@ struct atom {
 #define LAST		(11 * NSYM + 0)
 #define LATEX		(11 * NSYM + 1)
 #define LCM		(11 * NSYM + 2)
-#define LEADING		(11 * NSYM + 3)
-#define LOG		(11 * NSYM + 4)
+#define LOG		(11 * NSYM + 3)
 
 #define MAG		(12 * NSYM + 0)
 #define MATHJAX		(12 * NSYM + 1)

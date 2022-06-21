@@ -200,8 +200,7 @@ struct atom {
 #define LAST		(11 * NSYM + 0)
 #define LATEX		(11 * NSYM + 1)
 #define LCM		(11 * NSYM + 2)
-#define LEADING		(11 * NSYM + 3)
-#define LOG		(11 * NSYM + 4)
+#define LOG		(11 * NSYM + 3)
 
 #define MAG		(12 * NSYM + 0)
 #define MATHJAX		(12 * NSYM + 1)
@@ -756,7 +755,6 @@ void latex_tensor_matrix(struct tensor *t, int d, int *k);
 void latex_string(struct atom *p);
 void eval_lcm(struct atom *p1);
 void lcm(void);
-void eval_leading(struct atom *p1);
 void eval_log(struct atom *p1);
 void logfunc(void);
 void eval_mag(struct atom *p1);
@@ -11409,13 +11407,6 @@ lcm(void)
 }
 
 void
-eval_leading(struct atom *p1)
-{
-	(void) p1;
-	stop("leading");
-}
-
-void
 eval_log(struct atom *p1)
 {
 	push(cadr(p1));
@@ -18822,7 +18813,6 @@ struct se stab[] = {
 	{ "last",		LAST,		NULL			},
 	{ "latex",		LATEX,		eval_latex		},
 	{ "lcm",		LCM,		eval_lcm		},
-	{ "leading",		LEADING,	eval_leading		},
 	{ "log",		LOG,		eval_log		},
 
 	{ "mag",		MAG,		eval_mag		},

@@ -1,4 +1,4 @@
-.PHONY: default
+.PHONY: default all
 
 default:
 	make make-prototypes
@@ -20,4 +20,11 @@ gen: gen.c
 	gcc -O0 -o gen gen.c
 
 ../eigenmath.c: ../src/*.c
+	./gen >../eigenmath.c
+
+all:
+	make make-prototypes
+	./make-prototypes ../src/ >../src/prototypes.h
+	./make-prototypes ../xcode/Eigenmath/C/ >../xcode/Eigenmath/C/app-prototypes.h
+	make gen
 	./gen >../eigenmath.c

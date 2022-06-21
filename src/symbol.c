@@ -218,7 +218,6 @@ struct se stab[] = {
 	{ "last",		LAST,		NULL			},
 	{ "latex",		LATEX,		eval_latex		},
 	{ "lcm",		LCM,		eval_lcm		},
-	{ "leading",		LEADING,	eval_leading		},
 	{ "log",		LOG,		eval_log		},
 
 	{ "mag",		MAG,		eval_mag		},
