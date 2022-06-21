@@ -139,8 +139,6 @@ struct atom {
 #define FLOOR		(5 * NSYM + 4)
 #define FOR		(5 * NSYM + 5)
 
-#define GCD		(6 * NSYM + 0)
-
 #define H_UPPER		(7 * NSYM + 0)
 #define H_LOWER		(7 * NSYM + 1)
 #define HADAMARD	(7 * NSYM + 2)
@@ -161,8 +159,7 @@ struct atom {
 
 #define LAST		(11 * NSYM + 0)
 #define LATEX		(11 * NSYM + 1)
-#define LCM		(11 * NSYM + 2)
-#define LOG		(11 * NSYM + 3)
+#define LOG		(11 * NSYM + 2)
 
 #define MAG		(12 * NSYM + 0)
 #define MATHJAX		(12 * NSYM + 1)

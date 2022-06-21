@@ -193,8 +193,6 @@ struct se stab[] = {
 	{ "floor",		FLOOR,		eval_floor		},
 	{ "for",		FOR,		eval_for		},
 
-	{ "gcd",		GCD,		eval_gcd		},
-
 	{ "H",			H_UPPER,	NULL			},
 	{ "h",			H_LOWER,	NULL			},
 	{ "hadamard",		HADAMARD,	eval_hadamard		},
@@ -215,7 +213,6 @@ struct se stab[] = {
 
 	{ "last",		LAST,		NULL			},
 	{ "latex",		LATEX,		eval_latex		},
-	{ "lcm",		LCM,		eval_lcm		},
 	{ "log",		LOG,		eval_log		},
 
 	{ "mag",		MAG,		eval_mag		},
