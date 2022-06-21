@@ -77,12 +77,19 @@ roots(void)
 		return;
 	}
 
-	R = alloc_vector(n);
-
 	for (i = 0; i < n; i++) {
-		R->u.tensor->elem[i] = car(F);
+		push(car(F));
 		F = cdr(F);
 	}
+
+	sort(n);
+
+	R = alloc_vector(n);
+
+	for (i = 0; i < n; i++)
+		R->u.tensor->elem[i] = stack[h + i];
+
+	tos = h; // pop all
 
 	push(R);
 }

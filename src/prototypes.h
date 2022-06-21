@@ -155,7 +155,6 @@ int isdoublesomewhere(struct atom *p);
 int isusersymbolsomewhere(struct atom *p);
 int isdenormalpolar(struct atom *p);
 int isdenormalpolarterm(struct atom *p);
-int isdenormalclock(struct atom *p);
 int issquarematrix(struct atom *p);
 int issmallinteger(struct atom *p);
 void eval_cos(struct atom *p1);

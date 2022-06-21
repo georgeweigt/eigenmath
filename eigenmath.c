@@ -528,7 +528,6 @@ int isdoublesomewhere(struct atom *p);
 int isusersymbolsomewhere(struct atom *p);
 int isdenormalpolar(struct atom *p);
 int isdenormalpolarterm(struct atom *p);
-int isdenormalclock(struct atom *p);
 int issquarematrix(struct atom *p);
 int issmallinteger(struct atom *p);
 void eval_cos(struct atom *p1);
@@ -4609,33 +4608,6 @@ isdenormalpolarterm(struct atom *p)
 		return 1; // p < 0
 	return 0;
 }
-
-#if 0
-
-// returns 1 if p <= -1/2 or p > 1/2
-
-int
-isdenormalclock(struct atom *p)
-{
-	int t;
-	if (!isnum(p))
-		return 0;
-	if (isdouble(p))
-		return p->u.d <= -0.5 || p->u.d > 0.5;
-	push(p);
-	push_rational(1, 2);
-	t = cmpfunc();
-	if (t > 0)
-		return 1; // p > 1/2
-	push(p);
-	push_rational(-1, 2);
-	t = cmpfunc();
-	if (t <= 0)
-		return 1; // p <= -1/2
-	return 0;
-}
-
-#endif
 
 int
 issquarematrix(struct atom *p)
@@ -16730,11 +16702,15 @@ roots(void)
 		push(car(F));
 		return;
 	}
-	R = alloc_vector(n);
 	for (i = 0; i < n; i++) {
-		R->u.tensor->elem[i] = car(F);
+		push(car(F));
 		F = cdr(F);
 	}
+	sort(n);
+	R = alloc_vector(n);
+	for (i = 0; i < n; i++)
+		R->u.tensor->elem[i] = stack[h + i];
+	tos = h; // pop all
 	push(R);
 }
 
