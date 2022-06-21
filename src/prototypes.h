@@ -234,7 +234,7 @@ void eval_factor(struct atom *p1);
 void factorpoly(void);
 void factorpoly_coeffs(struct atom *P, struct atom *X);
 int factorpoly_root(int h);
-void factorpoly_divide(int h, struct atom *R);
+void factorpoly_divide(int h, struct atom *A);
 void factorpoly_eval(int h, int n, struct atom *X);
 void factorpoly_push_divisors(int a);
 void factorpoly_gen(int h, int k);

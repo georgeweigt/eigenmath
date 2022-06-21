@@ -201,30 +201,27 @@ factorpoly_root(int h)
 	return 0; // no root
 }
 
-// divide by X - R where R is a root
+// divide by X - A
 
 void
-factorpoly_divide(int h, struct atom *R)
+factorpoly_divide(int h, struct atom *A)
 {
 	int i;
-	struct atom *C;
 
-	C = one;
-
-	for (i = tos - 2; i > h; i--) {
-
+	for (i = tos - 1; i > h; i--) {
+		push(A);
 		push(stack[i]);
-		push(C);
-		push(R);
 		multiply();
+		push(stack[i - 1]);
 		add();
-
-		stack[i] = C;
-
-		C = pop();
+		stack[i - 1] = pop();
 	}
 
-	stack[h] = C;
+	if (!iszero(stack[h]))
+		stop("factor");
+
+	for (i = h; i < tos - 1; i++)
+		stack[i] = stack[i + 1];
 }
 
 // evaluate p(x) at x = X using horner's rule
