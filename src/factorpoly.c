@@ -254,9 +254,9 @@ factorpoly_push_divisors(int a)
 	tos = h + n;
 }
 
-//	Generate divisors
+//	Generate all divisors for a factored number
 //
-//	Input:		Base-exponent pairs on stack
+//	Input:		Factor pairs on stack (base, expo)
 //
 //			h	first pair
 //
@@ -264,38 +264,31 @@ factorpoly_push_divisors(int a)
 //
 //	Output:		Divisors on stack
 //
-//	For example, factor list 2 2 3 1 results in 6 divisors,
+//	For example, the number 12 (= 2^2 3^1) has 6 divisors:
 //
-//		1
-//		3
-//		2
-//		6
-//		4
-//		12
+//	1, 2, 3, 4, 6, 12
 
 void
 factorpoly_gen(int h, int k)
 {
-	int expo, i;
+	int i, n;
 	struct atom *ACCUM, *BASE, *EXPO;
 
-	ACCUM = pop();
-
-	if (h == k) {
-		push(ACCUM);
+	if (h == k)
 		return;
-	}
+
+	ACCUM = pop();
 
 	BASE = stack[h + 0];
 	EXPO = stack[h + 1];
 
 	push(EXPO);
-	expo = pop_integer();
+	n = pop_integer();
 
-	for (i = 0; i <= abs(expo); i++) {
+	for (i = 0; i <= n; i++) {
 		push(ACCUM);
 		push(BASE);
-		push_integer(sign(expo) * i);
+		push_integer(i);
 		power();
 		multiply();
 		factorpoly_gen(h + 2, k);
