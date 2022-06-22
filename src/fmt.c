@@ -1,7 +1,5 @@
 #include "defs.h"
 
-#define CLIP 1000 // max width of display
-
 #define TABLE_HSPACE 3
 #define TABLE_VSPACE 1
 
@@ -67,7 +65,7 @@ fmt(void)
 	w = WIDTH(p1);
 
 	fmt_nrow = h + d;
-	fmt_ncol = MIN(CLIP, w);
+	fmt_ncol = w;
 
 	n = fmt_nrow * fmt_ncol * sizeof (int); // number of bytes
 

@@ -7177,8 +7177,6 @@ floorfunc(void)
 	list(2);
 }
 
-#define CLIP 1000 // max width of display
-
 #define TABLE_HSPACE 3
 #define TABLE_VSPACE 1
 
@@ -7238,7 +7236,7 @@ fmt(void)
 	d = DEPTH(p1);
 	w = WIDTH(p1);
 	fmt_nrow = h + d;
-	fmt_ncol = MIN(CLIP, w);
+	fmt_ncol = w;
 	n = fmt_nrow * fmt_ncol * sizeof (int); // number of bytes
 	m = 10000 * (n / 10000 + 1);
 	if (m > fmt_buf_len) {
