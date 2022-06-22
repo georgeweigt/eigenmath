@@ -7249,12 +7249,15 @@ fmt(void)
 	}
 	memset(fmt_buf, 0, n);
 	fmt_draw(0, h - 1, p1);
+	fflush(stdout);
 	for (i = 0; i < fmt_nrow; i++) {
 		for (j = 0; j < fmt_ncol; j++) {
 			c = fmt_buf[i * fmt_ncol + j];
 			writec(c);
+			fflush(stdout);
 		}
 		writec('\n');
+		fflush(stdout);
 	}
 }
 
@@ -8296,7 +8299,6 @@ writec(int c)
 {
 	int f;
 	uint8_t buf[4];
-	fflush(stdout);
 	f = fileno(stdout);
 	if (c == 0)
 		c = ' ';
