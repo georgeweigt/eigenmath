@@ -2766,21 +2766,20 @@ mscan(char *s)
 char *
 mstr(uint32_t *u)
 {
-	int i, k, n, r;
+	int i, k, m, n, r;
 	static char *buf;
 	static int len;
 	n = 10 * MLENGTH(u) + 9; // estimate string length (+8 for leading zeroes, +1 for terminator)
-	if (n > len) {
-		if (buf)
-			free(buf);
-		buf = (char *) malloc(n);
+	m = 1000 * (n / 1000 + 1);
+	if (m > len) {
+		buf = (char *) realloc(buf, m);
 		if (buf == NULL)
 			exit(1);
-		len = n;
+		len = m;
 	}
-	k = len - 1;
-	buf[k] = 0;
 	u = mcopy(u);
+	k = len - 1;
+	buf[k] = '\0'; // string terminator
 	for (;;) {
 		r = mdivby1billion(u);
 		for (i = 0; i < 9; i++) {
@@ -2791,12 +2790,13 @@ mstr(uint32_t *u)
 			break;
 	}
 	mfree(u);
-	while (k < len - 2 && buf[k] == '0') // remove leading zeroes
+	// remove leading zeroes
+	while (k < len - 2 && buf[k] == '0')
 		k++;
 	return buf + k;
 }
 
-// returns remainder as function value, quotient returned in a
+// returns remainder, quotient returned in u
 
 int
 mdivby1billion(uint32_t *u)
@@ -2805,11 +2805,11 @@ mdivby1billion(uint32_t *u)
 	uint64_t r = 0;
 	for (i = MLENGTH(u) - 1; i >= 0; i--) {
 		r = r << 32 | u[i];
-		u[i] = (uint32_t) (r / 1000000000); // compiler warns w/o cast
+		u[i] = (uint32_t) (r / 1000000000);
 		r -= (uint64_t) 1000000000 * u[i];
 	}
 	mnorm(u);
-	return (int) r; // compiler warns w/o cast
+	return (int) r;
 }
 
 // returns u + v
