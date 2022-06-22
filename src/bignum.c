@@ -451,7 +451,9 @@ mstr(uint32_t *u)
 	m = 1000 * (n / 1000 + 1);
 
 	if (m > len) {
-		buf = (char *) realloc(buf, m);
+		if (buf)
+			free(buf);
+		buf = malloc(m);
 		if (buf == NULL)
 			exit(1);
 		len = m;
@@ -825,7 +827,7 @@ uint32_t *
 mnew(int n)
 {
 	uint32_t *u;
-	u = (uint32_t *) malloc((n + 1) * sizeof (uint32_t));
+	u = malloc((n + 1) * sizeof (uint32_t));
 	if (u == NULL)
 		exit(1);
 	bignum_count++;

@@ -457,7 +457,9 @@ update_token_buf(char *a, char *b)
 	m = 1000 * ((n + 1) / 1000 + 1);
 
 	if (m > token_buf_len) {
-		token_buf = realloc(token_buf, m);
+		if (token_buf)
+			free(token_buf);
+		token_buf = malloc(m);
 		if (token_buf == NULL)
 			exit(1);
 		token_buf_len = m;

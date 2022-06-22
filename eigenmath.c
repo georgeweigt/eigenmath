@@ -2775,7 +2775,9 @@ mstr(uint32_t *u)
 	n = 10 * MLENGTH(u) + 8 + 1; // +1 for string terminator
 	m = 1000 * (n / 1000 + 1);
 	if (m > len) {
-		buf = (char *) realloc(buf, m);
+		if (buf)
+			free(buf);
+		buf = malloc(m);
 		if (buf == NULL)
 			exit(1);
 		len = m;
@@ -3142,7 +3144,7 @@ uint32_t *
 mnew(int n)
 {
 	uint32_t *u;
-	u = (uint32_t *) malloc((n + 1) * sizeof (uint32_t));
+	u = malloc((n + 1) * sizeof (uint32_t));
 	if (u == NULL)
 		exit(1);
 	bignum_count++;
@@ -3941,7 +3943,7 @@ alloc_block(void)
 	struct atom *p;
 	if (block_count == MAXBLOCKS)
 		kaput("out of memory");
-	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
+	p = malloc(BLOCKSIZE * sizeof (struct atom));
 	if (p == NULL)
 		exit(1);
 	mem[block_count++] = p;
@@ -3981,7 +3983,7 @@ alloc_tensor(int nelem)
 	struct atom *p;
 	struct tensor *t;
 	p = alloc();
-	t = (struct tensor *) malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
+	t = malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
 	if (t == NULL)
 		exit(1);
 	p->k = TENSOR;
@@ -5855,10 +5857,10 @@ eigen(struct atom *p1)
 		yyqq = NULL;
 	}
 	// malloc working vars
-	yydd = (double *) malloc(eigen_n * eigen_n * sizeof (double));
+	yydd = malloc(eigen_n * eigen_n * sizeof (double));
 	if (yydd == NULL)
 		exit(1);
-	yyqq = (double *) malloc(eigen_n * eigen_n * sizeof (double));
+	yyqq = malloc(eigen_n * eigen_n * sizeof (double));
 	if (yyqq == NULL)
 		exit(1);
 	// initialize D
@@ -7240,7 +7242,9 @@ fmt(void)
 	n = fmt_nrow * fmt_ncol * sizeof (int); // number of bytes
 	m = 10000 * (n / 10000 + 1);
 	if (m > fmt_buf_len) {
-		fmt_buf = realloc(fmt_buf, m);
+		if (fmt_buf)
+			free(fmt_buf);
+		fmt_buf = malloc(m);
 		if (fmt_buf == NULL)
 			exit(1);
 		fmt_buf_len = m;
@@ -17109,7 +17113,9 @@ update_token_buf(char *a, char *b)
 	n = (int) (b - a);
 	m = 1000 * ((n + 1) / 1000 + 1);
 	if (m > token_buf_len) {
-		token_buf = realloc(token_buf, m);
+		if (token_buf)
+			free(token_buf);
+		token_buf = malloc(m);
 		if (token_buf == NULL)
 			exit(1);
 		token_buf_len = m;

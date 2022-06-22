@@ -72,7 +72,9 @@ fmt(void)
 	m = 10000 * (n / 10000 + 1);
 
 	if (m > fmt_buf_len) {
-		fmt_buf = realloc(fmt_buf, m);
+		if (fmt_buf)
+			free(fmt_buf);
+		fmt_buf = malloc(m);
 		if (fmt_buf == NULL)
 			exit(1);
 		fmt_buf_len = m;

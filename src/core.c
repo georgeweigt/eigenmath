@@ -26,7 +26,7 @@ alloc_block(void)
 	if (block_count == MAXBLOCKS)
 		kaput("out of memory");
 
-	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
+	p = malloc(BLOCKSIZE * sizeof (struct atom));
 
 	if (p == NULL)
 		exit(1);
@@ -71,7 +71,7 @@ alloc_tensor(int nelem)
 	struct atom *p;
 	struct tensor *t;
 	p = alloc();
-	t = (struct tensor *) malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
+	t = malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
 	if (t == NULL)
 		exit(1);
 	p->k = TENSOR;
