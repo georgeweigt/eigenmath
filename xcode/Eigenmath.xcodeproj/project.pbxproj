@@ -75,7 +75,6 @@
 		7FAB246C271D0293007ED5D2 /* core.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23FD271D0293007ED5D2 /* core.c */; };
 		7FAB246D271D0293007ED5D2 /* power.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23FF271D0293007ED5D2 /* power.c */; };
 		7FAB246E271D0293007ED5D2 /* ceiling.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2400271D0293007ED5D2 /* ceiling.c */; };
-		7FAB246F271D0293007ED5D2 /* pollard.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2401271D0293007ED5D2 /* pollard.c */; };
 		7FAB2471271D0293007ED5D2 /* index.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2403271D0293007ED5D2 /* index.c */; };
 		7FAB2472271D0293007ED5D2 /* infixform.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2404271D0293007ED5D2 /* infixform.c */; };
 		7FAB2474271D0293007ED5D2 /* power_complex_number.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2406271D0293007ED5D2 /* power_complex_number.c */; };
@@ -204,7 +203,6 @@
 		7FAB23FE271D0293007ED5D2 /* prototypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prototypes.h; sourceTree = "<group>"; };
 		7FAB23FF271D0293007ED5D2 /* power.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = power.c; sourceTree = "<group>"; };
 		7FAB2400271D0293007ED5D2 /* ceiling.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ceiling.c; sourceTree = "<group>"; };
-		7FAB2401271D0293007ED5D2 /* pollard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pollard.c; sourceTree = "<group>"; };
 		7FAB2403271D0293007ED5D2 /* index.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = index.c; sourceTree = "<group>"; };
 		7FAB2404271D0293007ED5D2 /* infixform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = infixform.c; sourceTree = "<group>"; };
 		7FAB2406271D0293007ED5D2 /* power_complex_number.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = power_complex_number.c; sourceTree = "<group>"; };
@@ -378,7 +376,6 @@
 				7FAB23F2271D0293007ED5D2 /* numerator.c */,
 				7FAB23DD271D0293007ED5D2 /* outer.c */,
 				7FAB23ED271D0293007ED5D2 /* polar.c */,
-				7FAB2401271D0293007ED5D2 /* pollard.c */,
 				7FAB2406271D0293007ED5D2 /* power_complex_number.c */,
 				7FAB23F3271D0293007ED5D2 /* power_minusone.c */,
 				7FAB23BC271D0293007ED5D2 /* power_natural_number.c */,
@@ -521,7 +518,6 @@
 				7FAB2454271D0293007ED5D2 /* contract.c in Sources */,
 				7FAB2461271D0293007ED5D2 /* numerator.c in Sources */,
 				7FAB2448271D0293007ED5D2 /* sin.c in Sources */,
-				7FAB246F271D0293007ED5D2 /* pollard.c in Sources */,
 				7FAE142D271D0FD4001234C6 /* eval_nonstop.c in Sources */,
 				7FAE142E271D0FD4001234C6 /* printbuf.c in Sources */,
 				7FAB245D271D0293007ED5D2 /* prefixform.c in Sources */,
