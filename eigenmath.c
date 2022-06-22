@@ -16709,7 +16709,8 @@ int scan_level;
 
 char *scan_str;
 char *token_str;
-char token_buf[10000];
+char *token_buf;
+int token_buf_len;
 
 char *
 scan(char *s)
@@ -17097,10 +17098,15 @@ get_token_nib(void)
 void
 update_token_buf(char *a, char *b)
 {
-	int n;
+	int m, n;
 	n = (int) (b - a);
-	if (n + 1 > (int) sizeof (token_buf))
-		stop("token buf");
+	m = 1000 * ((n + 1) % 1000 + 1);
+	if (m > token_buf_len) {
+		token_buf = realloc(token_buf, m);
+		if (token_buf == NULL)
+			exit(1);
+		token_buf_len = m;
+	}
 	strncpy(token_buf, a, n);
 	token_buf[n] = '\0';
 }
