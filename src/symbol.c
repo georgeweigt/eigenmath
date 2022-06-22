@@ -151,7 +151,6 @@ struct se stab[] = {
 	{ "circexp",		CIRCEXP,	eval_circexp		},
 	{ "clear",		CLEAR,		eval_clear		},
 	{ "clock",		CLOCK,		eval_clock		},
-	{ "coeff",		COEFF,		eval_coeff		},
 	{ "cofactor",		COFACTOR,	eval_cofactor		},
 	{ "conj",		CONJ,		eval_conj		},
 	{ "contract",		CONTRACT,	eval_contract		},

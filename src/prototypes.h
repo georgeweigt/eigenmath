@@ -99,8 +99,6 @@ void eval_exptanh(struct atom *p1);
 void exptanh(void);
 void eval_clock(struct atom *p1);
 void clockfunc(void);
-void eval_coeff(struct atom *p1);
-int coeff(void);
 void eval_cofactor(struct atom *p1);
 void eval_conj(struct atom *p1);
 void conjfunc(void);

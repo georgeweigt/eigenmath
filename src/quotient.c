@@ -3,93 +3,77 @@
 void
 eval_quotient(struct atom *p1)
 {
-	push(cadr(p1));			// 1st arg, p(x)
+	push(cadr(p1));
 	eval();
 
-	push(caddr(p1));		// 2nd arg, q(x)
+	push(caddr(p1));
 	eval();
 
-	push(cadddr(p1));		// 3rd arg, x
-	eval();
+	p1 = cdddr(p1);
 
-	p1 = pop();			// default x
-	if (p1 == symbol(NIL))
-		p1 = symbol(X_LOWER);
-	push(p1);
+	if (iscons(p1)) {
+		push(car(p1));
+		eval();
+	} else
+		push_symbol(X_LOWER);
 
 	divpoly();
 }
 
-//	Divide polynomials
-//
-//	Input:		tos-3		Dividend
-//
-//			tos-2		Divisor
-//
-//			tos-1		x
-//
-//	Output:		tos-1		Quotient
+// divide polynomials
 
 void
 divpoly(void)
 {
-	int h, i, m, n, x;
-	struct atom **dividend, **divisor;
-	struct atom *DIVIDEND, *DIVISOR, *X, *Q, *QQUOTIENT;
+	int i, k, m, n, p, q;
+	struct atom *P, *Q, *T, *X, *Y;
 
 	X = pop();
-	DIVISOR = pop();
-	DIVIDEND = pop();
+	Q = pop();
+	P = pop();
 
-	h = tos;
+	p = tos;
+	factorpoly_coeffs(P, X);
+	m = tos - p - 1; // m is degree of dividend
 
-	dividend = stack + tos;
+	q = tos;
+	factorpoly_coeffs(Q, X);
+	n = tos - q - 1; // n is degree of divisor
 
-	push(DIVIDEND);
-	push(X);
-	m = coeff() - 1;	// m is dividend's power
+	k = m - n;
 
-	divisor = stack + tos;
+	Y = zero;
 
-	push(DIVISOR);
-	push(X);
-	n = coeff() - 1;	// n is divisor's power
+	while (k >= 0) {
 
-	x = m - n;
-
-	push_integer(0);
-	QQUOTIENT = pop();
-
-	while (x >= 0) {
-
-		push(dividend[m]);
-		push(divisor[n]);
+		push(stack[p + m]);
+		push(stack[q + n]);
 		divide();
-		Q = pop();
+		T = pop();
 
 		for (i = 0; i <= n; i++) {
-			push(dividend[x + i]);
-			push(divisor[i]);
-			push(Q);
+			push(stack[p + k + i]);
+			push(stack[q + i]);
+			push(T);
 			multiply();
 			subtract();
-			dividend[x + i] = pop();
+			stack[p + k + i] = pop();
 		}
 
-		push(QQUOTIENT);
-		push(Q);
+		push(Y);
+		push(T);
 		push(X);
-		push_integer(x);
+		push_integer(k);
 		power();
 		multiply();
 		add();
-		QQUOTIENT = pop();
+		Y = pop();
 
 		m--;
-		x--;
+		k--;
 	}
 
-	tos = h;
+	tos = p; // pop all
 
-	push(QQUOTIENT);
+	push(Y);
 }

@@ -100,13 +100,12 @@ factorpoly(void)
 	multiply_noexpand();
 }
 
+// pushes coeffs on stack
+
 void
 factorpoly_coeffs(struct atom *P, struct atom *X)
 {
-	int h;
 	struct atom *C;
-
-	h = tos;
 
 	for (;;) {
 

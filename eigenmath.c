@@ -137,12 +137,11 @@ struct atom {
 #define CIRCEXP		(2 * NSYM + 4)
 #define CLEAR		(2 * NSYM + 5)
 #define CLOCK		(2 * NSYM + 6)
-#define COEFF		(2 * NSYM + 7)
-#define COFACTOR	(2 * NSYM + 8)
-#define CONJ		(2 * NSYM + 9)
-#define CONTRACT	(2 * NSYM + 10)
-#define COS		(2 * NSYM + 11)
-#define COSH		(2 * NSYM + 12)
+#define COFACTOR	(2 * NSYM + 7)
+#define CONJ		(2 * NSYM + 8)
+#define CONTRACT	(2 * NSYM + 9)
+#define COS		(2 * NSYM + 10)
+#define COSH		(2 * NSYM + 11)
 
 #define D_UPPER		(3 * NSYM + 0)
 #define D_LOWER		(3 * NSYM + 1)
@@ -468,8 +467,6 @@ void eval_exptanh(struct atom *p1);
 void exptanh(void);
 void eval_clock(struct atom *p1);
 void clockfunc(void);
-void eval_coeff(struct atom *p1);
-int coeff(void);
 void eval_cofactor(struct atom *p1);
 void eval_conj(struct atom *p1);
 void conjfunc(void);
@@ -3698,60 +3695,6 @@ clockfunc(void)
 	multiply();
 }
 
-// get the coefficient of x^n in polynomial p(x)
-
-void
-eval_coeff(struct atom *p1)
-{
-	struct atom *P, *X, *N;
-	push(cadr(p1));
-	eval();
-	P = pop();
-	push(caddr(p1));
-	eval();
-	X = pop();
-	push(cadddr(p1));
-	eval();
-	N = pop();
-	push(P); // divide p by x^n
-	push(X);
-	push(N);
-	power();
-	divide();
-	push(X); // keep the constant part
-	filter();
-}
-
-int
-coeff(void)
-{
-	int h;
-	struct atom *P, *X, *C;
-	X = pop();
-	P = pop();
-	h = tos;
-	for (;;) {
-		push(P);
-		push(X);
-		push_integer(0);
-		subst();
-		eval();
-		C = pop();
-		push(C);
-		push(P);
-		push(C);
-		subtract();
-		P = pop();
-		if (iszero(P))
-			break;
-		push(P);
-		push(X);
-		divide();
-		P = pop();
-	}
-	return tos - h;
-}
-
 void
 eval_cofactor(struct atom *p1)
 {
@@ -6595,12 +6538,12 @@ factorpoly(void)
 	multiply_noexpand();
 }
 
+// pushes coeffs on stack
+
 void
 factorpoly_coeffs(struct atom *P, struct atom *X)
 {
-	int h;
 	struct atom *C;
-	h = tos;
 	for (;;) {
 		push(P);
 		push(X);
@@ -15851,76 +15794,63 @@ eval_product(struct atom *p1)
 void
 eval_quotient(struct atom *p1)
 {
-	push(cadr(p1));			// 1st arg, p(x)
+	push(cadr(p1));
 	eval();
-	push(caddr(p1));		// 2nd arg, q(x)
+	push(caddr(p1));
 	eval();
-	push(cadddr(p1));		// 3rd arg, x
-	eval();
-	p1 = pop();			// default x
-	if (p1 == symbol(NIL))
-		p1 = symbol(X_LOWER);
-	push(p1);
+	p1 = cdddr(p1);
+	if (iscons(p1)) {
+		push(car(p1));
+		eval();
+	} else
+		push_symbol(X_LOWER);
 	divpoly();
 }
 
-//	Divide polynomials
-//
-//	Input:		tos-3		Dividend
-//
-//			tos-2		Divisor
-//
-//			tos-1		x
-//
-//	Output:		tos-1		Quotient
+// divide polynomials
 
 void
 divpoly(void)
 {
-	int h, i, m, n, x;
-	struct atom **dividend, **divisor;
-	struct atom *DIVIDEND, *DIVISOR, *X, *Q, *QQUOTIENT;
+	int i, k, m, n, p, q;
+	struct atom *P, *Q, *T, *X, *Y;
 	X = pop();
-	DIVISOR = pop();
-	DIVIDEND = pop();
-	h = tos;
-	dividend = stack + tos;
-	push(DIVIDEND);
-	push(X);
-	m = coeff() - 1;	// m is dividend's power
-	divisor = stack + tos;
-	push(DIVISOR);
-	push(X);
-	n = coeff() - 1;	// n is divisor's power
-	x = m - n;
-	push_integer(0);
-	QQUOTIENT = pop();
-	while (x >= 0) {
-		push(dividend[m]);
-		push(divisor[n]);
+	Q = pop();
+	P = pop();
+	p = tos;
+	factorpoly_coeffs(P, X);
+	m = tos - p - 1; // m is degree of dividend
+	q = tos;
+	factorpoly_coeffs(Q, X);
+	n = tos - q - 1; // n is degree of divisor
+	k = m - n;
+	Y = zero;
+	while (k >= 0) {
+		push(stack[p + m]);
+		push(stack[q + n]);
 		divide();
-		Q = pop();
+		T = pop();
 		for (i = 0; i <= n; i++) {
-			push(dividend[x + i]);
-			push(divisor[i]);
-			push(Q);
+			push(stack[p + k + i]);
+			push(stack[q + i]);
+			push(T);
 			multiply();
 			subtract();
-			dividend[x + i] = pop();
+			stack[p + k + i] = pop();
 		}
-		push(QQUOTIENT);
-		push(Q);
+		push(Y);
+		push(T);
 		push(X);
-		push_integer(x);
+		push_integer(k);
 		power();
 		multiply();
 		add();
-		QQUOTIENT = pop();
+		Y = pop();
 		m--;
-		x--;
+		k--;
 	}
-	tos = h;
-	push(QQUOTIENT);
+	tos = p; // pop all
+	push(Y);
 }
 
 void
@@ -18188,7 +18118,6 @@ struct se stab[] = {
 	{ "circexp",		CIRCEXP,	eval_circexp		},
 	{ "clear",		CLEAR,		eval_clear		},
 	{ "clock",		CLOCK,		eval_clock		},
-	{ "coeff",		COEFF,		eval_coeff		},
 	{ "cofactor",		COFACTOR,	eval_cofactor		},
 	{ "conj",		CONJ,		eval_conj		},
 	{ "contract",		CONTRACT,	eval_contract		},
