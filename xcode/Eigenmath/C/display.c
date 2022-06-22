@@ -23,7 +23,7 @@ display(void)
 	emit_display = malloc(sizeof (struct display) + emit_count * sizeof (double));
 
 	if (emit_display == NULL)
-		kaput("malloc");
+		exit(1);
 
 	emit_formula(0.0, 0.0, p1);
 

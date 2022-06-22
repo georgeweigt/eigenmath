@@ -445,7 +445,7 @@ mstr(uint32_t *u)
 			free(buf);
 		buf = (char *) malloc(n);
 		if (buf == NULL)
-			kaput("malloc");
+			exit(1);
 		len = n;
 	}
 	k = len - 1;
@@ -811,7 +811,7 @@ mnew(int n)
 	uint32_t *u;
 	u = (uint32_t *) malloc((n + 1) * sizeof (uint32_t));
 	if (u == NULL)
-		kaput("malloc");
+		exit(1);
 	bignum_count++;
 	*u = n;
 	return u + 1;

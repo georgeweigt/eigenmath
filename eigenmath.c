@@ -2775,7 +2775,7 @@ mstr(uint32_t *u)
 			free(buf);
 		buf = (char *) malloc(n);
 		if (buf == NULL)
-			kaput("malloc");
+			exit(1);
 		len = n;
 	}
 	k = len - 1;
@@ -3141,7 +3141,7 @@ mnew(int n)
 	uint32_t *u;
 	u = (uint32_t *) malloc((n + 1) * sizeof (uint32_t));
 	if (u == NULL)
-		kaput("malloc");
+		exit(1);
 	bignum_count++;
 	*u = n;
 	return u + 1;
@@ -3940,7 +3940,7 @@ alloc_block(void)
 		kaput("out of memory");
 	p = (struct atom *) malloc(BLOCKSIZE * sizeof (struct atom));
 	if (p == NULL)
-		kaput("malloc");
+		exit(1);
 	mem[block_count++] = p;
 	for (i = 0; i < BLOCKSIZE - 1; i++) {
 		p[i].k = FREEATOM;
@@ -3976,14 +3976,16 @@ alloc_tensor(int nelem)
 {
 	int i;
 	struct atom *p;
+	struct tensor *t;
 	p = alloc();
-	p->u.tensor = (struct tensor *) malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
-	if (p->u.tensor == NULL)
-		kaput("malloc");
+	t = (struct tensor *) malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
+	if (t == NULL)
+		exit(1);
 	p->k = TENSOR;
-	p->u.tensor->nelem = nelem;
+	p->u.tensor = t;
+	t->nelem = nelem;
 	for (i = 0; i < nelem; i++)
-		p->u.tensor->elem[i] = zero;
+		t->elem[i] = zero;
 	tensor_count++;
 	return p;
 }
@@ -5852,10 +5854,10 @@ eigen(struct atom *p1)
 	// malloc working vars
 	yydd = (double *) malloc(eigen_n * eigen_n * sizeof (double));
 	if (yydd == NULL)
-		kaput("malloc");
+		exit(1);
 	yyqq = (double *) malloc(eigen_n * eigen_n * sizeof (double));
 	if (yyqq == NULL)
-		kaput("malloc");
+		exit(1);
 	// initialize D
 	for (i = 0; i < eigen_n; i++) {
 		D(i, i) = p1->u.tensor->elem[eigen_n * i + i]->u.d;
@@ -7236,7 +7238,7 @@ fmt(void)
 	n = fmt_nrow * fmt_ncol * sizeof (int); // number of bytes
 	fmt_buf = malloc(n);
 	if (fmt_buf == NULL)
-		kaput("malloc");
+		exit(1);
 	memset(fmt_buf, 0, n);
 	fmt_draw(0, h - 1, p1);
 	for (i = 0; i < fmt_nrow; i++) {
@@ -11331,7 +11333,7 @@ run_infile(void)
 	lseek(fd, 0, SEEK_SET);
 	buf = malloc(n + 1);
 	if (buf == NULL)
-		kaput("malloc");
+		exit(1);
 	if (read(fd, buf, n) != n) {
 		fprintf(stderr, "read err\n");
 		exit(1);
@@ -15782,7 +15784,7 @@ print_char(int c)
 		outbuf_length += 1000;
 		outbuf = (char *) realloc(outbuf, outbuf_length);
 		if (outbuf == NULL)
-			kaput("malloc");
+			exit(1);
 	}
 	outbuf[outbuf_index++] = c;
 }
@@ -16528,10 +16530,8 @@ run_file(char *filename)
 	lseek(fd, 0, SEEK_SET);
 	p1 = alloc();
 	buf = malloc(n + 1);
-	if (buf == NULL) {
-		close(fd);
-		kaput("malloc");
-	}
+	if (buf == NULL)
+		exit(1);
 	p1->k = STR;
 	p1->u.str = buf; // buf is freed on next gc
 	string_count++;
@@ -16682,8 +16682,6 @@ stop(char *s)
 void
 kaput(char *s)
 {
-	if (strcmp(s, "malloc") == 0)
-		exit(1);
 	journaling = 0;
 	stop(s);
 }
@@ -17112,7 +17110,7 @@ update_token_buf(char *a, char *b)
 	n = (int) (b - a);
 	token_buf = (char *) malloc(n + 1);
 	if (token_buf == NULL)
-		kaput("malloc");
+		exit(1);
 	strncpy(token_buf, a, n);
 	token_buf[n] = '\0';
 }
@@ -17939,7 +17937,7 @@ push_string(char *s)
 	p = alloc();
 	s = strdup(s);
 	if (s == NULL)
-		kaput("malloc");
+		exit(1);
 	p->k = STR;
 	p->u.str = s;
 	push(p);
@@ -18075,7 +18073,7 @@ lookup(char *s)
 	p = alloc();
 	s = strdup(s);
 	if (s == NULL)
-		kaput("malloc");
+		exit(1);
 	p->k = USYM;
 	p->u.usym.name = s;
 	p->u.usym.index = k + i;
@@ -18363,7 +18361,7 @@ init_symbol_table(void)
 		p = alloc();
 		s = strdup(stab[i].str);
 		if (s == NULL)
-			kaput("malloc");
+			exit(1);
 		if (stab[i].func) {
 			p->k = KSYM;
 			p->u.ksym.name = s;

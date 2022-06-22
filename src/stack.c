@@ -64,7 +64,7 @@ push_string(char *s)
 	p = alloc();
 	s = strdup(s);
 	if (s == NULL)
-		kaput("malloc");
+		exit(1);
 	p->k = STR;
 	p->u.str = s;
 	push(p);

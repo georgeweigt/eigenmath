@@ -58,7 +58,7 @@ history_push(char *instring)
 	history_count++;
 	history_tab = (char **) realloc(history_tab, history_count * sizeof (char *));
 	if (history_tab == NULL)
-		kaput("malloc");
+		exit(1);
 	history_tab[history_count - 1] = strdup(instring);
 	history_index = history_count;
 }

@@ -175,12 +175,12 @@ eigen(struct atom *p1)
 	yydd = (double *) malloc(eigen_n * eigen_n * sizeof (double));
 
 	if (yydd == NULL)
-		kaput("malloc");
+		exit(1);
 
 	yyqq = (double *) malloc(eigen_n * eigen_n * sizeof (double));
 
 	if (yyqq == NULL)
-		kaput("malloc");
+		exit(1);
 
 	// initialize D
 

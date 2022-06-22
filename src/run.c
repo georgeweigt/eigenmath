@@ -138,10 +138,8 @@ run_file(char *filename)
 
 	p1 = alloc();
 	buf = malloc(n + 1);
-	if (buf == NULL) {
-		close(fd);
-		kaput("malloc");
-	}
+	if (buf == NULL)
+		exit(1);
 	p1->k = STR;
 	p1->u.str = buf; // buf is freed on next gc
 	string_count++;
@@ -319,8 +317,6 @@ stop(char *s)
 void
 kaput(char *s)
 {
-	if (strcmp(s, "malloc") == 0)
-		exit(1);
 	journaling = 0;
 	stop(s);
 }

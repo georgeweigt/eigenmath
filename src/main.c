@@ -116,7 +116,7 @@ run_infile(void)
 	buf = malloc(n + 1);
 
 	if (buf == NULL)
-		kaput("malloc");
+		exit(1);
 
 	if (read(fd, buf, n) != n) {
 		fprintf(stderr, "read err\n");

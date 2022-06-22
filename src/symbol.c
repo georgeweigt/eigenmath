@@ -34,7 +34,7 @@ lookup(char *s)
 	p = alloc();
 	s = strdup(s);
 	if (s == NULL)
-		kaput("malloc");
+		exit(1);
 	p->k = USYM;
 	p->u.usym.name = s;
 	p->u.usym.index = k + i;
@@ -336,7 +336,7 @@ init_symbol_table(void)
 		p = alloc();
 		s = strdup(stab[i].str);
 		if (s == NULL)
-			kaput("malloc");
+			exit(1);
 		if (stab[i].func) {
 			p->k = KSYM;
 			p->u.ksym.name = s;
