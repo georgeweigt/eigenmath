@@ -7223,11 +7223,12 @@ int fmt_level;
 int fmt_nrow;
 int fmt_ncol;
 int *fmt_buf;
+int fmt_buf_len;
 
 void
 fmt(void)
 {
-	int c, d, h, i, j, n, w;
+	int c, d, h, i, j, m, n, w;
 	struct atom *p1;
 	fmt_level = 0;
 	p1 = pop();
@@ -7239,9 +7240,13 @@ fmt(void)
 	fmt_nrow = h + d;
 	fmt_ncol = MIN(CLIP, w);
 	n = fmt_nrow * fmt_ncol * sizeof (int); // number of bytes
-	fmt_buf = malloc(n);
-	if (fmt_buf == NULL)
-		exit(1);
+	m = 10000 * (n / 10000 + 1);
+	if (m > fmt_buf_len) {
+		fmt_buf = realloc(fmt_buf, m);
+		if (fmt_buf == NULL)
+			exit(1);
+		fmt_buf_len = m;
+	}
 	memset(fmt_buf, 0, n);
 	fmt_draw(0, h - 1, p1);
 	for (i = 0; i < fmt_nrow; i++) {
@@ -7251,7 +7256,6 @@ fmt(void)
 		}
 		writec('\n');
 	}
-	free(fmt_buf);
 }
 
 void
