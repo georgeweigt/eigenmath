@@ -17100,7 +17100,7 @@ update_token_buf(char *a, char *b)
 {
 	int m, n;
 	n = (int) (b - a);
-	m = 1000 * ((n + 1) % 1000 + 1);
+	m = 1000 * ((n + 1) / 1000 + 1);
 	if (m > token_buf_len) {
 		token_buf = realloc(token_buf, m);
 		if (token_buf == NULL)
