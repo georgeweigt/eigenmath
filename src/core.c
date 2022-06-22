@@ -190,6 +190,17 @@ untag(struct atom *p)
 			untag(p->u.tensor->elem[i]);
 }
 
+// create a list from n things on the stack
+
+void
+list(int n)
+{
+	int i;
+	push_symbol(NIL);
+	for (i = 0; i < n; i++)
+		cons();
+}
+
 void
 cons(void)
 {
@@ -199,6 +210,17 @@ cons(void)
 	p->u.cons.cdr = pop();
 	p->u.cons.car = pop();
 	push(p);
+}
+
+int
+length(struct atom *p)
+{
+	int n = 0;
+	while (iscons(p)) {
+		n++;
+		p = cdr(p);
+	}
+	return n;
 }
 
 // returns 1 if expr p contains expr q, otherweise returns 0
@@ -225,28 +247,6 @@ find(struct atom *p, struct atom *q)
 	}
 
 	return 0;
-}
-
-// create a list from n things on the stack
-
-void
-list(int n)
-{
-	int i;
-	push_symbol(NIL);
-	for (i = 0; i < n; i++)
-		cons();
-}
-
-int
-length(struct atom *p)
-{
-	int n = 0;
-	while (iscons(p)) {
-		n++;
-		p = cdr(p);
-	}
-	return n;
 }
 
 int

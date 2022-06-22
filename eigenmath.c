@@ -483,10 +483,10 @@ struct atom * alloc_matrix(int nrow, int ncol);
 struct atom * alloc_tensor(int nelem);
 void gc(void);
 void untag(struct atom *p);
-void cons(void);
-int find(struct atom *p, struct atom *q);
 void list(int n);
+void cons(void);
 int length(struct atom *p);
+int find(struct atom *p, struct atom *q);
 int complexity(struct atom *p);
 int lessp(struct atom *p1, struct atom *p2);
 void sort(int n);
@@ -4065,6 +4065,17 @@ untag(struct atom *p)
 			untag(p->u.tensor->elem[i]);
 }
 
+// create a list from n things on the stack
+
+void
+list(int n)
+{
+	int i;
+	push_symbol(NIL);
+	for (i = 0; i < n; i++)
+		cons();
+}
+
 void
 cons(void)
 {
@@ -4074,6 +4085,17 @@ cons(void)
 	p->u.cons.cdr = pop();
 	p->u.cons.car = pop();
 	push(p);
+}
+
+int
+length(struct atom *p)
+{
+	int n = 0;
+	while (iscons(p)) {
+		n++;
+		p = cdr(p);
+	}
+	return n;
 }
 
 // returns 1 if expr p contains expr q, otherweise returns 0
@@ -4096,28 +4118,6 @@ find(struct atom *p, struct atom *q)
 		p = cdr(p);
 	}
 	return 0;
-}
-
-// create a list from n things on the stack
-
-void
-list(int n)
-{
-	int i;
-	push_symbol(NIL);
-	for (i = 0; i < n; i++)
-		cons();
-}
-
-int
-length(struct atom *p)
-{
-	int n = 0;
-	while (iscons(p)) {
-		n++;
-		p = cdr(p);
-	}
-	return n;
 }
 
 int
