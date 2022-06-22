@@ -136,16 +136,14 @@ run_file(char *filename)
 
 	lseek(fd, 0, SEEK_SET);
 
+	p1 = alloc();
 	buf = malloc(n + 1);
-
 	if (buf == NULL) {
 		close(fd);
 		kaput("malloc");
 	}
-
-	p1 = alloc(); // do this so gc can free the buf in case of stop
 	p1->k = STR;
-	p1->u.str = buf;
+	p1->u.str = buf; // buf is freed on next gc
 	string_count++;
 
 	if (read(fd, buf, n) != n) {

@@ -70,10 +70,10 @@ alloc_tensor(int nelem)
 	int i;
 	struct atom *p;
 	p = alloc();
-	p->k = TENSOR;
 	p->u.tensor = (struct tensor *) malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
 	if (p->u.tensor == NULL)
 		kaput("malloc");
+	p->k = TENSOR;
 	p->u.tensor->nelem = nelem;
 	for (i = 0; i < nelem; i++)
 		p->u.tensor->elem[i] = zero;

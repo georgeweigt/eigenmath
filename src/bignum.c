@@ -46,6 +46,10 @@ void
 push_bignum(int sign, uint32_t *a, uint32_t *b)
 {
 	struct atom *p;
+	static uint32_t *save_a, *save_b; // prevent memory leak if alloc fails
+
+	// normalize zero
+
 	if (MZERO(a)) {
 		sign = MPLUS;
 		if (!MEQUAL(b, 1)) {
@@ -53,11 +57,24 @@ push_bignum(int sign, uint32_t *a, uint32_t *b)
 			b = mint(1);
 		}
 	}
+
+	if (save_a)
+		free(save_a);
+	if (save_b)
+		free(save_b);
+
+	save_a = a;
+	save_b = b;
+
 	p = alloc();
 	p->k = RATIONAL;
 	p->sign = sign;
 	p->u.q.a = a;
 	p->u.q.b = b;
+
+	save_a = NULL;
+	save_b = NULL;
+
 	push(p);
 }
 

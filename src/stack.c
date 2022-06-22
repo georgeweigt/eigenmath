@@ -61,17 +61,12 @@ void
 push_string(char *s)
 {
 	struct atom *p;
-
+	p = alloc();
 	s = strdup(s);
-
 	if (s == NULL)
 		kaput("malloc");
-
-	p = alloc();
 	p->k = STR;
 	p->u.str = s;
-
 	push(p);
-
 	string_count++;
 }

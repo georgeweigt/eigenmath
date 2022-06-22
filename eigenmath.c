@@ -2416,6 +2416,8 @@ void
 push_bignum(int sign, uint32_t *a, uint32_t *b)
 {
 	struct atom *p;
+	static uint32_t *save_a, *save_b; // prevent memory leak if alloc fails
+	// normalize zero
 	if (MZERO(a)) {
 		sign = MPLUS;
 		if (!MEQUAL(b, 1)) {
@@ -2423,11 +2425,19 @@ push_bignum(int sign, uint32_t *a, uint32_t *b)
 			b = mint(1);
 		}
 	}
+	if (save_a)
+		free(save_a);
+	if (save_b)
+		free(save_b);
+	save_a = a;
+	save_b = b;
 	p = alloc();
 	p->k = RATIONAL;
 	p->sign = sign;
 	p->u.q.a = a;
 	p->u.q.b = b;
+	save_a = NULL;
+	save_b = NULL;
 	push(p);
 }
 
@@ -3967,10 +3977,10 @@ alloc_tensor(int nelem)
 	int i;
 	struct atom *p;
 	p = alloc();
-	p->k = TENSOR;
 	p->u.tensor = (struct tensor *) malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
 	if (p->u.tensor == NULL)
 		kaput("malloc");
+	p->k = TENSOR;
 	p->u.tensor->nelem = nelem;
 	for (i = 0; i < nelem; i++)
 		p->u.tensor->elem[i] = zero;
@@ -16516,14 +16526,14 @@ run_file(char *filename)
 		stop("run: lseek error");
 	}
 	lseek(fd, 0, SEEK_SET);
+	p1 = alloc();
 	buf = malloc(n + 1);
 	if (buf == NULL) {
 		close(fd);
 		kaput("malloc");
 	}
-	p1 = alloc(); // do this so gc can free the buf in case of stop
 	p1->k = STR;
-	p1->u.str = buf;
+	p1->u.str = buf; // buf is freed on next gc
 	string_count++;
 	if (read(fd, buf, n) != n) {
 		close(fd);
@@ -17926,10 +17936,10 @@ void
 push_string(char *s)
 {
 	struct atom *p;
+	p = alloc();
 	s = strdup(s);
 	if (s == NULL)
 		kaput("malloc");
-	p = alloc();
 	p->k = STR;
 	p->u.str = s;
 	push(p);
@@ -18062,10 +18072,10 @@ lookup(char *s)
 	}
 	if (i == NSYM)
 		stop("symbol table full");
+	p = alloc();
 	s = strdup(s);
 	if (s == NULL)
 		kaput("malloc");
-	p = alloc();
 	p->k = USYM;
 	p->u.usym.name = s;
 	p->u.usym.index = k + i;
@@ -18350,17 +18360,16 @@ init_symbol_table(void)
 		symtab[i] = NULL;
 	n = sizeof stab / sizeof (struct se);
 	for (i = 0; i < n; i++) {
+		p = alloc();
 		s = strdup(stab[i].str);
 		if (s == NULL)
 			kaput("malloc");
 		if (stab[i].func) {
-			p = alloc();
 			p->k = KSYM;
 			p->u.ksym.name = s;
 			p->u.ksym.func = stab[i].func;
 			ksym_count++;
 		} else {
-			p = alloc();
 			p->k = USYM;
 			p->u.usym.name = s;
 			p->u.usym.index = stab[i].index;
