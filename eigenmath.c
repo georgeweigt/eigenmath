@@ -2769,7 +2769,10 @@ mstr(uint32_t *u)
 	int i, k, m, n, r;
 	static char *buf;
 	static int len;
-	n = 10 * MLENGTH(u) + 9; // estimate string length (+8 for leading zeroes, +1 for terminator)
+	// estimate string length
+	// note that 0xffffffff -> 000000004 294967295
+	// hence space for 8 leading zeroes is required
+	n = 10 * MLENGTH(u) + 8 + 1; // +1 for string terminator
 	m = 1000 * (n / 1000 + 1);
 	if (m > len) {
 		buf = (char *) realloc(buf, m);
