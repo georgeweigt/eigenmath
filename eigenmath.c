@@ -16686,18 +16686,11 @@ kaput(char *s)
 	stop(s);
 }
 
-// The char pointers token_str and scan_str are pointers to the input string as
-// in the following example.
+// token_str and scan_str are pointers to the input string, for example
 //
 //	| g | a | m | m | a |   | a | l | p | h | a |
 //	  ^                   ^
 //	  token_str           scan_str
-//
-// The char pointer token_buf points to a malloc buffer.
-//
-//	| g | a | m | m | a | \0 |
-//	  ^
-//	  token_buf
 
 #define T_INTEGER 1001
 #define T_DOUBLE 1002
@@ -16716,7 +16709,7 @@ int scan_level;
 
 char *scan_str;
 char *token_str;
-char *token_buf;
+char token_buf[10000];
 
 char *
 scan(char *s)
@@ -17105,12 +17098,9 @@ void
 update_token_buf(char *a, char *b)
 {
 	int n;
-	if (token_buf)
-		free(token_buf);
 	n = (int) (b - a);
-	token_buf = (char *) malloc(n + 1);
-	if (token_buf == NULL)
-		exit(1);
+	if (n + 1 > (int) sizeof (token_buf))
+		stop("token buf");
 	strncpy(token_buf, a, n);
 	token_buf[n] = '\0';
 }
