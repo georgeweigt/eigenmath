@@ -13,9 +13,6 @@ struct {
 void
 eval_nroots(struct atom *p1)
 {
-	int h, i, k, n;
-	struct atom *P, *X, *RE, *IM, *V;
-
 	push(cadr(p1));
 	eval();
 
@@ -24,17 +21,24 @@ eval_nroots(struct atom *p1)
 	if (iscons(p1)) {
 		push(car(p1));
 		eval();
-	}
+	} else
 		push_symbol(X_LOWER);
+
+	nroots();
+}
+
+void
+nroots(void)
+{
+	int h, i, k, n;
+	struct atom *P, *X, *RE, *IM, *V;
 
 	X = pop();
 	P = pop();
 
 	h = tos;
 
-	// push coefficients
-
-	factorpoly_coeffs(P, X);
+	factorpoly_coeffs(P, X); // put coeffs on stack
 
 	n = tos - h;
 

@@ -827,6 +827,7 @@ void reciprocate(void);
 void divide(void);
 void eval_noexpand(struct atom *p1);
 void eval_nroots(struct atom *p1);
+void nroots(void);
 void monic(int n);
 void findroot(int n);
 void compute_fa(int n);
@@ -12964,21 +12965,26 @@ struct {
 void
 eval_nroots(struct atom *p1)
 {
-	int h, i, k, n;
-	struct atom *P, *X, *RE, *IM, *V;
 	push(cadr(p1));
 	eval();
 	p1 = cddr(p1);
 	if (iscons(p1)) {
 		push(car(p1));
 		eval();
-	}
+	} else
 		push_symbol(X_LOWER);
+	nroots();
+}
+
+void
+nroots(void)
+{
+	int h, i, k, n;
+	struct atom *P, *X, *RE, *IM, *V;
 	X = pop();
 	P = pop();
 	h = tos;
-	// push coefficients
-	factorpoly_coeffs(P, X);
+	factorpoly_coeffs(P, X); // put coeffs on stack
 	n = tos - h;
 	if (n < 2 || n > MAXCOEFFS)
 		stop("nroots");
@@ -15806,8 +15812,6 @@ eval_quotient(struct atom *p1)
 		push_symbol(X_LOWER);
 	divpoly();
 }
-
-// divide polynomials
 
 void
 divpoly(void)

@@ -459,6 +459,7 @@ void reciprocate(void);
 void divide(void);
 void eval_noexpand(struct atom *p1);
 void eval_nroots(struct atom *p1);
+void nroots(void);
 void monic(int n);
 void findroot(int n);
 void compute_fa(int n);

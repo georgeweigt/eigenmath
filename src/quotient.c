@@ -20,8 +20,6 @@ eval_quotient(struct atom *p1)
 	divpoly();
 }
 
-// divide polynomials
-
 void
 divpoly(void)
 {
