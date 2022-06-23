@@ -96,11 +96,6 @@ dss(F, X)
 		return;
 	}
 
-	if (car(F) == symbol(ABS)) {
-		dabs(F, X);
-		return;
-	}
-
 	if (car(F) == symbol(ERF)) {
 		derf(F, X);
 		return;
