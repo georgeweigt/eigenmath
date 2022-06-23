@@ -4866,14 +4866,10 @@ check(d(integral(f)) == f)
 
 f = cos(a x)^5 / sin(a x)
 g = d(integral(f))
-g = eval(g,sgn(sin(a x)),1)
-g = eval(g,1/abs(sin(a x)),1/sin(a x))
 check(g == f)
 
 f = cos(a x)^3 / sin(a x)
 g = d(integral(f))
-g = eval(g,sgn(sin(a x)),1)
-g = eval(g,1/abs(sin(a x)),1/sin(a x))
 check(g == f)
 
 f = cos(a x) sin(a x)^3
