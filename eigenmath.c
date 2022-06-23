@@ -47,15 +47,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define STACKSIZE 100000 // evaluation stack
 #define FRAMESIZE 1000
-#define BLOCKSIZE 10000
-#define MAXBLOCKS 2000
+#define BLOCKSIZE 100000
+#define MAXBLOCKS 100
 #define NSYM 100
-
 #define JOURNALSIZE 1000
 
-// MAXBLOCKS * BLOCKSIZE = 20,000,000 atoms
+// MAXBLOCKS * BLOCKSIZE = 10,000,000 atoms
 
-// MAXBLOCKS * BLOCKSIZE * sizeof (struct atom) = 480,000,000 bytes
+// MAXBLOCKS * BLOCKSIZE * sizeof (struct atom) = 240,000,000 bytes
 
 // Symbolic expressions are built by linking structs of type "atom".
 //
