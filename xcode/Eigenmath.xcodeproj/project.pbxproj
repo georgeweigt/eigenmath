@@ -15,7 +15,6 @@
 		7FAB242B271D0293007ED5D2 /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BA271D0293007ED5D2 /* log.c */; };
 		7FAB242C271D0293007ED5D2 /* arcsinh.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BB271D0293007ED5D2 /* arcsinh.c */; };
 		7FAB242D271D0293007ED5D2 /* power_natural_number.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BC271D0293007ED5D2 /* power_natural_number.c */; };
-		7FAB242E271D0293007ED5D2 /* atomize.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BD271D0293007ED5D2 /* atomize.c */; };
 		7FAB242F271D0293007ED5D2 /* eval.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BE271D0293007ED5D2 /* eval.c */; };
 		7FAB2430271D0293007ED5D2 /* rect.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BF271D0293007ED5D2 /* rect.c */; };
 		7FAB2431271D0293007ED5D2 /* sum.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23C0271D0293007ED5D2 /* sum.c */; };
@@ -52,7 +51,6 @@
 		7FAB2456271D0293007ED5D2 /* mag.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E7271D0293007ED5D2 /* mag.c */; };
 		7FAB2457271D0293007ED5D2 /* scan.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E8271D0293007ED5D2 /* scan.c */; };
 		7FAB2458271D0293007ED5D2 /* det.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E9271D0293007ED5D2 /* det.c */; };
-		7FAB2459271D0293007ED5D2 /* factors.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23EA271D0293007ED5D2 /* factors.c */; };
 		7FAB245A271D0293007ED5D2 /* inv.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23EB271D0293007ED5D2 /* inv.c */; };
 		7FAB245B271D0293007ED5D2 /* denominator.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23EC271D0293007ED5D2 /* denominator.c */; };
 		7FAB245C271D0293007ED5D2 /* polar.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23ED271D0293007ED5D2 /* polar.c */; };
@@ -102,7 +100,6 @@
 		7FAB2491271D0294007ED5D2 /* globals.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2423271D0293007ED5D2 /* globals.c */; };
 		7FAB2493271D0294007ED5D2 /* kronecker.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2425271D0293007ED5D2 /* kronecker.c */; };
 		7FAB2494271D0294007ED5D2 /* real.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2426271D0293007ED5D2 /* real.c */; };
-		7FAB2495271D0294007ED5D2 /* isprime.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2427271D0293007ED5D2 /* isprime.c */; };
 		7FAB2496271D0294007ED5D2 /* abs.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2428271D0293007ED5D2 /* abs.c */; };
 		7FAB2497271D0294007ED5D2 /* subst.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2429271D0293007ED5D2 /* subst.c */; };
 		7FAB2498271D0294007ED5D2 /* tan.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB242A271D0293007ED5D2 /* tan.c */; };
@@ -136,7 +133,6 @@
 		7FAB23BA271D0293007ED5D2 /* log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
 		7FAB23BB271D0293007ED5D2 /* arcsinh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = arcsinh.c; sourceTree = "<group>"; };
 		7FAB23BC271D0293007ED5D2 /* power_natural_number.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = power_natural_number.c; sourceTree = "<group>"; };
-		7FAB23BD271D0293007ED5D2 /* atomize.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = atomize.c; sourceTree = "<group>"; };
 		7FAB23BE271D0293007ED5D2 /* eval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eval.c; sourceTree = "<group>"; };
 		7FAB23BF271D0293007ED5D2 /* rect.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rect.c; sourceTree = "<group>"; };
 		7FAB23C0271D0293007ED5D2 /* sum.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sum.c; sourceTree = "<group>"; };
@@ -175,7 +171,6 @@
 		7FAB23E7271D0293007ED5D2 /* mag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mag.c; sourceTree = "<group>"; };
 		7FAB23E8271D0293007ED5D2 /* scan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scan.c; sourceTree = "<group>"; };
 		7FAB23E9271D0293007ED5D2 /* det.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = det.c; sourceTree = "<group>"; };
-		7FAB23EA271D0293007ED5D2 /* factors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = factors.c; sourceTree = "<group>"; };
 		7FAB23EB271D0293007ED5D2 /* inv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inv.c; sourceTree = "<group>"; };
 		7FAB23EC271D0293007ED5D2 /* denominator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = denominator.c; sourceTree = "<group>"; };
 		7FAB23ED271D0293007ED5D2 /* polar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = polar.c; sourceTree = "<group>"; };
@@ -226,7 +221,6 @@
 		7FAB2423271D0293007ED5D2 /* globals.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = globals.c; sourceTree = "<group>"; };
 		7FAB2425271D0293007ED5D2 /* kronecker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kronecker.c; sourceTree = "<group>"; };
 		7FAB2426271D0293007ED5D2 /* real.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = real.c; sourceTree = "<group>"; };
-		7FAB2427271D0293007ED5D2 /* isprime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = isprime.c; sourceTree = "<group>"; };
 		7FAB2428271D0293007ED5D2 /* abs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = abs.c; sourceTree = "<group>"; };
 		7FAB2429271D0293007ED5D2 /* subst.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = subst.c; sourceTree = "<group>"; };
 		7FAB242A271D0293007ED5D2 /* tan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tan.c; sourceTree = "<group>"; };
@@ -310,7 +304,6 @@
 				7FAB23F7271D0293007ED5D2 /* arctan.c */,
 				7FAB240B271D0293007ED5D2 /* arctanh.c */,
 				7FAB241C271D0293007ED5D2 /* arg.c */,
-				7FAB23BD271D0293007ED5D2 /* atomize.c */,
 				7FAB23F4271D0293007ED5D2 /* bignum.c */,
 				7FAB2400271D0293007ED5D2 /* ceiling.c */,
 				7FAB23CE271D0293007ED5D2 /* circexp.c */,
@@ -337,7 +330,6 @@
 				7FAB23CA271D0293007ED5D2 /* expsin.c */,
 				7FAB23C3271D0293007ED5D2 /* factor.c */,
 				7FAB2408271D0293007ED5D2 /* factorial.c */,
-				7FAB23EA271D0293007ED5D2 /* factors.c */,
 				7FAB23F8271D0293007ED5D2 /* filter.c */,
 				7FAB2412271D0293007ED5D2 /* float.c */,
 				7FAB23F5271D0293007ED5D2 /* floor.c */,
@@ -350,7 +342,6 @@
 				7FAB23DB271D0293007ED5D2 /* inner.c */,
 				7FAB23DF271D0293007ED5D2 /* integral.c */,
 				7FAB23EB271D0293007ED5D2 /* inv.c */,
-				7FAB2427271D0293007ED5D2 /* isprime.c */,
 				7FAB2425271D0293007ED5D2 /* kronecker.c */,
 				7FAB23CF271D0293007ED5D2 /* latex.c */,
 				7FAB23BA271D0293007ED5D2 /* log.c */,
@@ -527,7 +518,6 @@
 				7FAB2463271D0293007ED5D2 /* bignum.c in Sources */,
 				7FAB242C271D0293007ED5D2 /* arcsinh.c in Sources */,
 				7FAB2431271D0293007ED5D2 /* sum.c in Sources */,
-				7FAB2495271D0294007ED5D2 /* isprime.c in Sources */,
 				7FAB2498271D0294007ED5D2 /* tan.c in Sources */,
 				7FAB2474271D0293007ED5D2 /* power_complex_number.c in Sources */,
 				7FAE1430271D0FD4001234C6 /* draw_display.c in Sources */,
@@ -549,7 +539,6 @@
 				7FAB244E271D0293007ED5D2 /* integral.c in Sources */,
 				7FAB2497271D0294007ED5D2 /* subst.c in Sources */,
 				7FAB2496271D0294007ED5D2 /* abs.c in Sources */,
-				7FAB2459271D0293007ED5D2 /* factors.c in Sources */,
 				7FAB2484271D0294007ED5D2 /* test.c in Sources */,
 				7FAB2491271D0294007ED5D2 /* globals.c in Sources */,
 				7FAB248F271D0294007ED5D2 /* cosh.c in Sources */,
@@ -580,7 +569,6 @@
 				7FAB247C271D0294007ED5D2 /* symbol.c in Sources */,
 				7FAB2450271D0293007ED5D2 /* simplify.c in Sources */,
 				7FAB247E271D0294007ED5D2 /* mathml.c in Sources */,
-				7FAB242E271D0293007ED5D2 /* atomize.c in Sources */,
 				7FAB247F271D0294007ED5D2 /* product.c in Sources */,
 				7FAB2442271D0293007ED5D2 /* stack.c in Sources */,
 				7FAB248E271D0294007ED5D2 /* tanh.c in Sources */,

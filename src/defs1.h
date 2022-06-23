@@ -149,7 +149,6 @@ struct atom {
 #define INNER		(8 * NSYM + 4)
 #define INTEGRAL	(8 * NSYM + 5)
 #define INV		(8 * NSYM + 6)
-#define ISPRIME		(8 * NSYM + 7)
 
 #define J_UPPER		(9 * NSYM + 0)
 #define J_LOWER		(9 * NSYM + 1)

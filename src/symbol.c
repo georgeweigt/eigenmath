@@ -198,7 +198,6 @@ struct se stab[] = {
 	{ "inner",		INNER,		eval_inner		},
 	{ "integral",		INTEGRAL,	eval_integral		},
 	{ "inv",		INV,		eval_inv		},
-	{ "isprime",		ISPRIME,	eval_isprime		},
 
 	{ "J",			J_UPPER,	NULL			},
 	{ "j",			J_LOWER,	NULL			},

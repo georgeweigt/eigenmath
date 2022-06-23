@@ -185,7 +185,6 @@ struct atom {
 #define INNER		(8 * NSYM + 4)
 #define INTEGRAL	(8 * NSYM + 5)
 #define INV		(8 * NSYM + 6)
-#define ISPRIME		(8 * NSYM + 7)
 
 #define J_UPPER		(9 * NSYM + 0)
 #define J_LOWER		(9 * NSYM + 1)
@@ -595,8 +594,6 @@ void factor_factor(void);
 void factor_bignum(uint32_t *a, struct atom *EXPO);
 void eval_factorial(struct atom *p1);
 void factorial(void);
-int factors(struct atom *p);
-void push_term_factors(struct atom *p);
 void eval_filter(struct atom *p1);
 void filter(void);
 void filter_sum(struct atom *p1, struct atom *p2);
@@ -697,7 +694,6 @@ int collect_coeffs_sort_func(const void *q1, const void *q2);
 void partition_integrand(void);
 void eval_inv(struct atom *p1);
 void inv(void);
-void eval_isprime(struct atom *p1);
 void eval_kronecker(struct atom *p1);
 void kronecker(void);
 void eval_latex(struct atom *p1);
@@ -6591,55 +6587,6 @@ factorial(void)
 		bignum_float();
 }
 
-// Push expression factors onto the stack. For example...
-//
-// Input
-//
-//       2
-//     3x  + 2x + 1
-//
-// Output on stack
-//
-//     [  3  ]
-//     [ x^2 ]
-//     [  2  ]
-//     [  x  ]
-//     [  1  ]
-//
-// but not necessarily in that order. Returns the number of factors.
-
-// Local "struct atom *" is OK here because no functional path to garbage collector.
-
-int
-factors(struct atom *p)
-{
-	int h = tos;
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			push_term_factors(car(p));
-			p = cdr(p);
-		}
-	} else
-		push_term_factors(p);
-	return tos - h;
-}
-
-// Local "struct atom *" is OK here because no functional path to garbage collector.
-
-void
-push_term_factors(struct atom *p)
-{
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			push(car(p));
-			p = cdr(p);
-		}
-	} else
-		push(p);
-}
-
 /* Remove terms that involve a given symbol or expression. For example...
 
 	filter(x^2 + x + 1, x)		=>	1
@@ -10058,18 +10005,6 @@ inv(void)
 	push(p1);
 	det();
 	divide();
-}
-
-void
-eval_isprime(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	p1 = pop();
-	if (isposint(p1) && mprime(p1->u.q.a))
-		push_integer(1);
-	else
-		push_integer(0);
 }
 
 void
@@ -17858,7 +17793,6 @@ struct se stab[] = {
 	{ "inner",		INNER,		eval_inner		},
 	{ "integral",		INTEGRAL,	eval_integral		},
 	{ "inv",		INV,		eval_inv		},
-	{ "isprime",		ISPRIME,	eval_isprime		},
 
 	{ "J",			J_UPPER,	NULL			},
 	{ "j",			J_LOWER,	NULL			},
