@@ -35,7 +35,6 @@ void arctanh(void);
 void eval_arg(struct atom *p1);
 void arg(void);
 void arg1(void);
-void eval_atomize(struct atom *p1);
 void init_bignums(void);
 void push_integer(int n);
 void push_rational(int a, int b);

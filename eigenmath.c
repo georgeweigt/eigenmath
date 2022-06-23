@@ -124,7 +124,6 @@ struct atom {
 #define ARCTAN		(0 * NSYM + 7)
 #define ARCTANH		(0 * NSYM + 8)
 #define ARG		(0 * NSYM + 9)
-#define ATOMIZE		(0 * NSYM + 10)
 
 #define BINDING		(1 * NSYM + 0)
 
@@ -400,7 +399,6 @@ void arctanh(void);
 void eval_arg(struct atom *p1);
 void arg(void);
 void arg1(void);
-void eval_atomize(struct atom *p1);
 void init_bignums(void);
 void push_integer(int n);
 void push_rational(int a, int b);
@@ -2181,34 +2179,6 @@ arg1(void)
 		return;
 	}
 	push_integer(0);
-}
-
-void
-eval_atomize(struct atom *p1)
-{
-	int i, n;
-	struct atom *p2;
-	push(cadr(p1));
-	eval();
-	p1 = pop();
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-	p1 = cdr(p1);
-	n = length(p1);
-	if (n == 1) {
-		push(car(p1));
-		return;
-	}
-	p2 = alloc_tensor(n);
-	p2->u.tensor->ndim = 1;
-	p2->u.tensor->dim[0] = n;
-	for (i = 0; i < n; i++) {
-		p2->u.tensor->elem[i] = car(p1);
-		p1 = cdr(p1);
-	}
-	push(p2);
 }
 
 void
@@ -17827,7 +17797,6 @@ struct se stab[] = {
 	{ "arctan",		ARCTAN,		eval_arctan		},
 	{ "arctanh",		ARCTANH,	eval_arctanh		},
 	{ "arg",		ARG,		eval_arg		},
-	{ "atomize",		ATOMIZE,	eval_atomize		},
 
 	{ "binding",		BINDING,	eval_binding		},
 

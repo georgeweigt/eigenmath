@@ -138,7 +138,6 @@ struct se stab[] = {
 	{ "arctan",		ARCTAN,		eval_arctan		},
 	{ "arctanh",		ARCTANH,	eval_arctanh		},
 	{ "arg",		ARG,		eval_arg		},
-	{ "atomize",		ATOMIZE,	eval_atomize		},
 
 	{ "binding",		BINDING,	eval_binding		},
 

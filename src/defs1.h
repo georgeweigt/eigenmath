@@ -88,7 +88,6 @@ struct atom {
 #define ARCTAN		(0 * NSYM + 7)
 #define ARCTANH		(0 * NSYM + 8)
 #define ARG		(0 * NSYM + 9)
-#define ATOMIZE		(0 * NSYM + 10)
 
 #define BINDING		(1 * NSYM + 0)
 
