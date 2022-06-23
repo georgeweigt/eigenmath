@@ -140,8 +140,6 @@ struct se stab[] = {
 	{ "arg",		ARG,		eval_arg		},
 	{ "atomize",		ATOMIZE,	eval_atomize		},
 
-	{ "besselj",		BESSELJ,	eval_besselj		},
-	{ "bessely",		BESSELY,	eval_bessely		},
 	{ "binding",		BINDING,	eval_binding		},
 
 	{ "C",			C_UPPER,	NULL			},

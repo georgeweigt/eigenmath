@@ -90,9 +90,7 @@ struct atom {
 #define ARG		(0 * NSYM + 9)
 #define ATOMIZE		(0 * NSYM + 10)
 
-#define BESSELJ		(1 * NSYM + 0)
-#define BESSELY		(1 * NSYM + 1)
-#define BINDING		(1 * NSYM + 2)
+#define BINDING		(1 * NSYM + 0)
 
 #define C_UPPER		(2 * NSYM + 0)
 #define C_LOWER		(2 * NSYM + 1)

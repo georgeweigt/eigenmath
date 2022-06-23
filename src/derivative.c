@@ -201,22 +201,6 @@ d_scalar_scalar(struct atom *F, struct atom *X)
 		return;
 	}
 
-	if (car(F) == symbol(BESSELJ)) {
-		if (iszero(caddr(F)))
-			dbesselj0(F, X);
-		else
-			dbesseljn(F, X);
-		return;
-	}
-
-	if (car(F) == symbol(BESSELY)) {
-		if (iszero(caddr(F)))
-			dbessely0(F, X);
-		else
-			dbesselyn(F, X);
-		return;
-	}
-
 	if (car(F) == symbol(INTEGRAL) && caddr(F) == X) {
 		derivative_of_integral(F, X);
 		return;
@@ -592,82 +576,6 @@ derfc(struct atom *p1, struct atom *p2)
 	push(cadr(p1));
 	push(p2);
 	derivative();
-	multiply();
-}
-
-void
-dbesselj0(struct atom *p1, struct atom *p2)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push(cadr(p1));
-	push_integer(1);
-	besselj();
-	multiply();
-	push_integer(-1);
-	multiply();
-}
-
-void
-dbesseljn(struct atom *p1, struct atom *p2)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push(cadr(p1));
-	push(caddr(p1));
-	push_integer(-1);
-	add();
-	besselj();
-	push(caddr(p1));
-	push_integer(-1);
-	multiply();
-	push(cadr(p1));
-	divide();
-	push(cadr(p1));
-	push(caddr(p1));
-	besselj();
-	multiply();
-	add();
-	multiply();
-}
-
-void
-dbessely0(struct atom *p1, struct atom *p2)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push(cadr(p1));
-	push_integer(1);
-	besselj();
-	multiply();
-	push_integer(-1);
-	multiply();
-}
-
-void
-dbesselyn(struct atom *p1, struct atom *p2)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push(cadr(p1));
-	push(caddr(p1));
-	push_integer(-1);
-	add();
-	bessely();
-	push(caddr(p1));
-	push_integer(-1);
-	multiply();
-	push(cadr(p1));
-	divide();
-	push(cadr(p1));
-	push(caddr(p1));
-	bessely();
-	multiply();
-	add();
 	multiply();
 }
 

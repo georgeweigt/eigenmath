@@ -126,9 +126,7 @@ struct atom {
 #define ARG		(0 * NSYM + 9)
 #define ATOMIZE		(0 * NSYM + 10)
 
-#define BESSELJ		(1 * NSYM + 0)
-#define BESSELY		(1 * NSYM + 1)
-#define BINDING		(1 * NSYM + 2)
+#define BINDING		(1 * NSYM + 0)
 
 #define C_UPPER		(2 * NSYM + 0)
 #define C_LOWER		(2 * NSYM + 1)
@@ -403,10 +401,6 @@ void eval_arg(struct atom *p1);
 void arg(void);
 void arg1(void);
 void eval_atomize(struct atom *p1);
-void eval_besselj(struct atom *p1);
-void besselj(void);
-void eval_bessely(struct atom *p1);
-void bessely(void);
 void init_bignums(void);
 void push_integer(int n);
 void push_rational(int a, int b);
@@ -552,10 +546,6 @@ void darccosh(struct atom *p1, struct atom *p2);
 void darctanh(struct atom *p1, struct atom *p2);
 void derf(struct atom *p1, struct atom *p2);
 void derfc(struct atom *p1, struct atom *p2);
-void dbesselj0(struct atom *p1, struct atom *p2);
-void dbesseljn(struct atom *p1, struct atom *p2);
-void dbessely0(struct atom *p1, struct atom *p2);
-void dbesselyn(struct atom *p1, struct atom *p2);
 void derivative_of_integral(struct atom *p1, struct atom *p2);
 void d_tensor_tensor(struct atom *p1, struct atom *p2);
 void d_scalar_tensor(struct atom *p1, struct atom *p2);
@@ -2219,149 +2209,6 @@ eval_atomize(struct atom *p1)
 		p1 = cdr(p1);
 	}
 	push(p2);
-}
-
-void
-eval_besselj(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	push(caddr(p1));
-	eval();
-	besselj();
-}
-
-void
-besselj(void)
-{
-	int n;
-	double d;
-	struct atom *X, *N, *SIGN;
-	N = pop();
-	X = pop();
-	if (isdouble(X) && issmallinteger(N)) {
-		push(N);
-		n = pop_integer();
-		d = jn(n, X->u.d);
-		push_double(d);
-		return;
-	}
-	// bessej(0,0) = 1
-	if (iszero(X) && iszero(N)) {
-		push_integer(1);
-		return;
-	}
-	// besselj(0,n) = 0
-	if (iszero(X) && isinteger(N)) {
-		push_integer(0);
-		return;
-	}
-	// half arguments
-	if (N->k == RATIONAL && MEQUAL(N->u.q.b, 2)) {
-		// n = 1/2
-		if (N->sign == MPLUS && MEQUAL(N->u.q.a, 1)) {
-			push_integer(2);
-			push_symbol(PI);
-			divide();
-			push(X);
-			divide();
-			push_rational(1, 2);
-			power();
-			push(X);
-			sinfunc();
-			multiply();
-			return;
-		}
-		// n = -1/2
-		if (N->sign == MMINUS && MEQUAL(N->u.q.a, 1)) {
-			push_integer(2);
-			push_symbol(PI);
-			divide();
-			push(X);
-			divide();
-			push_rational(1, 2);
-			power();
-			push(X);
-			cosfunc();
-			multiply();
-			return;
-		}
-		// besselj(x,n) = (2/x) (n-sgn(n)) besselj(x,n-sgn(n)) - besselj(x,n-2*sgn(n))
-		if (N->sign == MPLUS)
-			push_integer(1);
-		else
-			push_integer(-1);
-		SIGN = pop();
-		push_integer(2);
-		push(X);
-		divide();
-		push(N);
-		push(SIGN);
-		subtract();
-		multiply();
-		push(X);
-		push(N);
-		push(SIGN);
-		subtract();
-		besselj();
-		multiply();
-		push(X);
-		push(N);
-		push_integer(2);
-		push(SIGN);
-		multiply();
-		subtract();
-		besselj();
-		subtract();
-		return;
-	}
-	push_symbol(BESSELJ);
-	push(X);
-	push(N);
-	list(3);
-}
-
-void
-eval_bessely(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	push(caddr(p1));
-	eval();
-	bessely();
-}
-
-void
-bessely(void)
-{
-	int n;
-	double d;
-	struct atom *X, *N;
-	N = pop();
-	X = pop();
-	if (isdouble(X)) {
-		push(N);
-		n = pop_integer();
-		d = yn(n, X->u.d); // math.h
-		push_double(d);
-		return;
-	}
-	if (isnegativeterm(N)) {
-		push_integer(-1);
-		push(N);
-		power();
-		push_symbol(BESSELY);
-		push(X);
-		push(N);
-		negate();
-		list(3);
-		multiply();
-		return;
-	}
-	push_symbol(BESSELY);
-	push(X);
-	push(N);
-	list(3);
 }
 
 void
@@ -5015,20 +4862,6 @@ d_scalar_scalar(struct atom *F, struct atom *X)
 		derfc(F, X);
 		return;
 	}
-	if (car(F) == symbol(BESSELJ)) {
-		if (iszero(caddr(F)))
-			dbesselj0(F, X);
-		else
-			dbesseljn(F, X);
-		return;
-	}
-	if (car(F) == symbol(BESSELY)) {
-		if (iszero(caddr(F)))
-			dbessely0(F, X);
-		else
-			dbesselyn(F, X);
-		return;
-	}
 	if (car(F) == symbol(INTEGRAL) && caddr(F) == X) {
 		derivative_of_integral(F, X);
 		return;
@@ -5383,82 +5216,6 @@ derfc(struct atom *p1, struct atom *p2)
 	push(cadr(p1));
 	push(p2);
 	derivative();
-	multiply();
-}
-
-void
-dbesselj0(struct atom *p1, struct atom *p2)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push(cadr(p1));
-	push_integer(1);
-	besselj();
-	multiply();
-	push_integer(-1);
-	multiply();
-}
-
-void
-dbesseljn(struct atom *p1, struct atom *p2)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push(cadr(p1));
-	push(caddr(p1));
-	push_integer(-1);
-	add();
-	besselj();
-	push(caddr(p1));
-	push_integer(-1);
-	multiply();
-	push(cadr(p1));
-	divide();
-	push(cadr(p1));
-	push(caddr(p1));
-	besselj();
-	multiply();
-	add();
-	multiply();
-}
-
-void
-dbessely0(struct atom *p1, struct atom *p2)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push(cadr(p1));
-	push_integer(1);
-	besselj();
-	multiply();
-	push_integer(-1);
-	multiply();
-}
-
-void
-dbesselyn(struct atom *p1, struct atom *p2)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push(cadr(p1));
-	push(caddr(p1));
-	push_integer(-1);
-	add();
-	bessely();
-	push(caddr(p1));
-	push_integer(-1);
-	multiply();
-	push(cadr(p1));
-	divide();
-	push(cadr(p1));
-	push(caddr(p1));
-	bessely();
-	multiply();
-	add();
 	multiply();
 }
 
@@ -18067,8 +17824,6 @@ struct se stab[] = {
 	{ "arg",		ARG,		eval_arg		},
 	{ "atomize",		ATOMIZE,	eval_atomize		},
 
-	{ "besselj",		BESSELJ,	eval_besselj		},
-	{ "bessely",		BESSELY,	eval_bessely		},
 	{ "binding",		BINDING,	eval_binding		},
 
 	{ "C",			C_UPPER,	NULL			},
