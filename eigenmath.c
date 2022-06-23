@@ -3787,7 +3787,7 @@ alloc_tensor(int nelem)
 void
 gc(void)
 {
-	int i, j;
+	int i, j, k;
 	struct atom *p;
 	gc_count++;
 	// tag everything
@@ -3802,10 +3802,15 @@ gc(void)
 	untag(minusone);
 	untag(imaginaryunit);
 	// symbol table
-	for (i = 0; i < 27 * NSYM; i++) {
-		untag(symtab[i]);
-		untag(binding[i]);
-		untag(usrfunc[i]);
+	for (i = 0; i < 27; i++) {
+		for (j = 0; j < NSYM; j++) {
+			k = NSYM * i + j;
+			if (symtab[k] == NULL)
+				break;
+			untag(symtab[k]);
+			untag(binding[k]);
+			untag(usrfunc[k]);
+		}
 	}
 	// collect everything that's still tagged
 	free_list = NULL;
