@@ -9,13 +9,15 @@
 #include <math.h>
 #include <errno.h>
 
-#define STACKSIZE 1000000 // evaluation stack
+#define STACKSIZE 100000 // evaluation stack
 #define FRAMESIZE 1000
 #define BLOCKSIZE 10000
 #define MAXBLOCKS 2000
 #define NSYM 100
 
 #define JOURNALSIZE 1000
+
+// MAXBLOCKS * BLOCKSIZE = 20,000,000 atoms
 
 // MAXBLOCKS * BLOCKSIZE * sizeof (struct atom) = 480,000,000 bytes
 
