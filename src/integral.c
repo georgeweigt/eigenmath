@@ -517,11 +517,11 @@ char *integral_tab_trig[] = {
 	"1",
 
 	"cos(a x)^5 / sin(a x)",
-	"log(abs(sin(a x))) / a + sin(a x)^4 / (4 a) - sin(a x)^2 / a",
+	"log(sin(a x)) / a + sin(a x)^4 / (4 a) - sin(a x)^2 / a",
 	"1",
 
 	"cos(a x)^3 / sin(a x)",
-	"log(abs(sin(a x))) / a - sin(a x)^2 / (2 a)",
+	"log(sin(a x)) / a - sin(a x)^2 / (2 a)",
 	"1",
 
 	"cos(a x) sin(a x)^3",

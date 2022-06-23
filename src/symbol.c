@@ -254,7 +254,6 @@ struct se stab[] = {
 
 	{ "S",			S_UPPER,	NULL			},
 	{ "s",			S_LOWER,	NULL			},
-	{ "sgn",		SGN,		eval_sgn		},
 	{ "simplify",		SIMPLIFY,	eval_simplify		},
 	{ "sin",		SIN,		eval_sin		},
 	{ "sinh",		SINH,		eval_sinh		},

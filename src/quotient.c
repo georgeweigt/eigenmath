@@ -17,11 +17,11 @@ eval_quotient(struct atom *p1)
 	} else
 		push_symbol(X_LOWER);
 
-	divpoly();
+	quotient();
 }
 
 void
-divpoly(void)
+quotient(void)
 {
 	int i, k, m, n, p, q;
 	struct atom *P, *Q, *T, *X, *Y;

@@ -240,15 +240,14 @@ struct atom {
 
 #define S_UPPER		(18 * NSYM + 0)
 #define S_LOWER		(18 * NSYM + 1)
-#define SGN		(18 * NSYM + 2)
-#define SIMPLIFY	(18 * NSYM + 3)
-#define SIN		(18 * NSYM + 4)
-#define SINH		(18 * NSYM + 5)
-#define SQRT		(18 * NSYM + 6)
-#define STATUS		(18 * NSYM + 7)
-#define STOP		(18 * NSYM + 8)
-#define SUBST		(18 * NSYM + 9)
-#define SUM		(18 * NSYM + 10)
+#define SIMPLIFY	(18 * NSYM + 2)
+#define SIN		(18 * NSYM + 3)
+#define SINH		(18 * NSYM + 4)
+#define SQRT		(18 * NSYM + 5)
+#define STATUS		(18 * NSYM + 6)
+#define STOP		(18 * NSYM + 7)
+#define SUBST		(18 * NSYM + 8)
+#define SUM		(18 * NSYM + 9)
 
 #define T_UPPER		(19 * NSYM + 0)
 #define T_LOWER		(19 * NSYM + 1)
@@ -551,7 +550,6 @@ void dtanh(struct atom *p1, struct atom *p2);
 void darcsinh(struct atom *p1, struct atom *p2);
 void darccosh(struct atom *p1, struct atom *p2);
 void darctanh(struct atom *p1, struct atom *p2);
-void dabs(struct atom *p1, struct atom *p2);
 void derf(struct atom *p1, struct atom *p2);
 void derfc(struct atom *p1, struct atom *p2);
 void dbesselj0(struct atom *p1, struct atom *p2);
@@ -869,7 +867,7 @@ void print_str(char *s);
 void print_char(int c);
 void eval_product(struct atom *p1);
 void eval_quotient(struct atom *p1);
-void divpoly(void);
+void quotient(void);
 void eval_rationalize(struct atom *p1);
 void rationalize(void);
 void eval_real(struct atom *p1);
@@ -928,8 +926,6 @@ void setq_indexed(struct atom *p1);
 void set_component(struct atom *LVAL, struct atom *RVAL, int h);
 void setq_usrfunc(struct atom *p1);
 void convert_body(struct atom *A);
-void eval_sgn(struct atom *p1);
-void sgn(void);
 void eval_simplify(struct atom *p1);
 void simplify(void);
 void simplify_pass1(void);
@@ -5011,10 +5007,6 @@ d_scalar_scalar(struct atom *F, struct atom *X)
 		darctanh(F, X);
 		return;
 	}
-	if (car(F) == symbol(ABS)) {
-		dabs(F, X);
-		return;
-	}
 	if (car(F) == symbol(ERF)) {
 		derf(F, X);
 		return;
@@ -5349,17 +5341,6 @@ darctanh(struct atom *p1, struct atom *p2)
 	power();
 	subtract();
 	reciprocate();
-	multiply();
-}
-
-void
-dabs(struct atom *p1, struct atom *p2)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push(cadr(p1));
-	sgn();
 	multiply();
 }
 
@@ -9518,11 +9499,11 @@ char *integral_tab_trig[] = {
 	"1",
 
 	"cos(a x)^5 / sin(a x)",
-	"log(abs(sin(a x))) / a + sin(a x)^4 / (4 a) - sin(a x)^2 / a",
+	"log(sin(a x)) / a + sin(a x)^4 / (4 a) - sin(a x)^2 / a",
 	"1",
 
 	"cos(a x)^3 / sin(a x)",
-	"log(abs(sin(a x))) / a - sin(a x)^2 / (2 a)",
+	"log(sin(a x)) / a - sin(a x)^2 / (2 a)",
 	"1",
 
 	"cos(a x) sin(a x)^3",
@@ -15810,11 +15791,11 @@ eval_quotient(struct atom *p1)
 		eval();
 	} else
 		push_symbol(X_LOWER);
-	divpoly();
+	quotient();
 }
 
 void
-divpoly(void)
+quotient(void)
 {
 	int i, k, m, n, p, q;
 	struct atom *P, *Q, *T, *X, *Y;
@@ -17371,31 +17352,6 @@ convert_body(struct atom *A)
 }
 
 void
-eval_sgn(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	sgn();
-}
-
-void
-sgn(void)
-{
-	struct atom *p1;
-	p1 = pop();
-	if (!isnum(p1)) {
-		push_symbol(SGN);
-		push(p1);
-		list(2);
-	} else if (iszero(p1))
-		push_integer(0);
-	else if (isnegativenumber(p1))
-		push_integer(-1);
-	else
-		push_integer(1);
-}
-
-void
 eval_simplify(struct atom *p1)
 {
 	push(cadr(p1));
@@ -18225,7 +18181,6 @@ struct se stab[] = {
 
 	{ "S",			S_UPPER,	NULL			},
 	{ "s",			S_LOWER,	NULL			},
-	{ "sgn",		SGN,		eval_sgn		},
 	{ "simplify",		SIMPLIFY,	eval_simplify		},
 	{ "sin",		SIN,		eval_sin		},
 	{ "sinh",		SINH,		eval_sinh		},

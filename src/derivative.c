@@ -191,11 +191,6 @@ d_scalar_scalar(struct atom *F, struct atom *X)
 		return;
 	}
 
-	if (car(F) == symbol(ABS)) {
-		dabs(F, X);
-		return;
-	}
-
 	if (car(F) == symbol(ERF)) {
 		derf(F, X);
 		return;
@@ -555,17 +550,6 @@ darctanh(struct atom *p1, struct atom *p2)
 	power();
 	subtract();
 	reciprocate();
-	multiply();
-}
-
-void
-dabs(struct atom *p1, struct atom *p2)
-{
-	push(cadr(p1));
-	push(p2);
-	derivative();
-	push(cadr(p1));
-	sgn();
 	multiply();
 }
 
