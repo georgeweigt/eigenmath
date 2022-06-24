@@ -175,7 +175,7 @@ combine_factors(int h)
 	int i, j;
 	sort_factors_provisional(h);
 	for (i = h; i < tos - 1; i++) {
-		if (combine_adjacent_factors(i)) {
+		if (combine_factors_nib(i, i + 1)) {
 			// remove the factor
 			for (j = i + 2; j < tos; j++)
 				stack[j - 1] = stack[j];
@@ -185,37 +185,13 @@ combine_factors(int h)
 	}
 }
 
-void
-sort_factors_provisional(int h)
-{
-	qsort(stack + h, tos - h, sizeof (struct atom *), sort_factors_provisional_func);
-}
-
 int
-sort_factors_provisional_func(const void *q1, const void *q2)
-{
-	return cmp_factors_provisional(*((struct atom **) q1), *((struct atom **) q2));
-}
-
-int
-cmp_factors_provisional(struct atom *p1, struct atom *p2)
-{
-	if (car(p1) == symbol(POWER))
-		p1 = cadr(p1); // p1 = base
-
-	if (car(p2) == symbol(POWER))
-		p2 = cadr(p2); // p2 = base
-
-	return cmp_expr(p1, p2);
-}
-
-int
-combine_adjacent_factors(int i)
+combine_factors_nib(int i, int j)
 {
 	struct atom *p1, *p2, *BASE1, *EXPO1, *BASE2, *EXPO2;
 
 	p1 = stack[i];
-	p2 = stack[i + 1];
+	p2 = stack[j];
 
 	if (car(p1) == symbol(POWER)) {
 		BASE1 = cadr(p1);
@@ -249,6 +225,30 @@ combine_adjacent_factors(int i)
 	stack[i] = pop();
 
 	return 1;
+}
+
+void
+sort_factors_provisional(int h)
+{
+	qsort(stack + h, tos - h, sizeof (struct atom *), sort_factors_provisional_func);
+}
+
+int
+sort_factors_provisional_func(const void *q1, const void *q2)
+{
+	return cmp_factors_provisional(*((struct atom **) q1), *((struct atom **) q2));
+}
+
+int
+cmp_factors_provisional(struct atom *p1, struct atom *p2)
+{
+	if (car(p1) == symbol(POWER))
+		p1 = cadr(p1); // p1 = base
+
+	if (car(p2) == symbol(POWER))
+		p2 = cadr(p2); // p2 = base
+
+	return cmp_expr(p1, p2);
 }
 
 void

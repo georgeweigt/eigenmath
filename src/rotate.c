@@ -1,14 +1,10 @@
 #include "defs.h"
 
-#undef N
-#undef KET0
-#undef KET1
-
-#define N PSI->u.tensor->nelem
+#define NUMQBITS PSI->u.tensor->nelem
 #define KET0 PSI->u.tensor->elem[i ^ n]
 #define KET1 PSI->u.tensor->elem[i]
 
-#define POWEROF2(x) ((x & (x - 1)) == 0)
+#define POWEROF2(x) (((x) & ((x) - 1)) == 0)
 
 void
 eval_rotate(struct atom *p1)
@@ -127,7 +123,7 @@ rotate_h(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
@@ -156,7 +152,7 @@ rotate_p(struct atom *PSI, struct atom *PHASE, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
@@ -176,7 +172,7 @@ rotate_w(struct atom *PSI, uint32_t c, int m, int n)
 	int i;
 	m = 1 << m;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if ((i & m) && !(i & n)) {
@@ -193,7 +189,7 @@ rotate_x(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
@@ -210,7 +206,7 @@ rotate_y(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
@@ -232,7 +228,7 @@ rotate_z(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {

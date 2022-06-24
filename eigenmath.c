@@ -784,10 +784,10 @@ struct atom * multiply_tensor_factors(int h);
 void multiply_scalar_factors(int h);
 struct atom * combine_numerical_factors(int h, struct atom *COEF);
 void combine_factors(int h);
+int combine_factors_nib(int i, int j);
 void sort_factors_provisional(int h);
 int sort_factors_provisional_func(const void *q1, const void *q2);
 int cmp_factors_provisional(struct atom *p1, struct atom *p2);
-int combine_adjacent_factors(int i);
 void factor_factors_maybe(int h);
 void normalize_power_factors(int h);
 void expand_sum_factors(int h);
@@ -7363,10 +7363,9 @@ fmt_symbol(struct atom *p)
 	fmt_update_subscript();
 }
 
-#undef N
-#define N 49
+#define NUM_SYMBOL_NAMES 49
 
-char *symbol_name_tab[N] = {
+char *symbol_name_tab[NUM_SYMBOL_NAMES] = {
 
 	"Alpha",
 	"Beta",
@@ -7421,7 +7420,7 @@ char *symbol_name_tab[N] = {
 	"hbar",
 };
 
-int symbol_unicode_tab[N] = {
+int symbol_unicode_tab[NUM_SYMBOL_NAMES] = {
 
 	0xce91, // Alpha
 	0xce92, // Beta
@@ -7481,13 +7480,13 @@ fmt_symbol_fragment(char *s, int k)
 {
 	int c, i, n;
 	char *t;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUM_SYMBOL_NAMES; i++) {
 		t = symbol_name_tab[i];
 		n = (int) strlen(t);
 		if (strncmp(s + k, t, n) == 0)
 			break;
 	}
-	if (i == N) {
+	if (i == NUM_SYMBOL_NAMES) {
 		fmt_roman_char(s[k]);
 		return k + 1;
 	}
@@ -12145,7 +12144,7 @@ combine_factors(int h)
 	int i, j;
 	sort_factors_provisional(h);
 	for (i = h; i < tos - 1; i++) {
-		if (combine_adjacent_factors(i)) {
+		if (combine_factors_nib(i, i + 1)) {
 			// remove the factor
 			for (j = i + 2; j < tos; j++)
 				stack[j - 1] = stack[j];
@@ -12155,34 +12154,12 @@ combine_factors(int h)
 	}
 }
 
-void
-sort_factors_provisional(int h)
-{
-	qsort(stack + h, tos - h, sizeof (struct atom *), sort_factors_provisional_func);
-}
-
 int
-sort_factors_provisional_func(const void *q1, const void *q2)
-{
-	return cmp_factors_provisional(*((struct atom **) q1), *((struct atom **) q2));
-}
-
-int
-cmp_factors_provisional(struct atom *p1, struct atom *p2)
-{
-	if (car(p1) == symbol(POWER))
-		p1 = cadr(p1); // p1 = base
-	if (car(p2) == symbol(POWER))
-		p2 = cadr(p2); // p2 = base
-	return cmp_expr(p1, p2);
-}
-
-int
-combine_adjacent_factors(int i)
+combine_factors_nib(int i, int j)
 {
 	struct atom *p1, *p2, *BASE1, *EXPO1, *BASE2, *EXPO2;
 	p1 = stack[i];
-	p2 = stack[i + 1];
+	p2 = stack[j];
 	if (car(p1) == symbol(POWER)) {
 		BASE1 = cadr(p1);
 		EXPO1 = caddr(p1);
@@ -12209,6 +12186,28 @@ combine_adjacent_factors(int i)
 	list(3);
 	stack[i] = pop();
 	return 1;
+}
+
+void
+sort_factors_provisional(int h)
+{
+	qsort(stack + h, tos - h, sizeof (struct atom *), sort_factors_provisional_func);
+}
+
+int
+sort_factors_provisional_func(const void *q1, const void *q2)
+{
+	return cmp_factors_provisional(*((struct atom **) q1), *((struct atom **) q2));
+}
+
+int
+cmp_factors_provisional(struct atom *p1, struct atom *p2)
+{
+	if (car(p1) == symbol(POWER))
+		p1 = cadr(p1); // p1 = base
+	if (car(p2) == symbol(POWER))
+		p2 = cadr(p2); // p2 = base
+	return cmp_expr(p1, p2);
 }
 
 void
@@ -15738,15 +15737,11 @@ roots(void)
 	push(R);
 }
 
-#undef N
-#undef KET0
-#undef KET1
-
-#define N PSI->u.tensor->nelem
+#define NUMQBITS PSI->u.tensor->nelem
 #define KET0 PSI->u.tensor->elem[i ^ n]
 #define KET1 PSI->u.tensor->elem[i]
 
-#define POWEROF2(x) ((x & (x - 1)) == 0)
+#define POWEROF2(x) (((x) & ((x) - 1)) == 0)
 
 void
 eval_rotate(struct atom *p1)
@@ -15845,7 +15840,7 @@ rotate_h(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
@@ -15874,7 +15869,7 @@ rotate_p(struct atom *PSI, struct atom *PHASE, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
@@ -15894,7 +15889,7 @@ rotate_w(struct atom *PSI, uint32_t c, int m, int n)
 	int i;
 	m = 1 << m;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if ((i & m) && !(i & n)) {
@@ -15911,7 +15906,7 @@ rotate_x(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
@@ -15928,7 +15923,7 @@ rotate_y(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
@@ -15950,7 +15945,7 @@ rotate_z(struct atom *PSI, uint32_t c, int n)
 {
 	int i;
 	n = 1 << n;
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUMQBITS; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {

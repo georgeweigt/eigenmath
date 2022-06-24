@@ -702,10 +702,9 @@ fmt_symbol(struct atom *p)
 	fmt_update_subscript();
 }
 
-#undef N
-#define N 49
+#define NUM_SYMBOL_NAMES 49
 
-char *symbol_name_tab[N] = {
+char *symbol_name_tab[NUM_SYMBOL_NAMES] = {
 
 	"Alpha",
 	"Beta",
@@ -760,7 +759,7 @@ char *symbol_name_tab[N] = {
 	"hbar",
 };
 
-int symbol_unicode_tab[N] = {
+int symbol_unicode_tab[NUM_SYMBOL_NAMES] = {
 
 	0xce91, // Alpha
 	0xce92, // Beta
@@ -821,14 +820,14 @@ fmt_symbol_fragment(char *s, int k)
 	int c, i, n;
 	char *t;
 
-	for (i = 0; i < N; i++) {
+	for (i = 0; i < NUM_SYMBOL_NAMES; i++) {
 		t = symbol_name_tab[i];
 		n = (int) strlen(t);
 		if (strncmp(s + k, t, n) == 0)
 			break;
 	}
 
-	if (i == N) {
+	if (i == NUM_SYMBOL_NAMES) {
 		fmt_roman_char(s[k]);
 		return k + 1;
 	}
