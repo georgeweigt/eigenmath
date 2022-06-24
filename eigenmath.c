@@ -1139,7 +1139,7 @@ add_terms(int n)
 		list(n);
 		push_symbol(ADD);
 		swap();
-		cons();
+		cons(); // prepend ADD to list
 	}
 	if (!istensor(T))
 		return;
@@ -1304,17 +1304,17 @@ combine_terms_nib(int i, int j)
 	if (isplusone(p4) && !isdouble(p4)) {
 		if (denorm) {
 			push_symbol(MULTIPLY);
-			push(p3);
-			cons();
+			push(p3); // p3 is a list, not an atom
+			cons(); // prepend MULTIPLY to p3
 		} else
 			push(p3);
 	} else {
 		if (denorm) {
 			push_symbol(MULTIPLY);
 			push(p4);
-			push(p3);
-			cons();
-			cons();
+			push(p3); // p3 is a list, not an atom
+			cons(); // prepend p4 to p3
+			cons(); // prepend MULTIPLY
 		} else {
 			push_symbol(MULTIPLY);
 			push(p4);
@@ -12111,7 +12111,7 @@ multiply_scalar_factors(int h)
 		list(n);
 		push_symbol(MULTIPLY);
 		swap();
-		cons();
+		cons(); // prepend MULTIPLY to list
 		break;
 	}
 }
@@ -12282,7 +12282,7 @@ expand_sum_factors(int h)
 		list(n);
 		push_symbol(MULTIPLY);
 		swap();
-		cons();
+		cons(); // prepend MULTIPLY to list
 	}
 	p1 = pop(); // p1 is the multiplier
 	p2 = cdr(p2); // p2 is the sum factor
@@ -13030,7 +13030,7 @@ power(void)
 			list(n);
 			push_symbol(MULTIPLY);
 			swap();
-			cons();
+			cons(); // prepend MULTIPLY to list
 		}
 		return;
 	}
@@ -13897,7 +13897,7 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 	list(n);
 	push_symbol(MULTIPLY);
 	swap();
-	cons();
+	cons(); // prepend MULTIPLY to list
 }
 
 // BASE is an integer
@@ -15689,12 +15689,12 @@ void
 roots(void)
 {
 	int h, i, n;
-	struct atom *C, *F, *P, *R, *X;
+	struct atom *C, *L, *P, *R, *X;
 	X = pop();
 	P = pop();
 	h = tos;
 	factorpoly_coeffs(P, X); // put coeffs on stack
-	F = symbol(NIL);
+	L = symbol(NIL);
 	while (tos - h > 1) {
 		C = pop(); // leading coeff
 		if (iszero(C))
@@ -15711,23 +15711,23 @@ roots(void)
 			break;
 		R = pop();
 		push(R);
-		push(F);
-		cons();
-		F = pop();
+		push(L);
+		cons(); // prepend R to list L
+		L = pop();
 		factorpoly_divide(h, R);
 		pop(); // remove leading coeff
 	}
 	tos = h; // pop all
-	n = length(F);
+	n = length(L);
 	if (n == 0)
 		stop("roots");
 	if (n == 1) {
-		push(car(F));
+		push(car(L));
 		return;
 	}
 	for (i = 0; i < n; i++) {
-		push(car(F));
-		F = cdr(F);
+		push(car(L));
+		L = cdr(L);
 	}
 	sort(n);
 	R = alloc_vector(n);
@@ -16392,7 +16392,7 @@ scan_expression(void)
 		list(tos - h);
 		push_symbol(ADD);
 		swap();
-		cons();
+		cons(); // prepend ADD to list
 	}
 }
 
@@ -16432,7 +16432,7 @@ scan_term(void)
 		list(tos - h);
 		push_symbol(MULTIPLY);
 		swap();
-		cons();
+		cons(); // prepend MULTIPLY to list
 	}
 }
 
@@ -16751,17 +16751,17 @@ static_negate(void)
 		return;
 	}
 	if (car(p1) == symbol(MULTIPLY)) {
-		push(car(p1));
+		push_symbol(MULTIPLY);
 		if (isnum(cadr(p1))) {
-			push(cadr(p1));
+			push(cadr(p1)); // A
 			negate();
-			push(cddr(p1));
+			push(cddr(p1)); // B
 		} else {
-			push_integer(-1);
-			push(cdr(p1));
+			push_integer(-1); // A
+			push(cdr(p1)); // B
 		}
-		cons();
-		cons();
+		cons(); // prepend A to B
+		cons(); // prepend MULTIPLY
 		return;
 	}
 	push_symbol(MULTIPLY);

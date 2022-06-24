@@ -117,7 +117,7 @@ scan_expression(void)
 		list(tos - h);
 		push_symbol(ADD);
 		swap();
-		cons();
+		cons(); // prepend ADD to list
 	}
 }
 
@@ -164,7 +164,7 @@ scan_term(void)
 		list(tos - h);
 		push_symbol(MULTIPLY);
 		swap();
-		cons();
+		cons(); // prepend MULTIPLY to list
 	}
 }
 
@@ -524,17 +524,17 @@ static_negate(void)
 	}
 
 	if (car(p1) == symbol(MULTIPLY)) {
-		push(car(p1));
+		push_symbol(MULTIPLY);
 		if (isnum(cadr(p1))) {
-			push(cadr(p1));
+			push(cadr(p1)); // A
 			negate();
-			push(cddr(p1));
+			push(cddr(p1)); // B
 		} else {
-			push_integer(-1);
-			push(cdr(p1));
+			push_integer(-1); // A
+			push(cdr(p1)); // B
 		}
-		cons();
-		cons();
+		cons(); // prepend A to B
+		cons(); // prepend MULTIPLY
 		return;
 	}
 

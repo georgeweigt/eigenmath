@@ -124,7 +124,7 @@ power(void)
 			list(n);
 			push_symbol(MULTIPLY);
 			swap();
-			cons();
+			cons(); // prepend MULTIPLY to list
 		}
 		return;
 	}

@@ -52,7 +52,7 @@ add_terms(int n)
 		list(n);
 		push_symbol(ADD);
 		swap();
-		cons();
+		cons(); // prepend ADD to list
 	}
 
 	if (!istensor(T))
@@ -244,17 +244,17 @@ combine_terms_nib(int i, int j)
 	if (isplusone(p4) && !isdouble(p4)) {
 		if (denorm) {
 			push_symbol(MULTIPLY);
-			push(p3);
-			cons();
+			push(p3); // p3 is a list, not an atom
+			cons(); // prepend MULTIPLY to p3
 		} else
 			push(p3);
 	} else {
 		if (denorm) {
 			push_symbol(MULTIPLY);
 			push(p4);
-			push(p3);
-			cons();
-			cons();
+			push(p3); // p3 is a list, not an atom
+			cons(); // prepend p4 to p3
+			cons(); // prepend MULTIPLY
 		} else {
 			push_symbol(MULTIPLY);
 			push(p4);

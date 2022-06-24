@@ -142,7 +142,7 @@ multiply_scalar_factors(int h)
 		list(n);
 		push_symbol(MULTIPLY);
 		swap();
-		cons();
+		cons(); // prepend MULTIPLY to list
 		break;
 	}
 }
@@ -337,7 +337,7 @@ expand_sum_factors(int h)
 		list(n);
 		push_symbol(MULTIPLY);
 		swap();
-		cons();
+		cons(); // prepend MULTIPLY to list
 	}
 
 	p1 = pop(); // p1 is the multiplier

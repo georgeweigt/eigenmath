@@ -21,7 +21,7 @@ void
 roots(void)
 {
 	int h, i, n;
-	struct atom *C, *F, *P, *R, *X;
+	struct atom *C, *L, *P, *R, *X;
 
 	X = pop();
 	P = pop();
@@ -30,7 +30,7 @@ roots(void)
 
 	factorpoly_coeffs(P, X); // put coeffs on stack
 
-	F = symbol(NIL);
+	L = symbol(NIL);
 
 	while (tos - h > 1) {
 
@@ -56,9 +56,9 @@ roots(void)
 		R = pop();
 
 		push(R);
-		push(F);
-		cons();
-		F = pop();
+		push(L);
+		cons(); // prepend R to list L
+		L = pop();
 
 		factorpoly_divide(h, R);
 
@@ -67,19 +67,19 @@ roots(void)
 
 	tos = h; // pop all
 
-	n = length(F);
+	n = length(L);
 
 	if (n == 0)
 		stop("roots");
 
 	if (n == 1) {
-		push(car(F));
+		push(car(L));
 		return;
 	}
 
 	for (i = 0; i < n; i++) {
-		push(car(F));
-		F = cdr(F);
+		push(car(L));
+		L = cdr(L);
 	}
 
 	sort(n);

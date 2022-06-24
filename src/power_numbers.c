@@ -123,7 +123,7 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 	list(n);
 	push_symbol(MULTIPLY);
 	swap();
-	cons();
+	cons(); // prepend MULTIPLY to list
 }
 
 // BASE is an integer
