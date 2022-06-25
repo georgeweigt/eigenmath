@@ -65,7 +65,7 @@ push_string(char *s)
 	s = strdup(s);
 	if (s == NULL)
 		exit(1);
-	p->k = STR;
+	p->atomtype = STR;
 	p->u.str = s;
 	push(p);
 	string_count++;

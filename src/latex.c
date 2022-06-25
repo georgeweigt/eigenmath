@@ -215,7 +215,7 @@ latex_denominators(struct atom *p)
 void
 latex_factor(struct atom *p)
 {
-	switch (p->k) {
+	switch (p->atomtype) {
 
 	case RATIONAL:
 		latex_rational(p);

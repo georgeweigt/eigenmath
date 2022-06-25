@@ -67,7 +67,7 @@ push_bignum(int sign, uint32_t *a, uint32_t *b)
 	save_b = b;
 
 	p = alloc();
-	p->k = RATIONAL;
+	p->atomtype = RATIONAL;
 	p->sign = sign;
 	p->u.q.a = a;
 	p->u.q.b = b;
@@ -104,7 +104,7 @@ push_double(double d)
 {
 	struct atom *p;
 	p = alloc();
-	p->k = DOUBLE;
+	p->atomtype = DOUBLE;
 	p->u.d = d;
 	push(p);
 }

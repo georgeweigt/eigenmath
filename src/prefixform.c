@@ -30,7 +30,7 @@ void
 prefixform(struct atom *p)
 {
 	char buf[24], *s;
-	switch (p->k) {
+	switch (p->atomtype) {
 	case CONS:
 		print_char('(');
 		prefixform(car(p));

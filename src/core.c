@@ -34,11 +34,11 @@ alloc_block(void)
 	mem[block_count++] = p;
 
 	for (i = 0; i < BLOCKSIZE - 1; i++) {
-		p[i].k = FREEATOM;
+		p[i].atomtype = FREEATOM;
 		p[i].u.next = p + i + 1;
 	}
 
-	p[i].k = FREEATOM;
+	p[i].atomtype = FREEATOM;
 	p[i].u.next = NULL;
 
 	free_list = p;
@@ -74,7 +74,7 @@ alloc_tensor(int nelem)
 	t = malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
 	if (t == NULL)
 		exit(1);
-	p->k = TENSOR;
+	p->atomtype = TENSOR;
 	p->u.tensor = t;
 	t->nelem = nelem;
 	for (i = 0; i < nelem; i++)
@@ -137,7 +137,7 @@ gc(void)
 
 			// still tagged so it's unused, put on free list
 
-			switch (p[j].k) {
+			switch (p[j].atomtype) {
 			case KSYM:
 				free(p[j].u.ksym.name);
 				ksym_count--;
@@ -162,7 +162,7 @@ gc(void)
 				break; // FREEATOM, CONS, or DOUBLE
 			}
 
-			p[j].k = FREEATOM;
+			p[j].atomtype = FREEATOM;
 			p[j].u.next = free_list;
 
 			free_list = p + j;
@@ -213,7 +213,7 @@ cons(void)
 {
 	struct atom *p;
 	p = alloc();
-	p->k = CONS;
+	p->atomtype = CONS;
 	p->u.cons.cdr = pop();
 	p->u.cons.car = pop();
 	push(p);

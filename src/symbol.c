@@ -20,7 +20,7 @@ lookup(char *s)
 		p = symtab[k + i];
 		if (p == NULL)
 			break;
-		if (p->k == KSYM)
+		if (p->atomtype == KSYM)
 			t = p->u.ksym.name;
 		else
 			t = p->u.usym.name;
@@ -35,7 +35,7 @@ lookup(char *s)
 	s = strdup(s);
 	if (s == NULL)
 		exit(1);
-	p->k = USYM;
+	p->atomtype = USYM;
 	p->u.usym.name = s;
 	p->u.usym.index = k + i;
 
@@ -332,12 +332,12 @@ init_symbol_table(void)
 		if (s == NULL)
 			exit(1);
 		if (stab[i].func) {
-			p->k = KSYM;
+			p->atomtype = KSYM;
 			p->u.ksym.name = s;
 			p->u.ksym.func = stab[i].func;
 			ksym_count++;
 		} else {
-			p->k = USYM;
+			p->atomtype = USYM;
 			p->u.usym.name = s;
 			p->u.usym.index = stab[i].index;
 			usym_count++;

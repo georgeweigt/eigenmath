@@ -67,8 +67,10 @@ struct atom {
 		struct tensor *tensor;
 		struct atom *next;
 	} u;
-	uint8_t k, tag, sign;
+	uint8_t atomtype, tag, sign;
 };
+
+// atom types
 
 #define FREEATOM	0
 #define CONS		1
@@ -78,6 +80,8 @@ struct atom {
 #define DOUBLE		5
 #define STR		6
 #define TENSOR		7
+
+// symbol table
 
 #define ABS		(0 * NSYM + 0)
 #define ADJ		(0 * NSYM + 1)
@@ -276,15 +280,15 @@ struct tensor {
 
 #define symbol(x) symtab[x]
 #define push_symbol(x) push(symbol(x))
-#define iscons(p) ((p)->k == CONS)
-#define isrational(p) ((p)->k == RATIONAL)
-#define isdouble(p) ((p)->k == DOUBLE)
+#define iscons(p) ((p)->atomtype == CONS)
+#define isrational(p) ((p)->atomtype == RATIONAL)
+#define isdouble(p) ((p)->atomtype == DOUBLE)
 #define isnum(p) (isrational(p) || isdouble(p))
-#define isstr(p) ((p)->k == STR)
-#define istensor(p) ((p)->k == TENSOR)
-#define issymbol(p) ((p)->k == KSYM || (p)->k == USYM)
-#define iskeyword(p) ((p)->k == KSYM)
-#define isusersymbol(p) ((p)->k == USYM)
+#define isstr(p) ((p)->atomtype == STR)
+#define istensor(p) ((p)->atomtype == TENSOR)
+#define iskeyword(p) ((p)->atomtype == KSYM)
+#define isusersymbol(p) ((p)->atomtype == USYM)
+#define issymbol(p) (iskeyword(p) || isusersymbol(p))
 
 #define car(p) (iscons(p) ? (p)->u.cons.car : symbol(NIL))
 #define cdr(p) (iscons(p) ? (p)->u.cons.cdr : symbol(NIL))

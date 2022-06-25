@@ -363,7 +363,7 @@ factor_factor(void)
 		BASE = cadr(FARG);
 		EXPO = caddr(FARG);
 
-		if (BASE->k != RATIONAL || EXPO->k != RATIONAL) {
+		if (!isrational(BASE) || !isrational(EXPO)) {
 			push(FARG);
 			return;
 		}
@@ -397,7 +397,7 @@ factor_factor(void)
 		return;
 	}
 
-	if (FARG->k != RATIONAL || iszero(FARG) || isplusone(FARG) || isminusone(FARG)) {
+	if (!isrational(FARG) || iszero(FARG) || isplusone(FARG) || isminusone(FARG)) {
 		push(FARG);
 		return;
 	}

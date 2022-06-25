@@ -140,7 +140,7 @@ run_file(char *filename)
 	buf = malloc(n + 1);
 	if (buf == NULL)
 		exit(1);
-	p1->k = STR;
+	p1->atomtype = STR;
 	p1->u.str = buf; // buf is freed on next gc
 	string_count++;
 

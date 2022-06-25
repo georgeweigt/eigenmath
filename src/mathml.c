@@ -223,7 +223,7 @@ mml_denominators(struct atom *p)
 void
 mml_factor(struct atom *p)
 {
-	switch (p->k) {
+	switch (p->atomtype) {
 
 	case RATIONAL:
 		mml_rational(p);
