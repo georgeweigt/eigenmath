@@ -21,7 +21,6 @@
 		7FAB2434271D0293007ED5D2 /* factor.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23C3271D0293007ED5D2 /* factor.c */; };
 		7FAB2435271D0293007ED5D2 /* roots.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23C4271D0293007ED5D2 /* roots.c */; };
 		7FAB2437271D0293007ED5D2 /* erfc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23C7271D0293007ED5D2 /* erfc.c */; };
-		7FAB2438271D0293007ED5D2 /* eigen.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23C8271D0293007ED5D2 /* eigen.c */; };
 		7FAB243A271D0293007ED5D2 /* expsin.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23CA271D0293007ED5D2 /* expsin.c */; };
 		7FAB243B271D0293007ED5D2 /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23CB271D0293007ED5D2 /* print.c */; };
 		7FAB243C271D0293007ED5D2 /* imag.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23CC271D0293007ED5D2 /* imag.c */; };
@@ -117,6 +116,8 @@
 		7FAE1432271D0FD4001234C6 /* app.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1426271D0FD4001234C6 /* app.c */; };
 		7FAE1433271D0FD4001234C6 /* fontinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1427271D0FD4001234C6 /* fontinfo.c */; };
 		7FC9CC1528491F4B00808C60 /* taylor.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FC9CC1428491F4B00808C60 /* taylor.c */; };
+		7FD15F352867A2D400477307 /* eigenvec.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FD15F342867A2D400477307 /* eigenvec.c */; };
+		7FD15F382867A4D400477307 /* sgn.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FD15F372867A4D300477307 /* sgn.c */; };
 		7FF6B91C271DCAC20047F0A7 /* Eigenmath.help in Resources */ = {isa = PBXBuildFile; fileRef = 7FF6B91A271DCAC20047F0A7 /* Eigenmath.help */; };
 /* End PBXBuildFile section */
 
@@ -140,7 +141,6 @@
 		7FAB23C4271D0293007ED5D2 /* roots.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = roots.c; sourceTree = "<group>"; };
 		7FAB23C5271D0293007ED5D2 /* defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defs.h; sourceTree = "<group>"; };
 		7FAB23C7271D0293007ED5D2 /* erfc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = erfc.c; sourceTree = "<group>"; };
-		7FAB23C8271D0293007ED5D2 /* eigen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eigen.c; sourceTree = "<group>"; };
 		7FAB23CA271D0293007ED5D2 /* expsin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = expsin.c; sourceTree = "<group>"; };
 		7FAB23CB271D0293007ED5D2 /* print.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = print.c; sourceTree = "<group>"; };
 		7FAB23CC271D0293007ED5D2 /* imag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = imag.c; sourceTree = "<group>"; };
@@ -241,6 +241,8 @@
 		7FAE1426271D0FD4001234C6 /* app.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = app.c; sourceTree = "<group>"; };
 		7FAE1427271D0FD4001234C6 /* fontinfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fontinfo.c; sourceTree = "<group>"; };
 		7FC9CC1428491F4B00808C60 /* taylor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = taylor.c; sourceTree = "<group>"; };
+		7FD15F342867A2D400477307 /* eigenvec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eigenvec.c; sourceTree = "<group>"; };
+		7FD15F372867A4D300477307 /* sgn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sgn.c; sourceTree = "<group>"; };
 		7FF6B91B271DCAC20047F0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base; path = Base.lproj/Eigenmath.help; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -293,6 +295,8 @@
 		7FAB23B9271D0293007ED5D2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				7FD15F372867A4D300477307 /* sgn.c */,
+				7FD15F342867A2D400477307 /* eigenvec.c */,
 				7FC9CC1428491F4B00808C60 /* taylor.c */,
 				7FAB2428271D0293007ED5D2 /* abs.c */,
 				7FAB2417271D0293007ED5D2 /* add.c */,
@@ -320,7 +324,6 @@
 				7FAB23EC271D0293007ED5D2 /* denominator.c */,
 				7FAB2409271D0293007ED5D2 /* derivative.c */,
 				7FAB23E9271D0293007ED5D2 /* det.c */,
-				7FAB23C8271D0293007ED5D2 /* eigen.c */,
 				7FAB240D271D0293007ED5D2 /* equal.c */,
 				7FAB23CD271D0293007ED5D2 /* erf.c */,
 				7FAB23C7271D0293007ED5D2 /* erfc.c */,
@@ -529,6 +532,7 @@
 				7F261862274ACDDE00F8B109 /* history.c in Sources */,
 				7FAB243E271D0293007ED5D2 /* circexp.c in Sources */,
 				7FAB2494271D0294007ED5D2 /* real.c in Sources */,
+				7FD15F382867A4D400477307 /* sgn.c in Sources */,
 				7FAB245F271D0293007ED5D2 /* transpose.c in Sources */,
 				7FAB2430271D0293007ED5D2 /* rect.c in Sources */,
 				7FAB2434271D0293007ED5D2 /* factor.c in Sources */,
@@ -563,7 +567,6 @@
 				7FAB246D271D0293007ED5D2 /* power.c in Sources */,
 				7FAB2458271D0293007ED5D2 /* det.c in Sources */,
 				7FAB243C271D0293007ED5D2 /* imag.c in Sources */,
-				7FAB2438271D0293007ED5D2 /* eigen.c in Sources */,
 				7FAE142A271D0FD4001234C6 /* eval_draw.c in Sources */,
 				7FAE142C271D0FD4001234C6 /* shipout.c in Sources */,
 				7FAB247C271D0294007ED5D2 /* symbol.c in Sources */,
@@ -572,6 +575,7 @@
 				7FAB247F271D0294007ED5D2 /* product.c in Sources */,
 				7FAB2442271D0293007ED5D2 /* stack.c in Sources */,
 				7FAB248E271D0294007ED5D2 /* tanh.c in Sources */,
+				7FD15F352867A2D400477307 /* eigenvec.c in Sources */,
 				7FAB2479271D0294007ED5D2 /* arctanh.c in Sources */,
 				7FAB242D271D0293007ED5D2 /* power_natural_number.c in Sources */,
 				7FAB242B271D0293007ED5D2 /* log.c in Sources */,

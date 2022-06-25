@@ -90,6 +90,7 @@ var symtab = {
 "rect":		{printname:RECT,	func:eval_rect},
 "rotate":	{printname:ROTATE,	func:eval_rotate},
 "run":		{printname:RUN,		func:eval_run},
+"sgn":		{printname:SGN,		func:eval_sgn},
 "simplify":	{printname:SIMPLIFY,	func:eval_simplify},
 "sin":		{printname:SIN,		func:eval_sin},
 "sinh":		{printname:SINH,	func:eval_sinh},

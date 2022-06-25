@@ -239,14 +239,15 @@ struct atom {
 
 #define S_UPPER		(18 * NSYM + 0)
 #define S_LOWER		(18 * NSYM + 1)
-#define SIMPLIFY	(18 * NSYM + 2)
-#define SIN		(18 * NSYM + 3)
-#define SINH		(18 * NSYM + 4)
-#define SQRT		(18 * NSYM + 5)
-#define STATUS		(18 * NSYM + 6)
-#define STOP		(18 * NSYM + 7)
-#define SUBST		(18 * NSYM + 8)
-#define SUM		(18 * NSYM + 9)
+#define SGN		(18 * NSYM + 2)
+#define SIMPLIFY	(18 * NSYM + 3)
+#define SIN		(18 * NSYM + 4)
+#define SINH		(18 * NSYM + 5)
+#define SQRT		(18 * NSYM + 6)
+#define STATUS		(18 * NSYM + 7)
+#define STOP		(18 * NSYM + 8)
+#define SUBST		(18 * NSYM + 9)
+#define SUM		(18 * NSYM + 10)
 
 #define T_UPPER		(19 * NSYM + 0)
 #define T_LOWER		(19 * NSYM + 1)
@@ -910,6 +911,8 @@ void setq_indexed(struct atom *p1);
 void set_component(struct atom *LVAL, struct atom *RVAL, int h);
 void setq_usrfunc(struct atom *p1);
 void convert_body(struct atom *A);
+void eval_sgn(struct atom *p1);
+void sgn(void);
 void eval_simplify(struct atom *p1);
 void simplify(void);
 void simplify_pass1(void);
@@ -16919,6 +16922,36 @@ convert_body(struct atom *A)
 }
 
 void
+eval_sgn(struct atom *p1)
+{
+	push(cadr(p1));
+	eval();
+	sgn();
+}
+
+void
+sgn(void)
+{
+	struct atom *p1;
+	p1 = pop();
+	if (!isnum(p1)) {
+		push_symbol(SGN);
+		push(p1);
+		list(2);
+		return;
+	}
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+	if (isnegativenumber(p1)) {
+		push_integer(-1);
+		return;
+	}
+	push_integer(1);
+}
+
+void
 eval_simplify(struct atom *p1)
 {
 	push(cadr(p1));
@@ -17742,6 +17775,7 @@ struct se stab[] = {
 
 	{ "S",			S_UPPER,	NULL			},
 	{ "s",			S_LOWER,	NULL			},
+	{ "sgn",		SGN,		eval_sgn		},
 	{ "simplify",		SIMPLIFY,	eval_simplify		},
 	{ "sin",		SIN,		eval_sin		},
 	{ "sinh",		SINH,		eval_sinh		},

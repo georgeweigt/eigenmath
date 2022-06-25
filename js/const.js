@@ -70,6 +70,7 @@ const REAL = "real";
 const RECT = "rect";
 const ROTATE = "rotate";
 const RUN = "run";
+const SGN = "sgn";
 const SIMPLIFY = "simplify";
 const SIN = "sin";
 const SINH = "sinh";
