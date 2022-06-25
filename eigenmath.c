@@ -103,8 +103,10 @@ struct atom {
 		struct tensor *tensor;
 		struct atom *next;
 	} u;
-	uint8_t k, tag, sign;
+	uint8_t atomtype, tag, sign;
 };
+
+// atom types
 
 #define FREEATOM	0
 #define CONS		1
@@ -114,6 +116,8 @@ struct atom {
 #define DOUBLE		5
 #define STR		6
 #define TENSOR		7
+
+// symbol table
 
 #define ABS		(0 * NSYM + 0)
 #define ADJ		(0 * NSYM + 1)
@@ -312,15 +316,15 @@ struct tensor {
 
 #define symbol(x) symtab[x]
 #define push_symbol(x) push(symbol(x))
-#define iscons(p) ((p)->k == CONS)
-#define isrational(p) ((p)->k == RATIONAL)
-#define isdouble(p) ((p)->k == DOUBLE)
+#define iscons(p) ((p)->atomtype == CONS)
+#define isrational(p) ((p)->atomtype == RATIONAL)
+#define isdouble(p) ((p)->atomtype == DOUBLE)
 #define isnum(p) (isrational(p) || isdouble(p))
-#define isstr(p) ((p)->k == STR)
-#define istensor(p) ((p)->k == TENSOR)
-#define issymbol(p) ((p)->k == KSYM || (p)->k == USYM)
-#define iskeyword(p) ((p)->k == KSYM)
-#define isusersymbol(p) ((p)->k == USYM)
+#define isstr(p) ((p)->atomtype == STR)
+#define istensor(p) ((p)->atomtype == TENSOR)
+#define iskeyword(p) ((p)->atomtype == KSYM)
+#define isusersymbol(p) ((p)->atomtype == USYM)
+#define issymbol(p) (iskeyword(p) || isusersymbol(p))
 
 #define car(p) (iscons(p) ? (p)->u.cons.car : symbol(NIL))
 #define cdr(p) (iscons(p) ? (p)->u.cons.cdr : symbol(NIL))
@@ -2240,7 +2244,7 @@ push_bignum(int sign, uint32_t *a, uint32_t *b)
 	save_a = a;
 	save_b = b;
 	p = alloc();
-	p->k = RATIONAL;
+	p->atomtype = RATIONAL;
 	p->sign = sign;
 	p->u.q.a = a;
 	p->u.q.b = b;
@@ -2271,7 +2275,7 @@ push_double(double d)
 {
 	struct atom *p;
 	p = alloc();
-	p->k = DOUBLE;
+	p->atomtype = DOUBLE;
 	p->u.d = d;
 	push(p);
 }
@@ -3702,10 +3706,10 @@ alloc_block(void)
 		exit(1);
 	mem[block_count++] = p;
 	for (i = 0; i < BLOCKSIZE - 1; i++) {
-		p[i].k = FREEATOM;
+		p[i].atomtype = FREEATOM;
 		p[i].u.next = p + i + 1;
 	}
-	p[i].k = FREEATOM;
+	p[i].atomtype = FREEATOM;
 	p[i].u.next = NULL;
 	free_list = p;
 	free_count = BLOCKSIZE;
@@ -3740,7 +3744,7 @@ alloc_tensor(int nelem)
 	t = malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
 	if (t == NULL)
 		exit(1);
-	p->k = TENSOR;
+	p->atomtype = TENSOR;
 	p->u.tensor = t;
 	t->nelem = nelem;
 	for (i = 0; i < nelem; i++)
@@ -3788,7 +3792,7 @@ gc(void)
 			if (p[j].tag == 0)
 				continue;
 			// still tagged so it's unused, put on free list
-			switch (p[j].k) {
+			switch (p[j].atomtype) {
 			case KSYM:
 				free(p[j].u.ksym.name);
 				ksym_count--;
@@ -3812,7 +3816,7 @@ gc(void)
 			default:
 				break; // FREEATOM, CONS, or DOUBLE
 			}
-			p[j].k = FREEATOM;
+			p[j].atomtype = FREEATOM;
 			p[j].u.next = free_list;
 			free_list = p + j;
 			free_count++;
@@ -3857,7 +3861,7 @@ cons(void)
 {
 	struct atom *p;
 	p = alloc();
-	p->k = CONS;
+	p->atomtype = CONS;
 	p->u.cons.cdr = pop();
 	p->u.cons.car = pop();
 	push(p);
@@ -6457,7 +6461,7 @@ factor_factor(void)
 	if (car(FARG) == symbol(POWER)) {
 		BASE = cadr(FARG);
 		EXPO = caddr(FARG);
-		if (BASE->k != RATIONAL || EXPO->k != RATIONAL) {
+		if (!isrational(BASE) || !isrational(EXPO)) {
 			push(FARG);
 			return;
 		}
@@ -6484,7 +6488,7 @@ factor_factor(void)
 		}
 		return;
 	}
-	if (FARG->k != RATIONAL || iszero(FARG) || isplusone(FARG) || isminusone(FARG)) {
+	if (!isrational(FARG) || iszero(FARG) || isplusone(FARG) || isminusone(FARG)) {
 		push(FARG);
 		return;
 	}
@@ -10235,7 +10239,7 @@ latex_denominators(struct atom *p)
 void
 latex_factor(struct atom *p)
 {
-	switch (p->k) {
+	switch (p->atomtype) {
 	case RATIONAL:
 		latex_rational(p);
 		break;
@@ -11347,7 +11351,7 @@ mml_denominators(struct atom *p)
 void
 mml_factor(struct atom *p)
 {
-	switch (p->k) {
+	switch (p->atomtype) {
 	case RATIONAL:
 		mml_rational(p);
 		break;
@@ -14024,7 +14028,7 @@ void
 prefixform(struct atom *p)
 {
 	char buf[24], *s;
-	switch (p->k) {
+	switch (p->atomtype) {
 	case CONS:
 		print_char('(');
 		prefixform(car(p));
@@ -16121,7 +16125,7 @@ run_file(char *filename)
 	buf = malloc(n + 1);
 	if (buf == NULL)
 		exit(1);
-	p1->k = STR;
+	p1->atomtype = STR;
 	p1->u.str = buf; // buf is freed on next gc
 	string_count++;
 	if (read(fd, buf, n) != n) {
@@ -17500,7 +17504,7 @@ push_string(char *s)
 	s = strdup(s);
 	if (s == NULL)
 		exit(1);
-	p->k = STR;
+	p->atomtype = STR;
 	p->u.str = s;
 	push(p);
 	string_count++;
@@ -17623,7 +17627,7 @@ lookup(char *s)
 		p = symtab[k + i];
 		if (p == NULL)
 			break;
-		if (p->k == KSYM)
+		if (p->atomtype == KSYM)
 			t = p->u.ksym.name;
 		else
 			t = p->u.usym.name;
@@ -17636,7 +17640,7 @@ lookup(char *s)
 	s = strdup(s);
 	if (s == NULL)
 		exit(1);
-	p->k = USYM;
+	p->atomtype = USYM;
 	p->u.usym.name = s;
 	p->u.usym.index = k + i;
 	symtab[k + i] = p;
@@ -17919,12 +17923,12 @@ init_symbol_table(void)
 		if (s == NULL)
 			exit(1);
 		if (stab[i].func) {
-			p->k = KSYM;
+			p->atomtype = KSYM;
 			p->u.ksym.name = s;
 			p->u.ksym.func = stab[i].func;
 			ksym_count++;
 		} else {
-			p->k = USYM;
+			p->atomtype = USYM;
 			p->u.usym.name = s;
 			p->u.usym.index = stab[i].index;
 			usym_count++;
