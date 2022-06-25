@@ -44,10 +44,11 @@
 <a href="#do">do</a><br>
 <a href="#dot">dot</a><br>
 <a href="#draw">draw</a><br>
-<a href="#eval">eval</a><br>
+<a href="#eigenvec">eigenvec</a><br>
 </td>
 
 <td>
+<a href="#eval">eval</a><br>
 <a href="#exp">exp</a><br>
 <a href="#expcos">expcos</a><br>
 <a href="#expcosh">expcosh</a><br>
@@ -62,10 +63,10 @@
 <a href="#hadamard">hadamard</a><br>
 <a href="#i">i</a><br>
 <a href="#imag">imag</a><br>
-<a href="#inner">inner</a><br>
 </td>
 
 <td>
+<a href="#inner">inner</a><br>
 <a href="#integral">integral</a><br>
 <a href="#inv">inv</a><br>
 <a href="#j">j</a><br>
@@ -80,10 +81,10 @@
 <a href="#not">not</a><br>
 <a href="#numerator">numerator</a><br>
 <a href="#or">or</a><br>
-<a href="#outer">outer</a><br>
 </td>
 
 <td>
+<a href="#outer">outer</a><br>
 <a href="#pi">pi</a><br>
 <a href="#polar">polar</a><br>
 <a href="#power">power</a><br>
@@ -98,10 +99,10 @@
 <a href="#run">run</a><br>
 <a href="#simplify">simplify</a><br>
 <a href="#sin">sin</a><br>
-<a href="#sinh">sinh</a><br>
 </td>
 
 <td>
+<a href="#sinh">sinh</a><br>
 <a href="#sqrt">sqrt</a><br>
 <a href="#stop">stop</a><br>
 <a href="#sum">sum</a><br>
@@ -113,7 +114,6 @@
 <a href="#transpose">transpose</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
-<br>
 <br>
 <br>
 <br>
@@ -530,22 +530,27 @@ draw(x^2,x)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="e">e</a>
+<a id="eigenvec">eigenvec(<i>m</i>)</a>
 <p>
-Symbol
-<span style="font-family:courier">e</span>
-is initialized to the natural number <i>e</i>.
+Returns eigenvectors for matrix <i>m</i>.
+Matrix <i>m</i> is required to be numerical, real, and symmetric.
+The return value is a matrix with each column an eigenvector.
+Eigenvalues are obtained as shown.
 <pre style="font-family:courier;color:blue">
-e^x
+A = ((1,2,3),(2,1,2),(3,2,1))
+Q = eigenvec(A)
+D = dot(transpose(Q),A,Q) -- D[1,1], D[2,2], etc. are the eigenvalues
+dot(Q,D,transpose(Q))
 </pre>
 <pre style="font-family:courier">
-exp(x)
+┌           ┐
+│ 1   2   3 │
+│           │
+│ 2   1   2 │
+│           │
+│ 3   2   1 │
+└           ┘
 </pre>
-<p>
-Note:
-It is OK to clear or redefine
-<span style="font-family:courier">e</span>
-and use the symbol for something else.
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="eval">eval(<i>f,x,a</i>)</a>
