@@ -5441,9 +5441,8 @@ eigen(struct atom *p1)
 	// step up to 100 times
 	for (i = 0; i < 100; i++)
 		if (step() == 0)
-			break;
-	if (i == 100)
-		stop("eigen did not converge");
+			return;
+	stop("eigenvec: convergence error");
 }
 
 //	Example: p = 1, q = 3

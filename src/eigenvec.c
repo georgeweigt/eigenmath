@@ -96,10 +96,9 @@ eigen(struct atom *p1)
 
 	for (i = 0; i < 100; i++)
 		if (step() == 0)
-			break;
+			return;
 
-	if (i == 100)
-		stop("eigen did not converge");
+	stop("eigenvec: convergence error");
 }
 
 //	Example: p = 1, q = 3
