@@ -156,20 +156,18 @@ struct atom {
 #define DOT		(3 * NSYM + 8)
 #define DRAW		(3 * NSYM + 9)
 
-#define EIGEN		(4 * NSYM + 0)
-#define EIGENVAL	(4 * NSYM + 1)
-#define EIGENVEC	(4 * NSYM + 2)
-#define ERF		(4 * NSYM + 3)
-#define ERFC		(4 * NSYM + 4)
-#define EVAL		(4 * NSYM + 5)
-#define EXIT		(4 * NSYM + 6)
-#define EXP		(4 * NSYM + 7)
-#define EXPCOS		(4 * NSYM + 8)
-#define EXPCOSH		(4 * NSYM + 9)
-#define EXPSIN		(4 * NSYM + 10)
-#define EXPSINH		(4 * NSYM + 11)
-#define EXPTAN		(4 * NSYM + 12)
-#define EXPTANH		(4 * NSYM + 13)
+#define EIGENVEC	(4 * NSYM + 0)
+#define ERF		(4 * NSYM + 1)
+#define ERFC		(4 * NSYM + 2)
+#define EVAL		(4 * NSYM + 3)
+#define EXIT		(4 * NSYM + 4)
+#define EXP		(4 * NSYM + 5)
+#define EXPCOS		(4 * NSYM + 6)
+#define EXPCOSH		(4 * NSYM + 7)
+#define EXPSIN		(4 * NSYM + 8)
+#define EXPSINH		(4 * NSYM + 9)
+#define EXPTAN		(4 * NSYM + 10)
+#define EXPTANH		(4 * NSYM + 11)
 
 #define FACTOR		(5 * NSYM + 0)
 #define FACTORIAL	(5 * NSYM + 1)
@@ -554,10 +552,7 @@ void d_scalar_tensor(struct atom *p1, struct atom *p2);
 void d_tensor_scalar(struct atom *p1, struct atom *p2);
 void eval_det(struct atom *p1);
 void det(void);
-void eval_eigen(struct atom *p1);
-void eval_eigenval(struct atom *p1);
 void eval_eigenvec(struct atom *p1);
-struct atom * eigen_check_arg(struct atom *p1);
 void eigen(struct atom *p1);
 int step(void);
 void step2(int p, int q);
@@ -5372,36 +5367,6 @@ det(void)
 		add_terms(tos - h);
 }
 
-//	Compute eigenvalues and eigenvectors
-//
-//	Input:		stack[tos - 1]		symmetric matrix
-//
-//	Output:		D			diagnonal matrix
-//
-//			Q			eigenvector matrix
-//
-//	D and Q have the property that
-//
-//		A == dot(transpose(Q),D,Q)
-//
-//	where A is the original matrix.
-//
-//	The eigenvalues are on the diagonal of D.
-//
-//	The eigenvectors are row vectors in Q.
-//
-//	The eigenvalue relation
-//
-//		A X = lambda X
-//
-//	can be checked as follows:
-//
-//		lambda = D[1,1]
-//
-//		X = Q[1]
-//
-//		dot(A,X) - lambda X
-
 #undef D
 #undef Q
 
@@ -5413,75 +5378,7 @@ double *yydd; // eigenvalues
 double *yyqq; // eigenvectors
 
 void
-eval_eigen(struct atom *p1)
-{
-	int i, j;
-	struct atom *p2, *p3;
-	p1 = eigen_check_arg(p1);
-	eigen(p1);
-	push(p1);
-	copy_tensor();
-	p2 = pop();
-	push(p1);
-	copy_tensor();
-	p3 = pop();
-	for (i = 0; i < eigen_n; i++) {
-		for (j = 0; j < eigen_n; j++) {
-			push_double(D(i, j));
-			p2->u.tensor->elem[eigen_n * i + j] = pop();
-		}
-	}
-	for (i = 0; i < eigen_n; i++) {
-		for (j = 0; j < eigen_n; j++) {
-			push_double(Q(i, j));
-			p3->u.tensor->elem[eigen_n * i + j] = pop();
-		}
-	}
-	p1 = lookup("D");
-	set_symbol(p1, p2, symbol(NIL));
-	p1 = lookup("Q");
-	set_symbol(p1, p3, symbol(NIL));
-	push_symbol(NIL);
-}
-
-void
-eval_eigenval(struct atom *p1)
-{
-	int i, j;
-	p1 = eigen_check_arg(p1);
-	eigen(p1);
-	push(p1);
-	copy_tensor();
-	p1 = pop();
-	for (i = 0; i < eigen_n; i++) {
-		for (j = 0; j < eigen_n; j++) {
-			push_double(D(i, j));
-			p1->u.tensor->elem[eigen_n * i + j] = pop();
-		}
-	}
-	push(p1);
-}
-
-void
 eval_eigenvec(struct atom *p1)
-{
-	int i, j;
-	p1 = eigen_check_arg(p1);
-	eigen(p1);
-	push(p1);
-	copy_tensor();
-	p1 = pop();
-	for (i = 0; i < eigen_n; i++) {
-		for (j = 0; j < eigen_n; j++) {
-			push_double(Q(i, j));
-			p1->u.tensor->elem[eigen_n * i + j] = pop();
-		}
-	}
-	push(p1);
-}
-
-struct atom *
-eigen_check_arg(struct atom *p1)
 {
 	int i, j;
 	push(cadr(p1));
@@ -5489,32 +5386,36 @@ eigen_check_arg(struct atom *p1)
 	floatfunc();
 	p1 = pop();
 	if (!istensor(p1) || p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
-		stop("eigen: argument is not a square matrix");
+		stop("eigenvec: square matrix expected");
 	eigen_n = p1->u.tensor->dim[0];
 	for (i = 0; i < eigen_n; i++)
 		for (j = 0; j < eigen_n; j++)
 			if (!isdouble(p1->u.tensor->elem[eigen_n * i + j]))
-				stop("eigen: matrix is not numerical");
+				stop("eigenvec: numerical matrix expected");
 	for (i = 0; i < eigen_n - 1; i++)
 		for (j = i + 1; j < eigen_n; j++)
 			if (fabs(p1->u.tensor->elem[eigen_n * i + j]->u.d - p1->u.tensor->elem[eigen_n * j + i]->u.d) > 1e-10)
-				stop("eigen: matrix is not symmetrical");
-	return p1;
+				stop("eigenvec: symmetrical matrix expected");
+	eigen(p1);
+	p1 = alloc_matrix(eigen_n, eigen_n);
+	for (i = 0; i < eigen_n; i++) {
+		for (j = 0; j < eigen_n; j++) {
+			push_double(Q(j, i)); // transpose
+			p1->u.tensor->elem[eigen_n * i + j] = pop();
+		}
+	}
+	push(p1);
 }
 
 void
 eigen(struct atom *p1)
 {
 	int i, j;
-	if (yydd) {
+	if (yydd)
 		free(yydd);
-		yydd = NULL;
-	}
-	if (yyqq) {
+	if (yyqq)
 		free(yyqq);
-		yyqq = NULL;
-	}
-	// malloc working vars
+	// malloc working arrays
 	yydd = malloc(eigen_n * eigen_n * sizeof (double));
 	if (yydd == NULL)
 		exit(1);
@@ -17759,8 +17660,6 @@ struct se stab[] = {
 	{ "dot",		DOT,		eval_inner		},
 	{ "draw",		DRAW,		eval_draw		},
 
-	{ "eigen",		EIGEN,		eval_eigen		},
-	{ "eigenval",		EIGENVAL,	eval_eigenval		},
 	{ "eigenvec",		EIGENVEC,	eval_eigenvec		},
 	{ "erf",		ERF,		eval_erf		},
 	{ "erfc",		ERFC,		eval_erfc		},

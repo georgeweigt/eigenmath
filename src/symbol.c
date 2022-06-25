@@ -165,8 +165,6 @@ struct se stab[] = {
 	{ "dot",		DOT,		eval_inner		},
 	{ "draw",		DRAW,		eval_draw		},
 
-	{ "eigen",		EIGEN,		eval_eigen		},
-	{ "eigenval",		EIGENVAL,	eval_eigenval		},
 	{ "eigenvec",		EIGENVEC,	eval_eigenvec		},
 	{ "erf",		ERF,		eval_erf		},
 	{ "erfc",		ERFC,		eval_erfc		},
