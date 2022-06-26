@@ -27,10 +27,8 @@ sgn(void)
 		return;
 	}
 
-	if (isnegativenumber(p1)) {
+	if (isnegativenumber(p1))
 		push_integer(-1);
-		return;
-	}
-
-	push_integer(1);
+	else
+		push_integer(1);
 }
