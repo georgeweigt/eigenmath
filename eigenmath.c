@@ -7780,8 +7780,6 @@ gc(void)
 {
 	int i, j, k;
 	struct atom *p;
-	if (level)
-		kaput("internal error 2");
 	gc_count++;
 	// tag everything
 	for (i = 0; i < block_count; i++) {
