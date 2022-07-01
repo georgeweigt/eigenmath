@@ -386,6 +386,11 @@ void add_integers(struct atom *p1, struct atom *p2);
 void subtract(void);
 void eval_adj(struct atom *p1);
 void adj(void);
+struct atom * alloc_atom(void);
+void alloc_block(void);
+struct atom * alloc_vector(int nrow);
+struct atom * alloc_matrix(int nrow, int ncol);
+struct atom * alloc_tensor(int nelem);
 void eval_arccos(struct atom *p1);
 void arccos(void);
 void eval_arccosh(struct atom *p1);
@@ -467,21 +472,14 @@ void conjfunc(void);
 void conjfunc_subst(void);
 void eval_contract(struct atom *p1);
 void contract(void);
-struct atom * alloc(void);
-void alloc_block(void);
-struct atom * alloc_vector(int nrow);
-struct atom * alloc_matrix(int nrow, int ncol);
-struct atom * alloc_tensor(int nelem);
-void gc(void);
-void untag(struct atom *p);
 void list(int n);
 void cons(void);
 int length(struct atom *p);
 int find(struct atom *p, struct atom *q);
 int complexity(struct atom *p);
-int lessp(struct atom *p1, struct atom *p2);
 void sort(int n);
 int sort_func(const void *p1, const void *p2);
+int lessp(struct atom *p1, struct atom *p2);
 int cmp_expr(struct atom *p1, struct atom *p2);
 int sign(int n);
 int iszero(struct atom *p);
@@ -649,6 +647,8 @@ void fmt_draw_rdelim(int x, int y, int h, int d);
 void fmt_draw_table(int x, int y, struct atom *p);
 void writec(int c);
 void eval_for(struct atom *p1);
+void gc(void);
+void untag(struct atom *p);
 void eval_hadamard(struct atom *p1);
 void hadamard(void);
 void eval_imag(struct atom *p1);
@@ -1588,6 +1588,78 @@ adj(void)
 	push(p2);
 }
 
+struct atom *
+alloc_atom(void)
+{
+	struct atom *p;
+	if (free_count == 0)
+		alloc_block();
+	p = free_list;
+	free_list = p->u.next;
+	free_count--;
+	alloc_count++;
+	return p;
+}
+
+void
+alloc_block(void)
+{
+	int i;
+	struct atom *p;
+	if (block_count == MAXBLOCKS)
+		kaput("out of memory");
+	p = malloc(BLOCKSIZE * sizeof (struct atom));
+	if (p == NULL)
+		exit(1);
+	mem[block_count++] = p;
+	for (i = 0; i < BLOCKSIZE - 1; i++) {
+		p[i].atomtype = FREEATOM;
+		p[i].u.next = p + i + 1;
+	}
+	p[i].atomtype = FREEATOM;
+	p[i].u.next = NULL;
+	free_list = p;
+	free_count = BLOCKSIZE;
+}
+
+struct atom *
+alloc_vector(int nrow)
+{
+	struct atom *p = alloc_tensor(nrow);
+	p->u.tensor->ndim = 1;
+	p->u.tensor->dim[0] = nrow;
+	return p;
+}
+
+struct atom *
+alloc_matrix(int nrow, int ncol)
+{
+	struct atom *p = alloc_tensor(nrow * ncol);
+	p->u.tensor->ndim = 2;
+	p->u.tensor->dim[0] = nrow;
+	p->u.tensor->dim[1] = ncol;
+	return p;
+}
+
+struct atom *
+alloc_tensor(int nelem)
+{
+	int i;
+	struct atom *p;
+	struct tensor *t;
+	p = alloc_atom();
+	t = malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
+	if (t == NULL)
+		exit(1);
+	p->atomtype = TENSOR;
+	p->u.tensor = t;
+	t->nelem = nelem;
+	for (i = 0; i < nelem; i++)
+		t->elem[i] = zero;
+	tensor_count++;
+	return p;
+}
+
 void
 eval_arccos(struct atom *p1)
 {
@@ -2241,7 +2313,7 @@ push_bignum(int sign, uint32_t *a, uint32_t *b)
 		free(save_b);
 	save_a = a;
 	save_b = b;
-	p = alloc();
+	p = alloc_atom();
 	p->atomtype = RATIONAL;
 	p->sign = sign;
 	p->u.q.a = a;
@@ -2272,7 +2344,7 @@ void
 push_double(double d)
 {
 	struct atom *p;
-	p = alloc();
+	p = alloc_atom();
 	p->atomtype = DOUBLE;
 	p->u.d = d;
 	push(p);
@@ -3679,170 +3751,6 @@ contract(void)
 	push(p2);
 }
 
-struct atom *
-alloc(void)
-{
-	struct atom *p;
-	if (free_count == 0)
-		alloc_block();
-	p = free_list;
-	free_list = p->u.next;
-	free_count--;
-	alloc_count++;
-	return p;
-}
-
-void
-alloc_block(void)
-{
-	int i;
-	struct atom *p;
-	if (block_count == MAXBLOCKS)
-		kaput("out of memory");
-	p = malloc(BLOCKSIZE * sizeof (struct atom));
-	if (p == NULL)
-		exit(1);
-	mem[block_count++] = p;
-	for (i = 0; i < BLOCKSIZE - 1; i++) {
-		p[i].atomtype = FREEATOM;
-		p[i].u.next = p + i + 1;
-	}
-	p[i].atomtype = FREEATOM;
-	p[i].u.next = NULL;
-	free_list = p;
-	free_count = BLOCKSIZE;
-}
-
-struct atom *
-alloc_vector(int nrow)
-{
-	struct atom *p = alloc_tensor(nrow);
-	p->u.tensor->ndim = 1;
-	p->u.tensor->dim[0] = nrow;
-	return p;
-}
-
-struct atom *
-alloc_matrix(int nrow, int ncol)
-{
-	struct atom *p = alloc_tensor(nrow * ncol);
-	p->u.tensor->ndim = 2;
-	p->u.tensor->dim[0] = nrow;
-	p->u.tensor->dim[1] = ncol;
-	return p;
-}
-
-struct atom *
-alloc_tensor(int nelem)
-{
-	int i;
-	struct atom *p;
-	struct tensor *t;
-	p = alloc();
-	t = malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
-	if (t == NULL)
-		exit(1);
-	p->atomtype = TENSOR;
-	p->u.tensor = t;
-	t->nelem = nelem;
-	for (i = 0; i < nelem; i++)
-		t->elem[i] = zero;
-	tensor_count++;
-	return p;
-}
-
-// gc can only be called from main run loop
-
-void
-gc(void)
-{
-	int i, j, k;
-	struct atom *p;
-	gc_count++;
-	// tag everything
-	for (i = 0; i < block_count; i++) {
-		p = mem[i];
-		for (j = 0; j < BLOCKSIZE; j++)
-			p[j].tag = 1;
-	}
-	// untag what's used
-	untag(zero);
-	untag(one);
-	untag(minusone);
-	untag(imaginaryunit);
-	// symbol table
-	for (i = 0; i < 27; i++) {
-		for (j = 0; j < NSYM; j++) {
-			k = NSYM * i + j;
-			if (symtab[k] == NULL)
-				break;
-			untag(symtab[k]);
-			untag(binding[k]);
-			untag(usrfunc[k]);
-		}
-	}
-	// collect everything that's still tagged
-	free_list = NULL;
-	free_count = 0;
-	for (i = 0; i < block_count; i++) {
-		p = mem[i];
-		for (j = 0; j < BLOCKSIZE; j++) {
-			if (p[j].tag == 0)
-				continue;
-			// still tagged so it's unused, put on free list
-			switch (p[j].atomtype) {
-			case KSYM:
-				free(p[j].u.ksym.name);
-				ksym_count--;
-				break;
-			case USYM:
-				free(p[j].u.usym.name);
-				usym_count--;
-				break;
-			case RATIONAL:
-				mfree(p[j].u.q.a);
-				mfree(p[j].u.q.b);
-				break;
-			case STR:
-				free(p[j].u.str);
-				string_count--;
-				break;
-			case TENSOR:
-				free(p[j].u.tensor);
-				tensor_count--;
-				break;
-			default:
-				break; // FREEATOM, CONS, or DOUBLE
-			}
-			p[j].atomtype = FREEATOM;
-			p[j].u.next = free_list;
-			free_list = p + j;
-			free_count++;
-		}
-	}
-}
-
-void
-untag(struct atom *p)
-{
-	int i;
-	if (p == NULL)
-		return;
-	while (iscons(p)) {
-		if (p->tag == 0)
-			return;
-		p->tag = 0;
-		untag(p->u.cons.car);
-		p = p->u.cons.cdr;
-	}
-	if (p->tag == 0)
-		return;
-	p->tag = 0;
-	if (istensor(p))
-		for (i = 0; i < p->u.tensor->nelem; i++)
-			untag(p->u.tensor->elem[i]);
-}
-
 // create a list from n things on the stack
 
 void
@@ -3858,7 +3766,7 @@ void
 cons(void)
 {
 	struct atom *p;
-	p = alloc();
+	p = alloc_atom();
 	p->atomtype = CONS;
 	p->u.cons.cdr = pop();
 	p->u.cons.car = pop();
@@ -3909,15 +3817,6 @@ complexity(struct atom *p)
 	return n;
 }
 
-int
-lessp(struct atom *p1, struct atom *p2)
-{
-	if (cmp_expr(p1, p2) < 0)
-		return 1;
-	else
-		return 0;
-}
-
 void
 sort(int n)
 {
@@ -3928,6 +3827,15 @@ int
 sort_func(const void *p1, const void *p2)
 {
 	return cmp_expr(*((struct atom **) p1), *((struct atom **) p2));
+}
+
+int
+lessp(struct atom *p1, struct atom *p2)
+{
+	if (cmp_expr(p1, p2) < 0)
+		return 1;
+	else
+		return 0;
 }
 
 int
@@ -7863,6 +7771,100 @@ eval_for(struct atom *p1)
 	}
 	restore_symbol(p2);
 	push_symbol(NIL); // return value
+}
+
+// can only be called from main run loop
+
+void
+gc(void)
+{
+	int i, j, k;
+	struct atom *p;
+	if (level)
+		stop("internal error 2");
+	gc_count++;
+	// tag everything
+	for (i = 0; i < block_count; i++) {
+		p = mem[i];
+		for (j = 0; j < BLOCKSIZE; j++)
+			p[j].tag = 1;
+	}
+	// untag what's used
+	untag(zero);
+	untag(one);
+	untag(minusone);
+	untag(imaginaryunit);
+	// symbol table
+	for (i = 0; i < 27; i++) {
+		for (j = 0; j < NSYM; j++) {
+			k = NSYM * i + j;
+			if (symtab[k] == NULL)
+				break;
+			untag(symtab[k]);
+			untag(binding[k]);
+			untag(usrfunc[k]);
+		}
+	}
+	// collect everything that's still tagged
+	free_list = NULL;
+	free_count = 0;
+	for (i = 0; i < block_count; i++) {
+		p = mem[i];
+		for (j = 0; j < BLOCKSIZE; j++) {
+			if (p[j].tag == 0)
+				continue;
+			// still tagged so it's unused, put on free list
+			switch (p[j].atomtype) {
+			case KSYM:
+				free(p[j].u.ksym.name);
+				ksym_count--;
+				break;
+			case USYM:
+				free(p[j].u.usym.name);
+				usym_count--;
+				break;
+			case RATIONAL:
+				mfree(p[j].u.q.a);
+				mfree(p[j].u.q.b);
+				break;
+			case STR:
+				free(p[j].u.str);
+				string_count--;
+				break;
+			case TENSOR:
+				free(p[j].u.tensor);
+				tensor_count--;
+				break;
+			default:
+				break; // FREEATOM, CONS, or DOUBLE
+			}
+			p[j].atomtype = FREEATOM;
+			p[j].u.next = free_list;
+			free_list = p + j;
+			free_count++;
+		}
+	}
+}
+
+void
+untag(struct atom *p)
+{
+	int i;
+	if (p == NULL)
+		return;
+	while (iscons(p)) {
+		if (p->tag == 0)
+			return;
+		p->tag = 0;
+		untag(p->u.cons.car);
+		p = p->u.cons.cdr;
+	}
+	if (p->tag == 0)
+		return;
+	p->tag = 0;
+	if (istensor(p))
+		for (i = 0; i < p->u.tensor->nelem; i++)
+			untag(p->u.tensor->elem[i]);
 }
 
 void
@@ -16024,7 +16026,7 @@ run_file(char *filename)
 		stop("run: lseek error");
 	}
 	lseek(fd, 0, SEEK_SET);
-	p1 = alloc();
+	p1 = alloc_atom();
 	buf = malloc(n + 1);
 	if (buf == NULL)
 		exit(1);
@@ -17432,7 +17434,7 @@ void
 push_string(char *s)
 {
 	struct atom *p;
-	p = alloc();
+	p = alloc_atom();
 	s = strdup(s);
 	if (s == NULL)
 		exit(1);
@@ -17568,7 +17570,7 @@ lookup(char *s)
 	}
 	if (i == NSYM)
 		stop("symbol table full");
-	p = alloc();
+	p = alloc_atom();
 	s = strdup(s);
 	if (s == NULL)
 		exit(1);
@@ -17849,7 +17851,7 @@ init_symbol_table(void)
 		symtab[i] = NULL;
 	n = sizeof stab / sizeof (struct se);
 	for (i = 0; i < n; i++) {
-		p = alloc();
+		p = alloc_atom();
 		s = strdup(stab[i].str);
 		if (s == NULL)
 			exit(1);

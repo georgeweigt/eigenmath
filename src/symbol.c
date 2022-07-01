@@ -31,7 +31,7 @@ lookup(char *s)
 	if (i == NSYM)
 		stop("symbol table full");
 
-	p = alloc();
+	p = alloc_atom();
 	s = strdup(s);
 	if (s == NULL)
 		exit(1);
@@ -326,7 +326,7 @@ init_symbol_table(void)
 	n = sizeof stab / sizeof (struct se);
 
 	for (i = 0; i < n; i++) {
-		p = alloc();
+		p = alloc_atom();
 		s = strdup(stab[i].str);
 		if (s == NULL)
 			exit(1);

@@ -1,202 +1,5 @@
 #include "defs.h"
 
-struct atom *
-alloc(void)
-{
-	struct atom *p;
-
-	if (free_count == 0)
-		alloc_block();
-
-	p = free_list;
-	free_list = p->u.next;
-
-	free_count--;
-	alloc_count++;
-
-	return p;
-}
-
-void
-alloc_block(void)
-{
-	int i;
-	struct atom *p;
-
-	if (block_count == MAXBLOCKS)
-		kaput("out of memory");
-
-	p = malloc(BLOCKSIZE * sizeof (struct atom));
-
-	if (p == NULL)
-		exit(1);
-
-	mem[block_count++] = p;
-
-	for (i = 0; i < BLOCKSIZE - 1; i++) {
-		p[i].atomtype = FREEATOM;
-		p[i].u.next = p + i + 1;
-	}
-
-	p[i].atomtype = FREEATOM;
-	p[i].u.next = NULL;
-
-	free_list = p;
-	free_count = BLOCKSIZE;
-}
-
-struct atom *
-alloc_vector(int nrow)
-{
-	struct atom *p = alloc_tensor(nrow);
-	p->u.tensor->ndim = 1;
-	p->u.tensor->dim[0] = nrow;
-	return p;
-}
-
-struct atom *
-alloc_matrix(int nrow, int ncol)
-{
-	struct atom *p = alloc_tensor(nrow * ncol);
-	p->u.tensor->ndim = 2;
-	p->u.tensor->dim[0] = nrow;
-	p->u.tensor->dim[1] = ncol;
-	return p;
-}
-
-struct atom *
-alloc_tensor(int nelem)
-{
-	int i;
-	struct atom *p;
-	struct tensor *t;
-	p = alloc();
-	t = malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
-	if (t == NULL)
-		exit(1);
-	p->atomtype = TENSOR;
-	p->u.tensor = t;
-	t->nelem = nelem;
-	for (i = 0; i < nelem; i++)
-		t->elem[i] = zero;
-	tensor_count++;
-	return p;
-}
-
-// gc can only be called from main run loop
-
-void
-gc(void)
-{
-	int i, j, k;
-	struct atom *p;
-
-	gc_count++;
-
-	// tag everything
-
-	for (i = 0; i < block_count; i++) {
-		p = mem[i];
-		for (j = 0; j < BLOCKSIZE; j++)
-			p[j].tag = 1;
-	}
-
-	// untag what's used
-
-	untag(zero);
-	untag(one);
-	untag(minusone);
-	untag(imaginaryunit);
-
-	// symbol table
-
-	for (i = 0; i < 27; i++) {
-		for (j = 0; j < NSYM; j++) {
-			k = NSYM * i + j;
-			if (symtab[k] == NULL)
-				break;
-			untag(symtab[k]);
-			untag(binding[k]);
-			untag(usrfunc[k]);
-		}
-	}
-
-	// collect everything that's still tagged
-
-	free_list = NULL;
-	free_count = 0;
-
-	for (i = 0; i < block_count; i++) {
-
-		p = mem[i];
-
-		for (j = 0; j < BLOCKSIZE; j++) {
-
-			if (p[j].tag == 0)
-				continue;
-
-			// still tagged so it's unused, put on free list
-
-			switch (p[j].atomtype) {
-			case KSYM:
-				free(p[j].u.ksym.name);
-				ksym_count--;
-				break;
-			case USYM:
-				free(p[j].u.usym.name);
-				usym_count--;
-				break;
-			case RATIONAL:
-				mfree(p[j].u.q.a);
-				mfree(p[j].u.q.b);
-				break;
-			case STR:
-				free(p[j].u.str);
-				string_count--;
-				break;
-			case TENSOR:
-				free(p[j].u.tensor);
-				tensor_count--;
-				break;
-			default:
-				break; // FREEATOM, CONS, or DOUBLE
-			}
-
-			p[j].atomtype = FREEATOM;
-			p[j].u.next = free_list;
-
-			free_list = p + j;
-			free_count++;
-		}
-	}
-}
-
-void
-untag(struct atom *p)
-{
-	int i;
-
-	if (p == NULL)
-		return;
-
-	while (iscons(p)) {
-		if (p->tag == 0)
-			return;
-		p->tag = 0;
-		untag(p->u.cons.car);
-		p = p->u.cons.cdr;
-	}
-
-	if (p->tag == 0)
-		return;
-
-	p->tag = 0;
-
-	if (istensor(p))
-		for (i = 0; i < p->u.tensor->nelem; i++)
-			untag(p->u.tensor->elem[i]);
-}
-
 // create a list from n things on the stack
 
 void
@@ -212,7 +15,7 @@ void
 cons(void)
 {
 	struct atom *p;
-	p = alloc();
+	p = alloc_atom();
 	p->atomtype = CONS;
 	p->u.cons.cdr = pop();
 	p->u.cons.car = pop();
@@ -269,15 +72,6 @@ complexity(struct atom *p)
 	return n;
 }
 
-int
-lessp(struct atom *p1, struct atom *p2)
-{
-	if (cmp_expr(p1, p2) < 0)
-		return 1;
-	else
-		return 0;
-}
-
 void
 sort(int n)
 {
@@ -288,6 +82,15 @@ int
 sort_func(const void *p1, const void *p2)
 {
 	return cmp_expr(*((struct atom **) p1), *((struct atom **) p2));
+}
+
+int
+lessp(struct atom *p1, struct atom *p2)
+{
+	if (cmp_expr(p1, p2) < 0)
+		return 1;
+	else
+		return 0;
 }
 
 int

@@ -61,7 +61,7 @@ void
 push_string(char *s)
 {
 	struct atom *p;
-	p = alloc();
+	p = alloc_atom();
 	s = strdup(s);
 	if (s == NULL)
 		exit(1);
