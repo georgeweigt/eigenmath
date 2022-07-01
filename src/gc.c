@@ -9,7 +9,7 @@ gc(void)
 	struct atom *p;
 
 	if (level)
-		stop("internal error 2");
+		kaput("internal error 2");
 
 	gc_count++;
 
