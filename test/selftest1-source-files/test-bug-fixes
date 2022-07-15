@@ -58,3 +58,4 @@ check(sqrt(-i) == sqrt(-1) sqrt(i))
 check(prefixform((-2 i pi hbar epsilon / m)^(3/2)) ==
 "(* 2 (^ 2 1/2) (^ -1 1/4) (^ epsilon 3/2) (^ hbar 3/2) (^ m -3/2) (^ pi 3/2))")
 check(prefixform(hbar Rbc) == "(* Rbc hbar)") -- fails for Javascript localeCompare
+check(infixform(-0) == "0") -- eigenmath.js result was -0, now fixed
