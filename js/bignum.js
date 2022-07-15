@@ -104,5 +104,13 @@ bignum_issmallnum(u)
 function
 push_bignum(sign, a, b)
 {
+	// normalize zero
+
+	if (bignum_iszero(a)) {
+		sign = 1;
+		if (!bignum_equal(b, 1))
+			b = bignum_int(1);
+	}
+
 	push({sign:sign, a:a, b:b});
 }
