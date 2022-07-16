@@ -22,7 +22,7 @@ gamma = (gamma0,gamma1,gamma2,gamma3)
 T = transpose(dot(gamma,transpose(gamma)),2,3)
 sigmamunu = i/2 * (T - transpose(T))
 for(s1,1,2,for(s2,1,2,for(mu,1,4,
-  T = 1/(2*m) * ((p2+p1)[mu]*I + i*dot(gmunu,p2-p1,sigmamunu[mu])),
+  T = ((p2+p1)[mu] I + i dot(p2-p1,gmunu,sigmamunu[mu])) / (2 m),
   A = dot(conj(u2[s2]),gamma0,T,u1[s1]),
   B = dot(conj(u2[s2]),gamma0,gamma[mu],u1[s1]),
   check(A=B)
