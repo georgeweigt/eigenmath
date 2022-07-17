@@ -342,7 +342,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="875">
-                        <rect key="frame" x="702" y="6" width="700" height="22"/>
+                        <rect key="frame" x="702" y="0.0" width="700" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" drawsBackground="YES" usesSingleLineMode="YES" id="876">
                             <font key="font" metaFont="system"/>
