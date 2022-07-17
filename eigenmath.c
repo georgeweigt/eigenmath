@@ -847,7 +847,7 @@ void print_prefixform(struct atom *p);
 void prefixform(struct atom *p);
 void eval_print(struct atom *p1);
 void print_result(void);
-struct atom * prep_result(struct atom *p1, struct atom *p2);
+int annotate_result(struct atom *p1, struct atom *p2);
 void print_str(char *s);
 void print_char(int c);
 void eval_product(struct atom *p1);
@@ -15266,7 +15266,13 @@ print_result(void)
 	p1 = pop(); // input
 	if (p2 == symbol(NIL))
 		return;
-	p2 = prep_result(p1, p2);
+	if (annotate_result(p1, p2)) {
+		push_symbol(SETQ);
+		push(p1);
+		push(p2);
+		list(3);
+		p2 = pop();
+	}
 	if (iszero(get_binding(symbol(TTY)))) {
 		push(p2);
 		display();
@@ -15276,23 +15282,18 @@ print_result(void)
 
 // if a user symbol A was evaluated, print A = result
 
-struct atom *
-prep_result(struct atom *p1, struct atom *p2)
+int
+annotate_result(struct atom *p1, struct atom *p2)
 {
 	if (!isusersymbol(p1))
-		return p2;
+		return 0;
 	if (p1 == p2)
-		return p2; // A = A
+		return 0; // A = A
 	if (p1 == symbol(I_LOWER) && isimaginaryunit(p2))
-		return p2;
+		return 0;
 	if (p1 == symbol(J_LOWER) && isimaginaryunit(p2))
-		return p2;
-	push_symbol(SETQ);
-	push(p1);
-	push(p2);
-	list(3);
-	p2 = pop();
-	return p2;
+		return 0;
+	return 1;
 }
 
 void

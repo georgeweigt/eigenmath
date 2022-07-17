@@ -480,7 +480,7 @@ void print_prefixform(struct atom *p);
 void prefixform(struct atom *p);
 void eval_print(struct atom *p1);
 void print_result(void);
-struct atom * prep_result(struct atom *p1, struct atom *p2);
+int annotate_result(struct atom *p1, struct atom *p2);
 void print_str(char *s);
 void print_char(int c);
 void eval_product(struct atom *p1);

@@ -9,7 +9,14 @@ print_result()
 	if (p2 == symbol(NIL))
 		return;
 
-	prep_symbol_equals(p1, p2);
+	if (annotate_result(p1, p2)) {
+		push_symbol(SETQ);
+		push(p1);
+		push(p2);
+		list(3);
+		p2 = pop();
+	}
 
+	push(p2);
 	display();
 }
