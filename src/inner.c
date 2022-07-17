@@ -3,16 +3,27 @@
 void
 eval_inner(struct atom *p1)
 {
-	push(cadr(p1));
-	eval();
+	int h = tos;
 
-	p1 = cddr(p1);
+	// evaluate right to left
+
+	p1 = cdr(p1);
 
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
-		inner();
 		p1 = cdr(p1);
+	}
+
+	if (h == tos)
+		stop("dot");
+
+	eval();
+
+	while (tos - h > 1) {
+		p1 = pop();
+		eval();
+		push(p1);
+		inner();
 	}
 }
 
