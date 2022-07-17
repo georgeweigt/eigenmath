@@ -3,6 +3,9 @@
 void
 eval(void)
 {
+	if (interrupt)
+		kaput("interrupt");
+
 	level++;
 
 	if (level > max_level)

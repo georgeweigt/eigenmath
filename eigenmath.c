@@ -5745,6 +5745,8 @@ erfcfunc(void)
 void
 eval(void)
 {
+	if (interrupt)
+		kaput("interrupt");
 	level++;
 	if (level > max_level)
 		max_level = level;
