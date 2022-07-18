@@ -38,6 +38,9 @@ add_terms(int n)
 
 	combine_terms(h);
 
+	if (simplify_terms(h))
+		combine_terms(h);
+
 	n = tos - h;
 
 	if (n == 0) {
@@ -370,6 +373,32 @@ cmp_terms(struct atom *p1, struct atom *p2)
 		return -1; // length(p1) < length(p2)
 
 	return 0;
+}
+
+int
+simplify_terms(int h)
+{
+	int i, n = 0;
+	struct atom *p1, *p2;
+	for (i = h; i < tos; i++) {
+		p1 = stack[i];
+		if (isradicalterm(p1)) {
+			push(p1);
+			eval();
+			p2 = pop();
+			if (!equal(p1, p2)) {
+				stack[i] = p2;
+				n++;
+			}
+		}
+	}
+	return n;
+}
+
+int
+isradicalterm(struct atom *p)
+{
+	return car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isradical(caddr(p));
 }
 
 int

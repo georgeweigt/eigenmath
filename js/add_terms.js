@@ -14,6 +14,9 @@ add_terms(n) // n is number of terms on stack
 
 	combine_terms(h);
 
+	if (simplify_terms(h))
+		combine_terms(h);
+
 	n = stack.length - h;
 
 	if (n == 0) {

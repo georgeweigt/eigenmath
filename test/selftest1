@@ -5539,6 +5539,16 @@ clear
 k = 123
 check(product(k,1,10,k) == 3628800)
 check(k == 123)
+"Testing radicals"
+
+clear
+
+check(infixform(sqrt(1/2) + sqrt(1/2)) == "2^(1/2)")
+check(infixform(sqrt(2) + sqrt(1/2) + sqrt(1/2)) == "2 2^(1/2)")
+check(infixform(sqrt(1/2) + sqrt(1/2) + sqrt(1/2)) == "3 / 2^(1/2)")
+
+check(infixform(A / sqrt(2) + A / sqrt(2)) == "2^(1/2) A")
+check(infixform(sqrt(2) A + A / sqrt(2) + A / sqrt(2)) == "2 2^(1/2) A")
 "Testing rationalize"
 
 clear

@@ -12,6 +12,8 @@ int combine_terms_nib(int i, int j);
 void sort_terms(int n);
 int sort_terms_func(const void *q1, const void *q2);
 int cmp_terms(struct atom *p1, struct atom *p2);
+int simplify_terms(int h);
+int isradicalterm(struct atom *p);
 int is_imaginary_term(struct atom *p);
 void add_numbers(struct atom *p1, struct atom *p2);
 void add_rationals(struct atom *p1, struct atom *p2);
