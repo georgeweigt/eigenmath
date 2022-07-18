@@ -790,7 +790,6 @@ int combine_factors_nib(int i, int j);
 void sort_factors_provisional(int h);
 int sort_factors_provisional_func(const void *q1, const void *q2);
 int cmp_factors_provisional(struct atom *p1, struct atom *p2);
-void factor_factors_maybe(int h);
 void normalize_power_factors(int h);
 void expand_sum_factors(int h);
 void sort_factors(int n);
@@ -12157,47 +12156,27 @@ cmp_factors_provisional(struct atom *p1, struct atom *p2)
 }
 
 void
-factor_factors_maybe(int h)
-{
-	int i, n = tos - h;
-	struct atom **s = stack + h, *p1;
-	// is there at least one power with a numerical base?
-	for (i = 0; i < n; i++) {
-		p1 = s[i];
-		if (car(p1) == symbol(POWER) && isnum(cadr(p1)) && !isminusone(cadr(p1)))
-			break;
-	}
-	if (i == n)
-		return; // no
-	// factor factors
-	for (i = 0; i < n; i++) {
-		push(s[i]);
-		factor_factor();
-		s[i] = pop(); // trick: fill hole with one of the factors
-	}
-}
-
-void
 normalize_power_factors(int h)
 {
-	int i, n = tos - h;
-	struct atom **s = stack + h, *p1;
-	for (i = 0; i < n; i++) {
-		p1 = s[i];
+	int i, k;
+	struct atom *p1;
+	k = tos;
+	for (i = h; i < k; i++) {
+		p1 = stack[i];
 		if (car(p1) == symbol(POWER)) {
 			push(cadr(p1));
 			push(caddr(p1));
 			power();
 			p1 = pop();
 			if (car(p1) == symbol(MULTIPLY)) {
-				s[i] = cadr(p1);
+				stack[i] = cadr(p1);
 				p1 = cddr(p1);
 				while (iscons(p1)) {
 					push(car(p1));
 					p1 = cdr(p1);
 				}
 			} else
-				s[i] = p1;
+				stack[i] = p1;
 		}
 	}
 }

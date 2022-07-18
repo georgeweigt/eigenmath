@@ -423,7 +423,6 @@ int combine_factors_nib(int i, int j);
 void sort_factors_provisional(int h);
 int sort_factors_provisional_func(const void *q1, const void *q2);
 int cmp_factors_provisional(struct atom *p1, struct atom *p2);
-void factor_factors_maybe(int h);
 void normalize_power_factors(int h);
 void expand_sum_factors(int h);
 void sort_factors(int n);

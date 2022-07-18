@@ -1,9 +1,9 @@
 function
 normalize_power_factors(h)
 {
-	var i, n, p1;
-	n = stack.length;
-	for (i = h; i < n; i++) {
+	var i, k, p1;
+	k = stack.length;
+	for (i = h; i < k; i++) {
 		p1 = stack[i];
 		if (car(p1) == symbol(POWER)) {
 			push(cadr(p1));
