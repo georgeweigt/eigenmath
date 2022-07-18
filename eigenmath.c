@@ -6377,7 +6377,7 @@ factor_bignum(uint32_t *a, struct atom *EXPO)
 		}
 		if (m == 0)
 			continue;
-		push_bignum(MPLUS, mint(d), mint(1));
+		push_bignum(MPLUS, mint(d), mint(1)); // use push_bignum because d is unsigned
 		push_integer(m);
 		push(EXPO);
 		multiply();
@@ -6390,7 +6390,7 @@ factor_bignum(uint32_t *a, struct atom *EXPO)
 		}
 	}
 	if (n > 1) {
-		push_bignum(MPLUS, mint(n), mint(1));
+		push_bignum(MPLUS, mint(n), mint(1)); // use push_bignum because n is unsigned
 		if (!isplusone(EXPO)) {
 			push_symbol(POWER);
 			swap();
