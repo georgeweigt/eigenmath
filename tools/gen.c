@@ -7,8 +7,7 @@
 
 int filter(const struct dirent *p);
 void emit_file(char *);
-void emit_line(char *);
-int check_line(char *);
+int check_contents(char *);
 
 #define PATH "../src/"
 
@@ -52,11 +51,9 @@ filter(const struct dirent *p)
 void
 emit_file(char *filename)
 {
-	int line = 0, state = 0;
+	int line = 0;
 	FILE *f;
-	static char s[1000];
-
-	emit_line("\n");
+	static char buf[1000];
 
 	f = fopen(filename, "r");
 
@@ -65,41 +62,32 @@ emit_file(char *filename)
 		exit(1);
 	}
 
-	while (fgets(s, sizeof s, f)) {
+	while (fgets(buf, sizeof buf, f)) {
 
 		line++;
 
-		if (check_line(s)) {
+		if (check_contents(buf)) {
 			fprintf(stderr, "file %s, line %d\n", filename, line);
 			exit(1);
 		}
 
-		if (strcmp(s, "#include \"defs.h\"\n") == 0)
+		if (strcmp(buf, "#include \"defs.h\"\n") == 0)
 			continue;
 
-		if (state && *s == '\n')
-			continue; // skip blank lines in functions
-
-		emit_line(s);
-
-		if (*s == '{')
-			state = 1;
-
-		if (*s == '}')
-			state = 0;
+		printf("%s", buf);
 	}
 
 	fclose(f);
 }
 
 int
-check_line(char *line)
+check_contents(char *buf)
 {
 	int i, n;
 
-	n = strlen(line);
+	n = strlen(buf);
 
-	if (n < 1 || line[n - 1] != '\n') {
+	if (n < 1 || buf[n - 1] != '\n') {
 		fprintf(stderr, "missing newline\n");
 		return -1;
 	}
@@ -110,9 +98,9 @@ check_line(char *line)
 	// check for weird ascii chars
 
 	for (i = 0; i < n; i++) {
-		if (line[i] >= ' ' && line[i] < 0x7f)
+		if (buf[i] >= ' ' && buf[i] < 0x7f)
 			continue;
-		if (line[i] == '\t' || line[i] == '\n')
+		if (buf[i] == '\t' || buf[i] == '\n')
 			continue;
 		fprintf(stderr, "ascii error\n");
 		return -1;
@@ -120,31 +108,18 @@ check_line(char *line)
 
 	// check trailing space
 
-	if (strstr(line, " \n") || strstr(line, "\t\n")) {
+	if (strstr(buf, " \n") || strstr(buf, "\t\n")) {
 		fprintf(stderr, "trailing space\n");
 		return -1;
 	}
 
-	if (strncmp(line, "//", 2) == 0 || strncmp(line, "\t//", 3) == 0)
+	if (strncmp(buf, "//", 2) == 0 || strncmp(buf, "\t//", 3) == 0)
 		return 0;
 
-	if (strstr(line, "  ") || strstr(line, " /t") || strstr(line, "\t ")) {
+	if (strstr(buf, "  ") || strstr(buf, " /t") || strstr(buf, "\t ")) {
 		fprintf(stderr, "extra spaces\n");
 		return -1;
 	}
 
 	return 0; // ok
-}
-
-void
-emit_line(char *line)
-{
-	static int c = '\n';
-
-	if (c == '\n' && *line == '\n')
-		return; // don't print more than one blank line in a row
-
-	printf("%s", line);
-
-	c = *line;
 }
