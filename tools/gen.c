@@ -1,22 +1,24 @@
-// make eigenmath.c
+// emit eigenmath.c
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
 
-int filter(const struct dirent *p);
-void emit_file(char *);
-int check_contents(char *);
-
 #define PATH "../src/"
+
+int filter(const struct dirent *);
+void emit_file(char *);
+int check_contents(void);
+
+char buf[1000];
 
 int
 main()
 {
 	int i, n;
 	struct dirent **p;
-	static char s[100];
+	static char filename[100];
 
 	system("cat preamble");
 
@@ -29,9 +31,9 @@ main()
 	for (i = 0; i < n; i++) {
 		if (strcmp(p[i]->d_name, "globals.c") == 0)
 			continue;
-		strcpy(s, PATH);
-		strcat(s, p[i]->d_name);
-		emit_file(s);
+		strcpy(filename, PATH);
+		strcat(filename, p[i]->d_name);
+		emit_file(filename);
 	}
 
 	return 0;
@@ -53,7 +55,6 @@ emit_file(char *filename)
 {
 	int line = 0;
 	FILE *f;
-	static char buf[1000];
 
 	f = fopen(filename, "r");
 
@@ -66,7 +67,7 @@ emit_file(char *filename)
 
 		line++;
 
-		if (check_contents(buf)) {
+		if (check_contents()) {
 			fprintf(stderr, "file %s, line %d\n", filename, line);
 			exit(1);
 		}
@@ -81,7 +82,7 @@ emit_file(char *filename)
 }
 
 int
-check_contents(char *buf)
+check_contents(void)
 {
 	int i, n;
 
