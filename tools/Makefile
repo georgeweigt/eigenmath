@@ -1,17 +1,18 @@
-.PHONY: default eigenmath.c xcode
+.PHONY: default xcode
 
 default:
-	make make-prototypes
+	make -s xcode
+	make -s check
+	make -s make-prototypes
 	./make-prototypes ../src/ > ../src/prototypes.h
 	./make-prototypes ../xcode/src/C/ > ../xcode/src/C/prototypes.h
-	make eigenmath.c
-	make xcode
+	cat preamble ../src/defs.h ../src/prototypes.h ../src/*.c > ../eigenmath.c
+
+check: check.c
+	gcc -O0 -o check check.c
 
 make-prototypes: make-prototypes.c
 	gcc -O0 -o make-prototypes make-prototypes.c
-
-eigenmath.c:
-	cat preamble ../src/defs.h ../src/prototypes.h ../src/*.c > ../eigenmath.c
 
 xcode:
 	cp ../src/defs.h ../src/externs.h ../xcode/src/C
