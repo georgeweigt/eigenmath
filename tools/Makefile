@@ -2,8 +2,8 @@
 
 default:
 	make make-prototypes
-	./make-prototypes ../src/ >../src/prototypes.h
-	./make-prototypes ../xcode/Eigenmath/C/ >../xcode/Eigenmath/C/prototypes.h
+	./make-prototypes ../src/ > ../src/prototypes.h
+	./make-prototypes ../xcode/Eigenmath/C/ > ../xcode/Eigenmath/C/prototypes.h
 	make eigenmath.c
 	make xcode
 
@@ -11,7 +11,7 @@ make-prototypes: make-prototypes.c
 	gcc -O0 -o make-prototypes make-prototypes.c
 
 eigenmath.c:
-	cat ../src/defs.h ../src/prototypes.h ../src/*.c > ../eigenmath.c
+	cat preamble ../src/defs.h ../src/prototypes.h ../src/*.c > ../eigenmath.c
 
 xcode:
 	cp ../src/defs.h ../src/externs.h ../xcode/Eigenmath/C
