@@ -303,7 +303,6 @@ struct atom {
 #define ARG8		(26 * NSYM + 16)
 #define ARG9		(26 * NSYM + 17)
 
-#define MAXPRIMETAB 10000
 #define MAXDIM 24
 
 struct tensor {
@@ -362,8 +361,6 @@ struct tensor {
 #define RED 2
 
 #define Trace fprintf(stderr, "%s %d\n", __func__, __LINE__);
-
-extern int primetab[MAXPRIMETAB];
 // Run 'make' in 'eigenmath/tools' directory to update this file
 void eval_abs(struct atom *p1);
 void absfunc(void);
@@ -6654,6 +6651,9 @@ expsin(void)
 
 	subtract();
 }
+#define NPRIME 10000
+extern int primetab[NPRIME];
+
 void
 eval_factor(struct atom *p1)
 {
@@ -6976,7 +6976,7 @@ factorpoly_factor_small_number(int n)
 	if (n < 0)
 		n = -n;
 
-	for (k = 0; k < MAXPRIMETAB; k++) {
+	for (k = 0; k < NPRIME; k++) {
 
 		d = primetab[k];
 
@@ -7094,7 +7094,7 @@ factor_bignum(uint32_t *a, struct atom *EXPO)
 
 	n = a[0];
 
-	for (k = 0; k < MAXPRIMETAB; k++) {
+	for (k = 0; k < NPRIME; k++) {
 
 		d = primetab[k];
 

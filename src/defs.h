@@ -267,7 +267,6 @@ struct atom {
 #define ARG8		(26 * NSYM + 16)
 #define ARG9		(26 * NSYM + 17)
 
-#define MAXPRIMETAB 10000
 #define MAXDIM 24
 
 struct tensor {
@@ -326,5 +325,3 @@ struct tensor {
 #define RED 2
 
 #define Trace fprintf(stderr, "%s %d\n", __func__, __LINE__);
-
-extern int primetab[MAXPRIMETAB];

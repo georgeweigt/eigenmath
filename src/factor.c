@@ -1,3 +1,6 @@
+#define NPRIME 10000
+extern int primetab[NPRIME];
+
 void
 eval_factor(struct atom *p1)
 {
@@ -320,7 +323,7 @@ factorpoly_factor_small_number(int n)
 	if (n < 0)
 		n = -n;
 
-	for (k = 0; k < MAXPRIMETAB; k++) {
+	for (k = 0; k < NPRIME; k++) {
 
 		d = primetab[k];
 
@@ -438,7 +441,7 @@ factor_bignum(uint32_t *a, struct atom *EXPO)
 
 	n = a[0];
 
-	for (k = 0; k < MAXPRIMETAB; k++) {
+	for (k = 0; k < NPRIME; k++) {
 
 		d = primetab[k];
 
