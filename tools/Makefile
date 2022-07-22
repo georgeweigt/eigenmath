@@ -113,4 +113,4 @@ xcode:
 ../src/test.c \
 ../src/transpose.c \
 ../src/userfunc.c \
->> ../xcode/src/C/eigenmath.c
+	>> ../xcode/src/C/eigenmath.c
