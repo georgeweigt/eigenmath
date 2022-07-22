@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_denominator(struct atom *p1)
 {

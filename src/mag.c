@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_mag(struct atom *p1)
 {

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_real(struct atom *p1)
 {

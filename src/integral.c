@@ -1,5 +1,3 @@
-#include "defs.h"
-
 char *integral_tab_exp[] = {
 
 // x^n exp(a x + b)

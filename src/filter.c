@@ -1,11 +1,8 @@
-/* Remove terms that involve a given symbol or expression. For example...
-
-	filter(x^2 + x + 1, x)		=>	1
-
-	filter(x^2 + x + 1, x^2)	=>	x + 1
-*/
-
-#include "defs.h"
+// Remove terms that involve a given symbol or expression. For example...
+//
+//	filter(x^2 + x + 1, x)		=>	1
+//
+//	filter(x^2 + x + 1, x^2)	=>	x + 1
 
 void
 eval_filter(struct atom *p1)

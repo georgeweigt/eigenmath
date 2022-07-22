@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_rationalize(struct atom *p1)
 {

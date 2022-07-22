@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_abs(struct atom *p1)
 {

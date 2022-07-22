@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_index(struct atom *p1)
 {

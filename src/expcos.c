@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_expcos(struct atom *p1)
 {

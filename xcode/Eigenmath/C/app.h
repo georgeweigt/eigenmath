@@ -1,5 +1,7 @@
-#include "../../../src/defs.h"
+#include "defs.h"
 #include <ApplicationServices/ApplicationServices.h>
+#include "prototypes.h"
+#include "externs.h"
 
 #define HPAD 10
 #define VPAD 10
@@ -81,8 +83,6 @@ struct display {
 	uint8_t buf[0];
 	double mem[0];
 };
-
-#include "app-prototypes.h"
 
 extern CGContextRef gcontext;
 

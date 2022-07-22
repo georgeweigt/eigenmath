@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_setq(struct atom *p1)
 {

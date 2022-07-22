@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_exp(struct atom *p1)
 {

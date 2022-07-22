@@ -4,8 +4,6 @@
 //	  ^                   ^
 //	  token_str           scan_str
 
-#include "defs.h"
-
 #define T_INTEGER 1001
 #define T_DOUBLE 1002
 #define T_SYMBOL 1003

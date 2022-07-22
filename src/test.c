@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_test(struct atom *p1)
 {

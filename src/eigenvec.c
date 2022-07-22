@@ -1,5 +1,3 @@
-#include "defs.h"
-
 #undef D
 #undef Q
 

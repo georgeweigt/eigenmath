@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_transpose(struct atom *p1)
 {

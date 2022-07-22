@@ -1,5 +1,3 @@
-#include "defs.h"
-
 #define TABLE_HSPACE 3
 #define TABLE_VSPACE 1
 

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_imag(struct atom *p1)
 {

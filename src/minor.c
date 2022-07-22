@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_minor(struct atom *p1)
 {

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 // symbol lookup, create symbol if not found
 
 struct atom *

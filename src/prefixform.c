@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_prefixform(struct atom *p1)
 {

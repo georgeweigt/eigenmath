@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_adj(struct atom *p1)
 {

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_product(struct atom *p1)
 {

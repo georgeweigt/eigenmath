@@ -1,5 +1,3 @@
-#include "defs.h"
-
 // can only be called from main run loop
 
 void

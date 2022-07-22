@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_taylor(struct atom *p1)
 {

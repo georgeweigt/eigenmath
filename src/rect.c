@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_rect(struct atom *p1)
 {

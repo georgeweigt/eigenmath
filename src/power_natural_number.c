@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 power_natural_number(struct atom *EXPO)
 {

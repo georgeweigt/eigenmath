@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_det(struct atom *p1)
 {

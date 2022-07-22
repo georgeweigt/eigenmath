@@ -1,5 +1,3 @@
-#include "defs.h"
-
 struct atom *
 alloc_atom(void)
 {

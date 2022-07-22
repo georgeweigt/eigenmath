@@ -1,5 +1,3 @@
-#include "defs.h"
-
 #define MML_MINUS "<mo rspace='0'>-</mo>"
 #define MML_MINUS_1 "<mo>(</mo><mo rspace='0'>-</mo><mn>1</mn><mo>)</mo>"
 #define MML_LP "<mrow><mo>(</mo>"

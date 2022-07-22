@@ -1,5 +1,3 @@
-#include "defs.h"
-
 char *trace1;
 char *trace2;
 

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 // BASE and EXPO are numbers
 
 void

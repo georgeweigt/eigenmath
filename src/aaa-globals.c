@@ -1,5 +1,3 @@
-#include "defs.h"
-
 struct atom *mem[MAXBLOCKS];
 struct atom *free_list;
 

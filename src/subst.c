@@ -1,5 +1,3 @@
-#include "defs.h"
-
 // Substitute replacement for match in target expr.
 //
 // Input:	push	target expr

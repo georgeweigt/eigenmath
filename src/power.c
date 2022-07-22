@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_power(struct atom *p1)
 {

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_polar(struct atom *p1)
 {

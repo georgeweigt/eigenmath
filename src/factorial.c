@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_factorial(struct atom *p1)
 {

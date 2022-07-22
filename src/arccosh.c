@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_arccosh(struct atom *p1)
 {

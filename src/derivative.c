@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_derivative(struct atom *p1)
 {

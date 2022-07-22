@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_sgn(struct atom *p1)
 {

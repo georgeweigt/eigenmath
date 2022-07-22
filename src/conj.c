@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_conj(struct atom *p1)
 {

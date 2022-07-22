@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_outer(struct atom *p1)
 {

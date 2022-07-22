@@ -1,5 +1,3 @@
-#include "defs.h"
-
 int doc_type;
 int doc_state;
 char *infile;

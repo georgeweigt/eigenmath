@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_log(struct atom *p1)
 {

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 int
 equal(struct atom *p1, struct atom *p2)
 {

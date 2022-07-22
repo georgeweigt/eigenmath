@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_float(struct atom *p1)
 {

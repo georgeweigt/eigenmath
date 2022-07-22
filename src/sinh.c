@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_sinh(struct atom *p1)
 {

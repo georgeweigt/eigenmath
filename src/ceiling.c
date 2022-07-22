@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_ceiling(struct atom *p1)
 {

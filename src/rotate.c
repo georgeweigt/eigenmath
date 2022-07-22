@@ -1,5 +1,3 @@
-#include "defs.h"
-
 #define NUMQBITS PSI->u.tensor->nelem
 #define KET0 PSI->u.tensor->elem[i ^ n]
 #define KET1 PSI->u.tensor->elem[i]

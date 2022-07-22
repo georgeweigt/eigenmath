@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_sin(struct atom *p1)
 {

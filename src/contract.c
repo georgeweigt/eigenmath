@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_contract(struct atom *p1)
 {

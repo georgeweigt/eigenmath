@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_simplify(struct atom *p1)
 {

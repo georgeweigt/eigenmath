@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_mod(struct atom *p1)
 {

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_hadamard(struct atom *p1)
 {

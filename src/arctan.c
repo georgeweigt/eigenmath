@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_arctan(struct atom *p1)
 {

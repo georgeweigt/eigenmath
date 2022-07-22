@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_kronecker(struct atom *p1)
 {

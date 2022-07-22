@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_mathjax(struct atom *p1)
 {

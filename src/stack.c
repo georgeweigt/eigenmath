@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 push(struct atom *p)
 {

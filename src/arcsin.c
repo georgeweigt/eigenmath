@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_arcsin(struct atom *p1)
 {

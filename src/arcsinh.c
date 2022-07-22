@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_arcsinh(struct atom *p1)
 {

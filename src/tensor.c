@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_tensor(struct atom *p1)
 {

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_latex(struct atom *p1)
 {

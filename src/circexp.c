@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_circexp(struct atom *p1)
 {

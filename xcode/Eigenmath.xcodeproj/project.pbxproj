@@ -12,96 +12,7 @@
 		7F2C0616271CFF3F00128330 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F2C0615271CFF3F00128330 /* main.m */; };
 		7F70C945271E015800691D3F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F70C944271E015800691D3F /* Images.xcassets */; };
 		7F79615D27405F4E00211A54 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F79615B27405F4E00211A54 /* MainMenu.xib */; };
-		7FAB242B271D0293007ED5D2 /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BA271D0293007ED5D2 /* log.c */; };
-		7FAB242C271D0293007ED5D2 /* arcsinh.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BB271D0293007ED5D2 /* arcsinh.c */; };
-		7FAB242D271D0293007ED5D2 /* power_natural_number.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BC271D0293007ED5D2 /* power_natural_number.c */; };
-		7FAB242F271D0293007ED5D2 /* eval.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BE271D0293007ED5D2 /* eval.c */; };
-		7FAB2430271D0293007ED5D2 /* rect.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23BF271D0293007ED5D2 /* rect.c */; };
-		7FAB2431271D0293007ED5D2 /* sum.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23C0271D0293007ED5D2 /* sum.c */; };
-		7FAB2434271D0293007ED5D2 /* factor.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23C3271D0293007ED5D2 /* factor.c */; };
-		7FAB2435271D0293007ED5D2 /* roots.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23C4271D0293007ED5D2 /* roots.c */; };
-		7FAB2437271D0293007ED5D2 /* erfc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23C7271D0293007ED5D2 /* erfc.c */; };
-		7FAB243A271D0293007ED5D2 /* expsin.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23CA271D0293007ED5D2 /* expsin.c */; };
-		7FAB243B271D0293007ED5D2 /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23CB271D0293007ED5D2 /* print.c */; };
-		7FAB243C271D0293007ED5D2 /* imag.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23CC271D0293007ED5D2 /* imag.c */; };
-		7FAB243D271D0293007ED5D2 /* erf.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23CD271D0293007ED5D2 /* erf.c */; };
-		7FAB243E271D0293007ED5D2 /* circexp.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23CE271D0293007ED5D2 /* circexp.c */; };
-		7FAB243F271D0293007ED5D2 /* latex.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23CF271D0293007ED5D2 /* latex.c */; };
-		7FAB2440271D0293007ED5D2 /* rotate.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23D0271D0293007ED5D2 /* rotate.c */; };
-		7FAB2441271D0293007ED5D2 /* expcos.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23D1271D0293007ED5D2 /* expcos.c */; };
-		7FAB2442271D0293007ED5D2 /* stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23D2271D0293007ED5D2 /* stack.c */; };
-		7FAB2444271D0293007ED5D2 /* power_numbers.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23D4271D0293007ED5D2 /* power_numbers.c */; };
-		7FAB2445271D0293007ED5D2 /* hadamard.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23D5271D0293007ED5D2 /* hadamard.c */; };
-		7FAB2446271D0293007ED5D2 /* mod.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23D6271D0293007ED5D2 /* mod.c */; };
-		7FAB2447271D0293007ED5D2 /* sinh.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23D7271D0293007ED5D2 /* sinh.c */; };
-		7FAB2448271D0293007ED5D2 /* sin.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23D8271D0293007ED5D2 /* sin.c */; };
-		7FAB244A271D0293007ED5D2 /* conj.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23DA271D0293007ED5D2 /* conj.c */; };
-		7FAB244B271D0293007ED5D2 /* inner.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23DB271D0293007ED5D2 /* inner.c */; };
-		7FAB244C271D0293007ED5D2 /* outer.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23DD271D0293007ED5D2 /* outer.c */; };
-		7FAB244D271D0293007ED5D2 /* cofactor.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23DE271D0293007ED5D2 /* cofactor.c */; };
-		7FAB244E271D0293007ED5D2 /* integral.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23DF271D0293007ED5D2 /* integral.c */; };
-		7FAB244F271D0293007ED5D2 /* userfunc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E0271D0293007ED5D2 /* userfunc.c */; };
-		7FAB2450271D0293007ED5D2 /* simplify.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E1271D0293007ED5D2 /* simplify.c */; };
-		7FAB2451271D0293007ED5D2 /* minor.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E2271D0293007ED5D2 /* minor.c */; };
-		7FAB2452271D0293007ED5D2 /* run.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E3271D0293007ED5D2 /* run.c */; };
-		7FAB2453271D0293007ED5D2 /* cos.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E4271D0293007ED5D2 /* cos.c */; };
-		7FAB2454271D0293007ED5D2 /* contract.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E5271D0293007ED5D2 /* contract.c */; };
-		7FAB2455271D0293007ED5D2 /* exp.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E6271D0293007ED5D2 /* exp.c */; };
-		7FAB2456271D0293007ED5D2 /* mag.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E7271D0293007ED5D2 /* mag.c */; };
-		7FAB2457271D0293007ED5D2 /* scan.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E8271D0293007ED5D2 /* scan.c */; };
-		7FAB2458271D0293007ED5D2 /* det.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23E9271D0293007ED5D2 /* det.c */; };
-		7FAB245A271D0293007ED5D2 /* inv.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23EB271D0293007ED5D2 /* inv.c */; };
-		7FAB245B271D0293007ED5D2 /* denominator.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23EC271D0293007ED5D2 /* denominator.c */; };
-		7FAB245C271D0293007ED5D2 /* polar.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23ED271D0293007ED5D2 /* polar.c */; };
-		7FAB245D271D0293007ED5D2 /* prefixform.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23EE271D0293007ED5D2 /* prefixform.c */; };
-		7FAB245E271D0293007ED5D2 /* quotient.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23EF271D0293007ED5D2 /* quotient.c */; };
-		7FAB245F271D0293007ED5D2 /* transpose.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23F0271D0293007ED5D2 /* transpose.c */; };
-		7FAB2460271D0293007ED5D2 /* tensor.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23F1271D0293007ED5D2 /* tensor.c */; };
-		7FAB2461271D0293007ED5D2 /* numerator.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23F2271D0293007ED5D2 /* numerator.c */; };
-		7FAB2462271D0293007ED5D2 /* power_minusone.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23F3271D0293007ED5D2 /* power_minusone.c */; };
-		7FAB2463271D0293007ED5D2 /* bignum.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23F4271D0293007ED5D2 /* bignum.c */; };
-		7FAB2464271D0293007ED5D2 /* floor.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23F5271D0293007ED5D2 /* floor.c */; };
-		7FAB2465271D0293007ED5D2 /* clock.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23F6271D0293007ED5D2 /* clock.c */; };
-		7FAB2466271D0293007ED5D2 /* arctan.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23F7271D0293007ED5D2 /* arctan.c */; };
-		7FAB2467271D0293007ED5D2 /* filter.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23F8271D0293007ED5D2 /* filter.c */; };
-		7FAB2468271D0293007ED5D2 /* nroots.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23F9271D0293007ED5D2 /* nroots.c */; };
-		7FAB246A271D0293007ED5D2 /* setq.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23FB271D0293007ED5D2 /* setq.c */; };
-		7FAB246C271D0293007ED5D2 /* core.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23FD271D0293007ED5D2 /* core.c */; };
-		7FAB246D271D0293007ED5D2 /* power.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB23FF271D0293007ED5D2 /* power.c */; };
-		7FAB246E271D0293007ED5D2 /* ceiling.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2400271D0293007ED5D2 /* ceiling.c */; };
-		7FAB2471271D0293007ED5D2 /* index.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2403271D0293007ED5D2 /* index.c */; };
-		7FAB2472271D0293007ED5D2 /* infixform.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2404271D0293007ED5D2 /* infixform.c */; };
-		7FAB2474271D0293007ED5D2 /* power_complex_number.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2406271D0293007ED5D2 /* power_complex_number.c */; };
-		7FAB2476271D0294007ED5D2 /* factorial.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2408271D0293007ED5D2 /* factorial.c */; };
-		7FAB2477271D0294007ED5D2 /* derivative.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2409271D0293007ED5D2 /* derivative.c */; };
-		7FAB2478271D0294007ED5D2 /* arccosh.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB240A271D0293007ED5D2 /* arccosh.c */; };
-		7FAB2479271D0294007ED5D2 /* arctanh.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB240B271D0293007ED5D2 /* arctanh.c */; };
-		7FAB247A271D0294007ED5D2 /* for.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB240C271D0293007ED5D2 /* for.c */; };
-		7FAB247B271D0294007ED5D2 /* equal.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB240D271D0293007ED5D2 /* equal.c */; };
-		7FAB247C271D0294007ED5D2 /* symbol.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB240E271D0293007ED5D2 /* symbol.c */; };
-		7FAB247E271D0294007ED5D2 /* mathml.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2410271D0293007ED5D2 /* mathml.c */; };
-		7FAB247F271D0294007ED5D2 /* product.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2411271D0293007ED5D2 /* product.c */; };
-		7FAB2480271D0294007ED5D2 /* float.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2412271D0293007ED5D2 /* float.c */; };
-		7FAB2481271D0294007ED5D2 /* rationalize.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2413271D0293007ED5D2 /* rationalize.c */; };
-		7FAB2482271D0294007ED5D2 /* arcsin.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2414271D0293007ED5D2 /* arcsin.c */; };
-		7FAB2483271D0294007ED5D2 /* defint.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2415271D0293007ED5D2 /* defint.c */; };
-		7FAB2484271D0294007ED5D2 /* test.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2416271D0293007ED5D2 /* test.c */; };
-		7FAB2485271D0294007ED5D2 /* add.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2417271D0293007ED5D2 /* add.c */; };
-		7FAB2486271D0294007ED5D2 /* noexpand.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2418271D0293007ED5D2 /* noexpand.c */; };
-		7FAB2487271D0294007ED5D2 /* multiply.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2419271D0293007ED5D2 /* multiply.c */; };
-		7FAB2488271D0294007ED5D2 /* primetab.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB241A271D0293007ED5D2 /* primetab.c */; };
-		7FAB248A271D0294007ED5D2 /* arg.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB241C271D0293007ED5D2 /* arg.c */; };
-		7FAB248B271D0294007ED5D2 /* arccos.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB241D271D0293007ED5D2 /* arccos.c */; };
-		7FAB248C271D0294007ED5D2 /* mathjax.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB241E271D0293007ED5D2 /* mathjax.c */; };
-		7FAB248D271D0294007ED5D2 /* adj.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB241F271D0293007ED5D2 /* adj.c */; };
-		7FAB248E271D0294007ED5D2 /* tanh.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2420271D0293007ED5D2 /* tanh.c */; };
-		7FAB248F271D0294007ED5D2 /* cosh.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2421271D0293007ED5D2 /* cosh.c */; };
-		7FAB2491271D0294007ED5D2 /* globals.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2423271D0293007ED5D2 /* globals.c */; };
-		7FAB2493271D0294007ED5D2 /* kronecker.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2425271D0293007ED5D2 /* kronecker.c */; };
-		7FAB2494271D0294007ED5D2 /* real.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2426271D0293007ED5D2 /* real.c */; };
-		7FAB2496271D0294007ED5D2 /* abs.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2428271D0293007ED5D2 /* abs.c */; };
-		7FAB2497271D0294007ED5D2 /* subst.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB2429271D0293007ED5D2 /* subst.c */; };
-		7FAB2498271D0294007ED5D2 /* tan.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB242A271D0293007ED5D2 /* tan.c */; };
+		7F7F97C5288AD00E007999F9 /* eigenmath.c in Sources */ = {isa = PBXBuildFile; fileRef = 7F7F97C4288AD00E007999F9 /* eigenmath.c */; };
 		7FAB24A4271D0556007ED5D2 /* EigenmathView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB24A3271D0556007ED5D2 /* EigenmathView.m */; };
 		7FAE1428271D0FD4001234C6 /* display.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE141A271D0FD4001234C6 /* display.c */; };
 		7FAE1429271D0FD4001234C6 /* emit.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE141B271D0FD4001234C6 /* emit.c */; };
@@ -115,11 +26,6 @@
 		7FAE1431271D0FD4001234C6 /* run_thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1425271D0FD4001234C6 /* run_thread.c */; };
 		7FAE1432271D0FD4001234C6 /* app.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1426271D0FD4001234C6 /* app.c */; };
 		7FAE1433271D0FD4001234C6 /* fontinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FAE1427271D0FD4001234C6 /* fontinfo.c */; };
-		7FC9CC1528491F4B00808C60 /* taylor.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FC9CC1428491F4B00808C60 /* taylor.c */; };
-		7FD15F352867A2D400477307 /* eigenvec.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FD15F342867A2D400477307 /* eigenvec.c */; };
-		7FD15F382867A4D400477307 /* sgn.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FD15F372867A4D300477307 /* sgn.c */; };
-		7FDAF4EB286F3DFE00CE0A86 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FDAF4EA286F3DFE00CE0A86 /* alloc.c */; };
-		7FDAF4EE286F3E1400CE0A86 /* gc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FDAF4ED286F3E1400CE0A86 /* gc.c */; };
 		7FF6B91C271DCAC20047F0A7 /* Eigenmath.help in Resources */ = {isa = PBXBuildFile; fileRef = 7FF6B91A271DCAC20047F0A7 /* Eigenmath.help */; };
 /* End PBXBuildFile section */
 
@@ -133,104 +39,14 @@
 		7F2C0617271CFF3F00128330 /* Eigenmath.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Eigenmath.entitlements; sourceTree = "<group>"; };
 		7F70C944271E015800691D3F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7F79615C27405F4E00211A54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		7FAB23BA271D0293007ED5D2 /* log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
-		7FAB23BB271D0293007ED5D2 /* arcsinh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = arcsinh.c; sourceTree = "<group>"; };
-		7FAB23BC271D0293007ED5D2 /* power_natural_number.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = power_natural_number.c; sourceTree = "<group>"; };
-		7FAB23BE271D0293007ED5D2 /* eval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eval.c; sourceTree = "<group>"; };
-		7FAB23BF271D0293007ED5D2 /* rect.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rect.c; sourceTree = "<group>"; };
-		7FAB23C0271D0293007ED5D2 /* sum.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sum.c; sourceTree = "<group>"; };
-		7FAB23C3271D0293007ED5D2 /* factor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = factor.c; sourceTree = "<group>"; };
-		7FAB23C4271D0293007ED5D2 /* roots.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = roots.c; sourceTree = "<group>"; };
-		7FAB23C5271D0293007ED5D2 /* defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defs.h; sourceTree = "<group>"; };
-		7FAB23C7271D0293007ED5D2 /* erfc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = erfc.c; sourceTree = "<group>"; };
-		7FAB23CA271D0293007ED5D2 /* expsin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = expsin.c; sourceTree = "<group>"; };
-		7FAB23CB271D0293007ED5D2 /* print.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = print.c; sourceTree = "<group>"; };
-		7FAB23CC271D0293007ED5D2 /* imag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = imag.c; sourceTree = "<group>"; };
-		7FAB23CD271D0293007ED5D2 /* erf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = erf.c; sourceTree = "<group>"; };
-		7FAB23CE271D0293007ED5D2 /* circexp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = circexp.c; sourceTree = "<group>"; };
-		7FAB23CF271D0293007ED5D2 /* latex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = latex.c; sourceTree = "<group>"; };
-		7FAB23D0271D0293007ED5D2 /* rotate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rotate.c; sourceTree = "<group>"; };
-		7FAB23D1271D0293007ED5D2 /* expcos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = expcos.c; sourceTree = "<group>"; };
-		7FAB23D2271D0293007ED5D2 /* stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stack.c; sourceTree = "<group>"; };
-		7FAB23D4271D0293007ED5D2 /* power_numbers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = power_numbers.c; sourceTree = "<group>"; };
-		7FAB23D5271D0293007ED5D2 /* hadamard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hadamard.c; sourceTree = "<group>"; };
-		7FAB23D6271D0293007ED5D2 /* mod.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mod.c; sourceTree = "<group>"; };
-		7FAB23D7271D0293007ED5D2 /* sinh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sinh.c; sourceTree = "<group>"; };
-		7FAB23D8271D0293007ED5D2 /* sin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sin.c; sourceTree = "<group>"; };
-		7FAB23DA271D0293007ED5D2 /* conj.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = conj.c; sourceTree = "<group>"; };
-		7FAB23DB271D0293007ED5D2 /* inner.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inner.c; sourceTree = "<group>"; };
-		7FAB23DC271D0293007ED5D2 /* defs1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defs1.h; sourceTree = "<group>"; };
-		7FAB23DD271D0293007ED5D2 /* outer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = outer.c; sourceTree = "<group>"; };
-		7FAB23DE271D0293007ED5D2 /* cofactor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cofactor.c; sourceTree = "<group>"; };
-		7FAB23DF271D0293007ED5D2 /* integral.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = integral.c; sourceTree = "<group>"; };
-		7FAB23E0271D0293007ED5D2 /* userfunc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = userfunc.c; sourceTree = "<group>"; };
-		7FAB23E1271D0293007ED5D2 /* simplify.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = simplify.c; sourceTree = "<group>"; };
-		7FAB23E2271D0293007ED5D2 /* minor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = minor.c; sourceTree = "<group>"; };
-		7FAB23E3271D0293007ED5D2 /* run.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = run.c; sourceTree = "<group>"; };
-		7FAB23E4271D0293007ED5D2 /* cos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cos.c; sourceTree = "<group>"; };
-		7FAB23E5271D0293007ED5D2 /* contract.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = contract.c; sourceTree = "<group>"; };
-		7FAB23E6271D0293007ED5D2 /* exp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = exp.c; sourceTree = "<group>"; };
-		7FAB23E7271D0293007ED5D2 /* mag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mag.c; sourceTree = "<group>"; };
-		7FAB23E8271D0293007ED5D2 /* scan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scan.c; sourceTree = "<group>"; };
-		7FAB23E9271D0293007ED5D2 /* det.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = det.c; sourceTree = "<group>"; };
-		7FAB23EB271D0293007ED5D2 /* inv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inv.c; sourceTree = "<group>"; };
-		7FAB23EC271D0293007ED5D2 /* denominator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = denominator.c; sourceTree = "<group>"; };
-		7FAB23ED271D0293007ED5D2 /* polar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = polar.c; sourceTree = "<group>"; };
-		7FAB23EE271D0293007ED5D2 /* prefixform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = prefixform.c; sourceTree = "<group>"; };
-		7FAB23EF271D0293007ED5D2 /* quotient.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = quotient.c; sourceTree = "<group>"; };
-		7FAB23F0271D0293007ED5D2 /* transpose.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = transpose.c; sourceTree = "<group>"; };
-		7FAB23F1271D0293007ED5D2 /* tensor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tensor.c; sourceTree = "<group>"; };
-		7FAB23F2271D0293007ED5D2 /* numerator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = numerator.c; sourceTree = "<group>"; };
-		7FAB23F3271D0293007ED5D2 /* power_minusone.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = power_minusone.c; sourceTree = "<group>"; };
-		7FAB23F4271D0293007ED5D2 /* bignum.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bignum.c; sourceTree = "<group>"; };
-		7FAB23F5271D0293007ED5D2 /* floor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = floor.c; sourceTree = "<group>"; };
-		7FAB23F6271D0293007ED5D2 /* clock.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = clock.c; sourceTree = "<group>"; };
-		7FAB23F7271D0293007ED5D2 /* arctan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = arctan.c; sourceTree = "<group>"; };
-		7FAB23F8271D0293007ED5D2 /* filter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = filter.c; sourceTree = "<group>"; };
-		7FAB23F9271D0293007ED5D2 /* nroots.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nroots.c; sourceTree = "<group>"; };
-		7FAB23FB271D0293007ED5D2 /* setq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = setq.c; sourceTree = "<group>"; };
-		7FAB23FD271D0293007ED5D2 /* core.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = core.c; sourceTree = "<group>"; };
-		7FAB23FE271D0293007ED5D2 /* prototypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prototypes.h; sourceTree = "<group>"; };
-		7FAB23FF271D0293007ED5D2 /* power.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = power.c; sourceTree = "<group>"; };
-		7FAB2400271D0293007ED5D2 /* ceiling.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ceiling.c; sourceTree = "<group>"; };
-		7FAB2403271D0293007ED5D2 /* index.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = index.c; sourceTree = "<group>"; };
-		7FAB2404271D0293007ED5D2 /* infixform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = infixform.c; sourceTree = "<group>"; };
-		7FAB2406271D0293007ED5D2 /* power_complex_number.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = power_complex_number.c; sourceTree = "<group>"; };
-		7FAB2408271D0293007ED5D2 /* factorial.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = factorial.c; sourceTree = "<group>"; };
-		7FAB2409271D0293007ED5D2 /* derivative.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = derivative.c; sourceTree = "<group>"; };
-		7FAB240A271D0293007ED5D2 /* arccosh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = arccosh.c; sourceTree = "<group>"; };
-		7FAB240B271D0293007ED5D2 /* arctanh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = arctanh.c; sourceTree = "<group>"; };
-		7FAB240C271D0293007ED5D2 /* for.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = for.c; sourceTree = "<group>"; };
-		7FAB240D271D0293007ED5D2 /* equal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = equal.c; sourceTree = "<group>"; };
-		7FAB240E271D0293007ED5D2 /* symbol.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = symbol.c; sourceTree = "<group>"; };
-		7FAB2410271D0293007ED5D2 /* mathml.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mathml.c; sourceTree = "<group>"; };
-		7FAB2411271D0293007ED5D2 /* product.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = product.c; sourceTree = "<group>"; };
-		7FAB2412271D0293007ED5D2 /* float.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = float.c; sourceTree = "<group>"; };
-		7FAB2413271D0293007ED5D2 /* rationalize.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rationalize.c; sourceTree = "<group>"; };
-		7FAB2414271D0293007ED5D2 /* arcsin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = arcsin.c; sourceTree = "<group>"; };
-		7FAB2415271D0293007ED5D2 /* defint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = defint.c; sourceTree = "<group>"; };
-		7FAB2416271D0293007ED5D2 /* test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test.c; sourceTree = "<group>"; };
-		7FAB2417271D0293007ED5D2 /* add.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = add.c; sourceTree = "<group>"; };
-		7FAB2418271D0293007ED5D2 /* noexpand.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = noexpand.c; sourceTree = "<group>"; };
-		7FAB2419271D0293007ED5D2 /* multiply.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = multiply.c; sourceTree = "<group>"; };
-		7FAB241A271D0293007ED5D2 /* primetab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = primetab.c; sourceTree = "<group>"; };
-		7FAB241C271D0293007ED5D2 /* arg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = arg.c; sourceTree = "<group>"; };
-		7FAB241D271D0293007ED5D2 /* arccos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = arccos.c; sourceTree = "<group>"; };
-		7FAB241E271D0293007ED5D2 /* mathjax.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mathjax.c; sourceTree = "<group>"; };
-		7FAB241F271D0293007ED5D2 /* adj.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adj.c; sourceTree = "<group>"; };
-		7FAB2420271D0293007ED5D2 /* tanh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tanh.c; sourceTree = "<group>"; };
-		7FAB2421271D0293007ED5D2 /* cosh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cosh.c; sourceTree = "<group>"; };
-		7FAB2423271D0293007ED5D2 /* globals.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = globals.c; sourceTree = "<group>"; };
-		7FAB2425271D0293007ED5D2 /* kronecker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kronecker.c; sourceTree = "<group>"; };
-		7FAB2426271D0293007ED5D2 /* real.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = real.c; sourceTree = "<group>"; };
-		7FAB2428271D0293007ED5D2 /* abs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = abs.c; sourceTree = "<group>"; };
-		7FAB2429271D0293007ED5D2 /* subst.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = subst.c; sourceTree = "<group>"; };
-		7FAB242A271D0293007ED5D2 /* tan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tan.c; sourceTree = "<group>"; };
+		7F7F97C4288AD00E007999F9 /* eigenmath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eigenmath.c; sourceTree = "<group>"; };
+		7F7F97C7288AD329007999F9 /* defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defs.h; sourceTree = "<group>"; };
+		7F7F97C8288AD334007999F9 /* externs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = externs.h; sourceTree = "<group>"; };
+		7F7F97C9288AD33E007999F9 /* prototypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prototypes.h; sourceTree = "<group>"; };
 		7FAB24A2271D054B007ED5D2 /* EigenmathView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EigenmathView.h; sourceTree = "<group>"; };
 		7FAB24A3271D0556007ED5D2 /* EigenmathView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EigenmathView.m; sourceTree = "<group>"; };
 		7FAE141A271D0FD4001234C6 /* display.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = display.c; sourceTree = "<group>"; };
 		7FAE141B271D0FD4001234C6 /* emit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = emit.c; sourceTree = "<group>"; };
-		7FAE141C271D0FD4001234C6 /* app-prototypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "app-prototypes.h"; sourceTree = "<group>"; };
 		7FAE141D271D0FD4001234C6 /* eval_draw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eval_draw.c; sourceTree = "<group>"; };
 		7FAE141E271D0FD4001234C6 /* atomic.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = atomic.c; sourceTree = "<group>"; };
 		7FAE141F271D0FD4001234C6 /* app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app.h; sourceTree = "<group>"; };
@@ -242,11 +58,6 @@
 		7FAE1425271D0FD4001234C6 /* run_thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = run_thread.c; sourceTree = "<group>"; };
 		7FAE1426271D0FD4001234C6 /* app.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = app.c; sourceTree = "<group>"; };
 		7FAE1427271D0FD4001234C6 /* fontinfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fontinfo.c; sourceTree = "<group>"; };
-		7FC9CC1428491F4B00808C60 /* taylor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = taylor.c; sourceTree = "<group>"; };
-		7FD15F342867A2D400477307 /* eigenvec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eigenvec.c; sourceTree = "<group>"; };
-		7FD15F372867A4D300477307 /* sgn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sgn.c; sourceTree = "<group>"; };
-		7FDAF4EA286F3DFE00CE0A86 /* alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alloc.c; sourceTree = "<group>"; };
-		7FDAF4ED286F3E1400CE0A86 /* gc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gc.c; sourceTree = "<group>"; };
 		7FF6B91B271DCAC20047F0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base; path = Base.lproj/Eigenmath.help; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -264,7 +75,6 @@
 		7F2C0600271CFF3300128330 = {
 			isa = PBXGroup;
 			children = (
-				7FAB23B9271D0293007ED5D2 /* src */,
 				7F2C060B271CFF3300128330 /* Eigenmath */,
 				7F2C060A271CFF3300128330 /* Products */,
 			);
@@ -296,116 +106,13 @@
 			path = Eigenmath;
 			sourceTree = "<group>";
 		};
-		7FAB23B9271D0293007ED5D2 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				7FDAF4ED286F3E1400CE0A86 /* gc.c */,
-				7FDAF4EA286F3DFE00CE0A86 /* alloc.c */,
-				7FD15F372867A4D300477307 /* sgn.c */,
-				7FD15F342867A2D400477307 /* eigenvec.c */,
-				7FC9CC1428491F4B00808C60 /* taylor.c */,
-				7FAB2428271D0293007ED5D2 /* abs.c */,
-				7FAB2417271D0293007ED5D2 /* add.c */,
-				7FAB241F271D0293007ED5D2 /* adj.c */,
-				7FAB241D271D0293007ED5D2 /* arccos.c */,
-				7FAB240A271D0293007ED5D2 /* arccosh.c */,
-				7FAB2414271D0293007ED5D2 /* arcsin.c */,
-				7FAB23BB271D0293007ED5D2 /* arcsinh.c */,
-				7FAB23F7271D0293007ED5D2 /* arctan.c */,
-				7FAB240B271D0293007ED5D2 /* arctanh.c */,
-				7FAB241C271D0293007ED5D2 /* arg.c */,
-				7FAB23F4271D0293007ED5D2 /* bignum.c */,
-				7FAB2400271D0293007ED5D2 /* ceiling.c */,
-				7FAB23CE271D0293007ED5D2 /* circexp.c */,
-				7FAB23F6271D0293007ED5D2 /* clock.c */,
-				7FAB23DE271D0293007ED5D2 /* cofactor.c */,
-				7FAB23DA271D0293007ED5D2 /* conj.c */,
-				7FAB23E5271D0293007ED5D2 /* contract.c */,
-				7FAB23FD271D0293007ED5D2 /* core.c */,
-				7FAB23E4271D0293007ED5D2 /* cos.c */,
-				7FAB2421271D0293007ED5D2 /* cosh.c */,
-				7FAB2415271D0293007ED5D2 /* defint.c */,
-				7FAB23C5271D0293007ED5D2 /* defs.h */,
-				7FAB23DC271D0293007ED5D2 /* defs1.h */,
-				7FAB23EC271D0293007ED5D2 /* denominator.c */,
-				7FAB2409271D0293007ED5D2 /* derivative.c */,
-				7FAB23E9271D0293007ED5D2 /* det.c */,
-				7FAB240D271D0293007ED5D2 /* equal.c */,
-				7FAB23CD271D0293007ED5D2 /* erf.c */,
-				7FAB23C7271D0293007ED5D2 /* erfc.c */,
-				7FAB23BE271D0293007ED5D2 /* eval.c */,
-				7FAB23E6271D0293007ED5D2 /* exp.c */,
-				7FAB23D1271D0293007ED5D2 /* expcos.c */,
-				7FAB23CA271D0293007ED5D2 /* expsin.c */,
-				7FAB23C3271D0293007ED5D2 /* factor.c */,
-				7FAB2408271D0293007ED5D2 /* factorial.c */,
-				7FAB23F8271D0293007ED5D2 /* filter.c */,
-				7FAB2412271D0293007ED5D2 /* float.c */,
-				7FAB23F5271D0293007ED5D2 /* floor.c */,
-				7FAB240C271D0293007ED5D2 /* for.c */,
-				7FAB2423271D0293007ED5D2 /* globals.c */,
-				7FAB23D5271D0293007ED5D2 /* hadamard.c */,
-				7FAB23CC271D0293007ED5D2 /* imag.c */,
-				7FAB2403271D0293007ED5D2 /* index.c */,
-				7FAB2404271D0293007ED5D2 /* infixform.c */,
-				7FAB23DB271D0293007ED5D2 /* inner.c */,
-				7FAB23DF271D0293007ED5D2 /* integral.c */,
-				7FAB23EB271D0293007ED5D2 /* inv.c */,
-				7FAB2425271D0293007ED5D2 /* kronecker.c */,
-				7FAB23CF271D0293007ED5D2 /* latex.c */,
-				7FAB23BA271D0293007ED5D2 /* log.c */,
-				7FAB23E7271D0293007ED5D2 /* mag.c */,
-				7FAB241E271D0293007ED5D2 /* mathjax.c */,
-				7FAB2410271D0293007ED5D2 /* mathml.c */,
-				7FAB23E2271D0293007ED5D2 /* minor.c */,
-				7FAB23D6271D0293007ED5D2 /* mod.c */,
-				7FAB2419271D0293007ED5D2 /* multiply.c */,
-				7FAB2418271D0293007ED5D2 /* noexpand.c */,
-				7FAB23F9271D0293007ED5D2 /* nroots.c */,
-				7FAB23F2271D0293007ED5D2 /* numerator.c */,
-				7FAB23DD271D0293007ED5D2 /* outer.c */,
-				7FAB23ED271D0293007ED5D2 /* polar.c */,
-				7FAB2406271D0293007ED5D2 /* power_complex_number.c */,
-				7FAB23F3271D0293007ED5D2 /* power_minusone.c */,
-				7FAB23BC271D0293007ED5D2 /* power_natural_number.c */,
-				7FAB23D4271D0293007ED5D2 /* power_numbers.c */,
-				7FAB23FF271D0293007ED5D2 /* power.c */,
-				7FAB23EE271D0293007ED5D2 /* prefixform.c */,
-				7FAB241A271D0293007ED5D2 /* primetab.c */,
-				7FAB23CB271D0293007ED5D2 /* print.c */,
-				7FAB2411271D0293007ED5D2 /* product.c */,
-				7FAB23FE271D0293007ED5D2 /* prototypes.h */,
-				7FAB23EF271D0293007ED5D2 /* quotient.c */,
-				7FAB2413271D0293007ED5D2 /* rationalize.c */,
-				7FAB2426271D0293007ED5D2 /* real.c */,
-				7FAB23BF271D0293007ED5D2 /* rect.c */,
-				7FAB23C4271D0293007ED5D2 /* roots.c */,
-				7FAB23D0271D0293007ED5D2 /* rotate.c */,
-				7FAB23E3271D0293007ED5D2 /* run.c */,
-				7FAB23E8271D0293007ED5D2 /* scan.c */,
-				7FAB23FB271D0293007ED5D2 /* setq.c */,
-				7FAB23E1271D0293007ED5D2 /* simplify.c */,
-				7FAB23D8271D0293007ED5D2 /* sin.c */,
-				7FAB23D7271D0293007ED5D2 /* sinh.c */,
-				7FAB23D2271D0293007ED5D2 /* stack.c */,
-				7FAB2429271D0293007ED5D2 /* subst.c */,
-				7FAB23C0271D0293007ED5D2 /* sum.c */,
-				7FAB240E271D0293007ED5D2 /* symbol.c */,
-				7FAB242A271D0293007ED5D2 /* tan.c */,
-				7FAB2420271D0293007ED5D2 /* tanh.c */,
-				7FAB23F1271D0293007ED5D2 /* tensor.c */,
-				7FAB2416271D0293007ED5D2 /* test.c */,
-				7FAB23F0271D0293007ED5D2 /* transpose.c */,
-				7FAB23E0271D0293007ED5D2 /* userfunc.c */,
-			);
-			name = src;
-			path = ../src;
-			sourceTree = "<group>";
-		};
 		7FAE1419271D0FD4001234C6 /* C */ = {
 			isa = PBXGroup;
 			children = (
-				7FAE141C271D0FD4001234C6 /* app-prototypes.h */,
+				7F7F97C9288AD33E007999F9 /* prototypes.h */,
+				7F7F97C8288AD334007999F9 /* externs.h */,
+				7F7F97C7288AD329007999F9 /* defs.h */,
+				7F7F97C4288AD00E007999F9 /* eigenmath.c */,
 				7FAE1426271D0FD4001234C6 /* app.c */,
 				7FAE141F271D0FD4001234C6 /* app.h */,
 				7FAE141E271D0FD4001234C6 /* atomic.c */,
@@ -495,117 +202,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FAB246C271D0293007ED5D2 /* core.c in Sources */,
-				7FAB246A271D0293007ED5D2 /* setq.c in Sources */,
-				7FAB2478271D0294007ED5D2 /* arccosh.c in Sources */,
-				7FAB2460271D0293007ED5D2 /* tensor.c in Sources */,
-				7FAB245B271D0293007ED5D2 /* denominator.c in Sources */,
-				7FAB248B271D0294007ED5D2 /* arccos.c in Sources */,
 				7FAE1429271D0FD4001234C6 /* emit.c in Sources */,
-				7FAB2462271D0293007ED5D2 /* power_minusone.c in Sources */,
-				7FAB2454271D0293007ED5D2 /* contract.c in Sources */,
-				7FAB2461271D0293007ED5D2 /* numerator.c in Sources */,
-				7FAB2448271D0293007ED5D2 /* sin.c in Sources */,
 				7FAE142D271D0FD4001234C6 /* eval_nonstop.c in Sources */,
 				7FAE142E271D0FD4001234C6 /* printbuf.c in Sources */,
-				7FAB245D271D0293007ED5D2 /* prefixform.c in Sources */,
-				7FAB243D271D0293007ED5D2 /* erf.c in Sources */,
-				7FAB2482271D0294007ED5D2 /* arcsin.c in Sources */,
-				7FAB243A271D0293007ED5D2 /* expsin.c in Sources */,
-				7FAB244B271D0293007ED5D2 /* inner.c in Sources */,
-				7FAB247A271D0294007ED5D2 /* for.c in Sources */,
-				7FAB2451271D0293007ED5D2 /* minor.c in Sources */,
-				7FAB245A271D0293007ED5D2 /* inv.c in Sources */,
-				7FAB243B271D0293007ED5D2 /* print.c in Sources */,
-				7FAB244A271D0293007ED5D2 /* conj.c in Sources */,
 				7FAB24A4271D0556007ED5D2 /* EigenmathView.m in Sources */,
-				7FAB2457271D0293007ED5D2 /* scan.c in Sources */,
-				7FAB2445271D0293007ED5D2 /* hadamard.c in Sources */,
-				7FAB2493271D0294007ED5D2 /* kronecker.c in Sources */,
-				7FAB246E271D0293007ED5D2 /* ceiling.c in Sources */,
-				7FAB2476271D0294007ED5D2 /* factorial.c in Sources */,
-				7FAB2463271D0293007ED5D2 /* bignum.c in Sources */,
-				7FAB242C271D0293007ED5D2 /* arcsinh.c in Sources */,
-				7FAB2431271D0293007ED5D2 /* sum.c in Sources */,
-				7FAB2498271D0294007ED5D2 /* tan.c in Sources */,
-				7FAB2474271D0293007ED5D2 /* power_complex_number.c in Sources */,
 				7FAE1430271D0FD4001234C6 /* draw_display.c in Sources */,
-				7FAB2452271D0293007ED5D2 /* run.c in Sources */,
-				7FAB248D271D0294007ED5D2 /* adj.c in Sources */,
 				7F2C0616271CFF3F00128330 /* main.m in Sources */,
-				7FAB2471271D0293007ED5D2 /* index.c in Sources */,
-				7FAB248A271D0294007ED5D2 /* arg.c in Sources */,
 				7F261862274ACDDE00F8B109 /* history.c in Sources */,
-				7FDAF4EE286F3E1400CE0A86 /* gc.c in Sources */,
-				7FAB243E271D0293007ED5D2 /* circexp.c in Sources */,
-				7FAB2494271D0294007ED5D2 /* real.c in Sources */,
-				7FDAF4EB286F3DFE00CE0A86 /* alloc.c in Sources */,
-				7FD15F382867A4D400477307 /* sgn.c in Sources */,
-				7FAB245F271D0293007ED5D2 /* transpose.c in Sources */,
-				7FAB2430271D0293007ED5D2 /* rect.c in Sources */,
-				7FAB2434271D0293007ED5D2 /* factor.c in Sources */,
-				7FAB2488271D0294007ED5D2 /* primetab.c in Sources */,
-				7FC9CC1528491F4B00808C60 /* taylor.c in Sources */,
-				7FAB2472271D0293007ED5D2 /* infixform.c in Sources */,
-				7FAB2455271D0293007ED5D2 /* exp.c in Sources */,
-				7FAB244E271D0293007ED5D2 /* integral.c in Sources */,
-				7FAB2497271D0294007ED5D2 /* subst.c in Sources */,
-				7FAB2496271D0294007ED5D2 /* abs.c in Sources */,
-				7FAB2484271D0294007ED5D2 /* test.c in Sources */,
-				7FAB2491271D0294007ED5D2 /* globals.c in Sources */,
-				7FAB248F271D0294007ED5D2 /* cosh.c in Sources */,
-				7FAB2444271D0293007ED5D2 /* power_numbers.c in Sources */,
-				7FAB2486271D0294007ED5D2 /* noexpand.c in Sources */,
-				7FAB2441271D0293007ED5D2 /* expcos.c in Sources */,
 				7FAE1433271D0FD4001234C6 /* fontinfo.c in Sources */,
-				7FAB2481271D0294007ED5D2 /* rationalize.c in Sources */,
 				7FAE1428271D0FD4001234C6 /* display.c in Sources */,
-				7FAB2477271D0294007ED5D2 /* derivative.c in Sources */,
-				7FAB245E271D0293007ED5D2 /* quotient.c in Sources */,
-				7FAB2464271D0293007ED5D2 /* floor.c in Sources */,
-				7FAB2456271D0293007ED5D2 /* mag.c in Sources */,
 				7FAE142F271D0FD4001234C6 /* draw_selection_rect.c in Sources */,
-				7FAB2487271D0294007ED5D2 /* multiply.c in Sources */,
-				7FAB242F271D0293007ED5D2 /* eval.c in Sources */,
-				7FAB2446271D0293007ED5D2 /* mod.c in Sources */,
-				7FAB2465271D0293007ED5D2 /* clock.c in Sources */,
-				7FAB2435271D0293007ED5D2 /* roots.c in Sources */,
-				7FAB248C271D0294007ED5D2 /* mathjax.c in Sources */,
-				7FAB247B271D0294007ED5D2 /* equal.c in Sources */,
-				7FAB246D271D0293007ED5D2 /* power.c in Sources */,
-				7FAB2458271D0293007ED5D2 /* det.c in Sources */,
-				7FAB243C271D0293007ED5D2 /* imag.c in Sources */,
 				7FAE142A271D0FD4001234C6 /* eval_draw.c in Sources */,
 				7FAE142C271D0FD4001234C6 /* shipout.c in Sources */,
-				7FAB247C271D0294007ED5D2 /* symbol.c in Sources */,
-				7FAB2450271D0293007ED5D2 /* simplify.c in Sources */,
-				7FAB247E271D0294007ED5D2 /* mathml.c in Sources */,
-				7FAB247F271D0294007ED5D2 /* product.c in Sources */,
-				7FAB2442271D0293007ED5D2 /* stack.c in Sources */,
-				7FAB248E271D0294007ED5D2 /* tanh.c in Sources */,
-				7FD15F352867A2D400477307 /* eigenvec.c in Sources */,
-				7FAB2479271D0294007ED5D2 /* arctanh.c in Sources */,
-				7FAB242D271D0293007ED5D2 /* power_natural_number.c in Sources */,
-				7FAB242B271D0293007ED5D2 /* log.c in Sources */,
 				7FAE1431271D0FD4001234C6 /* run_thread.c in Sources */,
-				7FAB244C271D0293007ED5D2 /* outer.c in Sources */,
-				7FAB2453271D0293007ED5D2 /* cos.c in Sources */,
-				7FAB2466271D0293007ED5D2 /* arctan.c in Sources */,
-				7FAB245C271D0293007ED5D2 /* polar.c in Sources */,
-				7FAB2437271D0293007ED5D2 /* erfc.c in Sources */,
-				7FAB2483271D0294007ED5D2 /* defint.c in Sources */,
+				7F7F97C5288AD00E007999F9 /* eigenmath.c in Sources */,
 				7F2C060E271CFF3300128330 /* EigenmathAppDelegate.m in Sources */,
-				7FAB244F271D0293007ED5D2 /* userfunc.c in Sources */,
-				7FAB244D271D0293007ED5D2 /* cofactor.c in Sources */,
-				7FAB2480271D0294007ED5D2 /* float.c in Sources */,
 				7FAE1432271D0FD4001234C6 /* app.c in Sources */,
-				7FAB2447271D0293007ED5D2 /* sinh.c in Sources */,
 				7FAE142B271D0FD4001234C6 /* atomic.c in Sources */,
-				7FAB2468271D0293007ED5D2 /* nroots.c in Sources */,
-				7FAB2440271D0293007ED5D2 /* rotate.c in Sources */,
-				7FAB2467271D0293007ED5D2 /* filter.c in Sources */,
-				7FAB243F271D0293007ED5D2 /* latex.c in Sources */,
-				7FAB2485271D0294007ED5D2 /* add.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

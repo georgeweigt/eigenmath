@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_quotient(struct atom *p1)
 {

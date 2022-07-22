@@ -1,39 +1,3 @@
-/* github.com/georgeweigt/eigenmath
-
-To build and run:
-
-	gcc -O0 eigenmath.c -lm
-	./a.out
-
-Press ctrl-C to exit.
-
-
-BSD 2-Clause License
-
-Copyright (c) 2022, George Weigt
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -973,7 +937,6 @@ void evalp(void);
 void eval_transpose(struct atom *p1);
 void transpose(void);
 void eval_user_function(struct atom *p1);
-
 struct atom *mem[MAXBLOCKS];
 struct atom *free_list;
 
@@ -1021,7 +984,6 @@ char tbuf[1000];
 char *outbuf;
 int outbuf_index;
 int outbuf_length;
-
 void
 eval_abs(struct atom *p1)
 {
@@ -1106,7 +1068,6 @@ absfunc(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_add(struct atom *p1)
 {
@@ -1644,7 +1605,6 @@ subtract(void)
 	negate();
 	add();
 }
-
 void
 eval_adj(struct atom *p1)
 {
@@ -1709,7 +1669,6 @@ adj(void)
 
 	push(p2);
 }
-
 struct atom *
 alloc_atom(void)
 {
@@ -1792,7 +1751,6 @@ alloc_tensor(int nelem)
 	tensor_count++;
 	return p;
 }
-
 void
 eval_arccos(struct atom *p1)
 {
@@ -1902,7 +1860,6 @@ arccos(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_arccosh(struct atom *p1)
 {
@@ -1958,7 +1915,6 @@ arccosh(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_arcsin(struct atom *p1)
 {
@@ -2053,7 +2009,6 @@ arcsin(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_arcsinh(struct atom *p1)
 {
@@ -2117,7 +2072,6 @@ arcsinh(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_arctan(struct atom *p1)
 {
@@ -2292,7 +2246,6 @@ arctan_numbers(struct atom *X, struct atom *Y)
 	push_symbol(PI);
 	multiply();
 }
-
 void
 eval_arctanh(struct atom *p1)
 {
@@ -2363,7 +2316,6 @@ arctanh(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_arg(struct atom *p1)
 {
@@ -2487,7 +2439,6 @@ arg1(void)
 
 	push_integer(0);
 }
-
 void
 init_bignums(void)
 {
@@ -3653,7 +3604,6 @@ mprimef(uint32_t *n, uint32_t *q, int k)
 		}
 	}
 }
-
 void
 eval_ceiling(struct atom *p1)
 {
@@ -3701,7 +3651,6 @@ ceilingfunc(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_circexp(struct atom *p1)
 {
@@ -3908,7 +3857,6 @@ exptanh(void)
 	add();
 	divide();
 }
-
 void
 eval_clock(struct atom *p1)
 {
@@ -3949,7 +3897,6 @@ clockfunc(void)
 	power();
 	multiply();
 }
-
 void
 eval_cofactor(struct atom *p1)
 {
@@ -3983,7 +3930,6 @@ eval_cofactor(struct atom *p1)
 	if ((i + j) % 2)
 		negate();
 }
-
 void
 eval_conj(struct atom *p1)
 {
@@ -4047,7 +3993,6 @@ conjfunc_subst(void)
 
 	push(p1);
 }
-
 void
 eval_contract(struct atom *p1)
 {
@@ -4164,7 +4109,6 @@ contract(void)
 
 	push(p2);
 }
-
 // create a list from n things on the stack
 
 void
@@ -4715,7 +4659,6 @@ issmallinteger(struct atom *p)
 
 	return 0;
 }
-
 void
 eval_cos(struct atom *p1)
 {
@@ -4941,7 +4884,6 @@ cosfunc_sum(struct atom *p1)
 	push(p1);
 	list(2);
 }
-
 void
 eval_cosh(struct atom *p1)
 {
@@ -5003,7 +4945,6 @@ coshfunc(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_defint(struct atom *p1)
 {
@@ -5054,7 +4995,6 @@ eval_defint(struct atom *p1)
 
 	push(F);
 }
-
 void
 eval_denominator(struct atom *p1)
 {
@@ -5094,7 +5034,6 @@ denominator(void)
 
 	push(p2);
 }
-
 void
 eval_derivative(struct atom *p1)
 {
@@ -5785,7 +5724,6 @@ d_tensor_scalar(struct atom *p1, struct atom *p2)
 
 	push(p3);
 }
-
 void
 eval_det(struct atom *p1)
 {
@@ -5883,7 +5821,6 @@ det(void)
 	else
 		add_terms(tos - h);
 }
-
 #undef D
 #undef Q
 
@@ -6257,7 +6194,6 @@ step2(int p, int q)
 	D(p, q) = 0.0;
 	D(q, p) = 0.0;
 }
-
 int
 equal(struct atom *p1, struct atom *p2)
 {
@@ -6345,7 +6281,6 @@ equal(struct atom *p1, struct atom *p2)
 
 	return 0;
 }
-
 void
 eval_erf(struct atom *p1)
 {
@@ -6381,7 +6316,6 @@ erffunc(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_erfc(struct atom *p1)
 {
@@ -6408,7 +6342,6 @@ erfcfunc(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval(void)
 {
@@ -6602,7 +6535,6 @@ eval_subst(struct atom *p1)
 	subst();
 	eval(); // normalize
 }
-
 void
 eval_exp(struct atom *p1)
 {
@@ -6618,7 +6550,6 @@ expfunc(void)
 	swap();
 	power();
 }
-
 void
 eval_expcos(struct atom *p1)
 {
@@ -6651,7 +6582,6 @@ expcos(void)
 
 	add();
 }
-
 void
 eval_expsin(struct atom *p1)
 {
@@ -6688,7 +6618,6 @@ expsin(void)
 
 	subtract();
 }
-
 void
 eval_factor(struct atom *p1)
 {
@@ -7171,7 +7100,6 @@ factor_bignum(uint32_t *a, struct atom *EXPO)
 		}
 	}
 }
-
 void
 eval_factorial(struct atom *p1)
 {
@@ -7210,13 +7138,11 @@ factorial(void)
 	if (isdouble(p1))
 		bignum_float();
 }
-/* Remove terms that involve a given symbol or expression. For example...
-
-	filter(x^2 + x + 1, x)		=>	1
-
-	filter(x^2 + x + 1, x^2)	=>	x + 1
-*/
-
+// Remove terms that involve a given symbol or expression. For example...
+//
+//	filter(x^2 + x + 1, x)		=>	1
+//
+//	filter(x^2 + x + 1, x^2)	=>	x + 1
 
 void
 eval_filter(struct atom *p1)
@@ -7284,7 +7210,6 @@ filter_tensor(struct atom *p1, struct atom *p2)
 	}
 	push(p3);
 }
-
 void
 eval_float(struct atom *p1)
 {
@@ -7380,7 +7305,6 @@ floatfunc_subst(void)
 
 	push(p1);
 }
-
 void
 eval_floor(struct atom *p1)
 {
@@ -7427,7 +7351,6 @@ floorfunc(void)
 	push(p1);
 	list(2);
 }
-
 #define TABLE_HSPACE 3
 #define TABLE_VSPACE 1
 
@@ -8807,7 +8730,6 @@ writec(int c)
 	else
 		write(f, buf + 1, 3);
 }
-
 void
 eval_for(struct atom *p1)
 {
@@ -8853,7 +8775,6 @@ eval_for(struct atom *p1)
 
 	push_symbol(NIL); // return value
 }
-
 // can only be called from main run loop
 
 void
@@ -8967,7 +8888,6 @@ untag(struct atom *p)
 		for (i = 0; i < p->u.tensor->nelem; i++)
 			untag(p->u.tensor->elem[i]);
 }
-
 void
 eval_hadamard(struct atom *p1)
 {
@@ -9023,7 +8943,6 @@ hadamard(void)
 
 	push(p1);
 }
-
 void
 eval_imag(struct atom *p1)
 {
@@ -9065,7 +8984,6 @@ imag(void)
 	subtract();
 	multiply_factors(3);
 }
-
 void
 eval_index(struct atom *p1)
 {
@@ -9161,7 +9079,6 @@ indexfunc(struct atom *T, int h)
 
 	push(p1);
 }
-
 void
 eval_infixform(struct atom *p1)
 {
@@ -9689,7 +9606,6 @@ infixform_tensor_nib(struct atom *p, int d, int k)
 
 	print_char(')');
 }
-
 void
 eval_inner(struct atom *p1)
 {
@@ -9820,7 +9736,6 @@ inner(void)
 
 	push(p3);
 }
-
 char *integral_tab_exp[] = {
 
 // x^n exp(a x + b)
@@ -11230,7 +11145,6 @@ partition_integrand(void)
 	else
 		multiply_factors(tos - h);
 }
-
 void
 eval_inv(struct atom *p1)
 {
@@ -11263,7 +11177,6 @@ inv(void)
 
 	divide();
 }
-
 void
 eval_kronecker(struct atom *p1)
 {
@@ -11328,7 +11241,6 @@ kronecker(void)
 
 	push(p3);
 }
-
 void
 eval_latex(struct atom *p1)
 {
@@ -12014,7 +11926,6 @@ latex_string(struct atom *p)
 	print_str(p->u.str);
 	print_str("}");
 }
-
 void
 eval_log(struct atom *p1)
 {
@@ -12142,7 +12053,6 @@ logfunc(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_mag(struct atom *p1)
 {
@@ -12254,7 +12164,6 @@ mag1(void)
 
 	push(p1);
 }
-
 int doc_type;
 int doc_state;
 char *infile;
@@ -12607,7 +12516,6 @@ eval_exit(struct atom *p1)
 	end_document();
 	exit(0);
 }
-
 void
 eval_mathjax(struct atom *p1)
 {
@@ -12637,7 +12545,6 @@ mathjax(void)
 
 	print_char('\0');
 }
-
 #define MML_MINUS "<mo rspace='0'>-</mo>"
 #define MML_MINUS_1 "<mo>(</mo><mo rspace='0'>-</mo><mn>1</mn><mo>)</mo>"
 #define MML_LP "<mrow><mo>(</mo>"
@@ -13428,7 +13335,6 @@ mml_mo(char *s)
 	print_str(s);
 	print_str("</mo>");
 }
-
 void
 eval_minor(struct atom *p1)
 {
@@ -13547,7 +13453,6 @@ minormatrix(int row, int col)
 
 	push(p2);
 }
-
 void
 eval_mod(struct atom *p1)
 {
@@ -13616,7 +13521,6 @@ mod_integers(struct atom *p1, struct atom *p2)
 {
 	push_bignum(p1->sign, mmod(p1->u.q.a, p2->u.q.a), mint(1));
 }
-
 void
 eval_multiply(struct atom *p1)
 {
@@ -14286,7 +14190,6 @@ divide(void)
 	reciprocate();
 	multiply();
 }
-
 void
 eval_noexpand(struct atom *p1)
 {
@@ -14300,7 +14203,6 @@ eval_noexpand(struct atom *p1)
 
 	expanding = t;
 }
-
 #define MAXCOEFFS 100
 #define DELTA 1.0e-6
 #define EPSILON 1.0e-9
@@ -14535,7 +14437,6 @@ nroots_divpoly(int n)
 		c[k].i = c[k + 1].i;
 	}
 }
-
 void
 eval_numerator(struct atom *p1)
 {
@@ -14564,7 +14465,6 @@ numerator(void)
 
 	push(p1);
 }
-
 void
 eval_outer(struct atom *p1)
 {
@@ -14654,7 +14554,6 @@ outer(void)
 
 	push(p3);
 }
-
 void
 eval_polar(struct atom *p1)
 {
@@ -14702,7 +14601,6 @@ polar(void)
 	expfunc();
 	multiply();
 }
-
 void
 eval_power(struct atom *p1)
 {
@@ -14977,7 +14875,6 @@ power_tensor(struct atom *BASE, struct atom *EXPO)
 
 	push(p1);
 }
-
 // BASE is rectangular complex numerical, EXPO is numerical
 
 void
@@ -15217,7 +15114,6 @@ power_complex_rational(struct atom *X, struct atom *Y, struct atom *EXPO)
 
 	multiply();
 }
-
 // power -1 to EXPO
 
 void
@@ -15429,7 +15325,6 @@ normalize_clock_double(struct atom *EXPO)
 		break;
 	}
 }
-
 void
 power_natural_number(struct atom *EXPO)
 {
@@ -15727,7 +15622,6 @@ normalize_polar_term_double(struct atom *R)
 		break;
 	}
 }
-
 // BASE and EXPO are numbers
 
 void
@@ -15973,7 +15867,6 @@ power_double(struct atom *BASE, struct atom *EXPO)
 
 	multiply();
 }
-
 void
 eval_prefixform(struct atom *p1)
 {
@@ -17306,7 +17199,6 @@ int primetab[10000] = {
 104593,104597,104623,104639,104651,104659,104677,104681,
 104683,104693,104701,104707,104711,104717,104723,104729,
 };
-
 void
 eval_print(struct atom *p1)
 {
@@ -17387,7 +17279,6 @@ print_char(int c)
 	}
 	outbuf[outbuf_index++] = c;
 }
-
 void
 eval_product(struct atom *p1)
 {
@@ -17445,7 +17336,6 @@ eval_product(struct atom *p1)
 
 	restore_symbol(p2);
 }
-
 void
 eval_quotient(struct atom *p1)
 {
@@ -17521,7 +17411,6 @@ quotient(void)
 
 	push(Y);
 }
-
 void
 eval_rationalize(struct atom *p1)
 {
@@ -17568,7 +17457,6 @@ rationalize(void)
 	reciprocate();
 	multiply_noexpand();
 }
-
 void
 eval_real(struct atom *p1)
 {
@@ -17609,7 +17497,6 @@ real(void)
 	push_rational(1, 2);
 	multiply();
 }
-
 void
 eval_rect(struct atom *p1)
 {
@@ -17710,7 +17597,6 @@ rect(void)
 
 	multiply();
 }
-
 void
 eval_roots(struct atom *p1)
 {
@@ -17804,7 +17690,6 @@ roots(void)
 
 	push(R);
 }
-
 #define NUMQBITS PSI->u.tensor->nelem
 #define KET0 PSI->u.tensor->elem[i ^ n]
 #define KET1 PSI->u.tensor->elem[i]
@@ -18096,7 +17981,6 @@ rotate_v(struct atom *PSI, int n)
 		rotate_h(PSI, 0, i);
 	}
 }
-
 char *trace1;
 char *trace2;
 
@@ -18422,7 +18306,6 @@ kaput(char *s)
 //	| g | a | m | m | a |   | a | l | p | h | a |
 //	  ^                   ^
 //	  token_str           scan_str
-
 
 #define T_INTEGER 1001
 #define T_DOUBLE 1002
@@ -19016,7 +18899,6 @@ static_reciprocate(void)
 	push_integer(-1);
 	list(3);
 }
-
 void
 eval_setq(struct atom *p1)
 {
@@ -19261,7 +19143,6 @@ convert_body(struct atom *A)
 	push_symbol(ARG9);
 	subst();
 }
-
 void
 eval_sgn(struct atom *p1)
 {
@@ -19294,7 +19175,6 @@ sgn(void)
 	else
 		push_integer(1);
 }
-
 void
 eval_simplify(struct atom *p1)
 {
@@ -19495,7 +19375,6 @@ simplify_pass3(void)
 
 	push(p1);
 }
-
 void
 eval_sin(struct atom *p1)
 {
@@ -19724,7 +19603,6 @@ sinfunc_sum(struct atom *p1)
 	push(p1);
 	list(2);
 }
-
 void
 eval_sinh(struct atom *p1)
 {
@@ -19787,7 +19665,6 @@ sinhfunc(void)
 	push(p1);
 	list(2);
 }
-
 void
 push(struct atom *p)
 {
@@ -19858,7 +19735,6 @@ push_string(char *s)
 	push(p);
 	string_count++;
 }
-
 // Substitute replacement for match in target expr.
 //
 // Input:	push	target expr
@@ -19918,7 +19794,6 @@ subst(void)
 
 	push(p1);
 }
-
 void
 eval_sum(struct atom *p1)
 {
@@ -19976,7 +19851,6 @@ eval_sum(struct atom *p1)
 
 	restore_symbol(p2);
 }
-
 // symbol lookup, create symbol if not found
 
 struct atom *
@@ -20333,7 +20207,6 @@ clear_symbols(void)
 		usrfunc[i] = symbol(NIL);
 	}
 }
-
 void
 eval_tan(struct atom *p1)
 {
@@ -20504,7 +20377,6 @@ tanfunc_sum(struct atom *p1)
 	push(p1);
 	list(2);
 }
-
 void
 eval_tanh(struct atom *p1)
 {
@@ -20562,7 +20434,6 @@ tanhfunc(void)
 	push(p1);
 	list(2);
 }
-
 void
 eval_taylor(struct atom *p1)
 {
@@ -20634,7 +20505,6 @@ eval_taylor(struct atom *p1)
 
 	add_terms(tos - h);
 }
-
 void
 eval_tensor(struct atom *p1)
 {
@@ -20895,7 +20765,6 @@ eval_zero(struct atom *p1)
 		p1->u.tensor->dim[i] = dim[i];
 	push(p1);
 }
-
 void
 eval_test(struct atom *p1)
 {
@@ -21221,7 +21090,6 @@ evalp(void)
 		eval();
 	}
 }
-
 void
 eval_transpose(struct atom *p1)
 {
@@ -21325,7 +21193,6 @@ transpose(void)
 
 	push(p2);
 }
-
 void
 eval_user_function(struct atom *p1)
 {

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_cofactor(struct atom *p1)
 {

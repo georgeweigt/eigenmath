@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_numerator(struct atom *p1)
 {

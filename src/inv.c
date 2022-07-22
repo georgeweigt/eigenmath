@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_inv(struct atom *p1)
 {

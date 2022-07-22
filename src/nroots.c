@@ -1,5 +1,3 @@
-#include "defs.h"
-
 #define MAXCOEFFS 100
 #define DELTA 1.0e-6
 #define EPSILON 1.0e-9

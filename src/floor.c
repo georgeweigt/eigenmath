@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_floor(struct atom *p1)
 {

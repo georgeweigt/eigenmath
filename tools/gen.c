@@ -1,4 +1,4 @@
-// emit eigenmath.c
+// emit eigenmath.c (deprecated)
 
 #include <stdio.h>
 #include <stdlib.h>

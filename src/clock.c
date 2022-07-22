@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_clock(struct atom *p1)
 {

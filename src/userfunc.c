@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_user_function(struct atom *p1)
 {

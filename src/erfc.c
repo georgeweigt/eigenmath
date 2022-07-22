@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_erfc(struct atom *p1)
 {

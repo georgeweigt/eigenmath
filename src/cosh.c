@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_cosh(struct atom *p1)
 {

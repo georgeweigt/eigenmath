@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_infixform(struct atom *p1)
 {

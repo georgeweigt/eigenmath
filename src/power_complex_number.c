@@ -1,5 +1,3 @@
-#include "defs.h"
-
 // BASE is rectangular complex numerical, EXPO is numerical
 
 void

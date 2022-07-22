@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_arg(struct atom *p1)
 {

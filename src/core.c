@@ -1,5 +1,3 @@
-#include "defs.h"
-
 // create a list from n things on the stack
 
 void

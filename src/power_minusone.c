@@ -1,5 +1,3 @@
-#include "defs.h"
-
 // power -1 to EXPO
 
 void

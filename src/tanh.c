@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_tanh(struct atom *p1)
 {

@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 eval_noexpand(struct atom *p1)
 {

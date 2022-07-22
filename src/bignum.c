@@ -1,5 +1,3 @@
-#include "defs.h"
-
 void
 init_bignums(void)
 {
