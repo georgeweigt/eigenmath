@@ -3,7 +3,7 @@
 default:
 	make make-prototypes
 	./make-prototypes ../src/ > ../src/prototypes.h
-	./make-prototypes ../xcode/Eigenmath/C/ > ../xcode/Eigenmath/C/prototypes.h
+	./make-prototypes ../xcode/src/C/ > ../xcode/src/C/prototypes.h
 	make eigenmath.c
 	make xcode
 
@@ -14,8 +14,8 @@ eigenmath.c:
 	cat preamble ../src/defs.h ../src/prototypes.h ../src/*.c > ../eigenmath.c
 
 xcode:
-	cp ../src/defs.h ../src/externs.h ../xcode/Eigenmath/C
-	echo "#include \"app.h\"" > ../xcode/Eigenmath/C/eigenmath.c
+	cp ../src/defs.h ../src/externs.h ../xcode/src/C
+	echo "#include \"app.h\"" > ../xcode/src/C/eigenmath.c
 	cat \
 ../src/aaa-globals.c \
 ../src/abs.c \
@@ -112,4 +112,4 @@ xcode:
 ../src/test.c \
 ../src/transpose.c \
 ../src/userfunc.c \
->> ../xcode/Eigenmath/C/eigenmath.c
+>> ../xcode/src/C/eigenmath.c
