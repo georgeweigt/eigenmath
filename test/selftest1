@@ -3681,6 +3681,14 @@ check(dim(A,1) == 2)
 check(dim(A,2) == 3)
 check(dim(A) == 2)
 check(dim(x) == 1)
+"Testing eigenvec"
+
+clear
+
+A = ((1,2,3),(2,6,4),(3,4,5))
+Q = eigenvec(A)
+D = dot(transpose(Q),A,Q) -- D[1,1], D[2,2], etc. are the eigenvalues
+check(infixform(dot(Q,D,transpose(Q))) == "((1,2,3),(2,6,4),(3,4,5))")
 "Testing eval"
 
 clear

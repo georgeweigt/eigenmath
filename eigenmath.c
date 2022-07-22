@@ -550,9 +550,9 @@ void d_tensor_scalar(struct atom *p1, struct atom *p2);
 void eval_det(struct atom *p1);
 void det(void);
 void eval_eigenvec(struct atom *p1);
-void eigen(struct atom *p1);
-int step(void);
-void step2(int p, int q);
+void eigenvec(double *D, double *Q, int n);
+int eigenvec_step(double *D, double *Q, int n);
+void eigenvec_step_nib(double *D, double *Q, int n, int p, int q);
 int equal(struct atom *p1, struct atom *p2);
 void eval_erf(struct atom *p1);
 void erffunc(void);
@@ -5854,20 +5854,11 @@ det(void)
 	else
 		add_terms(tos - h);
 }
-#undef D
-#undef Q
-
-#define D(i, j) yydd[eigen_n * (i) + (j)]
-#define Q(i, j) yyqq[eigen_n * (i) + (j)]
-
-int eigen_n;
-double *yydd; // eigenvalues
-double *yyqq; // eigenvectors
-
 void
 eval_eigenvec(struct atom *p1)
 {
-	int i, j;
+	int i, j, n;
+	static double *D, *Q;
 
 	push(cadr(p1));
 	eval();
@@ -5877,26 +5868,57 @@ eval_eigenvec(struct atom *p1)
 	if (!istensor(p1) || p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
 		stop("eigenvec: square matrix expected");
 
-	eigen_n = p1->u.tensor->dim[0];
+	n = p1->u.tensor->dim[0];
 
-	for (i = 0; i < eigen_n; i++)
-		for (j = 0; j < eigen_n; j++)
-			if (!isdouble(p1->u.tensor->elem[eigen_n * i + j]))
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			if (!isdouble(p1->u.tensor->elem[n * i + j]))
 				stop("eigenvec: numerical matrix expected");
 
-	for (i = 0; i < eigen_n - 1; i++)
-		for (j = i + 1; j < eigen_n; j++)
-			if (fabs(p1->u.tensor->elem[eigen_n * i + j]->u.d - p1->u.tensor->elem[eigen_n * j + i]->u.d) > 1e-10)
+	for (i = 0; i < n - 1; i++)
+		for (j = i + 1; j < n; j++)
+			if (fabs(p1->u.tensor->elem[n * i + j]->u.d - p1->u.tensor->elem[n * j + i]->u.d) > 1e-10)
 				stop("eigenvec: symmetrical matrix expected");
 
-	eigen(p1);
+	if (D)
+		free(D);
+	if (Q)
+		free(Q);
 
-	p1 = alloc_matrix(eigen_n, eigen_n);
+	D = malloc(n * n * sizeof (double));
+	Q = malloc(n * n * sizeof (double));
 
-	for (i = 0; i < eigen_n; i++) {
-		for (j = 0; j < eigen_n; j++) {
-			push_double(Q(j, i)); // transpose
-			p1->u.tensor->elem[eigen_n * i + j] = pop();
+	if (D == NULL || Q == NULL)
+		exit(1);
+
+	// initialize D
+
+	for (i = 0; i < n; i++) {
+		D[n * i + i] = p1->u.tensor->elem[n * i + i]->u.d;
+		for (j = i + 1; j < n; j++) {
+			D[n * i + j] = p1->u.tensor->elem[n * i + j]->u.d;
+			D[n * j + i] = p1->u.tensor->elem[n * i + j]->u.d;
+		}
+	}
+
+	// initialize Q
+
+	for (i = 0; i < n; i++) {
+		Q[n * i + i] = 1.0;
+		for (j = i + 1; j < n; j++) {
+			Q[n * i + j] = 0.0;
+			Q[n * j + i] = 0.0;
+		}
+	}
+
+	eigenvec(D, Q, n);
+
+	p1 = alloc_matrix(n, n);
+
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			push_double(Q[n * j + i]); // transpose
+			p1->u.tensor->elem[n * i + j] = pop();
 		}
 	}
 
@@ -5904,52 +5926,12 @@ eval_eigenvec(struct atom *p1)
 }
 
 void
-eigen(struct atom *p1)
+eigenvec(double *D, double *Q, int n)
 {
-	int i, j;
-
-	if (yydd)
-		free(yydd);
-
-	if (yyqq)
-		free(yyqq);
-
-	// malloc working arrays
-
-	yydd = malloc(eigen_n * eigen_n * sizeof (double));
-
-	if (yydd == NULL)
-		exit(1);
-
-	yyqq = malloc(eigen_n * eigen_n * sizeof (double));
-
-	if (yyqq == NULL)
-		exit(1);
-
-	// initialize D
-
-	for (i = 0; i < eigen_n; i++) {
-		D(i, i) = p1->u.tensor->elem[eigen_n * i + i]->u.d;
-		for (j = i + 1; j < eigen_n; j++) {
-			D(i, j) = p1->u.tensor->elem[eigen_n * i + j]->u.d;
-			D(j, i) = p1->u.tensor->elem[eigen_n * i + j]->u.d;
-		}
-	}
-
-	// initialize Q
-
-	for (i = 0; i < eigen_n; i++) {
-		Q(i, i) = 1.0;
-		for (j = i + 1; j < eigen_n; j++) {
-			Q(i, j) = 0.0;
-			Q(j, i) = 0.0;
-		}
-	}
-
-	// step up to 100 times
+	int i;
 
 	for (i = 0; i < 100; i++)
-		if (step() == 0)
+		if (eigenvec_step(D, Q, n) == 0)
 			return;
 
 	stop("eigenvec: convergence error");
@@ -6149,7 +6131,7 @@ eigen(struct atom *p1)
 //		A[5,6] = c * A[5,6] - s * A[2,6]
 
 int
-step(void)
+eigenvec_step(double *D, double *Q, int n)
 {
 	int count, i, j;
 
@@ -6157,10 +6139,10 @@ step(void)
 
 	// for each upper triangle "off-diagonal" component do step2
 
-	for (i = 0; i < eigen_n - 1; i++) {
-		for (j = i + 1; j < eigen_n; j++) {
-			if (D(i, j) != 0.0) {
-				step2(i, j);
+	for (i = 0; i < n - 1; i++) {
+		for (j = i + 1; j < n; j++) {
+			if (D[n * i + j] != 0.0) {
+				eigenvec_step_nib(D, Q, n, i, j);
 				count++;
 			}
 		}
@@ -6170,7 +6152,7 @@ step(void)
 }
 
 void
-step2(int p, int q)
+eigenvec_step_nib(double *D, double *Q, int n, int p, int q)
 {
 	int k;
 	double t, theta;
@@ -6180,7 +6162,7 @@ step2(int p, int q)
 
 	// from Numerical Recipes (except they have a_qq - a_pp)
 
-	theta = 0.5 * (D(p, p) - D(q, q)) / D(p, q);
+	theta = 0.5 * (D[n * p + p] - D[n * q + q]) / D[n * p + q];
 
 	t = 1.0 / (fabs(theta) + sqrt(theta * theta + 1.0));
 
@@ -6195,37 +6177,37 @@ step2(int p, int q)
 
 	// which means "add rows"
 
-	for (k = 0; k < eigen_n; k++) {
-		cc = D(p, k);
-		ss = D(q, k);
-		D(p, k) = c * cc + s * ss;
-		D(q, k) = c * ss - s * cc;
+	for (k = 0; k < n; k++) {
+		cc = D[n * p + k];
+		ss = D[n * q + k];
+		D[n * p + k] = c * cc + s * ss;
+		D[n * q + k] = c * ss - s * cc;
 	}
 
 	// D = D transpose(G)
 
 	// which means "add columns"
 
-	for (k = 0; k < eigen_n; k++) {
-		cc = D(k, p);
-		ss = D(k, q);
-		D(k, p) = c * cc + s * ss;
-		D(k, q) = c * ss - s * cc;
+	for (k = 0; k < n; k++) {
+		cc = D[n * k + p];
+		ss = D[n * k + q];
+		D[n * k + p] = c * cc + s * ss;
+		D[n * k + q] = c * ss - s * cc;
 	}
 
 	// Q = GQ
 
 	// which means "add rows"
 
-	for (k = 0; k < eigen_n; k++) {
-		cc = Q(p, k);
-		ss = Q(q, k);
-		Q(p, k) = c * cc + s * ss;
-		Q(q, k) = c * ss - s * cc;
+	for (k = 0; k < n; k++) {
+		cc = Q[n * p + k];
+		ss = Q[n * q + k];
+		Q[n * p + k] = c * cc + s * ss;
+		Q[n * q + k] = c * ss - s * cc;
 	}
 
-	D(p, q) = 0.0;
-	D(q, p) = 0.0;
+	D[n * p + q] = 0.0;
+	D[n * q + p] = 0.0;
 }
 int
 equal(struct atom *p1, struct atom *p2)

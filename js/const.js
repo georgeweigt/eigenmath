@@ -27,6 +27,7 @@ const DIM = "dim";
 const DO = "do";
 const DOT = "dot";
 const DRAW = "draw";
+const EIGENVEC = "eigenvec";
 const ERF = "erf";
 const EVAL = "eval";
 const EXP = "exp";

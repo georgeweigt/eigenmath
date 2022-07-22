@@ -47,6 +47,7 @@ var symtab = {
 "do":		{printname:DO,		func:eval_do},
 "dot":		{printname:DOT,		func:eval_dot},
 "draw":		{printname:DRAW,	func:eval_draw},
+"eigenvec":	{printname:EIGENVEC,	func:eval_eigenvec},
 "erf":		{printname:ERF,		func:eval_erf},
 "eval":		{printname:EVAL,	func:eval_eval},
 "exp":		{printname:EXP,		func:eval_exp},
