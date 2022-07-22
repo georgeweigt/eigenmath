@@ -15,7 +15,7 @@ eigenmath.c:
 
 xcode:
 	cp ../src/defs.h ../src/externs.h ../xcode/Eigenmath/C
-	echo "#include \"app.h\"" > ../xcode/Eigenmath/eigenmath.c
+	echo "#include \"app.h\"" > ../xcode/Eigenmath/C/eigenmath.c
 	cat \
 ../src/aaa-globals.c \
 ../src/abs.c \
