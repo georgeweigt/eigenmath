@@ -3,16 +3,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <dirent.h>
 
 char buf[1000];
-
-int check(void);
+char *check(void);
 
 int
 main(int argc, char *argv[])
 {
 	int line = 0;
+	char *s;
 	FILE *f;
 
 	if (argc < 2)
@@ -21,7 +20,7 @@ main(int argc, char *argv[])
 	f = fopen(argv[1], "r");
 
 	if (f == NULL) {
-		fprintf(stderr, "cannot open %s\n", argv[1]);
+		printf("cannot open %s\n", argv[1]);
 		exit(1);
 	}
 
@@ -29,8 +28,10 @@ main(int argc, char *argv[])
 
 		line++;
 
-		if (check())
-			fprintf(stderr, "file %s, line %d\n", argv[1], line);
+		s = check();
+
+		if (s)
+			printf("%s, line %d\n", s, line);
 	}
 
 	fclose(f);
@@ -38,17 +39,15 @@ main(int argc, char *argv[])
 	return 0;
 }
 
-int
+char *
 check(void)
 {
 	int i, n;
 
 	n = strlen(buf);
 
-	if (n < 1 || buf[n - 1] != '\n') {
-		fprintf(stderr, "missing newline\n");
-		return -1;
-	}
+	if (n < 1 || buf[n - 1] != '\n')
+		return "missing newline";
 
 	if (n == 1)
 		return 0; // ok
@@ -60,24 +59,19 @@ check(void)
 			continue;
 		if (buf[i] == '\t' || buf[i] == '\n')
 			continue;
-		fprintf(stderr, "ascii error\n");
-		return -1;
+		return "ascii error";
 	}
 
 	// check trailing space
 
-	if (strstr(buf, " \n") || strstr(buf, "\t\n")) {
-		fprintf(stderr, "trailing space\n");
-		return -1;
-	}
+	if (strstr(buf, " \n") || strstr(buf, "\t\n"))
+		return "trailing space";
 
 	if (strncmp(buf, "//", 2) == 0 || strncmp(buf, "\t//", 3) == 0)
-		return 0;
+		return NULL;
 
-	if (strstr(buf, "  ") || strstr(buf, " /t") || strstr(buf, "\t ")) {
-		fprintf(stderr, "extra spaces\n");
-		return -1;
-	}
+	if (strstr(buf, "  ") || strstr(buf, " /t") || strstr(buf, "\t "))
+		return "extra whitespace";
 
-	return 0; // ok
+	return NULL;
 }
