@@ -45,10 +45,7 @@ eval_eigenvec(p1)
 
 	eigenvec(D, Q, n);
 
-	p1 = alloc_tensor();
-
-	p1.dim[0] = n;
-	p1.dim[1] = n;
+	p1 = alloc_matrix(n, n);
 
 	for (i = 0; i < n; i++)
 		for (j = 0; j < n; j++) {
