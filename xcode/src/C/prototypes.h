@@ -239,7 +239,7 @@ void factorpoly_eval(int h, int n, struct atom *X);
 void factorpoly_push_divisors(int a);
 void factorpoly_gen(int h, int k);
 void factorpoly_factor_small_number(int n);
-void factor_factor(void);
+void factor(void);
 void factor_bignum(uint32_t *a, struct atom *EXPO);
 void eval_factorial(struct atom *p1);
 void factorial(void);

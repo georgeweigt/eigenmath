@@ -77,7 +77,7 @@ logfunc(void)
 	if (isrational(p1)) {
 		h = tos;
 		push(p1);
-		factor_factor();
+		factor();
 		for (i = h; i < tos; i++) {
 			p2 = stack[i];
 			if (car(p2) == symbol(POWER)) {

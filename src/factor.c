@@ -352,29 +352,29 @@ factorpoly_factor_small_number(int n)
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
 void
-factor_factor(void)
+factor(void)
 {
 	uint32_t *numer, *denom;
-	struct atom *FARG, *BASE, *EXPO;
+	struct atom *INPUT, *BASE, *EXPO;
 
-	FARG = pop();
+	INPUT = pop();
 
-	if (car(FARG) == symbol(POWER)) {
+	if (car(INPUT) == symbol(POWER)) {
 
-		BASE = cadr(FARG);
-		EXPO = caddr(FARG);
+		BASE = cadr(INPUT);
+		EXPO = caddr(INPUT);
 
 		if (!isrational(BASE) || !isrational(EXPO)) {
-			push(FARG);
+			push(INPUT); // cannot factor
 			return;
 		}
 
 		if (isminusone(BASE)) {
-			push(FARG); // -1 to the M
+			push(INPUT); // -1 to the M
 			return;
 		}
 
-		if (BASE->sign == MMINUS) {
+		if (isnegativenumber(BASE)) {
 			push_symbol(POWER);
 			push_integer(-1);
 			push(EXPO);
@@ -398,26 +398,22 @@ factor_factor(void)
 		return;
 	}
 
-	if (!isrational(FARG) || iszero(FARG) || isplusone(FARG) || isminusone(FARG)) {
-		push(FARG);
+	if (!isrational(INPUT) || iszero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
+		push(INPUT);
 		return;
 	}
 
-	if (FARG->sign == MMINUS)
+	if (isnegativenumber(INPUT))
 		push_integer(-1);
 
-	numer = FARG->u.q.a;
-	denom = FARG->u.q.b;
+	numer = INPUT->u.q.a;
+	denom = INPUT->u.q.b;
 
-	if (!MEQUAL(numer, 1)) {
-		EXPO = one;
-		factor_bignum(numer, EXPO);
-	}
+	if (!MEQUAL(numer, 1))
+		factor_bignum(numer, one);
 
-	if (!MEQUAL(denom, 1)) {
-		EXPO = minusone;
-		factor_bignum(denom, EXPO);
-	}
+	if (!MEQUAL(denom, 1))
+		factor_bignum(denom, minusone);
 }
 
 void

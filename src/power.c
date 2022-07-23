@@ -98,7 +98,7 @@ power(void)
 		// EXPO is not numerical, that case was handled by power_numbers() above
 		h = tos;
 		push(BASE);
-		factor_factor();
+		factor();
 		n = tos - h;
 		for (i = 0; i < n; i++) {
 			p1 = stack[h + i];

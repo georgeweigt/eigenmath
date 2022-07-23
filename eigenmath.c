@@ -586,7 +586,7 @@ void factorpoly_eval(int h, int n, struct atom *X);
 void factorpoly_push_divisors(int a);
 void factorpoly_gen(int h, int k);
 void factorpoly_factor_small_number(int n);
-void factor_factor(void);
+void factor(void);
 void factor_bignum(uint32_t *a, struct atom *EXPO);
 void eval_factorial(struct atom *p1);
 void factorial(void);
@@ -6987,29 +6987,29 @@ factorpoly_factor_small_number(int n)
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
 void
-factor_factor(void)
+factor(void)
 {
 	uint32_t *numer, *denom;
-	struct atom *FARG, *BASE, *EXPO;
+	struct atom *INPUT, *BASE, *EXPO;
 
-	FARG = pop();
+	INPUT = pop();
 
-	if (car(FARG) == symbol(POWER)) {
+	if (car(INPUT) == symbol(POWER)) {
 
-		BASE = cadr(FARG);
-		EXPO = caddr(FARG);
+		BASE = cadr(INPUT);
+		EXPO = caddr(INPUT);
 
 		if (!isrational(BASE) || !isrational(EXPO)) {
-			push(FARG);
+			push(INPUT); // cannot factor
 			return;
 		}
 
 		if (isminusone(BASE)) {
-			push(FARG); // -1 to the M
+			push(INPUT); // -1 to the M
 			return;
 		}
 
-		if (BASE->sign == MMINUS) {
+		if (isnegativenumber(BASE)) {
 			push_symbol(POWER);
 			push_integer(-1);
 			push(EXPO);
@@ -7033,26 +7033,22 @@ factor_factor(void)
 		return;
 	}
 
-	if (!isrational(FARG) || iszero(FARG) || isplusone(FARG) || isminusone(FARG)) {
-		push(FARG);
+	if (!isrational(INPUT) || iszero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
+		push(INPUT);
 		return;
 	}
 
-	if (FARG->sign == MMINUS)
+	if (isnegativenumber(INPUT))
 		push_integer(-1);
 
-	numer = FARG->u.q.a;
-	denom = FARG->u.q.b;
+	numer = INPUT->u.q.a;
+	denom = INPUT->u.q.b;
 
-	if (!MEQUAL(numer, 1)) {
-		EXPO = one;
-		factor_bignum(numer, EXPO);
-	}
+	if (!MEQUAL(numer, 1))
+		factor_bignum(numer, one);
 
-	if (!MEQUAL(denom, 1)) {
-		EXPO = minusone;
-		factor_bignum(denom, EXPO);
-	}
+	if (!MEQUAL(denom, 1))
+		factor_bignum(denom, minusone);
 }
 
 void
@@ -12023,7 +12019,7 @@ logfunc(void)
 	if (isrational(p1)) {
 		h = tos;
 		push(p1);
-		factor_factor();
+		factor();
 		for (i = h; i < tos; i++) {
 			p2 = stack[i];
 			if (car(p2) == symbol(POWER)) {
@@ -14719,7 +14715,7 @@ power(void)
 		// EXPO is not numerical, that case was handled by power_numbers() above
 		h = tos;
 		push(BASE);
-		factor_factor();
+		factor();
 		n = tos - h;
 		for (i = 0; i < n; i++) {
 			p1 = stack[h + i];
@@ -15713,7 +15709,7 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 	push(EXPO);
 	list(3);
 
-	factor_factor();
+	factor();
 
 	// normalize factors
 
