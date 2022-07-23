@@ -1,1 +1,1 @@
-Run `make` to sync changes made in `eigenmath/src`.
+Run `make` to sync changes made in `../src`.
