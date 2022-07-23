@@ -216,7 +216,7 @@ void eval_expsin(struct atom *p1);
 void expsin(void);
 void eval_factor(struct atom *p1);
 void factorpoly(void);
-void factorpoly_coeffs(struct atom *P, struct atom *X);
+void coeffs(struct atom *P, struct atom *X);
 int factorpoly_root(int h);
 void factorpoly_divide(int h, struct atom *A);
 void factorpoly_eval(int h, int n, struct atom *X);

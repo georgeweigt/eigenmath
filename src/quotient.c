@@ -29,11 +29,11 @@ quotient(void)
 	P = pop();
 
 	p = tos;
-	factorpoly_coeffs(P, X);
+	coeffs(P, X);
 	m = tos - p - 1; // m is degree of dividend
 
 	q = tos;
-	factorpoly_coeffs(Q, X);
+	coeffs(Q, X);
 	n = tos - q - 1; // n is degree of divisor
 
 	k = m - n;

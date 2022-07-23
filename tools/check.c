@@ -50,7 +50,7 @@ check(void)
 		return "missing newline";
 
 	if (n == 1)
-		return 0; // ok
+		return NULL; // ok
 
 	// check for weird ascii chars
 
@@ -71,7 +71,7 @@ check(void)
 		return NULL;
 
 	if (strstr(buf, "  ") || strstr(buf, " /t") || strstr(buf, "\t "))
-		return "extra whitespace";
+		return "consecutive space";
 
 	return NULL;
 }

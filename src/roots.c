@@ -26,7 +26,7 @@ roots(void)
 
 	h = tos;
 
-	factorpoly_coeffs(P, X); // put coeffs on stack
+	coeffs(P, X); // put coeffs on stack
 
 	L = symbol(NIL);
 

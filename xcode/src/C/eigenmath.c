@@ -5693,7 +5693,7 @@ factorpoly(void)
 
 	h = tos;
 
-	factorpoly_coeffs(P, X); // put coeffs on stack
+	coeffs(P, X); // put coeffs on stack
 
 	F = one;
 
@@ -5765,10 +5765,10 @@ factorpoly(void)
 	multiply_noexpand();
 }
 
-// pushes coeffs on stack
+// push coefficients of P(X) on stack
 
 void
-factorpoly_coeffs(struct atom *P, struct atom *X)
+coeffs(struct atom *P, struct atom *X)
 {
 	struct atom *C;
 
@@ -11553,7 +11553,7 @@ nroots(void)
 
 	h = tos;
 
-	factorpoly_coeffs(P, X); // put coeffs on stack
+	coeffs(P, X); // put coeffs on stack
 
 	n = tos - h;
 
@@ -14679,11 +14679,11 @@ quotient(void)
 	P = pop();
 
 	p = tos;
-	factorpoly_coeffs(P, X);
+	coeffs(P, X);
 	m = tos - p - 1; // m is degree of dividend
 
 	q = tos;
-	factorpoly_coeffs(Q, X);
+	coeffs(Q, X);
 	n = tos - q - 1; // n is degree of divisor
 
 	k = m - n;
@@ -14937,7 +14937,7 @@ roots(void)
 
 	h = tos;
 
-	factorpoly_coeffs(P, X); // put coeffs on stack
+	coeffs(P, X); // put coeffs on stack
 
 	L = symbol(NIL);
 
