@@ -2959,6 +2959,38 @@ clockfunc(void)
 	power();
 	multiply();
 }
+// push coefficients of polynomial P(X) on stack
+
+void
+coeffs(struct atom *P, struct atom *X)
+{
+	struct atom *C;
+
+	for (;;) {
+
+		push(P);
+		push(X);
+		push_integer(0);
+		subst();
+		eval();
+		C = pop();
+
+		push(C);
+
+		push(P);
+		push(C);
+		subtract();
+		P = pop();
+
+		if (iszero(P))
+			break;
+
+		push(P);
+		push(X);
+		divide();
+		P = pop();
+	}
+}
 void
 eval_cofactor(struct atom *p1)
 {
@@ -5763,39 +5795,6 @@ factorpoly(void)
 
 	push(F);
 	multiply_noexpand();
-}
-
-// push coefficients of P(X) on stack
-
-void
-coeffs(struct atom *P, struct atom *X)
-{
-	struct atom *C;
-
-	for (;;) {
-
-		push(P);
-		push(X);
-		push_integer(0);
-		subst();
-		eval();
-		C = pop();
-
-		push(C);
-
-		push(P);
-		push(C);
-		subtract();
-		P = pop();
-
-		if (iszero(P))
-			break;
-
-		push(P);
-		push(X);
-		divide();
-		P = pop();
-	}
 }
 
 int

@@ -464,6 +464,7 @@ void eval_exptanh(struct atom *p1);
 void exptanh(void);
 void eval_clock(struct atom *p1);
 void clockfunc(void);
+void coeffs(struct atom *P, struct atom *X);
 void eval_cofactor(struct atom *p1);
 void eval_conj(struct atom *p1);
 void conjfunc(void);
@@ -579,7 +580,6 @@ void eval_expsin(struct atom *p1);
 void expsin(void);
 void eval_factor(struct atom *p1);
 void factorpoly(void);
-void coeffs(struct atom *P, struct atom *X);
 int factorpoly_root(int h);
 void factorpoly_divide(int h, struct atom *A);
 void factorpoly_eval(int h, int n, struct atom *X);
@@ -3930,6 +3930,38 @@ clockfunc(void)
 	power();
 	multiply();
 }
+// push coefficients of polynomial P(X) on stack
+
+void
+coeffs(struct atom *P, struct atom *X)
+{
+	struct atom *C;
+
+	for (;;) {
+
+		push(P);
+		push(X);
+		push_integer(0);
+		subst();
+		eval();
+		C = pop();
+
+		push(C);
+
+		push(P);
+		push(C);
+		subtract();
+		P = pop();
+
+		if (iszero(P))
+			break;
+
+		push(P);
+		push(X);
+		divide();
+		P = pop();
+	}
+}
 void
 eval_cofactor(struct atom *p1)
 {
@@ -6734,39 +6766,6 @@ factorpoly(void)
 
 	push(F);
 	multiply_noexpand();
-}
-
-// push coefficients of P(X) on stack
-
-void
-coeffs(struct atom *P, struct atom *X)
-{
-	struct atom *C;
-
-	for (;;) {
-
-		push(P);
-		push(X);
-		push_integer(0);
-		subst();
-		eval();
-		C = pop();
-
-		push(C);
-
-		push(P);
-		push(C);
-		subtract();
-		P = pop();
-
-		if (iszero(P))
-			break;
-
-		push(P);
-		push(X);
-		divide();
-		P = pop();
-	}
 }
 
 int

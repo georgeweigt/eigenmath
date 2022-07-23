@@ -15,6 +15,8 @@ make-prototypes: make-prototypes.c
 	gcc -O0 -o make-prototypes make-prototypes.c
 
 xcode:
+	rm -rf ../xcode/Eigenmath.xcodeproj/project.xcworkspace
+	rm -rf ../xcode/Eigenmath.xcodeproj/xcuserdata
 	cp ../src/defs.h ../src/externs.h ../xcode/src/C
 	echo "#include \"app.h\"" > ../xcode/src/C/eigenmath.c
 	cat \
@@ -34,6 +36,7 @@ xcode:
 	../src/ceiling.c \
 	../src/circexp.c \
 	../src/clock.c \
+	../src/coeffs.c \
 	../src/cofactor.c \
 	../src/conj.c \
 	../src/contract.c \
@@ -114,5 +117,3 @@ xcode:
 	../src/transpose.c \
 	../src/userfunc.c \
 	>> ../xcode/src/C/eigenmath.c
-	rm -rf ../xcode/Eigenmath.xcodeproj/project.xcworkspace
-	rm -rf ../xcode/Eigenmath.xcodeproj/xcuserdata
