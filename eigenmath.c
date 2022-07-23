@@ -587,7 +587,7 @@ void factorpoly_push_divisors(int a);
 void factorpoly_gen(int h, int k);
 void factorpoly_factor_small_number(int n);
 void factor(void);
-void factor_bignum(uint32_t *a, struct atom *EXPO);
+void factor_bignum(uint32_t *N, struct atom *EXPO);
 void eval_factorial(struct atom *p1);
 void factorial(void);
 void eval_filter(struct atom *p1);
@@ -7052,15 +7052,15 @@ factor(void)
 }
 
 void
-factor_bignum(uint32_t *a, struct atom *EXPO)
+factor_bignum(uint32_t *N, struct atom *EXPO)
 {
 	int k, m;
 	uint32_t d, n;
-	struct atom *P;
+	struct atom *T;
 
-	if (MLENGTH(a) > 1) {
+	if (MLENGTH(N) > 1) {
 		// too big to factor
-		push_bignum(MPLUS, mcopy(a), mint(1));
+		push_bignum(MPLUS, mcopy(N), mint(1));
 		if (!isplusone(EXPO)) {
 			push_symbol(POWER);
 			swap();
@@ -7070,7 +7070,7 @@ factor_bignum(uint32_t *a, struct atom *EXPO)
 		return;
 	}
 
-	n = a[0];
+	n = N[0];
 
 	for (k = 0; k < NPRIME; k++) {
 
@@ -7094,12 +7094,12 @@ factor_bignum(uint32_t *a, struct atom *EXPO)
 		push_integer(m);
 		push(EXPO);
 		multiply();
-		P = pop();
+		T = pop();
 
-		if (!isplusone(P)) {
+		if (!isplusone(T)) {
 			push_symbol(POWER);
 			swap();
-			push(P);
+			push(T);
 			list(3);
 		}
 	}

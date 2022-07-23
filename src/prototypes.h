@@ -224,7 +224,7 @@ void factorpoly_push_divisors(int a);
 void factorpoly_gen(int h, int k);
 void factorpoly_factor_small_number(int n);
 void factor(void);
-void factor_bignum(uint32_t *a, struct atom *EXPO);
+void factor_bignum(uint32_t *N, struct atom *EXPO);
 void eval_factorial(struct atom *p1);
 void factorial(void);
 void eval_filter(struct atom *p1);
