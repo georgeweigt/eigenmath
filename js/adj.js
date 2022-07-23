@@ -17,10 +17,7 @@ adj()
 
 	// p2 is the adjunct matrix
 
-	p2 = alloc_tensor();
-
-	p2.dim[0] = n;
-	p2.dim[1] = n;
+	p2 = alloc_matrix(n, n);
 
 	if (n == 2) {
 		p2.elem[0] = p1.elem[3];
@@ -37,10 +34,7 @@ adj()
 
 	// p3 is for computing cofactors
 
-	p3 = alloc_tensor();
-
-	p3.dim[0] = n - 1;
-	p3.dim[1] = n - 1;
+	p3 = alloc_matrix(n - 1, n - 1);
 
 	for (row = 0; row < n; row++) {
 		for (col = 0; col < n; col++) {

@@ -30,10 +30,7 @@ det()
 		return;
 	}
 
-	p2 = alloc_tensor();
-
-	p2.dim[0] = n - 1;
-	p2.dim[1] = n - 1;
+	p2 = alloc_matrix(n - 1, n - 1);
 
 	h = stack.length;
 

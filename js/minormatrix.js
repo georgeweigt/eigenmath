@@ -23,18 +23,14 @@ minormatrix(row, col)
 		return;
 	}
 
-	p2 = alloc_tensor();
-
 	if (n == 2)
-		p2.dim[0] = m - 1;
+		p2 = alloc_vector(m - 1);
 
 	if (m == 2)
-		p2.dim[0] = n - 1;
+		p2 = alloc_vector(n - 1);
 
-	if (n > 2 && m > 2) {
-		p2.dim[0] = n - 1;
-		p2.dim[1] = m - 1;
-	}
+	if (n > 2 && m > 2)
+		p2 = alloc_matrix(n - 1, m - 1);
 
 	row--;
 	col--;
