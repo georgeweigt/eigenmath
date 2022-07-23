@@ -114,3 +114,5 @@ xcode:
 	../src/transpose.c \
 	../src/userfunc.c \
 	>> ../xcode/src/C/eigenmath.c
+	rm -rf ../xcode/Eigenmath.xcodeproj/project.xcworkspace
+	rm -rf ../xcode/Eigenmath.xcodeproj/xcuserdata
