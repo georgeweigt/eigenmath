@@ -5694,9 +5694,6 @@ expsin(void)
 
 	subtract();
 }
-#define NPRIME 10000
-extern int primetab[NPRIME];
-
 void
 eval_factor(struct atom *p1)
 {
@@ -5915,7 +5912,10 @@ factorpoly_push_divisors(int a)
 
 	h = tos;
 
-	factorpoly_factor_small_number(a);
+	if (a < 0)
+		a = -a;
+
+	factor_uint32(a);
 
 	k = tos;
 
@@ -5973,42 +5973,6 @@ factorpoly_gen(int h, int k)
 		power();
 		multiply();
 		factorpoly_gen(h + 2, k);
-	}
-}
-
-// n is 32 bits or less
-
-void
-factorpoly_factor_small_number(int n)
-{
-	int d, k, m;
-
-	if (n < 0)
-		n = -n;
-
-	for (k = 0; k < NPRIME; k++) {
-
-		d = primetab[k];
-
-		if (n / d < d)
-			break; // n is 1 or prime
-
-		m = 0;
-
-		while (n % d == 0) {
-			n /= d;
-			m++;
-		}
-
-		if (m) {
-			push_integer(d); // push pair
-			push_integer(m);
-		}
-	}
-
-	if (n > 1) {
-		push_integer(n); // push pair
-		push_integer(1);
 	}
 }
 
@@ -6078,27 +6042,65 @@ factor(void)
 	if (!MEQUAL(denom, 1))
 		factor_bignum(denom, minusone);
 }
-
 void
-factor_bignum(uint32_t *N, struct atom *EXPO)
+factor_bignum(uint32_t *U, struct atom *EXPO)
 {
-	int k, m;
-	uint32_t d, n;
-	struct atom *T;
+	int i, h, n;
+	uint32_t u;
+	struct atom *N, *M;
 
-	if (MLENGTH(N) > 1) {
-		// too big to factor
-		push_bignum(MPLUS, mcopy(N), mint(1));
-		if (!isplusone(EXPO)) {
-			push_symbol(POWER);
-			swap();
-			push(EXPO);
-			list(3);
-		}
+	// greater than 32 bits?
+
+	if (MLENGTH(U) > 1) {
+		push_bignum(MPLUS, mcopy(U), mint(1));
+		if (isplusone(EXPO))
+			return;
+		push_symbol(POWER);
+		swap();
+		push(EXPO);
+		list(3);
 		return;
 	}
 
-	n = N[0];
+	h = tos;
+
+	u = U[0];
+
+	factor_uint32(u);
+
+	n = (tos - h) / 2; // number of factors on stack
+
+	for (i = 0; i < n; i++) {
+
+		N = stack[h + 2 * i + 0];
+		M = stack[h + 2 * i + 1];
+
+		push(M);
+		push(EXPO);
+		multiply();
+		M = pop();
+
+		if (!isplusone(M)) {
+			push_symbol(POWER);
+			push(N);
+			push(M);
+			list(3);
+			N = pop();
+		}
+
+		stack[h + i] = N;
+	}
+
+	tos = h + n; // pop all
+}
+#define NPRIME 10000
+extern int primetab[];
+
+void
+factor_uint32(uint32_t n)
+{
+	int k, m;
+	uint32_t d;
 
 	for (k = 0; k < NPRIME; k++) {
 
@@ -6114,32 +6116,15 @@ factor_bignum(uint32_t *N, struct atom *EXPO)
 			m++;
 		}
 
-		if (m == 0)
-			continue;
-
-		push_bignum(MPLUS, mint(d), mint(1)); // use push_bignum because d is unsigned
-
-		push_integer(m);
-		push(EXPO);
-		multiply();
-		T = pop();
-
-		if (!isplusone(T)) {
-			push_symbol(POWER);
-			swap();
-			push(T);
-			list(3);
+		if (m) {
+			push_integer(d);
+			push_integer(m);
 		}
 	}
 
 	if (n > 1) {
-		push_bignum(MPLUS, mint(n), mint(1)); // use push_bignum because n is unsigned
-		if (!isplusone(EXPO)) {
-			push_symbol(POWER);
-			swap();
-			push(EXPO);
-			list(3);
-		}
+		push_bignum(MPLUS, mint(n), mint(1)); // use push_bignum because n may be greater than 31 bits
+		push_integer(1);
 	}
 }
 void
