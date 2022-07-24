@@ -67,7 +67,7 @@ nroots(void)
 	monic(n);
 
 	for (k = n; k > 1; k--) {
-		findroot(k);
+		nfindroot(k);
 		if (fabs(a.r) < DELTA)
 			a.r = 0.0;
 		if (fabs(a.i) < DELTA)
@@ -114,7 +114,7 @@ monic(int n)
 // uses the secant method
 
 void
-findroot(int n)
+nfindroot(int n)
 {
 	int j, k;
 	double t;

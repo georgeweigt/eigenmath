@@ -1,36 +1,19 @@
-void
-eval_roots(struct atom *p1)
+function
+roots()
 {
-	push(cadr(p1));
-	eval();
-
-	p1 = cddr(p1);
-
-	if (iscons(p1)) {
-		push(car(p1));
-		eval();
-	} else
-		push_symbol(X_LOWER);
-
-	roots();
-}
-
-void
-roots(void)
-{
-	int h, i, n;
-	struct atom *A, *C, *LIST, *P, *X;
+	var h, i, n;
+	var A, C, LIST, P, X;
 
 	X = pop();
 	P = pop();
 
-	h = tos;
+	h = stack.length;
 
 	coeffs(P, X); // put coeffs on stack
 
 	LIST = symbol(NIL);
 
-	while (tos - h > 1) {
+	while (stack.length - h > 1) {
 
 		C = pop(); // leading coeff
 
@@ -39,7 +22,7 @@ roots(void)
 
 		// divide through by C
 
-		for (i = h; i < tos; i++) {
+		for (i = h; i < stack.length; i++) {
 			push(stack[i]);
 			push(C);
 			divide();
@@ -61,12 +44,12 @@ roots(void)
 		reduce(h, A); // divide by X - A
 	}
 
-	tos = h; // pop all
+	stack.splice(h); // pop all
 
-	n = length(LIST);
+	n = lengthf(LIST);
 
 	if (n == 0)
-		stop("roots");
+		stopf("root finder");
 
 	if (n == 1) {
 		push(car(LIST));
@@ -83,9 +66,9 @@ roots(void)
 	A = alloc_vector(n);
 
 	for (i = 0; i < n; i++)
-		A->u.tensor->elem[i] = stack[h + i];
+		A.elem[i] = stack[h + i];
 
-	tos = h; // pop all
+	stack.splice(h); // pop all
 
 	push(A);
 }

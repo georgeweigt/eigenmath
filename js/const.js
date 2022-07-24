@@ -69,6 +69,7 @@ const RANK = "rank";
 const RATIONALIZE = "rationalize";
 const REAL = "real";
 const RECT = "rect";
+const ROOTS = "roots";
 const ROTATE = "rotate";
 const RUN = "run";
 const SGN = "sgn";
