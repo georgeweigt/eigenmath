@@ -49,7 +49,7 @@ roots()
 	n = lengthf(LIST);
 
 	if (n == 0)
-		stopf("root finder");
+		stopf("no roots found");
 
 	if (n == 1) {
 		push(car(LIST));
