@@ -14,6 +14,8 @@ check: check.c
 make-prototypes: make-prototypes.c
 	gcc -O0 -o make-prototypes make-prototypes.c
 
+# sed removes "../src/main.c" and "../src/fmt.c"
+
 objs := $(shell ls ../src/*.c | sed -e "s/\.\.\/src\/main\.c//" -e "s/\.\.\/src\/fmt\.c//")
 
 xcode:
