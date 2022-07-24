@@ -1,7 +1,7 @@
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
 function
-factor()
+factor_factor()
 {
 	var numer, denom;
 	var INPUT, BASE, EXPO;

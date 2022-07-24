@@ -5988,7 +5988,7 @@ factorpoly_gen(int h, int k)
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
 void
-factor(void)
+factor_factor(void)
 {
 	uint32_t *numer, *denom;
 	struct atom *INPUT, *BASE, *EXPO;
@@ -10267,7 +10267,7 @@ logfunc(void)
 	if (isrational(p1)) {
 		h = tos;
 		push(p1);
-		factor();
+		factor_factor();
 		for (i = h; i < tos; i++) {
 			p2 = stack[i];
 			if (car(p2) == symbol(POWER)) {
@@ -12611,7 +12611,7 @@ power(void)
 		// EXPO is not numerical, that case was handled by power_numbers() above
 		h = tos;
 		push(BASE);
-		factor();
+		factor_factor();
 		n = tos - h;
 		for (i = 0; i < n; i++) {
 			p1 = stack[h + i];
@@ -13605,7 +13605,7 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 	push(EXPO);
 	list(3);
 
-	factor();
+	factor_factor();
 
 	// normalize factors
 

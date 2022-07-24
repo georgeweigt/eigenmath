@@ -69,7 +69,7 @@ power_numbers(BASE, EXPO)
 	push(EXPO);
 	list(3);
 
-	factor();
+	factor_factor();
 
 	// normalize factors
 

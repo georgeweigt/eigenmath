@@ -5504,7 +5504,10 @@ check(infixform(T)="2 2^(1/2) 3^(1/2) 17^(1/2)")
 T = sqrt(816)
 check(infixform(T)="4 3^(1/2) 17^(1/2)")
 
-T = sqrt(2147673613) -- 46337 46349
+T = sqrt(2146654199) -- 46327 46337 (less than 2^31)
+check(infixform(T) == "46327^(1/2) 46337^(1/2)")
+
+T = sqrt(2147673613) -- 46337 46349 (greater than 2^31)
 check(infixform(T) == "2147673613^(1/2)")
 
 for(k,1,100,

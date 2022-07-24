@@ -64,7 +64,7 @@ power()
 		// EXPO is not numerical, that case was handled by power_numbers() above
 		h = stack.length;
 		push(BASE);
-		factor();
+		factor_factor();
 		n = stack.length - h;
 		for (i = 0; i < n; i++) {
 			p1 = stack[h + i];

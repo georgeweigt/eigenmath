@@ -71,7 +71,7 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 	push(EXPO);
 	list(3);
 
-	factor();
+	factor_factor();
 
 	// normalize factors
 

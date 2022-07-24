@@ -280,7 +280,7 @@ factorpoly_gen(int h, int k)
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
 void
-factor(void)
+factor_factor(void)
 {
 	uint32_t *numer, *denom;
 	struct atom *INPUT, *BASE, *EXPO;

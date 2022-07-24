@@ -67,7 +67,7 @@ log()
 	if (isrational(p1)) {
 		h = stack.length;
 		push(p1);
-		factor();
+		factor_factor();
 		n = stack.length;
 		for (i = h; i < n; i++) {
 			p2 = stack[i];
