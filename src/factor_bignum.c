@@ -1,50 +1,50 @@
 void
-factor_bignum(uint32_t *U, struct atom *EXPO)
+factor_bignum(uint32_t *N, struct atom *M)
 {
 	int i, h, n;
-	uint32_t u;
-	struct atom *N, *M;
+	struct atom *BASE, *EXPO;
 
-	// greater than 32 bits?
+	// greater than 31 bits?
 
-	if (MLENGTH(U) > 1) {
-		push_bignum(MPLUS, mcopy(U), mint(1));
-		if (isplusone(EXPO))
+	if (!bignum_issmallnum(N)) {
+		push_bignum(MPLUS, mcopy(N), mint(1));
+		if (isplusone(M))
 			return;
 		push_symbol(POWER);
 		swap();
-		push(EXPO);
+		push(M);
 		list(3);
 		return;
 	}
 
 	h = tos;
 
-	u = U[0];
+	n = bignum_smallnum(N);
 
-	factor_uint32(u);
+	factor_int(n);
 
 	n = (tos - h) / 2; // number of factors on stack
 
 	for (i = 0; i < n; i++) {
 
-		N = stack[h + 2 * i + 0];
-		M = stack[h + 2 * i + 1];
+		BASE = stack[h + 2 * i + 0];
+		EXPO = stack[h + 2 * i + 1];
 
-		push(M);
 		push(EXPO);
+		push(M);
 		multiply();
-		M = pop();
+		EXPO = pop();
 
-		if (!isplusone(M)) {
-			push_symbol(POWER);
-			push(N);
-			push(M);
-			list(3);
-			N = pop();
+		if (isplusone(EXPO)) {
+			stack[h + i] = BASE;
+			continue;
 		}
 
-		stack[h + i] = N;
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
+		stack[h + i] = pop();
 	}
 
 	tos = h + n; // pop all

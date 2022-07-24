@@ -57,7 +57,7 @@ xcode:
 	../src/expsin.c \
 	../src/factor.c \
 	../src/factor_bignum.c \
-	../src/factor_uint32.c \
+	../src/factor_int.c \
 	../src/factorial.c \
 	../src/filter.c \
 	../src/float.c \

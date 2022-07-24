@@ -1163,3 +1163,15 @@ mprimef(uint32_t *n, uint32_t *q, int k)
 		}
 	}
 }
+
+int
+bignum_issmallnum(uint32_t *N)
+{
+	return MLENGTH(N) == 1 && N[0] <= 0x7fffffff;
+}
+
+int
+bignum_smallnum(uint32_t *N)
+{
+	return N[0] & 0x7fffffff;
+}

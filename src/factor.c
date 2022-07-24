@@ -210,16 +210,13 @@ factorpoly_eval(int h, int n, struct atom *X)
 }
 
 void
-factorpoly_push_divisors(int a)
+factorpoly_push_divisors(int n)
 {
-	int h, i, k, n;
+	int h, i, k;
 
 	h = tos;
 
-	if (a < 0)
-		a = -a;
-
-	factor_uint32(a);
+	factor_int(n);
 
 	k = tos;
 

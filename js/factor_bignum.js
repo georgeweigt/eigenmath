@@ -1,63 +1,53 @@
-// N is bignum, EXPO is rational
+// N is bignum, M is rational
 
 function
-factor_bignum(N, EXPO)
+factor_bignum(N, M)
 {
-	var d, k, m, n, t;
+	var i, h, n;
+	var BASE, EXPO;
 
-	n = bignum_uint32(N);
+	// greater than 31 bits?
 
-	if (n == null) {
-		// more than 32 bits
+	if (!bignum_issmallnum(N)) {
 		push_bignum(1, bignum_copy(N), bignum_int(1));
-		if (!isplusone(EXPO)) {
-			push_symbol(POWER);
-			swap();
-			push(EXPO);
-			list(3);
-		}
+		if (isplusone(M))
+			return;
+		push_symbol(POWER);
+		swap();
+		push(M);
+		list(3);
 		return;
 	}
 
-	for (k = 0; k < 10000; k++) {
+	h = stack.length;
 
-		d = primetab[k];
+	n = bignum_smallnum(N);
 
-		if (n / d < d)
-			break; // n is 1 or prime
+	factor_int(n);
 
-		m = 0;
+	n = (stack.length - h) / 2; // number of factors on stack
 
-		while (n % d == 0) {
-			n /= d;
-			m++;
-		}
+	for (i = 0; i < n; i++) {
 
-		if (m == 0)
-			continue;
+		BASE = stack[h + 2 * i + 0];
+		EXPO = stack[h + 2 * i + 1];
 
-		push_integer(d);
-
-		push_integer(m);
 		push(EXPO);
+		push(M);
 		multiply();
-		t = pop();
+		EXPO = pop();
 
-		if (!isplusone(t)) {
-			push_symbol(POWER);
-			swap();
-			push(t);
-			list(3);
+		if (isplusone(EXPO)) {
+			stack[h + i] = BASE;
+			continue;
 		}
+
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
+		stack[h + i] = pop();
 	}
 
-	if (n > 1) {
-		push_integer(n);
-		if (!isplusone(EXPO)) {
-			push_symbol(POWER);
-			swap();
-			push(EXPO);
-			list(3);
-		}
-	}
+	stack.splice(h + n); // pop all
 }
