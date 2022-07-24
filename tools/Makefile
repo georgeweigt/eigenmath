@@ -16,7 +16,7 @@ make-prototypes: make-prototypes.c
 
 # sed removes "../src/main.c" and "../src/fmt.c"
 
-objs := $(shell ls ../src/*.c | sed -e "s/\.\.\/src\/main\.c//" -e "s/\.\.\/src\/fmt\.c//")
+objs := $(shell ls ../src/*.c | sed "s/\.\.\/src\/main\.c//;s/\.\.\/src\/fmt\.c//")
 
 xcode:
 	rm -rf ../xcode/Eigenmath.xcodeproj/project.xcworkspace
