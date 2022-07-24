@@ -552,6 +552,8 @@ void d_scalar_tensor(struct atom *p1, struct atom *p2);
 void d_tensor_scalar(struct atom *p1, struct atom *p2);
 void eval_det(struct atom *p1);
 void det(void);
+void divisors(int n);
+void divisors_nib(int h, int k);
 void eval_eigenvec(struct atom *p1);
 void eigenvec(double *D, double *Q, int n);
 int eigenvec_step(double *D, double *Q, int n);
@@ -585,8 +587,6 @@ void factorpoly(void);
 int factorpoly_root(int h);
 void factorpoly_divide(int h, struct atom *A);
 void factorpoly_eval(int h, int n, struct atom *X);
-void factorpoly_push_divisors(int n);
-void factorpoly_gen(int h, int k);
 void factor_bignum(uint32_t *N, struct atom *M);
 void factor_factor(void);
 void factor_int(int n);
@@ -5900,6 +5900,75 @@ det(void)
 	else
 		add_terms(tos - h);
 }
+// push all divisors of n
+
+void
+divisors(int n)
+{
+	int h, i, k;
+
+	h = tos;
+
+	factor_int(n);
+
+	k = tos;
+
+	// contruct divisors by recursive descent
+
+	push_integer(1);
+
+	divisors_nib(h, k);
+
+	// move
+
+	n = tos - k;
+
+	for (i = 0; i < n; i++)
+		stack[h + i] = stack[k + i];
+
+	tos = h + n; // pop all
+}
+
+//	Generate all divisors for a factored number
+//
+//	Input:		Factor pairs on stack (base, expo)
+//
+//			h	first pair
+//
+//			k	just past last pair
+//
+//	Output:		Divisors on stack
+//
+//	For example, the number 12 (= 2^2 3^1) has 6 divisors:
+//
+//	1, 2, 3, 4, 6, 12
+
+void
+divisors_nib(int h, int k)
+{
+	int i, n;
+	struct atom *ACCUM, *BASE, *EXPO;
+
+	if (h == k)
+		return;
+
+	ACCUM = pop();
+
+	BASE = stack[h + 0];
+	EXPO = stack[h + 1];
+
+	push(EXPO);
+	n = pop_integer();
+
+	for (i = 0; i <= n; i++) {
+		push(ACCUM);
+		push(BASE);
+		push_integer(i);
+		power();
+		multiply();
+		divisors_nib(h + 2, k);
+	}
+}
 void
 eval_eigenvec(struct atom *p1)
 {
@@ -6782,10 +6851,8 @@ factorpoly(void)
 int
 factorpoly_root(int h)
 {
-	int a, i, j, h1, h2, n, n1, n2;
+	int i, j, k, m, n;
 	struct atom *C, *T, *X;
-
-	n = tos - h;
 
 	C = stack[h]; // constant term
 
@@ -6793,38 +6860,36 @@ factorpoly_root(int h)
 		stop("factor");
 
 	if (iszero(C)) {
-		push(C);
+		push_integer(0);
 		return 1;
 	}
 
-	h1 = tos;
+	k = tos;
 	push(C);
 	numerator();
-	a = pop_integer();
-	factorpoly_push_divisors(a);
-	n1 = tos - h1;
+	n = pop_integer();
+	divisors(n); // push divisors of n
 
-	h2 = tos;
+	m = tos;
 	push(C);
 	denominator();
-	a = pop_integer();
-	factorpoly_push_divisors(a);
-	n2 = tos - h2;
+	n = pop_integer();
+	divisors(n); // push divisors of n
 
-	for (i = 0; i < n1; i++) {
-		for (j = 0; j < n2; j++) {
+	for (i = k; i < m; i++) {
+		for (j = m; j < tos; j++) {
 
-			push(stack[h1 + i]);
-			push(stack[h2 + j]);
+			push(stack[i]);
+			push(stack[j]);
 			divide();
 			X = pop();
 
-			factorpoly_eval(h, n, X);
+			factorpoly_eval(h, k - h, X);
 
 			T = pop();
 
 			if (iszero(T)) {
-				tos = h + n; // pop all
+				tos = k; // pop all
 				push(X);
 				return 1;
 			}
@@ -6833,19 +6898,19 @@ factorpoly_root(int h)
 			negate();
 			X = pop();
 
-			factorpoly_eval(h, n, X);
+			factorpoly_eval(h, k - h, X);
 
 			T = pop();
 
 			if (iszero(T)) {
-				tos = h + n; // pop all
+				tos = k; // pop all
 				push(X);
 				return 1;
 			}
 		}
 	}
 
-	tos = h + n; // pop all
+	tos = k; // pop all
 
 	return 0; // no root
 }
@@ -6887,74 +6952,6 @@ factorpoly_eval(int h, int n, struct atom *X)
 		multiply();
 		push(stack[h + i - 1]);
 		add();
-	}
-}
-
-void
-factorpoly_push_divisors(int n)
-{
-	int h, i, k;
-
-	h = tos;
-
-	factor_int(n);
-
-	k = tos;
-
-	// contruct divisors by recursive descent
-
-	push_integer(1);
-
-	factorpoly_gen(h, k);
-
-	// move
-
-	n = tos - k;
-
-	for (i = 0; i < n; i++)
-		stack[h + i] = stack[k + i];
-
-	tos = h + n;
-}
-
-//	Generate all divisors for a factored number
-//
-//	Input:		Factor pairs on stack (base, expo)
-//
-//			h	first pair
-//
-//			k	just past last pair
-//
-//	Output:		Divisors on stack
-//
-//	For example, the number 12 (= 2^2 3^1) has 6 divisors:
-//
-//	1, 2, 3, 4, 6, 12
-
-void
-factorpoly_gen(int h, int k)
-{
-	int i, n;
-	struct atom *ACCUM, *BASE, *EXPO;
-
-	if (h == k)
-		return;
-
-	ACCUM = pop();
-
-	BASE = stack[h + 0];
-	EXPO = stack[h + 1];
-
-	push(EXPO);
-	n = pop_integer();
-
-	for (i = 0; i <= n; i++) {
-		push(ACCUM);
-		push(BASE);
-		push_integer(i);
-		power();
-		multiply();
-		factorpoly_gen(h + 2, k);
 	}
 }
 void
