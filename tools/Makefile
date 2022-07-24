@@ -91,7 +91,6 @@ xcode:
 	../src/power_natural_number.c \
 	../src/power_numbers.c \
 	../src/prefixform.c \
-	../src/primetab.c \
 	../src/print.c \
 	../src/product.c \
 	../src/quotient.c \
