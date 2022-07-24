@@ -9,7 +9,7 @@ findroot(h)
 	C = stack[h]; // constant term
 
 	if (!isrational(C))
-		stop("root finder");
+		stopf("root finder");
 
 	if (iszero(C)) {
 		push_integer(0);
