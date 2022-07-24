@@ -1,3 +1,5 @@
+#ifndef XCODE
+
 #define TABLE_HSPACE 3
 #define TABLE_VSPACE 1
 
@@ -1377,3 +1379,4 @@ writec(int c)
 	else
 		write(f, buf + 1, 3);
 }
+#endif // XCODE

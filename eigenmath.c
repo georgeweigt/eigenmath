@@ -587,8 +587,8 @@ void factorpoly_divide(int h, struct atom *A);
 void factorpoly_eval(int h, int n, struct atom *X);
 void factorpoly_push_divisors(int n);
 void factorpoly_gen(int h, int k);
-void factor_factor(void);
 void factor_bignum(uint32_t *N, struct atom *M);
+void factor_factor(void);
 void factor_int(int n);
 void eval_factorial(struct atom *p1);
 void factorial(void);
@@ -6957,7 +6957,57 @@ factorpoly_gen(int h, int k)
 		factorpoly_gen(h + 2, k);
 	}
 }
+void
+factor_bignum(uint32_t *N, struct atom *M)
+{
+	int h, i, n;
+	struct atom *BASE, *EXPO;
 
+	// greater than 31 bits?
+
+	if (!bignum_issmallnum(N)) {
+		push_bignum(MPLUS, mcopy(N), mint(1));
+		if (isplusone(M))
+			return;
+		push_symbol(POWER);
+		swap();
+		push(M);
+		list(3);
+		return;
+	}
+
+	h = tos;
+
+	n = bignum_smallnum(N);
+
+	factor_int(n);
+
+	n = (tos - h) / 2; // number of factors on stack
+
+	for (i = 0; i < n; i++) {
+
+		BASE = stack[h + 2 * i + 0];
+		EXPO = stack[h + 2 * i + 1];
+
+		push(EXPO);
+		push(M);
+		multiply();
+		EXPO = pop();
+
+		if (isplusone(EXPO)) {
+			stack[h + i] = BASE;
+			continue;
+		}
+
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
+		stack[h + i] = pop();
+	}
+
+	tos = h + n; // pop all
+}
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
 void
@@ -7023,57 +7073,6 @@ factor_factor(void)
 
 	if (!MEQUAL(denom, 1))
 		factor_bignum(denom, minusone);
-}
-void
-factor_bignum(uint32_t *N, struct atom *M)
-{
-	int h, i, n;
-	struct atom *BASE, *EXPO;
-
-	// greater than 31 bits?
-
-	if (!bignum_issmallnum(N)) {
-		push_bignum(MPLUS, mcopy(N), mint(1));
-		if (isplusone(M))
-			return;
-		push_symbol(POWER);
-		swap();
-		push(M);
-		list(3);
-		return;
-	}
-
-	h = tos;
-
-	n = bignum_smallnum(N);
-
-	factor_int(n);
-
-	n = (tos - h) / 2; // number of factors on stack
-
-	for (i = 0; i < n; i++) {
-
-		BASE = stack[h + 2 * i + 0];
-		EXPO = stack[h + 2 * i + 1];
-
-		push(EXPO);
-		push(M);
-		multiply();
-		EXPO = pop();
-
-		if (isplusone(EXPO)) {
-			stack[h + i] = BASE;
-			continue;
-		}
-
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		stack[h + i] = pop();
-	}
-
-	tos = h + n; // pop all
 }
 #define NPRIME 4792
 
@@ -7964,6 +7963,8 @@ floorfunc(void)
 	push(p1);
 	list(2);
 }
+#ifndef XCODE
+
 #define TABLE_HSPACE 3
 #define TABLE_VSPACE 1
 
@@ -9343,6 +9344,8 @@ writec(int c)
 	else
 		write(f, buf + 1, 3);
 }
+
+#endif
 void
 eval_for(struct atom *p1)
 {
@@ -12777,6 +12780,7 @@ mag1(void)
 
 	push(p1);
 }
+#ifndef XCODE
 int doc_type;
 int doc_state;
 char *infile;
@@ -13129,6 +13133,8 @@ eval_exit(struct atom *p1)
 	end_document();
 	exit(0);
 }
+
+#endif
 void
 eval_mathjax(struct atom *p1)
 {
