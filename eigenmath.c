@@ -7963,8 +7963,6 @@ floorfunc(void)
 	push(p1);
 	list(2);
 }
-#ifndef XCODE
-
 #define TABLE_HSPACE 3
 #define TABLE_VSPACE 1
 
@@ -9344,8 +9342,6 @@ writec(int c)
 	else
 		write(f, buf + 1, 3);
 }
-
-#endif
 void
 eval_for(struct atom *p1)
 {
@@ -12780,7 +12776,6 @@ mag1(void)
 
 	push(p1);
 }
-#ifndef XCODE
 int doc_type;
 int doc_state;
 char *infile;
@@ -13133,8 +13128,6 @@ eval_exit(struct atom *p1)
 	end_document();
 	exit(0);
 }
-
-#endif
 void
 eval_mathjax(struct atom *p1)
 {

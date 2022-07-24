@@ -9,7 +9,7 @@ CC = gcc
 # := means evaluate then assign result to variable
 # sed removes the commas then replaces .c with .o
 
-objects := $(shell ls -m *.c | sed "s/,//g;s/\.c/\.o/g")
+objects := $(shell ls *.c | sed "s/\.c/\.o/g")
 
 eigenmath : $(objects)
 	gcc -o eigenmath $(objects) -lm

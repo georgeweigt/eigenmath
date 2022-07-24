@@ -1,4 +1,3 @@
-#ifndef XCODE
 int doc_type;
 int doc_state;
 char *infile;
@@ -351,4 +350,3 @@ eval_exit(struct atom *p1)
 	end_document();
 	exit(0);
 }
-#endif // XCODE

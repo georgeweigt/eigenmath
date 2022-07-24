@@ -14,10 +14,11 @@ check: check.c
 make-prototypes: make-prototypes.c
 	gcc -O0 -o make-prototypes make-prototypes.c
 
+objs := $(shell ls ../src/*.c | sed -e "s/\.\.\/src\/main\.c//" -e "s/\.\.\/src\/fmt\.c//")
+
 xcode:
 	rm -rf ../xcode/Eigenmath.xcodeproj/project.xcworkspace
 	rm -rf ../xcode/Eigenmath.xcodeproj/xcuserdata
 	cp ../src/defs.h ../src/externs.h ../xcode/src/C
 	echo "#include \"app.h\"" > ../xcode/src/C/eigenmath.c
-	echo "#define XCODE 1" >> ../xcode/src/C/eigenmath.c
-	cat ../src/*.c >> ../xcode/src/C/eigenmath.c
+	cat $(objs) >> ../xcode/src/C/eigenmath.c
