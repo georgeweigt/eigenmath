@@ -1,7 +1,7 @@
 void
 factor_bignum(uint32_t *N, struct atom *M)
 {
-	int i, h, n;
+	int h, i, n;
 	struct atom *BASE, *EXPO;
 
 	// greater than 31 bits?
