@@ -607,8 +607,7 @@ factor_int(int n)
 {
 	int d, k, m;
 
-	if (n < 0)
-		n = -n;
+	n = abs(n);
 
 	if (n < 2)
 		return;

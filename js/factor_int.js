@@ -605,8 +605,7 @@ factor_int(n)
 {
 	var d, k, m;
 
-	if (n < 0)
-		n = -n;
+	n = Math.abs(n);
 
 	if (n < 2)
 		return;
