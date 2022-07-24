@@ -6059,7 +6059,7 @@ factor_bignum(uint32_t *N, struct atom *M)
 
 	// greater than 31 bits?
 
-	if (bignum_exceeds_int(N)) {
+	if (!bignum_issmallnum(N)) {
 		push_bignum(MPLUS, mcopy(N), mint(1));
 		if (isplusone(M))
 			return;
@@ -6072,7 +6072,7 @@ factor_bignum(uint32_t *N, struct atom *M)
 
 	h = tos;
 
-	n = bignum_to_int(N);
+	n = bignum_smallnum(N);
 
 	factor_int(n);
 
