@@ -809,10 +809,11 @@ void divide(void);
 void eval_noexpand(struct atom *p1);
 void eval_nroots(struct atom *p1);
 void nroots(void);
-void monic(int n);
-void nfindroot(int n);
-void compute_fa(int n);
-void nroots_divpoly(int n);
+void nfindroot(double cr[], double ci[], int n, double *ar, double *ai);
+void fata(double cr[], double ci[], int n, double ar, double ai, double *far, double *fai);
+void nreduce(double cr[], double ci[], int n, double ar, double ai);
+double zabs(double r, double i);
+double urandom(void);
 void eval_numerator(struct atom *p1);
 void numerator(void);
 void eval_outer(struct atom *p1);
@@ -14785,15 +14786,8 @@ eval_noexpand(struct atom *p1)
 
 	expanding = t;
 }
-#define MAXCOEFFS 100
-#define DELTA 1.0e-6
-#define EPSILON 1.0e-9
-#define YABS(z) sqrt((z).r * (z).r + (z).i * (z).i)
-#define RANDOM (4.0 * (double) rand() / (double) RAND_MAX - 2.0)
-
-struct {
-	double r, i;
-} a, b, x, y, fa, fb, dx, df, c[MAXCOEFFS];
+#define DELTA 1e-6
+#define EPSILON 1e-9
 
 void
 eval_nroots(struct atom *p1)
@@ -14815,8 +14809,10 @@ eval_nroots(struct atom *p1)
 void
 nroots(void)
 {
-	int h, i, k, n;
-	struct atom *P, *X, *RE, *IM, *V;
+	int h, i, n;
+	struct atom *A, *P, *X, *RE, *IM;
+	double ar, ai, mag;
+	static double *cr, *ci;
 
 	X = pop();
 	P = pop();
@@ -14827,197 +14823,257 @@ nroots(void)
 
 	n = tos - h;
 
-	if (n < 2 || n > MAXCOEFFS)
-		stop("nroots");
+	if (n == 1) {
+		stack[h] = symbol(NIL); // P is just a constant, no roots
+		return;
+	}
 
-	// convert the coefficients to real and imaginary doubles
+	if (cr)
+		free(cr);
+	if (ci)
+		free(ci);
+
+	cr = malloc(n * sizeof (double));
+	ci = malloc(n * sizeof (double));
+
+	if (cr == NULL || ci == NULL)
+		exit(1);
+
+	// convert coeffs to doubles
 
 	for (i = 0; i < n; i++) {
+
 		push(stack[h + i]);
 		real();
 		floatfunc();
 		RE = pop();
+
 		push(stack[h + i]);
 		imag();
 		floatfunc();
 		IM = pop();
+
 		if (!isdouble(RE) || !isdouble(IM))
-			stop("nroots: coefficients?");
-		c[i].r = RE->u.d;
-		c[i].i = IM->u.d;
+			stop("nroots: coeffs");
+
+		cr[i] = RE->u.d;
+		ci[i] = IM->u.d;
 	}
 
 	tos = h; // pop all
 
-	// n is the number of coefficients, n = deg(p) + 1
+	while (n > 1) {
 
-	monic(n);
+		nfindroot(cr, ci, n, &ar, &ai);
 
-	for (k = n; k > 1; k--) {
-		nfindroot(k);
-		if (fabs(a.r) < DELTA)
-			a.r = 0.0;
-		if (fabs(a.i) < DELTA)
-			a.i = 0.0;
-		push_double(a.r);
-		push_double(a.i);
+		mag = zabs(ar, ai);
+
+		if (fabs(ar / mag) < DELTA)
+			ar = 0.0;
+
+		if (fabs(ai / mag) < DELTA)
+			ai = 0.0;
+
+		// push root
+
+		push_double(ar);
+		push_double(ai);
 		push(imaginaryunit);
 		multiply();
 		add();
-		nroots_divpoly(k);
-	}
 
-	// now make n equal to the number of roots
+		// divide by X - A
+
+		nreduce(cr, ci, n, ar, ai);
+
+		n--;
+	}
 
 	n = tos - h;
 
-	if (n > 1) {
-		sort(n);
-		V = alloc_vector(n);
-		for (i = 0; i < n; i++)
-			V->u.tensor->elem[i] = stack[h + i];
-		tos = h; // pop all
-		push(V);
-	}
+	if (n == 1)
+		return; // only 1 root
+
+	sort(n);
+
+	A = alloc_vector(n);
+
+	for (i = 0; i < n; i++)
+		A->u.tensor->elem[i] = stack[h + i];
+
+	tos = h; // pop all
+
+	push(A);
 }
 
-// divide the polynomial by its leading coefficient
+// uses secant method
 
 void
-monic(int n)
+nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 {
-	int k;
+	int i, j;
 	double t;
-	y = c[n - 1];
-	t = y.r * y.r + y.i * y.i;
-	for (k = 0; k < n - 1; k++) {
-		c[k].r = (c[k].r * y.r + c[k].i * y.i) / t;
-		c[k].i = (c[k].i * y.r - c[k].r * y.i) / t;
+	double br, dfr, dxr, far, fbr, xr, yr;
+	double bi, dfi, dxi, fai, fbi, xi, yi;
+
+	// divide by leading coeff
+
+	br = cr[n - 1];
+	bi = ci[n - 1];
+
+	t = br * br + bi * bi;
+
+	for (i = 0; i < n - 1; i++) {
+		cr[i] = (cr[i] * br + ci[i] * bi) / t;
+		ci[i] = (ci[i] * br - cr[i] * bi) / t;
 	}
-	c[n - 1].r = 1.0;
-	c[n - 1].i = 0.0;
-}
 
-// uses the secant method
+	cr[n - 1] = 1.0;
+	ci[n - 1] = 0.0;
 
-void
-nfindroot(int n)
-{
-	int j, k;
-	double t;
+	// if const term is small then root is 0
 
-	if (YABS(c[0]) < DELTA) {
-		a.r = 0.0;
-		a.i = 0.0;
+	if (zabs(cr[0], ci[0]) < EPSILON) {
+		*ar = 0.0;
+		*ai = 0.0;
 		return;
 	}
 
-	for (j = 0; j < 100; j++) {
+	for (i = 0; i < 100; i++) {
 
-		a.r = RANDOM;
-		a.i = RANDOM;
+		*ar = urandom();
+		*ai = urandom();
 
-		compute_fa(n);
+		fata(cr, ci, n, *ar, *ai, &far, &fai);
 
-		b = a;
-		fb = fa;
+		br = *ar;
+		bi = *ai;
 
-		a.r = RANDOM;
-		a.i = RANDOM;
+		fbr = far;
+		fbi = fai;
 
-		for (k = 0; k < 1000; k++) {
+		*ar = urandom();
+		*ai = urandom();
 
-			compute_fa(n);
+		for (j = 0; j < 1000; j++) {
 
-			if (YABS(fa) < EPSILON)
+			fata(cr, ci, n, *ar, *ai, &far, &fai);
+
+			if (zabs(far, fai) < EPSILON)
 				return;
 
-			if (YABS(fa) < YABS(fb)) {
-				x = a;
-				a = b;
-				b = x;
-				x = fa;
-				fa = fb;
-				fb = x;
+			if (zabs(far, fai) < zabs(fbr, fbi)) {
+
+				xr = *ar;
+				xi = *ai;
+
+				*ar = br;
+				*ai = bi;
+
+				br = xr;
+				bi = xi;
+
+				xr = far;
+				xi = fai;
+
+				far = fbr;
+				fai = fbi;
+
+				fbr = xr;
+				fbi = xi;
 			}
 
 			// dx = b - a
 
-			dx.r = b.r - a.r;
-			dx.i = b.i - a.i;
+			dxr = br - *ar;
+			dxi = bi - *ai;
 
 			// df = fb - fa
 
-			df.r = fb.r - fa.r;
-			df.i = fb.i - fa.i;
+			dfr = fbr - far;
+			dfi = fbi - fai;
 
 			// y = dx / df
 
-			t = df.r * df.r + df.i * df.i;
+			t = dfr * dfr + dfi * dfi;
 
 			if (t == 0.0)
 				break;
 
-			y.r = (dx.r * df.r + dx.i * df.i) / t;
-			y.i = (dx.i * df.r - dx.r * df.i) / t;
+			yr = (dxr * dfr + dxi * dfi) / t;
+			yi = (dxi * dfr - dxr * dfi) / t;
 
 			// a = b - y * fb
 
-			a.r = b.r - (y.r * fb.r - y.i * fb.i);
-			a.i = b.i - (y.r * fb.i + y.i * fb.r);
+			*ar = br - (yr * fbr - yi * fbi);
+			*ai = bi - (yr * fbi + yi * fbr);
 		}
 	}
 
 	stop("nroots: convergence error");
 }
 
+// compute f at a
+
 void
-compute_fa(int n)
+fata(double cr[], double ci[], int n, double ar, double ai, double *far, double *fai)
 {
 	int k;
-	double t;
+	double t, xr, xi;
 
 	// x = a
 
-	x.r = a.r;
-	x.i = a.i;
+	xr = ar;
+	xi = ai;
 
 	// fa = c0 + c1 * x
 
-	fa.r = c[0].r + c[1].r * x.r - c[1].i * x.i;
-	fa.i = c[0].i + c[1].r * x.i + c[1].i * x.r;
+	*far = cr[0] + cr[1] * xr - ci[1] * xi;
+	*fai = ci[0] + cr[1] * xi + ci[1] * xr;
 
 	for (k = 2; k < n; k++) {
 
 		// x = a * x
 
-		t = a.r * x.r - a.i * x.i;
-		x.i = a.r * x.i + a.i * x.r;
-		x.r = t;
+		t = ar * xr - ai * xi;
+		xi = ar * xi + ai * xr;
+		xr = t;
 
 		// fa += c[k] * x
 
-		fa.r += c[k].r * x.r - c[k].i * x.i;
-		fa.i += c[k].r * x.i + c[k].i * x.r;
+		*far += cr[k] * xr - ci[k] * xi;
+		*fai += cr[k] * xi + ci[k] * xr;
 	}
 }
 
-// divide the polynomial by x - a
+// divide by x - a
 
 void
-nroots_divpoly(int n)
+nreduce(double cr[], double ci[], int n, double ar, double ai)
 {
 	int k;
+
 	for (k = n - 1; k > 0; k--) {
-		c[k - 1].r += c[k].r * a.r - c[k].i * a.i;
-		c[k - 1].i += c[k].i * a.r + c[k].r * a.i;
+		cr[k - 1] += cr[k] * ar - ci[k] * ai;
+		ci[k - 1] += ci[k] * ar + cr[k] * ai;
 	}
-	if (YABS(c[0]) > DELTA)
-		stop("nroots: residual error");
+
 	for (k = 0; k < n - 1; k++) {
-		c[k].r = c[k + 1].r;
-		c[k].i = c[k + 1].i;
+		cr[k] = cr[k + 1];
+		ci[k] = ci[k + 1];
 	}
+}
+
+double
+zabs(double r, double i)
+{
+	return sqrt(r * r + i * i);
+}
+
+double
+urandom(void)
+{
+	return 4.0 * ((double) random() / (double) 0x7fffffff) - 2.0;
 }
 void
 eval_numerator(struct atom *p1)
@@ -16946,7 +17002,7 @@ reduce(int h, struct atom *A)
 	}
 
 	if (!iszero(stack[h]))
-		stop("root finder");
+		stop("root finder kaput");
 
 	for (i = h; i < t; i++)
 		stack[i] = stack[i + 1];

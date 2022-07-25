@@ -76,6 +76,7 @@ var symtab = {
 "nil":		{printname:NIL,		func:eval_nil},
 "noexpand":	{printname:NOEXPAND,	func:eval_noexpand},
 "not":		{printname:NOT,		func:eval_not},
+"nroots":	{printname:NROOTS,	func:eval_nroots},
 "number":	{printname:NUMBER,	func:eval_number},
 "numerator":	{printname:NUMERATOR,	func:eval_numerator},
 "or":		{printname:OR,		func:eval_or},

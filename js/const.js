@@ -56,6 +56,7 @@ const MOD = "mod";
 const NIL = "nil";
 const NOEXPAND = "noexpand";
 const NOT = "not";
+const NROOTS = "nroots";
 const NUMBER = "number";
 const NUMERATOR = "numerator";
 const OR = "or";

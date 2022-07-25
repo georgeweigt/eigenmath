@@ -1,55 +1,51 @@
-#define DELTA 1e-6
-#define EPSILON 1e-9
+const DELTA = 1e-6;
+const EPSILON = 1e-9;
 
-void
-eval_nroots(struct atom *p1)
+function
+eval_nroots(p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	p1 = cddr(p1);
 
 	if (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 	} else
-		push_symbol(X_LOWER);
+		push_symbol(SYMBOL_X);
 
 	nroots();
 }
 
-void
-nroots(void)
+function
+nroots()
 {
-	int h, i, n;
-	struct atom *A, *P, *X, *RE, *IM;
-	double ar, ai, mag;
-	static double *cr, *ci;
+	var h, i, n;
+	var A, P, X, RE, IM;
+	var ar, ai, mag;
+	var cr, ci;
+	var tr, ti;
+
+	cr = [];
+	ci = [];
+
+	tr = [];
+	ti = [];
 
 	X = pop();
 	P = pop();
 
-	h = tos;
+	h = stack.length;
 
 	coeffs(P, X); // put coeffs on stack
 
-	n = tos - h;
+	n = stack.length - h;
 
 	if (n == 1) {
 		stack[h] = symbol(NIL); // P is just a constant, no roots
 		return;
 	}
-
-	if (cr)
-		free(cr);
-	if (ci)
-		free(ci);
-
-	cr = malloc(n * sizeof (double));
-	ci = malloc(n * sizeof (double));
-
-	if (cr == NULL || ci == NULL)
-		exit(1);
 
 	// convert coeffs to doubles
 
@@ -66,24 +62,27 @@ nroots(void)
 		IM = pop();
 
 		if (!isdouble(RE) || !isdouble(IM))
-			stop("nroots: coeffs");
+			stopf("nroots: coeffs");
 
-		cr[i] = RE->u.d;
-		ci[i] = IM->u.d;
+		cr[i] = RE.d;
+		ci[i] = IM.d;
 	}
 
-	tos = h; // pop all
+	stack.splice(h); // pop all
 
 	while (n > 1) {
 
-		nfindroot(cr, ci, n, &ar, &ai);
+		nfindroot(cr, ci, n, tr, ti);
+
+		ar = tr[0];
+		ai = ti[0];
 
 		mag = zabs(ar, ai);
 
-		if (fabs(ar / mag) < DELTA)
+		if (Math.abs(ar / mag) < DELTA)
 			ar = 0.0;
 
-		if (fabs(ai / mag) < DELTA)
+		if (Math.abs(ai / mag) < DELTA)
 			ai = 0.0;
 
 		// push root
@@ -101,7 +100,7 @@ nroots(void)
 		n--;
 	}
 
-	n = tos - h;
+	n = stack.length - h;
 
 	if (n == 1)
 		return; // only 1 root
@@ -111,22 +110,25 @@ nroots(void)
 	A = alloc_vector(n);
 
 	for (i = 0; i < n; i++)
-		A->u.tensor->elem[i] = stack[h + i];
+		A.elem[i] = stack[h + i];
 
-	tos = h; // pop all
+	stack.splice(h); // pop all
 
 	push(A);
 }
 
 // uses secant method
 
-void
-nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
+function
+nfindroot(cr, ci, n, ar, ai)
 {
-	int i, j;
-	double t;
-	double br, dfr, dxr, far, fbr, xr, yr;
-	double bi, dfi, dxi, fai, fbi, xi, yi;
+	var i, j;
+	var t;
+	var br, dfr, dxr, far, fbr, tr, xr, yr;
+	var bi, dfi, dxi, fai, fbi, ti, xi, yi;
+
+	tr = [];
+	ti = [];
 
 	// divide by leading coeff
 
@@ -146,41 +148,47 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 	// if const term is small then root is 0
 
 	if (zabs(cr[0], ci[0]) < EPSILON) {
-		*ar = 0.0;
-		*ai = 0.0;
+		ar[0] = 0.0;
+		ai[0] = 0.0;
 		return;
 	}
 
 	for (i = 0; i < 100; i++) {
 
-		*ar = urandom();
-		*ai = urandom();
+		ar[0] = urandom();
+		ai[0] = urandom();
 
-		fata(cr, ci, n, *ar, *ai, &far, &fai);
+		fata(cr, ci, n, ar[0], ai[0], tr, ti);
 
-		br = *ar;
-		bi = *ai;
+		far = tr[0];
+		fai = ti[0];
+
+		br = ar[0];
+		bi = ai[0];
 
 		fbr = far;
 		fbi = fai;
 
-		*ar = urandom();
-		*ai = urandom();
+		ar[0] = urandom();
+		ai[0] = urandom();
 
 		for (j = 0; j < 1000; j++) {
 
-			fata(cr, ci, n, *ar, *ai, &far, &fai);
+			fata(cr, ci, n, ar[0], ai[0], tr, ti);
+
+			far = tr[0];
+			fai = ti[0];
 
 			if (zabs(far, fai) < EPSILON)
 				return;
 
 			if (zabs(far, fai) < zabs(fbr, fbi)) {
 
-				xr = *ar;
-				xi = *ai;
+				xr = ar[0];
+				xi = ai[0];
 
-				*ar = br;
-				*ai = bi;
+				ar[0] = br;
+				ai[0] = bi;
 
 				br = xr;
 				bi = xi;
@@ -197,8 +205,8 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 
 			// dx = b - a
 
-			dxr = br - *ar;
-			dxi = bi - *ai;
+			dxr = br - ar[0];
+			dxi = bi - ai[0];
 
 			// df = fb - fa
 
@@ -217,21 +225,21 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 
 			// a = b - y * fb
 
-			*ar = br - (yr * fbr - yi * fbi);
-			*ai = bi - (yr * fbi + yi * fbr);
+			ar[0] = br - (yr * fbr - yi * fbi);
+			ai[0] = bi - (yr * fbi + yi * fbr);
 		}
 	}
 
-	stop("nroots: convergence error");
+	stopf("nroots: convergence error");
 }
 
 // compute f at a
 
-void
-fata(double cr[], double ci[], int n, double ar, double ai, double *far, double *fai)
+function
+fata(cr, ci, n, ar, ai, far, fai)
 {
-	int k;
-	double t, xr, xi;
+	var k;
+	var t, xr, xi;
 
 	// x = a
 
@@ -240,8 +248,8 @@ fata(double cr[], double ci[], int n, double ar, double ai, double *far, double 
 
 	// fa = c0 + c1 * x
 
-	*far = cr[0] + cr[1] * xr - ci[1] * xi;
-	*fai = ci[0] + cr[1] * xi + ci[1] * xr;
+	far[0] = cr[0] + cr[1] * xr - ci[1] * xi;
+	fai[0] = ci[0] + cr[1] * xi + ci[1] * xr;
 
 	for (k = 2; k < n; k++) {
 
@@ -253,17 +261,17 @@ fata(double cr[], double ci[], int n, double ar, double ai, double *far, double 
 
 		// fa += c[k] * x
 
-		*far += cr[k] * xr - ci[k] * xi;
-		*fai += cr[k] * xi + ci[k] * xr;
+		far[0] += cr[k] * xr - ci[k] * xi;
+		fai[0] += cr[k] * xi + ci[k] * xr;
 	}
 }
 
 // divide by x - a
 
-void
-nreduce(double cr[], double ci[], int n, double ar, double ai)
+function
+nreduce(cr, ci, n, ar, ai)
 {
-	int k;
+	var k;
 
 	for (k = n - 1; k > 0; k--) {
 		cr[k - 1] += cr[k] * ar - ci[k] * ai;
@@ -276,14 +284,14 @@ nreduce(double cr[], double ci[], int n, double ar, double ai)
 	}
 }
 
-double
-zabs(double r, double i)
+function
+zabs(r, i)
 {
-	return sqrt(r * r + i * i);
+	return Math.sqrt(r * r + i * i);
 }
 
-double
-urandom(void)
+function
+urandom()
 {
-	return 4.0 * ((double) random() / (double) 0x7fffffff) - 2.0;
+	return 4.0 * Math.random() - 2.0;
 }

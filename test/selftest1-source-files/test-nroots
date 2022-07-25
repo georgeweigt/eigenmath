@@ -1,0 +1,19 @@
+"Testing nroots"
+
+clear
+
+p = 125 x^5 - 1
+a = nroots(p)
+for(k,1,5,check(abs(eval(p,x,a[k])) < 0.000001))
+
+check(nroots(1) == nil)
+check(infixform(nroots(x - 5)) == "5")
+check(nroots(x^5) == (0,0,0,0,0))
+
+p = (x - 1) (x - 2) (x - 3)
+check(infixform(nroots(p)) == "(1,2,3)")
+check(infixform(nroots(p,x)) == "(1,2,3)")
+
+p = (t - 1) (t - 2) (t - 3)
+check(infixform(nroots(p)) == "nil")
+check(infixform(nroots(p,t)) == "(1,2,3)")
