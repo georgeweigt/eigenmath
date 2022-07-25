@@ -14289,7 +14289,7 @@ roots(void)
 		C = pop(); // leading coeff
 
 		if (iszero(C))
-			continue;
+			continue; // coeff of monomial is zero
 
 		// divide through by C
 
@@ -14300,16 +14300,16 @@ roots(void)
 			stack[i] = pop();
 		}
 
-		push_integer(1); // leading coeff
+		push_integer(1); // new leading coeff
 
 		if (findroot(h) == 0)
-			break;
+			break; // no root found
 
 		A = pop(); // root
 
 		push(A);
 		push(LIST);
-		cons(); // prepend A to list LIST
+		cons(); // prepend A to LIST
 		LIST = pop();
 
 		reduce(h, A); // divide by X - A
@@ -14320,7 +14320,7 @@ roots(void)
 	n = length(LIST);
 
 	if (n == 0)
-		stop("roots");
+		stop("no roots found");
 
 	if (n == 1) {
 		push(car(LIST));
@@ -14332,7 +14332,7 @@ roots(void)
 		LIST = cdr(LIST);
 	}
 
-	sort(n);
+	sort(n); // sort roots
 
 	// eliminate repeated roots
 
