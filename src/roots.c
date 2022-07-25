@@ -18,7 +18,7 @@ eval_roots(struct atom *p1)
 void
 roots(void)
 {
-	int h, i, n;
+	int h, i, j, n;
 	struct atom *A, *C, *LIST, *P, *X;
 
 	X = pop();
@@ -79,6 +79,21 @@ roots(void)
 	}
 
 	sort(n);
+
+	// eliminate repeated roots
+
+	for (i = 0; i < n - 1; i++)
+		if (equal(stack[i], stack[i + 1])) {
+			for (j = i + i; j < n - 1; j++)
+				stack[j] = stack[j + 1];
+			i--;
+			n--;
+		}
+
+	if (n == 1) {
+		tos = h + 1;
+		return;
+	}
 
 	A = alloc_vector(n);
 

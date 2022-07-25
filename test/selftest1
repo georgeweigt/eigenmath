@@ -5662,6 +5662,22 @@ check(roots(p,x) == (-2,1))
 
 p = t (t - 1/2)
 check(roots(p,t) == (0,1/2))
+
+check(roots(x) == 0)
+check(roots(x^2) == 0)
+check(roots(x^3) == 0)
+
+check(roots(x (x - 1)) == (0,1))
+check(roots(x^2 (x - 1)) == (0,1))
+check(roots(x^3 (x - 1)) == (0,1))
+
+check(roots((x + 1) x) == (-1,0))
+check(roots((x + 1) x^2) == (-1,0))
+check(roots((x + 1) x^3) == (-1,0))
+
+check(roots((x + 1) x (x - 1)) == (-1,0,1))
+check(roots((x + 1) x^2 (x - 1)) == (-1,0,1))
+check(roots((x + 1) x^3 (x - 1)) == (-1,0,1))
 "Testing rotate"
 
 clear

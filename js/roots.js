@@ -1,7 +1,7 @@
 function
 roots()
 {
-	var h, i, n;
+	var h, i, j, n;
 	var A, C, LIST, P, X;
 
 	X = pop();
@@ -62,6 +62,21 @@ roots()
 	}
 
 	sort(n);
+
+	// eliminate repeated roots
+
+	for (i = 0; i < n - 1; i++)
+		if (equal(stack[i], stack[i + 1])) {
+			for (j = i + i; j < n - 1; j++)
+				stack[j] = stack[j + 1];
+			i--;
+			n--;
+		}
+
+	if (n == 1) {
+		stack.splice(h + 1);
+		return;
+	}
 
 	A = alloc_vector(n);
 
