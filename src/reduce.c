@@ -17,7 +17,7 @@ reduce(int h, struct atom *A)
 	}
 
 	if (!iszero(stack[h]))
-		stop("root finder");
+		stop("root finder kaput");
 
 	for (i = h; i < t; i++)
 		stack[i] = stack[i + 1];

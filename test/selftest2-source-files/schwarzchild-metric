@@ -2,8 +2,6 @@
 
 clear
 
--- www.eigenmath.org/schwarzchild-metric.txt
-
 gdd = ((-F(r),      0,   0,                0),
        (    0, 1/F(r),   0,                0),
        (    0,      0, r^2,                0),
