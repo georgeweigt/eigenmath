@@ -8,11 +8,8 @@ findroot(h)
 
 	C = stack[h]; // constant term
 
-	if (!isrational(C))
-		stopf("root finder");
-
 	if (iszero(C)) {
-		push_integer(0);
+		push_integer(0); // root is zero
 		return 1;
 	}
 

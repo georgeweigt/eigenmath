@@ -7720,11 +7720,8 @@ findroot(int h)
 
 	C = stack[h]; // constant term
 
-	if (!isrational(C))
-		stop("factor");
-
 	if (iszero(C)) {
-		push_integer(0);
+		push_integer(0); // root is zero
 		return 1;
 	}
 
@@ -16986,6 +16983,12 @@ roots(void)
 
 	coeffs(P, X); // put coeffs on stack
 
+	// check coeffs
+
+	for (i = h; i < tos; i++)
+		if (!isrational(stack[i]))
+			stop("roots: coeffs");
+
 	LIST = symbol(NIL);
 
 	while (tos - h > 1) {
@@ -17023,11 +17026,13 @@ roots(void)
 
 	n = length(LIST);
 
-	if (n == 0)
-		stop("no roots found");
+	if (n == 0) {
+		push_symbol(NIL); // no roots found
+		return;
+	}
 
 	if (n == 1) {
-		push(car(LIST));
+		push(car(LIST)); // one root found
 		return;
 	}
 

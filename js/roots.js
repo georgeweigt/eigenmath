@@ -11,6 +11,12 @@ roots()
 
 	coeffs(P, X); // put coeffs on stack
 
+	// check coeffs
+
+	for (i = h; i < stack.length; i++)
+		if (!isrational(stack[i]))
+			stopf("roots: coeffs");
+
 	LIST = symbol(NIL);
 
 	while (stack.length - h > 1) {
@@ -48,11 +54,13 @@ roots()
 
 	n = lengthf(LIST);
 
-	if (n == 0)
-		stopf("no roots found");
+	if (n == 0) {
+		push_symbol(NIL); // no roots found
+		return;
+	}
 
 	if (n == 1) {
-		push(car(LIST));
+		push(car(LIST)); // one root found
 		return;
 	}
 
