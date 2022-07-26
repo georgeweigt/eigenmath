@@ -805,7 +805,7 @@ void divide(void);
 void eval_noexpand(struct atom *p1);
 void eval_nroots(struct atom *p1);
 void nroots(void);
-void nfindroot(double cr[], double ci[], int n, double *ar, double *ai);
+void nfindroot(double cr[], double ci[], int n, double *par, double *pai);
 void fata(double cr[], double ci[], int n, double ar, double ai, double *far, double *fai);
 void nreduce(double cr[], double ci[], int n, double ar, double ai);
 double zabs(double r, double i);
@@ -14758,12 +14758,12 @@ nroots(void)
 // uses secant method
 
 void
-nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
+nfindroot(double cr[], double ci[], int n, double *par, double *pai)
 {
 	int i, j;
 	double d;
-	double br, dfr, dxr, far, fbr, xr, yr;
-	double bi, dfi, dxi, fai, fbi, xi, yi;
+	double ar, br, dfr, dxr, far, fbr, xr, yr;
+	double ai, bi, dfi, dxi, fai, fbi, xi, yi;
 
 	// if const term is zero then root is zero
 
@@ -14772,8 +14772,8 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 	// term will be exactly zero from coeffs(), no need for arbitrary cutoff
 
 	if (cr[0] == 0.0 && ci[0] == 0.0) {
-		*ar = 0.0;
-		*ai = 0.0;
+		*par = 0.0;
+		*pai = 0.0;
 		return;
 	}
 
@@ -14796,34 +14796,37 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 
 	for (i = 0; i < 100; i++) {
 
-		*ar = urandom();
-		*ai = urandom();
+		ar = urandom();
+		ai = urandom();
 
-		fata(cr, ci, n, *ar, *ai, &far, &fai);
+		fata(cr, ci, n, ar, ai, &far, &fai);
 
-		br = *ar;
-		bi = *ai;
+		br = ar;
+		bi = ai;
 
 		fbr = far;
 		fbi = fai;
 
-		*ar = urandom();
-		*ai = urandom();
+		ar = urandom();
+		ai = urandom();
 
 		for (j = 0; j < 1000; j++) {
 
-			fata(cr, ci, n, *ar, *ai, &far, &fai);
+			fata(cr, ci, n, ar, ai, &far, &fai);
 
-			if (zabs(far, fai) < EPSILON)
+			if (zabs(far, fai) < EPSILON) {
+				*par = ar;
+				*pai = ai;
 				return;
+			}
 
 			if (zabs(far, fai) < zabs(fbr, fbi)) {
 
-				xr = *ar;
-				xi = *ai;
+				xr = ar;
+				xi = ai;
 
-				*ar = br;
-				*ai = bi;
+				ar = br;
+				ai = bi;
 
 				br = xr;
 				bi = xi;
@@ -14840,8 +14843,8 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 
 			// dx = b - a
 
-			dxr = br - *ar;
-			dxi = bi - *ai;
+			dxr = br - ar;
+			dxi = bi - ai;
 
 			// df = fb - fa
 
@@ -14860,8 +14863,8 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 
 			// a = b - y * fb
 
-			*ar = br - (yr * fbr - yi * fbi);
-			*ai = bi - (yr * fbi + yi * fbr);
+			ar = br - (yr * fbr - yi * fbi);
+			ai = bi - (yr * fbi + yi * fbr);
 		}
 	}
 

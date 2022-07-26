@@ -442,7 +442,7 @@ void divide(void);
 void eval_noexpand(struct atom *p1);
 void eval_nroots(struct atom *p1);
 void nroots(void);
-void nfindroot(double cr[], double ci[], int n, double *ar, double *ai);
+void nfindroot(double cr[], double ci[], int n, double *par, double *pai);
 void fata(double cr[], double ci[], int n, double ar, double ai, double *far, double *fai);
 void nreduce(double cr[], double ci[], int n, double ar, double ai);
 double zabs(double r, double i);
