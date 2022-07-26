@@ -1,8 +1,8 @@
 function
 roots()
 {
-	var h, i, j, n;
-	var A, C, LIST, P, X;
+	var h, i, j, k, m, n;
+	var A, P, X;
 
 	X = pop();
 	P = pop();
@@ -11,62 +11,45 @@ roots()
 
 	coeffs(P, X); // put coeffs on stack
 
+	k = stack.length;
+
+	if (k - h == 1) {
+		stack[h] = symbol(NIL); // no roots
+		return;
+	}
+
 	// check coeffs
 
-	for (i = h; i < stack.length; i++)
+	for (i = h; i < k; i++)
 		if (!isrational(stack[i]))
 			stopf("roots: coeffs");
 
-	LIST = symbol(NIL);
+	m = k;
 
-	while (stack.length - h > 1) {
+	while (k - h > 1) {
 
-		C = pop(); // leading coeff
-
-		if (iszero(C))
-			continue; // coeff of monomial is zero
-
-		// divide through by C
-
-		for (i = h; i < stack.length; i++) {
-			push(stack[i]);
-			push(C);
-			divide();
-			stack[i] = pop();
-		}
-
-		push_integer(1); // new leading coeff
-
-		if (findroot(h) == 0)
+		if (findroot(h, k) == 0)
 			break; // no root found
 
-		A = pop(); // root
+		A = stack[stack.length - 1]; // root
 
-		push(A);
-		push(LIST);
-		cons(); // prepend A to LIST
-		LIST = pop();
+		reduce(h, k, A); // divide by X - A
 
-		reduce(h, A); // divide by X - A
+		k--; // one less coeff
 	}
 
-	stack.splice(h); // pop all
-
-	n = lengthf(LIST);
+	n = stack.length - m; // number of roots on stack
 
 	if (n == 0) {
-		push_symbol(NIL); // no roots found
+		stack[h] = symbol(NIL); // no roots
+		stack.splice(h + 1); // pop all
 		return;
 	}
 
 	if (n == 1) {
-		push(car(LIST)); // one root found
+		stack[h] = stack[m]; // one root
+		stack.splice(h + 1); // pop all
 		return;
-	}
-
-	for (i = 0; i < n; i++) {
-		push(car(LIST));
-		LIST = cdr(LIST);
 	}
 
 	sort(n); // sort roots
@@ -74,22 +57,23 @@ roots()
 	// eliminate repeated roots
 
 	for (i = 0; i < n - 1; i++)
-		if (equal(stack[i], stack[i + 1])) {
+		if (equal(stack[m + i], stack[m + i + 1])) {
 			for (j = i + i; j < n - 1; j++)
-				stack[j] = stack[j + 1];
+				stack[m + j] = stack[m + j + 1];
 			i--;
 			n--;
 		}
 
 	if (n == 1) {
-		stack.splice(h + 1);
+		stack[h] = stack[m]; // one root
+		stack.splice(h + 1); // pop all
 		return;
 	}
 
 	A = alloc_vector(n);
 
 	for (i = 0; i < n; i++)
-		A.elem[i] = stack[h + i];
+		A.elem[i] = stack[m + i];
 
 	stack.splice(h); // pop all
 
@@ -99,10 +83,10 @@ roots()
 // coefficients are on the stack
 
 function
-findroot(h)
+findroot(h, k)
 {
-	var i, j, k, m, n;
-	var A, C, T;
+	var i, j, n, p, q, r;
+	var A, C, PA;
 
 	C = stack[h]; // constant term
 
@@ -111,20 +95,37 @@ findroot(h)
 		return 1;
 	}
 
-	k = stack.length;
+	C = stack[k - 1]; // leading coeff
+
+	// divide through by C
+
+	for (i = h; i < k; i++) {
+		push(stack[i]);
+		push(C);
+		divide();
+		stack[i] = pop();
+	}
+
+	C = stack[h];
+
+	p = stack.length;
+
 	push(C);
 	numerator();
 	n = pop_integer();
 	divisors(n); // push divisors of n
 
-	m = stack.length;
+	q = stack.length;
+
 	push(C);
 	denominator();
 	n = pop_integer();
 	divisors(n); // push divisors of n
 
-	for (i = k; i < m; i++) {
-		for (j = m; j < stack.length; j++) {
+	r = stack.length;
+
+	for (i = p; i < q; i++) {
+		for (j = q; j < r; j++) {
 
 			// try positive A
 
@@ -135,10 +136,10 @@ findroot(h)
 
 			horner(h, k, A);
 
-			T = pop();
+			PA = pop(); // polynomial evaluated at A
 
-			if (iszero(T)) {
-				stack.splice(k); // pop all
+			if (iszero(PA)) {
+				stack.splice(p); // pop all
 				push(A);
 				return 1; // root on stack
 			}
@@ -151,17 +152,17 @@ findroot(h)
 
 			horner(h, k, A);
 
-			T = pop();
+			PA = pop(); // polynomial evaluated at A
 
-			if (iszero(T)) {
-				stack.splice(k); // pop all
+			if (iszero(PA)) {
+				stack.splice(p); // pop all
 				push(A);
 				return 1; // root on stack
 			}
 		}
 	}
 
-	stack.splice(k); // pop all
+	stack.splice(p); // pop all
 
 	return 0; // no root
 }
@@ -256,13 +257,11 @@ divisors_nib(h, k)
 // divide by X - A
 
 function
-reduce(h, A)
+reduce(h, k, A)
 {
-	var i, t;
+	var i;
 
-	t = stack.length - 1;
-
-	for (i = t; i > h; i--) {
+	for (i = k - 1; i > h; i--) {
 		push(A);
 		push(stack[i]);
 		multiply();
@@ -274,8 +273,6 @@ reduce(h, A)
 	if (!iszero(stack[h]))
 		stopf("roots: residual error"); // not a root
 
-	for (i = h; i < t; i++)
+	for (i = h; i < k - 1; i++)
 		stack[i] = stack[i + 1];
-
-	pop(); // one less coeff on stack
 }

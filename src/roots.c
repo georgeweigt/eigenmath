@@ -18,8 +18,8 @@ eval_roots(struct atom *p1)
 void
 roots(void)
 {
-	int h, i, j, n;
-	struct atom *A, *C, *LIST, *P, *X;
+	int h, i, j, k, m, n;
+	struct atom *A, *P, *X;
 
 	X = pop();
 	P = pop();
@@ -28,62 +28,45 @@ roots(void)
 
 	coeffs(P, X); // put coeffs on stack
 
+	k = tos;
+
+	if (k - h == 1) {
+		stack[h] = symbol(NIL); // no roots
+		return;
+	}
+
 	// check coeffs
 
-	for (i = h; i < tos; i++)
+	for (i = h; i < k; i++)
 		if (!isrational(stack[i]))
 			stop("roots: coeffs");
 
-	LIST = symbol(NIL);
+	m = k;
 
-	while (tos - h > 1) {
+	while (k - h > 1) {
 
-		C = pop(); // leading coeff
-
-		if (iszero(C))
-			continue; // coeff of monomial is zero
-
-		// divide through by C
-
-		for (i = h; i < tos; i++) {
-			push(stack[i]);
-			push(C);
-			divide();
-			stack[i] = pop();
-		}
-
-		push_integer(1); // new leading coeff
-
-		if (findroot(h) == 0)
+		if (findroot(h, k) == 0)
 			break; // no root found
 
-		A = pop(); // root
+		A = stack[tos - 1]; // root
 
-		push(A);
-		push(LIST);
-		cons(); // prepend A to LIST
-		LIST = pop();
+		reduce(h, k, A); // divide by X - A
 
-		reduce(h, A); // divide by X - A
+		k--; // one less coeff
 	}
 
-	tos = h; // pop all
-
-	n = length(LIST);
+	n = tos - m; // number of roots on stack
 
 	if (n == 0) {
-		push_symbol(NIL); // no roots found
+		stack[h] = symbol(NIL); // no roots
+		tos = h + 1; // pop all
 		return;
 	}
 
 	if (n == 1) {
-		push(car(LIST)); // one root found
+		stack[h] = stack[m]; // one root
+		tos = h + 1; // pop all
 		return;
-	}
-
-	for (i = 0; i < n; i++) {
-		push(car(LIST));
-		LIST = cdr(LIST);
 	}
 
 	sort(n); // sort roots
@@ -91,35 +74,36 @@ roots(void)
 	// eliminate repeated roots
 
 	for (i = 0; i < n - 1; i++)
-		if (equal(stack[i], stack[i + 1])) {
+		if (equal(stack[m + i], stack[m + i + 1])) {
 			for (j = i + i; j < n - 1; j++)
-				stack[j] = stack[j + 1];
+				stack[m + j] = stack[m + j + 1];
 			i--;
 			n--;
 		}
 
 	if (n == 1) {
-		tos = h + 1;
+		stack[h] = stack[m]; // one root
+		tos = h + 1; // pop all
 		return;
 	}
 
 	A = alloc_vector(n);
 
 	for (i = 0; i < n; i++)
-		A->u.tensor->elem[i] = stack[h + i];
+		A->u.tensor->elem[i] = stack[m + i];
 
 	tos = h; // pop all
 
 	push(A);
 }
 
-// polynomial coefficients are on the stack
+// coefficients are on the stack
 
 int
-findroot(int h)
+findroot(int h, int k)
 {
-	int i, j, k, m, n;
-	struct atom *A, *C, *T;
+	int i, j, n, p, q, r;
+	struct atom *A, *C, *PA;
 
 	C = stack[h]; // constant term
 
@@ -128,20 +112,37 @@ findroot(int h)
 		return 1;
 	}
 
-	k = tos;
+	C = stack[k - 1]; // leading coeff
+
+	// divide through by C
+
+	for (i = h; i < k; i++) {
+		push(stack[i]);
+		push(C);
+		divide();
+		stack[i] = pop();
+	}
+
+	C = stack[h];
+
+	p = tos;
+
 	push(C);
 	numerator();
 	n = pop_integer();
 	divisors(n); // push divisors of n
 
-	m = tos;
+	q = tos;
+
 	push(C);
 	denominator();
 	n = pop_integer();
 	divisors(n); // push divisors of n
 
-	for (i = k; i < m; i++) {
-		for (j = m; j < tos; j++) {
+	r = tos;
+
+	for (i = p; i < q; i++) {
+		for (j = q; j < r; j++) {
 
 			// try postive A
 
@@ -152,10 +153,10 @@ findroot(int h)
 
 			horner(h, k, A);
 
-			T = pop();
+			PA = pop();
 
-			if (iszero(T)) {
-				tos = k; // pop all
+			if (iszero(PA)) {
+				tos = p; // pop all
 				push(A);
 				return 1; // root on stack
 			}
@@ -168,17 +169,17 @@ findroot(int h)
 
 			horner(h, k, A);
 
-			T = pop();
+			PA = pop();
 
-			if (iszero(T)) {
-				tos = k; // pop all
+			if (iszero(PA)) {
+				tos = p; // pop all
 				push(A);
 				return 1; // root on stack
 			}
 		}
 	}
 
-	tos = k; // pop all
+	tos = p; // pop all
 
 	return 0; // no root
 }
@@ -273,13 +274,11 @@ divisors_nib(int h, int k)
 // divide by X - A
 
 void
-reduce(int h, struct atom *A)
+reduce(int h, int k, struct atom *A)
 {
-	int i, t;
+	int i;
 
-	t = tos - 1;
-
-	for (i = t; i > h; i--) {
+	for (i = k - 1; i > h; i--) {
 		push(A);
 		push(stack[i]);
 		multiply();
@@ -291,8 +290,6 @@ reduce(int h, struct atom *A)
 	if (!iszero(stack[h]))
 		stop("roots: residual error"); // not a root
 
-	for (i = h; i < t; i++)
+	for (i = h; i < k - 1; i++)
 		stack[i] = stack[i + 1];
-
-	pop(); // one less coeff on stack
 }

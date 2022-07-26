@@ -12,9 +12,15 @@ eval_factor(struct atom *p1)
 	} else
 		push_symbol(X_LOWER);
 
-	factorpoly();
+	// factorpoly();
+
+	pop();
+	pop();
+
+	push_symbol(NIL);
 }
 
+#if 0
 void
 factorpoly(void)
 {
@@ -95,3 +101,4 @@ factorpoly(void)
 	push(F);
 	multiply_noexpand();
 }
+#endif
