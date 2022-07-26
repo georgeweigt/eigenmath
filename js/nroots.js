@@ -219,31 +219,26 @@ function
 fata(cr, ci, n, ar, ai, far, fai)
 {
 	var k;
-	var t, xr, xi;
+	var xr, xi, yr, yi;
 
-	// x = a
+	yr = cr[n - 1];
+	yi = ci[n - 1];
 
-	xr = ar;
-	xi = ai;
+	for (k = n - 2; k >= 0; k--) {
 
-	// fa = c0 + c1 * x
+		// x = a * y
 
-	far[0] = cr[0] + cr[1] * xr - ci[1] * xi;
-	fai[0] = ci[0] + cr[1] * xi + ci[1] * xr;
+		xr = ar * yr - ai * yi;
+		xi = ar * yi + ai * yr;
 
-	for (k = 2; k < n; k++) {
+		// y = x + c
 
-		// x = a * x
-
-		t = ar * xr - ai * xi;
-		xi = ar * xi + ai * xr;
-		xr = t;
-
-		// fa += c[k] * x
-
-		far[0] += cr[k] * xr - ci[k] * xi;
-		fai[0] += cr[k] * xi + ci[k] * xr;
+		yr = xr + cr[k];
+		yi = xi + ci[k];
 	}
+
+	far[0] = yr;
+	fai[0] = yi;
 }
 
 // divide by x - a
