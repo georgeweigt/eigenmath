@@ -12062,6 +12062,10 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 
 	// if const term is zero then root is zero
 
+	// note: use exact zero, not "close to zero"
+
+	// term will be exactly zero from coeffs(), no need for arbitrary cutoff
+
 	if (cr[0] == 0.0 && ci[0] == 0.0) {
 		*ar = 0.0;
 		*ai = 0.0;
