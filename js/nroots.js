@@ -7,14 +7,8 @@ nroots()
 	var h, i, n;
 	var A, P, X, RE, IM;
 	var ar, ai, mag;
-	var cr, ci;
-	var tr, ti;
-
-	cr = [];
-	ci = [];
-
-	tr = [];
-	ti = [];
+	var cr = [], ci = [];
+	var tr = [], ti = [];
 
 	X = pop();
 	P = pop();
@@ -63,10 +57,10 @@ nroots()
 		mag = zabs(ar, ai);
 
 		if (Math.abs(ar / mag) < DELTA)
-			ar = 0.0;
+			ar = 0;
 
 		if (Math.abs(ai / mag) < DELTA)
-			ai = 0.0;
+			ai = 0;
 
 		// push root
 
@@ -107,11 +101,16 @@ nfindroot(cr, ci, n, ar, ai)
 {
 	var i, j;
 	var d;
-	var br, dfr, dxr, far, fbr, tr, xr, yr;
-	var bi, dfi, dxi, fai, fbi, ti, xi, yi;
+	var br, dfr, dxr, far, fbr, tr = [], xr, yr;
+	var bi, dfi, dxi, fai, fbi, ti = [], xi, yi;
 
-	tr = [];
-	ti = [];
+	// if const term is zero then root is zero
+
+	if (cr[0] == 0 && ci[0] == 0) {
+		ar[0] = 0;
+		ai[0] = 0;
+		return;
+	}
 
 	// divide by leading coeff
 
@@ -127,16 +126,8 @@ nfindroot(cr, ci, n, ar, ai)
 		ci[i] = yi
 	}
 
-	cr[n - 1] = 1.0;
-	ci[n - 1] = 0.0;
-
-	// if const term is small then root is 0
-
-	if (zabs(cr[0], ci[0]) < EPSILON) {
-		ar[0] = 0.0;
-		ai[0] = 0.0;
-		return;
-	}
+	cr[n - 1] = 1;
+	ci[n - 1] = 0;
 
 	for (i = 0; i < 100; i++) {
 
@@ -202,7 +193,7 @@ nfindroot(cr, ci, n, ar, ai)
 
 			d = dfr * dfr + dfi * dfi;
 
-			if (d == 0.0)
+			if (d == 0)
 				break;
 
 			yr = (dxr * dfr + dxi * dfi) / d;

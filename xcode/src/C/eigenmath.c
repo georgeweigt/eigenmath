@@ -12211,6 +12211,14 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 	double br, dfr, dxr, far, fbr, xr, yr;
 	double bi, dfi, dxi, fai, fbi, xi, yi;
 
+	// if const term is zero then root is zero
+
+	if (cr[0] == 0.0 && ci[0] == 0.0) {
+		*ar = 0.0;
+		*ai = 0.0;
+		return;
+	}
+
 	// divide by leading coeff
 
 	xr = cr[n - 1];
@@ -12227,14 +12235,6 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 
 	cr[n - 1] = 1.0;
 	ci[n - 1] = 0.0;
-
-	// if const term is small then root is 0
-
-	if (zabs(cr[0], ci[0]) < EPSILON) {
-		*ar = 0.0;
-		*ai = 0.0;
-		return;
-	}
 
 	for (i = 0; i < 100; i++) {
 
