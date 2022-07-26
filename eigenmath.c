@@ -857,10 +857,10 @@ void rect(void);
 void eval_roots(struct atom *p1);
 void roots(void);
 int findroot(int h);
-void findroot_eval(int h, int n, struct atom *X);
-void reduce(int h, struct atom *A);
+void horner(int h, int k, struct atom *A);
 void divisors(int n);
 void divisors_nib(int h, int k);
+void reduce(int h, struct atom *A);
 void eval_rotate(struct atom *p1);
 void rotate_h(struct atom *PSI, uint32_t c, int n);
 void rotate_p(struct atom *PSI, struct atom *PHASE, uint32_t c, int n);
@@ -16962,7 +16962,7 @@ int
 findroot(int h)
 {
 	int i, j, k, m, n;
-	struct atom *C, *T, *X;
+	struct atom *A, *C, *T;
 
 	C = stack[h]; // constant term
 
@@ -16986,33 +16986,37 @@ findroot(int h)
 	for (i = k; i < m; i++) {
 		for (j = m; j < tos; j++) {
 
+			// try postive A
+
 			push(stack[i]);
 			push(stack[j]);
 			divide();
-			X = pop();
+			A = pop();
 
-			findroot_eval(h, k - h, X);
+			horner(h, k, A);
 
 			T = pop();
 
 			if (iszero(T)) {
 				tos = k; // pop all
-				push(X);
-				return 1;
+				push(A);
+				return 1; // root on stack
 			}
 
-			push(X);
-			negate();
-			X = pop();
+			// try negative A
 
-			findroot_eval(h, k - h, X);
+			push(A);
+			negate();
+			A = pop();
+
+			horner(h, k, A);
 
 			T = pop();
 
 			if (iszero(T)) {
 				tos = k; // pop all
-				push(X);
-				return 1;
+				push(A);
+				return 1; // root on stack
 			}
 		}
 	}
@@ -17022,48 +17026,21 @@ findroot(int h)
 	return 0; // no root
 }
 
-// evaluate p(x) at x = X using horner's rule
+// evaluate p(x) at x = A using horner's rule
 
 void
-findroot_eval(int h, int n, struct atom *X)
+horner(int h, int k, struct atom *A)
 {
 	int i;
 
-	push(stack[h + n - 1]);
+	push(stack[k - 1]);
 
-	for (i = n - 1; i > 0; i--) {
-		push(X);
-		multiply();
-		push(stack[h + i - 1]);
-		add();
-	}
-}
-
-// divide by X - A
-
-void
-reduce(int h, struct atom *A)
-{
-	int i, t;
-
-	t = tos - 1;
-
-	for (i = t; i > h; i--) {
+	for (i = k - 2; i >= h; i--) {
 		push(A);
-		push(stack[i]);
 		multiply();
-		push(stack[i - 1]);
+		push(stack[i]);
 		add();
-		stack[i - 1] = pop();
 	}
-
-	if (!iszero(stack[h]))
-		stop("roots: residual error");
-
-	for (i = h; i < t; i++)
-		stack[i] = stack[i + 1];
-
-	pop(); // one less coeff on stack
 }
 
 // push all divisors of n
@@ -17134,6 +17111,33 @@ divisors_nib(int h, int k)
 		multiply();
 		divisors_nib(h + 2, k);
 	}
+}
+
+// divide by X - A
+
+void
+reduce(int h, struct atom *A)
+{
+	int i, t;
+
+	t = tos - 1;
+
+	for (i = t; i > h; i--) {
+		push(A);
+		push(stack[i]);
+		multiply();
+		push(stack[i - 1]);
+		add();
+		stack[i - 1] = pop();
+	}
+
+	if (!iszero(stack[h]))
+		stop("roots: residual error"); // not a root
+
+	for (i = h; i < t; i++)
+		stack[i] = stack[i + 1];
+
+	pop(); // one less coeff on stack
 }
 #define NUMQBITS PSI->u.tensor->nelem
 #define KET0 PSI->u.tensor->elem[i ^ n]

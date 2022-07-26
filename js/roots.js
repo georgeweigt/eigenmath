@@ -95,3 +95,187 @@ roots()
 
 	push(A);
 }
+
+// coefficients are on the stack
+
+function
+findroot(h)
+{
+	var i, j, k, m, n;
+	var A, C, T;
+
+	C = stack[h]; // constant term
+
+	if (iszero(C)) {
+		push_integer(0); // root is zero
+		return 1;
+	}
+
+	k = stack.length;
+	push(C);
+	numerator();
+	n = pop_integer();
+	divisors(n); // push divisors of n
+
+	m = stack.length;
+	push(C);
+	denominator();
+	n = pop_integer();
+	divisors(n); // push divisors of n
+
+	for (i = k; i < m; i++) {
+		for (j = m; j < stack.length; j++) {
+
+			// try positive A
+
+			push(stack[i]);
+			push(stack[j]);
+			divide();
+			A = pop();
+
+			horner(h, k, A);
+
+			T = pop();
+
+			if (iszero(T)) {
+				stack.splice(k); // pop all
+				push(A);
+				return 1; // root on stack
+			}
+
+			// try negative A
+
+			push(A);
+			negate();
+			A = pop();
+
+			horner(h, k, A);
+
+			T = pop();
+
+			if (iszero(T)) {
+				stack.splice(k); // pop all
+				push(A);
+				return 1; // root on stack
+			}
+		}
+	}
+
+	stack.splice(k); // pop all
+
+	return 0; // no root
+}
+
+// evaluate p(x) at x = A using horner's rule
+
+function
+horner(h, k, A)
+{
+	var i;
+
+	push(stack[k - 1]);
+
+	for (i = k - 2; i >= h; i--) {
+		push(A);
+		multiply();
+		push(stack[i]);
+		add();
+	}
+}
+
+// push all divisors of n
+
+function
+divisors(n)
+{
+	var h, i, k;
+
+	h = stack.length;
+
+	factor_int(n);
+
+	k = stack.length;
+
+	// contruct divisors by recursive descent
+
+	push_integer(1);
+
+	divisors_nib(h, k);
+
+	// move
+
+	n = stack.length - k;
+
+	for (i = 0; i < n; i++)
+		stack[h + i] = stack[k + i];
+
+	stack.splice(h + n); // pop all
+}
+
+//	Generate all divisors for a factored number
+//
+//	Input:		Factor pairs on stack (base, expo)
+//
+//			h	first pair
+//
+//			k	just past last pair
+//
+//	Output:		Divisors on stack
+//
+//	For example, the number 12 (= 2^2 3^1) has 6 divisors:
+//
+//	1, 2, 3, 4, 6, 12
+
+function
+divisors_nib(h, k)
+{
+	var i, n;
+	var ACCUM, BASE, EXPO;
+
+	if (h == k)
+		return;
+
+	ACCUM = pop();
+
+	BASE = stack[h + 0];
+	EXPO = stack[h + 1];
+
+	push(EXPO);
+	n = pop_integer();
+
+	for (i = 0; i <= n; i++) {
+		push(ACCUM);
+		push(BASE);
+		push_integer(i);
+		power();
+		multiply();
+		divisors_nib(h + 2, k);
+	}
+}
+
+// divide by X - A
+
+function
+reduce(h, A)
+{
+	var i, t;
+
+	t = stack.length - 1;
+
+	for (i = t; i > h; i--) {
+		push(A);
+		push(stack[i]);
+		multiply();
+		push(stack[i - 1]);
+		add();
+		stack[i - 1] = pop();
+	}
+
+	if (!iszero(stack[h]))
+		stopf("roots: residual error"); // not a root
+
+	for (i = h; i < t; i++)
+		stack[i] = stack[i + 1];
+
+	pop(); // one less coeff on stack
+}
