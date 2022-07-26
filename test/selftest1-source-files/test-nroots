@@ -2,13 +2,17 @@
 
 clear
 
+epsilon = 1.0 10^(-6)
+
 p = 125 x^5 - 1
 A = nroots(p)
-for(k,1,5,check(abs(eval(p,x,A[k])) < 0.000001))
+for(k,1,5,check(abs(eval(p,x,A[k])) < epsilon))
 
-check(nroots(1) == nil)
-check(infixform(nroots(x - 5)) == "5")
-check(nroots(x^5) == (0,0,0,0,0))
+check(nroots(1) == nil) -- no roots
+check(infixform(nroots(x - 5)) == "5") -- one root
+check(nroots(x^5) == (0,0,0,0,0)) -- exact zero
+
+-- use strings to avoid roundoff error
 
 p = (x - 1) (x - 2) (x - 3)
 check(infixform(nroots(p)) == "(1,2,3)")
@@ -20,4 +24,4 @@ check(infixform(nroots(p,t)) == "(1,2,3)")
 
 p = i (x^5 + x^4 + x^3 + x^2 + x + 1)
 A = nroots(p)
-for(k,1,4,check(abs(eval(p,x,A[k])) < 0.000001))
+for(k,1,4,check(abs(eval(p,x,A[k])) < epsilon))
