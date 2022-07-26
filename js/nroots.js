@@ -106,7 +106,7 @@ function
 nfindroot(cr, ci, n, ar, ai)
 {
 	var i, j;
-	var t;
+	var d;
 	var br, dfr, dxr, far, fbr, tr, xr, yr;
 	var bi, dfi, dxi, fai, fbi, ti, xi, yi;
 
@@ -118,11 +118,13 @@ nfindroot(cr, ci, n, ar, ai)
 	xr = cr[n - 1];
 	xi = ci[n - 1];
 
-	t = xr * xr + xi * xi;
+	d = xr * xr + xi * xi;
 
 	for (i = 0; i < n - 1; i++) {
-		cr[i] = (cr[i] * xr + ci[i] * xi) / t;
-		ci[i] = (ci[i] * xr - cr[i] * xi) / t;
+		yr = (cr[i] * xr + ci[i] * xi) / d;
+		yi = (ci[i] * xr - cr[i] * xi) / d;
+		cr[i] = yr;
+		ci[i] = yi
 	}
 
 	cr[n - 1] = 1.0;
@@ -198,13 +200,13 @@ nfindroot(cr, ci, n, ar, ai)
 
 			// y = dx / df
 
-			t = dfr * dfr + dfi * dfi;
+			d = dfr * dfr + dfi * dfi;
 
-			if (t == 0.0)
+			if (d == 0.0)
 				break;
 
-			yr = (dxr * dfr + dxi * dfi) / t;
-			yi = (dxi * dfr - dxr * dfi) / t;
+			yr = (dxr * dfr + dxi * dfi) / d;
+			yi = (dxi * dfr - dxr * dfi) / d;
 
 			// a = b - y * fb
 

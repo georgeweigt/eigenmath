@@ -124,7 +124,7 @@ void
 nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 {
 	int i, j;
-	double t;
+	double d;
 	double br, dfr, dxr, far, fbr, xr, yr;
 	double bi, dfi, dxi, fai, fbi, xi, yi;
 
@@ -133,11 +133,13 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 	xr = cr[n - 1];
 	xi = ci[n - 1];
 
-	t = xr * xr + xi * xi;
+	d = xr * xr + xi * xi;
 
 	for (i = 0; i < n - 1; i++) {
-		cr[i] = (cr[i] * xr + ci[i] * xi) / t;
-		ci[i] = (ci[i] * xr - cr[i] * xi) / t;
+		yr = (cr[i] * xr + ci[i] * xi) / d;
+		yi = (ci[i] * xr - cr[i] * xi) / d;
+		cr[i] = yr;
+		ci[i] = yi;
 	}
 
 	cr[n - 1] = 1.0;
@@ -207,13 +209,13 @@ nfindroot(double cr[], double ci[], int n, double *ar, double *ai)
 
 			// y = dx / df
 
-			t = dfr * dfr + dfi * dfi;
+			d = dfr * dfr + dfi * dfi;
 
-			if (t == 0.0)
+			if (d == 0.0)
 				break;
 
-			yr = (dxr * dfr + dxi * dfi) / t;
-			yi = (dxi * dfr - dxr * dfi) / t;
+			yr = (dxr * dfr + dxi * dfi) / d;
+			yi = (dxi * dfr - dxr * dfi) / d;
 
 			// a = b - y * fb
 
