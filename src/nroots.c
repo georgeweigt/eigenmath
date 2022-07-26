@@ -23,7 +23,7 @@ nroots(void)
 {
 	int h, i, n;
 	struct atom *A, *P, *X, *RE, *IM;
-	double ar, ai, mag;
+	double ar, ai, d, mag, xr, xi, yr, yi;
 	static double *cr, *ci;
 
 	X = pop();
@@ -33,12 +33,7 @@ nroots(void)
 
 	coeffs(P, X); // put coeffs on stack
 
-	n = tos - h;
-
-	if (n == 1) {
-		stack[h] = symbol(NIL); // P is just a constant, no roots
-		return;
-	}
+	n = tos - h; // number of coeffs on stack
 
 	if (cr)
 		free(cr);
@@ -74,6 +69,25 @@ nroots(void)
 
 	tos = h; // pop all
 
+	// divide by leading coeff
+
+	xr = cr[n - 1];
+	xi = ci[n - 1];
+
+	d = xr * xr + xi * xi;
+
+	for (i = 0; i < n - 1; i++) {
+		yr = (cr[i] * xr + ci[i] * xi) / d;
+		yi = (ci[i] * xr - cr[i] * xi) / d;
+		cr[i] = yr;
+		ci[i] = yi;
+	}
+
+	cr[n - 1] = 1.0;
+	ci[n - 1] = 0.0;
+
+	// find roots
+
 	while (n > 1) {
 
 		nfindroot(cr, ci, n, &ar, &ai);
@@ -96,15 +110,20 @@ nroots(void)
 
 		// divide by X - A
 
-		nreduce(cr, ci, n, ar, ai);
+		nreduce(cr, ci, n, ar, ai); // leading coeff is still 1
 
 		n--;
 	}
 
-	n = tos - h;
+	n = tos - h; // number of roots on stack
+
+	if (n == 0) {
+		push_symbol(NIL); // no roots
+		return;
+	}
 
 	if (n == 1)
-		return; // only 1 root
+		return; // one root
 
 	sort(n);
 
@@ -117,8 +136,6 @@ nroots(void)
 
 	push(A);
 }
-
-// uses secant method
 
 void
 nfindroot(double cr[], double ci[], int n, double *par, double *pai)
@@ -140,22 +157,7 @@ nfindroot(double cr[], double ci[], int n, double *par, double *pai)
 		return;
 	}
 
-	// divide by leading coeff
-
-	xr = cr[n - 1];
-	xi = ci[n - 1];
-
-	d = xr * xr + xi * xi;
-
-	for (i = 0; i < n - 1; i++) {
-		yr = (cr[i] * xr + ci[i] * xi) / d;
-		yi = (ci[i] * xr - cr[i] * xi) / d;
-		cr[i] = yr;
-		ci[i] = yi;
-	}
-
-	cr[n - 1] = 1.0;
-	ci[n - 1] = 0.0;
+	// secant method
 
 	for (i = 0; i < 100; i++) {
 

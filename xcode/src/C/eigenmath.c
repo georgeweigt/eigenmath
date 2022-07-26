@@ -11962,7 +11962,7 @@ nroots(void)
 {
 	int h, i, n;
 	struct atom *A, *P, *X, *RE, *IM;
-	double ar, ai, mag;
+	double ar, ai, d, mag, xr, xi, yr, yi;
 	static double *cr, *ci;
 
 	X = pop();
@@ -11972,12 +11972,7 @@ nroots(void)
 
 	coeffs(P, X); // put coeffs on stack
 
-	n = tos - h;
-
-	if (n == 1) {
-		stack[h] = symbol(NIL); // P is just a constant, no roots
-		return;
-	}
+	n = tos - h; // number of coeffs on stack
 
 	if (cr)
 		free(cr);
@@ -12013,6 +12008,25 @@ nroots(void)
 
 	tos = h; // pop all
 
+	// divide by leading coeff
+
+	xr = cr[n - 1];
+	xi = ci[n - 1];
+
+	d = xr * xr + xi * xi;
+
+	for (i = 0; i < n - 1; i++) {
+		yr = (cr[i] * xr + ci[i] * xi) / d;
+		yi = (ci[i] * xr - cr[i] * xi) / d;
+		cr[i] = yr;
+		ci[i] = yi;
+	}
+
+	cr[n - 1] = 1.0;
+	ci[n - 1] = 0.0;
+
+	// find roots
+
 	while (n > 1) {
 
 		nfindroot(cr, ci, n, &ar, &ai);
@@ -12035,15 +12049,20 @@ nroots(void)
 
 		// divide by X - A
 
-		nreduce(cr, ci, n, ar, ai);
+		nreduce(cr, ci, n, ar, ai); // leading coeff is still 1
 
 		n--;
 	}
 
-	n = tos - h;
+	n = tos - h; // number of roots on stack
+
+	if (n == 0) {
+		push_symbol(NIL); // no roots
+		return;
+	}
 
 	if (n == 1)
-		return; // only 1 root
+		return; // one root
 
 	sort(n);
 
@@ -12056,8 +12075,6 @@ nroots(void)
 
 	push(A);
 }
-
-// uses secant method
 
 void
 nfindroot(double cr[], double ci[], int n, double *par, double *pai)
@@ -12079,22 +12096,7 @@ nfindroot(double cr[], double ci[], int n, double *par, double *pai)
 		return;
 	}
 
-	// divide by leading coeff
-
-	xr = cr[n - 1];
-	xi = ci[n - 1];
-
-	d = xr * xr + xi * xi;
-
-	for (i = 0; i < n - 1; i++) {
-		yr = (cr[i] * xr + ci[i] * xi) / d;
-		yi = (ci[i] * xr - cr[i] * xi) / d;
-		cr[i] = yr;
-		ci[i] = yi;
-	}
-
-	cr[n - 1] = 1.0;
-	ci[n - 1] = 0.0;
+	// secant method
 
 	for (i = 0; i < 100; i++) {
 
@@ -14165,7 +14167,7 @@ eval_roots(struct atom *p1)
 void
 roots(void)
 {
-	int h, i, j, k, m, n;
+	int h, i, j, k, n;
 	struct atom *A, *P, *X;
 
 	X = pop();
@@ -14177,32 +14179,40 @@ roots(void)
 
 	k = tos;
 
-	if (k - h == 1) {
-		stack[h] = symbol(NIL); // no roots
-		return;
-	}
+	n = k - h; // number of coeffs on stack
 
 	// check coeffs
 
-	for (i = h; i < k; i++)
-		if (!isrational(stack[i]))
+	for (i = 0; i < n; i++)
+		if (!isrational(stack[h + i]))
 			stop("roots: coeffs");
 
-	m = k;
+	// divide through by leading coeff
 
-	while (k - h > 1) {
+	for (i = 0; i < n - 1; i++) {
+		push(stack[h + i]);
+		push(stack[h + n - 1]);
+		divide();
+		stack[h + i] = pop();
+	}
 
-		if (findroot(h, k) == 0)
+	stack[h + n - 1] = one;
+
+	// find roots
+
+	while (n > 1) {
+
+		if (findroot(h, n) == 0)
 			break; // no root found
 
 		A = stack[tos - 1]; // root
 
-		reduce(h, k, A); // divide by X - A
+		reduce(h, n, A); // leading coeff is still 1
 
-		k--; // one less coeff
+		n--;
 	}
 
-	n = tos - m; // number of roots on stack
+	n = tos - k; // number of roots on stack
 
 	if (n == 0) {
 		stack[h] = symbol(NIL); // no roots
@@ -14211,7 +14221,7 @@ roots(void)
 	}
 
 	if (n == 1) {
-		stack[h] = stack[m]; // one root
+		stack[h] = stack[k]; // one root
 		tos = h + 1; // pop all
 		return;
 	}
@@ -14221,15 +14231,15 @@ roots(void)
 	// eliminate repeated roots
 
 	for (i = 0; i < n - 1; i++)
-		if (equal(stack[m + i], stack[m + i + 1])) {
+		if (equal(stack[k + i], stack[k + i + 1])) {
 			for (j = i + i; j < n - 1; j++)
-				stack[m + j] = stack[m + j + 1];
+				stack[k + j] = stack[k + j + 1];
 			i--;
 			n--;
 		}
 
 	if (n == 1) {
-		stack[h] = stack[m]; // one root
+		stack[h] = stack[k]; // one root
 		tos = h + 1; // pop all
 		return;
 	}
@@ -14237,19 +14247,17 @@ roots(void)
 	A = alloc_vector(n);
 
 	for (i = 0; i < n; i++)
-		A->u.tensor->elem[i] = stack[m + i];
+		A->u.tensor->elem[i] = stack[k + i];
 
 	tos = h; // pop all
 
 	push(A);
 }
 
-// coefficients are on the stack
-
 int
-findroot(int h, int k)
+findroot(int h, int n)
 {
-	int i, j, n, p, q, r;
+	int i, j, m, p, q, r;
 	struct atom *A, *C, *PA;
 
 	C = stack[h]; // constant term
@@ -14259,32 +14267,19 @@ findroot(int h, int k)
 		return 1;
 	}
 
-	C = stack[k - 1]; // leading coeff
-
-	// divide through by C
-
-	for (i = h; i < k; i++) {
-		push(stack[i]);
-		push(C);
-		divide();
-		stack[i] = pop();
-	}
-
-	C = stack[h];
-
 	p = tos;
 
 	push(C);
 	numerator();
-	n = pop_integer();
-	divisors(n); // push divisors of n
+	m = pop_integer();
+	divisors(m); // push divisors of m
 
 	q = tos;
 
 	push(C);
 	denominator();
-	n = pop_integer();
-	divisors(n); // push divisors of n
+	m = pop_integer();
+	divisors(m); // push divisors of m
 
 	r = tos;
 
@@ -14298,7 +14293,7 @@ findroot(int h, int k)
 			divide();
 			A = pop();
 
-			horner(h, k, A);
+			horner(h, n, A);
 
 			PA = pop();
 
@@ -14314,7 +14309,7 @@ findroot(int h, int k)
 			negate();
 			A = pop();
 
-			horner(h, k, A);
+			horner(h, n, A);
 
 			PA = pop();
 
@@ -14334,16 +14329,16 @@ findroot(int h, int k)
 // evaluate p(x) at x = A using horner's rule
 
 void
-horner(int h, int k, struct atom *A)
+horner(int h, int n, struct atom *A)
 {
 	int i;
 
-	push(stack[k - 1]);
+	push(stack[h + n - 1]);
 
-	for (i = k - 2; i >= h; i--) {
+	for (i = n - 2; i >= 0; i--) {
 		push(A);
 		multiply();
-		push(stack[i]);
+		push(stack[h + i]);
 		add();
 	}
 }
@@ -14421,24 +14416,26 @@ divisors_nib(int h, int k)
 // divide by X - A
 
 void
-reduce(int h, int k, struct atom *A)
+reduce(int h, int n, struct atom *A)
 {
 	int i;
 
-	for (i = k - 1; i > h; i--) {
+	for (i = n - 1; i > 0; i--) {
 		push(A);
-		push(stack[i]);
+		push(stack[h + i]);
 		multiply();
-		push(stack[i - 1]);
+		push(stack[h + i - 1]);
 		add();
-		stack[i - 1] = pop();
+		stack[h + i - 1] = pop();
 	}
 
 	if (!iszero(stack[h]))
 		stop("roots: residual error"); // not a root
 
-	for (i = h; i < k - 1; i++)
-		stack[i] = stack[i + 1];
+	// move
+
+	for (i = 0; i < n - 1; i++)
+		stack[h + i] = stack[h + i + 1];
 }
 #define NUMQBITS PSI->u.tensor->nelem
 #define KET0 PSI->u.tensor->elem[i ^ n]

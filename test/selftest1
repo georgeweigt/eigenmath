@@ -5481,7 +5481,6 @@ check(infixform(nroots(p)) == "(1,2,3)")
 check(infixform(nroots(p,x)) == "(1,2,3)")
 
 p = (t - 1) (t - 2) (t - 3)
-check(infixform(nroots(p)) == "nil")
 check(infixform(nroots(p,t)) == "(1,2,3)")
 
 p = i (x^5 + x^4 + x^3 + x^2 + x + 1)

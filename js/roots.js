@@ -1,7 +1,7 @@
 function
 roots()
 {
-	var h, i, j, k, m, n;
+	var h, i, j, k, n;
 	var A, P, X;
 
 	X = pop();
@@ -13,10 +13,7 @@ roots()
 
 	k = stack.length;
 
-	if (k - h == 1) {
-		stack[h] = symbol(NIL); // no roots
-		return;
-	}
+	n = k - h; // number of coeffs on stack
 
 	// check coeffs
 
@@ -24,21 +21,32 @@ roots()
 		if (!isrational(stack[i]))
 			stopf("roots: coeffs");
 
-	m = k;
+	// divide through by leading coeff
 
-	while (k - h > 1) {
+	for (i = 0; i < n - 1; i++) {
+		push(stack[h + i]);
+		push(stack[h + n - 1]);
+		divide();
+		stack[h + i] = pop();
+	}
 
-		if (findroot(h, k) == 0)
+	stack[h + n - 1] = one;
+
+	// find roots
+
+	while (n > 1) {
+
+		if (findroot(h, n) == 0)
 			break; // no root found
 
 		A = stack[stack.length - 1]; // root
 
-		reduce(h, k, A); // divide by X - A
+		reduce(h, n, A); // leading coeff is still 1
 
-		k--; // one less coeff
+		n--;
 	}
 
-	n = stack.length - m; // number of roots on stack
+	n = stack.length - k; // number of roots on stack
 
 	if (n == 0) {
 		stack[h] = symbol(NIL); // no roots
@@ -47,7 +55,7 @@ roots()
 	}
 
 	if (n == 1) {
-		stack[h] = stack[m]; // one root
+		stack[h] = stack[k]; // one root
 		stack.splice(h + 1); // pop all
 		return;
 	}
@@ -57,15 +65,15 @@ roots()
 	// eliminate repeated roots
 
 	for (i = 0; i < n - 1; i++)
-		if (equal(stack[m + i], stack[m + i + 1])) {
+		if (equal(stack[k + i], stack[k + i + 1])) {
 			for (j = i + i; j < n - 1; j++)
-				stack[m + j] = stack[m + j + 1];
+				stack[k + j] = stack[k + j + 1];
 			i--;
 			n--;
 		}
 
 	if (n == 1) {
-		stack[h] = stack[m]; // one root
+		stack[h] = stack[k]; // one root
 		stack.splice(h + 1); // pop all
 		return;
 	}
@@ -73,19 +81,17 @@ roots()
 	A = alloc_vector(n);
 
 	for (i = 0; i < n; i++)
-		A.elem[i] = stack[m + i];
+		A.elem[i] = stack[k + i];
 
 	stack.splice(h); // pop all
 
 	push(A);
 }
 
-// coefficients are on the stack
-
 function
-findroot(h, k)
+findroot(h, n)
 {
-	var i, j, n, p, q, r;
+	var i, j, m, p, q, r;
 	var A, C, PA;
 
 	C = stack[h]; // constant term
@@ -95,32 +101,19 @@ findroot(h, k)
 		return 1;
 	}
 
-	C = stack[k - 1]; // leading coeff
-
-	// divide through by C
-
-	for (i = h; i < k; i++) {
-		push(stack[i]);
-		push(C);
-		divide();
-		stack[i] = pop();
-	}
-
-	C = stack[h];
-
 	p = stack.length;
 
 	push(C);
 	numerator();
-	n = pop_integer();
-	divisors(n); // push divisors of n
+	m = pop_integer();
+	divisors(m); // push divisors of m
 
 	q = stack.length;
 
 	push(C);
 	denominator();
-	n = pop_integer();
-	divisors(n); // push divisors of n
+	m = pop_integer();
+	divisors(m); // push divisors of m
 
 	r = stack.length;
 
@@ -134,7 +127,7 @@ findroot(h, k)
 			divide();
 			A = pop();
 
-			horner(h, k, A);
+			horner(h, n, A);
 
 			PA = pop(); // polynomial evaluated at A
 
@@ -150,7 +143,7 @@ findroot(h, k)
 			negate();
 			A = pop();
 
-			horner(h, k, A);
+			horner(h, n, A);
 
 			PA = pop(); // polynomial evaluated at A
 
@@ -170,16 +163,16 @@ findroot(h, k)
 // evaluate p(x) at x = A using horner's rule
 
 function
-horner(h, k, A)
+horner(h, n, A)
 {
 	var i;
 
-	push(stack[k - 1]);
+	push(stack[h + n - 1]);
 
-	for (i = k - 2; i >= h; i--) {
+	for (i = n - 2; i >= 0; i--) {
 		push(A);
 		multiply();
-		push(stack[i]);
+		push(stack[h + i]);
 		add();
 	}
 }
@@ -257,22 +250,24 @@ divisors_nib(h, k)
 // divide by X - A
 
 function
-reduce(h, k, A)
+reduce(h, n, A)
 {
 	var i;
 
-	for (i = k - 1; i > h; i--) {
+	for (i = n - 1; i > 0; i--) {
 		push(A);
-		push(stack[i]);
+		push(stack[h + i]);
 		multiply();
-		push(stack[i - 1]);
+		push(stack[h + i - 1]);
 		add();
-		stack[i - 1] = pop();
+		stack[h + i - 1] = pop();
 	}
 
 	if (!iszero(stack[h]))
 		stopf("roots: residual error"); // not a root
 
-	for (i = h; i < k - 1; i++)
-		stack[i] = stack[i + 1];
+	// move
+
+	for (i = 0; i < n - 1; i++)
+		stack[h + i] = stack[h + i + 1];
 }
