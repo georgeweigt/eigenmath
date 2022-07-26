@@ -17,7 +17,7 @@ reduce(h, A)
 	}
 
 	if (!iszero(stack[h]))
-		stopf("root finder kaput");
+		stopf("roots: residual error");
 
 	for (i = h; i < t; i++)
 		stack[i] = stack[i + 1];

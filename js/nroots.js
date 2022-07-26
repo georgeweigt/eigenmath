@@ -265,6 +265,11 @@ nreduce(cr, ci, n, ar, ai)
 		ci[k - 1] += ci[k] * ar + cr[k] * ai;
 	}
 
+	// check
+
+	if (zabs(cr[0], ci[0]) > DELTA)
+		stopf("nroots: residual error"); // not a root
+
 	// shift
 
 	for (k = 0; k < n - 1; k++) {

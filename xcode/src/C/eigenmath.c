@@ -12357,6 +12357,9 @@ nreduce(double cr[], double ci[], int n, double ar, double ai)
 		ci[k - 1] += ci[k] * ar + cr[k] * ai;
 	}
 
+	if (zabs(cr[0], ci[0]) > DELTA)
+		stop("nroots: residual error"); // not a root
+
 	// shift
 
 	for (k = 0; k < n - 1; k++) {
@@ -14303,7 +14306,7 @@ reduce(int h, struct atom *A)
 	}
 
 	if (!iszero(stack[h]))
-		stop("root finder kaput");
+		stop("roots: residual error");
 
 	for (i = h; i < t; i++)
 		stack[i] = stack[i + 1];
