@@ -66,7 +66,7 @@ roots()
 
 	for (i = 0; i < n - 1; i++)
 		if (equal(stack[k + i], stack[k + i + 1])) {
-			for (j = i + i; j < n - 1; j++)
+			for (j = i + 1; j < n - 1; j++)
 				stack[k + j] = stack[k + j + 1];
 			i--;
 			n--;
