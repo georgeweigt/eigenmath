@@ -5474,7 +5474,7 @@ check(nroots(1) == nil) -- no roots
 check(infixform(nroots(x - 5)) == "5") -- one root
 check(nroots(x^5) == (0,0,0,0,0)) -- exact zero
 
--- use strings to avoid roundoff error
+-- use strings to avoid floating point comparisons
 
 p = (x - 1) (x - 2) (x - 3)
 check(infixform(nroots(p)) == "(1,2,3)")
