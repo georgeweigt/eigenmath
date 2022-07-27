@@ -46,7 +46,7 @@ nroots(void)
 	if (cr == NULL || ci == NULL)
 		exit(1);
 
-	// convert coeffs to doubles
+	// convert coeffs to floating point
 
 	for (i = 0; i < n; i++) {
 
@@ -69,7 +69,7 @@ nroots(void)
 
 	tos = h; // pop all
 
-	// divide by leading coeff
+	// divide p(x) by leading coeff
 
 	xr = cr[n - 1];
 	xi = ci[n - 1];
@@ -108,11 +108,11 @@ nroots(void)
 		multiply();
 		add();
 
-		// divide by x - a
+		// divide p(x) by x - a
 
 		nreduce(cr, ci, n, ar, ai);
 
-		// note: leading coeff is still 1 after reduce
+		// note: leading coeff of p(x) is still 1
 
 		n--;
 	}

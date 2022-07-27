@@ -38,7 +38,7 @@ roots(void)
 		if (!isrational(stack[h + i]))
 			stop("roots: coeffs");
 
-	// divide through by leading coeff
+	// divide p(x) by leading coeff
 
 	for (i = 0; i < n - 1; i++) {
 		push(stack[h + i]);
@@ -60,11 +60,11 @@ roots(void)
 
 		A = stack[tos - 1];
 
-		// divide by X - A
+		// divide p(x) by X - A
 
 		reduce(h, n, A);
 
-		// note: leading coeff is still 1 after reduce
+		// note: leading coeff of p(x) is still 1
 
 		n--;
 	}
