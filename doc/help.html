@@ -96,12 +96,13 @@
 <a href="#rationalize">rationalize</a><br>
 <a href="#real">real</a><br>
 <a href="#rect">rect</a><br>
+<a href="#roots">roots</a><br>
 <a href="#rotate">rotate</a><br>
 <a href="#run">run</a><br>
-<a href="#simplify">simplify</a><br>
 </td>
 
 <td>
+<a href="#simplify">simplify</a><br>
 <a href="#sin">sin</a><br>
 <a href="#sinh">sinh</a><br>
 <a href="#sqrt">sqrt</a><br>
@@ -115,7 +116,6 @@
 <a href="#transpose">transpose</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
-<br>
 <br>
 </td>
 
@@ -1210,6 +1210,23 @@ rect(exp(i x))
 </pre>
 <pre style="font-family:courier">
 cos(x) + i sin(x)
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="roots">roots(<i>p,x</i>)</a>
+<p>
+Returns the real roots of polynomial <i>p</i>(<i>x</i>).
+The polynomial coefficients are required to be integers or rational numbers.
+<pre style="font-family:courier;color:blue">
+p = (x + 1) (x - 2)
+roots(p,x)
+</pre>
+<pre>
+┌    ┐
+│ −1 │
+│    │
+│ 2  │
+└    ┘
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
