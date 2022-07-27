@@ -66,6 +66,7 @@
 </td>
 
 <td>
+<a href="#infixform">infixform</a><br>
 <a href="#inner">inner</a><br>
 <a href="#integral">integral</a><br>
 <a href="#inv">inv</a><br>
@@ -80,10 +81,10 @@
 <a href="#noexpand">noexpand</a><br>
 <a href="#not">not</a><br>
 <a href="#numerator">numerator</a><br>
-<a href="#or">or</a><br>
 </td>
 
 <td>
+<a href="#or">or</a><br>
 <a href="#outer">outer</a><br>
 <a href="#pi">pi</a><br>
 <a href="#polar">polar</a><br>
@@ -98,10 +99,10 @@
 <a href="#rotate">rotate</a><br>
 <a href="#run">run</a><br>
 <a href="#simplify">simplify</a><br>
-<a href="#sin">sin</a><br>
 </td>
 
 <td>
+<a href="#sin">sin</a><br>
 <a href="#sinh">sinh</a><br>
 <a href="#sqrt">sqrt</a><br>
 <a href="#stop">stop</a><br>
@@ -114,7 +115,6 @@
 <a href="#transpose">transpose</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
-<br>
 <br>
 <br>
 </td>
@@ -769,6 +769,18 @@ imag(2 - 3i)
 </pre>
 <pre style="font-family:courier">
 -3
+</pre>
+
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="infixform">infixform(<i>x</i>)</a>
+<p>
+Returns a string represention of expression <i>x</i>.
+<pre style="font-family:courier;color:blue">
+infixform((x + 1)^2)
+</pre>
+<pre>
+x^2 + 2 x + 1
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
