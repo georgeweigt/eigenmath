@@ -5,7 +5,7 @@
 \usepackage{xcolor}
 
 \title{Eigenmath Manual}
-\date{March 27, 2022}
+\date{July 27, 2022}
 \author{}
 
 \begin{document}
@@ -13,6 +13,32 @@
 \maketitle
 
 \tableofcontents
+
+\newpage
+
+Eigenmath is available for both macOS and Linux.
+
+\bigskip
+For macOS, commands are entered here.
+
+\begin{center}
+\begin{tikzpicture}
+\node at (0,0) {\includegraphics[scale=0.2]{screenshot.png}};
+\draw[red,thick] (2.3,-1.95) ellipse (2.5cm and 0.5cm);
+\end{tikzpicture}
+\end{center}
+
+Multiple commands can be put together in a script.
+Scripts are run by clicking the Run button.
+
+\begin{center}
+\begin{tikzpicture}
+\node at (0,0) {\includegraphics[scale=0.2]{screenshot.png}};
+\draw (-2.4,0.1) node {Scripts go here.};
+\end{tikzpicture}
+\end{center}
+
+After a script runs, all of the results are available in command mode.
 
 \newpage
 
@@ -105,6 +131,12 @@ $\begin{bmatrix}x^2\\y^2\\z^2\end{bmatrix}$
 \section{Quantum Computing}
 
 \input{quantum-computing}
+
+\newpage
+
+\section{Draw (macOS)}
+
+\input{draw}
 
 \newpage
 
