@@ -540,7 +540,7 @@ Eigenvalues are obtained as shown.
 <pre style="font-family:courier;color:blue">
 A = ((1,2,3),(2,6,4),(3,4,5))
 Q = eigenvec(A)
-D = dot(transpose(Q),A,Q) -- D[1,1], D[2,2], etc. are the eigenvalues
+D = dot(transpose(Q),A,Q) -- eigenvalues are on the diagonal of D
 dot(Q,D,transpose(Q))
 </pre>
 <pre style="font-family:courier">
