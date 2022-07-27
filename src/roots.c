@@ -138,7 +138,7 @@ findroot(int h, int n)
 	for (i = p; i < q; i++) {
 		for (j = q; j < r; j++) {
 
-			// try postive A
+			// try positive A
 
 			push(stack[i]);
 			push(stack[j]);
