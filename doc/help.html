@@ -80,10 +80,11 @@
 <a href="#mod">mod</a><br>
 <a href="#noexpand">noexpand</a><br>
 <a href="#not">not</a><br>
-<a href="#numerator">numerator</a><br>
+<a href="#nroots">nroots<a><br>
 </td>
 
 <td>
+<a href="#numerator">numerator</a><br>
 <a href="#or">or</a><br>
 <a href="#outer">outer</a><br>
 <a href="#pi">pi</a><br>
@@ -98,10 +99,10 @@
 <a href="#rect">rect</a><br>
 <a href="#roots">roots</a><br>
 <a href="#rotate">rotate</a><br>
-<a href="#run">run</a><br>
 </td>
 
 <td>
+<a href="#run">run</a><br>
 <a href="#simplify">simplify</a><br>
 <a href="#sin">sin</a><br>
 <a href="#sinh">sinh</a><br>
@@ -116,7 +117,6 @@
 <a href="#transpose">transpose</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
-<br>
 </td>
 
 </tr>
@@ -1004,6 +1004,29 @@ not(1=1)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
+<a id="nroots">nroots(<i>p,x</i>)</a>
+<p>
+Returns the approximate roots of polynomials with real or complex coefficients.
+See also <a href="#roots">roots</a>.
+<pre style="font-family:courier;color:blue">
+p = x^5 - 1
+nroots(p,x)
+</pre>
+<pre>
+┌                        ┐
+│           1            │
+│                        │
+│ −0.809017 + 0.587785 i │
+│                        │
+│ −0.809017 − 0.587785 i │
+│                        │
+│ 0.309017 + 0.951057 i  │
+│                        │
+│ 0.309017 − 0.951057 i  │
+└                        ┘
+</pre>
+
+<p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="numerator">numerator(<i>x</i>)</a>
 <p>
 Returns the numerator of expression <i>x</i>.
@@ -1215,8 +1238,8 @@ cos(x) + i sin(x)
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="roots">roots(<i>p,x</i>)</a>
 <p>
-Returns the real roots of polynomial <i>p</i>(<i>x</i>).
-The polynomial coefficients are required to be integers or rational numbers.
+Returns the exact real roots of polynomials with integer or rational number coefficients.
+See also <a href="#nroots">nroots</a>.
 <pre style="font-family:courier;color:blue">
 p = (x + 1) (x - 2)
 roots(p,x)
