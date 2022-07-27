@@ -5707,110 +5707,6 @@ expsin(void)
 	subtract();
 }
 void
-eval_factor(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-
-	p1 = cddr(p1);
-
-	if (iscons(p1)) {
-		push(car(p1));
-		eval();
-	} else
-		push_symbol(X_LOWER);
-
-	// factorpoly();
-
-	pop();
-	pop();
-
-	push_symbol(NIL);
-}
-
-#if 0
-void
-factorpoly(void)
-{
-	int h, i, n;
-	struct atom *A, *C, *F, *P, *X;
-
-	X = pop();
-	P = pop();
-
-	h = tos;
-
-	coeffs(P, X); // put coeffs on stack
-
-	F = one;
-
-	while (tos - h > 1) {
-
-		C = pop(); // leading coeff
-
-		if (iszero(C))
-			continue;
-
-		// F = C * F
-
-		push(F);
-		push(C);
-		multiply_noexpand();
-		F = pop();
-
-		// divide through by C
-
-		for (i = h; i < tos; i++) {
-			push(stack[i]);
-			push(C);
-			divide();
-			stack[i] = pop();
-		}
-
-		push_integer(1); // leading coeff
-
-		if (findroot(h) == 0)
-			break;
-
-		A = pop();
-
-		// F = F * (X - A)
-
-		push(F);
-		push(X);
-		push(A);
-		subtract();
-		multiply_noexpand();
-		F = pop();
-
-		reduce(h, A); // divide by X - A
-	}
-
-	n = tos - h;
-
-	if (n == 0) {
-		push(F);
-		return;
-	}
-
-	// remainder
-
-	for (i = 0; i < n; i++) {
-		push(stack[h + i]);
-		push(X);
-		push_integer(i);
-		power();
-		multiply();
-		stack[h + i] = pop();
-	}
-
-	add_terms(n);
-
-	push(F);
-	multiply_noexpand();
-}
-#endif
-void
 factor_bignum(uint32_t *N, struct atom *M)
 {
 	int h, i, n;
@@ -12047,9 +11943,11 @@ nroots(void)
 		multiply();
 		add();
 
-		// divide by X - A
+		// divide by x - a
 
-		nreduce(cr, ci, n, ar, ai); // leading coeff is still 1
+		nreduce(cr, ci, n, ar, ai);
+
+		// note: leading coeff is still 1 after reduce
 
 		n--;
 	}
@@ -14205,9 +14103,15 @@ roots(void)
 		if (findroot(h, n) == 0)
 			break; // no root found
 
-		A = stack[tos - 1]; // root
+		// A is the root
 
-		reduce(h, n, A); // leading coeff is still 1
+		A = stack[tos - 1];
+
+		// divide by X - A
+
+		reduce(h, n, A);
+
+		// note: leading coeff is still 1 after reduce
 
 		n--;
 	}
@@ -14215,14 +14119,8 @@ roots(void)
 	n = tos - k; // number of roots on stack
 
 	if (n == 0) {
-		stack[h] = symbol(NIL); // no roots
-		tos = h + 1; // pop all
-		return;
-	}
-
-	if (n == 1) {
-		stack[h] = stack[k]; // one root
-		tos = h + 1; // pop all
+		tos = h; // pop all
+		push_symbol(NIL); // no roots
 		return;
 	}
 
@@ -14239,8 +14137,9 @@ roots(void)
 		}
 
 	if (n == 1) {
-		stack[h] = stack[k]; // one root
-		tos = h + 1; // pop all
+		A = stack[k];
+		tos = h; // pop all
+		push(A); // one root
 		return;
 	}
 
@@ -14295,7 +14194,7 @@ findroot(int h, int n)
 
 			horner(h, n, A);
 
-			PA = pop();
+			PA = pop(); // polynomial evaluated at A
 
 			if (iszero(PA)) {
 				tos = p; // pop all
@@ -14311,7 +14210,7 @@ findroot(int h, int n)
 
 			horner(h, n, A);
 
-			PA = pop();
+			PA = pop(); // polynomial evaluated at A
 
 			if (iszero(PA)) {
 				tos = p; // pop all
@@ -16776,7 +16675,6 @@ struct se stab[] = {
 	{ "exptan",		EXPTAN,		eval_exptan		},
 	{ "exptanh",		EXPTANH,	eval_exptanh		},
 
-	{ "factor",		FACTOR,		eval_factor		},
 	{ "factorial",		FACTORIAL,	eval_factorial		},
 	{ "filter",		FILTER,		eval_filter		},
 	{ "float",		FLOATF,		eval_float		},

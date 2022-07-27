@@ -108,9 +108,11 @@ nroots(void)
 		multiply();
 		add();
 
-		// divide by X - A
+		// divide by x - a
 
-		nreduce(cr, ci, n, ar, ai); // leading coeff is still 1
+		nreduce(cr, ci, n, ar, ai);
+
+		// note: leading coeff is still 1 after reduce
 
 		n--;
 	}

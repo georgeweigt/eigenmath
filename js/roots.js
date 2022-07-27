@@ -21,7 +21,7 @@ roots()
 		if (!isrational(stack[i]))
 			stopf("roots: coeffs");
 
-	// divide through by leading coeff
+	// divide by leading coeff
 
 	for (i = 0; i < n - 1; i++) {
 		push(stack[h + i]);
@@ -39,9 +39,15 @@ roots()
 		if (findroot(h, n) == 0)
 			break; // no root found
 
-		A = stack[stack.length - 1]; // root
+		// A is the root
 
-		reduce(h, n, A); // leading coeff is still 1
+		A = stack[stack.length - 1];
+
+		// divide by X - A
+
+		reduce(h, n, A);
+
+		// note: leading coeff is still 1 after reduce
 
 		n--;
 	}
@@ -49,14 +55,8 @@ roots()
 	n = stack.length - k; // number of roots on stack
 
 	if (n == 0) {
-		stack[h] = symbol(NIL); // no roots
-		stack.splice(h + 1); // pop all
-		return;
-	}
-
-	if (n == 1) {
-		stack[h] = stack[k]; // one root
-		stack.splice(h + 1); // pop all
+		stack.splice(h); // pop all
+		push_symbol(NIL); // no roots
 		return;
 	}
 
@@ -73,8 +73,9 @@ roots()
 		}
 
 	if (n == 1) {
-		stack[h] = stack[k]; // one root
-		stack.splice(h + 1); // pop all
+		A = stack[k];
+		stack.splice(h); // pop all
+		push(A); // one root
 		return;
 	}
 

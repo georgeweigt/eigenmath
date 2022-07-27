@@ -217,8 +217,6 @@ void eval_expcos(struct atom *p1);
 void expcos(void);
 void eval_expsin(struct atom *p1);
 void expsin(void);
-void eval_factor(struct atom *p1);
-void factorpoly(void);
 void factor_bignum(uint32_t *N, struct atom *M);
 void factor_factor(void);
 void factor_int(int n);

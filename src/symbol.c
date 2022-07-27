@@ -176,7 +176,6 @@ struct se stab[] = {
 	{ "exptan",		EXPTAN,		eval_exptan		},
 	{ "exptanh",		EXPTANH,	eval_exptanh		},
 
-	{ "factor",		FACTOR,		eval_factor		},
 	{ "factorial",		FACTORIAL,	eval_factorial		},
 	{ "filter",		FILTER,		eval_filter		},
 	{ "float",		FLOATF,		eval_float		},

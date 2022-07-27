@@ -56,9 +56,15 @@ roots(void)
 		if (findroot(h, n) == 0)
 			break; // no root found
 
-		A = stack[tos - 1]; // root
+		// A is the root
 
-		reduce(h, n, A); // leading coeff is still 1
+		A = stack[tos - 1];
+
+		// divide by X - A
+
+		reduce(h, n, A);
+
+		// note: leading coeff is still 1 after reduce
 
 		n--;
 	}
@@ -66,14 +72,8 @@ roots(void)
 	n = tos - k; // number of roots on stack
 
 	if (n == 0) {
-		stack[h] = symbol(NIL); // no roots
-		tos = h + 1; // pop all
-		return;
-	}
-
-	if (n == 1) {
-		stack[h] = stack[k]; // one root
-		tos = h + 1; // pop all
+		tos = h; // pop all
+		push_symbol(NIL); // no roots
 		return;
 	}
 
@@ -90,8 +90,9 @@ roots(void)
 		}
 
 	if (n == 1) {
-		stack[h] = stack[k]; // one root
-		tos = h + 1; // pop all
+		A = stack[k];
+		tos = h; // pop all
+		push(A); // one root
 		return;
 	}
 
@@ -146,7 +147,7 @@ findroot(int h, int n)
 
 			horner(h, n, A);
 
-			PA = pop();
+			PA = pop(); // polynomial evaluated at A
 
 			if (iszero(PA)) {
 				tos = p; // pop all
@@ -162,7 +163,7 @@ findroot(int h, int n)
 
 			horner(h, n, A);
 
-			PA = pop();
+			PA = pop(); // polynomial evaluated at A
 
 			if (iszero(PA)) {
 				tos = p; // pop all
