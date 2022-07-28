@@ -781,7 +781,7 @@ Converts expression <i>x</i> to a string and returns the result.
 <pre style="font-family:courier;color:blue">
 infixform((x + 1)^2)
 </pre>
-<pre>
+<pre style="font-family:courier">
 x^2 + 2 x + 1
 </pre>
 
@@ -1015,7 +1015,7 @@ See also <a href="#roots">roots</a>.
 p = x^5 - 1
 nroots(p,x)
 </pre>
-<pre>
+<pre style="font-family:courier">
 ┌                        ┐
 │           1            │
 │                        │
@@ -1251,7 +1251,7 @@ See also <a href="#nroots">nroots</a>.
 p = (x + 1) (x - 2)
 roots(p,x)
 </pre>
-<pre>
+<pre style="font-family:courier">
 ┌    ┐
 │ −1 │
 │    │
@@ -1260,10 +1260,10 @@ roots(p,x)
 </pre>
 <pre style="font-family:courier;color:blue">
 p = x^2 + 1
-roots(p,x) == nil
+infixform(roots(p,x)) -- use infixform because nil results are not printed
 </pre>
-<pre>
-1
+<pre style="font-family:courier">
+nil
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
