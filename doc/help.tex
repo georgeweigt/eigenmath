@@ -162,9 +162,9 @@ function to test for inequality.
 
 {\color{blue}
 \begin{verbatim}
-A = 1
-B = 1
-check(A=B) -- stop here if A not equal to B
+A = exp(i pi)
+B = -1
+check(A == B) -- stop here if A not equal to B
 \end{verbatim}
 }
 
@@ -327,7 +327,7 @@ as shown in the following example.
 {\color{blue}
 \begin{verbatim}
 f = (1 + cos(theta)^2) sin(theta)
-defint(f, theta, 0, pi, phi, 0, 2pi) -- integrate over theta then over phi
+defint(f, theta, 0, pi, phi, 0, 2 pi) -- integrate over theta then over phi
 \end{verbatim}
 }
 
@@ -394,10 +394,11 @@ $3$
 
 Returns the dot product of vectors, matrices, and tensors.
 Also known as the matrix product.
+Arguments are evaluated from right to left.
+The following example solves for $X$ in $AX=B$.
 
 {\color{blue}
 \begin{verbatim}
--- solve for X in AX=B
 A = ((1,2),(3,4))
 B = (5,6)
 X = dot(inv(A),B)
@@ -444,20 +445,17 @@ $
 \subsection*{eval($f,x,a$)}
 
 Returns expression $f$ evaluated at $x$ equals $a$.
-The argument list can be extended for multivariate expressions.
-For example,
-\verb$eval(f,x,a,y,b)$
-is equivalent to
-\verb$eval(eval(f,x,a),y,b)$.
+The argument list can be extended as shown.
 
 {\color{blue}
 \begin{verbatim}
-eval(x + y,x,a,y,b)
+f = sqrt(x^2 + y^2)
+eval(f,x,3,y,4) -- evaluate f at x=3 and y=4
 \end{verbatim}
 }
 
 \noindent
-$a+b$
+5
 
 \subsection*{exp($x$)}
 
@@ -671,7 +669,8 @@ Converts expression $x$ to a string and returns the result.
 
 {\color{blue}
 \begin{verbatim}
-infixform((x + 1)^2)
+p = (x + 1)^2
+infixform(p)
 \end{verbatim}
 }
 
@@ -800,8 +799,7 @@ $212$
 
 \bigskip
 \noindent
-Note:
-Symbol {\tt last} is an implied argument when a function has no argument list.
+Symbol \verb$last$ is an implied argument when a function has no argument list.
 
 {\color{blue}
 \begin{verbatim}
@@ -913,7 +911,6 @@ $0$
 
 Returns the approximate roots of polynomials with real or complex coefficients.
 Multiple roots are returned as a vector.
-See also \verb$roots$.
 
 {\color{blue}
 \begin{verbatim}
@@ -1069,12 +1066,13 @@ Returns the product of components of $y$.
 
 {\color{blue}
 \begin{verbatim}
-product((1,2,3,4))
+y = (1,2,3,4)
+product(y)
 \end{verbatim}
 }
 
 \noindent
-$24$
+24
 
 \subsection*{quote($x$)}
 
@@ -1166,8 +1164,6 @@ $\displaystyle \cos(x)+i\sin(x)$
 
 Returns the rational roots of a polynomial.
 Multiple roots are returned as a vector.
-If no roots are found then symbol \verb$nil$ is returned.
-See also \verb$nroots$.
 
 {\color{blue}
 \begin{verbatim}
@@ -1186,10 +1182,15 @@ $\displaystyle
 $
 
 \bigskip
+\noindent
+If no roots are found then \verb$nil$ is returned.
+A \verb$nil$ result is not printed so the following example uses
+\verb$infixform$ to print \verb$nil$ as a string.
+
 {\color{blue}
 \begin{verbatim}
 p = x^2 + 1
-infixform(roots(p,x)) -- use infixform because nil results are not printed
+infixform(roots(p,x))
 \end{verbatim}
 }
 
@@ -1216,12 +1217,15 @@ rotate(psi,H,0)
 \noindent
 $\displaystyle
 \begin{bmatrix}
-\frac{1}{2^{1/2}}
-\\[1ex]
-\frac{1}{2^{1/2}}
-\\[1ex]
+{\displaystyle \frac{1}{2^{1/2}}}
+\\
+\\
+{\displaystyle \frac{1}{2^{1/2}}}
+\\
+\\
 0
-\\[1ex]
+\\
+\\
 0
 \end{bmatrix}
 $

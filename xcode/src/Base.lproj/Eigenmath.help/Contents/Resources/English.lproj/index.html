@@ -282,9 +282,9 @@ Use the
 <span style="font-family:courier">not</span>
 function to test for inequality.
 <pre style="font-family:courier;color:blue">
-A = 1
-B = 1
-check(A=B) -- script stops here if A not equal to B
+A = exp(i pi)
+B = -1
+check(A == B) -- stop here if A not equal to B
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -432,14 +432,10 @@ can still be used to obtain a partial derivative.
 <p>
 Returns the definite integral of <i>f</i> with respect to <i>x</i>
 evaluated from <i>a</i> to <i>b</i>.
-The argument list can be extended for multiple integrals.
-For example,
-<span style="font-family:courier">defint(f,x,a,b,y,c,d)</span>
-is equivalent to
-<span style="font-family:courier">defint(defint(f,x,a,b),y,c,d)</span>.
+The argument list can be extended for multiple integrals as shown in the following example.
 <pre style="font-family:courier;color:blue">
 f = (1 + cos(theta)^2) sin(theta)
-defint(f, theta, 0, pi, phi, 0, 2pi)
+defint(f, theta, 0, pi, phi, 0, 2 pi) -- integrate over theta then over phi
 </pre>
 <pre style="font-family:courier">
  16   
@@ -501,8 +497,8 @@ do(A=1,B=2,A+B)
 Returns the dot product of vectors, matrices, and tensors.
 Also known as the matrix product.
 Arguments are evaluated from right to left.
+The following example solves for <i>X</i> in <i>AX</i> = <i>B</i>.
 <pre style="font-family:courier;color:blue">
--- solve for X in AX=B
 A = ((1,2),(3,4))
 B = (5,6)
 X = dot(inv(A),B)
@@ -559,16 +555,13 @@ dot(Q,D,transpose(Q))
 <a id="eval">eval(<i>f,x,a</i>)</a>
 <p>
 Returns expression <i>f</i> evaluated at <i>x</i> equals <i>a</i>.
-The argument list can be extended for multivariate expressions.
-For example,
-<span style="font-family:courier">eval(f,x,a,y,b)</span>
-is equivalent to
-<span style="font-family:courier">eval(eval(f,x,a),y,b)</span>.
+The argument list can be extended as shown.
 <pre style="font-family:courier;color:blue">
-eval(x + y,x,a,y,b)
+f = sqrt(x^2 + y^2)
+eval(f,x,3,y,4) -- evaluate f at x=3 and y=4
 </pre>
 <pre style="font-family:courier">
-a + b
+5
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
@@ -779,7 +772,8 @@ imag(2 - 3i)
 <p>
 Converts expression <i>x</i> to a string and returns the result.
 <pre style="font-family:courier;color:blue">
-infixform((x + 1)^2)
+p = (x + 1)^2
+infixform(p)
 </pre>
 <pre style="font-family:courier">
 x^2 + 2 x + 1
@@ -1156,7 +1150,8 @@ product(<i>y</i>)
 <p>
 Returns the product of components of <i>y</i>.
 <pre style="font-family:courier;color:blue">
-product((1,2,3,4))
+y = (1,2,3,4)
+product(y)
 </pre>
 <pre style="font-family:courier">
 24
@@ -1243,9 +1238,6 @@ cos(x) + i sin(x)
 <p>
 Returns the rational roots of a polynomial.
 Multiple roots are returned as a vector.
-If no roots are found then symbol
-<span style="font-family:courier">nil</span>
-is returned.
 See also <a href="#nroots">nroots</a>.
 <pre style="font-family:courier;color:blue">
 p = (x + 1) (x - 2)
@@ -1258,9 +1250,21 @@ roots(p,x)
 │ 2  │
 └    ┘
 </pre>
+
+<p>
+If no roots are found then
+<span style="font-family:courier">nil</span>
+is returned.
+A
+<span style="font-family:courier">nil</span>
+result is not printed so the following example uses
+<span style="font-family:courier">infixform</span>
+to print
+<span style="font-family:courier">nil</span>
+as a string.
 <pre style="font-family:courier;color:blue">
 p = x^2 + 1
-infixform(roots(p,x)) -- use infixform because nil results are not printed
+infixform(roots(p,x))
 </pre>
 <pre style="font-family:courier">
 nil
