@@ -296,21 +296,24 @@ d(F,X)
 }
 
 \noindent
-$\displaystyle \begin{bmatrix}
-\operatorname{d}(f(),x) & \operatorname{d}(f(),y) &  \operatorname{d}(f(),z)\\
-\operatorname{d}(g(),x) & \operatorname{d}(g(),y) &  \operatorname{d}(g(),z)\\
+$\displaystyle
+\begin{bmatrix}
+\operatorname{d}(f(),x) & \operatorname{d}(f(),y) &  \operatorname{d}(f(),z)
+\\[1ex]
+\operatorname{d}(g(),x) & \operatorname{d}(g(),y) &  \operatorname{d}(g(),z)
+\\[1ex]
 \operatorname{d}(h(),x) & \operatorname{d}(h(),y) &  \operatorname{d}(h(),z)
 \end{bmatrix}
 $
 
 \bigskip
 \noindent
-It is OK to use {\tt d} as a variable name.
+It is ok to use {\tt d} as a variable name.
 It will not conflict with function {\tt d}.
 
 \bigskip
 \noindent
-It is OK to redefine {\tt d} as a different function.
+It is ok to redefine {\tt d} as a different function.
 The function {\tt derivative}, a synonym for {\tt d},
 can still be used to obtain a partial derivative.
 
@@ -403,21 +406,40 @@ X
 }
 
 \noindent
-$\displaystyle \begin{bmatrix}-4\\ \tfrac{9}{2}\end{bmatrix}$
+$\displaystyle
+\begin{bmatrix}
+-4
+\\[1ex]
+\tfrac{9}{2}
+\end{bmatrix}
+$
 
-\subsection*{draw($f,x$)}
+\subsection*{eigenvec($m$)}
 
-(Only for macOS)
-Draws a graph of $f(x)$.
-Drawing ranges can be set with {\tt xrange} and {\tt yrange}.
+Returns eigenvectors for matrix $m$.
+Matrix $m$ is required to be numerical, real, and symmetric.
+The return value is a matrix with each column an eigenvector.
+Eigenvalues are obtained as shown.
 
 {\color{blue}
 \begin{verbatim}
-xrange = (0,1)
-yrange = (0,1)
-draw(x^2,x)
+A = ((1,2,3),(2,6,4),(3,4,5))
+Q = eigenvec(A)
+D = dot(transpose(Q),A,Q) -- eigenvalues are on the diagonal of D
+dot(Q,D,transpose(Q))
 \end{verbatim}
 }
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1 & 2 & 3
+\\[1ex]
+2 & 6 & 4
+\\[1ex]
+3 & 4 & 5
+\end{bmatrix}
+$
 
 \subsection*{eval($f,x,a$)}
 
@@ -603,13 +625,15 @@ hadamard(X,X)
 }
 
 \noindent
-$\begin{bmatrix}
+$\displaystyle
+\begin{bmatrix}
 a^2
-\\
+\\[1ex]
 b^2
-\\
+\\[1ex]
 c^2
-\end{bmatrix}$
+\end{bmatrix}
+$
 
 \subsection*{i}
 
@@ -626,7 +650,7 @@ $-1$
 
 \bigskip
 \noindent
-Note: It is OK to clear or redefine {\tt i} and use the symbol for something else.
+Note: It is ok to clear or redefine {\tt i} and use the symbol for something else.
 
 \subsection*{imag($z$)}
 
@@ -640,6 +664,19 @@ imag(2 - 3i)
 
 \noindent
 $-3$
+
+\subsection*{infixform($x$)}
+
+Converts expression $x$ to a string and returns the result.
+
+{\color{blue}
+\begin{verbatim}
+infixform((x + 1)^2)
+\end{verbatim}
+}
+
+\noindent
+\verb$x^2 + 2 x + 1$
 
 \subsection*{inner($a,b,\ldots$)}
 
@@ -657,7 +694,8 @@ inner(A,B)
 \noindent
 $\displaystyle
 \begin{bmatrix}
-ax+by\\
+ax+by
+\\[1ex]
 cx+dy
 \end{bmatrix}
 $
@@ -693,7 +731,8 @@ inv(A)
 \noindent
 $\displaystyle
 \begin{bmatrix}
--2 & 1\\
+-2 & 1
+\\[1ex]
 \tfrac{3}{2} & -\tfrac{1}{2}
 \end{bmatrix}
 $
@@ -725,15 +764,17 @@ kronecker(A,B)
 }
 
 \noindent
-$\begin{bmatrix}
+$\displaystyle
+\begin{bmatrix}
 a & b & 2a & 2b
-\\
+\\[1ex]
 c & d & 2c & 2d
-\\
+\\[1ex]
 3a & 3b & 4a & 4b
-\\
+\\[1ex]
 3c & 3d & 3c & 4d
-\end{bmatrix}$
+\end{bmatrix}
+$
 
 \subsection*{last}
 
@@ -755,7 +796,7 @@ last
 }
 
 \noindent
-$last=3529471145760275132301897342055866171392$
+$\text{last}=3529471145760275132301897342055866171392$
 
 \bigskip
 \noindent
@@ -763,7 +804,7 @@ Symbol {\tt last} is an implied argument when a function has no argument list.
 
 {\color{blue}
 \begin{verbatim}
-float
+float -- float last result
 \end{verbatim}
 }
 
@@ -823,11 +864,11 @@ minormatrix(A,1,1)
 }
 
 \noindent
-$
+$\displaystyle
 \begin{bmatrix}
-5&6
-\\
-8&9
+5 & 6
+\\[1ex]
+8 & 9
 \end{bmatrix}
 $
 
@@ -857,6 +898,34 @@ not(1=1)
 
 \noindent
 $0$
+
+\subsection*{nroots($p,x$)}
+
+Returns the approximate roots of polynomials with real or complex coefficients.
+Multiple roots are returned as a vector.
+See also \verb$roots$.
+
+{\color{blue}
+\begin{verbatim}
+p = x^5 - 1
+nroots(p,x)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1
+\\[1ex]
+-0.809017 + 0.587785\,i
+\\[1ex]
+-0.809017 - 0.587785\,i
+\\[1ex]
+0.309017 + 0.951057\,i
+\\[1ex]
+0.309017 - 0.951057\,i
+\end{bmatrix}
+$
 
 \subsection*{numerator($x$)}
 
@@ -900,8 +969,10 @@ outer(A,B)
 \noindent
 $\displaystyle
 \begin{bmatrix}
-a x & a y & a z\\
-b x & b y & b z\\
+a x & a y & a z
+\\[1ex]
+b x & b y & b z
+\\[1ex]
 c x & c y & c z
 \end{bmatrix}
 $
@@ -1081,6 +1152,39 @@ rect(exp(i x))
 \noindent
 $\displaystyle \cos(x)+i\sin(x)$
 
+\subsection*{roots($p,x$)}
+
+Returns the rational roots of a polynomial.
+Multiple roots are returned as a vector.
+If no roots are found then symbol \verb$nil$ is returned.
+See also \verb$nroots$.
+
+{\color{blue}
+\begin{verbatim}
+p = (x + 1) (x - 2)
+roots(p,x)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+-1
+\\[1ex]
+2
+\end{bmatrix}
+$
+
+{\color{blue}
+\begin{verbatim}
+p = x^2 + 1
+infixform(roots(p,x)) -- use infixform because nil results are not printed
+\end{verbatim}
+}
+
+\noindent
+nil
+
 \subsection*{rotate($u,s,k,\ldots$)}
 Rotates vector $u$ and returns the result.
 Vector $u$ is required to have $2^n$ elements where
@@ -1099,15 +1203,17 @@ rotate(psi,H,0)
 }
 
 \noindent
-$\displaystyle\begin{bmatrix}
+$\displaystyle
+\begin{bmatrix}
 \frac{1}{2^{1/2}}
-\\
+\\[1ex]
 \frac{1}{2^{1/2}}
-\\
+\\[1ex]
 0
-\\
+\\[1ex]
 0
-\end{bmatrix}$
+\end{bmatrix}
+$
 
 \subsection*{run({\it file})}
 
@@ -1302,7 +1408,8 @@ transpose(A)
 \noindent
 $\displaystyle
 \begin{bmatrix}
-a & c\\
+a & c
+\\[1ex]
 b & d
 \end{bmatrix}
 $
@@ -1332,8 +1439,10 @@ unit(3)
 \noindent
 $\displaystyle
 \begin{bmatrix}
-1 & 0 & 0\\
-0 & 1 & 0\\
+1 & 0 & 0
+\\[1ex]
+0 & 1 & 0
+\\[1ex]
 0 & 0 & 1
 \end{bmatrix}
 $
@@ -1355,8 +1464,10 @@ A
 $\displaystyle
 A=
 \begin{bmatrix}
-1 & 0 & 0\\
-0 & 2 & 0\\
+1 & 0 & 0
+\\[1ex]
+0 & 2 & 0
+\\[1ex]
 0 & 0 & 3
 \end{bmatrix}
 $
