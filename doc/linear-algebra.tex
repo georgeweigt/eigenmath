@@ -3,8 +3,9 @@
 The $dot$ function is used to multiply tensors.
 For example, let
 \begin{equation*}
-A=\begin{pmatrix}1&2\\3&4\end{pmatrix}
-\quad{\rm and}\quad x=\begin{pmatrix}x_1\\x_2\end{pmatrix}
+A=\begin{pmatrix}1&2\\3&4\end{pmatrix},
+\quad
+x=\begin{pmatrix}x_1\\x_2\end{pmatrix}
 \end{equation*}
 
 \noindent
@@ -19,10 +20,13 @@ dot(A,x)
 }
 
 \noindent
-$\begin{bmatrix}
-x_1+2x_2\\
+$\displaystyle
+\begin{bmatrix}
+x_1+2x_2
+\\[1ex]
 3x_1+4x_2
-\end{bmatrix}$
+\end{bmatrix}
+$
 
 \bigskip
 \noindent
@@ -39,7 +43,15 @@ X
 }
 
 \noindent
-$X=\begin{bmatrix}-\tfrac{5}{17}\\ \\ \tfrac{41}{17}\end{bmatrix}$
+$\displaystyle
+X=
+\begin{bmatrix}
+-\tfrac{5}{17}
+\\
+\\
+\tfrac{41}{17}
+\end{bmatrix}
+$
 
 \bigskip
 \noindent
@@ -60,7 +72,13 @@ A
 }
 
 \noindent
-$\begin{bmatrix}a&-a\\c&d\end{bmatrix}$
+$\displaystyle
+\begin{bmatrix}
+a & -a
+\\[1ex]
+c & d
+\end{bmatrix}
+$
 
 \bigskip
 \noindent
@@ -75,7 +93,14 @@ inv(A)
 }
 
 \noindent
-$\begin{bmatrix}\frac{d}{ad-bc} & -\frac{b}{ad-bc}\\-\frac{c}{ad-bc} & \frac{a}{ad-bc}\end{bmatrix}$
+$\displaystyle
+\begin{bmatrix}
+{\displaystyle \frac{d}{ad-bc}} & {\displaystyle -\frac{b}{ad-bc}}
+\\
+\\
+{\displaystyle -\frac{c}{ad-bc}} & {\displaystyle \frac{a}{ad-bc}}
+\end{bmatrix}
+$
 
 {\color{blue}
 \begin{verbatim}
@@ -84,7 +109,13 @@ adj(A)
 }
 
 \noindent
-$\begin{bmatrix}d & -b\\-c & a\end{bmatrix}$
+$\displaystyle
+\begin{bmatrix}
+d & -b
+\\[1ex]
+-c & a
+\end{bmatrix}
+$
 
 {\color{blue}
 \begin{verbatim}
@@ -102,7 +133,13 @@ inv(A) - adj(A)/det(A)
 }
 
 \noindent
-$\begin{bmatrix}0 & 0\\0 & 0\end{bmatrix}$
+$\displaystyle
+\begin{bmatrix}
+0 & 0
+\\[1ex]
+0 & 0
+\end{bmatrix}
+$
 
 \bigskip
 \noindent
