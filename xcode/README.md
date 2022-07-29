@@ -12,7 +12,7 @@ Xcode starts building Eigenmath, which takes some time.
 4. Eventually the Organizer window opens.
 Click Distribute Content.
 
-5. Choose Built Products then click Next.
+5. Choose Built Products (the default) then click Next.
 
 6. Click Export and save somewhere such as Desktop.
 
