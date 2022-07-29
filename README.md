@@ -34,7 +34,7 @@ To build and install for macOS
 
 1. Install Xcode from the Mac App Store.
 
-2. Launch Xcode and open the project `Eigenmath.xcodeproj` in the `xcode` directory.
+2. Launch Xcode and open the project `eigenmath-master/xcode/Eigenmath.xcodeproj`
 
 3. From the Xcode Product menu, select Archive.
 Xcode starts building Eigenmath, which takes some time.
