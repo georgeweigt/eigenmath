@@ -28,8 +28,7 @@ To run test scripts
 If something goes wrong, "Stop" is printed.
 Otherwise, all is well.
 
-#
-#
+# macOS
 
 To build and install for macOS
 
@@ -53,8 +52,7 @@ Click Distribute Content.
 
 9. Drag Eigenmath to the macOS Applications folder.
 
-#
-#
+# Javascript
 
 eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
 
