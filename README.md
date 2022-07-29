@@ -31,6 +31,7 @@ Otherwise, all is well.
 #
 
 To build for macOS, go to the `xcode` directory.
+Or, download version 3.01 [here](https://georgeweigt.github.io/Eigenmath.zip).
 
 #
 
