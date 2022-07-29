@@ -56,7 +56,6 @@ yrange = (-1,1)
 draw(f,x)
 </textarea>
 
-<p>
 <button onclick="run()">Run</button>
 
 <p>
