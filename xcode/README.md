@@ -14,7 +14,7 @@ Click Distribute Content.
 
 5. Choose Built Products (the default) then click Next.
 
-6. Click Export and save somewhere such as Desktop.
+6. Click Export to save somewhere such as Desktop.
 
 7. In macOS Finder, go to the folder that Organizer exported.
 
