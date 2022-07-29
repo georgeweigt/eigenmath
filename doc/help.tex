@@ -907,32 +907,32 @@ not(1=1)
 \noindent
 $0$
 
-%\subsection*{nroots($p,x$)}
-%
-%Returns the approximate roots of polynomials with real or complex coefficients.
-%Multiple roots are returned as a vector.
-%
-%{\color{blue}
-%\begin{verbatim}
-%p = x^5 - 1
-%nroots(p,x)
-%\end{verbatim}
-%}
-%
-%\noindent
-%$\displaystyle
-%\begin{bmatrix}
-%1
-%\\[1ex]
-%-0.809017 + 0.587785\,i
-%\\[1ex]
-%-0.809017 - 0.587785\,i
-%\\[1ex]
-%0.309017 + 0.951057\,i
-%\\[1ex]
-%0.309017 - 0.951057\,i
-%\end{bmatrix}
-%$
+\subsection*{nroots($p,x$)}
+
+Returns the approximate roots of polynomials with real or complex coefficients.
+Multiple roots are returned as a vector.
+
+{\color{blue}
+\begin{verbatim}
+p = x^5 - 1
+nroots(p,x)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1
+\\[1ex]
+-0.809017 + 0.587785\,i
+\\[1ex]
+-0.809017 - 0.587785\,i
+\\[1ex]
+0.309017 + 0.951057\,i
+\\[1ex]
+0.309017 - 0.951057\,i
+\end{bmatrix}
+$
 
 \subsection*{numerator($x$)}
 
@@ -1160,42 +1160,42 @@ rect(exp(i x))
 \noindent
 $\displaystyle \cos(x)+i\sin(x)$
 
-%\subsection*{roots($p,x$)}
-%
-%Returns the rational roots of a polynomial.
-%Multiple roots are returned as a vector.
-%
-%{\color{blue}
-%\begin{verbatim}
-%p = (x + 1) (x - 2)
-%roots(p,x)
-%\end{verbatim}
-%}
-%
-%\noindent
-%$\displaystyle
-%\begin{bmatrix}
-%-1
-%\\[1ex]
-%2
-%\end{bmatrix}
-%$
-%
-%\bigskip
-%\noindent
-%If no roots are found then \verb$nil$ is returned.
-%A \verb$nil$ result is not printed so the following example uses
-%\verb$infixform$ to print \verb$nil$ as a string.
-%
-%{\color{blue}
-%\begin{verbatim}
-%p = x^2 + 1
-%infixform(roots(p,x))
-%\end{verbatim}
-%}
-%
-%\noindent
-%nil
+\subsection*{roots($p,x$)}
+
+Returns the rational roots of a polynomial.
+Multiple roots are returned as a vector.
+
+{\color{blue}
+\begin{verbatim}
+p = (x + 1) (x - 2)
+roots(p,x)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+-1
+\\[1ex]
+2
+\end{bmatrix}
+$
+
+\bigskip
+\noindent
+If no roots are found then \verb$nil$ is returned.
+A \verb$nil$ result is not printed so the following example uses
+\verb$infixform$ to print \verb$nil$ as a string.
+
+{\color{blue}
+\begin{verbatim}
+p = x^2 + 1
+infixform(roots(p,x))
+\end{verbatim}
+}
+
+\noindent
+nil
 
 \subsection*{rotate($u,s,k,\ldots$)}
 Rotates vector $u$ and returns the result.
@@ -1237,14 +1237,9 @@ Useful for importing function libraries.
 
 {\color{blue}
 \begin{verbatim}
-run("Downloads/EVA.txt")
+run("EVA2.txt")
 \end{verbatim}
 }
-
-\noindent
-Note: For macOS, {\it file} must be in the Downloads folder due to security requirements for apps distributed on the Mac App Store.
-
-\subsection*{simplify($x$)}
 
 Returns expression $x$ in a simpler form.
 
