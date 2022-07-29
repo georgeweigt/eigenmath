@@ -31,7 +31,6 @@ Otherwise, all is well.
 #
 
 To build for macOS, go to the `xcode` directory.
-Click [here](https://georgeweigt.github.io/Eigenmath.zip) to download a pre-built binary.
 
 #
 
