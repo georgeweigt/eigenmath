@@ -20,4 +20,4 @@ Click Distribute Content.
 
 8. Click through nested folders until the Eigenmath app is found.
 
-9. Drag Eigenmath to the Applications folder.
+9. Drag Eigenmath to the macOS Applications folder.
