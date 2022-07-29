@@ -28,6 +28,8 @@ To run test scripts
 If something goes wrong, "Stop" is printed.
 Otherwise, all is well.
 
+To build for macOS, go to the `xcode` directory.
+
 # eigenmath.js
 
 eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
