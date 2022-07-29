@@ -19,12 +19,6 @@
 
 -(IBAction)runButtonHandler:(id)sender;
 -(IBAction)stopButtonHandler:(id)sender;
--(IBAction)clearButtonHandler:(id)sender;
--(IBAction)drawButtonHandler:(id)sender;
--(IBAction)simplifyButtonHandler:(id)sender;
--(IBAction)floatButtonHandler:(id)sender;
--(IBAction)derivativeButtonHandler:(id)sender;
--(IBAction)integralButtonHandler:(id)sender;
 
 -(void)evalString:(NSString *)s;
 

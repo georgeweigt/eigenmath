@@ -180,52 +180,6 @@ char *instring;
 	interrupt = 1;
 }
 
-// to here on clear button
-
--(IBAction)clearButtonHandler:(id)sender
-{
-	if (running)
-		return;
-	zero = NULL; // force full init on next eval
-	clear_display();
-	[self updateDisplay];
-}
-
-// to here on draw button
-
--(IBAction)drawButtonHandler:(id)sender
-{
-	[self evalString:@"draw"];
-}
-
-// to here on simplify button
-
--(IBAction)simplifyButtonHandler:(id)sender
-{
-	[self evalString:@"simplify"];
-}
-
-// to here on float button
-
--(IBAction)floatButtonHandler:(id)sender
-{
-	[self evalString:@"float"];
-}
-
-// to here on derivative button
-
--(IBAction)derivativeButtonHandler:(id)sender
-{
-	[self evalString:@"derivative"];
-}
-
-// to here on integral button
-
--(IBAction)integralButtonHandler:(id)sender
-{
-	[self evalString:@"integral"];
-}
-
 // to here on history up
 
 -(IBAction)historyUpHandler:(id)sender
