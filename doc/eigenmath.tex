@@ -59,8 +59,8 @@ exp(i pi) == -1
 
 \bigskip
 \noindent
-Note: Equality tests involving floating point numbers
-can be problematic due to roundoff error.
+The equality operator \verb$==$ uses a cross multiply algorithm to eliminate denominators.
+Hence \verb$A==B$ can typically determine equality even when the unsimplified result of $A-B$ is nonzero.
 
 \input{arithmetic}
 
