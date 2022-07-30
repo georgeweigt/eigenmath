@@ -25,8 +25,6 @@ update:
 	cat preamble ../src/defs.h ../src/prototypes.h ../src/globals.c $(objs) > ../eigenmath.c
 
 xcode:
-	rm -rf ../xcode/Eigenmath.xcodeproj/project.xcworkspace
-	rm -rf ../xcode/Eigenmath.xcodeproj/xcuserdata
 	cp ../src/defs.h ../src/externs.h ../xcode/src/C
 	echo "#include \"app.h\"" > ../xcode/src/C/eigenmath.c
 	cat ../src/globals.c $(xobjs) >> ../xcode/src/C/eigenmath.c
