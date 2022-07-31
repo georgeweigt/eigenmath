@@ -1,6 +1,6 @@
 \subsection{Linear algebra}
 
-The $dot$ function is used to multiply tensors.
+The \verb$dot$ function is used to multiply vectors, matrices, and tensors.
 For example, let
 \begin{equation*}
 A=\begin{pmatrix}1&2\\3&4\end{pmatrix},
@@ -30,8 +30,8 @@ $
 
 \bigskip
 \noindent
-The following example shows how to use $dot$ and $inv$ to solve for
-the vector $X$ in $AX=B$.
+The following example shows how to use \verb$dot$ and \verb$inv$ to solve for
+vector $X$ in $AX=B$.
 
 {\color{blue}
 \begin{verbatim}
@@ -55,8 +55,8 @@ $
 
 \bigskip
 \noindent
-The $dot$ function can have more than two arguments.
-For example, $dot(A,B,C)$ can be used for the dot product of three tensors.
+The \verb$dot$ function can have more than two arguments.
+For example, \verb$dot(A,B,C)$ can be used for the dot product of three tensors.
 
 \bigskip
 \noindent
@@ -83,7 +83,7 @@ $
 \bigskip
 \noindent
 The following example demonstrates the relation
-$A^{-1}=\frac{\operatorname{adj}A}{\operatorname{det}A}$.
+$A^{-1}=(\operatorname{det}A)^{-1}\operatorname{adj}A$.
 
 {\color{blue}
 \begin{verbatim}
@@ -144,7 +144,7 @@ $
 \bigskip
 \noindent
 Sometimes a calculation will be simpler if it can be reorganized to use
-$adj$ instead of $inv$.
+\verb$adj$ instead of \verb$inv$.
 The main idea is to try to prevent the determinant from appearing as a
 divisor.
 For example, suppose for matrices $A$ and $B$ you want to check that

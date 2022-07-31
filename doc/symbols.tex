@@ -1,6 +1,6 @@
 \subsection{Symbols}
 
-As we saw earlier, symbols are defined using an equals sign.
+Symbols are defined using an equals sign.
 
 \begin{Verbatim}[formatcom=\color{blue}]
 N = 212^17
@@ -56,8 +56,7 @@ $\displaystyle A_\mu=2.0$
 
 \bigskip
 \noindent
-The following example shows how
-Eigenmath scans the entire symbol to find Greek letters.
+The following example shows how a symbol is scanned to find Greek letters.
 
 \begin{Verbatim}[formatcom=\color{blue}]
 alphamunu = 1
@@ -86,7 +85,7 @@ $\displaystyle A=C$
 \noindent
 Although $A=C$ is printed,
 inside the program the binding of $A$ is still $B$, as can be seen with
-the $binding$ function.
+the \verb$binding$ function.
 
 \begin{Verbatim}[formatcom=\color{blue}]
 binding(A)
@@ -97,7 +96,7 @@ $\displaystyle B$
 
 \bigskip
 \noindent
-The {\it quote} function returns its argument unevaluated
+The \verb$quote$ function returns its argument unevaluated
 and can be used to clear a symbol.
 The following example clears $A$ so that its evaluation goes back to
 being $A$ instead of $C$.
@@ -132,7 +131,7 @@ $\displaystyle \frac{2}{\pi}$
 
 \bigskip
 \noindent
-After a user function is defined, {\it expr} can be recalled using the {\it binding} function.
+After a user function is defined, {\it expr} can be recalled using the \verb$binding$ function.
 
 \begin{Verbatim}[formatcom=\color{blue}]
 binding(f)
@@ -151,7 +150,7 @@ compute an associated Legendre function of $\cos\theta$.
 P_n^m(x)=\frac{1}{2^n\,n!}(1-x^2)^{m/2}\frac{d^{n+m}}{dx^{n+m}}(x^2-1)^n
 \end{equation*}
 Function $P$ below first computes $P_n^m(x)$ for local variable
-$x$ and then uses {\it eval} to replace $x$ with $f$.
+$x$ and then uses \verb$eval$ to replace $x$ with $f$.
 In this case, $f=\cos\theta$.
 
 \begin{Verbatim}[formatcom=\color{blue}]

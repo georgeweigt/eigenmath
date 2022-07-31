@@ -5,7 +5,7 @@
 \usepackage{xcolor}
 
 \title{Eigenmath Manual}
-\date{July 28, 2022}
+\date{July 31, 2022}
 \author{}
 
 \begin{document}
@@ -46,6 +46,8 @@ After a script runs, all of the results are available in command mode.
 
 \input{syntax}
 
+\newpage
+
 \subsection{Testing for equality}
 The infix operator \verb$==$ is used to test for equality of operands.
 The operator evaluates to 1 if the operands are equal and 0 if the operands are not equal.
@@ -59,8 +61,8 @@ exp(i pi) == -1
 
 \bigskip
 \noindent
-The equality operator \verb$==$ uses a cross multiply algorithm to eliminate denominators.
-Hence \verb$A==B$ can typically determine equality even when the unsimplified result of $A-B$ is nonzero.
+The \verb$==$ operator uses \verb$simplify$ internally.
+In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
 
 \input{arithmetic}
 
