@@ -88,58 +88,12 @@ $A^{-1}=(\operatorname{det}A)^{-1}\operatorname{adj}A$.
 {\color{blue}
 \begin{verbatim}
 A = ((a,b),(c,d))
-inv(A)
+inv(A) == adj(A) / det(A)
 \end{verbatim}
 }
 
 \noindent
-$\displaystyle
-\begin{bmatrix}
-{\displaystyle \frac{d}{ad-bc}} & {\displaystyle -\frac{b}{ad-bc}}
-\\
-\\
-{\displaystyle -\frac{c}{ad-bc}} & {\displaystyle \frac{a}{ad-bc}}
-\end{bmatrix}
-$
-
-{\color{blue}
-\begin{verbatim}
-adj(A)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle
-\begin{bmatrix}
-d & -b
-\\[1ex]
--c & a
-\end{bmatrix}
-$
-
-{\color{blue}
-\begin{verbatim}
-det(A)
-\end{verbatim}
-}
-
-\noindent
-$ad-bc$
-
-{\color{blue}
-\begin{verbatim}
-inv(A) - adj(A)/det(A)
-\end{verbatim}
-}
-
-\noindent
-$\displaystyle
-\begin{bmatrix}
-0 & 0
-\\[1ex]
-0 & 0
-\end{bmatrix}
-$
+1
 
 \bigskip
 \noindent
