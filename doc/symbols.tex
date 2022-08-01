@@ -2,17 +2,21 @@
 
 Symbols are defined using an equals sign.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 N = 212^17
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 No result is printed when a symbol is defined.
 To see the value of a symbol, just evaluate it.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 N
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle N=3529471145760275132301897342055866171392$
@@ -22,10 +26,12 @@ $\displaystyle N=3529471145760275132301897342055866171392$
 Symbols can have more that one letter.
 Everything after the first letter is displayed as a subscript.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 NA = 6.02214 10^23
 NA
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle N_A=6.02214\times10^{23}$
@@ -34,10 +40,12 @@ $\displaystyle N_A=6.02214\times10^{23}$
 \noindent
 A symbol can be the name of a Greek letter.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 xi = 1/2
 xi
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \xi=\tfrac{1}{2}$
@@ -46,10 +54,12 @@ $\displaystyle \xi=\tfrac{1}{2}$
 \noindent
 Greek letters can appear in subscripts.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 Amu = 2.0
 Amu
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle A_\mu=2.0$
@@ -58,10 +68,12 @@ $\displaystyle A_\mu=2.0$
 \noindent
 The following example shows how a symbol is scanned to find Greek letters.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 alphamunu = 1
 alphamunu
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \alpha_{\mu\nu}=1$
@@ -72,11 +84,13 @@ Symbol definitions are evaluated serially until a terminal symbol is reached.
 The following example sets $A=B$ followed by $B=C$.
 Then when $A$ is evaluated, the result is $C$.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 A = B
 B = C
 A
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle A=C$
@@ -87,9 +101,11 @@ Although $A=C$ is printed,
 inside the program the binding of $A$ is still $B$, as can be seen with
 the \verb$binding$ function.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 binding(A)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle B$
@@ -101,10 +117,12 @@ and can be used to clear a symbol.
 The following example clears $A$ so that its evaluation goes back to
 being $A$ instead of $C$.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 A = quote(A)
 A
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle A$
@@ -121,10 +139,12 @@ Instead, {\it expr} is evaluated when {\it function-name} is used in a subsequen
 \noindent
 The following example defines a sinc function and evaluates it at $\pi/2$.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 f(x) = sin(x)/x
 f(pi/2)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \frac{2}{\pi}$
@@ -133,9 +153,11 @@ $\displaystyle \frac{2}{\pi}$
 \noindent
 After a user function is defined, {\it expr} can be recalled using the \verb$binding$ function.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 binding(f)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \frac{\sin(x)}{x}$
@@ -149,14 +171,18 @@ compute an associated Legendre function of $\cos\theta$.
 \begin{equation*}
 P_n^m(x)=\frac{1}{2^n\,n!}(1-x^2)^{m/2}\frac{d^{n+m}}{dx^{n+m}}(x^2-1)^n
 \end{equation*}
+
+\noindent
 Function $P$ below first computes $P_n^m(x)$ for local variable
 $x$ and then uses \verb$eval$ to replace $x$ with $f$.
 In this case, $f=\cos\theta$.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 P(f,n,m,x) = eval(1/(2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m),x,f)
 P(cos(theta),2,0) -- arguments f, n, m, but not x
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{3}{2} \cos(\theta)^2-\tfrac{1}{2}$

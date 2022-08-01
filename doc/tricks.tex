@@ -54,10 +54,12 @@ Function $P$ below first computes $P_n^m(x)$ for local variable
 $x$ and then uses {\it eval} to replace $x$ with $f$.
 In this case, $f=\cos\theta$.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 P(f,n,m,x) = eval(1/(2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m),x,f)
 P(cos(theta),2,0) -- arguments f, n, m, but not x
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{3}{2} \cos(\theta)^2-\tfrac{1}{2}$
