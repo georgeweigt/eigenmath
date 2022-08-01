@@ -94,12 +94,11 @@ nroots(void)
 
 		mag = zabs(ar, ai);
 
-		if (mag != 0.0) {
-			if (fabs(ar / mag) < DELTA)
-				ar = 0.0;
-			if (fabs(ai / mag) < DELTA)
-				ai = 0.0;
-		}
+		if (fabs(ar) < DELTA * mag)
+			ar = 0.0;
+
+		if (fabs(ai) < DELTA * mag)
+			ai = 0.0;
 
 		// push root
 
