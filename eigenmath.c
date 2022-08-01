@@ -14837,7 +14837,7 @@ zabs(double r, double i)
 double
 urandom(void)
 {
-	return 4.0 * ((double) random() / (double) 0x7fffffff) - 2.0;
+	return 4.0 * ((double) rand() / (double) RAND_MAX) - 2.0;
 }
 void
 eval_numerator(struct atom *p1)
