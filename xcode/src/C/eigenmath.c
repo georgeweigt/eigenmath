@@ -11858,7 +11858,7 @@ nroots(void)
 {
 	int h, i, n;
 	struct atom *A, *P, *X, *RE, *IM;
-	double ar, ai, d, mag, xr, xi, yr, yi;
+	double ar, ai, d, xr, xi, yr, yi;
 	static double *cr, *ci;
 
 	X = pop();
@@ -11927,12 +11927,10 @@ nroots(void)
 
 		nfindroot(cr, ci, n, &ar, &ai);
 
-		mag = zabs(ar, ai);
-
-		if (fabs(ar) < DELTA * mag)
+		if (fabs(ar) < DELTA * fabs(ai))
 			ar = 0.0;
 
-		if (fabs(ai) < DELTA * mag)
+		if (fabs(ai) < DELTA * fabs(ar))
 			ai = 0.0;
 
 		// push root

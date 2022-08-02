@@ -6,7 +6,7 @@ nroots()
 {
 	var h, i, n;
 	var A, P, X, RE, IM;
-	var ar, ai, d, mag, xr, xi, yr, yi;
+	var ar, ai, d, xr, xi, yr, yi;
 	var cr = [], ci = [];
 	var tr = [], ti = [];
 
@@ -68,12 +68,10 @@ nroots()
 		ar = tr[0];
 		ai = ti[0];
 
-		mag = zabs(ar, ai);
-
-		if (Math.abs(ar) < DELTA * mag)
+		if (Math.abs(ar) < DELTA * Math.abs(ai))
 			ar = 0;
 
-		if (Math.abs(ai) < DELTA * mag)
+		if (Math.abs(ai) < DELTA * Math.abs(ar))
 			ai = 0;
 
 		// push root
