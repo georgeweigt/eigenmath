@@ -12,7 +12,7 @@ CC = gcc
 objects := $(shell ls *.c | sed "s/\.c/\.o/g")
 
 eigenmath : $(objects)
-	gcc -o eigenmath $(objects) -lc -lm
+	gcc -o eigenmath $(objects) -lm
 
 $(objects) : defs.h prototypes.h externs.h
 
