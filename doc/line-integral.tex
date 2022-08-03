@@ -11,19 +11,23 @@ A suitable $g(t)$ for the arc $x^2$ is
 $$g(t)=(t,t^2),\quad0\le t\le1$$
 Hence one Eigenmath solution for computing the arc length is
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 x = t
 y = t^2
 g = (x,y)
 defint(abs(d(g,t)),t,0,1)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{1}{2}\;5^{1/2}+\tfrac{1}{4}\log(5^{1/2}+2)$
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 float
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle 1.47894$
@@ -40,9 +44,11 @@ The result seems rather complicated given that we
 started with a simple parabola.
 Let us inspect $|g'(t)|$ to see why.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 g
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle
@@ -54,9 +60,11 @@ t^2
 \end{bmatrix}
 $
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 d(g,t)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle
@@ -67,9 +75,11 @@ $\displaystyle
 \end{bmatrix}
 $
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 abs(d(g,t))
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle (4t^2+1)^{1/2}$
@@ -79,11 +89,13 @@ $\displaystyle (4t^2+1)^{1/2}$
 The following script does a discrete computation of the arc length
 by dividing the curve into 100 pieces.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 g(t) = (t,t^2)
 h(k) = abs(g(k/100.0) - g((k-1)/100.0))
 sum(k,1,100,h(k))
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle 1.47894$
@@ -97,12 +109,14 @@ As expected, the discrete result matches the analytic result.
 Find the length of the curve $y=x^{3/2}$ from the origin to
 $x=\tfrac{4}{3}$.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 x = t
 y = x^(3/2)
 g = (x,y)
 defint(abs(d(g,x)),x,0,4/3)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{56}{27}$
@@ -112,10 +126,12 @@ $\displaystyle \tfrac{56}{27}$
 Because of the way $t$ is substituted for $x$,
 the following code yields the same result.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 g = (t,t^(3/2))
 defint(abs(d(g,t)),t,0,4/3)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{56}{27}$
@@ -179,12 +195,14 @@ $$ds=|g'(t)|\,dt
 $$
 Hence for $\int_Cx\,ds$ we have
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 x = t
 y = t
 g = (x,y)
 defint(x abs(d(g,t)),t,0,1)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \frac{1}{2^{1/2}}$
@@ -193,13 +211,15 @@ $\displaystyle \frac{1}{2^{1/2}}$
 \noindent
 For $\int_Cx\,dx$ we have
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 x = t
 y = t
 g = (x,y)
 F = (x,0)
 defint(dot(F,d(g,t)),t,0,1)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{1}{2}$
@@ -214,13 +234,15 @@ The following line integral problems are from
 Evaluate $\int y^2\,dx$ along the straight
 line from $(0,0)$ to $(2,2)$.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 x = 2t
 y = 2t
 g = (x,y)
 F = (y^2,0)
 defint(dot(F,d(g,t)),t,0,1)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{8}{3}$
@@ -231,14 +253,16 @@ Evaluate $\int z\,dx+x\,dy+y\,dz$
 along the path
 $x=2t+1$, $y=t^2$, $z=1+t^3$, $0\le t\le 1$.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 x = 2t+1
 y = t^2
 z = 1+t^3
 g = (x,y,z)
 F = (z,x,y)
 defint(dot(F,d(g,t)),t,0,1)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{163}{30}$

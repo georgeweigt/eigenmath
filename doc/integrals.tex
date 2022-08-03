@@ -1,26 +1,30 @@
 \subsection{Integral}
 
-$integral(f,x)$ returns the integral of $f$ with respect to $x$.
+$\text{\tt integral}(f,x)$ returns the integral of $f$ with respect to $x$.
 The $x$ can be omitted for expressions in $x$.
 The argument list can be extended for multiple integrals.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 integral(x^2)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{1}{3}x^3$
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 integral(x y,x,y)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{1}{4}x^2y^2$
 
 \bigskip
 \noindent
-$defint(f,x,a,b,\ldots)$
+$\text{\tt defint}(f,x,a,b,\ldots)$
 computes the definite integral of $f$ with respect to $x$ evaluated from
 $a$ to $b$.
 The argument list can be extended for multiple integrals.
@@ -28,9 +32,11 @@ The following example computes the integral of $f=x^2$
 over the domain of a semicircle.
 For each $x$ along the abscissa, $y$ ranges from 0 to $\sqrt{1-x^2}$.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 defint(x^2,y,0,sqrt(1 - x^2),x,-1,1)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{1}{8}\pi$
@@ -39,12 +45,14 @@ $\displaystyle \tfrac{1}{8}\pi$
 \noindent
 As an alternative, the $eval$ function can be used to compute a definite integral step by step.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 I = integral(x^2,y)
 I = eval(I,y,sqrt(1 - x^2)) - eval(I,y,0)
 I = integral(I,x)
 eval(I,x,1) - eval(I,x,-1)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle \tfrac{1}{8}\pi$

@@ -2,7 +2,7 @@
 \bigskip
 \noindent
 Here is a useful trick.
-Difficult integrals involving sine and cosine
+Integrals involving sine and cosine
 can often be solved by using exponentials.
 Trigonometric simplifications involving powers
 and multiple angles turn into simple algebra in the
@@ -11,11 +11,13 @@ For example, the definite integral
 $$\int_0^{2\pi}\left(\sin^4t-2\cos^3(t/2)\sin t\right)dt$$
 can be solved as follows.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 f = sin(t)^4 - 2 cos(t/2)^3 sin(t)
 f = circexp(f)
-defint(f,t,0,2pi)
-\end{Verbatim}
+defint(f,t,0,2 pi)
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle -\tfrac{16}{5}+\tfrac{3}{4}\pi$
@@ -24,10 +26,12 @@ $\displaystyle -\tfrac{16}{5}+\tfrac{3}{4}\pi$
 \noindent
 Here is a check of the result.
 
-\begin{Verbatim}[formatcom=\color{blue},samepage=true]
+{\color{blue}
+\begin{verbatim}
 g = integral(f,t)
 f - d(g,t)
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 $\displaystyle 0$

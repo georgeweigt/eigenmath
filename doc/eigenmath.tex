@@ -1,24 +1,30 @@
 \documentclass[12pt]{article}
-\usepackage[margin=2cm]{geometry}
-\usepackage{fancyvrb,amsmath,amssymb,graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb} % \mathbb
+\usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{xcolor}
 
-\title{Eigenmath Manual}
-\date{July 31, 2022}
-\author{}
+\parindent=0pt
 
 \begin{document}
 
-\maketitle
+\begin{center}
+{\LARGE Eigenmath Manual}
+
+\bigskip
+August 3, 2022
+\end{center}
 
 \tableofcontents
 
 \newpage
 
+\noindent
 Eigenmath is available for both macOS and Linux.
 
 \bigskip
+\noindent
 For macOS, commands are entered in the following field.
 
 \begin{center}
@@ -28,6 +34,7 @@ For macOS, commands are entered in the following field.
 \end{tikzpicture}
 \end{center}
 
+\noindent
 Multiple commands can be put together in a script.
 Scripts are run by clicking the Run button.
 
@@ -38,6 +45,7 @@ Scripts are run by clicking the Run button.
 \end{tikzpicture}
 \end{center}
 
+\noindent
 After a script runs, all of the results are available in command mode.
 
 \newpage
@@ -52,9 +60,11 @@ After a script runs, all of the results are available in command mode.
 The infix operator \verb$==$ is used to test for equality of operands.
 The operator evaluates to 1 if the operands are equal and 0 if the operands are not equal.
 
-\begin{Verbatim}[formatcom=\color{blue}]
+{\color{blue}
+\begin{verbatim}
 exp(i pi) == -1
-\end{Verbatim}
+\end{verbatim}
+}
 
 \noindent
 1

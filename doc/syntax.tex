@@ -6,40 +6,44 @@ Subexpressions surrounded by parentheses have highest precedence.
 
 \begin{center}
 \begin{tabular}{clll}
-{\it Math} & & {\it Eigenmath} & {\it Comment} \\
+{\it Math} & & {\it Eigenmath} & {\it Comment}
+\\[1ex]
+$a=b$ & & \verb$a == b$ & {\it test for equality}
+\\[1ex]
+$-a$ & & {\tt -a} & {\it negation}
+\\[1ex]
+$a+b$ & & {\tt a+b} & {\it addition}
+\\[1ex]
+$a-b$ & & {\tt a-b} & {\it subtraction}
+\\[1ex]
+$ab$ & & {\tt a b} & {\it multiplication, also} \verb$a*b$
+\\[1ex]
+$\displaystyle\frac{a}{b}$ & & {\tt a/b} & {\it division}
 \\
-$a=b$ & & \verb$a == b$ & {\it test for equality} \\
 \\
-$-a$ & & {\tt -a} & {\it negation} \\
+$\displaystyle\frac{a}{bc}$ & & {\tt a/b/c} & {\it division is left-associative}
 \\
-$a+b$ & & {\tt a+b} & {\it addition} \\
 \\
-$a-b$ & & {\tt a-b} & {\it subtraction} \\
+$a^2$ & & {\tt a{\char94}2} & {\it power}
+\\[1ex]
+$\sqrt{a}$ & & \verb$sqrt(a)$ & {\it square root, also} \verb$a^(1/2)$
+\\[1ex]
+$a\,(b+c)$ & & {\tt a (b+c)} & {\it space is required}
+\\[1ex]
+$f(a)$ & & {\tt f(a)} & {\it function}
 \\
-$ab$ & & {\tt a b} & {\it multiplication, alternatively,} \verb$a*b$ \\
 \\
-$\displaystyle\frac{a}{b}$ & & {\tt a/b} & {\it division}\\
+$\begin{pmatrix}a\\ b\\ c\end{pmatrix}$ & & {\tt (a,b,c)} & {\it vector}
 \\
-$\displaystyle\frac{a}{bc}$ & & {\tt a/b/c} & {\it division operator is left-associative} \\
 \\
-$a^2$ & & {\tt a{\char94}2} & {\it power}\\
-\\
-$\sqrt{a}$ & & \verb$sqrt(a)$ & {\it square root, alternatively,} \verb$a^(1/2)$ \\
-\\
-$a(b+c)$ & & {\tt a (b+c)} & {\it note the space in between, alternatively,} \verb$a*(b+c)$ \\
-\\
-$f(a)$ & & {\tt f(a)} & {\it function} \\
-\\
-$\begin{pmatrix}a\\ b\\ c\end{pmatrix}$ & & {\tt (a,b,c)} & {\it vector} \\
-\\
-$\begin{pmatrix}a&b\\ c&d\end{pmatrix}$ & & {\tt ((a,b),(c,d))} & {\it matrix} \\
-\\
-$F^1{}_2$ & & {\tt F[1,2]} & {\it tensor component access} \\
-\\
- & & \verb$"hello, world"$ & {\it string literal} \\
-\\
-$\pi$ & & {\tt pi} & \\
-\\
+$\begin{pmatrix}a&b\\ c&d\end{pmatrix}$ & & {\tt ((a,b),(c,d))} & {\it matrix}
+\\\\
+$F^1{}_2$ & & {\tt F[1,2]} & {\it tensor component access}
+\\[1ex]
+ & & \verb$"hello, world"$ & {\it string literal}
+\\[1ex]
+$\pi$ & & {\tt pi} &
+\\[1ex]
 $e$ && {\tt exp(1)} & {\it natural number}
 \end{tabular}
 \end{center}
