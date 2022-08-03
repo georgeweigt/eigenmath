@@ -458,6 +458,28 @@ eval(f,x,3,y,4) -- evaluate f at x=3 and y=4
 \noindent
 5
 
+\bigskip
+\noindent
+Consider Rodrigues's formula to compute associated Legendre functions.
+\begin{equation*}
+P_n^m(x)=\frac{1}{2^n\,n!}(1-x^2)^{m/2}\frac{d^{n+m}}{dx^{n+m}}\left[(x^2-1)^n\right]
+\end{equation*}
+
+\noindent
+In the following example, \verb$eval$ is used to compute an associated Legendre function of \verb$expcos(theta)$.
+
+{\color{blue}
+\begin{verbatim}
+P(x,n,m) = 1/(2^n n!) (1-x^2)^(m/2) d((x^2-1)^n,x,n+m)
+Pf(f,n,m) = eval(P(x,n,m),x,f)
+Pf(expcos(theta),2,0)
+\end{verbatim}
+}
+
+$\displaystyle
+\tfrac{3}{8}\exp(2i\theta)+\tfrac{3}{8}\exp(-2i\theta)+\tfrac{1}{4}
+$
+
 \subsection*{exp($x$)}
 
 Returns the exponential of $x$.
