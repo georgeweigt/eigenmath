@@ -1,13 +1,20 @@
 function
 dss(F, X)
 {
+	if (!isusersymbol(X))
+		stopf("derivative: symbol expected");
+
+	// d(x,x)?
+
 	if (equal(F, X)) {
-		push_integer(1); // d(x,x)
+		push_integer(1);
 		return;
 	}
 
+	// d(a,x)?
+
 	if (!iscons(F)) {
-		push_integer(0); // d(const,x)
+		push_integer(0);
 		return;
 	}
 

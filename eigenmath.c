@@ -5203,6 +5203,9 @@ derivative(void)
 void
 d_scalar_scalar(struct atom *F, struct atom *X)
 {
+	if (!isusersymbol(X))
+		stop("derivative: symbol expected");
+
 	// d(x,x)?
 
 	if (equal(F, X)) {
@@ -11060,6 +11063,9 @@ integral(void)
 
 	X = pop();
 	F = pop();
+
+	if (!isusersymbol(X))
+		stop("integral: symbol expected");
 
 	if (car(F) == symbol(ADD)) {
 		h = tos;

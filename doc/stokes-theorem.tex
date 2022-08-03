@@ -26,18 +26,17 @@ that is above the $xy$ plane.
 The perimeter of the paraboloid is the circle $x^2+y^2=2$.
 The following script computes both the line and surface integrals.
 It turns out that we need to use polar coordinates for the
-line integral so that {\it defint} can succeed.
+line integral so that \verb$defint$ can succeed.
 
 {\color{blue}
 \begin{verbatim}
 "Surface integral"
-z = 4 - x^2 - y^2
 F = (y,z,x)
 S = (x,y,z)
 f = dot(curl(F),cross(d(S,x),d(S,y)))
 x = r cos(theta)
 y = r sin(theta)
-defint(f r,r,0,2,theta,0,2pi)
+defint(f r,r,0,2,theta,0,2 pi)
 "Line integral"
 x = 2 cos(t)
 y = 2 sin(t)
@@ -47,7 +46,7 @@ Q = z
 R = x
 f = P d(x,t) + Q d(y,t) + R d(z,t)
 f = circexp(f)
-defint(f,t,0,2pi)
+defint(f,t,0,2 pi)
 \end{verbatim}
 }
 

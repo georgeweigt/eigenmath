@@ -404,92 +404,6 @@ check(P(expcos(theta),2,1) == legendre(expcos(theta),2,1))
 check(P(expcos(theta),2,2) == legendre(expcos(theta),2,2))
 check(P(expcos(theta),2,-1) == legendre(expcos(theta),2,-1))
 check(P(expcos(theta),2,-2) == legendre(expcos(theta),2,-2))
-"Mandl and Shaw problem 5.1"
-
-clear
-
-# Mandl and Shaw problem 5.1
-#
-#    g    Spacetime metric
-#    x    Coordinate system
-#    A    Vector potential
-#    F    Electromagnetic field
-
-g = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-x = (x0,x1,x2,x3)
-
-A =(A0(x0,x1,x2,x3),
-    A1(x0,x1,x2,x3),
-    A2(x0,x1,x2,x3),
-    A3(x0,x1,x2,x3))
-
-#                                    mu
-# Note: d(A,x) is equivalent to d   A
-#                                nu
-#
-# where mu is the 1st index of tensor T = d(A,x)
-
-T = dot(d(A,x),g) # g raises 2nd index (nu)
-
-#  mu nu    nu  mu    mu  nu
-# F      = d   A   - d   A
-
-F = T - transpose(T)
-
-#        1         mu nu   1      mu      nu
-# L  = - - F      F      - - d   A   d   A
-#  1     4  mu nu          2  mu      nu
-
-T = outer(dot(g,F,g),F)
-T = contract(T,1,3) # sum over mu
-T = contract(T)     # sum over nu
-
-L1 = -1/4 * T - 1/2 * contract(d(A,x))^2
-
-#        1            nu  mu
-# L  = - - (d   A  )(d   A  )
-#  2     2   nu  mu
-
-T = d(A,x)
-T1 = dot(g,T) # lower 1st index (mu)
-T2 = dot(T,g) # raise 2nd index (nu)
-T = outer(T1,T2)
-T = contract(T,1,3) # sum over mu
-T = contract(T)     # sum over nu
-
-L2 = -1/2 * T
-
-# Show that
-#         _                _
-#        |   d (L1 - L2)    |
-# d      | ---------------- | = 0
-#  alpha |            beta  |
-#        | d (d      A    ) |
-#        |_    alpha       _|
-#
-# for each beta.
-
-L = L1 - L2
-
--- beta = 0
-dA = d(A[1],x)
-T = d(d(L,dA),x)
-check(contract(T) == 0) # sum over alpha
-
--- beta = 1
-dA = d(A[2],x)
-T = d(d(L,dA),x)
-check(contract(T) == 0) # sum over alpha
-
--- beta = 2
-dA = d(A[3],x)
-T = d(d(L,dA),x)
-check(contract(T) == 0) # sum over alpha
-
--- beta = 3
-dA = d(A[4],x)
-T = d(d(L,dA),x)
-check(contract(T) == 0) # sum over alpha
 "Maxwell in tensor form"
 
 clear
@@ -1259,7 +1173,6 @@ M3 = ((0,-1,0),(1,0,0),(0,0,0))
 M = (M1,M2,M3)
 cross(u,v) = dot(u,M,v)
 -- Surface integral
-z = 4 - x^2 - y^2
 F = (y,z,x)
 S = (x,y,z)
 f = dot(curl(F),cross(d(S,x),d(S,y)))

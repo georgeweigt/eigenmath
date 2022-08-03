@@ -6,6 +6,9 @@ integral()
 	X = pop();
 	F = pop();
 
+	if (!isusersymbol(X))
+		stopf("integral: symbol expected");
+
 	if (car(F) == symbol(ADD)) {
 		h = stack.length;
 		p1 = cdr(F);

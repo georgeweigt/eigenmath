@@ -6,7 +6,6 @@ M3 = ((0,-1,0),(1,0,0),(0,0,0))
 M = (M1,M2,M3)
 cross(u,v) = dot(u,M,v)
 -- Surface integral
-z = 4 - x^2 - y^2
 F = (y,z,x)
 S = (x,y,z)
 f = dot(curl(F),cross(d(S,x),d(S,y)))

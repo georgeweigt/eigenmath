@@ -991,6 +991,9 @@ integral(void)
 	X = pop();
 	F = pop();
 
+	if (!isusersymbol(X))
+		stop("integral: symbol expected");
+
 	if (car(F) == symbol(ADD)) {
 		h = tos;
 		p1 = cdr(F);
