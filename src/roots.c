@@ -38,16 +38,21 @@ roots(void)
 		if (!isrational(stack[h + i]))
 			stop("roots: coeffs");
 
-	// divide p(x) by leading coeff
+	// eliminate denominators
 
-	for (i = 0; i < n - 1; i++) {
+	for (i = 0; i < n; i++) {
 		push(stack[h + i]);
-		push(stack[h + n - 1]);
-		divide();
-		stack[h + i] = pop();
+		denominator();
+		A = pop();
+		if (!isplusone(A)) {
+			for (j = 0; j < n; j++) {
+				push(stack[h + j]);
+				push(A);
+				multiply();
+				stack[h + j] = pop();
+			}
+		}
 	}
-
-	stack[h + n - 1] = one;
 
 	// find roots
 
@@ -63,8 +68,6 @@ roots(void)
 		// divide p(x) by X - A
 
 		reduce(h, n, A);
-
-		// note: leading coeff of p(x) is still 1
 
 		n--;
 	}
@@ -110,28 +113,26 @@ int
 findroot(int h, int n)
 {
 	int i, j, m, p, q, r;
-	struct atom *A, *C, *PA;
+	struct atom *A, *PA;
 
-	C = stack[h]; // constant term
+	// check constant term
 
-	if (iszero(C)) {
+	if (iszero(stack[h])) {
 		push_integer(0); // root is zero
 		return 1;
 	}
 
 	p = tos;
 
-	push(C);
-	numerator();
+	push(stack[h]);
 	m = pop_integer();
-	divisors(m); // push divisors of m
+	divisors(m); // divisors of constant term
 
 	q = tos;
 
-	push(C);
-	denominator();
+	push(stack[h + n - 1]);
 	m = pop_integer();
-	divisors(m); // push divisors of m
+	divisors(m); // divisors of leading coeff
 
 	r = tos;
 

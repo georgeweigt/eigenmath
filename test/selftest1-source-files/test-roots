@@ -29,3 +29,11 @@ check(roots((x + 1) x^3) == (-1,0))
 check(roots((x + 1) x (x - 1)) == (-1,0,1))
 check(roots((x + 1) x^2 (x - 1)) == (-1,0,1))
 check(roots((x + 1) x^3 (x - 1)) == (-1,0,1))
+
+p = 2 x^2 + 7 x + 6
+check(roots(p) == (-2,-3/2))
+
+p = (x + 2) (x + 3/2)
+check(roots(p) == (-2,-3/2))
+check(roots(p x) == (-2,-3/2,0))
+check(roots(p x^2) == (-2,-3/2,0))

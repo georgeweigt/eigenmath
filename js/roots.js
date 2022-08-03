@@ -21,16 +21,21 @@ roots()
 		if (!isrational(stack[i]))
 			stopf("roots: coeffs");
 
-	// divide p(x) by leading coeff
+	// eliminate denominators
 
-	for (i = 0; i < n - 1; i++) {
+	for (i = 0; i < n; i++) {
 		push(stack[h + i]);
-		push(stack[h + n - 1]);
-		divide();
-		stack[h + i] = pop();
+		denominator();
+		A = pop();
+		if (!isplusone(A)) {
+			for (j = 0; j < n; j++) {
+				push(stack[h + j]);
+				push(A);
+				multiply();
+				stack[h + j] = pop();
+			}
+		}
 	}
-
-	stack[h + n - 1] = one;
 
 	// find roots
 
@@ -46,8 +51,6 @@ roots()
 		// divide p(x) by X - A
 
 		reduce(h, n, A);
-
-		// note: leading coeff of p(x) is still 1
 
 		n--;
 	}
@@ -93,28 +96,26 @@ function
 findroot(h, n)
 {
 	var i, j, m, p, q, r;
-	var A, C, PA;
+	var A, PA;
 
-	C = stack[h]; // constant term
+	// check constant term
 
-	if (iszero(C)) {
+	if (iszero(stack[h])) {
 		push_integer(0); // root is zero
 		return 1;
 	}
 
 	p = stack.length;
 
-	push(C);
-	numerator();
+	push(stack[h]);
 	m = pop_integer();
-	divisors(m); // push divisors of m
+	divisors(m); // divisors of constant term
 
 	q = stack.length;
 
-	push(C);
-	denominator();
+	push(stack[h + n - 1]);
 	m = pop_integer();
-	divisors(m); // push divisors of m
+	divisors(m); // divisors of leading coeff
 
 	r = stack.length;
 
