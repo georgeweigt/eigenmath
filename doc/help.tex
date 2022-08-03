@@ -327,7 +327,8 @@ as shown in the following example.
 {\color{blue}
 \begin{verbatim}
 f = (1 + cos(theta)^2) sin(theta)
-defint(f, theta, 0, pi, phi, 0, 2 pi) -- integrate over theta then over phi
+-- integrate over theta then over phi
+defint(f, theta, 0, pi, phi, 0, 2 pi)
 \end{verbatim}
 }
 
@@ -426,7 +427,7 @@ Eigenvalues are obtained as shown.
 \begin{verbatim}
 A = ((1,2,3),(2,6,4),(3,4,5))
 Q = eigenvec(A)
-D = dot(transpose(Q),A,Q) -- eigenvalues are on the diagonal of D
+D = dot(transpose(Q),A,Q) -- eigenvalues on the diagonal of D
 dot(Q,D,transpose(Q))
 \end{verbatim}
 }
@@ -1452,7 +1453,7 @@ $
 \noindent
 Note:
 The argument list can be extended for multiple transpose operations.
-The arguments are evaluated from left to right.
+Arguments are evaluated from left to right.
 For example,
 \verb$transpose(A,1,2,2,3)$
 is equivalent to
