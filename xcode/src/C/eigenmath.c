@@ -14070,7 +14070,7 @@ void
 roots(void)
 {
 	int h, i, j, k, n;
-	struct atom *A, *P, *X;
+	struct atom *A, *C, *P, *X;
 
 	X = pop();
 	P = pop();
@@ -14092,16 +14092,17 @@ roots(void)
 	// eliminate denominators
 
 	for (i = 0; i < n; i++) {
-		push(stack[h + i]);
+		C = stack[h + i];
+		if (isinteger(C))
+			continue;
+		push(C);
 		denominator();
-		A = pop();
-		if (!isplusone(A)) {
-			for (j = 0; j < n; j++) {
-				push(stack[h + j]);
-				push(A);
-				multiply();
-				stack[h + j] = pop();
-			}
+		C = pop();
+		for (j = 0; j < n; j++) {
+			push(stack[h + j]);
+			push(C);
+			multiply();
+			stack[h + j] = pop();
 		}
 	}
 
