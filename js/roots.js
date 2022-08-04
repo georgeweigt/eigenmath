@@ -2,7 +2,7 @@ function
 roots()
 {
 	var h, i, j, k, n;
-	var A, C, P, X;
+	var A, P, X;
 
 	X = pop();
 	P = pop();
@@ -20,23 +20,6 @@ roots()
 	for (i = h; i < k; i++)
 		if (!isrational(stack[i]))
 			stopf("roots: coeffs");
-
-	// eliminate denominators
-
-	for (i = 0; i < n; i++) {
-		C = stack[h + i];
-		if (isinteger(C))
-			continue;
-		push(C);
-		denominator();
-		C = pop();
-		for (j = 0; j < n; j++) {
-			push(stack[h + j]);
-			push(C);
-			multiply();
-			stack[h + j] = pop();
-		}
-	}
 
 	// find roots
 
@@ -97,13 +80,30 @@ function
 findroot(h, n)
 {
 	var i, j, m, p, q, r;
-	var A, PA;
+	var A, C, PA;
 
 	// check constant term
 
 	if (iszero(stack[h])) {
 		push_integer(0); // root is zero
 		return 1;
+	}
+
+	// eliminate denominators
+
+	for (i = 0; i < n; i++) {
+		C = stack[h + i];
+		if (isinteger(C))
+			continue;
+		push(C);
+		denominator();
+		C = pop();
+		for (j = 0; j < n; j++) {
+			push(stack[h + j]);
+			push(C);
+			multiply();
+			stack[h + j] = pop();
+		}
 	}
 
 	p = stack.length;
