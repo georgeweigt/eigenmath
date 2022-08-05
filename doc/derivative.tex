@@ -2,7 +2,7 @@
 
 \subsection{Derivative}
 
-$d(f,x)$ returns the derivative of $f$ with respect to $x$.
+$\text{\tt d}(f,x)$ returns the derivative of $f$ with respect to $x$.
 The $x$ can be omitted for expressions in $x$.
 
 {\color{blue}
@@ -31,7 +31,7 @@ $\displaystyle{\frac{\partial^{m+n+\cdot\cdot\cdot} f}{\partial x^m\,\partial y^
 
 \subsection{Gradient}
 
-The gradient of $f$ is obtained by using a vector for $x$ in $d(f,x)$.
+The gradient of $f$ is obtained by using a vector for $x$ in $\text{\tt d}(f,x)$.
 
 {\color{blue}
 \begin{verbatim}
@@ -52,7 +52,7 @@ $
 
 \bigskip
 \noindent
-The $f$ in $d(f,x)$ can be a vector or higher order function.
+The $f$ in $\text{\tt d}(f,x)$ can be a vector or higher order function.
 Gradient raises the rank by one.
 
 {\color{blue}
@@ -74,15 +74,15 @@ $
 
 \subsection{Template functions}
 
-The function $f$ in $d(f)$ does not have to be defined.
-It can be a template function with just a name and an argument list.
-Eigenmath checks the argument list to figure out what to do.
-For example, $d(f(x),x)$ evaluates to itself because $f$ depends on $x$.
-However, $d(f(x),y)$ evaluates to zero because $f$ does not depend on $y$.
+Function $f$ in $\text{\tt d}(f,x)$ does not have to be defined.
+Function \verb$f$ can be a template function with just a name and an argument list.
+The argument list determines the result of \verb$d$.
+For example, \verb$d(f(x),x)$ evaluates to itself because $f$ depends on $x$.
+However, \verb$d(f(x),y)$ evaluates to zero because $f$ does not depend on $y$.
 
 {\color{blue}
 \begin{verbatim}
-d(f(x),x)
+d(f(x),x) -- f(x) depends on x
 \end{verbatim}
 }
 
@@ -91,7 +91,7 @@ $\operatorname{d}(f(x),x)$
 
 {\color{blue}
 \begin{verbatim}
-d(f(x),y)
+d(f(x),y) -- f(x) does not depend on y
 \end{verbatim}
 }
 
@@ -100,7 +100,7 @@ $0$
 
 {\color{blue}
 \begin{verbatim}
-d(f(x,y),y)
+d(f(x,y),y) -- f(x,y) depends on both x and y
 \end{verbatim}
 }
 
@@ -109,7 +109,7 @@ $\operatorname{d}(f(x,y),y)$
 
 {\color{blue}
 \begin{verbatim}
-d(f(),t)
+d(f(),t) -- f() depends on all symbols
 \end{verbatim}
 }
 
@@ -119,7 +119,7 @@ $\operatorname{d}(f(),t)$
 \bigskip
 \noindent
 As the final example shows, an empty argument list causes
-$d(f)$ to always evaluate to itself, regardless
+\verb$d$ to evaluate to itself, regardless
 of the second argument.
 
 \bigskip
