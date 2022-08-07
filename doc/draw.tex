@@ -1,5 +1,5 @@
-$draw(f,x)$ draws a graph of function $f$ of $x$.
-(The default second argument is $x$.)
+$\text{\tt draw}(f,x)$ draws a graph of function $f$ of $x$.
+The default second argument is symbol \verb$x$.
 
 {\color{blue}
 \begin{verbatim}
@@ -8,11 +8,11 @@ draw(x^2)
 }
 
 \begin{center}
-\includegraphics[scale=0.5]{parabola1.png}
+\includegraphics[scale=0.4]{parabola1.png}
 \end{center}
 
 \noindent
-The vectors $xrange$ and $yrange$ control the scale of the graph.
+The vectors \verb$xrange$ and \verb$yrange$ control the scale of the graph.
 
 {\color{blue}
 \begin{verbatim}
@@ -23,14 +23,14 @@ draw(x^2)
 }
 
 \begin{center}
-\includegraphics[scale=0.5]{parabola2.png}
+\includegraphics[scale=0.4]{parabola2.png}
 \end{center}
 
 \noindent
 Parametric drawing occurs when a function returns a vector.
-The vector $trange$ controls the parametric range.
-The default is $trange=(-\pi,\pi)$.
-In the following example, $draw$ varies $theta$
+The vector \verb$trange$ controls the parametric range.
+The default is \verb$trange=(-pi,pi)$.
+In the following example, \verb$draw$ varies \verb$theta$
 over the default range $-\pi$ to $+\pi$.
 
 {\color{blue}
@@ -43,11 +43,11 @@ draw(f,theta)
 }
 
 \begin{center}
-\includegraphics[scale=0.5]{circle1.png}
+\includegraphics[scale=0.4]{circle1.png}
 \end{center}
 
 \noindent
-In the following example, $trange$ is reduced
+In the following example, \verb$trange$ is reduced
 to draw a quarter circle instead of a full circle.
 
 {\color{blue}
@@ -59,11 +59,13 @@ draw(f,theta)
 }
 
 \begin{center}
-\includegraphics[scale=0.5]{circle2.png}
+\includegraphics[scale=0.4]{circle2.png}
 \end{center}
 
+\newpage
+
 \noindent
-Lemniscate.
+Draw a lemniscate.
 
 {\color{blue}
 \begin{verbatim}
@@ -76,11 +78,11 @@ draw(f,t)
 }
 
 \begin{center}
-\includegraphics[scale=0.5]{lemniscate.png}
+\includegraphics[scale=0.4]{lemniscate.png}
 \end{center}
 
 \noindent
-Cardioid.
+Draw a cardioid.
 
 {\color{blue}
 \begin{verbatim}
@@ -95,5 +97,5 @@ draw(f,t)
 }
 
 \begin{center}
-\includegraphics[scale=0.5]{cardioid.png}
+\includegraphics[scale=0.4]{cardioid.png}
 \end{center}

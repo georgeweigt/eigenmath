@@ -34,7 +34,9 @@ Let $\psi_f$ be the final state of the quantum computer
 after all the rotations have been applied.
 Like any other state, $\psi_f$ is a linear combination of eigenstates.
 \begin{equation*}
-\psi_f=\sum_{j=0}^{2^n-1}c_j|j\rangle,\quad|\psi_f|=1
+\psi_f=\sum_{j=0}^{2^n-1}c_j|j\rangle,
+\quad c_j\in\mathbb C,
+\quad|\psi_f|=1
 \end{equation*}
 
 \noindent
@@ -48,7 +50,7 @@ P_j=|c_j|^2=c_jc_j^*
 
 \noindent
 Note that if $\psi_f$ is already an eigenstate then no rotation occurs.
-(The probability of rotating to a different eigenstate is zero.)
+(The probability of observing a different eigenstate is zero.)
 Since the measurement result is always an eigenstate,
 the coefficients $c_j$ cannot be observed.
 However, the same calculation can be run multiple times
