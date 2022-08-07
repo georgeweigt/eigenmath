@@ -227,8 +227,8 @@
             </items>
             <point key="canvasLocation" x="37" y="120"/>
         </menu>
-        <window title="Eigenmath" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="371">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
+        <window title="Eigenmath" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="0.0" y="177" width="1402" height="624"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="372">
@@ -240,7 +240,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="dof-EP-aEj">
                             <rect key="frame" x="0.0" y="0.0" width="700" height="600"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsUndo="YES" spellingCorrection="YES" id="1308">
                                     <rect key="frame" x="0.0" y="0.0" width="700" height="600"/>
@@ -267,7 +267,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" copiesOnScroll="NO" id="DI6-41-VNL">
                             <rect key="frame" x="0.0" y="0.0" width="700" height="600"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="553" customClass="EigenmathView">
                                     <rect key="frame" x="0.0" y="0.0" width="700" height="600"/>
