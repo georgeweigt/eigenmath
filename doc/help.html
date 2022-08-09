@@ -1343,14 +1343,16 @@ rotate(psi,H,0)
 </pre>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
-<a id="run">run(<i>file</i>)</a>
+<a id="run">run(<i>filename</i>)</a>
 <p>
-Run script <i>file</i>.
+Run script <i>filename</i> where <i>filename</i> is a string.
 Useful for importing function libraries.
-For macOS, the full path must be specified.
 <pre style="font-family:courier;color:blue">
-run("/Users/myself/EVA2.txt")
+run("EVA2.txt")
 </pre>
+<p>
+For macOS, run files must be put in the directory
+<span style="font-family:courier">Library/Containers/com.gweigt.eigenmath/Data</span>
 
 <p style="font-family:courier;font-size:24pt;font-weight:bold">
 <a id="simplify">simplify(<i>x</i>)</a>
