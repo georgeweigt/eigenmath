@@ -1,7 +1,4 @@
-.PHONY: default update clean
-
-default:
-	make eigenmath.pdf
+.PHONY: update clean
 
 # pdflatex twice for table of contents
 
