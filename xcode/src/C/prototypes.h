@@ -1,4 +1,3 @@
-// Run 'make' in 'eigenmath/tools' directory to update this file
 void eval_exit(struct atom *p1);
 void echo_input(char *s);
 int check_display(void);

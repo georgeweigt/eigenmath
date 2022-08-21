@@ -14,7 +14,6 @@ main(int argc, char *argv[])
 {
 	int i, n;
 	struct dirent **p;
-	printf("// Run 'make' in 'eigenmath/tools' directory to update this file\n");
 	n = scandir(argv[1], &p, filter, alphasort);
 	for (i = 0; i < n; i++) {
 		strcpy(filename, argv[1]);
@@ -35,7 +34,7 @@ filter(const struct dirent *p)
 		return 0;
 }
 
-#define BUFLEN 10000
+#define BUFLEN 1000
 
 char buf1[BUFLEN];
 char buf2[BUFLEN];

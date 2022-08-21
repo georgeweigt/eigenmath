@@ -360,7 +360,6 @@ struct tensor {
 #define RED 2
 
 #define Trace fprintf(stderr, "%s %d\n", __func__, __LINE__);
-// Run 'make' in 'eigenmath/tools' directory to update this file
 void eval_abs(struct atom *p1);
 void absfunc(void);
 void eval_add(struct atom *p1);

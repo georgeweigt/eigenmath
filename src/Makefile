@@ -1,20 +1,11 @@
-# To update prototypes.h, run make in the tools directory:
-#
-#	cd ../tools
-#	make
-
-CFLAGS = -Wall -Wextra -Werror -O0 -include defs.h -include prototypes.h -include externs.h
+.PHONY: clean
 CC = gcc
+CFLAGS = -O0 -include defs.h -include prototypes.h -include externs.h
 
-# := means evaluate then assign result to variable
-# sed removes the commas then replaces .c with .o
+objs := $(shell ls *.c | sed "s/\.c/\.o/g")
 
-objects := $(shell ls *.c | sed "s/\.c/\.o/g")
+eigenmath: $(objs) defs.h prototypes.h externs.h
+	gcc -o eigenmath $(objs) -lm
 
-eigenmath : $(objects)
-	gcc -o eigenmath $(objects) -lm
-
-$(objects) : defs.h prototypes.h externs.h
-
-clean :
+clean:
 	rm -f eigenmath *.o
