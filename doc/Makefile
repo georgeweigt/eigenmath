@@ -8,10 +8,9 @@ default:
 eigenmath.pdf: *.tex
 	pdflatex eigenmath.tex
 	pdflatex eigenmath.tex
-	rm -f *.aux *.log *.toc
 
 update:
 	cp help.html ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
 
 clean:
-	rm -f eigenmath.pdf
+	rm -f $(shell ls eigenmath.* | sed "s/eigenmath\.tex//")
