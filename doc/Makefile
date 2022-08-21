@@ -10,4 +10,4 @@ update:
 	cp help.html ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
 
 clean:
-	rm -f $(shell ls eigenmath.* | sed "s/eigenmath\.tex//")
+	rm -f eigenmath.pdf
