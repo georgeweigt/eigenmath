@@ -1,6 +1,5 @@
 *.aux
 *.log
-*.pdf
-*.swp
 *.synctex.gz
 *.toc
+eigenmath.pdf
