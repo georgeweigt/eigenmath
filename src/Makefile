@@ -1,6 +1,7 @@
 .PHONY: clean
+
 CC = gcc
-CFLAGS = -O0 -include defs.h -include prototypes.h -include externs.h
+CFLAGS = -Wall -O0 -include defs.h -include prototypes.h -include externs.h
 
 objs := $(shell ls *.c | sed "s/\.c/\.o/g")
 

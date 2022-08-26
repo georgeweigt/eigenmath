@@ -4,8 +4,6 @@
 #include <dirent.h>
 #include <string.h>
 
-char filename[100];
-
 int filter(const struct dirent *p);
 void scan(char *s);
 
@@ -14,6 +12,7 @@ main(int argc, char *argv[])
 {
 	int i, n;
 	struct dirent **p;
+	char filename[100];
 	n = scandir(argv[1], &p, filter, alphasort);
 	for (i = 0; i < n; i++) {
 		strcpy(filename, argv[1]);
