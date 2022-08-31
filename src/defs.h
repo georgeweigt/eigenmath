@@ -157,15 +157,12 @@ struct atom {
 #define KRONECKER	(10 * NSYM + 0)
 
 #define LAST		(11 * NSYM + 0)
-#define LATEX		(11 * NSYM + 1)
-#define LOG		(11 * NSYM + 2)
+#define LOG		(11 * NSYM + 1)
 
 #define MAG		(12 * NSYM + 0)
-#define MATHJAX		(12 * NSYM + 1)
-#define MATHML		(12 * NSYM + 2)
-#define MINOR		(12 * NSYM + 3)
-#define MINORMATRIX	(12 * NSYM + 4)
-#define MOD		(12 * NSYM + 5)
+#define MINOR		(12 * NSYM + 1)
+#define MINORMATRIX	(12 * NSYM + 2)
+#define MOD		(12 * NSYM + 3)
 
 #define NIL		(13 * NSYM + 0)
 #define NOEXPAND	(13 * NSYM + 1)

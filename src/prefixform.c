@@ -5,9 +5,8 @@ eval_prefixform(struct atom *p1)
 	eval();
 	p1 = pop();
 
-	outbuf_index = 0;
+	outbuf_init();
 	prefixform(p1);
-	print_char('\0');
 
 	push_string(outbuf);
 }
@@ -17,10 +16,9 @@ eval_prefixform(struct atom *p1)
 void
 print_prefixform(struct atom *p)
 {
-	outbuf_index = 0;
+	outbuf_init();
 	prefixform(p);
-	print_char('\n');
-	print_char('\0');
+	outbuf_puts("\n");
 	printbuf(outbuf, BLACK);
 }
 
@@ -30,51 +28,51 @@ prefixform(struct atom *p)
 	char buf[24], *s;
 	switch (p->atomtype) {
 	case CONS:
-		print_char('(');
+		outbuf_puts("(");
 		prefixform(car(p));
 		p = cdr(p);
 		while (iscons(p)) {
-			print_str(" ");
+			outbuf_puts(" ");
 			prefixform(car(p));
 			p = cdr(p);
 		}
 		if (p != symbol(NIL)) {
-			print_str(" . ");
+			outbuf_puts(" . ");
 			prefixform(p);
 		}
-		print_char(')');
+		outbuf_puts(")");
 		break;
 	case STR:
-		print_char('"');
-		print_str(p->u.str);
-		print_char('"');
+		outbuf_puts("\"");
+		outbuf_puts(p->u.str);
+		outbuf_puts("\"");
 		break;
 	case RATIONAL:
 		if (p->sign == MMINUS)
-			print_char('-');
+			outbuf_puts("-");
 		s = mstr(p->u.q.a);
-		print_str(s);
+		outbuf_puts(s);
 		s = mstr(p->u.q.b);
 		if (strcmp(s, "1") == 0)
 			break;
-		print_char('/');
-		print_str(s);
+		outbuf_puts("/");
+		outbuf_puts(s);
 		break;
 	case DOUBLE:
 		sprintf(buf, "%g", p->u.d);
-		print_str(buf);
+		outbuf_puts(buf);
 		if (!strchr(buf, '.') && !strchr(buf, 'e'))
-			print_str(".0");
+			outbuf_puts(".0");
 		break;
 	case KSYM:
 	case USYM:
-		print_str(printname(p));
+		outbuf_puts(printname(p));
 		break;
 	case TENSOR:
-		print_str("(tensor)");
+		outbuf_puts("(tensor)");
 		break;
 	default:
-		print_str("(?)");
+		outbuf_puts("(?)");
 		break;
 	}
 }

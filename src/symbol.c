@@ -200,12 +200,9 @@ struct se stab[] = {
 	{ "kronecker",		KRONECKER,	eval_kronecker		},
 
 	{ "last",		LAST,		NULL			},
-	{ "latex",		LATEX,		eval_latex		},
 	{ "log",		LOG,		eval_log		},
 
 	{ "mag",		MAG,		eval_mag		},
-	{ "mathjax",		MATHJAX,	eval_mathjax		},
-	{ "mathml",		MATHML,		eval_mathml		},
 	{ "minor",		MINOR,		eval_minor		},
 	{ "minormatrix",	MINORMATRIX,	eval_minormatrix	},
 	{ "mod",		MOD,		eval_mod		},

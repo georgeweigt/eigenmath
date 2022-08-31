@@ -471,17 +471,16 @@ void
 scan_error(char *errmsg)
 {
 	print_scan_line(scan_str);
-	outbuf_index = 0;
-	print_str("Stop: Syntax error, ");
-	print_str(errmsg);
+	outbuf_init();
+	outbuf_puts("Stop: Syntax error, ");
+	outbuf_puts(errmsg);
 	if (token_str < scan_str) {
-		print_str(" instead of '");
+		outbuf_puts(" instead of '");
 		while (*token_str && token_str < scan_str)
-			print_char(*token_str++);
-		print_str("'");
+			outbuf_putc(*token_str++);
+		outbuf_puts("'");
 	}
-	print_char('\n');
-	print_char('\0');
+	outbuf_puts("\n");
 	printbuf(outbuf, RED);
 	longjmp(jmpbuf0, 1);
 }

@@ -178,14 +178,13 @@ trace_input(void)
 		return;
 	c = 0;
 	s = trace1;
-	outbuf_index = 0;
+	outbuf_init();
 	while (*s && s < trace2) {
 		c = *s++;
-		print_char(c);
+		outbuf_putc(c);
 	}
 	if (c != '\n')
-		print_char('\n');
-	print_char('\0');
+		outbuf_puts("\n");
 	printbuf(outbuf, BLUE);
 }
 
@@ -197,18 +196,17 @@ print_input_line(void)
 	char c, *s;
 	c = '\n';
 	s = trace1;
-	outbuf_index = 0;
+	outbuf_init();
 	while (*s && s < trace2) {
 		if (*s == '\n' && c == '\n') {
 			s++;
 			continue;
 		}
 		c = *s++;
-		print_char(c);
+		outbuf_putc(c);
 	}
 	if (c != '\n')
-		print_char('\n');
-	print_char('\0');
+		outbuf_puts("\n");
 	printbuf(outbuf, RED);
 }
 
@@ -224,45 +222,43 @@ eval_status(struct atom *p1)
 {
 	(void) p1; // silence compiler
 
-	outbuf_index = 0;
+	outbuf_init();
 
 	sprintf(tbuf, "block_count %d (%d%%)\n", block_count, 100 * block_count / MAXBLOCKS);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "free_count %d\n", free_count);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "gc_count %d\n", gc_count);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "bignum_count %d\n", bignum_count);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "ksym_count %d\n", ksym_count);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "usym_count %d\n", usym_count);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "string_count %d\n", string_count);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "tensor_count %d\n", tensor_count);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "max_level %d\n", max_level);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "max_stack %d (%d%%)\n", max_stack, 100 * max_stack / STACKSIZE);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "max_frame %d (%d%%)\n", max_frame, 100 * max_frame / FRAMESIZE);
-	print_str(tbuf);
+	outbuf_puts(tbuf);
 
 	sprintf(tbuf, "max_journal %d (%d%%)\n", max_journal, 100 * max_journal / JOURNALSIZE);
-	print_str(tbuf);
-
-	print_char('\0');
+	outbuf_puts(tbuf);
 
 	printbuf(outbuf, BLACK);
 

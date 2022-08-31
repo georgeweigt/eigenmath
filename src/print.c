@@ -59,22 +59,3 @@ annotate_result(struct atom *p1, struct atom *p2)
 
 	return 1;
 }
-
-void
-print_str(char *s)
-{
-	while (*s)
-		print_char(*s++);
-}
-
-void
-print_char(int c)
-{
-	if (outbuf_index == outbuf_length) {
-		outbuf_length += 1000;
-		outbuf = (char *) realloc(outbuf, outbuf_length);
-		if (outbuf == NULL)
-			exit(1);
-	}
-	outbuf[outbuf_index++] = c;
-}
