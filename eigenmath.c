@@ -45,6 +45,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <math.h>
 #include <errno.h>
 
+#define STRBUFLEN 1000
+
 #define STACKSIZE 100000 // evaluation stack
 #define FRAMESIZE 1000
 #define BLOCKSIZE 100000
@@ -948,7 +950,7 @@ int max_stack;
 int max_frame;
 int max_journal;
 
-char tbuf[1000];
+char strbuf[STRBUFLEN];
 
 char *outbuf;
 int outbuf_index;
@@ -7805,11 +7807,11 @@ void
 fmt_double(struct atom *p)
 {
 	int t;
-	char buf[24], *s;
+	char *s;
 
-	sprintf(buf, "%g", fabs(p->u.d));
+	snprintf(strbuf, STRBUFLEN, "%g", fabs(p->u.d));
 
-	s = buf;
+	s = strbuf;
 
 	while (*s && *s != 'E' && *s != 'e')
 		fmt_roman_char(*s++);
@@ -9762,11 +9764,11 @@ infixform_rational(struct atom *p)
 void
 infixform_double(struct atom *p)
 {
-	char buf[24], *s;
+	char *s;
 
-	sprintf(buf, "%g", fabs(p->u.d));
+	snprintf(strbuf, STRBUFLEN, "%g", fabs(p->u.d));
 
-	s = buf;
+	s = strbuf;
 
 	while (*s && *s != 'E' && *s != 'e')
 		outbuf_putc(*s++);
@@ -14502,7 +14504,7 @@ print_prefixform(struct atom *p)
 void
 prefixform(struct atom *p)
 {
-	char buf[24], *s;
+	char *s;
 	switch (p->atomtype) {
 	case CONS:
 		outbuf_puts("(");
@@ -14536,9 +14538,9 @@ prefixform(struct atom *p)
 		outbuf_puts(s);
 		break;
 	case DOUBLE:
-		sprintf(buf, "%g", p->u.d);
-		outbuf_puts(buf);
-		if (!strchr(buf, '.') && !strchr(buf, 'e'))
+		snprintf(strbuf, STRBUFLEN, "%g", p->u.d);
+		outbuf_puts(strbuf);
+		if (!strchr(strbuf, '.') && !strchr(strbuf, 'e'))
 			outbuf_puts(".0");
 		break;
 	case KSYM:
@@ -15742,41 +15744,41 @@ eval_status(struct atom *p1)
 
 	outbuf_init();
 
-	sprintf(tbuf, "block_count %d (%d%%)\n", block_count, 100 * block_count / MAXBLOCKS);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "block_count %d (%d%%)\n", block_count, 100 * block_count / MAXBLOCKS);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "free_count %d\n", free_count);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "free_count %d\n", free_count);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "gc_count %d\n", gc_count);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "gc_count %d\n", gc_count);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "bignum_count %d\n", bignum_count);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "bignum_count %d\n", bignum_count);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "ksym_count %d\n", ksym_count);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "ksym_count %d\n", ksym_count);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "usym_count %d\n", usym_count);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "usym_count %d\n", usym_count);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "string_count %d\n", string_count);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "string_count %d\n", string_count);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "tensor_count %d\n", tensor_count);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "tensor_count %d\n", tensor_count);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "max_level %d\n", max_level);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "max_level %d\n", max_level);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "max_stack %d (%d%%)\n", max_stack, 100 * max_stack / STACKSIZE);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "max_stack %d (%d%%)\n", max_stack, 100 * max_stack / STACKSIZE);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "max_frame %d (%d%%)\n", max_frame, 100 * max_frame / FRAMESIZE);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "max_frame %d (%d%%)\n", max_frame, 100 * max_frame / FRAMESIZE);
+	outbuf_puts(strbuf);
 
-	sprintf(tbuf, "max_journal %d (%d%%)\n", max_journal, 100 * max_journal / JOURNALSIZE);
-	outbuf_puts(tbuf);
+	snprintf(strbuf, STRBUFLEN, "max_journal %d (%d%%)\n", max_journal, 100 * max_journal / JOURNALSIZE);
+	outbuf_puts(strbuf);
 
 	printbuf(outbuf, BLACK);
 
@@ -15819,8 +15821,8 @@ stop(char *s)
 		longjmp(jmpbuf1, 1);
 
 	print_input_line();
-	sprintf(tbuf, "Stop: %s\n", s);
-	printbuf(tbuf, RED);
+	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
+	printbuf(strbuf, RED);
 	longjmp(jmpbuf0, 1);
 }
 

@@ -9,6 +9,8 @@
 #include <math.h>
 #include <errno.h>
 
+#define STRBUFLEN 1000
+
 #define STACKSIZE 100000 // evaluation stack
 #define FRAMESIZE 1000
 #define BLOCKSIZE 100000

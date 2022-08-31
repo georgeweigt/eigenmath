@@ -25,7 +25,7 @@ print_prefixform(struct atom *p)
 void
 prefixform(struct atom *p)
 {
-	char buf[24], *s;
+	char *s;
 	switch (p->atomtype) {
 	case CONS:
 		outbuf_puts("(");
@@ -59,9 +59,9 @@ prefixform(struct atom *p)
 		outbuf_puts(s);
 		break;
 	case DOUBLE:
-		sprintf(buf, "%g", p->u.d);
-		outbuf_puts(buf);
-		if (!strchr(buf, '.') && !strchr(buf, 'e'))
+		snprintf(strbuf, STRBUFLEN, "%g", p->u.d);
+		outbuf_puts(strbuf);
+		if (!strchr(strbuf, '.') && !strchr(strbuf, 'e'))
 			outbuf_puts(".0");
 		break;
 	case KSYM:

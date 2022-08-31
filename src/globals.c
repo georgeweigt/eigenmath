@@ -40,7 +40,7 @@ int max_stack;
 int max_frame;
 int max_journal;
 
-char tbuf[1000];
+char strbuf[STRBUFLEN];
 
 char *outbuf;
 int outbuf_index;

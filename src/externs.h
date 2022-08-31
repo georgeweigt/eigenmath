@@ -40,7 +40,7 @@ extern int max_stack;
 extern int max_frame;
 extern int max_journal;
  
-extern char tbuf[];
+extern char strbuf[];
 
 extern char *outbuf;
 extern int outbuf_index;

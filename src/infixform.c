@@ -410,11 +410,11 @@ infixform_rational(struct atom *p)
 void
 infixform_double(struct atom *p)
 {
-	char buf[24], *s;
+	char *s;
 
-	sprintf(buf, "%g", fabs(p->u.d));
+	snprintf(strbuf, STRBUFLEN, "%g", fabs(p->u.d));
 
-	s = buf;
+	s = strbuf;
 
 	while (*s && *s != 'E' && *s != 'e')
 		outbuf_putc(*s++);
