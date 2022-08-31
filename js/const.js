@@ -91,6 +91,7 @@ const TESTGT = "testgt";
 const TESTLE = "testle";
 const TESTLT = "testlt";
 const TRANSPOSE = "transpose";
+const TTY = "tty";
 const UNIT = "unit";
 const ZERO = "zero";
 

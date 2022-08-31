@@ -123,6 +123,7 @@ var symtab = {
 "last":		{printname:LAST,	func:eval_user_symbol},
 "pi":		{printname:PI,		func:eval_user_symbol},
 "trace":	{printname:TRACE,	func:eval_user_symbol},
+"tty":		{printname:TTY,		func:eval_user_symbol},
 
 "d":		{printname:SYMBOL_D,	func:eval_user_symbol},
 "i":		{printname:SYMBOL_I,	func:eval_user_symbol},

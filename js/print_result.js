@@ -17,6 +17,9 @@ print_result()
 		p2 = pop();
 	}
 
-	push(p2);
-	display();
+	if (iszero(get_binding(symbol(TTY)))) {
+		push(p2);
+		display();
+	} else
+		print_infixform(p2);
 }
