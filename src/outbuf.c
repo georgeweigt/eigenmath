@@ -11,8 +11,8 @@ outbuf_puts(char *s)
 {
 	int n;
 	n = (int) strlen(s);
-	if (outbuf_length - outbuf_index < n + 1) {
-		outbuf_length += 1000 + n + 1;
+	if (outbuf_index + n + 1 > outbuf_length) {
+		outbuf_length = 1000 * ((outbuf_index + n) / 1000 + 1); // length is multiple of 1000
 		outbuf = (char *) realloc(outbuf, outbuf_length);
 		if (outbuf == NULL)
 			exit(1);
@@ -24,8 +24,8 @@ outbuf_puts(char *s)
 void
 outbuf_putc(int c)
 {
-	if (outbuf_length - outbuf_index < 2) {
-		outbuf_length += 1000 + 2;
+	if (outbuf_index + 2 > outbuf_length) {
+		outbuf_length += 1000;
 		outbuf = (char *) realloc(outbuf, outbuf_length);
 		if (outbuf == NULL)
 			exit(1);
