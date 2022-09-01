@@ -719,7 +719,7 @@ emit_symbol(p)
 
 	s = printname(p);
 
-	if (iskeyword(p) || p == symbol(LAST) || p == symbol(TRACE)) {
+	if (iskeyword(p) || p == symbol(LAST) || p == symbol(TRACE) || p == symbol(TTY)) {
 		emit_roman_string(s);
 		return;
 	}

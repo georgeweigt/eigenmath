@@ -1022,7 +1022,7 @@ emit_symbol(struct atom *p)
 
 	s = printname(p);
 
-	if (iskeyword(p) || p == symbol(LAST) || p == symbol(TRACE)) {
+	if (iskeyword(p) || p == symbol(LAST) || p == symbol(TRACE) || p == symbol(TTY)) {
 		emit_roman_string(s);
 		return;
 	}
