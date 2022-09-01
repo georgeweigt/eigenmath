@@ -64,7 +64,7 @@ For example (click [here](https://georgeweigt.github.io/demo.html) to try)
 
 ```html
 <html>
-<body>
+<body style="background-color:#f2f2f2">
 
 <script src="https://georgeweigt.github.io/eigenmath.js"></script>
 
