@@ -452,6 +452,10 @@ update_token_buf(char *a, char *b)
 
 	n = (int) (b - a);
 
+	// Let n == 1000
+
+	// Then m == 2000 hence there is always room for the terminator '\0'
+
 	m = 1000 * (n / 1000 + 1); // m is a multiple of 1000
 
 	if (m > token_buf_len) {
