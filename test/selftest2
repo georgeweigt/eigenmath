@@ -923,7 +923,7 @@ GDD = RDD - 1/2 * gdd * R
 F(r) = 1 - 2*M/r
 
 check(GDD == 0)
-"Spherical harmomics"
+"Spherical harmonics"
 
 -- spherical harmonic eigenfunctions
 
