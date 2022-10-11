@@ -46,7 +46,7 @@ In the new window, click Distribute Content.
 
 6. Click Export to save the build somewhere such as Desktop.
 
-7. In macOS Finder, go to the folder that Organizer exported.
+7. In macOS Finder, go to the folder that Xcode exported.
 
 8. Click through nested folders until the Eigenmath app is found.
 
