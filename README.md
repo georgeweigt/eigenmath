@@ -39,8 +39,8 @@ To build and install for macOS
 3. From the Xcode Product menu, select Archive.
 Xcode starts building Eigenmath, which takes some time.
 
-4. Eventually the Organizer window opens.
-Click Distribute Content.
+4. After some time, a new window opens.
+In the new window, click Distribute Content.
 
 5. Choose Built Products (the default) then click Next.
 
