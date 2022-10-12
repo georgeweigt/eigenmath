@@ -1663,8 +1663,11 @@ alloc_block(void)
 	int i;
 	struct atom *p;
 
-	if (block_count == MAXBLOCKS)
+	if (block_count == MAXBLOCKS) {
+		gc();
+		alloc_count = 0;
 		kaput("out of memory");
+	}
 
 	p = malloc(BLOCKSIZE * sizeof (struct atom));
 
@@ -2456,7 +2459,6 @@ void
 push_bignum(int sign, uint32_t *a, uint32_t *b)
 {
 	struct atom *p;
-	static uint32_t *save_a, *save_b; // prevent memory leak if alloc fails
 
 	// normalize zero
 
@@ -2468,22 +2470,11 @@ push_bignum(int sign, uint32_t *a, uint32_t *b)
 		}
 	}
 
-	if (save_a)
-		free(save_a);
-	if (save_b)
-		free(save_b);
-
-	save_a = a;
-	save_b = b;
-
 	p = alloc_atom();
 	p->atomtype = RATIONAL;
 	p->sign = sign;
 	p->u.q.a = a;
 	p->u.q.b = b;
-
-	save_a = NULL;
-	save_b = NULL;
 
 	push(p);
 }
