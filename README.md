@@ -56,9 +56,9 @@ In the new window, click Distribute Content.
 
 eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
 
-Scripts are read from `document.getElementById("stdin").value`
+Scripts are read from `document.getElementById('stdin').value`
 
-Results are written to `document.getElementById("stdout").innerHTML`
+Results are written to `document.getElementById('stdout').innerHTML`
 
 For example (click [here](https://georgeweigt.github.io/demo.html) to try)
 
@@ -68,7 +68,7 @@ For example (click [here](https://georgeweigt.github.io/demo.html) to try)
 
 <script src="https://georgeweigt.github.io/eigenmath.js"></script>
 
-<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
+<textarea id='stdin' rows='24' cols='80' style='font-family:courier;font-size:12pt'>
 -- Eigenmath script goes here
 f = sin(x) / x
 f
@@ -76,10 +76,10 @@ yrange = (-1,1)
 draw(f,x)
 </textarea>
 
-<button onclick="run()">Run</button>
+<button onclick='run()'>Run</button>
 
 <p>
-<div id="stdout"></div>
+<div id='stdout'></div>
 
 </body>
 </html>
