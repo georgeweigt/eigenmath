@@ -26,7 +26,6 @@ int interrupt;
 jmp_buf jmpbuf0;
 jmp_buf jmpbuf1;
 
-int alloc_count;
 int block_count;
 int free_count;
 int gc_count;

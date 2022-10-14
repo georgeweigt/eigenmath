@@ -10,7 +10,6 @@ alloc_atom(void)
 	free_list = p->u.next;
 
 	free_count--;
-	alloc_count++;
 
 	return p;
 }
@@ -23,7 +22,6 @@ alloc_block(void)
 
 	if (block_count == MAXBLOCKS) {
 		gc();
-		alloc_count = 0;
 		kaput("out of memory");
 	}
 

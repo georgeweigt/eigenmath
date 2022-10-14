@@ -16,10 +16,8 @@ run(char *s)
 
 	for (;;) {
 
-		if (alloc_count > BLOCKSIZE * block_count / 5) {
+		if (free_count < BLOCKSIZE * block_count / 2)
 			gc();
-			alloc_count = 0;
-		}
 
 		s = scan_input(s);
 
