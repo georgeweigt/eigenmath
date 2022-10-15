@@ -27,6 +27,7 @@ int interrupt;
 jmp_buf jmpbuf0;
 jmp_buf jmpbuf1;
 
+int alloc_count;
 int block_count;
 int free_count;
 int gc_count;
@@ -742,6 +743,7 @@ alloc_atom(void)
 	free_list = p->u.next;
 
 	free_count--;
+	alloc_count++;
 
 	return p;
 }
@@ -754,6 +756,7 @@ alloc_block(void)
 
 	if (block_count == MAXBLOCKS) {
 		gc();
+		alloc_count = 0;
 		kaput("out of memory");
 	}
 
@@ -13164,8 +13167,10 @@ run(char *s)
 
 	for (;;) {
 
-		if (free_count < BLOCKSIZE * block_count / 2)
+		if (alloc_count > MAXBLOCKS * BLOCKSIZE / 100) {
 			gc();
+			alloc_count = 0;
+		}
 
 		s = scan_input(s);
 
