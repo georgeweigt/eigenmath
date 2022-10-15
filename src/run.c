@@ -16,7 +16,7 @@ run(char *s)
 
 	for (;;) {
 
-		if (alloc_count > MAXBLOCKS * BLOCKSIZE / 100) {
+		if (alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
 			gc();
 			alloc_count = 0;
 		}
