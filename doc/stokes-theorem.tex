@@ -30,12 +30,14 @@ Polar coordinates are used for the line integral so that \verb$defint$ can succe
 {\color{blue}
 \begin{verbatim}
 "Surface integral"
-F = (y,z,x)
-S = (x,y,z)
+Z = 4 - x^2 - y^2 -- little z is used by curl
+F = (y,Z,x)
+S = (x,y,Z)
 f = dot(curl(F),cross(d(S,x),d(S,y)))
 x = r cos(theta)
 y = r sin(theta)
-defint(f r,r,0,2,theta,0,2 pi)
+defint(f r,r,0,2,theta,0,2pi)
+
 "Line integral"
 x = 2 cos(t)
 y = 2 sin(t)
@@ -45,7 +47,7 @@ Q = z
 R = x
 f = P d(x,t) + Q d(y,t) + R d(z,t)
 f = circexp(f)
-defint(f,t,0,2 pi)
+defint(f,t,0,2pi)
 \end{verbatim}
 }
 
