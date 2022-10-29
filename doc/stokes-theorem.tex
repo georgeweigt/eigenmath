@@ -27,9 +27,10 @@ Polar coordinates are used for the line integral so that \verb$defint$ can succe
 {\color{blue}
 \begin{verbatim}
 "Surface integral"
-Z = 4 - x^2 - y^2 -- little z is used by curl
-F = (y,Z,x)
-S = (x,y,Z)
+z = 4 - x^2 - y^2
+F = (y,z,x)
+S = (x,y,z)
+z = quote(z) -- clear z for use by curl
 f = dot(curl(F),cross(d(S,x),d(S,y)))
 x = r cos(theta)
 y = r sin(theta)

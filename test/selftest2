@@ -1166,21 +1166,14 @@ T = ((Gtt,   0,           0,       0),
 
 check(GDD = T)
 "Stokes theorem"
-clear
-M1 = ((0,0,0),(0,0,-1),(0,1,0))
-M2 = ((0,0,1),(0,0,0),(-1,0,0))
-M3 = ((0,-1,0),(1,0,0),(0,0,0))
-M = (M1,M2,M3)
-cross(u,v) = dot(u,M,v)
--- Surface integral
+z = 4 - x^2 - y^2
 F = (y,z,x)
 S = (x,y,z)
+z = quote(z) -- clear z for use by curl
 f = dot(curl(F),cross(d(S,x),d(S,y)))
 x = r cos(theta)
 y = r sin(theta)
-T = defint(f r,r,0,2,theta,0,2pi)
-check(T = -4pi)
--- Line integral
+check(defint(f r,r,0,2,theta,0,2pi) == -4 pi)
 x = 2 cos(t)
 y = 2 sin(t)
 z = 4 - x^2 - y^2
@@ -1189,8 +1182,7 @@ Q = z
 R = x
 f = P d(x,t) + Q d(y,t) + R d(z,t)
 f = circexp(f)
-T = defint(f,t,0,2pi)
-check(T = -4pi)
+check(defint(f,t,0,2pi) == -4 pi)
 "Surface area"
 
 clear
