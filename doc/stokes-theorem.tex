@@ -1,15 +1,12 @@
-\subsection{Stokes' theorem}
+\subsection{Stokes's theorem}
 
-Stokes' theorem says that in typical problems a surface integral can be
-computed using a line integral.
-(There is some fine print regarding continuity and boundary conditions.)
-This is a useful theorem because usually the line integral is easier to
-compute.
-In rectangular coordinates the equivalence between a line integral
-on the left and a surface integral on the right is
+Stokes's theorem equates the surface integral of the curl of a function
+with a line integral of the same function.
+In rectangular coordinates the equivalence is
 %
-$$\oint P\,dx+Q\,dy+R\,dz
-=\int\!\!\!\int_S(\mathop{\rm curl}{\bf F})\cdot{\bf n}\,d\sigma
+$$
+\iint_S(\mathop{\rm curl}{\bf F})\cdot{\bf n}\,d\sigma
+=\oint (P\,dx+Q\,dy+R\,dz)
 $$
 %
 where ${\bf F}=(P,Q,R)$.
@@ -19,12 +16,12 @@ $${\bf n}\,d\sigma=\left(
 \right)dx\,dy$$
 
 \noindent
-Example:
-Let ${\bf F}=(y,z,x)$ and let $S$ be the part of the paraboloid
+For example,
+let ${\bf F}=(y,z,x)$ and let $S$ be the part of the paraboloid
 $z=4-x^2-y^2$
 that is above the $xy$ plane.
 The perimeter of the paraboloid is the circle $x^2+y^2=2$.
-The following script computes both the line and surface integrals.
+The following script computes both the surface and line integrals.
 Polar coordinates are used for the line integral so that \verb$defint$ can succeed.
 
 {\color{blue}
@@ -54,7 +51,7 @@ defint(f,t,0,2pi)
 \noindent
 This is the result when the script runs.
 Both the surface integral and the line integral
-yield the same result, $-4\pi$.
+yield the same result $-4\pi$.
 
 \bigskip
 \noindent
