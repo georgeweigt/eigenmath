@@ -17,9 +17,9 @@ run_thread(char *s)
 }
 
 void *
-run_thread_nib(void *s)
+run_thread_nib(void *p)
 {
-	run((char *) s);
+	run((char *) p);
 	running = 0;
 	return NULL;
 }

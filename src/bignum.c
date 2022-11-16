@@ -439,9 +439,7 @@ mstr(uint32_t *u)
 	if (m > len) {
 		if (buf)
 			free(buf);
-		buf = malloc(m);
-		if (buf == NULL)
-			exit(1);
+		buf = mem_alloc(m);
 		len = m;
 	}
 
@@ -813,9 +811,7 @@ uint32_t *
 mnew(int n)
 {
 	uint32_t *u;
-	u = malloc((n + 1) * sizeof (uint32_t));
-	if (u == NULL)
-		exit(1);
+	u = mem_alloc((n + 1) * sizeof (uint32_t));
 	bignum_count++;
 	*u = n;
 	return u + 1;

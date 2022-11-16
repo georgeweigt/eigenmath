@@ -62,6 +62,13 @@ absfunc(void)
 
 	p1 = pop();
 
+	if (isnum(p1)) {
+		push(p1);
+		if (isnegativenumber(p1))
+			negate();
+		return;
+	}
+
 	if (istensor(p1)) {
 		if (p1->u.tensor->ndim > 1) {
 			push_symbol(ABS);
@@ -760,10 +767,7 @@ alloc_block(void)
 		kaput("out of memory");
 	}
 
-	p = malloc(BLOCKSIZE * sizeof (struct atom));
-
-	if (p == NULL)
-		exit(1);
+	p = mem_alloc(BLOCKSIZE * sizeof (struct atom));
 
 	mem[block_count++] = p;
 
@@ -805,15 +809,22 @@ alloc_tensor(int nelem)
 	struct atom *p;
 	struct tensor *t;
 	p = alloc_atom();
-	t = malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
-	if (t == NULL)
-		exit(1);
+	t = mem_alloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
 	p->atomtype = TENSOR;
 	p->u.tensor = t;
 	t->nelem = nelem;
 	for (i = 0; i < nelem; i++)
 		t->elem[i] = zero;
 	tensor_count++;
+	return p;
+}
+
+void *
+mem_alloc(int n)
+{
+	void *p = malloc(n);
+	if (p == NULL)
+		exit(1);
 	return p;
 }
 void
@@ -1945,9 +1956,7 @@ mstr(uint32_t *u)
 	if (m > len) {
 		if (buf)
 			free(buf);
-		buf = malloc(m);
-		if (buf == NULL)
-			exit(1);
+		buf = mem_alloc(m);
 		len = m;
 	}
 
@@ -2319,9 +2328,7 @@ uint32_t *
 mnew(int n)
 {
 	uint32_t *u;
-	u = malloc((n + 1) * sizeof (uint32_t));
-	if (u == NULL)
-		exit(1);
+	u = mem_alloc((n + 1) * sizeof (uint32_t));
 	bignum_count++;
 	*u = n;
 	return u + 1;
@@ -4952,11 +4959,8 @@ eval_eigenvec(struct atom *p1)
 	if (Q)
 		free(Q);
 
-	D = malloc(n * n * sizeof (double));
-	Q = malloc(n * n * sizeof (double));
-
-	if (D == NULL || Q == NULL)
-		exit(1);
+	D = mem_alloc(n * n * sizeof (double));
+	Q = mem_alloc(n * n * sizeof (double));
 
 	// initialize D
 
@@ -10366,11 +10370,8 @@ nroots(void)
 	if (ci)
 		free(ci);
 
-	cr = malloc(n * sizeof (double));
-	ci = malloc(n * sizeof (double));
-
-	if (cr == NULL || ci == NULL)
-		exit(1);
+	cr = mem_alloc(n * sizeof (double));
+	ci = mem_alloc(n * sizeof (double));
 
 	// convert coeffs to floating point
 
@@ -13286,9 +13287,7 @@ run_file(char *filename)
 	lseek(fd, 0, SEEK_SET);
 
 	p1 = alloc_atom();
-	buf = malloc(n + 1);
-	if (buf == NULL)
-		exit(1);
+	buf = mem_alloc(n + 1);
 	p1->atomtype = STR;
 	p1->u.str = buf; // buf is freed on next gc
 	string_count++;
@@ -13928,9 +13927,7 @@ update_token_buf(char *a, char *b)
 	if (m > token_buf_len) {
 		if (token_buf)
 			free(token_buf);
-		token_buf = malloc(m);
-		if (token_buf == NULL)
-			exit(1);
+		token_buf = mem_alloc(m);
 		token_buf_len = m;
 	}
 

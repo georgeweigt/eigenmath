@@ -49,8 +49,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define STACKSIZE 100000 // evaluation stack
 #define FRAMESIZE 1000
-#define BLOCKSIZE 100000
-#define MAXBLOCKS 100
+#define BLOCKSIZE 10000
+#define MAXBLOCKS 1000
 #define NSYM 100
 #define JOURNALSIZE 1000
 
@@ -386,6 +386,7 @@ void alloc_block(void);
 struct atom * alloc_vector(int nrow);
 struct atom * alloc_matrix(int nrow, int ncol);
 struct atom * alloc_tensor(int nelem);
+void * mem_alloc(int n);
 void eval_arccos(struct atom *p1);
 void arccos(void);
 void eval_arccosh(struct atom *p1);
@@ -970,6 +971,13 @@ absfunc(void)
 	struct atom *p1, *p2, *p3;
 
 	p1 = pop();
+
+	if (isnum(p1)) {
+		push(p1);
+		if (isnegativenumber(p1))
+			negate();
+		return;
+	}
 
 	if (istensor(p1)) {
 		if (p1->u.tensor->ndim > 1) {
@@ -1669,10 +1677,7 @@ alloc_block(void)
 		kaput("out of memory");
 	}
 
-	p = malloc(BLOCKSIZE * sizeof (struct atom));
-
-	if (p == NULL)
-		exit(1);
+	p = mem_alloc(BLOCKSIZE * sizeof (struct atom));
 
 	mem[block_count++] = p;
 
@@ -1714,15 +1719,22 @@ alloc_tensor(int nelem)
 	struct atom *p;
 	struct tensor *t;
 	p = alloc_atom();
-	t = malloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
-	if (t == NULL)
-		exit(1);
+	t = mem_alloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
 	p->atomtype = TENSOR;
 	p->u.tensor = t;
 	t->nelem = nelem;
 	for (i = 0; i < nelem; i++)
 		t->elem[i] = zero;
 	tensor_count++;
+	return p;
+}
+
+void *
+mem_alloc(int n)
+{
+	void *p = malloc(n);
+	if (p == NULL)
+		exit(1);
 	return p;
 }
 void
@@ -2854,9 +2866,7 @@ mstr(uint32_t *u)
 	if (m > len) {
 		if (buf)
 			free(buf);
-		buf = malloc(m);
-		if (buf == NULL)
-			exit(1);
+		buf = mem_alloc(m);
 		len = m;
 	}
 
@@ -3228,9 +3238,7 @@ uint32_t *
 mnew(int n)
 {
 	uint32_t *u;
-	u = malloc((n + 1) * sizeof (uint32_t));
-	if (u == NULL)
-		exit(1);
+	u = mem_alloc((n + 1) * sizeof (uint32_t));
 	bignum_count++;
 	*u = n;
 	return u + 1;
@@ -5861,11 +5869,8 @@ eval_eigenvec(struct atom *p1)
 	if (Q)
 		free(Q);
 
-	D = malloc(n * n * sizeof (double));
-	Q = malloc(n * n * sizeof (double));
-
-	if (D == NULL || Q == NULL)
-		exit(1);
+	D = mem_alloc(n * n * sizeof (double));
+	Q = mem_alloc(n * n * sizeof (double));
 
 	// initialize D
 
@@ -7689,9 +7694,7 @@ fmt(void)
 	if (m > fmt_buf_len) {
 		if (fmt_buf)
 			free(fmt_buf);
-		fmt_buf = malloc(m);
-		if (fmt_buf == NULL)
-			exit(1);
+		fmt_buf = mem_alloc(m);
 		fmt_buf_len = m;
 	}
 
@@ -11791,10 +11794,7 @@ run_infile(char *infile)
 
 	lseek(fd, 0, SEEK_SET);
 
-	buf = malloc(n + 1);
-
-	if (buf == NULL)
-		exit(1);
+	buf = mem_alloc(n + 1);
 
 	if (read(fd, buf, n) != n) {
 		fprintf(stderr, "read err\n");
@@ -12743,11 +12743,8 @@ nroots(void)
 	if (ci)
 		free(ci);
 
-	cr = malloc(n * sizeof (double));
-	ci = malloc(n * sizeof (double));
-
-	if (cr == NULL || ci == NULL)
-		exit(1);
+	cr = mem_alloc(n * sizeof (double));
+	ci = mem_alloc(n * sizeof (double));
 
 	// convert coeffs to floating point
 
@@ -15663,9 +15660,7 @@ run_file(char *filename)
 	lseek(fd, 0, SEEK_SET);
 
 	p1 = alloc_atom();
-	buf = malloc(n + 1);
-	if (buf == NULL)
-		exit(1);
+	buf = mem_alloc(n + 1);
 	p1->atomtype = STR;
 	p1->u.str = buf; // buf is freed on next gc
 	string_count++;
@@ -16305,9 +16300,7 @@ update_token_buf(char *a, char *b)
 	if (m > token_buf_len) {
 		if (token_buf)
 			free(token_buf);
-		token_buf = malloc(m);
-		if (token_buf == NULL)
-			exit(1);
+		token_buf = mem_alloc(m);
 		token_buf_len = m;
 	}
 

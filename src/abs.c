@@ -14,6 +14,13 @@ absfunc(void)
 
 	p1 = pop();
 
+	if (isnum(p1)) {
+		push(p1);
+		if (isnegativenumber(p1))
+			negate();
+		return;
+	}
+
 	if (istensor(p1)) {
 		if (p1->u.tensor->ndim > 1) {
 			push_symbol(ABS);

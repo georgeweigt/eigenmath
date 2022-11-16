@@ -13,8 +13,8 @@
 
 #define STACKSIZE 100000 // evaluation stack
 #define FRAMESIZE 1000
-#define BLOCKSIZE 100000
-#define MAXBLOCKS 100
+#define BLOCKSIZE 10000
+#define MAXBLOCKS 1000
 #define NSYM 100
 #define JOURNALSIZE 1000
 

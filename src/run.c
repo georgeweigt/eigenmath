@@ -135,9 +135,7 @@ run_file(char *filename)
 	lseek(fd, 0, SEEK_SET);
 
 	p1 = alloc_atom();
-	buf = malloc(n + 1);
-	if (buf == NULL)
-		exit(1);
+	buf = mem_alloc(n + 1);
 	p1->atomtype = STR;
 	p1->u.str = buf; // buf is freed on next gc
 	string_count++;

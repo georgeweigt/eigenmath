@@ -201,6 +201,71 @@ check(D(psi5)=0)
 check(D(psi6)=0)
 check(D(psi7)=0)
 check(D(psi8)=0)
+"Dirac equation 32"
+
+psi(n,m) = 1 / sqrt(pi a0 (n + 1/2)) *
+           sqrt((n - abs(m))! / (n + abs(m))!) *
+           (2 r / a0 / (n + 1/2))^abs(m) *
+           L(2 r / a0 / (n + 1/2), n - abs(m), 2 abs(m)) *
+           exp(-r / a0 / (n + 1/2)) *
+           exp(i m phi)
+
+a0 = hbar^2 / (k mu)
+
+-- Laguerre polynomial in x (y is a local variable)
+
+L(x,n,m,y) = eval(y^(-m) exp(y) / n! d(exp(-y) y^(n + m), y, n), y, x)
+
+E(n) = -1/2 k^2 mu / hbar^2 / (n + 1/2)^2
+
+psi1 = psi(1,0)
+psi2 = psi(2,0)
+psi3 = psi(3,0)
+psi4 = psi(4,0)
+
+I(f) = do(
+  f = defint(f, phi, 0, 2 pi),
+  f = integral(f,r),
+  0 - eval(f,r,0)
+)
+
+R = ((I(conj(psi1) r psi1),
+      I(conj(psi1) r psi2),
+      I(conj(psi1) r psi3),
+      I(conj(psi1) r psi4)),
+
+     (I(conj(psi2) r psi1),
+      I(conj(psi2) r psi2),
+      I(conj(psi2) r psi3),
+      I(conj(psi2) r psi4)),
+
+     (I(conj(psi3) r psi1),
+      I(conj(psi3) r psi2),
+      I(conj(psi3) r psi3),
+      I(conj(psi3) r psi4)),
+
+     (I(conj(psi4) r psi1),
+      I(conj(psi4) r psi2),
+      I(conj(psi4) r psi3),
+      I(conj(psi4) r psi4)))
+
+Enm = ((E(1),0,0,0),
+       (0,E(2),0,0),
+       (0,0,E(3),0),
+       (0,0,0,E(4)))
+
+-- solve for P
+
+P = sqrt(-2 mu / hbar^2 (Enm + k inv(R)))
+
+Pn = P + n hbar unit(4,4)
+
+H(P) = -hbar^2 / (2 mu) inv(dot(P,P))
+
+check(H(Pn) - H(P) ==
+hbar^2 / (2 mu) (inv(dot(P,P)) - inv(dot(Pn,Pn))))
+
+check(-hbar^2 / (2 mu) dot(P,P) - k inv(R) == Enm)
 "Elliptical polarization"
 clear
 --Simple example of clockwise (right hand) elliptical polarization.

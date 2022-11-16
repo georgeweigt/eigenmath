@@ -45,10 +45,7 @@ run_infile(char *infile)
 
 	lseek(fd, 0, SEEK_SET);
 
-	buf = malloc(n + 1);
-
-	if (buf == NULL)
-		exit(1);
+	buf = mem_alloc(n + 1);
 
 	if (read(fd, buf, n) != n) {
 		fprintf(stderr, "read err\n");
