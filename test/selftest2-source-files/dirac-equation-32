@@ -1,5 +1,7 @@
 "Dirac equation 32"
 
+clear
+
 psi(n,m) = 1 / sqrt(pi a0 (n + 1/2)) *
            sqrt((n - abs(m))! / (n + abs(m))!) *
            (2 r / a0 / (n + 1/2))^abs(m) *
