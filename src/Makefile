@@ -13,7 +13,6 @@ CFLAGS = -Wall -O0 -include defs.h -include prototypes.h -include externs.h
 objs := $(shell ls *.c | sed "s/\.c/\.o/g")
 
 eigenmath: $(objs)
-	make -C ../tools
 	gcc -o eigenmath $(objs) -lm
 
 $(objs): defs.h prototypes.h externs.h
