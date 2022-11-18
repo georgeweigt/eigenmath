@@ -1,0 +1,264 @@
+####################################################################
+#                        EVA 2.0  rev 0                         
+# EVA : Euclidian Vector Algebra  (or Clifford or Geometric Algebra)
+# 
+#                                         last revision : 15/04/2012
+#(c) Copyright, Bernard Eyheramendy        contact at beyhfr.free.fr
+####################################################################
+
+fixnum=4
+maxTaylor=12
+do(Inf=-log(0),inf=Inf)
+versor(u)=do(R00=1,u00=rnd(gp(invol(u),inverse(u))),test(not(grade0(u00)),R00=0,u00==rnd(gp(inverse(u),invol(u)),preservGrd(u),R00=0),R00))
+preservGrd(u)=for(k,2,Clmax+1,test(grade1(gp(gp(invol(u),unit(Cldim)[k]),rev(u))),1,R00=0))
+
+blade(u)=do(G00=0,for(k,1,Clmax+1,test(grade(u,k-1)==0,1,G00=G00+1)), test(G00=1,R00=1,R00=0),R00*test(versor(u)))  
+grade0(u)=test(u==e0*u[1],1,0)  # use : test(grade0(u)) --> 1 if grade(u)=0
+grade1(u)=do(u00=zero(Cldim),for(k,2,Clmax+1,u00[k]=u[k]),test(u==u00,1,0))
+grade2(u)=do(u00=zero(Cldim),Bv=(0,0,4,7,11,16),for(k,Clmax+2,Bv[Clmax+1],u00[k]=u[k]),test(u==u00,1,0))
+odd(u) =test(u==1/2(u-invol(u)))                        
+even(u)=test(u==1/2(u+invol(u)))                         
+
+isVersor(u)=test(versor(u),1,             errmsg(msg6,u))    
+isInteger(u)=test(isinteger(u),1,         errmsg(msg5,u))    
+isNumber(u)=test(number(u),1,             errmsg(msg4,u))    
+isScalar(u)=test(u==grade(u,0), 1,u=0,1   errmsg(msg3,u))    
+isVector(u)=test(u==grade(u,1), 1,u=0,1   errmsg(msg2,u))    
+isMvector(u)=test(dim(u,1)==Cldim,1,u=0,1,  errmsg(msg1,u))    
+isGradeover(n)=do(isNumber(n),test(n>Clmax, errmsg(msg7,u),n<0, errmsg(msg7,u))) #  n < 0 or > Clmax
+isGT1(u)=test(u[1] >= 1, 1,               errmsg(msg8,u))    
+isPos(u)=test(u[1] >= 0, 1,               errmsg(msg9,u))    
+isZero(u)=test(u[1] = 0,                  errmsg(msg10,u),1) 
+isRangeLT1(u)= test(abs(u[1])< 1, 1,      errmsg(msg11,u))   
+isRangeLE1(u)= test(abs(u[1])<=1, 1,      errmsg(msg12,u))   
+msg1="not a multivector : "
+msg2="not a vector      : "
+msg3="not a scalar      : "
+msg4="not a number      : "
+msg5="not integer       : "
+msg6="not a versor      : "
+msg7=" grade from 0 to p+q  : "
+
+msg8= " u[1] must be >= 1   : "
+msg9= " u[1] must be > 0    : "
+msg10=" u[1] must be different from 0 : "
+msg11=" |u[1]| must be < 1  : "
+msg12=" |u[1]| must be <= 1 : "
+errmsg(msg,object)=do(print(msg,object),stop())               # print msg and stop
+
+tty=1
+cl(p,q1)=do(q=0,q00=0,test(number(q1),q=q1,q00=1),Clmax=p+q,Cldim=2^Clmax,test(Clmax=1,Signature=(0,0),Signature=zero(Clmax)),check(p>=0),check(q>=0),for(i,1,Clmax,Signature[i]="+"),test(q>0,for(i,p+1,Clmax,Signature[i]="-")),sig00=zero(dim(Signature,1)),for(i,1,Clmax,test(Signature[i]=="+",sig00[i]=1,sig00[i]=-1)),Base(Clmax),Index(Clmax),consGtab(Cldim),consOtab(Cldim),Signature)
+
+basisVectors=("e0,e1","e0,e1,e2,e12","e0,e1,e2,e3,e12,e13,e23,e123","e0,e1,e2,e3,e4,e12,e13,e14,e23,e24,e34,e123,e124,e134,e234,e1234","e0,e1,e2,e3,e4,e5,e12,e13,e14,e15,e23,e24,e25,e34,e35,e45,e123,e124,e125,e134,e135,e145,e234,e235,e245,e345,e1234,e1235,e1245,e1345,e2345,e12345")
+isomorph=("isomorphic with R + R","isomorphic with R(2)","isomorphic with C(2)","isomorphic with H(2)","isomorphic with H(2) + H(2)")
+info()=print("Signature",float(Signature),"oriented volume: "," j ="Jtab[Clmax],"basis vectors :",basisVectors[Clmax]," ")
+## wL 14.3.21 ,"---", test(q00==1,isomorph[Clmax],"--no more info --"))
+Cl(p,q)=cl(p,q)
+
+Jtab=("e1","e12","e123","e1234","e12345")
+BaseCl1()= do(B=unit(2),e0=B[1],e1=B[2],j=e1)
+BaseCl2()= do(B=unit(4),e0=B[1],e1=B[2],e2=B[3],e12=B[4],j=e12)
+BaseCl3()= do(B=unit(8),e0=B[1],e1=B[2],e2=B[3],e3=B[4],e12=B[5],e13=B[6],e23=B[7],e123=B[8],j=e123)
+BaseCl4()= do(B=unit(16),e0=B[1],e1=B[2],e2=B[3],e3=B[4],e4=B[5],e12=B[6],e13=B[7],e14=B[8],e23=B[9],e24=B[10],e34=B[11],e123=B[12],e124=B[13],e134=B[14],e234=B[15],e1234=B[16],j=e1234)
+BaseCl5()= do(B=unit(32),e0=B[1],e1=B[2],e2=B[3],e3=B[4],e4=B[5],e5=B[6],e12=B[7],e13=B[8],e14=B[9],e15=B[10],e23=B[11], e24=B[12],e25=B[13],e34=B[14],e35=B[15],e45=B[16],e123=B[17],e124=B[18],e125=B[19],e134=B[20],e135=B[21],e145=B[22],e234=B[23],e235=B[24],e245=B[25],e345=B[26],e1234=B[27],e1235=B[28],e1245=B[29],e1345=B[30],e2345=B[31],e12345=B[32],j=e12345)
+
+Base(u)=do(test(u=1,BaseCl1(),u=2,BaseCl2(),u=3,BaseCl3(),u=4,BaseCl4(),u=5,BaseCl5()),B=quote(B))
+
+indexCl1= ((0,0),(1,0))
+indexCl2= ((0,0),(1,0),(0,1),(1,1))
+indexCl3= ((0,0,0),(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(1,1,1))
+indexCl4= ((0,0,0,0),(1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1),(1,1,0,0),(1,0,1,0),(1,0,0,1),(0,1,1,0),(0,1,0,1),(0,0,1,1),(1,1,1,0),(1,1,0,1),(1,0,1,1),(0,1,1,1),(1,1,1,1))
+indexCl5= ((0,0,0,0,0),(1,0,0,0,0),(0,1,0,0,0),(0,0,1,0,0),(0,0,0,1,0),(0,0,0,0,1),(1,1,0,0,0),(1,0,1,0,0),(1,0,0,1,0),(1,0,0,0,1),(0,1,1,0,0),(0,1,0,1,0),(0,1,0,0,1),(0,0,1,1,0),(0,0,1,0,1),(0,0,0,1,1),(1,1,1,0,0),(1,1,0,1,0),(1,1,0,0,1),(1,0,1,1,0),(1,0,1,0,1),(1,0,0,1,1),(0,1,1,1,0),(0,1,1,0,1),(0,1,0,1,1),(0,0,1,1,1),(1,1,1,1,0),(1,1,1,0,1),(1,1,0,1,1),(1,0,1,1,1),(0,1,1,1,1),(1,1,1,1,1))
+Index(u)=do(test(u=1,Clindex=indexCl1,u=2,Clindex=indexCl2,u=3,Clindex=indexCl3,u=4,Clindex=indexCl4,u=5,Clindex=indexCl5))
+find(u)=do(for(i,1,Cldim,test(u=Clindex[i],rang=i)),rang)
+
+disp(u)=atomize(u)
+dispCl1()= print(" ",u[1]*"e0",u[2]*"e1")
+dispCl2()= print(" ",u[1]*"e0",u[2]*"e1"+u[3]*"e2",u[4]*"e12")
+dispCl3()= print(" ",u[1]*"e0",u[2]*"e1"+u[3]*"e2"+u[4]*"e3",u[5]*"e12"+u[6]*"e13"+u[7]*"e23",u[8]*"e123")
+dispCl4()= print(" ",u[1]*"e0",u[2]*"e1"+u[3]*"e2"+u[4]*"e3"+u[5]*"e4",u[6]*"e12"+u[7]*"e13"+u[8]*"e14"+u[9]*"e23"+u[10]*"e24"+u[11]*"e34",u[12]*"e123"+u[13]*"e124"+u[14]*"e134"+u[15]*"e234",u[16]*"e1234")
+dispCl5()= print(" ",u[1]*"e0",u[2]*"e1"+u[3]*"e2"+u[4]*"e3"+u[5]*"e4"+u[6]*"e5",u[7]*"e12"+u[8]*"e13"+u[9]*"e14"+u[10]*"e15"+u[11]*"e23"+u[12]*"e24"+u[13]*"e25"+u[14]*"e34"+u[15]*"e35"+u[16]*"e45",u[17]*"e123"+u[18]*"e124"+u[19]*"e125"+u[20]*"e134"+u[21]*"e135"+u[22]*"e145"+u[23]*"e234"+u[24]*"e235"+u[25]*"e245"+u[26]*"e345",+u[27]*"e1234"+u[28]*"e1235"+u[29]*"e1245"+u[30]*"e1345"+u[31]*"e2345" ,u[32]*"e12345")
+dispgrd(v)=do(isMvector(v),u=rnd(v),test(Clmax=1,dispCl1(),Clmax=2,dispCl2(),Clmax=3,dispCl3(),Clmax=4,dispCl4(),Clmax=5,dispCl5())) 
+
+consGtab(u)= do(Gtab=zero(u,u),for(i,1,u,for(k,1,u,Gtab[i,k]=prod(Clindex[i],Clindex[k]))),corrGtab(u))
+corrGtab(u)= for(i,1,u,test(Gtab[i,i] == -1,for(k,1,u,Gtab[k,i]=-Gtab[k,i])))
+sign(u,v)=do(s=0,for(i,2,Clmax,test(u[i] == 1, for(k,1,i-1,s=s+v[k]))),(-1)^(s))
+
+prod(u,v)=  do(sL0=1,Luv=u+v,test(Clmax=1,L0=(0,0),L0=zero(Clmax)), for(i,1,Clmax, test(Luv[i] < 2,L0[i]=Luv[i],Luv[i]= 2,do(sL0=sL0*sig00[i],L0[i]=0))),sL0=sL0*sign(u,v),sL0*find(L0))
+
+range(u,a,b)=test(a<b,and(u>=a,u<=b),and(u>=b,u<=a))
+consOtab(u)=do(Otab=unit(u),F00=(2,3,4,11,26),test(Clmax<4,consOtab3(u),Clmax=4,consOtab4(u),Clmax=5,consOtab5(u)))
+
+consOtab3(u)=do(for(i,1,u,for(k,1,i,Otab[i,k]=Gtab[i,k])),consOtab31(u))
+consOtab31(u)=do(for(i,2,u-1,for(k,2,i,test(abs(Otab[i,k]) > F00[Clmax],Otab[i,k]=0))))  
+ 
+consOtab4(u)=do(for(i,1,u,for(k,1,i,Otab[i,k]=Gtab[i,k])),consOtab41(u),consOtab42(u),consOtab43(u))
+consOtab41(u)=do(for(i,2,u-1,for(k,2,i,test(abs(Otab[i,k]) > F00[Clmax],Otab[i,k]=0))))
+consOtab42(u)=do(for(i,2,11,for(k,2,i,test(range(abs(Otab[i,k]),6,11),Otab[i,k]=0))))   
+consOtab43(u)=do(for(i,12,16,for(k,12,i,test(range(abs(Otab[i,k]),6,11),Otab[i,k]=0)))) 
+
+consOtab5(u)=do(for(i,1,u,for(k,1,i,Otab[i,k]=Gtab[i,k])),consOtab51(u),consOtab52(u),consOtab53(u),consOtab54(u),consOtab55(u))
+consOtab51(u)=do(for(i,2,u-1,for(k,2,i,test(abs(Otab[i,k]) > F00[Clmax],Otab[i,k]=0))))
+consOtab52(u)=do(for(i,2,16,for(k,2,i,test(range(abs(Otab[i,k]),7,16),Otab[i,k]=0))))   
+consOtab53(u)=do(for(i,17,26,for(k,17,i,test(range(abs(Otab[i,k]),7,16),Otab[i,k]=0))))
+consOtab54(u)=do(for(i,2,26,for(k,2,i,test(range(abs(Otab[i,k]),17,26),Otab[i,k]=0))))  
+consOtab55(u)=do(for(i,27,32,for(k,17,i,test(range(abs(Otab[i,k]),17,26),Otab[i,k]=0))))
+
+Gtable(u)=  do(d=dim(Gtab,1),tab=zero(d,d), for(i,1,d,for(k,1,d,do(indx=Gtab[i,k],aindx=abs(indx),tab[i,k]=(u[aindx])*sgn(indx)))),tab)
+Otable(u)=do(d=dim(Otab,1),tab=zero(d,d), for(i,1,d,for(k,1,i,do(indx=Otab[i,k],aindx=abs(indx),test(aindx>0 ,tab[i,k]=(u[aindx])*sgn(indx))))),tab)
+
+gp(u,v)= do(isMvector(u),isMvector(v),rnd(dot(Gtable(float(u)),float(v)),7))
+inverse(u)=test(number(u),1/u,rnd(do(isMvector(u),inv(transpose(Gtable(float(u))))[1]),7))
+outp(u,v)=do(isMvector(u),isMvector(v),rnd(dot(Otable(float(u)),float(v)),7))
+
+rev(u)=sum(k,0,Clmax,grade(u,k)*(-1)^(k*(k-1)/2))  
+cj(u)=sum(k,0,Clmax,grade(u,k)*(-1)^(k*(k+1)/2))   
+invol(u)=rev(cj(u))                                
+
+gradetab=((1,2,0,0,0,0),(1,3,4,0,0,0),(1,4,7,8,0,0),(1,5,11,15,16,0),(1,6,16,26,31,32))
+grade(u,n)=do(isMvector(u),isInteger(n),isGradeover(n),T00=gradetab[Clmax],grd00=zero(Cldim),test(n=0,grd00=u[1]*e0,for(k,T00[n]+1,T00[n+1],grd00[k]=u[k])),grd00)
+
+magnitude(u)=test(number(u),abs(u),sqrt(gp(u,rev(u))[1]))
+do(dual(u)=do(j=unit(Cldim)[Cldim],gp(u,inverse(j))),dual1(u)=dual1(u))
+normalize(u)=test(magnitude(u)=0,u,u/magnitude(u))
+
+Re(u)=do(isMvector(u),u[1])
+Pu(u)=do(isMvector(u),u[Cldim])
+lc(u,v)=do(j=unit(Cldim)[Cldim],gp(outp(u,gp(v,j)),inverse(j)))
+rc(u,v)=do(j=unit(Cldim)[Cldim],gp(inverse(j),outp(gp(j,u),v)))
+doth(u,v)=inp(u,v)-Re(u)*e0-u*Re(v)-Re(u)*v+Re(u)*Re(v)*e0
+Q(u)=test(u=0,0,gp(u,rev(u))[1])
+Bl(u,v)=1/2(Q(u+v)-Q(u)-Q(v))
+inp(u,v)=rc(u,v)+lc(u,v)-Bl(u,rev(v))*e0
+
+real1(x)=1/2(x+rev(x)) 
+imag1(x)=1/2(x-rev(x))
+arg1(x)=test(not(magnitude(real1(x))= 0),arctan(magnitude(imag1(x))/magnitude(real1(x))),magnitude(imag1(x))>0,pi/2,magnitude(imag1(x))<0,-pi/2)
+
+polar1(x)=do(isVersor(x),r=magnitude(x),phi=arg1(x)*normalize(imag1(x)),print("polar form : r*exp1(phi)","module r =",disp(r),"argument phi =",disp(phi)))
+rect1(x,y)=x*exp1(y)
+
+max(u)= do(isMvector(u),Umax=magnitude(u[1]),for(k,1,Cldim,test(magnitude(u[k])>Umax,do(Umax=magnitude(u[k]),Kmax=k))),Kmax)
+factor1(u)=test(blade(u),do(Kmax=max(u),Bs=u/u[Kmax],b=zero(Clmax,Cldim),f=unit(Cldim),F1=inverse(f[Kmax]*u[Kmax]),for(k,1,Clmax,test( Clindex[Kmax,k]==0,1,b[k]=inp(inp(f[k+1],F1),Bs ))),b),print("not a blade")stop)
+
+rnd(u,n)=do(test(number(n),Fixnum=n,Fixnum=fixnum),rnd00(u))
+rnd00(u)= do(isMvector(u),zr00=zero(Cldim),for(k,1,Cldim,test(number(u[k]),zr00[k]=floor(u[k]*10^Fixnum+0.5)/10^Fixnum,zr00[k]=u[k])),float(zr00))
+rnd0(u)=do(isMvector(u),zr00=zero(Cldim),for(k,1,Cldim,test(number(u[k]),zr00[k]=floor(u[k]+0.1),zr00[k]=u[k])),float(zr00))
+do(rnd1(u)=rnd(u,1),rnd2(u)=rnd(u,2),rnd3(u)=rnd(u,3),rnd4(u)=rnd(u,4),rnd5(u)=rnd(u,5),rnd6(u)=rnd(u,6),rnd7(u)=rnd(u,7)) 
+
+exp0(u)=test(number(u),exp(u),do(u2=gp(u,u),u3=gp(u2,u),u4=gp(u2,u2),1.0*gp(e0+u/2+3u2/28+u3/84+u4/1680, inverse(e0-u/2+3u2/28-u3/84+u4/1680 ))))
+exp1(u)= exp0(u-e0*Re(u))*float(exp(Re(u)))  # best method ?
+qq(m,n,x)=sum(k,0,n,((m+n-k)!n!)/((m+n)!(n-k)!k! )(-x)^k) # compute the Padé coef. for exp = pp/qq  (ex: m=n=4 for exp)
+pp(m,n,x)=sum(k,0,m,((m+n-k)!m!)/((m+n)!(m-k)!k! )x^k)
+exp11(v)=test(number(v),exp(v),do(u=float(v),un=e0,exp00=e0,for(k,1,maxTaylor,un=1.0*(gp(un,u)),exp00=exp00+un/k!),exp00))
+
+
+power1(u,n)=test(number(u),u^n,do(isInteger(n),check(n>=0),pow00=e0,for(k,1,n,pow00=float((gp(pow00,u)))),pow00))
+pow1(u,n)=power1(u,n)
+
+sqrt0(u)=do(n=3,y(n) = test(n==0, u, (y(n-1) + inverse(z(n-1)))/2),z(n) = test(n==0, e0,(z(n-1) + inverse(y(n-1)))/2),1.0*y)
+sqrt1(v)=do(u=normalize(v),rnd6(sqrt0(u)*sqrt(magnitude(v)))) #  best method ?
+sqrt10(u)=test(number(u),sqrt(u),exp1(log1(u)/2)) 
+sqrt11(v)=do(u=normalize(v),rnd6(sqrt10(u)*sqrt(magnitude(v)))) 
+sqrtn(u,n)=test(n=1,sqrt1(u),sqrt1(sqrtn(u,n-1))) 
+
+
+log0(v)=test(number(v),log(v),do(u=e0-v,u2=gp(u,u),u3=gp(u2,u),1.0*gp(-60u+60*u2-11*u3,inverse(60e0-90u+36*u2-3*u3))))
+log1(v)=do(u=normalize(v),log0(u)+e0*log(magnitude(v)))  
+log10(u)=do(u1=gp(u-e0,inverse(u+e0)),u2=gp(u1,u1),un=u1,test(u2==0,print(" failed to calculate log11",stop),1),log00=u1,for(k,1,maxTaylor,un=float(gp(un,u2)), log00=log00+un/(2k+1)),2*log00)+e0*log(magnitude(u))
+log11(v)=do(u=normalize(v),log10(u)+e0*log(magnitude(v)))
+
+
+sin0(u)=test(number(u),sin(u),do(un=u,sin00=u,u2=gp(u,u),for(k,1,maxTaylor,un=1.0*(gp(un,u2)),sin00=sin00+(-1)^k*un/(2k+1)!),float(sin00)))
+cos0(u)=test(number(u),cos(u),do(un=e0,cos00=e0,u2=gp(u,u),for(k,1,maxTaylor,un=gp(un,u2),cos00=cos00+(-1)^k*un/(2k)!),float(cos00)))
+sin1(u)=float(sin(Re(u)))*cos0(u-e0*Re(u))+float(cos(Re(u)))*sin0(u-e0*Re(u))
+cos1(u)=float(cos(Re(u)))*cos0(u-e0*Re(u))-float(sin(Re(u)))*sin0(u-e0*Re(u))
+tan1(u)=test(number(u),tan(u),gp(sin1(u),inverse(cos1(u))))
+asin1(u)=2*atan1(gp(u,inverse(e0+sqrt1(e0-gp(u,u)))))
+acos1(u)=e0*float(pi/2)-asin1(u)
+atan1(u)=do(j00=normalize(imag1(u)),test(number(u),arctan(u),0.5*gp(j00,log1(e0-gp(j00,u))-log1(e0+gp(j00,u)))))
+
+sinh1(u)=test(number(u),sinh(u),0.5*(float(exp1(u))-1.0*exp1(-u)))
+cosh1(u)=test(number(u),cosh(u),0.5*(exp1(u)+exp1(-u)))                          
+tanh1(u)=test(number(u),tanh(u),gp(1.0*sinh1(u),inverse(1.0*cosh1(u))))
+
+asinh1(u)=test(number(u),arcsinh(u),log1(u+sqrt1(power1(u,2)+e0)))
+acosh1(u)=do(test(number(u),arccosh(u),log1(u+gp(sqrt1(u+e0),sqrt1(u-e0)))))
+atanh1(u)=do(test(number(u),arctanh(u),0.5(log1(e0+u)-log1(e0-u))))
+
+power2(u,n)=do(pow00=e0,for(k,1,n,pow00=outp(pow00,u)),pow00)
+expi(u)=test(u=0,e0,do(un=e0,expi00=e0,for(k,1,maxTaylor,un=outp(un,u),expi00=expi00+un/k!),expi00))
+exp2(u)=test(u=0,e0,do(u0=grade(u,0),expi(u-u0)*exp(u0[1])))
+invi(u)=do(invi00=e0,for(k,1,maxTaylor,invi00=invi00+power2(u,k)*((-1)^k)),invi00)
+
+inv2(u)=do(isZero(u[1]),float(invi((u-u[1]*e0)/u[1])/u[1]))
+sqrti(u)=do( u2=outp(u,u),u3=outp(u2,u), u4=outp(u2,u2),u5=outp(u4,u),u6=outp(u4,u2),u7=outp(u6,u),u8=outp(u4,u4),u9=outp(u8,u),e0+u/2-u2/8+u3/16-u4*(5/128)+u5*(7/256)+u6*(21/1024)+u7*(33/2048)+u8*(429/32768)+u9*(715/65536))
+sqrt2(u)=do(isPos(u[1]),float(sqrti((u-u[1]*e0)/u[1])*sqrt(u[1])))
+ 
+sqrt22(u)=do(isPos(u[1]),exp2(0.5*log2(u)))
+logi(u)=do(un=u,logi00=u,for(k,1,maxTaylor,un=outp(un,u),logi00=logi00+(-1)^k*un/(k+1)),1.0*logi00)
+log2(u)=do(isPos(u[1]),test(u[1]=0,-INF*e0,logi((u-u[1]*e0)/u[1])+e0*log(u[1])))
+sini(u)=test(u=0,0,do(un=u,sini00=u,u2=outp(u,u),for(k,1,maxTaylor,un=outp(un,u2),sini00=sini00+(-1)^k*un/(2k+1)!),sini00))
+cosi(u)=test(u=0,e0,do(un=e0,cosi00=e0,u2=outp(u,u),for(k,1,maxTaylor,un=outp(un,u2),cosi00=cosi00+(-1)^k*un/(2k)!),cosi00))
+sin2(u)=test(u=0,0,do(sin(u[1])*cosi(u-u[1]*e0)+cos(u[1])*sini(u-u[1]*e0)))
+cos2(u)=test(u=0,e0,do(cos(u[1])*cosi(u-u[1]*e0)-sin(u[1])*sini(u-u[1]*e0)))
+tan2(u)=test(u=0,0,do(outp(sin2(u),inv2(cos2(u)))))
+asini(u)=test(u=0,0,do(u2=power2(u,2),un=u,asini00=u, for(k,1,maxTaylor,un=outp(un,u2),asini00=asini00+((2k)!/(2^(2k)*((k!)^2)))*un/(2k+1)),1.0*asini00))
+asin2(u)=test(u=0,0,do(isRangeLE1(u),arcsin(u[1])*e0+asini(u*sqrt(1-u[1]^2)-u[1]*sqrt2(e0-power2(u,2)))))
+acos2(u)=e0*pi/2-asin2(u)
+atani(u)=test(u=0,0,do(u2=power2(u,2),un=u,atani00=u,for(k,1,maxTaylor,un=outp(u2,un),atani00=atani00+((-1)^k)*un/(2k+1)),1.0*atani00))
+atan2(u)=test(u=0,0,do(arctan(u[1])*e0+atani(outp((u-u[1]*e0),inv2(e0+u[1]*u)))))
+sinh2(u)=do(0.5(exp2(u)-exp2(-u)))
+cosh2(u)=do(0.5(exp2(u)+exp2(-u)))
+tanh2(u)=outp(sinh2(u),inv2(cosh2(u)))
+
+asinh2(u)=log2(u+sqrt2(power2(u,2)+e0))
+acosh2(u)=log2(u+sqrt2(power2(u,2)-e0))
+atanh2(u)=1/2*log2(outp(e0+u,inv2(e0-u)))
+
+nabla(u,x)=do(isMvector(u),isMvector(x),nabla00=zero(Cldim),ek=unit(Cldim),for(k,1,Cldim,test(not(x[k]==0),do(nabla00=nabla00+gp(ek[k],ek[k])[1]*gp(d(u,x[k]),ek[k])))),nabla00)
+laplacian(u,x)=nabla(nabla(u,x),x)
+
+diff(u,a,x)=do(isMvector(u),isMvector(x),nabla00=zero(Cldim),ek=unit(Cldim),C(k)=gp(ek[k],ek[k])[1],for(k,1,Cldim,test(not(x[k]==0),do(nabla00=nabla00+ gp(a,ek[k])[1]*C[k]*d(u,x[k])))),nabla00)
+
+project(u,v)=gp(inp(u,v),inverse(v))
+reject(u,v)=u-project(u,v)
+reflect(u,v)=do(test(even(v),gp(gp(-invol(v),u),inverse(v)),odd(v),gp(gp(v,u),inverse(v))))
+join(u,v)=do(isMvector(u),isMvector(v),H=outp(cunit(u),cunit(v)),cunit(H))
+meet(u,v)=do(isMvector(u),isMvector(v),gp(outp(gp(u,-j),gp(v,-j)),j))
+
+RR(R,u)=  do(test(versor(R),1,print("1st arg not a rotor",stop)),gp(gp(R,u),rev(R)))
+R(B,theta)= do(test(grade2(B),1,print("1st arg not a bivector",stop)),test(number(theta),T=float(theta*pi/180),T=magnitude(B)),B1=normalize(B),(exp1(-B1*T/2))) 
+
+rotor2M(R1)=do(test(Clmax<5,1,print("works only for Cl(2), cl(3), Cl(4)",stop)),V00=zero(Clmax,Cldim),M00=zero(Clmax,Clmax), V00[1]=RR(R1,e1),V00[2]=RR(R1,e2),test(Clmax>=3,V00[3]=RR(R1,e3),1),test(Clmax>=4,V00[4]=RR(R1,e4),1),for(i,1,Clmax,for(j,1,Clmax,M00[j,i]=V00[i,j+1] )),M00)
+
+orthogonal(u,v,w)=do(isVector(u),isVector(v),isVector(w),test(outp(outp(u,v),w)=0,print("not a frame",stop)),u0=u,v0=gp(outp(v,u0),inverse(u0)),w0=gp(outp(outp(w,u0),v0),inverse(outp(u0,v0))),((u0[2],u0[3],u0[4]),(v0[2],v0[3],v0[4]),(w0[2],w0[3],w0[4])))
+
+reciprocal(u,v,w)=do(isVector(u),isVector(v),isVector(w),test(outp(outp(u,v),w)=0,print("not a frame",stop)),u123=outp(outp(u,v),w),ru=gp(outp(v,w),inverse(u123)),rv=gp(outp(w,u),inverse(u123)),rw=gp(outp(u,v),inverse(u123)),((ru[2],ru[3],ru[4]),(rv[2],rv[3],rv[4]),(rw[2],rw[3],rw[4]))) 
+
+
+disp3(u) = do( isMvector(u),
+              print(u[1]*"e0"+u[2]*"e1"+u[3]*"e2"+u[4]*"e3"+
+                    u[5]*"e12"+u[6]*"e23"+
+                    u[7]*"e13"+u[8]*"e123"))
+
+disp2(u) = do(isMvector(u),print(u[1]*"e0"+u[2]*"e1"+u[3]*"e2"+u[4]*"e12"))
+
+tty=0
+helpCL=
+(
+("gp(u,v)  :","geometic product : u v               "),
+("inp(u,v) :","inner product    : u.v               "),
+("outp(u,v):","outer product    : u^v               "),
+("dispgrd(u):","display grade decomposition         "),
+("inverse(u):","inverse          : 1/u               "),
+("magnitude(u):","magnitude     : |u|               "),
+("normalize(u) :","normalize    : u/|u|             "),
+("cj(u)    :","Clifford conjugate                   "),
+("rev(u)   :","reverse                              "),
+("invol(u) :","grade involution                     "),
+("dual(u)  :","dual             : u/e123            "),
+("grade(u,k):","k grade of u : <u>k                 "),
+("lc(u),.. :","left, .. contraction                "),
+("exp1(u),..:","usual maths functions with ..1     ")
+)

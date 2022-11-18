@@ -1,0 +1,46 @@
+-- EVA2.txt is read from ~/Library/Containers/com.gweigt.eigenmath/Data
+
+run("EVA2.txt")
+
+"--ok--"
+
+-- Dr. W.Lindner 1/2020
+
+Cl(3)
+info()
+
+crossp(a,b)=(a[2]*b[3]-a[3]*b[2])*e1 -
+            (a[1]*b[3]-a[3]*b[1])*e2 +
+            (a[1]*b[2]-a[2]*b[1])*e3
+
+c=(1,2,3)
+d=(4,5,6)
+cp=crossp(c,d)
+cp
+
+N(a,b)= crossp(a,b)/magnitude(crossp(a,b))
+n=N(c,d)
+n
+
+e=gp(e123, crossp(c,d))
+e
+
+-- p 38 Ex 2.3.1
+--1)
+a=e1+2e2+3e3
+b=-2e1+3e2-e3
+c=2e1+e2-3e3
+magnitude(a)
+a/magnitude(a)
+normalize(a)
+gp(a,b)
+
+outp(a,outp(b,c))
+dot(a,crossp((-2,3,-1),(2,1,-3)))*e123
+--3)
+
+gp(a,gp(b,c))
+
+check(last==(0.0,-6.0,20.0,-2.0,0.0,0.0,0.0,-48.0))
+
+"ok"
