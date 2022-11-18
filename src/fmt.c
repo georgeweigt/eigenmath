@@ -72,7 +72,7 @@ fmt(void)
 	if (m > fmt_buf_len) {
 		if (fmt_buf)
 			free(fmt_buf);
-		fmt_buf = mem_alloc(m);
+		fmt_buf = alloc_mem(m);
 		fmt_buf_len = m;
 	}
 

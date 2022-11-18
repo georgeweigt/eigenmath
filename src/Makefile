@@ -1,4 +1,8 @@
-.PHONY: clean
+.PHONY: default clean
+
+default:
+	make -C ../tools
+	make eigenmath
 
 CC = gcc
 CFLAGS = -Wall -O0 -include defs.h -include prototypes.h -include externs.h

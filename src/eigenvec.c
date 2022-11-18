@@ -29,8 +29,8 @@ eval_eigenvec(struct atom *p1)
 	if (Q)
 		free(Q);
 
-	D = mem_alloc(n * n * sizeof (double));
-	Q = mem_alloc(n * n * sizeof (double));
+	D = alloc_mem(n * n * sizeof (double));
+	Q = alloc_mem(n * n * sizeof (double));
 
 	// initialize D
 

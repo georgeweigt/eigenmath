@@ -461,7 +461,7 @@ update_token_buf(char *a, char *b)
 	if (m > token_buf_len) {
 		if (token_buf)
 			free(token_buf);
-		token_buf = mem_alloc(m);
+		token_buf = alloc_mem(m);
 		token_buf_len = m;
 	}
 

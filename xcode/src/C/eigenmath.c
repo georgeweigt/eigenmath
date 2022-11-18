@@ -767,7 +767,7 @@ alloc_block(void)
 		kaput("out of memory");
 	}
 
-	p = mem_alloc(BLOCKSIZE * sizeof (struct atom));
+	p = alloc_mem(BLOCKSIZE * sizeof (struct atom));
 
 	mem[block_count++] = p;
 
@@ -809,7 +809,7 @@ alloc_tensor(int nelem)
 	struct atom *p;
 	struct tensor *t;
 	p = alloc_atom();
-	t = mem_alloc(sizeof (struct tensor) + nelem * sizeof (struct atom *));
+	t = alloc_mem(sizeof (struct tensor) + nelem * sizeof (struct atom *));
 	p->atomtype = TENSOR;
 	p->u.tensor = t;
 	t->nelem = nelem;
@@ -820,7 +820,7 @@ alloc_tensor(int nelem)
 }
 
 void *
-mem_alloc(int n)
+alloc_mem(int n)
 {
 	void *p = malloc(n);
 	if (p == NULL)
@@ -1956,7 +1956,7 @@ mstr(uint32_t *u)
 	if (m > len) {
 		if (buf)
 			free(buf);
-		buf = mem_alloc(m);
+		buf = alloc_mem(m);
 		len = m;
 	}
 
@@ -2328,7 +2328,7 @@ uint32_t *
 mnew(int n)
 {
 	uint32_t *u;
-	u = mem_alloc((n + 1) * sizeof (uint32_t));
+	u = alloc_mem((n + 1) * sizeof (uint32_t));
 	bignum_count++;
 	*u = n;
 	return u + 1;
@@ -4959,8 +4959,8 @@ eval_eigenvec(struct atom *p1)
 	if (Q)
 		free(Q);
 
-	D = mem_alloc(n * n * sizeof (double));
-	Q = mem_alloc(n * n * sizeof (double));
+	D = alloc_mem(n * n * sizeof (double));
+	Q = alloc_mem(n * n * sizeof (double));
 
 	// initialize D
 
@@ -10370,8 +10370,8 @@ nroots(void)
 	if (ci)
 		free(ci);
 
-	cr = mem_alloc(n * sizeof (double));
-	ci = mem_alloc(n * sizeof (double));
+	cr = alloc_mem(n * sizeof (double));
+	ci = alloc_mem(n * sizeof (double));
 
 	// convert coeffs to floating point
 
@@ -13287,7 +13287,7 @@ run_file(char *filename)
 	lseek(fd, 0, SEEK_SET);
 
 	p1 = alloc_atom();
-	buf = mem_alloc(n + 1);
+	buf = alloc_mem(n + 1);
 	p1->atomtype = STR;
 	p1->u.str = buf; // buf is freed on next gc
 	string_count++;
@@ -13927,7 +13927,7 @@ update_token_buf(char *a, char *b)
 	if (m > token_buf_len) {
 		if (token_buf)
 			free(token_buf);
-		token_buf = mem_alloc(m);
+		token_buf = alloc_mem(m);
 		token_buf_len = m;
 	}
 

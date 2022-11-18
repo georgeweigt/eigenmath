@@ -439,7 +439,7 @@ mstr(uint32_t *u)
 	if (m > len) {
 		if (buf)
 			free(buf);
-		buf = mem_alloc(m);
+		buf = alloc_mem(m);
 		len = m;
 	}
 
@@ -811,7 +811,7 @@ uint32_t *
 mnew(int n)
 {
 	uint32_t *u;
-	u = mem_alloc((n + 1) * sizeof (uint32_t));
+	u = alloc_mem((n + 1) * sizeof (uint32_t));
 	bignum_count++;
 	*u = n;
 	return u + 1;

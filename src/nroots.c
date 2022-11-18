@@ -40,8 +40,8 @@ nroots(void)
 	if (ci)
 		free(ci);
 
-	cr = mem_alloc(n * sizeof (double));
-	ci = mem_alloc(n * sizeof (double));
+	cr = alloc_mem(n * sizeof (double));
+	ci = alloc_mem(n * sizeof (double));
 
 	// convert coeffs to floating point
 

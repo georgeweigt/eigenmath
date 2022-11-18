@@ -25,7 +25,7 @@ void alloc_block(void);
 struct atom * alloc_vector(int nrow);
 struct atom * alloc_matrix(int nrow, int ncol);
 struct atom * alloc_tensor(int nelem);
-void * mem_alloc(int n);
+void * alloc_mem(int n);
 void eval_arccos(struct atom *p1);
 void arccos(void);
 void eval_arccosh(struct atom *p1);
