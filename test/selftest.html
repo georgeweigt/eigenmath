@@ -1,43 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>Eigenmath Demo</title>
-</head>
+<html>
 <body>
 
 <script src="../js/eigenmath.js"></script>
 
-<i>In Safari's Develop menu, the setting Disable Local File Restrictions must be checked.</i>
-<br>
+In Safari's Develop menu, the setting Disable Local File Restrictions must be checked.<br>
 
-<table><tr>
-
-<td>
-<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt">
-</textarea>
-</td>
-
-<td>
-<input type="submit" value="selftest1" onclick="readfile('selftest1')">
-<br>
-<br>
-<input type="submit" value="selftest2" onclick="readfile('selftest2')">
-<br>
-<br>
-<input type="submit" value="drawtest" onclick="readfile('drawtest')">
-<br>
-<br>
-<input type="submit" value="chartest" onclick="readfile('chartest')">
-<br>
-<br>
-<input type="file" id="choosefile">
-<br>
-<br>
+<textarea id="stdin" rows="24" cols="80" style="font-family:courier;font-size:12pt"></textarea>
 <button onclick="run()">Run</button>
-</td>
-
-</tr></table>
+<input type="submit" value="selftest1" onclick="readfile('selftest1')">
+<input type="submit" value="selftest2" onclick="readfile('selftest2')">
+<input type="file" id="choosefile">
 
 <p>
 <div id="stdout"></div>
