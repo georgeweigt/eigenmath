@@ -1,3 +1,5 @@
+# Do 'make eigenmath' to avoid touching prototypes.h
+
 .PHONY: default clean
 
 CC = gcc
