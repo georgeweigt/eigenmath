@@ -1,5 +1,3 @@
-# Do 'make eigenmath' to avoid touching prototypes.h
-
 .PHONY: default clean
 
 CC = gcc
@@ -9,8 +7,9 @@ default:
 	make prototypes.h
 	make eigenmath
 
-prototypes.h: defs.h externs.h *.c
-	make -C ../tools
+prototypes.h: *.c
+	make -s -C ../tools make-prototypes
+	../tools/make-prototypes ./ > prototypes.h
 
 objs := $(shell ls *.c | sed "s/\.c/\.o/g")
 
