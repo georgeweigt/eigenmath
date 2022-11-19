@@ -1,6 +1,5 @@
-.PHONY: default
+src := $(shell ls *.js | sed -e s/eigenmath\.js//)
 
-default:
-	rm -f eigenmath.js
-	cat LICENSE *.js > eigenmath.js
+eigenmath.js: LICENSE $(src)
+	cat LICENSE $(src) > eigenmath.js
 	npx eslint eigenmath.js
