@@ -201,7 +201,9 @@ check(D(psi5)=0)
 check(D(psi6)=0)
 check(D(psi7)=0)
 check(D(psi8)=0)
-"Dirac equation 32"
+"Dirac equation (32)"
+
+-- See "Quantum Mechanics and a Preliminary Investigation of the Hydrogen Atom"
 
 clear
 
