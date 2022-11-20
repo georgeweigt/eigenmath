@@ -7,9 +7,9 @@ int
 urand(void)
 {
 	int t;
-	t = rand() % 9 + 1;
-	if (rand() & 1)
-		t = -t;
+	t = rand() % 9 + 1; // t = 1,2,...,9
+	if (rand() % 2 == 1)
+		t = -t; // random sign
 	return t;
 }
 
