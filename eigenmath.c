@@ -1,13 +1,5 @@
 /* github.com/georgeweigt/eigenmath
 
-To build and run:
-
-	gcc -O0 eigenmath.c -lm
-	./a.out
-
-Press ctrl-C to exit.
-
-
 BSD 2-Clause License
 
 Copyright (c) 2022, George Weigt
