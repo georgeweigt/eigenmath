@@ -9,4 +9,4 @@ eigenmath.js: $(src)
 	npx eslint eigenmath.js
 
 clean:
-	rm eigenmath.js
+	rm -f eigenmath.js
