@@ -11,10 +11,10 @@ xsrc := $(shell ls ../src/*.c | sed "s/\.\.\/src\/globals\.c//;s/\.\.\/src\/main
 default:
 	make -s make-prototypes
 	cat LICENSE ../src/defs.h ../src/prototypes.h ../src/globals.c $(src) > ../eigenmath.c
-	cp ../src/defs.h ../src/externs.h ../xcode/src/C
-	echo "#include \"app.h\"" > ../xcode/src/C/eigenmath.c
-	cat ../src/globals.c $(xsrc) >> ../xcode/src/C/eigenmath.c
-	./make-prototypes ../xcode/src/C/ > ../xcode/src/C/prototypes.h
+	cp ../src/defs.h ../src/externs.h ../xcode/src
+	echo "#include \"app.h\"" > ../xcode/src/eigenmath.c
+	cat ../src/globals.c $(xsrc) >> ../xcode/src/eigenmath.c
+	./make-prototypes ../xcode/src/ > ../xcode/src/prototypes.h
 	make -s check
 	./check ../eigenmath.c
 
