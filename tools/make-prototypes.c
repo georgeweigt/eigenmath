@@ -42,11 +42,7 @@ int
 filter(const struct dirent *p)
 {
 	int len = strlen(p->d_name);
-
-	if (len > 2 && strcmp(p->d_name + len - 2, ".c") == 0)
-		return 1;
-	else
-		return 0;
+	return len > 2 && strcmp(p->d_name + len - 2, ".c") == 0;
 }
 
 void
