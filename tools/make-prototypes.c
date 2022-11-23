@@ -114,12 +114,12 @@ read_file(char *filename)
 
 	n = lseek(fd, 0, SEEK_END);
 
-	if (n < 0) {
+	if (n == -1) {
 		close(fd);
 		return NULL;
 	}
 
-	if (lseek(fd, 0, SEEK_SET)) {
+	if (lseek(fd, 0, SEEK_SET) == -1) {
 		close(fd);
 		return NULL;
 	}
