@@ -9,14 +9,14 @@ src := $(shell ls ../src/*.c | sed "s/\.\.\/src\/globals\.c//")
 xsrc := $(shell ls ../src/*.c | sed "s/\.\.\/src\/globals\.c//;s/\.\.\/src\/main\.c//;s/\.\.\/src\/fmt\.c//")
 
 default:
-	make -s make-prototypes
 	cat LICENSE ../src/defs.h ../src/prototypes.h ../src/globals.c $(src) > ../eigenmath.c
+	make -s check
+	./check ../eigenmath.c
 	cp ../src/defs.h ../src/externs.h ../xcode/src
 	echo "#include \"app.h\"" > ../xcode/src/eigenmath.c
 	cat ../src/globals.c $(xsrc) >> ../xcode/src/eigenmath.c
-	./make-prototypes ../xcode/src/ > ../xcode/src/prototypes.h
-	make -s check
-	./check ../eigenmath.c
+	make -s make-prototypes
+	./make-prototypes ../xcode/src > ../xcode/src/prototypes.h
 
 check: check.c
 	gcc -O0 -o check check.c
