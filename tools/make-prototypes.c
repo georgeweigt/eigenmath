@@ -13,17 +13,28 @@ char *read_file(char *);
 int
 main(int argc, char *argv[])
 {
-	int i, n;
+	int i, len, n;
+	char *filename;
 	struct dirent **p;
-	char filename[100];
 
 	n = scandir(argv[1], &p, filter, alphasort);
 
 	for (i = 0; i < n; i++) {
+
+		len = strlen(argv[1]) + 1 + strlen(p[i]->d_name) + 1;
+
+		filename = malloc(len);
+
+		if (filename == NULL)
+			exit(1);
+
 		strcpy(filename, argv[1]);
 		strcat(filename, "/");
 		strcat(filename, p[i]->d_name);
+
 		scan(filename);
+
+		free(filename);
 	}
 }
 
