@@ -66,19 +66,20 @@ scan(char *filename)
 
 		// go back 2 newlines
 
-		j = k - 1;
+		j = k;
 
-		while (j > -1 && buf[j] != '\n')
+		while (j > 0 && buf[j - 1] != '\n')
 			j--;
 
-		j--;
+		if (j > 0)
+			j--;
 
-		while (j > -1 && buf[j] != '\n')
+		while (j > 0 && buf[j - 1] != '\n')
 			j--;
 
 		// print
 
-		for (i = j + 1; i < k; i++)
+		for (i = j; i < k; i++)
 			if (buf[i] == '\n')
 				putchar(' ');
 			else
