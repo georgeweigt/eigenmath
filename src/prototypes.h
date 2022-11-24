@@ -425,6 +425,7 @@ void eval_quotient(struct atom *p1);
 void quotient(void);
 void eval_rationalize(struct atom *p1);
 void rationalize(void);
+char * read_file(char *filename);
 void eval_real(struct atom *p1);
 void real(void);
 void eval_rect(struct atom *p1);

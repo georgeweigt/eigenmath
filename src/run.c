@@ -114,40 +114,19 @@ eval_run(struct atom *p1)
 void
 run_file(char *filename)
 {
-	int fd, n;
 	char *buf, *s, *t1, *t2;
 	struct atom *p1;
 
-	fd = open(filename, O_RDONLY, 0);
-
-	if (fd == -1)
-		stop("run: cannot open file");
-
-	// get file size
-
-	n = (int) lseek(fd, 0, SEEK_END);
-
-	if (n < 0) {
-		close(fd);
-		stop("run: lseek error");
-	}
-
-	lseek(fd, 0, SEEK_SET);
-
 	p1 = alloc_atom();
-	buf = alloc_mem(n + 1);
+
+	buf = read_file(filename);
+
+	if (buf == NULL)
+		stop("run: cannot read file");
+
 	p1->atomtype = STR;
 	p1->u.str = buf; // buf is freed on next gc
 	string_count++;
-
-	if (read(fd, buf, n) != n) {
-		close(fd);
-		stop("run: read error");
-	}
-
-	close(fd);
-
-	buf[n] = 0;
 
 	s = buf;
 

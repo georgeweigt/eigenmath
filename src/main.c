@@ -6,8 +6,6 @@ main(int argc, char *argv[])
 
 	if (isatty(fileno(stdout)))
 		run_stdin();
-
-	return 0;
 }
 
 void
@@ -24,38 +22,17 @@ run_stdin(void)
 void
 run_infile(char *infile)
 {
-	int fd, n;
 	char *buf;
 
-	fd = open(infile, O_RDONLY, 0);
+	buf = read_file(infile);
 
-	if (fd == -1) {
-		fprintf(stderr, "cannot open %s\n", infile);
+	if (buf == NULL) {
+		fprintf(stderr, "cannot read %s\n", infile);
 		exit(1);
 	}
 
-	// get file size
-
-	n = lseek(fd, 0, SEEK_END);
-
-	if (n == -1) {
-		fprintf(stderr, "lseek err\n");
-		exit(1);
-	}
-
-	lseek(fd, 0, SEEK_SET);
-
-	buf = alloc_mem(n + 1);
-
-	if (read(fd, buf, n) != n) {
-		fprintf(stderr, "read err\n");
-		exit(1);
-	}
-
-	close(fd);
-
-	buf[n] = '\0';
 	run(buf);
+
 	free(buf);
 }
 
