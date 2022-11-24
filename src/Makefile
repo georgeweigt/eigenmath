@@ -1,6 +1,6 @@
 .PHONY: clean
 
-eigenmath: defs.h prototypes.h externs.h *.c
+eigenmath: *.h *.c
 	gcc -Wall -O0 -o eigenmath -include defs.h -include prototypes.h -include externs.h *.c -lm
 
 prototypes.h: *.c
