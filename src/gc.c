@@ -11,10 +11,8 @@ gc(void)
 	// tag everything
 
 	for (i = 0; i < block_count; i++)
-		for (j = 0; j < BLOCKSIZE; j++) {
-			p = mem[i] + j;
-			p->tag = 1;
-		}
+		for (j = 0; j < BLOCKSIZE; j++)
+			mem[i][j].tag = 1;
 
 	// untag what's used
 
