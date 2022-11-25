@@ -9059,11 +9059,11 @@ gc(void)
 
 	// tag everything
 
-	for (i = 0; i < block_count; i++) {
-		p = mem[i];
-		for (j = 0; j < BLOCKSIZE; j++)
-			p[j].tag = 1;
-	}
+	for (i = 0; i < block_count; i++)
+		for (j = 0; j < BLOCKSIZE; j++) {
+			p = mem[i] + j;
+			p->tag = 1;
+		}
 
 	// untag what's used
 
@@ -9090,50 +9090,48 @@ gc(void)
 	free_list = NULL;
 	free_count = 0;
 
-	for (i = 0; i < block_count; i++) {
-
-		p = mem[i];
-
+	for (i = 0; i < block_count; i++)
 		for (j = 0; j < BLOCKSIZE; j++) {
 
-			if (p[j].tag == 0)
+			p = mem[i] + j;
+
+			if (p->tag == 0)
 				continue;
 
 			// still tagged so it's unused, put on free list
 
-			switch (p[j].atomtype) {
+			switch (p->atomtype) {
 			case KSYM:
-				free(p[j].u.ksym.name);
+				free(p->u.ksym.name);
 				ksym_count--;
 				break;
 			case USYM:
-				free(p[j].u.usym.name);
+				free(p->u.usym.name);
 				usym_count--;
 				break;
 			case RATIONAL:
-				mfree(p[j].u.q.a);
-				mfree(p[j].u.q.b);
+				mfree(p->u.q.a);
+				mfree(p->u.q.b);
 				break;
 			case STR:
-				if (p[j].u.str)
-					free(p[j].u.str);
+				if (p->u.str)
+					free(p->u.str);
 				string_count--;
 				break;
 			case TENSOR:
-				free(p[j].u.tensor);
+				free(p->u.tensor);
 				tensor_count--;
 				break;
 			default:
 				break; // FREEATOM, CONS, or DOUBLE
 			}
 
-			p[j].atomtype = FREEATOM;
-			p[j].u.next = free_list;
+			p->atomtype = FREEATOM;
+			p->u.next = free_list;
 
-			free_list = p + j;
+			free_list = p;
 			free_count++;
 		}
-	}
 }
 
 void
