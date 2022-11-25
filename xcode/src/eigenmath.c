@@ -6793,7 +6793,7 @@ gc(void)
 
 	// symbol table
 
-	for (i = 0; i < 27; i++) {
+	for (i = 0; i < 27; i++)
 		for (j = 0; j < NSYM; j++) {
 			k = NSYM * i + j;
 			if (symtab[k] == NULL)
@@ -6802,7 +6802,6 @@ gc(void)
 			untag(binding[k]);
 			untag(usrfunc[k]);
 		}
-	}
 
 	// collect everything that's still tagged
 
