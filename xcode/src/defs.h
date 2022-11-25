@@ -12,7 +12,7 @@
 #define STRBUFLEN 1000
 
 #define STACKSIZE 100000 // evaluation stack
-#define FRAMESIZE 1000
+#define FRAMESIZE 10000
 #define BLOCKSIZE 10000
 #define MAXBLOCKS 1000
 #define NSYM 100
