@@ -276,12 +276,18 @@ check(A == (((a,a,a,a),(a,a,a,a)),((b,b,b,b),(b,b,b,b)),((c,c,c,c),(c,c,c,c))))
 
 -- setq
 
+clear
+check(infixform(A) == "A")
+check(infixform(binding(A)) == "A")
+
 A = nil
 check(infixform(A) == "A")
 check(infixform(binding(A)) == "A")
+
 A = quote(A)
 check(infixform(A) == "A")
 check(infixform(binding(A)) == "A")
+
 A = A
 check(infixform(A) == "A")
 check(infixform(binding(A)) == "A")
