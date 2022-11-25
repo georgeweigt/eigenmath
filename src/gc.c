@@ -21,8 +21,6 @@ gc(void)
 	untag(minusone);
 	untag(imaginaryunit);
 
-	// symbol table
-
 	for (i = 0; i < 27; i++)
 		for (j = 0; j < NSYM; j++) {
 			k = NSYM * i + j;
