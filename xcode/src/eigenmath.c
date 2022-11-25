@@ -819,6 +819,17 @@ alloc_tensor(int nelem)
 	return p;
 }
 
+struct atom *
+alloc_str(void)
+{
+	struct atom *p;
+	p = alloc_atom();
+	p->atomtype = STR;
+	p->u.str = NULL;
+	string_count++;
+	return p;
+}
+
 void *
 alloc_mem(int n)
 {
@@ -6823,7 +6834,8 @@ gc(void)
 				mfree(p[j].u.q.b);
 				break;
 			case STR:
-				free(p[j].u.str);
+				if (p[j].u.str)
+					free(p[j].u.str);
 				string_count--;
 				break;
 			case TENSOR:
@@ -13309,18 +13321,16 @@ void
 run_file(char *filename)
 {
 	char *buf, *s, *t1, *t2;
-	struct atom *p1;
+	struct atom *p;
 
-	p1 = alloc_atom();
+	p = alloc_str();
 
 	buf = read_file(filename);
 
 	if (buf == NULL)
 		stop("run: cannot read file");
 
-	p1->atomtype = STR;
-	p1->u.str = buf; // buf is freed on next gc
-	string_count++;
+	p->u.str = buf; // if stop occurs, buf is freed on next gc
 
 	s = buf;
 
@@ -13339,6 +13349,9 @@ run_file(char *filename)
 
 	trace1 = t1;
 	trace2 = t2;
+
+	free(buf);
+	p->u.str = NULL;
 }
 
 void
@@ -14911,14 +14924,12 @@ void
 push_string(char *s)
 {
 	struct atom *p;
-	p = alloc_atom();
+	p = alloc_str();
 	s = strdup(s);
 	if (s == NULL)
 		exit(1);
-	p->atomtype = STR;
 	p->u.str = s;
 	push(p);
-	string_count++;
 }
 // Substitute replacement for match in target expr.
 //

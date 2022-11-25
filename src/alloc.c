@@ -79,6 +79,17 @@ alloc_tensor(int nelem)
 	return p;
 }
 
+struct atom *
+alloc_str(void)
+{
+	struct atom *p;
+	p = alloc_atom();
+	p->atomtype = STR;
+	p->u.str = NULL;
+	string_count++;
+	return p;
+}
+
 void *
 alloc_mem(int n)
 {

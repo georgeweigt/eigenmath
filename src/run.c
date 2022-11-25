@@ -115,18 +115,16 @@ void
 run_file(char *filename)
 {
 	char *buf, *s, *t1, *t2;
-	struct atom *p1;
+	struct atom *p;
 
-	p1 = alloc_atom();
+	p = alloc_str();
 
 	buf = read_file(filename);
 
 	if (buf == NULL)
 		stop("run: cannot read file");
 
-	p1->atomtype = STR;
-	p1->u.str = buf; // buf is freed on next gc
-	string_count++;
+	p->u.str = buf; // if stop occurs, buf is freed on next gc
 
 	s = buf;
 
@@ -145,6 +143,9 @@ run_file(char *filename)
 
 	trace1 = t1;
 	trace2 = t2;
+
+	free(buf);
+	p->u.str = NULL;
 }
 
 void

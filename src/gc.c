@@ -66,7 +66,8 @@ gc(void)
 				mfree(p[j].u.q.b);
 				break;
 			case STR:
-				free(p[j].u.str);
+				if (p[j].u.str)
+					free(p[j].u.str);
 				string_count--;
 				break;
 			case TENSOR:

@@ -59,12 +59,10 @@ void
 push_string(char *s)
 {
 	struct atom *p;
-	p = alloc_atom();
+	p = alloc_str();
 	s = strdup(s);
 	if (s == NULL)
 		exit(1);
-	p->atomtype = STR;
 	p->u.str = s;
 	push(p);
-	string_count++;
 }
