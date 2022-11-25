@@ -15358,12 +15358,19 @@ struct se stab[] = {
 void
 init_symbol_table(void)
 {
-	int i, n;
+	int i, j, k, n;
 	char *s;
 	struct atom *p;
 
-	for (i = 0; i < 27 * NSYM; i++)
-		symtab[i] = NULL;
+	for (i = 0; i < 27; i++)
+		for (j = 0; j < NSYM; j++) {
+			k = NSYM * i + j;
+			if (symtab[k] == NULL)
+				break;
+			symtab[k] = NULL;
+			binding[k] = NULL;
+			usrfunc[k] = NULL;
+		}
 
 	n = sizeof stab / sizeof (struct se);
 
@@ -15386,17 +15393,23 @@ init_symbol_table(void)
 		symtab[stab[i].index] = p;
 	}
 
+	// do after nil is defined
+
 	clear_symbols();
 }
 
 void
 clear_symbols(void)
 {
-	int i;
-	for (i = 0; i < 27 * NSYM; i++) {
-		binding[i] = symbol(NIL);
-		usrfunc[i] = symbol(NIL);
-	}
+	int i, j, k;
+	for (i = 0; i < 27; i++)
+		for (j = 0; j < NSYM; j++) {
+			k = NSYM * i + j;
+			if (symtab[k] == NULL)
+				break;
+			binding[k] = symbol(NIL);
+			usrfunc[k] = symbol(NIL);
+		}
 }
 void
 eval_tan(struct atom *p1)
