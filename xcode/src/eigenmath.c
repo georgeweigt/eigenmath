@@ -1,5 +1,5 @@
 #include "app.h"
-struct atom *mem[MAXBLOCKS];
+struct atom *mem[MAXBLOCKS]; // an array of pointers
 struct atom *free_list;
 
 int tos; // top of stack

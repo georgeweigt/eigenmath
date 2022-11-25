@@ -1,4 +1,4 @@
-extern struct atom *mem[MAXBLOCKS];
+extern struct atom *mem[MAXBLOCKS]; // an array of pointers
 extern struct atom *free_list;
 
 extern int tos; // top of stack

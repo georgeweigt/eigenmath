@@ -903,7 +903,7 @@ void evalp(void);
 void eval_transpose(struct atom *p1);
 void transpose(void);
 void eval_user_function(struct atom *p1);
-struct atom *mem[MAXBLOCKS];
+struct atom *mem[MAXBLOCKS]; // an array of pointers
 struct atom *free_list;
 
 int tos; // top of stack
