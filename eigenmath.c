@@ -17737,7 +17737,7 @@ init_symbol_table(void)
 		symtab[stab[i].index] = p;
 	}
 
-	// do after nil is defined
+	// do this now that nil is defined
 
 	clear_symbols();
 }
