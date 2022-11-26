@@ -3694,23 +3694,6 @@ check(T="7.38906")
 
 T = prefixform(float(exp(1)))
 check(T="2.71828")
-
--- FIXME
-
---T = expand((x^2+5*x+2)/(2*(x+1)),x)
---check(infixform(T) == "1/2 x - 1 / (x + 1) + 2")
-
---f = x / 2 / (x + 1)
---T = expand(f)
---check(rationalize(T) == f)
-
---f = x / 2 / (x + 1) / (x + 2)
---T = expand(f)
---check(rationalize(T) == f)
-
---f = x / 2 / (x + 1) / (x + 2) / (x + 3)
---T = expand(f)
---check(rationalize(T) == f)
 "Testing expcos"
 
 clear
