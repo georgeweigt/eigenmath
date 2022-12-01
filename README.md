@@ -25,8 +25,8 @@ To run test scripts
 ./eigenmath test/selftest2
 ```
 
-If everything is ok then `ok` is printed.
-If something is wrong then `Stop` is printed.
+If all tests pass then `ok` is printed.
+Otherwise, `Stop` is printed.
 
 #
 
