@@ -28,9 +28,9 @@ To run test scripts
 If something goes wrong, "Stop" is printed.
 Otherwise, all is well.
 
-# Javascript
+#
 
-eigenmath.js is a Javascript file that can evaluate an Eigenmath script.
+`eigenmath.js` is a Javascript file that can evaluate an Eigenmath script.
 
 Scripts are read from `document.getElementById("stdin").value`
 
@@ -38,7 +38,7 @@ Results are written to `document.getElementById("stdout").innerHTML`
 
 For example (click [here](https://georgeweigt.github.io/demo.html) to try)
 
-```html
+```
 <html>
 <body>
 
