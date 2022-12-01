@@ -1,5 +1,4 @@
 [Eigenmath Home Page](https://georgeweigt.github.io)
-
 #
 
 To build and run
@@ -26,8 +25,8 @@ To run test scripts
 ./eigenmath test/selftest2
 ```
 
-If something goes wrong, "Stop" is printed.
-Otherwise, all is well.
+If everything is ok then `ok` is printed.
+If something is wrong then `Stop` is printed.
 
 #
 
