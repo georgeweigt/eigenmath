@@ -1,3 +1,6 @@
+[Eigenmath Home Page](https://georgeweigt.github.io)
+
+#
 
 To build and run
 
@@ -16,8 +19,6 @@ To run a script
 ./eigenmath scriptfilename
 ```
 
-Sample scripts are available at [georgeweigt.github.io](https://georgeweigt.github.io)
-
 To run test scripts
 
 ```
@@ -30,7 +31,7 @@ Otherwise, all is well.
 
 #
 
-`eigenmath.js` is a Javascript file that can evaluate an Eigenmath script.
+`eigenmath.js` is a Javascript program for evaluating Eigenmath scripts in a browser.
 
 Scripts are read from `document.getElementById("stdin").value`
 
