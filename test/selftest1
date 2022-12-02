@@ -5141,6 +5141,11 @@ f = x^9 exp(-a x^2)
 check(d(integral(f)) == f)
 f = x^9 exp(a x^2 + b)
 check(d(integral(f)) == f)
+
+-- test collect_coeffs()
+
+f = exp(-i (En - omega - i epsilon) t / hbar)
+check(integral(f,t) == i hbar f / (En - omega - i epsilon))
 "Testing kronecker"
 
 clear

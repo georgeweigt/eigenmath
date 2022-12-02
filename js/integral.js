@@ -23,7 +23,9 @@ integral()
 	}
 
 	if (car(F) == symbol(MULTIPLY)) {
-		partition_integrand(F, X);
+		push(F);
+		push(X);
+		partition_integrand();
 		F = pop();		// pop var part
 		integral_nib(F, X);
 		multiply();		// multiply by const part
@@ -51,6 +53,8 @@ integral_nib(F, X)
 	push_integer(1); // 1 is a candidate for a or b
 
 	push(F);
+	push(X);
+	collect_coeffs();
 	push(X);
 	decomp();
 

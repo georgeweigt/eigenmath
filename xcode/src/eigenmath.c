@@ -8733,16 +8733,16 @@ integral(void)
 		push(X);
 		partition_integrand();	// push const part then push var part
 		F = pop();		// pop var part
-		integral_of_form(F, X);
+		integral_nib(F, X);
 		multiply();		// multiply by const part
 		return;
 	}
 
-	integral_of_form(F, X);
+	integral_nib(F, X);
 }
 
 void
-integral_of_form(struct atom *F, struct atom *X)
+integral_nib(struct atom *F, struct atom *X)
 {
 	int h;
 
@@ -8996,8 +8996,8 @@ decomp_product(struct atom *p1, struct atom *p2)
 void
 collect_coeffs(void)
 {
-	int h, i, j, n;
-	struct atom **s, *p1, *p2, *p3;
+	int h, i, j, k, n;
+	struct atom *p1, *p2, *p3;
 
 	p2 = pop(); // x
 	p1 = pop(); // expr
@@ -9008,7 +9008,6 @@ collect_coeffs(void)
 	}
 
 	h = tos;
-	s = stack + tos;
 
 	// depth first
 
@@ -9048,48 +9047,39 @@ collect_coeffs(void)
 		p1 = cdr(p1);
 	}
 
-	// sort by var part
+	// combine const parts of matching var parts
 
 	n = tos - h;
 
-	qsort(s, n / 2, 2 * sizeof (struct atom *), collect_coeffs_sort_func);
-
-	// combine const parts of matching var parts
-
-	for (i = 0; i < n - 2; i += 2) {
-		if (equal(s[i + 1], s[i + 3])) {
-			push(s[0]);
-			push(s[2]);
+	for (i = 0; i < n - 2; i += 2)
+		for (j = i + 2; j < n; j += 2) {
+			if (!equal(stack[h + i + 1], stack[h + j + 1]))
+				continue;
+			push(stack[h + i]); // add const parts
+			push(stack[h + j]);
 			add();
-			s[0] = pop();
-			for (j = i + 2; j < n; j++)
-				s[j] = s[j + 2];
+			stack[h + i] = pop();
+			for (k = j; k < n - 2; k++)
+				stack[h + k] = stack[h + k + 2];
+			j -= 2; // use same j again
 			n -= 2;
-			tos -= 2;
-			i -= 2; // use the same index again
+			tos -= 2; // pop
 		}
-	}
 
 	// combine all the parts without expanding
 
 	n = tos - h;
 
 	for (i = 0; i < n; i += 2) {
-		push(s[i]);		// const part
-		push(s[i + 1]);		// var part
+		push(stack[h + i + 0]); // const part
+		push(stack[h + i + 1]); // var part
 		multiply_noexpand();
-		s[i / 2] = pop();
+		stack[h + i / 2] = pop();
 	}
 
-	tos -= n / 2;
+	tos -= n / 2; // pop
 
 	add_terms(tos - h);
-}
-
-int
-collect_coeffs_sort_func(const void *q1, const void *q2)
-{
-	return cmp_terms(((struct atom **) q1)[1], ((struct atom **) q2)[1]);
 }
 
 void

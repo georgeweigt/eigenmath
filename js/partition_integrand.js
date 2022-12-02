@@ -1,7 +1,11 @@
 function
-partition_integrand(F, X)
+partition_integrand()
 {
-	var h, p1;
+	var h;
+	var p1, F, X;
+
+	X = pop();
+	F = pop();
 
 	// push const part
 
