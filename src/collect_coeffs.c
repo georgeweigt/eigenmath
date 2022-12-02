@@ -1,10 +1,10 @@
 // for example, exp(a x + b x) -> exp((a + b) x)
 
-function
-collect_coeffs()
+void
+collect_coeffs(void)
 {
-	var h, i, j, k, n;
-	var p1, F, X;
+	int h, i, j, k, n;
+	struct atom *p1, *F, *X;
 
 	X = pop();
 	F = pop();
@@ -14,7 +14,7 @@ collect_coeffs()
 		return;
 	}
 
-	h = stack.length;
+	h = tos;
 
 	// depth first
 
@@ -26,7 +26,7 @@ collect_coeffs()
 		collect_coeffs();
 		F = cdr(F);
 	}
-	list(stack.length - h);
+	list(tos - h);
 	F = pop();
 
 	if (car(F) != symbol(ADD)) {
@@ -44,7 +44,7 @@ collect_coeffs()
 			push(p1);
 			push(X);
 			partition_integrand();	// push const part then push var part
-		} else if (findf(p1, X)) {
+		} else if (find(p1, X)) {
 			push_integer(1);	// const part
 			push(p1);		// var part
 		} else {
@@ -56,7 +56,7 @@ collect_coeffs()
 
 	// combine const parts of matching var parts
 
-	n = stack.length - h;
+	n = tos - h;
 
 	for (i = 0; i < n - 2; i += 2)
 		for (j = i + 2; j < n; j += 2) {
@@ -70,12 +70,12 @@ collect_coeffs()
 				stack[h + k] = stack[h + k + 2];
 			j -= 2; // use same j again
 			n -= 2;
-			stack.splice(stack.length - 2); // pop
+			tos -= 2; // pop
 		}
 
 	// combine all the parts without expanding
 
-	n = stack.length - h;
+	n = tos - h;
 
 	for (i = 0; i < n; i += 2) {
 		push(stack[h + i + 0]); // const part
@@ -84,7 +84,7 @@ collect_coeffs()
 		stack[h + i / 2] = pop();
 	}
 
-	stack.splice(stack.length - n / 2); // pop
+	tos -= n / 2; // pop
 
-	add_terms(stack.length - h);
+	add_terms(tos - h);
 }
