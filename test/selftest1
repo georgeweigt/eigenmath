@@ -5144,8 +5144,15 @@ check(d(integral(f)) == f)
 
 -- test collect_coeffs()
 
+clear
+
 f = exp(-i (En - omega - i epsilon) t / hbar)
 check(integral(f,t) == i hbar f / (En - omega - i epsilon))
+
+f = exp(a x^2 + b + c)
+g = integral(f,x)
+check(infixform(g) == "-i pi^(1/2) erf(i a^(1/2) x) exp(b + c) / (2 a^(1/2))")
+check(f == d(g,x))
 "Testing kronecker"
 
 clear

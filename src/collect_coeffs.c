@@ -86,5 +86,12 @@ collect_coeffs(void)
 
 	tos -= n / 2; // pop
 
-	add_terms(tos - h);
+	n = tos - h;
+
+	if (n > 1) {
+		list(n);
+		push_symbol(ADD);
+		swap();
+		cons(); // makes ADD head of list
+	}
 }
