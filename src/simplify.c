@@ -110,7 +110,7 @@ simplify_pass1(void)
 
 	// are NUM and DEN congruent sums?
 
-	if (car(NUM) != symbol(ADD) || car(DEN) != symbol(ADD) || length(NUM) != length(DEN)) {
+	if (car(NUM) != symbol(ADD) || car(DEN) != symbol(ADD) || lengthf(NUM) != lengthf(DEN)) {
 		// no, but NUM over DEN might be simpler than p1
 		push(NUM);
 		push(DEN);
@@ -182,7 +182,7 @@ simplify_pass3(void)
 
 	p1 = pop();
 
-	if (car(p1) != symbol(ADD) || isusersymbolsomewhere(p1) || !find(p1, imaginaryunit)) {
+	if (car(p1) != symbol(ADD) || isusersymbolsomewhere(p1) || !findf(p1, imaginaryunit)) {
 		push(p1);
 		return;
 	}

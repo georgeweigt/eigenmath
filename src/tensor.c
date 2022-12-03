@@ -175,7 +175,7 @@ eval_dim(struct atom *p1)
 		return;
 	}
 
-	if (length(p1) == 2)
+	if (lengthf(p1) == 2)
 		k = 1;
 	else {
 		push(caddr(p1));

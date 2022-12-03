@@ -75,7 +75,7 @@ normalize_polar_term(struct atom *EXPO)
 
 	// exp(i pi) = -1
 
-	if (length(EXPO) == 3) {
+	if (lengthf(EXPO) == 3) {
 		push_integer(-1);
 		return;
 	}

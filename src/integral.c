@@ -1171,7 +1171,7 @@ decomp(void)
 
 	// is the entire expression constant?
 
-	if (!find(p1, p2)) {
+	if (!findf(p1, p2)) {
 		push(p1);
 		return;
 	}
@@ -1211,7 +1211,7 @@ decomp_sum(struct atom *p1, struct atom *p2)
 
 	p3 = cdr(p1);
 	while (iscons(p3)) {
-		if (find(car(p3), p2)) {
+		if (findf(car(p3), p2)) {
 			push(car(p3));
 			push(p2);
 			decomp();
@@ -1224,7 +1224,7 @@ decomp_sum(struct atom *p1, struct atom *p2)
 	h = tos;
 	p3 = cdr(p1);
 	while (iscons(p3)) {
-		if (!find(car(p3), p2))
+		if (!findf(car(p3), p2))
 			push(car(p3));
 		p3 = cdr(p3);
 	}
@@ -1248,7 +1248,7 @@ decomp_product(struct atom *p1, struct atom *p2)
 
 	p3 = cdr(p1);
 	while (iscons(p3)) {
-		if (find(car(p3), p2)) {
+		if (findf(car(p3), p2)) {
 			push(car(p3));
 			push(p2);
 			decomp();
@@ -1261,7 +1261,7 @@ decomp_product(struct atom *p1, struct atom *p2)
 	h = tos;
 	p3 = cdr(p1);
 	while (iscons(p3)) {
-		if (!find(car(p3), p2))
+		if (!findf(car(p3), p2))
 			push(car(p3));
 		p3 = cdr(p3);
 	}

@@ -345,14 +345,14 @@ cmp_terms(struct atom *p1, struct atom *p2)
 	if (a == 0 && b == 1) {
 		c = cmp_factors(p1, car(p2));
 		if (c == 0)
-			c = -1; // length(p1) < length(p2)
+			c = -1; // lengthf(p1) < lengthf(p2)
 		return c;
 	}
 
 	if (a == 1 && b == 0) {
 		c = cmp_factors(car(p1), p2);
 		if (c == 0)
-			c = 1; // length(p1) > length(p2)
+			c = 1; // lengthf(p1) > lengthf(p2)
 		return c;
 	}
 
@@ -365,10 +365,10 @@ cmp_terms(struct atom *p1, struct atom *p2)
 	}
 
 	if (iscons(p1))
-		return 1; // length(p1) > length(p2)
+		return 1; // lengthf(p1) > lengthf(p2)
 
 	if (iscons(p2))
-		return -1; // length(p1) < length(p2)
+		return -1; // lengthf(p1) < lengthf(p2)
 
 	return 0;
 }

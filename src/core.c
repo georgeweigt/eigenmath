@@ -21,7 +21,7 @@ cons(void)
 }
 
 int
-length(struct atom *p)
+lengthf(struct atom *p)
 {
 	int n = 0;
 	while (iscons(p)) {
@@ -34,7 +34,7 @@ length(struct atom *p)
 // returns 1 if expr p contains expr q, otherweise returns 0
 
 int
-find(struct atom *p, struct atom *q)
+findf(struct atom *p, struct atom *q)
 {
 	int i;
 
@@ -43,13 +43,13 @@ find(struct atom *p, struct atom *q)
 
 	if (istensor(p)) {
 		for (i = 0; i < p->u.tensor->nelem; i++)
-			if (find(p->u.tensor->elem[i], q))
+			if (findf(p->u.tensor->elem[i], q))
 				return 1;
 		return 0;
 	}
 
 	while (iscons(p)) {
-		if (find(car(p), q))
+		if (findf(car(p), q))
 			return 1;
 		p = cdr(p);
 	}
@@ -253,13 +253,13 @@ isnegativenumber(struct atom *p)
 int
 iscomplexnumber(struct atom *p)
 {
-	return isimaginarynumber(p) || (length(p) == 3 && car(p) == symbol(ADD) && isnum(cadr(p)) && isimaginarynumber(caddr(p)));
+	return isimaginarynumber(p) || (lengthf(p) == 3 && car(p) == symbol(ADD) && isnum(cadr(p)) && isimaginarynumber(caddr(p)));
 }
 
 int
 isimaginarynumber(struct atom *p)
 {
-	return isimaginaryunit(p) || (length(p) == 3 && car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isimaginaryunit(caddr(p)));
+	return isimaginaryunit(p) || (lengthf(p) == 3 && car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isimaginaryunit(caddr(p)));
 }
 
 int
@@ -281,7 +281,7 @@ isoneoversqrttwo(struct atom *p)
 int
 isminusoneoversqrttwo(struct atom *p)
 {
-	return length(p) == 3 && car(p) == symbol(MULTIPLY) && isminusone(cadr(p)) && isoneoversqrttwo(caddr(p));
+	return lengthf(p) == 3 && car(p) == symbol(MULTIPLY) && isminusone(cadr(p)) && isoneoversqrttwo(caddr(p));
 }
 
 // x + y * (-1)^(1/2) where x and y are double?
@@ -291,7 +291,7 @@ isdoublez(struct atom *p)
 {
 	if (car(p) == symbol(ADD)) {
 
-		if (length(p) != 3)
+		if (lengthf(p) != 3)
 			return 0;
 
 		if (!isdouble(cadr(p))) // x
@@ -303,7 +303,7 @@ isdoublez(struct atom *p)
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
-	if (length(p) != 3)
+	if (lengthf(p) != 3)
 		return 0;
 
 	if (!isdouble(cadr(p))) // y
@@ -326,7 +326,7 @@ isdoublez(struct atom *p)
 int
 ispoly(struct atom *p, struct atom *x)
 {
-	if (find(p, x))
+	if (findf(p, x))
 		return ispoly_expr(p, x);
 	else
 		return 0;
@@ -373,7 +373,7 @@ ispoly_factor(struct atom *p, struct atom *x)
 		else
 			return 0;
 	}
-	if (find(p, x))
+	if (findf(p, x))
 		return 0;
 	else
 		return 1;
@@ -503,10 +503,10 @@ isdenormalpolarterm(struct atom *p)
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
-	if (length(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI))
+	if (lengthf(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI))
 		return 1;
 
-	if (length(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
+	if (lengthf(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
 		return 0;
 
 	p = cadr(p); // p = coeff of term

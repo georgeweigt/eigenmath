@@ -4,7 +4,7 @@ eval_product(struct atom *p1)
 	int h, i, j, k, n;
 	struct atom *p2, *p3;
 
-	if (length(p1) == 2) {
+	if (lengthf(p1) == 2) {
 		push(cadr(p1));
 		eval();
 		p1 = pop();

@@ -32,7 +32,7 @@ filter(void)
 		filter_sum(p1, p2);
 	else if (istensor(p1))
 		filter_tensor(p1, p2);
-	else if (find(p1, p2))
+	else if (findf(p1, p2))
 		push_integer(0);
 	else
 		push(p1);

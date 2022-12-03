@@ -467,8 +467,8 @@ void eval_contract(struct atom *p1);
 void contract(void);
 void list(int n);
 void cons(void);
-int length(struct atom *p);
-int find(struct atom *p, struct atom *q);
+int lengthf(struct atom *p);
+int findf(struct atom *p, struct atom *q);
 int complexity(struct atom *p);
 void sort(int n);
 int sort_func(const void *p1, const void *p2);
@@ -1387,14 +1387,14 @@ cmp_terms(struct atom *p1, struct atom *p2)
 	if (a == 0 && b == 1) {
 		c = cmp_factors(p1, car(p2));
 		if (c == 0)
-			c = -1; // length(p1) < length(p2)
+			c = -1; // lengthf(p1) < lengthf(p2)
 		return c;
 	}
 
 	if (a == 1 && b == 0) {
 		c = cmp_factors(car(p1), p2);
 		if (c == 0)
-			c = 1; // length(p1) > length(p2)
+			c = 1; // lengthf(p1) > lengthf(p2)
 		return c;
 	}
 
@@ -1407,10 +1407,10 @@ cmp_terms(struct atom *p1, struct atom *p2)
 	}
 
 	if (iscons(p1))
-		return 1; // length(p1) > length(p2)
+		return 1; // lengthf(p1) > lengthf(p2)
 
 	if (iscons(p2))
-		return -1; // length(p1) < length(p2)
+		return -1; // lengthf(p1) < lengthf(p2)
 
 	return 0;
 }
@@ -3978,7 +3978,7 @@ collect_coeffs(void)
 
 	if (car(F) == symbol(POWER) && cadr(F) == symbol(EXP1) && caaddr(F) == symbol(ADD))
 		p1 = caddr(F); // argument of exponential
-	else if (length(F) == 2 && caadr(F) == symbol(ADD))
+	else if (lengthf(F) == 2 && caadr(F) == symbol(ADD))
 		p1 = cadr(F); // argument of sin, cos, log, etc
 	else {
 		push(F);
@@ -3995,7 +3995,7 @@ collect_coeffs(void)
 			push(p2);
 			push(X);
 			partition_integrand();	// push const part then push var part
-		} else if (find(p2, X)) {
+		} else if (findf(p2, X)) {
 			push_integer(1);	// const part
 			push(p2);		// var part
 		} else {
@@ -4261,7 +4261,7 @@ cons(void)
 }
 
 int
-length(struct atom *p)
+lengthf(struct atom *p)
 {
 	int n = 0;
 	while (iscons(p)) {
@@ -4274,7 +4274,7 @@ length(struct atom *p)
 // returns 1 if expr p contains expr q, otherweise returns 0
 
 int
-find(struct atom *p, struct atom *q)
+findf(struct atom *p, struct atom *q)
 {
 	int i;
 
@@ -4283,13 +4283,13 @@ find(struct atom *p, struct atom *q)
 
 	if (istensor(p)) {
 		for (i = 0; i < p->u.tensor->nelem; i++)
-			if (find(p->u.tensor->elem[i], q))
+			if (findf(p->u.tensor->elem[i], q))
 				return 1;
 		return 0;
 	}
 
 	while (iscons(p)) {
-		if (find(car(p), q))
+		if (findf(car(p), q))
 			return 1;
 		p = cdr(p);
 	}
@@ -4493,13 +4493,13 @@ isnegativenumber(struct atom *p)
 int
 iscomplexnumber(struct atom *p)
 {
-	return isimaginarynumber(p) || (length(p) == 3 && car(p) == symbol(ADD) && isnum(cadr(p)) && isimaginarynumber(caddr(p)));
+	return isimaginarynumber(p) || (lengthf(p) == 3 && car(p) == symbol(ADD) && isnum(cadr(p)) && isimaginarynumber(caddr(p)));
 }
 
 int
 isimaginarynumber(struct atom *p)
 {
-	return isimaginaryunit(p) || (length(p) == 3 && car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isimaginaryunit(caddr(p)));
+	return isimaginaryunit(p) || (lengthf(p) == 3 && car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isimaginaryunit(caddr(p)));
 }
 
 int
@@ -4521,7 +4521,7 @@ isoneoversqrttwo(struct atom *p)
 int
 isminusoneoversqrttwo(struct atom *p)
 {
-	return length(p) == 3 && car(p) == symbol(MULTIPLY) && isminusone(cadr(p)) && isoneoversqrttwo(caddr(p));
+	return lengthf(p) == 3 && car(p) == symbol(MULTIPLY) && isminusone(cadr(p)) && isoneoversqrttwo(caddr(p));
 }
 
 // x + y * (-1)^(1/2) where x and y are double?
@@ -4531,7 +4531,7 @@ isdoublez(struct atom *p)
 {
 	if (car(p) == symbol(ADD)) {
 
-		if (length(p) != 3)
+		if (lengthf(p) != 3)
 			return 0;
 
 		if (!isdouble(cadr(p))) // x
@@ -4543,7 +4543,7 @@ isdoublez(struct atom *p)
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
-	if (length(p) != 3)
+	if (lengthf(p) != 3)
 		return 0;
 
 	if (!isdouble(cadr(p))) // y
@@ -4566,7 +4566,7 @@ isdoublez(struct atom *p)
 int
 ispoly(struct atom *p, struct atom *x)
 {
-	if (find(p, x))
+	if (findf(p, x))
 		return ispoly_expr(p, x);
 	else
 		return 0;
@@ -4613,7 +4613,7 @@ ispoly_factor(struct atom *p, struct atom *x)
 		else
 			return 0;
 	}
-	if (find(p, x))
+	if (findf(p, x))
 		return 0;
 	else
 		return 1;
@@ -4743,10 +4743,10 @@ isdenormalpolarterm(struct atom *p)
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
-	if (length(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI))
+	if (lengthf(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI))
 		return 1;
 
-	if (length(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
+	if (lengthf(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
 		return 0;
 
 	p = cadr(p); // p = coeff of term
@@ -5394,7 +5394,7 @@ dproduct(struct atom *p1, struct atom *p2)
 {
 	int i, j, n;
 	struct atom *p3;
-	n = length(p1) - 1;
+	n = lengthf(p1) - 1;
 	for (i = 0; i < n; i++) {
 		p3 = cdr(p1);
 		for (j = 0; j < n; j++) {
@@ -5528,7 +5528,7 @@ dfunction(struct atom *p1, struct atom *p2)
 
 	p3 = cdr(p1);	// p3 is the argument list for the function
 
-	if (p3 == symbol(NIL) || find(p3, p2)) {
+	if (p3 == symbol(NIL) || findf(p3, p2)) {
 		push_symbol(DERIVATIVE);
 		push(p1);
 		push(p2);
@@ -7556,7 +7556,7 @@ filter(void)
 		filter_sum(p1, p2);
 	else if (istensor(p1))
 		filter_tensor(p1, p2);
-	else if (find(p1, p2))
+	else if (findf(p1, p2))
 		push_integer(0);
 	else
 		push(p1);
@@ -11283,7 +11283,7 @@ decomp(void)
 
 	// is the entire expression constant?
 
-	if (!find(p1, p2)) {
+	if (!findf(p1, p2)) {
 		push(p1);
 		return;
 	}
@@ -11323,7 +11323,7 @@ decomp_sum(struct atom *p1, struct atom *p2)
 
 	p3 = cdr(p1);
 	while (iscons(p3)) {
-		if (find(car(p3), p2)) {
+		if (findf(car(p3), p2)) {
 			push(car(p3));
 			push(p2);
 			decomp();
@@ -11336,7 +11336,7 @@ decomp_sum(struct atom *p1, struct atom *p2)
 	h = tos;
 	p3 = cdr(p1);
 	while (iscons(p3)) {
-		if (!find(car(p3), p2))
+		if (!findf(car(p3), p2))
 			push(car(p3));
 		p3 = cdr(p3);
 	}
@@ -11360,7 +11360,7 @@ decomp_product(struct atom *p1, struct atom *p2)
 
 	p3 = cdr(p1);
 	while (iscons(p3)) {
-		if (find(car(p3), p2)) {
+		if (findf(car(p3), p2)) {
 			push(car(p3));
 			push(p2);
 			decomp();
@@ -11373,7 +11373,7 @@ decomp_product(struct atom *p1, struct atom *p2)
 	h = tos;
 	p3 = cdr(p1);
 	while (iscons(p3)) {
-		if (!find(car(p3), p2))
+		if (!findf(car(p3), p2))
 			push(car(p3));
 		p3 = cdr(p3);
 	}
@@ -13128,7 +13128,7 @@ partition_integrand(void)
 	h = tos;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!find(car(p1), X))
+		if (!findf(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -13143,7 +13143,7 @@ partition_integrand(void)
 	h = tos;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (find(car(p1), X))
+		if (findf(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -14001,7 +14001,7 @@ normalize_polar_term(struct atom *EXPO)
 
 	// exp(i pi) = -1
 
-	if (length(EXPO) == 3) {
+	if (lengthf(EXPO) == 3) {
 		push_integer(-1);
 		return;
 	}
@@ -14611,7 +14611,7 @@ eval_product(struct atom *p1)
 	int h, i, j, k, n;
 	struct atom *p2, *p3;
 
-	if (length(p1) == 2) {
+	if (lengthf(p1) == 2) {
 		push(cadr(p1));
 		eval();
 		p1 = pop();
@@ -16553,7 +16553,7 @@ setq_usrfunc(struct atom *p1)
 	if (!isusersymbol(F))
 		stop("user symbol expected");
 
-	if (length(A) > 9)
+	if (lengthf(A) > 9)
 		stop("more than 9 arguments");
 
 	push(B);
@@ -16782,7 +16782,7 @@ simplify_pass1(void)
 
 	// are NUM and DEN congruent sums?
 
-	if (car(NUM) != symbol(ADD) || car(DEN) != symbol(ADD) || length(NUM) != length(DEN)) {
+	if (car(NUM) != symbol(ADD) || car(DEN) != symbol(ADD) || lengthf(NUM) != lengthf(DEN)) {
 		// no, but NUM over DEN might be simpler than p1
 		push(NUM);
 		push(DEN);
@@ -16854,7 +16854,7 @@ simplify_pass3(void)
 
 	p1 = pop();
 
-	if (car(p1) != symbol(ADD) || isusersymbolsomewhere(p1) || !find(p1, imaginaryunit)) {
+	if (car(p1) != symbol(ADD) || isusersymbolsomewhere(p1) || !findf(p1, imaginaryunit)) {
 		push(p1);
 		return;
 	}
@@ -17340,7 +17340,7 @@ eval_sum(struct atom *p1)
 	int h, i, j, k, n;
 	struct atom *p2, *p3;
 
-	if (length(p1) == 2) {
+	if (lengthf(p1) == 2) {
 		push(cadr(p1));
 		eval();
 		p1 = pop();
@@ -18231,7 +18231,7 @@ eval_dim(struct atom *p1)
 		return;
 	}
 
-	if (length(p1) == 2)
+	if (lengthf(p1) == 2)
 		k = 1;
 	else {
 		push(caddr(p1));

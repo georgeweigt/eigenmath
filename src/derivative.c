@@ -229,7 +229,7 @@ dproduct(struct atom *p1, struct atom *p2)
 {
 	int i, j, n;
 	struct atom *p3;
-	n = length(p1) - 1;
+	n = lengthf(p1) - 1;
 	for (i = 0; i < n; i++) {
 		p3 = cdr(p1);
 		for (j = 0; j < n; j++) {
@@ -363,7 +363,7 @@ dfunction(struct atom *p1, struct atom *p2)
 
 	p3 = cdr(p1);	// p3 is the argument list for the function
 
-	if (p3 == symbol(NIL) || find(p3, p2)) {
+	if (p3 == symbol(NIL) || findf(p3, p2)) {
 		push_symbol(DERIVATIVE);
 		push(p1);
 		push(p2);

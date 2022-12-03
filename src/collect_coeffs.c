@@ -28,7 +28,7 @@ collect_coeffs(void)
 
 	if (car(F) == symbol(POWER) && cadr(F) == symbol(EXP1) && caaddr(F) == symbol(ADD))
 		p1 = caddr(F); // argument of exponential
-	else if (length(F) == 2 && caadr(F) == symbol(ADD))
+	else if (lengthf(F) == 2 && caadr(F) == symbol(ADD))
 		p1 = cadr(F); // argument of sin, cos, log, etc
 	else {
 		push(F);
@@ -45,7 +45,7 @@ collect_coeffs(void)
 			push(p2);
 			push(X);
 			partition_integrand();	// push const part then push var part
-		} else if (find(p2, X)) {
+		} else if (findf(p2, X)) {
 			push_integer(1);	// const part
 			push(p2);		// var part
 		} else {

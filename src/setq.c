@@ -157,7 +157,7 @@ setq_usrfunc(struct atom *p1)
 	if (!isusersymbol(F))
 		stop("user symbol expected");
 
-	if (length(A) > 9)
+	if (lengthf(A) > 9)
 		stop("more than 9 arguments");
 
 	push(B);
