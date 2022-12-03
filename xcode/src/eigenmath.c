@@ -3051,54 +3051,55 @@ void
 collect_coeffs(void)
 {
 	int h, i, j, k, n;
-	struct atom *p1, *F, *X;
+	struct atom *p1, *p2, *F, *X;
 
 	X = pop();
 	F = pop();
 
-	if (!iscons(F)) {
-		push(F);
+	h = tos;
+
+	if (car(F) == symbol(MULTIPLY)) {
+		p1 = cdr(F);
+		while (iscons(p1)) {
+			push(car(p1));
+			push(X);
+			collect_coeffs();
+			p1 = cdr(p1);
+		}
+		list(tos - h);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
 		return;
 	}
 
-	h = tos;
-
-	// depth first
-
-	push(car(F));
-	F = cdr(F);
-	while (iscons(F)) {
-		push(car(F));
-		push(X);
-		collect_coeffs();
-		F = cdr(F);
-	}
-	list(tos - h);
-	F = pop();
-
-	if (car(F) != symbol(ADD)) {
+	if (car(F) == symbol(POWER) && cadr(F) == symbol(EXP1) && caaddr(F) == symbol(ADD))
+		p1 = caddr(F); // argument of exponential
+	else if (length(F) == 2 && caadr(F) == symbol(ADD))
+		p1 = cadr(F); // argument of sin, cos, log, etc
+	else {
 		push(F);
 		return;
 	}
 
 	// partition terms
 
-	F = cdr(F);
+	p1 = cdr(p1);
 
-	while (iscons(F)) {
-		p1 = car(F);
-		if (car(p1) == symbol(MULTIPLY)) {
-			push(p1);
+	while (iscons(p1)) {
+		p2 = car(p1);
+		if (car(p2) == symbol(MULTIPLY)) {
+			push(p2);
 			push(X);
 			partition_integrand();	// push const part then push var part
-		} else if (find(p1, X)) {
+		} else if (find(p2, X)) {
 			push_integer(1);	// const part
-			push(p1);		// var part
+			push(p2);		// var part
 		} else {
-			push(p1);		// const part
+			push(p2);		// const part
 			push_integer(1);	// var part
 		}
-		F = cdr(F);
+		p1 = cdr(p1);
 	}
 
 	// combine const parts of matching var parts
@@ -3140,6 +3141,19 @@ collect_coeffs(void)
 		push_symbol(ADD);
 		swap();
 		cons(); // makes ADD head of list
+	}
+
+	p1 = pop();
+
+	if (car(F) == symbol(POWER)) {
+		push_symbol(POWER);
+		push_symbol(EXP1);
+		push(p1);
+		list(3);
+	} else {
+		push(car(F));
+		push(p1);
+		list(2);
 	}
 }
 void
