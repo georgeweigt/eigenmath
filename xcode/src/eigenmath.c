@@ -4200,7 +4200,21 @@ decomp(void)
 		return;
 	}
 
-	// naive decomp if not sum or product
+	// power?
+
+	if (car(F) == symbol(POWER)) {
+		if (cadr(F) != symbol(EXP1)) {
+			push(cadr(F));
+			push(X);
+			decomp();
+		}
+		push(caddr(F));
+		push(X);
+		decomp();
+		return;
+	}
+
+	// naive decomp
 
 	p1 = cdr(F);
 	while (iscons(p1)) {
