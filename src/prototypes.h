@@ -389,7 +389,7 @@ void outbuf_puts(char *s);
 void outbuf_putc(int c);
 void eval_outer(struct atom *p1);
 void outer(void);
-void partition_integrand(void);
+void partition_term(void);
 void eval_polar(struct atom *p1);
 void polar(void);
 void eval_power(struct atom *p1);

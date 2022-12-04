@@ -1,15 +1,15 @@
-void
-partition_integrand(void)
+function
+partition_term()
 {
-	int h, n;
-	struct atom *p1, *F, *X;
+	var h, n;
+	var p1, F, X;
 
 	X = pop();
 	F = pop();
 
-	// push const part
+	// push const factors
 
-	h = tos;
+	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
 		if (!findf(car(p1), X))
@@ -17,7 +17,7 @@ partition_integrand(void)
 		p1 = cdr(p1);
 	}
 
-	n = tos - h;
+	n = stack.length - h;
 
 	if (n == 0)
 		push_integer(1);
@@ -28,9 +28,9 @@ partition_integrand(void)
 		cons(); // makes MULTIPLY head of list
 	}
 
-	// push var part
+	// push var factors
 
-	h = tos;
+	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
 		if (findf(car(p1), X))
@@ -38,7 +38,7 @@ partition_integrand(void)
 		p1 = cdr(p1);
 	}
 
-	n = tos - h;
+	n = stack.length - h;
 
 	if (n == 0)
 		push_integer(1);

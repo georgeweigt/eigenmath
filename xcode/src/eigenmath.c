@@ -4132,7 +4132,7 @@ decomp_sum(struct atom *F, struct atom *X)
 			if (car(p2) == symbol(MULTIPLY)) {
 				push(p2);
 				push(X);
-				partition_integrand();	// push const part then push var part
+				partition_term();	// push const part then push var part
 			} else {
 				push_integer(1);	// const part
 				push(p2);		// var part
@@ -8902,7 +8902,7 @@ integral(void)
 	if (car(F) == symbol(MULTIPLY)) {
 		push(F);
 		push(X);
-		partition_integrand();	// push const part then push var part
+		partition_term();	// push const part then push var part
 		F = pop();		// pop var part
 		integral_nib(F, X);
 		multiply();		// multiply by const part
@@ -10719,7 +10719,7 @@ outer(void)
 	push(p3);
 }
 void
-partition_integrand(void)
+partition_term(void)
 {
 	int h, n;
 	struct atom *p1, *F, *X;
@@ -10727,7 +10727,7 @@ partition_integrand(void)
 	X = pop();
 	F = pop();
 
-	// push const part
+	// push const factors
 
 	h = tos;
 	p1 = cdr(F);
@@ -10748,7 +10748,7 @@ partition_integrand(void)
 		cons(); // makes MULTIPLY head of list
 	}
 
-	// push var part
+	// push var factors
 
 	h = tos;
 	p1 = cdr(F);

@@ -1010,7 +1010,7 @@ integral(void)
 	if (car(F) == symbol(MULTIPLY)) {
 		push(F);
 		push(X);
-		partition_integrand();	// push const part then push var part
+		partition_term();	// push const part then push var part
 		F = pop();		// pop var part
 		integral_nib(F, X);
 		multiply();		// multiply by const part

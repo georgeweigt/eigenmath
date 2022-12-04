@@ -70,7 +70,7 @@ decomp_sum(struct atom *F, struct atom *X)
 			if (car(p2) == symbol(MULTIPLY)) {
 				push(p2);
 				push(X);
-				partition_integrand();	// push const part then push var part
+				partition_term();	// push const part then push var part
 			} else {
 				push_integer(1);	// const part
 				push(p2);		// var part
