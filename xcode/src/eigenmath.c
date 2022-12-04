@@ -4186,8 +4186,12 @@ decomp_sum(struct atom *F, struct atom *X)
 
 	n = tos - h;
 
-	if (n > 1)
-		add_terms(n);
+	if (n > 1) {
+		list(n);
+		push_symbol(ADD);
+		swap();
+		cons(); // makes ADD head of list
+	}
 }
 
 void
@@ -4208,7 +4212,7 @@ decomp_product(struct atom *F, struct atom *X)
 		p1 = cdr(p1);
 	}
 
-	// multiply together all constant factors
+	// combine constant factors
 
 	h = tos;
 	p1 = cdr(F);
@@ -4220,8 +4224,12 @@ decomp_product(struct atom *F, struct atom *X)
 
 	n = tos - h;
 
-	if (n > 1)
-		multiply_factors(n);
+	if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
 }
 void
 eval_defint(struct atom *p1)
@@ -10713,7 +10721,7 @@ outer(void)
 void
 partition_integrand(void)
 {
-	int h;
+	int h, n;
 	struct atom *p1, *F, *X;
 
 	X = pop();
@@ -10729,10 +10737,16 @@ partition_integrand(void)
 		p1 = cdr(p1);
 	}
 
-	if (h == tos)
+	n = tos - h;
+
+	if (n == 0)
 		push_integer(1);
-	else
-		multiply_factors(tos - h);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
 
 	// push var part
 
@@ -10744,10 +10758,16 @@ partition_integrand(void)
 		p1 = cdr(p1);
 	}
 
-	if (h == tos)
+	n = tos - h;
+
+	if (n == 0)
 		push_integer(1);
-	else
-		multiply_factors(tos - h);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
 }
 void
 eval_polar(struct atom *p1)

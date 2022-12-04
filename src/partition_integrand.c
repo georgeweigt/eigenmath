@@ -1,7 +1,7 @@
 void
 partition_integrand(void)
 {
-	int h;
+	int h, n;
 	struct atom *p1, *F, *X;
 
 	X = pop();
@@ -17,10 +17,16 @@ partition_integrand(void)
 		p1 = cdr(p1);
 	}
 
-	if (h == tos)
+	n = tos - h;
+
+	if (n == 0)
 		push_integer(1);
-	else
-		multiply_factors(tos - h);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
 
 	// push var part
 
@@ -32,8 +38,14 @@ partition_integrand(void)
 		p1 = cdr(p1);
 	}
 
-	if (h == tos)
+	n = tos - h;
+
+	if (n == 0)
 		push_integer(1);
-	else
-		multiply_factors(tos - h);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
 }

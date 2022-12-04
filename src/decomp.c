@@ -124,8 +124,12 @@ decomp_sum(struct atom *F, struct atom *X)
 
 	n = tos - h;
 
-	if (n > 1)
-		add_terms(n);
+	if (n > 1) {
+		list(n);
+		push_symbol(ADD);
+		swap();
+		cons(); // makes ADD head of list
+	}
 }
 
 void
@@ -146,7 +150,7 @@ decomp_product(struct atom *F, struct atom *X)
 		p1 = cdr(p1);
 	}
 
-	// multiply together all constant factors
+	// combine constant factors
 
 	h = tos;
 	p1 = cdr(F);
@@ -158,6 +162,10 @@ decomp_product(struct atom *F, struct atom *X)
 
 	n = tos - h;
 
-	if (n > 1)
-		multiply_factors(n);
+	if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
 }

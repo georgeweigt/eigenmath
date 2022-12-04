@@ -1,7 +1,7 @@
 function
 partition_integrand()
 {
-	var h;
+	var h, n;
 	var p1, F, X;
 
 	X = pop();
@@ -17,10 +17,16 @@ partition_integrand()
 		p1 = cdr(p1);
 	}
 
-	if (h == stack.length)
+	n = stack.length - h;
+
+	if (n == 0)
 		push_integer(1);
-	else
-		multiply_factors(stack.length - h);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
 
 	// push var part
 
@@ -32,8 +38,14 @@ partition_integrand()
 		p1 = cdr(p1);
 	}
 
-	if (h == stack.length)
+	n = stack.length - h;
+
+	if (n == 0)
 		push_integer(1);
-	else
-		multiply_factors(stack.length - h);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
 }

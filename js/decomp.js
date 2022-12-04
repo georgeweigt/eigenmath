@@ -124,8 +124,12 @@ decomp_sum(F, X)
 
 	n = stack.length - h;
 
-	if (n > 1)
-		add_terms(n);
+	if (n > 1) {
+		list(n);
+		push_symbol(ADD);
+		swap();
+		cons(); // makes ADD head of list
+	}
 }
 
 function
@@ -146,7 +150,7 @@ decomp_product(F, X)
 		p1 = cdr(p1);
 	}
 
-	// multiply together all constant factors
+	// combine constant factors
 
 	h = stack.length;
 	p1 = cdr(F);
@@ -158,6 +162,10 @@ decomp_product(F, X)
 
 	n = stack.length - h;
 
-	if (n > 1)
-		multiply_factors(n);
+	if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
 }
