@@ -122,7 +122,6 @@ void eval_clock(struct atom *p1);
 void clockfunc(void);
 void coeffs(struct atom *P, struct atom *X);
 void eval_cofactor(struct atom *p1);
-void collect_coeffs(void);
 void eval_conj(struct atom *p1);
 void conjfunc(void);
 void conjfunc_subst(void);
