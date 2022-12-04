@@ -4172,6 +4172,113 @@ coshfunc(void)
 	list(2);
 }
 void
+decomp(void)
+{
+	struct atom *p1, *F, *X;
+
+	X = pop();
+	F = pop();
+
+	// is the entire expression constant?
+
+	if (!findf(F, X)) {
+		push(F);
+		return;
+	}
+
+	// sum?
+
+	if (car(F) == symbol(ADD)) {
+		decomp_sum(F, X);
+		return;
+	}
+
+	// product?
+
+	if (car(F) == symbol(MULTIPLY)) {
+		decomp_product(F, X);
+		return;
+	}
+
+	// naive decomp if not sum or product
+
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		push(car(p1));
+		push(X);
+		decomp();
+		p1 = cdr(p1);
+	}
+}
+
+void
+decomp_sum(struct atom *F, struct atom *X)
+{
+	int h, n;
+	struct atom *p1;
+
+	// decomp terms involving x
+
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (findf(car(p1), X)) {
+			push(car(p1));
+			push(X);
+			decomp();
+		}
+		p1 = cdr(p1);
+	}
+
+	// add together all constant terms
+
+	h = tos;
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (!findf(car(p1), X))
+			push(car(p1));
+		p1 = cdr(p1);
+	}
+
+	n = tos - h;
+
+	if (n > 1)
+		add_terms(n);
+}
+
+void
+decomp_product(struct atom *F, struct atom *X)
+{
+	int h, n;
+	struct atom *p1;
+
+	// decomp factors involving x
+
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (findf(car(p1), X)) {
+			push(car(p1));
+			push(X);
+			decomp();
+		}
+		p1 = cdr(p1);
+	}
+
+	// multiply together all constant factors
+
+	h = tos;
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (!findf(car(p1), X))
+			push(car(p1));
+		p1 = cdr(p1);
+	}
+
+	n = tos - h;
+
+	if (n > 1)
+		multiply_factors(n);
+}
+void
 eval_defint(struct atom *p1)
 {
 	struct atom *F, *X, *A, *B;
@@ -8989,117 +9096,6 @@ find_integral_nib(int h, struct atom *F, struct atom *I, struct atom *C)
 		}
 	}
 	return 0;					// no
-}
-
-// returns constant expresions on the stack
-
-void
-decomp(void)
-{
-	struct atom *p1, *p2, *p3;
-
-	p2 = pop(); // x
-	p1 = pop(); // expr
-
-	// is the entire expression constant?
-
-	if (!findf(p1, p2)) {
-		push(p1);
-		return;
-	}
-
-	// sum?
-
-	if (car(p1) == symbol(ADD)) {
-		decomp_sum(p1, p2);
-		return;
-	}
-
-	// product?
-
-	if (car(p1) == symbol(MULTIPLY)) {
-		decomp_product(p1, p2);
-		return;
-	}
-
-	// naive decomp if not sum or product
-
-	p3 = cdr(p1);
-	while (iscons(p3)) {
-		push(car(p3));
-		push(p2);
-		decomp();
-		p3 = cdr(p3);
-	}
-}
-
-void
-decomp_sum(struct atom *p1, struct atom *p2)
-{
-	int h;
-	struct atom *p3;
-
-	// decomp terms involving x
-
-	p3 = cdr(p1);
-	while (iscons(p3)) {
-		if (findf(car(p3), p2)) {
-			push(car(p3));
-			push(p2);
-			decomp();
-		}
-		p3 = cdr(p3);
-	}
-
-	// add together all constant terms
-
-	h = tos;
-	p3 = cdr(p1);
-	while (iscons(p3)) {
-		if (!findf(car(p3), p2))
-			push(car(p3));
-		p3 = cdr(p3);
-	}
-
-	if (tos - h) {
-		add_terms(tos - h);
-		p3 = pop();
-		push(p3);
-		push(p3);
-		negate(); // need both +a, -a for some integrals
-	}
-}
-
-void
-decomp_product(struct atom *p1, struct atom *p2)
-{
-	int h;
-	struct atom *p3;
-
-	// decomp factors involving x
-
-	p3 = cdr(p1);
-	while (iscons(p3)) {
-		if (findf(car(p3), p2)) {
-			push(car(p3));
-			push(p2);
-			decomp();
-		}
-		p3 = cdr(p3);
-	}
-
-	// multiply together all constant factors
-
-	h = tos;
-	p3 = cdr(p1);
-	while (iscons(p3)) {
-		if (!findf(car(p3), p2))
-			push(car(p3));
-		p3 = cdr(p3);
-	}
-
-	if (tos - h)
-		multiply_factors(tos - h);
 }
 void
 eval_inv(struct atom *p1)

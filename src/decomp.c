@@ -1,7 +1,7 @@
-function
-decomp()
+void
+decomp(void)
 {
-	var p1, F, X;
+	struct atom *p1, *F, *X;
 
 	X = pop();
 	F = pop();
@@ -38,11 +38,11 @@ decomp()
 	}
 }
 
-function
-decomp_sum(F, X)
+void
+decomp_sum(struct atom *F, struct atom *X)
 {
-	var h, n;
-	var p1;
+	int h, n;
+	struct atom *p1;
 
 	// decomp terms involving x
 
@@ -58,7 +58,7 @@ decomp_sum(F, X)
 
 	// add together all constant terms
 
-	h = stack.length;
+	h = tos;
 	p1 = cdr(F);
 	while (iscons(p1)) {
 		if (!findf(car(p1), X))
@@ -66,17 +66,17 @@ decomp_sum(F, X)
 		p1 = cdr(p1);
 	}
 
-	n = stack.length - h;
+	n = tos - h;
 
 	if (n > 1)
 		add_terms(n);
 }
 
-function
-decomp_product(F, X)
+void
+decomp_product(struct atom *F, struct atom *X)
 {
-	var h, n;
-	var p1;
+	int h, n;
+	struct atom *p1;
 
 	// decomp factors involving x
 
@@ -92,7 +92,7 @@ decomp_product(F, X)
 
 	// multiply together all constant factors
 
-	h = stack.length;
+	h = tos;
 	p1 = cdr(F);
 	while (iscons(p1)) {
 		if (!findf(car(p1), X))
@@ -100,7 +100,7 @@ decomp_product(F, X)
 		p1 = cdr(p1);
 	}
 
-	n = stack.length - h;
+	n = tos - h;
 
 	if (n > 1)
 		multiply_factors(n);
