@@ -1,7 +1,8 @@
 .PHONY: clean
 
-eigenmath: *.h *.c
-	make prototypes.h
+# specify prototypes.h in case the file is missing
+
+eigenmath: prototypes.h *.h *.c
 	gcc -Wall -O0 -o eigenmath -include defs.h -include prototypes.h -include externs.h *.c -lm
 
 prototypes.h: *.c
