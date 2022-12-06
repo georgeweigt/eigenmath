@@ -54,7 +54,7 @@ integral_nib(F, X)
 
 	push(F);
 	push(X);
-	decomp();
+	decomp(); // push const coeffs
 
 	integral_lookup(F, h);
 

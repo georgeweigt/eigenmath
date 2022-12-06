@@ -4962,6 +4962,8 @@ coshfunc(void)
 	push(p1);
 	list(2);
 }
+// push const coeffs
+
 void
 decomp(void)
 {
@@ -11195,7 +11197,7 @@ integral_nib(struct atom *F, struct atom *X)
 
 	push(F);
 	push(X);
-	decomp();
+	decomp(); // push const coeffs
 
 	integral_lookup(h, F);
 

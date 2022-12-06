@@ -1,3 +1,5 @@
+// push const coeffs
+
 function
 decomp()
 {

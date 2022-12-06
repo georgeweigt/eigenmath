@@ -1039,7 +1039,7 @@ integral_nib(struct atom *F, struct atom *X)
 
 	push(F);
 	push(X);
-	decomp();
+	decomp(); // push const coeffs
 
 	integral_lookup(h, F);
 
