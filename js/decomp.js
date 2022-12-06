@@ -27,20 +27,6 @@ decomp()
 		return;
 	}
 
-	// power?
-
-	if (car(F) == symbol(POWER)) {
-		if (cadr(F) != symbol(EXP1)) {
-			push(cadr(F));
-			push(X);
-			decomp();
-		}
-		push(caddr(F));
-		push(X);
-		decomp();
-		return;
-	}
-
 	// naive decomp
 
 	p1 = cdr(F);
@@ -104,8 +90,7 @@ decomp_sum(F, X)
 	p1 = pop();
 
 	while (iscons(p1)) {
-		if (!isplusone(car(p1)))
-			push(car(p1)); // const part
+		push(car(p1)); // const part
 		push(cadr(p1)); // var part
 		push(X);
 		decomp();
