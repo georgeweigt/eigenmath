@@ -10,4 +10,4 @@ prototypes.h: *.c
 	../tools/make-prototypes . > prototypes.h
 
 clean:
-	rm -f eigenmath
+	rm -f prototypes.h eigenmath

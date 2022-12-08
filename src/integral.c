@@ -237,8 +237,6 @@ char *integral_tab_exp[] = {
 	"x^9 exp(a x^2 + b)",
 	"x^8 exp(a x^2 + b) / (2 a) - 2 x^6 exp(a x^2 + b) / a^2 + 6 x^4 exp(a x^2 + b) / a^3 - 12 x^2 exp(a x^2 + b) / a^4 + 12 exp(a x^2 + b) / a^5",
 	"1",
-
-	NULL,
 };
 
 // log(a x) is transformed to log(a) + log(x)
@@ -288,8 +286,6 @@ char *integral_tab_log[] = {
 	"1 / (x (a + log(x)))",
 	"log(a + log(x))",
 	"1",
-
-	NULL,
 };
 
 char *integral_tab_trig[] = {
@@ -549,8 +545,6 @@ char *integral_tab_trig[] = {
 	"cos(a x)^6 / sin(a x)",
 	"cos(a x)^5 / (5 a) - 2 cos(a x)^3 / (3 a) + 2 cos(a x) / a - cos(a x) sin(a x)^2 / a + log(tan(1/2 a x)) / a",
 	"1",
-
-	NULL,
 };
 
 char *integral_tab_power[] = {
@@ -654,8 +648,6 @@ char *integral_tab_power[] = {
 	"cosh(x)^2",
 	"sinh(2 x) 1/4 + x 1/2",
 	"1",
-
-	NULL,
 };
 
 char *integral_tab[] = {
@@ -891,17 +883,13 @@ char *integral_tab[] = {
 	"x^4 (1 - x^2)^(3/2)",
 	"(-x sqrt(1 - x^2) (16 x^6 - 24 x^4 + 2 x^2 + 3) + 3 arcsin(x)) 1/128",
 	"1",
-
-	NULL,
 };
 
 void
 eval_integral(struct atom *p1)
 {
 	int flag, i, n;
-	struct atom *X, *Y;
-
-	Y = symbol(NIL); // silence compiler
+	struct atom *X, *Y = NULL; // silence compiler
 
 	push(cadr(p1));
 	eval();
@@ -1038,26 +1026,25 @@ void
 integral_lookup(int h, struct atom *F)
 {
 	int t;
-	char **s;
 
 	t = integral_classify(F);
 
-	if ((t & 1) && find_integral(h, integral_tab_exp, F))
+	if ((t & 1) && integral_search(h, F, integral_tab_exp, sizeof integral_tab_exp / sizeof (char *)))
 		return;
 
-	if ((t & 2) && find_integral(h, integral_tab_log, F))
+	if ((t & 2) && integral_search(h, F, integral_tab_log, sizeof integral_tab_log / sizeof (char *)))
 		return;
 
-	if ((t & 4) && find_integral(h, integral_tab_trig, F))
+	if ((t & 4) && integral_search(h, F, integral_tab_trig, sizeof integral_tab_trig / sizeof (char *)))
 		return;
 
-	if (car(F) == symbol(POWER))
-		s = integral_tab_power;
-	else
-		s = integral_tab;
-
-	if (find_integral(h, s, F))
-		return;
+	if (car(F) == symbol(POWER)) {
+		if (integral_search(h, F, integral_tab_power, sizeof integral_tab_power / sizeof (char *)))
+			return;
+	} else {
+		if (integral_search(h, F, integral_tab, sizeof integral_tab / sizeof (char *)))
+			return;
+	}
 
 	stop("integral: no solution found");
 }
@@ -1088,49 +1075,54 @@ integral_classify(struct atom *p)
 }
 
 int
-find_integral(int h, char **s, struct atom *F)
+integral_search(int h, struct atom *F, char **table, int n)
 {
+	int i;
 	struct atom *C, *I;
 
-	for (;;) {
+	for (i = 0; i < n; i += 3) {
 
-		if (*s == NULL)
-			return 0;
-
-		scan1(s[0]); // integrand
+		scan1(table[i + 0]); // integrand
 		I = pop();
 
-		scan1(s[2]); // condition
+		scan1(table[i + 2]); // condition
 		C = pop();
 
-		if (find_integral_nib(h, F, I, C))
+		if (integral_search_nib(h, F, I, C))
 			break;
-
-		s += 3;
 	}
+
+	if (i == n)
+		return 0;
 
 	tos = h; // pop all
 
-	scan1(s[1]); // answer
+	scan1(table[i + 1]); // answer
 	eval();
 
 	return 1;
 }
 
 int
-find_integral_nib(int h, struct atom *F, struct atom *I, struct atom *C)
+integral_search_nib(int h, struct atom *F, struct atom *I, struct atom *C)
 {
 	int i, j;
 	struct atom *p1;
+
 	for (i = h; i < tos; i++) {
+
 		set_symbol(symbol(SA), stack[i], symbol(NIL));
+
 		for (j = h; j < tos; j++) {
+
 			set_symbol(symbol(SB), stack[j], symbol(NIL));
+
 			push(C);			// condition ok?
 			eval();
 			p1 = pop();
 			if (iszero(p1))
 				continue;		// no, go to next j
+
 			push(F);			// F = I?
 			push(I);
 			eval();
@@ -1140,5 +1132,6 @@ find_integral_nib(int h, struct atom *F, struct atom *I, struct atom *C)
 				return 1;		// yes
 		}
 	}
+
 	return 0;					// no
 }
