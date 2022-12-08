@@ -237,12 +237,6 @@ var integral_tab_exp = [
 	"x^9 exp(a x^2 + b)",
 	"x^8 exp(a x^2 + b) / (2 a) - 2 x^6 exp(a x^2 + b) / a^2 + 6 x^4 exp(a x^2 + b) / a^3 - 12 x^2 exp(a x^2 + b) / a^4 + 12 exp(a x^2 + b) / a^5",
 	"1",
-
-//
-
-	"x exp(a x + b x)",
-	"exp(a x + b x) (a x + b x + 1) / (a + b)^2",
-	"1",
 ];
 
 // log(a x) is transformed to log(a) + log(x)
