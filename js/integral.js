@@ -1089,7 +1089,7 @@ integral_search(h, F, table, n)
 			break;
 	}
 
-	if (i == n)
+	if (i >= n)
 		return 0;
 
 	stack.splice(h); // pop all

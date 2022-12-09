@@ -1092,7 +1092,7 @@ integral_search(int h, struct atom *F, char **table, int n)
 			break;
 	}
 
-	if (i == n)
+	if (i >= n)
 		return 0;
 
 	tos = h; // pop all
