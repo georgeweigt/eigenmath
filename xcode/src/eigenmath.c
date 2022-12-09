@@ -200,9 +200,7 @@ add_terms(int n)
 
 	p1 = pop();
 
-	push(T);
-	copy_tensor();
-	T = pop();
+	T = copy_tensor(T);
 
 	n = T->u.tensor->nelem;
 
@@ -272,9 +270,7 @@ add_tensors(void)
 	if (!compatible_dimensions(p1, p2))
 		stop("incompatible tensor arithmetic");
 
-	push(p1);
-	copy_tensor();
-	p1 = pop();
+	p1 = copy_tensor(p1);
 
 	n = p1->u.tensor->nelem;
 
@@ -1422,9 +1418,7 @@ arg(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -2758,9 +2752,7 @@ circexp_subst(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -2957,9 +2949,7 @@ clockfunc(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -3069,9 +3059,7 @@ conjfunc_subst(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -4955,9 +4943,7 @@ d_scalar_tensor(struct atom *p1, struct atom *p2)
 	if (p2->u.tensor->ndim != 1)
 		stop("vector expected");
 
-	push(p2);
-	copy_tensor();
-	p3 = pop();
+	p3 = copy_tensor(p2);
 
 	a = p2->u.tensor->elem;
 	b = p3->u.tensor->elem;
@@ -4982,9 +4968,7 @@ d_tensor_scalar(struct atom *p1, struct atom *p2)
 	int i, n;
 	struct atom **a, **b, *p3;
 
-	push(p1);
-	copy_tensor();
-	p3 = pop();
+	p3 = copy_tensor(p1);
 
 	a = p1->u.tensor->elem;
 	b = p3->u.tensor->elem;
@@ -6818,9 +6802,7 @@ floatfunc_subst(void)
 	}
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -7071,9 +7053,7 @@ hadamard(void)
 		if (p1->u.tensor->dim[i] != p2->u.tensor->dim[i])
 			stop("hadamard");
 
-	push(p1);
-	copy_tensor();
-	p1 = pop();
+	p1 = copy_tensor(p1);
 
 	n = p1->u.tensor->nelem;
 
@@ -7103,9 +7083,7 @@ imag(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -7798,9 +7776,7 @@ inner(void)
 	}
 
 	if (!istensor(p1) && istensor(p2)) {
-		push(p2);
-		copy_tensor();
-		p2 = pop();
+		p2 = copy_tensor(p2);
 		n = p2->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1);
@@ -9256,9 +9232,7 @@ mag(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -10634,9 +10608,7 @@ outer(void)
 	}
 
 	if (!istensor(p1) && istensor(p2)) {
-		push(p2);
-		copy_tensor();
-		p2 = pop();
+		p2 = copy_tensor(p2);
 		n = p2->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1);
@@ -10752,9 +10724,7 @@ polar(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -11041,9 +11011,7 @@ power_tensor(struct atom *BASE, struct atom *EXPO)
 	int i, n;
 	struct atom *p1;
 
-	push(BASE);
-	copy_tensor();
-	p1 = pop();
+	p1 = copy_tensor(BASE);
 
 	n = p1->u.tensor->nelem;
 
@@ -12424,9 +12392,7 @@ real(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -12464,9 +12430,7 @@ rect(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -14269,9 +14233,7 @@ simplify(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -14882,9 +14844,7 @@ subst(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		for (i = 0; i < p1->u.tensor->nelem; i++) {
 			push(p1->u.tensor->elem[i]);
 			push(p2);
@@ -15641,9 +15601,7 @@ eval_tensor(struct atom *p1)
 {
 	int i;
 
-	push(p1);
-	copy_tensor();
-	p1 = pop();
+	p1 = copy_tensor(p1);
 
 	for (i = 0; i < p1->u.tensor->nelem; i++) {
 		push(p1->u.tensor->elem[i]);
@@ -15777,13 +15735,11 @@ compare_tensors(struct atom *p1, struct atom *p2)
 	return 0;
 }
 
-void
-copy_tensor(void)
+struct atom *
+copy_tensor(struct atom *p1)
 {
 	int i;
-	struct atom *p1, *p2;
-
-	p1 = pop();
+	struct atom *p2;
 
 	p2 = alloc_tensor(p1->u.tensor->nelem);
 
@@ -15795,7 +15751,7 @@ copy_tensor(void)
 	for (i = 0; i < p1->u.tensor->nelem; i++)
 		p2->u.tensor->elem[i] = p1->u.tensor->elem[i];
 
-	push(p2);
+	return p2;
 }
 
 void
@@ -16276,9 +16232,7 @@ transpose(int n, int m)
 	n--; // make zero based
 	m--;
 
-	push(p1);
-	copy_tensor();
-	p2 = pop();
+	p2 = copy_tensor(p1);
 
 	// interchange indices n and m
 

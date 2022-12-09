@@ -78,9 +78,7 @@ floatfunc_subst(void)
 	}
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);

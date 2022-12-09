@@ -257,9 +257,7 @@ power_tensor(struct atom *BASE, struct atom *EXPO)
 	int i, n;
 	struct atom *p1;
 
-	push(BASE);
-	copy_tensor();
-	p1 = pop();
+	p1 = copy_tensor(BASE);
 
 	n = p1->u.tensor->nelem;
 

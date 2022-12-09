@@ -37,9 +37,7 @@ outer(void)
 	}
 
 	if (!istensor(p1) && istensor(p2)) {
-		push(p2);
-		copy_tensor();
-		p2 = pop();
+		p2 = copy_tensor(p2);
 		n = p2->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1);

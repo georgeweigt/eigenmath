@@ -488,7 +488,7 @@ void eval_tensor(struct atom *p1);
 void promote_tensor(void);
 int compatible_dimensions(struct atom *p, struct atom *q);
 int compare_tensors(struct atom *p1, struct atom *p2);
-void copy_tensor(void);
+struct atom * copy_tensor(struct atom *p1);
 void eval_dim(struct atom *p1);
 void eval_rank(struct atom *p1);
 void eval_unit(struct atom *p1);

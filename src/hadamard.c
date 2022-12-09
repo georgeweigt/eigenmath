@@ -38,9 +38,7 @@ hadamard(void)
 		if (p1->u.tensor->dim[i] != p2->u.tensor->dim[i])
 			stop("hadamard");
 
-	push(p1);
-	copy_tensor();
-	p1 = pop();
+	p1 = copy_tensor(p1);
 
 	n = p1->u.tensor->nelem;
 

@@ -23,9 +23,7 @@ subst(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		push(p1);
-		copy_tensor();
-		p1 = pop();
+		p1 = copy_tensor(p1);
 		for (i = 0; i < p1->u.tensor->nelem; i++) {
 			push(p1->u.tensor->elem[i]);
 			push(p2);

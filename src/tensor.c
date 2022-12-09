@@ -3,9 +3,7 @@ eval_tensor(struct atom *p1)
 {
 	int i;
 
-	push(p1);
-	copy_tensor();
-	p1 = pop();
+	p1 = copy_tensor(p1);
 
 	for (i = 0; i < p1->u.tensor->nelem; i++) {
 		push(p1->u.tensor->elem[i]);
@@ -139,13 +137,11 @@ compare_tensors(struct atom *p1, struct atom *p2)
 	return 0;
 }
 
-void
-copy_tensor(void)
+struct atom *
+copy_tensor(struct atom *p1)
 {
 	int i;
-	struct atom *p1, *p2;
-
-	p1 = pop();
+	struct atom *p2;
 
 	p2 = alloc_tensor(p1->u.tensor->nelem);
 
@@ -157,7 +153,7 @@ copy_tensor(void)
 	for (i = 0; i < p1->u.tensor->nelem; i++)
 		p2->u.tensor->elem[i] = p1->u.tensor->elem[i];
 
-	push(p2);
+	return p2;
 }
 
 void

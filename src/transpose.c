@@ -53,9 +53,7 @@ transpose(int n, int m)
 	n--; // make zero based
 	m--;
 
-	push(p1);
-	copy_tensor();
-	p2 = pop();
+	p2 = copy_tensor(p1);
 
 	// interchange indices n and m
 

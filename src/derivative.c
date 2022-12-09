@@ -646,9 +646,7 @@ d_scalar_tensor(struct atom *p1, struct atom *p2)
 	if (p2->u.tensor->ndim != 1)
 		stop("vector expected");
 
-	push(p2);
-	copy_tensor();
-	p3 = pop();
+	p3 = copy_tensor(p2);
 
 	a = p2->u.tensor->elem;
 	b = p3->u.tensor->elem;
@@ -673,9 +671,7 @@ d_tensor_scalar(struct atom *p1, struct atom *p2)
 	int i, n;
 	struct atom **a, **b, *p3;
 
-	push(p1);
-	copy_tensor();
-	p3 = pop();
+	p3 = copy_tensor(p1);
 
 	a = p1->u.tensor->elem;
 	b = p3->u.tensor->elem;

@@ -61,9 +61,7 @@ add_terms(int n)
 
 	p1 = pop();
 
-	push(T);
-	copy_tensor();
-	T = pop();
+	T = copy_tensor(T);
 
 	n = T->u.tensor->nelem;
 
@@ -133,9 +131,7 @@ add_tensors(void)
 	if (!compatible_dimensions(p1, p2))
 		stop("incompatible tensor arithmetic");
 
-	push(p1);
-	copy_tensor();
-	p1 = pop();
+	p1 = copy_tensor(p1);
 
 	n = p1->u.tensor->nelem;
 
