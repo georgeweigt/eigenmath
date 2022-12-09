@@ -510,7 +510,7 @@ void eval_or(struct atom *p1);
 int cmp_args(struct atom *p1);
 void evalp(void);
 void eval_transpose(struct atom *p1);
-void transpose(void);
+void transpose(int n, int m);
 void eval_user_function(struct atom *p1);
 void emit_args(struct atom *p);
 void emit_base(struct atom *p);

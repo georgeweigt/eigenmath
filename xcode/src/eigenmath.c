@@ -16224,56 +16224,51 @@ evalp(void)
 void
 eval_transpose(struct atom *p1)
 {
+	int m, n;
 	struct atom *p2;
 
 	push(cadr(p1));
 	eval();
-
 	p2 = pop();
 	push(p2);
 
-	if (!istensor(p2) || p2->u.tensor->ndim == 1)
-		return; // scalar or vector
+	if (!istensor(p2) || p2->u.tensor->ndim < 2)
+		return;
 
 	p1 = cddr(p1);
 
 	if (!iscons(p1)) {
-		push_integer(1);
-		push_integer(2);
-		transpose();
+		transpose(1, 2);
 		return;
 	}
 
 	while (iscons(p1)) {
+
 		push(car(p1));
 		eval();
+		n = pop_integer();
+
 		push(cadr(p1));
 		eval();
-		transpose();
+		m = pop_integer();
+
+		transpose(n, m);
+
 		p1 = cddr(p1);
 	}
 }
 
 void
-transpose(void)
+transpose(int n, int m)
 {
-	int i, j, k, m, n, ndim, nelem;
+	int i, j, k, ndim, nelem;
 	int index[MAXDIM];
-	struct atom **a, **b, *p1, *p2, *p3;
+	struct atom *p1, *p2;
 
-	p3 = pop();
-	p2 = pop();
 	p1 = pop();
 
 	ndim = p1->u.tensor->ndim;
-
 	nelem = p1->u.tensor->nelem;
-
-	push(p2);
-	n = pop_integer();
-
-	push(p3);
-	m = pop_integer();
 
 	if (n < 1 || n > ndim || m < 1 || m > ndim)
 		stop("transpose: index error");
@@ -16289,11 +16284,6 @@ transpose(void)
 
 	p2->u.tensor->dim[n] = p1->u.tensor->dim[m];
 	p2->u.tensor->dim[m] = p1->u.tensor->dim[n];
-
-	// copy from a to b
-
-	a = p1->u.tensor->elem;
-	b = p2->u.tensor->elem;
 
 	for (i = 0; i < ndim; i++)
 		index[i] = 0;
@@ -16311,7 +16301,7 @@ transpose(void)
 				k = k * p1->u.tensor->dim[j] + index[j];
 		}
 
-		b[k] = a[i];
+		p2->u.tensor->elem[k] = p1->u.tensor->elem[i];
 
 		// increment index
 

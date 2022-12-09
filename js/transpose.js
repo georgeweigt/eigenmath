@@ -1,12 +1,51 @@
 function
+eval_transpose(p1)
+{
+	var m, n;
+	var p2;
+
+	push(cadr(p1));
+	evalf();
+	p2 = pop();
+	push(p2);
+
+	if (!istensor(p2) || p2.dim.length < 2)
+		return;
+
+	p1 = cddr(p1);
+
+	if (!iscons(p1)) {
+		transpose(1, 2);
+		return;
+	}
+
+	while (iscons(p1)) {
+
+		push(car(p1));
+		evalf();
+		n = pop_integer();
+
+		push(cadr(p1));
+		evalf();
+		m = pop_integer();
+
+		transpose(n, m);
+
+		p1 = cddr(p1);
+	}
+}
+
+function
 transpose(n, m)
 {
-	var i, j, k, ndim, p1, p2;
+	var i, j, k, ndim, nelem;
 	var index = [];
+	var p1, p2;
 
 	p1 = pop();
 
 	ndim = p1.dim.length;
+	nelem = p1.elem.length;
 
 	if (n < 1 || n > ndim || m < 1 || m > ndim)
 		stopf("transpose: index error");
@@ -14,10 +53,9 @@ transpose(n, m)
 	n--; // make zero based
 	m--;
 
-	p2 = alloc_tensor();
-
-	for (i = 0; i < ndim; i++)
-		p2.dim[i] = p1.dim[i];
+	push(p1);
+	copy_tensor();
+	p2 = pop();
 
 	// interchange indices n and m
 
@@ -27,7 +65,7 @@ transpose(n, m)
 	for (i = 0; i < ndim; i++)
 		index[i] = 0;
 
-	for (i = 0; i < p1.elem.length; i++) {
+	for (i = 0; i < nelem; i++) {
 
 		k = 0;
 
