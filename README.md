@@ -52,9 +52,8 @@ yrange = (-1,1)
 draw(f,x)
 </textarea>
 
-<button onclick="run()">Run</button>
+<button onclick="run()">Run</button><br>
 
-<p>
 <div id="stdout"></div>
 
 </body>
