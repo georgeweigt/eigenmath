@@ -929,7 +929,7 @@ eval_integral(struct atom *p1)
 		}
 
 		if (!isusersymbol(X))
-			stop("integral");
+			stopf("integral");
 
 		if (iscons(p1)) {
 
@@ -966,7 +966,7 @@ integral(void)
 	F = pop();
 
 	if (!isusersymbol(X))
-		stop("integral: symbol expected");
+		stopf("integral: symbol expected");
 
 	if (car(F) == symbol(ADD)) {
 		h = tos;
@@ -1046,7 +1046,7 @@ integral_lookup(int h, struct atom *F)
 			return;
 	}
 
-	stop("integral: no solution found");
+	stopf("integral: no solution found");
 }
 
 int

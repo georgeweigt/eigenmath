@@ -10,19 +10,19 @@ eval_eigenvec(struct atom *p1)
 	p1 = pop();
 
 	if (!istensor(p1) || p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
-		stop("eigenvec: square matrix expected");
+		stopf("eigenvec: square matrix expected");
 
 	n = p1->u.tensor->dim[0];
 
 	for (i = 0; i < n; i++)
 		for (j = 0; j < n; j++)
 			if (!isdouble(p1->u.tensor->elem[n * i + j]))
-				stop("eigenvec: numerical matrix expected");
+				stopf("eigenvec: numerical matrix expected");
 
 	for (i = 0; i < n - 1; i++)
 		for (j = i + 1; j < n; j++)
 			if (fabs(p1->u.tensor->elem[n * i + j]->u.d - p1->u.tensor->elem[n * j + i]->u.d) > 1e-10)
-				stop("eigenvec: symmetrical matrix expected");
+				stopf("eigenvec: symmetrical matrix expected");
 
 	if (D)
 		free(D);
@@ -75,7 +75,7 @@ eigenvec(double *D, double *Q, int n)
 		if (eigenvec_step(D, Q, n) == 0)
 			return;
 
-	stop("eigenvec: convergence error");
+	stopf("eigenvec: convergence error");
 }
 
 //	Example: p = 1, q = 3

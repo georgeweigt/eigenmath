@@ -58,7 +58,7 @@ nroots(void)
 		IM = pop();
 
 		if (!isdouble(RE) || !isdouble(IM))
-			stop("nroots: coeffs");
+			stopf("nroots: coeffs");
 
 		cr[i] = RE->u.d;
 		ci[i] = IM->u.d;
@@ -230,7 +230,7 @@ nfindroot(double cr[], double ci[], int n, double *par, double *pai)
 		}
 	}
 
-	stop("nroots: convergence error");
+	stopf("nroots: convergence error");
 }
 
 // compute f at a
@@ -276,7 +276,7 @@ nreduce(double cr[], double ci[], int n, double ar, double ai)
 	}
 
 	if (zabs(cr[0], ci[0]) > DELTA)
-		stop("nroots: residual error"); // not a root
+		stopf("nroots: residual error"); // not a root
 
 	// shift
 

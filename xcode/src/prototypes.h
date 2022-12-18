@@ -420,7 +420,7 @@ void trace_input(void);
 void print_input_line(void);
 void print_scan_line(char *s);
 void run_init_script(void);
-void stop(char *s);
+void stopf(char *s);
 void kaput(char *s);
 char * scan(char *s);
 char * scan1(char *s);

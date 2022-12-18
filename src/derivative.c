@@ -91,7 +91,7 @@ void
 d_scalar_scalar(struct atom *F, struct atom *X)
 {
 	if (!isusersymbol(X))
-		stop("derivative: symbol expected");
+		stopf("derivative: symbol expected");
 
 	// d(x,x)?
 
@@ -596,12 +596,12 @@ d_tensor_tensor(struct atom *p1, struct atom *p2)
 	struct atom **a, **b, **c, *p3;
 
 	if (p2->u.tensor->ndim != 1)
-		stop("vector expected");
+		stopf("vector expected");
 
 	ndim = p1->u.tensor->ndim;
 
 	if (ndim + 1 > MAXDIM)
-		stop("rank exceeds max");
+		stopf("rank exceeds max");
 
 	n1 = p1->u.tensor->nelem;
 	n2 = p2->u.tensor->nelem;
@@ -644,7 +644,7 @@ d_scalar_tensor(struct atom *p1, struct atom *p2)
 	struct atom **a, **b, *p3;
 
 	if (p2->u.tensor->ndim != 1)
-		stop("vector expected");
+		stopf("vector expected");
 
 	p3 = copy_tensor(p2);
 

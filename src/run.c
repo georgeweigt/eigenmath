@@ -104,7 +104,7 @@ eval_run(struct atom *p1)
 	p1 = pop();
 
 	if (!isstr(p1))
-		stop("run: file name expected");
+		stopf("run: file name expected");
 
 	run_file(p1->u.str);
 
@@ -122,7 +122,7 @@ run_file(char *filename)
 	buf = read_file(filename);
 
 	if (buf == NULL)
-		stop("run: cannot read file");
+		stopf("run: cannot read file");
 
 	p->u.str = buf; // if stop occurs, buf is freed on next gc
 
@@ -225,7 +225,7 @@ run_init_script(void)
 }
 
 void
-stop(char *s)
+stopf(char *s)
 {
 	if (journaling)
 		longjmp(jmpbuf1, 1);
@@ -242,5 +242,5 @@ void
 kaput(char *s)
 {
 	journaling = 0;
-	stop(s);
+	stopf(s);
 }

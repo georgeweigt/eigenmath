@@ -52,7 +52,7 @@ outer(void)
 	ndim = p1->u.tensor->ndim + p2->u.tensor->ndim;
 
 	if (ndim > MAXDIM)
-		stop("rank exceeds max");
+		stopf("rank exceeds max");
 
 	nrow = p1->u.tensor->nelem;
 	ncol = p2->u.tensor->nelem;

@@ -20,7 +20,7 @@ adj(void)
 	}
 
 	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
-		stop("adj");
+		stopf("adj");
 
 	n = p1->u.tensor->dim[0];
 

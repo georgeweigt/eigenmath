@@ -18,7 +18,7 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 
 	if (iszero(BASE)) {
 		if (isnegativenumber(EXPO))
-			stop("divide by zero");
+			stopf("divide by zero");
 		push_integer(0);
 		return;
 	}

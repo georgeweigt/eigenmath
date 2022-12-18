@@ -55,7 +55,7 @@ indexfunc(struct atom *T, int h)
 	r = m - n; // rank of result
 
 	if (r < 0)
-		stop("index error");
+		stopf("index error");
 
 	k = 0;
 
@@ -63,7 +63,7 @@ indexfunc(struct atom *T, int h)
 		push(stack[h + i]);
 		t = pop_integer();
 		if (t < 1 || t > T->u.tensor->dim[i])
-			stop("index error");
+			stopf("index error");
 		k = k * T->u.tensor->dim[i] + t - 1;
 	}
 

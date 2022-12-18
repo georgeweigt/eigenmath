@@ -36,7 +36,7 @@ roots(void)
 
 	for (i = 0; i < n; i++)
 		if (!isrational(stack[h + i]))
-			stop("roots: coeffs");
+			stopf("roots: coeffs");
 
 	// find roots
 
@@ -284,7 +284,7 @@ reduce(int h, int n, struct atom *A)
 	}
 
 	if (!iszero(stack[h]))
-		stop("roots: residual error"); // not a root
+		stopf("roots: residual error"); // not a root
 
 	// move
 

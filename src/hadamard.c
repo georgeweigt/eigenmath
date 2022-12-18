@@ -30,13 +30,13 @@ hadamard(void)
 	}
 
 	if (p1->u.tensor->ndim != p2->u.tensor->ndim)
-		stop("hadamard");
+		stopf("hadamard");
 
 	n = p1->u.tensor->ndim;
 
 	for (i = 0; i < n; i++)
 		if (p1->u.tensor->dim[i] != p2->u.tensor->dim[i])
-			stop("hadamard");
+			stopf("hadamard");
 
 	p1 = copy_tensor(p1);
 

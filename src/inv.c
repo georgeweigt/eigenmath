@@ -20,7 +20,7 @@ inv(void)
 	}
 
 	if (!issquarematrix(p1))
-		stop("inv: square matrix expected");
+		stopf("inv: square matrix expected");
 
 	push(p1);
 	adj();

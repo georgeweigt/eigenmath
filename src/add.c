@@ -129,7 +129,7 @@ add_tensors(void)
 	p1 = pop();
 
 	if (!compatible_dimensions(p1, p2))
-		stop("incompatible tensor arithmetic");
+		stopf("incompatible tensor arithmetic");
 
 	p1 = copy_tensor(p1);
 

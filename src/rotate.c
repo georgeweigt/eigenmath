@@ -16,7 +16,7 @@ eval_rotate(struct atom *p1)
 	PSI = pop();
 
 	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || PSI->u.tensor->nelem > 32768 || !POWEROF2(PSI->u.tensor->nelem))
-		stop("rotate error 1 first argument is not a vector or dimension error");
+		stopf("rotate error 1 first argument is not a vector or dimension error");
 
 	c = 0;
 
@@ -25,7 +25,7 @@ eval_rotate(struct atom *p1)
 	while (iscons(p1)) {
 
 		if (!iscons(cdr(p1)))
-			stop("rotate error 2 unexpected end of argument list");
+			stopf("rotate error 2 unexpected end of argument list");
 
 		OPCODE = car(p1);
 		push(cadr(p1));
@@ -33,7 +33,7 @@ eval_rotate(struct atom *p1)
 		n = pop_integer();
 
 		if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
-			stop("rotate error 3 qubit number format or range");
+			stopf("rotate error 3 qubit number format or range");
 
 		p1 = cddr(p1);
 
@@ -50,7 +50,7 @@ eval_rotate(struct atom *p1)
 
 		if (OPCODE == symbol(P_UPPER)) {
 			if (!iscons(p1))
-				stop("rotate error 2 unexpected end of argument list");
+				stopf("rotate error 2 unexpected end of argument list");
 			push(car(p1));
 			p1 = cdr(p1);
 			eval();
@@ -78,13 +78,13 @@ eval_rotate(struct atom *p1)
 		if (OPCODE == symbol(W_UPPER)) {
 			m = n;
 			if (!iscons(p1))
-				stop("rotate error 2 unexpected end of argument list");
+				stopf("rotate error 2 unexpected end of argument list");
 			push(car(p1));
 			p1 = cdr(p1);
 			eval();
 			n = pop_integer();
 			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
-				stop("rotate error 3 qubit number format or range");
+				stopf("rotate error 3 qubit number format or range");
 			rotate_w(PSI, c, m, n);
 			c = 0;
 			continue;
@@ -108,7 +108,7 @@ eval_rotate(struct atom *p1)
 			continue;
 		}
 
-		stop("rotate error 4 unknown rotation code");
+		stopf("rotate error 4 unknown rotation code");
 	}
 
 	push(PSI);

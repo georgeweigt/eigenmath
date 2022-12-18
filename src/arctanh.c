@@ -15,7 +15,7 @@ arctanh(void)
 	p1 = pop();
 
 	if (isplusone(p1) || isminusone(p1))
-		stop("arctanh");
+		stopf("arctanh");
 
 	if (isdouble(p1)) {
 		push(p1);

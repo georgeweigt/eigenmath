@@ -268,7 +268,7 @@ add_tensors(void)
 	p1 = pop();
 
 	if (!compatible_dimensions(p1, p2))
-		stop("incompatible tensor arithmetic");
+		stopf("incompatible tensor arithmetic");
 
 	p1 = copy_tensor(p1);
 
@@ -692,7 +692,7 @@ adj(void)
 	}
 
 	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
-		stop("adj");
+		stopf("adj");
 
 	n = p1->u.tensor->dim[0];
 
@@ -1346,7 +1346,7 @@ arctanh(void)
 	p1 = pop();
 
 	if (isplusone(p1) || isminusone(p1))
-		stop("arctanh");
+		stopf("arctanh");
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -1595,7 +1595,7 @@ pop_integer(void)
 	p = pop();
 
 	if (!issmallinteger(p))
-		stop("small integer expected");
+		stopf("small integer expected");
 
 	if (isrational(p)) {
 		n = p->u.q.a[0];
@@ -1630,7 +1630,7 @@ pop_double(void)
 	if (isdouble(p))
 		return p->u.d;
 
-	stop("number expected");
+	stopf("number expected");
 
 	return 0.0;
 }
@@ -1674,7 +1674,7 @@ cmp_numbers(struct atom *p1, struct atom *p2)
 	double d1, d2;
 
 	if (!isnum(p1) || !isnum(p2))
-		stop("compare");
+		stopf("compare");
 
 	if (isrational(p1) && isrational(p2))
 		return cmp_rationals(p1, p2);
@@ -1765,7 +1765,7 @@ convert_double_to_rational(double d)
 	}
 
 	if (!isnormal(d))
-		stop("floating point value is nan or inf, cannot convert to rational number");
+		stopf("floating point value is nan or inf, cannot convert to rational number");
 
 	x = fabs(d);
 
@@ -1846,7 +1846,7 @@ bignum_scan_integer(char *s)
 		s++;
 	a = mscan(s);
 	if (a == NULL)
-		stop("parse error");
+		stopf("parse error");
 	push_bignum(sign, a, mint(1));
 }
 
@@ -2112,7 +2112,7 @@ mdiv(uint32_t *u, uint32_t *v)
 	mnorm(u);
 	mnorm(v);
 	if (MLENGTH(v) == 1 && v[0] == 0)
-		stop("divide by zero"); // v = 0
+		stopf("divide by zero"); // v = 0
 	nu = MLENGTH(u);
 	nv = MLENGTH(v);
 	k = nu - nv;
@@ -2184,7 +2184,7 @@ mmod(uint32_t *u, uint32_t *v)
 	mnorm(u);
 	mnorm(v);
 	if (MLENGTH(v) == 1 && v[0] == 0)
-		stop("divide by zero"); // v = 0
+		stopf("divide by zero"); // v = 0
 	u = mcopy(u);
 	nu = MLENGTH(u);
 	nv = MLENGTH(v);
@@ -3021,10 +3021,10 @@ eval_cofactor(struct atom *p1)
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2 || p2->u.tensor->dim[0] != p2->u.tensor->dim[1])
-		stop("cofactor");
+		stopf("cofactor");
 
 	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stop("cofactor");
+		stopf("cofactor");
 
 	push(p2);
 
@@ -3146,7 +3146,7 @@ contract(void)
 	m = pop_integer();
 
 	if (n < 1 || n > ndim || m < 1 || m > ndim || n == m)
-		stop("contract: index error");
+		stopf("contract: index error");
 
 	n--; // make zero based
 	m--;
@@ -3155,7 +3155,7 @@ contract(void)
 	nrow = p1->u.tensor->dim[m];
 
 	if (ncol != nrow)
-		stop("contract: unequal tensor dimensions");
+		stopf("contract: unequal tensor dimensions");
 
 	// nelem is the number of elements in result
 
@@ -4388,7 +4388,7 @@ void
 d_scalar_scalar(struct atom *F, struct atom *X)
 {
 	if (!isusersymbol(X))
-		stop("derivative: symbol expected");
+		stopf("derivative: symbol expected");
 
 	// d(x,x)?
 
@@ -4893,12 +4893,12 @@ d_tensor_tensor(struct atom *p1, struct atom *p2)
 	struct atom **a, **b, **c, *p3;
 
 	if (p2->u.tensor->ndim != 1)
-		stop("vector expected");
+		stopf("vector expected");
 
 	ndim = p1->u.tensor->ndim;
 
 	if (ndim + 1 > MAXDIM)
-		stop("rank exceeds max");
+		stopf("rank exceeds max");
 
 	n1 = p1->u.tensor->nelem;
 	n2 = p2->u.tensor->nelem;
@@ -4941,7 +4941,7 @@ d_scalar_tensor(struct atom *p1, struct atom *p2)
 	struct atom **a, **b, *p3;
 
 	if (p2->u.tensor->ndim != 1)
-		stop("vector expected");
+		stopf("vector expected");
 
 	p3 = copy_tensor(p2);
 
@@ -5006,7 +5006,7 @@ det(void)
 	}
 
 	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
-		stop("det: square matrix expected");
+		stopf("det: square matrix expected");
 
 	n = p1->u.tensor->dim[0];
 
@@ -5093,19 +5093,19 @@ eval_eigenvec(struct atom *p1)
 	p1 = pop();
 
 	if (!istensor(p1) || p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
-		stop("eigenvec: square matrix expected");
+		stopf("eigenvec: square matrix expected");
 
 	n = p1->u.tensor->dim[0];
 
 	for (i = 0; i < n; i++)
 		for (j = 0; j < n; j++)
 			if (!isdouble(p1->u.tensor->elem[n * i + j]))
-				stop("eigenvec: numerical matrix expected");
+				stopf("eigenvec: numerical matrix expected");
 
 	for (i = 0; i < n - 1; i++)
 		for (j = i + 1; j < n; j++)
 			if (fabs(p1->u.tensor->elem[n * i + j]->u.d - p1->u.tensor->elem[n * j + i]->u.d) > 1e-10)
-				stop("eigenvec: symmetrical matrix expected");
+				stopf("eigenvec: symmetrical matrix expected");
 
 	if (D)
 		free(D);
@@ -5158,7 +5158,7 @@ eigenvec(double *D, double *Q, int n)
 		if (eigenvec_step(D, Q, n) == 0)
 			return;
 
-	stop("eigenvec: convergence error");
+	stopf("eigenvec: convergence error");
 }
 
 //	Example: p = 1, q = 3
@@ -5759,7 +5759,7 @@ void
 eval_stop(struct atom *p1)
 {
 	(void) p1; // silence compiler
-	stop("stop function");
+	stopf("stop function");
 }
 
 void
@@ -6869,7 +6869,7 @@ eval_for(struct atom *p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stop("for: symbol error");
+		stopf("for: symbol error");
 
 	push(caddr(p1));
 	eval();
@@ -7045,13 +7045,13 @@ hadamard(void)
 	}
 
 	if (p1->u.tensor->ndim != p2->u.tensor->ndim)
-		stop("hadamard");
+		stopf("hadamard");
 
 	n = p1->u.tensor->ndim;
 
 	for (i = 0; i < n; i++)
 		if (p1->u.tensor->dim[i] != p2->u.tensor->dim[i])
-			stop("hadamard");
+			stopf("hadamard");
 
 	p1 = copy_tensor(p1);
 
@@ -7162,7 +7162,7 @@ indexfunc(struct atom *T, int h)
 	r = m - n; // rank of result
 
 	if (r < 0)
-		stop("index error");
+		stopf("index error");
 
 	k = 0;
 
@@ -7170,7 +7170,7 @@ indexfunc(struct atom *T, int h)
 		push(stack[h + i]);
 		t = pop_integer();
 		if (t < 1 || t > T->u.tensor->dim[i])
-			stop("index error");
+			stopf("index error");
 		k = k * T->u.tensor->dim[i] + t - 1;
 	}
 
@@ -7740,7 +7740,7 @@ eval_inner(struct atom *p1)
 	}
 
 	if (h == tos)
-		stop("dot");
+		stopf("dot");
 
 	eval();
 
@@ -7794,12 +7794,12 @@ inner(void)
 	mrow = p2->u.tensor->dim[0];
 
 	if (ncol != mrow)
-		stop("tensor dimensions");
+		stopf("tensor dimensions");
 
 	ndim = p1->u.tensor->ndim + p2->u.tensor->ndim - 2;
 
 	if (ndim > MAXDIM)
-		stop("rank exceeds max");
+		stopf("rank exceeds max");
 
 	//	nrow is the number of rows in p1
 	//
@@ -8784,7 +8784,7 @@ eval_integral(struct atom *p1)
 		}
 
 		if (!isusersymbol(X))
-			stop("integral");
+			stopf("integral");
 
 		if (iscons(p1)) {
 
@@ -8821,7 +8821,7 @@ integral(void)
 	F = pop();
 
 	if (!isusersymbol(X))
-		stop("integral: symbol expected");
+		stopf("integral: symbol expected");
 
 	if (car(F) == symbol(ADD)) {
 		h = tos;
@@ -8901,7 +8901,7 @@ integral_lookup(int h, struct atom *F)
 			return;
 	}
 
-	stop("integral: no solution found");
+	stopf("integral: no solution found");
 }
 
 int
@@ -9012,7 +9012,7 @@ inv(void)
 	}
 
 	if (!issquarematrix(p1))
-		stop("inv: square matrix expected");
+		stopf("inv: square matrix expected");
 
 	push(p1);
 	adj();
@@ -9055,7 +9055,7 @@ kronecker(void)
 	}
 
 	if (p1->u.tensor->ndim > 2 || p2->u.tensor->ndim > 2)
-		stop("kronecker");
+		stopf("kronecker");
 
 	m = p1->u.tensor->dim[0];
 	n = p1->u.tensor->ndim == 1 ? 1 : p1->u.tensor->dim[1];
@@ -9341,10 +9341,10 @@ eval_minor(struct atom *p1)
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2 || p2->u.tensor->dim[0] != p2->u.tensor->dim[1])
-		stop("minor");
+		stopf("minor");
 
 	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stop("minor");
+		stopf("minor");
 
 	push(p2);
 
@@ -9372,10 +9372,10 @@ eval_minormatrix(struct atom *p1)
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2)
-		stop("minormatrix");
+		stopf("minormatrix");
 
 	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stop("minormatrix");
+		stopf("minormatrix");
 
 	push(p2);
 
@@ -10250,7 +10250,7 @@ nroots(void)
 		IM = pop();
 
 		if (!isdouble(RE) || !isdouble(IM))
-			stop("nroots: coeffs");
+			stopf("nroots: coeffs");
 
 		cr[i] = RE->u.d;
 		ci[i] = IM->u.d;
@@ -10422,7 +10422,7 @@ nfindroot(double cr[], double ci[], int n, double *par, double *pai)
 		}
 	}
 
-	stop("nroots: convergence error");
+	stopf("nroots: convergence error");
 }
 
 // compute f at a
@@ -10468,7 +10468,7 @@ nreduce(double cr[], double ci[], int n, double ar, double ai)
 	}
 
 	if (zabs(cr[0], ci[0]) > DELTA)
-		stop("nroots: residual error"); // not a root
+		stopf("nroots: residual error"); // not a root
 
 	// shift
 
@@ -10623,7 +10623,7 @@ outer(void)
 	ndim = p1->u.tensor->ndim + p2->u.tensor->ndim;
 
 	if (ndim > MAXDIM)
-		stop("rank exceeds max");
+		stopf("rank exceeds max");
 
 	nrow = p1->u.tensor->nelem;
 	ncol = p2->u.tensor->nelem;
@@ -11791,7 +11791,7 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 
 	if (iszero(BASE)) {
 		if (isnegativenumber(EXPO))
-			stop("divide by zero");
+			stopf("divide by zero");
 		push_integer(0);
 		return;
 	}
@@ -12178,7 +12178,7 @@ eval_product(struct atom *p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stop("product: symbol error");
+		stopf("product: symbol error");
 
 	push(caddr(p1));
 	eval();
@@ -12549,7 +12549,7 @@ roots(void)
 
 	for (i = 0; i < n; i++)
 		if (!isrational(stack[h + i]))
-			stop("roots: coeffs");
+			stopf("roots: coeffs");
 
 	// find roots
 
@@ -12797,7 +12797,7 @@ reduce(int h, int n, struct atom *A)
 	}
 
 	if (!iszero(stack[h]))
-		stop("roots: residual error"); // not a root
+		stopf("roots: residual error"); // not a root
 
 	// move
 
@@ -12822,7 +12822,7 @@ eval_rotate(struct atom *p1)
 	PSI = pop();
 
 	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || PSI->u.tensor->nelem > 32768 || !POWEROF2(PSI->u.tensor->nelem))
-		stop("rotate error 1 first argument is not a vector or dimension error");
+		stopf("rotate error 1 first argument is not a vector or dimension error");
 
 	c = 0;
 
@@ -12831,7 +12831,7 @@ eval_rotate(struct atom *p1)
 	while (iscons(p1)) {
 
 		if (!iscons(cdr(p1)))
-			stop("rotate error 2 unexpected end of argument list");
+			stopf("rotate error 2 unexpected end of argument list");
 
 		OPCODE = car(p1);
 		push(cadr(p1));
@@ -12839,7 +12839,7 @@ eval_rotate(struct atom *p1)
 		n = pop_integer();
 
 		if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
-			stop("rotate error 3 qubit number format or range");
+			stopf("rotate error 3 qubit number format or range");
 
 		p1 = cddr(p1);
 
@@ -12856,7 +12856,7 @@ eval_rotate(struct atom *p1)
 
 		if (OPCODE == symbol(P_UPPER)) {
 			if (!iscons(p1))
-				stop("rotate error 2 unexpected end of argument list");
+				stopf("rotate error 2 unexpected end of argument list");
 			push(car(p1));
 			p1 = cdr(p1);
 			eval();
@@ -12884,13 +12884,13 @@ eval_rotate(struct atom *p1)
 		if (OPCODE == symbol(W_UPPER)) {
 			m = n;
 			if (!iscons(p1))
-				stop("rotate error 2 unexpected end of argument list");
+				stopf("rotate error 2 unexpected end of argument list");
 			push(car(p1));
 			p1 = cdr(p1);
 			eval();
 			n = pop_integer();
 			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
-				stop("rotate error 3 qubit number format or range");
+				stopf("rotate error 3 qubit number format or range");
 			rotate_w(PSI, c, m, n);
 			c = 0;
 			continue;
@@ -12914,7 +12914,7 @@ eval_rotate(struct atom *p1)
 			continue;
 		}
 
-		stop("rotate error 4 unknown rotation code");
+		stopf("rotate error 4 unknown rotation code");
 	}
 
 	push(PSI);
@@ -13201,7 +13201,7 @@ eval_run(struct atom *p1)
 	p1 = pop();
 
 	if (!isstr(p1))
-		stop("run: file name expected");
+		stopf("run: file name expected");
 
 	run_file(p1->u.str);
 
@@ -13219,7 +13219,7 @@ run_file(char *filename)
 	buf = read_file(filename);
 
 	if (buf == NULL)
-		stop("run: cannot read file");
+		stopf("run: cannot read file");
 
 	p->u.str = buf; // if stop occurs, buf is freed on next gc
 
@@ -13322,7 +13322,7 @@ run_init_script(void)
 }
 
 void
-stop(char *s)
+stopf(char *s)
 {
 	if (journaling)
 		longjmp(jmpbuf1, 1);
@@ -13339,7 +13339,7 @@ void
 kaput(char *s)
 {
 	journaling = 0;
-	stop(s);
+	stopf(s);
 }
 // token_str and scan_str are pointers to the input string, for example
 //
@@ -13958,7 +13958,7 @@ eval_setq(struct atom *p1)
 	}
 
 	if (!isusersymbol(cadr(p1)))
-		stop("user symbol expected");
+		stopf("user symbol expected");
 
 	push(caddr(p1));
 	eval();
@@ -13988,7 +13988,7 @@ setq_indexed(struct atom *p1)
 	S = cadadr(p1);
 
 	if (!isusersymbol(S))
-		stop("user symbol expected");
+		stopf("user symbol expected");
 
 	push(S);
 	eval();
@@ -14021,14 +14021,14 @@ set_component(struct atom *LVAL, struct atom *RVAL, int h)
 	int i, k, m, n, t;
 
 	if (!istensor(LVAL))
-		stop("index error");
+		stopf("index error");
 
 	// n is the number of indices
 
 	n = tos - h;
 
 	if (n < 1 || n > LVAL->u.tensor->ndim)
-		stop("index error");
+		stopf("index error");
 
 	// k is the combined index
 
@@ -14038,7 +14038,7 @@ set_component(struct atom *LVAL, struct atom *RVAL, int h)
 		push(stack[h + i]);
 		t = pop_integer();
 		if (t < 1 || t > LVAL->u.tensor->dim[i])
-			stop("index error");
+			stopf("index error");
 		k = k * LVAL->u.tensor->dim[i] + t - 1;
 	}
 
@@ -14047,16 +14047,16 @@ set_component(struct atom *LVAL, struct atom *RVAL, int h)
 	if (istensor(RVAL)) {
 		m = RVAL->u.tensor->ndim;
 		if (n + m != LVAL->u.tensor->ndim)
-			stop("index error");
+			stopf("index error");
 		for (i = 0; i < m; i++)
 			if (LVAL->u.tensor->dim[n + i] != RVAL->u.tensor->dim[i])
-				stop("index error");
+				stopf("index error");
 		m = RVAL->u.tensor->nelem;
 		for (i = 0; i < m; i++)
 			LVAL->u.tensor->elem[m * k + i] = RVAL->u.tensor->elem[i];
 	} else {
 		if (n != LVAL->u.tensor->ndim)
-			stop("index error");
+			stopf("index error");
 		LVAL->u.tensor->elem[k] = RVAL;
 	}
 }
@@ -14097,10 +14097,10 @@ setq_usrfunc(struct atom *p1)
 	B = caddr(p1);
 
 	if (!isusersymbol(F))
-		stop("user symbol expected");
+		stopf("user symbol expected");
 
 	if (lengthf(A) > 9)
-		stop("more than 9 arguments");
+		stopf("more than 9 arguments");
 
 	push(B);
 	convert_body(A);
@@ -14899,7 +14899,7 @@ eval_sum(struct atom *p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stop("sum: symbol error");
+		stopf("sum: symbol error");
 
 	push(caddr(p1));
 	eval();
@@ -14962,7 +14962,7 @@ lookup(char *s)
 	}
 
 	if (i == NSYM)
-		stop("symbol table full");
+		stopf("symbol table full");
 
 	p = alloc_atom();
 	s = strdup(s);
@@ -14991,7 +14991,7 @@ printname(struct atom *p)
 	if (isusersymbol(p))
 		return p->u.usym.name;
 
-	stop("symbol error");
+	stopf("symbol error");
 
 	return "?";
 }
@@ -15002,7 +15002,7 @@ set_symbol(struct atom *p, struct atom *b, struct atom *u)
 	int k;
 
 	if (!isusersymbol(p))
-		stop("symbol error");
+		stopf("symbol error");
 
 	k = p->u.usym.index;
 
@@ -15041,7 +15041,7 @@ struct atom *
 get_binding(struct atom *p)
 {
 	if (!isusersymbol(p))
-		stop("symbol error");
+		stopf("symbol error");
 	return binding[p->u.usym.index];
 }
 
@@ -15049,7 +15049,7 @@ struct atom *
 get_usrfunc(struct atom *p)
 {
 	if (!isusersymbol(p))
-		stop("symbol error");
+		stopf("symbol error");
 	return usrfunc[p->u.usym.index];
 }
 
@@ -15639,7 +15639,7 @@ promote_tensor(void)
 	for (i = 1; i < nelem1; i++) {
 		p3 = p1->u.tensor->elem[i];
 		if (!compatible_dimensions(p2, p3))
-			stop("tensor dimensions");
+			stopf("tensor dimensions");
 	}
 
 	if (!istensor(p2)) {
@@ -15651,7 +15651,7 @@ promote_tensor(void)
 	nelem2 = p2->u.tensor->nelem;
 
 	if (ndim1 + ndim2 > MAXDIM)
-		stop("rank exceeds max");
+		stopf("rank exceeds max");
 
 	// alloc
 
@@ -15778,7 +15778,7 @@ eval_dim(struct atom *p1)
 	}
 
 	if (k < 1 || k > p2->u.tensor->ndim)
-		stop("dim 2nd arg: error");
+		stopf("dim 2nd arg: error");
 
 	push_integer(p2->u.tensor->dim[k - 1]);
 }
@@ -15808,7 +15808,7 @@ eval_unit(struct atom *p1)
 	n = pop_integer();
 
 	if (n < 1)
-		stop("unit: index error");
+		stopf("unit: index error");
 
 	if (n == 1) {
 		push_integer(1);
@@ -15832,12 +15832,12 @@ eval_zero(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		if (n == MAXDIM)
-			stop("zero: rank exceeds max");
+			stopf("zero: rank exceeds max");
 		push(car(p1));
 		eval();
 		i = pop_integer();
 		if (i < 2)
-			stop("zero: dimension error");
+			stopf("zero: dimension error");
 		m *= i;
 		dim[n++] = i;
 		p1 = cdr(p1);
@@ -15883,7 +15883,7 @@ eval_check(struct atom *p1)
 	evalp();
 	p1 = pop();
 	if (iszero(p1))
-		stop("check");
+		stopf("check");
 	push_symbol(NIL); // no result is printed
 }
 
@@ -16227,7 +16227,7 @@ transpose(int n, int m)
 	nelem = p1->u.tensor->nelem;
 
 	if (n < 1 || n > ndim || m < 1 || m > ndim)
-		stop("transpose: index error");
+		stopf("transpose: index error");
 
 	n--; // make zero based
 	m--;

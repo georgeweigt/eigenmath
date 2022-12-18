@@ -21,7 +21,7 @@ eval_sum(struct atom *p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stop("sum: symbol error");
+		stopf("sum: symbol error");
 
 	push(caddr(p1));
 	eval();

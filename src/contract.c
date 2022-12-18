@@ -48,7 +48,7 @@ contract(void)
 	m = pop_integer();
 
 	if (n < 1 || n > ndim || m < 1 || m > ndim || n == m)
-		stop("contract: index error");
+		stopf("contract: index error");
 
 	n--; // make zero based
 	m--;
@@ -57,7 +57,7 @@ contract(void)
 	nrow = p1->u.tensor->dim[m];
 
 	if (ncol != nrow)
-		stop("contract: unequal tensor dimensions");
+		stopf("contract: unequal tensor dimensions");
 
 	// nelem is the number of elements in result
 

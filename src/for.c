@@ -6,7 +6,7 @@ eval_for(struct atom *p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stop("for: symbol error");
+		stopf("for: symbol error");
 
 	push(caddr(p1));
 	eval();

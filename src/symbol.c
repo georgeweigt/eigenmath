@@ -27,7 +27,7 @@ lookup(char *s)
 	}
 
 	if (i == NSYM)
-		stop("symbol table full");
+		stopf("symbol table full");
 
 	p = alloc_atom();
 	s = strdup(s);
@@ -56,7 +56,7 @@ printname(struct atom *p)
 	if (isusersymbol(p))
 		return p->u.usym.name;
 
-	stop("symbol error");
+	stopf("symbol error");
 
 	return "?";
 }
@@ -67,7 +67,7 @@ set_symbol(struct atom *p, struct atom *b, struct atom *u)
 	int k;
 
 	if (!isusersymbol(p))
-		stop("symbol error");
+		stopf("symbol error");
 
 	k = p->u.usym.index;
 
@@ -106,7 +106,7 @@ struct atom *
 get_binding(struct atom *p)
 {
 	if (!isusersymbol(p))
-		stop("symbol error");
+		stopf("symbol error");
 	return binding[p->u.usym.index];
 }
 
@@ -114,7 +114,7 @@ struct atom *
 get_usrfunc(struct atom *p)
 {
 	if (!isusersymbol(p))
-		stop("symbol error");
+		stopf("symbol error");
 	return usrfunc[p->u.usym.index];
 }
 

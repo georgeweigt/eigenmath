@@ -41,7 +41,7 @@ promote_tensor(void)
 	for (i = 1; i < nelem1; i++) {
 		p3 = p1->u.tensor->elem[i];
 		if (!compatible_dimensions(p2, p3))
-			stop("tensor dimensions");
+			stopf("tensor dimensions");
 	}
 
 	if (!istensor(p2)) {
@@ -53,7 +53,7 @@ promote_tensor(void)
 	nelem2 = p2->u.tensor->nelem;
 
 	if (ndim1 + ndim2 > MAXDIM)
-		stop("rank exceeds max");
+		stopf("rank exceeds max");
 
 	// alloc
 
@@ -180,7 +180,7 @@ eval_dim(struct atom *p1)
 	}
 
 	if (k < 1 || k > p2->u.tensor->ndim)
-		stop("dim 2nd arg: error");
+		stopf("dim 2nd arg: error");
 
 	push_integer(p2->u.tensor->dim[k - 1]);
 }
@@ -210,7 +210,7 @@ eval_unit(struct atom *p1)
 	n = pop_integer();
 
 	if (n < 1)
-		stop("unit: index error");
+		stopf("unit: index error");
 
 	if (n == 1) {
 		push_integer(1);
@@ -234,12 +234,12 @@ eval_zero(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		if (n == MAXDIM)
-			stop("zero: rank exceeds max");
+			stopf("zero: rank exceeds max");
 		push(car(p1));
 		eval();
 		i = pop_integer();
 		if (i < 2)
-			stop("zero: dimension error");
+			stopf("zero: dimension error");
 		m *= i;
 		dim[n++] = i;
 		p1 = cdr(p1);

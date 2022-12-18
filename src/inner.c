@@ -13,7 +13,7 @@ eval_inner(struct atom *p1)
 	}
 
 	if (h == tos)
-		stop("dot");
+		stopf("dot");
 
 	eval();
 
@@ -67,12 +67,12 @@ inner(void)
 	mrow = p2->u.tensor->dim[0];
 
 	if (ncol != mrow)
-		stop("tensor dimensions");
+		stopf("tensor dimensions");
 
 	ndim = p1->u.tensor->ndim + p2->u.tensor->ndim - 2;
 
 	if (ndim > MAXDIM)
-		stop("rank exceeds max");
+		stopf("rank exceeds max");
 
 	//	nrow is the number of rows in p1
 	//

@@ -73,7 +73,7 @@ pop_integer(void)
 	p = pop();
 
 	if (!issmallinteger(p))
-		stop("small integer expected");
+		stopf("small integer expected");
 
 	if (isrational(p)) {
 		n = p->u.q.a[0];
@@ -108,7 +108,7 @@ pop_double(void)
 	if (isdouble(p))
 		return p->u.d;
 
-	stop("number expected");
+	stopf("number expected");
 
 	return 0.0;
 }
@@ -152,7 +152,7 @@ cmp_numbers(struct atom *p1, struct atom *p2)
 	double d1, d2;
 
 	if (!isnum(p1) || !isnum(p2))
-		stop("compare");
+		stopf("compare");
 
 	if (isrational(p1) && isrational(p2))
 		return cmp_rationals(p1, p2);
@@ -243,7 +243,7 @@ convert_double_to_rational(double d)
 	}
 
 	if (!isnormal(d))
-		stop("floating point value is nan or inf, cannot convert to rational number");
+		stopf("floating point value is nan or inf, cannot convert to rational number");
 
 	x = fabs(d);
 
@@ -324,7 +324,7 @@ bignum_scan_integer(char *s)
 		s++;
 	a = mscan(s);
 	if (a == NULL)
-		stop("parse error");
+		stopf("parse error");
 	push_bignum(sign, a, mint(1));
 }
 
@@ -590,7 +590,7 @@ mdiv(uint32_t *u, uint32_t *v)
 	mnorm(u);
 	mnorm(v);
 	if (MLENGTH(v) == 1 && v[0] == 0)
-		stop("divide by zero"); // v = 0
+		stopf("divide by zero"); // v = 0
 	nu = MLENGTH(u);
 	nv = MLENGTH(v);
 	k = nu - nv;
@@ -662,7 +662,7 @@ mmod(uint32_t *u, uint32_t *v)
 	mnorm(u);
 	mnorm(v);
 	if (MLENGTH(v) == 1 && v[0] == 0)
-		stop("divide by zero"); // v = 0
+		stopf("divide by zero"); // v = 0
 	u = mcopy(u);
 	nu = MLENGTH(u);
 	nv = MLENGTH(v);

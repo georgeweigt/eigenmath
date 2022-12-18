@@ -29,7 +29,7 @@ eval_check(struct atom *p1)
 	evalp();
 	p1 = pop();
 	if (iszero(p1))
-		stop("check");
+		stopf("check");
 	push_symbol(NIL); // no result is printed
 }
 

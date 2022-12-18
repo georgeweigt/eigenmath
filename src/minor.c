@@ -17,10 +17,10 @@ eval_minor(struct atom *p1)
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2 || p2->u.tensor->dim[0] != p2->u.tensor->dim[1])
-		stop("minor");
+		stopf("minor");
 
 	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stop("minor");
+		stopf("minor");
 
 	push(p2);
 
@@ -48,10 +48,10 @@ eval_minormatrix(struct atom *p1)
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2)
-		stop("minormatrix");
+		stopf("minormatrix");
 
 	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stop("minormatrix");
+		stopf("minormatrix");
 
 	push(p2);
 

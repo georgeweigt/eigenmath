@@ -16,7 +16,7 @@ eval_setq(struct atom *p1)
 	}
 
 	if (!isusersymbol(cadr(p1)))
-		stop("user symbol expected");
+		stopf("user symbol expected");
 
 	push(caddr(p1));
 	eval();
@@ -46,7 +46,7 @@ setq_indexed(struct atom *p1)
 	S = cadadr(p1);
 
 	if (!isusersymbol(S))
-		stop("user symbol expected");
+		stopf("user symbol expected");
 
 	push(S);
 	eval();
@@ -79,14 +79,14 @@ set_component(struct atom *LVAL, struct atom *RVAL, int h)
 	int i, k, m, n, t;
 
 	if (!istensor(LVAL))
-		stop("index error");
+		stopf("index error");
 
 	// n is the number of indices
 
 	n = tos - h;
 
 	if (n < 1 || n > LVAL->u.tensor->ndim)
-		stop("index error");
+		stopf("index error");
 
 	// k is the combined index
 
@@ -96,7 +96,7 @@ set_component(struct atom *LVAL, struct atom *RVAL, int h)
 		push(stack[h + i]);
 		t = pop_integer();
 		if (t < 1 || t > LVAL->u.tensor->dim[i])
-			stop("index error");
+			stopf("index error");
 		k = k * LVAL->u.tensor->dim[i] + t - 1;
 	}
 
@@ -105,16 +105,16 @@ set_component(struct atom *LVAL, struct atom *RVAL, int h)
 	if (istensor(RVAL)) {
 		m = RVAL->u.tensor->ndim;
 		if (n + m != LVAL->u.tensor->ndim)
-			stop("index error");
+			stopf("index error");
 		for (i = 0; i < m; i++)
 			if (LVAL->u.tensor->dim[n + i] != RVAL->u.tensor->dim[i])
-				stop("index error");
+				stopf("index error");
 		m = RVAL->u.tensor->nelem;
 		for (i = 0; i < m; i++)
 			LVAL->u.tensor->elem[m * k + i] = RVAL->u.tensor->elem[i];
 	} else {
 		if (n != LVAL->u.tensor->ndim)
-			stop("index error");
+			stopf("index error");
 		LVAL->u.tensor->elem[k] = RVAL;
 	}
 }
@@ -155,10 +155,10 @@ setq_usrfunc(struct atom *p1)
 	B = caddr(p1);
 
 	if (!isusersymbol(F))
-		stop("user symbol expected");
+		stopf("user symbol expected");
 
 	if (lengthf(A) > 9)
-		stop("more than 9 arguments");
+		stopf("more than 9 arguments");
 
 	push(B);
 	convert_body(A);

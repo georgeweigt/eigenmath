@@ -31,7 +31,7 @@ kronecker(void)
 	}
 
 	if (p1->u.tensor->ndim > 2 || p2->u.tensor->ndim > 2)
-		stop("kronecker");
+		stopf("kronecker");
 
 	m = p1->u.tensor->dim[0];
 	n = p1->u.tensor->ndim == 1 ? 1 : p1->u.tensor->dim[1];

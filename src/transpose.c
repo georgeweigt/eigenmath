@@ -48,7 +48,7 @@ transpose(int n, int m)
 	nelem = p1->u.tensor->nelem;
 
 	if (n < 1 || n > ndim || m < 1 || m > ndim)
-		stop("transpose: index error");
+		stopf("transpose: index error");
 
 	n--; // make zero based
 	m--;

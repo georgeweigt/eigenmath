@@ -176,7 +176,7 @@ void
 eval_stop(struct atom *p1)
 {
 	(void) p1; // silence compiler
-	stop("stop function");
+	stopf("stop function");
 }
 
 void
