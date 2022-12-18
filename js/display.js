@@ -592,11 +592,11 @@ emit_power(p)
 	}
 
 	if (isimaginaryunit(p)) {
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
+		if (isimaginaryunit(get_binding(symbol(J_LOWER)))) {
 			emit_italic_string("j");
 			return;
 		}
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
+		if (isimaginaryunit(get_binding(symbol(I_LOWER)))) {
 			emit_italic_string("i");
 			return;
 		}

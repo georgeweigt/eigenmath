@@ -896,7 +896,7 @@ eval_integral(p1)
 	p1 = cddr(p1);
 
 	if (!iscons(p1)) {
-		push_symbol(SYMBOL_X);
+		push_symbol(X_LOWER);
 		integral();
 		return;
 	}
@@ -918,7 +918,7 @@ eval_integral(p1)
 		if (isnum(X)) {
 			push(X);
 			n = pop_integer();
-			push_symbol(SYMBOL_X);
+			push_symbol(X_LOWER);
 			X = pop();
 			for (i = 0; i < n; i++) {
 				push(X);

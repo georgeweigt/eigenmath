@@ -14,7 +14,7 @@ eval_draw(p1)
 	T = caddr(p1);
 
 	if (!isusersymbol(T))
-		T = symbol(SYMBOL_X);
+		T = symbol(X_LOWER);
 
 	save_symbol(T);
 

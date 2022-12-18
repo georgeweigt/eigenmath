@@ -105,14 +105,10 @@ const LAST = "last";
 const PI = "pi";
 const TRACE = "trace";
 
-const SYMBOL_D = "d";
-const SYMBOL_I = "i";
-const SYMBOL_J = "j";
-const SYMBOL_S = "s";
-const SYMBOL_T = "t";
-const SYMBOL_X = "x";
-const SYMBOL_Y = "y";
-const SYMBOL_Z = "z";
+const D_LOWER = "d";
+const I_LOWER = "i";
+const J_LOWER = "j";
+const X_LOWER = "x";
 
 const EXP1 = "$e";
 const SA = "$a";

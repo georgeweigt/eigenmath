@@ -200,7 +200,7 @@ infixform_factor(p)
 
 	// use d if for derivative if d not defined
 
-	if (car(p) == symbol(DERIVATIVE) && get_usrfunc(symbol(SYMBOL_D)) == symbol(NIL)) {
+	if (car(p) == symbol(DERIVATIVE) && get_usrfunc(symbol(D_LOWER)) == symbol(NIL)) {
 		infixform_write("d");
 		infixform_arglist(p);
 		return;
@@ -270,11 +270,11 @@ infixform_power(p)
 	}
 
 	if (isimaginaryunit(p)) {
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_J)))) {
+		if (isimaginaryunit(get_binding(symbol(J_LOWER)))) {
 			infixform_write("j");
 			return;
 		}
-		if (isimaginaryunit(get_binding(symbol(SYMBOL_I)))) {
+		if (isimaginaryunit(get_binding(symbol(I_LOWER)))) {
 			infixform_write("i");
 			return;
 		}

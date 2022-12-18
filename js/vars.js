@@ -125,14 +125,10 @@ var symtab = {
 "trace":	{printname:TRACE,	func:eval_user_symbol},
 "tty":		{printname:TTY,		func:eval_user_symbol},
 
-"d":		{printname:SYMBOL_D,	func:eval_user_symbol},
-"i":		{printname:SYMBOL_I,	func:eval_user_symbol},
-"j":		{printname:SYMBOL_J,	func:eval_user_symbol},
-"s":		{printname:SYMBOL_S,	func:eval_user_symbol},
-"t":		{printname:SYMBOL_T,	func:eval_user_symbol},
-"x":		{printname:SYMBOL_X,	func:eval_user_symbol},
-"y":		{printname:SYMBOL_Y,	func:eval_user_symbol},
-"z":		{printname:SYMBOL_Z,	func:eval_user_symbol},
+"d":		{printname:D_LOWER,	func:eval_user_symbol},
+"i":		{printname:I_LOWER,	func:eval_user_symbol},
+"j":		{printname:J_LOWER,	func:eval_user_symbol},
+"x":		{printname:X_LOWER,	func:eval_user_symbol},
 
 "$e":		{printname:EXP1,	func:eval_user_symbol},
 "$a":		{printname:SA,		func:eval_user_symbol},

@@ -10,7 +10,7 @@ eval_roots(p1)
 		push(car(p1));
 		evalf();
 	} else
-		push_symbol(SYMBOL_X);
+		push_symbol(X_LOWER);
 
 	roots();
 }
