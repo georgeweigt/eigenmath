@@ -15,7 +15,7 @@ default:
 	make -s make-prototypes
 	./make-prototypes ../xcode/src > ../xcode/src/prototypes.h
 #
-	cat LICENSE ../src/defs.h ../src/prototypes.h ../src/globals.c $(src) > ../eigenmath.c
+	cat ../src/defs.h ../src/prototypes.h ../src/globals.c $(src) > ../eigenmath.c
 	make -s check
 	./check ../eigenmath.c
 

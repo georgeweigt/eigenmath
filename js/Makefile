@@ -3,7 +3,7 @@
 src := $(shell ls *.js | sed "s/eigenmath\.js//")
 
 eigenmath.js: $(src)
-	cat ../tools/LICENSE $(src) > eigenmath.js
+	cat $(src) > eigenmath.js
 	make -s -C ../tools check
 	../tools/check eigenmath.js
 	npx eslint eigenmath.js
