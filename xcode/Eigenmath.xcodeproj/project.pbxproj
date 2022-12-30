@@ -49,7 +49,6 @@
 		7FA84588292DACA000842C3D /* history.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = history.c; sourceTree = "<group>"; };
 		7FA84589292DACA000842C3D /* eigenmath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eigenmath.c; sourceTree = "<group>"; };
 		7FA8458A292DACA000842C3D /* eval_nonstop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eval_nonstop.c; sourceTree = "<group>"; };
-		7FA8458B292DACA000842C3D /* externs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = externs.h; sourceTree = "<group>"; };
 		7FA8458C292DACA000842C3D /* eval_draw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eval_draw.c; sourceTree = "<group>"; };
 		7FA8458D292DACA000842C3D /* fontinfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fontinfo.c; sourceTree = "<group>"; };
 		7FA8458E292DACA000842C3D /* printbuf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = printbuf.c; sourceTree = "<group>"; };
@@ -95,7 +94,6 @@
 				7FA84591292DACA000842C3D /* emit.c */,
 				7FA8458C292DACA000842C3D /* eval_draw.c */,
 				7FA8458A292DACA000842C3D /* eval_nonstop.c */,
-				7FA8458B292DACA000842C3D /* externs.h */,
 				7FA8458D292DACA000842C3D /* fontinfo.c */,
 				7FA84588292DACA000842C3D /* history.c */,
 				7FA8458E292DACA000842C3D /* printbuf.c */,

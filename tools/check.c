@@ -28,9 +28,6 @@ main(int argc, char *argv[])
 
 		line++;
 
-		if (line < 29)
-			continue; // skip license
-
 		s = check();
 
 		if (s)

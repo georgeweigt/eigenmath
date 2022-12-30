@@ -1,2 +1,10 @@
-eigenmath: eigenmath.c
-	gcc -O0 -o eigenmath eigenmath.c -lm
+.PHONY: clean
+
+a.out: eigenmath.c
+	gcc -O0 eigenmath.c -lm
+
+eigenmath.c: src/defs.h src/prototypes.h src/*.c
+	cat src/defs.h src/prototypes.h src/*.c > eigenmath.c
+
+clean:
+	rm -f eigenmath.c a.out

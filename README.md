@@ -5,7 +5,7 @@ To build and run
 
 ```
 make
-./eigenmath
+./a.out
 ```
 
 Press ctrl-C to exit.
@@ -15,14 +15,14 @@ Eigenmath uses UTF-8 encoding. The terminal window should have UTF-8 enabled.
 To run a script
 
 ```
-./eigenmath scriptfilename
+./a.out scriptfilename
 ```
 
 To run test scripts
 
 ```
-./eigenmath test/selftest1
-./eigenmath test/selftest2
+./a.out test/selftest1
+./a.out test/selftest2
 ```
 
 If all tests pass then `ok` is printed.

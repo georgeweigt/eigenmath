@@ -1,7 +1,6 @@
 #include "defs.h"
 #include <ApplicationServices/ApplicationServices.h>
 #include "prototypes.h"
-#include "externs.h"
 
 #define HPAD 10
 #define VPAD 10
