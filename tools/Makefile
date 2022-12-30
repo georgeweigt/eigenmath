@@ -6,8 +6,7 @@ xsrc := $(shell ls ../src/*.c | sed "s/\.\.\/src\/main\.c//;s/\.\.\/src\/fmt\.c/
 
 default:
 	cp ../src/defs.h ../xcode/src
-	echo "#include \"app.h\"" > ../xcode/src/eigenmath.c
-	cat $(xsrc) >> ../xcode/src/eigenmath.c
+	cat xcode-header $(xsrc) > ../xcode/src/eigenmath.c
 	make -s make-prototypes
 	./make-prototypes ../xcode/src > ../xcode/src/prototypes.h
 
