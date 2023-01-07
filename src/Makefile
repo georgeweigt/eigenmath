@@ -1,7 +1,7 @@
 .PHONY: clean sync
 
-a.out: defs.h prototypes.h *.c
-	gcc -Wall -O0 -include defs.h -include prototypes.h *.c -lm
+eigenmath: defs.h prototypes.h *.c
+	gcc -Wall -O0 -o eigenmath -include defs.h -include prototypes.h *.c -lm
 
 prototypes.h: *.c
 	make -s -C ../tools make-prototypes
