@@ -7,4 +7,4 @@ eigenmath.c: src/defs.h src/prototypes.h src/*.c
 	cat src/defs.h src/prototypes.h src/*.c > eigenmath.c
 
 clean:
-	rm -f eigenmath.c a.out
+	rm -f eigenmath eigenmath.c
