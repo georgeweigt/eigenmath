@@ -12,9 +12,9 @@ clean:
 
 sync:
 
-# sed removes "../src/main.c" and "../src/fmt.c"
+# sed removes main.c and fmt.c
 
-files := $(shell ls ../src/*.c | sed "s/\.\.\/src\/main\.c//;s/\.\.\/src\/fmt\.c//")
+files := $(shell ls *.c | sed "s/main\.c//;s/fmt\.c//")
 
 sync:
 	cp defs.h ../xcode/src
