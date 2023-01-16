@@ -13258,7 +13258,7 @@ read_file(char *filename)
 	if (fd == -1)
 		return NULL;
 
-	n = lseek(fd, 0, SEEK_END);
+	n = (int) lseek(fd, 0, SEEK_END);
 
 	if (n == -1) {
 		close(fd);
