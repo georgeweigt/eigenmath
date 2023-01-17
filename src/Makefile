@@ -8,7 +8,7 @@ prototypes.h: *.c
 	../tools/make-prototypes . > prototypes.h
 
 clean:
-	rm -f prototypes.h a.out
+	rm -f eigenmath prototypes.h
 
 sync:
 
