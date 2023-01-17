@@ -19,7 +19,8 @@ CGContextRef gcontext;
 {
 	double y1, y2;
 
-	gcontext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+//	gcontext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort]; [DEPRECATED]
+	gcontext = (CGContextRef)[[NSGraphicsContext currentContext] CGContext];
 
 	CGAffineTransform w;
 	w.a = 1.0;
@@ -57,7 +58,8 @@ CGContextRef gcontext;
 	// copy contents of rectangle to pasteboard
 
 	NSPasteboard *p = [NSPasteboard generalPasteboard];
-	[p declareTypes:[NSArray arrayWithObjects:NSPDFPboardType, nil] owner:self];
+//	[p declareTypes:[NSArray arrayWithObjects:NSPDFPboardType, nil] owner:self]; [DEPRECATED]
+	[p declareTypes:[NSArray arrayWithObjects:NSPasteboardTypePDF, nil] owner:self];
 	[self writePDFInsideRect:r toPasteboard:p];
 
 	// clear selection rectangle on screen
