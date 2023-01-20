@@ -1,14 +1,14 @@
 .PHONY: default clean
 
 default:
-	make check
+	make wcheck
 	make make-prototypes
 
-check: check.c
-	gcc -Wall -O0 -o check check.c
+wcheck: wcheck.c
+	gcc -Wall -O0 -o wcheck wcheck.c
 
 make-prototypes: make-prototypes.c
 	gcc -Wall -O0 -o make-prototypes make-prototypes.c
 
 clean:
-	rm -f check make-prototypes
+	rm -f wcheck make-prototypes

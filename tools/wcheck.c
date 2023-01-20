@@ -17,6 +17,8 @@ main(int argc, char *argv[])
 	if (argc < 2)
 		exit(1);
 
+	printf("checking %s\n", argv[1]);
+
 	f = fopen(argv[1], "r");
 
 	if (f == NULL) {

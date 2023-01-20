@@ -1,0 +1,3 @@
+#!/bin/bash
+make -s wcheck
+for FILE in ../src/*.c; do ./wcheck $FILE; done
