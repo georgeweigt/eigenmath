@@ -5,7 +5,7 @@
 #include <string.h>
 
 char buf[1000];
-char *check(void);
+char *check(char *);
 
 int
 main(int argc, char *argv[])
@@ -30,17 +30,19 @@ main(int argc, char *argv[])
 
 		line++;
 
-		s = check();
+		s = check(buf);
 
-		if (s)
+		if (s) {
 			printf("%s, line %d\n", s, line);
+			puts(buf);
+		}
 	}
 
 	fclose(f);
 }
 
 char *
-check(void)
+check(char *buf)
 {
 	int i, n;
 
