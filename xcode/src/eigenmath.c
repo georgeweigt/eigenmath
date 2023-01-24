@@ -13266,12 +13266,12 @@ read_file(char *filename)
 		return NULL;
 	}
 
-	n = (int) t;
-
 	if (lseek(fd, 0, SEEK_SET)) {
 		close(fd);
 		return NULL;
 	}
+
+	n = (int) t;
 
 	buf = malloc(n + 1);
 
