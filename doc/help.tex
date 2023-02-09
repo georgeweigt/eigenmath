@@ -460,24 +460,25 @@ eval(f,x,3,y,4) -- evaluate f at x=3 and y=4
 
 \bigskip
 \noindent
-Consider Rodrigues's formula to compute associated Legendre functions.
+In the following example, \verb$eval$ is used to compute
 \begin{equation*}
-P_n^m(x)=\frac{1}{2^n\,n!}(1-x^2)^{m/2}\frac{d^{n+m}}{dx^{n+m}}\left[(x^2-1)^n\right]
+\frac{d^{l+m}}{d(\cos\theta)^{l+m}}(\cos^2\theta-1)^l
 \end{equation*}
-
-\noindent
-In the following example, \verb$eval$ is used to compute an associated Legendre function of \verb$expcos(theta)$.
 
 {\color{blue}
 \begin{verbatim}
-P(x,n,m) = 1/(2^n n!) (1-x^2)^(m/2) d((x^2-1)^n,x,n+m)
-Pf(f,n,m) = eval(P(x,n,m),x,f)
-Pf(expcos(theta),2,0)
+-- associated legendre of cos theta
+
+P(l,m) = test(m < 0, (-1)^(-m) (l + m)! / (l - m)! P(l,-m),
+         1 / (2^l l!) sin(theta)^m *
+         eval(d((x^2 - 1)^l,x,l + m),x,cos(theta)))
+
+P(2,-1)
 \end{verbatim}
 }
 
 $\displaystyle
-\tfrac{3}{8}\exp(2i\theta)+\tfrac{3}{8}\exp(-2i\theta)+\tfrac{1}{4}
+-\tfrac{1}{2}\cos(\theta)\sin(\theta)
 $
 
 \subsection*{exp($x$)}
