@@ -561,17 +561,20 @@ eval(f,x,3,y,4) -- evaluate f at x=3 and y=4
 <p>
 In the following example,
 <span style="font-family:courier">eval</span>
-is used to compute an associated Legendre function of
-<span style="font-family:courier">expcos(theta)</span>.
+is used to compute associated Legendre functions.
 <pre style="font-family:courier;color:blue">
-P(x,n,m) = 1/(2^n n!) (1-x^2)^(m/2) d((x^2-1)^n,x,n+m)
-Pf(f,n,m) = eval(P(x,n,m),x,f)
-Pf(expcos(theta),2,0)
+-- associated legendre of cos theta
+
+P(l,m) = test(m < 0, (-1)^(-m) (l + m)! / (l - m)! P(l,-m),
+         1 / (2^l l!) sin(theta)^m *
+         eval(d((x^2 - 1)^l,x,l + m),x,cos(theta)))
+
+P(2,-1)
 </pre>
 <pre style="font-family:courier">
- 3                3                 1 
-╶─╴ exp(2 i θ) + ╶─╴ exp(−2 i θ) + ╶─╴
- 8                8                 4 
+  1
+−╶─╴ cos(θ) sin(θ)
+  2
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
