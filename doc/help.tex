@@ -469,7 +469,7 @@ In the following example, \verb$eval$ is used to compute
 \begin{verbatim}
 -- associated legendre of cos theta
 
-P(l,m) = test(m < 0, (-1)^(-m) (l + m)! / (l - m)! P(l,-m),
+P(l,m) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
          1 / (2^l l!) sin(theta)^m *
          eval(d((x^2 - 1)^l,x,l + m),x,cos(theta)))
 

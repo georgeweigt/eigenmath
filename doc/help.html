@@ -565,7 +565,7 @@ is used to compute associated Legendre functions.
 <pre style="font-family:courier;color:blue">
 -- associated legendre of cos theta
 
-P(l,m) = test(m < 0, (-1)^(-m) (l + m)! / (l - m)! P(l,-m),
+P(l,m) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
          1 / (2^l l!) sin(theta)^m *
          eval(d((x^2 - 1)^l,x,l + m),x,cos(theta)))
 
