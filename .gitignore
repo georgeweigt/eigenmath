@@ -2,4 +2,3 @@
 *.tmp
 .DS_Store
 eigenmath
-eigenmath.c
