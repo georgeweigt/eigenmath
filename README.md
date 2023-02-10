@@ -25,9 +25,6 @@ To run test scripts
 ./eigenmath test/selftest2
 ```
 
-If all tests pass then `ok` is printed.
-Otherwise, `Stop` is printed.
-
 #
 
 `eigenmath.js` is a Javascript program for evaluating Eigenmath scripts in a browser.
