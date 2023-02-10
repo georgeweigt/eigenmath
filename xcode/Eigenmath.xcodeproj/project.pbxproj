@@ -327,7 +327,7 @@
 				DEVELOPMENT_TEAM = D273D35927;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = src/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Analyze math and physics formulas";
+				INFOPLIST_KEY_CFBundleDisplayName = "Analyze math and physics equations";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 3.13;
@@ -350,7 +350,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = src/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Analyze math and physics formulas";
+				INFOPLIST_KEY_CFBundleDisplayName = "Analyze math and physics equations";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 3.13;
