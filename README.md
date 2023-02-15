@@ -25,6 +25,12 @@ To run test scripts
 ./eigenmath test/selftest2
 ```
 
+arch/manjaro install from aur
+
+```
+paru -S eigenmath-git
+```
+
 #
 
 `eigenmath.js` is a Javascript program for evaluating Eigenmath scripts in a browser.
