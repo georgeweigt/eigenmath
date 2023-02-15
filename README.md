@@ -25,8 +25,16 @@ To run test scripts
 ./eigenmath test/selftest2
 ```
 
-arch/manjaro install from aur
+#
 
+Packages
+
+ports.macports.org
+```
+sudo port install eigenmath
+```
+
+aur.archlinux.org
 ```
 paru -S eigenmath-git
 ```
