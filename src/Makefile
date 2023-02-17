@@ -1,23 +1,27 @@
-.PHONY: clean sync
+.PHONY: clean sync checkall
 
-eigenmath: defs.h prototypes.h *.c
-	gcc -Wall -O0 -o eigenmath -include defs.h -include prototypes.h *.c -lm
+CFILES := $(shell ls *.c)
 
-prototypes.h: *.c
+eigenmath: defs.h prototypes.h $(CFILES)
+	gcc -Wall -O0 -o eigenmath -include defs.h -include prototypes.h $(CFILES) -lm
+
+prototypes.h: $(CFILES)
 	make -s -C ../tools make-prototypes
 	../tools/make-prototypes . > prototypes.h
 
 clean:
 	rm -f eigenmath prototypes.h
 
-sync:
+checkall:
+	make -s -C ../tools wcheck
+	for FILE in $(CFILES); do ../tools/wcheck $$FILE; done
 
 # sed removes main.c and fmt.c
 
-files := $(shell ls *.c | sed "s/main\.c//;s/fmt\.c//")
+XFILES := $(shell ls *.c | sed "s/main\.c//;s/fmt\.c//")
 
 sync:
 	cp defs.h ../xcode/src
-	cat defs.h prototypes.h $(files) > ../xcode/src/eigenmath.c
+	cat defs.h prototypes.h $(XFILES) > ../xcode/src/eigenmath.c
 	make -s -C ../tools make-prototypes
 	../tools/make-prototypes ../xcode/src > ../xcode/src/prototypes.h
