@@ -1,5 +1,8 @@
 [Eigenmath Home Page](https://georgeweigt.github.io)
+
 #
+
+Eigenmath uses UTF-8 encoding. The terminal window should have UTF-8 enabled.
 
 To build and run
 
@@ -9,8 +12,6 @@ make
 ```
 
 Press ctrl-C to exit.
-
-Eigenmath uses UTF-8 encoding. The terminal window should have UTF-8 enabled.
 
 To run a script
 
