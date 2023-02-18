@@ -30,12 +30,12 @@ To run test scripts
 
 Packages
 
-[ports.macports.org/port/eigenmath](https://ports.macports.org/port/eigenmath/)
+[ports.macports.org](https://ports.macports.org/port/eigenmath/)
 ```
 sudo port install eigenmath
 ```
 
-[aur.archlinux.org/packages/eigenmath-git](https://aur.archlinux.org/packages/eigenmath-git)
+[aur.archlinux.org](https://aur.archlinux.org/packages/eigenmath-git)
 ```
 paru -S eigenmath-git
 ```
