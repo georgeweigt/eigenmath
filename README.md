@@ -2,7 +2,8 @@
 
 #
 
-Eigenmath uses UTF-8 encoding. The terminal window should have UTF-8 enabled.
+Eigenmath uses UTF-8 encoding to display Greek letters and other symbols.
+The terminal window should have UTF-8 enabled.
 
 To build and run
 
