@@ -11,4 +11,4 @@ clean:
 
 checkall:
 	make -s -C ../tools wcheck
-	for FILE in $(FILES); do ../tools/wcheck $$FILE; done
+	for FILE in src/*.js; do ../tools/wcheck $$FILE; done
