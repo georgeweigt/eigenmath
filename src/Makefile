@@ -1,4 +1,4 @@
-.PHONY: clean checkall sync
+.PHONY: clean sync
 
 CFILES := $(shell ls *.c)
 
@@ -11,10 +11,6 @@ prototypes.h: $(CFILES)
 
 clean:
 	rm -f eigenmath prototypes.h
-
-checkall:
-	make -s -C ../tools wcheck
-	for FILE in *.h *.c; do ../tools/wcheck $$FILE; done
 
 # sed removes main.c and fmt.c
 

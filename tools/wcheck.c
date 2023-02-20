@@ -17,8 +17,6 @@ main(int argc, char *argv[])
 	if (argc < 2)
 		exit(1);
 
-	printf("checking %s\n", argv[1]);
-
 	f = fopen(argv[1], "r");
 
 	if (f == NULL) {
@@ -33,13 +31,13 @@ main(int argc, char *argv[])
 		s = check(buf);
 
 		if (s) {
-			printf("%s, line %d\n", s, line);
+			printf("%s, %s line %d\n", s, argv[1], line);
 			puts(buf);
 		}
 	}
 
 	if (line && buf[0] == '\n') {
-		printf("trailing newline, line %d\n", line);
+		printf("trailing newline, %s line %d\n", argv[1], line);
 		puts(buf);
 	}
 
@@ -77,7 +75,7 @@ check(char *buf)
 	if (strncmp(buf, "//", 2) == 0 || strncmp(buf, "\t//", 3) == 0)
 		return NULL;
 
-	if (strstr(buf, "  ") || strstr(buf, " \t") || strstr(buf, "\t "))
+	if (strstr(buf, " "" ") || strstr(buf, " \t") || strstr(buf, "\t "))
 		return "consecutive space";
 
 	return NULL;

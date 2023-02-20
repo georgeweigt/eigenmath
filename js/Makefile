@@ -1,4 +1,4 @@
-.PHONY: clean checkall
+.PHONY: clean
 
 FILES := $(shell ls src/*.js)
 
@@ -8,7 +8,3 @@ eigenmath.js: $(FILES)
 
 clean:
 	rm -f eigenmath.js
-
-checkall:
-	make -s -C ../tools wcheck
-	for FILE in src/*.js; do ../tools/wcheck $$FILE; done
