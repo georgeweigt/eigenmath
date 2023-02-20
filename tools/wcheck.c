@@ -31,13 +31,13 @@ main(int argc, char *argv[])
 		s = check(buf);
 
 		if (s) {
-			printf("%s, %s line %d\n", s, argv[1], line);
+			printf("%s line %d: %s\n", argv[1], line, s);
 			puts(buf);
 		}
 	}
 
 	if (line && buf[0] == '\n') {
-		printf("trailing newline, %s line %d\n", argv[1], line);
+		printf("%s line %d: trailing newline\n", argv[1], line);
 		puts(buf);
 	}
 
