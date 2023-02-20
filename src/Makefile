@@ -14,8 +14,7 @@ clean:
 
 checkall:
 	make -s -C ../tools wcheck
-	../tools/wcheck defs.h
-	for FILE in $(CFILES); do ../tools/wcheck $$FILE; done
+	for FILE in *.h *.c; do ../tools/wcheck $$FILE; done
 
 # sed removes main.c and fmt.c
 
