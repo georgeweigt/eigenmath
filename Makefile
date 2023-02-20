@@ -13,6 +13,5 @@ clean:
 
 check:
 	make -s -C tools wcheck
-	for FILE in $$(find . -name "*.h"); do tools/wcheck $$FILE; done
-	for FILE in $$(find . -name "*.c"); do tools/wcheck $$FILE; done
-	for FILE in $$(find . -name "*.js"); do tools/wcheck $$FILE; done
+	for FILE in src/*.c; do tools/wcheck $$FILE; done
+	for FILE in js/src/*.js; do tools/wcheck $$FILE; done

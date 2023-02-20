@@ -75,7 +75,7 @@ check(char *buf)
 	if (strncmp(buf, "//", 2) == 0 || strncmp(buf, "\t//", 3) == 0)
 		return NULL;
 
-	if (strstr(buf, " "" ") || strstr(buf, " \t") || strstr(buf, "\t "))
+	if (strstr(buf, "  ") || strstr(buf, " \t") || strstr(buf, "\t "))
 		return "consecutive space";
 
 	return NULL;
