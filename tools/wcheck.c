@@ -39,6 +39,9 @@ main(int argc, char *argv[])
 	}
 
 	fclose(f);
+
+	if (line && buf[0] == '\n')
+		printf("trailing newline, line %d\n", line);
 }
 
 char *
