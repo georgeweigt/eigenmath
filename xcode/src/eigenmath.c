@@ -2811,7 +2811,7 @@ mscan(char *s)
 char *
 mstr(uint32_t *u)
 {
-	int i, k, m, n, r;
+	int i, k, n, r;
 	static char *buf;
 	static int len;
 
@@ -2821,15 +2821,15 @@ mstr(uint32_t *u)
 
 	// hence space for 8 leading zeroes is required
 
-	n = 10 * MLENGTH(u) + 8 + 1; // +1 for string terminator
+	n = 10 * MLENGTH(u) + 10;
 
-	m = 1000 * (n / 1000 + 1);
+	n = 1000 * (n / 1000 + 1);
 
-	if (m > len) {
+	if (n > len) {
 		if (buf)
 			free(buf);
-		buf = alloc_mem(m);
-		len = m;
+		buf = alloc_mem(n);
+		len = n;
 	}
 
 	u = mcopy(u);
@@ -2851,7 +2851,7 @@ mstr(uint32_t *u)
 
 	// remove leading zeroes
 
-	while (k < len - 2 && buf[k] == '0')
+	while (buf[k] == '0' && buf[k + 1])
 		k++;
 
 	return buf + k;
