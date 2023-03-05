@@ -1426,3 +1426,4 @@ B = F div(G) - G div(F) + dot(grad(F),G) - dot(grad(G),F)
 
 check(A = B)
 "ok"
+exit
