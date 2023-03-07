@@ -136,10 +136,9 @@ struct atom {
 #define EXPTANH		(4 * NSYM + 11)
 
 #define FACTORIAL	(5 * NSYM + 0)
-#define FILTER		(5 * NSYM + 1)
-#define FLOATF		(5 * NSYM + 2)
-#define FLOOR		(5 * NSYM + 3)
-#define FOR		(5 * NSYM + 4)
+#define FLOATF		(5 * NSYM + 1)
+#define FLOOR		(5 * NSYM + 2)
+#define FOR		(5 * NSYM + 3)
 
 #define H_UPPER		(7 * NSYM + 0)
 #define H_LOWER		(7 * NSYM + 1)

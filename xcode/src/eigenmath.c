@@ -136,10 +136,9 @@ struct atom {
 #define EXPTANH		(4 * NSYM + 11)
 
 #define FACTORIAL	(5 * NSYM + 0)
-#define FILTER		(5 * NSYM + 1)
-#define FLOATF		(5 * NSYM + 2)
-#define FLOOR		(5 * NSYM + 3)
-#define FOR		(5 * NSYM + 4)
+#define FLOATF		(5 * NSYM + 1)
+#define FLOOR		(5 * NSYM + 2)
+#define FOR		(5 * NSYM + 3)
 
 #define H_UPPER		(7 * NSYM + 0)
 #define H_LOWER		(7 * NSYM + 1)
@@ -588,10 +587,6 @@ void factor_factor(void);
 void factor_int(int n);
 void eval_factorial(struct atom *p1);
 void factorial(void);
-void eval_filter(struct atom *p1);
-void filter(void);
-void filter_sum(struct atom *p1, struct atom *p2);
-void filter_tensor(struct atom *p1, struct atom *p2);
 void eval_float(struct atom *p1);
 void floatfunc(void);
 void floatfunc_subst(void);
@@ -7342,78 +7337,6 @@ factorial(void)
 
 	if (isdouble(p1))
 		bignum_float();
-}
-// Remove terms that involve a given symbol or expression. For example...
-//
-//	filter(x^2 + x + 1, x)		=>	1
-//
-//	filter(x^2 + x + 1, x^2)	=>	x + 1
-
-void
-eval_filter(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-
-	p1 = cddr(p1);
-
-	while (iscons(p1)) {
-		push(car(p1));
-		eval();
-		filter();
-		p1 = cdr(p1);
-	}
-}
-
-void
-filter(void)
-{
-	struct atom *p1, *p2;
-
-	p2 = pop();
-	p1 = pop();
-
-	if (car(p1) == symbol(ADD))
-		filter_sum(p1, p2);
-	else if (istensor(p1))
-		filter_tensor(p1, p2);
-	else if (findf(p1, p2))
-		push_integer(0);
-	else
-		push(p1);
-}
-
-void
-filter_sum(struct atom *p1, struct atom *p2)
-{
-	push_integer(0);
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		push(p2);
-		filter();
-		add();
-		p1 = cdr(p1);
-	}
-}
-
-void
-filter_tensor(struct atom *p1, struct atom *p2)
-{
-	int i, n;
-	struct atom *p3;
-	n = p1->u.tensor->nelem;
-	p3 = alloc_tensor(n);
-	p3->u.tensor->ndim = p1->u.tensor->ndim;
-	for (i = 0; i < p1->u.tensor->ndim; i++)
-		p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
-	for (i = 0; i < n; i++) {
-		push(p1->u.tensor->elem[i]);
-		push(p2);
-		filter();
-		p3->u.tensor->elem[i] = pop();
-	}
-	push(p3);
 }
 void
 eval_float(struct atom *p1)
@@ -15855,7 +15778,6 @@ struct se stab[] = {
 	{ "exptanh",		EXPTANH,	eval_exptanh		},
 
 	{ "factorial",		FACTORIAL,	eval_factorial		},
-	{ "filter",		FILTER,		eval_filter		},
 	{ "float",		FLOATF,		eval_float		},
 	{ "floor",		FLOOR,		eval_floor		},
 	{ "for",		FOR,		eval_for		},
