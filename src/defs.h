@@ -314,7 +314,7 @@ struct tensor {
 #define MMINUS 1
 #define MLENGTH(p) (((int *) (p))[-1])
 #define MZERO(p) (MLENGTH(p) == 1 && (p)[0] == 0)
-#define MEQUAL(p, n) (MLENGTH(p) == 1 && (p)[0] == ((uint32_t) n))
+#define MEQUAL(p, n) (MLENGTH(p) == 1 && (p)[0] == (n))
 
 #define BLACK 0
 #define BLUE 1
