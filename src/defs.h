@@ -186,7 +186,6 @@ struct atom {
 #define Q_UPPER		(16 * NSYM + 0)
 #define Q_LOWER		(16 * NSYM + 1)
 #define QUOTE		(16 * NSYM + 2)
-#define QUOTIENT	(16 * NSYM + 3)
 
 #define R_UPPER		(17 * NSYM + 0)
 #define R_LOWER		(17 * NSYM + 1)

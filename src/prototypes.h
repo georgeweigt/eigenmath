@@ -413,8 +413,6 @@ void eval_print(struct atom *p1);
 void print_result(void);
 int annotate_result(struct atom *p1, struct atom *p2);
 void eval_product(struct atom *p1);
-void eval_quotient(struct atom *p1);
-void quotient(void);
 void eval_rationalize(struct atom *p1);
 void rationalize(void);
 char * read_file(char *filename);
