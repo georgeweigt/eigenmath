@@ -844,14 +844,6 @@ mnorm(uint32_t *u)
 		MLENGTH(u)--;
 }
 
-// Bignum GCD
-// Uses the binary GCD algorithm.
-// See "The Art of Computer Programming" p. 338.
-// mgcd always returns a positive value
-// mgcd(0, 0) = 0
-// mgcd(u, 0) = |u|
-// mgcd(0, v) = |v|
-
 uint32_t *
 mgcd(uint32_t *u, uint32_t *v)
 {
@@ -926,35 +918,6 @@ mgcd(uint32_t *u, uint32_t *v)
 	}
 }
 
-// returns x^n mod m
-
-uint32_t *
-mmodpow(uint32_t *x, uint32_t *n, uint32_t *m)
-{
-	uint32_t *y, *z;
-	x = mcopy(x);
-	n = mcopy(n);
-	y = mint(1);
-	while (1) {
-		if (n[0] & 1) {
-			z = mmul(y, x);
-			mfree(y);
-			y = mmod(z, m);
-			mfree(z);
-		}
-		mshiftright(n);
-		if (MZERO(n))
-			break;
-		z = mmul(x, x);
-		mfree(x);
-		x = mmod(z, m);
-		mfree(z);
-	}
-	mfree(x);
-	mfree(n);
-	return y;
-}
-
 // returns NULL if not perfect root, otherwise returns a^(1/n)
 
 uint32_t *
@@ -1012,140 +975,6 @@ mroot(uint32_t *a, uint32_t *n)
 	mfree(b);
 
 	return NULL;
-}
-
-// Bignum prime test (returns 1 if prime, 0 if not)
-// Uses Algorithm P (probabilistic primality test) from p. 395 of
-// "The Art of Computer Programming, Volume 2" by Donald E. Knuth.
-
-int
-mprime(uint32_t *n)
-{
-	int i, k;
-	uint32_t *q;
-
-	// 1?
-
-	if (MLENGTH(n) == 1 && n[0] == 1)
-		return 0;
-
-	// 2?
-
-	if (MLENGTH(n) == 1 && n[0] == 2)
-		return 1;
-
-	// even?
-
-	if ((n[0] & 1) == 0)
-		return 0;
-
-	// n = 1 + (2 ^ k) q
-
-	q = mcopy(n);
-
-	k = 0;
-	do {
-		mshiftright(q);
-		k++;
-	} while ((q[0] & 1) == 0);
-
-	// try 25 times
-
-	for (i = 0; i < 25; i++)
-		if (mprimef(n, q, k) == 0)
-			break;
-
-	mfree(q);
-
-	if (i < 25)
-		return 0;
-	else
-		return 1;
-}
-
-//	This is the actual implementation of Algorithm P.
-//
-//	Input:		n		The number in question.
-//
-//			q		n = 1 + (2 ^ k) q
-//
-//			k
-//
-//	Output:		1		when n is probably prime
-//
-//			0		when n is definitely not prime
-
-int
-mprimef(uint32_t *n, uint32_t *q, int k)
-{
-	int i, j;
-	uint32_t *t, *x, *y;
-
-	// generate x
-
-	t = mcopy(n);
-
-	while (1) {
-		for (i = 0; i < MLENGTH(t); i++)
-			t[i] = rand();
-		x = mmod(t, n);
-		if (!MZERO(x) && !MEQUAL(x, 1))
-			break;
-		mfree(x);
-	}
-
-	mfree(t);
-
-	// exponentiate
-
-	y = mmodpow(x, q, n);
-
-	// done?
-
-	if (MEQUAL(y, 1)) {
-		mfree(x);
-		mfree(y);
-		return 1;
-	}
-
-	j = 0;
-
-	while (1) {
-
-		// y = n - 1?
-
-		t = msub(n, y);
-
-		if (MEQUAL(t, 1)) {
-			mfree(t);
-			mfree(x);
-			mfree(y);
-			return 1;
-		}
-
-		mfree(t);
-
-		if (++j == k) {
-			mfree(x);
-			mfree(y);
-			return 0;
-		}
-
-		// y = (y ^ 2) mod n
-
-		t = mmul(y, y);
-		mfree(y);
-		y = mmod(t, n);
-		mfree(t);
-
-		// y = 1?
-
-		if (MEQUAL(y, 1)) {
-			mfree(x);
-			mfree(y);
-			return 0;
-		}
-	}
 }
 
 int
