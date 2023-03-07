@@ -375,24 +375,6 @@ mclrbit(uint32_t *x, uint32_t k)
 	x[k / 32] &= ~(1 << (k % 32));
 }
 
-void
-mshiftright(uint32_t *a)
-{
-	int c, i, n;
-	n = MLENGTH(a);
-	c = 0;
-	for (i = n - 1; i >= 0; i--)
-		if (a[i] & 1) {
-			a[i] = (a[i] >> 1) | c;
-			c = 0x80000000;
-		} else {
-			a[i] = (a[i] >> 1) | c;
-			c = 0;
-		}
-	if (n > 1 && a[n - 1] == 0)
-		MLENGTH(a) = n - 1;
-}
-
 uint32_t *
 mscan(char *s)
 {
@@ -866,8 +848,8 @@ mgcd(uint32_t *u, uint32_t *v)
 	k = 0;
 
 	while ((u[0] & 1) == 0 && (v[0] & 1) == 0) {
-		mshiftright(u);
-		mshiftright(v);
+		mshr(u);
+		mshr(v);
 		k++;
 	}
 
@@ -882,7 +864,7 @@ mgcd(uint32_t *u, uint32_t *v)
 	while (1) {
 
 		while ((t[0] & 1) == 0)
-			mshiftright(t);
+			mshr(t);
 
 		if (sign == 1) {
 			mfree(u);
