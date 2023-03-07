@@ -80,7 +80,6 @@ void bignum_factorial(int n);
 uint32_t * bignum_factorial_nib(int n);
 void msetbit(uint32_t *x, uint32_t k);
 void mclrbit(uint32_t *x, uint32_t k);
-void mshiftright(uint32_t *a);
 uint32_t * mscan(char *s);
 char * mstr(uint32_t *u);
 int mdivby1billion(uint32_t *u);
