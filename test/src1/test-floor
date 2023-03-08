@@ -3,6 +3,7 @@
 clear
 
 check(infixform(floor(x)) == "floor(x)")
+check(floor((x,y)) == (floor(x),floor(y)))
 
 -- compare intrinsic
 

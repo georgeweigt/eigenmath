@@ -2,6 +2,10 @@
 
 clear
 
+z1 = x1 + i y1
+z2 = x2 + i y2
+check(arg((z1,z2)) == (arctan(y1,x1),arctan(y2,x2)))
+
 T = arg(-1)
 check(prefixform(T)="(* -1 pi)")
 

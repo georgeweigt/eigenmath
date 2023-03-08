@@ -2,6 +2,8 @@
 
 clear
 
+check(mod((x,y),n) == (mod(x,n),mod(y,n)))
+
 -- compare intrinsic
 
 for(a,-20,20,for(b,-20,20,

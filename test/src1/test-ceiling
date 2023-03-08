@@ -3,6 +3,7 @@
 clear
 
 check(infixform(ceiling(x)) == "ceiling(x)")
+check(ceiling((x,y)) == (ceiling(x),ceiling(y)))
 
 -- compare intrinsic
 

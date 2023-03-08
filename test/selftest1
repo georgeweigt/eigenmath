@@ -609,6 +609,10 @@ check(infixform(arctanh(tanh(z4))) == infixform(z4))
 
 clear
 
+z1 = x1 + i y1
+z2 = x2 + i y2
+check(arg((z1,z2)) == (arctan(y1,x1),arctan(y2,x2)))
+
 T = arg(-1)
 check(prefixform(T)="(* -1 pi)")
 
@@ -2721,6 +2725,7 @@ check(infixform(abs(-32/59049)) == "32/59049")
 clear
 
 check(infixform(ceiling(x)) == "ceiling(x)")
+check(ceiling((x,y)) == (ceiling(x),ceiling(y)))
 
 -- compare intrinsic
 
@@ -3674,15 +3679,18 @@ check(infixform(B) == "((1,0,0,0),(0,-1,2,0),(0,2,-1,0),(0,0,0,1))")
 
 clear
 
+check(erf(-x) == -erf(x))
+check(erf((x,y)) == (erf(x),erf(y)))
+
 check(erf(0) == 0)
 check(erf(0.0) == 0)
 check(erf(1000.0) == 1)
 check(erf(-1000.0) == -1)
-
-check(erf(-x) == -erf(x))
 "Testing erfc"
 
 clear
+
+check(erfc((x,y)) == (erfc(x),erfc(y)))
 
 check(erfc(0) == 1)
 check(erfc(0.0) == 1)
@@ -3756,6 +3764,7 @@ check(infixform(T)="1.41421")
 clear
 
 check(infixform(floor(x)) == "floor(x)")
+check(floor((x,y)) == (floor(x),floor(y)))
 
 -- compare intrinsic
 
@@ -5425,6 +5434,8 @@ for(i,1,6,for(j,1,6,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
 "Testing mod"
 
 clear
+
+check(mod((x,y),n) == (mod(x,n),mod(y,n)))
 
 -- compare intrinsic
 

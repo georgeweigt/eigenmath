@@ -3,10 +3,8 @@ eval_mod(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
-
 	push(caddr(p1));
 	eval();
-
 	modfunc();
 }
 
@@ -25,6 +23,7 @@ modfunc(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
+			push(p2);
 			modfunc();
 			p1->u.tensor->elem[i] = pop();
 		}
