@@ -9,9 +9,21 @@ eval_erfc(p1)
 function
 erfcfunc()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			erfcfunc();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);

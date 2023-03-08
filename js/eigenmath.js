@@ -5982,9 +5982,21 @@ eval_ceiling(p1)
 function
 ceiling()
 {
-	var a, b, d, p1;
+	var a, b, d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			ceiling();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isinteger(p1)) {
 		push(p1);
@@ -6417,9 +6429,21 @@ eval_erf(p1)
 function
 erffunc()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			erffunc();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -6487,9 +6511,21 @@ eval_erfc(p1)
 function
 erfcfunc()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			erfcfunc();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -6598,11 +6634,23 @@ eval_floor(p1)
 function
 floor()
 {
-	var a, b, d, p1;
+	var a, b, d, i, n, p1;
 
 	p1 = pop();
 
 	if (isinteger(p1)) {
+		push(p1);
+		return;
+	}
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			floor();
+			p1.elem[i] = pop();
+		}
 		push(p1);
 		return;
 	}
@@ -12145,10 +12193,23 @@ minormatrix(row, col)
 function
 mod()
 {
-	var d1, d2, p1, p2;
+	var d1, d2, i, n, p1, p2;
 
 	p2 = pop();
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			push(p2);
+			mod();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (!isnum(p1) || !isnum(p2) || iszero(p2)) {
 		push_symbol(MOD);
