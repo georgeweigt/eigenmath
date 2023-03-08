@@ -13,11 +13,24 @@ eval_mod(struct atom *p1)
 void
 modfunc(void)
 {
+	int i, n;
 	double d1, d2;
 	struct atom *p1, *p2;
 
 	p2 = pop();
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			modfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (!isnum(p1) || !isnum(p2) || iszero(p2)) {
 		push_symbol(MOD);

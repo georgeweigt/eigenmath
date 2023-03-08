@@ -9,11 +9,23 @@ eval_tan(struct atom *p1)
 void
 tanfunc(void)
 {
-	int n;
+	int i, n;
 	double d;
 	struct atom *p1, *p2;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			tanfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);

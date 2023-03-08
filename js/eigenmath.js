@@ -6325,7 +6325,9 @@ erffunc()
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		d = erf(p1.d);
+		push(p1);
+		d = pop_double();
+		d = erf(d);
 		push_double(d);
 		return;
 	}
@@ -6393,7 +6395,9 @@ erfcfunc()
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		d = 1.0 - erf(p1.d);
+		push(p1);
+		d = pop_double();
+		d = 1.0 - erf(d);
 		push_double(d);
 		return;
 	}

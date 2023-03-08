@@ -9,10 +9,23 @@ eval_arcsin(struct atom *p1)
 void
 arcsin(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arcsin();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);

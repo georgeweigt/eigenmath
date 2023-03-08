@@ -18,10 +18,24 @@ eval_arctan(struct atom *p1)
 void
 arctan(void)
 {
+	int i, n;
 	struct atom *X, *Y, *Z;
 
 	X = pop();
 	Y = pop();
+
+	if (istensor(Y)) {
+		Y = copy_tensor(Y);
+		n = Y->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(Y->u.tensor->elem[i]);
+			push(X);
+			arctan();
+			Y->u.tensor->elem[i] = pop();
+		}
+		push(Y);
+		return;
+	}
 
 	if (isnum(X) && isnum(Y)) {
 		arctan_numbers(X, Y);

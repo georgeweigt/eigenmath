@@ -320,7 +320,7 @@ void eval_log(struct atom *p1);
 void logfunc(void);
 void eval_mag(struct atom *p1);
 void mag(void);
-void mag1(void);
+void mag_nib(void);
 int main(int argc, char *argv[]);
 void run_stdin(void);
 void run_infile(char *infile);

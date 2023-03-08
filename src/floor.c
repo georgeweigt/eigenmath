@@ -9,11 +9,24 @@ eval_floor(struct atom *p1)
 void
 floorfunc(void)
 {
+	int i, n;
 	uint32_t *a, *b;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			floorfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isinteger(p1)) {
 		push(p1);

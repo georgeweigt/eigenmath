@@ -6,8 +6,6 @@ eval_mag(struct atom *p1)
 	mag();
 }
 
-// use numerator and denominator to handle (a+i*b)/(c+i*d)
-
 void
 mag(void)
 {
@@ -28,19 +26,21 @@ mag(void)
 		return;
 	}
 
+	// use numerator and denominator to handle (a + i b) / (c + i d)
+
 	push(p1);
 	numerator();
-	mag1();
+	mag_nib();
 
 	push(p1);
 	denominator();
-	mag1();
+	mag_nib();
 
 	divide();
 }
 
 void
-mag1(void)
+mag_nib(void)
 {
 	int h;
 	struct atom *p1, *RE, *IM;
