@@ -62,7 +62,15 @@ power(void)
 	}
 
 	if (istensor(BASE)) {
-		power_tensor(BASE, EXPO);
+		p1 = copy_tensor(BASE);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			push(EXPO);
+			power();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
 		return;
 	}
 
@@ -270,24 +278,4 @@ sqrtfunc(void)
 {
 	push_rational(1, 2);
 	power();
-}
-
-void
-power_tensor(struct atom *BASE, struct atom *EXPO)
-{
-	int i, n;
-	struct atom *p1;
-
-	p1 = copy_tensor(BASE);
-
-	n = p1->u.tensor->nelem;
-
-	for (i = 0; i < n; i++) {
-		push(p1->u.tensor->elem[i]);
-		push(EXPO);
-		power();
-		p1->u.tensor->elem[i] = pop();
-	}
-
-	push(p1);
 }

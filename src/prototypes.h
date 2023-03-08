@@ -388,7 +388,6 @@ void eval_power(struct atom *p1);
 void power(void);
 void power_sum(struct atom *BASE, struct atom *EXPO);
 void sqrtfunc(void);
-void power_tensor(struct atom *BASE, struct atom *EXPO);
 void power_complex_number(struct atom *BASE, struct atom *EXPO);
 void power_complex_plus(struct atom *X, struct atom *Y, int n);
 void power_complex_minus(struct atom *X, struct atom *Y, int n);

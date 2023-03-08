@@ -751,7 +751,6 @@ void eval_power(struct atom *p1);
 void power(void);
 void power_sum(struct atom *BASE, struct atom *EXPO);
 void sqrtfunc(void);
-void power_tensor(struct atom *BASE, struct atom *EXPO);
 void power_complex_number(struct atom *BASE, struct atom *EXPO);
 void power_complex_plus(struct atom *X, struct atom *Y, int n);
 void power_complex_minus(struct atom *X, struct atom *Y, int n);
@@ -11647,7 +11646,15 @@ power(void)
 	}
 
 	if (istensor(BASE)) {
-		power_tensor(BASE, EXPO);
+		p1 = copy_tensor(BASE);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			push(EXPO);
+			power();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
 		return;
 	}
 
@@ -11855,26 +11862,6 @@ sqrtfunc(void)
 {
 	push_rational(1, 2);
 	power();
-}
-
-void
-power_tensor(struct atom *BASE, struct atom *EXPO)
-{
-	int i, n;
-	struct atom *p1;
-
-	p1 = copy_tensor(BASE);
-
-	n = p1->u.tensor->nelem;
-
-	for (i = 0; i < n; i++) {
-		push(p1->u.tensor->elem[i]);
-		push(EXPO);
-		power();
-		p1->u.tensor->elem[i] = pop();
-	}
-
-	push(p1);
 }
 // BASE is rectangular complex numerical, EXPO is numerical
 
