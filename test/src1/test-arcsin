@@ -3,6 +3,7 @@
 clear
 
 check(arcsin(-x) == -arcsin(x))
+check(arcsin((x,y)) == (arcsin(x),arcsin(y)))
 
 check(arcsin(1 / sqrt(2)) == 1/4 pi)
 check(arcsin(-1 / sqrt(2)) == -1/4 pi)

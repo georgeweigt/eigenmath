@@ -4,6 +4,7 @@ clear
 
 check(arccosh(1) == 0)
 check(arccosh(cosh(x)) == x)
+check(arccosh((x,y)) == (arccosh(x),arccosh(y)))
 
 -- compare intrinsic
 

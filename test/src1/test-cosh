@@ -5,6 +5,7 @@ clear
 check(cosh(0) == 1)
 check(cosh(-x) == cosh(x))
 check(cosh(arccosh(x)) == x)
+check(cosh((x,y)) == (cosh(x),cosh(y)))
 
 -- compare intrinsic
 

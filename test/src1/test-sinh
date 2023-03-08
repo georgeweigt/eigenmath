@@ -5,6 +5,7 @@ clear
 check(sinh(0) == 0)
 check(sinh(-x) == -sinh(x))
 check(sinh(arcsinh(x)) == x)
+check(sinh((x,y)) == (sinh(x),sinh(y)))
 
 -- compare intrinsic
 

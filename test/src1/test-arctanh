@@ -5,6 +5,7 @@ clear
 check(arctanh(0) == 0)
 check(arctanh(tanh(x)) == x)
 check(arctanh(-x) == -arctanh(x))
+check(arctanh((x,y)) == (arctanh(x),arctanh(y)))
 
 -- compare intrinsic
 

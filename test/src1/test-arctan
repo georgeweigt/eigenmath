@@ -3,6 +3,7 @@
 clear
 
 check(arctan(-y,x) == -arctan(y,x))
+check(arctan((y1,y2),x) == (arctan(y1,x),arctan(y2,x)))
 
 check(infixform(arctan(0,0))="arctan(0,0)")
 

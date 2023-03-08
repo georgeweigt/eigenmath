@@ -351,6 +351,8 @@ check(T = ((-4,-177,-73,194),(-117,117,-99,-27),(310,-129,-44,-374),(-130,-51,71
 
 clear
 
+check(arccos((x,y)) == (arccos(x),arccos(y)))
+
 check(arccos(1 / sqrt(2)) == 1/4 pi)
 check(arccos(-1 / sqrt(2)) == 3/4 pi)
 
@@ -400,6 +402,7 @@ clear
 
 check(arccosh(1) == 0)
 check(arccosh(cosh(x)) == x)
+check(arccosh((x,y)) == (arccosh(x),arccosh(y)))
 
 -- compare intrinsic
 
@@ -433,6 +436,7 @@ check(infixform(arccosh(cosh(z4))) == infixform(z1)) -- because cosh(-x) = cosh(
 clear
 
 check(arcsin(-x) == -arcsin(x))
+check(arcsin((x,y)) == (arcsin(x),arcsin(y)))
 
 check(arcsin(1 / sqrt(2)) == 1/4 pi)
 check(arcsin(-1 / sqrt(2)) == -1/4 pi)
@@ -481,6 +485,7 @@ clear
 check(arcsinh(0) == 0)
 check(arcsinh(sinh(x)) == x)
 check(arcsinh(-x) == -arcsinh(x))
+check(arcsinh((x,y)) == (arcsinh(x),arcsinh(y)))
 
 -- compare intrinsic
 
@@ -511,6 +516,7 @@ check(infixform(arcsinh(sinh(z4))) == infixform(z4))
 clear
 
 check(arctan(-y,x) == -arctan(y,x))
+check(arctan((y1,y2),x) == (arctan(y1,x),arctan(y2,x)))
 
 check(infixform(arctan(0,0))="arctan(0,0)")
 
@@ -571,6 +577,7 @@ clear
 check(arctanh(0) == 0)
 check(arctanh(tanh(x)) == x)
 check(arctanh(-x) == -arctanh(x))
+check(arctanh((x,y)) == (arctanh(x),arctanh(y)))
 
 -- compare intrinsic
 
@@ -3328,6 +3335,7 @@ clear
 check(cos(-x) == cos(x))
 check(cos(arctan(y,x)) == x (x^2 + y^2)^(-1/2))
 check(cos(arcsin(x)) == sqrt(1 - x^2))
+check(cos((x,y)) == (cos(x),cos(y)))
 
 -- special angles
 
@@ -3410,6 +3418,7 @@ clear
 check(cosh(0) == 1)
 check(cosh(-x) == cosh(x))
 check(cosh(arccosh(x)) == x)
+check(cosh((x,y)) == (cosh(x),cosh(y)))
 
 -- compare intrinsic
 
@@ -8453,6 +8462,7 @@ clear
 check(sin(-x) == -sin(x))
 check(sin(arctan(y,x)) == y (x^2 + y^2)^(-1/2))
 check(sin(arccos(x)) == sqrt(1 - x^2))
+check(sin((x,y)) == (sin(x),sin(y)))
 
 -- special angles
 
@@ -8533,6 +8543,7 @@ clear
 check(sinh(0) == 0)
 check(sinh(-x) == -sinh(x))
 check(sinh(arcsinh(x)) == x)
+check(sinh((x,y)) == (sinh(x),sinh(y)))
 
 -- compare intrinsic
 
@@ -8561,6 +8572,7 @@ clear
 
 check(tan(-x) == -tan(x))
 check(tan(arctan(y,x)) == y / x)
+check(tan((x,y)) == (tan(x),tan(y)))
 
 -- special angles
 
@@ -8639,6 +8651,7 @@ clear
 check(tanh(0) == 0)
 check(tanh(-x) == -tanh(x))
 check(tanh(arctanh(x)) == x)
+check(tanh((x,y)) == (tanh(x),tanh(y)))
 
 -- compare intrinsic
 

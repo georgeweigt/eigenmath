@@ -5,6 +5,7 @@ clear
 check(cos(-x) == cos(x))
 check(cos(arctan(y,x)) == x (x^2 + y^2)^(-1/2))
 check(cos(arcsin(x)) == sqrt(1 - x^2))
+check(cos((x,y)) == (cos(x),cos(y)))
 
 -- special angles
 

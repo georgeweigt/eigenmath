@@ -4,6 +4,7 @@ clear
 
 check(tan(-x) == -tan(x))
 check(tan(arctan(y,x)) == y / x)
+check(tan((x,y)) == (tan(x),tan(y)))
 
 -- special angles
 

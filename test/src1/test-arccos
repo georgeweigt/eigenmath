@@ -2,6 +2,8 @@
 
 clear
 
+check(arccos((x,y)) == (arccos(x),arccos(y)))
+
 check(arccos(1 / sqrt(2)) == 1/4 pi)
 check(arccos(-1 / sqrt(2)) == 3/4 pi)
 
