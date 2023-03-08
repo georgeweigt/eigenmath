@@ -76,11 +76,11 @@ rect()
 	p2 = pop();
 
 	push(p2);
-	cos();
+	cosfunc();
 
 	push(imaginaryunit);
 	push(p2);
-	sin();
+	sinfunc();
 	multiply();
 
 	add();

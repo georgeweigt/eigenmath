@@ -3,10 +3,10 @@ expcosh()
 {
 	var p1 = pop();
 	push(p1);
-	exp();
+	expfunc();
 	push(p1);
 	negate();
-	exp();
+	expfunc();
 	add();
 	push_rational(1, 2);
 	multiply();

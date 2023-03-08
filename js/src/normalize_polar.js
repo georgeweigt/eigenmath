@@ -51,7 +51,7 @@ normalize_polar_term_rational(R)
 
 	push(R);
 	push_integer(2);
-	mod();
+	modfunc();
 	R = pop();
 
 	// convert negative rotation to positive

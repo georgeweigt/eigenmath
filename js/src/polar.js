@@ -31,6 +31,6 @@ polar()
 		push(p2);
 		multiply_factors(2);
 	}
-	exp();
+	expfunc();
 	multiply();
 }

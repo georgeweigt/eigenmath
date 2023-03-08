@@ -5,6 +5,6 @@ dsin(F, X)
 	push(X);
 	derivative();
 	push(cadr(F));
-	cos();
+	cosfunc();
 	multiply();
 }

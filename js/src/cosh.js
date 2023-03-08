@@ -30,10 +30,10 @@ cosh()
 	if (isdoublez(p1)) {
 		push_rational(1, 2);
 		push(p1);
-		exp();
+		expfunc();
 		push(p1);
 		negate();
-		exp();
+		expfunc();
 		add();
 		multiply();
 		return;

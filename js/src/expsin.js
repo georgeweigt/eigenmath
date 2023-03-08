@@ -6,7 +6,7 @@ expsin()
 	push(imaginaryunit);
 	push(p1);
 	multiply();
-	exp();
+	expfunc();
 	push(imaginaryunit);
 	divide();
 	push_rational(1, 2);
@@ -16,7 +16,7 @@ expsin()
 	negate();
 	push(p1);
 	multiply();
-	exp();
+	expfunc();
 	push(imaginaryunit);
 	divide();
 	push_rational(1, 2);

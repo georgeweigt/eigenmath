@@ -6,7 +6,7 @@ derf(F, X)
 	power();
 	push_integer(-1);
 	multiply();
-	exp();
+	expfunc();
 	push_symbol(PI);
 	push_rational(-1, 2);
 	power();

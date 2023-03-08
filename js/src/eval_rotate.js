@@ -48,7 +48,7 @@ eval_rotate(p1)
 			evalf();
 			push(imaginaryunit);
 			multiply();
-			exp();
+			expfunc();
 			phase = pop();
 			rotate_p(psi, c, n, phase);
 			c = 0;
@@ -251,7 +251,7 @@ rotate_q(psi, n)
 			push_symbol(PI);
 			evalf();
 			multiply_factors(3);
-			exp();
+			expfunc();
 			phase = pop();
 			rotate_p(psi, 1 << j, i, phase);
 		}
@@ -278,7 +278,7 @@ rotate_v(psi, n)
 			evalf();
 			multiply_factors(3);
 			negate();
-			exp();
+			expfunc();
 			phase = pop();
 			rotate_p(psi, 1 << j, i, phase);
 		}

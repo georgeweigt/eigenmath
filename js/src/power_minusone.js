@@ -44,7 +44,7 @@ normalize_clock_rational(EXPO)
 
 	push(EXPO);
 	push_integer(2);
-	mod();
+	modfunc();
 	R = pop();
 
 	// convert negative rotation to positive

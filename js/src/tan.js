@@ -27,9 +27,9 @@ tan()
 
 	if (isdoublez(p1)) {
 		push(p1);
-		sin();
+		sinfunc();
 		push(p1);
-		cos();
+		cosfunc();
 		divide();
 		return;
 	}

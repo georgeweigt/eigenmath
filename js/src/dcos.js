@@ -5,7 +5,7 @@ dcos(F, X)
 	push(X);
 	derivative();
 	push(cadr(F));
-	sin();
+	sinfunc();
 	multiply();
 	negate();
 }

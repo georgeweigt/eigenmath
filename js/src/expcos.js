@@ -6,7 +6,7 @@ expcos()
 	push(imaginaryunit);
 	push(p1);
 	multiply();
-	exp();
+	expfunc();
 	push_rational(1, 2);
 	multiply();
 
@@ -14,7 +14,7 @@ expcos()
 	negate();
 	push(p1);
 	multiply();
-	exp();
+	expfunc();
 	push_rational(1, 2);
 	multiply();
 

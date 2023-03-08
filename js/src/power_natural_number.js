@@ -15,10 +15,10 @@ power_natural_number(EXPO)
 		}
 		push_double(Math.exp(x));
 		push_double(y);
-		cos();
+		cosfunc();
 		push(imaginaryunit);
 		push_double(y);
-		sin();
+		sinfunc();
 		multiply();
 		add();
 		multiply();

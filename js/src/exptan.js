@@ -6,7 +6,7 @@ exptan()
 	push_integer(2);
 	push(imaginaryunit);
 	multiply_factors(3);
-	exp();
+	expfunc();
 
 	p1 = pop();
 

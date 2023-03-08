@@ -35,7 +35,7 @@ mag()
 	if (car(p1) == symbol(POWER) && cadr(p1) == symbol(EXP1)) {
 		push(caddr(p1));
 		real();
-		exp();
+		expfunc();
 		return;
 	}
 
