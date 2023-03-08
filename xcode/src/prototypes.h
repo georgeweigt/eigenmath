@@ -291,7 +291,7 @@ void eval_log(struct atom *p1);
 void logfunc(void);
 void eval_mag(struct atom *p1);
 void mag(void);
-void mag1(void);
+void mag_nib(void);
 void eval_minor(struct atom *p1);
 void eval_minormatrix(struct atom *p1);
 void minormatrix(int row, int col);

@@ -683,7 +683,7 @@ void eval_log(struct atom *p1);
 void logfunc(void);
 void eval_mag(struct atom *p1);
 void mag(void);
-void mag1(void);
+void mag_nib(void);
 int main(int argc, char *argv[]);
 void run_stdin(void);
 void run_infile(char *infile);
@@ -1700,10 +1700,23 @@ eval_arccos(struct atom *p1)
 void
 arccos(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arccos();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -1809,10 +1822,23 @@ eval_arccosh(struct atom *p1)
 void
 arccosh(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arccosh();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -1864,10 +1890,23 @@ eval_arcsin(struct atom *p1)
 void
 arcsin(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arcsin();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -1958,10 +1997,23 @@ eval_arcsinh(struct atom *p1)
 void
 arcsinh(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arcsinh();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -2030,10 +2082,24 @@ eval_arctan(struct atom *p1)
 void
 arctan(void)
 {
+	int i, n;
 	struct atom *X, *Y, *Z;
 
 	X = pop();
 	Y = pop();
+
+	if (istensor(Y)) {
+		Y = copy_tensor(Y);
+		n = Y->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(Y->u.tensor->elem[i]);
+			push(X);
+			arctan();
+			Y->u.tensor->elem[i] = pop();
+		}
+		push(Y);
+		return;
+	}
 
 	if (isnum(X) && isnum(Y)) {
 		arctan_numbers(X, Y);
@@ -2195,10 +2261,23 @@ eval_arctanh(struct atom *p1)
 void
 arctanh(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arctanh();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isplusone(p1) || isminusone(p1))
 		stopf("arctanh");
@@ -3358,11 +3437,24 @@ eval_ceiling(struct atom *p1)
 void
 ceilingfunc(void)
 {
+	int i, n;
 	uint32_t *a, *b;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			ceilingfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isinteger(p1)) {
 		push(p1);
@@ -4439,11 +4531,23 @@ eval_cos(struct atom *p1)
 void
 cosfunc(void)
 {
-	int n;
+	int i, n;
 	double d;
 	struct atom *p1, *p2, *X, *Y;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			cosfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -4664,10 +4768,23 @@ eval_cosh(struct atom *p1)
 void
 coshfunc(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			coshfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -6197,10 +6314,23 @@ eval_erf(struct atom *p1)
 void
 erffunc(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			erffunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		d = erf(p1->u.d);
@@ -6237,10 +6367,23 @@ eval_erfc(struct atom *p1)
 void
 erfcfunc(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			erfcfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		d = erfc(p1->u.d);
@@ -7430,11 +7573,24 @@ eval_floor(struct atom *p1)
 void
 floorfunc(void)
 {
+	int i, n;
 	uint32_t *a, *b;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			floorfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isinteger(p1)) {
 		push(p1);
@@ -11249,8 +11405,6 @@ eval_mag(struct atom *p1)
 	mag();
 }
 
-// use numerator and denominator to handle (a+i*b)/(c+i*d)
-
 void
 mag(void)
 {
@@ -11271,19 +11425,21 @@ mag(void)
 		return;
 	}
 
+	// use numerator and denominator to handle (a + i b) / (c + i d)
+
 	push(p1);
 	numerator();
-	mag1();
+	mag_nib();
 
 	push(p1);
 	denominator();
-	mag1();
+	mag_nib();
 
 	divide();
 }
 
 void
-mag1(void)
+mag_nib(void)
 {
 	int h;
 	struct atom *p1, *RE, *IM;
@@ -11546,11 +11702,24 @@ eval_mod(struct atom *p1)
 void
 modfunc(void)
 {
+	int i, n;
 	double d1, d2;
 	struct atom *p1, *p2;
 
 	p2 = pop();
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			modfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (!isnum(p1) || !isnum(p2) || iszero(p2)) {
 		push_symbol(MOD);
@@ -16444,11 +16613,23 @@ eval_sin(struct atom *p1)
 void
 sinfunc(void)
 {
-	int n;
+	int i, n;
 	double d;
 	struct atom *p1, *p2, *X, *Y;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			sinfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -16672,10 +16853,23 @@ eval_sinh(struct atom *p1)
 void
 sinhfunc(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			sinhfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -17326,11 +17520,23 @@ eval_tan(struct atom *p1)
 void
 tanfunc(void)
 {
-	int n;
+	int i, n;
 	double d;
 	struct atom *p1, *p2;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			tanfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -17496,10 +17702,23 @@ eval_tanh(struct atom *p1)
 void
 tanhfunc(void)
 {
+	int i, n;
 	double d;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			tanhfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
