@@ -38,11 +38,10 @@ erffunc()
 	list(2);
 }
 
-// https://hewgill.com/picomath/javascript/erf.js.html
+// https://github.com/ghewgill/picomath
 
 function erf(x) {
 
-	// added this
 	if (x == 0)
 		return 0;
 
