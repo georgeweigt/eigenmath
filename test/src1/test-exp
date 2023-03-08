@@ -2,6 +2,8 @@
 
 clear
 
+check(exp((x,y)) == (exp(x),exp(y)))
+
 T = prefixform(float(exp(x)))
 check(T="(^ $e x)")
 

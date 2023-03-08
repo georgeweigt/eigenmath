@@ -9904,11 +9904,23 @@ eval_log(struct atom *p1)
 void
 logfunc(void)
 {
-	int h, i;
+	int h, i, n;
 	double d;
 	struct atom *p1, *p2;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			logfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	// log of zero is not evaluated
 
@@ -11612,6 +11624,19 @@ power(void)
 
 	EXPO = pop();
 	BASE = pop();
+
+	if (!istensor(BASE) && istensor(EXPO)) {
+		p1 = copy_tensor(EXPO);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(BASE);
+			push(p1->u.tensor->elem[i]);
+			power();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (istensor(BASE)) {
 		power_tensor(BASE, EXPO);
@@ -14942,9 +14967,22 @@ eval_sgn(struct atom *p1)
 void
 sgn(void)
 {
+	int i, n;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			sgn();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (!isnum(p1)) {
 		push_symbol(SGN);

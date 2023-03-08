@@ -3706,6 +3706,8 @@ check(eval(f,sqrt(1 - cos(theta)^2),sin(theta)) == sin(theta))
 
 clear
 
+check(exp((x,y)) == (exp(x),exp(y)))
+
 T = prefixform(float(exp(x)))
 check(T="(^ $e x)")
 
@@ -5253,6 +5255,8 @@ check(x == 123)
 "Testing log"
 
 clear
+
+check(log((x,y)) == (log(x),log(y)))
 
 check(infixform(log(0)) == "log(0)")
 check(log(x^2) == 2 log(x))

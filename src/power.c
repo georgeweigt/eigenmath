@@ -40,6 +40,19 @@ power(void)
 	EXPO = pop();
 	BASE = pop();
 
+	if (!istensor(BASE) && istensor(EXPO)) {
+		p1 = copy_tensor(EXPO);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(BASE);
+			push(p1->u.tensor->elem[i]);
+			power();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
 	if (istensor(BASE)) {
 		power_tensor(BASE, EXPO);
 		return;

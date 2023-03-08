@@ -11929,6 +11929,18 @@ log()
 
 	p1 = pop();
 
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			log();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
 	// log of zero is not evaluated
 
 	if (iszero(p1)) {
@@ -13247,6 +13259,19 @@ power()
 
 	EXPO = pop();
 	BASE = pop();
+
+	if (!istensor(BASE) && istensor(EXPO)) {
+		p1 = copy_tensor(EXPO);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(BASE);
+			push(p1.elem[i]);
+			power();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (istensor(BASE)) {
 		power_tensor(BASE, EXPO);
@@ -15806,7 +15831,21 @@ setup_yrange()
 function
 sgn()
 {
-	var p1 = pop();
+	var i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			sgn();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (!isnum(p1)) {
 		push_symbol(SGN);
