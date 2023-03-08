@@ -29,6 +29,7 @@ const DOT = "dot";
 const DRAW = "draw";
 const EIGENVEC = "eigenvec";
 const ERF = "erf";
+const ERFC = "erfc";
 const EVAL = "eval";
 const EXP = "exp";
 const EXPCOS = "expcos";

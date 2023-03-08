@@ -49,6 +49,7 @@ var symtab = {
 "draw":		{printname:DRAW,	func:eval_draw},
 "eigenvec":	{printname:EIGENVEC,	func:eval_eigenvec},
 "erf":		{printname:ERF,		func:eval_erf},
+"erfc":		{printname:ERFC,	func:eval_erfc},
 "eval":		{printname:EVAL,	func:eval_eval},
 "exp":		{printname:EXP,		func:eval_exp},
 "expcos":	{printname:EXPCOS,	func:eval_expcos},

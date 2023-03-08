@@ -1,21 +1,20 @@
-void
-eval_erfc(struct atom *p1)
+function
+eval_erfc(p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	erfcfunc();
 }
 
-void
-erfcfunc(void)
+function
+erfcfunc()
 {
-	double d;
-	struct atom *p1;
+	var d, p1;
 
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		d = erfc(p1->u.d);
+		d = 1.0 - erf(p1.d);
 		push_double(d);
 		return;
 	}

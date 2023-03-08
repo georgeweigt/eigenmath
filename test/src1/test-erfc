@@ -1,0 +1,8 @@
+"Testing erfc"
+
+clear
+
+check(erfc(0) == 1)
+check(erfc(0.0) == 1)
+check(erfc(1000.0) == 0)
+check(erfc(-1000.0) == 2)

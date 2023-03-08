@@ -1,0 +1,10 @@
+"Testing erf"
+
+clear
+
+check(erf(0) == 0)
+check(erf(0.0) == 0)
+check(erf(1000.0) == 1)
+check(erf(-1000.0) == -1)
+
+check(erf(-x) == -erf(x))

@@ -15,8 +15,13 @@ erffunc(void)
 	p1 = pop();
 
 	if (isdouble(p1)) {
-		d = 1.0 - erfc(p1->u.d);
+		d = erf(p1->u.d);
 		push_double(d);
+		return;
+	}
+
+	if (iszero(p1)) {
+		push_integer(0);
 		return;
 	}
 
