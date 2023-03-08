@@ -13260,7 +13260,15 @@ power()
 	EXPO = pop();
 	BASE = pop();
 
-	if (!istensor(BASE) && istensor(EXPO)) {
+	if (istensor(BASE) && istensor(EXPO)) {
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
+		return;
+	}
+
+	if (istensor(EXPO)) {
 		p1 = copy_tensor(EXPO);
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
