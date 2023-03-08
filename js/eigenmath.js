@@ -275,9 +275,21 @@ any_radical_factors(h)
 function
 arccos()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			arccos();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -375,9 +387,21 @@ arccos()
 function
 arccosh()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			arccosh();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -421,9 +445,21 @@ arccosh()
 function
 arcsin()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			arcsin();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -507,9 +543,21 @@ arcsin()
 function
 arcsinh()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			arcsinh();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -561,13 +609,26 @@ arcsinh()
 function
 arctan()
 {
-	var X, Y, Z;
+	var i, n, X, Y, Z;
 
 	X = pop();
 	Y = pop();
 
 	if (isnum(X) && isnum(Y)) {
 		arctan_numbers(X, Y);
+		return;
+	}
+
+	if (istensor(Y)) {
+		Y = copy_tensor(Y);
+		n = Y.elem.length;
+		for (i = 0; i < n; i++) {
+			push(Y.elem[i]);
+			push(X);
+			arctan();
+			Y.elem[i] = pop();
+		}
+		push(Y);
 		return;
 	}
 
@@ -716,9 +777,21 @@ arctan_numbers(X, Y)
 function
 arctanh()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			arctanh();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isplusone(p1) || isminusone(p1))
 		stopf("arctanh");
@@ -2648,9 +2721,21 @@ copy_tensor(p1)
 function
 cos()
 {
-	var d, n, p1, p2, X, Y;
+	var d, i, n, p1, p2, X, Y;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			cos();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -2858,9 +2943,21 @@ cos_sum(p1) // cos(x + n/2 pi) = cos(x) cos(n/2 pi) - sin(x) sin(n/2 pi)
 function
 cosh()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			cosh();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -15874,9 +15971,21 @@ simplify_terms(h)
 function
 sin()
 {
-	var d, n, p1, p2, X, Y;
+	var d, i, n, p1, p2, X, Y;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			sin();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -16087,9 +16196,21 @@ sin_sum(p1) // sin(x + n/2 pi) = sin(x) cos(n/2 pi) + cos(x) sin(n/2 pi)
 function
 sinh()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			sinh();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -16321,9 +16442,21 @@ symbol(s)
 function
 tan()
 {
-	var d, n, p1, p2;
+	var d, i, n, p1, p2;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			tan();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -16476,9 +16609,21 @@ tan_sum(p1) // tan(x + n pi) = tan(x)
 function
 tanh()
 {
-	var d, p1;
+	var d, i, n, p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			tanh();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);

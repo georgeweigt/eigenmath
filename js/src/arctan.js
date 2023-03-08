@@ -1,13 +1,26 @@
 function
 arctan()
 {
-	var X, Y, Z;
+	var i, n, X, Y, Z;
 
 	X = pop();
 	Y = pop();
 
 	if (isnum(X) && isnum(Y)) {
 		arctan_numbers(X, Y);
+		return;
+	}
+
+	if (istensor(Y)) {
+		Y = copy_tensor(Y);
+		n = Y.elem.length;
+		for (i = 0; i < n; i++) {
+			push(Y.elem[i]);
+			push(X);
+			arctan();
+			Y.elem[i] = pop();
+		}
+		push(Y);
 		return;
 	}
 
