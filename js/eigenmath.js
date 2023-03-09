@@ -4545,95 +4545,6 @@ dtt(p1, p2)
 	push(p3);
 }
 function
-eigenvec(D, Q, n)
-{
-	var i;
-
-	for (i = 0; i < 100; i++)
-		if (eigenvec_step(D, Q, n) == 0)
-			return;
-
-	stopf("eigenvec: convergence error");
-}
-function
-eigenvec_step(D, Q, n)
-{
-	var count, i, j;
-
-	count = 0;
-
-	// for each upper triangle "off-diagonal" component do step_nib
-
-	for (i = 0; i < n - 1; i++) {
-		for (j = i + 1; j < n; j++) {
-			if (D[n * i + j] != 0.0) {
-				eigenvec_step_nib(D, Q, n, i, j);
-				count++;
-			}
-		}
-	}
-
-	return count;
-}
-function
-eigenvec_step_nib(D, Q, n, p, q)
-{
-	var k;
-	var t, theta;
-	var c, cc, s, ss;
-
-	// compute c and s
-
-	// from Numerical Recipes (except they have a_qq - a_pp)
-
-	theta = 0.5 * (D[n * p + p] - D[n * q + q]) / D[n * p + q];
-
-	t = 1.0 / (Math.abs(theta) + Math.sqrt(theta * theta + 1.0));
-
-	if (theta < 0.0)
-		t = -t;
-
-	c = 1.0 / Math.sqrt(t * t + 1.0);
-
-	s = t * c;
-
-	// D = GD
-
-	// which means "add rows"
-
-	for (k = 0; k < n; k++) {
-		cc = D[n * p + k];
-		ss = D[n * q + k];
-		D[n * p + k] = c * cc + s * ss;
-		D[n * q + k] = c * ss - s * cc;
-	}
-
-	// D = D transpose(G)
-
-	// which means "add columns"
-
-	for (k = 0; k < n; k++) {
-		cc = D[n * k + p];
-		ss = D[n * k + q];
-		D[n * k + p] = c * cc + s * ss;
-		D[n * k + q] = c * ss - s * cc;
-	}
-
-	// Q = GQ
-
-	// which means "add rows"
-
-	for (k = 0; k < n; k++) {
-		cc = Q[n * p + k];
-		ss = Q[n * q + k];
-		Q[n * p + k] = c * cc + s * ss;
-		Q[n * q + k] = c * ss - s * cc;
-	}
-
-	D[n * p + q] = 0.0;
-	D[n * q + p] = 0.0;
-}
-function
 emit_axes()
 {
 	var dx, dy, x, y;
@@ -6426,13 +6337,106 @@ eval_eigenvec(p1)
 
 	p1 = alloc_matrix(n, n);
 
-	for (i = 0; i < n; i++)
+	for (i = 0; i < n; i++) {
 		for (j = 0; j < n; j++) {
 			push_double(Q[n * j + i]); // transpose
 			p1.elem[n * i + j] = pop();
 		}
+	}
 
 	push(p1);
+}
+
+function
+eigenvec(D, Q, n)
+{
+	var i;
+
+	for (i = 0; i < 100; i++)
+		if (eigenvec_step(D, Q, n) == 0)
+			return;
+
+	stopf("eigenvec: convergence error");
+}
+
+function
+eigenvec_step(D, Q, n)
+{
+	var count, i, j;
+
+	count = 0;
+
+	// for each upper triangle "off-diagonal" component do step_nib
+
+	for (i = 0; i < n - 1; i++) {
+		for (j = i + 1; j < n; j++) {
+			if (D[n * i + j] != 0.0) {
+				eigenvec_step_nib(D, Q, n, i, j);
+				count++;
+			}
+		}
+	}
+
+	return count;
+}
+
+function
+eigenvec_step_nib(D, Q, n, p, q)
+{
+	var k;
+	var t, theta;
+	var c, cc, s, ss;
+
+	// compute c and s
+
+	// from Numerical Recipes (except they have a_qq - a_pp)
+
+	theta = 0.5 * (D[n * p + p] - D[n * q + q]) / D[n * p + q];
+
+	t = 1.0 / (Math.abs(theta) + Math.sqrt(theta * theta + 1.0));
+
+	if (theta < 0.0)
+		t = -t;
+
+	c = 1.0 / Math.sqrt(t * t + 1.0);
+
+	s = t * c;
+
+	// D = GD
+
+	// which means "add rows"
+
+	for (k = 0; k < n; k++) {
+		cc = D[n * p + k];
+		ss = D[n * q + k];
+		D[n * p + k] = c * cc + s * ss;
+		D[n * q + k] = c * ss - s * cc;
+	}
+
+	// D = D transpose(G)
+
+	// which means "add columns"
+
+	for (k = 0; k < n; k++) {
+		cc = D[n * k + p];
+		ss = D[n * k + q];
+		D[n * k + p] = c * cc + s * ss;
+		D[n * k + q] = c * ss - s * cc;
+	}
+
+	// Q = GQ
+
+	// which means "add rows"
+
+	for (k = 0; k < n; k++) {
+		cc = Q[n * p + k];
+		ss = Q[n * q + k];
+		Q[n * p + k] = c * cc + s * ss;
+		Q[n * q + k] = c * ss - s * cc;
+	}
+
+	D[n * p + q] = 0.0;
+	D[n * q + p] = 0.0;
 }
 function
 eval_erf(p1)

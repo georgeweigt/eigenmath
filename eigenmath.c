@@ -6143,7 +6143,7 @@ eigenvec_step(double *D, double *Q, int n)
 
 	count = 0;
 
-	// for each upper triangle "off-diagonal" component do step2
+	// for each upper triangle "off-diagonal" component do step_nib
 
 	for (i = 0; i < n - 1; i++) {
 		for (j = i + 1; j < n; j++) {
