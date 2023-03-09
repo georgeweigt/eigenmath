@@ -29,7 +29,7 @@ absfunc()
 		}
 		push(p1);
 		push(p1);
-		conj();
+		conjfunc();
 		inner();
 		push_rational(1, 2);
 		power();
@@ -38,7 +38,7 @@ absfunc()
 
 	push(p1);
 	push(p1);
-	conj();
+	conjfunc();
 	multiply();
 	push_rational(1, 2);
 	power();

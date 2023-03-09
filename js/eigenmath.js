@@ -2354,57 +2354,6 @@ complexity(p)
 	return n;
 }
 function
-conj()
-{
-	conj_subst();
-	evalf();
-}
-function
-conj_subst()
-{
-	var h, i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			conj_subst();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	// (-1) ^ expr
-
-	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
-		push_symbol(POWER);
-		push_integer(-1);
-		push(caddr(p1));
-		negate();
-		list(3);
-		return;
-	}
-
-	if (iscons(p1)) {
-		h = stack.length;
-		push(car(p1));
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			conj_subst();
-			p1 = cdr(p1);
-		}
-		list(stack.length - h);
-		return;
-	}
-
-	push(p1);
-}
-function
 cons()
 {
 	var p1, p2;
@@ -5571,7 +5520,7 @@ absfunc()
 		}
 		push(p1);
 		push(p1);
-		conj();
+		conjfunc();
 		inner();
 		push_rational(1, 2);
 		power();
@@ -5580,7 +5529,7 @@ absfunc()
 
 	push(p1);
 	push(p1);
-	conj();
+	conjfunc();
 	multiply();
 	push_rational(1, 2);
 	power();
@@ -5883,7 +5832,60 @@ eval_conj(p1)
 {
 	push(cadr(p1));
 	evalf();
-	conj();
+	conjfunc();
+}
+
+function
+conjfunc()
+{
+	conjfunc_subst();
+	evalf();
+}
+
+function
+conjfunc_subst()
+{
+	var h, i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			conjfunc_subst();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	// (-1) ^ expr
+
+	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
+		push_symbol(POWER);
+		push_integer(-1);
+		push(caddr(p1));
+		negate();
+		list(3);
+		return;
+	}
+
+	if (iscons(p1)) {
+		h = stack.length;
+		push(car(p1));
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			conjfunc_subst();
+			p1 = cdr(p1);
+		}
+		list(stack.length - h);
+		return;
+	}
+
+	push(p1);
 }
 function
 eval_contract(p1)
@@ -10087,7 +10089,7 @@ imag()
 	push(imaginaryunit);
 	push(p1);
 	push(p1);
-	conj();
+	conjfunc();
 	subtract();
 	multiply_factors(3);
 }
@@ -14895,7 +14897,7 @@ real()
 	p1 = pop();
 	push(p1);
 	push(p1);
-	conj();
+	conjfunc();
 	add();
 	push_rational(1, 2);
 	multiply();

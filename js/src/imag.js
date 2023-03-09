@@ -24,7 +24,7 @@ imag()
 	push(imaginaryunit);
 	push(p1);
 	push(p1);
-	conj();
+	conjfunc();
 	subtract();
 	multiply_factors(3);
 }

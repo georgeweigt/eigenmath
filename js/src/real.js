@@ -22,7 +22,7 @@ real()
 	p1 = pop();
 	push(p1);
 	push(p1);
-	conj();
+	conjfunc();
 	add();
 	push_rational(1, 2);
 	multiply();
