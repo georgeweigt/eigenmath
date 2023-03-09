@@ -34,3 +34,7 @@ diffs:
 	-diff -u src/sinh.c js/src/eval_sinh.js >> diffs
 	-diff -u src/cosh.c js/src/eval_cosh.js >> diffs
 	-diff -u src/tanh.c js/src/eval_tanh.js >> diffs
+#
+	-diff -u src/arcsinh.c js/src/eval_arcsinh.js >> diffs
+	-diff -u src/arccosh.c js/src/eval_arccosh.js >> diffs
+	-diff -u src/arctanh.c js/src/eval_arctanh.js >> diffs

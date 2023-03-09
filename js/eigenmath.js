@@ -218,203 +218,6 @@ any_radical_factors(h)
 	return 0;
 }
 function
-arccosh()
-{
-	var d, i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			arccosh();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		if (d >= 1) {
-			d = Math.acosh(d);
-			push_double(d);
-			return;
-		}
-	}
-
-	// arccosh(z) = log(sqrt(z^2 - 1) + z)
-
-	if (isdouble(p1) || isdoublez(p1)) {
-		push(p1);
-		push(p1);
-		multiply();
-		push_double(-1.0);
-		add();
-		sqrtfunc();
-		push(p1);
-		add();
-		logfunc();
-		return;
-	}
-
-	if (isplusone(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	if (car(p1) == symbol(COSH)) {
-		push(cadr(p1));
-		return;
-	}
-
-	push_symbol(ARCCOSH);
-	push(p1);
-	list(2);
-}
-function
-arcsinh()
-{
-	var d, i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			arcsinh();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = Math.asinh(d);
-		push_double(d);
-		return;
-	}
-
-	// arcsinh(z) = log(sqrt(z^2 + 1) + z)
-
-	if (isdoublez(p1)) {
-		push(p1);
-		push(p1);
-		multiply();
-		push_double(1.0);
-		add();
-		sqrtfunc();
-		push(p1);
-		add();
-		logfunc();
-		return;
-	}
-
-	if (iszero(p1)) {
-		push(p1);
-		return;
-	}
-
-	// arcsinh(-x) = -arcsinh(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		arcsinh();
-		negate();
-		return;
-	}
-
-	if (car(p1) == symbol(SINH)) {
-		push(cadr(p1));
-		return;
-	}
-
-	push_symbol(ARCSINH);
-	push(p1);
-	list(2);
-}
-function
-arctanh()
-{
-	var d, i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			arctanh();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isplusone(p1) || isminusone(p1))
-		stopf("arctanh");
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		if (-1 < d && d < 1) {
-			d = Math.atanh(d);
-			push_double(d);
-			return;
-		}
-	}
-
-	// arctanh(z) = 1/2 log(1 + z) - 1/2 log(1 - z)
-
-	if (isdouble(p1) || isdoublez(p1)) {
-		push_double(1.0);
-		push(p1);
-		add();
-		logfunc();
-		push_double(1.0);
-		push(p1);
-		subtract();
-		logfunc();
-		subtract();
-		push_double(0.5);
-		multiply();
-		return;
-	}
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	// arctanh(-x) = -arctanh(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		arctanh();
-		negate();
-		return;
-	}
-
-	if (car(p1) == symbol(TANH)) {
-		push(cadr(p1));
-		return;
-	}
-
-	push_symbol(ARCTANH);
-	push(p1);
-	list(2);
-}
-function
 arg()
 {
 	var i, n, t, p1;
@@ -5320,6 +5123,65 @@ eval_arccosh(p1)
 	evalf();
 	arccosh();
 }
+
+function
+arccosh()
+{
+	var d, i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			arccosh();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (d >= 1.0) {
+			d = Math.acosh(d);
+			push_double(d);
+			return;
+		}
+	}
+
+	// arccosh(z) = log(sqrt(z^2 - 1) + z)
+
+	if (isdouble(p1) || isdoublez(p1)) {
+		push(p1);
+		push(p1);
+		multiply();
+		push_double(-1.0);
+		add();
+		sqrtfunc();
+		push(p1);
+		add();
+		logfunc();
+		return;
+	}
+
+	if (isplusone(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	if (car(p1) == symbol(COSH)) {
+		push(cadr(p1));
+		return;
+	}
+
+	push_symbol(ARCCOSH);
+	push(p1);
+	list(2);
+}
 function
 eval_arcsin(p1)
 {
@@ -5431,6 +5293,73 @@ eval_arcsinh(p1)
 	push(cadr(p1));
 	evalf();
 	arcsinh();
+}
+
+function
+arcsinh()
+{
+	var d, i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			arcsinh();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = Math.asinh(d);
+		push_double(d);
+		return;
+	}
+
+	// arcsinh(z) = log(sqrt(z^2 + 1) + z)
+
+	if (isdoublez(p1)) {
+		push(p1);
+		push(p1);
+		multiply();
+		push_double(1.0);
+		add();
+		sqrtfunc();
+		push(p1);
+		add();
+		logfunc();
+		return;
+	}
+
+	if (iszero(p1)) {
+		push(p1);
+		return;
+	}
+
+	// arcsinh(-x) = -arcsinh(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		arcsinh();
+		negate();
+		return;
+	}
+
+	if (car(p1) == symbol(SINH)) {
+		push(cadr(p1));
+		return;
+	}
+
+	push_symbol(ARCSINH);
+	push(p1);
+	list(2);
 }
 function
 eval_arctan(p1)
@@ -5620,6 +5549,80 @@ eval_arctanh(p1)
 	push(cadr(p1));
 	evalf();
 	arctanh();
+}
+
+function
+arctanh()
+{
+	var d, i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			arctanh();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isplusone(p1) || isminusone(p1))
+		stopf("arctanh");
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (-1.0 < d && d < 1.0) {
+			d = Math.atanh(d);
+			push_double(d);
+			return;
+		}
+	}
+
+	// arctanh(z) = 1/2 log(1 + z) - 1/2 log(1 - z)
+
+	if (isdouble(p1) || isdoublez(p1)) {
+		push_double(1.0);
+		push(p1);
+		add();
+		logfunc();
+		push_double(1.0);
+		push(p1);
+		subtract();
+		logfunc();
+		subtract();
+		push_double(0.5);
+		multiply();
+		return;
+	}
+
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	// arctanh(-x) = -arctanh(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		arctanh();
+		negate();
+		return;
+	}
+
+	if (car(p1) == symbol(TANH)) {
+		push(cadr(p1));
+		return;
+	}
+
+	push_symbol(ARCTANH);
+	push(p1);
+	list(2);
 }
 function
 eval_arg(p1)
