@@ -390,6 +390,7 @@ struct atom * alloc_matrix(int nrow, int ncol);
 struct atom * alloc_tensor(int nelem);
 struct atom * alloc_str(void);
 void * alloc_mem(int n);
+void eval_and(struct atom *p1);
 void eval_arccos(struct atom *p1);
 void arccos(void);
 void eval_arccosh(struct atom *p1);
@@ -739,6 +740,7 @@ double zabs(double r, double i);
 double urandom(void);
 void eval_numerator(struct atom *p1);
 void numerator(void);
+void eval_or(struct atom *p1);
 void outbuf_init(void);
 void outbuf_puts(char *s);
 void outbuf_putc(int c);
@@ -893,8 +895,6 @@ void eval_testgt(struct atom *p1);
 void eval_testle(struct atom *p1);
 void eval_testlt(struct atom *p1);
 void eval_not(struct atom *p1);
-void eval_and(struct atom *p1);
-void eval_or(struct atom *p1);
 int cmp_args(struct atom *p1);
 void evalp(void);
 void eval_transpose(struct atom *p1);
@@ -1687,6 +1687,23 @@ alloc_mem(int n)
 	if (p == NULL)
 		exit(1);
 	return p;
+}
+void
+eval_and(struct atom *p1)
+{
+	struct atom *p2;
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		evalp();
+		p2 = pop();
+		if (iszero(p2)) {
+			push_integer(0);
+			return;
+		}
+		p1 = cdr(p1);
+	}
+	push_integer(1);
 }
 void
 eval_arccos(struct atom *p1)
@@ -12789,6 +12806,23 @@ numerator(void)
 	push(p1);
 }
 void
+eval_or(struct atom *p1)
+{
+	struct atom *p2;
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		evalp();
+		p2 = pop();
+		if (!iszero(p2)) {
+			push_integer(1);
+			return;
+		}
+		p1 = cdr(p1);
+	}
+	push_integer(0);
+}
+void
 outbuf_init(void)
 {
 	outbuf_index = 0;
@@ -18372,42 +18406,6 @@ eval_not(struct atom *p1)
 		push_integer(1);
 	else
 		push_integer(0);
-}
-
-void
-eval_and(struct atom *p1)
-{
-	struct atom *p2;
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		evalp();
-		p2 = pop();
-		if (iszero(p2)) {
-			push_integer(0);
-			return;
-		}
-		p1 = cdr(p1);
-	}
-	push_integer(1);
-}
-
-void
-eval_or(struct atom *p1)
-{
-	struct atom *p2;
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		evalp();
-		p2 = pop();
-		if (!iszero(p2)) {
-			push_integer(1);
-			return;
-		}
-		p1 = cdr(p1);
-	}
-	push_integer(0);
 }
 
 int
