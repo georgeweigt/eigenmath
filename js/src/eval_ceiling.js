@@ -3,11 +3,11 @@ eval_ceiling(p1)
 {
 	push(cadr(p1));
 	evalf();
-	ceiling();
+	ceilingfunc();
 }
 
 function
-ceiling()
+ceilingfunc()
 {
 	var a, b, d, i, n, p1;
 
@@ -18,7 +18,7 @@ ceiling()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			ceiling();
+			ceilingfunc();
 			p1.elem[i] = pop();
 		}
 		push(p1);

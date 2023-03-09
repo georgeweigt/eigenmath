@@ -48,7 +48,7 @@ init(void)
 	list(3);
 	imaginaryunit = pop();
 
-	run_init_script();
+	initscript();
 }
 
 void
@@ -195,7 +195,7 @@ print_scan_line(char *s)
 	print_input_line();
 }
 
-char *init_script[] = {
+char *init_script_tab[] = {
 "i = sqrt(-1)",
 "last = 0",
 "trace = 0",
@@ -211,13 +211,13 @@ char *init_script[] = {
 };
 
 void
-run_init_script(void)
+initscript(void)
 {
 	int i, n;
 	char *s;
-	n = sizeof init_script / sizeof (char *);
+	n = sizeof init_script_tab / sizeof (char *);
 	for (i = 0; i < n; i++) {
-		s = init_script[i];
+		s = init_script_tab[i];
 		scan(s);
 		eval();
 		pop();

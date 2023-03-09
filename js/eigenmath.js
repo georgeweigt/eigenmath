@@ -932,130 +932,6 @@ cdr(p)
 		return symbol(NIL);
 }
 function
-circexp()
-{
-	circexp_subst();
-	evalf();
-}
-
-function
-circexp_subst()
-{
-	var i, h, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			circexp_subst();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (car(p1) == symbol(COS)) {
-		push_symbol(EXPCOS);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(SIN)) {
-		push_symbol(EXPSIN);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(TAN)) {
-		push_symbol(EXPTAN);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(COSH)) {
-		push_symbol(EXPCOSH);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(SINH)) {
-		push_symbol(EXPSINH);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(TANH)) {
-		push_symbol(EXPTANH);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	// none of the above
-
-	if (iscons(p1)) {
-		h = stack.length;
-		push(car(p1));
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			circexp_subst();
-			p1 = cdr(p1);
-		}
-		list(stack.length - h);
-		return;
-	}
-
-	push(p1);
-}
-function
-clock()
-{
-	var i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			clock();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	mag();
-
-	push_integer(-1); // base
-
-	push(p1);
-	arg();
-	push_symbol(PI);
-	divide();
-
-	power();
-
-	multiply();
-}
-function
 cmp_args(p1)
 {
 	var p2;
@@ -5560,11 +5436,11 @@ eval_ceiling(p1)
 {
 	push(cadr(p1));
 	evalf();
-	ceiling();
+	ceilingfunc();
 }
 
 function
-ceiling()
+ceilingfunc()
 {
 	var a, b, d, i, n, p1;
 
@@ -5575,7 +5451,7 @@ ceiling()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			ceiling();
+			ceilingfunc();
 			p1.elem[i] = pop();
 		}
 		push(p1);
@@ -5629,6 +5505,98 @@ eval_circexp(p1)
 	evalf();
 	circexp();
 }
+
+function
+circexp()
+{
+	circexp_subst();
+	evalf();
+}
+
+function
+circexp_subst()
+{
+	var i, h, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			circexp_subst();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(COS)) {
+		push_symbol(EXPCOS);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(SIN)) {
+		push_symbol(EXPSIN);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(TAN)) {
+		push_symbol(EXPTAN);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(COSH)) {
+		push_symbol(EXPCOSH);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(SINH)) {
+		push_symbol(EXPSINH);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(TANH)) {
+		push_symbol(EXPTANH);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	// none of the above
+
+	if (iscons(p1)) {
+		h = stack.length;
+		push(car(p1));
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			circexp_subst();
+			p1 = cdr(p1);
+		}
+		list(stack.length - h);
+		return;
+	}
+
+	push(p1);
+}
 function
 eval_clear()
 {
@@ -5643,14 +5611,48 @@ eval_clear()
 	restore_symbol(symbol(TTY));
 	restore_symbol(symbol(TRACE));
 
-	push_symbol(NIL);
+	push_symbol(NIL); // result
 }
 function
 eval_clock(p1)
 {
 	push(cadr(p1));
 	evalf();
-	clock();
+	clockfunc();
+}
+
+function
+clockfunc()
+{
+	var i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			clockfunc();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	mag();
+
+	push_integer(-1); // base
+
+	push(p1);
+	arg();
+	push_symbol(PI);
+	divide();
+
+	power();
+
+	multiply();
 }
 function
 eval_cofactor(p1)

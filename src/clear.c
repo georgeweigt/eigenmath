@@ -1,11 +1,12 @@
-function
-eval_clear()
+void
+eval_clear(struct atom *p1)
 {
+	(void) p1; // silence compiler
+
 	save_symbol(symbol(TRACE));
 	save_symbol(symbol(TTY));
 
-	binding = {};
-	usrfunc = {};
+	clear_symbols();
 
 	initscript();
 

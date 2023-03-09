@@ -76,35 +76,6 @@ eval_user_symbol(struct atom *p1)
 }
 
 void
-eval_binding(struct atom *p1)
-{
-	struct atom *p2;
-	p1 = cadr(p1);
-	p2 = get_binding(p1);
-	if (p2 == symbol(NIL))
-		p2 = p1;
-	push(p2);
-}
-
-void
-eval_clear(struct atom *p1)
-{
-	(void) p1; // silence compiler
-
-	save_symbol(symbol(TRACE));
-	save_symbol(symbol(TTY));
-
-	clear_symbols();
-
-	run_init_script();
-
-	restore_symbol(symbol(TTY));
-	restore_symbol(symbol(TRACE));
-
-	push_symbol(NIL); // result
-}
-
-void
 eval_do(struct atom *p1)
 {
 	push_symbol(NIL);

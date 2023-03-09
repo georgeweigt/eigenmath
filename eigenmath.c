@@ -449,19 +449,14 @@ uint32_t * mgcd(uint32_t *u, uint32_t *v);
 uint32_t * mroot(uint32_t *a, uint32_t *n);
 int bignum_issmallnum(uint32_t *N);
 int bignum_smallnum(uint32_t *N);
+void eval_binding(struct atom *p1);
 void eval_ceiling(struct atom *p1);
 void ceilingfunc(void);
+void eval_check(struct atom *p1);
 void eval_circexp(struct atom *p1);
 void circexp(void);
 void circexp_subst(void);
-void eval_exptan(struct atom *p1);
-void exptan(void);
-void eval_expcosh(struct atom *p1);
-void expcosh(void);
-void eval_expsinh(struct atom *p1);
-void expsinh(void);
-void eval_exptanh(struct atom *p1);
-void exptanh(void);
+void eval_clear(struct atom *p1);
 void eval_clock(struct atom *p1);
 void clockfunc(void);
 void coeffs(struct atom *P, struct atom *X);
@@ -565,8 +560,6 @@ void erfcfunc(void);
 void eval(void);
 void eval_nib(void);
 void eval_user_symbol(struct atom *p1);
-void eval_binding(struct atom *p1);
-void eval_clear(struct atom *p1);
 void eval_do(struct atom *p1);
 void eval_eval(struct atom *p1);
 void eval_nil(struct atom *p1);
@@ -579,8 +572,16 @@ void eval_exp(struct atom *p1);
 void expfunc(void);
 void eval_expcos(struct atom *p1);
 void expcos(void);
+void eval_expcosh(struct atom *p1);
+void expcosh(void);
 void eval_expsin(struct atom *p1);
 void expsin(void);
+void eval_expsinh(struct atom *p1);
+void expsinh(void);
+void eval_exptan(struct atom *p1);
+void exptan(void);
+void eval_exptanh(struct atom *p1);
+void exptanh(void);
 void factor_bignum(uint32_t *N, struct atom *M);
 void factor_factor(void);
 void factor_int(int n);
@@ -809,7 +810,7 @@ void run_file(char *filename);
 void trace_input(void);
 void print_input_line(void);
 void print_scan_line(char *s);
-void run_init_script(void);
+void initscript(void);
 void stopf(char *s);
 void kaput(char *s);
 char * scan(char *s);
@@ -884,7 +885,6 @@ void eval_rank(struct atom *p1);
 void eval_unit(struct atom *p1);
 void eval_zero(struct atom *p1);
 void eval_test(struct atom *p1);
-void eval_check(struct atom *p1);
 void eval_testeq(struct atom *p1);
 int cross_expr(struct atom *p);
 int cross_term(struct atom *p);
@@ -3440,6 +3440,16 @@ bignum_smallnum(uint32_t *N)
 	return N[0] & 0x7fffffff;
 }
 void
+eval_binding(struct atom *p1)
+{
+	struct atom *p2;
+	p1 = cadr(p1);
+	p2 = get_binding(p1);
+	if (p2 == symbol(NIL))
+		p2 = p1;
+	push(p2);
+}
+void
 eval_ceiling(struct atom *p1)
 {
 	push(cadr(p1));
@@ -3498,6 +3508,16 @@ ceilingfunc(void)
 	push_symbol(CEILING);
 	push(p1);
 	list(2);
+}
+void
+eval_check(struct atom *p1)
+{
+	push(cadr(p1));
+	evalp();
+	p1 = pop();
+	if (iszero(p1))
+		stopf("check");
+	push_symbol(NIL); // no result is printed
 }
 void
 eval_circexp(struct atom *p1)
@@ -3582,6 +3602,8 @@ circexp_subst(void)
 		return;
 	}
 
+	// none of the above
+
 	if (iscons(p1)) {
 		h = tos;
 		push(car(p1));
@@ -3597,111 +3619,22 @@ circexp_subst(void)
 
 	push(p1);
 }
-
-// tan(z) = (i - i * exp(2*i*z)) / (exp(2*i*z) + 1)
-
 void
-eval_exptan(struct atom *p1)
+eval_clear(struct atom *p1)
 {
-	push(cadr(p1));
-	eval();
-	exptan();
-}
+	(void) p1; // silence compiler
 
-void
-exptan(void)
-{
-	struct atom *p1;
+	save_symbol(symbol(TRACE));
+	save_symbol(symbol(TTY));
 
-	push_integer(2);
-	push(imaginaryunit);
-	multiply_factors(3);
-	expfunc();
+	clear_symbols();
 
-	p1 = pop();
+	initscript();
 
-	push(imaginaryunit);
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	subtract();
+	restore_symbol(symbol(TTY));
+	restore_symbol(symbol(TRACE));
 
-	push(p1);
-	push_integer(1);
-	add();
-
-	divide();
-}
-
-void
-eval_expcosh(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	expcosh();
-}
-
-void
-expcosh(void)
-{
-	struct atom *p1;
-	p1 = pop();
-	push(p1);
-	expfunc();
-	push(p1);
-	negate();
-	expfunc();
-	add();
-	push_rational(1, 2);
-	multiply();
-}
-
-void
-eval_expsinh(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	expsinh();
-}
-
-void
-expsinh(void)
-{
-	struct atom *p1;
-	p1 = pop();
-	push(p1);
-	expfunc();
-	push(p1);
-	negate();
-	expfunc();
-	subtract();
-	push_rational(1, 2);
-	multiply();
-}
-
-void
-eval_exptanh(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	exptanh();
-}
-
-void
-exptanh(void)
-{
-	struct atom *p1;
-	push_integer(2);
-	multiply();
-	expfunc();
-	p1 = pop();
-	push(p1);
-	push_integer(1);
-	subtract();
-	push(p1);
-	push_integer(1);
-	add();
-	divide();
+	push_symbol(NIL); // result
 }
 void
 eval_clock(struct atom *p1)
@@ -3733,12 +3666,16 @@ clockfunc(void)
 
 	push(p1);
 	mag();
-	push_integer(-1);
+
+	push_integer(-1); // base
+
 	push(p1);
 	arg();
 	push_symbol(PI);
 	divide();
+
 	power();
+
 	multiply();
 }
 // push coefficients of polynomial P(X) on stack
@@ -6495,35 +6432,6 @@ eval_user_symbol(struct atom *p1)
 }
 
 void
-eval_binding(struct atom *p1)
-{
-	struct atom *p2;
-	p1 = cadr(p1);
-	p2 = get_binding(p1);
-	if (p2 == symbol(NIL))
-		p2 = p1;
-	push(p2);
-}
-
-void
-eval_clear(struct atom *p1)
-{
-	(void) p1; // silence compiler
-
-	save_symbol(symbol(TRACE));
-	save_symbol(symbol(TTY));
-
-	clear_symbols();
-
-	run_init_script();
-
-	restore_symbol(symbol(TTY));
-	restore_symbol(symbol(TRACE));
-
-	push_symbol(NIL); // result
-}
-
-void
 eval_do(struct atom *p1)
 {
 	push_symbol(NIL);
@@ -6658,6 +6566,28 @@ expcos(void)
 	add();
 }
 void
+eval_expcosh(struct atom *p1)
+{
+	push(cadr(p1));
+	eval();
+	expcosh();
+}
+
+void
+expcosh(void)
+{
+	struct atom *p1;
+	p1 = pop();
+	push(p1);
+	expfunc();
+	push(p1);
+	negate();
+	expfunc();
+	add();
+	push_rational(1, 2);
+	multiply();
+}
+void
 eval_expsin(struct atom *p1)
 {
 	push(cadr(p1));
@@ -6692,6 +6622,86 @@ expsin(void)
 	multiply();
 
 	subtract();
+}
+void
+eval_expsinh(struct atom *p1)
+{
+	push(cadr(p1));
+	eval();
+	expsinh();
+}
+
+void
+expsinh(void)
+{
+	struct atom *p1;
+	p1 = pop();
+	push(p1);
+	expfunc();
+	push(p1);
+	negate();
+	expfunc();
+	subtract();
+	push_rational(1, 2);
+	multiply();
+}
+// tan(z) = (i - i exp(2 i z)) / (exp(2 i z) + 1)
+
+void
+eval_exptan(struct atom *p1)
+{
+	push(cadr(p1));
+	eval();
+	exptan();
+}
+
+void
+exptan(void)
+{
+	struct atom *p1;
+
+	push_integer(2);
+	push(imaginaryunit);
+	multiply_factors(3);
+	expfunc();
+
+	p1 = pop();
+
+	push(imaginaryunit);
+	push(imaginaryunit);
+	push(p1);
+	multiply();
+	subtract();
+
+	push(p1);
+	push_integer(1);
+	add();
+
+	divide();
+}
+void
+eval_exptanh(struct atom *p1)
+{
+	push(cadr(p1));
+	eval();
+	exptanh();
+}
+
+void
+exptanh(void)
+{
+	struct atom *p1;
+	push_integer(2);
+	multiply();
+	expfunc();
+	p1 = pop();
+	push(p1);
+	push_integer(1);
+	subtract();
+	push(p1);
+	push_integer(1);
+	add();
+	divide();
 }
 void
 factor_bignum(uint32_t *N, struct atom *M)
@@ -15387,7 +15397,7 @@ init(void)
 	list(3);
 	imaginaryunit = pop();
 
-	run_init_script();
+	initscript();
 }
 
 void
@@ -15534,7 +15544,7 @@ print_scan_line(char *s)
 	print_input_line();
 }
 
-char *init_script[] = {
+char *init_script_tab[] = {
 "i = sqrt(-1)",
 "last = 0",
 "trace = 0",
@@ -15550,13 +15560,13 @@ char *init_script[] = {
 };
 
 void
-run_init_script(void)
+initscript(void)
 {
 	int i, n;
 	char *s;
-	n = sizeof init_script / sizeof (char *);
+	n = sizeof init_script_tab / sizeof (char *);
 	for (i = 0; i < n; i++) {
-		s = init_script[i];
+		s = init_script_tab[i];
 		scan(s);
 		eval();
 		pop();
@@ -18177,17 +18187,6 @@ eval_test(struct atom *p1)
 		p1 = cddr(p1);
 	}
 	push_symbol(NIL);
-}
-
-void
-eval_check(struct atom *p1)
-{
-	push(cadr(p1));
-	evalp();
-	p1 = pop();
-	if (iszero(p1))
-		stopf("check");
-	push_symbol(NIL); // no result is printed
 }
 
 void

@@ -19,28 +19,34 @@ check:
 diffs:
 	-rm -f diffs
 #
-	-diff src/sin.c js/src/eval_sin.js >> diffs
-	-diff src/cos.c js/src/eval_cos.js >> diffs
-	-diff src/tan.c js/src/eval_tan.js >> diffs
+	-diff -u src/sin.c js/src/eval_sin.js >> diffs
+	-diff -u src/cos.c js/src/eval_cos.js >> diffs
+	-diff -u src/tan.c js/src/eval_tan.js >> diffs
 #
-	-diff src/sinh.c js/src/eval_sinh.js >> diffs
-	-diff src/cosh.c js/src/eval_cosh.js >> diffs
-	-diff src/tanh.c js/src/eval_tanh.js >> diffs
+	-diff -u src/sinh.c js/src/eval_sinh.js >> diffs
+	-diff -u src/cosh.c js/src/eval_cosh.js >> diffs
+	-diff -u src/tanh.c js/src/eval_tanh.js >> diffs
 #
-	-diff src/abs.c js/src/eval_abs.js >> diffs
-	-diff src/adj.c js/src/eval_adj.js >> diffs
-	-diff src/and.c js/src/eval_and.js >> diffs
-	-diff src/arccos.c js/src/eval_arccos.js >> diffs
-	-diff src/arccosh.c js/src/eval_arccosh.js >> diffs
-	-diff src/arcsin.c js/src/eval_arcsin.js >> diffs
-	-diff src/arcsinh.c js/src/eval_arcsinh.js >> diffs
-	-diff src/arctan.c js/src/eval_arctan.js >> diffs
-	-diff src/arctanh.c js/src/eval_arctanh.js >> diffs
-	-diff src/arg.c js/src/eval_arg.js >> diffs
+	-diff -u src/abs.c js/src/eval_abs.js >> diffs
+	-diff -u src/adj.c js/src/eval_adj.js >> diffs
+	-diff -u src/and.c js/src/eval_and.js >> diffs
+	-diff -u src/arccos.c js/src/eval_arccos.js >> diffs
+	-diff -u src/arccosh.c js/src/eval_arccosh.js >> diffs
+	-diff -u src/arcsin.c js/src/eval_arcsin.js >> diffs
+	-diff -u src/arcsinh.c js/src/eval_arcsinh.js >> diffs
+	-diff -u src/arctan.c js/src/eval_arctan.js >> diffs
+	-diff -u src/arctanh.c js/src/eval_arctanh.js >> diffs
+	-diff -u src/arg.c js/src/eval_arg.js >> diffs
+	-diff -u src/binding.c js/src/eval_binding.js >> diffs
+	-diff -u src/ceiling.c js/src/eval_ceiling.js >> diffs
+	-diff -u src/check.c js/src/eval_check.js >> diffs
+	-diff -u src/circexp.c js/src/eval_circexp.js >> diffs
+	-diff -u src/clear.c js/src/eval_clear.js >> diffs
+	-diff -u src/clock.c js/src/eval_clock.js >> diffs
 #
-	-diff src/conj.c js/src/eval_conj.js >> diffs
-	-diff src/eigenvec.c js/src/eval_eigenvec.js >> diffs
-	-diff src/erf.c js/src/eval_erf.js >> diffs
-	-diff src/erfc.c js/src/eval_erfc.js >> diffs
-	-diff src/integral.c js/src/eval_integral.js >> diffs
-	-diff src/log.c js/src/eval_log.js >> diffs
+#	-diff -u src/conj.c js/src/eval_conj.js >> diffs
+#	-diff -u src/eigenvec.c js/src/eval_eigenvec.js >> diffs
+#	-diff -u src/erf.c js/src/eval_erf.js >> diffs
+#	-diff -u src/erfc.c js/src/eval_erfc.js >> diffs
+#	-diff -u src/integral.c js/src/eval_integral.js >> diffs
+#	-diff -u src/log.c js/src/eval_log.js >> diffs
