@@ -36,11 +36,11 @@ arctanh()
 		push_double(1.0);
 		push(p1);
 		add();
-		log();
+		logfunc();
 		push_double(1.0);
 		push(p1);
 		subtract();
-		log();
+		logfunc();
 		subtract();
 		push_double(0.5);
 		multiply();

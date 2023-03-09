@@ -38,7 +38,7 @@ arccosh()
 		sqrtfunc();
 		push(p1);
 		add();
-		log();
+		logfunc();
 		return;
 	}
 

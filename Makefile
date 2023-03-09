@@ -26,3 +26,7 @@ diffs:
 	-diff -u src/sin.c js/src/eval_sin.js >> diffs
 	-diff -u src/cos.c js/src/eval_cos.js >> diffs
 	-diff -u src/tan.c js/src/eval_tan.js >> diffs
+#
+	-diff -u src/arcsin.c js/src/eval_arcsin.js >> diffs
+	-diff -u src/arccos.c js/src/eval_arccos.js >> diffs
+	-diff -u src/arctan.c js/src/eval_arctan.js >> diffs

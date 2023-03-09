@@ -30,7 +30,7 @@ dpower(F, X)
 	multiply();
 
 	push(cadr(F));		// log u
-	log();
+	logfunc();
 
 	push(caddr(F));		// dv/dx
 	push(X);

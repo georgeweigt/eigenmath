@@ -218,118 +218,6 @@ any_radical_factors(h)
 	return 0;
 }
 function
-arccos()
-{
-	var d, i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			arccos();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		if (-1 <= d && d <= 1) {
-			d = Math.acos(d);
-			push_double(d);
-			return;
-		}
-	}
-
-	// arccos(z) = -i log(z + i sqrt(1 - z^2))
-
-	if (isdouble(p1) || isdoublez(p1)) {
-		push_double(1.0);
-		push(p1);
-		push(p1);
-		multiply();
-		subtract();
-		sqrtfunc();
-		push(imaginaryunit);
-		multiply();
-		push(p1);
-		add();
-		log();
-		push(imaginaryunit);
-		multiply();
-		negate();
-		return;
-	}
-
-	// arccos(1 / sqrt(2)) = 1/4 pi
-
-	if (isoneoversqrttwo(p1)) {
-		push_rational(1, 4);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arccos(-1 / sqrt(2)) = 3/4 pi
-
-	if (isminusoneoversqrttwo(p1)) {
-		push_rational(3, 4);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arccos(0) = 1/2 pi
-
-	if (iszero(p1)) {
-		push_rational(1, 2);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arccos(1/2) = 1/3 pi
-
-	if (isequalq(p1, 1 ,2)) {
-		push_rational(1, 3);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arccos(1) = 0
-
-	if (isplusone(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	// arccos(-1/2) = 2/3 pi
-
-	if (isequalq(p1, -1, 2)) {
-		push_rational(2, 3);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arccos(-1) = pi
-
-	if (isminusone(p1)) {
-		push_symbol(PI);
-		return;
-	}
-
-	push_symbol(ARCCOS);
-	push(p1);
-	list(2);
-}
-function
 arccosh()
 {
 	var d, i, n, p1;
@@ -369,7 +257,7 @@ arccosh()
 		sqrtfunc();
 		push(p1);
 		add();
-		log();
+		logfunc();
 		return;
 	}
 
@@ -384,104 +272,6 @@ arccosh()
 	}
 
 	push_symbol(ARCCOSH);
-	push(p1);
-	list(2);
-}
-function
-arcsin()
-{
-	var d, i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			arcsin();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		if (-1 <= d && d <= 1) {
-			d = Math.asin(d);
-			push_double(d);
-			return;
-		}
-	}
-
-	// arcsin(z) = -i log(i z + sqrt(1 - z^2))
-
-	if (isdouble(p1) || isdoublez(p1)) {
-		push(imaginaryunit);
-		negate();
-		push(imaginaryunit);
-		push(p1);
-		multiply();
-		push_double(1.0);
-		push(p1);
-		push(p1);
-		multiply();
-		subtract();
-		push_rational(1, 2);
-		power();
-		add();
-		log();
-		multiply();
-		return;
-	}
-
-	// arcsin(-x) = -arcsin(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		arcsin();
-		negate();
-		return;
-	}
-
-	// arcsin(1 / sqrt(2)) = 1/4 pi
-
-	if (isoneoversqrttwo(p1)) {
-		push_rational(1, 4);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arcsin(0) = 0
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	// arcsin(1/2) = 1/6 pi
-
-	if (isequalq(p1, 1, 2)) {
-		push_rational(1, 6);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arcsin(1) = 1/2 pi
-
-	if (isplusone(p1)) {
-		push_rational(1, 2);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	push_symbol(ARCSIN);
 	push(p1);
 	list(2);
 }
@@ -523,7 +313,7 @@ arcsinh()
 		sqrtfunc();
 		push(p1);
 		add();
-		log();
+		logfunc();
 		return;
 	}
 
@@ -550,174 +340,6 @@ arcsinh()
 	push_symbol(ARCSINH);
 	push(p1);
 	list(2);
-}
-function
-arctan()
-{
-	var i, n, X, Y, Z;
-
-	X = pop();
-	Y = pop();
-
-	if (isnum(X) && isnum(Y)) {
-		arctan_numbers(X, Y);
-		return;
-	}
-
-	if (istensor(Y)) {
-		Y = copy_tensor(Y);
-		n = Y.elem.length;
-		for (i = 0; i < n; i++) {
-			push(Y.elem[i]);
-			push(X);
-			arctan();
-			Y.elem[i] = pop();
-		}
-		push(Y);
-		return;
-	}
-
-	// arctan(z) = -1/2 i log((i - z) / (i + z))
-
-	if (!iszero(X) && (isdoublez(X) || isdoublez(Y))) {
-		push(Y);
-		push(X);
-		divide();
-		Z = pop();
-		push_double(-0.5);
-		push(imaginaryunit);
-		multiply();
-		push(imaginaryunit);
-		push(Z);
-		subtract();
-		push(imaginaryunit);
-		push(Z);
-		add();
-		divide();
-		log();
-		multiply();
-		return;
-	}
-
-	// arctan(-y,x) = -arctan(y,x)
-
-	if (isnegativeterm(Y)) {
-		push(Y);
-		negate();
-		push(X);
-		arctan();
-		negate();
-		return;
-	}
-
-	if (car(Y) == symbol(TAN) && isplusone(X)) {
-		push(cadr(Y)); // x of tan(x)
-		return;
-	}
-
-	push_symbol(ARCTAN);
-	push(Y);
-	push(X);
-	list(3);
-}
-function
-arctan_numbers(X, Y)
-{
-	var x, y, T;
-
-	if (iszero(X) && iszero(Y)) {
-		push_symbol(ARCTAN);
-		push_integer(0);
-		push_integer(0);
-		list(3);
-		return;
-	}
-
-	if (isnum(X) && isnum(Y) && (isdouble(X) || isdouble(Y))) {
-		push(X);
-		x = pop_double();
-		push(Y);
-		y = pop_double();
-		push_double(Math.atan2(y, x));
-		return;
-	}
-
-	// X and Y are rational numbers
-
-	if (iszero(Y)) {
-		if (isnegativenumber(X))
-			push_symbol(PI);
-		else
-			push_integer(0);
-		return;
-	}
-
-	if (iszero(X)) {
-		if (isnegativenumber(Y))
-			push_rational(-1, 2);
-		else
-			push_rational(1, 2);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// convert fractions to integers
-
-	push(Y);
-	push(X);
-	divide();
-	absfunc();
-	T = pop();
-
-	push(T);
-	numerator();
-	if (isnegativenumber(Y))
-		negate();
-	Y = pop();
-
-	push(T);
-	denominator();
-	if (isnegativenumber(X))
-		negate();
-	X = pop();
-
-	// compare numerators and denominators, ignore signs
-
-	if (bignum_cmp(X.a, Y.a) != 0 || bignum_cmp(X.b, Y.b) != 0) {
-		// not equal
-		if (isnegativenumber(Y)) {
-			push_symbol(ARCTAN);
-			push(Y);
-			negate();
-			push(X);
-			list(3);
-			negate();
-		} else {
-			push_symbol(ARCTAN);
-			push(Y);
-			push(X);
-			list(3);
-		}
-		return;
-	}
-
-	// X == Y (modulo sign)
-
-	if (isnegativenumber(X)) {
-		if (isnegativenumber(Y))
-			push_rational(-3, 4);
-		else
-			push_rational(3, 4);
-	} else {
-		if (isnegativenumber(Y))
-			push_rational(-1, 4);
-		else
-			push_rational(1, 4);
-	}
-
-	push_symbol(PI);
-	multiply();
 }
 function
 arctanh()
@@ -757,11 +379,11 @@ arctanh()
 		push_double(1.0);
 		push(p1);
 		add();
-		log();
+		logfunc();
 		push_double(1.0);
 		push(p1);
 		subtract();
-		log();
+		logfunc();
 		subtract();
 		push_double(0.5);
 		multiply();
@@ -4519,7 +4141,7 @@ dpower(F, X)
 	multiply();
 
 	push(cadr(F));		// log u
-	log();
+	logfunc();
 
 	push(caddr(F));		// dv/dx
 	push(X);
@@ -5642,6 +5264,119 @@ eval_arccos(p1)
 	evalf();
 	arccos();
 }
+
+function
+arccos()
+{
+	var d, i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			arccos();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (-1.0 <= d && d <= 1.0) {
+			d = Math.acos(d);
+			push_double(d);
+			return;
+		}
+	}
+
+	// arccos(z) = -i log(z + i sqrt(1 - z^2))
+
+	if (isdouble(p1) || isdoublez(p1)) {
+		push_double(1.0);
+		push(p1);
+		push(p1);
+		multiply();
+		subtract();
+		sqrtfunc();
+		push(imaginaryunit);
+		multiply();
+		push(p1);
+		add();
+		logfunc();
+		push(imaginaryunit);
+		multiply();
+		negate();
+		return;
+	}
+
+	// arccos(1 / sqrt(2)) = 1/4 pi
+
+	if (isoneoversqrttwo(p1)) {
+		push_rational(1, 4);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(-1 / sqrt(2)) = 3/4 pi
+
+	if (isminusoneoversqrttwo(p1)) {
+		push_rational(3, 4);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(0) = 1/2 pi
+
+	if (iszero(p1)) {
+		push_rational(1, 2);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(1/2) = 1/3 pi
+
+	if (isequalq(p1, 1 ,2)) {
+		push_rational(1, 3);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(1) = 0
+
+	if (isplusone(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	// arccos(-1/2) = 2/3 pi
+
+	if (isequalq(p1, -1, 2)) {
+		push_rational(2, 3);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(-1) = pi
+
+	if (isminusone(p1)) {
+		push_symbol(PI);
+		return;
+	}
+
+	push_symbol(ARCCOS);
+	push(p1);
+	list(2);
+}
 function
 eval_arccosh(p1)
 {
@@ -5655,6 +5390,104 @@ eval_arcsin(p1)
 	push(cadr(p1));
 	evalf();
 	arcsin();
+}
+
+function
+arcsin()
+{
+	var d, i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			arcsin();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (-1.0 <= d && d <= 1.0) {
+			d = Math.asin(d);
+			push_double(d);
+			return;
+		}
+	}
+
+	// arcsin(z) = -i log(i z + sqrt(1 - z^2))
+
+	if (isdouble(p1) || isdoublez(p1)) {
+		push(imaginaryunit);
+		negate();
+		push(imaginaryunit);
+		push(p1);
+		multiply();
+		push_double(1.0);
+		push(p1);
+		push(p1);
+		multiply();
+		subtract();
+		sqrtfunc();
+		add();
+		logfunc();
+		multiply();
+		return;
+	}
+
+	// arcsin(-x) = -arcsin(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		arcsin();
+		negate();
+		return;
+	}
+
+	// arcsin(1 / sqrt(2)) = 1/4 pi
+
+	if (isoneoversqrttwo(p1)) {
+		push_rational(1, 4);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arcsin(0) = 0
+
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	// arcsin(1/2) = 1/6 pi
+
+	if (isequalq(p1, 1, 2)) {
+		push_rational(1, 6);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arcsin(1) = 1/2 pi
+
+	if (isplusone(p1)) {
+		push_rational(1, 2);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	push_symbol(ARCSIN);
+	push(p1);
+	list(2);
 }
 function
 eval_arcsinh(p1)
@@ -5674,6 +5507,176 @@ eval_arctan(p1)
 	} else
 		push_integer(1);
 	arctan();
+}
+
+function
+arctan()
+{
+	var i, n, X, Y, Z;
+
+	X = pop();
+	Y = pop();
+
+	if (istensor(Y)) {
+		Y = copy_tensor(Y);
+		n = Y.elem.length;
+		for (i = 0; i < n; i++) {
+			push(Y.elem[i]);
+			push(X);
+			arctan();
+			Y.elem[i] = pop();
+		}
+		push(Y);
+		return;
+	}
+
+	if (isnum(X) && isnum(Y)) {
+		arctan_numbers(X, Y);
+		return;
+	}
+
+	// arctan(z) = -1/2 i log((i - z) / (i + z))
+
+	if (!iszero(X) && (isdoublez(X) || isdoublez(Y))) {
+		push(Y);
+		push(X);
+		divide();
+		Z = pop();
+		push_double(-0.5);
+		push(imaginaryunit);
+		multiply();
+		push(imaginaryunit);
+		push(Z);
+		subtract();
+		push(imaginaryunit);
+		push(Z);
+		add();
+		divide();
+		logfunc();
+		multiply();
+		return;
+	}
+
+	// arctan(-y,x) = -arctan(y,x)
+
+	if (isnegativeterm(Y)) {
+		push(Y);
+		negate();
+		push(X);
+		arctan();
+		negate();
+		return;
+	}
+
+	if (car(Y) == symbol(TAN) && isplusone(X)) {
+		push(cadr(Y)); // x of tan(x)
+		return;
+	}
+
+	push_symbol(ARCTAN);
+	push(Y);
+	push(X);
+	list(3);
+}
+
+function
+arctan_numbers(X, Y)
+{
+	var x, y, T;
+
+	if (iszero(X) && iszero(Y)) {
+		push_symbol(ARCTAN);
+		push_integer(0);
+		push_integer(0);
+		list(3);
+		return;
+	}
+
+	if (isnum(X) && isnum(Y) && (isdouble(X) || isdouble(Y))) {
+		push(X);
+		x = pop_double();
+		push(Y);
+		y = pop_double();
+		push_double(Math.atan2(y, x));
+		return;
+	}
+
+	// X and Y are rational numbers
+
+	if (iszero(Y)) {
+		if (isnegativenumber(X))
+			push_symbol(PI);
+		else
+			push_integer(0);
+		return;
+	}
+
+	if (iszero(X)) {
+		if (isnegativenumber(Y))
+			push_rational(-1, 2);
+		else
+			push_rational(1, 2);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// convert fractions to integers
+
+	push(Y);
+	push(X);
+	divide();
+	absfunc();
+	T = pop();
+
+	push(T);
+	numerator();
+	if (isnegativenumber(Y))
+		negate();
+	Y = pop();
+
+	push(T);
+	denominator();
+	if (isnegativenumber(X))
+		negate();
+	X = pop();
+
+	// compare numerators and denominators, ignore signs
+
+	if (bignum_cmp(X.a, Y.a) != 0 || bignum_cmp(X.b, Y.b) != 0) {
+		// not equal
+		if (isnegativenumber(Y)) {
+			push_symbol(ARCTAN);
+			push(Y);
+			negate();
+			push(X);
+			list(3);
+			negate();
+		} else {
+			push_symbol(ARCTAN);
+			push(Y);
+			push(X);
+			list(3);
+		}
+		return;
+	}
+
+	// X = Y modulo sign
+
+	if (isnegativenumber(X)) {
+		if (isnegativenumber(Y))
+			push_rational(-3, 4);
+		else
+			push_rational(3, 4);
+	} else {
+		if (isnegativenumber(Y))
+			push_rational(-1, 4);
+		else
+			push_rational(1, 4);
+	}
+
+	push_symbol(PI);
+	multiply();
 }
 function
 eval_arctanh(p1)
@@ -6885,7 +6888,138 @@ eval_log(p1)
 {
 	push(cadr(p1));
 	evalf();
-	log();
+	logfunc();
+}
+
+function
+logfunc()
+{
+	var d, h, i, n, p1, p2;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			logfunc();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	// log of zero is not evaluated
+
+	if (iszero(p1)) {
+		push_symbol(LOG);
+		push_integer(0);
+		list(2);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (d > 0) {
+			push_double(Math.log(d));
+			return;
+		}
+	}
+
+	// log(z) -> log(mag(z)) + i arg(z)
+
+	if (isdouble(p1) || isdoublez(p1)) {
+		push(p1);
+		mag();
+		logfunc();
+		push(imaginaryunit);
+		push(p1);
+		arg();
+		multiply();
+		add();
+		return;
+	}
+
+	// log(1) -> 0
+
+	if (isplusone(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	// log(e) -> 1
+
+	if (p1 == symbol(EXP1)) {
+		push_integer(1);
+		return;
+	}
+
+	if (isnegativenumber(p1)) {
+		push(p1);
+		negate();
+		logfunc();
+		push(imaginaryunit);
+		push_symbol(PI);
+		multiply();
+		add();
+		return;
+	}
+
+	// log(10) -> log(2) + log(5)
+
+	if (isrational(p1)) {
+		h = stack.length;
+		push(p1);
+		factor_factor();
+		n = stack.length;
+		for (i = h; i < n; i++) {
+			p2 = stack[i];
+			if (car(p2) == symbol(POWER)) {
+				push(caddr(p2)); // exponent
+				push_symbol(LOG);
+				push(cadr(p2)); // base
+				list(2);
+				multiply();
+			} else {
+				push_symbol(LOG);
+				push(p2);
+				list(2);
+			}
+			stack[i] = pop();
+		}
+		add_terms(stack.length - h);
+		return;
+	}
+
+	// log(a ^ b) -> b log(a)
+
+	if (car(p1) == symbol(POWER)) {
+		push(caddr(p1));
+		push(cadr(p1));
+		logfunc();
+		multiply();
+		return;
+	}
+
+	// log(a * b) -> log(a) + log(b)
+
+	if (car(p1) == symbol(MULTIPLY)) {
+		h = stack.length;
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			logfunc();
+			p1 = cdr(p1);
+		}
+		add_terms(stack.length - h);
+		return;
+	}
+
+	push_symbol(LOG);
+	push(p1);
+	list(2);
 }
 function
 eval_mag(p1)
@@ -12359,136 +12493,6 @@ list(n)
 	push_symbol(NIL);
 	for (i = 0; i < n; i++)
 		cons();
-}
-function
-log()
-{
-	var d, h, i, n, p1, p2;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			log();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	// log of zero is not evaluated
-
-	if (iszero(p1)) {
-		push_symbol(LOG);
-		push_integer(0);
-		list(2);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		if (d > 0) {
-			push_double(Math.log(d));
-			return;
-		}
-	}
-
-	// log(z) -> log(mag(z)) + i arg(z)
-
-	if (isdouble(p1) || isdoublez(p1)) {
-		push(p1);
-		mag();
-		log();
-		push(imaginaryunit);
-		push(p1);
-		arg();
-		multiply();
-		add();
-		return;
-	}
-
-	// log(1) -> 0
-
-	if (isplusone(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	// log(e) -> 1
-
-	if (p1 == symbol(EXP1)) {
-		push_integer(1);
-		return;
-	}
-
-	if (isnegativenumber(p1)) {
-		push(p1);
-		negate();
-		log();
-		push(imaginaryunit);
-		push_symbol(PI);
-		multiply();
-		add();
-		return;
-	}
-
-	// log(10) -> log(2) + log(5)
-
-	if (isrational(p1)) {
-		h = stack.length;
-		push(p1);
-		factor_factor();
-		n = stack.length;
-		for (i = h; i < n; i++) {
-			p2 = stack[i];
-			if (car(p2) == symbol(POWER)) {
-				push(caddr(p2)); // exponent
-				push_symbol(LOG);
-				push(cadr(p2)); // base
-				list(2);
-				multiply();
-			} else {
-				push_symbol(LOG);
-				push(p2);
-				list(2);
-			}
-			stack[i] = pop();
-		}
-		add_terms(stack.length - h);
-		return;
-	}
-
-	// log(a ^ b) -> b log(a)
-
-	if (car(p1) == symbol(POWER)) {
-		push(caddr(p1));
-		push(cadr(p1));
-		log();
-		multiply();
-		return;
-	}
-
-	// log(a * b) -> log(a) + log(b)
-
-	if (car(p1) == symbol(MULTIPLY)) {
-		h = stack.length;
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			log();
-			p1 = cdr(p1);
-		}
-		add_terms(stack.length - h);
-		return;
-	}
-
-	push_symbol(LOG);
-	push(p1);
-	list(2);
 }
 function
 lookup(s)
