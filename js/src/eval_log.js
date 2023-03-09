@@ -37,7 +37,7 @@ logfunc()
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
-		if (d > 0) {
+		if (d > 0.0) {
 			push_double(Math.log(d));
 			return;
 		}
@@ -49,9 +49,9 @@ logfunc()
 		push(p1);
 		mag();
 		logfunc();
-		push(imaginaryunit);
 		push(p1);
 		arg();
+		push(imaginaryunit);
 		multiply();
 		add();
 		return;
@@ -88,8 +88,7 @@ logfunc()
 		h = stack.length;
 		push(p1);
 		factor_factor();
-		n = stack.length;
-		for (i = h; i < n; i++) {
+		for (i = h; i < stack.length; i++) {
 			p2 = stack[i];
 			if (car(p2) == symbol(POWER)) {
 				push(caddr(p2)); // exponent
