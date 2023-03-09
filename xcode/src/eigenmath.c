@@ -15477,7 +15477,7 @@ sinhfunc(void)
 
 	// sinh(z) = 1/2 exp(z) - 1/2 exp(-z)
 
-	if (isdouble(p1) || isdoublez(p1)) {
+	if (isdoublez(p1)) {
 		push_rational(1, 2);
 		push(p1);
 		expfunc();

@@ -30,3 +30,7 @@ diffs:
 	-diff -u src/arcsin.c js/src/eval_arcsin.js >> diffs
 	-diff -u src/arccos.c js/src/eval_arccos.js >> diffs
 	-diff -u src/arctan.c js/src/eval_arctan.js >> diffs
+#
+	-diff -u src/sinh.c js/src/eval_sinh.js >> diffs
+	-diff -u src/cosh.c js/src/eval_cosh.js >> diffs
+	-diff -u src/tanh.c js/src/eval_tanh.js >> diffs
