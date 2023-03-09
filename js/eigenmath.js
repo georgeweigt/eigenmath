@@ -2719,6 +2719,241 @@ copy_tensor(p1)
 	return p2;
 }
 function
+eval_cos(p1)
+{
+	push(cadr(p1));
+	evalf();
+	cosfunc();
+}
+
+function
+cosfunc()
+{
+	var d, i, n, p1, p2, X, Y;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			cosfunc();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = Math.cos(d);
+		push_double(d);
+		return;
+	}
+
+	// cos(z) = 1/2 exp(i z) + 1/2 exp(-i z)
+
+	if (isdoublez(p1)) {
+		push_double(0.5);
+		push(imaginaryunit);
+		push(p1);
+		multiply();
+		expfunc();
+		push(imaginaryunit);
+		negate();
+		push(p1);
+		multiply();
+		expfunc();
+		add();
+		multiply();
+		return;
+	}
+
+	// cos(-x) = cos(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		cosfunc();
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		cosfunc_sum(p1);
+		return;
+	}
+
+	// cos(arctan(y,x)) = x (x^2 + y^2)^(-1/2)
+
+	if (car(p1) == symbol(ARCTAN)) {
+		X = caddr(p1);
+		Y = cadr(p1);
+		push(X);
+		push(X);
+		push(X);
+		multiply();
+		push(Y);
+		push(Y);
+		multiply();
+		add();
+		push_rational(-1, 2);
+		power();
+		multiply();
+		return;
+	}
+
+	// cos(arcsin(x)) = sqrt(1 - x^2)
+
+	if (car(p1) == symbol(ARCSIN)) {
+		push_integer(1);
+		push(cadr(p1));
+		push_integer(2);
+		power();
+		subtract();
+		push_rational(1, 2);
+		power();
+		return;
+	}
+
+	// n pi ?
+
+	push(p1);
+	push_symbol(PI);
+	divide();
+	p2 = pop();
+
+	if (!isnum(p2)) {
+		push_symbol(COS);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	if (isdouble(p2)) {
+		push(p2);
+		d = pop_double();
+		d = Math.cos(d * Math.PI);
+		push_double(d);
+		return;
+	}
+
+	push(p2); // nonnegative by cos(-x) = cos(x) above
+	push_integer(180);
+	multiply();
+	p2 = pop();
+
+	if (!isinteger(p2)) {
+		push_symbol(COS);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	push(p2);
+	push_integer(360);
+	modfunc();
+	n = pop_integer();
+
+	switch (n) {
+	case 90:
+	case 270:
+		push_integer(0);
+		break;
+	case 60:
+	case 300:
+		push_rational(1, 2);
+		break;
+	case 120:
+	case 240:
+		push_rational(-1, 2);
+		break;
+	case 45:
+	case 315:
+		push_rational(1, 2);
+		push_integer(2);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 135:
+	case 225:
+		push_rational(-1, 2);
+		push_integer(2);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 30:
+	case 330:
+		push_rational(1, 2);
+		push_integer(3);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 150:
+	case 210:
+		push_rational(-1, 2);
+		push_integer(3);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 0:
+		push_integer(1);
+		break;
+	case 180:
+		push_integer(-1);
+		break;
+	default:
+		push_symbol(COS);
+		push(p1);
+		list(2);
+		break;
+	}
+}
+
+// cos(x + n/2 pi) = cos(x) cos(n/2 pi) - sin(x) sin(n/2 pi)
+
+function
+cosfunc_sum(p1)
+{
+	var p2, p3;
+	p2 = cdr(p1);
+	while (iscons(p2)) {
+		push_integer(2);
+		push(car(p2));
+		multiply();
+		push_symbol(PI);
+		divide();
+		p3 = pop();
+		if (isinteger(p3)) {
+			push(p1);
+			push(car(p2));
+			subtract();
+			p3 = pop();
+			push(p3);
+			cosfunc();
+			push(car(p2));
+			cosfunc();
+			multiply();
+			push(p3);
+			sinfunc();
+			push(car(p2));
+			sinfunc();
+			multiply();
+			subtract();
+			return;
+		}
+		p2 = cdr(p2);
+	}
+	push_symbol(COS);
+	push(p1);
+	list(2);
+}
+function
 cosh()
 {
 	var d, i, n, p1;
@@ -5540,38 +5775,102 @@ equal(p1, p2)
 
 	return 0;
 }
-// https://github.com/ghewgill/picomath
+function
+eval_erf(p1)
+{
+	push(cadr(p1));
+	evalf();
+	erffunc();
+}
 
 function
-erf(x)
+erffunc()
 {
-	if (x == 0)
-		return 0;
+	var d, i, n, p1;
 
-	// constants
-	var a1 = 0.254829592;
-	var a2 = -0.284496736;
-	var a3 = 1.421413741;
-	var a4 = -1.453152027;
-	var a5 = 1.061405429;
-	var p = 0.3275911;
+	p1 = pop();
 
-	// Save the sign of x
-	var sign = 1;
-	if (x < 0)
-		sign = -1;
-	x = Math.abs(x);
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			erffunc();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
-	// A&S formula 7.1.26
-	var t = 1.0/(1.0 + p*x);
-	var y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-x*x);
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = erf(d);
+		push_double(d);
+		return;
+	}
 
-	return sign*y;
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	if (isnegativeterm(p1)) {
+		push_symbol(ERF);
+		push(p1);
+		negate();
+		list(2);
+		negate();
+		return;
+	}
+
+	push_symbol(ERF);
+	push(p1);
+	list(2);
 }
 function
-erfc(x)
+eval_erfc(p1)
 {
-	return 1.0 - erf(x);
+	push(cadr(p1));
+	evalf();
+	erfcfunc();
+}
+
+function
+erfcfunc()
+{
+	var d, i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			erfcfunc();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = erfc(d);
+		push_double(d);
+		return;
+	}
+
+	if (iszero(p1)) {
+		push_integer(1);
+		return;
+	}
+
+	push_symbol(ERFC);
+	push(p1);
+	list(2);
 }
 function
 eval_abs(p1)
@@ -5943,241 +6242,6 @@ eval_contract(p1)
 	}
 }
 function
-eval_cos(p1)
-{
-	push(cadr(p1));
-	evalf();
-	cosfunc();
-}
-
-function
-cosfunc()
-{
-	var d, i, n, p1, p2, X, Y;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			cosfunc();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = Math.cos(d);
-		push_double(d);
-		return;
-	}
-
-	// cos(z) = 1/2 exp(i z) + 1/2 exp(-i z)
-
-	if (isdoublez(p1)) {
-		push_double(0.5);
-		push(imaginaryunit);
-		push(p1);
-		multiply();
-		expfunc();
-		push(imaginaryunit);
-		negate();
-		push(p1);
-		multiply();
-		expfunc();
-		add();
-		multiply();
-		return;
-	}
-
-	// cos(-x) = cos(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		cosfunc();
-		return;
-	}
-
-	if (car(p1) == symbol(ADD)) {
-		cosfunc_sum(p1);
-		return;
-	}
-
-	// cos(arctan(y,x)) = x (x^2 + y^2)^(-1/2)
-
-	if (car(p1) == symbol(ARCTAN)) {
-		X = caddr(p1);
-		Y = cadr(p1);
-		push(X);
-		push(X);
-		push(X);
-		multiply();
-		push(Y);
-		push(Y);
-		multiply();
-		add();
-		push_rational(-1, 2);
-		power();
-		multiply();
-		return;
-	}
-
-	// cos(arcsin(x)) = sqrt(1 - x^2)
-
-	if (car(p1) == symbol(ARCSIN)) {
-		push_integer(1);
-		push(cadr(p1));
-		push_integer(2);
-		power();
-		subtract();
-		push_rational(1, 2);
-		power();
-		return;
-	}
-
-	// n pi ?
-
-	push(p1);
-	push_symbol(PI);
-	divide();
-	p2 = pop();
-
-	if (!isnum(p2)) {
-		push_symbol(COS);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	if (isdouble(p2)) {
-		push(p2);
-		d = pop_double();
-		d = Math.cos(d * Math.PI);
-		push_double(d);
-		return;
-	}
-
-	push(p2); // nonnegative by cos(-x) = cos(x) above
-	push_integer(180);
-	multiply();
-	p2 = pop();
-
-	if (!isinteger(p2)) {
-		push_symbol(COS);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	push(p2);
-	push_integer(360);
-	modfunc();
-	n = pop_integer();
-
-	switch (n) {
-	case 90:
-	case 270:
-		push_integer(0);
-		break;
-	case 60:
-	case 300:
-		push_rational(1, 2);
-		break;
-	case 120:
-	case 240:
-		push_rational(-1, 2);
-		break;
-	case 45:
-	case 315:
-		push_rational(1, 2);
-		push_integer(2);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 135:
-	case 225:
-		push_rational(-1, 2);
-		push_integer(2);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 30:
-	case 330:
-		push_rational(1, 2);
-		push_integer(3);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 150:
-	case 210:
-		push_rational(-1, 2);
-		push_integer(3);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 0:
-		push_integer(1);
-		break;
-	case 180:
-		push_integer(-1);
-		break;
-	default:
-		push_symbol(COS);
-		push(p1);
-		list(2);
-		break;
-	}
-}
-
-// cos(x + n/2 pi) = cos(x) cos(n/2 pi) - sin(x) sin(n/2 pi)
-
-function
-cosfunc_sum(p1)
-{
-	var p2, p3;
-	p2 = cdr(p1);
-	while (iscons(p2)) {
-		push_integer(2);
-		push(car(p2));
-		multiply();
-		push_symbol(PI);
-		divide();
-		p3 = pop();
-		if (isinteger(p3)) {
-			push(p1);
-			push(car(p2));
-			subtract();
-			p3 = pop();
-			push(p3);
-			cosfunc();
-			push(car(p2));
-			cosfunc();
-			multiply();
-			push(p3);
-			sinfunc();
-			push(car(p2));
-			sinfunc();
-			multiply();
-			subtract();
-			return;
-		}
-		p2 = cdr(p2);
-	}
-	push_symbol(COS);
-	push(p1);
-	list(2);
-}
-function
 eval_cosh(p1)
 {
 	push(cadr(p1));
@@ -6456,103 +6520,6 @@ eval_eigenvec(p1)
 		}
 
 	push(p1);
-}
-function
-eval_erf(p1)
-{
-	push(cadr(p1));
-	evalf();
-	erffunc();
-}
-
-function
-erffunc()
-{
-	var d, i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			erffunc();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = erf(d);
-		push_double(d);
-		return;
-	}
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	if (isnegativeterm(p1)) {
-		push_symbol(ERF);
-		push(p1);
-		negate();
-		list(2);
-		negate();
-		return;
-	}
-
-	push_symbol(ERF);
-	push(p1);
-	list(2);
-}
-function
-eval_erfc(p1)
-{
-	push(cadr(p1));
-	evalf();
-	erfcfunc();
-}
-
-function
-erfcfunc()
-{
-	var d, i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			erfcfunc();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = erfc(d);
-		push_double(d);
-		return;
-	}
-
-	if (iszero(p1)) {
-		push_integer(1);
-		return;
-	}
-
-	push_symbol(ERFC);
-	push(p1);
-	list(2);
 }
 function
 eval_eval(p1)
@@ -7736,244 +7703,6 @@ eval_simplify(p1)
 	simplify();
 }
 function
-eval_sin(p1)
-{
-	push(cadr(p1));
-	evalf();
-	sinfunc();
-}
-
-function
-sinfunc()
-{
-	var d, i, n, p1, p2, X, Y;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			sinfunc();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = Math.sin(d);
-		push_double(d);
-		return;
-	}
-
-	// sin(z) = -i/2 exp(i z) + i/2 exp(-i z)
-
-	if (isdoublez(p1)) {
-		push_double(-0.5);
-		push(imaginaryunit);
-		multiply();
-		push(imaginaryunit);
-		push(p1);
-		multiply();
-		expfunc();
-		push(imaginaryunit);
-		negate();
-		push(p1);
-		multiply();
-		expfunc();
-		subtract();
-		multiply();
-		return;
-	}
-
-	// sin(-x) = -sin(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		sinfunc();
-		negate();
-		return;
-	}
-
-	if (car(p1) == symbol(ADD)) {
-		sinfunc_sum(p1);
-		return;
-	}
-
-	// sin(arctan(y,x)) = y (x^2 + y^2)^(-1/2)
-
-	if (car(p1) == symbol(ARCTAN)) {
-		X = caddr(p1);
-		Y = cadr(p1);
-		push(Y);
-		push(X);
-		push(X);
-		multiply();
-		push(Y);
-		push(Y);
-		multiply();
-		add();
-		push_rational(-1, 2);
-		power();
-		multiply();
-		return;
-	}
-
-	// sin(arccos(x)) = sqrt(1 - x^2)
-
-	if (car(p1) == symbol(ARCCOS)) {
-		push_integer(1);
-		push(cadr(p1));
-		push_integer(2);
-		power();
-		subtract();
-		push_rational(1, 2);
-		power();
-		return;
-	}
-
-	// n pi ?
-
-	push(p1);
-	push_symbol(PI);
-	divide();
-	p2 = pop();
-
-	if (!isnum(p2)) {
-		push_symbol(SIN);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	if (isdouble(p2)) {
-		push(p2);
-		d = pop_double();
-		d = Math.sin(d * Math.PI);
-		push_double(d);
-		return;
-	}
-
-	push(p2); // nonnegative by sin(-x) = -sin(x) above
-	push_integer(180);
-	multiply();
-	p2 = pop();
-
-	if (!isinteger(p2)) {
-		push_symbol(SIN);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	push(p2);
-	push_integer(360);
-	modfunc();
-	n = pop_integer();
-
-	switch (n) {
-	case 0:
-	case 180:
-		push_integer(0);
-		break;
-	case 30:
-	case 150:
-		push_rational(1, 2);
-		break;
-	case 210:
-	case 330:
-		push_rational(-1, 2);
-		break;
-	case 45:
-	case 135:
-		push_rational(1, 2);
-		push_integer(2);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 225:
-	case 315:
-		push_rational(-1, 2);
-		push_integer(2);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 60:
-	case 120:
-		push_rational(1, 2);
-		push_integer(3);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 240:
-	case 300:
-		push_rational(-1, 2);
-		push_integer(3);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 90:
-		push_integer(1);
-		break;
-	case 270:
-		push_integer(-1);
-		break;
-	default:
-		push_symbol(SIN);
-		push(p1);
-		list(2);
-		break;
-	}
-}
-
-// sin(x + n/2 pi) = sin(x) cos(n/2 pi) + cos(x) sin(n/2 pi)
-
-function
-sinfunc_sum(p1)
-{
-	var p2, p3;
-	p2 = cdr(p1);
-	while (iscons(p2)) {
-		push_integer(2);
-		push(car(p2));
-		multiply();
-		push_symbol(PI);
-		divide();
-		p3 = pop();
-		if (isinteger(p3)) {
-			push(p1);
-			push(car(p2));
-			subtract();
-			p3 = pop();
-			push(p3);
-			sinfunc();
-			push(car(p2));
-			cosfunc();
-			multiply();
-			push(p3);
-			cosfunc();
-			push(car(p2));
-			sinfunc();
-			multiply();
-			add();
-			return;
-		}
-		p2 = cdr(p2);
-	}
-	push_symbol(SIN);
-	push(p1);
-	list(2);
-}
-function
 eval_sinh(p1)
 {
 	push(cadr(p1));
@@ -8066,13 +7795,6 @@ eval_sum(p1)
 	add_terms(stack.length - h);
 
 	restore_symbol(p2);
-}
-function
-eval_tan(p1)
-{
-	push(cadr(p1));
-	evalf();
-	tan();
 }
 function
 eval_tanh(p1)
@@ -13413,6 +13135,40 @@ partition_term()
 		cons(); // makes MULTIPLY head of list
 	}
 }
+// https://github.com/ghewgill/picomath
+
+function
+erf(x)
+{
+	if (x == 0)
+		return 0;
+
+	// constants
+	var a1 = 0.254829592;
+	var a2 = -0.284496736;
+	var a3 = 1.421413741;
+	var a4 = -1.453152027;
+	var a5 = 1.061405429;
+	var p = 0.3275911;
+
+	// Save the sign of x
+	var sign = 1;
+	if (x < 0)
+		sign = -1;
+	x = Math.abs(x);
+
+	// A&S formula 7.1.26
+	var t = 1.0/(1.0 + p*x);
+	var y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-x*x);
+
+	return sign*y;
+}
+
+function
+erfc(x)
+{
+	return 1.0 - erf(x);
+}
 function
 polar()
 {
@@ -16310,6 +16066,244 @@ simplify_terms(h)
 	return n;
 }
 function
+eval_sin(p1)
+{
+	push(cadr(p1));
+	evalf();
+	sinfunc();
+}
+
+function
+sinfunc()
+{
+	var d, i, n, p1, p2, X, Y;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			sinfunc();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = Math.sin(d);
+		push_double(d);
+		return;
+	}
+
+	// sin(z) = -i/2 exp(i z) + i/2 exp(-i z)
+
+	if (isdoublez(p1)) {
+		push_double(-0.5);
+		push(imaginaryunit);
+		multiply();
+		push(imaginaryunit);
+		push(p1);
+		multiply();
+		expfunc();
+		push(imaginaryunit);
+		negate();
+		push(p1);
+		multiply();
+		expfunc();
+		subtract();
+		multiply();
+		return;
+	}
+
+	// sin(-x) = -sin(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		sinfunc();
+		negate();
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		sinfunc_sum(p1);
+		return;
+	}
+
+	// sin(arctan(y,x)) = y (x^2 + y^2)^(-1/2)
+
+	if (car(p1) == symbol(ARCTAN)) {
+		X = caddr(p1);
+		Y = cadr(p1);
+		push(Y);
+		push(X);
+		push(X);
+		multiply();
+		push(Y);
+		push(Y);
+		multiply();
+		add();
+		push_rational(-1, 2);
+		power();
+		multiply();
+		return;
+	}
+
+	// sin(arccos(x)) = sqrt(1 - x^2)
+
+	if (car(p1) == symbol(ARCCOS)) {
+		push_integer(1);
+		push(cadr(p1));
+		push_integer(2);
+		power();
+		subtract();
+		push_rational(1, 2);
+		power();
+		return;
+	}
+
+	// n pi ?
+
+	push(p1);
+	push_symbol(PI);
+	divide();
+	p2 = pop();
+
+	if (!isnum(p2)) {
+		push_symbol(SIN);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	if (isdouble(p2)) {
+		push(p2);
+		d = pop_double();
+		d = Math.sin(d * Math.PI);
+		push_double(d);
+		return;
+	}
+
+	push(p2); // nonnegative by sin(-x) = -sin(x) above
+	push_integer(180);
+	multiply();
+	p2 = pop();
+
+	if (!isinteger(p2)) {
+		push_symbol(SIN);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	push(p2);
+	push_integer(360);
+	modfunc();
+	n = pop_integer();
+
+	switch (n) {
+	case 0:
+	case 180:
+		push_integer(0);
+		break;
+	case 30:
+	case 150:
+		push_rational(1, 2);
+		break;
+	case 210:
+	case 330:
+		push_rational(-1, 2);
+		break;
+	case 45:
+	case 135:
+		push_rational(1, 2);
+		push_integer(2);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 225:
+	case 315:
+		push_rational(-1, 2);
+		push_integer(2);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 60:
+	case 120:
+		push_rational(1, 2);
+		push_integer(3);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 240:
+	case 300:
+		push_rational(-1, 2);
+		push_integer(3);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 90:
+		push_integer(1);
+		break;
+	case 270:
+		push_integer(-1);
+		break;
+	default:
+		push_symbol(SIN);
+		push(p1);
+		list(2);
+		break;
+	}
+}
+
+// sin(x + n/2 pi) = sin(x) cos(n/2 pi) + cos(x) sin(n/2 pi)
+
+function
+sinfunc_sum(p1)
+{
+	var p2, p3;
+	p2 = cdr(p1);
+	while (iscons(p2)) {
+		push_integer(2);
+		push(car(p2));
+		multiply();
+		push_symbol(PI);
+		divide();
+		p3 = pop();
+		if (isinteger(p3)) {
+			push(p1);
+			push(car(p2));
+			subtract();
+			p3 = pop();
+			push(p3);
+			sinfunc();
+			push(car(p2));
+			cosfunc();
+			multiply();
+			push(p3);
+			cosfunc();
+			push(car(p2));
+			sinfunc();
+			multiply();
+			add();
+			return;
+		}
+		p2 = cdr(p2);
+	}
+	push_symbol(SIN);
+	push(p1);
+	list(2);
+}
+function
 sinh()
 {
 	var d, i, n, p1;
@@ -16556,7 +16550,15 @@ symbol(s)
 	return symtab[s];
 }
 function
-tan()
+eval_tan(p1)
+{
+	push(cadr(p1));
+	evalf();
+	tanfunc();
+}
+
+function
+tanfunc()
 {
 	var d, i, n, p1, p2;
 
@@ -16567,7 +16569,7 @@ tan()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			tan();
+			tanfunc();
 			p1.elem[i] = pop();
 		}
 		push(p1);
@@ -16596,13 +16598,13 @@ tan()
 	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
-		tan();
+		tanfunc();
 		negate();
 		return;
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		tan_sum(p1);
+		tanfunc_sum(p1);
 		return;
 	}
 
@@ -16648,9 +16650,11 @@ tan()
 	}
 
 	push(p2);
+	push_integer(360);
+	modfunc();
 	n = pop_integer();
 
-	switch (n % 360) {
+	switch (n) {
 	case 0:
 	case 180:
 		push_integer(0);
@@ -16699,8 +16703,11 @@ tan()
 		break;
 	}
 }
+
+// tan(x + n pi) = tan(x)
+
 function
-tan_sum(p1) // tan(x + n pi) = tan(x)
+tanfunc_sum(p1)
 {
 	var p2, p3;
 	p2 = cdr(p1);
@@ -16713,7 +16720,7 @@ tan_sum(p1) // tan(x + n pi) = tan(x)
 			push(p1);
 			push(car(p2));
 			subtract();
-			tan();
+			tanfunc();
 			return;
 		}
 		p2 = cdr(p2);

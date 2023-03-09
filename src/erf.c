@@ -28,7 +28,9 @@ erffunc(void)
 	}
 
 	if (isdouble(p1)) {
-		d = erf(p1->u.d);
+		push(p1);
+		d = pop_double();
+		d = erf(d);
 		push_double(d);
 		return;
 	}

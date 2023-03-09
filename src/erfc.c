@@ -28,7 +28,9 @@ erfcfunc(void)
 	}
 
 	if (isdouble(p1)) {
-		d = erfc(p1->u.d);
+		push(p1);
+		d = pop_double();
+		d = erfc(d);
 		push_double(d);
 		return;
 	}

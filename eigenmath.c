@@ -6332,7 +6332,9 @@ erffunc(void)
 	}
 
 	if (isdouble(p1)) {
-		d = erf(p1->u.d);
+		push(p1);
+		d = pop_double();
+		d = erf(d);
 		push_double(d);
 		return;
 	}
@@ -6385,7 +6387,9 @@ erfcfunc(void)
 	}
 
 	if (isdouble(p1)) {
-		d = erfc(p1->u.d);
+		push(p1);
+		d = pop_double();
+		d = erfc(d);
 		push_double(d);
 		return;
 	}

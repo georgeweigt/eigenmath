@@ -1,5 +1,13 @@
 function
-tan()
+eval_tan(p1)
+{
+	push(cadr(p1));
+	evalf();
+	tanfunc();
+}
+
+function
+tanfunc()
 {
 	var d, i, n, p1, p2;
 
@@ -10,7 +18,7 @@ tan()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			tan();
+			tanfunc();
 			p1.elem[i] = pop();
 		}
 		push(p1);
@@ -39,13 +47,13 @@ tan()
 	if (isnegativeterm(p1)) {
 		push(p1);
 		negate();
-		tan();
+		tanfunc();
 		negate();
 		return;
 	}
 
 	if (car(p1) == symbol(ADD)) {
-		tan_sum(p1);
+		tanfunc_sum(p1);
 		return;
 	}
 
@@ -91,9 +99,11 @@ tan()
 	}
 
 	push(p2);
+	push_integer(360);
+	modfunc();
 	n = pop_integer();
 
-	switch (n % 360) {
+	switch (n) {
 	case 0:
 	case 180:
 		push_integer(0);
@@ -141,4 +151,30 @@ tan()
 		list(2);
 		break;
 	}
+}
+
+// tan(x + n pi) = tan(x)
+
+function
+tanfunc_sum(p1)
+{
+	var p2, p3;
+	p2 = cdr(p1);
+	while (iscons(p2)) {
+		push(car(p2));
+		push_symbol(PI);
+		divide();
+		p3 = pop();
+		if (isinteger(p3)) {
+			push(p1);
+			push(car(p2));
+			subtract();
+			tanfunc();
+			return;
+		}
+		p2 = cdr(p2);
+	}
+	push_symbol(TAN);
+	push(p1);
+	list(2);
 }

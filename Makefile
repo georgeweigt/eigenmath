@@ -1,4 +1,4 @@
-.PHONY: clean check
+.PHONY: clean check diffs
 
 CFILES := $(shell ls src/*.c)
 
@@ -15,3 +15,10 @@ check:
 	make -s -C tools wcheck
 	for FILE in src/*.c; do tools/wcheck $$FILE; done
 	for FILE in js/src/*.js; do tools/wcheck $$FILE; done
+
+diffs:
+	-diff -u src/erf.c js/src/erf.js > diffs
+	-diff -u src/erfc.c js/src/erfc.js >> diffs
+	-diff -u src/sin.c js/src/sin.js >> diffs
+	-diff -u src/cos.c js/src/cos.js >> diffs
+	-diff -u src/tan.c js/src/tan.js >> diffs
