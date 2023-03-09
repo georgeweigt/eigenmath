@@ -2340,7 +2340,7 @@ eval_arg(struct atom *p1)
 	arg();
 }
 
-// use numerator and denominator to handle (a+i*b)/(c+i*d)
+// use numerator and denominator to handle (a + i b) / (c + i d)
 
 void
 arg(void)
@@ -2374,9 +2374,6 @@ arg(void)
 
 	subtract();
 
-	p1 = pop();
-	push(p1);
-
 	if (t)
 		floatfunc();
 }
@@ -2409,7 +2406,7 @@ arg1(void)
 	// (-1) ^ expr
 
 	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
-		push(symbol(PI));
+		push_symbol(PI);
 		push(caddr(p1));
 		multiply();
 		return;
@@ -2451,7 +2448,7 @@ arg1(void)
 		return;
 	}
 
-	push_integer(0);
+	push_integer(0); // p1 is real
 }
 void
 init_bignums(void)

@@ -37,6 +37,7 @@ diffs:
 #
 	-diff -u src/abs.c js/src/eval_abs.js > diffs
 	-diff -u src/adj.c js/src/eval_adj.js >> diffs
+	-diff -u src/arg.c js/src/eval_arg.js >> diffs
 	-diff -u src/conj.c js/src/eval_conj.js >> diffs
 	-diff -u src/eigenvec.c js/src/eval_eigenvec.js >> diffs
 	-diff -u src/erf.c js/src/eval_erf.js >> diffs
