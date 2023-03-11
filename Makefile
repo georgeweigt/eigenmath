@@ -46,6 +46,7 @@ diffs:
 	-diff -u src/contract.c js/src/eval_contract.js >> diffs
 	-diff -u src/cos.c js/src/eval_cos.js >> diffs
 	-diff -u src/cosh.c js/src/eval_cosh.js >> diffs
+	-diff -u src/defint.c js/src/eval_defint.js >> diffs
 	-diff -u src/derivative.c js/src/eval_derivative.js >> diffs
 #
 #	-diff -u src/eigenvec.c js/src/eval_eigenvec.js >> diffs
