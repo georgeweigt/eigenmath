@@ -17,6 +17,7 @@ clean:
 XFILES := $(shell ls *.c | sed "s/main\.c//;s/fmt\.c//")
 
 sync:
+	make -s prototypes.h
 	cp defs.h ../xcode/src
 	cat defs.h prototypes.h $(XFILES) > ../xcode/src/eigenmath.c
 	make -s -C ../tools make-prototypes

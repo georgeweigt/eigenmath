@@ -28,7 +28,7 @@ contract(void)
 {
 	int h, i, j, k, m, n, ncol, ndim, nelem, nrow;
 	int index[MAXDIM];
-	struct atom **a, **b, *p1, *p2, *p3;
+	struct atom *p1, *p2, *p3;
 
 	p3 = pop();
 	p2 = pop();
@@ -65,9 +65,6 @@ contract(void)
 
 	p2 = alloc_tensor(nelem);
 
-	a = p1->u.tensor->elem;
-	b = p2->u.tensor->elem;
-
 	for (i = 0; i < ndim; i++)
 		index[i] = 0;
 
@@ -79,12 +76,12 @@ contract(void)
 			k = index[0];
 			for (h = 1; h < ndim; h++)
 				k = k * p1->u.tensor->dim[h] + index[h];
-			push(a[k]);
+			push(p1->u.tensor->elem[k]);
 		}
 
 		add_terms(ncol);
 
-		b[i] = pop();
+		p2->u.tensor->elem[i] = pop();
 
 		// increment index
 
@@ -98,7 +95,7 @@ contract(void)
 	}
 
 	if (nelem == 1) {
-		push(b[0]);
+		push(p2->u.tensor->elem[0]);
 		return;
 	}
 
