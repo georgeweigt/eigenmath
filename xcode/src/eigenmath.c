@@ -524,7 +524,7 @@ void derivative(void);
 void d_scalar_scalar(struct atom *F, struct atom *X);
 void dsum(struct atom *p1, struct atom *p2);
 void dproduct(struct atom *p1, struct atom *p2);
-void dpower(struct atom *p1, struct atom *p2);
+void dpower(struct atom *F, struct atom *X);
 void dlog(struct atom *p1, struct atom *p2);
 void dd(struct atom *p1, struct atom *p2);
 void dfunction(struct atom *p1, struct atom *p2);
@@ -542,7 +542,6 @@ void darccosh(struct atom *p1, struct atom *p2);
 void darctanh(struct atom *p1, struct atom *p2);
 void derf(struct atom *p1, struct atom *p2);
 void derfc(struct atom *p1, struct atom *p2);
-void derivative_of_integral(struct atom *p1, struct atom *p2);
 void d_tensor_tensor(struct atom *p1, struct atom *p2);
 void d_scalar_tensor(struct atom *p1, struct atom *p2);
 void d_tensor_scalar(struct atom *p1, struct atom *p2);
@@ -5102,16 +5101,17 @@ derivative(void)
 	X = pop();
 	F = pop();
 
-	if (istensor(F))
+	if (istensor(F)) {
 		if (istensor(X))
 			d_tensor_tensor(F, X);
 		else
 			d_tensor_scalar(F, X);
-	else
+	} else {
 		if (istensor(X))
 			d_scalar_tensor(F, X);
 		else
 			d_scalar_scalar(F, X);
+	}
 }
 
 void
@@ -5230,7 +5230,7 @@ d_scalar_scalar(struct atom *F, struct atom *X)
 	}
 
 	if (car(F) == symbol(INTEGRAL) && caddr(F) == X) {
-		derivative_of_integral(F, X);
+		push(cadr(F));
 		return;
 	}
 
@@ -5286,35 +5286,35 @@ dproduct(struct atom *p1, struct atom *p2)
 //	dx       u dx           dx
 
 void
-dpower(struct atom *p1, struct atom *p2)
+dpower(struct atom *F, struct atom *X)
 {
-	if (isnum(cadr(p1)) && isnum(caddr(p1))) {
+	if (isnum(cadr(F)) && isnum(caddr(F))) {
 		push_integer(0); // irr or imag
 		return;
 	}
 
-	push(caddr(p1));	// v/u
-	push(cadr(p1));
+	push(caddr(F));		// v/u
+	push(cadr(F));
 	divide();
 
-	push(cadr(p1));		// du/dx
-	push(p2);
+	push(cadr(F));		// du/dx
+	push(X);
 	derivative();
 
 	multiply();
 
-	push(cadr(p1));		// log u
+	push(cadr(F));		// log u
 	logfunc();
 
-	push(caddr(p1));	// dv/dx
-	push(p2);
+	push(caddr(F));		// dv/dx
+	push(X);
 	derivative();
 
 	multiply();
 
 	add();
 
-	push(p1);		// u^v
+	push(F);		// u^v
 
 	multiply();
 }
@@ -5388,7 +5388,7 @@ dfunction(struct atom *p1, struct atom *p2)
 {
 	struct atom *p3;
 
-	p3 = cdr(p1);	// p3 is the argument list for the function
+	p3 = cdr(p1); // p3 is the argument list for the function
 
 	if (p3 == symbol(NIL) || findf(p3, p2)) {
 		push_symbol(DERIVATIVE);
@@ -5607,84 +5607,61 @@ derfc(struct atom *p1, struct atom *p2)
 	multiply();
 }
 
-void
-derivative_of_integral(struct atom *p1, struct atom *p2)
-{
-	(void) p2; // silence compiler
-	push(cadr(p1));
-}
-
-// gradient of tensor p1 wrt vector p2
+// gradient of tensor p1 wrt tensor p2
 
 void
 d_tensor_tensor(struct atom *p1, struct atom *p2)
 {
-	int i, j, n1, n2, ndim;
-	struct atom **a, **b, **c, *p3;
+	int i, j, m, n;
+	struct atom *p3;
 
-	if (p2->u.tensor->ndim != 1)
-		stopf("vector expected");
-
-	ndim = p1->u.tensor->ndim;
-
-	if (ndim + 1 > MAXDIM)
+	if (p1->u.tensor->ndim + p2->u.tensor->ndim > MAXDIM)
 		stopf("rank exceeds max");
 
-	n1 = p1->u.tensor->nelem;
-	n2 = p2->u.tensor->nelem;
+	n = p1->u.tensor->nelem;
+	m = p2->u.tensor->nelem;
 
-	p3 = alloc_tensor(n1 * n2);
+	p3 = alloc_tensor(n * m);
 
-	// add dim info
-
-	p3->u.tensor->ndim = ndim + 1;
-
-	for (i = 0; i < ndim; i++)
-		p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
-
-	p3->u.tensor->dim[ndim] = n2;
-
-	// gradient
-
-	a = p1->u.tensor->elem;
-	b = p2->u.tensor->elem;
-	c = p3->u.tensor->elem;
-
-	for (i = 0; i < n1; i++) {
-		for (j = 0; j < n2; j++) {
-			push(a[i]);
-			push(b[j]);
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < m; j++) {
+			push(p1->u.tensor->elem[i]);
+			push(p2->u.tensor->elem[j]);
 			derivative();
-			c[n2 * i + j] = pop();
+			p3->u.tensor->elem[m * i + j] = pop();
 		}
 	}
+
+	// dim info
+
+	p3->u.tensor->ndim = p1->u.tensor->ndim + p2->u.tensor->ndim;
+
+	for (i = 0; i < p1->u.tensor->ndim; i++)
+		p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
+
+	for (j = 0; j < p2->u.tensor->ndim; j++)
+		p3->u.tensor->dim[i + j] = p2->u.tensor->dim[j];
 
 	push(p3);
 }
 
-// gradient of scalar p1 wrt vector p2
+// gradient of scalar p1 wrt tensor p2
 
 void
 d_scalar_tensor(struct atom *p1, struct atom *p2)
 {
 	int i, n;
-	struct atom **a, **b, *p3;
-
-	if (p2->u.tensor->ndim != 1)
-		stopf("vector expected");
+	struct atom *p3;
 
 	p3 = copy_tensor(p2);
-
-	a = p2->u.tensor->elem;
-	b = p3->u.tensor->elem;
 
 	n = p2->u.tensor->nelem;
 
 	for (i = 0; i < n; i++) {
 		push(p1);
-		push(a[i]);
+		push(p2->u.tensor->elem[i]);
 		derivative();
-		b[i] = pop();
+		p3->u.tensor->elem[i] = pop();
 	}
 
 	push(p3);
@@ -5696,20 +5673,17 @@ void
 d_tensor_scalar(struct atom *p1, struct atom *p2)
 {
 	int i, n;
-	struct atom **a, **b, *p3;
+	struct atom *p3;
 
 	p3 = copy_tensor(p1);
-
-	a = p1->u.tensor->elem;
-	b = p3->u.tensor->elem;
 
 	n = p1->u.tensor->nelem;
 
 	for (i = 0; i < n; i++) {
-		push(a[i]);
+		push(p1->u.tensor->elem[i]);
 		push(p2);
 		derivative();
-		b[i] = pop();
+		p3->u.tensor->elem[i] = pop();
 	}
 
 	push(p3);
