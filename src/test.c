@@ -108,64 +108,6 @@ eval_testeq(struct atom *p1)
 		push_integer(0);
 }
 
-int
-cross_expr(struct atom *p)
-{
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (cross_term(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return cross_term(p);
-}
-
-int
-cross_term(struct atom *p)
-{
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (cross_factor(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return cross_factor(p);
-}
-
-int
-cross_factor(struct atom *p)
-{
-	if (isrational(p)) {
-		if (MEQUAL(p->u.q.b, 1))
-			return 0;
-		push_bignum(MPLUS, mcopy(p->u.q.b), mint(1));
-		return 1;
-	}
-
-	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
-		if (isminusone(caddr(p)))
-			push(cadr(p));
-		else {
-			push_symbol(POWER);
-			push(cadr(p));
-			push(caddr(p));
-			negate();
-			list(3);
-		}
-		return 1;
-	}
-
-	return 0;
-}
-
 void
 cancel_factor(void)
 {

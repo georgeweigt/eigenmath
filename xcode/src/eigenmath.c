@@ -547,6 +547,9 @@ void d_scalar_tensor(struct atom *p1, struct atom *p2);
 void d_tensor_scalar(struct atom *p1, struct atom *p2);
 void eval_det(struct atom *p1);
 void det(void);
+int divisor(struct atom *p);
+int divisor_term(struct atom *p);
+int divisor_factor(struct atom *p);
 void eval_eigenvec(struct atom *p1);
 void eigenvec(double *D, double *Q, int n);
 int eigenvec_step(double *D, double *Q, int n);
@@ -885,9 +888,6 @@ void eval_unit(struct atom *p1);
 void eval_zero(struct atom *p1);
 void eval_test(struct atom *p1);
 void eval_testeq(struct atom *p1);
-int cross_expr(struct atom *p);
-int cross_term(struct atom *p);
-int cross_factor(struct atom *p);
 void cancel_factor(void);
 void eval_testge(struct atom *p1);
 void eval_testgt(struct atom *p1);
@@ -5007,7 +5007,7 @@ denominator(void)
 
 	p2 = one; // denominator
 
-	while (cross_expr(p1)) {
+	while (divisor(p1)) {
 
 		p0 = pop(); // p0 is a denominator
 
@@ -5784,6 +5784,65 @@ det(void)
 		push_integer(0);
 	else
 		add_terms(tos - h);
+}
+int
+divisor(struct atom *p)
+{
+	if (car(p) == symbol(ADD)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (divisor_term(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return divisor_term(p);
+}
+
+int
+divisor_term(struct atom *p)
+{
+	if (car(p) == symbol(MULTIPLY)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (divisor_factor(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return divisor_factor(p);
+}
+
+int
+divisor_factor(struct atom *p)
+{
+	if (isinteger(p))
+		return 0;
+
+	if (isrational(p)) {
+		push(p);
+		denominator();
+		return 1;
+	}
+
+	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
+		if (isminusone(caddr(p)))
+			push(cadr(p));
+		else {
+			push_symbol(POWER);
+			push(cadr(p));
+			push(caddr(p));
+			negate();
+			list(3);
+		}
+		return 1;
+	}
+
+	return 0;
 }
 void
 eval_eigenvec(struct atom *p1)
@@ -11338,7 +11397,7 @@ numerator(void)
 		return;
 	}
 
-	while (cross_expr(p1)) {
+	while (divisor(p1)) {
 		push(p1);
 		cancel_factor();
 		p1 = pop();
@@ -13096,7 +13155,7 @@ rationalize(void)
 
 	p2 = one;
 
-	while (cross_expr(p1)) {
+	while (divisor(p1)) {
 		p0 = pop();
 		push(p0);
 		push(p1);
@@ -16804,64 +16863,6 @@ eval_testeq(struct atom *p1)
 		push_integer(1);
 	else
 		push_integer(0);
-}
-
-int
-cross_expr(struct atom *p)
-{
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (cross_term(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return cross_term(p);
-}
-
-int
-cross_term(struct atom *p)
-{
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (cross_factor(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return cross_factor(p);
-}
-
-int
-cross_factor(struct atom *p)
-{
-	if (isrational(p)) {
-		if (MEQUAL(p->u.q.b, 1))
-			return 0;
-		push_bignum(MPLUS, mcopy(p->u.q.b), mint(1));
-		return 1;
-	}
-
-	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
-		if (isminusone(caddr(p)))
-			push(cadr(p));
-		else {
-			push_symbol(POWER);
-			push(cadr(p));
-			push(caddr(p));
-			negate();
-			list(3);
-		}
-		return 1;
-	}
-
-	return 0;
 }
 
 void

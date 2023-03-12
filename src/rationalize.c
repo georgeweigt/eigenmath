@@ -27,7 +27,7 @@ rationalize(void)
 
 	p2 = one;
 
-	while (cross_expr(p1)) {
+	while (divisor(p1)) {
 		p0 = pop();
 		push(p0);
 		push(p1);

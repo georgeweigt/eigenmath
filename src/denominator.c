@@ -20,7 +20,7 @@ denominator(void)
 
 	p2 = one; // denominator
 
-	while (cross_expr(p1)) {
+	while (divisor(p1)) {
 
 		p0 = pop(); // p0 is a denominator
 
