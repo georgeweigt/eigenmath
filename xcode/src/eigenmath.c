@@ -5722,11 +5722,10 @@ det(void)
 		push(p1->u.tensor->elem[0]);
 		push(p1->u.tensor->elem[3]);
 		multiply();
-		push_integer(-1);
 		push(p1->u.tensor->elem[1]);
 		push(p1->u.tensor->elem[2]);
-		multiply_factors(3);
-		add();
+		multiply();
+		subtract();
 		return;
 	case 3:
 		push(p1->u.tensor->elem[0]);
@@ -5758,6 +5757,8 @@ det(void)
 		multiply_factors(4);
 		add_terms(6);
 		return;
+	default:
+		break;
 	}
 
 	p2 = alloc_matrix(n - 1, n - 1);
@@ -5780,10 +5781,12 @@ det(void)
 			negate();
 	}
 
-	if (h == tos)
+	n = tos - h;
+
+	if (n == 0)
 		push_integer(0);
 	else
-		add_terms(tos - h);
+		add_terms(n);
 }
 int
 divisor(struct atom *p)

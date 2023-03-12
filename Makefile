@@ -49,8 +49,9 @@ diffs:
 	-diff -u src/defint.c js/src/eval_defint.js >> diffs
 	-diff -u src/derivative.c js/src/eval_derivative.js >> diffs
 	-diff -u src/denominator.c js/src/eval_denominator.js >> diffs
+	-diff -u src/det.c js/src/eval_det.js >> diffs
 #
-	-diff -u src/divisor.c js/src/divisor.js >> diffs
+#	-diff -u src/divisor.c js/src/divisor.js >> diffs
 #
 #	-diff -u src/eigenvec.c js/src/eval_eigenvec.js >> diffs
 #	-diff -u src/erf.c js/src/eval_erf.js >> diffs
