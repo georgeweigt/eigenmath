@@ -3,29 +3,29 @@ eval_floor(p1)
 {
 	push(cadr(p1));
 	evalf();
-	floor();
+	floorfunc();
 }
 
 function
-floor()
+floorfunc()
 {
 	var a, b, d, i, n, p1;
 
 	p1 = pop();
-
-	if (isinteger(p1)) {
-		push(p1);
-		return;
-	}
 
 	if (istensor(p1)) {
 		p1 = copy_tensor(p1);
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			floor();
+			floorfunc();
 			p1.elem[i] = pop();
 		}
+		push(p1);
+		return;
+	}
+
+	if (isinteger(p1)) {
 		push(p1);
 		return;
 	}

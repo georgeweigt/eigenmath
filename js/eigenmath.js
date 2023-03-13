@@ -6973,29 +6973,29 @@ eval_floor(p1)
 {
 	push(cadr(p1));
 	evalf();
-	floor();
+	floorfunc();
 }
 
 function
-floor()
+floorfunc()
 {
 	var a, b, d, i, n, p1;
 
 	p1 = pop();
-
-	if (isinteger(p1)) {
-		push(p1);
-		return;
-	}
 
 	if (istensor(p1)) {
 		p1 = copy_tensor(p1);
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			floor();
+			floorfunc();
 			p1.elem[i] = pop();
 		}
+		push(p1);
+		return;
+	}
+
+	if (isinteger(p1)) {
 		push(p1);
 		return;
 	}
@@ -7081,12 +7081,81 @@ eval_hadamard(p1)
 		p1 = cdr(p1);
 	}
 }
+
+function
+hadamard()
+{
+	var i, n, p1, p2;
+
+	p2 = pop();
+	p1 = pop();
+
+	if (!istensor(p1) || !istensor(p2)) {
+		push(p1);
+		push(p2);
+		multiply();
+		return;
+	}
+
+	if (p1.dim.length != p2.dim.length)
+		stopf("hadamard");
+
+	n = p1.dim.length;
+
+	for (i = 0; i < n; i++)
+		if (p1.dim[i] != p2.dim[i])
+			stopf("hadamard");
+
+	p1 = copy_tensor(p1);
+
+	n = p1.elem.length;
+
+	for (i = 0; i < n; i++) {
+		push(p1.elem[i]);
+		push(p2.elem[i]);
+		multiply();
+		p1.elem[i] = pop();
+	}
+
+	push(p1);
+}
 function
 eval_imag(p1)
 {
 	push(cadr(p1));
 	evalf();
 	imag();
+}
+
+function
+imag()
+{
+	var i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			imag();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	rect();
+	p1 = pop();
+	push_rational(-1, 2);
+	push(imaginaryunit);
+	push(p1);
+	push(p1);
+	conjfunc();
+	subtract();
+	multiply_factors(3);
 }
 function
 eval_index(p1)
@@ -8615,7 +8684,7 @@ modfunc()
 		push(p2);
 		divide();
 		absfunc();
-		floor();
+		floorfunc();
 		push(p2);
 		multiply();
 		if (p1.sign == p2.sign)
@@ -11543,73 +11612,6 @@ get_usrfunc(p)
 	return p;
 }
 function
-hadamard()
-{
-	var i, n, p1, p2;
-
-	p2 = pop();
-	p1 = pop();
-
-	if (!istensor(p1) || !istensor(p2)) {
-		push(p1);
-		push(p2);
-		multiply();
-		return;
-	}
-
-	if (p1.dim.length != p2.dim.length)
-		stopf("hadamard");
-
-	n = p1.dim.length;
-
-	for (i = 0; i < n; i++)
-		if (p1.dim[i] != p2.dim[i])
-			stopf("hadamard");
-
-	p1 = copy_tensor(p1);
-
-	n = p1.elem.length;
-
-	for (i = 0; i < n; i++) {
-		push(p1.elem[i]);
-		push(p2.elem[i]);
-		multiply();
-		p1.elem[i] = pop();
-	}
-
-	push(p1);
-}
-function
-imag()
-{
-	var i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			imag();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	rect();
-	p1 = pop();
-	push_rational(-1, 2);
-	push(imaginaryunit);
-	push(p1);
-	push(p1);
-	conjfunc();
-	subtract();
-	multiply_factors(3);
-}
-function
 infixform_subexpr(p)
 {
 	infixform_write("(");
@@ -13148,7 +13150,7 @@ normalize_polar_term_rational(R)
 	push(R);
 	push_integer(2);
 	multiply();
-	floor();
+	floorfunc();
 	n = pop_integer(); // number of 90 degree turns
 
 	push(R);
@@ -14393,7 +14395,7 @@ normalize_clock_rational(EXPO)
 	push(R);
 	push_integer(2);
 	multiply();
-	floor();
+	floorfunc();
 	n = pop_integer(); // number of 90 degree turns
 
 	push(R);

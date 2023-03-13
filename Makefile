@@ -64,6 +64,10 @@ diffs:
 	-diff -u src/exptanh.c js/src/eval_exptanh.js >> diffs
 	-diff -u src/factorial.c js/src/eval_factorial.js >> diffs
 	-diff -u src/float.c js/src/eval_float.js >> diffs
+	-diff -u src/floor.c js/src/eval_floor.js >> diffs
+	-diff -u src/for.c js/src/eval_for.js >> diffs
+	-diff -u src/hadamard.c js/src/eval_hadamard.js >> diffs
+	-diff -u src/imag.c js/src/eval_imag.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs
 #

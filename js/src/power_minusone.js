@@ -59,7 +59,7 @@ normalize_clock_rational(EXPO)
 	push(R);
 	push_integer(2);
 	multiply();
-	floor();
+	floorfunc();
 	n = pop_integer(); // number of 90 degree turns
 
 	push(R);

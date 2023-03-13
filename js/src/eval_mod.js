@@ -43,7 +43,7 @@ modfunc()
 		push(p2);
 		divide();
 		absfunc();
-		floor();
+		floorfunc();
 		push(p2);
 		multiply();
 		if (p1.sign == p2.sign)
