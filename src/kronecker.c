@@ -3,9 +3,7 @@ eval_kronecker(struct atom *p1)
 {
 	push(cadr(p1));
 	eval();
-
 	p1 = cddr(p1);
-
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
@@ -41,9 +39,9 @@ kronecker(void)
 
 	p3 = alloc_tensor(m * n * p * q);
 
-	h = 0;
-
 	// result matrix has (m * p) rows and (n * q) columns
+
+	h = 0;
 
 	for (i = 0; i < m; i++)
 		for (j = 0; j < p; j++)
@@ -55,10 +53,14 @@ kronecker(void)
 					p3->u.tensor->elem[h++] = pop();
 				}
 
-	p3->u.tensor->dim[0] = m * p;
-	p3->u.tensor->dim[1] = n * q;
+	// dim info
 
 	p3->u.tensor->ndim = n * q == 1 ? 1 : 2;
+
+	p3->u.tensor->dim[0] = m * p;
+
+	if (n * q > 1)
+		p3->u.tensor->dim[1] = n * q;
 
 	push(p3);
 }

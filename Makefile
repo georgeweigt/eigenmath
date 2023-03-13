@@ -70,7 +70,8 @@ diffs:
 	-diff -u src/imag.c js/src/eval_imag.js >> diffs
 	-diff -u src/inner.c js/src/eval_inner.js >> diffs
 	-diff -u src/integral.c js/src/eval_integral.js >> diffs
+	-diff -u src/inv.c js/src/eval_inv.js >> diffs
+	-diff -u src/kronecker.c js/src/eval_kronecker.js >> diffs
+	-diff -u src/log.c js/src/eval_log.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs
-#
-#	-diff -u src/log.c js/src/eval_log.js >> diffs
