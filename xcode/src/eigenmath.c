@@ -8521,7 +8521,7 @@ eval_inner(struct atom *p1)
 {
 	int h = tos;
 
-	// evaluate right to left
+	// evaluate from right to left
 
 	p1 = cdr(p1);
 
@@ -8531,7 +8531,7 @@ eval_inner(struct atom *p1)
 	}
 
 	if (h == tos)
-		stopf("dot");
+		stopf("inner: no args");
 
 	eval();
 
@@ -8547,7 +8547,6 @@ void
 inner(void)
 {
 	int i, j, k, n, mcol, mrow, ncol, ndim, nrow;
-	struct atom **a, **b, **c;
 	struct atom *p1, *p2, *p3;
 
 	p2 = pop();
@@ -8585,12 +8584,12 @@ inner(void)
 	mrow = p2->u.tensor->dim[0];
 
 	if (ncol != mrow)
-		stopf("tensor dimensions");
+		stopf("inner: dimension err");
 
 	ndim = p1->u.tensor->ndim + p2->u.tensor->ndim - 2;
 
 	if (ndim > MAXDIM)
-		stopf("rank exceeds max");
+		stopf("inner: rank exceeds max");
 
 	//	nrow is the number of rows in p1
 	//
@@ -8609,37 +8608,37 @@ inner(void)
 
 	p3 = alloc_tensor(nrow * mcol);
 
-	a = p1->u.tensor->elem;
-	b = p2->u.tensor->elem;
-	c = p3->u.tensor->elem;
-
 	for (i = 0; i < nrow; i++) {
 		for (j = 0; j < mcol; j++) {
 			for (k = 0; k < ncol; k++) {
-				push(a[i * ncol + k]);
-				push(b[k * mcol + j]);
+				push(p1->u.tensor->elem[i * ncol + k]);
+				push(p2->u.tensor->elem[k * mcol + j]);
 				multiply();
 			}
 			add_terms(ncol);
-			c[i * mcol + j] = pop();
+			p3->u.tensor->elem[i * mcol + j] = pop();
 		}
 	}
 
 	if (ndim == 0) {
-		push(c[0]);
+		push(p3->u.tensor->elem[0]); // scalar result
 		return;
 	}
 
-	// add dim info
+	// dim info
 
 	p3->u.tensor->ndim = ndim;
 
 	k = 0;
 
-	for (i = 0; i < p1->u.tensor->ndim - 1; i++)
+	n = p1->u.tensor->ndim - 1;
+
+	for (i = 0; i < n; i++)
 		p3->u.tensor->dim[k++] = p1->u.tensor->dim[i];
 
-	for (i = 1; i < p2->u.tensor->ndim; i++)
+	n = p2->u.tensor->ndim;
+
+	for (i = 1; i < n; i++)
 		p3->u.tensor->dim[k++] = p2->u.tensor->dim[i];
 
 	push(p3);
