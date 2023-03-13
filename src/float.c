@@ -19,9 +19,22 @@ void
 floatfunc_subst(void)
 {
 	int h, i, n;
+	double a, b;
 	struct atom *p1;
 
 	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			floatfunc_subst();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
 
 	if (p1 == symbol(PI)) {
 		push_double(M_PI);
@@ -34,8 +47,11 @@ floatfunc_subst(void)
 	}
 
 	if (isrational(p1)) {
-		push(p1);
-		bignum_float();
+		a = bignum_float(p1->u.q.a);
+		b = bignum_float(p1->u.q.b);
+		if (isnegativenumber(p1))
+			a = -a;
+		push_double(a / b);
 		return;
 	}
 
@@ -74,18 +90,6 @@ floatfunc_subst(void)
 			p1 = cdr(p1);
 		}
 		list(tos - h);
-		return;
-	}
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			floatfunc_subst();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
 		return;
 	}
 

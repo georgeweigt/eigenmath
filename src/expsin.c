@@ -10,7 +10,6 @@ void
 expsin(void)
 {
 	struct atom *p1;
-
 	p1 = pop();
 
 	push(imaginaryunit);

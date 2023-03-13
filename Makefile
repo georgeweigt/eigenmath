@@ -50,11 +50,22 @@ diffs:
 	-diff -u src/derivative.c js/src/eval_derivative.js >> diffs
 	-diff -u src/denominator.c js/src/eval_denominator.js >> diffs
 	-diff -u src/det.c js/src/eval_det.js >> diffs
+	-diff -u src/dim.c js/src/eval_dim.js >> diffs
+	-diff -u src/do.c js/src/eval_do.js >> diffs
+	-diff -u src/eigenvec.c js/src/eval_eigenvec.js >> diffs
+	-diff -u src/erf.c js/src/eval_erf.js >> diffs
+	-diff -u src/erfc.c js/src/eval_erfc.js >> diffs
+	-diff -u src/exp.c js/src/eval_exp.js >> diffs
+	-diff -u src/expcos.c js/src/eval_expcos.js >> diffs
+	-diff -u src/expcosh.c js/src/eval_expcosh.js >> diffs
+	-diff -u src/expsin.c js/src/eval_expsin.js >> diffs
+	-diff -u src/expsinh.c js/src/eval_expsinh.js >> diffs
+	-diff -u src/exptan.c js/src/eval_exptan.js >> diffs
+	-diff -u src/exptanh.c js/src/eval_exptanh.js >> diffs
+	-diff -u src/factorial.c js/src/eval_factorial.js >> diffs
+	-diff -u src/float.c js/src/eval_float.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs
 #
-#	-diff -u src/eigenvec.c js/src/eval_eigenvec.js >> diffs
-#	-diff -u src/erf.c js/src/eval_erf.js >> diffs
-#	-diff -u src/erfc.c js/src/eval_erfc.js >> diffs
 #	-diff -u src/integral.c js/src/eval_integral.js >> diffs
 #	-diff -u src/log.c js/src/eval_log.js >> diffs

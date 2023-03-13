@@ -6672,12 +6672,51 @@ eval_expcos(p1)
 	evalf();
 	expcos();
 }
+
+function
+expcos()
+{
+	var p1;
+	p1 = pop();
+
+	push(imaginaryunit);
+	push(p1);
+	multiply();
+	expfunc();
+	push_rational(1, 2);
+	multiply();
+
+	push(imaginaryunit);
+	negate();
+	push(p1);
+	multiply();
+	expfunc();
+	push_rational(1, 2);
+	multiply();
+
+	add();
+}
 function
 eval_expcosh(p1)
 {
 	push(cadr(p1));
 	evalf();
 	expcosh();
+}
+
+function
+expcosh()
+{
+	var p1;
+	p1 = pop();
+	push(p1);
+	expfunc();
+	push(p1);
+	negate();
+	expfunc();
+	add();
+	push_rational(1, 2);
+	multiply();
 }
 function
 eval_expsin(p1)
@@ -6686,6 +6725,34 @@ eval_expsin(p1)
 	evalf();
 	expsin();
 }
+
+function
+expsin()
+{
+	var p1;
+	p1 = pop();
+
+	push(imaginaryunit);
+	push(p1);
+	multiply();
+	expfunc();
+	push(imaginaryunit);
+	divide();
+	push_rational(1, 2);
+	multiply();
+
+	push(imaginaryunit);
+	negate();
+	push(p1);
+	multiply();
+	expfunc();
+	push(imaginaryunit);
+	divide();
+	push_rational(1, 2);
+	multiply();
+
+	subtract();
+}
 function
 eval_expsinh(p1)
 {
@@ -6693,12 +6760,54 @@ eval_expsinh(p1)
 	evalf();
 	expsinh();
 }
+
+function
+expsinh()
+{
+	var p1;
+	p1 = pop();
+	push(p1);
+	expfunc();
+	push(p1);
+	negate();
+	expfunc();
+	subtract();
+	push_rational(1, 2);
+	multiply();
+}
+// tan(z) = (i - i exp(2 i z)) / (exp(2 i z) + 1)
+
 function
 eval_exptan(p1)
 {
 	push(cadr(p1));
 	evalf();
 	exptan();
+}
+
+function
+exptan()
+{
+	var p1;
+
+	push_integer(2);
+	push(imaginaryunit);
+	multiply_factors(3);
+	expfunc();
+
+	p1 = pop();
+
+	push(imaginaryunit);
+	push(imaginaryunit);
+	push(p1);
+	multiply();
+	subtract();
+
+	push(p1);
+	push_integer(1);
+	add();
+
+	divide();
 }
 function
 eval_exptanh(p1)
@@ -6707,6 +6816,23 @@ eval_exptanh(p1)
 	evalf();
 	exptanh();
 }
+
+function
+exptanh()
+{
+	var p1;
+	push_integer(2);
+	multiply();
+	expfunc();
+	p1 = pop();
+	push(p1);
+	push_integer(1);
+	subtract();
+	push(p1);
+	push_integer(1);
+	add();
+	divide();
+}
 function
 eval_factorial(p1)
 {
@@ -6714,12 +6840,133 @@ eval_factorial(p1)
 	evalf();
 	factorial();
 }
+
+function
+factorial()
+{
+	var i, m, n, p1;
+
+	p1 = pop();
+
+	if (isposint(p1)) {
+		push(p1);
+		n = pop_integer();
+		push_integer(1);
+		for (i = 2; i <= n; i++) {
+			push_integer(i);
+			multiply();
+		}
+		return;
+	}
+
+	if (isdouble(p1) && p1.d >= 0 && Math.floor(p1.d) == p1.d) {
+		push(p1);
+		n = pop_integer();
+		m = 1.0;
+		for (i = 2; i <= n; i++)
+			m *= i;
+		push_double(m);
+		return;
+	}
+
+	push_symbol(FACTORIAL);
+	push(p1);
+	list(2);
+}
 function
 eval_float(p1)
 {
 	push(cadr(p1));
 	evalf();
 	floatfunc();
+}
+
+function
+floatfunc()
+{
+	floatfunc_subst();
+	evalf();
+	floatfunc_subst(); // in case pi popped up
+	evalf();
+}
+
+function
+floatfunc_subst()
+{
+	var a, b, h, i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			floatfunc_subst();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (p1 == symbol(PI)) {
+		push_double(Math.PI);
+		return;
+	}
+
+	if (p1 == symbol(EXP1)) {
+		push_double(Math.E);
+		return;
+	}
+
+	if (isrational(p1)) {
+		a = bignum_float(p1.a);
+		b = bignum_float(p1.b);
+		if (isnegativenumber(p1))
+			a = -a;
+		push_double(a / b);
+		return;
+	}
+
+	// don't float exponential
+
+	if (car(p1) == symbol(POWER) && cadr(p1) == symbol(EXP1)) {
+		push_symbol(POWER);
+		push_symbol(EXP1);
+		push(caddr(p1));
+		floatfunc_subst();
+		list(3);
+		return;
+	}
+
+	// don't float imaginary unit, but multiply it by 1.0
+
+	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
+		push_symbol(MULTIPLY);
+		push_double(1.0);
+		push_symbol(POWER);
+		push(cadr(p1));
+		push(caddr(p1));
+		floatfunc_subst();
+		list(3);
+		list(3);
+		return;
+	}
+
+	if (iscons(p1)) {
+		h = stack.length;
+		push(car(p1));
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			floatfunc_subst();
+			p1 = cdr(p1);
+		}
+		list(stack.length - h);
+		return;
+	}
+
+	push(p1);
 }
 function
 eval_floor(p1)
@@ -10224,120 +10471,6 @@ expand_sum_factors(h)
 
 	add_terms(stack.length - h);
 }
-function
-expcos()
-{
-	var p1 = pop();
-
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	expfunc();
-	push_rational(1, 2);
-	multiply();
-
-	push(imaginaryunit);
-	negate();
-	push(p1);
-	multiply();
-	expfunc();
-	push_rational(1, 2);
-	multiply();
-
-	add();
-}
-function
-expcosh()
-{
-	var p1 = pop();
-	push(p1);
-	expfunc();
-	push(p1);
-	negate();
-	expfunc();
-	add();
-	push_rational(1, 2);
-	multiply();
-}
-function
-expsin()
-{
-	var p1 = pop();
-
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	expfunc();
-	push(imaginaryunit);
-	divide();
-	push_rational(1, 2);
-	multiply();
-
-	push(imaginaryunit);
-	negate();
-	push(p1);
-	multiply();
-	expfunc();
-	push(imaginaryunit);
-	divide();
-	push_rational(1, 2);
-	multiply();
-
-	subtract();
-}
-function
-expsinh()
-{
-	var p1 = pop();
-	push(p1);
-	expfunc();
-	push(p1);
-	negate();
-	expfunc();
-	subtract();
-	push_rational(1, 2);
-	multiply();
-}
-function
-exptan()
-{
-	var p1;
-
-	push_integer(2);
-	push(imaginaryunit);
-	multiply_factors(3);
-	expfunc();
-
-	p1 = pop();
-
-	push(imaginaryunit);
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	subtract();
-
-	push(p1);
-	push_integer(1);
-	add();
-
-	divide();
-}
-function
-exptanh()
-{
-	var p1;
-	push_integer(2);
-	multiply();
-	expfunc();
-	p1 = pop();
-	push(p1);
-	push_integer(1);
-	subtract();
-	push(p1);
-	push_integer(1);
-	add();
-	divide();
-}
 // N is bignum, M is rational
 
 function
@@ -11094,37 +11227,6 @@ factor_int(n)
 	push_integer(1);
 }
 function
-factorial()
-{
-	var i, m, n, p;
-
-	p = pop();
-
-	if (isposint(p)) {
-		push(p);
-		n = pop_integer();
-		push_integer(1);
-		for (i = 2; i <= n; i++) {
-			push_integer(i);
-			multiply();
-		}
-		return;
-	}
-
-	if (isdouble(p) && p.d >= 0 && Math.floor(p.d) == p.d) {
-		n = p.d;
-		m = 1;
-		for (i = 2; i <= n; i++)
-			m *= i;
-		push_double(m);
-		return;
-	}
-
-	push_symbol(FACTORIAL);
-	push(p);
-	list(2);
-}
-function
 find_denominator(p)
 {
 	var q;
@@ -11201,93 +11303,6 @@ flatten_terms(h)
 			}
 		}
 	}
-}
-function
-floatfunc()
-{
-	floatfunc_subst();
-	evalf();
-	floatfunc_subst(); // in case pi popped up
-	evalf();
-}
-
-function
-floatfunc_subst()
-{
-	var a, b, h, i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			floatfunc_subst();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (p1 == symbol(PI)) {
-		push_double(Math.PI);
-		return;
-	}
-
-	if (p1 == symbol(EXP1)) {
-		push_double(Math.E);
-		return;
-	}
-
-	if (isrational(p1)) {
-		a = bignum_float(p1.a);
-		b = bignum_float(p1.b);
-		if (isnegativenumber(p1))
-			a = -a;
-		push_double(a / b);
-		return;
-	}
-
-	// don't float exponential
-
-	if (car(p1) == symbol(POWER) && cadr(p1) == symbol(EXP1)) {
-		push_symbol(POWER);
-		push_symbol(EXP1);
-		push(caddr(p1));
-		floatfunc_subst();
-		list(3);
-		return;
-	}
-
-	// don't float imaginary unit, but multiply it by 1.0
-
-	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
-		push_symbol(MULTIPLY);
-		push_double(1);
-		push_symbol(POWER);
-		push(cadr(p1));
-		push(caddr(p1));
-		floatfunc_subst();
-		list(3);
-		list(3);
-		return;
-	}
-
-	if (iscons(p1)) {
-		h = stack.length;
-		push(car(p1));
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			floatfunc_subst();
-			p1 = cdr(p1);
-		}
-		list(stack.length - h);
-		return;
-	}
-
-	push(p1);
 }
 function
 fmtnum(n)

@@ -98,12 +98,18 @@ push_double(double d)
 double
 pop_double(void)
 {
+	double a, b;
 	struct atom *p;
 
 	p = pop();
 
-	if (isrational(p))
-		return convert_rational_to_double(p);
+	if (isrational(p)) {
+		a = bignum_float(p->u.q.a);
+		b = bignum_float(p->u.q.b);
+		if (isnegativenumber(p))
+			a = -a;
+		return a / b;
+	}
 
 	if (isdouble(p))
 		return p->u.d;
@@ -198,119 +204,6 @@ cmp_rationals(struct atom *a, struct atom *b)
 	return t;
 }
 
-double
-convert_rational_to_double(struct atom *p)
-{
-	int i, n;
-	double a = 0.0, b = 0.0;
-
-	if (iszero(p))
-		return 0.0;
-
-	// numerator
-
-	n = MLENGTH(p->u.q.a);
-
-	for (i = 0; i < n; i++)
-		a += scalbn((double) p->u.q.a[i], 32 * i);
-
-	// denominator
-
-	n = MLENGTH(p->u.q.b);
-
-	for (i = 0; i < n; i++)
-		b += scalbn((double) p->u.q.b[i], 32 * i);
-
-	if (p->sign == MMINUS)
-		a = -a;
-
-	return a / b;
-}
-
-void
-convert_double_to_rational(double d)
-{
-	int n;
-	double x, y;
-	uint32_t *a;
-	uint64_t u;
-
-	// do this first, 0.0 fails isnormal()
-
-	if (d == 0.0) {
-		push_integer(0);
-		return;
-	}
-
-	if (!isnormal(d))
-		stopf("floating point value is nan or inf, cannot convert to rational number");
-
-	x = fabs(d);
-
-	// integer?
-
-	if (floor(x) == x) {
-		x = frexp(x, &n);
-		u = (uint64_t) scalbn(x, 64);
-		a = mnew(2);
-		a[0] = (uint32_t) u;
-		a[1] = (uint32_t) (u >> 32);
-		push_bignum(d < 0.0 ? MMINUS : MPLUS, a, mint(1));
-		push_integer(2);
-		push_integer(n - 64);
-		power();
-		multiply();
-		return;
-	}
-
-	// not integer
-
-	y = floor(log10(x)) + 1.0;
-	x = x / pow(10.0, y); // scale x to (0,1)
-	best_rational_approximation(x);
-	push_integer(10);
-	push_integer((int) y);
-	power();
-	multiply();
-	if (d < 0.0)
-		negate();
-}
-
-#define BRAN 1000
-
-void
-best_rational_approximation(double x)
-{
-	int a = 0, b = 1, c = 1, d = 1;
-	double m;
-	for (;;) {
-		m = (double) (a + c) / (double) (b + d);
-		if (m == x)
-			break;
-		if (x < m) {
-			c += a;
-			d += b;
-			if (d > BRAN) {
-				push_rational(a, b);
-				return;
-			}
-		} else {
-			a += c;
-			b += d;
-			if (b > BRAN) {
-				push_rational(c, d);
-				return;
-			}
-		}
-	}
-	if (b + d <= BRAN)
-		push_rational(a + c, b + d);
-	else if (d > b)
-		push_rational(c, d); // largest denominator is most accurate
-	else
-		push_rational(a, b);
-}
-
 void
 bignum_scan_integer(char *s)
 {
@@ -328,14 +221,16 @@ bignum_scan_integer(char *s)
 	push_bignum(sign, a, mint(1));
 }
 
-void
-bignum_float(void)
+double
+bignum_float(uint32_t *p)
 {
+	int i, n;
 	double d;
-	struct atom *p;
-	p = pop();
-	d = convert_rational_to_double(p);
-	push_double(d);
+	n = MLENGTH(p);
+	d = 0.0;
+	for (i = 0; i < n; i++)
+		d += scalbn((double) p[i], 32 * i);
+	return d;
 }
 
 void
