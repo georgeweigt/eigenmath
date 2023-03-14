@@ -53,22 +53,25 @@ mag_nib(void)
 		return;
 	}
 
+	// -1 to a power
+
 	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
-		// -1 to a power
 		push_integer(1);
 		return;
 	}
 
+	// exponential
+
 	if (car(p1) == symbol(POWER) && cadr(p1) == symbol(EXP1)) {
-		// exponential
 		push(caddr(p1));
 		real();
 		expfunc();
 		return;
 	}
 
+	// product
+
 	if (car(p1) == symbol(MULTIPLY)) {
-		// product
 		p1 = cdr(p1);
 		h = tos;
 		while (iscons(p1)) {
@@ -80,8 +83,9 @@ mag_nib(void)
 		return;
 	}
 
+	// sum
+
 	if (car(p1) == symbol(ADD)) {
-		// sum
 		push(p1);
 		rect(); // convert polar terms, if any
 		p1 = pop();

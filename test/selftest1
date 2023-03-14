@@ -5325,6 +5325,11 @@ check(or(F,F,F) == 0)
 
 check(not(T) == 0)
 check(not(F) == 1)
+"Testing mag"
+
+clear
+
+check(infixform(mag((a + i b) / (c + i d))) == "(a^2 + b^2)^(1/2) / (c^2 + d^2)^(1/2)")
 "Testing minor"
 
 clear

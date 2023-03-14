@@ -561,13 +561,13 @@ void erfcfunc(void);
 void eval(void);
 void eval_nib(void);
 void eval_user_symbol(struct atom *p1);
-void eval_eval(struct atom *p1);
 void eval_nil(struct atom *p1);
 void eval_number(struct atom *p1);
 void eval_quote(struct atom *p1);
 void eval_sqrt(struct atom *p1);
 void eval_stop(struct atom *p1);
 void eval_subst(struct atom *p1);
+void eval_eval(struct atom *p1);
 void eval_exp(struct atom *p1);
 void expfunc(void);
 void eval_expcos(struct atom *p1);
@@ -6396,25 +6396,6 @@ eval_user_symbol(struct atom *p1)
 	}
 }
 
-// for example, eval(f,x,2)
-
-void
-eval_eval(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	p1 = cddr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		eval();
-		push(cadr(p1));
-		eval();
-		subst();
-		p1 = cddr(p1);
-	}
-	eval();
-}
-
 void
 eval_nil(struct atom *p1)
 {
@@ -6469,6 +6450,22 @@ eval_subst(struct atom *p1)
 	eval();
 	subst();
 	eval(); // normalize
+}
+void
+eval_eval(struct atom *p1)
+{
+	push(cadr(p1));
+	eval();
+	p1 = cddr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		eval();
+		push(cadr(p1));
+		eval();
+		subst();
+		p1 = cddr(p1);
+	}
+	eval();
 }
 void
 eval_exp(struct atom *p1)
@@ -10072,22 +10069,25 @@ mag_nib(void)
 		return;
 	}
 
+	// -1 to a power
+
 	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
-		// -1 to a power
 		push_integer(1);
 		return;
 	}
 
+	// exponential
+
 	if (car(p1) == symbol(POWER) && cadr(p1) == symbol(EXP1)) {
-		// exponential
 		push(caddr(p1));
 		real();
 		expfunc();
 		return;
 	}
 
+	// product
+
 	if (car(p1) == symbol(MULTIPLY)) {
-		// product
 		p1 = cdr(p1);
 		h = tos;
 		while (iscons(p1)) {
@@ -10099,8 +10099,9 @@ mag_nib(void)
 		return;
 	}
 
+	// sum
+
 	if (car(p1) == symbol(ADD)) {
-		// sum
 		push(p1);
 		rect(); // convert polar terms, if any
 		p1 = pop();

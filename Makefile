@@ -55,6 +55,7 @@ diffs:
 	-diff -u src/eigenvec.c js/src/eval_eigenvec.js >> diffs
 	-diff -u src/erf.c js/src/eval_erf.js >> diffs
 	-diff -u src/erfc.c js/src/eval_erfc.js >> diffs
+	-diff -u src/eval_eval.c js/src/eval_eval.js >> diffs
 	-diff -u src/exp.c js/src/eval_exp.js >> diffs
 	-diff -u src/expcos.c js/src/eval_expcos.js >> diffs
 	-diff -u src/expcosh.c js/src/eval_expcosh.js >> diffs
@@ -73,5 +74,6 @@ diffs:
 	-diff -u src/inv.c js/src/eval_inv.js >> diffs
 	-diff -u src/kronecker.c js/src/eval_kronecker.js >> diffs
 	-diff -u src/log.c js/src/eval_log.js >> diffs
+	-diff -u src/mag.c js/src/eval_mag.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs
