@@ -732,6 +732,7 @@ void negate_noexpand(void);
 void reciprocate(void);
 void divide(void);
 void eval_noexpand(struct atom *p1);
+void eval_not(struct atom *p1);
 void eval_nroots(struct atom *p1);
 void nroots(void);
 void nfindroot(double cr[], double ci[], int n, double *par, double *pai);
@@ -890,7 +891,6 @@ void eval_testge(struct atom *p1);
 void eval_testgt(struct atom *p1);
 void eval_testle(struct atom *p1);
 void eval_testlt(struct atom *p1);
-void eval_not(struct atom *p1);
 int cmp_args(struct atom *p1);
 void evalp(void);
 void eval_transpose(struct atom *p1);
@@ -11597,7 +11597,6 @@ eval_minor(struct atom *p1)
 
 	det();
 }
-
 void
 eval_minormatrix(struct atom *p1)
 {
@@ -11763,7 +11762,10 @@ mod_rationals(struct atom *p1, struct atom *p2)
 void
 mod_integers(struct atom *p1, struct atom *p2)
 {
-	push_bignum(p1->sign, mmod(p1->u.q.a, p2->u.q.a), mint(1));
+	uint32_t *a, *b;
+	a = mmod(p1->u.q.a, p2->u.q.a);
+	b = mint(1);
+	push_bignum(p1->sign, a, b);
 }
 void
 eval_multiply(struct atom *p1)
@@ -12446,6 +12448,17 @@ eval_noexpand(struct atom *p1)
 	eval();
 
 	expanding = t;
+}
+void
+eval_not(struct atom *p1)
+{
+	push(cadr(p1));
+	evalp();
+	p1 = pop();
+	if (iszero(p1))
+		push_integer(1);
+	else
+		push_integer(0);
 }
 #define DELTA 1e-6
 #define EPSILON 1e-9
@@ -18262,18 +18275,6 @@ void
 eval_testlt(struct atom *p1)
 {
 	if (cmp_args(p1) < 0)
-		push_integer(1);
-	else
-		push_integer(0);
-}
-
-void
-eval_not(struct atom *p1)
-{
-	push(cadr(p1));
-	evalp();
-	p1 = pop();
-	if (iszero(p1))
 		push_integer(1);
 	else
 		push_integer(0);

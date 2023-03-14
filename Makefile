@@ -75,5 +75,11 @@ diffs:
 	-diff -u src/kronecker.c js/src/eval_kronecker.js >> diffs
 	-diff -u src/log.c js/src/eval_log.js >> diffs
 	-diff -u src/mag.c js/src/eval_mag.js >> diffs
+	-diff -u src/minor.c js/src/eval_minor.js >> diffs
+	-diff -u src/minormatrix.c js/src/eval_minormatrix.js >> diffs
+	-diff -u src/mod.c js/src/eval_mod.js >> diffs
+	-diff -u src/noexpand.c js/src/eval_noexpand.js >> diffs
+	-diff -u src/not.c js/src/eval_not.js >> diffs
+	-diff -u src/nroots.c js/src/eval_nroots.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs

@@ -38,17 +38,7 @@ modfunc()
 	}
 
 	if (isrational(p1) && isrational(p2)) {
-		push(p1);
-		push(p1);
-		push(p2);
-		divide();
-		absfunc();
-		floorfunc();
-		push(p2);
-		multiply();
-		if (p1.sign == p2.sign)
-			negate(); // p1 and p2 have same sign
-		add();
+		mod_rationals(p1, p2);
 		return;
 	}
 
@@ -59,4 +49,33 @@ modfunc()
 	d2 = pop_double();
 
 	push_double(d1 % d2);
+}
+
+function
+mod_rationals(p1, p2)
+{
+	if (isinteger(p1) && isinteger(p2)) {
+		mod_integers(p1, p2);
+		return;
+	}
+	push(p1);
+	push(p1);
+	push(p2);
+	divide();
+	absfunc();
+	floorfunc();
+	push(p2);
+	multiply();
+	if (p1.sign == p2.sign)
+		negate();
+	add();
+}
+
+function
+mod_integers(p1, p2)
+{
+	var a, b;
+	a = bignum_mod(p1.a, p2.a);
+	b = bignum_int(1);
+	push_bignum(p1.sign, a, b);
 }

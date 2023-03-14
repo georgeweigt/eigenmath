@@ -1,24 +1,25 @@
-function
-eval_minormatrix(p1)
+void
+eval_minormatrix(struct atom *p1)
 {
-	var i, j, p2;
+	int i, j;
+	struct atom *p2;
 
 	push(cadr(p1));
-	evalf();
+	eval();
 	p2 = pop();
 
 	push(caddr(p1));
-	evalf();
+	eval();
 	i = pop_integer();
 
 	push(cadddr(p1));
-	evalf();
+	eval();
 	j = pop_integer();
 
-	if (!istensor(p2) || p2.dim.length != 2)
+	if (!istensor(p2) || p2->u.tensor->ndim != 2)
 		stopf("minormatrix");
 
-	if (i < 1 || i > p2.dim[0] || j < 0 || j > p2.dim[1])
+	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
 		stopf("minormatrix");
 
 	push(p2);
@@ -26,27 +27,30 @@ eval_minormatrix(p1)
 	minormatrix(i, j);
 }
 
-function
-minormatrix(row, col)
+void
+minormatrix(int row, int col)
 {
-	var i, j, k, m, n, p1, p2;
+	int i, j, k, m, n;
+	struct atom *p1, *p2;
+
+	p2 = symbol(NIL); // silence compiler
 
 	p1 = pop();
 
-	n = p1.dim[0];
-	m = p1.dim[1];
+	n = p1->u.tensor->dim[0];
+	m = p1->u.tensor->dim[1];
 
 	if (n == 2 && m == 2) {
 		if (row == 1) {
 			if (col == 1)
-				push(p1.elem[3]);
+				push(p1->u.tensor->elem[3]);
 			else
-				push(p1.elem[2]);
+				push(p1->u.tensor->elem[2]);
 		} else {
 			if (col == 1)
-				push(p1.elem[1]);
+				push(p1->u.tensor->elem[1]);
 			else
-				push(p1.elem[0]);
+				push(p1->u.tensor->elem[0]);
 		}
 		return;
 	}
@@ -75,7 +79,7 @@ minormatrix(row, col)
 			if (j == col)
 				continue;
 
-			p2.elem[k++] = p1.elem[m * i + j];
+			p2->u.tensor->elem[k++] = p1->u.tensor->elem[m * i + j];
 		}
 	}
 

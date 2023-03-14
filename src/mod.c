@@ -76,5 +76,8 @@ mod_rationals(struct atom *p1, struct atom *p2)
 void
 mod_integers(struct atom *p1, struct atom *p2)
 {
-	push_bignum(p1->sign, mmod(p1->u.q.a, p2->u.q.a), mint(1));
+	uint32_t *a, *b;
+	a = mmod(p1->u.q.a, p2->u.q.a);
+	b = mint(1);
+	push_bignum(p1->sign, a, b);
 }
