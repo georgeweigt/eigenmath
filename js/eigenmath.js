@@ -5567,7 +5567,7 @@ denominator()
 function
 eval_derivative(p1)
 {
-	var i, n, flag, X, Y;
+	var flag, i, n, X, Y;
 
 	push(cadr(p1));
 	evalf();
@@ -5865,6 +5865,18 @@ dlog(p1, p2)
 	divide();
 }
 
+//	derivative of derivative
+//
+//	example: d(d(f(x,y),y),x)
+//
+//	p1 = d(f(x,y),y)
+//
+//	p2 = x
+//
+//	cadr(p1) = f(x,y)
+//
+//	caddr(p1) = y
+
 function
 dd(p1, p2)
 {
@@ -6137,7 +6149,7 @@ derfc(p1, p2)
 function
 d_tensor_tensor(p1, p2)
 {
-	var i, j, m, n, p3;
+	var i, j, k, m, n, p3;
 
 	n = p1.elem.length;
 	m = p2.elem.length;
@@ -6155,11 +6167,17 @@ d_tensor_tensor(p1, p2)
 
 	// dim info
 
-	for (i = 0; i < p1.dim.length; i++)
-		p3.dim[i] = p1.dim[i];
+	k = 0;
 
-	for (j = 0; j < p2.dim.length; j++)
-		p3.dim[i + j] = p2.dim[j];
+	n = p1.dim.length;
+
+	for (i = 0; i < n; i++)
+		p3.dim[k++] = p1.dim[i];
+
+	n = p2.dim.length;
+
+	for (i = 0; i < n; i++)
+		p3.dim[k++] = p2.dim[i];
 
 	push(p3);
 }

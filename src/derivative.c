@@ -2,9 +2,7 @@ void
 eval_derivative(struct atom *p1)
 {
 	int flag, i, n;
-	struct atom *X, *Y;
-
-	Y = symbol(NIL); // silence compiler
+	struct atom *X, *Y = NULL; // silence compiler
 
 	push(cadr(p1));
 	eval();
@@ -586,7 +584,7 @@ derfc(struct atom *p1, struct atom *p2)
 void
 d_tensor_tensor(struct atom *p1, struct atom *p2)
 {
-	int i, j, m, n;
+	int i, j, k, m, n;
 	struct atom *p3;
 
 	if (p1->u.tensor->ndim + p2->u.tensor->ndim > MAXDIM)
@@ -610,11 +608,17 @@ d_tensor_tensor(struct atom *p1, struct atom *p2)
 
 	p3->u.tensor->ndim = p1->u.tensor->ndim + p2->u.tensor->ndim;
 
-	for (i = 0; i < p1->u.tensor->ndim; i++)
-		p3->u.tensor->dim[i] = p1->u.tensor->dim[i];
+	k = 0;
 
-	for (j = 0; j < p2->u.tensor->ndim; j++)
-		p3->u.tensor->dim[i + j] = p2->u.tensor->dim[j];
+	n = p1->u.tensor->ndim;
+
+	for (i = 0; i < n; i++)
+		p3->u.tensor->dim[k++] = p1->u.tensor->dim[i];
+
+	n = p2->u.tensor->ndim;
+
+	for (i = 0; i < n; i++)
+		p3->u.tensor->dim[k++] = p2->u.tensor->dim[i];
 
 	push(p3);
 }
