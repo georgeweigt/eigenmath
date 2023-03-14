@@ -81,5 +81,8 @@ diffs:
 	-diff -u src/noexpand.c js/src/eval_noexpand.js >> diffs
 	-diff -u src/not.c js/src/eval_not.js >> diffs
 	-diff -u src/nroots.c js/src/eval_nroots.js >> diffs
+	-diff -u src/numerator.c js/src/eval_numerator.js >> diffs
+	-diff -u src/or.c js/src/eval_or.js >> diffs
+	-diff -u src/outer.c js/src/eval_outer.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs

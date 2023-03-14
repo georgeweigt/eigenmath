@@ -9456,6 +9456,27 @@ eval_numerator(p1)
 	evalf();
 	numerator();
 }
+
+function
+numerator()
+{
+	var p1;
+
+	p1 = pop();
+
+	if (isrational(p1)) {
+		push_bignum(p1.sign, bignum_copy(p1.a), bignum_int(1));
+		return;
+	}
+
+	while (divisor(p1)) {
+		push(p1);
+		cancel_factor();
+		p1 = pop();
+	}
+
+	push(p1);
+}
 function
 eval_or(p1)
 {
@@ -9485,6 +9506,53 @@ eval_outer(p1)
 		outer();
 		p1 = cdr(p1);
 	}
+}
+
+function
+outer()
+{
+	var i, j, k, n, ncol, nrow, p1, p2, p3;
+
+	p2 = pop();
+	p1 = pop();
+
+	if (!istensor(p1) || !istensor(p2)) {
+		push(p1);
+		push(p2);
+		multiply();
+		return;
+	}
+
+	// sync diffs
+
+	nrow = p1.elem.length;
+	ncol = p2.elem.length;
+
+	p3 = alloc_tensor();
+
+	for (i = 0; i < nrow; i++)
+		for (j = 0; j < ncol; j++) {
+			push(p1.elem[i]);
+			push(p2.elem[j]);
+			multiply();
+			p3.elem[i * ncol + j] = pop();
+		}
+
+	// dim info
+
+	k = 0;
+
+	n = p1.dim.length;
+
+	for (i = 0; i < n; i++)
+		p3.dim[k++] = p1.dim[i];
+
+	n = p2.dim.length
+
+	for (i = 0; i < n; i++)
+		p3.dim[k++] = p2.dim[i];
+
+	push(p3);
 }
 function
 eval_polar(p1)
@@ -13684,24 +13752,6 @@ normalize_power_factors(h)
 		}
 	}
 }
-function
-numerator()
-{
-	var p = pop();
-
-	if (isrational(p)) {
-		push_bignum(p.sign, bignum_copy(p.a), bignum_int(1));
-		return;
-	}
-
-	while (divisor(p)) {
-		push(p);
-		cancel_factor();
-		p = pop();
-	}
-
-	push(p);
-}
 //  1   number
 //  2   number to power (root)
 //  3   -1 to power (imaginary)
@@ -13739,67 +13789,6 @@ order_factor(p)
 	}
 
 	return 4;
-}
-function
-outer()
-{
-	var i, j, k, n, ncol, nrow, p1, p2, p3;
-
-	p2 = pop();
-	p1 = pop();
-
-	if (!istensor(p1) && !istensor(p2)) {
-		push(p1);
-		push(p2);
-		multiply();
-		return;
-	}
-
-	if (istensor(p1) && !istensor(p2)) {
-		p3 = p1;
-		p1 = p2;
-		p2 = p3;
-	}
-
-	if (!istensor(p1) && istensor(p2)) {
-		p2 = copy_tensor(p2);
-		n = p2.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1);
-			push(p2.elem[i]);
-			multiply();
-			p2.elem[i] = pop();
-		}
-		push(p2);
-		return;
-	}
-
-	p3 = alloc_tensor();
-
-	nrow = p1.elem.length;
-	ncol = p2.elem.length;
-
-	for (i = 0; i < nrow; i++)
-		for (j = 0; j < ncol; j++) {
-			push(p1.elem[i]);
-			push(p2.elem[j]);
-			multiply();
-			p3.elem[i * ncol + j] = pop();
-		}
-
-	k = 0;
-
-	n = p1.dim.length;
-
-	for (i = 0; i < n; i++)
-		p3.dim[k++] = p1.dim[i];
-
-	n = p2.dim.length
-
-	for (i = 0; i < n; i++)
-		p3.dim[k++] = p2.dim[i];
-
-	push(p3);
 }
 function
 partition_term()
