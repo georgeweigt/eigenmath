@@ -31,6 +31,7 @@ const EIGENVEC = "eigenvec";
 const ERF = "erf";
 const ERFC = "erfc";
 const EVAL = "eval";
+const EXIT = "exit";
 const EXP = "exp";
 const EXPCOS = "expcos";
 const EXPCOSH = "expcosh";

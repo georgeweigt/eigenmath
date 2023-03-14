@@ -157,20 +157,6 @@ copy_tensor(struct atom *p1)
 }
 
 void
-eval_rank(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-
-	p1 = pop();
-
-	if (istensor(p1))
-		push_integer(p1->u.tensor->ndim);
-	else
-		push_integer(0);
-}
-
-void
 eval_unit(struct atom *p1)
 {
 	int i, n;

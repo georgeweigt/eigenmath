@@ -51,6 +51,7 @@ var symtab = {
 "erf":		{printname:ERF,		func:eval_erf},
 "erfc":		{printname:ERFC,	func:eval_erfc},
 "eval":		{printname:EVAL,	func:eval_eval},
+"exit":		{printname:EXIT,	func:eval_exit},
 "exp":		{printname:EXP,		func:eval_exp},
 "expcos":	{printname:EXPCOS,	func:eval_expcos},
 "expcosh":	{printname:EXPCOSH,	func:eval_expcosh},

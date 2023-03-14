@@ -563,7 +563,6 @@ void eval_nib(void);
 void eval_user_symbol(struct atom *p1);
 void eval_nil(struct atom *p1);
 void eval_number(struct atom *p1);
-void eval_quote(struct atom *p1);
 void eval_stop(struct atom *p1);
 void eval_subst(struct atom *p1);
 void eval_eval(struct atom *p1);
@@ -776,6 +775,8 @@ void eval_print(struct atom *p1);
 void print_result(void);
 int annotate_result(struct atom *p1, struct atom *p2);
 void eval_product(struct atom *p1);
+void eval_quote(struct atom *p1);
+void eval_rank(struct atom *p1);
 void eval_rationalize(struct atom *p1);
 void rationalize(void);
 char * read_file(char *filename);
@@ -881,7 +882,6 @@ void promote_tensor(void);
 int compatible_dimensions(struct atom *p, struct atom *q);
 int compare_tensors(struct atom *p1, struct atom *p2);
 struct atom * copy_tensor(struct atom *p1);
-void eval_rank(struct atom *p1);
 void eval_unit(struct atom *p1);
 void eval_zero(struct atom *p1);
 void eval_test(struct atom *p1);
@@ -6419,12 +6419,6 @@ eval_number(struct atom *p1)
 		push_integer(1);
 	else
 		push_integer(0);
-}
-
-void
-eval_quote(struct atom *p1)
-{
-	push(cadr(p1));
 }
 
 void
@@ -14360,7 +14354,6 @@ void
 eval_print(struct atom *p1)
 {
 	p1 = cdr(p1);
-
 	while (iscons(p1)) {
 		push(car(p1));
 		push(car(p1));
@@ -14368,7 +14361,6 @@ eval_print(struct atom *p1)
 		print_result();
 		p1 = cdr(p1);
 	}
-
 	push_symbol(NIL);
 }
 
@@ -14398,7 +14390,7 @@ print_result(void)
 		print_infixform(p2);
 }
 
-// if a user symbol A was evaluated, print A = result
+// returns 1 if result should be annotated
 
 int
 annotate_result(struct atom *p1, struct atom *p2)
@@ -14475,6 +14467,22 @@ eval_product(struct atom *p1)
 	restore_symbol(p2);
 }
 void
+eval_quote(struct atom *p1)
+{
+	push(cadr(p1)); // not evaluated
+}
+void
+eval_rank(struct atom *p1)
+{
+	push(cadr(p1));
+	eval();
+	p1 = pop();
+	if (istensor(p1))
+		push_integer(p1->u.tensor->ndim);
+	else
+		push_integer(0);
+}
+void
 eval_rationalize(struct atom *p1)
 {
 	push(cadr(p1));
@@ -14491,6 +14499,7 @@ rationalize(void)
 	p1 = pop();
 
 	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
@@ -18017,20 +18026,6 @@ copy_tensor(struct atom *p1)
 		p2->u.tensor->elem[i] = p1->u.tensor->elem[i];
 
 	return p2;
-}
-
-void
-eval_rank(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-
-	p1 = pop();
-
-	if (istensor(p1))
-		push_integer(p1->u.tensor->ndim);
-	else
-		push_integer(0);
 }
 
 void

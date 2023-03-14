@@ -191,23 +191,6 @@ alloc_vector(n)
 	return p;
 }
 function
-annotate_result(p1, p2)
-{
-	if (!isusersymbol(p1))
-		return 0;
-
-	if (p1 == p2)
-		return 0; // A = A
-
-	if (p1 == symbol(I_LOWER) && isimaginaryunit(p2))
-		return 0;
-
-	if (p1 == symbol(J_LOWER) && isimaginaryunit(p2))
-		return 0;
-
-	return 1;
-}
-function
 any_radical_factors(h)
 {
 	var i, n;
@@ -1539,6 +1522,7 @@ const EIGENVEC = "eigenvec";
 const ERF = "erf";
 const ERFC = "erfc";
 const EVAL = "eval";
+const EXIT = "exit";
 const EXP = "exp";
 const EXPCOS = "expcos";
 const EXPCOSH = "expcosh";
@@ -6669,6 +6653,11 @@ eval_eval(p1)
 	evalf();
 }
 function
+eval_exit()
+{
+	push_symbol(NIL);
+}
+function
 eval_exp(p1)
 {
 	push(cadr(p1));
@@ -9860,6 +9849,52 @@ eval_print(p1)
 	}
 	push_symbol(NIL);
 }
+
+function
+print_result()
+{
+	var p1, p2;
+
+	p2 = pop(); // result
+	p1 = pop(); // input
+
+	if (p2 == symbol(NIL))
+		return;
+
+	if (annotate_result(p1, p2)) {
+		push_symbol(SETQ);
+		push(p1);
+		push(p2);
+		list(3);
+		p2 = pop();
+	}
+
+	if (iszero(get_binding(symbol(TTY)))) {
+		push(p2);
+		display();
+	} else
+		print_infixform(p2);
+}
+
+// returns 1 if result should be annotated
+
+function
+annotate_result(p1, p2)
+{
+	if (!isusersymbol(p1))
+		return 0;
+
+	if (p1 == p2)
+		return 0; // A = A
+
+	if (p1 == symbol(I_LOWER) && isimaginaryunit(p2))
+		return 0;
+
+	if (p1 == symbol(J_LOWER) && isimaginaryunit(p2))
+		return 0;
+
+	return 1;
+}
 function
 eval_product(p1)
 {
@@ -9927,7 +9962,6 @@ eval_rank(p1)
 	push(cadr(p1));
 	evalf();
 	p1 = pop();
-
 	if (istensor(p1))
 		push_integer(p1.dim.length);
 	else
@@ -9940,6 +9974,45 @@ eval_rationalize(p1)
 	evalf();
 	rationalize();
 }
+
+function
+rationalize()
+{
+	var i, n, p0, p1, p2;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			rationalize();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	p2 = one;
+
+	while (divisor(p1)) {
+		p0 = pop();
+		push(p0);
+		push(p1);
+		cancel_factor();
+		p1 = pop();
+		push(p0);
+		push(p2);
+		multiply_noexpand();
+		p2 = pop();
+	}
+
+	push(p1);
+	push(p2);
+	reciprocate();
+	multiply_noexpand();
+}
 function
 eval_real(p1)
 {
@@ -9947,12 +10020,132 @@ eval_real(p1)
 	evalf();
 	real();
 }
+
+function
+real()
+{
+	var i, n, p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			real();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	rect();
+	p1 = pop();
+	push(p1);
+	push(p1);
+	conjfunc();
+	add();
+	push_rational(1, 2);
+	multiply();
+}
 function
 eval_rect(p1)
 {
 	push(cadr(p1));
 	evalf();
 	rect();
+}
+
+function
+rect()
+{
+	var h, i, n, p1, p2, BASE, EXPO;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			rect();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		p1 = cdr(p1);
+		h = stack.length;
+		while (iscons(p1)) {
+			push(car(p1));
+			rect();
+			p1 = cdr(p1);
+		}
+		add_terms(stack.length - h);
+		return;
+	}
+
+	if (car(p1) == symbol(MULTIPLY)) {
+		p1 = cdr(p1);
+		h = stack.length;
+		while (iscons(p1)) {
+			push(car(p1));
+			rect();
+			p1 = cdr(p1);
+		}
+		multiply_factors(stack.length - h);
+		return;
+	}
+
+	if (car(p1) != symbol(POWER)) {
+		push(p1);
+		return;
+	}
+
+	BASE = cadr(p1);
+	EXPO = caddr(p1);
+
+	// handle sum in exponent
+
+	if (car(EXPO) == symbol(ADD)) {
+		p1 = cdr(EXPO);
+		h = stack.length;
+		while (iscons(p1)) {
+			push_symbol(POWER);
+			push(BASE);
+			push(car(p1));
+			list(3);
+			rect();
+			p1 = cdr(p1);
+		}
+		multiply_factors(stack.length - h);
+		return;
+	}
+
+	// return mag(p1) * cos(arg(p1)) + i sin(arg(p1)))
+
+	push(p1);
+	mag();
+
+	push(p1);
+	arg();
+	p2 = pop();
+
+	push(p2);
+	cosfunc();
+
+	push(imaginaryunit);
+	push(p2);
+	sinfunc();
+	multiply();
+
+	add();
+
+	multiply();
 }
 function
 eval_roots(p1)
@@ -14974,31 +15167,6 @@ print_infixform(p)
 	infixform_write("\n");
 	printbuf(outbuf, BLACK);
 }
-function
-print_result()
-{
-	var p1, p2;
-
-	p2 = pop(); // result
-	p1 = pop(); // input
-
-	if (p2 == symbol(NIL))
-		return;
-
-	if (annotate_result(p1, p2)) {
-		push_symbol(SETQ);
-		push(p1);
-		push(p2);
-		list(3);
-		p2 = pop();
-	}
-
-	if (iszero(get_binding(symbol(TTY)))) {
-		push(p2);
-		display();
-	} else
-		print_infixform(p2);
-}
 const BLACK = 1;
 const BLUE = 2;
 const RED = 3;
@@ -15142,166 +15310,10 @@ push_symbol(p)
 	push(symbol(p));
 }
 function
-rationalize()
-{
-	var i, n, p0, p1, p2;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			rationalize();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	p2 = one;
-
-	while (divisor(p1)) {
-		p0 = pop();
-		push(p0);
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-		push(p0);
-		push(p2);
-		multiply_noexpand();
-		p2 = pop();
-	}
-
-	push(p1);
-	push(p2);
-	reciprocate();
-	multiply_noexpand();
-}
-function
-real()
-{
-	var i, n, p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			real();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	rect();
-	p1 = pop();
-	push(p1);
-	push(p1);
-	conjfunc();
-	add();
-	push_rational(1, 2);
-	multiply();
-}
-function
 reciprocate()
 {
 	push_integer(-1);
 	power();
-}
-function
-rect()
-{
-	var h, i, n, p1, p2, BASE, EXPO;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			rect();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (car(p1) == symbol(ADD)) {
-		p1 = cdr(p1);
-		h = stack.length;
-		while (iscons(p1)) {
-			push(car(p1));
-			rect();
-			p1 = cdr(p1);
-		}
-		add_terms(stack.length - h);
-		return;
-	}
-
-	if (car(p1) == symbol(MULTIPLY)) {
-		p1 = cdr(p1);
-		h = stack.length;
-		while (iscons(p1)) {
-			push(car(p1));
-			rect();
-			p1 = cdr(p1);
-		}
-		multiply_factors(stack.length - h);
-		return;
-	}
-
-	if (car(p1) != symbol(POWER)) {
-		push(p1);
-		return;
-	}
-
-	BASE = cadr(p1);
-	EXPO = caddr(p1);
-
-	// handle sum in exponent
-
-	if (car(EXPO) == symbol(ADD)) {
-		p1 = cdr(EXPO);
-		h = stack.length;
-		while (iscons(p1)) {
-			push_symbol(POWER);
-			push(BASE);
-			push(car(p1));
-			list(3);
-			rect();
-			p1 = cdr(p1);
-		}
-		multiply_factors(stack.length - h);
-		return;
-	}
-
-	// return mag(p1) * cos(arg(p1)) + i sin(arg(p1)))
-
-	push(p1);
-	mag();
-
-	push(p1);
-	arg();
-	p2 = pop();
-
-	push(p2);
-	cosfunc();
-
-	push(imaginaryunit);
-	push(p2);
-	sinfunc();
-	multiply();
-
-	add();
-
-	multiply();
 }
 function
 reduce_radical_double(h, COEFF)
@@ -17134,6 +17146,7 @@ var symtab = {
 "erf":		{printname:ERF,		func:eval_erf},
 "erfc":		{printname:ERFC,	func:eval_erfc},
 "eval":		{printname:EVAL,	func:eval_eval},
+"exit":		{printname:EXIT,	func:eval_exit},
 "exp":		{printname:EXP,		func:eval_exp},
 "expcos":	{printname:EXPCOS,	func:eval_expcos},
 "expcosh":	{printname:EXPCOSH,	func:eval_expcosh},

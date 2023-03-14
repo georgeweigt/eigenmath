@@ -2,7 +2,6 @@ void
 eval_print(struct atom *p1)
 {
 	p1 = cdr(p1);
-
 	while (iscons(p1)) {
 		push(car(p1));
 		push(car(p1));
@@ -10,7 +9,6 @@ eval_print(struct atom *p1)
 		print_result();
 		p1 = cdr(p1);
 	}
-
 	push_symbol(NIL);
 }
 
@@ -40,7 +38,7 @@ print_result(void)
 		print_infixform(p2);
 }
 
-// if a user symbol A was evaluated, print A = result
+// returns 1 if result should be annotated
 
 int
 annotate_result(struct atom *p1, struct atom *p2)

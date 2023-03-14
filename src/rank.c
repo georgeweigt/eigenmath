@@ -1,11 +1,11 @@
-function
-eval_rank(p1)
+void
+eval_rank(struct atom *p1)
 {
 	push(cadr(p1));
-	evalf();
+	eval();
 	p1 = pop();
 	if (istensor(p1))
-		push_integer(p1.dim.length);
+		push_integer(p1->u.tensor->ndim);
 	else
 		push_integer(0);
 }

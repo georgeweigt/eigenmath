@@ -86,5 +86,12 @@ diffs:
 	-diff -u src/outer.c js/src/eval_outer.js >> diffs
 	-diff -u src/polar.c js/src/eval_polar.js >> diffs
 	-diff -u src/power.c js/src/eval_power.js >> diffs
+	-diff -u src/print.c js/src/eval_print.js >> diffs
+	-diff -u src/product.c js/src/eval_product.js >> diffs
+	-diff -u src/quote.c js/src/eval_quote.js >> diffs
+	-diff -u src/rank.c js/src/eval_rank.js >> diffs
+	-diff -u src/rationalize.c js/src/eval_rationalize.js >> diffs
+	-diff -u src/real.c js/src/eval_real.js >> diffs
+	-diff -u src/rect.c js/src/eval_rect.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs

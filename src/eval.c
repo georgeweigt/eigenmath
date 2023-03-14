@@ -97,12 +97,6 @@ eval_number(struct atom *p1)
 }
 
 void
-eval_quote(struct atom *p1)
-{
-	push(cadr(p1));
-}
-
-void
 eval_stop(struct atom *p1)
 {
 	(void) p1; // silence compiler
