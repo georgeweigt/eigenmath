@@ -564,7 +564,6 @@ void eval_user_symbol(struct atom *p1);
 void eval_nil(struct atom *p1);
 void eval_number(struct atom *p1);
 void eval_quote(struct atom *p1);
-void eval_sqrt(struct atom *p1);
 void eval_stop(struct atom *p1);
 void eval_subst(struct atom *p1);
 void eval_eval(struct atom *p1);
@@ -753,8 +752,6 @@ void eval_polar(struct atom *p1);
 void polar(void);
 void eval_power(struct atom *p1);
 void power(void);
-void power_sum(struct atom *BASE, struct atom *EXPO);
-void sqrtfunc(void);
 void power_complex_number(struct atom *BASE, struct atom *EXPO);
 void power_complex_plus(struct atom *X, struct atom *Y, int n);
 void power_complex_minus(struct atom *X, struct atom *Y, int n);
@@ -771,6 +768,7 @@ void normalize_polar_term_double(struct atom *R);
 void power_numbers(struct atom *BASE, struct atom *EXPO);
 void power_numbers_factor(struct atom *BASE, struct atom *EXPO);
 void power_double(struct atom *BASE, struct atom *EXPO);
+void power_sum(struct atom *BASE, struct atom *EXPO);
 void eval_prefixform(struct atom *p1);
 void print_prefixform(struct atom *p);
 void prefixform(struct atom *p);
@@ -853,6 +851,8 @@ void sinfunc(void);
 void sinfunc_sum(struct atom *p1);
 void eval_sinh(struct atom *p1);
 void sinhfunc(void);
+void eval_sqrt(struct atom *p1);
+void sqrtfunc(void);
 void push(struct atom *p);
 struct atom * pop(void);
 void save_symbol(struct atom *p);
@@ -6421,15 +6421,6 @@ void
 eval_quote(struct atom *p1)
 {
 	push(cadr(p1));
-}
-
-void
-eval_sqrt(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	push_rational(1, 2);
-	power();
 }
 
 void
@@ -13241,64 +13232,6 @@ power(void)
 	push(EXPO);
 	list(3);
 }
-
-// BASE is a sum of terms
-
-void
-power_sum(struct atom *BASE, struct atom *EXPO)
-{
-	int h, i, n;
-	struct atom *p1, *p2;
-
-	if (iscomplexnumber(BASE) && isnum(EXPO)) {
-		power_complex_number(BASE, EXPO);
-		return;
-	}
-
-	if (expanding == 0 || !issmallinteger(EXPO) || isnegativenumber(EXPO)) {
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		return;
-	}
-
-	push(EXPO);
-	n = pop_integer();
-
-	// square the sum first (prevents infinite loop through multiply)
-
-	h = tos;
-
-	p1 = cdr(BASE);
-
-	while (iscons(p1)) {
-		p2 = cdr(BASE);
-		while (iscons(p2)) {
-			push(car(p1));
-			push(car(p2));
-			multiply();
-			p2 = cdr(p2);
-		}
-		p1 = cdr(p1);
-	}
-
-	add_terms(tos - h);
-
-	// continue up to power n
-
-	for (i = 2; i < n; i++) {
-		push(BASE);
-		multiply();
-	}
-}
-
-void
-sqrtfunc(void)
-{
-	push_rational(1, 2);
-	power();
-}
 // BASE is rectangular complex numerical, EXPO is numerical
 
 void
@@ -14290,6 +14223,56 @@ power_double(struct atom *BASE, struct atom *EXPO)
 	push_double(d);
 
 	multiply();
+}
+// BASE is a sum of terms
+
+void
+power_sum(struct atom *BASE, struct atom *EXPO)
+{
+	int h, i, n;
+	struct atom *p1, *p2;
+
+	if (iscomplexnumber(BASE) && isnum(EXPO)) {
+		power_complex_number(BASE, EXPO);
+		return;
+	}
+
+	if (expanding == 0 || !issmallinteger(EXPO) || isnegativenumber(EXPO)) {
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
+		return;
+	}
+
+	push(EXPO);
+	n = pop_integer();
+
+	// square the sum first (prevents infinite loop through multiply)
+
+	h = tos;
+
+	p1 = cdr(BASE);
+
+	while (iscons(p1)) {
+		p2 = cdr(BASE);
+		while (iscons(p2)) {
+			push(car(p1));
+			push(car(p2));
+			multiply();
+			p2 = cdr(p2);
+		}
+		p1 = cdr(p1);
+	}
+
+	add_terms(tos - h);
+
+	// continue up to power n
+
+	for (i = 2; i < n; i++) {
+		push(BASE);
+		multiply();
+	}
 }
 void
 eval_prefixform(struct atom *p1)
@@ -16944,6 +16927,20 @@ sinhfunc(void)
 	push_symbol(SINH);
 	push(p1);
 	list(2);
+}
+void
+eval_sqrt(struct atom *p1)
+{
+	push(cadr(p1));
+	eval();
+	sqrtfunc();
+}
+
+void
+sqrtfunc(void)
+{
+	push_rational(1, 2);
+	power();
 }
 void
 push(struct atom *p)

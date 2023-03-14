@@ -84,5 +84,7 @@ diffs:
 	-diff -u src/numerator.c js/src/eval_numerator.js >> diffs
 	-diff -u src/or.c js/src/eval_or.js >> diffs
 	-diff -u src/outer.c js/src/eval_outer.js >> diffs
+	-diff -u src/polar.c js/src/eval_polar.js >> diffs
+	-diff -u src/power.c js/src/eval_power.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs

@@ -1,9 +1,10 @@
 // BASE is a sum of terms
 
-function
-power_sum(BASE, EXPO)
+void
+power_sum(struct atom *BASE, struct atom *EXPO)
 {
-	var h, i, n, p1, p2;
+	int h, i, n;
+	struct atom *p1, *p2;
 
 	if (iscomplexnumber(BASE) && isnum(EXPO)) {
 		power_complex_number(BASE, EXPO);
@@ -23,7 +24,7 @@ power_sum(BASE, EXPO)
 
 	// square the sum first (prevents infinite loop through multiply)
 
-	h = stack.length;
+	h = tos;
 
 	p1 = cdr(BASE);
 
@@ -38,7 +39,7 @@ power_sum(BASE, EXPO)
 		p1 = cdr(p1);
 	}
 
-	add_terms(stack.length - h);
+	add_terms(tos - h);
 
 	// continue up to power n
 
