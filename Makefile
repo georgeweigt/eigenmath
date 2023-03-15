@@ -93,5 +93,6 @@ diffs:
 	-diff -u src/rationalize.c js/src/eval_rationalize.js >> diffs
 	-diff -u src/real.c js/src/eval_real.js >> diffs
 	-diff -u src/rect.c js/src/eval_rect.js >> diffs
+	-diff -u src/roots.c js/src/eval_roots.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs
