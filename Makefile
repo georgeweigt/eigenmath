@@ -91,8 +91,9 @@ diffs:
 	-diff -u src/simplify.c js/src/eval_simplify.js >> diffs
 	-diff -u src/sin.c js/src/eval_sin.js >> diffs
 	-diff -u src/sinh.c js/src/eval_sinh.js >> diffs
-#
-#	-diff -u src/tan.c js/src/eval_tan.js >> diffs
-#	-diff -u src/tanh.c js/src/eval_tanh.js >> diffs
+	-diff -u src/sqrt.c js/src/eval_sqrt.js >> diffs
+	-diff -u src/sum.c js/src/eval_sum.js >> diffs
+	-diff -u src/tan.c js/src/eval_tan.js >> diffs
+	-diff -u src/tanh.c js/src/eval_tanh.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs
