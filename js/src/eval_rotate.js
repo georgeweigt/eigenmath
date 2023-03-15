@@ -1,13 +1,13 @@
 function
 eval_rotate(p1)
 {
-	var c, m, n, opcode, phase, psi;
+	var m, n, c, PSI, OPCODE, PHASE;
 
 	push(cadr(p1));
 	evalf();
-	psi = pop();
+	PSI = pop();
 
-	if (!istensor(psi) || psi.dim.length > 1 || psi.elem.length > 32768 || (psi.elem.length & (psi.elem.length - 1)) != 0)
+	if (!istensor(PSI) || PSI.dim.length > 1 || PSI.elem.length > 32768 || (PSI.elem.length & (PSI.elem.length - 1)) != 0)
 		stopf("rotate error 1 first argument is not a vector or dimension error");
 
 	c = 0;
@@ -19,28 +19,28 @@ eval_rotate(p1)
 		if (!iscons(cdr(p1)))
 			stopf("rotate error 2 unexpected end of argument list");
 
-		opcode = car(p1);
+		OPCODE = car(p1);
 		push(cadr(p1));
 		evalf();
 		n = pop_integer();
 
-		if (n > 14 || (1 << n) >= psi.elem.length)
+		if (n > 14 || (1 << n) >= PSI.elem.length)
 			stopf("rotate error 3 qubit number format or range");
 
 		p1 = cddr(p1);
 
-		if (opcode == symbol("C")) {
+		if (OPCODE == symbol("C")) {
 			c |= 1 << n;
 			continue;
 		}
 
-		if (opcode == symbol("H")) {
-			rotate_h(psi, c, n);
+		if (OPCODE == symbol("H")) {
+			rotate_h(PSI, c, n);
 			c = 0;
 			continue;
 		}
 
-		if (opcode == symbol("P")) {
+		if (OPCODE == symbol("P")) {
 			if (!iscons(p1))
 				stopf("rotate error 2 unexpected end of argument list");
 			push(car(p1));
@@ -49,25 +49,25 @@ eval_rotate(p1)
 			push(imaginaryunit);
 			multiply();
 			expfunc();
-			phase = pop();
-			rotate_p(psi, c, n, phase);
+			PHASE = pop();
+			rotate_p(PSI, PHASE, c, n);
 			c = 0;
 			continue;
 		}
 
-		if (opcode == symbol("Q")) {
-			rotate_q(psi, n);
+		if (OPCODE == symbol("Q")) {
+			rotate_q(PSI, n);
 			c = 0;
 			continue;
 		}
 
-		if (opcode == symbol("V")) {
-			rotate_v(psi, n);
+		if (OPCODE == symbol("V")) {
+			rotate_v(PSI, n);
 			c = 0;
 			continue;
 		}
 
-		if (opcode == symbol("W")) {
+		if (OPCODE == symbol("W")) {
 			m = n;
 			if (!iscons(p1))
 				stopf("rotate error 2 unexpected end of argument list");
@@ -75,27 +75,27 @@ eval_rotate(p1)
 			p1 = cdr(p1);
 			evalf();
 			n = pop_integer();
-			if (n > 14 || (1 << n) >= psi.elem.length)
+			if (n > 14 || (1 << n) >= PSI.elem.length)
 				stopf("rotate error 3 qubit number format or range");
-			rotate_w(psi, c, m, n);
+			rotate_w(PSI, c, m, n);
 			c = 0;
 			continue;
 		}
 
-		if (opcode == symbol("X")) {
-			rotate_x(psi, c, n);
+		if (OPCODE == symbol("X")) {
+			rotate_x(PSI, c, n);
 			c = 0;
 			continue;
 		}
 
-		if (opcode == symbol("Y")) {
-			rotate_y(psi, c, n);
+		if (OPCODE == symbol("Y")) {
+			rotate_y(PSI, c, n);
 			c = 0;
 			continue;
 		}
 
-		if (opcode == symbol("Z")) {
-			rotate_z(psi, c, n);
+		if (OPCODE == symbol("Z")) {
+			rotate_z(PSI, c, n);
 			c = 0;
 			continue;
 		}
@@ -103,34 +103,34 @@ eval_rotate(p1)
 		stopf("rotate error 4 unknown rotation code");
 	}
 
-	push(psi);
+	push(PSI);
 }
 
 // hadamard
 
 function
-rotate_h(psi, c, n)
+rotate_h(PSI, c, n)
 {
 	var i;
 	n = 1 << n;
-	for (i = 0; i < psi.elem.length; i++) {
+	for (i = 0; i < PSI.elem.length; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
-			push(psi.elem[i ^ n]);		// KET0
-			push(psi.elem[i]);		// KET1
+			push(PSI.elem[i ^ n]);		// KET0
+			push(PSI.elem[i]);		// KET1
 			add();
 			push_rational(1, 2);
 			sqrtfunc();
 			multiply();
-			push(psi.elem[i ^ n]);		// KET0
-			push(psi.elem[i]);		// KET1
+			push(PSI.elem[i ^ n]);		// KET0
+			push(PSI.elem[i]);		// KET1
 			subtract();
 			push_rational(1, 2);
 			sqrtfunc();
 			multiply();
-			psi.elem[i] = pop();		// KET1
-			psi.elem[i ^ n] = pop();	// KET0
+			PSI.elem[i] = pop();		// KET1
+			PSI.elem[i ^ n] = pop();	// KET0
 		}
 	}
 }
@@ -138,18 +138,18 @@ rotate_h(psi, c, n)
 // phase
 
 function
-rotate_p(psi, c, n, phase)
+rotate_p(PSI, PHASE, c, n)
 {
 	var i;
 	n = 1 << n;
-	for (i = 0; i < psi.elem.length; i++) {
+	for (i = 0; i < PSI.elem.length; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
-			push(psi.elem[i]);		// KET1
-			push(phase);
+			push(PSI.elem[i]);		// KET1
+			push(PHASE);
 			multiply();
-			psi.elem[i] = pop();		// KET1
+			PSI.elem[i] = pop();		// KET1
 		}
 	}
 }
@@ -157,80 +157,74 @@ rotate_p(psi, c, n, phase)
 // swap
 
 function
-rotate_w(psi, c, m, n)
+rotate_w(PSI, c, m, n)
 {
 	var i;
 	m = 1 << m;
 	n = 1 << n;
-	for (i = 0; i < psi.elem.length; i++) {
+	for (i = 0; i < PSI.elem.length; i++) {
 		if ((i & c) != c)
 			continue;
 		if ((i & m) && !(i & n)) {
-			push(psi.elem[i]);
-			push(psi.elem[i ^ m ^ n]);
-			psi.elem[i] = pop();
-			psi.elem[i ^ m ^ n] = pop();
+			push(PSI.elem[i]);
+			push(PSI.elem[i ^ m ^ n]);
+			PSI.elem[i] = pop();
+			PSI.elem[i ^ m ^ n] = pop();
 		}
 	}
 }
 
-// pauli x
-
 function
-rotate_x(psi, c, n)
+rotate_x(PSI, c, n)
 {
 	var i;
 	n = 1 << n;
-	for (i = 0; i < psi.elem.length; i++) {
+	for (i = 0; i < PSI.elem.length; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
-			push(psi.elem[i ^ n]);		// KET0
-			push(psi.elem[i]);		// KET1
-			psi.elem[i ^ n] = pop();	// KET0
-			psi.elem[i] = pop();		// KET1
+			push(PSI.elem[i ^ n]);		// KET0
+			push(PSI.elem[i]);		// KET1
+			PSI.elem[i ^ n] = pop();	// KET0
+			PSI.elem[i] = pop();		// KET1
 		}
 	}
 }
 
-// pauli y
-
 function
-rotate_y(psi, c, n)
+rotate_y(PSI, c, n)
 {
 	var i;
 	n = 1 << n;
-	for (i = 0; i < psi.elem.length; i++) {
+	for (i = 0; i < PSI.elem.length; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
 			push(imaginaryunit);
 			negate();
-			push(psi.elem[i ^ n]);		// KET0
+			push(PSI.elem[i ^ n]);		// KET0
 			multiply();
 			push(imaginaryunit);
-			push(psi.elem[i]);		// KET1
+			push(PSI.elem[i]);		// KET1
 			multiply();
-			psi.elem[i ^ n] = pop();	// KET0
-			psi.elem[i] = pop();		// KET1
+			PSI.elem[i ^ n] = pop();	// KET0
+			PSI.elem[i] = pop();		// KET1
 		}
 	}
 }
 
-// pauli z
-
 function
-rotate_z(psi, c, n)
+rotate_z(PSI, c, n)
 {
 	var i;
 	n = 1 << n;
-	for (i = 0; i < psi.elem.length; i++) {
+	for (i = 0; i < PSI.elem.length; i++) {
 		if ((i & c) != c)
 			continue;
 		if (i & n) {
-			push(psi.elem[i]);		// KET1
+			push(PSI.elem[i]);		// KET1
 			negate();
-			psi.elem[i] = pop();		// KET1
+			PSI.elem[i] = pop();		// KET1
 		}
 	}
 }
@@ -238,11 +232,11 @@ rotate_z(psi, c, n)
 // quantum fourier transform
 
 function
-rotate_q(psi, n)
+rotate_q(PSI, n)
 {
-	var i, j, phase;
+	var i, j, PHASE;
 	for (i = n; i >= 0; i--) {
-		rotate_h(psi, 0, i);
+		rotate_h(PSI, 0, i);
 		for (j = 0; j < i; j++) {
 			push_rational(1, 2);
 			push_integer(i - j);
@@ -252,22 +246,22 @@ rotate_q(psi, n)
 			evalf();
 			multiply_factors(3);
 			expfunc();
-			phase = pop();
-			rotate_p(psi, 1 << j, i, phase);
+			PHASE = pop();
+			rotate_p(PSI, PHASE, 1 << j, i);
 		}
 	}
 	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_w(psi, 0, i, n - i);
+		rotate_w(PSI, 0, i, n - i);
 }
 
 // inverse qft
 
 function
-rotate_v(psi, n)
+rotate_v(PSI, n)
 {
-	var i, j, phase;
+	var i, j, PHASE;
 	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_w(psi, 0, i, n - i);
+		rotate_w(PSI, 0, i, n - i);
 	for (i = 0; i <= n; i++) {
 		for (j = i - 1; j >= 0; j--) {
 			push_rational(1, 2);
@@ -279,9 +273,9 @@ rotate_v(psi, n)
 			multiply_factors(3);
 			negate();
 			expfunc();
-			phase = pop();
-			rotate_p(psi, 1 << j, i, phase);
+			PHASE = pop();
+			rotate_p(PSI, PHASE, 1 << j, i);
 		}
-		rotate_h(psi, 0, i);
+		rotate_h(PSI, 0, i);
 	}
 }
