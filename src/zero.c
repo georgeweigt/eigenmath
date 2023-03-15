@@ -2,6 +2,7 @@ void
 eval_zero(struct atom *p1)
 {
 	int h, i, m, n;
+	struct atom *p2;
 
 	p1 = cdr(p1);
 	h = tos;
@@ -10,11 +11,13 @@ eval_zero(struct atom *p1)
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
+		p2 = pop();
+		push(p2);
+		push(p2);
 		n = pop_integer();
 		if (n < 2)
 			stopf("zero: dim err");
 		m *= n;
-		push_integer(n);
 		p1 = cdr(p1);
 	}
 
