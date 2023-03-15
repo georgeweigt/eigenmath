@@ -18,13 +18,6 @@ check:
 
 diffs:
 	-rm -f diffs
-#
-	-diff -u src/sin.c js/src/eval_sin.js >> diffs
-	-diff -u src/tan.c js/src/eval_tan.js >> diffs
-#
-	-diff -u src/sinh.c js/src/eval_sinh.js >> diffs
-	-diff -u src/tanh.c js/src/eval_tanh.js >> diffs
-#
 	-diff -u src/abs.c js/src/eval_abs.js >> diffs
 	-diff -u src/adj.c js/src/eval_adj.js >> diffs
 	-diff -u src/and.c js/src/eval_and.js >> diffs
@@ -95,5 +88,11 @@ diffs:
 	-diff -u src/rect.c js/src/eval_rect.js >> diffs
 	-diff -u src/roots.c js/src/eval_roots.js >> diffs
 	-diff -u src/rotate.c js/src/eval_rotate.js >> diffs
+	-diff -u src/simplify.c js/src/eval_simplify.js >> diffs
+	-diff -u src/sin.c js/src/eval_sin.js >> diffs
+	-diff -u src/sinh.c js/src/eval_sinh.js >> diffs
+#
+#	-diff -u src/tan.c js/src/eval_tan.js >> diffs
+#	-diff -u src/tanh.c js/src/eval_tanh.js >> diffs
 #
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs
