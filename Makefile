@@ -102,6 +102,9 @@ diffs:
 	-diff -u src/testgt.c js/src/eval_testgt.js >> diffs
 	-diff -u src/testle.c js/src/eval_testle.js >> diffs
 	-diff -u src/testlt.c js/src/eval_testlt.js >> diffs
+	-diff -u src/transpose.c js/src/eval_transpose.js >> diffs
+	-diff -u src/unit.c js/src/eval_unit.js >> diffs
+#	-diff -u src/zero.c js/src/eval_zero.js >> diffs
 #
 #	-diff -u src/cancel_factor.c js/src/cancel_factor.js >> diffs
 #	-diff -u src/cmp_args.c js/src/cmp_args.js >> diffs

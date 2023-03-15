@@ -1,10 +1,10 @@
-function
-eval_unit(p1)
+void
+eval_unit(struct atom *p1)
 {
-	var i, j, n;
+	int i, j, n;
 
 	push(cadr(p1));
-	evalf();
+	eval();
 
 	n = pop_integer();
 
@@ -21,9 +21,9 @@ eval_unit(p1)
 	for (i = 0; i < n; i++)
 		for (j = 0; j < n; j++)
 			if (i == j)
-				p1.elem[n * i + j] = one;
+				p1->u.tensor->elem[n * i + j] = one;
 			else
-				p1.elem[n * i + j] = zero;
+				p1->u.tensor->elem[n * i + j] = zero;
 
 	push(p1);
 }
