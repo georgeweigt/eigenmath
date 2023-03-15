@@ -95,5 +95,14 @@ diffs:
 	-diff -u src/sum.c js/src/eval_sum.js >> diffs
 	-diff -u src/tan.c js/src/eval_tan.js >> diffs
 	-diff -u src/tanh.c js/src/eval_tanh.js >> diffs
+	-diff -u src/taylor.c js/src/eval_taylor.js >> diffs
+	-diff -u src/test.c js/src/eval_test.js >> diffs
+	-diff -u src/testeq.c js/src/eval_testeq.js >> diffs
+	-diff -u src/testge.c js/src/eval_testge.js >> diffs
+	-diff -u src/testgt.c js/src/eval_testgt.js >> diffs
+	-diff -u src/testle.c js/src/eval_testle.js >> diffs
+	-diff -u src/testlt.c js/src/eval_testlt.js >> diffs
 #
+#	-diff -u src/cancel_factor.c js/src/cancel_factor.js >> diffs
+#	-diff -u src/cmp_args.c js/src/cmp_args.js >> diffs
 #	-diff -u src/divisor.c js/src/divisor.js >> diffs

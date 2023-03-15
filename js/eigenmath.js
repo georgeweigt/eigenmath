@@ -928,12 +928,14 @@ cmp_args(p1)
 	evalf();
 	p2 = pop();
 	push(p2);
+	if (!isnum(p2))
 		floatfunc();
 
 	push(caddr(p1));
 	evalf();
 	p2 = pop();
 	push(p2);
+	if (!isnum(p2))
 		floatfunc();
 
 	return cmpfunc();
