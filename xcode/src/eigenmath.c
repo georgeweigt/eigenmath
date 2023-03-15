@@ -447,6 +447,7 @@ uint32_t * mroot(uint32_t *a, uint32_t *n);
 int bignum_issmallnum(uint32_t *N);
 int bignum_smallnum(uint32_t *N);
 void eval_binding(struct atom *p1);
+void cancel_factor(void);
 void eval_ceiling(struct atom *p1);
 void ceilingfunc(void);
 void eval_check(struct atom *p1);
@@ -456,6 +457,7 @@ void circexp_subst(void);
 void eval_clear(struct atom *p1);
 void eval_clock(struct atom *p1);
 void clockfunc(void);
+int cmp_args(struct atom *p1);
 void coeffs(struct atom *P, struct atom *X);
 void eval_cofactor(struct atom *p1);
 void eval_conj(struct atom *p1);
@@ -566,6 +568,7 @@ void eval_number(struct atom *p1);
 void eval_stop(struct atom *p1);
 void eval_subst(struct atom *p1);
 void eval_eval(struct atom *p1);
+void evalp(void);
 void eval_exp(struct atom *p1);
 void expfunc(void);
 void eval_expcos(struct atom *p1);
@@ -882,20 +885,17 @@ void promote_tensor(void);
 int compatible_dimensions(struct atom *p, struct atom *q);
 int compare_tensors(struct atom *p1, struct atom *p2);
 struct atom * copy_tensor(struct atom *p1);
-void eval_unit(struct atom *p1);
-void eval_zero(struct atom *p1);
 void eval_test(struct atom *p1);
 void eval_testeq(struct atom *p1);
-void cancel_factor(void);
 void eval_testge(struct atom *p1);
 void eval_testgt(struct atom *p1);
 void eval_testle(struct atom *p1);
 void eval_testlt(struct atom *p1);
-int cmp_args(struct atom *p1);
-void evalp(void);
 void eval_transpose(struct atom *p1);
 void transpose(int n, int m);
+void eval_unit(struct atom *p1);
 void eval_user_function(struct atom *p1);
+void eval_zero(struct atom *p1);
 void
 eval_abs(struct atom *p1)
 {
@@ -3341,6 +3341,32 @@ eval_binding(struct atom *p1)
 	push(p2);
 }
 void
+cancel_factor(void)
+{
+	int h;
+	struct atom *p1, *p2;
+
+	p2 = pop();
+	p1 = pop();
+
+	if (car(p2) == symbol(ADD)) {
+		h = tos;
+		p2 = cdr(p2);
+		while (iscons(p2)) {
+			push(p1);
+			push(car(p2));
+			multiply();
+			p2 = cdr(p2);
+		}
+		add_terms(tos - h);
+		return;
+	}
+
+	push(p1);
+	push(p2);
+	multiply();
+}
+void
 eval_ceiling(struct atom *p1)
 {
 	push(cadr(p1));
@@ -3568,6 +3594,27 @@ clockfunc(void)
 	power();
 
 	multiply();
+}
+int
+cmp_args(struct atom *p1)
+{
+	struct atom *p2;
+
+	push(cadr(p1));
+	eval();
+	p2 = pop();
+	push(p2);
+	if (!isnum(p2))
+		floatfunc();
+
+	push(caddr(p1));
+	eval();
+	p2 = pop();
+	push(p2);
+	if (!isnum(p2))
+		floatfunc();
+
+	return cmpfunc();
 }
 // push coefficients of polynomial P(X) on stack
 
@@ -6455,6 +6502,20 @@ eval_eval(struct atom *p1)
 		p1 = cddr(p1);
 	}
 	eval();
+}
+// like eval() except '=' is evaluated as '=='
+
+void
+evalp(void)
+{
+	struct atom *p1;
+	p1 = pop();
+	if (car(p1) == symbol(SETQ))
+		eval_testeq(p1);
+	else {
+		push(p1);
+		eval();
+	}
 }
 void
 eval_exp(struct atom *p1)
@@ -16587,62 +16648,6 @@ copy_tensor(struct atom *p1)
 
 	return p2;
 }
-
-void
-eval_unit(struct atom *p1)
-{
-	int i, n;
-
-	push(cadr(p1));
-	eval();
-
-	n = pop_integer();
-
-	if (n < 1)
-		stopf("unit: index error");
-
-	if (n == 1) {
-		push_integer(1);
-		return;
-	}
-
-	p1 = alloc_matrix(n, n);
-
-	for (i = 0; i < n; i++)
-		p1->u.tensor->elem[n * i + i] = one;
-
-	push(p1);
-}
-
-void
-eval_zero(struct atom *p1)
-{
-	int dim[MAXDIM], i, m, n;
-	m = 1;
-	n = 0;
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		if (n == MAXDIM)
-			stopf("zero: rank exceeds max");
-		push(car(p1));
-		eval();
-		i = pop_integer();
-		if (i < 2)
-			stopf("zero: dimension error");
-		m *= i;
-		dim[n++] = i;
-		p1 = cdr(p1);
-	}
-	if (n == 0) {
-		push_integer(0);
-		return;
-	}
-	p1 = alloc_tensor(m);
-	p1->u.tensor->ndim = n;
-	for (i = 0; i < n; i++)
-		p1->u.tensor->dim[i] = dim[i];
-	push(p1);
-}
 void
 eval_test(struct atom *p1)
 {
@@ -16666,7 +16671,6 @@ eval_test(struct atom *p1)
 	}
 	push_symbol(NIL);
 }
-
 void
 eval_testeq(struct atom *p1)
 {
@@ -16752,33 +16756,6 @@ eval_testeq(struct atom *p1)
 	else
 		push_integer(0);
 }
-
-void
-cancel_factor(void)
-{
-	int h;
-	struct atom *p1, *p2;
-
-	p2 = pop();
-	p1 = pop();
-
-	if (car(p2) == symbol(ADD)) {
-		h = tos;
-		p2 = cdr(p2);
-		while (iscons(p2)) {
-			push(p1);
-			push(car(p2));
-			multiply();
-			p2 = cdr(p2);
-		}
-		add_terms(tos - h);
-	} else {
-		push(p1);
-		push(p2);
-		multiply();
-	}
-}
-
 void
 eval_testge(struct atom *p1)
 {
@@ -16787,7 +16764,6 @@ eval_testge(struct atom *p1)
 	else
 		push_integer(0);
 }
-
 void
 eval_testgt(struct atom *p1)
 {
@@ -16796,7 +16772,6 @@ eval_testgt(struct atom *p1)
 	else
 		push_integer(0);
 }
-
 void
 eval_testle(struct atom *p1)
 {
@@ -16805,7 +16780,6 @@ eval_testle(struct atom *p1)
 	else
 		push_integer(0);
 }
-
 void
 eval_testlt(struct atom *p1)
 {
@@ -16813,43 +16787,6 @@ eval_testlt(struct atom *p1)
 		push_integer(1);
 	else
 		push_integer(0);
-}
-
-int
-cmp_args(struct atom *p1)
-{
-	struct atom *p2;
-
-	push(cadr(p1));
-	eval();
-	p2 = pop();
-	push(p2);
-	if (!isnum(p2))
-		floatfunc();
-
-	push(caddr(p1));
-	eval();
-	p2 = pop();
-	push(p2);
-	if (!isnum(p2))
-		floatfunc();
-
-	return cmpfunc();
-}
-
-// like eval() except '=' is evaluated as '=='
-
-void
-evalp(void)
-{
-	struct atom *p1;
-	p1 = pop();
-	if (car(p1) == symbol(SETQ))
-		eval_testeq(p1);
-	else {
-		push(p1);
-		eval();
-	}
 }
 void
 eval_transpose(struct atom *p1)
@@ -16943,6 +16880,35 @@ transpose(int n, int m)
 	push(p2);
 }
 void
+eval_unit(struct atom *p1)
+{
+	int i, j, n;
+
+	push(cadr(p1));
+	eval();
+
+	n = pop_integer();
+
+	if (n < 1)
+		stopf("unit: index err");
+
+	if (n == 1) {
+		push_integer(1);
+		return;
+	}
+
+	p1 = alloc_matrix(n, n);
+
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			if (i == j)
+				p1->u.tensor->elem[n * i + j] = one;
+			else
+				p1->u.tensor->elem[n * i + j] = zero;
+
+	push(p1);
+}
+void
 eval_user_function(struct atom *p1)
 {
 	int h, i;
@@ -17030,4 +16996,33 @@ eval_user_function(struct atom *p1)
 	restore_symbol(symbol(ARG3));
 	restore_symbol(symbol(ARG2));
 	restore_symbol(symbol(ARG1));
+}
+void
+eval_zero(struct atom *p1)
+{
+	int dim[MAXDIM], i, m, n;
+	m = 1;
+	n = 0;
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		if (n == MAXDIM)
+			stopf("zero: rank err");
+		push(car(p1));
+		eval();
+		i = pop_integer();
+		if (i < 2)
+			stopf("zero: dim err");
+		m *= i;
+		dim[n++] = i;
+		p1 = cdr(p1);
+	}
+	if (n == 0) {
+		push_integer(0);
+		return;
+	}
+	p1 = alloc_tensor(m);
+	p1->u.tensor->ndim = n;
+	for (i = 0; i < n; i++)
+		p1->u.tensor->dim[i] = dim[i];
+	push(p1);
 }
