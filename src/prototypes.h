@@ -496,6 +496,7 @@ void eval_sqrt(struct atom *p1);
 void sqrtfunc(void);
 void push(struct atom *p);
 struct atom * pop(void);
+void dupl(void);
 void save_symbol(struct atom *p);
 void restore_symbol(struct atom *p);
 void swap(void);

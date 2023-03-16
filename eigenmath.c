@@ -859,6 +859,7 @@ void eval_sqrt(struct atom *p1);
 void sqrtfunc(void);
 void push(struct atom *p);
 struct atom * pop(void);
+void dupl(void);
 void save_symbol(struct atom *p);
 void restore_symbol(struct atom *p);
 void swap(void);
@@ -17038,6 +17039,13 @@ pop(void)
 }
 
 void
+dupl(void)
+{
+	if (tos)
+		push(stack[tos - 1]);
+}
+
+void
 save_symbol(struct atom *p)
 {
 	if (tof < 0 || tof + 2 > FRAMESIZE)
@@ -18441,7 +18449,6 @@ void
 eval_zero(struct atom *p1)
 {
 	int h, i, m, n;
-	struct atom *p2;
 
 	p1 = cdr(p1);
 	h = tos;
@@ -18450,9 +18457,7 @@ eval_zero(struct atom *p1)
 	while (iscons(p1)) {
 		push(car(p1));
 		eval();
-		p2 = pop();
-		push(p2);
-		push(p2);
+		dupl();
 		n = pop_integer();
 		if (n < 2)
 			stopf("zero: dim err");

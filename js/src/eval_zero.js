@@ -1,7 +1,7 @@
 function
 eval_zero(p1)
 {
-	var h, i, m, n, p2;
+	var h, i, m, n;
 
 	p1 = cdr(p1);
 	h = stack.length;
@@ -10,9 +10,7 @@ eval_zero(p1)
 	while (iscons(p1)) {
 		push(car(p1));
 		evalf();
-		p2 = pop();
-		push(p2);
-		push(p2);
+		dupl();
 		n = pop_integer();
 		if (n < 2)
 			stopf("zero: dim err");

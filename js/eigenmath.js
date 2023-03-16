@@ -3613,6 +3613,12 @@ var ymax;
 
 var draw_array;
 function
+dupl()
+{
+	if (stack.length)
+		push(stack[stack.length - 1]);
+}
+function
 emit_axes()
 {
 	var dx, dy, x, y;
@@ -12097,7 +12103,7 @@ eval_user_symbol(p1)
 function
 eval_zero(p1)
 {
-	var h, i, m, n, p2;
+	var h, i, m, n;
 
 	p1 = cdr(p1);
 	h = stack.length;
@@ -12106,9 +12112,7 @@ eval_zero(p1)
 	while (iscons(p1)) {
 		push(car(p1));
 		evalf();
-		p2 = pop();
-		push(p2);
-		push(p2);
+		dupl();
 		n = pop_integer();
 		if (n < 2)
 			stopf("zero: dim err");

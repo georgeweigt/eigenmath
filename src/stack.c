@@ -20,6 +20,13 @@ pop(void)
 }
 
 void
+dupl(void)
+{
+	if (tos)
+		push(stack[tos - 1]);
+}
+
+void
 save_symbol(struct atom *p)
 {
 	if (tof < 0 || tof + 2 > FRAMESIZE)
