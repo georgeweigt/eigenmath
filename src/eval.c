@@ -102,16 +102,3 @@ eval_stop(struct atom *p1)
 	(void) p1; // silence compiler
 	stopf("stop function");
 }
-
-void
-eval_subst(struct atom *p1)
-{
-	push(cadddr(p1));
-	eval();
-	push(caddr(p1));
-	eval();
-	push(cadr(p1));
-	eval();
-	subst();
-	eval(); // normalize
-}

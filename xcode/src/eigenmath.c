@@ -566,7 +566,6 @@ void eval_user_symbol(struct atom *p1);
 void eval_nil(struct atom *p1);
 void eval_number(struct atom *p1);
 void eval_stop(struct atom *p1);
-void eval_subst(struct atom *p1);
 void eval_eval(struct atom *p1);
 void evalp(void);
 void eval_exp(struct atom *p1);
@@ -865,6 +864,7 @@ void restore_symbol(struct atom *p);
 void swap(void);
 void push_string(char *s);
 void eval_status(struct atom *p1);
+void eval_subst(struct atom *p1);
 void subst(void);
 void eval_sum(struct atom *p1);
 struct atom * lookup(char *s);
@@ -6474,19 +6474,6 @@ eval_stop(struct atom *p1)
 {
 	(void) p1; // silence compiler
 	stopf("stop function");
-}
-
-void
-eval_subst(struct atom *p1)
-{
-	push(cadddr(p1));
-	eval();
-	push(caddr(p1));
-	eval();
-	push(cadr(p1));
-	eval();
-	subst();
-	eval(); // normalize
 }
 void
 eval_eval(struct atom *p1)
@@ -15699,33 +15686,37 @@ eval_status(struct atom *p1)
 
 	push_symbol(NIL);
 }
-// Substitute replacement for match in target expr.
-//
-// Input:	push	target expr
-//
-//		push	match
-//
-//		push	replacement
-//
-// Output:	Result on stack
+void
+eval_subst(struct atom *p1)
+{
+	push(cadddr(p1));
+	eval();
+	push(caddr(p1));
+	eval();
+	push(cadr(p1));
+	eval();
+	subst();
+	eval(); // normalize
+}
 
 void
 subst(void)
 {
-	int h, i;
+	int h, i, n;
 	struct atom *p1, *p2, *p3;
 
-	p3 = pop();
-	p2 = pop();
+	p3 = pop(); // new expr
+	p2 = pop(); // old expr
 
 	if (p2 == symbol(NIL) || p3 == symbol(NIL))
 		return;
 
-	p1 = pop();
+	p1 = pop(); // expr
 
 	if (istensor(p1)) {
 		p1 = copy_tensor(p1);
-		for (i = 0; i < p1->u.tensor->nelem; i++) {
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
 			push(p2);
 			push(p3);
