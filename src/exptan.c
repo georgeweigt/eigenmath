@@ -4,7 +4,7 @@ void
 eval_exptan(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	exptan();
 }
 

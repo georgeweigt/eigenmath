@@ -2,7 +2,7 @@ void
 eval_erfc(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	erfcfunc();
 }
 

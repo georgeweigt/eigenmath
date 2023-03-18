@@ -5,7 +5,7 @@ eval_dim(struct atom *p1)
 	struct atom *p2;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 
 	if (!istensor(p2)) {
@@ -17,7 +17,7 @@ eval_dim(struct atom *p1)
 		k = 1;
 	else {
 		push(caddr(p1));
-		eval();
+		evalf();
 		k = pop_integer();
 	}
 

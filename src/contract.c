@@ -2,7 +2,7 @@ void
 eval_contract(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	p1 = cddr(p1);
 
@@ -15,9 +15,9 @@ eval_contract(struct atom *p1)
 
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		push(cadr(p1));
-		eval();
+		evalf();
 		contract();
 		p1 = cddr(p1);
 	}

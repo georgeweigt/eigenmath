@@ -85,7 +85,7 @@ eval_and_print_result(void)
 
 	p1 = pop();
 	push(p1);
-	eval();
+	evalf();
 	p2 = pop();
 
 	push(p1);
@@ -100,7 +100,7 @@ void
 eval_run(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = pop();
 
 	if (!isstr(p1))
@@ -219,7 +219,7 @@ initscript(void)
 	for (i = 0; i < n; i++) {
 		s = init_script_tab[i];
 		scan(s);
-		eval();
+		evalf();
 		pop();
 	}
 }

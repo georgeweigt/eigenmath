@@ -6,7 +6,7 @@ eval_sum(struct atom *p1)
 
 	if (lengthf(p1) == 2) {
 		push(cadr(p1));
-		eval();
+		evalf();
 		p1 = pop();
 		if (!istensor(p1)) {
 			push(p1);
@@ -24,11 +24,11 @@ eval_sum(struct atom *p1)
 		stopf("sum: symbol error");
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	j = pop_integer();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	k = pop_integer();
 
 	p1 = caddddr(p1);
@@ -42,7 +42,7 @@ eval_sum(struct atom *p1)
 		p3 = pop();
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
-		eval();
+		evalf();
 		if (j < k)
 			j++;
 		else if (j > k)

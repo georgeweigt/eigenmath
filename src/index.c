@@ -12,7 +12,7 @@ eval_index(struct atom *p1)
 
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		p1 = cdr(p1);
 	}
 
@@ -24,13 +24,13 @@ eval_index(struct atom *p1)
 		if (istensor(p1) && n <= p1->u.tensor->ndim) {
 			T = p1;
 			indexfunc(T, h);
-			eval();
+			evalf();
 			return;
 		}
 	}
 
 	push(T);
-	eval();
+	evalf();
 	T = pop();
 
 	if (!istensor(T)) {

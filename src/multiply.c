@@ -6,7 +6,7 @@ eval_multiply(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		p1 = cdr(p1);
 	}
 	multiply_factors(tos - h);

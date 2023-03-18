@@ -7,7 +7,7 @@ eval_noexpand(struct atom *p1)
 	expanding = 0;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	expanding = t;
 }

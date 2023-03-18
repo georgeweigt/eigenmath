@@ -5,7 +5,7 @@ eval_eigenvec(struct atom *p1)
 	static double *D, *Q;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	floatfunc();
 	p1 = pop();
 

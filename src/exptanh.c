@@ -2,7 +2,7 @@ void
 eval_exptanh(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	exptanh();
 }
 

@@ -11,7 +11,7 @@ coeffs(struct atom *P, struct atom *X)
 		push(X);
 		push_integer(0);
 		subst();
-		eval();
+		evalf();
 		C = pop();
 
 		push(C);

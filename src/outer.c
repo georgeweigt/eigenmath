@@ -2,11 +2,11 @@ void
 eval_outer(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = cddr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		outer();
 		p1 = cdr(p1);
 	}

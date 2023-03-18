@@ -4,14 +4,14 @@ cmp_args(struct atom *p1)
 	struct atom *p2;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 	push(p2);
 	if (!isnum(p2))
 		floatfunc();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 	push(p2);
 	if (!isnum(p2))

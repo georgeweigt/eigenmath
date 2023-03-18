@@ -9,11 +9,11 @@ eval_for(struct atom *p1)
 		stopf("for: symbol error");
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	j = pop_integer();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	k = pop_integer();
 
 	p1 = cddddr(p1);
@@ -27,7 +27,7 @@ eval_for(struct atom *p1)
 		p3 = p1;
 		while (iscons(p3)) {
 			push(car(p3));
-			eval();
+			evalf();
 			pop();
 			p3 = cdr(p3);
 		}

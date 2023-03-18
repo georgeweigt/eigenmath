@@ -1,5 +1,5 @@
 void
-eval(void)
+evalf(void)
 {
 	if (interrupt)
 		kaput("interrupt");
@@ -12,13 +12,13 @@ eval(void)
 	if (level == 200)
 		kaput("circular definition?");
 
-	eval_nib();
+	evalf_nib();
 
 	level--;
 }
 
 void
-eval_nib(void)
+evalf_nib(void)
 {
 	struct atom *p1;
 
@@ -71,7 +71,7 @@ eval_user_symbol(struct atom *p1)
 		push(p1); // symbol evaluates to itself
 	else {
 		push(p2); // eval symbol binding
-		eval();
+		evalf();
 	}
 }
 
@@ -86,7 +86,7 @@ void
 eval_number(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	p1 = pop();
 

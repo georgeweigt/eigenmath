@@ -892,7 +892,7 @@ eval_integral(struct atom *p1)
 	struct atom *X, *Y = NULL; // silence compiler
 
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	p1 = cddr(p1);
 
@@ -911,7 +911,7 @@ eval_integral(struct atom *p1)
 			flag = 0;
 		} else {
 			push(car(p1));
-			eval();
+			evalf();
 			X = pop();
 			p1 = cdr(p1);
 		}
@@ -934,7 +934,7 @@ eval_integral(struct atom *p1)
 		if (iscons(p1)) {
 
 			push(car(p1));
-			eval();
+			evalf();
 			Y = pop();
 			p1 = cdr(p1);
 
@@ -1098,7 +1098,7 @@ integral_search(int h, struct atom *F, char **table, int n)
 	tos = h; // pop all
 
 	scan1(table[i + 1]); // answer
-	eval();
+	evalf();
 
 	return 1;
 }
@@ -1118,14 +1118,14 @@ integral_search_nib(int h, struct atom *F, struct atom *I, struct atom *C)
 			set_symbol(symbol(SB), stack[j], symbol(NIL));
 
 			push(C);			// condition ok?
-			eval();
+			evalf();
 			p1 = pop();
 			if (iszero(p1))
 				continue;		// no, go to next j
 
 			push(F);			// F = I?
 			push(I);
-			eval();
+			evalf();
 			subtract();
 			p1 = pop();
 			if (iszero(p1))

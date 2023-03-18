@@ -2,7 +2,7 @@ void
 eval_circexp(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	circexp();
 }
 
@@ -10,7 +10,7 @@ void
 circexp(void)
 {
 	circexp_subst();
-	eval();
+	evalf();
 }
 
 void

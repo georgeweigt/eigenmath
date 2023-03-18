@@ -5,22 +5,22 @@ eval_taylor(struct atom *p1)
 	struct atom *F, *X, *A, *C;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	F = pop();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	X = pop();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	n = pop_integer();
 
 	p1 = cddddr(p1);
 
 	if (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 	} else
 		push_integer(0); // default expansion point
 
@@ -32,7 +32,7 @@ eval_taylor(struct atom *p1)
 	push(X);
 	push(A);
 	subst();
-	eval();
+	evalf();
 
 	push_integer(1);
 	C = pop();
@@ -58,7 +58,7 @@ eval_taylor(struct atom *p1)
 		push(X);
 		push(A);
 		subst();
-		eval();
+		evalf();
 
 		push(C);
 		multiply();

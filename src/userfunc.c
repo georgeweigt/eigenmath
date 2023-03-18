@@ -22,7 +22,7 @@ eval_user_function(struct atom *p1)
 		push(FUNC_NAME);
 		while (iscons(FUNC_ARGS)) {
 			push(car(FUNC_ARGS));
-			eval();
+			evalf();
 			FUNC_ARGS = cdr(FUNC_ARGS);
 		}
 		list(tos - h);
@@ -33,7 +33,7 @@ eval_user_function(struct atom *p1)
 
 	for (i = 0; i < 9; i++) {
 		push(car(FUNC_ARGS));
-		eval();
+		evalf();
 		FUNC_ARGS = cdr(FUNC_ARGS);
 	}
 
@@ -75,7 +75,7 @@ eval_user_function(struct atom *p1)
 	set_symbol(symbol(ARG1), p1, symbol(NIL));
 
 	push(FUNC_DEFN);
-	eval();
+	evalf();
 
 	restore_symbol(symbol(ARG9));
 	restore_symbol(symbol(ARG8));

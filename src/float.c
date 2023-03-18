@@ -2,7 +2,7 @@ void
 eval_float(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	floatfunc();
 }
 
@@ -10,9 +10,9 @@ void
 floatfunc(void)
 {
 	floatfunc_subst();
-	eval();
+	evalf();
 	floatfunc_subst(); // in case pi popped up
-	eval();
+	evalf();
 }
 
 void

@@ -2,15 +2,15 @@ void
 eval_eval(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = cddr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		push(cadr(p1));
-		eval();
+		evalf();
 		subst();
 		p1 = cddr(p1);
 	}
-	eval();
+	evalf();
 }

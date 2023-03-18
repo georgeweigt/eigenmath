@@ -9,7 +9,7 @@ eval_power(struct atom *p1)
 	// evaluate exponent
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 
 	// if exponent is negative then evaluate base without expanding
@@ -19,10 +19,10 @@ eval_power(struct atom *p1)
 	if (isnegativenumber(p2)) {
 		t = expanding;
 		expanding = 0;
-		eval();
+		evalf();
 		expanding = t;
 	} else
-		eval();
+		evalf();
 
 	push(p2); // push exponent
 

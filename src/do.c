@@ -6,7 +6,7 @@ eval_do(struct atom *p1)
 	while (iscons(p1)) {
 		pop();
 		push(car(p1));
-		eval();
+		evalf();
 		p1 = cdr(p1);
 	}
 }

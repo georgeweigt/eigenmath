@@ -5,7 +5,7 @@ eval_print(struct atom *p1)
 	while (iscons(p1)) {
 		push(car(p1));
 		push(car(p1));
-		eval();
+		evalf();
 		print_result();
 		p1 = cdr(p1);
 	}

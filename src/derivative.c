@@ -5,7 +5,7 @@ eval_derivative(struct atom *p1)
 	struct atom *X, *Y = NULL; // silence compiler
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = cddr(p1);
 
 	if (!iscons(p1)) {
@@ -23,7 +23,7 @@ eval_derivative(struct atom *p1)
 			flag = 0;
 		} else {
 			push(car(p1));
-			eval();
+			evalf();
 			X = pop();
 			p1 = cdr(p1);
 		}
@@ -43,7 +43,7 @@ eval_derivative(struct atom *p1)
 		if (iscons(p1)) {
 
 			push(car(p1));
-			eval();
+			evalf();
 			Y = pop();
 			p1 = cdr(p1);
 

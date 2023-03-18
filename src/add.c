@@ -6,7 +6,7 @@ eval_add(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		p1 = cdr(p1);
 	}
 	add_terms(tos - h);
@@ -378,7 +378,7 @@ simplify_terms(int h)
 		p1 = stack[i];
 		if (isradicalterm(p1)) {
 			push(p1);
-			eval();
+			evalf();
 			p2 = pop();
 			if (!equal(p1, p2)) {
 				stack[i] = p2;

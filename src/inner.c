@@ -15,11 +15,11 @@ eval_inner(struct atom *p1)
 	if (h == tos)
 		stopf("inner: no args");
 
-	eval();
+	evalf();
 
 	while (tos - h > 1) {
 		p1 = pop();
-		eval();
+		evalf();
 		push(p1);
 		inner();
 	}

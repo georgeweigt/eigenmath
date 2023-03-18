@@ -5,7 +5,7 @@ eval_transpose(struct atom *p1)
 	struct atom *p2;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 	push(p2);
 
@@ -22,11 +22,11 @@ eval_transpose(struct atom *p1)
 	while (iscons(p1)) {
 
 		push(car(p1));
-		eval();
+		evalf();
 		n = pop_integer();
 
 		push(cadr(p1));
-		eval();
+		evalf();
 		m = pop_integer();
 
 		transpose(n, m);

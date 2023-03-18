@@ -2,9 +2,9 @@ void
 eval_mod(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	push(caddr(p1));
-	eval();
+	evalf();
 	modfunc();
 }
 

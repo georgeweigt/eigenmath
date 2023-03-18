@@ -4,10 +4,10 @@ eval_testeq(struct atom *p1)
 	struct atom *p2, *p3;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 
 	p2 = pop();
 	p1 = pop();

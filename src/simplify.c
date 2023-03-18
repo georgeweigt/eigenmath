@@ -2,7 +2,7 @@ void
 eval_simplify(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	simplify();
 }
 
@@ -44,7 +44,7 @@ simplify(void)
 	}
 
 	list(tos - h);
-	eval();
+	evalf();
 
 	simplify_pass1();
 	simplify_pass2(); // try exponential form
@@ -82,7 +82,7 @@ simplify_pass1(void)
 
 	push(T);
 	denominator();
-	eval(); // to expand denominator
+	evalf(); // to expand denominator
 	DEN = pop();
 
 	// if DEN is a sum then rationalize it
@@ -95,7 +95,7 @@ simplify_pass1(void)
 			// update NUM
 			push(T);
 			denominator();
-			eval(); // to expand denominator
+			evalf(); // to expand denominator
 			push(NUM);
 			multiply();
 			NUM = pop();
@@ -160,7 +160,7 @@ simplify_pass2(void)
 	push(p1);
 	circexp();
 	rationalize();
-	eval(); // to normalize
+	evalf(); // to normalize
 	p2 = pop();
 
 	if (complexity(p2) < complexity(p1)) {

@@ -19,7 +19,7 @@ eval_setq(struct atom *p1)
 		stopf("user symbol expected");
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 
 	set_symbol(cadr(p1), p2, symbol(NIL));
@@ -49,11 +49,11 @@ setq_indexed(struct atom *p1)
 		stopf("user symbol expected");
 
 	push(S);
-	eval();
+	evalf();
 	LVAL = pop();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	RVAL = pop();
 
 	// eval indices
@@ -64,7 +64,7 @@ setq_indexed(struct atom *p1)
 
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		p1 = cdr(p1);
 	}
 

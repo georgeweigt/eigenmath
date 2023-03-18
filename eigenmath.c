@@ -560,13 +560,13 @@ void eval_erf(struct atom *p1);
 void erffunc(void);
 void eval_erfc(struct atom *p1);
 void erfcfunc(void);
-void eval(void);
-void eval_nib(void);
+void eval_eval(struct atom *p1);
+void evalf(void);
+void evalf_nib(void);
 void eval_user_symbol(struct atom *p1);
 void eval_nil(struct atom *p1);
 void eval_number(struct atom *p1);
 void eval_stop(struct atom *p1);
-void eval_eval(struct atom *p1);
 void evalp(void);
 void eval_exp(struct atom *p1);
 void expfunc(void);
@@ -901,7 +901,7 @@ void
 eval_abs(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	absfunc();
 }
 
@@ -996,7 +996,7 @@ eval_add(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		p1 = cdr(p1);
 	}
 	add_terms(tos - h);
@@ -1368,7 +1368,7 @@ simplify_terms(int h)
 		p1 = stack[i];
 		if (isradicalterm(p1)) {
 			push(p1);
-			eval();
+			evalf();
 			p2 = pop();
 			if (!equal(p1, p2)) {
 				stack[i] = p2;
@@ -1525,7 +1525,7 @@ void
 eval_adj(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	adj();
 }
 
@@ -1706,7 +1706,7 @@ void
 eval_arccos(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	arccos();
 }
 
@@ -1828,7 +1828,7 @@ void
 eval_arccosh(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	arccosh();
 }
 
@@ -1896,7 +1896,7 @@ void
 eval_arcsin(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	arcsin();
 }
 
@@ -2003,7 +2003,7 @@ void
 eval_arcsinh(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	arcsinh();
 }
 
@@ -2079,13 +2079,13 @@ void
 eval_arctan(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	p1 = cddr(p1);
 
 	if (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 	} else
 		push_integer(1);
 
@@ -2267,7 +2267,7 @@ void
 eval_arctanh(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	arctanh();
 }
 
@@ -2350,7 +2350,7 @@ void
 eval_arg(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	arg();
 }
 
@@ -3371,7 +3371,7 @@ void
 eval_ceiling(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	ceilingfunc();
 }
 
@@ -3441,7 +3441,7 @@ void
 eval_circexp(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	circexp();
 }
 
@@ -3449,7 +3449,7 @@ void
 circexp(void)
 {
 	circexp_subst();
-	eval();
+	evalf();
 }
 
 void
@@ -3558,7 +3558,7 @@ void
 eval_clock(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	clockfunc();
 }
 
@@ -3602,14 +3602,14 @@ cmp_args(struct atom *p1)
 	struct atom *p2;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 	push(p2);
 	if (!isnum(p2))
 		floatfunc();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 	push(p2);
 	if (!isnum(p2))
@@ -3630,7 +3630,7 @@ coeffs(struct atom *P, struct atom *X)
 		push(X);
 		push_integer(0);
 		subst();
-		eval();
+		evalf();
 		C = pop();
 
 		push(C);
@@ -3656,15 +3656,15 @@ eval_cofactor(struct atom *p1)
 	struct atom *p2;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	i = pop_integer();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2 || p2->u.tensor->dim[0] != p2->u.tensor->dim[1])
@@ -3686,7 +3686,7 @@ void
 eval_conj(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	conjfunc();
 }
 
@@ -3694,7 +3694,7 @@ void
 conjfunc(void)
 {
 	conjfunc_subst();
-	eval();
+	evalf();
 }
 
 void
@@ -3747,7 +3747,7 @@ void
 eval_contract(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	p1 = cddr(p1);
 
@@ -3760,9 +3760,9 @@ eval_contract(struct atom *p1)
 
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		push(cadr(p1));
-		eval();
+		evalf();
 		contract();
 		p1 = cddr(p1);
 	}
@@ -4410,7 +4410,7 @@ void
 eval_cos(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	cosfunc();
 }
 
@@ -4647,7 +4647,7 @@ void
 eval_cosh(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	coshfunc();
 }
 
@@ -4881,7 +4881,7 @@ eval_defint(struct atom *p1)
 	struct atom *F, *X, *A, *B;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	F = pop();
 
 	p1 = cddr(p1);
@@ -4889,15 +4889,15 @@ eval_defint(struct atom *p1)
 	while (iscons(p1)) {
 
 		push(car(p1));
-		eval();
+		evalf();
 		X = pop();
 
 		push(cadr(p1));
-		eval();
+		evalf();
 		A = pop();
 
 		push(caddr(p1));
-		eval();
+		evalf();
 		B = pop();
 
 		push(F);
@@ -4909,13 +4909,13 @@ eval_defint(struct atom *p1)
 		push(X);
 		push(B);
 		subst();
-		eval();
+		evalf();
 
 		push(F);
 		push(X);
 		push(A);
 		subst();
-		eval();
+		evalf();
 
 		subtract();
 		F = pop();
@@ -4929,7 +4929,7 @@ void
 eval_denominator(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	denominator();
 }
 
@@ -4971,7 +4971,7 @@ eval_derivative(struct atom *p1)
 	struct atom *X, *Y = NULL; // silence compiler
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = cddr(p1);
 
 	if (!iscons(p1)) {
@@ -4989,7 +4989,7 @@ eval_derivative(struct atom *p1)
 			flag = 0;
 		} else {
 			push(car(p1));
-			eval();
+			evalf();
 			X = pop();
 			p1 = cdr(p1);
 		}
@@ -5009,7 +5009,7 @@ eval_derivative(struct atom *p1)
 		if (iscons(p1)) {
 
 			push(car(p1));
-			eval();
+			evalf();
 			Y = pop();
 			p1 = cdr(p1);
 
@@ -5636,7 +5636,7 @@ void
 eval_det(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	det();
 }
 
@@ -5739,7 +5739,7 @@ eval_dim(struct atom *p1)
 	struct atom *p2;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 
 	if (!istensor(p2)) {
@@ -5751,7 +5751,7 @@ eval_dim(struct atom *p1)
 		k = 1;
 	else {
 		push(caddr(p1));
-		eval();
+		evalf();
 		k = pop_integer();
 	}
 
@@ -5827,7 +5827,7 @@ eval_do(struct atom *p1)
 	while (iscons(p1)) {
 		pop();
 		push(car(p1));
-		eval();
+		evalf();
 		p1 = cdr(p1);
 	}
 }
@@ -5838,7 +5838,7 @@ eval_eigenvec(struct atom *p1)
 	static double *D, *Q;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	floatfunc();
 	p1 = pop();
 
@@ -6274,7 +6274,7 @@ void
 eval_erf(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	erffunc();
 }
 
@@ -6329,7 +6329,7 @@ void
 eval_erfc(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	erfcfunc();
 }
 
@@ -6372,7 +6372,23 @@ erfcfunc(void)
 	list(2);
 }
 void
-eval(void)
+eval_eval(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	p1 = cddr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		evalf();
+		push(cadr(p1));
+		evalf();
+		subst();
+		p1 = cddr(p1);
+	}
+	evalf();
+}
+void
+evalf(void)
 {
 	if (interrupt)
 		kaput("interrupt");
@@ -6385,13 +6401,13 @@ eval(void)
 	if (level == 200)
 		kaput("circular definition?");
 
-	eval_nib();
+	evalf_nib();
 
 	level--;
 }
 
 void
-eval_nib(void)
+evalf_nib(void)
 {
 	struct atom *p1;
 
@@ -6444,7 +6460,7 @@ eval_user_symbol(struct atom *p1)
 		push(p1); // symbol evaluates to itself
 	else {
 		push(p2); // eval symbol binding
-		eval();
+		evalf();
 	}
 }
 
@@ -6459,7 +6475,7 @@ void
 eval_number(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	p1 = pop();
 
@@ -6475,23 +6491,7 @@ eval_stop(struct atom *p1)
 	(void) p1; // silence compiler
 	stopf("stop function");
 }
-void
-eval_eval(struct atom *p1)
-{
-	push(cadr(p1));
-	eval();
-	p1 = cddr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		eval();
-		push(cadr(p1));
-		eval();
-		subst();
-		p1 = cddr(p1);
-	}
-	eval();
-}
-// like eval() except '=' is evaluated as '=='
+// like evalf() except '=' is evaluated as '=='
 
 void
 evalp(void)
@@ -6502,14 +6502,14 @@ evalp(void)
 		eval_testeq(p1);
 	else {
 		push(p1);
-		eval();
+		evalf();
 	}
 }
 void
 eval_exp(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	expfunc();
 }
 
@@ -6524,7 +6524,7 @@ void
 eval_expcos(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	expcos();
 }
 
@@ -6555,7 +6555,7 @@ void
 eval_expcosh(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	expcosh();
 }
 
@@ -6577,7 +6577,7 @@ void
 eval_expsin(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	expsin();
 }
 
@@ -6612,7 +6612,7 @@ void
 eval_expsinh(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	expsinh();
 }
 
@@ -6636,7 +6636,7 @@ void
 eval_exptan(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	exptan();
 }
 
@@ -6668,7 +6668,7 @@ void
 eval_exptanh(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	exptanh();
 }
 
@@ -7447,7 +7447,7 @@ void
 eval_factorial(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	factorial();
 }
 
@@ -7489,7 +7489,7 @@ void
 eval_float(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	floatfunc();
 }
 
@@ -7497,9 +7497,9 @@ void
 floatfunc(void)
 {
 	floatfunc_subst();
-	eval();
+	evalf();
 	floatfunc_subst(); // in case pi popped up
-	eval();
+	evalf();
 }
 
 void
@@ -7586,7 +7586,7 @@ void
 eval_floor(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	floorfunc();
 }
 
@@ -9029,11 +9029,11 @@ eval_for(struct atom *p1)
 		stopf("for: symbol error");
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	j = pop_integer();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	k = pop_integer();
 
 	p1 = cddddr(p1);
@@ -9047,7 +9047,7 @@ eval_for(struct atom *p1)
 		p3 = p1;
 		while (iscons(p3)) {
 			push(car(p3));
-			eval();
+			evalf();
 			pop();
 			p3 = cdr(p3);
 		}
@@ -9221,11 +9221,11 @@ void
 eval_hadamard(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = cddr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		hadamard();
 		p1 = cdr(p1);
 	}
@@ -9273,7 +9273,7 @@ void
 eval_imag(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	imag();
 }
 
@@ -9322,7 +9322,7 @@ eval_index(struct atom *p1)
 
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		p1 = cdr(p1);
 	}
 
@@ -9334,13 +9334,13 @@ eval_index(struct atom *p1)
 		if (istensor(p1) && n <= p1->u.tensor->ndim) {
 			T = p1;
 			indexfunc(T, h);
-			eval();
+			evalf();
 			return;
 		}
 	}
 
 	push(T);
-	eval();
+	evalf();
 	T = pop();
 
 	if (!istensor(T)) {
@@ -9407,7 +9407,7 @@ void
 eval_infixform(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = pop();
 
 	outbuf_init();
@@ -9945,11 +9945,11 @@ eval_inner(struct atom *p1)
 	if (h == tos)
 		stopf("inner: no args");
 
-	eval();
+	evalf();
 
 	while (tos - h > 1) {
 		p1 = pop();
-		eval();
+		evalf();
 		push(p1);
 		inner();
 	}
@@ -10949,7 +10949,7 @@ eval_integral(struct atom *p1)
 	struct atom *X, *Y = NULL; // silence compiler
 
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	p1 = cddr(p1);
 
@@ -10968,7 +10968,7 @@ eval_integral(struct atom *p1)
 			flag = 0;
 		} else {
 			push(car(p1));
-			eval();
+			evalf();
 			X = pop();
 			p1 = cdr(p1);
 		}
@@ -10991,7 +10991,7 @@ eval_integral(struct atom *p1)
 		if (iscons(p1)) {
 
 			push(car(p1));
-			eval();
+			evalf();
 			Y = pop();
 			p1 = cdr(p1);
 
@@ -11155,7 +11155,7 @@ integral_search(int h, struct atom *F, char **table, int n)
 	tos = h; // pop all
 
 	scan1(table[i + 1]); // answer
-	eval();
+	evalf();
 
 	return 1;
 }
@@ -11175,14 +11175,14 @@ integral_search_nib(int h, struct atom *F, struct atom *I, struct atom *C)
 			set_symbol(symbol(SB), stack[j], symbol(NIL));
 
 			push(C);			// condition ok?
-			eval();
+			evalf();
 			p1 = pop();
 			if (iszero(p1))
 				continue;		// no, go to next j
 
 			push(F);			// F = I?
 			push(I);
-			eval();
+			evalf();
 			subtract();
 			p1 = pop();
 			if (iszero(p1))
@@ -11196,7 +11196,7 @@ void
 eval_inv(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	inv();
 }
 
@@ -11228,11 +11228,11 @@ void
 eval_kronecker(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = cddr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		kronecker();
 		p1 = cdr(p1);
 	}
@@ -11294,7 +11294,7 @@ void
 eval_log(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	logfunc();
 }
 
@@ -11433,7 +11433,7 @@ void
 eval_mag(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	mag();
 }
 
@@ -11612,15 +11612,15 @@ eval_minor(struct atom *p1)
 	struct atom *p2;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	i = pop_integer();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2 || p2->u.tensor->dim[0] != p2->u.tensor->dim[1])
@@ -11642,15 +11642,15 @@ eval_minormatrix(struct atom *p1)
 	struct atom *p2;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	i = pop_integer();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2)
@@ -11726,9 +11726,9 @@ void
 eval_mod(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	push(caddr(p1));
-	eval();
+	evalf();
 	modfunc();
 }
 
@@ -11813,7 +11813,7 @@ eval_multiply(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		p1 = cdr(p1);
 	}
 	multiply_factors(tos - h);
@@ -12483,7 +12483,7 @@ eval_noexpand(struct atom *p1)
 	expanding = 0;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	expanding = t;
 }
@@ -12505,13 +12505,13 @@ void
 eval_nroots(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	p1 = cddr(p1);
 
 	if (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 	} else
 		push_symbol(X_LOWER);
 
@@ -12801,7 +12801,7 @@ void
 eval_numerator(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	numerator();
 }
 
@@ -12898,11 +12898,11 @@ void
 eval_outer(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = cddr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		outer();
 		p1 = cdr(p1);
 	}
@@ -13015,7 +13015,7 @@ void
 eval_polar(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	polar();
 }
 
@@ -13067,7 +13067,7 @@ eval_power(struct atom *p1)
 	// evaluate exponent
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 
 	// if exponent is negative then evaluate base without expanding
@@ -13077,10 +13077,10 @@ eval_power(struct atom *p1)
 	if (isnegativenumber(p2)) {
 		t = expanding;
 		expanding = 0;
-		eval();
+		evalf();
 		expanding = t;
 	} else
-		eval();
+		evalf();
 
 	push(p2); // push exponent
 
@@ -14325,7 +14325,7 @@ void
 eval_prefixform(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = pop();
 
 	outbuf_init();
@@ -14406,7 +14406,7 @@ eval_print(struct atom *p1)
 	while (iscons(p1)) {
 		push(car(p1));
 		push(car(p1));
-		eval();
+		evalf();
 		print_result();
 		p1 = cdr(p1);
 	}
@@ -14466,7 +14466,7 @@ eval_product(struct atom *p1)
 
 	if (lengthf(p1) == 2) {
 		push(cadr(p1));
-		eval();
+		evalf();
 		p1 = pop();
 		if (!istensor(p1)) {
 			push(p1);
@@ -14484,11 +14484,11 @@ eval_product(struct atom *p1)
 		stopf("product: symbol error");
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	j = pop_integer();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	k = pop_integer();
 
 	p1 = caddddr(p1);
@@ -14502,7 +14502,7 @@ eval_product(struct atom *p1)
 		p3 = pop();
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
-		eval();
+		evalf();
 		if (j < k)
 			j++;
 		else if (j > k)
@@ -14524,7 +14524,7 @@ void
 eval_rank(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = pop();
 	if (istensor(p1))
 		push_integer(p1->u.tensor->ndim);
@@ -14535,7 +14535,7 @@ void
 eval_rationalize(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	rationalize();
 }
 
@@ -14627,7 +14627,7 @@ void
 eval_real(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	real();
 }
 
@@ -14665,7 +14665,7 @@ void
 eval_rect(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	rect();
 }
 
@@ -14763,13 +14763,13 @@ void
 eval_roots(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	p1 = cddr(p1);
 
 	if (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 	} else
 		push_symbol(X_LOWER);
 
@@ -15066,7 +15066,7 @@ eval_rotate(struct atom *p1)
 	struct atom *PSI, *OPCODE, *PHASE;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	PSI = pop();
 
 	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || PSI->u.tensor->nelem > 32768 || !POWEROF2(PSI->u.tensor->nelem))
@@ -15083,7 +15083,7 @@ eval_rotate(struct atom *p1)
 
 		OPCODE = car(p1);
 		push(cadr(p1));
-		eval();
+		evalf();
 		n = pop_integer();
 
 		if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
@@ -15107,7 +15107,7 @@ eval_rotate(struct atom *p1)
 				stopf("rotate error 2 unexpected end of argument list");
 			push(car(p1));
 			p1 = cdr(p1);
-			eval();
+			evalf();
 			push(imaginaryunit);
 			multiply();
 			expfunc();
@@ -15135,7 +15135,7 @@ eval_rotate(struct atom *p1)
 				stopf("rotate error 2 unexpected end of argument list");
 			push(car(p1));
 			p1 = cdr(p1);
-			eval();
+			evalf();
 			n = pop_integer();
 			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
 				stopf("rotate error 3 qubit number format or range");
@@ -15306,7 +15306,7 @@ rotate_q(struct atom *PSI, int n)
 			power();
 			push(imaginaryunit);
 			push_symbol(PI);
-			eval();
+			evalf();
 			multiply_factors(3);
 			expfunc();
 			PHASE = pop();
@@ -15333,7 +15333,7 @@ rotate_v(struct atom *PSI, int n)
 			power();
 			push(imaginaryunit);
 			push_symbol(PI);
-			eval();
+			evalf();
 			multiply_factors(3);
 			negate();
 			expfunc();
@@ -15430,7 +15430,7 @@ eval_and_print_result(void)
 
 	p1 = pop();
 	push(p1);
-	eval();
+	evalf();
 	p2 = pop();
 
 	push(p1);
@@ -15445,7 +15445,7 @@ void
 eval_run(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = pop();
 
 	if (!isstr(p1))
@@ -15564,7 +15564,7 @@ initscript(void)
 	for (i = 0; i < n; i++) {
 		s = init_script_tab[i];
 		scan(s);
-		eval();
+		evalf();
 		pop();
 	}
 }
@@ -16209,7 +16209,7 @@ eval_setq(struct atom *p1)
 		stopf("user symbol expected");
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 
 	set_symbol(cadr(p1), p2, symbol(NIL));
@@ -16239,11 +16239,11 @@ setq_indexed(struct atom *p1)
 		stopf("user symbol expected");
 
 	push(S);
-	eval();
+	evalf();
 	LVAL = pop();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	RVAL = pop();
 
 	// eval indices
@@ -16254,7 +16254,7 @@ setq_indexed(struct atom *p1)
 
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		p1 = cdr(p1);
 	}
 
@@ -16436,7 +16436,7 @@ void
 eval_sgn(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	sgn();
 }
 
@@ -16481,7 +16481,7 @@ void
 eval_simplify(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	simplify();
 }
 
@@ -16523,7 +16523,7 @@ simplify(void)
 	}
 
 	list(tos - h);
-	eval();
+	evalf();
 
 	simplify_pass1();
 	simplify_pass2(); // try exponential form
@@ -16561,7 +16561,7 @@ simplify_pass1(void)
 
 	push(T);
 	denominator();
-	eval(); // to expand denominator
+	evalf(); // to expand denominator
 	DEN = pop();
 
 	// if DEN is a sum then rationalize it
@@ -16574,7 +16574,7 @@ simplify_pass1(void)
 			// update NUM
 			push(T);
 			denominator();
-			eval(); // to expand denominator
+			evalf(); // to expand denominator
 			push(NUM);
 			multiply();
 			NUM = pop();
@@ -16639,7 +16639,7 @@ simplify_pass2(void)
 	push(p1);
 	circexp();
 	rationalize();
-	eval(); // to normalize
+	evalf(); // to normalize
 	p2 = pop();
 
 	if (complexity(p2) < complexity(p1)) {
@@ -16679,7 +16679,7 @@ void
 eval_sin(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	sinfunc();
 }
 
@@ -16919,7 +16919,7 @@ void
 eval_sinh(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	sinhfunc();
 }
 
@@ -16994,7 +16994,7 @@ void
 eval_sqrt(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	sqrtfunc();
 }
 
@@ -17130,13 +17130,13 @@ void
 eval_subst(struct atom *p1)
 {
 	push(cadddr(p1));
-	eval();
+	evalf();
 	push(caddr(p1));
-	eval();
+	evalf();
 	push(cadr(p1));
-	eval();
+	evalf();
 	subst();
-	eval(); // normalize
+	evalf(); // normalize
 }
 
 void
@@ -17195,7 +17195,7 @@ eval_sum(struct atom *p1)
 
 	if (lengthf(p1) == 2) {
 		push(cadr(p1));
-		eval();
+		evalf();
 		p1 = pop();
 		if (!istensor(p1)) {
 			push(p1);
@@ -17213,11 +17213,11 @@ eval_sum(struct atom *p1)
 		stopf("sum: symbol error");
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	j = pop_integer();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	k = pop_integer();
 
 	p1 = caddddr(p1);
@@ -17231,7 +17231,7 @@ eval_sum(struct atom *p1)
 		p3 = pop();
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
-		eval();
+		evalf();
 		if (j < k)
 			j++;
 		else if (j > k)
@@ -17611,7 +17611,7 @@ void
 eval_tan(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	tanfunc();
 }
 
@@ -17793,7 +17793,7 @@ void
 eval_tanh(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	tanhfunc();
 }
 
@@ -17866,22 +17866,22 @@ eval_taylor(struct atom *p1)
 	struct atom *F, *X, *A, *C;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	F = pop();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	X = pop();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	n = pop_integer();
 
 	p1 = cddddr(p1);
 
 	if (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 	} else
 		push_integer(0); // default expansion point
 
@@ -17893,7 +17893,7 @@ eval_taylor(struct atom *p1)
 	push(X);
 	push(A);
 	subst();
-	eval();
+	evalf();
 
 	push_integer(1);
 	C = pop();
@@ -17919,7 +17919,7 @@ eval_taylor(struct atom *p1)
 		push(X);
 		push(A);
 		subst();
-		eval();
+		evalf();
 
 		push(C);
 		multiply();
@@ -17939,7 +17939,7 @@ eval_tensor(struct atom *p1)
 
 	for (i = 0; i < p1->u.tensor->nelem; i++) {
 		push(p1->u.tensor->elem[i]);
-		eval();
+		evalf();
 		p1->u.tensor->elem[i] = pop();
 	}
 
@@ -18095,7 +18095,7 @@ eval_test(struct atom *p1)
 	while (iscons(p1)) {
 		if (!iscons(cdr(p1))) {
 			push(car(p1)); // default case
-			eval();
+			evalf();
 			return;
 		}
 		push(car(p1));
@@ -18103,7 +18103,7 @@ eval_test(struct atom *p1)
 		p2 = pop();
 		if (!iszero(p2)) {
 			push(cadr(p1));
-			eval();
+			evalf();
 			return;
 		}
 		p1 = cddr(p1);
@@ -18116,10 +18116,10 @@ eval_testeq(struct atom *p1)
 	struct atom *p2, *p3;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 
 	p2 = pop();
 	p1 = pop();
@@ -18234,7 +18234,7 @@ eval_transpose(struct atom *p1)
 	struct atom *p2;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 	push(p2);
 
@@ -18251,11 +18251,11 @@ eval_transpose(struct atom *p1)
 	while (iscons(p1)) {
 
 		push(car(p1));
-		eval();
+		evalf();
 		n = pop_integer();
 
 		push(cadr(p1));
-		eval();
+		evalf();
 		m = pop_integer();
 
 		transpose(n, m);
@@ -18324,7 +18324,7 @@ eval_unit(struct atom *p1)
 	int i, j, n;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	n = pop_integer();
 
@@ -18371,7 +18371,7 @@ eval_user_function(struct atom *p1)
 		push(FUNC_NAME);
 		while (iscons(FUNC_ARGS)) {
 			push(car(FUNC_ARGS));
-			eval();
+			evalf();
 			FUNC_ARGS = cdr(FUNC_ARGS);
 		}
 		list(tos - h);
@@ -18382,7 +18382,7 @@ eval_user_function(struct atom *p1)
 
 	for (i = 0; i < 9; i++) {
 		push(car(FUNC_ARGS));
-		eval();
+		evalf();
 		FUNC_ARGS = cdr(FUNC_ARGS);
 	}
 
@@ -18424,7 +18424,7 @@ eval_user_function(struct atom *p1)
 	set_symbol(symbol(ARG1), p1, symbol(NIL));
 
 	push(FUNC_DEFN);
-	eval();
+	evalf();
 
 	restore_symbol(symbol(ARG9));
 	restore_symbol(symbol(ARG8));
@@ -18447,7 +18447,7 @@ eval_zero(struct atom *p1)
 
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		dupl();
 		n = pop_integer();
 		if (n < 2)

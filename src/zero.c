@@ -9,7 +9,7 @@ eval_zero(struct atom *p1)
 
 	while (iscons(p1)) {
 		push(car(p1));
-		eval();
+		evalf();
 		dupl();
 		n = pop_integer();
 		if (n < 2)

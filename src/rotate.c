@@ -12,7 +12,7 @@ eval_rotate(struct atom *p1)
 	struct atom *PSI, *OPCODE, *PHASE;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	PSI = pop();
 
 	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || PSI->u.tensor->nelem > 32768 || !POWEROF2(PSI->u.tensor->nelem))
@@ -29,7 +29,7 @@ eval_rotate(struct atom *p1)
 
 		OPCODE = car(p1);
 		push(cadr(p1));
-		eval();
+		evalf();
 		n = pop_integer();
 
 		if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
@@ -53,7 +53,7 @@ eval_rotate(struct atom *p1)
 				stopf("rotate error 2 unexpected end of argument list");
 			push(car(p1));
 			p1 = cdr(p1);
-			eval();
+			evalf();
 			push(imaginaryunit);
 			multiply();
 			expfunc();
@@ -81,7 +81,7 @@ eval_rotate(struct atom *p1)
 				stopf("rotate error 2 unexpected end of argument list");
 			push(car(p1));
 			p1 = cdr(p1);
-			eval();
+			evalf();
 			n = pop_integer();
 			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
 				stopf("rotate error 3 qubit number format or range");
@@ -252,7 +252,7 @@ rotate_q(struct atom *PSI, int n)
 			power();
 			push(imaginaryunit);
 			push_symbol(PI);
-			eval();
+			evalf();
 			multiply_factors(3);
 			expfunc();
 			PHASE = pop();
@@ -279,7 +279,7 @@ rotate_v(struct atom *PSI, int n)
 			power();
 			push(imaginaryunit);
 			push_symbol(PI);
-			eval();
+			evalf();
 			multiply_factors(3);
 			negate();
 			expfunc();

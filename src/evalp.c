@@ -1,4 +1,4 @@
-// like eval() except '=' is evaluated as '=='
+// like evalf() except '=' is evaluated as '=='
 
 void
 evalp(void)
@@ -9,6 +9,6 @@ evalp(void)
 		eval_testeq(p1);
 	else {
 		push(p1);
-		eval();
+		evalf();
 	}
 }

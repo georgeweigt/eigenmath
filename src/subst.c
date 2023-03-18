@@ -2,13 +2,13 @@ void
 eval_subst(struct atom *p1)
 {
 	push(cadddr(p1));
-	eval();
+	evalf();
 	push(caddr(p1));
-	eval();
+	evalf();
 	push(cadr(p1));
-	eval();
+	evalf();
 	subst();
-	eval(); // normalize
+	evalf(); // normalize
 }
 
 void

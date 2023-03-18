@@ -7,7 +7,7 @@ eval_tensor(struct atom *p1)
 
 	for (i = 0; i < p1->u.tensor->nelem; i++) {
 		push(p1->u.tensor->elem[i]);
-		eval();
+		evalf();
 		p1->u.tensor->elem[i] = pop();
 	}
 

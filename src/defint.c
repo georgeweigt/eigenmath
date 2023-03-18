@@ -4,7 +4,7 @@ eval_defint(struct atom *p1)
 	struct atom *F, *X, *A, *B;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	F = pop();
 
 	p1 = cddr(p1);
@@ -12,15 +12,15 @@ eval_defint(struct atom *p1)
 	while (iscons(p1)) {
 
 		push(car(p1));
-		eval();
+		evalf();
 		X = pop();
 
 		push(cadr(p1));
-		eval();
+		evalf();
 		A = pop();
 
 		push(caddr(p1));
-		eval();
+		evalf();
 		B = pop();
 
 		push(F);
@@ -32,13 +32,13 @@ eval_defint(struct atom *p1)
 		push(X);
 		push(B);
 		subst();
-		eval();
+		evalf();
 
 		push(F);
 		push(X);
 		push(A);
 		subst();
-		eval();
+		evalf();
 
 		subtract();
 		F = pop();

@@ -6,7 +6,7 @@ eval_test(struct atom *p1)
 	while (iscons(p1)) {
 		if (!iscons(cdr(p1))) {
 			push(car(p1)); // default case
-			eval();
+			evalf();
 			return;
 		}
 		push(car(p1));
@@ -14,7 +14,7 @@ eval_test(struct atom *p1)
 		p2 = pop();
 		if (!iszero(p2)) {
 			push(cadr(p1));
-			eval();
+			evalf();
 			return;
 		}
 		p1 = cddr(p1);

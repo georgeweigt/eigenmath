@@ -2,7 +2,7 @@ void
 eval_prefixform(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	p1 = pop();
 
 	outbuf_init();

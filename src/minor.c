@@ -5,15 +5,15 @@ eval_minor(struct atom *p1)
 	struct atom *p2;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 	p2 = pop();
 
 	push(caddr(p1));
-	eval();
+	evalf();
 	i = pop_integer();
 
 	push(cadddr(p1));
-	eval();
+	evalf();
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2 || p2->u.tensor->dim[0] != p2->u.tensor->dim[1])

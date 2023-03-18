@@ -2,7 +2,7 @@ void
 eval_conj(struct atom *p1)
 {
 	push(cadr(p1));
-	eval();
+	evalf();
 	conjfunc();
 }
 
@@ -10,7 +10,7 @@ void
 conjfunc(void)
 {
 	conjfunc_subst();
-	eval();
+	evalf();
 }
 
 void

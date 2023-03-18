@@ -4,7 +4,7 @@ eval_unit(struct atom *p1)
 	int i, j, n;
 
 	push(cadr(p1));
-	eval();
+	evalf();
 
 	n = pop_integer();
 
