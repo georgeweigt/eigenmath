@@ -8,7 +8,7 @@ eval_eigenvec(p1)
 	floatfunc();
 	p1 = pop();
 
-	if (!istensor(p1) || p1.dim.length != 2 || p1.dim[0] != p1.dim[1])
+	if (!issquarematrix(p1))
 		stopf("eigenvec: square matrix expected");
 
 	n = p1.dim[0];

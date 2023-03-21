@@ -16,11 +16,11 @@ eval_cofactor(struct atom *p1)
 	evalf();
 	j = pop_integer();
 
-	if (!istensor(p2) || p2->u.tensor->ndim != 2 || p2->u.tensor->dim[0] != p2->u.tensor->dim[1])
-		stopf("cofactor");
+	if (!issquarematrix(p2))
+		stopf("cofactor: square matrix expected");
 
 	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stopf("cofactor");
+		stopf("cofactor: index err");
 
 	push(p2);
 

@@ -1542,8 +1542,8 @@ adj(void)
 		return;
 	}
 
-	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
-		stopf("adj");
+	if (!issquarematrix(p1))
+		stopf("adj: square matrix expected");
 
 	n = p1->u.tensor->dim[0];
 
@@ -3667,11 +3667,11 @@ eval_cofactor(struct atom *p1)
 	evalf();
 	j = pop_integer();
 
-	if (!istensor(p2) || p2->u.tensor->ndim != 2 || p2->u.tensor->dim[0] != p2->u.tensor->dim[1])
-		stopf("cofactor");
+	if (!issquarematrix(p2))
+		stopf("cofactor: square matrix expected");
 
 	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stopf("cofactor");
+		stopf("cofactor: index err");
 
 	push(p2);
 
@@ -5653,7 +5653,7 @@ det(void)
 		return;
 	}
 
-	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
+	if (!issquarematrix(p1))
 		stopf("det: square matrix expected");
 
 	n = p1->u.tensor->dim[0];
@@ -5842,7 +5842,7 @@ eval_eigenvec(struct atom *p1)
 	floatfunc();
 	p1 = pop();
 
-	if (!istensor(p1) || p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
+	if (!issquarematrix(p1))
 		stopf("eigenvec: square matrix expected");
 
 	n = p1->u.tensor->dim[0];
@@ -11654,10 +11654,10 @@ eval_minormatrix(struct atom *p1)
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2)
-		stopf("minormatrix");
+		stopf("minormatrix: matrix expected");
 
 	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stopf("minormatrix");
+		stopf("minormatrix: index err");
 
 	push(p2);
 

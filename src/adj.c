@@ -19,8 +19,8 @@ adj(void)
 		return;
 	}
 
-	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
-		stopf("adj");
+	if (!issquarematrix(p1))
+		stopf("adj: square matrix expected");
 
 	n = p1->u.tensor->dim[0];
 

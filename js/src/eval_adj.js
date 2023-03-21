@@ -18,8 +18,8 @@ adj()
 		return;
 	}
 
-	if (p1.dim.length != 2 || p1.dim[0] != p1.dim[1])
-		stopf("adj");
+	if (!issquarematrix(p1))
+		stopf("adj: square matrix expected");
 
 	n = p1.dim[0];
 

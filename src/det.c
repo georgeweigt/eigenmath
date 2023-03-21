@@ -19,7 +19,7 @@ det(void)
 		return;
 	}
 
-	if (p1->u.tensor->ndim != 2 || p1->u.tensor->dim[0] != p1->u.tensor->dim[1])
+	if (!issquarematrix(p1))
 		stopf("det: square matrix expected");
 
 	n = p1->u.tensor->dim[0];

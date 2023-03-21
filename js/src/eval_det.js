@@ -18,7 +18,7 @@ det()
 		return;
 	}
 
-	if (p1.dim.length != 2 || p1.dim[0] != p1.dim[1])
+	if (!issquarematrix(p1))
 		stopf("det: square matrix expected");
 
 	n = p1.dim[0];

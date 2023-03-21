@@ -17,10 +17,10 @@ eval_minormatrix(struct atom *p1)
 	j = pop_integer();
 
 	if (!istensor(p2) || p2->u.tensor->ndim != 2)
-		stopf("minormatrix");
+		stopf("minormatrix: matrix expected");
 
 	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stopf("minormatrix");
+		stopf("minormatrix: index err");
 
 	push(p2);
 
