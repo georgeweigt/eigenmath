@@ -46,5 +46,5 @@ eval_nonstop_nib(void)
 	save_loop_level = loop_level;
 	save_expanding = expanding;
 
-	eval();
+	evalf();
 }
