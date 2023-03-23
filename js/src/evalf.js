@@ -1,20 +1,18 @@
 function
 evalf()
 {
-	level++;
-
-	if (level == 200)
-		stopf("circular definition?");
-
+	eval_level++;
 	evalf_nib();
-
-	level--;
+	eval_level--;
 }
 
 function
 evalf_nib()
 {
 	var p1;
+
+	if (eval_level == 200)
+		stopf("circular definition?");
 
 	p1 = pop();
 

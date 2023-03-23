@@ -1,7 +1,7 @@
 function
 init()
 {
-	level = 0;
+	eval_level = 0;
 	expanding = 1;
 	drawing = 0;
 	journaling = 0;

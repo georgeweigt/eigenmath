@@ -10,7 +10,7 @@ var zero;
 var one;
 var minusone;
 var imaginaryunit;
-var level;
+var eval_level;
 var expanding;
 var drawing;
 var journaling;

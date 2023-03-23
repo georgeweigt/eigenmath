@@ -9116,13 +9116,13 @@ eval_nonstop()
 function
 eval_nonstop_nib()
 {
-	var save_tos, save_tof, save_level, save_expanding;
+	var save_tos, save_tof, save_eval_level, save_expanding;
 
 	try {
 		save_tos = stack.length - 1;
 		save_tof = frame.length;
 
-		save_level = level;
+		save_eval_level = eval_level;
 		save_expanding = expanding;
 
 		evalf();
@@ -9134,7 +9134,7 @@ eval_nonstop_nib()
 		stack.splice(save_tos);
 		frame.splice(save_tof);
 
-		level = save_level;
+		eval_level = save_eval_level;
 		expanding = save_expanding;
 
 		push_symbol(NIL); // return value
@@ -12190,20 +12190,18 @@ eval_zero(p1)
 function
 evalf()
 {
-	level++;
-
-	if (level == 200)
-		stopf("circular definition?");
-
+	eval_level++;
 	evalf_nib();
-
-	level--;
+	eval_level--;
 }
 
 function
 evalf_nib()
 {
 	var p1;
+
+	if (eval_level == 200)
+		stopf("circular definition?");
 
 	p1 = pop();
 
@@ -13897,7 +13895,7 @@ infixform_write(s)
 function
 init()
 {
-	level = 0;
+	eval_level = 0;
 	expanding = 1;
 	drawing = 0;
 	journaling = 0;
@@ -17126,7 +17124,7 @@ var zero;
 var one;
 var minusone;
 var imaginaryunit;
-var level;
+var eval_level;
 var expanding;
 var drawing;
 var journaling;

@@ -21,7 +21,7 @@ eval_nonstop_nib(void)
 {
 	// these have to be volatile, crash occurs otherwise
 
-	int volatile save_tos, save_tof, save_level, save_expanding;
+	int volatile save_tos, save_tof, save_eval_level, save_loop_level, save_expanding;
 
 	if (setjmp(jmpbuf1)) {
 
@@ -30,7 +30,8 @@ eval_nonstop_nib(void)
 		tos = save_tos;
 		tof = save_tof;
 
-		level = save_level;
+		eval_level = save_eval_level;
+		loop_level = save_loop_level;
 		expanding = save_expanding;
 
 		push_symbol(NIL); // return value
@@ -41,7 +42,8 @@ eval_nonstop_nib(void)
 	save_tos = tos - 1;
 	save_tof = tof;
 
-	save_level = level;
+	save_eval_level = eval_level;
+	save_loop_level = loop_level;
 	save_expanding = expanding;
 
 	eval();
