@@ -78,8 +78,8 @@ set_symbol(struct atom *p, struct atom *b, struct atom *u)
 		journal[toj + 1] = binding[k];
 		journal[toj + 2] = usrfunc[k];
 		toj += 3;
-		if (toj > max_journal)
-			max_journal = toj;
+		if (toj > max_toj)
+			max_toj = toj;
 	}
 
 	binding[k] = b;

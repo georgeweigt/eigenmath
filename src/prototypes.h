@@ -275,6 +275,7 @@ void fmt_draw_rdelim(int x, int y, int h, int d);
 void fmt_draw_table(int x, int y, struct atom *p);
 void writec(int c);
 void eval_for(struct atom *p1);
+void eval_for_nib(struct atom *p1);
 void gc(void);
 void untag(struct atom *p);
 void eval_hadamard(struct atom *p1);

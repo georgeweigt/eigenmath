@@ -337,7 +337,8 @@ extern struct atom *zero;
 extern struct atom *one;
 extern struct atom *minusone;
 extern struct atom *imaginaryunit;
-extern int level;
+extern int eval_level;
+extern int loop_level;
 extern int expanding;
 extern int drawing;
 extern int journaling;
@@ -353,10 +354,10 @@ extern int ksym_count;
 extern int usym_count;
 extern int string_count;
 extern int tensor_count;
-extern int max_level;
-extern int max_stack;
-extern int max_frame;
-extern int max_journal;
+extern int max_eval_level;
+extern int max_tos;
+extern int max_tof;
+extern int max_toj;
 extern char strbuf[];
 extern char *outbuf;
 extern int outbuf_index;
@@ -638,6 +639,7 @@ void fmt_draw_rdelim(int x, int y, int h, int d);
 void fmt_draw_table(int x, int y, struct atom *p);
 void writec(int c);
 void eval_for(struct atom *p1);
+void eval_for_nib(struct atom *p1);
 void gc(void);
 void untag(struct atom *p);
 void eval_hadamard(struct atom *p1);
@@ -6390,26 +6392,24 @@ eval_eval(struct atom *p1)
 void
 evalf(void)
 {
-	if (interrupt)
-		kaput("interrupt");
-
-	level++;
-
-	if (level > max_level)
-		max_level = level;
-
-	if (level == 200)
-		kaput("circular definition?");
-
+	eval_level++;
 	evalf_nib();
-
-	level--;
+	eval_level--;
 }
 
 void
 evalf_nib(void)
 {
 	struct atom *p1;
+
+	if (interrupt)
+		kaput("interrupt");
+
+	if (eval_level == 200)
+		kaput("circular definition?");
+
+	if (eval_level > max_eval_level)
+		max_eval_level = eval_level;
 
 	p1 = pop();
 
@@ -9021,8 +9021,18 @@ writec(int c)
 void
 eval_for(struct atom *p1)
 {
+	loop_level++;
+	eval_for_nib(p1);
+	loop_level--;
+}
+
+void
+eval_for_nib(struct atom *p1)
+{
 	int j, k;
 	struct atom *p2, *p3;
+
+	push(p1); // save from garbage collection
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
@@ -9046,9 +9056,13 @@ eval_for(struct atom *p1)
 		set_symbol(p2, p3, symbol(NIL));
 		p3 = p1;
 		while (iscons(p3)) {
+			if (loop_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
+				gc();
+				alloc_count = 0;
+			}
 			push(car(p3));
 			evalf();
-			pop();
+			pop(); // discard return value
 			p3 = cdr(p3);
 		}
 		if (j < k)
@@ -9060,6 +9074,8 @@ eval_for(struct atom *p1)
 	}
 
 	restore_symbol(p2);
+
+	pop();
 
 	push_symbol(NIL); // return value
 }
@@ -9085,6 +9101,15 @@ gc(void)
 	untag(one);
 	untag(minusone);
 	untag(imaginaryunit);
+
+	for (i = 0; i < tos; i++)
+		untag(stack[i]);
+
+	for (i = 0; i < tof; i++)
+		untag(frame[i]);
+
+	for (i = 0; i < toj; i++)
+		untag(journal[i]);
 
 	for (i = 0; i < 27; i++)
 		for (j = 0; j < NSYM; j++) {
@@ -9190,7 +9215,8 @@ struct atom *one;
 struct atom *minusone;
 struct atom *imaginaryunit;
 
-int level;
+int eval_level;
+int loop_level;
 int expanding;
 int drawing;
 int journaling;
@@ -9207,10 +9233,10 @@ int ksym_count;
 int usym_count;
 int string_count;
 int tensor_count;
-int max_level;
-int max_stack;
-int max_frame;
-int max_journal;
+int max_eval_level;
+int max_tos;
+int max_tof;
+int max_toj;
 
 char strbuf[STRBUFLEN];
 
@@ -15405,7 +15431,8 @@ prep(void)
 	tof = 0;
 	toj = 0;
 
-	level = 0;
+	eval_level = 0;
+	loop_level = 0;
 	expanding = 1;
 	drawing = 0;
 	journaling = 0;
@@ -17012,8 +17039,8 @@ push(struct atom *p)
 
 	stack[tos++] = p;
 
-	if (tos > max_stack)
-		max_stack = tos; // new high
+	if (tos > max_tos)
+		max_tos = tos;
 }
 
 struct atom *
@@ -17043,8 +17070,8 @@ save_symbol(struct atom *p)
 
 	tof += 2;
 
-	if (tof > max_frame)
-		max_frame = tof; // new high
+	if (tof > max_tof)
+		max_tof = tof;
 }
 
 void
@@ -17110,16 +17137,16 @@ eval_status(struct atom *p1)
 	snprintf(strbuf, STRBUFLEN, "tensor_count %d\n", tensor_count);
 	outbuf_puts(strbuf);
 
-	snprintf(strbuf, STRBUFLEN, "max_level %d\n", max_level);
+	snprintf(strbuf, STRBUFLEN, "max_eval_level %d\n", max_eval_level);
 	outbuf_puts(strbuf);
 
-	snprintf(strbuf, STRBUFLEN, "max_stack %d (%d%%)\n", max_stack, 100 * max_stack / STACKSIZE);
+	snprintf(strbuf, STRBUFLEN, "max_tos %d (%d%%)\n", max_tos, 100 * max_tos / STACKSIZE);
 	outbuf_puts(strbuf);
 
-	snprintf(strbuf, STRBUFLEN, "max_frame %d (%d%%)\n", max_frame, 100 * max_frame / FRAMESIZE);
+	snprintf(strbuf, STRBUFLEN, "max_tof %d (%d%%)\n", max_tof, 100 * max_tof / FRAMESIZE);
 	outbuf_puts(strbuf);
 
-	snprintf(strbuf, STRBUFLEN, "max_journal %d (%d%%)\n", max_journal, 100 * max_journal / JOURNALSIZE);
+	snprintf(strbuf, STRBUFLEN, "max_toj %d (%d%%)\n", max_toj, 100 * max_toj / JOURNALSIZE);
 	outbuf_puts(strbuf);
 
 	printbuf(outbuf, BLACK);
@@ -17324,8 +17351,8 @@ set_symbol(struct atom *p, struct atom *b, struct atom *u)
 		journal[toj + 1] = binding[k];
 		journal[toj + 2] = usrfunc[k];
 		toj += 3;
-		if (toj > max_journal)
-			max_journal = toj;
+		if (toj > max_toj)
+			max_toj = toj;
 	}
 
 	binding[k] = b;

@@ -29,16 +29,16 @@ eval_status(struct atom *p1)
 	snprintf(strbuf, STRBUFLEN, "tensor_count %d\n", tensor_count);
 	outbuf_puts(strbuf);
 
-	snprintf(strbuf, STRBUFLEN, "max_level %d\n", max_level);
+	snprintf(strbuf, STRBUFLEN, "max_eval_level %d\n", max_eval_level);
 	outbuf_puts(strbuf);
 
-	snprintf(strbuf, STRBUFLEN, "max_stack %d (%d%%)\n", max_stack, 100 * max_stack / STACKSIZE);
+	snprintf(strbuf, STRBUFLEN, "max_tos %d (%d%%)\n", max_tos, 100 * max_tos / STACKSIZE);
 	outbuf_puts(strbuf);
 
-	snprintf(strbuf, STRBUFLEN, "max_frame %d (%d%%)\n", max_frame, 100 * max_frame / FRAMESIZE);
+	snprintf(strbuf, STRBUFLEN, "max_tof %d (%d%%)\n", max_tof, 100 * max_tof / FRAMESIZE);
 	outbuf_puts(strbuf);
 
-	snprintf(strbuf, STRBUFLEN, "max_journal %d (%d%%)\n", max_journal, 100 * max_journal / JOURNALSIZE);
+	snprintf(strbuf, STRBUFLEN, "max_toj %d (%d%%)\n", max_toj, 100 * max_toj / JOURNALSIZE);
 	outbuf_puts(strbuf);
 
 	printbuf(outbuf, BLACK);

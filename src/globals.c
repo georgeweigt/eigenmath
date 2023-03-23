@@ -18,7 +18,8 @@ struct atom *one;
 struct atom *minusone;
 struct atom *imaginaryunit;
 
-int level;
+int eval_level;
+int loop_level;
 int expanding;
 int drawing;
 int journaling;
@@ -35,10 +36,10 @@ int ksym_count;
 int usym_count;
 int string_count;
 int tensor_count;
-int max_level;
-int max_stack;
-int max_frame;
-int max_journal;
+int max_eval_level;
+int max_tos;
+int max_tof;
+int max_toj;
 
 char strbuf[STRBUFLEN];
 

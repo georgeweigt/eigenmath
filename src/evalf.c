@@ -1,26 +1,24 @@
 void
 evalf(void)
 {
-	if (interrupt)
-		kaput("interrupt");
-
-	level++;
-
-	if (level > max_level)
-		max_level = level;
-
-	if (level == 200)
-		kaput("circular definition?");
-
+	eval_level++;
 	evalf_nib();
-
-	level--;
+	eval_level--;
 }
 
 void
 evalf_nib(void)
 {
 	struct atom *p1;
+
+	if (interrupt)
+		kaput("interrupt");
+
+	if (eval_level == 200)
+		kaput("circular definition?");
+
+	if (eval_level > max_eval_level)
+		max_eval_level = eval_level;
 
 	p1 = pop();
 

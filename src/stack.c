@@ -6,8 +6,8 @@ push(struct atom *p)
 
 	stack[tos++] = p;
 
-	if (tos > max_stack)
-		max_stack = tos; // new high
+	if (tos > max_tos)
+		max_tos = tos;
 }
 
 struct atom *
@@ -37,8 +37,8 @@ save_symbol(struct atom *p)
 
 	tof += 2;
 
-	if (tof > max_frame)
-		max_frame = tof; // new high
+	if (tof > max_tof)
+		max_tof = tof;
 }
 
 void

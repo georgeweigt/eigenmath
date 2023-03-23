@@ -21,6 +21,15 @@ gc(void)
 	untag(minusone);
 	untag(imaginaryunit);
 
+	for (i = 0; i < tos; i++)
+		untag(stack[i]);
+
+	for (i = 0; i < tof; i++)
+		untag(frame[i]);
+
+	for (i = 0; i < toj; i++)
+		untag(journal[i]);
+
 	for (i = 0; i < 27; i++)
 		for (j = 0; j < NSYM; j++) {
 			k = NSYM * i + j;
