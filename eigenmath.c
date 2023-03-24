@@ -804,11 +804,11 @@ void rotate_y(struct atom *PSI, uint32_t c, int n);
 void rotate_z(struct atom *PSI, uint32_t c, int n);
 void rotate_q(struct atom *PSI, int n);
 void rotate_v(struct atom *PSI, int n);
-void run(char *s);
+void run(char *buf);
+void run_loop(char *buf);
 void init(void);
 void prep(void);
 char * scan_input(char *s);
-void eval_and_print_result(void);
 void eval_run(struct atom *p1);
 void run_file(char *filename);
 void trace_input(void);
@@ -15373,7 +15373,7 @@ char *trace1;
 char *trace2;
 
 void
-run(char *s)
+run(char *buf)
 {
 	if (setjmp(jmpbuf0))
 		return;
@@ -15381,21 +15381,49 @@ run(char *s)
 	if (zero == NULL)
 		init();
 
+	set_symbol(symbol(TRACE), zero, symbol(NIL));
+
 	prep();
 
-	set_symbol(symbol(TRACE), zero, symbol(NIL));
+	run_loop(buf);
+}
+
+void
+run_loop(char *buf)
+{
+	char *s, *save_trace1, *save_trace2;
+	struct atom *p1;
+
+	save_trace1 = trace1;
+	save_trace2 = trace2;
+
+	s = buf;
 
 	for (;;) {
 
 		gc_check();
 
-		s = scan_input(s);
+		s = scan_input(s); // also updates trace1 and trace2
 
 		if (s == NULL)
 			break; // end of input
 
-		eval_and_print_result();
+		dupl();
+		evalf();
+
+		// update last
+
+		dupl();
+		p1 = pop();
+
+		if (p1 != symbol(NIL))
+			set_symbol(symbol(LAST), p1, symbol(NIL));
+
+		print_result();
 	}
+
+	trace1 = save_trace1;
+	trace2 = save_trace2;
 }
 
 void
@@ -15445,25 +15473,6 @@ scan_input(char *s)
 }
 
 void
-eval_and_print_result(void)
-{
-	struct atom *p;
-
-	dupl();
-	evalf();
-
-	// update last
-
-	dupl();
-	p = pop();
-
-	if (p != symbol(NIL))
-		set_symbol(symbol(LAST), p, symbol(NIL));
-
-	print_result();
-}
-
-void
 eval_run(struct atom *p1)
 {
 	push(cadr(p1));
@@ -15481,7 +15490,7 @@ eval_run(struct atom *p1)
 void
 run_file(char *filename)
 {
-	char *buf, *s, *t1, *t2;
+	char *buf;
 	struct atom *p;
 
 	loop_level++;
@@ -15497,25 +15506,7 @@ run_file(char *filename)
 
 	push(p); // protect buf from garbage collection
 
-	s = buf;
-
-	t1 = trace1;
-	t2 = trace2;
-
-	for (;;) {
-
-		gc_check();
-
-		s = scan_input(s);
-
-		if (s == NULL)
-			break; // end of input
-
-		eval_and_print_result();
-	}
-
-	trace1 = t1;
-	trace2 = t2;
+	run_loop(buf);
 
 	pop();
 
