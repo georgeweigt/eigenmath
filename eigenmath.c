@@ -805,16 +805,14 @@ void rotate_z(struct atom *PSI, uint32_t c, int n);
 void rotate_q(struct atom *PSI, int n);
 void rotate_v(struct atom *PSI, int n);
 void run(char *buf);
-void run_loop(char *buf);
-void init(void);
-void prep(void);
+void run_buf(char *buf);
 char * scan_input(char *s);
 void eval_run(struct atom *p1);
 void run_file(char *filename);
 void trace_input(void);
 void print_input_line(void);
 void print_scan_line(char *s);
-void initscript(void);
+void run_init_script(void);
 void stopf(char *s);
 void kaput(char *s);
 char * scan(char *s);
@@ -3549,7 +3547,7 @@ eval_clear(struct atom *p1)
 
 	clear_symbols();
 
-	initscript();
+	run_init_script();
 
 	restore_symbol(symbol(TTY));
 	restore_symbol(symbol(TRACE));
@@ -14458,7 +14456,9 @@ print_result(void)
 		p2 = pop();
 	}
 
-	if (iszero(get_binding(symbol(TTY)))) {
+	p1 = get_binding(symbol(TTY));
+
+	if (p1 == symbol(NIL) || iszero(p1)) {
 		push(p2);
 		display();
 	} else
@@ -15378,18 +15378,32 @@ run(char *buf)
 	if (setjmp(jmpbuf0))
 		return;
 
-	if (zero == NULL)
-		init();
+	tos = 0;
+	tof = 0;
+	toj = 0;
+	interrupt = 0;
+	eval_level = 0;
+	loop_level = 0;
+	expanding = 1;
+	drawing = 0;
+	journaling = 0;
 
-	set_symbol(symbol(TRACE), zero, symbol(NIL));
+	if (zero == NULL) {
+		init_symbol_table();
+		init_bignums();
+		push_symbol(POWER);
+		push_integer(-1);
+		push_rational(1, 2);
+		list(3);
+		imaginaryunit = pop();
+		run_init_script();
+	}
 
-	prep();
-
-	run_loop(buf);
+	run_buf(buf);
 }
 
 void
-run_loop(char *buf)
+run_buf(char *buf)
 {
 	char *s, *save_trace1, *save_trace2;
 	struct atom *p1;
@@ -15424,40 +15438,6 @@ run_loop(char *buf)
 
 	trace1 = save_trace1;
 	trace2 = save_trace2;
-}
-
-void
-init(void)
-{
-	init_symbol_table();
-
-	prep();
-
-	init_bignums();
-
-	push_symbol(POWER);
-	push_integer(-1);
-	push_rational(1, 2);
-	list(3);
-	imaginaryunit = pop();
-
-	initscript();
-}
-
-void
-prep(void)
-{
-	interrupt = 0;
-
-	tos = 0;
-	tof = 0;
-	toj = 0;
-
-	eval_level = 0;
-	loop_level = 0;
-	expanding = 1;
-	drawing = 0;
-	journaling = 0;
 }
 
 char *
@@ -15502,11 +15482,11 @@ run_file(char *filename)
 	if (buf == NULL)
 		stopf("run: cannot read file");
 
-	p->u.str = buf; // if stop occurs, buf is freed on next gc
+	p->u.str = buf; // buf is freed on next gc
 
 	push(p); // protect buf from garbage collection
 
-	run_loop(buf);
+	run_buf(buf);
 
 	pop();
 
@@ -15517,7 +15497,9 @@ void
 trace_input(void)
 {
 	char c, *s;
-	if (iszero(get_binding(symbol(TRACE))))
+	struct atom *p1;
+	p1 = get_binding(symbol(TRACE));
+	if (p1 == symbol(NIL) || iszero(p1))
 		return;
 	c = 0;
 	s = trace1;
@@ -15560,33 +15542,22 @@ print_scan_line(char *s)
 	print_input_line();
 }
 
-char *init_script_tab[] = {
-"i = sqrt(-1)",
-"last = 0",
-"trace = 0",
-"tty = 0",
-"cross(a,b)=(dot(a[2],b[3])-dot(a[3],b[2]),dot(a[3],b[1])-dot(a[1],b[3]),dot(a[1],b[2])-dot(a[2],b[1]))",
-"curl(u) = (d(u[3],y)-d(u[2],z),d(u[1],z)-d(u[3],x),d(u[2],x)-d(u[1],y))",
-"div(u) = d(u[1],x)+d(u[2],y)+d(u[3],z)",
-"laguerre(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))",
-"legendre(f,n,m,x) = eval(1 / (2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m),x,f)",
-"hermite(x,n) = (-1)^n exp(x^2) d(exp(-x^2),x,n)",
-"binomial(n,k) = n! / k! / (n - k)!",
-"choose(n,k) = n! / k! / (n - k)!",
-};
+char *init_script =
+"i = sqrt(-1)\n"
+"cross(a,b) = (dot(a[2],b[3])-dot(a[3],b[2]),dot(a[3],b[1])-dot(a[1],b[3]),dot(a[1],b[2])-dot(a[2],b[1]))\n"
+"curl(u) = (d(u[3],y)-d(u[2],z),d(u[1],z)-d(u[3],x),d(u[2],x)-d(u[1],y))\n"
+"div(u) = d(u[1],x)+d(u[2],y)+d(u[3],z)\n"
+"laguerre(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))\n"
+"legendre(f,n,m,x) = eval(1 / (2^n n!) (1 - x^2)^(m/2) d((x^2 - 1)^n,x,n + m),x,f)\n"
+"hermite(x,n) = (-1)^n exp(x^2) d(exp(-x^2),x,n)\n"
+"binomial(n,k) = n! / k! / (n - k)!\n"
+"choose(n,k) = n! / k! / (n - k)!\n"
+;
 
 void
-initscript(void)
+run_init_script(void)
 {
-	int i, n;
-	char *s;
-	n = sizeof init_script_tab / sizeof (char *);
-	for (i = 0; i < n; i++) {
-		s = init_script_tab[i];
-		scan(s);
-		evalf();
-		pop();
-	}
+	run_buf(init_script);
 }
 
 void
@@ -15594,7 +15565,6 @@ stopf(char *s)
 {
 	if (journaling)
 		longjmp(jmpbuf1, 1);
-
 	print_input_line();
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
 	printbuf(strbuf, RED);

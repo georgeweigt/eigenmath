@@ -8,7 +8,7 @@ eval_clear(struct atom *p1)
 
 	clear_symbols();
 
-	initscript();
+	run_init_script();
 
 	restore_symbol(symbol(TTY));
 	restore_symbol(symbol(TRACE));
