@@ -14039,8 +14039,6 @@ run_file(char *filename)
 	char *buf;
 	struct atom *p;
 
-	loop_level++;
-
 	p = alloc_str();
 
 	buf = read_file(filename);
@@ -14052,11 +14050,11 @@ run_file(char *filename)
 
 	push(p); // protect buf from garbage collection
 
+	loop_level++;
 	run_buf(buf);
+	loop_level--;
 
 	pop();
-
-	loop_level--;
 }
 
 void
