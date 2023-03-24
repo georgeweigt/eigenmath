@@ -1,4 +1,11 @@
-// can only be called from main run loop
+void
+gc_check(void)
+{
+	if (loop_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
+		gc();
+		alloc_count = 0;
+	}
+}
 
 void
 gc(void)

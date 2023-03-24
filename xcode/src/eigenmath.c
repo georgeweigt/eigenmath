@@ -639,7 +639,7 @@ void fmt_draw_rdelim(int x, int y, int h, int d);
 void fmt_draw_table(int x, int y, struct atom *p);
 void writec(int c);
 void eval_for(struct atom *p1);
-void eval_for_nib(struct atom *p1);
+void gc_check(void);
 void gc(void);
 void untag(struct atom *p);
 void eval_hadamard(struct atom *p1);
@@ -7644,18 +7644,12 @@ floorfunc(void)
 void
 eval_for(struct atom *p1)
 {
-	loop_level++;
-	eval_for_nib(p1);
-	loop_level--;
-}
-
-void
-eval_for_nib(struct atom *p1)
-{
 	int j, k;
 	struct atom *p2, *p3;
 
-	push(p1); // save from garbage collection
+	loop_level++;
+
+	push(p1); // protect p1 from garbage collection
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
@@ -7679,10 +7673,7 @@ eval_for_nib(struct atom *p1)
 		set_symbol(p2, p3, symbol(NIL));
 		p3 = p1;
 		while (iscons(p3)) {
-			if (loop_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
-				gc();
-				alloc_count = 0;
-			}
+			gc_check();
 			push(car(p3));
 			evalf();
 			pop(); // discard return value
@@ -7701,8 +7692,17 @@ eval_for_nib(struct atom *p1)
 	pop();
 
 	push_symbol(NIL); // return value
+
+	loop_level--;
 }
-// can only be called from main run loop
+void
+gc_check(void)
+{
+	if (loop_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
+		gc();
+		alloc_count = 0;
+	}
+}
 
 void
 gc(void)
@@ -13947,10 +13947,7 @@ run(char *s)
 
 	for (;;) {
 
-		if (alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
-			gc();
-			alloc_count = 0;
-		}
+		gc_check();
 
 		s = scan_input(s);
 
@@ -13958,9 +13955,6 @@ run(char *s)
 			break; // end of input
 
 		eval_and_print_result();
-
-		if (tos || tof || toj)
-			kaput("internal error");
 	}
 }
 
@@ -14013,19 +14007,20 @@ scan_input(char *s)
 void
 eval_and_print_result(void)
 {
-	struct atom *p1, *p2;
+	struct atom *p;
 
-	p1 = pop();
-	push(p1);
+	dupl();
 	evalf();
-	p2 = pop();
 
-	push(p1);
-	push(p2);
+	// update last
+
+	dupl();
+	p = pop();
+
+	if (p != symbol(NIL))
+		set_symbol(symbol(LAST), p, symbol(NIL));
+
 	print_result();
-
-	if (p2 != symbol(NIL))
-		set_symbol(symbol(LAST), p2, symbol(NIL));
 }
 
 void
@@ -14049,6 +14044,8 @@ run_file(char *filename)
 	char *buf, *s, *t1, *t2;
 	struct atom *p;
 
+	loop_level++;
+
 	p = alloc_str();
 
 	buf = read_file(filename);
@@ -14058,12 +14055,16 @@ run_file(char *filename)
 
 	p->u.str = buf; // if stop occurs, buf is freed on next gc
 
+	push(p); // protect buf from garbage collection
+
 	s = buf;
 
 	t1 = trace1;
 	t2 = trace2;
 
 	for (;;) {
+
+		gc_check();
 
 		s = scan_input(s);
 
@@ -14076,8 +14077,9 @@ run_file(char *filename)
 	trace1 = t1;
 	trace2 = t2;
 
-	free(buf);
-	p->u.str = NULL;
+	pop();
+
+	loop_level--;
 }
 
 void

@@ -16,10 +16,7 @@ run(char *s)
 
 	for (;;) {
 
-		if (alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
-			gc();
-			alloc_count = 0;
-		}
+		gc_check();
 
 		s = scan_input(s);
 
@@ -27,9 +24,6 @@ run(char *s)
 			break; // end of input
 
 		eval_and_print_result();
-
-		if (tos || tof || toj)
-			kaput("internal error");
 	}
 }
 
@@ -82,19 +76,20 @@ scan_input(char *s)
 void
 eval_and_print_result(void)
 {
-	struct atom *p1, *p2;
+	struct atom *p;
 
-	p1 = pop();
-	push(p1);
+	dupl();
 	evalf();
-	p2 = pop();
 
-	push(p1);
-	push(p2);
+	// update last
+
+	dupl();
+	p = pop();
+
+	if (p != symbol(NIL))
+		set_symbol(symbol(LAST), p, symbol(NIL));
+
 	print_result();
-
-	if (p2 != symbol(NIL))
-		set_symbol(symbol(LAST), p2, symbol(NIL));
 }
 
 void
@@ -118,6 +113,8 @@ run_file(char *filename)
 	char *buf, *s, *t1, *t2;
 	struct atom *p;
 
+	loop_level++;
+
 	p = alloc_str();
 
 	buf = read_file(filename);
@@ -127,12 +124,16 @@ run_file(char *filename)
 
 	p->u.str = buf; // if stop occurs, buf is freed on next gc
 
+	push(p); // protect buf from garbage collection
+
 	s = buf;
 
 	t1 = trace1;
 	t2 = trace2;
 
 	for (;;) {
+
+		gc_check();
 
 		s = scan_input(s);
 
@@ -145,8 +146,9 @@ run_file(char *filename)
 	trace1 = t1;
 	trace2 = t2;
 
-	free(buf);
-	p->u.str = NULL;
+	pop();
+
+	loop_level--;
 }
 
 void
