@@ -44,7 +44,7 @@ run_buf(char *buf)
 
 	for (;;) {
 
-		gc_check();
+		gc_check(); // see gc.c for note about garbage collection
 
 		s = scan_input(s); // also updates trace1 and trace2
 

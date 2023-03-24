@@ -30,7 +30,7 @@ eval_for(struct atom *p1)
 		set_symbol(p2, p3, symbol(NIL));
 		p3 = p1;
 		while (iscons(p3)) {
-			gc_check();
+			gc_check(); // see gc.c for note about garbage collection
 			push(car(p3));
 			evalf();
 			pop(); // discard return value

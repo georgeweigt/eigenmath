@@ -7671,7 +7671,7 @@ eval_for(struct atom *p1)
 		set_symbol(p2, p3, symbol(NIL));
 		p3 = p1;
 		while (iscons(p3)) {
-			gc_check();
+			gc_check(); // see gc.c for note about garbage collection
 			push(car(p3));
 			evalf();
 			pop(); // discard return value
@@ -7693,6 +7693,12 @@ eval_for(struct atom *p1)
 
 	loop_level--;
 }
+// All struct atom pointers must be visible to the garbage collector.
+
+// Specifically, any automatic struct atom pointers must also be on the stack when gc() is called.
+
+// The condition loop_level == eval_level indicates that any automatic struct atom pointers are also on the stack.
+
 void
 gc_check(void)
 {
@@ -13975,7 +13981,7 @@ run_buf(char *buf)
 
 	for (;;) {
 
-		gc_check();
+		gc_check(); // see gc.c for note about garbage collection
 
 		s = scan_input(s); // also updates trace1 and trace2
 
