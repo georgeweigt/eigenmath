@@ -345,6 +345,8 @@ extern int journaling;
 extern int interrupt;
 extern jmp_buf jmpbuf0;
 extern jmp_buf jmpbuf1;
+extern char *trace1;
+extern char *trace2;
 extern int alloc_count;
 extern int block_count;
 extern int free_count;
@@ -808,9 +810,7 @@ void run_buf(char *buf);
 char * scan_input(char *s);
 void eval_run(struct atom *p1);
 void run_file(char *filename);
-void trace_input(void);
-void print_input_line(void);
-void print_scan_line(char *s);
+void print_trace(int color);
 void run_init_script(void);
 void stopf(char *s);
 void kaput(char *s);
@@ -7838,6 +7838,8 @@ int journaling;
 int interrupt;
 jmp_buf jmpbuf0;
 jmp_buf jmpbuf1;
+char *trace1;
+char *trace2;
 
 int alloc_count;
 int block_count;
@@ -13923,9 +13925,6 @@ rotate_v(struct atom *PSI, int n)
 		rotate_h(PSI, 0, i);
 	}
 }
-char *trace1;
-char *trace2;
-
 void
 run(char *buf)
 {
@@ -14002,12 +14001,13 @@ run_buf(char *buf)
 char *
 scan_input(char *s)
 {
+	struct atom *p1;
 	trace1 = s;
 	s = scan(s);
-	if (s) {
-		trace2 = s;
-		trace_input();
-	}
+	trace2 = s;
+	p1 = get_binding(symbol(TRACE));
+	if (p1 != symbol(NIL) && !iszero(p1))
+		print_trace(BLUE);
 	return s;
 }
 
@@ -14051,52 +14051,19 @@ run_file(char *filename)
 }
 
 void
-trace_input(void)
+print_trace(int color)
 {
 	char c, *s;
-	struct atom *p1;
-	p1 = get_binding(symbol(TRACE));
-	if (p1 == symbol(NIL) || iszero(p1))
-		return;
-	c = 0;
-	s = trace1;
 	outbuf_init();
-	while (*s && s < trace2) {
-		c = *s++;
-		outbuf_putc(c);
-	}
-	if (c != '\n')
-		outbuf_puts("\n");
-	printbuf(outbuf, BLUE);
-}
-
-// suppress blank lines
-
-void
-print_input_line(void)
-{
-	char c, *s;
 	c = '\n';
 	s = trace1;
-	outbuf_init();
 	while (*s && s < trace2) {
-		if (*s == '\n' && c == '\n') {
-			s++;
-			continue;
-		}
 		c = *s++;
 		outbuf_putc(c);
 	}
 	if (c != '\n')
-		outbuf_puts("\n");
-	printbuf(outbuf, RED);
-}
-
-void
-print_scan_line(char *s)
-{
-	trace2 = s;
-	print_input_line();
+		outbuf_putc('\n');
+	printbuf(outbuf, color);
 }
 
 char *init_script =
@@ -14122,7 +14089,7 @@ stopf(char *s)
 {
 	if (journaling)
 		longjmp(jmpbuf1, 1);
-	print_input_line();
+	print_trace(RED);
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
 	printbuf(strbuf, RED);
 	longjmp(jmpbuf0, 1);
@@ -14610,7 +14577,8 @@ update_token_buf(char *a, char *b)
 void
 scan_error(char *errmsg)
 {
-	print_scan_line(scan_str);
+	trace2 = scan_str;
+	print_trace(RED);
 	outbuf_init();
 	outbuf_puts("Stop: Syntax error, ");
 	outbuf_puts(errmsg);

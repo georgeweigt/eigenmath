@@ -1,6 +1,3 @@
-char *trace1;
-char *trace2;
-
 void
 run(char *buf)
 {
@@ -77,12 +74,13 @@ run_buf(char *buf)
 char *
 scan_input(char *s)
 {
+	struct atom *p1;
 	trace1 = s;
 	s = scan(s);
-	if (s) {
-		trace2 = s;
-		trace_input();
-	}
+	trace2 = s;
+	p1 = get_binding(symbol(TRACE));
+	if (p1 != symbol(NIL) && !iszero(p1))
+		print_trace(BLUE);
 	return s;
 }
 
@@ -126,27 +124,7 @@ run_file(char *filename)
 }
 
 void
-trace_input(void)
-{
-	char c, *s;
-	struct atom *p1;
-	p1 = get_binding(symbol(TRACE));
-	if (p1 == symbol(NIL) || iszero(p1))
-		return;
-	outbuf_init();
-	c = '\n';
-	s = trace1;
-	while (*s && s < trace2) {
-		c = *s++;
-		outbuf_putc(c);
-	}
-	if (c != '\n')
-		outbuf_putc('\n');
-	printbuf(outbuf, BLUE);
-}
-
-void
-print_input_line(void)
+print_trace(int color)
 {
 	char c, *s;
 	outbuf_init();
@@ -158,14 +136,7 @@ print_input_line(void)
 	}
 	if (c != '\n')
 		outbuf_putc('\n');
-	printbuf(outbuf, RED);
-}
-
-void
-print_scan_line(char *s)
-{
-	trace2 = s;
-	print_input_line();
+	printbuf(outbuf, color);
 }
 
 char *init_script =
@@ -191,7 +162,7 @@ stopf(char *s)
 {
 	if (journaling)
 		longjmp(jmpbuf1, 1);
-	print_input_line();
+	print_trace(RED);
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
 	printbuf(strbuf, RED);
 	longjmp(jmpbuf0, 1);

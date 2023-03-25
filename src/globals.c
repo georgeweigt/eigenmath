@@ -26,6 +26,8 @@ int journaling;
 int interrupt;
 jmp_buf jmpbuf0;
 jmp_buf jmpbuf1;
+char *trace1;
+char *trace2;
 
 int alloc_count;
 int block_count;

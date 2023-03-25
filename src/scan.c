@@ -472,7 +472,8 @@ update_token_buf(char *a, char *b)
 void
 scan_error(char *errmsg)
 {
-	print_scan_line(scan_str);
+	trace2 = scan_str;
+	print_trace(RED);
 	outbuf_init();
 	outbuf_puts("Stop: Syntax error, ");
 	outbuf_puts(errmsg);
