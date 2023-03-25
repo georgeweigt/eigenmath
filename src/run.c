@@ -133,37 +133,31 @@ trace_input(void)
 	p1 = get_binding(symbol(TRACE));
 	if (p1 == symbol(NIL) || iszero(p1))
 		return;
-	c = 0;
-	s = trace1;
 	outbuf_init();
+	c = '\n';
+	s = trace1;
 	while (*s && s < trace2) {
 		c = *s++;
 		outbuf_putc(c);
 	}
 	if (c != '\n')
-		outbuf_puts("\n");
+		outbuf_putc('\n');
 	printbuf(outbuf, BLUE);
 }
-
-// suppress blank lines
 
 void
 print_input_line(void)
 {
 	char c, *s;
+	outbuf_init();
 	c = '\n';
 	s = trace1;
-	outbuf_init();
 	while (*s && s < trace2) {
-		if (*s == '\n' && c == '\n') {
-			s++;
-			continue;
-		}
 		c = *s++;
 		outbuf_putc(c);
 	}
 	if (c != '\n')
-		outbuf_puts("\n");
+		outbuf_putc('\n');
 	printbuf(outbuf, RED);
 }
 
