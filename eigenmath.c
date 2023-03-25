@@ -15595,7 +15595,7 @@ scan_nib(char *s)
 		return NULL;
 	scan_stmt();
 	if (token != T_NEWLINE && token != T_END)
-		scan_error("expected newline");
+		scan_error("syntax err"); // mystery char follows valid syntax
 	return scan_str;
 }
 
@@ -15760,7 +15760,7 @@ scan_factor(void)
 		break;
 
 	default:
-		scan_error("expected operand");
+		scan_error("syntax err");
 		break;
 	}
 
@@ -16020,19 +16020,7 @@ void
 scan_error(char *errmsg)
 {
 	trace2 = scan_str;
-	print_trace(RED);
-	outbuf_init();
-	outbuf_puts("Stop: Syntax error, ");
-	outbuf_puts(errmsg);
-	if (token_str < scan_str) {
-		outbuf_puts(" instead of '");
-		while (*token_str && token_str < scan_str)
-			outbuf_putc(*token_str++);
-		outbuf_puts("'");
-	}
-	outbuf_puts("\n");
-	printbuf(outbuf, RED);
-	longjmp(jmpbuf0, 1);
+	kaput(errmsg);
 }
 
 // There are n expressions on the stack, possibly tensors.
