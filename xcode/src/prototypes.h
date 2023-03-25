@@ -60,7 +60,6 @@ void arctanh(void);
 void eval_arg(struct atom *p1);
 void arg(void);
 void arg1(void);
-void init_bignums(void);
 void push_integer(int n);
 void push_rational(int a, int b);
 void push_bignum(int sign, uint32_t *a, uint32_t *b);

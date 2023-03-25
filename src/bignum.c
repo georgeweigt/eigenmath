@@ -1,15 +1,4 @@
 void
-init_bignums(void)
-{
-	push_bignum(MPLUS, mint(0), mint(1));
-	zero = pop();
-	push_bignum(MPLUS, mint(1), mint(1));
-	one = pop();
-	push_bignum(MMINUS, mint(1), mint(1));
-	minusone = pop();
-}
-
-void
 push_integer(int n)
 {
 	switch (n) {

@@ -408,7 +408,6 @@ void arctanh(void);
 void eval_arg(struct atom *p1);
 void arg(void);
 void arg1(void);
-void init_bignums(void);
 void push_integer(int n);
 void push_rational(int a, int b);
 void push_bignum(int sign, uint32_t *a, uint32_t *b);
@@ -2464,17 +2463,6 @@ arg1(void)
 
 	push_integer(0); // p1 is real
 }
-void
-init_bignums(void)
-{
-	push_bignum(MPLUS, mint(0), mint(1));
-	zero = pop();
-	push_bignum(MPLUS, mint(1), mint(1));
-	one = pop();
-	push_bignum(MMINUS, mint(1), mint(1));
-	minusone = pop();
-}
-
 void
 push_integer(int n)
 {
@@ -15395,8 +15383,13 @@ run(char *buf)
 	journaling = 0;
 
 	if (zero == NULL) {
+		push_bignum(MPLUS, mint(0), mint(1));
+		zero = pop();
+		push_bignum(MPLUS, mint(1), mint(1));
+		one = pop();
+		push_bignum(MMINUS, mint(1), mint(1));
+		minusone = pop();
 		init_symbol_table();
-		init_bignums();
 		push_symbol(POWER);
 		push_integer(-1);
 		push_rational(1, 2);
