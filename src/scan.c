@@ -48,7 +48,7 @@ scan_nib(char *s)
 		return NULL;
 	scan_stmt();
 	if (token != T_NEWLINE && token != T_END)
-		scan_error("syntax err"); // mystery char follows valid syntax
+		scan_error("syntax err"); // unexpected token, for example, 1:2
 	return scan_str;
 }
 

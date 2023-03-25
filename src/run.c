@@ -15,13 +15,13 @@ run(char *buf)
 	journaling = 0;
 
 	if (zero == NULL) {
+		init_symbol_table();
 		push_bignum(MPLUS, mint(0), mint(1));
 		zero = pop();
 		push_bignum(MPLUS, mint(1), mint(1));
 		one = pop();
 		push_bignum(MMINUS, mint(1), mint(1));
 		minusone = pop();
-		init_symbol_table();
 		push_symbol(POWER);
 		push_integer(-1);
 		push_rational(1, 2);

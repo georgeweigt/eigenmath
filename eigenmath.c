@@ -15382,13 +15382,13 @@ run(char *buf)
 	journaling = 0;
 
 	if (zero == NULL) {
+		init_symbol_table();
 		push_bignum(MPLUS, mint(0), mint(1));
 		zero = pop();
 		push_bignum(MPLUS, mint(1), mint(1));
 		one = pop();
 		push_bignum(MMINUS, mint(1), mint(1));
 		minusone = pop();
-		init_symbol_table();
 		push_symbol(POWER);
 		push_integer(-1);
 		push_rational(1, 2);
@@ -15595,7 +15595,7 @@ scan_nib(char *s)
 		return NULL;
 	scan_stmt();
 	if (token != T_NEWLINE && token != T_END)
-		scan_error("syntax err"); // mystery char follows valid syntax
+		scan_error("syntax err"); // unexpected token, for example, 1:2
 	return scan_str;
 }
 
