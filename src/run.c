@@ -127,6 +127,8 @@ void
 print_trace(int color)
 {
 	char c, *s;
+	if (trace1 == NULL || trace2 == NULL)
+		return;
 	outbuf_init();
 	c = '\n';
 	s = trace1;
