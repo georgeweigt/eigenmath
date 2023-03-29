@@ -85,6 +85,24 @@ scan_input(char *s)
 }
 
 void
+print_trace(int color)
+{
+	char c, *s;
+	if (trace1 == NULL || trace2 == NULL)
+		return;
+	outbuf_init();
+	c = '\n';
+	s = trace1;
+	while (*s && s < trace2) {
+		c = *s++;
+		outbuf_putc(c);
+	}
+	if (c != '\n')
+		outbuf_putc('\n');
+	printbuf(outbuf, color);
+}
+
+void
 eval_run(struct atom *p1)
 {
 	push(cadr(p1));
@@ -121,24 +139,6 @@ run_file(char *filename)
 	loop_level--;
 
 	pop();
-}
-
-void
-print_trace(int color)
-{
-	char c, *s;
-	if (trace1 == NULL || trace2 == NULL)
-		return;
-	outbuf_init();
-	c = '\n';
-	s = trace1;
-	while (*s && s < trace2) {
-		c = *s++;
-		outbuf_putc(c);
-	}
-	if (c != '\n')
-		outbuf_putc('\n');
-	printbuf(outbuf, color);
 }
 
 char *init_script =
