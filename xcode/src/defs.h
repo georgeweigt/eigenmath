@@ -338,7 +338,7 @@ extern struct atom *one;
 extern struct atom *minusone;
 extern struct atom *imaginaryunit;
 extern int eval_level;
-extern int loop_level;
+extern int gc_level;
 extern int expanding;
 extern int drawing;
 extern int journaling;

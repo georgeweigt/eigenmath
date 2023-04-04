@@ -197,7 +197,7 @@ void erffunc(void);
 void eval_erfc(struct atom *p1);
 void erfcfunc(void);
 void eval_eval(struct atom *p1);
-void evalff(struct atom *p1);
+void evalg(struct atom *p1);
 void evalf(void);
 void evalf_nib(void);
 void eval_user_symbol(struct atom *p1);

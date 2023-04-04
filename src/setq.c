@@ -19,7 +19,7 @@ eval_setq(struct atom *p1)
 		stopf("user symbol expected");
 
 	push(caddr(p1));
-	evalff(p1); // p1 is protected from garbage collection
+	evalg(p1); // p1 is protected from garbage collection
 	p2 = pop();
 
 	set_symbol(cadr(p1), p2, symbol(NIL));
@@ -49,7 +49,7 @@ setq_indexed(struct atom *p1)
 		stopf("user symbol expected");
 
 	push(caddr(p1));
-	evalff(p1); // p1 is protected from garbage collection
+	evalg(p1); // p1 is protected from garbage collection
 	RVAL = pop();
 
 	push(S);

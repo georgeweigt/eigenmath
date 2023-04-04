@@ -2,12 +2,12 @@
 
 // Specifically, any automatic struct atom pointers must also be on the stack when gc() is called.
 
-// The condition loop_level == eval_level indicates that any automatic struct atom pointers are also on the stack.
+// The condition gc_level == eval_level indicates that any automatic struct atom pointers are also on the stack.
 
 void
 gc_check(void)
 {
-	if (loop_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
+	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
 		gc();
 		alloc_count = 0;
 	}

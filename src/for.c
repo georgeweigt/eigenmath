@@ -27,7 +27,7 @@ eval_for(struct atom *p1)
 		p3 = p1;
 		while (iscons(p3)) {
 			push(car(p3));
-			evalff(p1); // p1 is protected from garbage collection
+			evalg(p1); // p1 is protected from garbage collection
 			pop(); // discard return value
 			p3 = cdr(p3);
 		}

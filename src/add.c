@@ -6,7 +6,7 @@ eval_add(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		evalff(p1); // p1 is protected from garbage collection
+		evalg(p1); // p1 is protected from garbage collection
 		p1 = cdr(p1);
 	}
 	add_terms(tos - h);

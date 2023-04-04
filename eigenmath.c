@@ -338,7 +338,7 @@ extern struct atom *one;
 extern struct atom *minusone;
 extern struct atom *imaginaryunit;
 extern int eval_level;
-extern int loop_level;
+extern int gc_level;
 extern int expanding;
 extern int drawing;
 extern int journaling;
@@ -563,7 +563,7 @@ void erffunc(void);
 void eval_erfc(struct atom *p1);
 void erfcfunc(void);
 void eval_eval(struct atom *p1);
-void evalff(struct atom *p1);
+void evalg(struct atom *p1);
 void evalf(void);
 void evalf_nib(void);
 void eval_user_symbol(struct atom *p1);
@@ -998,7 +998,7 @@ eval_add(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		evalff(p1); // p1 is protected from garbage collection
+		evalg(p1); // p1 is protected from garbage collection
 		p1 = cdr(p1);
 	}
 	add_terms(tos - h);
@@ -6379,13 +6379,13 @@ eval_eval(struct atom *p1)
 	evalf();
 }
 void
-evalff(struct atom *p1)
+evalg(struct atom *p1)
 {
 	fpush(p1);
-	loop_level++;
+	gc_level++;
 	gc_check();
 	evalf();
-	loop_level--;
+	gc_level--;
 	fpop();
 }
 
@@ -9047,7 +9047,7 @@ eval_for(struct atom *p1)
 		p3 = p1;
 		while (iscons(p3)) {
 			push(car(p3));
-			evalff(p1); // p1 is protected from garbage collection
+			evalg(p1); // p1 is protected from garbage collection
 			pop(); // discard return value
 			p3 = cdr(p3);
 		}
@@ -9067,12 +9067,12 @@ eval_for(struct atom *p1)
 
 // Specifically, any automatic struct atom pointers must also be on the stack when gc() is called.
 
-// The condition loop_level == eval_level indicates that any automatic struct atom pointers are also on the stack.
+// The condition gc_level == eval_level indicates that any automatic struct atom pointers are also on the stack.
 
 void
 gc_check(void)
 {
-	if (loop_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
+	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
 		gc();
 		alloc_count = 0;
 	}
@@ -9213,7 +9213,7 @@ struct atom *minusone;
 struct atom *imaginaryunit;
 
 int eval_level;
-int loop_level;
+int gc_level;
 int expanding;
 int drawing;
 int journaling;
@@ -11838,7 +11838,7 @@ eval_multiply(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		evalff(p1); // p1 is protected from garbage collection
+		evalg(p1); // p1 is protected from garbage collection
 		p1 = cdr(p1);
 	}
 	multiply_factors(tos - h);
@@ -14529,7 +14529,7 @@ eval_product(struct atom *p1)
 		p3 = pop();
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
-		evalff(p1); // p1 is protected from garbage collection
+		evalg(p1); // p1 is protected from garbage collection
 		if (j == k)
 			break;
 		if (j < k)
@@ -15381,7 +15381,7 @@ run(char *buf)
 	toj = 0;
 	interrupt = 0;
 	eval_level = 0;
-	loop_level = 0;
+	gc_level = 0;
 	expanding = 1;
 	drawing = 0;
 	journaling = 0;
@@ -15506,9 +15506,9 @@ run_file(char *filename)
 
 	push(p); // protect buf from garbage collection
 
-	loop_level++;
+	gc_level++;
 	run_buf(buf);
-	loop_level--;
+	gc_level--;
 
 	pop();
 }
@@ -16159,7 +16159,7 @@ eval_setq(struct atom *p1)
 		stopf("user symbol expected");
 
 	push(caddr(p1));
-	evalff(p1); // p1 is protected from garbage collection
+	evalg(p1); // p1 is protected from garbage collection
 	p2 = pop();
 
 	set_symbol(cadr(p1), p2, symbol(NIL));
@@ -16189,7 +16189,7 @@ setq_indexed(struct atom *p1)
 		stopf("user symbol expected");
 
 	push(caddr(p1));
-	evalff(p1); // p1 is protected from garbage collection
+	evalg(p1); // p1 is protected from garbage collection
 	RVAL = pop();
 
 	push(S);
@@ -17188,7 +17188,7 @@ eval_sum(struct atom *p1)
 		p3 = pop();
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
-		evalff(p1); // p1 is protected from garbage collection
+		evalg(p1); // p1 is protected from garbage collection
 		if (j == k)
 			break;
 		if (j < k)
@@ -18328,7 +18328,7 @@ eval_user_function(struct atom *p1)
 		push(FUNC_NAME);
 		while (iscons(FUNC_ARGS)) {
 			push(car(FUNC_ARGS));
-			evalff(FUNC_ARGS);
+			evalg(FUNC_ARGS);
 			FUNC_ARGS = cdr(FUNC_ARGS);
 		}
 		list(tos - h);
@@ -18341,7 +18341,7 @@ eval_user_function(struct atom *p1)
 
 	for (i = 0; i < 9; i++) {
 		push(car(FUNC_ARGS));
-		evalff(FUNC_ARGS);
+		evalg(FUNC_ARGS);
 		FUNC_ARGS = cdr(FUNC_ARGS);
 	}
 
@@ -18365,7 +18365,7 @@ eval_user_function(struct atom *p1)
 	set_symbol(symbol(ARG2), pop(), symbol(NIL));
 	set_symbol(symbol(ARG1), pop(), symbol(NIL));
 
-	evalff(FUNC_DEFN);
+	evalg(FUNC_DEFN);
 
 	restore_symbol(symbol(ARG9));
 	restore_symbol(symbol(ARG8));

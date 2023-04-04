@@ -19,7 +19,7 @@ struct atom *minusone;
 struct atom *imaginaryunit;
 
 int eval_level;
-int loop_level;
+int gc_level;
 int expanding;
 int drawing;
 int journaling;

@@ -9,7 +9,7 @@ run(char *buf)
 	toj = 0;
 	interrupt = 0;
 	eval_level = 0;
-	loop_level = 0;
+	gc_level = 0;
 	expanding = 1;
 	drawing = 0;
 	journaling = 0;
@@ -134,9 +134,9 @@ run_file(char *filename)
 
 	push(p); // protect buf from garbage collection
 
-	loop_level++;
+	gc_level++;
 	run_buf(buf);
-	loop_level--;
+	gc_level--;
 
 	pop();
 }
