@@ -30,12 +30,12 @@ eval_for(p1)
 			pop();
 			p3 = cdr(p3);
 		}
+		if (j == k)
+			break;
 		if (j < k)
 			j++;
-		else if (j > k)
-			j--;
 		else
-			break;
+			j--;
 	}
 
 	restore_symbol(p2);

@@ -563,6 +563,7 @@ void erffunc(void);
 void eval_erfc(struct atom *p1);
 void erfcfunc(void);
 void eval_eval(struct atom *p1);
+void evalff(struct atom *p1);
 void evalf(void);
 void evalf_nib(void);
 void eval_user_symbol(struct atom *p1);
@@ -857,9 +858,11 @@ void eval_sqrt(struct atom *p1);
 void sqrtfunc(void);
 void push(struct atom *p);
 struct atom * pop(void);
-void dupl(void);
+void fpush(struct atom *p);
+struct atom * fpop(void);
 void save_symbol(struct atom *p);
 void restore_symbol(struct atom *p);
+void dupl(void);
 void swap(void);
 void push_string(char *s);
 void eval_status(struct atom *p1);
@@ -995,7 +998,7 @@ eval_add(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		evalf();
+		evalff(p1); // p1 is protected from garbage collection
 		p1 = cdr(p1);
 	}
 	add_terms(tos - h);
@@ -6376,6 +6379,17 @@ eval_eval(struct atom *p1)
 	evalf();
 }
 void
+evalff(struct atom *p1)
+{
+	fpush(p1);
+	loop_level++;
+	gc_check();
+	evalf();
+	loop_level--;
+	fpop();
+}
+
+void
 evalf(void)
 {
 	eval_level++;
@@ -7633,10 +7647,6 @@ eval_for(struct atom *p1)
 	int j, k;
 	struct atom *p2, *p3;
 
-	loop_level++;
-
-	push(p1); // protect p1 from garbage collection
-
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
 		stopf("for: symbol error");
@@ -7659,27 +7669,22 @@ eval_for(struct atom *p1)
 		set_symbol(p2, p3, symbol(NIL));
 		p3 = p1;
 		while (iscons(p3)) {
-			gc_check(); // see gc.c for note about garbage collection
 			push(car(p3));
-			evalf();
+			evalff(p1); // p1 is protected from garbage collection
 			pop(); // discard return value
 			p3 = cdr(p3);
 		}
+		if (j == k)
+			break;
 		if (j < k)
 			j++;
-		else if (j > k)
-			j--;
 		else
-			break;
+			j--;
 	}
 
 	restore_symbol(p2);
 
-	pop();
-
 	push_symbol(NIL); // return value
-
-	loop_level--;
 }
 // All struct atom pointers must be visible to the garbage collector.
 
@@ -10393,7 +10398,7 @@ eval_multiply(struct atom *p1)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		evalf();
+		evalff(p1); // p1 is protected from garbage collection
 		p1 = cdr(p1);
 	}
 	multiply_factors(tos - h);
@@ -13084,13 +13089,13 @@ eval_product(struct atom *p1)
 		p3 = pop();
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
-		evalf();
+		evalff(p1); // p1 is protected from garbage collection
+		if (j == k)
+			break;
 		if (j < k)
 			j++;
-		else if (j > k)
-			j--;
 		else
-			break;
+			j--;
 	}
 
 	multiply_factors(tos - h);
@@ -14714,7 +14719,7 @@ eval_setq(struct atom *p1)
 		stopf("user symbol expected");
 
 	push(caddr(p1));
-	evalf();
+	evalff(p1); // p1 is protected from garbage collection
 	p2 = pop();
 
 	set_symbol(cadr(p1), p2, symbol(NIL));
@@ -14743,13 +14748,13 @@ setq_indexed(struct atom *p1)
 	if (!isusersymbol(S))
 		stopf("user symbol expected");
 
+	push(caddr(p1));
+	evalff(p1); // p1 is protected from garbage collection
+	RVAL = pop();
+
 	push(S);
 	evalf();
 	LVAL = pop();
-
-	push(caddr(p1));
-	evalf();
-	RVAL = pop();
 
 	// eval indices
 
@@ -15512,11 +15517,9 @@ sqrtfunc(void)
 void
 push(struct atom *p)
 {
-	if (tos < 0 || tos + 1 > STACKSIZE)
+	if (tos < 0 || tos >= STACKSIZE)
 		kaput("stack error");
-
 	stack[tos++] = p;
-
 	if (tos > max_tos)
 		max_tos = tos;
 }
@@ -15526,41 +15529,50 @@ pop(void)
 {
 	if (tos < 1 || tos > STACKSIZE)
 		kaput("stack error");
-
 	return stack[--tos];
 }
 
 void
-dupl(void)
+fpush(struct atom *p)
 {
-	if (tos)
-		push(stack[tos - 1]);
+	if (tof < 0 || tof >= FRAMESIZE)
+		kaput("circular definition?");
+	frame[tof++] = p;
+	if (tof > max_tof)
+		max_tof = tof;
+}
+
+struct atom *
+fpop(void)
+{
+	if (tof < 1 || tof > FRAMESIZE)
+		kaput("frame error");
+	return frame[--tof];
 }
 
 void
 save_symbol(struct atom *p)
 {
-	if (tof < 0 || tof + 2 > FRAMESIZE)
-		kaput("circular definition?");
-
-	frame[tof + 0] = get_binding(p);
-	frame[tof + 1] = get_usrfunc(p);
-
-	tof += 2;
-
-	if (tof > max_tof)
-		max_tof = tof;
+	fpush(get_binding(p));
+	fpush(get_usrfunc(p));
 }
 
 void
 restore_symbol(struct atom *p)
 {
-	if (tof < 2 || tof > FRAMESIZE)
-		kaput("frame error");
+	struct atom *p1, *p2;
+	p2 = fpop();
+	p1 = fpop();
+	set_symbol(p, p1, p2);
+}
 
-	tof -= 2;
-
-	set_symbol(p, frame[tof + 0], frame[tof + 1]);
+void
+dupl(void)
+{
+	struct atom *p1;
+	p1 = pop();
+	push(p1);
+	push(p1);
 }
 
 void
@@ -15736,13 +15748,13 @@ eval_sum(struct atom *p1)
 		p3 = pop();
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
-		evalf();
+		evalff(p1); // p1 is protected from garbage collection
+		if (j == k)
+			break;
 		if (j < k)
 			j++;
-		else if (j > k)
-			j--;
 		else
-			break;
+			j--;
 	}
 
 	add_terms(tos - h);
@@ -16876,18 +16888,20 @@ eval_user_function(struct atom *p1)
 		push(FUNC_NAME);
 		while (iscons(FUNC_ARGS)) {
 			push(car(FUNC_ARGS));
-			evalf();
+			evalff(FUNC_ARGS);
 			FUNC_ARGS = cdr(FUNC_ARGS);
 		}
 		list(tos - h);
 		return;
 	}
 
+	push(FUNC_DEFN);
+
 	// eval all args before changing bindings
 
 	for (i = 0; i < 9; i++) {
 		push(car(FUNC_ARGS));
-		evalf();
+		evalff(FUNC_ARGS);
 		FUNC_ARGS = cdr(FUNC_ARGS);
 	}
 
@@ -16901,35 +16915,17 @@ eval_user_function(struct atom *p1)
 	save_symbol(symbol(ARG8));
 	save_symbol(symbol(ARG9));
 
-	p1 = pop();
-	set_symbol(symbol(ARG9), p1, symbol(NIL));
+	set_symbol(symbol(ARG9), pop(), symbol(NIL));
+	set_symbol(symbol(ARG8), pop(), symbol(NIL));
+	set_symbol(symbol(ARG7), pop(), symbol(NIL));
+	set_symbol(symbol(ARG6), pop(), symbol(NIL));
+	set_symbol(symbol(ARG5), pop(), symbol(NIL));
+	set_symbol(symbol(ARG4), pop(), symbol(NIL));
+	set_symbol(symbol(ARG3), pop(), symbol(NIL));
+	set_symbol(symbol(ARG2), pop(), symbol(NIL));
+	set_symbol(symbol(ARG1), pop(), symbol(NIL));
 
-	p1 = pop();
-	set_symbol(symbol(ARG8), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG7), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG6), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG5), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG4), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG3), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG2), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG1), p1, symbol(NIL));
-
-	push(FUNC_DEFN);
-	evalf();
+	evalff(FUNC_DEFN);
 
 	restore_symbol(symbol(ARG9));
 	restore_symbol(symbol(ARG8));

@@ -1,6 +1,8 @@
 function
 dupl()
 {
-	if (stack.length)
-		push(stack[stack.length - 1]);
+	var p1;
+	p1 = pop();
+	push(p1);
+	push(p1);
 }

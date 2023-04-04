@@ -1,11 +1,9 @@
 void
 push(struct atom *p)
 {
-	if (tos < 0 || tos + 1 > STACKSIZE)
+	if (tos < 0 || tos >= STACKSIZE)
 		kaput("stack error");
-
 	stack[tos++] = p;
-
 	if (tos > max_tos)
 		max_tos = tos;
 }
@@ -15,41 +13,50 @@ pop(void)
 {
 	if (tos < 1 || tos > STACKSIZE)
 		kaput("stack error");
-
 	return stack[--tos];
 }
 
 void
-dupl(void)
+fpush(struct atom *p)
 {
-	if (tos)
-		push(stack[tos - 1]);
+	if (tof < 0 || tof >= FRAMESIZE)
+		kaput("circular definition?");
+	frame[tof++] = p;
+	if (tof > max_tof)
+		max_tof = tof;
+}
+
+struct atom *
+fpop(void)
+{
+	if (tof < 1 || tof > FRAMESIZE)
+		kaput("frame error");
+	return frame[--tof];
 }
 
 void
 save_symbol(struct atom *p)
 {
-	if (tof < 0 || tof + 2 > FRAMESIZE)
-		kaput("circular definition?");
-
-	frame[tof + 0] = get_binding(p);
-	frame[tof + 1] = get_usrfunc(p);
-
-	tof += 2;
-
-	if (tof > max_tof)
-		max_tof = tof;
+	fpush(get_binding(p));
+	fpush(get_usrfunc(p));
 }
 
 void
 restore_symbol(struct atom *p)
 {
-	if (tof < 2 || tof > FRAMESIZE)
-		kaput("frame error");
+	struct atom *p1, *p2;
+	p2 = fpop();
+	p1 = fpop();
+	set_symbol(p, p1, p2);
+}
 
-	tof -= 2;
-
-	set_symbol(p, frame[tof + 0], frame[tof + 1]);
+void
+dupl(void)
+{
+	struct atom *p1;
+	p1 = pop();
+	push(p1);
+	push(p1);
 }
 
 void

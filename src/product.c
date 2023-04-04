@@ -42,13 +42,13 @@ eval_product(struct atom *p1)
 		p3 = pop();
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
-		evalf();
+		evalff(p1); // p1 is protected from garbage collection
+		if (j == k)
+			break;
 		if (j < k)
 			j++;
-		else if (j > k)
-			j--;
 		else
-			break;
+			j--;
 	}
 
 	multiply_factors(tos - h);

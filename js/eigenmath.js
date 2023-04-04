@@ -3615,8 +3615,10 @@ var draw_array;
 function
 dupl()
 {
-	if (stack.length)
-		push(stack[stack.length - 1]);
+	var p1;
+	p1 = pop();
+	push(p1);
+	push(p1);
 }
 function
 emit_axes()
@@ -7071,12 +7073,12 @@ eval_for(p1)
 			pop();
 			p3 = cdr(p3);
 		}
+		if (j == k)
+			break;
 		if (j < k)
 			j++;
-		else if (j > k)
-			j--;
 		else
-			break;
+			j--;
 	}
 
 	restore_symbol(p2);
@@ -9947,12 +9949,12 @@ eval_product(p1)
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
 		evalf();
+		if (j == k)
+			break;
 		if (j < k)
 			j++;
-		else if (j > k)
-			j--;
 		else
-			break;
+			j--;
 	}
 
 	multiply_factors(stack.length - h);
@@ -11437,12 +11439,12 @@ eval_sum(p1)
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
 		evalf();
+		if (j == k)
+			break;
 		if (j < k)
 			j++;
-		else if (j > k)
-			j--;
 		else
-			break;
+			j--;
 	}
 
 	add_terms(stack.length - h);
@@ -12076,6 +12078,8 @@ eval_user_function(p1)
 		return;
 	}
 
+	push(FUNC_DEFN);
+
 	// eval all args before changing bindings
 
 	for (i = 0; i < 9; i++) {
@@ -12094,34 +12098,16 @@ eval_user_function(p1)
 	save_symbol(symbol(ARG8));
 	save_symbol(symbol(ARG9));
 
-	p1 = pop();
-	set_symbol(symbol(ARG9), p1, symbol(NIL));
+	set_symbol(symbol(ARG9), pop(), symbol(NIL));
+	set_symbol(symbol(ARG8), pop(), symbol(NIL));
+	set_symbol(symbol(ARG7), pop(), symbol(NIL));
+	set_symbol(symbol(ARG6), pop(), symbol(NIL));
+	set_symbol(symbol(ARG5), pop(), symbol(NIL));
+	set_symbol(symbol(ARG4), pop(), symbol(NIL));
+	set_symbol(symbol(ARG3), pop(), symbol(NIL));
+	set_symbol(symbol(ARG2), pop(), symbol(NIL));
+	set_symbol(symbol(ARG1), pop(), symbol(NIL));
 
-	p1 = pop();
-	set_symbol(symbol(ARG8), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG7), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG6), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG5), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG4), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG3), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG2), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG1), p1, symbol(NIL));
-
-	push(FUNC_DEFN);
 	evalf();
 
 	restore_symbol(symbol(ARG9));
@@ -16746,13 +16732,13 @@ setq_indexed(p1)
 	if (!isusersymbol(S))
 		stopf("user symbol expected");
 
-	push(S);
-	evalf();
-	LVAL = pop();
-
 	push(caddr(p1));
 	evalf();
 	RVAL = pop();
+
+	push(S);
+	evalf();
+	LVAL = pop();
 
 	h = stack.length;
 

@@ -1,4 +1,15 @@
 void
+evalff(struct atom *p1)
+{
+	fpush(p1);
+	loop_level++;
+	gc_check();
+	evalf();
+	loop_level--;
+	fpop();
+}
+
+void
 evalf(void)
 {
 	eval_level++;

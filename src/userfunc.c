@@ -22,18 +22,20 @@ eval_user_function(struct atom *p1)
 		push(FUNC_NAME);
 		while (iscons(FUNC_ARGS)) {
 			push(car(FUNC_ARGS));
-			evalf();
+			evalff(FUNC_ARGS);
 			FUNC_ARGS = cdr(FUNC_ARGS);
 		}
 		list(tos - h);
 		return;
 	}
 
+	push(FUNC_DEFN);
+
 	// eval all args before changing bindings
 
 	for (i = 0; i < 9; i++) {
 		push(car(FUNC_ARGS));
-		evalf();
+		evalff(FUNC_ARGS);
 		FUNC_ARGS = cdr(FUNC_ARGS);
 	}
 
@@ -47,35 +49,17 @@ eval_user_function(struct atom *p1)
 	save_symbol(symbol(ARG8));
 	save_symbol(symbol(ARG9));
 
-	p1 = pop();
-	set_symbol(symbol(ARG9), p1, symbol(NIL));
+	set_symbol(symbol(ARG9), pop(), symbol(NIL));
+	set_symbol(symbol(ARG8), pop(), symbol(NIL));
+	set_symbol(symbol(ARG7), pop(), symbol(NIL));
+	set_symbol(symbol(ARG6), pop(), symbol(NIL));
+	set_symbol(symbol(ARG5), pop(), symbol(NIL));
+	set_symbol(symbol(ARG4), pop(), symbol(NIL));
+	set_symbol(symbol(ARG3), pop(), symbol(NIL));
+	set_symbol(symbol(ARG2), pop(), symbol(NIL));
+	set_symbol(symbol(ARG1), pop(), symbol(NIL));
 
-	p1 = pop();
-	set_symbol(symbol(ARG8), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG7), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG6), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG5), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG4), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG3), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG2), p1, symbol(NIL));
-
-	p1 = pop();
-	set_symbol(symbol(ARG1), p1, symbol(NIL));
-
-	push(FUNC_DEFN);
-	evalf();
+	evalff(FUNC_DEFN);
 
 	restore_symbol(symbol(ARG9));
 	restore_symbol(symbol(ARG8));

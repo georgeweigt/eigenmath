@@ -42,12 +42,12 @@ eval_sum(p1)
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
 		evalf();
+		if (j == k)
+			break;
 		if (j < k)
 			j++;
-		else if (j > k)
-			j--;
 		else
-			break;
+			j--;
 	}
 
 	add_terms(stack.length - h);
