@@ -1,8 +1,7 @@
-// All struct atom pointers must be visible to the garbage collector.
-
-// Specifically, any automatic struct atom pointers must also be on the stack when gc() is called.
-
-// The condition gc_level == eval_level indicates that any automatic struct atom pointers are also on the stack.
+// Automatic struct atom pointers need to be visible to the garbage collector
+// in order to be preserved.
+// The condition gc_level == eval_level indicates that automatic struct atom
+// pointers that need to be preserved are visible.
 
 void
 gc_check(void)

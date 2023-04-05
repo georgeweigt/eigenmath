@@ -42,7 +42,7 @@ eval_sum(struct atom *p1)
 		p3 = pop();
 		set_symbol(p2, p3, symbol(NIL));
 		push(p1);
-		evalg(p1); // p1 is protected from garbage collection
+		evalg();
 		if (j == k)
 			break;
 		if (j < k)

@@ -8,12 +8,13 @@ setq_indexed(p1)
 	if (!isusersymbol(S))
 		stopf("user symbol expected");
 
-	push(caddr(p1));
-	evalf();
-	RVAL = pop();
-
 	push(S);
 	evalf();
+
+	push(caddr(p1));
+	evalf();
+
+	RVAL = pop();
 	LVAL = pop();
 
 	h = stack.length;

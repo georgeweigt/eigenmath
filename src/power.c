@@ -4,27 +4,30 @@ eval_power(struct atom *p1)
 	int t;
 	struct atom *p2;
 
-	expanding--; // undo expanding++ in eval
+	expanding--;
 
-	// evaluate exponent
+	// base
+
+	push(cadr(p1));
+
+	// exponent
 
 	push(caddr(p1));
-	evalf();
+	evalg();
+	dupl();
 	p2 = pop();
 
 	// if exponent is negative then evaluate base without expanding
 
-	push(cadr(p1));
-
+	swap();
 	if (isnegativenumber(p2)) {
 		t = expanding;
 		expanding = 0;
-		evalf();
+		evalg();
 		expanding = t;
 	} else
-		evalf();
-
-	push(p2); // push exponent
+		evalg();
+	swap();
 
 	power();
 

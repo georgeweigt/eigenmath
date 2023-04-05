@@ -9620,18 +9620,22 @@ eval_power(p1)
 {
 	var t, p2;
 
-	expanding--; // undo expanding++ in evalf
+	expanding--;
 
-	// evaluate exponent
+	// base
+
+	push(cadr(p1));
+
+	// exponent
 
 	push(caddr(p1));
 	evalf();
+	dupl();
 	p2 = pop();
 
 	// if exponent is negative then evaluate base without expanding
 
-	push(cadr(p1));
-
+	swap();
 	if (isnegativenumber(p2)) {
 		t = expanding;
 		expanding = 0;
@@ -9639,8 +9643,7 @@ eval_power(p1)
 		expanding = t;
 	} else
 		evalf();
-
-	push(p2); // push exponent
+	swap();
 
 	power();
 
@@ -16732,12 +16735,13 @@ setq_indexed(p1)
 	if (!isusersymbol(S))
 		stopf("user symbol expected");
 
-	push(caddr(p1));
-	evalf();
-	RVAL = pop();
-
 	push(S);
 	evalf();
+
+	push(caddr(p1));
+	evalf();
+
+	RVAL = pop();
 	LVAL = pop();
 
 	h = stack.length;
