@@ -10,8 +10,8 @@ eval_clear(struct atom *p1)
 
 	run_init_script();
 
-	restore_symbol(symbol(TTY));
-	restore_symbol(symbol(TRACE));
+	restore_symbol();
+	restore_symbol();
 
 	if (gc_level + 1 == eval_level)
 		gc();

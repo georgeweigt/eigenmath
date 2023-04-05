@@ -6,13 +6,12 @@ run(char *buf)
 
 	tos = 0;
 	tof = 0;
-	toj = 0;
 	interrupt = 0;
 	eval_level = 0;
 	gc_level = 0;
 	expanding = 1;
 	drawing = 0;
-	journaling = 0;
+	nonstop = 0;
 
 	if (zero == NULL) {
 		init_symbol_table();
@@ -162,7 +161,7 @@ run_init_script(void)
 void
 stopf(char *s)
 {
-	if (journaling)
+	if (nonstop)
 		longjmp(jmpbuf1, 1);
 	print_trace(RED);
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
@@ -170,11 +169,9 @@ stopf(char *s)
 	longjmp(jmpbuf0, 1);
 }
 
-// kaput stops even in eval_nonstop()
-
 void
 kaput(char *s)
 {
-	journaling = 0;
+	nonstop = 0;
 	stopf(s);
 }

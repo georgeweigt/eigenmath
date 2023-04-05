@@ -16,7 +16,6 @@
 #define BLOCKSIZE 10000
 #define MAXBLOCKS 1000
 #define NSYM 100
-#define JOURNALSIZE 1000
 
 // MAXBLOCKS * BLOCKSIZE = 10,000,000 atoms
 
@@ -326,10 +325,8 @@ extern struct atom *mem[MAXBLOCKS]; // an array of pointers
 extern struct atom *free_list;
 extern int tos; // top of stack
 extern int tof; // top of frame
-extern int toj; // top of journal
 extern struct atom *stack[STACKSIZE];
 extern struct atom *frame[FRAMESIZE];
-extern struct atom *journal[JOURNALSIZE];
 extern struct atom *symtab[];
 extern struct atom *binding[];
 extern struct atom *usrfunc[];
@@ -341,7 +338,7 @@ extern int eval_level;
 extern int gc_level;
 extern int expanding;
 extern int drawing;
-extern int journaling;
+extern int nonstop;
 extern int interrupt;
 extern jmp_buf jmpbuf0;
 extern jmp_buf jmpbuf1;
@@ -359,7 +356,6 @@ extern int tensor_count;
 extern int max_eval_level;
 extern int max_tos;
 extern int max_tof;
-extern int max_toj;
 extern char strbuf[];
 extern char *outbuf;
 extern int outbuf_index;

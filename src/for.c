@@ -39,7 +39,7 @@ eval_for(struct atom *p1)
 			j--;
 	}
 
-	restore_symbol(p2);
+	restore_symbol();
 
 	push_symbol(NIL); // return value
 }

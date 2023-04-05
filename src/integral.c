@@ -1017,9 +1017,9 @@ integral_nib(struct atom *F, struct atom *X)
 
 	integral_lookup(h, F);
 
-	restore_symbol(symbol(SX));
-	restore_symbol(symbol(SB));
-	restore_symbol(symbol(SA));
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
 }
 
 void

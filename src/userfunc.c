@@ -61,13 +61,13 @@ eval_user_function(struct atom *p1)
 
 	evalg();
 
-	restore_symbol(symbol(ARG9));
-	restore_symbol(symbol(ARG8));
-	restore_symbol(symbol(ARG7));
-	restore_symbol(symbol(ARG6));
-	restore_symbol(symbol(ARG5));
-	restore_symbol(symbol(ARG4));
-	restore_symbol(symbol(ARG3));
-	restore_symbol(symbol(ARG2));
-	restore_symbol(symbol(ARG1));
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
 }

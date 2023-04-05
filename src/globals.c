@@ -3,11 +3,9 @@ struct atom *free_list;
 
 int tos; // top of stack
 int tof; // top of frame
-int toj; // top of journal
 
 struct atom *stack[STACKSIZE];
 struct atom *frame[FRAMESIZE];
-struct atom *journal[JOURNALSIZE];
 
 struct atom *symtab[27 * NSYM];
 struct atom *binding[27 * NSYM];
@@ -22,7 +20,7 @@ int eval_level;
 int gc_level;
 int expanding;
 int drawing;
-int journaling;
+int nonstop;
 int interrupt;
 jmp_buf jmpbuf0;
 jmp_buf jmpbuf1;
@@ -41,7 +39,6 @@ int tensor_count;
 int max_eval_level;
 int max_tos;
 int max_tof;
-int max_toj;
 
 char strbuf[STRBUFLEN];
 

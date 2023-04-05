@@ -16,7 +16,6 @@
 #define BLOCKSIZE 10000
 #define MAXBLOCKS 1000
 #define NSYM 100
-#define JOURNALSIZE 1000
 
 // MAXBLOCKS * BLOCKSIZE = 10,000,000 atoms
 
@@ -326,10 +325,8 @@ extern struct atom *mem[MAXBLOCKS]; // an array of pointers
 extern struct atom *free_list;
 extern int tos; // top of stack
 extern int tof; // top of frame
-extern int toj; // top of journal
 extern struct atom *stack[STACKSIZE];
 extern struct atom *frame[FRAMESIZE];
-extern struct atom *journal[JOURNALSIZE];
 extern struct atom *symtab[];
 extern struct atom *binding[];
 extern struct atom *usrfunc[];
@@ -341,7 +338,7 @@ extern int eval_level;
 extern int gc_level;
 extern int expanding;
 extern int drawing;
-extern int journaling;
+extern int nonstop;
 extern int interrupt;
 extern jmp_buf jmpbuf0;
 extern jmp_buf jmpbuf1;
@@ -359,7 +356,6 @@ extern int tensor_count;
 extern int max_eval_level;
 extern int max_tos;
 extern int max_tof;
-extern int max_toj;
 extern char strbuf[];
 extern char *outbuf;
 extern int outbuf_index;
@@ -861,7 +857,7 @@ struct atom * pop(void);
 void fpush(struct atom *p);
 struct atom * fpop(void);
 void save_symbol(struct atom *p);
-void restore_symbol(struct atom *p);
+void restore_symbol(void);
 void dupl(void);
 void swap(void);
 void push_string(char *s);
@@ -872,7 +868,6 @@ void eval_sum(struct atom *p1);
 struct atom * lookup(char *s);
 char * printname(struct atom *p);
 void set_symbol(struct atom *p, struct atom *b, struct atom *u);
-void undo(void);
 struct atom * get_binding(struct atom *p);
 struct atom * get_usrfunc(struct atom *p);
 void init_symbol_table(void);
@@ -3540,8 +3535,8 @@ eval_clear(struct atom *p1)
 
 	run_init_script();
 
-	restore_symbol(symbol(TTY));
-	restore_symbol(symbol(TRACE));
+	restore_symbol();
+	restore_symbol();
 
 	if (gc_level + 1 == eval_level)
 		gc();
@@ -7683,7 +7678,7 @@ eval_for(struct atom *p1)
 			j--;
 	}
 
-	restore_symbol(p2);
+	restore_symbol();
 
 	push_symbol(NIL); // return value
 }
@@ -7726,9 +7721,6 @@ gc(void)
 
 	for (i = 0; i < tof; i++)
 		untag(frame[i]);
-
-	for (i = 0; i < toj; i++)
-		untag(journal[i]);
 
 	for (i = 0; i < 27; i++)
 		for (j = 0; j < NSYM; j++) {
@@ -7819,11 +7811,9 @@ struct atom *free_list;
 
 int tos; // top of stack
 int tof; // top of frame
-int toj; // top of journal
 
 struct atom *stack[STACKSIZE];
 struct atom *frame[FRAMESIZE];
-struct atom *journal[JOURNALSIZE];
 
 struct atom *symtab[27 * NSYM];
 struct atom *binding[27 * NSYM];
@@ -7838,7 +7828,7 @@ int eval_level;
 int gc_level;
 int expanding;
 int drawing;
-int journaling;
+int nonstop;
 int interrupt;
 jmp_buf jmpbuf0;
 jmp_buf jmpbuf1;
@@ -7857,7 +7847,6 @@ int tensor_count;
 int max_eval_level;
 int max_tos;
 int max_tof;
-int max_toj;
 
 char strbuf[STRBUFLEN];
 
@@ -9721,9 +9710,9 @@ integral_nib(struct atom *F, struct atom *X)
 
 	integral_lookup(h, F);
 
-	restore_symbol(symbol(SX));
-	restore_symbol(symbol(SB));
-	restore_symbol(symbol(SA));
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
 }
 
 void
@@ -13102,7 +13091,7 @@ eval_product(struct atom *p1)
 
 	multiply_factors(tos - h);
 
-	restore_symbol(p2);
+	restore_symbol();
 }
 void
 eval_quote(struct atom *p1)
@@ -13940,13 +13929,12 @@ run(char *buf)
 
 	tos = 0;
 	tof = 0;
-	toj = 0;
 	interrupt = 0;
 	eval_level = 0;
 	gc_level = 0;
 	expanding = 1;
 	drawing = 0;
-	journaling = 0;
+	nonstop = 0;
 
 	if (zero == NULL) {
 		init_symbol_table();
@@ -14096,7 +14084,7 @@ run_init_script(void)
 void
 stopf(char *s)
 {
-	if (journaling)
+	if (nonstop)
 		longjmp(jmpbuf1, 1);
 	print_trace(RED);
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
@@ -14104,12 +14092,10 @@ stopf(char *s)
 	longjmp(jmpbuf0, 1);
 }
 
-// kaput stops even in eval_nonstop()
-
 void
 kaput(char *s)
 {
-	journaling = 0;
+	nonstop = 0;
 	stopf(s);
 }
 // token_str and scan_str are pointers to the input string, for example
@@ -15556,17 +15542,19 @@ fpop(void)
 void
 save_symbol(struct atom *p)
 {
+	fpush(p);
 	fpush(get_binding(p));
 	fpush(get_usrfunc(p));
 }
 
 void
-restore_symbol(struct atom *p)
+restore_symbol(void)
 {
-	struct atom *p1, *p2;
+	struct atom *p1, *p2, *p3;
+	p3 = fpop();
 	p2 = fpop();
 	p1 = fpop();
-	set_symbol(p, p1, p2);
+	set_symbol(p1, p2, p3);
 }
 
 void
@@ -15637,9 +15625,6 @@ eval_status(struct atom *p1)
 	outbuf_puts(strbuf);
 
 	snprintf(strbuf, STRBUFLEN, "max_tof %d (%d%%)\n", max_tof, 100 * max_tof / FRAMESIZE);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "max_toj %d (%d%%)\n", max_toj, 100 * max_toj / JOURNALSIZE);
 	outbuf_puts(strbuf);
 
 	printbuf(outbuf, BLACK);
@@ -15762,7 +15747,7 @@ eval_sum(struct atom *p1)
 
 	add_terms(tos - h);
 
-	restore_symbol(p2);
+	restore_symbol();
 }
 // symbol lookup, create symbol if not found
 
@@ -15837,35 +15822,13 @@ set_symbol(struct atom *p, struct atom *b, struct atom *u)
 
 	k = p->u.usym.index;
 
-	if (journaling) {
-		if (toj + 3 > JOURNALSIZE)
-			kaput("journal error");
-		journal[toj + 0] = p;
-		journal[toj + 1] = binding[k];
-		journal[toj + 2] = usrfunc[k];
-		toj += 3;
-		if (toj > max_toj)
-			max_toj = toj;
+	if (symtab[k] != p) {
+		p = lookup(p->u.usym.name); // symbol was removed, restore symbol
+		k = p->u.usym.index;
 	}
 
 	binding[k] = b;
 	usrfunc[k] = u;
-}
-
-// restore symbol table
-
-void
-undo(void)
-{
-	int k;
-	struct atom *p;
-	while (toj > 0) {
-		toj -= 3;
-		p = journal[toj + 0];
-		k = p->u.usym.index;
-		binding[k] = journal[toj + 1];
-		usrfunc[k] = journal[toj + 2];
-	}
 }
 
 struct atom *
@@ -16930,15 +16893,15 @@ eval_user_function(struct atom *p1)
 
 	evalg();
 
-	restore_symbol(symbol(ARG9));
-	restore_symbol(symbol(ARG8));
-	restore_symbol(symbol(ARG7));
-	restore_symbol(symbol(ARG6));
-	restore_symbol(symbol(ARG5));
-	restore_symbol(symbol(ARG4));
-	restore_symbol(symbol(ARG3));
-	restore_symbol(symbol(ARG2));
-	restore_symbol(symbol(ARG1));
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
 }
 void
 eval_zero(struct atom *p1)

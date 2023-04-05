@@ -37,17 +37,19 @@ fpop(void)
 void
 save_symbol(struct atom *p)
 {
+	fpush(p);
 	fpush(get_binding(p));
 	fpush(get_usrfunc(p));
 }
 
 void
-restore_symbol(struct atom *p)
+restore_symbol(void)
 {
-	struct atom *p1, *p2;
+	struct atom *p1, *p2, *p3;
+	p3 = fpop();
 	p2 = fpop();
 	p1 = fpop();
-	set_symbol(p, p1, p2);
+	set_symbol(p1, p2, p3);
 }
 
 void

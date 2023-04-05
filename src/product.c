@@ -53,5 +53,5 @@ eval_product(struct atom *p1)
 
 	multiply_factors(tos - h);
 
-	restore_symbol(p2);
+	restore_symbol();
 }

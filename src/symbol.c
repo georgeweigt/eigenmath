@@ -71,35 +71,13 @@ set_symbol(struct atom *p, struct atom *b, struct atom *u)
 
 	k = p->u.usym.index;
 
-	if (journaling) {
-		if (toj + 3 > JOURNALSIZE)
-			kaput("journal error");
-		journal[toj + 0] = p;
-		journal[toj + 1] = binding[k];
-		journal[toj + 2] = usrfunc[k];
-		toj += 3;
-		if (toj > max_toj)
-			max_toj = toj;
+	if (symtab[k] != p) {
+		p = lookup(p->u.usym.name); // symbol was removed, restore symbol
+		k = p->u.usym.index;
 	}
 
 	binding[k] = b;
 	usrfunc[k] = u;
-}
-
-// restore symbol table
-
-void
-undo(void)
-{
-	int k;
-	struct atom *p;
-	while (toj > 0) {
-		toj -= 3;
-		p = journal[toj + 0];
-		k = p->u.usym.index;
-		binding[k] = journal[toj + 1];
-		usrfunc[k] = journal[toj + 2];
-	}
 }
 
 struct atom *
