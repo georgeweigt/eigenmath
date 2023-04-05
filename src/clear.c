@@ -13,5 +13,8 @@ eval_clear(struct atom *p1)
 	restore_symbol(symbol(TTY));
 	restore_symbol(symbol(TRACE));
 
+	if (gc_level + 1 == eval_level)
+		gc();
+
 	push_symbol(NIL); // result
 }

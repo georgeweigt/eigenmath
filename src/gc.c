@@ -6,10 +6,8 @@
 void
 gc_check(void)
 {
-	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
+	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
 		gc();
-		alloc_count = 0;
-	}
 }
 
 void
@@ -19,6 +17,7 @@ gc(void)
 	struct atom *p;
 
 	gc_count++;
+	alloc_count = 0;
 
 	// tag everything
 

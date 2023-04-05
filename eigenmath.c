@@ -562,7 +562,6 @@ void eval_erf(struct atom *p1);
 void erffunc(void);
 void eval_erfc(struct atom *p1);
 void erfcfunc(void);
-void eval_eval(struct atom *p1);
 void evalg(void);
 void evalf(void);
 void evalf_nib(struct atom *p1);
@@ -570,6 +569,7 @@ void eval_user_symbol(struct atom *p1);
 void eval_nil(struct atom *p1);
 void eval_number(struct atom *p1);
 void eval_stop(struct atom *p1);
+void eval_eval(struct atom *p1);
 void evalp(void);
 void eval_exp(struct atom *p1);
 void expfunc(void);
@@ -3543,6 +3543,9 @@ eval_clear(struct atom *p1)
 	restore_symbol(symbol(TTY));
 	restore_symbol(symbol(TRACE));
 
+	if (gc_level + 1 == eval_level)
+		gc();
+
 	push_symbol(NIL); // result
 }
 void
@@ -6362,22 +6365,6 @@ erfcfunc(void)
 	push(p1);
 	list(2);
 }
-void
-eval_eval(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	p1 = cddr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		evalf();
-		push(cadr(p1));
-		evalf();
-		subst();
-		p1 = cddr(p1);
-	}
-	evalf();
-}
 // Automatic struct atom pointers need to be visible to the garbage collector
 // in order to be preserved.
 
@@ -6488,6 +6475,22 @@ eval_stop(struct atom *p1)
 {
 	(void) p1; // silence compiler
 	stopf("stop function");
+}
+void
+eval_eval(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	p1 = cddr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		evalf();
+		push(cadr(p1));
+		evalf();
+		subst();
+		p1 = cddr(p1);
+	}
+	evalf();
 }
 // like evalf() except '=' is evaluated as '=='
 
@@ -9069,10 +9072,8 @@ eval_for(struct atom *p1)
 void
 gc_check(void)
 {
-	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10) {
+	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
 		gc();
-		alloc_count = 0;
-	}
 }
 
 void
@@ -9082,6 +9083,7 @@ gc(void)
 	struct atom *p;
 
 	gc_count++;
+	alloc_count = 0;
 
 	// tag everything
 
