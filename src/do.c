@@ -4,9 +4,9 @@ eval_do(struct atom *p1)
 	push_symbol(NIL);
 	p1 = cdr(p1);
 	while (iscons(p1)) {
-		pop();
+		pop(); // discard previous result
 		push(car(p1));
-		evalf();
+		evalg(p1);
 		p1 = cdr(p1);
 	}
 }
