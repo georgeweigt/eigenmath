@@ -6,7 +6,7 @@ eval_draw(struct atom *p1)
 	struct atom *F, *T;
 
 	if (drawing) {
-		push_symbol(NIL);
+		push_symbol(NIL); // not reentrant
 		return;
 	}
 
@@ -33,7 +33,7 @@ eval_draw(struct atom *p1)
 
 	emit_graph();
 
-	restore_symbol(T);
+	restore_symbol();
 
 	push_symbol(NIL);
 
