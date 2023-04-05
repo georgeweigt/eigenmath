@@ -17218,7 +17218,7 @@ lookup(char *s)
 	}
 
 	if (i == NSYM)
-		stopf("symbol table full");
+		kaput("symbol table full");
 
 	p = alloc_atom();
 	s = strdup(s);
@@ -17247,7 +17247,7 @@ printname(struct atom *p)
 	if (isusersymbol(p))
 		return p->u.usym.name;
 
-	stopf("symbol error");
+	kaput("symbol error");
 
 	return "?";
 }
@@ -17258,7 +17258,7 @@ set_symbol(struct atom *p, struct atom *b, struct atom *u)
 	int k;
 
 	if (!isusersymbol(p))
-		stopf("symbol error");
+		kaput("symbol error");
 
 	k = p->u.usym.index;
 
@@ -17275,7 +17275,7 @@ struct atom *
 get_binding(struct atom *p)
 {
 	if (!isusersymbol(p))
-		stopf("symbol error");
+		kaput("symbol error");
 	return binding[p->u.usym.index];
 }
 
@@ -17283,7 +17283,7 @@ struct atom *
 get_usrfunc(struct atom *p)
 {
 	if (!isusersymbol(p))
-		stopf("symbol error");
+		kaput("symbol error");
 	return usrfunc[p->u.usym.index];
 }
 
@@ -17291,9 +17291,7 @@ struct se {
 	char *str;
 	int index;
 	void (*func)(struct atom *);
-};
-
-struct se stab[] = {
+} stab[] = {
 
 	{ "abs",		ABS,		eval_abs		},
 	{ "adj",		ADJ,		eval_adj		},
