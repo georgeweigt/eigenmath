@@ -1,4 +1,4 @@
-// automatic struct atom pointers need to be visible to the garbage collector in order to be preserved
+// automatic variables not visible to the garbage collector will be reclaimed
 
 void
 gc(void)

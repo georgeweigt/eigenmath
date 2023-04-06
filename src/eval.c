@@ -1,4 +1,4 @@
-// automatic struct atom pointers need to be visible to the garbage collector in order to be preserved
+// automatic variables not visible to the garbage collector will be reclaimed
 
 void
 evalg(void)
@@ -15,11 +15,11 @@ evalg(void)
 void
 evalf(void)
 {
-	struct atom *p1;
+	struct atom *p;
 	eval_level++;
-	p1 = pop();
-	fpush(p1); // make visible to garbage collector
-	evalf_nib(p1);
+	p = pop();
+	fpush(p); // make visible to garbage collector
+	evalf_nib(p);
 	fpop();
 	eval_level--;
 }
