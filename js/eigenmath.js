@@ -4914,8 +4914,8 @@ eval_clear()
 
 	initscript();
 
-	restore_symbol(symbol(TTY));
-	restore_symbol(symbol(TRACE));
+	restore_symbol();
+	restore_symbol();
 
 	push_symbol(NIL); // result
 }
@@ -6393,7 +6393,7 @@ eval_draw(p1)
 
 	emit_graph();
 
-	restore_symbol(T);
+	restore_symbol();
 
 	push_symbol(NIL); // return value
 
@@ -7081,7 +7081,7 @@ eval_for(p1)
 			j--;
 	}
 
-	restore_symbol(p2);
+	restore_symbol();
 
 	push_symbol(NIL); // return value
 }
@@ -8415,9 +8415,9 @@ integral_nib(F, X)
 
 	integral_lookup(h, F);
 
-	restore_symbol(symbol(SX));
-	restore_symbol(symbol(SB));
-	restore_symbol(symbol(SA));
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
 }
 
 function
@@ -9962,7 +9962,7 @@ eval_product(p1)
 
 	multiply_factors(stack.length - h);
 
-	restore_symbol(p2);
+	restore_symbol();
 }
 function
 eval_quote(p1)
@@ -11452,7 +11452,7 @@ eval_sum(p1)
 
 	add_terms(stack.length - h);
 
-	restore_symbol(p2);
+	restore_symbol();
 }
 function
 eval_tan(p1)
@@ -12113,15 +12113,15 @@ eval_user_function(p1)
 
 	evalf();
 
-	restore_symbol(symbol(ARG9));
-	restore_symbol(symbol(ARG8));
-	restore_symbol(symbol(ARG7));
-	restore_symbol(symbol(ARG6));
-	restore_symbol(symbol(ARG5));
-	restore_symbol(symbol(ARG4));
-	restore_symbol(symbol(ARG3));
-	restore_symbol(symbol(ARG2));
-	restore_symbol(symbol(ARG1));
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
 }
 function
 eval_user_symbol(p1)
@@ -16048,12 +16048,13 @@ reduce_radical_rational(h, COEFF)
 	return COEFF;
 }
 function
-restore_symbol(p)
+restore_symbol()
 {
-	var p1, p2;
+	var p1, p2, p3;
+	p3 = frame.pop();
 	p2 = frame.pop();
 	p1 = frame.pop();
-	set_symbol(p, p1, p2);
+	set_symbol(p1, p2, p3);
 }
 /* exported run */
 
@@ -16136,6 +16137,7 @@ sample(F, T, t)
 function
 save_symbol(p)
 {
+	frame.push(p);
 	frame.push(get_binding(p));
 	frame.push(get_usrfunc(p));
 }

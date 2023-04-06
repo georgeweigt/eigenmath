@@ -52,5 +52,5 @@ eval_sum(p1)
 
 	add_terms(stack.length - h);
 
-	restore_symbol(p2);
+	restore_symbol();
 }

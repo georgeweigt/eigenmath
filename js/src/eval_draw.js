@@ -31,7 +31,7 @@ eval_draw(p1)
 
 	emit_graph();
 
-	restore_symbol(T);
+	restore_symbol();
 
 	push_symbol(NIL); // return value
 

@@ -52,5 +52,5 @@ eval_product(p1)
 
 	multiply_factors(stack.length - h);
 
-	restore_symbol(p2);
+	restore_symbol();
 }

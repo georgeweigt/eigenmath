@@ -9,8 +9,8 @@ eval_clear()
 
 	initscript();
 
-	restore_symbol(symbol(TTY));
-	restore_symbol(symbol(TRACE));
+	restore_symbol();
+	restore_symbol();
 
 	push_symbol(NIL); // result
 }
