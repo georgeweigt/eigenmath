@@ -45,15 +45,13 @@ run_buf(char *buf)
 
 	for (;;) {
 
-		gc_check(); // see gc.c for note about garbage collection
-
 		s = scan_input(s); // also updates trace1 and trace2
 
 		if (s == NULL)
 			break; // end of input
 
 		dupl();
-		evalf();
+		evalg();
 
 		// update last
 
@@ -131,13 +129,9 @@ run_file(char *filename)
 
 	p->u.str = buf; // buf is freed on next gc
 
-	push(p); // protect buf from garbage collection
-
-	gc_level++;
+	fpush(p); // make visible to garbage collector
 	run_buf(buf);
-	gc_level--;
-
-	pop();
+	fpop();
 }
 
 char *init_script =

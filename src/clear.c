@@ -13,7 +13,7 @@ eval_clear(struct atom *p1)
 	restore_symbol();
 	restore_symbol();
 
-	if (gc_level + 1 == eval_level)
+	if (gc_level == eval_level)
 		gc();
 
 	push_symbol(NIL); // result

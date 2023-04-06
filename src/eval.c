@@ -4,8 +4,9 @@
 void
 evalg(void)
 {
+	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
+		gc();
 	gc_level++;
-	gc_check();
 	evalf();
 	gc_level--;
 }
@@ -16,7 +17,7 @@ evalf(void)
 	struct atom *p1;
 	eval_level++;
 	p1 = pop();
-	fpush(p1); // visible to garbage collector
+	fpush(p1); // make visible to garbage collector
 	evalf_nib(p1);
 	fpop();
 	eval_level--;

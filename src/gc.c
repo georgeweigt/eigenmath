@@ -1,14 +1,5 @@
 // Automatic struct atom pointers need to be visible to the garbage collector
 // in order to be preserved.
-// The condition gc_level == eval_level indicates that automatic struct atom
-// pointers that need to be preserved are visible.
-
-void
-gc_check(void)
-{
-	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
-		gc();
-}
 
 void
 gc(void)

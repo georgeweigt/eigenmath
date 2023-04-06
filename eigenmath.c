@@ -637,7 +637,6 @@ void fmt_draw_rdelim(int x, int y, int h, int d);
 void fmt_draw_table(int x, int y, struct atom *p);
 void writec(int c);
 void eval_for(struct atom *p1);
-void gc_check(void);
 void gc(void);
 void untag(struct atom *p);
 void eval_hadamard(struct atom *p1);
@@ -3538,7 +3537,7 @@ eval_clear(struct atom *p1)
 	restore_symbol();
 	restore_symbol();
 
-	if (gc_level + 1 == eval_level)
+	if (gc_level == eval_level)
 		gc();
 
 	push_symbol(NIL); // result
@@ -6366,8 +6365,9 @@ erfcfunc(void)
 void
 evalg(void)
 {
+	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
+		gc();
 	gc_level++;
-	gc_check();
 	evalf();
 	gc_level--;
 }
@@ -6378,7 +6378,7 @@ evalf(void)
 	struct atom *p1;
 	eval_level++;
 	p1 = pop();
-	fpush(p1); // visible to garbage collector
+	fpush(p1); // make visible to garbage collector
 	evalf_nib(p1);
 	fpop();
 	eval_level--;
@@ -9061,15 +9061,6 @@ eval_for(struct atom *p1)
 }
 // Automatic struct atom pointers need to be visible to the garbage collector
 // in order to be preserved.
-// The condition gc_level == eval_level indicates that automatic struct atom
-// pointers that need to be preserved are visible.
-
-void
-gc_check(void)
-{
-	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
-		gc();
-}
 
 void
 gc(void)
@@ -15408,15 +15399,13 @@ run_buf(char *buf)
 
 	for (;;) {
 
-		gc_check(); // see gc.c for note about garbage collection
-
 		s = scan_input(s); // also updates trace1 and trace2
 
 		if (s == NULL)
 			break; // end of input
 
 		dupl();
-		evalf();
+		evalg();
 
 		// update last
 
@@ -15494,13 +15483,9 @@ run_file(char *filename)
 
 	p->u.str = buf; // buf is freed on next gc
 
-	push(p); // protect buf from garbage collection
-
-	gc_level++;
+	fpush(p); // make visible to garbage collector
 	run_buf(buf);
-	gc_level--;
-
-	pop();
+	fpop();
 }
 
 char *init_script =

@@ -246,7 +246,6 @@ void floatfunc_subst(void);
 void eval_floor(struct atom *p1);
 void floorfunc(void);
 void eval_for(struct atom *p1);
-void gc_check(void);
 void gc(void);
 void untag(struct atom *p);
 void eval_hadamard(struct atom *p1);
