@@ -15459,12 +15459,9 @@ eval_run(struct atom *p1)
 	push(cadr(p1));
 	evalf();
 	p1 = pop();
-
 	if (!isstr(p1))
 		stopf("run: file name expected");
-
 	run_file(p1->u.str);
-
 	push_symbol(NIL);
 }
 
@@ -15473,19 +15470,14 @@ run_file(char *filename)
 {
 	char *buf;
 	struct atom *p;
-
 	p = alloc_str();
-
 	buf = read_file(filename);
-
 	if (buf == NULL)
 		stopf("run: cannot read file");
-
-	p->u.str = buf; // buf is freed on next gc
-
+	p->u.str = buf;
 	fpush(p); // make visible to garbage collector
 	run_buf(buf);
-	fpop();
+	fpop(); // buf is freed on next gc
 }
 
 char *init_script =
