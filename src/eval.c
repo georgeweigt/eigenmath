@@ -1,5 +1,4 @@
-// Automatic struct atom pointers need to be visible to the garbage collector
-// in order to be preserved.
+// automatic struct atom pointers need to be visible to the garbage collector in order to be preserved
 
 void
 evalg(void)
@@ -10,6 +9,8 @@ evalg(void)
 	evalf();
 	gc_level--;
 }
+
+// call evalf instead of evalg to evaluate without garbage collection
 
 void
 evalf(void)

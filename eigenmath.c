@@ -6359,8 +6359,7 @@ erfcfunc(void)
 	push(p1);
 	list(2);
 }
-// Automatic struct atom pointers need to be visible to the garbage collector
-// in order to be preserved.
+// automatic struct atom pointers need to be visible to the garbage collector in order to be preserved
 
 void
 evalg(void)
@@ -6371,6 +6370,8 @@ evalg(void)
 	evalf();
 	gc_level--;
 }
+
+// call evalf instead of evalg to evaluate without garbage collection
 
 void
 evalf(void)
@@ -9059,9 +9060,6 @@ eval_for(struct atom *p1)
 
 	push_symbol(NIL); // return value
 }
-// Automatic struct atom pointers need to be visible to the garbage collector
-// in order to be preserved.
-
 void
 gc(void)
 {
