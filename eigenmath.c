@@ -9060,6 +9060,8 @@ eval_for(struct atom *p1)
 
 	push_symbol(NIL); // return value
 }
+// automatic struct atom pointers need to be visible to the garbage collector in order to be preserved
+
 void
 gc(void)
 {
