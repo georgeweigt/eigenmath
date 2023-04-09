@@ -9,13 +9,13 @@
 #include <math.h>
 #include <errno.h>
 
-#define STRBUFLEN 1000
-
 #define STACKSIZE 100000 // evaluation stack
 #define FRAMESIZE 10000
 #define BLOCKSIZE 10000
 #define MAXBLOCKS 1000
-#define NSYM 100
+#define BUCKETSIZE 100
+#define STRBUFLEN 1000
+#define MAXDIM 24
 
 // MAXBLOCKS * BLOCKSIZE = 10,000,000 atoms
 
@@ -71,6 +71,13 @@ struct atom {
 	uint8_t atomtype, tag, sign;
 };
 
+struct tensor {
+	int ndim;
+	int dim[MAXDIM];
+	int nelem;
+	struct atom *elem[1];
+};
+
 // atom types
 
 #define FREEATOM	0
@@ -84,192 +91,183 @@ struct atom {
 
 // symbol table
 
-#define ABS		(0 * NSYM + 0)
-#define ADJ		(0 * NSYM + 1)
-#define AND		(0 * NSYM + 2)
-#define ARCCOS		(0 * NSYM + 3)
-#define ARCCOSH		(0 * NSYM + 4)
-#define ARCSIN		(0 * NSYM + 5)
-#define ARCSINH		(0 * NSYM + 6)
-#define ARCTAN		(0 * NSYM + 7)
-#define ARCTANH		(0 * NSYM + 8)
-#define ARG		(0 * NSYM + 9)
+#define ABS		(0 * BUCKETSIZE + 0)
+#define ADJ		(0 * BUCKETSIZE + 1)
+#define AND		(0 * BUCKETSIZE + 2)
+#define ARCCOS		(0 * BUCKETSIZE + 3)
+#define ARCCOSH		(0 * BUCKETSIZE + 4)
+#define ARCSIN		(0 * BUCKETSIZE + 5)
+#define ARCSINH		(0 * BUCKETSIZE + 6)
+#define ARCTAN		(0 * BUCKETSIZE + 7)
+#define ARCTANH		(0 * BUCKETSIZE + 8)
+#define ARG		(0 * BUCKETSIZE + 9)
 
-#define BINDING		(1 * NSYM + 0)
+#define BINDING		(1 * BUCKETSIZE + 0)
 
-#define C_UPPER		(2 * NSYM + 0)
-#define C_LOWER		(2 * NSYM + 1)
-#define CEILING		(2 * NSYM + 2)
-#define CHECK		(2 * NSYM + 3)
-#define CIRCEXP		(2 * NSYM + 4)
-#define CLEAR		(2 * NSYM + 5)
-#define CLOCK		(2 * NSYM + 6)
-#define COFACTOR	(2 * NSYM + 7)
-#define CONJ		(2 * NSYM + 8)
-#define CONTRACT	(2 * NSYM + 9)
-#define COS		(2 * NSYM + 10)
-#define COSH		(2 * NSYM + 11)
+#define C_UPPER		(2 * BUCKETSIZE + 0)
+#define C_LOWER		(2 * BUCKETSIZE + 1)
+#define CEILING		(2 * BUCKETSIZE + 2)
+#define CHECK		(2 * BUCKETSIZE + 3)
+#define CIRCEXP		(2 * BUCKETSIZE + 4)
+#define CLEAR		(2 * BUCKETSIZE + 5)
+#define CLOCK		(2 * BUCKETSIZE + 6)
+#define COFACTOR	(2 * BUCKETSIZE + 7)
+#define CONJ		(2 * BUCKETSIZE + 8)
+#define CONTRACT	(2 * BUCKETSIZE + 9)
+#define COS		(2 * BUCKETSIZE + 10)
+#define COSH		(2 * BUCKETSIZE + 11)
 
-#define D_UPPER		(3 * NSYM + 0)
-#define D_LOWER		(3 * NSYM + 1)
-#define DEFINT		(3 * NSYM + 2)
-#define DENOMINATOR	(3 * NSYM + 3)
-#define DERIVATIVE	(3 * NSYM + 4)
-#define DET		(3 * NSYM + 5)
-#define DIM		(3 * NSYM + 6)
-#define DO		(3 * NSYM + 7)
-#define DOT		(3 * NSYM + 8)
-#define DRAW		(3 * NSYM + 9)
+#define D_UPPER		(3 * BUCKETSIZE + 0)
+#define D_LOWER		(3 * BUCKETSIZE + 1)
+#define DEFINT		(3 * BUCKETSIZE + 2)
+#define DENOMINATOR	(3 * BUCKETSIZE + 3)
+#define DERIVATIVE	(3 * BUCKETSIZE + 4)
+#define DET		(3 * BUCKETSIZE + 5)
+#define DIM		(3 * BUCKETSIZE + 6)
+#define DO		(3 * BUCKETSIZE + 7)
+#define DOT		(3 * BUCKETSIZE + 8)
+#define DRAW		(3 * BUCKETSIZE + 9)
 
-#define EIGENVEC	(4 * NSYM + 0)
-#define ERF		(4 * NSYM + 1)
-#define ERFC		(4 * NSYM + 2)
-#define EVAL		(4 * NSYM + 3)
-#define EXIT		(4 * NSYM + 4)
-#define EXP		(4 * NSYM + 5)
-#define EXPCOS		(4 * NSYM + 6)
-#define EXPCOSH		(4 * NSYM + 7)
-#define EXPSIN		(4 * NSYM + 8)
-#define EXPSINH		(4 * NSYM + 9)
-#define EXPTAN		(4 * NSYM + 10)
-#define EXPTANH		(4 * NSYM + 11)
+#define EIGENVEC	(4 * BUCKETSIZE + 0)
+#define ERF		(4 * BUCKETSIZE + 1)
+#define ERFC		(4 * BUCKETSIZE + 2)
+#define EVAL		(4 * BUCKETSIZE + 3)
+#define EXIT		(4 * BUCKETSIZE + 4)
+#define EXP		(4 * BUCKETSIZE + 5)
+#define EXPCOS		(4 * BUCKETSIZE + 6)
+#define EXPCOSH		(4 * BUCKETSIZE + 7)
+#define EXPSIN		(4 * BUCKETSIZE + 8)
+#define EXPSINH		(4 * BUCKETSIZE + 9)
+#define EXPTAN		(4 * BUCKETSIZE + 10)
+#define EXPTANH		(4 * BUCKETSIZE + 11)
 
-#define FACTORIAL	(5 * NSYM + 0)
-#define FLOATF		(5 * NSYM + 1)
-#define FLOOR		(5 * NSYM + 2)
-#define FOR		(5 * NSYM + 3)
+#define FACTORIAL	(5 * BUCKETSIZE + 0)
+#define FLOATF		(5 * BUCKETSIZE + 1)
+#define FLOOR		(5 * BUCKETSIZE + 2)
+#define FOR		(5 * BUCKETSIZE + 3)
 
-#define H_UPPER		(7 * NSYM + 0)
-#define H_LOWER		(7 * NSYM + 1)
-#define HADAMARD	(7 * NSYM + 2)
+#define H_UPPER		(7 * BUCKETSIZE + 0)
+#define H_LOWER		(7 * BUCKETSIZE + 1)
+#define HADAMARD	(7 * BUCKETSIZE + 2)
 
-#define I_UPPER		(8 * NSYM + 0)
-#define I_LOWER		(8 * NSYM + 1)
-#define IMAG		(8 * NSYM + 2)
-#define INFIXFORM	(8 * NSYM + 3)
-#define INNER		(8 * NSYM + 4)
-#define INTEGRAL	(8 * NSYM + 5)
-#define INV		(8 * NSYM + 6)
+#define I_UPPER		(8 * BUCKETSIZE + 0)
+#define I_LOWER		(8 * BUCKETSIZE + 1)
+#define IMAG		(8 * BUCKETSIZE + 2)
+#define INFIXFORM	(8 * BUCKETSIZE + 3)
+#define INNER		(8 * BUCKETSIZE + 4)
+#define INTEGRAL	(8 * BUCKETSIZE + 5)
+#define INV		(8 * BUCKETSIZE + 6)
 
-#define J_UPPER		(9 * NSYM + 0)
-#define J_LOWER		(9 * NSYM + 1)
+#define J_UPPER		(9 * BUCKETSIZE + 0)
+#define J_LOWER		(9 * BUCKETSIZE + 1)
 
-#define KRONECKER	(10 * NSYM + 0)
+#define KRONECKER	(10 * BUCKETSIZE + 0)
 
-#define LAST		(11 * NSYM + 0)
-#define LOG		(11 * NSYM + 1)
+#define LAST		(11 * BUCKETSIZE + 0)
+#define LOG		(11 * BUCKETSIZE + 1)
 
-#define MAG		(12 * NSYM + 0)
-#define MINOR		(12 * NSYM + 1)
-#define MINORMATRIX	(12 * NSYM + 2)
-#define MOD		(12 * NSYM + 3)
+#define MAG		(12 * BUCKETSIZE + 0)
+#define MINOR		(12 * BUCKETSIZE + 1)
+#define MINORMATRIX	(12 * BUCKETSIZE + 2)
+#define MOD		(12 * BUCKETSIZE + 3)
 
-#define NIL		(13 * NSYM + 0)
-#define NOEXPAND	(13 * NSYM + 1)
-#define NOT		(13 * NSYM + 2)
-#define NROOTS		(13 * NSYM + 3)
-#define NUMBER		(13 * NSYM + 4)
-#define NUMERATOR	(13 * NSYM + 5)
+#define NIL		(13 * BUCKETSIZE + 0)
+#define NOEXPAND	(13 * BUCKETSIZE + 1)
+#define NOT		(13 * BUCKETSIZE + 2)
+#define NROOTS		(13 * BUCKETSIZE + 3)
+#define NUMBER		(13 * BUCKETSIZE + 4)
+#define NUMERATOR	(13 * BUCKETSIZE + 5)
 
-#define OR		(14 * NSYM + 0)
-#define OUTER		(14 * NSYM + 1)
+#define OR		(14 * BUCKETSIZE + 0)
+#define OUTER		(14 * BUCKETSIZE + 1)
 
-#define P_UPPER		(15 * NSYM + 0)
-#define P_LOWER		(15 * NSYM + 1)
-#define PI		(15 * NSYM + 2)
-#define POLAR		(15 * NSYM + 3)
-#define PREFIXFORM	(15 * NSYM + 4)
-#define PRINT		(15 * NSYM + 5)
-#define PRODUCT		(15 * NSYM + 6)
+#define P_UPPER		(15 * BUCKETSIZE + 0)
+#define P_LOWER		(15 * BUCKETSIZE + 1)
+#define PI		(15 * BUCKETSIZE + 2)
+#define POLAR		(15 * BUCKETSIZE + 3)
+#define PREFIXFORM	(15 * BUCKETSIZE + 4)
+#define PRINT		(15 * BUCKETSIZE + 5)
+#define PRODUCT		(15 * BUCKETSIZE + 6)
 
-#define Q_UPPER		(16 * NSYM + 0)
-#define Q_LOWER		(16 * NSYM + 1)
-#define QUOTE		(16 * NSYM + 2)
+#define Q_UPPER		(16 * BUCKETSIZE + 0)
+#define Q_LOWER		(16 * BUCKETSIZE + 1)
+#define QUOTE		(16 * BUCKETSIZE + 2)
 
-#define R_UPPER		(17 * NSYM + 0)
-#define R_LOWER		(17 * NSYM + 1)
-#define RANK		(17 * NSYM + 2)
-#define RATIONALIZE	(17 * NSYM + 3)
-#define REAL		(17 * NSYM + 4)
-#define RECTF		(17 * NSYM + 5)
-#define ROOTS		(17 * NSYM + 6)
-#define ROTATE		(17 * NSYM + 7)
-#define RUN		(17 * NSYM + 8)
+#define R_UPPER		(17 * BUCKETSIZE + 0)
+#define R_LOWER		(17 * BUCKETSIZE + 1)
+#define RANK		(17 * BUCKETSIZE + 2)
+#define RATIONALIZE	(17 * BUCKETSIZE + 3)
+#define REAL		(17 * BUCKETSIZE + 4)
+#define RECTF		(17 * BUCKETSIZE + 5)
+#define ROOTS		(17 * BUCKETSIZE + 6)
+#define ROTATE		(17 * BUCKETSIZE + 7)
+#define RUN		(17 * BUCKETSIZE + 8)
 
-#define S_UPPER		(18 * NSYM + 0)
-#define S_LOWER		(18 * NSYM + 1)
-#define SGN		(18 * NSYM + 2)
-#define SIMPLIFY	(18 * NSYM + 3)
-#define SIN		(18 * NSYM + 4)
-#define SINH		(18 * NSYM + 5)
-#define SQRT		(18 * NSYM + 6)
-#define STATUS		(18 * NSYM + 7)
-#define STOP		(18 * NSYM + 8)
-#define SUBST		(18 * NSYM + 9)
-#define SUM		(18 * NSYM + 10)
+#define S_UPPER		(18 * BUCKETSIZE + 0)
+#define S_LOWER		(18 * BUCKETSIZE + 1)
+#define SGN		(18 * BUCKETSIZE + 2)
+#define SIMPLIFY	(18 * BUCKETSIZE + 3)
+#define SIN		(18 * BUCKETSIZE + 4)
+#define SINH		(18 * BUCKETSIZE + 5)
+#define SQRT		(18 * BUCKETSIZE + 6)
+#define STATUS		(18 * BUCKETSIZE + 7)
+#define STOP		(18 * BUCKETSIZE + 8)
+#define SUBST		(18 * BUCKETSIZE + 9)
+#define SUM		(18 * BUCKETSIZE + 10)
 
-#define T_UPPER		(19 * NSYM + 0)
-#define T_LOWER		(19 * NSYM + 1)
-#define TAN		(19 * NSYM + 2)
-#define TANH		(19 * NSYM + 3)
-#define TAYLOR		(19 * NSYM + 4)
-#define TEST		(19 * NSYM + 5)
-#define TESTEQ		(19 * NSYM + 6)
-#define TESTGE		(19 * NSYM + 7)
-#define TESTGT		(19 * NSYM + 8)
-#define TESTLE		(19 * NSYM + 9)
-#define TESTLT		(19 * NSYM + 10)
-#define TRACE		(19 * NSYM + 11)
-#define TRANSPOSE	(19 * NSYM + 12)
-#define TTY		(19 * NSYM + 13)
+#define T_UPPER		(19 * BUCKETSIZE + 0)
+#define T_LOWER		(19 * BUCKETSIZE + 1)
+#define TAN		(19 * BUCKETSIZE + 2)
+#define TANH		(19 * BUCKETSIZE + 3)
+#define TAYLOR		(19 * BUCKETSIZE + 4)
+#define TEST		(19 * BUCKETSIZE + 5)
+#define TESTEQ		(19 * BUCKETSIZE + 6)
+#define TESTGE		(19 * BUCKETSIZE + 7)
+#define TESTGT		(19 * BUCKETSIZE + 8)
+#define TESTLE		(19 * BUCKETSIZE + 9)
+#define TESTLT		(19 * BUCKETSIZE + 10)
+#define TRACE		(19 * BUCKETSIZE + 11)
+#define TRANSPOSE	(19 * BUCKETSIZE + 12)
+#define TTY		(19 * BUCKETSIZE + 13)
 
-#define U_UPPER		(20 * NSYM + 0)
-#define U_LOWER		(20 * NSYM + 1)
-#define UNIT		(20 * NSYM + 2)
+#define U_UPPER		(20 * BUCKETSIZE + 0)
+#define U_LOWER		(20 * BUCKETSIZE + 1)
+#define UNIT		(20 * BUCKETSIZE + 2)
 
-#define V_UPPER		(21 * NSYM + 0)
-#define V_LOWER		(21 * NSYM + 1)
+#define V_UPPER		(21 * BUCKETSIZE + 0)
+#define V_LOWER		(21 * BUCKETSIZE + 1)
 
-#define W_UPPER		(22 * NSYM + 0)
-#define W_LOWER		(22 * NSYM + 1)
+#define W_UPPER		(22 * BUCKETSIZE + 0)
+#define W_LOWER		(22 * BUCKETSIZE + 1)
 
-#define X_UPPER		(23 * NSYM + 0)
-#define X_LOWER		(23 * NSYM + 1)
+#define X_UPPER		(23 * BUCKETSIZE + 0)
+#define X_LOWER		(23 * BUCKETSIZE + 1)
 
-#define Y_UPPER		(24 * NSYM + 0)
-#define Y_LOWER		(24 * NSYM + 1)
+#define Y_UPPER		(24 * BUCKETSIZE + 0)
+#define Y_LOWER		(24 * BUCKETSIZE + 1)
 
-#define Z_UPPER		(25 * NSYM + 0)
-#define Z_LOWER		(25 * NSYM + 1)
-#define ZERO		(25 * NSYM + 2)
+#define Z_UPPER		(25 * BUCKETSIZE + 0)
+#define Z_LOWER		(25 * BUCKETSIZE + 1)
+#define ZERO		(25 * BUCKETSIZE + 2)
 
-#define ADD		(26 * NSYM + 0)
-#define MULTIPLY	(26 * NSYM + 1)
-#define POWER		(26 * NSYM + 2)
-#define INDEX		(26 * NSYM + 3)
-#define SETQ		(26 * NSYM + 4)
-#define EXP1		(26 * NSYM + 5)
-#define SA		(26 * NSYM + 6)
-#define SB		(26 * NSYM + 7)
-#define SX		(26 * NSYM + 8)
-#define ARG1		(26 * NSYM + 9)
-#define ARG2		(26 * NSYM + 10)
-#define ARG3		(26 * NSYM + 11)
-#define ARG4		(26 * NSYM + 12)
-#define ARG5		(26 * NSYM + 13)
-#define ARG6		(26 * NSYM + 14)
-#define ARG7		(26 * NSYM + 15)
-#define ARG8		(26 * NSYM + 16)
-#define ARG9		(26 * NSYM + 17)
-
-#define MAXDIM 24
-
-struct tensor {
-	int ndim;
-	int dim[MAXDIM];
-	int nelem;
-	struct atom *elem[1];
-};
+#define ADD		(26 * BUCKETSIZE + 0)
+#define MULTIPLY	(26 * BUCKETSIZE + 1)
+#define POWER		(26 * BUCKETSIZE + 2)
+#define INDEX		(26 * BUCKETSIZE + 3)
+#define SETQ		(26 * BUCKETSIZE + 4)
+#define EXP1		(26 * BUCKETSIZE + 5)
+#define SA		(26 * BUCKETSIZE + 6)
+#define SB		(26 * BUCKETSIZE + 7)
+#define SX		(26 * BUCKETSIZE + 8)
+#define ARG1		(26 * BUCKETSIZE + 9)
+#define ARG2		(26 * BUCKETSIZE + 10)
+#define ARG3		(26 * BUCKETSIZE + 11)
+#define ARG4		(26 * BUCKETSIZE + 12)
+#define ARG5		(26 * BUCKETSIZE + 13)
+#define ARG6		(26 * BUCKETSIZE + 14)
+#define ARG7		(26 * BUCKETSIZE + 15)
+#define ARG8		(26 * BUCKETSIZE + 16)
+#define ARG9		(26 * BUCKETSIZE + 17)
 
 #define symbol(x) symtab[x]
 #define push_symbol(x) push(symbol(x))
@@ -9091,8 +9089,8 @@ gc(void)
 		untag(frame[i]);
 
 	for (i = 0; i < 27; i++)
-		for (j = 0; j < NSYM; j++) {
-			k = NSYM * i + j;
+		for (j = 0; j < BUCKETSIZE; j++) {
+			k = BUCKETSIZE * i + j;
 			if (symtab[k] == NULL)
 				break;
 			untag(symtab[k]);
@@ -9183,9 +9181,9 @@ int tof; // top of frame
 struct atom *stack[STACKSIZE];
 struct atom *frame[FRAMESIZE];
 
-struct atom *symtab[27 * NSYM];
-struct atom *binding[27 * NSYM];
-struct atom *usrfunc[27 * NSYM];
+struct atom *symtab[27 * BUCKETSIZE];
+struct atom *binding[27 * BUCKETSIZE];
+struct atom *usrfunc[27 * BUCKETSIZE];
 
 struct atom *zero;
 struct atom *one;
@@ -17180,9 +17178,9 @@ lookup(char *s)
 	if (c < 0 || c > 25)
 		c = 26;
 
-	k = NSYM * c;
+	k = BUCKETSIZE * c;
 
-	for (i = 0; i < NSYM; i++) {
+	for (i = 0; i < BUCKETSIZE; i++) {
 		p = symtab[k + i];
 		if (p == NULL)
 			break;
@@ -17194,7 +17192,7 @@ lookup(char *s)
 			return p;
 	}
 
-	if (i == NSYM)
+	if (i == BUCKETSIZE)
 		kaput("symbol table full");
 
 	p = alloc_atom();
@@ -17457,8 +17455,8 @@ init_symbol_table(void)
 	struct atom *p;
 
 	for (i = 0; i < 27; i++)
-		for (j = 0; j < NSYM; j++) {
-			k = NSYM * i + j;
+		for (j = 0; j < BUCKETSIZE; j++) {
+			k = BUCKETSIZE * i + j;
 			if (symtab[k] == NULL)
 				break;
 			symtab[k] = NULL;
@@ -17497,8 +17495,8 @@ clear_symbols(void)
 {
 	int i, j, k;
 	for (i = 0; i < 27; i++)
-		for (j = 0; j < NSYM; j++) {
-			k = NSYM * i + j;
+		for (j = 0; j < BUCKETSIZE; j++) {
+			k = BUCKETSIZE * i + j;
 			if (symtab[k] == NULL)
 				break;
 			binding[k] = symbol(NIL);

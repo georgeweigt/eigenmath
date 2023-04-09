@@ -29,8 +29,8 @@ gc(void)
 		untag(frame[i]);
 
 	for (i = 0; i < 27; i++)
-		for (j = 0; j < NSYM; j++) {
-			k = NSYM * i + j;
+		for (j = 0; j < BUCKETSIZE; j++) {
+			k = BUCKETSIZE * i + j;
 			if (symtab[k] == NULL)
 				break;
 			untag(symtab[k]);

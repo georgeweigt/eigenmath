@@ -7,9 +7,9 @@ int tof; // top of frame
 struct atom *stack[STACKSIZE];
 struct atom *frame[FRAMESIZE];
 
-struct atom *symtab[27 * NSYM];
-struct atom *binding[27 * NSYM];
-struct atom *usrfunc[27 * NSYM];
+struct atom *symtab[27 * BUCKETSIZE];
+struct atom *binding[27 * BUCKETSIZE];
+struct atom *usrfunc[27 * BUCKETSIZE];
 
 struct atom *zero;
 struct atom *one;

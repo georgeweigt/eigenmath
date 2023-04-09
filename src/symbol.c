@@ -12,9 +12,9 @@ lookup(char *s)
 	if (c < 0 || c > 25)
 		c = 26;
 
-	k = NSYM * c;
+	k = BUCKETSIZE * c;
 
-	for (i = 0; i < NSYM; i++) {
+	for (i = 0; i < BUCKETSIZE; i++) {
 		p = symtab[k + i];
 		if (p == NULL)
 			break;
@@ -26,7 +26,7 @@ lookup(char *s)
 			return p;
 	}
 
-	if (i == NSYM)
+	if (i == BUCKETSIZE)
 		kaput("symbol table full");
 
 	p = alloc_atom();
@@ -289,8 +289,8 @@ init_symbol_table(void)
 	struct atom *p;
 
 	for (i = 0; i < 27; i++)
-		for (j = 0; j < NSYM; j++) {
-			k = NSYM * i + j;
+		for (j = 0; j < BUCKETSIZE; j++) {
+			k = BUCKETSIZE * i + j;
 			if (symtab[k] == NULL)
 				break;
 			symtab[k] = NULL;
@@ -329,8 +329,8 @@ clear_symbols(void)
 {
 	int i, j, k;
 	for (i = 0; i < 27; i++)
-		for (j = 0; j < NSYM; j++) {
-			k = NSYM * i + j;
+		for (j = 0; j < BUCKETSIZE; j++) {
+			k = BUCKETSIZE * i + j;
 			if (symtab[k] == NULL)
 				break;
 			binding[k] = symbol(NIL);
