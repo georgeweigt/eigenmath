@@ -468,7 +468,7 @@ void subst(void);
 void eval_sum(struct atom *p1);
 struct atom * lookup(char *s);
 char * printname(struct atom *p);
-void set_symbol(struct atom *p, struct atom *b, struct atom *u);
+void set_symbol(struct atom *p1, struct atom *p2, struct atom *p3);
 struct atom * get_binding(struct atom *p1);
 struct atom * get_usrfunc(struct atom *p1);
 void init_symbol_table(void);

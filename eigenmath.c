@@ -864,7 +864,7 @@ void subst(void);
 void eval_sum(struct atom *p1);
 struct atom * lookup(char *s);
 char * printname(struct atom *p);
-void set_symbol(struct atom *p, struct atom *b, struct atom *u);
+void set_symbol(struct atom *p1, struct atom *p2, struct atom *p3);
 struct atom * get_binding(struct atom *p1);
 struct atom * get_usrfunc(struct atom *p1);
 void init_symbol_table(void);
@@ -17198,9 +17198,6 @@ lookup(char *s)
 
 	symtab[k + i] = p;
 
-	binding[k + i] = symbol(NIL);
-	usrfunc[k + i] = symbol(NIL);
-
 	usym_count++;
 
 	return p;
@@ -17221,18 +17218,18 @@ printname(struct atom *p)
 }
 
 void
-set_symbol(struct atom *p, struct atom *b, struct atom *u)
+set_symbol(struct atom *p1, struct atom *p2, struct atom *p3)
 {
 	int k;
-	if (!isusersymbol(p))
+	if (!isusersymbol(p1))
 		kaput("symbol error");
-	if (p == b)
-		b = symbol(NIL);
-	if (p == u)
-		u = symbol(NIL);
-	k = p->u.usym.index;
-	binding[k] = b;
-	usrfunc[k] = u;
+	if (p1 == p2 || p2 == symbol(NIL))
+		p2 = NULL;
+	if (p1 == p3 || p3 == symbol(NIL))
+		p3 = NULL;
+	k = p1->u.usym.index;
+	binding[k] = p2;
+	usrfunc[k] = p3;
 }
 
 struct atom *
@@ -17242,7 +17239,7 @@ get_binding(struct atom *p1)
 	if (!isusersymbol(p1))
 		kaput("symbol error");
 	p2 = binding[p1->u.usym.index];
-	if (p2 == NULL || p2 == symbol(NIL))
+	if (p2 == NULL)
 		p2 = p1; // symbol binds to itself
 	return p2;
 }
