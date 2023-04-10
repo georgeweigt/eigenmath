@@ -15726,9 +15726,11 @@ lookup(char *s)
 	char *t;
 	struct atom *p;
 
-	c = tolower(*s) - 'a';
+	c = tolower(*s);
 
-	if (c < 0 || c > 25)
+	if (c >= 'a' && c <= 'z')
+		c -= 'a';
+	else
 		c = 26;
 
 	k = BUCKETSIZE * c;
@@ -15755,9 +15757,7 @@ lookup(char *s)
 	p->atomtype = USYM;
 	p->u.usym.name = s;
 	p->u.usym.index = k + i;
-
 	symtab[k + i] = p;
-
 	usym_count++;
 
 	return p;
