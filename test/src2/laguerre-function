@@ -2,7 +2,7 @@
 
 clear
 
-L(x,m,j) = sum(k,0,m,(-x)^k (m + j)! / ((m - k)! (j + k)! k!))
+L(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))
 
 check(L(x,1,0) == laguerre(x,1,0))
 check(L(x,2,0) == laguerre(x,2,0))

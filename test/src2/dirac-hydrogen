@@ -15,7 +15,7 @@ a0 = hbar^2 / (k mu)
 
 -- Laguerre polynomial in x (y is a local variable)
 
-L(x,n,m,y) = eval(y^(-m) exp(y) / n! d(exp(-y) y^(n + m), y, n), y, x)
+L(x,n,a,y) = eval(y^(-a) exp(y) / n! d(exp(-y) y^(n + a), y, n), y, x)
 
 E(n) = -1/2 k^2 mu / hbar^2 / (n + 1/2)^2
 
