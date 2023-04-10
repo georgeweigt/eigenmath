@@ -83,17 +83,21 @@ get_binding(struct atom *p1)
 	if (!isusersymbol(p1))
 		kaput("symbol error");
 	p2 = binding[p1->u.usym.index];
-	if (p2 == symbol(NIL))
+	if (p2 == NULL || p2 == symbol(NIL))
 		p2 = p1; // symbol binds to itself
 	return p2;
 }
 
 struct atom *
-get_usrfunc(struct atom *p)
+get_usrfunc(struct atom *p1)
 {
-	if (!isusersymbol(p))
+	struct atom *p2;
+	if (!isusersymbol(p1))
 		kaput("symbol error");
-	return usrfunc[p->u.usym.index];
+	p2 = usrfunc[p1->u.usym.index];
+	if (p2 == NULL)
+		p2 = symbol(NIL);
+	return p2;
 }
 
 struct se {
@@ -284,19 +288,15 @@ struct se {
 void
 init_symbol_table(void)
 {
-	int i, j, k, n;
+	int i, n;
 	char *s;
 	struct atom *p;
 
-	for (i = 0; i < 27; i++)
-		for (j = 0; j < BUCKETSIZE; j++) {
-			k = BUCKETSIZE * i + j;
-			if (symtab[k] == NULL)
-				break;
-			symtab[k] = NULL;
-			binding[k] = NULL;
-			usrfunc[k] = NULL;
-		}
+	for (i = 0; i < 27 * BUCKETSIZE; i++) {
+		symtab[i] = NULL;
+		binding[i] = NULL;
+		usrfunc[i] = NULL;
+	}
 
 	n = sizeof stab / sizeof (struct se);
 
@@ -318,22 +318,4 @@ init_symbol_table(void)
 		}
 		symtab[stab[i].index] = p;
 	}
-
-	// do this now that nil is defined
-
-	clear_symbols();
-}
-
-void
-clear_symbols(void)
-{
-	int i, j, k;
-	for (i = 0; i < 27; i++)
-		for (j = 0; j < BUCKETSIZE; j++) {
-			k = BUCKETSIZE * i + j;
-			if (symtab[k] == NULL)
-				break;
-			binding[k] = symbol(NIL);
-			usrfunc[k] = symbol(NIL);
-		}
 }

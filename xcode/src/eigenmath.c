@@ -325,9 +325,9 @@ extern int tos; // top of stack
 extern int tof; // top of frame
 extern struct atom *stack[STACKSIZE];
 extern struct atom *frame[FRAMESIZE];
-extern struct atom *symtab[];
-extern struct atom *binding[];
-extern struct atom *usrfunc[];
+extern struct atom *symtab[27 * BUCKETSIZE];
+extern struct atom *binding[27 * BUCKETSIZE];
+extern struct atom *usrfunc[27 * BUCKETSIZE];
 extern struct atom *zero;
 extern struct atom *one;
 extern struct atom *minusone;
@@ -866,9 +866,8 @@ struct atom * lookup(char *s);
 char * printname(struct atom *p);
 void set_symbol(struct atom *p, struct atom *b, struct atom *u);
 struct atom * get_binding(struct atom *p1);
-struct atom * get_usrfunc(struct atom *p);
+struct atom * get_usrfunc(struct atom *p1);
 void init_symbol_table(void);
-void clear_symbols(void);
 void eval_tan(struct atom *p1);
 void tanfunc(void);
 void tanfunc_sum(struct atom *p1);
@@ -3518,12 +3517,17 @@ circexp_subst(void)
 void
 eval_clear(struct atom *p1)
 {
+	int i;
+
 	(void) p1; // silence compiler
 
 	save_symbol(symbol(TRACE));
 	save_symbol(symbol(TTY));
 
-	clear_symbols();
+	for (i = 0; i < 27 * BUCKETSIZE; i++) {
+		binding[i] = NULL;
+		usrfunc[i] = NULL;
+	}
 
 	run_init_script();
 
@@ -7679,7 +7683,7 @@ eval_for(struct atom *p1)
 void
 gc(void)
 {
-	int i, j, k;
+	int i, j;
 	struct atom *p;
 
 	gc_count++;
@@ -7704,15 +7708,11 @@ gc(void)
 	for (i = 0; i < tof; i++)
 		untag(frame[i]);
 
-	for (i = 0; i < 27; i++)
-		for (j = 0; j < BUCKETSIZE; j++) {
-			k = BUCKETSIZE * i + j;
-			if (symtab[k] == NULL)
-				break;
-			untag(symtab[k]);
-			untag(binding[k]);
-			untag(usrfunc[k]);
-		}
+	for (i = 0; i < 27 * BUCKETSIZE; i++) {
+		untag(symtab[i]);
+		untag(binding[i]);
+		untag(usrfunc[i]);
+	}
 
 	// collect everything that's still tagged
 
@@ -15802,17 +15802,21 @@ get_binding(struct atom *p1)
 	if (!isusersymbol(p1))
 		kaput("symbol error");
 	p2 = binding[p1->u.usym.index];
-	if (p2 == symbol(NIL))
+	if (p2 == NULL || p2 == symbol(NIL))
 		p2 = p1; // symbol binds to itself
 	return p2;
 }
 
 struct atom *
-get_usrfunc(struct atom *p)
+get_usrfunc(struct atom *p1)
 {
-	if (!isusersymbol(p))
+	struct atom *p2;
+	if (!isusersymbol(p1))
 		kaput("symbol error");
-	return usrfunc[p->u.usym.index];
+	p2 = usrfunc[p1->u.usym.index];
+	if (p2 == NULL)
+		p2 = symbol(NIL);
+	return p2;
 }
 
 struct se {
@@ -16003,19 +16007,15 @@ struct se {
 void
 init_symbol_table(void)
 {
-	int i, j, k, n;
+	int i, n;
 	char *s;
 	struct atom *p;
 
-	for (i = 0; i < 27; i++)
-		for (j = 0; j < BUCKETSIZE; j++) {
-			k = BUCKETSIZE * i + j;
-			if (symtab[k] == NULL)
-				break;
-			symtab[k] = NULL;
-			binding[k] = NULL;
-			usrfunc[k] = NULL;
-		}
+	for (i = 0; i < 27 * BUCKETSIZE; i++) {
+		symtab[i] = NULL;
+		binding[i] = NULL;
+		usrfunc[i] = NULL;
+	}
 
 	n = sizeof stab / sizeof (struct se);
 
@@ -16037,24 +16037,6 @@ init_symbol_table(void)
 		}
 		symtab[stab[i].index] = p;
 	}
-
-	// do this now that nil is defined
-
-	clear_symbols();
-}
-
-void
-clear_symbols(void)
-{
-	int i, j, k;
-	for (i = 0; i < 27; i++)
-		for (j = 0; j < BUCKETSIZE; j++) {
-			k = BUCKETSIZE * i + j;
-			if (symtab[k] == NULL)
-				break;
-			binding[k] = symbol(NIL);
-			usrfunc[k] = symbol(NIL);
-		}
 }
 void
 eval_tan(struct atom *p1)

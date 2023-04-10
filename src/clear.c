@@ -1,12 +1,17 @@
 void
 eval_clear(struct atom *p1)
 {
+	int i;
+
 	(void) p1; // silence compiler
 
 	save_symbol(symbol(TRACE));
 	save_symbol(symbol(TTY));
 
-	clear_symbols();
+	for (i = 0; i < 27 * BUCKETSIZE; i++) {
+		binding[i] = NULL;
+		usrfunc[i] = NULL;
+	}
 
 	run_init_script();
 

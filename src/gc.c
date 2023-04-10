@@ -3,7 +3,7 @@
 void
 gc(void)
 {
-	int i, j, k;
+	int i, j;
 	struct atom *p;
 
 	gc_count++;
@@ -28,15 +28,11 @@ gc(void)
 	for (i = 0; i < tof; i++)
 		untag(frame[i]);
 
-	for (i = 0; i < 27; i++)
-		for (j = 0; j < BUCKETSIZE; j++) {
-			k = BUCKETSIZE * i + j;
-			if (symtab[k] == NULL)
-				break;
-			untag(symtab[k]);
-			untag(binding[k]);
-			untag(usrfunc[k]);
-		}
+	for (i = 0; i < 27 * BUCKETSIZE; i++) {
+		untag(symtab[i]);
+		untag(binding[i]);
+		untag(usrfunc[i]);
+	}
 
 	// collect everything that's still tagged
 

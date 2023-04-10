@@ -325,9 +325,9 @@ extern int tos; // top of stack
 extern int tof; // top of frame
 extern struct atom *stack[STACKSIZE];
 extern struct atom *frame[FRAMESIZE];
-extern struct atom *symtab[];
-extern struct atom *binding[];
-extern struct atom *usrfunc[];
+extern struct atom *symtab[27 * BUCKETSIZE];
+extern struct atom *binding[27 * BUCKETSIZE];
+extern struct atom *usrfunc[27 * BUCKETSIZE];
 extern struct atom *zero;
 extern struct atom *one;
 extern struct atom *minusone;
