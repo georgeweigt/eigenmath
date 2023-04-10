@@ -4,11 +4,10 @@ init()
 	eval_level = 0;
 	expanding = 1;
 	drawing = 0;
-	journaling = 0;
+	nonstop = 0;
 
 	stack = [];
 	frame = [];
-	journal = [];
 
 	binding = {};
 	usrfunc = {};

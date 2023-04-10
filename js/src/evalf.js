@@ -32,10 +32,7 @@ evalf_nib()
 		push(p1);
 		push_symbol(LAST); // default arg
 		list(2);
-		p1 = pop();
-		expanding++;
-		car(p1).func(p1);
-		expanding--;
+		evalf();
 		return;
 	}
 

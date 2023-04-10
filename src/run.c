@@ -76,7 +76,7 @@ scan_input(char *s)
 	s = scan(s);
 	trace2 = s;
 	p1 = get_binding(symbol(TRACE));
-	if (p1 != symbol(NIL) && !iszero(p1))
+	if (p1 != symbol(TRACE) && !iszero(p1))
 		print_trace(BLUE);
 	return s;
 }

@@ -1,10 +1,11 @@
 function
-get_binding(p)
+get_binding(p1)
 {
-	if (!isusersymbol(p))
+	var p2;
+	if (!isusersymbol(p1))
 		stopf("symbol error");
-	p = binding[p.printname];
-	if (p == undefined)
-		p = symbol(NIL); // no calls to set_symbol() since eval_clear()
-	return p;
+	p2 = binding[p1.printname];
+	if (p2 == undefined || p2 == symbol(NIL))
+		p2 = p1; // symbol binds to itself
+	return p2;
 }

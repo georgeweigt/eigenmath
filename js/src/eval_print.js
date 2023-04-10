@@ -31,7 +31,9 @@ print_result()
 		p2 = pop();
 	}
 
-	if (iszero(get_binding(symbol(TTY)))) {
+	p1 = get_binding(symbol(TTY));
+
+	if (p1 == symbol(TTY) || iszero(p1)) {
 		push(p2);
 		display();
 	} else

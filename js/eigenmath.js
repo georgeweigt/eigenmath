@@ -4730,12 +4730,7 @@ arg1()
 function
 eval_binding(p1)
 {
-	var p2;
-	p1 = cadr(p1);
-	p2 = get_binding(p1);
-	if (p2 == symbol(NIL))
-		p2 = p1;
-	push(p2);
+	push(get_binding(cadr(p1)));
 }
 function
 eval_ceiling(p1)
@@ -9102,17 +9097,15 @@ eval_noexpand(p1)
 function
 eval_nonstop()
 {
-	if (journaling) {
+	if (nonstop) {
 		pop();
 		push_symbol(NIL);
 		return; // not reentrant
 	}
 
-	journal = [];
-	journaling = 1;
+	nonstop = 1;
 	eval_nonstop_nib();
-	journaling = 0;
-	journal = [];
+	nonstop = 0;
 }
 
 function
@@ -9130,8 +9123,6 @@ eval_nonstop_nib()
 		evalf();
 
 	} catch (errmsg) {
-
-		undo(); // restore symbol table
 
 		stack.splice(save_tos);
 		frame.splice(save_tof);
@@ -9882,7 +9873,9 @@ print_result()
 		p2 = pop();
 	}
 
-	if (iszero(get_binding(symbol(TTY)))) {
+	p1 = get_binding(symbol(TTY));
+
+	if (p1 == symbol(TTY) || iszero(p1)) {
 		push(p2);
 		display();
 	} else
@@ -12127,13 +12120,11 @@ function
 eval_user_symbol(p1)
 {
 	var p2;
-
 	p2 = get_binding(p1);
-
-	if (p1 == p2 || p2 == symbol(NIL))
+	if (p1 == p2)
 		push(p1); // symbol evaluates to itself
 	else {
-		push(p2); // eval symbol binding
+		push(p2); // evaluate symbol binding
 		evalf();
 	}
 }
@@ -12210,10 +12201,7 @@ evalf_nib()
 		push(p1);
 		push_symbol(LAST); // default arg
 		list(2);
-		p1 = pop();
-		expanding++;
-		car(p1).func(p1);
-		expanding--;
+		evalf();
 		return;
 	}
 
@@ -13340,14 +13328,15 @@ get_operator_height(font_num)
 	return get_cap_height(font_num) / 2;
 }
 function
-get_binding(p)
+get_binding(p1)
 {
-	if (!isusersymbol(p))
+	var p2;
+	if (!isusersymbol(p1))
 		stopf("symbol error");
-	p = binding[p.printname];
-	if (p == undefined)
-		p = symbol(NIL); // no calls to set_symbol() since eval_clear()
-	return p;
+	p2 = binding[p1.printname];
+	if (p2 == undefined || p2 == symbol(NIL))
+		p2 = p1; // symbol binds to itself
+	return p2;
 }
 function
 get_usrfunc(p)
@@ -13887,11 +13876,10 @@ init()
 	eval_level = 0;
 	expanding = 1;
 	drawing = 0;
-	journaling = 0;
+	nonstop = 0;
 
 	stack = [];
 	frame = [];
-	journal = [];
 
 	binding = {};
 	usrfunc = {};
@@ -13913,9 +13901,6 @@ init()
 }
 var init_script = [
 "i = sqrt(-1)",
-"last = 0",
-"trace = 0",
-"tty = 0",
 "cross(a,b) = (dot(a[2],b[3])-dot(a[3],b[2]),dot(a[3],b[1])-dot(a[1],b[3]),dot(a[1],b[2])-dot(a[2],b[1]))",
 "curl(u) = (d(u[3],y) - d(u[2],z),d(u[1],z) - d(u[3],x),d(u[2],x) - d(u[1],y))",
 "div(u) = d(u[1],x) + d(u[2],y) + d(u[3],z)",
@@ -16722,8 +16707,10 @@ set_symbol(p, b, u)
 {
 	if (!isusersymbol(p))
 		stopf("symbol error");
-	if (journaling)
-		journal.push(p, get_binding(p), get_usrfunc(p));
+	if (p == b)
+		b = symbol(NIL);
+	if (p == u)
+		u = symbol(NIL);
 	binding[p.printname] = b;
 	usrfunc[p.printname] = u;
 }
@@ -17089,27 +17076,16 @@ symbol(s)
 function
 trace_input()
 {
-	if (!iszero(get_binding(symbol(TRACE))))
+	var p1;
+	p1 = get_binding(symbol(TRACE));
+	if (p1 != symbol(TRACE) && !iszero(p1))
 		printbuf(instring.substring(trace1, trace2), BLUE);
-}
-function
-undo()
-{
-	var p, b, u;
-	while (journal.length) {
-		u = journal.pop();
-		b = journal.pop();
-		p = journal.pop();
-		binding[p.printname] = b;
-		usrfunc[p.printname] = u;
-	}
 }
 var inbuf;
 var outbuf;
 var stdout;
 var stack;
 var frame;
-var journal;
 var binding;
 var usrfunc;
 var zero;
@@ -17119,7 +17095,7 @@ var imaginaryunit;
 var eval_level;
 var expanding;
 var drawing;
-var journaling;
+var nonstop;
 var trace1;
 var trace2;
 

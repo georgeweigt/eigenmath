@@ -1,17 +1,15 @@
 function
 eval_nonstop()
 {
-	if (journaling) {
+	if (nonstop) {
 		pop();
 		push_symbol(NIL);
 		return; // not reentrant
 	}
 
-	journal = [];
-	journaling = 1;
+	nonstop = 1;
 	eval_nonstop_nib();
-	journaling = 0;
-	journal = [];
+	nonstop = 0;
 }
 
 function
@@ -29,8 +27,6 @@ eval_nonstop_nib()
 		evalf();
 
 	} catch (errmsg) {
-
-		undo(); // restore symbol table
 
 		stack.splice(save_tos);
 		frame.splice(save_tof);

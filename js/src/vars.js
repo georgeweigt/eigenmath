@@ -3,7 +3,6 @@ var outbuf;
 var stdout;
 var stack;
 var frame;
-var journal;
 var binding;
 var usrfunc;
 var zero;
@@ -13,7 +12,7 @@ var imaginaryunit;
 var eval_level;
 var expanding;
 var drawing;
-var journaling;
+var nonstop;
 var trace1;
 var trace2;
 

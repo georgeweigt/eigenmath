@@ -65,27 +65,27 @@ void
 set_symbol(struct atom *p, struct atom *b, struct atom *u)
 {
 	int k;
-
 	if (!isusersymbol(p))
 		kaput("symbol error");
-
+	if (p == b)
+		b = symbol(NIL);
+	if (p == u)
+		u = symbol(NIL);
 	k = p->u.usym.index;
-
-	if (symtab[k] != p) {
-		p = lookup(p->u.usym.name); // symbol was removed, restore symbol
-		k = p->u.usym.index;
-	}
-
 	binding[k] = b;
 	usrfunc[k] = u;
 }
 
 struct atom *
-get_binding(struct atom *p)
+get_binding(struct atom *p1)
 {
-	if (!isusersymbol(p))
+	struct atom *p2;
+	if (!isusersymbol(p1))
 		kaput("symbol error");
-	return binding[p->u.usym.index];
+	p2 = binding[p1->u.usym.index];
+	if (p2 == symbol(NIL))
+		p2 = p1; // symbol binds to itself
+	return p2;
 }
 
 struct atom *

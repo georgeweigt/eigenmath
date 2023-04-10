@@ -3,8 +3,10 @@ set_symbol(p, b, u)
 {
 	if (!isusersymbol(p))
 		stopf("symbol error");
-	if (journaling)
-		journal.push(p, get_binding(p), get_usrfunc(p));
+	if (p == b)
+		b = symbol(NIL);
+	if (p == u)
+		u = symbol(NIL);
 	binding[p.printname] = b;
 	usrfunc[p.printname] = u;
 }

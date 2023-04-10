@@ -33,7 +33,7 @@ print_result(void)
 
 	p1 = get_binding(symbol(TTY));
 
-	if (p1 == symbol(NIL) || iszero(p1)) {
+	if (p1 == symbol(TTY) || iszero(p1)) {
 		push(p2);
 		display();
 	} else

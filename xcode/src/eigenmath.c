@@ -865,7 +865,7 @@ void eval_sum(struct atom *p1);
 struct atom * lookup(char *s);
 char * printname(struct atom *p);
 void set_symbol(struct atom *p, struct atom *b, struct atom *u);
-struct atom * get_binding(struct atom *p);
+struct atom * get_binding(struct atom *p1);
 struct atom * get_usrfunc(struct atom *p);
 void init_symbol_table(void);
 void clear_symbols(void);
@@ -3317,12 +3317,7 @@ bignum_smallnum(uint32_t *N)
 void
 eval_binding(struct atom *p1)
 {
-	struct atom *p2;
-	p1 = cadr(p1);
-	p2 = get_binding(p1);
-	if (p2 == symbol(NIL))
-		p2 = p1;
-	push(p2);
+	push(get_binding(cadr(p1)));
 }
 void
 cancel_factor(void)
@@ -6432,13 +6427,11 @@ void
 eval_user_symbol(struct atom *p1)
 {
 	struct atom *p2;
-
 	p2 = get_binding(p1);
-
-	if (p1 == p2 || p2 == symbol(NIL))
+	if (p1 == p2)
 		push(p1); // symbol evaluates to itself
 	else {
-		push(p2); // eval symbol binding
+		push(p2); // evaluate symbol binding
 		evalg();
 	}
 }
@@ -12999,7 +12992,7 @@ print_result(void)
 
 	p1 = get_binding(symbol(TTY));
 
-	if (p1 == symbol(NIL) || iszero(p1)) {
+	if (p1 == symbol(TTY) || iszero(p1)) {
 		push(p2);
 		display();
 	} else
@@ -13988,7 +13981,7 @@ scan_input(char *s)
 	s = scan(s);
 	trace2 = s;
 	p1 = get_binding(symbol(TRACE));
-	if (p1 != symbol(NIL) && !iszero(p1))
+	if (p1 != symbol(TRACE) && !iszero(p1))
 		print_trace(BLUE);
 	return s;
 }
@@ -15791,27 +15784,27 @@ void
 set_symbol(struct atom *p, struct atom *b, struct atom *u)
 {
 	int k;
-
 	if (!isusersymbol(p))
 		kaput("symbol error");
-
+	if (p == b)
+		b = symbol(NIL);
+	if (p == u)
+		u = symbol(NIL);
 	k = p->u.usym.index;
-
-	if (symtab[k] != p) {
-		p = lookup(p->u.usym.name); // symbol was removed, restore symbol
-		k = p->u.usym.index;
-	}
-
 	binding[k] = b;
 	usrfunc[k] = u;
 }
 
 struct atom *
-get_binding(struct atom *p)
+get_binding(struct atom *p1)
 {
-	if (!isusersymbol(p))
+	struct atom *p2;
+	if (!isusersymbol(p1))
 		kaput("symbol error");
-	return binding[p->u.usym.index];
+	p2 = binding[p1->u.usym.index];
+	if (p2 == symbol(NIL))
+		p2 = p1; // symbol binds to itself
+	return p2;
 }
 
 struct atom *
