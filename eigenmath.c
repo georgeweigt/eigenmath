@@ -866,7 +866,7 @@ struct atom * lookup(char *s);
 char * printname(struct atom *p);
 void set_symbol(struct atom *p1, struct atom *p2, struct atom *p3);
 struct atom * get_binding(struct atom *p1);
-struct atom * get_usrfunc(struct atom *p1);
+struct atom * get_usrfunc(struct atom *p);
 void init_symbol_table(void);
 void eval_tan(struct atom *p1);
 void tanfunc(void);
@@ -17223,10 +17223,6 @@ set_symbol(struct atom *p1, struct atom *p2, struct atom *p3)
 	int k;
 	if (!isusersymbol(p1))
 		kaput("symbol error");
-	if (p1 == p2 || p2 == symbol(NIL))
-		p2 = NULL;
-	if (p1 == p3 || p3 == symbol(NIL))
-		p3 = NULL;
 	k = p1->u.usym.index;
 	binding[k] = p2;
 	usrfunc[k] = p3;
@@ -17239,21 +17235,20 @@ get_binding(struct atom *p1)
 	if (!isusersymbol(p1))
 		kaput("symbol error");
 	p2 = binding[p1->u.usym.index];
-	if (p2 == NULL)
+	if (p2 == NULL || p2 == symbol(NIL))
 		p2 = p1; // symbol binds to itself
 	return p2;
 }
 
 struct atom *
-get_usrfunc(struct atom *p1)
+get_usrfunc(struct atom *p)
 {
-	struct atom *p2;
-	if (!isusersymbol(p1))
+	if (!isusersymbol(p))
 		kaput("symbol error");
-	p2 = usrfunc[p1->u.usym.index];
-	if (p2 == NULL)
-		p2 = symbol(NIL);
-	return p2;
+	p = usrfunc[p->u.usym.index];
+	if (p == NULL)
+		p = symbol(NIL);
+	return p;
 }
 
 struct se {

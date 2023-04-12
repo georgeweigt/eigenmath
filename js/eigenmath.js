@@ -16703,16 +16703,12 @@ set_component(LVAL, RVAL, h)
 	}
 }
 function
-set_symbol(p, b, u)
+set_symbol(p1, p2, p3)
 {
-	if (!isusersymbol(p))
+	if (!isusersymbol(p1))
 		stopf("symbol error");
-	if (p == b)
-		b = symbol(NIL);
-	if (p == u)
-		u = symbol(NIL);
-	binding[p.printname] = b;
-	usrfunc[p.printname] = u;
+	binding[p1.printname] = p2;
+	usrfunc[p1.printname] = p3;
 }
 function
 setq_indexed(p1)
