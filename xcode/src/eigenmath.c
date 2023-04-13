@@ -15729,11 +15729,9 @@ lookup(char *s)
 	c = tolower(*s);
 
 	if (c >= 'a' && c <= 'z')
-		c -= 'a';
+		k = BUCKETSIZE * (c - 'a');
 	else
-		c = 26;
-
-	k = BUCKETSIZE * c;
+		k = BUCKETSIZE * 26;
 
 	for (i = 0; i < BUCKETSIZE; i++) {
 		p = symtab[k + i];
@@ -15768,24 +15766,19 @@ printname(struct atom *p)
 {
 	if (iskeyword(p))
 		return p->u.ksym.name;
-
 	if (isusersymbol(p))
 		return p->u.usym.name;
-
 	kaput("symbol error");
-
 	return "?";
 }
 
 void
 set_symbol(struct atom *p1, struct atom *p2, struct atom *p3)
 {
-	int k;
 	if (!isusersymbol(p1))
 		kaput("symbol error");
-	k = p1->u.usym.index;
-	binding[k] = p2;
-	usrfunc[k] = p3;
+	binding[p1->u.usym.index] = p2;
+	usrfunc[p1->u.usym.index] = p3;
 }
 
 struct atom *
