@@ -1,12 +1,13 @@
 .PHONY: clean check diffs
 
-CFILES := $(shell ls src/*.c)
-
 eigenmath: eigenmath.c
 	$(CC) -Wall -O0 -o eigenmath eigenmath.c -lm
 
-eigenmath.c: src/defs.h src/prototypes.h $(CFILES)
-	cat src/defs.h src/prototypes.h $(CFILES) > eigenmath.c
+eigenmath.c: src/defs.h src/prototypes.h src/*.c
+	cat src/defs.h src/prototypes.h src/*.c > eigenmath.c
+
+src/prototypes.h: src/*.c
+	make -C src prototypes.h
 
 clean:
 	rm -f eigenmath eigenmath.c
