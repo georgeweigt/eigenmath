@@ -1,9 +1,7 @@
 .PHONY: clean
 
-FILES := $(shell ls src/*.js)
-
-eigenmath.js: $(FILES)
-	cat $(FILES) > eigenmath.js
+eigenmath.js: src/*
+	cat src/* > eigenmath.js
 	npx eslint eigenmath.js
 
 clean:
