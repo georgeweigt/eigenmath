@@ -15723,7 +15723,6 @@ struct atom *
 lookup(char *s)
 {
 	int c, i, k;
-	char *t;
 	struct atom *p;
 
 	c = tolower(*s);
@@ -15737,11 +15736,7 @@ lookup(char *s)
 		p = symtab[k + i];
 		if (p == NULL)
 			break;
-		if (iskeyword(p))
-			t = p->u.ksym.name;
-		else
-			t = p->u.usym.name;
-		if (strcmp(s, t) == 0)
+		if (strcmp(s, printname(p)) == 0)
 			return p;
 	}
 
