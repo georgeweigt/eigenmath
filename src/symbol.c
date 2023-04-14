@@ -45,12 +45,12 @@ lookup(char *s)
 char *
 printname(struct atom *p)
 {
-	if (!issymbol(p))
-		kaput("symbol error");
 	if (iskeyword(p))
 		return p->u.ksym.name;
-	else
+	else if (isusersymbol(p))
 		return p->u.usym.name;
+	else
+		return "?";
 }
 
 void
