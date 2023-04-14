@@ -18,7 +18,7 @@ lookup(char *s)
 		p = symtab[k + i];
 		if (p == NULL)
 			break;
-		if (p->atomtype == KSYM)
+		if (iskeyword(p))
 			t = p->u.ksym.name;
 		else
 			t = p->u.usym.name;
@@ -45,12 +45,12 @@ lookup(char *s)
 char *
 printname(struct atom *p)
 {
+	if (!issymbol(p))
+		kaput("symbol error");
 	if (iskeyword(p))
 		return p->u.ksym.name;
-	if (isusersymbol(p))
+	else
 		return p->u.usym.name;
-	kaput("symbol error");
-	return "?";
 }
 
 void
