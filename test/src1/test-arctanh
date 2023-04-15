@@ -7,6 +7,12 @@ check(arctanh(tanh(x)) == x)
 check(arctanh(-x) == -arctanh(x))
 check(arctanh((x,y)) == (arctanh(x),arctanh(y)))
 
+check(prefixform(arctanh(1)) == "(arctanh 1)")
+check(prefixform(arctanh(-1)) == "(arctanh -1)")
+
+check(prefixform(arctanh(1.0)) == "(arctanh 1.0)")
+check(prefixform(arctanh(-1.0)) == "(arctanh -1.0)")
+
 -- compare intrinsic
 
 for(x,-2,2,

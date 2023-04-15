@@ -4557,8 +4557,12 @@ arctanh()
 		return;
 	}
 
-	if (isplusone(p1) || isminusone(p1))
-		stopf("arctanh");
+	if (isplusone(p1) || isminusone(p1)) {
+		push_symbol(ARCTANH);
+		push(p1);
+		list(2);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
