@@ -22,7 +22,7 @@ lookup(char *s)
 	}
 
 	if (i == BUCKETSIZE)
-		kaput("symbol table full");
+		stopf("symbol table full");
 
 	p = alloc_atom();
 	s = strdup(s);
@@ -52,7 +52,7 @@ void
 set_symbol(struct atom *p1, struct atom *p2, struct atom *p3)
 {
 	if (!isusersymbol(p1))
-		kaput("symbol error");
+		stopf("symbol error");
 	binding[p1->u.usym.index] = p2;
 	usrfunc[p1->u.usym.index] = p3;
 }
@@ -62,7 +62,7 @@ get_binding(struct atom *p1)
 {
 	struct atom *p2;
 	if (!isusersymbol(p1))
-		kaput("symbol error");
+		stopf("symbol error");
 	p2 = binding[p1->u.usym.index];
 	if (p2 == NULL || p2 == symbol(NIL))
 		p2 = p1; // symbol binds to itself
@@ -73,7 +73,7 @@ struct atom *
 get_usrfunc(struct atom *p)
 {
 	if (!isusersymbol(p))
-		kaput("symbol error");
+		stopf("symbol error");
 	p = usrfunc[p->u.usym.index];
 	if (p == NULL)
 		p = symbol(NIL);

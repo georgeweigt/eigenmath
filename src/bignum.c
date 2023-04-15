@@ -456,7 +456,7 @@ mdiv(uint32_t *u, uint32_t *v)
 	mnorm(u);
 	mnorm(v);
 	if (MLENGTH(v) == 1 && v[0] == 0)
-		stopf("divide by zero"); // v = 0
+		stopf_cond("divide by zero"); // v = 0
 	nu = MLENGTH(u);
 	nv = MLENGTH(v);
 	k = nu - nv;
@@ -528,7 +528,7 @@ mmod(uint32_t *u, uint32_t *v)
 	mnorm(u);
 	mnorm(v);
 	if (MLENGTH(v) == 1 && v[0] == 0)
-		stopf("divide by zero"); // v = 0
+		stopf_cond("divide by zero"); // v = 0
 	u = mcopy(u);
 	nu = MLENGTH(u);
 	nv = MLENGTH(v);

@@ -447,7 +447,7 @@ void eval_run(struct atom *p1);
 void run_file(char *filename);
 void run_init_script(void);
 void stopf(char *s);
-void kaput(char *s);
+void stopf_cond(char *s);
 char * scan(char *s);
 char * scan1(char *s);
 char * scan_nib(char *s);

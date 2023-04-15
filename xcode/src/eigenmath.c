@@ -807,7 +807,7 @@ void eval_run(struct atom *p1);
 void run_file(char *filename);
 void run_init_script(void);
 void stopf(char *s);
-void kaput(char *s);
+void stopf_cond(char *s);
 char * scan(char *s);
 char * scan1(char *s);
 char * scan_nib(char *s);
@@ -1604,7 +1604,7 @@ alloc_block(void)
 	if (block_count == MAXBLOCKS) {
 		gc();
 		alloc_count = 0;
-		kaput("out of memory");
+		stopf("out of memory");
 	}
 
 	p = alloc_mem(BLOCKSIZE * sizeof (struct atom));
@@ -2285,8 +2285,12 @@ arctanh(void)
 		return;
 	}
 
-	if (isplusone(p1) || isminusone(p1))
-		stopf("arctanh");
+	if (isplusone(p1) || isminusone(p1)) {
+		push_symbol(ARCTANH);
+		push(p1);
+		list(2);
+		return;
+	}
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -2915,7 +2919,7 @@ mdiv(uint32_t *u, uint32_t *v)
 	mnorm(u);
 	mnorm(v);
 	if (MLENGTH(v) == 1 && v[0] == 0)
-		stopf("divide by zero"); // v = 0
+		stopf_cond("divide by zero"); // v = 0
 	nu = MLENGTH(u);
 	nv = MLENGTH(v);
 	k = nu - nv;
@@ -2987,7 +2991,7 @@ mmod(uint32_t *u, uint32_t *v)
 	mnorm(u);
 	mnorm(v);
 	if (MLENGTH(v) == 1 && v[0] == 0)
-		stopf("divide by zero"); // v = 0
+		stopf_cond("divide by zero"); // v = 0
 	u = mcopy(u);
 	nu = MLENGTH(u);
 	nv = MLENGTH(v);
@@ -6386,10 +6390,10 @@ void
 evalf_nib(struct atom *p1)
 {
 	if (interrupt)
-		kaput("interrupt");
+		stopf("interrupt");
 
 	if (eval_level == 200)
-		kaput("circular definition?");
+		stopf("circular definition?");
 
 	if (eval_level > max_eval_level)
 		max_eval_level = eval_level;
@@ -14052,8 +14056,6 @@ run_init_script(void)
 void
 stopf(char *s)
 {
-	if (nonstop)
-		longjmp(jmpbuf1, 1);
 	print_trace(RED);
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
 	printbuf(strbuf, RED);
@@ -14061,10 +14063,12 @@ stopf(char *s)
 }
 
 void
-kaput(char *s)
+stopf_cond(char *s)
 {
-	nonstop = 0;
-	stopf(s);
+	if (nonstop)
+		longjmp(jmpbuf1, 1);
+	else
+		stopf(s);
 }
 // token_str and scan_str are pointers to the input string, for example
 //
@@ -14541,7 +14545,7 @@ void
 scan_error(char *errmsg)
 {
 	trace2 = scan_str;
-	kaput(errmsg);
+	stopf(errmsg);
 }
 
 // There are n expressions on the stack, possibly tensors.
@@ -15475,7 +15479,7 @@ void
 push(struct atom *p)
 {
 	if (tos < 0 || tos >= STACKSIZE)
-		kaput("stack error, circular definition?");
+		stopf("stack error, circular definition?");
 	stack[tos++] = p;
 	if (tos > max_tos)
 		max_tos = tos;
@@ -15485,7 +15489,7 @@ struct atom *
 pop(void)
 {
 	if (tos < 1 || tos > STACKSIZE)
-		kaput("stack error");
+		stopf("stack error");
 	return stack[--tos];
 }
 
@@ -15493,7 +15497,7 @@ void
 fpush(struct atom *p)
 {
 	if (tof < 0 || tof >= FRAMESIZE)
-		kaput("frame error, circular definition?");
+		stopf("frame error, circular definition?");
 	frame[tof++] = p;
 	if (tof > max_tof)
 		max_tof = tof;
@@ -15503,7 +15507,7 @@ struct atom *
 fpop(void)
 {
 	if (tof < 1 || tof > FRAMESIZE)
-		kaput("frame error");
+		stopf("frame error");
 	return frame[--tof];
 }
 
@@ -15741,7 +15745,7 @@ lookup(char *s)
 	}
 
 	if (i == BUCKETSIZE)
-		kaput("symbol table full");
+		stopf("symbol table full");
 
 	p = alloc_atom();
 	s = strdup(s);
@@ -15771,7 +15775,7 @@ void
 set_symbol(struct atom *p1, struct atom *p2, struct atom *p3)
 {
 	if (!isusersymbol(p1))
-		kaput("symbol error");
+		stopf("symbol error");
 	binding[p1->u.usym.index] = p2;
 	usrfunc[p1->u.usym.index] = p3;
 }
@@ -15781,7 +15785,7 @@ get_binding(struct atom *p1)
 {
 	struct atom *p2;
 	if (!isusersymbol(p1))
-		kaput("symbol error");
+		stopf("symbol error");
 	p2 = binding[p1->u.usym.index];
 	if (p2 == NULL || p2 == symbol(NIL))
 		p2 = p1; // symbol binds to itself
@@ -15792,7 +15796,7 @@ struct atom *
 get_usrfunc(struct atom *p)
 {
 	if (!isusersymbol(p))
-		kaput("symbol error");
+		stopf("symbol error");
 	p = usrfunc[p->u.usym.index];
 	if (p == NULL)
 		p = symbol(NIL);

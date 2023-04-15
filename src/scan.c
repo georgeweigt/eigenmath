@@ -473,7 +473,7 @@ void
 scan_error(char *errmsg)
 {
 	trace2 = scan_str;
-	kaput(errmsg);
+	stopf(errmsg);
 }
 
 // There are n expressions on the stack, possibly tensors.

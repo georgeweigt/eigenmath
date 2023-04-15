@@ -147,8 +147,6 @@ run_init_script(void)
 void
 stopf(char *s)
 {
-	if (nonstop)
-		longjmp(jmpbuf1, 1);
 	print_trace(RED);
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
 	printbuf(strbuf, RED);
@@ -156,8 +154,10 @@ stopf(char *s)
 }
 
 void
-kaput(char *s)
+stopf_cond(char *s)
 {
-	nonstop = 0;
-	stopf(s);
+	if (nonstop)
+		longjmp(jmpbuf1, 1);
+	else
+		stopf(s);
 }
