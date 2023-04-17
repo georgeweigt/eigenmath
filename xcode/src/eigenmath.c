@@ -6360,7 +6360,7 @@ erfcfunc(void)
 	push(p1);
 	list(2);
 }
-// automatic variables not visible to the garbage collector will be reclaimed
+// automatic variables not visible to the garbage collector are reclaimed
 
 void
 evalg(void)
@@ -7682,7 +7682,7 @@ eval_for(struct atom *p1)
 
 	push_symbol(NIL); // return value
 }
-// automatic variables not visible to the garbage collector will be reclaimed
+// automatic variables not visible to the garbage collector are reclaimed
 
 void
 gc(void)
@@ -16786,20 +16786,20 @@ eval_user_function(struct atom *p1)
 		push(FUNC_NAME);
 		while (iscons(FUNC_ARGS)) {
 			push(car(FUNC_ARGS));
-			evalg();
+			evalg(); // p1 is on frame stack, not reclaimed
 			FUNC_ARGS = cdr(FUNC_ARGS);
 		}
 		list(tos - h);
 		return;
 	}
 
-	push(FUNC_DEFN);
+	push(FUNC_DEFN); // push now so evalg can be used
 
 	// eval all args before changing bindings
 
 	for (i = 0; i < 9; i++) {
 		push(car(FUNC_ARGS));
-		evalg();
+		evalg(); // p1 is on frame stack, not reclaimed
 		FUNC_ARGS = cdr(FUNC_ARGS);
 	}
 
@@ -16823,7 +16823,7 @@ eval_user_function(struct atom *p1)
 	set_symbol(symbol(ARG2), pop(), symbol(NIL));
 	set_symbol(symbol(ARG1), pop(), symbol(NIL));
 
-	evalg();
+	evalg(); // eval FUNC_DEFN
 
 	restore_symbol();
 	restore_symbol();

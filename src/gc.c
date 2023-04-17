@@ -1,4 +1,4 @@
-// automatic variables not visible to the garbage collector will be reclaimed
+// automatic variables not visible to the garbage collector are reclaimed
 
 void
 gc(void)
