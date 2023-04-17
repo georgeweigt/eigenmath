@@ -16793,7 +16793,9 @@ eval_user_function(struct atom *p1)
 		return;
 	}
 
-	push(FUNC_DEFN); // push now so evalg can be used
+	// push FUNC_DEFN before arg eval to preclude any side effect reclaim
+
+	push(FUNC_DEFN);
 
 	// eval all args before changing bindings
 
