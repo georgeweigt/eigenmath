@@ -559,11 +559,12 @@ void erfcfunc(void);
 void evalg(void);
 void evalf(void);
 void evalf_nib(struct atom *p1);
-void eval_user_symbol(struct atom *p1);
+void eval_eval(struct atom *p1);
 void eval_nil(struct atom *p1);
 void eval_number(struct atom *p1);
 void eval_stop(struct atom *p1);
-void eval_eval(struct atom *p1);
+void eval_user_function(struct atom *p1);
+void eval_user_symbol(struct atom *p1);
 void evalp(void);
 void eval_exp(struct atom *p1);
 void expfunc(void);
@@ -888,7 +889,6 @@ void eval_testlt(struct atom *p1);
 void eval_transpose(struct atom *p1);
 void transpose(int n, int m);
 void eval_unit(struct atom *p1);
-void eval_user_function(struct atom *p1);
 void eval_zero(struct atom *p1);
 void
 eval_abs(struct atom *p1)
@@ -6430,47 +6430,6 @@ evalf_nib(struct atom *p1)
 
 	push(p1); // rational, double, or string
 }
-
-void
-eval_user_symbol(struct atom *p1)
-{
-	struct atom *p2;
-	p2 = get_binding(p1);
-	if (p1 == p2)
-		push(p1); // symbol evaluates to itself
-	else {
-		push(p2); // evaluate symbol binding
-		evalg();
-	}
-}
-
-void
-eval_nil(struct atom *p1)
-{
-	(void) p1; // silence compiler
-	push_symbol(NIL);
-}
-
-void
-eval_number(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-
-	p1 = pop();
-
-	if (isnum(p1))
-		push_integer(1);
-	else
-		push_integer(0);
-}
-
-void
-eval_stop(struct atom *p1)
-{
-	(void) p1; // silence compiler
-	stopf("stop function");
-}
 void
 eval_eval(struct atom *p1)
 {
@@ -6486,6 +6445,118 @@ eval_eval(struct atom *p1)
 		p1 = cddr(p1);
 	}
 	evalf();
+}
+void
+eval_nil(struct atom *p1)
+{
+	(void) p1; // silence compiler
+	push_symbol(NIL);
+}
+void
+eval_number(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+
+	p1 = pop();
+
+	if (isnum(p1))
+		push_integer(1);
+	else
+		push_integer(0);
+}
+void
+eval_stop(struct atom *p1)
+{
+	(void) p1; // silence compiler
+	stopf("stop function");
+}
+void
+eval_user_function(struct atom *p1)
+{
+	int h, i;
+	struct atom *FUNC_NAME, *FUNC_ARGS, *FUNC_DEFN;
+
+	FUNC_NAME = car(p1);
+	FUNC_ARGS = cdr(p1);
+
+	FUNC_DEFN = get_usrfunc(FUNC_NAME);
+
+	// undefined function?
+
+	if (FUNC_DEFN == symbol(NIL)) {
+		if (FUNC_NAME == symbol(D_LOWER)) {
+			expanding++;
+			eval_derivative(p1);
+			expanding--;
+			return;
+		}
+		h = tos;
+		push(FUNC_NAME);
+		while (iscons(FUNC_ARGS)) {
+			push(car(FUNC_ARGS));
+			evalg(); // p1 is on frame stack, not reclaimed
+			FUNC_ARGS = cdr(FUNC_ARGS);
+		}
+		list(tos - h);
+		return;
+	}
+
+	// push FUNC_DEFN before arg eval to preclude any side effect reclaim
+
+	push(FUNC_DEFN);
+
+	// eval all args before changing bindings
+
+	for (i = 0; i < 9; i++) {
+		push(car(FUNC_ARGS));
+		evalg(); // p1 is on frame stack, not reclaimed
+		FUNC_ARGS = cdr(FUNC_ARGS);
+	}
+
+	save_symbol(symbol(ARG1));
+	save_symbol(symbol(ARG2));
+	save_symbol(symbol(ARG3));
+	save_symbol(symbol(ARG4));
+	save_symbol(symbol(ARG5));
+	save_symbol(symbol(ARG6));
+	save_symbol(symbol(ARG7));
+	save_symbol(symbol(ARG8));
+	save_symbol(symbol(ARG9));
+
+	set_symbol(symbol(ARG9), pop(), symbol(NIL));
+	set_symbol(symbol(ARG8), pop(), symbol(NIL));
+	set_symbol(symbol(ARG7), pop(), symbol(NIL));
+	set_symbol(symbol(ARG6), pop(), symbol(NIL));
+	set_symbol(symbol(ARG5), pop(), symbol(NIL));
+	set_symbol(symbol(ARG4), pop(), symbol(NIL));
+	set_symbol(symbol(ARG3), pop(), symbol(NIL));
+	set_symbol(symbol(ARG2), pop(), symbol(NIL));
+	set_symbol(symbol(ARG1), pop(), symbol(NIL));
+
+	evalg(); // eval FUNC_DEFN
+
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+}
+void
+eval_user_symbol(struct atom *p1)
+{
+	struct atom *p2;
+	p2 = get_binding(p1);
+	if (p1 == p2)
+		push(p1); // symbol evaluates to itself
+	else {
+		push(p2); // evaluate symbol binding
+		evalg();
+	}
 }
 // like evalf() except '=' is evaluated as '=='
 
@@ -16761,81 +16832,6 @@ eval_unit(struct atom *p1)
 				p1->u.tensor->elem[n * i + j] = zero;
 
 	push(p1);
-}
-void
-eval_user_function(struct atom *p1)
-{
-	int h, i;
-	struct atom *FUNC_NAME, *FUNC_ARGS, *FUNC_DEFN;
-
-	FUNC_NAME = car(p1);
-	FUNC_ARGS = cdr(p1);
-
-	FUNC_DEFN = get_usrfunc(FUNC_NAME);
-
-	// undefined function?
-
-	if (FUNC_DEFN == symbol(NIL)) {
-		if (FUNC_NAME == symbol(D_LOWER)) {
-			expanding++;
-			eval_derivative(p1);
-			expanding--;
-			return;
-		}
-		h = tos;
-		push(FUNC_NAME);
-		while (iscons(FUNC_ARGS)) {
-			push(car(FUNC_ARGS));
-			evalg(); // p1 is on frame stack, not reclaimed
-			FUNC_ARGS = cdr(FUNC_ARGS);
-		}
-		list(tos - h);
-		return;
-	}
-
-	// push FUNC_DEFN before arg eval to preclude any side effect reclaim
-
-	push(FUNC_DEFN);
-
-	// eval all args before changing bindings
-
-	for (i = 0; i < 9; i++) {
-		push(car(FUNC_ARGS));
-		evalg(); // p1 is on frame stack, not reclaimed
-		FUNC_ARGS = cdr(FUNC_ARGS);
-	}
-
-	save_symbol(symbol(ARG1));
-	save_symbol(symbol(ARG2));
-	save_symbol(symbol(ARG3));
-	save_symbol(symbol(ARG4));
-	save_symbol(symbol(ARG5));
-	save_symbol(symbol(ARG6));
-	save_symbol(symbol(ARG7));
-	save_symbol(symbol(ARG8));
-	save_symbol(symbol(ARG9));
-
-	set_symbol(symbol(ARG9), pop(), symbol(NIL));
-	set_symbol(symbol(ARG8), pop(), symbol(NIL));
-	set_symbol(symbol(ARG7), pop(), symbol(NIL));
-	set_symbol(symbol(ARG6), pop(), symbol(NIL));
-	set_symbol(symbol(ARG5), pop(), symbol(NIL));
-	set_symbol(symbol(ARG4), pop(), symbol(NIL));
-	set_symbol(symbol(ARG3), pop(), symbol(NIL));
-	set_symbol(symbol(ARG2), pop(), symbol(NIL));
-	set_symbol(symbol(ARG1), pop(), symbol(NIL));
-
-	evalg(); // eval FUNC_DEFN
-
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
 }
 void
 eval_zero(struct atom *p1)
