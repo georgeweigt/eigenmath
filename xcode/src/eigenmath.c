@@ -433,10 +433,6 @@ int isimaginaryunit(struct atom *p);
 int isoneoversqrttwo(struct atom *p);
 int isminusoneoversqrttwo(struct atom *p);
 int isdoublez(struct atom *p);
-int ispoly(struct atom *p, struct atom *x);
-int ispoly_expr(struct atom *p, struct atom *x);
-int ispoly_term(struct atom *p, struct atom *x);
-int ispoly_factor(struct atom *p, struct atom *x);
 int find_denominator(struct atom *p);
 int count_denominators(struct atom *p);
 int count_numerators(struct atom *p);
@@ -2247,62 +2243,6 @@ isdoublez(struct atom *p)
 		return 0;
 
 	return 1;
-}
-
-int
-ispoly(struct atom *p, struct atom *x)
-{
-	if (findf(p, x))
-		return ispoly_expr(p, x);
-	else
-		return 0;
-}
-
-int
-ispoly_expr(struct atom *p, struct atom *x)
-{
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (!ispoly_term(car(p), x))
-				return 0;
-			p = cdr(p);
-		}
-		return 1;
-	} else
-		return ispoly_term(p, x);
-}
-
-int
-ispoly_term(struct atom *p, struct atom *x)
-{
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (!ispoly_factor(car(p), x))
-				return 0;
-			p = cdr(p);
-		}
-		return 1;
-	} else
-		return ispoly_factor(p, x);
-}
-
-int
-ispoly_factor(struct atom *p, struct atom *x)
-{
-	if (equal(p, x))
-		return 1;
-	if (car(p) == symbol(POWER) && equal(cadr(p), x)) {
-		if (isposint(caddr(p)))
-			return 1;
-		else
-			return 0;
-	}
-	if (findf(p, x))
-		return 0;
-	else
-		return 1;
 }
 
 int
