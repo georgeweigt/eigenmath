@@ -14520,7 +14520,7 @@ void
 outbuf_init(void)
 {
 	outbuf_index = 0;
-	outbuf_puts("");
+	outbuf_puts(""); // so that string length is zero
 }
 
 void
