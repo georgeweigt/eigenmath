@@ -27,7 +27,7 @@ rationalize()
 
 	p2 = one;
 
-	while (divisor(p1)) {
+	while (find_divisor(p1)) {
 		p0 = pop();
 		push(p0);
 		push(p1);

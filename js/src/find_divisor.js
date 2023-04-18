@@ -1,37 +1,39 @@
+// returns 1 with divisor on stack, otherwise returns 0
+
 function
-divisor(p)
+find_divisor(p)
 {
 	if (car(p) == symbol(ADD)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (divisor_term(car(p)))
+			if (find_divisor_term(car(p)))
 				return 1;
 			p = cdr(p);
 		}
 		return 0;
 	}
 
-	return divisor_term(p);
+	return find_divisor_term(p);
 }
 
 function
-divisor_term(p)
+find_divisor_term(p)
 {
 	if (car(p) == symbol(MULTIPLY)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (divisor_factor(car(p)))
+			if (find_divisor_factor(car(p)))
 				return 1;
 			p = cdr(p);
 		}
 		return 0;
 	}
 
-	return divisor_factor(p);
+	return find_divisor_factor(p);
 }
 
 function
-divisor_factor(p)
+find_divisor_factor(p)
 {
 	if (isinteger(p))
 		return 0;

@@ -20,7 +20,7 @@ denominator()
 
 	p2 = one; // denominator
 
-	while (divisor(p1)) {
+	while (find_divisor(p1)) {
 
 		p0 = pop(); // p0 is a denominator
 

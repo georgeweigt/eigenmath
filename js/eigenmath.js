@@ -3163,65 +3163,6 @@ divide()
 	multiply();
 }
 function
-divisor(p)
-{
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (divisor_term(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return divisor_term(p);
-}
-
-function
-divisor_term(p)
-{
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (divisor_factor(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return divisor_factor(p);
-}
-
-function
-divisor_factor(p)
-{
-	if (isinteger(p))
-		return 0;
-
-	if (isrational(p)) {
-		push(p);
-		denominator();
-		return 1;
-	}
-
-	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
-		if (isminusone(caddr(p)))
-			push(cadr(p));
-		else {
-			push_symbol(POWER);
-			push(cadr(p));
-			push(caddr(p));
-			negate();
-			list(3);
-		}
-		return 1;
-	}
-
-	return 0;
-}
-function
 draw_formula(x, y, p)
 {
 	var char_num, d, dx, dy, font_num, h, k, w;
@@ -5540,7 +5481,7 @@ denominator()
 
 	p2 = one; // denominator
 
-	while (divisor(p1)) {
+	while (find_divisor(p1)) {
 
 		p0 = pop(); // p0 is a denominator
 
@@ -9481,7 +9422,7 @@ numerator()
 		return;
 	}
 
-	while (divisor(p1)) {
+	while (find_divisor(p1)) {
 		push(p1);
 		cancel_factor();
 		p1 = pop();
@@ -10006,7 +9947,7 @@ rationalize()
 
 	p2 = one;
 
-	while (divisor(p1)) {
+	while (find_divisor(p1)) {
 		p0 = pop();
 		push(p0);
 		push(p1);
@@ -13046,6 +12987,67 @@ find_denominator(p)
 			return 1;
 		p = cdr(p);
 	}
+	return 0;
+}
+// returns 1 with divisor on stack, otherwise returns 0
+
+function
+find_divisor(p)
+{
+	if (car(p) == symbol(ADD)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (find_divisor_term(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return find_divisor_term(p);
+}
+
+function
+find_divisor_term(p)
+{
+	if (car(p) == symbol(MULTIPLY)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (find_divisor_factor(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return find_divisor_factor(p);
+}
+
+function
+find_divisor_factor(p)
+{
+	if (isinteger(p))
+		return 0;
+
+	if (isrational(p)) {
+		push(p);
+		denominator();
+		return 1;
+	}
+
+	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
+		if (isminusone(caddr(p)))
+			push(cadr(p));
+		else {
+			push_symbol(POWER);
+			push(cadr(p));
+			push(caddr(p));
+			negate();
+			list(3);
+		}
+		return 1;
+	}
+
 	return 0;
 }
 function

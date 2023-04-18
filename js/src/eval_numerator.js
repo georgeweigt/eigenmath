@@ -18,7 +18,7 @@ numerator()
 		return;
 	}
 
-	while (divisor(p1)) {
+	while (find_divisor(p1)) {
 		push(p1);
 		cancel_factor();
 		p1 = pop();
