@@ -1,37 +1,39 @@
+// returns 1 with divisor on stack, otherwise returns 0
+
 int
-divisor(struct atom *p)
+find_divisor(struct atom *p)
 {
 	if (car(p) == symbol(ADD)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (divisor_term(car(p)))
+			if (find_divisor_term(car(p)))
 				return 1;
 			p = cdr(p);
 		}
 		return 0;
 	}
 
-	return divisor_term(p);
+	return find_divisor_term(p);
 }
 
 int
-divisor_term(struct atom *p)
+find_divisor_term(struct atom *p)
 {
 	if (car(p) == symbol(MULTIPLY)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (divisor_factor(car(p)))
+			if (find_divisor_factor(car(p)))
 				return 1;
 			p = cdr(p);
 		}
 		return 0;
 	}
 
-	return divisor_factor(p);
+	return find_divisor_factor(p);
 }
 
 int
-divisor_factor(struct atom *p)
+find_divisor_factor(struct atom *p)
 {
 	if (isinteger(p))
 		return 0;

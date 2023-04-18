@@ -447,9 +447,6 @@ int issmallinteger(struct atom *p);
 void decomp(void);
 void decomp_sum(struct atom *F, struct atom *X);
 void decomp_product(struct atom *F, struct atom *X);
-int divisor(struct atom *p);
-int divisor_term(struct atom *p);
-int divisor_factor(struct atom *p);
 int equal(struct atom *p1, struct atom *p2);
 void evalg(void);
 void evalf(void);
@@ -765,6 +762,9 @@ void evalp(void);
 void factor_bignum(uint32_t *N, struct atom *M);
 void factor_factor(void);
 void factor_int(int n);
+int find_divisor(struct atom *p);
+int find_divisor_term(struct atom *p);
+int find_divisor_factor(struct atom *p);
 void fmt(void);
 void fmt_args(struct atom *p);
 void fmt_base(struct atom *p);
@@ -2571,65 +2571,6 @@ decomp_product(struct atom *F, struct atom *X)
 		swap();
 		cons(); // makes MULTIPLY head of list
 	}
-}
-int
-divisor(struct atom *p)
-{
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (divisor_term(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return divisor_term(p);
-}
-
-int
-divisor_term(struct atom *p)
-{
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (divisor_factor(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return divisor_factor(p);
-}
-
-int
-divisor_factor(struct atom *p)
-{
-	if (isinteger(p))
-		return 0;
-
-	if (isrational(p)) {
-		push(p);
-		denominator();
-		return 1;
-	}
-
-	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
-		if (isminusone(caddr(p)))
-			push(cadr(p));
-		else {
-			push_symbol(POWER);
-			push(cadr(p));
-			push(caddr(p));
-			negate();
-			list(3);
-		}
-		return 1;
-	}
-
-	return 0;
 }
 int
 equal(struct atom *p1, struct atom *p2)
@@ -5091,7 +5032,7 @@ denominator(void)
 
 	p2 = one; // denominator
 
-	while (divisor(p1)) {
+	while (find_divisor(p1)) {
 
 		p0 = pop(); // p0 is a denominator
 
@@ -10367,7 +10308,7 @@ numerator(void)
 		return;
 	}
 
-	while (divisor(p1)) {
+	while (find_divisor(p1)) {
 		push(p1);
 		cancel_factor();
 		p1 = pop();
@@ -10971,7 +10912,7 @@ rationalize(void)
 
 	p2 = one;
 
-	while (divisor(p1)) {
+	while (find_divisor(p1)) {
 		p0 = pop();
 		push(p0);
 		push(p1);
@@ -14356,6 +14297,67 @@ factor_int(int n)
 
 	push_integer(n);
 	push_integer(1);
+}
+// returns 1 with divisor on stack, otherwise returns 0
+
+int
+find_divisor(struct atom *p)
+{
+	if (car(p) == symbol(ADD)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (find_divisor_term(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return find_divisor_term(p);
+}
+
+int
+find_divisor_term(struct atom *p)
+{
+	if (car(p) == symbol(MULTIPLY)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (find_divisor_factor(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return find_divisor_factor(p);
+}
+
+int
+find_divisor_factor(struct atom *p)
+{
+	if (isinteger(p))
+		return 0;
+
+	if (isrational(p)) {
+		push(p);
+		denominator();
+		return 1;
+	}
+
+	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
+		if (isminusone(caddr(p)))
+			push(cadr(p));
+		else {
+			push_symbol(POWER);
+			push(cadr(p));
+			push(caddr(p));
+			negate();
+			list(3);
+		}
+		return 1;
+	}
+
+	return 0;
 }
 #define TABLE_HSPACE 3
 #define TABLE_VSPACE 1
