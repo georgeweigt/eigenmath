@@ -358,28 +358,6 @@ extern char strbuf[];
 extern char *outbuf;
 extern int outbuf_index;
 extern int outbuf_length;
-void eval_abs(struct atom *p1);
-void absfunc(void);
-void eval_add(struct atom *p1);
-void add(void);
-void add_terms(int n);
-void flatten_terms(int h);
-struct atom * combine_tensors(int h);
-void add_tensors(void);
-void combine_terms(int h);
-int combine_terms_nib(int i, int j);
-void sort_terms(int n);
-int sort_terms_func(const void *q1, const void *q2);
-int cmp_terms(struct atom *p1, struct atom *p2);
-int simplify_terms(int h);
-int isradicalterm(struct atom *p);
-int is_imaginary_term(struct atom *p);
-void add_numbers(struct atom *p1, struct atom *p2);
-void add_rationals(struct atom *p1, struct atom *p2);
-void add_integers(struct atom *p1, struct atom *p2);
-void subtract(void);
-void eval_adj(struct atom *p1);
-void adj(void);
 struct atom * alloc_atom(void);
 void alloc_block(void);
 struct atom * alloc_vector(int nrow);
@@ -387,23 +365,6 @@ struct atom * alloc_matrix(int nrow, int ncol);
 struct atom * alloc_tensor(int nelem);
 struct atom * alloc_str(void);
 void * alloc_mem(int n);
-void eval_and(struct atom *p1);
-void eval_arccos(struct atom *p1);
-void arccos(void);
-void eval_arccosh(struct atom *p1);
-void arccosh(void);
-void eval_arcsin(struct atom *p1);
-void arcsin(void);
-void eval_arcsinh(struct atom *p1);
-void arcsinh(void);
-void eval_arctan(struct atom *p1);
-void arctan(void);
-void arctan_numbers(struct atom *X, struct atom *Y);
-void eval_arctanh(struct atom *p1);
-void arctanh(void);
-void eval_arg(struct atom *p1);
-void arg(void);
-void arg1(void);
 void push_integer(int n);
 void push_rational(int a, int b);
 void push_bignum(int sign, uint32_t *a, uint32_t *b);
@@ -442,25 +403,9 @@ uint32_t * mgcd(uint32_t *u, uint32_t *v);
 uint32_t * mroot(uint32_t *a, uint32_t *n);
 int bignum_issmallnum(uint32_t *N);
 int bignum_smallnum(uint32_t *N);
-void eval_binding(struct atom *p1);
 void cancel_factor(void);
-void eval_ceiling(struct atom *p1);
-void ceilingfunc(void);
-void eval_check(struct atom *p1);
-void eval_circexp(struct atom *p1);
-void circexp(void);
-void circexp_subst(void);
-void eval_clear(struct atom *p1);
-void eval_clock(struct atom *p1);
-void clockfunc(void);
 int cmp_args(struct atom *p1);
 void coeffs(struct atom *P, struct atom *X);
-void eval_cofactor(struct atom *p1);
-void eval_conj(struct atom *p1);
-void conjfunc(void);
-void conjfunc_subst(void);
-void eval_contract(struct atom *p1);
-void contract(void);
 void list(int n);
 void cons(void);
 int lengthf(struct atom *p);
@@ -503,14 +448,76 @@ int isdenormalpolar(struct atom *p);
 int isdenormalpolarterm(struct atom *p);
 int issquarematrix(struct atom *p);
 int issmallinteger(struct atom *p);
+void decomp(void);
+void decomp_sum(struct atom *F, struct atom *X);
+void decomp_product(struct atom *F, struct atom *X);
+int divisor(struct atom *p);
+int divisor_term(struct atom *p);
+int divisor_factor(struct atom *p);
+int equal(struct atom *p1, struct atom *p2);
+void evalg(void);
+void evalf(void);
+void evalf_nib(struct atom *p1);
+void eval_abs(struct atom *p1);
+void absfunc(void);
+void eval_add(struct atom *p1);
+void add(void);
+void add_terms(int n);
+void flatten_terms(int h);
+struct atom * combine_tensors(int h);
+void add_tensors(void);
+void combine_terms(int h);
+int combine_terms_nib(int i, int j);
+void sort_terms(int n);
+int sort_terms_func(const void *q1, const void *q2);
+int cmp_terms(struct atom *p1, struct atom *p2);
+int simplify_terms(int h);
+int isradicalterm(struct atom *p);
+int is_imaginary_term(struct atom *p);
+void add_numbers(struct atom *p1, struct atom *p2);
+void add_rationals(struct atom *p1, struct atom *p2);
+void add_integers(struct atom *p1, struct atom *p2);
+void subtract(void);
+void eval_adj(struct atom *p1);
+void adj(void);
+void eval_and(struct atom *p1);
+void eval_arccos(struct atom *p1);
+void arccos(void);
+void eval_arccosh(struct atom *p1);
+void arccosh(void);
+void eval_arcsin(struct atom *p1);
+void arcsin(void);
+void eval_arcsinh(struct atom *p1);
+void arcsinh(void);
+void eval_arctan(struct atom *p1);
+void arctan(void);
+void arctan_numbers(struct atom *X, struct atom *Y);
+void eval_arctanh(struct atom *p1);
+void arctanh(void);
+void eval_arg(struct atom *p1);
+void arg(void);
+void arg1(void);
+void eval_binding(struct atom *p1);
+void eval_ceiling(struct atom *p1);
+void ceilingfunc(void);
+void eval_check(struct atom *p1);
+void eval_circexp(struct atom *p1);
+void circexp(void);
+void circexp_subst(void);
+void eval_clear(struct atom *p1);
+void eval_clock(struct atom *p1);
+void clockfunc(void);
+void eval_cofactor(struct atom *p1);
+void eval_conj(struct atom *p1);
+void conjfunc(void);
+void conjfunc_subst(void);
+void eval_contract(struct atom *p1);
+void contract(void);
 void eval_cos(struct atom *p1);
 void cosfunc(void);
 void cosfunc_sum(struct atom *p1);
 void eval_cosh(struct atom *p1);
 void coshfunc(void);
-void decomp(void);
-void decomp_sum(struct atom *F, struct atom *X);
-void decomp_product(struct atom *F, struct atom *X);
 void eval_defint(struct atom *p1);
 void eval_denominator(struct atom *p1);
 void denominator(void);
@@ -543,29 +550,16 @@ void d_tensor_scalar(struct atom *p1, struct atom *p2);
 void eval_det(struct atom *p1);
 void det(void);
 void eval_dim(struct atom *p1);
-int divisor(struct atom *p);
-int divisor_term(struct atom *p);
-int divisor_factor(struct atom *p);
 void eval_do(struct atom *p1);
 void eval_eigenvec(struct atom *p1);
 void eigenvec(double *D, double *Q, int n);
 int eigenvec_step(double *D, double *Q, int n);
 void eigenvec_step_nib(double *D, double *Q, int n, int p, int q);
-int equal(struct atom *p1, struct atom *p2);
 void eval_erf(struct atom *p1);
 void erffunc(void);
 void eval_erfc(struct atom *p1);
 void erfcfunc(void);
-void evalg(void);
-void evalf(void);
-void evalf_nib(struct atom *p1);
 void eval_eval(struct atom *p1);
-void eval_nil(struct atom *p1);
-void eval_number(struct atom *p1);
-void eval_stop(struct atom *p1);
-void eval_user_function(struct atom *p1);
-void eval_user_symbol(struct atom *p1);
-void evalp(void);
 void eval_exp(struct atom *p1);
 void expfunc(void);
 void eval_expcos(struct atom *p1);
@@ -580,9 +574,6 @@ void eval_exptan(struct atom *p1);
 void exptan(void);
 void eval_exptanh(struct atom *p1);
 void exptanh(void);
-void factor_bignum(uint32_t *N, struct atom *M);
-void factor_factor(void);
-void factor_int(int n);
 void eval_factorial(struct atom *p1);
 void factorial(void);
 void eval_float(struct atom *p1);
@@ -590,54 +581,7 @@ void floatfunc(void);
 void floatfunc_subst(void);
 void eval_floor(struct atom *p1);
 void floorfunc(void);
-void fmt(void);
-void fmt_args(struct atom *p);
-void fmt_base(struct atom *p);
-void fmt_denominators(struct atom *p);
-void fmt_double(struct atom *p);
-void fmt_exponent(struct atom *p);
-void fmt_expr(struct atom *p);
-void fmt_expr_nib(struct atom *p);
-void fmt_factor(struct atom *p);
-void fmt_frac(struct atom *p);
-void fmt_function(struct atom *p);
-void fmt_indices(struct atom *p);
-void fmt_infix_operator(int c);
-void fmt_list(struct atom *p);
-void fmt_matrix(struct atom *p, int d, int k);
-void fmt_numerators(struct atom *p);
-void fmt_numeric_exponent(struct atom *p);
-void fmt_power(struct atom *p);
-void fmt_rational(struct atom *p);
-void fmt_reciprocal(struct atom *p);
-void fmt_roman_char(int c);
-void fmt_roman_string(char *s);
-void fmt_space(void);
-void fmt_string(struct atom *p);
-void fmt_subexpr(struct atom *p);
-void fmt_symbol(struct atom *p);
-int fmt_symbol_fragment(char *s, int k);
-void fmt_table(int x, int y, struct atom *p);
-void fmt_tensor(struct atom *p);
-void fmt_term(struct atom *p);
-void fmt_term_nib(struct atom *p);
-void fmt_update_fraction(void);
-void fmt_update_list(int t);
-void fmt_update_subexpr(void);
-void fmt_update_subscript(void);
-void fmt_update_superscript(void);
-void fmt_update_table(int n, int m);
-void fmt_vector(struct atom *p);
-void fmt_draw(int x, int y, struct atom *p);
-void fmt_draw_char(int x, int y, int c);
-void fmt_draw_delims(int x, int y, int h, int d, int w);
-void fmt_draw_ldelim(int x, int y, int h, int d);
-void fmt_draw_rdelim(int x, int y, int h, int d);
-void fmt_draw_table(int x, int y, struct atom *p);
-void writec(int c);
 void eval_for(struct atom *p1);
-void gc(void);
-void untag(struct atom *p);
 void eval_hadamard(struct atom *p1);
 void hadamard(void);
 void eval_imag(struct atom *p1);
@@ -684,13 +628,6 @@ void logfunc(void);
 void eval_mag(struct atom *p1);
 void mag(void);
 void mag_nib(void);
-int main(int argc, char *argv[]);
-void run_stdin(void);
-void run_infile(char *infile);
-void printbuf(char *s, int color);
-void display(void);
-void eval_draw(struct atom *p1);
-void eval_exit(struct atom *p1);
 void eval_minor(struct atom *p1);
 void eval_minormatrix(struct atom *p1);
 void minormatrix(int row, int col);
@@ -729,6 +666,7 @@ void negate(void);
 void negate_noexpand(void);
 void reciprocate(void);
 void divide(void);
+void eval_nil(struct atom *p1);
 void eval_noexpand(struct atom *p1);
 void eval_not(struct atom *p1);
 void eval_nroots(struct atom *p1);
@@ -738,36 +676,16 @@ void fata(double cr[], double ci[], int n, double ar, double ai, double *far, do
 void nreduce(double cr[], double ci[], int n, double ar, double ai);
 double zabs(double r, double i);
 double urandom(void);
+void eval_number(struct atom *p1);
 void eval_numerator(struct atom *p1);
 void numerator(void);
 void eval_or(struct atom *p1);
-void outbuf_init(void);
-void outbuf_puts(char *s);
-void outbuf_putc(int c);
 void eval_outer(struct atom *p1);
 void outer(void);
-void partition_term(void);
 void eval_polar(struct atom *p1);
 void polar(void);
 void eval_power(struct atom *p1);
 void power(void);
-void power_complex_number(struct atom *BASE, struct atom *EXPO);
-void power_complex_plus(struct atom *X, struct atom *Y, int n);
-void power_complex_minus(struct atom *X, struct atom *Y, int n);
-void power_complex_double(struct atom *X, struct atom *Y, struct atom *EXPO);
-void power_complex_rational(struct atom *X, struct atom *Y, struct atom *EXPO);
-void power_minusone(struct atom *EXPO);
-void normalize_clock_rational(struct atom *EXPO);
-void normalize_clock_double(struct atom *EXPO);
-void power_natural_number(struct atom *EXPO);
-void normalize_polar(struct atom *EXPO);
-void normalize_polar_term(struct atom *EXPO);
-void normalize_polar_term_rational(struct atom *R);
-void normalize_polar_term_double(struct atom *R);
-void power_numbers(struct atom *BASE, struct atom *EXPO);
-void power_numbers_factor(struct atom *BASE, struct atom *EXPO);
-void power_double(struct atom *BASE, struct atom *EXPO);
-void power_sum(struct atom *BASE, struct atom *EXPO);
 void eval_prefixform(struct atom *p1);
 void print_prefixform(struct atom *p);
 void prefixform(struct atom *p);
@@ -779,7 +697,6 @@ void eval_quote(struct atom *p1);
 void eval_rank(struct atom *p1);
 void eval_rationalize(struct atom *p1);
 void rationalize(void);
-char * read_file(char *filename);
 void eval_real(struct atom *p1);
 void real(void);
 void eval_rect(struct atom *p1);
@@ -800,12 +717,138 @@ void rotate_y(struct atom *PSI, uint32_t c, int n);
 void rotate_z(struct atom *PSI, uint32_t c, int n);
 void rotate_q(struct atom *PSI, int n);
 void rotate_v(struct atom *PSI, int n);
+void eval_run(struct atom *p1);
+void eval_setq(struct atom *p1);
+void setq_indexed(struct atom *p1);
+void set_component(struct atom *LVAL, struct atom *RVAL, int h);
+void setq_usrfunc(struct atom *p1);
+void convert_body(struct atom *A);
+void eval_sgn(struct atom *p1);
+void sgn(void);
+void eval_simplify(struct atom *p1);
+void simplify(void);
+void simplify_pass1(void);
+void simplify_pass2(void);
+void simplify_pass3(void);
+void eval_sin(struct atom *p1);
+void sinfunc(void);
+void sinfunc_sum(struct atom *p1);
+void eval_sinh(struct atom *p1);
+void sinhfunc(void);
+void eval_sqrt(struct atom *p1);
+void sqrtfunc(void);
+void eval_status(struct atom *p1);
+void eval_stop(struct atom *p1);
+void eval_subst(struct atom *p1);
+void subst(void);
+void eval_sum(struct atom *p1);
+void eval_tan(struct atom *p1);
+void tanfunc(void);
+void tanfunc_sum(struct atom *p1);
+void eval_tanh(struct atom *p1);
+void tanhfunc(void);
+void eval_taylor(struct atom *p1);
+void eval_tensor(struct atom *p1);
+void promote_tensor(void);
+int compatible_dimensions(struct atom *p, struct atom *q);
+int compare_tensors(struct atom *p1, struct atom *p2);
+struct atom * copy_tensor(struct atom *p1);
+void eval_test(struct atom *p1);
+void eval_testeq(struct atom *p1);
+void eval_testge(struct atom *p1);
+void eval_testgt(struct atom *p1);
+void eval_testle(struct atom *p1);
+void eval_testlt(struct atom *p1);
+void eval_transpose(struct atom *p1);
+void transpose(int n, int m);
+void eval_unit(struct atom *p1);
+void eval_user_function(struct atom *p1);
+void eval_user_symbol(struct atom *p1);
+void eval_zero(struct atom *p1);
+void evalp(void);
+void factor_bignum(uint32_t *N, struct atom *M);
+void factor_factor(void);
+void factor_int(int n);
+void fmt(void);
+void fmt_args(struct atom *p);
+void fmt_base(struct atom *p);
+void fmt_denominators(struct atom *p);
+void fmt_double(struct atom *p);
+void fmt_exponent(struct atom *p);
+void fmt_expr(struct atom *p);
+void fmt_expr_nib(struct atom *p);
+void fmt_factor(struct atom *p);
+void fmt_frac(struct atom *p);
+void fmt_function(struct atom *p);
+void fmt_indices(struct atom *p);
+void fmt_infix_operator(int c);
+void fmt_list(struct atom *p);
+void fmt_matrix(struct atom *p, int d, int k);
+void fmt_numerators(struct atom *p);
+void fmt_numeric_exponent(struct atom *p);
+void fmt_power(struct atom *p);
+void fmt_rational(struct atom *p);
+void fmt_reciprocal(struct atom *p);
+void fmt_roman_char(int c);
+void fmt_roman_string(char *s);
+void fmt_space(void);
+void fmt_string(struct atom *p);
+void fmt_subexpr(struct atom *p);
+void fmt_symbol(struct atom *p);
+int fmt_symbol_fragment(char *s, int k);
+void fmt_table(int x, int y, struct atom *p);
+void fmt_tensor(struct atom *p);
+void fmt_term(struct atom *p);
+void fmt_term_nib(struct atom *p);
+void fmt_update_fraction(void);
+void fmt_update_list(int t);
+void fmt_update_subexpr(void);
+void fmt_update_subscript(void);
+void fmt_update_superscript(void);
+void fmt_update_table(int n, int m);
+void fmt_vector(struct atom *p);
+void fmt_draw(int x, int y, struct atom *p);
+void fmt_draw_char(int x, int y, int c);
+void fmt_draw_delims(int x, int y, int h, int d, int w);
+void fmt_draw_ldelim(int x, int y, int h, int d);
+void fmt_draw_rdelim(int x, int y, int h, int d);
+void fmt_draw_table(int x, int y, struct atom *p);
+void writec(int c);
+void gc(void);
+void untag(struct atom *p);
+int main(int argc, char *argv[]);
+void run_stdin(void);
+void run_infile(char *infile);
+void printbuf(char *s, int color);
+void display(void);
+void eval_draw(struct atom *p1);
+void eval_exit(struct atom *p1);
+void outbuf_init(void);
+void outbuf_puts(char *s);
+void outbuf_putc(int c);
+void partition_term(void);
+void power_complex_number(struct atom *BASE, struct atom *EXPO);
+void power_complex_plus(struct atom *X, struct atom *Y, int n);
+void power_complex_minus(struct atom *X, struct atom *Y, int n);
+void power_complex_double(struct atom *X, struct atom *Y, struct atom *EXPO);
+void power_complex_rational(struct atom *X, struct atom *Y, struct atom *EXPO);
+void power_minusone(struct atom *EXPO);
+void normalize_clock_rational(struct atom *EXPO);
+void normalize_clock_double(struct atom *EXPO);
+void power_natural_number(struct atom *EXPO);
+void normalize_polar(struct atom *EXPO);
+void normalize_polar_term(struct atom *EXPO);
+void normalize_polar_term_rational(struct atom *R);
+void normalize_polar_term_double(struct atom *R);
+void power_numbers(struct atom *BASE, struct atom *EXPO);
+void power_numbers_factor(struct atom *BASE, struct atom *EXPO);
+void power_double(struct atom *BASE, struct atom *EXPO);
+void power_sum(struct atom *BASE, struct atom *EXPO);
+char * read_file(char *filename);
 void run(char *buf);
 void run_buf(char *buf);
 char * scan_input(char *s);
 void print_trace(int color);
-void eval_run(struct atom *p1);
-void run_file(char *filename);
 void run_init_script(void);
 void stopf(char *s);
 void stopf_cond(char *s);
@@ -831,25 +874,6 @@ void scan_error(char *errmsg);
 void build_tensor(int h);
 void static_negate(void);
 void static_reciprocate(void);
-void eval_setq(struct atom *p1);
-void setq_indexed(struct atom *p1);
-void set_component(struct atom *LVAL, struct atom *RVAL, int h);
-void setq_usrfunc(struct atom *p1);
-void convert_body(struct atom *A);
-void eval_sgn(struct atom *p1);
-void sgn(void);
-void eval_simplify(struct atom *p1);
-void simplify(void);
-void simplify_pass1(void);
-void simplify_pass2(void);
-void simplify_pass3(void);
-void eval_sin(struct atom *p1);
-void sinfunc(void);
-void sinfunc_sum(struct atom *p1);
-void eval_sinh(struct atom *p1);
-void sinhfunc(void);
-void eval_sqrt(struct atom *p1);
-void sqrtfunc(void);
 void push(struct atom *p);
 struct atom * pop(void);
 void fpush(struct atom *p);
@@ -859,725 +883,12 @@ void restore_symbol(void);
 void dupl(void);
 void swap(void);
 void push_string(char *s);
-void eval_status(struct atom *p1);
-void eval_subst(struct atom *p1);
-void subst(void);
-void eval_sum(struct atom *p1);
 struct atom * lookup(char *s);
 char * printname(struct atom *p);
 void set_symbol(struct atom *p1, struct atom *p2, struct atom *p3);
 struct atom * get_binding(struct atom *p1);
 struct atom * get_usrfunc(struct atom *p);
 void init_symbol_table(void);
-void eval_tan(struct atom *p1);
-void tanfunc(void);
-void tanfunc_sum(struct atom *p1);
-void eval_tanh(struct atom *p1);
-void tanhfunc(void);
-void eval_taylor(struct atom *p1);
-void eval_tensor(struct atom *p1);
-void promote_tensor(void);
-int compatible_dimensions(struct atom *p, struct atom *q);
-int compare_tensors(struct atom *p1, struct atom *p2);
-struct atom * copy_tensor(struct atom *p1);
-void eval_test(struct atom *p1);
-void eval_testeq(struct atom *p1);
-void eval_testge(struct atom *p1);
-void eval_testgt(struct atom *p1);
-void eval_testle(struct atom *p1);
-void eval_testlt(struct atom *p1);
-void eval_transpose(struct atom *p1);
-void transpose(int n, int m);
-void eval_unit(struct atom *p1);
-void eval_zero(struct atom *p1);
-void
-eval_abs(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	absfunc();
-}
-
-void
-absfunc(void)
-{
-	int h;
-	struct atom *p1, *p2, *p3;
-
-	p1 = pop();
-
-	if (isnum(p1)) {
-		push(p1);
-		if (isnegativenumber(p1))
-			negate();
-		return;
-	}
-
-	if (istensor(p1)) {
-		if (p1->u.tensor->ndim > 1) {
-			push_symbol(ABS);
-			push(p1);
-			list(2);
-			return;
-		}
-		push(p1);
-		push(p1);
-		conjfunc();
-		inner();
-		push_rational(1, 2);
-		power();
-		return;
-	}
-
-	push(p1);
-	push(p1);
-	conjfunc();
-	multiply();
-	push_rational(1, 2);
-	power();
-
-	p2 = pop();
-	push(p2);
-	floatfunc();
-	p3 = pop();
-	if (isdouble(p3)) {
-		push(p2);
-		if (isnegativenumber(p3))
-			negate();
-		return;
-	}
-
-	// abs(1/a) evaluates to 1/abs(a)
-
-	if (car(p1) == symbol(POWER) && isnegativeterm(caddr(p1))) {
-		push(p1);
-		reciprocate();
-		absfunc();
-		reciprocate();
-		return;
-	}
-
-	// abs(a*b) evaluates to abs(a)*abs(b)
-
-	if (car(p1) == symbol(MULTIPLY)) {
-		h = tos;
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			absfunc();
-			p1 = cdr(p1);
-		}
-		multiply_factors(tos - h);
-		return;
-	}
-
-	if (isnegativeterm(p1) || (car(p1) == symbol(ADD) && isnegativeterm(cadr(p1)))) {
-		push(p1);
-		negate();
-		p1 = pop();
-	}
-
-	push_symbol(ABS);
-	push(p1);
-	list(2);
-}
-void
-eval_add(struct atom *p1)
-{
-	int h = tos;
-	expanding--; // undo expanding++ in eval
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		evalg();
-		p1 = cdr(p1);
-	}
-	add_terms(tos - h);
-	expanding++;
-}
-
-void
-add(void)
-{
-	add_terms(2);
-}
-
-void
-add_terms(int n)
-{
-	int i, h;
-	struct atom *p1, *T;
-
-	if (n < 2)
-		return;
-
-	h = tos - n;
-
-	flatten_terms(h);
-
-	T = combine_tensors(h);
-
-	combine_terms(h);
-
-	if (simplify_terms(h))
-		combine_terms(h);
-
-	n = tos - h;
-
-	if (n == 0) {
-		if (istensor(T))
-			push(T);
-		else
-			push_integer(0);
-		return;
-	}
-
-	if (n > 1) {
-		list(n);
-		push_symbol(ADD);
-		swap();
-		cons(); // prepend ADD to list
-	}
-
-	if (!istensor(T))
-		return;
-
-	p1 = pop();
-
-	T = copy_tensor(T);
-
-	n = T->u.tensor->nelem;
-
-	for (i = 0; i < n; i++) {
-		push(T->u.tensor->elem[i]);
-		push(p1);
-		add();
-		T->u.tensor->elem[i] = pop();
-	}
-
-	push(T);
-}
-
-void
-flatten_terms(int h)
-{
-	int i, n;
-	struct atom *p1;
-	n = tos;
-	for (i = h; i < n; i++) {
-		p1 = stack[i];
-		if (car(p1) == symbol(ADD)) {
-			stack[i] = cadr(p1);
-			p1 = cddr(p1);
-			while (iscons(p1)) {
-				push(car(p1));
-				p1 = cdr(p1);
-			}
-		}
-	}
-}
-
-struct atom *
-combine_tensors(int h)
-{
-	int i, j;
-	struct atom *p1, *T;
-	T = symbol(NIL);
-	for (i = h; i < tos; i++) {
-		p1 = stack[i];
-		if (istensor(p1)) {
-			if (istensor(T)) {
-				push(T);
-				push(p1);
-				add_tensors();
-				T = pop();
-			} else
-				T = p1;
-			for (j = i + 1; j < tos; j++)
-				stack[j - 1] = stack[j];
-			tos--;
-			i--; // use same index again
-		}
-	}
-	return T;
-}
-
-void
-add_tensors(void)
-{
-	int i, n;
-	struct atom *p1, *p2;
-
-	p2 = pop();
-	p1 = pop();
-
-	if (!compatible_dimensions(p1, p2))
-		stopf("incompatible tensor arithmetic");
-
-	p1 = copy_tensor(p1);
-
-	n = p1->u.tensor->nelem;
-
-	for (i = 0; i < n; i++) {
-		push(p1->u.tensor->elem[i]);
-		push(p2->u.tensor->elem[i]);
-		add();
-		p1->u.tensor->elem[i] = pop();
-	}
-
-	push(p1);
-}
-
-void
-combine_terms(int h)
-{
-	int i, j;
-	sort_terms(tos - h);
-	for (i = h; i < tos - 1; i++) {
-		if (combine_terms_nib(i, i + 1)) {
-			if (iszero(stack[i])) {
-				for (j = i + 2; j < tos; j++)
-					stack[j - 2] = stack[j]; // remove 2 terms
-				tos -= 2;
-			} else {
-				for (j = i + 2; j < tos; j++)
-					stack[j - 1] = stack[j]; // remove 1 term
-				tos -= 1;
-			}
-			i--; // use same index again
-		}
-	}
-	if (h < tos && iszero(stack[tos - 1]))
-		tos--;
-}
-
-int
-combine_terms_nib(int i, int j)
-{
-	int denorm;
-	struct atom *p1, *p2, *p3, *p4;
-
-	p1 = stack[i];
-	p2 = stack[j];
-
-	if (iszero(p2))
-		return 1;
-
-	if (iszero(p1)) {
-		stack[i] = p2;
-		return 1;
-	}
-
-	if (isnum(p1) && isnum(p2)) {
-		add_numbers(p1, p2);
-		stack[i] = pop();
-		return 1;
-	}
-
-	if (isnum(p1) || isnum(p2))
-		return 0; // cannot add number and something else
-
-	p3 = p1;
-	p4 = p2;
-
-	p1 = one;
-	p2 = one;
-
-	denorm = 0;
-
-	if (car(p3) == symbol(MULTIPLY)) {
-		p3 = cdr(p3);
-		denorm = 1;
-		if (isnum(car(p3))) {
-			p1 = car(p3); // coeff
-			p3 = cdr(p3);
-			if (cdr(p3) == symbol(NIL)) {
-				p3 = car(p3);
-				denorm = 0;
-			}
-		}
-	}
-
-	if (car(p4) == symbol(MULTIPLY)) {
-		p4 = cdr(p4);
-		if (isnum(car(p4))) {
-			p2 = car(p4); // coeff
-			p4 = cdr(p4);
-			if (cdr(p4) == symbol(NIL)) {
-				p4 = car(p4);
-			}
-		}
-	}
-
-	if (!equal(p3, p4))
-		return 0;
-
-	add_numbers(p1, p2); // add p1 and p2
-
-	p4 = pop(); // new coeff
-
-	if (iszero(p4)) {
-		stack[i] = p4;
-		return 1;
-	}
-
-	if (isplusone(p4) && !isdouble(p4)) {
-		if (denorm) {
-			push_symbol(MULTIPLY);
-			push(p3); // p3 is a list, not an atom
-			cons(); // prepend MULTIPLY to p3
-		} else
-			push(p3);
-	} else {
-		if (denorm) {
-			push_symbol(MULTIPLY);
-			push(p4);
-			push(p3); // p3 is a list, not an atom
-			cons(); // prepend p4 to p3
-			cons(); // prepend MULTIPLY
-		} else {
-			push_symbol(MULTIPLY);
-			push(p4);
-			push(p3);
-			list(3);
-		}
-	}
-
-	stack[i] = pop();
-
-	return 1;
-}
-
-void
-sort_terms(int n)
-{
-	qsort(stack + tos - n, n, sizeof (struct atom *), sort_terms_func);
-}
-
-int
-sort_terms_func(const void *q1, const void *q2)
-{
-	return cmp_terms(*((struct atom **) q1), *((struct atom **) q2));
-}
-
-int
-cmp_terms(struct atom *p1, struct atom *p2)
-{
-	int a, b, c;
-
-	// 1st level: imaginary terms on the right
-
-	a = is_imaginary_term(p1);
-	b = is_imaginary_term(p2);
-
-	if (a == 0 && b == 1)
-		return -1; // ok
-
-	if (a == 1 && b == 0)
-		return 1; // out of order
-
-	// 2nd level: numericals on the right
-
-	if (isnum(p1) && isnum(p2))
-		return 0; // don't care about order, save time, don't compare
-
-	if (isnum(p1))
-		return 1; // out of order
-
-	if (isnum(p2))
-		return -1; // ok
-
-	// 3rd level: sort by factors
-
-	a = 0;
-	b = 0;
-
-	if (car(p1) == symbol(MULTIPLY)) {
-		p1 = cdr(p1);
-		a = 1; // p1 is a list of factors
-		if (isnum(car(p1))) {
-			// skip over coeff
-			p1 = cdr(p1);
-			if (cdr(p1) == symbol(NIL)) {
-				p1 = car(p1);
-				a = 0;
-			}
-		}
-	}
-
-	if (car(p2) == symbol(MULTIPLY)) {
-		p2 = cdr(p2);
-		b = 1; // p2 is a list of factors
-		if (isnum(car(p2))) {
-			// skip over coeff
-			p2 = cdr(p2);
-			if (cdr(p2) == symbol(NIL)) {
-				p2 = car(p2);
-				b = 0;
-			}
-		}
-	}
-
-	if (a == 0 && b == 0)
-		return cmp_factors(p1, p2);
-
-	if (a == 0 && b == 1) {
-		c = cmp_factors(p1, car(p2));
-		if (c == 0)
-			c = -1; // lengthf(p1) < lengthf(p2)
-		return c;
-	}
-
-	if (a == 1 && b == 0) {
-		c = cmp_factors(car(p1), p2);
-		if (c == 0)
-			c = 1; // lengthf(p1) > lengthf(p2)
-		return c;
-	}
-
-	while (iscons(p1) && iscons(p2)) {
-		c = cmp_factors(car(p1), car(p2));
-		if (c)
-			return c;
-		p1 = cdr(p1);
-		p2 = cdr(p2);
-	}
-
-	if (iscons(p1))
-		return 1; // lengthf(p1) > lengthf(p2)
-
-	if (iscons(p2))
-		return -1; // lengthf(p1) < lengthf(p2)
-
-	return 0;
-}
-
-int
-simplify_terms(int h)
-{
-	int i, n = 0;
-	struct atom *p1, *p2;
-	for (i = h; i < tos; i++) {
-		p1 = stack[i];
-		if (isradicalterm(p1)) {
-			push(p1);
-			evalf();
-			p2 = pop();
-			if (!equal(p1, p2)) {
-				stack[i] = p2;
-				n++;
-			}
-		}
-	}
-	return n;
-}
-
-int
-isradicalterm(struct atom *p)
-{
-	return car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isradical(caddr(p));
-}
-
-int
-is_imaginary_term(struct atom *p)
-{
-	if (car(p) == symbol(POWER) && isminusone(cadr(p)))
-		return 1;
-	if (iscons(p)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (caar(p) == symbol(POWER) && isminusone(cadar(p)))
-				return 1;
-			p = cdr(p);
-		}
-	}
-	return 0;
-}
-
-void
-add_numbers(struct atom *p1, struct atom *p2)
-{
-	double d1, d2;
-
-	if (isrational(p1) && isrational(p2)) {
-		add_rationals(p1, p2);
-		return;
-	}
-
-	push(p1);
-	d1 = pop_double();
-
-	push(p2);
-	d2 = pop_double();
-
-	push_double(d1 + d2);
-}
-
-void
-add_rationals(struct atom *p1, struct atom *p2)
-{
-	int sign;
-	uint32_t *a, *ab, *b, *ba, *c;
-
-	if (iszero(p1)) {
-		push(p2);
-		return;
-	}
-
-	if (iszero(p2)) {
-		push(p1);
-		return;
-	}
-
-	if (isinteger(p1) && isinteger(p2)) {
-		add_integers(p1, p2);
-		return;
-	}
-
-	ab = mmul(p1->u.q.a, p2->u.q.b);
-	ba = mmul(p1->u.q.b, p2->u.q.a);
-
-	if (p1->sign == p2->sign) {
-		a = madd(ab, ba);
-		sign = p1->sign;
-	} else {
-		switch (mcmp(ab, ba)) {
-		case 1:
-			a = msub(ab, ba);
-			sign = p1->sign;
-			break;
-		case 0:
-			push_integer(0);
-			mfree(ab);
-			mfree(ba);
-			return;
-		case -1:
-			a = msub(ba, ab);
-			sign = p2->sign;
-			break;
-		default:
-			// never gets here, fix compiler warning
-			return;
-		}
-	}
-
-	mfree(ab);
-	mfree(ba);
-
-	b = mmul(p1->u.q.b, p2->u.q.b);
-	c = mgcd(a, b);
-
-	push_bignum(sign, mdiv(a, c), mdiv(b, c));
-
-	mfree(a);
-	mfree(b);
-	mfree(c);
-}
-
-void
-add_integers(struct atom *p1, struct atom *p2)
-{
-	int sign;
-	uint32_t *a, *b, *c;
-
-	a = p1->u.q.a;
-	b = p2->u.q.a;
-
-	if (p1->sign == p2->sign) {
-		c = madd(a, b);
-		sign = p1->sign;
-	} else {
-		switch (mcmp(a, b)) {
-		case 1:
-			c = msub(a, b);
-			sign = p1->sign;
-			break;
-		case 0:
-			push_integer(0);
-			return;
-		case -1:
-			c = msub(b, a);
-			sign = p2->sign;
-			break;
-		default:
-			// never gets here, fix compiler warning
-			return;
-		}
-	}
-
-	push_bignum(sign, c, mint(1));
-}
-
-void
-subtract(void)
-{
-	negate();
-	add();
-}
-void
-eval_adj(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	adj();
-}
-
-void
-adj(void)
-{
-	int col, i, j, k, n, row;
-	struct atom *p1, *p2, *p3;
-
-	p1 = pop();
-
-	if (!istensor(p1)) {
-		push_integer(1); // adj of scalar is 1 because adj = det inv
-		return;
-	}
-
-	if (!issquarematrix(p1))
-		stopf("adj: square matrix expected");
-
-	n = p1->u.tensor->dim[0];
-
-	// p2 is the adjunct matrix
-
-	p2 = alloc_matrix(n, n);
-
-	if (n == 2) {
-		p2->u.tensor->elem[0] = p1->u.tensor->elem[3];
-		push(p1->u.tensor->elem[1]);
-		negate();
-		p2->u.tensor->elem[1] = pop();
-		push(p1->u.tensor->elem[2]);
-		negate();
-		p2->u.tensor->elem[2] = pop();
-		p2->u.tensor->elem[3] = p1->u.tensor->elem[0];
-		push(p2);
-		return;
-	}
-
-	// p3 is for computing cofactors
-
-	p3 = alloc_matrix(n - 1, n - 1);
-
-	for (row = 0; row < n; row++) {
-		for (col = 0; col < n; col++) {
-			k = 0;
-			for (i = 0; i < n; i++)
-				for (j = 0; j < n; j++)
-					if (i != row && j != col)
-						p3->u.tensor->elem[k++] = p1->u.tensor->elem[n * i + j];
-			push(p3);
-			det();
-			if ((row + col) % 2)
-				negate();
-			p2->u.tensor->elem[n * col + row] = pop(); // transpose
-		}
-	}
-
-	push(p2);
-}
 struct atom *
 alloc_atom(void)
 {
@@ -1677,789 +988,6 @@ alloc_mem(int n)
 	if (p == NULL)
 		exit(1);
 	return p;
-}
-void
-eval_and(struct atom *p1)
-{
-	struct atom *p2;
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		evalp();
-		p2 = pop();
-		if (iszero(p2)) {
-			push_integer(0);
-			return;
-		}
-		p1 = cdr(p1);
-	}
-	push_integer(1);
-}
-void
-eval_arccos(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	arccos();
-}
-
-void
-arccos(void)
-{
-	int i, n;
-	double d;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			arccos();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		if (-1.0 <= d && d <= 1.0) {
-			d = acos(d);
-			push_double(d);
-			return;
-		}
-	}
-
-	// arccos(z) = -i log(z + i sqrt(1 - z^2))
-
-	if (isdouble(p1) || isdoublez(p1)) {
-		push_double(1.0);
-		push(p1);
-		push(p1);
-		multiply();
-		subtract();
-		sqrtfunc();
-		push(imaginaryunit);
-		multiply();
-		push(p1);
-		add();
-		logfunc();
-		push(imaginaryunit);
-		multiply();
-		negate();
-		return;
-	}
-
-	// arccos(1 / sqrt(2)) = 1/4 pi
-
-	if (isoneoversqrttwo(p1)) {
-		push_rational(1, 4);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arccos(-1 / sqrt(2)) = 3/4 pi
-
-	if (isminusoneoversqrttwo(p1)) {
-		push_rational(3, 4);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arccos(0) = 1/2 pi
-
-	if (iszero(p1)) {
-		push_rational(1, 2);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arccos(1/2) = 1/3 pi
-
-	if (isequalq(p1, 1 ,2)) {
-		push_rational(1, 3);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arccos(1) = 0
-
-	if (isplusone(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	// arccos(-1/2) = 2/3 pi
-
-	if (isequalq(p1, -1, 2)) {
-		push_rational(2, 3);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arccos(-1) = pi
-
-	if (isminusone(p1)) {
-		push_symbol(PI);
-		return;
-	}
-
-	push_symbol(ARCCOS);
-	push(p1);
-	list(2);
-}
-void
-eval_arccosh(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	arccosh();
-}
-
-void
-arccosh(void)
-{
-	int i, n;
-	double d;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			arccosh();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		if (d >= 1.0) {
-			d = acosh(d);
-			push_double(d);
-			return;
-		}
-	}
-
-	// arccosh(z) = log(sqrt(z^2 - 1) + z)
-
-	if (isdouble(p1) || isdoublez(p1)) {
-		push(p1);
-		push(p1);
-		multiply();
-		push_double(-1.0);
-		add();
-		sqrtfunc();
-		push(p1);
-		add();
-		logfunc();
-		return;
-	}
-
-	if (isplusone(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	if (car(p1) == symbol(COSH)) {
-		push(cadr(p1));
-		return;
-	}
-
-	push_symbol(ARCCOSH);
-	push(p1);
-	list(2);
-}
-void
-eval_arcsin(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	arcsin();
-}
-
-void
-arcsin(void)
-{
-	int i, n;
-	double d;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			arcsin();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		if (-1.0 <= d && d <= 1.0) {
-			d = asin(d);
-			push_double(d);
-			return;
-		}
-	}
-
-	// arcsin(z) = -i log(i z + sqrt(1 - z^2))
-
-	if (isdouble(p1) || isdoublez(p1)) {
-		push(imaginaryunit);
-		negate();
-		push(imaginaryunit);
-		push(p1);
-		multiply();
-		push_double(1.0);
-		push(p1);
-		push(p1);
-		multiply();
-		subtract();
-		sqrtfunc();
-		add();
-		logfunc();
-		multiply();
-		return;
-	}
-
-	// arcsin(-x) = -arcsin(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		arcsin();
-		negate();
-		return;
-	}
-
-	// arcsin(1 / sqrt(2)) = 1/4 pi
-
-	if (isoneoversqrttwo(p1)) {
-		push_rational(1, 4);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arcsin(0) = 0
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	// arcsin(1/2) = 1/6 pi
-
-	if (isequalq(p1, 1, 2)) {
-		push_rational(1, 6);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// arcsin(1) = 1/2 pi
-
-	if (isplusone(p1)) {
-		push_rational(1, 2);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	push_symbol(ARCSIN);
-	push(p1);
-	list(2);
-}
-void
-eval_arcsinh(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	arcsinh();
-}
-
-void
-arcsinh(void)
-{
-	int i, n;
-	double d;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			arcsinh();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = asinh(d);
-		push_double(d);
-		return;
-	}
-
-	// arcsinh(z) = log(sqrt(z^2 + 1) + z)
-
-	if (isdoublez(p1)) {
-		push(p1);
-		push(p1);
-		multiply();
-		push_double(1.0);
-		add();
-		sqrtfunc();
-		push(p1);
-		add();
-		logfunc();
-		return;
-	}
-
-	if (iszero(p1)) {
-		push(p1);
-		return;
-	}
-
-	// arcsinh(-x) = -arcsinh(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		arcsinh();
-		negate();
-		return;
-	}
-
-	if (car(p1) == symbol(SINH)) {
-		push(cadr(p1));
-		return;
-	}
-
-	push_symbol(ARCSINH);
-	push(p1);
-	list(2);
-}
-void
-eval_arctan(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-
-	p1 = cddr(p1);
-
-	if (iscons(p1)) {
-		push(car(p1));
-		evalf();
-	} else
-		push_integer(1);
-
-	arctan();
-}
-
-void
-arctan(void)
-{
-	int i, n;
-	struct atom *X, *Y, *Z;
-
-	X = pop();
-	Y = pop();
-
-	if (istensor(Y)) {
-		Y = copy_tensor(Y);
-		n = Y->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(Y->u.tensor->elem[i]);
-			push(X);
-			arctan();
-			Y->u.tensor->elem[i] = pop();
-		}
-		push(Y);
-		return;
-	}
-
-	if (isnum(X) && isnum(Y)) {
-		arctan_numbers(X, Y);
-		return;
-	}
-
-	// arctan(z) = -1/2 i log((i - z) / (i + z))
-
-	if (!iszero(X) && (isdoublez(X) || isdoublez(Y))) {
-		push(Y);
-		push(X);
-		divide();
-		Z = pop();
-		push_double(-0.5);
-		push(imaginaryunit);
-		multiply();
-		push(imaginaryunit);
-		push(Z);
-		subtract();
-		push(imaginaryunit);
-		push(Z);
-		add();
-		divide();
-		logfunc();
-		multiply();
-		return;
-	}
-
-	// arctan(-y,x) = -arctan(y,x)
-
-	if (isnegativeterm(Y)) {
-		push(Y);
-		negate();
-		push(X);
-		arctan();
-		negate();
-		return;
-	}
-
-	if (car(Y) == symbol(TAN) && isplusone(X)) {
-		push(cadr(Y)); // x of tan(x)
-		return;
-	}
-
-	push_symbol(ARCTAN);
-	push(Y);
-	push(X);
-	list(3);
-}
-
-void
-arctan_numbers(struct atom *X, struct atom *Y)
-{
-	double x, y;
-	struct atom *T;
-
-	if (iszero(X) && iszero(Y)) {
-		push_symbol(ARCTAN);
-		push_integer(0);
-		push_integer(0);
-		list(3);
-		return;
-	}
-
-	if (isnum(X) && isnum(Y) && (isdouble(X) || isdouble(Y))) {
-		push(X);
-		x = pop_double();
-		push(Y);
-		y = pop_double();
-		push_double(atan2(y, x));
-		return;
-	}
-
-	// X and Y are rational numbers
-
-	if (iszero(Y)) {
-		if (isnegativenumber(X))
-			push_symbol(PI);
-		else
-			push_integer(0);
-		return;
-	}
-
-	if (iszero(X)) {
-		if (isnegativenumber(Y))
-			push_rational(-1, 2);
-		else
-			push_rational(1, 2);
-		push_symbol(PI);
-		multiply();
-		return;
-	}
-
-	// convert fractions to integers
-
-	push(Y);
-	push(X);
-	divide();
-	absfunc();
-	T = pop();
-
-	push(T);
-	numerator();
-	if (isnegativenumber(Y))
-		negate();
-	Y = pop();
-
-	push(T);
-	denominator();
-	if (isnegativenumber(X))
-		negate();
-	X = pop();
-
-	// compare numerators and denominators, ignore signs
-
-	if (mcmp(X->u.q.a, Y->u.q.a) != 0 || mcmp(X->u.q.b, Y->u.q.b) != 0) {
-		// not equal
-		if (isnegativenumber(Y)) {
-			push_symbol(ARCTAN);
-			push(Y);
-			negate();
-			push(X);
-			list(3);
-			negate();
-		} else {
-			push_symbol(ARCTAN);
-			push(Y);
-			push(X);
-			list(3);
-		}
-		return;
-	}
-
-	// X = Y modulo sign
-
-	if (isnegativenumber(X)) {
-		if (isnegativenumber(Y))
-			push_rational(-3, 4);
-		else
-			push_rational(3, 4);
-	} else {
-		if (isnegativenumber(Y))
-			push_rational(-1, 4);
-		else
-			push_rational(1, 4);
-	}
-
-	push_symbol(PI);
-	multiply();
-}
-void
-eval_arctanh(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	arctanh();
-}
-
-void
-arctanh(void)
-{
-	int i, n;
-	double d;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			arctanh();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isplusone(p1) || isminusone(p1)) {
-		push_symbol(ARCTANH);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		if (-1.0 < d && d < 1.0) {
-			d = atanh(d);
-			push_double(d);
-			return;
-		}
-	}
-
-	// arctanh(z) = 1/2 log(1 + z) - 1/2 log(1 - z)
-
-	if (isdouble(p1) || isdoublez(p1)) {
-		push_double(1.0);
-		push(p1);
-		add();
-		logfunc();
-		push_double(1.0);
-		push(p1);
-		subtract();
-		logfunc();
-		subtract();
-		push_double(0.5);
-		multiply();
-		return;
-	}
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	// arctanh(-x) = -arctanh(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		arctanh();
-		negate();
-		return;
-	}
-
-	if (car(p1) == symbol(TANH)) {
-		push(cadr(p1));
-		return;
-	}
-
-	push_symbol(ARCTANH);
-	push(p1);
-	list(2);
-}
-void
-eval_arg(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	arg();
-}
-
-// use numerator and denominator to handle (a + i b) / (c + i d)
-
-void
-arg(void)
-{
-	int i, n, t;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			arg();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	t = isdoublesomewhere(p1);
-
-	push(p1);
-	numerator();
-	arg1();
-
-	push(p1);
-	denominator();
-	arg1();
-
-	subtract();
-
-	if (t)
-		floatfunc();
-}
-
-void
-arg1(void)
-{
-	int h;
-	struct atom *p1, *RE, *IM;
-
-	p1 = pop();
-
-	if (isrational(p1)) {
-		if (isnegativenumber(p1)) {
-			push_symbol(PI);
-			negate();
-		} else
-			push_integer(0);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		if (isnegativenumber(p1))
-			push_double(-M_PI);
-		else
-			push_double(0.0);
-		return;
-	}
-
-	// (-1) ^ expr
-
-	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
-		push_symbol(PI);
-		push(caddr(p1));
-		multiply();
-		return;
-	}
-
-	// e ^ expr
-
-	if (car(p1) == symbol(POWER) && cadr(p1) == symbol(EXP1)) {
-		push(caddr(p1));
-		imag();
-		return;
-	}
-
-	if (car(p1) == symbol(MULTIPLY)) {
-		h = tos;
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			arg();
-			p1 = cdr(p1);
-		}
-		add_terms(tos - h);
-		return;
-	}
-
-	if (car(p1) == symbol(ADD)) {
-		push(p1);
-		rect(); // convert polar and clock forms
-		p1 = pop();
-		push(p1);
-		real();
-		RE = pop();
-		push(p1);
-		imag();
-		IM = pop();
-		push(IM);
-		push(RE);
-		arctan();
-		return;
-	}
-
-	push_integer(0); // p1 is real
 }
 void
 push_integer(int n)
@@ -3318,11 +1846,6 @@ bignum_smallnum(uint32_t *N)
 	return N[0] & 0x7fffffff;
 }
 void
-eval_binding(struct atom *p1)
-{
-	push(get_binding(cadr(p1)));
-}
-void
 cancel_factor(void)
 {
 	int h;
@@ -3346,243 +1869,6 @@ cancel_factor(void)
 
 	push(p1);
 	push(p2);
-	multiply();
-}
-void
-eval_ceiling(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	ceilingfunc();
-}
-
-void
-ceilingfunc(void)
-{
-	int i, n;
-	uint32_t *a, *b;
-	double d;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			ceilingfunc();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isinteger(p1)) {
-		push(p1);
-		return;
-	}
-
-	if (isrational(p1)) {
-		a = mdiv(p1->u.q.a, p1->u.q.b);
-		b = mint(1);
-		if (isnegativenumber(p1))
-			push_bignum(MMINUS, a, b);
-		else {
-			push_bignum(MPLUS, a, b);
-			push_integer(1);
-			add();
-		}
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = ceil(d);
-		push_double(d);
-		return;
-	}
-
-	push_symbol(CEILING);
-	push(p1);
-	list(2);
-}
-void
-eval_check(struct atom *p1)
-{
-	push(cadr(p1));
-	evalp();
-	p1 = pop();
-	if (iszero(p1))
-		stopf("check");
-	push_symbol(NIL); // no result is printed
-}
-void
-eval_circexp(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	circexp();
-}
-
-void
-circexp(void)
-{
-	circexp_subst();
-	evalf();
-}
-
-void
-circexp_subst(void)
-{
-	int i, h, n;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			circexp_subst();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (car(p1) == symbol(COS)) {
-		push_symbol(EXPCOS);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(SIN)) {
-		push_symbol(EXPSIN);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(TAN)) {
-		push_symbol(EXPTAN);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(COSH)) {
-		push_symbol(EXPCOSH);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(SINH)) {
-		push_symbol(EXPSINH);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(TANH)) {
-		push_symbol(EXPTANH);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	// none of the above
-
-	if (iscons(p1)) {
-		h = tos;
-		push(car(p1));
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			circexp_subst();
-			p1 = cdr(p1);
-		}
-		list(tos - h);
-		return;
-	}
-
-	push(p1);
-}
-void
-eval_clear(struct atom *p1)
-{
-	int i;
-
-	(void) p1; // silence compiler
-
-	save_symbol(symbol(TRACE));
-	save_symbol(symbol(TTY));
-
-	for (i = 0; i < 27 * BUCKETSIZE; i++) {
-		binding[i] = NULL;
-		usrfunc[i] = NULL;
-	}
-
-	run_init_script();
-
-	restore_symbol();
-	restore_symbol();
-
-	if (gc_level == eval_level)
-		gc();
-
-	push_symbol(NIL); // result
-}
-void
-eval_clock(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	clockfunc();
-}
-
-void
-clockfunc(void)
-{
-	int i, n;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			clockfunc();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	mag();
-
-	push_integer(-1); // base
-
-	push(p1);
-	arg();
-	push_symbol(PI);
-	divide();
-
-	power();
-
 	multiply();
 }
 int
@@ -3637,213 +1923,6 @@ coeffs(struct atom *P, struct atom *X)
 		divide();
 		P = pop();
 	}
-}
-void
-eval_cofactor(struct atom *p1)
-{
-	int i, j;
-	struct atom *p2;
-
-	push(cadr(p1));
-	evalf();
-	p2 = pop();
-
-	push(caddr(p1));
-	evalf();
-	i = pop_integer();
-
-	push(cadddr(p1));
-	evalf();
-	j = pop_integer();
-
-	if (!issquarematrix(p2))
-		stopf("cofactor: square matrix expected");
-
-	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stopf("cofactor: index err");
-
-	push(p2);
-
-	minormatrix(i, j);
-
-	det();
-
-	if ((i + j) % 2)
-		negate();
-}
-void
-eval_conj(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	conjfunc();
-}
-
-void
-conjfunc(void)
-{
-	conjfunc_subst();
-	evalf();
-}
-
-void
-conjfunc_subst(void)
-{
-	int h, i, n;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			conjfunc_subst();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	// (-1) ^ expr
-
-	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
-		push_symbol(POWER);
-		push_integer(-1);
-		push(caddr(p1));
-		negate();
-		list(3);
-		return;
-	}
-
-	if (iscons(p1)) {
-		h = tos;
-		push(car(p1));
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			conjfunc_subst();
-			p1 = cdr(p1);
-		}
-		list(tos - h);
-		return;
-	}
-
-	push(p1);
-}
-void
-eval_contract(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-
-	p1 = cddr(p1);
-
-	if (!iscons(p1)) {
-		push_integer(1);
-		push_integer(2);
-		contract();
-		return;
-	}
-
-	while (iscons(p1)) {
-		push(car(p1));
-		evalf();
-		push(cadr(p1));
-		evalf();
-		contract();
-		p1 = cddr(p1);
-	}
-}
-
-void
-contract(void)
-{
-	int h, i, j, k, m, n, ncol, ndim, nelem, nrow;
-	int index[MAXDIM];
-	struct atom *p1, *p2, *p3;
-
-	p3 = pop();
-	p2 = pop();
-	p1 = pop();
-
-	if (!istensor(p1)) {
-		push(p1);
-		return;
-	}
-
-	ndim = p1->u.tensor->ndim;
-
-	push(p2);
-	n = pop_integer();
-
-	push(p3);
-	m = pop_integer();
-
-	if (n < 1 || n > ndim || m < 1 || m > ndim || n == m)
-		stopf("contract: index error");
-
-	n--; // make zero based
-	m--;
-
-	ncol = p1->u.tensor->dim[n];
-	nrow = p1->u.tensor->dim[m];
-
-	if (ncol != nrow)
-		stopf("contract: unequal tensor dimensions");
-
-	// nelem is the number of elements in result
-
-	nelem = p1->u.tensor->nelem / ncol / nrow;
-
-	p2 = alloc_tensor(nelem);
-
-	for (i = 0; i < ndim; i++)
-		index[i] = 0;
-
-	for (i = 0; i < nelem; i++) {
-
-		for (j = 0; j < ncol; j++) {
-			index[n] = j;
-			index[m] = j;
-			k = index[0];
-			for (h = 1; h < ndim; h++)
-				k = k * p1->u.tensor->dim[h] + index[h];
-			push(p1->u.tensor->elem[k]);
-		}
-
-		add_terms(ncol);
-
-		p2->u.tensor->elem[i] = pop();
-
-		// increment index
-
-		for (j = ndim - 1; j >= 0; j--) {
-			if (j == n || j == m)
-				continue;
-			if (++index[j] < p1->u.tensor->dim[j])
-				break;
-			index[j] = 0;
-		}
-	}
-
-	if (nelem == 1) {
-		push(p2->u.tensor->elem[0]);
-		return;
-	}
-
-	// add dim info
-
-	p2->u.tensor->ndim = ndim - 2;
-
-	k = 0;
-
-	for (i = 0; i < ndim; i++)
-		if (i != n && i != m)
-			p2->u.tensor->dim[k++] = p1->u.tensor->dim[i];
-
-	push(p2);
 }
 // create a list from n things on the stack
 
@@ -4395,6 +2474,2300 @@ issmallinteger(struct atom *p)
 
 	return 0;
 }
+// push const coeffs
+
+void
+decomp(void)
+{
+	struct atom *p1, *F, *X;
+
+	X = pop();
+	F = pop();
+
+	// is the entire expression constant?
+
+	if (!findf(F, X)) {
+		push(F);
+		return;
+	}
+
+	// sum?
+
+	if (car(F) == symbol(ADD)) {
+		decomp_sum(F, X);
+		return;
+	}
+
+	// product?
+
+	if (car(F) == symbol(MULTIPLY)) {
+		decomp_product(F, X);
+		return;
+	}
+
+	// naive decomp
+
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		push(car(p1));
+		push(X);
+		decomp();
+		p1 = cdr(p1);
+	}
+}
+
+void
+decomp_sum(struct atom *F, struct atom *X)
+{
+	int h, i, j, k, n;
+	struct atom *p1, *p2;
+
+	h = tos;
+
+	// partition terms
+
+	p1 = cdr(F);
+
+	while (iscons(p1)) {
+		p2 = car(p1);
+		if (findf(p2, X)) {
+			if (car(p2) == symbol(MULTIPLY)) {
+				push(p2);
+				push(X);
+				partition_term();	// push const part then push var part
+			} else {
+				push_integer(1);	// const part
+				push(p2);		// var part
+			}
+		}
+		p1 = cdr(p1);
+	}
+
+	// combine const parts of matching var parts
+
+	n = tos - h;
+
+	for (i = 0; i < n - 2; i += 2)
+		for (j = i + 2; j < n; j += 2) {
+			if (!equal(stack[h + i + 1], stack[h + j + 1]))
+				continue;
+			push(stack[h + i]); // add const parts
+			push(stack[h + j]);
+			add();
+			stack[h + i] = pop();
+			for (k = j; k < n - 2; k++)
+				stack[h + k] = stack[h + k + 2];
+			j -= 2; // use same j again
+			n -= 2;
+			tos -= 2; // pop
+		}
+
+	// push const parts, decomp var parts
+
+	list(tos - h);
+	p1 = pop();
+
+	while (iscons(p1)) {
+		push(car(p1)); // const part
+		push(cadr(p1)); // var part
+		push(X);
+		decomp();
+		p1 = cddr(p1);
+	}
+
+	// add together all constant terms
+
+	h = tos;
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (!findf(car(p1), X))
+			push(car(p1));
+		p1 = cdr(p1);
+	}
+
+	n = tos - h;
+
+	if (n > 1) {
+		list(n);
+		push_symbol(ADD);
+		swap();
+		cons(); // makes ADD head of list
+	}
+}
+
+void
+decomp_product(struct atom *F, struct atom *X)
+{
+	int h, n;
+	struct atom *p1;
+
+	// decomp factors involving x
+
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (findf(car(p1), X)) {
+			push(car(p1));
+			push(X);
+			decomp();
+		}
+		p1 = cdr(p1);
+	}
+
+	// combine constant factors
+
+	h = tos;
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (!findf(car(p1), X))
+			push(car(p1));
+		p1 = cdr(p1);
+	}
+
+	n = tos - h;
+
+	if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
+}
+int
+divisor(struct atom *p)
+{
+	if (car(p) == symbol(ADD)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (divisor_term(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return divisor_term(p);
+}
+
+int
+divisor_term(struct atom *p)
+{
+	if (car(p) == symbol(MULTIPLY)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (divisor_factor(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return divisor_factor(p);
+}
+
+int
+divisor_factor(struct atom *p)
+{
+	if (isinteger(p))
+		return 0;
+
+	if (isrational(p)) {
+		push(p);
+		denominator();
+		return 1;
+	}
+
+	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
+		if (isminusone(caddr(p)))
+			push(cadr(p));
+		else {
+			push_symbol(POWER);
+			push(cadr(p));
+			push(caddr(p));
+			negate();
+			list(3);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+int
+equal(struct atom *p1, struct atom *p2)
+{
+	int i, n;
+	double d;
+
+	if (p1 == p2)
+		return 1;
+
+	if (istensor(p1) && istensor(p2)) {
+		if (p1->u.tensor->ndim != p2->u.tensor->ndim)
+			return 0;
+		n = p1->u.tensor->ndim;
+		for (i = 0; i < n; i++)
+			if (p1->u.tensor->dim[i] != p2->u.tensor->dim[i])
+				return 0;
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++)
+			if (!equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+				return 0;
+		return 1;
+	}
+
+	if (iscons(p1) && iscons(p2)) {
+		while (iscons(p1) && iscons(p2)) {
+			if (!equal(car(p1), car(p2)))
+				return 0;
+			p1 = cdr(p1);
+			p2 = cdr(p2);
+		}
+		if (p1 == symbol(NIL) && p2 == symbol(NIL))
+			return 1;
+		else
+			return 0;
+	}
+
+	if (isrational(p1) && isrational(p2)) {
+		if (p1->sign != p2->sign)
+			return 0;
+		if (!meq(p1->u.q.a, p2->u.q.a))
+			return 0;
+		if (!meq(p1->u.q.b, p2->u.q.b))
+			return 0;
+		return 1;
+	}
+
+	if (isrational(p1) && isdouble(p2)) {
+		push(p1);
+		d = pop_double();
+		if (d == p2->u.d)
+			return 1;
+		else
+			return 0;
+	}
+
+	if (isdouble(p1) && isrational(p2)) {
+		push(p2);
+		d = pop_double();
+		if (p1->u.d == d)
+			return 1;
+		else
+			return 0;
+	}
+
+	if (isdouble(p1) && isdouble(p2)) {
+		if (p1->u.d == p2->u.d)
+			return 1;
+		else
+			return 0;
+	}
+
+	if (iskeyword(p1) && iskeyword(p2)) {
+		if (strcmp(p1->u.ksym.name, p2->u.ksym.name) == 0)
+			return 1;
+		else
+			return 0;
+	}
+
+	if (isstr(p1) && isstr(p2)) {
+		if (strcmp(p1->u.str, p2->u.str) == 0)
+			return 1;
+		else
+			return 0;
+	}
+
+	return 0;
+}
+// automatic variables not visible to the garbage collector are reclaimed
+
+void
+evalg(void)
+{
+	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
+		gc();
+	gc_level++;
+	evalf();
+	gc_level--;
+}
+
+// call evalf instead of evalg to evaluate without garbage collection
+
+void
+evalf(void)
+{
+	struct atom *p;
+	eval_level++;
+	p = pop();
+	fpush(p); // make visible to garbage collector
+	evalf_nib(p);
+	fpop();
+	eval_level--;
+}
+
+void
+evalf_nib(struct atom *p1)
+{
+	if (interrupt)
+		stopf("interrupt");
+
+	if (eval_level == 200)
+		stopf("circular definition?");
+
+	if (eval_level > max_eval_level)
+		max_eval_level = eval_level;
+
+	if (iscons(p1) && iskeyword(car(p1))) {
+		expanding++;
+		car(p1)->u.ksym.func(p1); // call through function pointer
+		expanding--;
+		return;
+	}
+
+	if (iscons(p1) && isusersymbol(car(p1))) {
+		eval_user_function(p1);
+		return;
+	}
+
+	if (iskeyword(p1)) { // bare keyword
+		push(p1);
+		push_symbol(LAST); // default arg
+		list(2);
+		evalg();
+		return;
+	}
+
+	if (isusersymbol(p1)) {
+		eval_user_symbol(p1);
+		return;
+	}
+
+	if (istensor(p1)) {
+		eval_tensor(p1);
+		return;
+	}
+
+	push(p1); // rational, double, or string
+}
+void
+eval_abs(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	absfunc();
+}
+
+void
+absfunc(void)
+{
+	int h;
+	struct atom *p1, *p2, *p3;
+
+	p1 = pop();
+
+	if (isnum(p1)) {
+		push(p1);
+		if (isnegativenumber(p1))
+			negate();
+		return;
+	}
+
+	if (istensor(p1)) {
+		if (p1->u.tensor->ndim > 1) {
+			push_symbol(ABS);
+			push(p1);
+			list(2);
+			return;
+		}
+		push(p1);
+		push(p1);
+		conjfunc();
+		inner();
+		push_rational(1, 2);
+		power();
+		return;
+	}
+
+	push(p1);
+	push(p1);
+	conjfunc();
+	multiply();
+	push_rational(1, 2);
+	power();
+
+	p2 = pop();
+	push(p2);
+	floatfunc();
+	p3 = pop();
+	if (isdouble(p3)) {
+		push(p2);
+		if (isnegativenumber(p3))
+			negate();
+		return;
+	}
+
+	// abs(1/a) evaluates to 1/abs(a)
+
+	if (car(p1) == symbol(POWER) && isnegativeterm(caddr(p1))) {
+		push(p1);
+		reciprocate();
+		absfunc();
+		reciprocate();
+		return;
+	}
+
+	// abs(a*b) evaluates to abs(a)*abs(b)
+
+	if (car(p1) == symbol(MULTIPLY)) {
+		h = tos;
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			absfunc();
+			p1 = cdr(p1);
+		}
+		multiply_factors(tos - h);
+		return;
+	}
+
+	if (isnegativeterm(p1) || (car(p1) == symbol(ADD) && isnegativeterm(cadr(p1)))) {
+		push(p1);
+		negate();
+		p1 = pop();
+	}
+
+	push_symbol(ABS);
+	push(p1);
+	list(2);
+}
+void
+eval_add(struct atom *p1)
+{
+	int h = tos;
+	expanding--; // undo expanding++ in eval
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		evalg();
+		p1 = cdr(p1);
+	}
+	add_terms(tos - h);
+	expanding++;
+}
+
+void
+add(void)
+{
+	add_terms(2);
+}
+
+void
+add_terms(int n)
+{
+	int i, h;
+	struct atom *p1, *T;
+
+	if (n < 2)
+		return;
+
+	h = tos - n;
+
+	flatten_terms(h);
+
+	T = combine_tensors(h);
+
+	combine_terms(h);
+
+	if (simplify_terms(h))
+		combine_terms(h);
+
+	n = tos - h;
+
+	if (n == 0) {
+		if (istensor(T))
+			push(T);
+		else
+			push_integer(0);
+		return;
+	}
+
+	if (n > 1) {
+		list(n);
+		push_symbol(ADD);
+		swap();
+		cons(); // prepend ADD to list
+	}
+
+	if (!istensor(T))
+		return;
+
+	p1 = pop();
+
+	T = copy_tensor(T);
+
+	n = T->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		push(T->u.tensor->elem[i]);
+		push(p1);
+		add();
+		T->u.tensor->elem[i] = pop();
+	}
+
+	push(T);
+}
+
+void
+flatten_terms(int h)
+{
+	int i, n;
+	struct atom *p1;
+	n = tos;
+	for (i = h; i < n; i++) {
+		p1 = stack[i];
+		if (car(p1) == symbol(ADD)) {
+			stack[i] = cadr(p1);
+			p1 = cddr(p1);
+			while (iscons(p1)) {
+				push(car(p1));
+				p1 = cdr(p1);
+			}
+		}
+	}
+}
+
+struct atom *
+combine_tensors(int h)
+{
+	int i, j;
+	struct atom *p1, *T;
+	T = symbol(NIL);
+	for (i = h; i < tos; i++) {
+		p1 = stack[i];
+		if (istensor(p1)) {
+			if (istensor(T)) {
+				push(T);
+				push(p1);
+				add_tensors();
+				T = pop();
+			} else
+				T = p1;
+			for (j = i + 1; j < tos; j++)
+				stack[j - 1] = stack[j];
+			tos--;
+			i--; // use same index again
+		}
+	}
+	return T;
+}
+
+void
+add_tensors(void)
+{
+	int i, n;
+	struct atom *p1, *p2;
+
+	p2 = pop();
+	p1 = pop();
+
+	if (!compatible_dimensions(p1, p2))
+		stopf("incompatible tensor arithmetic");
+
+	p1 = copy_tensor(p1);
+
+	n = p1->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		push(p1->u.tensor->elem[i]);
+		push(p2->u.tensor->elem[i]);
+		add();
+		p1->u.tensor->elem[i] = pop();
+	}
+
+	push(p1);
+}
+
+void
+combine_terms(int h)
+{
+	int i, j;
+	sort_terms(tos - h);
+	for (i = h; i < tos - 1; i++) {
+		if (combine_terms_nib(i, i + 1)) {
+			if (iszero(stack[i])) {
+				for (j = i + 2; j < tos; j++)
+					stack[j - 2] = stack[j]; // remove 2 terms
+				tos -= 2;
+			} else {
+				for (j = i + 2; j < tos; j++)
+					stack[j - 1] = stack[j]; // remove 1 term
+				tos -= 1;
+			}
+			i--; // use same index again
+		}
+	}
+	if (h < tos && iszero(stack[tos - 1]))
+		tos--;
+}
+
+int
+combine_terms_nib(int i, int j)
+{
+	int denorm;
+	struct atom *p1, *p2, *p3, *p4;
+
+	p1 = stack[i];
+	p2 = stack[j];
+
+	if (iszero(p2))
+		return 1;
+
+	if (iszero(p1)) {
+		stack[i] = p2;
+		return 1;
+	}
+
+	if (isnum(p1) && isnum(p2)) {
+		add_numbers(p1, p2);
+		stack[i] = pop();
+		return 1;
+	}
+
+	if (isnum(p1) || isnum(p2))
+		return 0; // cannot add number and something else
+
+	p3 = p1;
+	p4 = p2;
+
+	p1 = one;
+	p2 = one;
+
+	denorm = 0;
+
+	if (car(p3) == symbol(MULTIPLY)) {
+		p3 = cdr(p3);
+		denorm = 1;
+		if (isnum(car(p3))) {
+			p1 = car(p3); // coeff
+			p3 = cdr(p3);
+			if (cdr(p3) == symbol(NIL)) {
+				p3 = car(p3);
+				denorm = 0;
+			}
+		}
+	}
+
+	if (car(p4) == symbol(MULTIPLY)) {
+		p4 = cdr(p4);
+		if (isnum(car(p4))) {
+			p2 = car(p4); // coeff
+			p4 = cdr(p4);
+			if (cdr(p4) == symbol(NIL)) {
+				p4 = car(p4);
+			}
+		}
+	}
+
+	if (!equal(p3, p4))
+		return 0;
+
+	add_numbers(p1, p2); // add p1 and p2
+
+	p4 = pop(); // new coeff
+
+	if (iszero(p4)) {
+		stack[i] = p4;
+		return 1;
+	}
+
+	if (isplusone(p4) && !isdouble(p4)) {
+		if (denorm) {
+			push_symbol(MULTIPLY);
+			push(p3); // p3 is a list, not an atom
+			cons(); // prepend MULTIPLY to p3
+		} else
+			push(p3);
+	} else {
+		if (denorm) {
+			push_symbol(MULTIPLY);
+			push(p4);
+			push(p3); // p3 is a list, not an atom
+			cons(); // prepend p4 to p3
+			cons(); // prepend MULTIPLY
+		} else {
+			push_symbol(MULTIPLY);
+			push(p4);
+			push(p3);
+			list(3);
+		}
+	}
+
+	stack[i] = pop();
+
+	return 1;
+}
+
+void
+sort_terms(int n)
+{
+	qsort(stack + tos - n, n, sizeof (struct atom *), sort_terms_func);
+}
+
+int
+sort_terms_func(const void *q1, const void *q2)
+{
+	return cmp_terms(*((struct atom **) q1), *((struct atom **) q2));
+}
+
+int
+cmp_terms(struct atom *p1, struct atom *p2)
+{
+	int a, b, c;
+
+	// 1st level: imaginary terms on the right
+
+	a = is_imaginary_term(p1);
+	b = is_imaginary_term(p2);
+
+	if (a == 0 && b == 1)
+		return -1; // ok
+
+	if (a == 1 && b == 0)
+		return 1; // out of order
+
+	// 2nd level: numericals on the right
+
+	if (isnum(p1) && isnum(p2))
+		return 0; // don't care about order, save time, don't compare
+
+	if (isnum(p1))
+		return 1; // out of order
+
+	if (isnum(p2))
+		return -1; // ok
+
+	// 3rd level: sort by factors
+
+	a = 0;
+	b = 0;
+
+	if (car(p1) == symbol(MULTIPLY)) {
+		p1 = cdr(p1);
+		a = 1; // p1 is a list of factors
+		if (isnum(car(p1))) {
+			// skip over coeff
+			p1 = cdr(p1);
+			if (cdr(p1) == symbol(NIL)) {
+				p1 = car(p1);
+				a = 0;
+			}
+		}
+	}
+
+	if (car(p2) == symbol(MULTIPLY)) {
+		p2 = cdr(p2);
+		b = 1; // p2 is a list of factors
+		if (isnum(car(p2))) {
+			// skip over coeff
+			p2 = cdr(p2);
+			if (cdr(p2) == symbol(NIL)) {
+				p2 = car(p2);
+				b = 0;
+			}
+		}
+	}
+
+	if (a == 0 && b == 0)
+		return cmp_factors(p1, p2);
+
+	if (a == 0 && b == 1) {
+		c = cmp_factors(p1, car(p2));
+		if (c == 0)
+			c = -1; // lengthf(p1) < lengthf(p2)
+		return c;
+	}
+
+	if (a == 1 && b == 0) {
+		c = cmp_factors(car(p1), p2);
+		if (c == 0)
+			c = 1; // lengthf(p1) > lengthf(p2)
+		return c;
+	}
+
+	while (iscons(p1) && iscons(p2)) {
+		c = cmp_factors(car(p1), car(p2));
+		if (c)
+			return c;
+		p1 = cdr(p1);
+		p2 = cdr(p2);
+	}
+
+	if (iscons(p1))
+		return 1; // lengthf(p1) > lengthf(p2)
+
+	if (iscons(p2))
+		return -1; // lengthf(p1) < lengthf(p2)
+
+	return 0;
+}
+
+int
+simplify_terms(int h)
+{
+	int i, n = 0;
+	struct atom *p1, *p2;
+	for (i = h; i < tos; i++) {
+		p1 = stack[i];
+		if (isradicalterm(p1)) {
+			push(p1);
+			evalf();
+			p2 = pop();
+			if (!equal(p1, p2)) {
+				stack[i] = p2;
+				n++;
+			}
+		}
+	}
+	return n;
+}
+
+int
+isradicalterm(struct atom *p)
+{
+	return car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isradical(caddr(p));
+}
+
+int
+is_imaginary_term(struct atom *p)
+{
+	if (car(p) == symbol(POWER) && isminusone(cadr(p)))
+		return 1;
+	if (iscons(p)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (caar(p) == symbol(POWER) && isminusone(cadar(p)))
+				return 1;
+			p = cdr(p);
+		}
+	}
+	return 0;
+}
+
+void
+add_numbers(struct atom *p1, struct atom *p2)
+{
+	double d1, d2;
+
+	if (isrational(p1) && isrational(p2)) {
+		add_rationals(p1, p2);
+		return;
+	}
+
+	push(p1);
+	d1 = pop_double();
+
+	push(p2);
+	d2 = pop_double();
+
+	push_double(d1 + d2);
+}
+
+void
+add_rationals(struct atom *p1, struct atom *p2)
+{
+	int sign;
+	uint32_t *a, *ab, *b, *ba, *c;
+
+	if (iszero(p1)) {
+		push(p2);
+		return;
+	}
+
+	if (iszero(p2)) {
+		push(p1);
+		return;
+	}
+
+	if (isinteger(p1) && isinteger(p2)) {
+		add_integers(p1, p2);
+		return;
+	}
+
+	ab = mmul(p1->u.q.a, p2->u.q.b);
+	ba = mmul(p1->u.q.b, p2->u.q.a);
+
+	if (p1->sign == p2->sign) {
+		a = madd(ab, ba);
+		sign = p1->sign;
+	} else {
+		switch (mcmp(ab, ba)) {
+		case 1:
+			a = msub(ab, ba);
+			sign = p1->sign;
+			break;
+		case 0:
+			push_integer(0);
+			mfree(ab);
+			mfree(ba);
+			return;
+		case -1:
+			a = msub(ba, ab);
+			sign = p2->sign;
+			break;
+		default:
+			// never gets here, fix compiler warning
+			return;
+		}
+	}
+
+	mfree(ab);
+	mfree(ba);
+
+	b = mmul(p1->u.q.b, p2->u.q.b);
+	c = mgcd(a, b);
+
+	push_bignum(sign, mdiv(a, c), mdiv(b, c));
+
+	mfree(a);
+	mfree(b);
+	mfree(c);
+}
+
+void
+add_integers(struct atom *p1, struct atom *p2)
+{
+	int sign;
+	uint32_t *a, *b, *c;
+
+	a = p1->u.q.a;
+	b = p2->u.q.a;
+
+	if (p1->sign == p2->sign) {
+		c = madd(a, b);
+		sign = p1->sign;
+	} else {
+		switch (mcmp(a, b)) {
+		case 1:
+			c = msub(a, b);
+			sign = p1->sign;
+			break;
+		case 0:
+			push_integer(0);
+			return;
+		case -1:
+			c = msub(b, a);
+			sign = p2->sign;
+			break;
+		default:
+			// never gets here, fix compiler warning
+			return;
+		}
+	}
+
+	push_bignum(sign, c, mint(1));
+}
+
+void
+subtract(void)
+{
+	negate();
+	add();
+}
+void
+eval_adj(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	adj();
+}
+
+void
+adj(void)
+{
+	int col, i, j, k, n, row;
+	struct atom *p1, *p2, *p3;
+
+	p1 = pop();
+
+	if (!istensor(p1)) {
+		push_integer(1); // adj of scalar is 1 because adj = det inv
+		return;
+	}
+
+	if (!issquarematrix(p1))
+		stopf("adj: square matrix expected");
+
+	n = p1->u.tensor->dim[0];
+
+	// p2 is the adjunct matrix
+
+	p2 = alloc_matrix(n, n);
+
+	if (n == 2) {
+		p2->u.tensor->elem[0] = p1->u.tensor->elem[3];
+		push(p1->u.tensor->elem[1]);
+		negate();
+		p2->u.tensor->elem[1] = pop();
+		push(p1->u.tensor->elem[2]);
+		negate();
+		p2->u.tensor->elem[2] = pop();
+		p2->u.tensor->elem[3] = p1->u.tensor->elem[0];
+		push(p2);
+		return;
+	}
+
+	// p3 is for computing cofactors
+
+	p3 = alloc_matrix(n - 1, n - 1);
+
+	for (row = 0; row < n; row++) {
+		for (col = 0; col < n; col++) {
+			k = 0;
+			for (i = 0; i < n; i++)
+				for (j = 0; j < n; j++)
+					if (i != row && j != col)
+						p3->u.tensor->elem[k++] = p1->u.tensor->elem[n * i + j];
+			push(p3);
+			det();
+			if ((row + col) % 2)
+				negate();
+			p2->u.tensor->elem[n * col + row] = pop(); // transpose
+		}
+	}
+
+	push(p2);
+}
+void
+eval_and(struct atom *p1)
+{
+	struct atom *p2;
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		evalp();
+		p2 = pop();
+		if (iszero(p2)) {
+			push_integer(0);
+			return;
+		}
+		p1 = cdr(p1);
+	}
+	push_integer(1);
+}
+void
+eval_arccos(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	arccos();
+}
+
+void
+arccos(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arccos();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (-1.0 <= d && d <= 1.0) {
+			d = acos(d);
+			push_double(d);
+			return;
+		}
+	}
+
+	// arccos(z) = -i log(z + i sqrt(1 - z^2))
+
+	if (isdouble(p1) || isdoublez(p1)) {
+		push_double(1.0);
+		push(p1);
+		push(p1);
+		multiply();
+		subtract();
+		sqrtfunc();
+		push(imaginaryunit);
+		multiply();
+		push(p1);
+		add();
+		logfunc();
+		push(imaginaryunit);
+		multiply();
+		negate();
+		return;
+	}
+
+	// arccos(1 / sqrt(2)) = 1/4 pi
+
+	if (isoneoversqrttwo(p1)) {
+		push_rational(1, 4);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(-1 / sqrt(2)) = 3/4 pi
+
+	if (isminusoneoversqrttwo(p1)) {
+		push_rational(3, 4);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(0) = 1/2 pi
+
+	if (iszero(p1)) {
+		push_rational(1, 2);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(1/2) = 1/3 pi
+
+	if (isequalq(p1, 1 ,2)) {
+		push_rational(1, 3);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(1) = 0
+
+	if (isplusone(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	// arccos(-1/2) = 2/3 pi
+
+	if (isequalq(p1, -1, 2)) {
+		push_rational(2, 3);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arccos(-1) = pi
+
+	if (isminusone(p1)) {
+		push_symbol(PI);
+		return;
+	}
+
+	push_symbol(ARCCOS);
+	push(p1);
+	list(2);
+}
+void
+eval_arccosh(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	arccosh();
+}
+
+void
+arccosh(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arccosh();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (d >= 1.0) {
+			d = acosh(d);
+			push_double(d);
+			return;
+		}
+	}
+
+	// arccosh(z) = log(sqrt(z^2 - 1) + z)
+
+	if (isdouble(p1) || isdoublez(p1)) {
+		push(p1);
+		push(p1);
+		multiply();
+		push_double(-1.0);
+		add();
+		sqrtfunc();
+		push(p1);
+		add();
+		logfunc();
+		return;
+	}
+
+	if (isplusone(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	if (car(p1) == symbol(COSH)) {
+		push(cadr(p1));
+		return;
+	}
+
+	push_symbol(ARCCOSH);
+	push(p1);
+	list(2);
+}
+void
+eval_arcsin(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	arcsin();
+}
+
+void
+arcsin(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arcsin();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (-1.0 <= d && d <= 1.0) {
+			d = asin(d);
+			push_double(d);
+			return;
+		}
+	}
+
+	// arcsin(z) = -i log(i z + sqrt(1 - z^2))
+
+	if (isdouble(p1) || isdoublez(p1)) {
+		push(imaginaryunit);
+		negate();
+		push(imaginaryunit);
+		push(p1);
+		multiply();
+		push_double(1.0);
+		push(p1);
+		push(p1);
+		multiply();
+		subtract();
+		sqrtfunc();
+		add();
+		logfunc();
+		multiply();
+		return;
+	}
+
+	// arcsin(-x) = -arcsin(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		arcsin();
+		negate();
+		return;
+	}
+
+	// arcsin(1 / sqrt(2)) = 1/4 pi
+
+	if (isoneoversqrttwo(p1)) {
+		push_rational(1, 4);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arcsin(0) = 0
+
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	// arcsin(1/2) = 1/6 pi
+
+	if (isequalq(p1, 1, 2)) {
+		push_rational(1, 6);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// arcsin(1) = 1/2 pi
+
+	if (isplusone(p1)) {
+		push_rational(1, 2);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	push_symbol(ARCSIN);
+	push(p1);
+	list(2);
+}
+void
+eval_arcsinh(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	arcsinh();
+}
+
+void
+arcsinh(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arcsinh();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = asinh(d);
+		push_double(d);
+		return;
+	}
+
+	// arcsinh(z) = log(sqrt(z^2 + 1) + z)
+
+	if (isdoublez(p1)) {
+		push(p1);
+		push(p1);
+		multiply();
+		push_double(1.0);
+		add();
+		sqrtfunc();
+		push(p1);
+		add();
+		logfunc();
+		return;
+	}
+
+	if (iszero(p1)) {
+		push(p1);
+		return;
+	}
+
+	// arcsinh(-x) = -arcsinh(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		arcsinh();
+		negate();
+		return;
+	}
+
+	if (car(p1) == symbol(SINH)) {
+		push(cadr(p1));
+		return;
+	}
+
+	push_symbol(ARCSINH);
+	push(p1);
+	list(2);
+}
+void
+eval_arctan(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+
+	p1 = cddr(p1);
+
+	if (iscons(p1)) {
+		push(car(p1));
+		evalf();
+	} else
+		push_integer(1);
+
+	arctan();
+}
+
+void
+arctan(void)
+{
+	int i, n;
+	struct atom *X, *Y, *Z;
+
+	X = pop();
+	Y = pop();
+
+	if (istensor(Y)) {
+		Y = copy_tensor(Y);
+		n = Y->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(Y->u.tensor->elem[i]);
+			push(X);
+			arctan();
+			Y->u.tensor->elem[i] = pop();
+		}
+		push(Y);
+		return;
+	}
+
+	if (isnum(X) && isnum(Y)) {
+		arctan_numbers(X, Y);
+		return;
+	}
+
+	// arctan(z) = -1/2 i log((i - z) / (i + z))
+
+	if (!iszero(X) && (isdoublez(X) || isdoublez(Y))) {
+		push(Y);
+		push(X);
+		divide();
+		Z = pop();
+		push_double(-0.5);
+		push(imaginaryunit);
+		multiply();
+		push(imaginaryunit);
+		push(Z);
+		subtract();
+		push(imaginaryunit);
+		push(Z);
+		add();
+		divide();
+		logfunc();
+		multiply();
+		return;
+	}
+
+	// arctan(-y,x) = -arctan(y,x)
+
+	if (isnegativeterm(Y)) {
+		push(Y);
+		negate();
+		push(X);
+		arctan();
+		negate();
+		return;
+	}
+
+	if (car(Y) == symbol(TAN) && isplusone(X)) {
+		push(cadr(Y)); // x of tan(x)
+		return;
+	}
+
+	push_symbol(ARCTAN);
+	push(Y);
+	push(X);
+	list(3);
+}
+
+void
+arctan_numbers(struct atom *X, struct atom *Y)
+{
+	double x, y;
+	struct atom *T;
+
+	if (iszero(X) && iszero(Y)) {
+		push_symbol(ARCTAN);
+		push_integer(0);
+		push_integer(0);
+		list(3);
+		return;
+	}
+
+	if (isnum(X) && isnum(Y) && (isdouble(X) || isdouble(Y))) {
+		push(X);
+		x = pop_double();
+		push(Y);
+		y = pop_double();
+		push_double(atan2(y, x));
+		return;
+	}
+
+	// X and Y are rational numbers
+
+	if (iszero(Y)) {
+		if (isnegativenumber(X))
+			push_symbol(PI);
+		else
+			push_integer(0);
+		return;
+	}
+
+	if (iszero(X)) {
+		if (isnegativenumber(Y))
+			push_rational(-1, 2);
+		else
+			push_rational(1, 2);
+		push_symbol(PI);
+		multiply();
+		return;
+	}
+
+	// convert fractions to integers
+
+	push(Y);
+	push(X);
+	divide();
+	absfunc();
+	T = pop();
+
+	push(T);
+	numerator();
+	if (isnegativenumber(Y))
+		negate();
+	Y = pop();
+
+	push(T);
+	denominator();
+	if (isnegativenumber(X))
+		negate();
+	X = pop();
+
+	// compare numerators and denominators, ignore signs
+
+	if (mcmp(X->u.q.a, Y->u.q.a) != 0 || mcmp(X->u.q.b, Y->u.q.b) != 0) {
+		// not equal
+		if (isnegativenumber(Y)) {
+			push_symbol(ARCTAN);
+			push(Y);
+			negate();
+			push(X);
+			list(3);
+			negate();
+		} else {
+			push_symbol(ARCTAN);
+			push(Y);
+			push(X);
+			list(3);
+		}
+		return;
+	}
+
+	// X = Y modulo sign
+
+	if (isnegativenumber(X)) {
+		if (isnegativenumber(Y))
+			push_rational(-3, 4);
+		else
+			push_rational(3, 4);
+	} else {
+		if (isnegativenumber(Y))
+			push_rational(-1, 4);
+		else
+			push_rational(1, 4);
+	}
+
+	push_symbol(PI);
+	multiply();
+}
+void
+eval_arctanh(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	arctanh();
+}
+
+void
+arctanh(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arctanh();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isplusone(p1) || isminusone(p1)) {
+		push_symbol(ARCTANH);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		if (-1.0 < d && d < 1.0) {
+			d = atanh(d);
+			push_double(d);
+			return;
+		}
+	}
+
+	// arctanh(z) = 1/2 log(1 + z) - 1/2 log(1 - z)
+
+	if (isdouble(p1) || isdoublez(p1)) {
+		push_double(1.0);
+		push(p1);
+		add();
+		logfunc();
+		push_double(1.0);
+		push(p1);
+		subtract();
+		logfunc();
+		subtract();
+		push_double(0.5);
+		multiply();
+		return;
+	}
+
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	// arctanh(-x) = -arctanh(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		arctanh();
+		negate();
+		return;
+	}
+
+	if (car(p1) == symbol(TANH)) {
+		push(cadr(p1));
+		return;
+	}
+
+	push_symbol(ARCTANH);
+	push(p1);
+	list(2);
+}
+void
+eval_arg(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	arg();
+}
+
+// use numerator and denominator to handle (a + i b) / (c + i d)
+
+void
+arg(void)
+{
+	int i, n, t;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			arg();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	t = isdoublesomewhere(p1);
+
+	push(p1);
+	numerator();
+	arg1();
+
+	push(p1);
+	denominator();
+	arg1();
+
+	subtract();
+
+	if (t)
+		floatfunc();
+}
+
+void
+arg1(void)
+{
+	int h;
+	struct atom *p1, *RE, *IM;
+
+	p1 = pop();
+
+	if (isrational(p1)) {
+		if (isnegativenumber(p1)) {
+			push_symbol(PI);
+			negate();
+		} else
+			push_integer(0);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		if (isnegativenumber(p1))
+			push_double(-M_PI);
+		else
+			push_double(0.0);
+		return;
+	}
+
+	// (-1) ^ expr
+
+	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
+		push_symbol(PI);
+		push(caddr(p1));
+		multiply();
+		return;
+	}
+
+	// e ^ expr
+
+	if (car(p1) == symbol(POWER) && cadr(p1) == symbol(EXP1)) {
+		push(caddr(p1));
+		imag();
+		return;
+	}
+
+	if (car(p1) == symbol(MULTIPLY)) {
+		h = tos;
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			arg();
+			p1 = cdr(p1);
+		}
+		add_terms(tos - h);
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		push(p1);
+		rect(); // convert polar and clock forms
+		p1 = pop();
+		push(p1);
+		real();
+		RE = pop();
+		push(p1);
+		imag();
+		IM = pop();
+		push(IM);
+		push(RE);
+		arctan();
+		return;
+	}
+
+	push_integer(0); // p1 is real
+}
+void
+eval_binding(struct atom *p1)
+{
+	push(get_binding(cadr(p1)));
+}
+void
+eval_ceiling(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	ceilingfunc();
+}
+
+void
+ceilingfunc(void)
+{
+	int i, n;
+	uint32_t *a, *b;
+	double d;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			ceilingfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isinteger(p1)) {
+		push(p1);
+		return;
+	}
+
+	if (isrational(p1)) {
+		a = mdiv(p1->u.q.a, p1->u.q.b);
+		b = mint(1);
+		if (isnegativenumber(p1))
+			push_bignum(MMINUS, a, b);
+		else {
+			push_bignum(MPLUS, a, b);
+			push_integer(1);
+			add();
+		}
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = ceil(d);
+		push_double(d);
+		return;
+	}
+
+	push_symbol(CEILING);
+	push(p1);
+	list(2);
+}
+void
+eval_check(struct atom *p1)
+{
+	push(cadr(p1));
+	evalp();
+	p1 = pop();
+	if (iszero(p1))
+		stopf("check");
+	push_symbol(NIL); // no result is printed
+}
+void
+eval_circexp(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	circexp();
+}
+
+void
+circexp(void)
+{
+	circexp_subst();
+	evalf();
+}
+
+void
+circexp_subst(void)
+{
+	int i, h, n;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			circexp_subst();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(COS)) {
+		push_symbol(EXPCOS);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(SIN)) {
+		push_symbol(EXPSIN);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(TAN)) {
+		push_symbol(EXPTAN);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(COSH)) {
+		push_symbol(EXPCOSH);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(SINH)) {
+		push_symbol(EXPSINH);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(TANH)) {
+		push_symbol(EXPTANH);
+		push(cadr(p1));
+		circexp_subst();
+		list(2);
+		return;
+	}
+
+	// none of the above
+
+	if (iscons(p1)) {
+		h = tos;
+		push(car(p1));
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			circexp_subst();
+			p1 = cdr(p1);
+		}
+		list(tos - h);
+		return;
+	}
+
+	push(p1);
+}
+void
+eval_clear(struct atom *p1)
+{
+	int i;
+
+	(void) p1; // silence compiler
+
+	save_symbol(symbol(TRACE));
+	save_symbol(symbol(TTY));
+
+	for (i = 0; i < 27 * BUCKETSIZE; i++) {
+		binding[i] = NULL;
+		usrfunc[i] = NULL;
+	}
+
+	run_init_script();
+
+	restore_symbol();
+	restore_symbol();
+
+	if (gc_level == eval_level)
+		gc();
+
+	push_symbol(NIL); // result
+}
+void
+eval_clock(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	clockfunc();
+}
+
+void
+clockfunc(void)
+{
+	int i, n;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			clockfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	mag();
+
+	push_integer(-1); // base
+
+	push(p1);
+	arg();
+	push_symbol(PI);
+	divide();
+
+	power();
+
+	multiply();
+}
+void
+eval_cofactor(struct atom *p1)
+{
+	int i, j;
+	struct atom *p2;
+
+	push(cadr(p1));
+	evalf();
+	p2 = pop();
+
+	push(caddr(p1));
+	evalf();
+	i = pop_integer();
+
+	push(cadddr(p1));
+	evalf();
+	j = pop_integer();
+
+	if (!issquarematrix(p2))
+		stopf("cofactor: square matrix expected");
+
+	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
+		stopf("cofactor: index err");
+
+	push(p2);
+
+	minormatrix(i, j);
+
+	det();
+
+	if ((i + j) % 2)
+		negate();
+}
+void
+eval_conj(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	conjfunc();
+}
+
+void
+conjfunc(void)
+{
+	conjfunc_subst();
+	evalf();
+}
+
+void
+conjfunc_subst(void)
+{
+	int h, i, n;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			conjfunc_subst();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	// (-1) ^ expr
+
+	if (car(p1) == symbol(POWER) && isminusone(cadr(p1))) {
+		push_symbol(POWER);
+		push_integer(-1);
+		push(caddr(p1));
+		negate();
+		list(3);
+		return;
+	}
+
+	if (iscons(p1)) {
+		h = tos;
+		push(car(p1));
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			conjfunc_subst();
+			p1 = cdr(p1);
+		}
+		list(tos - h);
+		return;
+	}
+
+	push(p1);
+}
+void
+eval_contract(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+
+	p1 = cddr(p1);
+
+	if (!iscons(p1)) {
+		push_integer(1);
+		push_integer(2);
+		contract();
+		return;
+	}
+
+	while (iscons(p1)) {
+		push(car(p1));
+		evalf();
+		push(cadr(p1));
+		evalf();
+		contract();
+		p1 = cddr(p1);
+	}
+}
+
+void
+contract(void)
+{
+	int h, i, j, k, m, n, ncol, ndim, nelem, nrow;
+	int index[MAXDIM];
+	struct atom *p1, *p2, *p3;
+
+	p3 = pop();
+	p2 = pop();
+	p1 = pop();
+
+	if (!istensor(p1)) {
+		push(p1);
+		return;
+	}
+
+	ndim = p1->u.tensor->ndim;
+
+	push(p2);
+	n = pop_integer();
+
+	push(p3);
+	m = pop_integer();
+
+	if (n < 1 || n > ndim || m < 1 || m > ndim || n == m)
+		stopf("contract: index error");
+
+	n--; // make zero based
+	m--;
+
+	ncol = p1->u.tensor->dim[n];
+	nrow = p1->u.tensor->dim[m];
+
+	if (ncol != nrow)
+		stopf("contract: unequal tensor dimensions");
+
+	// nelem is the number of elements in result
+
+	nelem = p1->u.tensor->nelem / ncol / nrow;
+
+	p2 = alloc_tensor(nelem);
+
+	for (i = 0; i < ndim; i++)
+		index[i] = 0;
+
+	for (i = 0; i < nelem; i++) {
+
+		for (j = 0; j < ncol; j++) {
+			index[n] = j;
+			index[m] = j;
+			k = index[0];
+			for (h = 1; h < ndim; h++)
+				k = k * p1->u.tensor->dim[h] + index[h];
+			push(p1->u.tensor->elem[k]);
+		}
+
+		add_terms(ncol);
+
+		p2->u.tensor->elem[i] = pop();
+
+		// increment index
+
+		for (j = ndim - 1; j >= 0; j--) {
+			if (j == n || j == m)
+				continue;
+			if (++index[j] < p1->u.tensor->dim[j])
+				break;
+			index[j] = 0;
+		}
+	}
+
+	if (nelem == 1) {
+		push(p2->u.tensor->elem[0]);
+		return;
+	}
+
+	// add dim info
+
+	p2->u.tensor->ndim = ndim - 2;
+
+	k = 0;
+
+	for (i = 0; i < ndim; i++)
+		if (i != n && i != m)
+			p2->u.tensor->dim[k++] = p1->u.tensor->dim[i];
+
+	push(p2);
+}
 void
 eval_cos(struct atom *p1)
 {
@@ -4705,164 +5078,6 @@ coshfunc(void)
 	push_symbol(COSH);
 	push(p1);
 	list(2);
-}
-// push const coeffs
-
-void
-decomp(void)
-{
-	struct atom *p1, *F, *X;
-
-	X = pop();
-	F = pop();
-
-	// is the entire expression constant?
-
-	if (!findf(F, X)) {
-		push(F);
-		return;
-	}
-
-	// sum?
-
-	if (car(F) == symbol(ADD)) {
-		decomp_sum(F, X);
-		return;
-	}
-
-	// product?
-
-	if (car(F) == symbol(MULTIPLY)) {
-		decomp_product(F, X);
-		return;
-	}
-
-	// naive decomp
-
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		push(car(p1));
-		push(X);
-		decomp();
-		p1 = cdr(p1);
-	}
-}
-
-void
-decomp_sum(struct atom *F, struct atom *X)
-{
-	int h, i, j, k, n;
-	struct atom *p1, *p2;
-
-	h = tos;
-
-	// partition terms
-
-	p1 = cdr(F);
-
-	while (iscons(p1)) {
-		p2 = car(p1);
-		if (findf(p2, X)) {
-			if (car(p2) == symbol(MULTIPLY)) {
-				push(p2);
-				push(X);
-				partition_term();	// push const part then push var part
-			} else {
-				push_integer(1);	// const part
-				push(p2);		// var part
-			}
-		}
-		p1 = cdr(p1);
-	}
-
-	// combine const parts of matching var parts
-
-	n = tos - h;
-
-	for (i = 0; i < n - 2; i += 2)
-		for (j = i + 2; j < n; j += 2) {
-			if (!equal(stack[h + i + 1], stack[h + j + 1]))
-				continue;
-			push(stack[h + i]); // add const parts
-			push(stack[h + j]);
-			add();
-			stack[h + i] = pop();
-			for (k = j; k < n - 2; k++)
-				stack[h + k] = stack[h + k + 2];
-			j -= 2; // use same j again
-			n -= 2;
-			tos -= 2; // pop
-		}
-
-	// push const parts, decomp var parts
-
-	list(tos - h);
-	p1 = pop();
-
-	while (iscons(p1)) {
-		push(car(p1)); // const part
-		push(cadr(p1)); // var part
-		push(X);
-		decomp();
-		p1 = cddr(p1);
-	}
-
-	// add together all constant terms
-
-	h = tos;
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		if (!findf(car(p1), X))
-			push(car(p1));
-		p1 = cdr(p1);
-	}
-
-	n = tos - h;
-
-	if (n > 1) {
-		list(n);
-		push_symbol(ADD);
-		swap();
-		cons(); // makes ADD head of list
-	}
-}
-
-void
-decomp_product(struct atom *F, struct atom *X)
-{
-	int h, n;
-	struct atom *p1;
-
-	// decomp factors involving x
-
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		if (findf(car(p1), X)) {
-			push(car(p1));
-			push(X);
-			decomp();
-		}
-		p1 = cdr(p1);
-	}
-
-	// combine constant factors
-
-	h = tos;
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		if (!findf(car(p1), X))
-			push(car(p1));
-		p1 = cdr(p1);
-	}
-
-	n = tos - h;
-
-	if (n > 1) {
-		list(n);
-		push_symbol(MULTIPLY);
-		swap();
-		cons(); // makes MULTIPLY head of list
-	}
 }
 void
 eval_defint(struct atom *p1)
@@ -5749,65 +5964,6 @@ eval_dim(struct atom *p1)
 
 	push_integer(p2->u.tensor->dim[k - 1]);
 }
-int
-divisor(struct atom *p)
-{
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (divisor_term(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return divisor_term(p);
-}
-
-int
-divisor_term(struct atom *p)
-{
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (divisor_factor(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return divisor_factor(p);
-}
-
-int
-divisor_factor(struct atom *p)
-{
-	if (isinteger(p))
-		return 0;
-
-	if (isrational(p)) {
-		push(p);
-		denominator();
-		return 1;
-	}
-
-	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
-		if (isminusone(caddr(p)))
-			push(cadr(p));
-		else {
-			push_symbol(POWER);
-			push(cadr(p));
-			push(caddr(p));
-			negate();
-			list(3);
-		}
-		return 1;
-	}
-
-	return 0;
-}
 void
 eval_do(struct atom *p1)
 {
@@ -6172,93 +6328,6 @@ eigenvec_step_nib(double *D, double *Q, int n, int p, int q)
 	D[n * p + q] = 0.0;
 	D[n * q + p] = 0.0;
 }
-int
-equal(struct atom *p1, struct atom *p2)
-{
-	int i, n;
-	double d;
-
-	if (p1 == p2)
-		return 1;
-
-	if (istensor(p1) && istensor(p2)) {
-		if (p1->u.tensor->ndim != p2->u.tensor->ndim)
-			return 0;
-		n = p1->u.tensor->ndim;
-		for (i = 0; i < n; i++)
-			if (p1->u.tensor->dim[i] != p2->u.tensor->dim[i])
-				return 0;
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++)
-			if (!equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-				return 0;
-		return 1;
-	}
-
-	if (iscons(p1) && iscons(p2)) {
-		while (iscons(p1) && iscons(p2)) {
-			if (!equal(car(p1), car(p2)))
-				return 0;
-			p1 = cdr(p1);
-			p2 = cdr(p2);
-		}
-		if (p1 == symbol(NIL) && p2 == symbol(NIL))
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isrational(p1) && isrational(p2)) {
-		if (p1->sign != p2->sign)
-			return 0;
-		if (!meq(p1->u.q.a, p2->u.q.a))
-			return 0;
-		if (!meq(p1->u.q.b, p2->u.q.b))
-			return 0;
-		return 1;
-	}
-
-	if (isrational(p1) && isdouble(p2)) {
-		push(p1);
-		d = pop_double();
-		if (d == p2->u.d)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isdouble(p1) && isrational(p2)) {
-		push(p2);
-		d = pop_double();
-		if (p1->u.d == d)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isdouble(p1) && isdouble(p2)) {
-		if (p1->u.d == p2->u.d)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (iskeyword(p1) && iskeyword(p2)) {
-		if (strcmp(p1->u.ksym.name, p2->u.ksym.name) == 0)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isstr(p1) && isstr(p2)) {
-		if (strcmp(p1->u.str, p2->u.str) == 0)
-			return 1;
-		else
-			return 0;
-	}
-
-	return 0;
-}
 void
 eval_erf(struct atom *p1)
 {
@@ -6360,76 +6429,6 @@ erfcfunc(void)
 	push(p1);
 	list(2);
 }
-// automatic variables not visible to the garbage collector are reclaimed
-
-void
-evalg(void)
-{
-	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
-		gc();
-	gc_level++;
-	evalf();
-	gc_level--;
-}
-
-// call evalf instead of evalg to evaluate without garbage collection
-
-void
-evalf(void)
-{
-	struct atom *p;
-	eval_level++;
-	p = pop();
-	fpush(p); // make visible to garbage collector
-	evalf_nib(p);
-	fpop();
-	eval_level--;
-}
-
-void
-evalf_nib(struct atom *p1)
-{
-	if (interrupt)
-		stopf("interrupt");
-
-	if (eval_level == 200)
-		stopf("circular definition?");
-
-	if (eval_level > max_eval_level)
-		max_eval_level = eval_level;
-
-	if (iscons(p1) && iskeyword(car(p1))) {
-		expanding++;
-		car(p1)->u.ksym.func(p1); // call through function pointer
-		expanding--;
-		return;
-	}
-
-	if (iscons(p1) && isusersymbol(car(p1))) {
-		eval_user_function(p1);
-		return;
-	}
-
-	if (iskeyword(p1)) { // bare keyword
-		push(p1);
-		push_symbol(LAST); // default arg
-		list(2);
-		evalg();
-		return;
-	}
-
-	if (isusersymbol(p1)) {
-		eval_user_symbol(p1);
-		return;
-	}
-
-	if (istensor(p1)) {
-		eval_tensor(p1);
-		return;
-	}
-
-	push(p1); // rational, double, or string
-}
 void
 eval_eval(struct atom *p1)
 {
@@ -6445,132 +6444,6 @@ eval_eval(struct atom *p1)
 		p1 = cddr(p1);
 	}
 	evalf();
-}
-void
-eval_nil(struct atom *p1)
-{
-	(void) p1; // silence compiler
-	push_symbol(NIL);
-}
-void
-eval_number(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-
-	p1 = pop();
-
-	if (isnum(p1))
-		push_integer(1);
-	else
-		push_integer(0);
-}
-void
-eval_stop(struct atom *p1)
-{
-	(void) p1; // silence compiler
-	stopf("stop function");
-}
-void
-eval_user_function(struct atom *p1)
-{
-	int h, i;
-	struct atom *FUNC_NAME, *FUNC_ARGS, *FUNC_DEFN;
-
-	FUNC_NAME = car(p1);
-	FUNC_ARGS = cdr(p1);
-
-	FUNC_DEFN = get_usrfunc(FUNC_NAME);
-
-	// undefined function?
-
-	if (FUNC_DEFN == symbol(NIL)) {
-		if (FUNC_NAME == symbol(D_LOWER)) {
-			expanding++;
-			eval_derivative(p1);
-			expanding--;
-			return;
-		}
-		h = tos;
-		push(FUNC_NAME);
-		while (iscons(FUNC_ARGS)) {
-			push(car(FUNC_ARGS));
-			evalg(); // p1 is on frame stack, not reclaimed
-			FUNC_ARGS = cdr(FUNC_ARGS);
-		}
-		list(tos - h);
-		return;
-	}
-
-	// push FUNC_DEFN before arg eval to preclude any side effect reclaim
-
-	push(FUNC_DEFN);
-
-	// eval all args before changing bindings
-
-	for (i = 0; i < 9; i++) {
-		push(car(FUNC_ARGS));
-		evalg(); // p1 is on frame stack, not reclaimed
-		FUNC_ARGS = cdr(FUNC_ARGS);
-	}
-
-	save_symbol(symbol(ARG1));
-	save_symbol(symbol(ARG2));
-	save_symbol(symbol(ARG3));
-	save_symbol(symbol(ARG4));
-	save_symbol(symbol(ARG5));
-	save_symbol(symbol(ARG6));
-	save_symbol(symbol(ARG7));
-	save_symbol(symbol(ARG8));
-	save_symbol(symbol(ARG9));
-
-	set_symbol(symbol(ARG9), pop(), symbol(NIL));
-	set_symbol(symbol(ARG8), pop(), symbol(NIL));
-	set_symbol(symbol(ARG7), pop(), symbol(NIL));
-	set_symbol(symbol(ARG6), pop(), symbol(NIL));
-	set_symbol(symbol(ARG5), pop(), symbol(NIL));
-	set_symbol(symbol(ARG4), pop(), symbol(NIL));
-	set_symbol(symbol(ARG3), pop(), symbol(NIL));
-	set_symbol(symbol(ARG2), pop(), symbol(NIL));
-	set_symbol(symbol(ARG1), pop(), symbol(NIL));
-
-	evalg(); // eval FUNC_DEFN
-
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-	restore_symbol();
-}
-void
-eval_user_symbol(struct atom *p1)
-{
-	struct atom *p2;
-	p2 = get_binding(p1);
-	if (p1 == p2)
-		push(p1); // symbol evaluates to itself
-	else {
-		push(p2); // evaluate symbol binding
-		evalg();
-	}
-}
-// like evalf() except '=' is evaluated as '=='
-
-void
-evalp(void)
-{
-	struct atom *p1;
-	p1 = pop();
-	if (car(p1) == symbol(SETQ))
-		eval_testeq(p1);
-	else {
-		push(p1);
-		evalf();
-	}
 }
 void
 eval_exp(struct atom *p1)
@@ -6754,761 +6627,6 @@ exptanh(void)
 	push_integer(1);
 	add();
 	divide();
-}
-void
-factor_bignum(uint32_t *N, struct atom *M)
-{
-	int h, i, n;
-	struct atom *BASE, *EXPO;
-
-	// greater than 31 bits?
-
-	if (!bignum_issmallnum(N)) {
-		push_bignum(MPLUS, mcopy(N), mint(1));
-		if (isplusone(M))
-			return;
-		push_symbol(POWER);
-		swap();
-		push(M);
-		list(3);
-		return;
-	}
-
-	h = tos;
-
-	n = bignum_smallnum(N);
-
-	factor_int(n);
-
-	n = (tos - h) / 2; // number of factors on stack
-
-	for (i = 0; i < n; i++) {
-
-		BASE = stack[h + 2 * i + 0];
-		EXPO = stack[h + 2 * i + 1];
-
-		push(EXPO);
-		push(M);
-		multiply();
-		EXPO = pop();
-
-		if (isplusone(EXPO)) {
-			stack[h + i] = BASE;
-			continue;
-		}
-
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		stack[h + i] = pop();
-	}
-
-	tos = h + n; // pop all
-}
-// factors N or N^M where N and M are rational numbers, returns factors on stack
-
-void
-factor_factor(void)
-{
-	uint32_t *numer, *denom;
-	struct atom *INPUT, *BASE, *EXPO;
-
-	INPUT = pop();
-
-	if (car(INPUT) == symbol(POWER)) {
-
-		BASE = cadr(INPUT);
-		EXPO = caddr(INPUT);
-
-		if (!isrational(BASE) || !isrational(EXPO)) {
-			push(INPUT); // cannot factor
-			return;
-		}
-
-		if (isminusone(BASE)) {
-			push(INPUT); // -1 to the M
-			return;
-		}
-
-		if (isnegativenumber(BASE)) {
-			push_symbol(POWER);
-			push_integer(-1);
-			push(EXPO);
-			list(3); // leave on stack
-		}
-
-		numer = BASE->u.q.a;
-		denom = BASE->u.q.b;
-
-		if (!MEQUAL(numer, 1))
-			factor_bignum(numer, EXPO);
-
-		if (!MEQUAL(denom, 1)) {
-			// flip sign of exponent
-			push(EXPO);
-			negate();
-			EXPO = pop();
-			factor_bignum(denom, EXPO);
-		}
-
-		return;
-	}
-
-	if (!isrational(INPUT) || iszero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
-		push(INPUT);
-		return;
-	}
-
-	if (isnegativenumber(INPUT))
-		push_integer(-1);
-
-	numer = INPUT->u.q.a;
-	denom = INPUT->u.q.b;
-
-	if (!MEQUAL(numer, 1))
-		factor_bignum(numer, one);
-
-	if (!MEQUAL(denom, 1))
-		factor_bignum(denom, minusone);
-}
-#define NPRIME 4792
-
-int primetab[NPRIME] = {
-2,3,5,7,11,13,17,19,
-23,29,31,37,41,43,47,53,
-59,61,67,71,73,79,83,89,
-97,101,103,107,109,113,127,131,
-137,139,149,151,157,163,167,173,
-179,181,191,193,197,199,211,223,
-227,229,233,239,241,251,257,263,
-269,271,277,281,283,293,307,311,
-313,317,331,337,347,349,353,359,
-367,373,379,383,389,397,401,409,
-419,421,431,433,439,443,449,457,
-461,463,467,479,487,491,499,503,
-509,521,523,541,547,557,563,569,
-571,577,587,593,599,601,607,613,
-617,619,631,641,643,647,653,659,
-661,673,677,683,691,701,709,719,
-727,733,739,743,751,757,761,769,
-773,787,797,809,811,821,823,827,
-829,839,853,857,859,863,877,881,
-883,887,907,911,919,929,937,941,
-947,953,967,971,977,983,991,997,
-1009,1013,1019,1021,1031,1033,1039,1049,
-1051,1061,1063,1069,1087,1091,1093,1097,
-1103,1109,1117,1123,1129,1151,1153,1163,
-1171,1181,1187,1193,1201,1213,1217,1223,
-1229,1231,1237,1249,1259,1277,1279,1283,
-1289,1291,1297,1301,1303,1307,1319,1321,
-1327,1361,1367,1373,1381,1399,1409,1423,
-1427,1429,1433,1439,1447,1451,1453,1459,
-1471,1481,1483,1487,1489,1493,1499,1511,
-1523,1531,1543,1549,1553,1559,1567,1571,
-1579,1583,1597,1601,1607,1609,1613,1619,
-1621,1627,1637,1657,1663,1667,1669,1693,
-1697,1699,1709,1721,1723,1733,1741,1747,
-1753,1759,1777,1783,1787,1789,1801,1811,
-1823,1831,1847,1861,1867,1871,1873,1877,
-1879,1889,1901,1907,1913,1931,1933,1949,
-1951,1973,1979,1987,1993,1997,1999,2003,
-2011,2017,2027,2029,2039,2053,2063,2069,
-2081,2083,2087,2089,2099,2111,2113,2129,
-2131,2137,2141,2143,2153,2161,2179,2203,
-2207,2213,2221,2237,2239,2243,2251,2267,
-2269,2273,2281,2287,2293,2297,2309,2311,
-2333,2339,2341,2347,2351,2357,2371,2377,
-2381,2383,2389,2393,2399,2411,2417,2423,
-2437,2441,2447,2459,2467,2473,2477,2503,
-2521,2531,2539,2543,2549,2551,2557,2579,
-2591,2593,2609,2617,2621,2633,2647,2657,
-2659,2663,2671,2677,2683,2687,2689,2693,
-2699,2707,2711,2713,2719,2729,2731,2741,
-2749,2753,2767,2777,2789,2791,2797,2801,
-2803,2819,2833,2837,2843,2851,2857,2861,
-2879,2887,2897,2903,2909,2917,2927,2939,
-2953,2957,2963,2969,2971,2999,3001,3011,
-3019,3023,3037,3041,3049,3061,3067,3079,
-3083,3089,3109,3119,3121,3137,3163,3167,
-3169,3181,3187,3191,3203,3209,3217,3221,
-3229,3251,3253,3257,3259,3271,3299,3301,
-3307,3313,3319,3323,3329,3331,3343,3347,
-3359,3361,3371,3373,3389,3391,3407,3413,
-3433,3449,3457,3461,3463,3467,3469,3491,
-3499,3511,3517,3527,3529,3533,3539,3541,
-3547,3557,3559,3571,3581,3583,3593,3607,
-3613,3617,3623,3631,3637,3643,3659,3671,
-3673,3677,3691,3697,3701,3709,3719,3727,
-3733,3739,3761,3767,3769,3779,3793,3797,
-3803,3821,3823,3833,3847,3851,3853,3863,
-3877,3881,3889,3907,3911,3917,3919,3923,
-3929,3931,3943,3947,3967,3989,4001,4003,
-4007,4013,4019,4021,4027,4049,4051,4057,
-4073,4079,4091,4093,4099,4111,4127,4129,
-4133,4139,4153,4157,4159,4177,4201,4211,
-4217,4219,4229,4231,4241,4243,4253,4259,
-4261,4271,4273,4283,4289,4297,4327,4337,
-4339,4349,4357,4363,4373,4391,4397,4409,
-4421,4423,4441,4447,4451,4457,4463,4481,
-4483,4493,4507,4513,4517,4519,4523,4547,
-4549,4561,4567,4583,4591,4597,4603,4621,
-4637,4639,4643,4649,4651,4657,4663,4673,
-4679,4691,4703,4721,4723,4729,4733,4751,
-4759,4783,4787,4789,4793,4799,4801,4813,
-4817,4831,4861,4871,4877,4889,4903,4909,
-4919,4931,4933,4937,4943,4951,4957,4967,
-4969,4973,4987,4993,4999,5003,5009,5011,
-5021,5023,5039,5051,5059,5077,5081,5087,
-5099,5101,5107,5113,5119,5147,5153,5167,
-5171,5179,5189,5197,5209,5227,5231,5233,
-5237,5261,5273,5279,5281,5297,5303,5309,
-5323,5333,5347,5351,5381,5387,5393,5399,
-5407,5413,5417,5419,5431,5437,5441,5443,
-5449,5471,5477,5479,5483,5501,5503,5507,
-5519,5521,5527,5531,5557,5563,5569,5573,
-5581,5591,5623,5639,5641,5647,5651,5653,
-5657,5659,5669,5683,5689,5693,5701,5711,
-5717,5737,5741,5743,5749,5779,5783,5791,
-5801,5807,5813,5821,5827,5839,5843,5849,
-5851,5857,5861,5867,5869,5879,5881,5897,
-5903,5923,5927,5939,5953,5981,5987,6007,
-6011,6029,6037,6043,6047,6053,6067,6073,
-6079,6089,6091,6101,6113,6121,6131,6133,
-6143,6151,6163,6173,6197,6199,6203,6211,
-6217,6221,6229,6247,6257,6263,6269,6271,
-6277,6287,6299,6301,6311,6317,6323,6329,
-6337,6343,6353,6359,6361,6367,6373,6379,
-6389,6397,6421,6427,6449,6451,6469,6473,
-6481,6491,6521,6529,6547,6551,6553,6563,
-6569,6571,6577,6581,6599,6607,6619,6637,
-6653,6659,6661,6673,6679,6689,6691,6701,
-6703,6709,6719,6733,6737,6761,6763,6779,
-6781,6791,6793,6803,6823,6827,6829,6833,
-6841,6857,6863,6869,6871,6883,6899,6907,
-6911,6917,6947,6949,6959,6961,6967,6971,
-6977,6983,6991,6997,7001,7013,7019,7027,
-7039,7043,7057,7069,7079,7103,7109,7121,
-7127,7129,7151,7159,7177,7187,7193,7207,
-7211,7213,7219,7229,7237,7243,7247,7253,
-7283,7297,7307,7309,7321,7331,7333,7349,
-7351,7369,7393,7411,7417,7433,7451,7457,
-7459,7477,7481,7487,7489,7499,7507,7517,
-7523,7529,7537,7541,7547,7549,7559,7561,
-7573,7577,7583,7589,7591,7603,7607,7621,
-7639,7643,7649,7669,7673,7681,7687,7691,
-7699,7703,7717,7723,7727,7741,7753,7757,
-7759,7789,7793,7817,7823,7829,7841,7853,
-7867,7873,7877,7879,7883,7901,7907,7919,
-7927,7933,7937,7949,7951,7963,7993,8009,
-8011,8017,8039,8053,8059,8069,8081,8087,
-8089,8093,8101,8111,8117,8123,8147,8161,
-8167,8171,8179,8191,8209,8219,8221,8231,
-8233,8237,8243,8263,8269,8273,8287,8291,
-8293,8297,8311,8317,8329,8353,8363,8369,
-8377,8387,8389,8419,8423,8429,8431,8443,
-8447,8461,8467,8501,8513,8521,8527,8537,
-8539,8543,8563,8573,8581,8597,8599,8609,
-8623,8627,8629,8641,8647,8663,8669,8677,
-8681,8689,8693,8699,8707,8713,8719,8731,
-8737,8741,8747,8753,8761,8779,8783,8803,
-8807,8819,8821,8831,8837,8839,8849,8861,
-8863,8867,8887,8893,8923,8929,8933,8941,
-8951,8963,8969,8971,8999,9001,9007,9011,
-9013,9029,9041,9043,9049,9059,9067,9091,
-9103,9109,9127,9133,9137,9151,9157,9161,
-9173,9181,9187,9199,9203,9209,9221,9227,
-9239,9241,9257,9277,9281,9283,9293,9311,
-9319,9323,9337,9341,9343,9349,9371,9377,
-9391,9397,9403,9413,9419,9421,9431,9433,
-9437,9439,9461,9463,9467,9473,9479,9491,
-9497,9511,9521,9533,9539,9547,9551,9587,
-9601,9613,9619,9623,9629,9631,9643,9649,
-9661,9677,9679,9689,9697,9719,9721,9733,
-9739,9743,9749,9767,9769,9781,9787,9791,
-9803,9811,9817,9829,9833,9839,9851,9857,
-9859,9871,9883,9887,9901,9907,9923,9929,
-9931,9941,9949,9967,9973,10007,10009,10037,
-10039,10061,10067,10069,10079,10091,10093,10099,
-10103,10111,10133,10139,10141,10151,10159,10163,
-10169,10177,10181,10193,10211,10223,10243,10247,
-10253,10259,10267,10271,10273,10289,10301,10303,
-10313,10321,10331,10333,10337,10343,10357,10369,
-10391,10399,10427,10429,10433,10453,10457,10459,
-10463,10477,10487,10499,10501,10513,10529,10531,
-10559,10567,10589,10597,10601,10607,10613,10627,
-10631,10639,10651,10657,10663,10667,10687,10691,
-10709,10711,10723,10729,10733,10739,10753,10771,
-10781,10789,10799,10831,10837,10847,10853,10859,
-10861,10867,10883,10889,10891,10903,10909,10937,
-10939,10949,10957,10973,10979,10987,10993,11003,
-11027,11047,11057,11059,11069,11071,11083,11087,
-11093,11113,11117,11119,11131,11149,11159,11161,
-11171,11173,11177,11197,11213,11239,11243,11251,
-11257,11261,11273,11279,11287,11299,11311,11317,
-11321,11329,11351,11353,11369,11383,11393,11399,
-11411,11423,11437,11443,11447,11467,11471,11483,
-11489,11491,11497,11503,11519,11527,11549,11551,
-11579,11587,11593,11597,11617,11621,11633,11657,
-11677,11681,11689,11699,11701,11717,11719,11731,
-11743,11777,11779,11783,11789,11801,11807,11813,
-11821,11827,11831,11833,11839,11863,11867,11887,
-11897,11903,11909,11923,11927,11933,11939,11941,
-11953,11959,11969,11971,11981,11987,12007,12011,
-12037,12041,12043,12049,12071,12073,12097,12101,
-12107,12109,12113,12119,12143,12149,12157,12161,
-12163,12197,12203,12211,12227,12239,12241,12251,
-12253,12263,12269,12277,12281,12289,12301,12323,
-12329,12343,12347,12373,12377,12379,12391,12401,
-12409,12413,12421,12433,12437,12451,12457,12473,
-12479,12487,12491,12497,12503,12511,12517,12527,
-12539,12541,12547,12553,12569,12577,12583,12589,
-12601,12611,12613,12619,12637,12641,12647,12653,
-12659,12671,12689,12697,12703,12713,12721,12739,
-12743,12757,12763,12781,12791,12799,12809,12821,
-12823,12829,12841,12853,12889,12893,12899,12907,
-12911,12917,12919,12923,12941,12953,12959,12967,
-12973,12979,12983,13001,13003,13007,13009,13033,
-13037,13043,13049,13063,13093,13099,13103,13109,
-13121,13127,13147,13151,13159,13163,13171,13177,
-13183,13187,13217,13219,13229,13241,13249,13259,
-13267,13291,13297,13309,13313,13327,13331,13337,
-13339,13367,13381,13397,13399,13411,13417,13421,
-13441,13451,13457,13463,13469,13477,13487,13499,
-13513,13523,13537,13553,13567,13577,13591,13597,
-13613,13619,13627,13633,13649,13669,13679,13681,
-13687,13691,13693,13697,13709,13711,13721,13723,
-13729,13751,13757,13759,13763,13781,13789,13799,
-13807,13829,13831,13841,13859,13873,13877,13879,
-13883,13901,13903,13907,13913,13921,13931,13933,
-13963,13967,13997,13999,14009,14011,14029,14033,
-14051,14057,14071,14081,14083,14087,14107,14143,
-14149,14153,14159,14173,14177,14197,14207,14221,
-14243,14249,14251,14281,14293,14303,14321,14323,
-14327,14341,14347,14369,14387,14389,14401,14407,
-14411,14419,14423,14431,14437,14447,14449,14461,
-14479,14489,14503,14519,14533,14537,14543,14549,
-14551,14557,14561,14563,14591,14593,14621,14627,
-14629,14633,14639,14653,14657,14669,14683,14699,
-14713,14717,14723,14731,14737,14741,14747,14753,
-14759,14767,14771,14779,14783,14797,14813,14821,
-14827,14831,14843,14851,14867,14869,14879,14887,
-14891,14897,14923,14929,14939,14947,14951,14957,
-14969,14983,15013,15017,15031,15053,15061,15073,
-15077,15083,15091,15101,15107,15121,15131,15137,
-15139,15149,15161,15173,15187,15193,15199,15217,
-15227,15233,15241,15259,15263,15269,15271,15277,
-15287,15289,15299,15307,15313,15319,15329,15331,
-15349,15359,15361,15373,15377,15383,15391,15401,
-15413,15427,15439,15443,15451,15461,15467,15473,
-15493,15497,15511,15527,15541,15551,15559,15569,
-15581,15583,15601,15607,15619,15629,15641,15643,
-15647,15649,15661,15667,15671,15679,15683,15727,
-15731,15733,15737,15739,15749,15761,15767,15773,
-15787,15791,15797,15803,15809,15817,15823,15859,
-15877,15881,15887,15889,15901,15907,15913,15919,
-15923,15937,15959,15971,15973,15991,16001,16007,
-16033,16057,16061,16063,16067,16069,16073,16087,
-16091,16097,16103,16111,16127,16139,16141,16183,
-16187,16189,16193,16217,16223,16229,16231,16249,
-16253,16267,16273,16301,16319,16333,16339,16349,
-16361,16363,16369,16381,16411,16417,16421,16427,
-16433,16447,16451,16453,16477,16481,16487,16493,
-16519,16529,16547,16553,16561,16567,16573,16603,
-16607,16619,16631,16633,16649,16651,16657,16661,
-16673,16691,16693,16699,16703,16729,16741,16747,
-16759,16763,16787,16811,16823,16829,16831,16843,
-16871,16879,16883,16889,16901,16903,16921,16927,
-16931,16937,16943,16963,16979,16981,16987,16993,
-17011,17021,17027,17029,17033,17041,17047,17053,
-17077,17093,17099,17107,17117,17123,17137,17159,
-17167,17183,17189,17191,17203,17207,17209,17231,
-17239,17257,17291,17293,17299,17317,17321,17327,
-17333,17341,17351,17359,17377,17383,17387,17389,
-17393,17401,17417,17419,17431,17443,17449,17467,
-17471,17477,17483,17489,17491,17497,17509,17519,
-17539,17551,17569,17573,17579,17581,17597,17599,
-17609,17623,17627,17657,17659,17669,17681,17683,
-17707,17713,17729,17737,17747,17749,17761,17783,
-17789,17791,17807,17827,17837,17839,17851,17863,
-17881,17891,17903,17909,17911,17921,17923,17929,
-17939,17957,17959,17971,17977,17981,17987,17989,
-18013,18041,18043,18047,18049,18059,18061,18077,
-18089,18097,18119,18121,18127,18131,18133,18143,
-18149,18169,18181,18191,18199,18211,18217,18223,
-18229,18233,18251,18253,18257,18269,18287,18289,
-18301,18307,18311,18313,18329,18341,18353,18367,
-18371,18379,18397,18401,18413,18427,18433,18439,
-18443,18451,18457,18461,18481,18493,18503,18517,
-18521,18523,18539,18541,18553,18583,18587,18593,
-18617,18637,18661,18671,18679,18691,18701,18713,
-18719,18731,18743,18749,18757,18773,18787,18793,
-18797,18803,18839,18859,18869,18899,18911,18913,
-18917,18919,18947,18959,18973,18979,19001,19009,
-19013,19031,19037,19051,19069,19073,19079,19081,
-19087,19121,19139,19141,19157,19163,19181,19183,
-19207,19211,19213,19219,19231,19237,19249,19259,
-19267,19273,19289,19301,19309,19319,19333,19373,
-19379,19381,19387,19391,19403,19417,19421,19423,
-19427,19429,19433,19441,19447,19457,19463,19469,
-19471,19477,19483,19489,19501,19507,19531,19541,
-19543,19553,19559,19571,19577,19583,19597,19603,
-19609,19661,19681,19687,19697,19699,19709,19717,
-19727,19739,19751,19753,19759,19763,19777,19793,
-19801,19813,19819,19841,19843,19853,19861,19867,
-19889,19891,19913,19919,19927,19937,19949,19961,
-19963,19973,19979,19991,19993,19997,20011,20021,
-20023,20029,20047,20051,20063,20071,20089,20101,
-20107,20113,20117,20123,20129,20143,20147,20149,
-20161,20173,20177,20183,20201,20219,20231,20233,
-20249,20261,20269,20287,20297,20323,20327,20333,
-20341,20347,20353,20357,20359,20369,20389,20393,
-20399,20407,20411,20431,20441,20443,20477,20479,
-20483,20507,20509,20521,20533,20543,20549,20551,
-20563,20593,20599,20611,20627,20639,20641,20663,
-20681,20693,20707,20717,20719,20731,20743,20747,
-20749,20753,20759,20771,20773,20789,20807,20809,
-20849,20857,20873,20879,20887,20897,20899,20903,
-20921,20929,20939,20947,20959,20963,20981,20983,
-21001,21011,21013,21017,21019,21023,21031,21059,
-21061,21067,21089,21101,21107,21121,21139,21143,
-21149,21157,21163,21169,21179,21187,21191,21193,
-21211,21221,21227,21247,21269,21277,21283,21313,
-21317,21319,21323,21341,21347,21377,21379,21383,
-21391,21397,21401,21407,21419,21433,21467,21481,
-21487,21491,21493,21499,21503,21517,21521,21523,
-21529,21557,21559,21563,21569,21577,21587,21589,
-21599,21601,21611,21613,21617,21647,21649,21661,
-21673,21683,21701,21713,21727,21737,21739,21751,
-21757,21767,21773,21787,21799,21803,21817,21821,
-21839,21841,21851,21859,21863,21871,21881,21893,
-21911,21929,21937,21943,21961,21977,21991,21997,
-22003,22013,22027,22031,22037,22039,22051,22063,
-22067,22073,22079,22091,22093,22109,22111,22123,
-22129,22133,22147,22153,22157,22159,22171,22189,
-22193,22229,22247,22259,22271,22273,22277,22279,
-22283,22291,22303,22307,22343,22349,22367,22369,
-22381,22391,22397,22409,22433,22441,22447,22453,
-22469,22481,22483,22501,22511,22531,22541,22543,
-22549,22567,22571,22573,22613,22619,22621,22637,
-22639,22643,22651,22669,22679,22691,22697,22699,
-22709,22717,22721,22727,22739,22741,22751,22769,
-22777,22783,22787,22807,22811,22817,22853,22859,
-22861,22871,22877,22901,22907,22921,22937,22943,
-22961,22963,22973,22993,23003,23011,23017,23021,
-23027,23029,23039,23041,23053,23057,23059,23063,
-23071,23081,23087,23099,23117,23131,23143,23159,
-23167,23173,23189,23197,23201,23203,23209,23227,
-23251,23269,23279,23291,23293,23297,23311,23321,
-23327,23333,23339,23357,23369,23371,23399,23417,
-23431,23447,23459,23473,23497,23509,23531,23537,
-23539,23549,23557,23561,23563,23567,23581,23593,
-23599,23603,23609,23623,23627,23629,23633,23663,
-23669,23671,23677,23687,23689,23719,23741,23743,
-23747,23753,23761,23767,23773,23789,23801,23813,
-23819,23827,23831,23833,23857,23869,23873,23879,
-23887,23893,23899,23909,23911,23917,23929,23957,
-23971,23977,23981,23993,24001,24007,24019,24023,
-24029,24043,24049,24061,24071,24077,24083,24091,
-24097,24103,24107,24109,24113,24121,24133,24137,
-24151,24169,24179,24181,24197,24203,24223,24229,
-24239,24247,24251,24281,24317,24329,24337,24359,
-24371,24373,24379,24391,24407,24413,24419,24421,
-24439,24443,24469,24473,24481,24499,24509,24517,
-24527,24533,24547,24551,24571,24593,24611,24623,
-24631,24659,24671,24677,24683,24691,24697,24709,
-24733,24749,24763,24767,24781,24793,24799,24809,
-24821,24841,24847,24851,24859,24877,24889,24907,
-24917,24919,24923,24943,24953,24967,24971,24977,
-24979,24989,25013,25031,25033,25037,25057,25073,
-25087,25097,25111,25117,25121,25127,25147,25153,
-25163,25169,25171,25183,25189,25219,25229,25237,
-25243,25247,25253,25261,25301,25303,25307,25309,
-25321,25339,25343,25349,25357,25367,25373,25391,
-25409,25411,25423,25439,25447,25453,25457,25463,
-25469,25471,25523,25537,25541,25561,25577,25579,
-25583,25589,25601,25603,25609,25621,25633,25639,
-25643,25657,25667,25673,25679,25693,25703,25717,
-25733,25741,25747,25759,25763,25771,25793,25799,
-25801,25819,25841,25847,25849,25867,25873,25889,
-25903,25913,25919,25931,25933,25939,25943,25951,
-25969,25981,25997,25999,26003,26017,26021,26029,
-26041,26053,26083,26099,26107,26111,26113,26119,
-26141,26153,26161,26171,26177,26183,26189,26203,
-26209,26227,26237,26249,26251,26261,26263,26267,
-26293,26297,26309,26317,26321,26339,26347,26357,
-26371,26387,26393,26399,26407,26417,26423,26431,
-26437,26449,26459,26479,26489,26497,26501,26513,
-26539,26557,26561,26573,26591,26597,26627,26633,
-26641,26647,26669,26681,26683,26687,26693,26699,
-26701,26711,26713,26717,26723,26729,26731,26737,
-26759,26777,26783,26801,26813,26821,26833,26839,
-26849,26861,26863,26879,26881,26891,26893,26903,
-26921,26927,26947,26951,26953,26959,26981,26987,
-26993,27011,27017,27031,27043,27059,27061,27067,
-27073,27077,27091,27103,27107,27109,27127,27143,
-27179,27191,27197,27211,27239,27241,27253,27259,
-27271,27277,27281,27283,27299,27329,27337,27361,
-27367,27397,27407,27409,27427,27431,27437,27449,
-27457,27479,27481,27487,27509,27527,27529,27539,
-27541,27551,27581,27583,27611,27617,27631,27647,
-27653,27673,27689,27691,27697,27701,27733,27737,
-27739,27743,27749,27751,27763,27767,27773,27779,
-27791,27793,27799,27803,27809,27817,27823,27827,
-27847,27851,27883,27893,27901,27917,27919,27941,
-27943,27947,27953,27961,27967,27983,27997,28001,
-28019,28027,28031,28051,28057,28069,28081,28087,
-28097,28099,28109,28111,28123,28151,28163,28181,
-28183,28201,28211,28219,28229,28277,28279,28283,
-28289,28297,28307,28309,28319,28349,28351,28387,
-28393,28403,28409,28411,28429,28433,28439,28447,
-28463,28477,28493,28499,28513,28517,28537,28541,
-28547,28549,28559,28571,28573,28579,28591,28597,
-28603,28607,28619,28621,28627,28631,28643,28649,
-28657,28661,28663,28669,28687,28697,28703,28711,
-28723,28729,28751,28753,28759,28771,28789,28793,
-28807,28813,28817,28837,28843,28859,28867,28871,
-28879,28901,28909,28921,28927,28933,28949,28961,
-28979,29009,29017,29021,29023,29027,29033,29059,
-29063,29077,29101,29123,29129,29131,29137,29147,
-29153,29167,29173,29179,29191,29201,29207,29209,
-29221,29231,29243,29251,29269,29287,29297,29303,
-29311,29327,29333,29339,29347,29363,29383,29387,
-29389,29399,29401,29411,29423,29429,29437,29443,
-29453,29473,29483,29501,29527,29531,29537,29567,
-29569,29573,29581,29587,29599,29611,29629,29633,
-29641,29663,29669,29671,29683,29717,29723,29741,
-29753,29759,29761,29789,29803,29819,29833,29837,
-29851,29863,29867,29873,29879,29881,29917,29921,
-29927,29947,29959,29983,29989,30011,30013,30029,
-30047,30059,30071,30089,30091,30097,30103,30109,
-30113,30119,30133,30137,30139,30161,30169,30181,
-30187,30197,30203,30211,30223,30241,30253,30259,
-30269,30271,30293,30307,30313,30319,30323,30341,
-30347,30367,30389,30391,30403,30427,30431,30449,
-30467,30469,30491,30493,30497,30509,30517,30529,
-30539,30553,30557,30559,30577,30593,30631,30637,
-30643,30649,30661,30671,30677,30689,30697,30703,
-30707,30713,30727,30757,30763,30773,30781,30803,
-30809,30817,30829,30839,30841,30851,30853,30859,
-30869,30871,30881,30893,30911,30931,30937,30941,
-30949,30971,30977,30983,31013,31019,31033,31039,
-31051,31063,31069,31079,31081,31091,31121,31123,
-31139,31147,31151,31153,31159,31177,31181,31183,
-31189,31193,31219,31223,31231,31237,31247,31249,
-31253,31259,31267,31271,31277,31307,31319,31321,
-31327,31333,31337,31357,31379,31387,31391,31393,
-31397,31469,31477,31481,31489,31511,31513,31517,
-31531,31541,31543,31547,31567,31573,31583,31601,
-31607,31627,31643,31649,31657,31663,31667,31687,
-31699,31721,31723,31727,31729,31741,31751,31769,
-31771,31793,31799,31817,31847,31849,31859,31873,
-31883,31891,31907,31957,31963,31973,31981,31991,
-32003,32009,32027,32029,32051,32057,32059,32063,
-32069,32077,32083,32089,32099,32117,32119,32141,
-32143,32159,32173,32183,32189,32191,32203,32213,
-32233,32237,32251,32257,32261,32297,32299,32303,
-32309,32321,32323,32327,32341,32353,32359,32363,
-32369,32371,32377,32381,32401,32411,32413,32423,
-32429,32441,32443,32467,32479,32491,32497,32503,
-32507,32531,32533,32537,32561,32563,32569,32573,
-32579,32587,32603,32609,32611,32621,32633,32647,
-32653,32687,32693,32707,32713,32717,32719,32749,
-32771,32779,32783,32789,32797,32801,32803,32831,
-32833,32839,32843,32869,32887,32909,32911,32917,
-32933,32939,32941,32957,32969,32971,32983,32987,
-32993,32999,33013,33023,33029,33037,33049,33053,
-33071,33073,33083,33091,33107,33113,33119,33149,
-33151,33161,33179,33181,33191,33199,33203,33211,
-33223,33247,33287,33289,33301,33311,33317,33329,
-33331,33343,33347,33349,33353,33359,33377,33391,
-33403,33409,33413,33427,33457,33461,33469,33479,
-33487,33493,33503,33521,33529,33533,33547,33563,
-33569,33577,33581,33587,33589,33599,33601,33613,
-33617,33619,33623,33629,33637,33641,33647,33679,
-33703,33713,33721,33739,33749,33751,33757,33767,
-33769,33773,33791,33797,33809,33811,33827,33829,
-33851,33857,33863,33871,33889,33893,33911,33923,
-33931,33937,33941,33961,33967,33997,34019,34031,
-34033,34039,34057,34061,34123,34127,34129,34141,
-34147,34157,34159,34171,34183,34211,34213,34217,
-34231,34253,34259,34261,34267,34273,34283,34297,
-34301,34303,34313,34319,34327,34337,34351,34361,
-34367,34369,34381,34403,34421,34429,34439,34457,
-34469,34471,34483,34487,34499,34501,34511,34513,
-34519,34537,34543,34549,34583,34589,34591,34603,
-34607,34613,34631,34649,34651,34667,34673,34679,
-34687,34693,34703,34721,34729,34739,34747,34757,
-34759,34763,34781,34807,34819,34841,34843,34847,
-34849,34871,34877,34883,34897,34913,34919,34939,
-34949,34961,34963,34981,35023,35027,35051,35053,
-35059,35069,35081,35083,35089,35099,35107,35111,
-35117,35129,35141,35149,35153,35159,35171,35201,
-35221,35227,35251,35257,35267,35279,35281,35291,
-35311,35317,35323,35327,35339,35353,35363,35381,
-35393,35401,35407,35419,35423,35437,35447,35449,
-35461,35491,35507,35509,35521,35527,35531,35533,
-35537,35543,35569,35573,35591,35593,35597,35603,
-35617,35671,35677,35729,35731,35747,35753,35759,
-35771,35797,35801,35803,35809,35831,35837,35839,
-35851,35863,35869,35879,35897,35899,35911,35923,
-35933,35951,35963,35969,35977,35983,35993,35999,
-36007,36011,36013,36017,36037,36061,36067,36073,
-36083,36097,36107,36109,36131,36137,36151,36161,
-36187,36191,36209,36217,36229,36241,36251,36263,
-36269,36277,36293,36299,36307,36313,36319,36341,
-36343,36353,36373,36383,36389,36433,36451,36457,
-36467,36469,36473,36479,36493,36497,36523,36527,
-36529,36541,36551,36559,36563,36571,36583,36587,
-36599,36607,36629,36637,36643,36653,36671,36677,
-36683,36691,36697,36709,36713,36721,36739,36749,
-36761,36767,36779,36781,36787,36791,36793,36809,
-36821,36833,36847,36857,36871,36877,36887,36899,
-36901,36913,36919,36923,36929,36931,36943,36947,
-36973,36979,36997,37003,37013,37019,37021,37039,
-37049,37057,37061,37087,37097,37117,37123,37139,
-37159,37171,37181,37189,37199,37201,37217,37223,
-37243,37253,37273,37277,37307,37309,37313,37321,
-37337,37339,37357,37361,37363,37369,37379,37397,
-37409,37423,37441,37447,37463,37483,37489,37493,
-37501,37507,37511,37517,37529,37537,37547,37549,
-37561,37567,37571,37573,37579,37589,37591,37607,
-37619,37633,37643,37649,37657,37663,37691,37693,
-37699,37717,37747,37781,37783,37799,37811,37813,
-37831,37847,37853,37861,37871,37879,37889,37897,
-37907,37951,37957,37963,37967,37987,37991,37993,
-37997,38011,38039,38047,38053,38069,38083,38113,
-38119,38149,38153,38167,38177,38183,38189,38197,
-38201,38219,38231,38237,38239,38261,38273,38281,
-38287,38299,38303,38317,38321,38327,38329,38333,
-38351,38371,38377,38393,38431,38447,38449,38453,
-38459,38461,38501,38543,38557,38561,38567,38569,
-38593,38603,38609,38611,38629,38639,38651,38653,
-38669,38671,38677,38693,38699,38707,38711,38713,
-38723,38729,38737,38747,38749,38767,38783,38791,
-38803,38821,38833,38839,38851,38861,38867,38873,
-38891,38903,38917,38921,38923,38933,38953,38959,
-38971,38977,38993,39019,39023,39041,39043,39047,
-39079,39089,39097,39103,39107,39113,39119,39133,
-39139,39157,39161,39163,39181,39191,39199,39209,
-39217,39227,39229,39233,39239,39241,39251,39293,
-39301,39313,39317,39323,39341,39343,39359,39367,
-39371,39373,39383,39397,39409,39419,39439,39443,
-39451,39461,39499,39503,39509,39511,39521,39541,
-39551,39563,39569,39581,39607,39619,39623,39631,
-39659,39667,39671,39679,39703,39709,39719,39727,
-39733,39749,39761,39769,39779,39791,39799,39821,
-39827,39829,39839,39841,39847,39857,39863,39869,
-39877,39883,39887,39901,39929,39937,39953,39971,
-39979,39983,39989,40009,40013,40031,40037,40039,
-40063,40087,40093,40099,40111,40123,40127,40129,
-40151,40153,40163,40169,40177,40189,40193,40213,
-40231,40237,40241,40253,40277,40283,40289,40343,
-40351,40357,40361,40387,40423,40427,40429,40433,
-40459,40471,40483,40487,40493,40499,40507,40519,
-40529,40531,40543,40559,40577,40583,40591,40597,
-40609,40627,40637,40639,40693,40697,40699,40709,
-40739,40751,40759,40763,40771,40787,40801,40813,
-40819,40823,40829,40841,40847,40849,40853,40867,
-40879,40883,40897,40903,40927,40933,40939,40949,
-40961,40973,40993,41011,41017,41023,41039,41047,
-41051,41057,41077,41081,41113,41117,41131,41141,
-41143,41149,41161,41177,41179,41183,41189,41201,
-41203,41213,41221,41227,41231,41233,41243,41257,
-41263,41269,41281,41299,41333,41341,41351,41357,
-41381,41387,41389,41399,41411,41413,41443,41453,
-41467,41479,41491,41507,41513,41519,41521,41539,
-41543,41549,41579,41593,41597,41603,41609,41611,
-41617,41621,41627,41641,41647,41651,41659,41669,
-41681,41687,41719,41729,41737,41759,41761,41771,
-41777,41801,41809,41813,41843,41849,41851,41863,
-41879,41887,41893,41897,41903,41911,41927,41941,
-41947,41953,41957,41959,41969,41981,41983,41999,
-42013,42017,42019,42023,42043,42061,42071,42073,
-42083,42089,42101,42131,42139,42157,42169,42179,
-42181,42187,42193,42197,42209,42221,42223,42227,
-42239,42257,42281,42283,42293,42299,42307,42323,
-42331,42337,42349,42359,42373,42379,42391,42397,
-42403,42407,42409,42433,42437,42443,42451,42457,
-42461,42463,42467,42473,42487,42491,42499,42509,
-42533,42557,42569,42571,42577,42589,42611,42641,
-42643,42649,42667,42677,42683,42689,42697,42701,
-42703,42709,42719,42727,42737,42743,42751,42767,
-42773,42787,42793,42797,42821,42829,42839,42841,
-42853,42859,42863,42899,42901,42923,42929,42937,
-42943,42953,42961,42967,42979,42989,43003,43013,
-43019,43037,43049,43051,43063,43067,43093,43103,
-43117,43133,43151,43159,43177,43189,43201,43207,
-43223,43237,43261,43271,43283,43291,43313,43319,
-43321,43331,43391,43397,43399,43403,43411,43427,
-43441,43451,43457,43481,43487,43499,43517,43541,
-43543,43573,43577,43579,43591,43597,43607,43609,
-43613,43627,43633,43649,43651,43661,43669,43691,
-43711,43717,43721,43753,43759,43777,43781,43783,
-43787,43789,43793,43801,43853,43867,43889,43891,
-43913,43933,43943,43951,43961,43963,43969,43973,
-43987,43991,43997,44017,44021,44027,44029,44041,
-44053,44059,44071,44087,44089,44101,44111,44119,
-44123,44129,44131,44159,44171,44179,44189,44201,
-44203,44207,44221,44249,44257,44263,44267,44269,
-44273,44279,44281,44293,44351,44357,44371,44381,
-44383,44389,44417,44449,44453,44483,44491,44497,
-44501,44507,44519,44531,44533,44537,44543,44549,
-44563,44579,44587,44617,44621,44623,44633,44641,
-44647,44651,44657,44683,44687,44699,44701,44711,
-44729,44741,44753,44771,44773,44777,44789,44797,
-44809,44819,44839,44843,44851,44867,44879,44887,
-44893,44909,44917,44927,44939,44953,44959,44963,
-44971,44983,44987,45007,45013,45053,45061,45077,
-45083,45119,45121,45127,45131,45137,45139,45161,
-45179,45181,45191,45197,45233,45247,45259,45263,
-45281,45289,45293,45307,45317,45319,45329,45337,
-45341,45343,45361,45377,45389,45403,45413,45427,
-45433,45439,45481,45491,45497,45503,45523,45533,
-45541,45553,45557,45569,45587,45589,45599,45613,
-45631,45641,45659,45667,45673,45677,45691,45697,
-45707,45737,45751,45757,45763,45767,45779,45817,
-45821,45823,45827,45833,45841,45853,45863,45869,
-45887,45893,45943,45949,45953,45959,45971,45979,
-45989,46021,46027,46049,46051,46061,46073,46091,
-46093,46099,46103,46133,46141,46147,46153,46171,
-46181,46183,46187,46199,46219,46229,46237,46261,
-46271,46273,46279,46301,46307,46309,46327,46337,
-};
-
-void
-factor_int(int n)
-{
-	int d, k, m;
-
-	n = abs(n);
-
-	if (n < 2)
-		return;
-
-	for (k = 0; k < NPRIME; k++) {
-
-		d = primetab[k];
-
-		m = 0;
-
-		while (n % d == 0) {
-			n /= d;
-			m++;
-		}
-
-		if (m == 0)
-			continue;
-
-		push_integer(d);
-		push_integer(m);
-
-		if (n == 1)
-			return;
-	}
-
-	push_integer(n);
-	push_integer(1);
 }
 void
 eval_factorial(struct atom *p1)
@@ -7753,163 +6871,6 @@ eval_for(struct atom *p1)
 
 	push_symbol(NIL); // return value
 }
-// automatic variables not visible to the garbage collector are reclaimed
-
-void
-gc(void)
-{
-	int i, j;
-	struct atom *p;
-
-	gc_count++;
-	alloc_count = 0;
-
-	// tag everything
-
-	for (i = 0; i < block_count; i++)
-		for (j = 0; j < BLOCKSIZE; j++)
-			mem[i][j].tag = 1;
-
-	// untag what's used
-
-	untag(zero);
-	untag(one);
-	untag(minusone);
-	untag(imaginaryunit);
-
-	for (i = 0; i < tos; i++)
-		untag(stack[i]);
-
-	for (i = 0; i < tof; i++)
-		untag(frame[i]);
-
-	for (i = 0; i < 27 * BUCKETSIZE; i++) {
-		untag(symtab[i]);
-		untag(binding[i]);
-		untag(usrfunc[i]);
-	}
-
-	// collect everything that's still tagged
-
-	free_list = NULL;
-	free_count = 0;
-
-	for (i = 0; i < block_count; i++)
-		for (j = 0; j < BLOCKSIZE; j++) {
-
-			p = mem[i] + j;
-
-			if (p->tag == 0)
-				continue;
-
-			// still tagged so it's unused, put on free list
-
-			switch (p->atomtype) {
-			case KSYM:
-				free(p->u.ksym.name);
-				ksym_count--;
-				break;
-			case USYM:
-				free(p->u.usym.name);
-				usym_count--;
-				break;
-			case RATIONAL:
-				mfree(p->u.q.a);
-				mfree(p->u.q.b);
-				break;
-			case STR:
-				if (p->u.str)
-					free(p->u.str);
-				string_count--;
-				break;
-			case TENSOR:
-				free(p->u.tensor);
-				tensor_count--;
-				break;
-			default:
-				break; // FREEATOM, CONS, or DOUBLE
-			}
-
-			p->atomtype = FREEATOM;
-			p->u.next = free_list;
-
-			free_list = p;
-			free_count++;
-		}
-}
-
-void
-untag(struct atom *p)
-{
-	int i;
-
-	if (p == NULL)
-		return;
-
-	while (iscons(p)) {
-		if (p->tag == 0)
-			return;
-		p->tag = 0;
-		untag(p->u.cons.car);
-		p = p->u.cons.cdr;
-	}
-
-	if (p->tag == 0)
-		return;
-
-	p->tag = 0;
-
-	if (istensor(p))
-		for (i = 0; i < p->u.tensor->nelem; i++)
-			untag(p->u.tensor->elem[i]);
-}
-struct atom *mem[MAXBLOCKS]; // an array of pointers
-struct atom *free_list;
-
-int tos; // top of stack
-int tof; // top of frame
-
-struct atom *stack[STACKSIZE];
-struct atom *frame[FRAMESIZE];
-
-struct atom *symtab[27 * BUCKETSIZE];
-struct atom *binding[27 * BUCKETSIZE];
-struct atom *usrfunc[27 * BUCKETSIZE];
-
-struct atom *zero;
-struct atom *one;
-struct atom *minusone;
-struct atom *imaginaryunit;
-
-int eval_level;
-int gc_level;
-int expanding;
-int drawing;
-int nonstop;
-int interrupt;
-jmp_buf jmpbuf0;
-jmp_buf jmpbuf1;
-char *trace1;
-char *trace2;
-
-int alloc_count;
-int block_count;
-int free_count;
-int gc_count;
-int bignum_count;
-int ksym_count;
-int usym_count;
-int string_count;
-int tensor_count;
-int max_eval_level;
-int max_tos;
-int max_tof;
-
-char strbuf[STRBUFLEN];
-
-char *outbuf;
-int outbuf_index;
-int outbuf_length;
 void
 eval_hadamard(struct atom *p1)
 {
@@ -11105,6 +10066,12 @@ divide(void)
 	multiply();
 }
 void
+eval_nil(struct atom *p1)
+{
+	(void) p1; // silence compiler
+	push_symbol(NIL);
+}
+void
 eval_noexpand(struct atom *p1)
 {
 	int t;
@@ -11428,6 +10395,19 @@ urandom(void)
 	return 4.0 * ((double) rand() / (double) RAND_MAX) - 2.0;
 }
 void
+eval_number(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+
+	p1 = pop();
+
+	if (isnum(p1))
+		push_integer(1);
+	else
+		push_integer(0);
+}
+void
 eval_numerator(struct atom *p1)
 {
 	push(cadr(p1));
@@ -11471,58 +10451,6 @@ eval_or(struct atom *p1)
 		p1 = cdr(p1);
 	}
 	push_integer(0);
-}
-void
-outbuf_init(void)
-{
-	outbuf_index = 0;
-	outbuf_puts("");
-}
-
-void
-outbuf_puts(char *s)
-{
-	int len, m;
-
-	len = (int) strlen(s);
-
-	// Let outbuf_index + len == 1000
-
-	// Then m == 2000 hence there is always room for the terminator '\0'
-
-	m = 1000 * ((outbuf_index + len) / 1000 + 1); // m is a multiple of 1000
-
-	if (m > outbuf_length) {
-		outbuf = realloc(outbuf, m);
-		if (outbuf == NULL)
-			exit(1);
-		outbuf_length = m;
-	}
-
-	strcpy(outbuf + outbuf_index, s);
-	outbuf_index += len;
-}
-
-void
-outbuf_putc(int c)
-{
-	int m;
-
-	// Let outbuf_index + 1 == 1000
-
-	// Then m == 2000 hence there is always room for the terminator '\0'
-
-	m = 1000 * ((outbuf_index + 1) / 1000 + 1); // m is a multiple of 1000
-
-	if (m > outbuf_length) {
-		outbuf = realloc(outbuf, m);
-		if (outbuf == NULL)
-			exit(1);
-		outbuf_length = m;
-	}
-
-	outbuf[outbuf_index++] = c;
-	outbuf[outbuf_index] = '\0';
 }
 void
 eval_outer(struct atom *p1)
@@ -11589,57 +10517,6 @@ outer(void)
 		p3->u.tensor->dim[k++] = p2->u.tensor->dim[i];
 
 	push(p3);
-}
-void
-partition_term(void)
-{
-	int h, n;
-	struct atom *p1, *F, *X;
-
-	X = pop();
-	F = pop();
-
-	// push const factors
-
-	h = tos;
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		if (!findf(car(p1), X))
-			push(car(p1));
-		p1 = cdr(p1);
-	}
-
-	n = tos - h;
-
-	if (n == 0)
-		push_integer(1);
-	else if (n > 1) {
-		list(n);
-		push_symbol(MULTIPLY);
-		swap();
-		cons(); // makes MULTIPLY head of list
-	}
-
-	// push var factors
-
-	h = tos;
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		if (findf(car(p1), X))
-			push(car(p1));
-		p1 = cdr(p1);
-	}
-
-	n = tos - h;
-
-	if (n == 0)
-		push_integer(1);
-	else if (n > 1) {
-		list(n);
-		push_symbol(MULTIPLY);
-		swap();
-		cons(); // makes MULTIPLY head of list
-	}
 }
 void
 eval_polar(struct atom *p1)
@@ -11911,6 +10788,3894 @@ power(void)
 	push(BASE);
 	push(EXPO);
 	list(3);
+}
+void
+eval_prefixform(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	p1 = pop();
+
+	outbuf_init();
+	prefixform(p1);
+
+	push_string(outbuf);
+}
+
+// for debugging
+
+void
+print_prefixform(struct atom *p)
+{
+	outbuf_init();
+	prefixform(p);
+	outbuf_puts("\n");
+	printbuf(outbuf, BLACK);
+}
+
+void
+prefixform(struct atom *p)
+{
+	char *s;
+	switch (p->atomtype) {
+	case CONS:
+		outbuf_puts("(");
+		prefixform(car(p));
+		p = cdr(p);
+		while (iscons(p)) {
+			outbuf_puts(" ");
+			prefixform(car(p));
+			p = cdr(p);
+		}
+		if (p != symbol(NIL)) {
+			outbuf_puts(" . ");
+			prefixform(p);
+		}
+		outbuf_puts(")");
+		break;
+	case STR:
+		outbuf_puts("\"");
+		outbuf_puts(p->u.str);
+		outbuf_puts("\"");
+		break;
+	case RATIONAL:
+		if (p->sign == MMINUS)
+			outbuf_puts("-");
+		s = mstr(p->u.q.a);
+		outbuf_puts(s);
+		s = mstr(p->u.q.b);
+		if (strcmp(s, "1") == 0)
+			break;
+		outbuf_puts("/");
+		outbuf_puts(s);
+		break;
+	case DOUBLE:
+		snprintf(strbuf, STRBUFLEN, "%g", p->u.d);
+		outbuf_puts(strbuf);
+		if (!strchr(strbuf, '.') && !strchr(strbuf, 'e'))
+			outbuf_puts(".0");
+		break;
+	case KSYM:
+	case USYM:
+		outbuf_puts(printname(p));
+		break;
+	case TENSOR:
+		outbuf_puts("(tensor)");
+		break;
+	default:
+		outbuf_puts("(?)");
+		break;
+	}
+}
+void
+eval_print(struct atom *p1)
+{
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		push(car(p1));
+		evalf();
+		print_result();
+		p1 = cdr(p1);
+	}
+	push_symbol(NIL);
+}
+
+void
+print_result(void)
+{
+	struct atom *p1, *p2;
+
+	p2 = pop(); // result
+	p1 = pop(); // input
+
+	if (p2 == symbol(NIL))
+		return;
+
+	if (annotate_result(p1, p2)) {
+		push_symbol(SETQ);
+		push(p1);
+		push(p2);
+		list(3);
+		p2 = pop();
+	}
+
+	p1 = get_binding(symbol(TTY));
+
+	if (p1 == symbol(TTY) || iszero(p1)) {
+		push(p2);
+		display();
+	} else
+		print_infixform(p2);
+}
+
+// returns 1 if result should be annotated
+
+int
+annotate_result(struct atom *p1, struct atom *p2)
+{
+	if (!isusersymbol(p1))
+		return 0;
+
+	if (p1 == p2)
+		return 0; // A = A
+
+	if (p1 == symbol(I_LOWER) && isimaginaryunit(p2))
+		return 0;
+
+	if (p1 == symbol(J_LOWER) && isimaginaryunit(p2))
+		return 0;
+
+	return 1;
+}
+void
+eval_product(struct atom *p1)
+{
+	int h, i, j, k, n;
+	struct atom *p2, *p3;
+
+	if (lengthf(p1) == 2) {
+		push(cadr(p1));
+		evalf();
+		p1 = pop();
+		if (!istensor(p1)) {
+			push(p1);
+			return;
+		}
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++)
+			push(p1->u.tensor->elem[i]);
+		multiply_factors(n);
+		return;
+	}
+
+	p2 = cadr(p1);
+	if (!isusersymbol(p2))
+		stopf("product: symbol error");
+
+	push(caddr(p1));
+	evalf();
+	j = pop_integer();
+
+	push(cadddr(p1));
+	evalf();
+	k = pop_integer();
+
+	p1 = caddddr(p1);
+
+	save_symbol(p2);
+
+	h = tos;
+
+	for (;;) {
+		push_integer(j);
+		p3 = pop();
+		set_symbol(p2, p3, symbol(NIL));
+		push(p1);
+		evalg();
+		if (j == k)
+			break;
+		if (j < k)
+			j++;
+		else
+			j--;
+	}
+
+	multiply_factors(tos - h);
+
+	restore_symbol();
+}
+void
+eval_quote(struct atom *p1)
+{
+	push(cadr(p1)); // not evaluated
+}
+void
+eval_rank(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	p1 = pop();
+	if (istensor(p1))
+		push_integer(p1->u.tensor->ndim);
+	else
+		push_integer(0);
+}
+void
+eval_rationalize(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	rationalize();
+}
+
+void
+rationalize(void)
+{
+	int i, n;
+	struct atom *p0, *p1, *p2;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			rationalize();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	p2 = one;
+
+	while (divisor(p1)) {
+		p0 = pop();
+		push(p0);
+		push(p1);
+		cancel_factor();
+		p1 = pop();
+		push(p0);
+		push(p2);
+		multiply_noexpand();
+		p2 = pop();
+	}
+
+	push(p1);
+	push(p2);
+	reciprocate();
+	multiply_noexpand();
+}
+void
+eval_real(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	real();
+}
+
+void
+real(void)
+{
+	int i, n;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			real();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	rect();
+	p1 = pop();
+	push(p1);
+	push(p1);
+	conjfunc();
+	add();
+	push_rational(1, 2);
+	multiply();
+}
+void
+eval_rect(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	rect();
+}
+
+void
+rect(void)
+{
+	int h, i, n;
+	struct atom *p1, *p2, *BASE, *EXPO;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			rect();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		p1 = cdr(p1);
+		h = tos;
+		while (iscons(p1)) {
+			push(car(p1));
+			rect();
+			p1 = cdr(p1);
+		}
+		add_terms(tos - h);
+		return;
+	}
+
+	if (car(p1) == symbol(MULTIPLY)) {
+		p1 = cdr(p1);
+		h = tos;
+		while (iscons(p1)) {
+			push(car(p1));
+			rect();
+			p1 = cdr(p1);
+		}
+		multiply_factors(tos - h);
+		return;
+	}
+
+	if (car(p1) != symbol(POWER)) {
+		push(p1);
+		return;
+	}
+
+	BASE = cadr(p1);
+	EXPO = caddr(p1);
+
+	// handle sum in exponent
+
+	if (car(EXPO) == symbol(ADD)) {
+		p1 = cdr(EXPO);
+		h = tos;
+		while (iscons(p1)) {
+			push_symbol(POWER);
+			push(BASE);
+			push(car(p1));
+			list(3);
+			rect();
+			p1 = cdr(p1);
+		}
+		multiply_factors(tos - h);
+		return;
+	}
+
+	// return mag(p1) * cos(arg(p1)) + i sin(arg(p1)))
+
+	push(p1);
+	mag();
+
+	push(p1);
+	arg();
+	p2 = pop();
+
+	push(p2);
+	cosfunc();
+
+	push(imaginaryunit);
+	push(p2);
+	sinfunc();
+	multiply();
+
+	add();
+
+	multiply();
+}
+void
+eval_roots(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+
+	p1 = cddr(p1);
+
+	if (iscons(p1)) {
+		push(car(p1));
+		evalf();
+	} else
+		push_symbol(X_LOWER);
+
+	roots();
+}
+
+void
+roots(void)
+{
+	int h, i, j, k, n;
+	struct atom *A, *P, *X;
+
+	X = pop();
+	P = pop();
+
+	h = tos;
+
+	coeffs(P, X); // put coeffs on stack
+
+	k = tos;
+
+	n = k - h; // number of coeffs on stack
+
+	// check coeffs
+
+	for (i = 0; i < n; i++)
+		if (!isrational(stack[h + i]))
+			stopf("roots: coeffs");
+
+	// find roots
+
+	while (n > 1) {
+
+		if (findroot(h, n) == 0)
+			break; // no root found
+
+		// A is the root
+
+		A = stack[tos - 1];
+
+		// divide p(x) by X - A
+
+		reduce(h, n, A);
+
+		n--;
+	}
+
+	n = tos - k; // number of roots on stack
+
+	if (n == 0) {
+		tos = h; // pop all
+		push_symbol(NIL); // no roots
+		return;
+	}
+
+	sort(n); // sort roots
+
+	// eliminate repeated roots
+
+	for (i = 0; i < n - 1; i++)
+		if (equal(stack[k + i], stack[k + i + 1])) {
+			for (j = i + 1; j < n - 1; j++)
+				stack[k + j] = stack[k + j + 1];
+			i--;
+			n--;
+		}
+
+	if (n == 1) {
+		A = stack[k];
+		tos = h; // pop all
+		push(A); // one root
+		return;
+	}
+
+	A = alloc_vector(n);
+
+	for (i = 0; i < n; i++)
+		A->u.tensor->elem[i] = stack[k + i];
+
+	tos = h; // pop all
+
+	push(A);
+}
+
+int
+findroot(int h, int n)
+{
+	int i, j, m, p, q, r;
+	struct atom *A, *C, *PA;
+
+	// check constant term
+
+	if (iszero(stack[h])) {
+		push_integer(0); // root is zero
+		return 1;
+	}
+
+	// eliminate denominators
+
+	for (i = 0; i < n; i++) {
+		C = stack[h + i];
+		if (isinteger(C))
+			continue;
+		push(C);
+		denominator();
+		C = pop();
+		for (j = 0; j < n; j++) {
+			push(stack[h + j]);
+			push(C);
+			multiply();
+			stack[h + j] = pop();
+		}
+	}
+
+	p = tos;
+
+	push(stack[h]);
+	m = pop_integer();
+	divisors(m); // divisors of constant term
+
+	q = tos;
+
+	push(stack[h + n - 1]);
+	m = pop_integer();
+	divisors(m); // divisors of leading coeff
+
+	r = tos;
+
+	for (i = p; i < q; i++) {
+		for (j = q; j < r; j++) {
+
+			// try positive A
+
+			push(stack[i]);
+			push(stack[j]);
+			divide();
+			A = pop();
+
+			horner(h, n, A);
+
+			PA = pop(); // polynomial evaluated at A
+
+			if (iszero(PA)) {
+				tos = p; // pop all
+				push(A);
+				return 1; // root on stack
+			}
+
+			// try negative A
+
+			push(A);
+			negate();
+			A = pop();
+
+			horner(h, n, A);
+
+			PA = pop(); // polynomial evaluated at A
+
+			if (iszero(PA)) {
+				tos = p; // pop all
+				push(A);
+				return 1; // root on stack
+			}
+		}
+	}
+
+	tos = p; // pop all
+
+	return 0; // no root
+}
+
+// evaluate p(x) at x = A using horner's rule
+
+void
+horner(int h, int n, struct atom *A)
+{
+	int i;
+
+	push(stack[h + n - 1]);
+
+	for (i = n - 2; i >= 0; i--) {
+		push(A);
+		multiply();
+		push(stack[h + i]);
+		add();
+	}
+}
+
+// push all divisors of n
+
+void
+divisors(int n)
+{
+	int h, i, k;
+
+	h = tos;
+
+	factor_int(n);
+
+	k = tos;
+
+	// contruct divisors by recursive descent
+
+	push_integer(1);
+
+	divisors_nib(h, k);
+
+	// move
+
+	n = tos - k;
+
+	for (i = 0; i < n; i++)
+		stack[h + i] = stack[k + i];
+
+	tos = h + n; // pop all
+}
+
+//	Generate all divisors for a factored number
+//
+//	Input:		Factor pairs on stack (base, expo)
+//
+//			h	first pair
+//
+//			k	just past last pair
+//
+//	Output:		Divisors on stack
+//
+//	For example, the number 12 (= 2^2 3^1) has 6 divisors:
+//
+//	1, 2, 3, 4, 6, 12
+
+void
+divisors_nib(int h, int k)
+{
+	int i, n;
+	struct atom *ACCUM, *BASE, *EXPO;
+
+	if (h == k)
+		return;
+
+	ACCUM = pop();
+
+	BASE = stack[h + 0];
+	EXPO = stack[h + 1];
+
+	push(EXPO);
+	n = pop_integer();
+
+	for (i = 0; i <= n; i++) {
+		push(ACCUM);
+		push(BASE);
+		push_integer(i);
+		power();
+		multiply();
+		divisors_nib(h + 2, k);
+	}
+}
+
+// divide by X - A
+
+void
+reduce(int h, int n, struct atom *A)
+{
+	int i;
+
+	for (i = n - 1; i > 0; i--) {
+		push(A);
+		push(stack[h + i]);
+		multiply();
+		push(stack[h + i - 1]);
+		add();
+		stack[h + i - 1] = pop();
+	}
+
+	if (!iszero(stack[h]))
+		stopf("roots: residual error"); // not a root
+
+	// move
+
+	for (i = 0; i < n - 1; i++)
+		stack[h + i] = stack[h + i + 1];
+}
+#define NUMQBITS PSI->u.tensor->nelem
+#define KET0 PSI->u.tensor->elem[i ^ n]
+#define KET1 PSI->u.tensor->elem[i]
+
+#define POWEROF2(x) (((x) & ((x) - 1)) == 0)
+
+void
+eval_rotate(struct atom *p1)
+{
+	int m, n;
+	uint32_t c;
+	struct atom *PSI, *OPCODE, *PHASE;
+
+	push(cadr(p1));
+	evalf();
+	PSI = pop();
+
+	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || PSI->u.tensor->nelem > 32768 || !POWEROF2(PSI->u.tensor->nelem))
+		stopf("rotate error 1 first argument is not a vector or dimension error");
+
+	c = 0;
+
+	p1 = cddr(p1);
+
+	while (iscons(p1)) {
+
+		if (!iscons(cdr(p1)))
+			stopf("rotate error 2 unexpected end of argument list");
+
+		OPCODE = car(p1);
+		push(cadr(p1));
+		evalf();
+		n = pop_integer();
+
+		if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
+			stopf("rotate error 3 qubit number format or range");
+
+		p1 = cddr(p1);
+
+		if (OPCODE == symbol(C_UPPER)) {
+			c |= 1 << n;
+			continue;
+		}
+
+		if (OPCODE == symbol(H_UPPER)) {
+			rotate_h(PSI, c, n);
+			c = 0;
+			continue;
+		}
+
+		if (OPCODE == symbol(P_UPPER)) {
+			if (!iscons(p1))
+				stopf("rotate error 2 unexpected end of argument list");
+			push(car(p1));
+			p1 = cdr(p1);
+			evalf();
+			push(imaginaryunit);
+			multiply();
+			expfunc();
+			PHASE = pop();
+			rotate_p(PSI, PHASE, c, n);
+			c = 0;
+			continue;
+		}
+
+		if (OPCODE == symbol(Q_UPPER)) {
+			rotate_q(PSI, n);
+			c = 0;
+			continue;
+		}
+
+		if (OPCODE == symbol(V_UPPER)) {
+			rotate_v(PSI, n);
+			c = 0;
+			continue;
+		}
+
+		if (OPCODE == symbol(W_UPPER)) {
+			m = n;
+			if (!iscons(p1))
+				stopf("rotate error 2 unexpected end of argument list");
+			push(car(p1));
+			p1 = cdr(p1);
+			evalf();
+			n = pop_integer();
+			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
+				stopf("rotate error 3 qubit number format or range");
+			rotate_w(PSI, c, m, n);
+			c = 0;
+			continue;
+		}
+
+		if (OPCODE == symbol(X_UPPER)) {
+			rotate_x(PSI, c, n);
+			c = 0;
+			continue;
+		}
+
+		if (OPCODE == symbol(Y_UPPER)) {
+			rotate_y(PSI, c, n);
+			c = 0;
+			continue;
+		}
+
+		if (OPCODE == symbol(Z_UPPER)) {
+			rotate_z(PSI, c, n);
+			c = 0;
+			continue;
+		}
+
+		stopf("rotate error 4 unknown rotation code");
+	}
+
+	push(PSI);
+}
+
+// hadamard
+
+void
+rotate_h(struct atom *PSI, uint32_t c, int n)
+{
+	int i;
+	n = 1 << n;
+	for (i = 0; i < NUMQBITS; i++) {
+		if ((i & c) != c)
+			continue;
+		if (i & n) {
+			push(KET0);
+			push(KET1);
+			add();
+			push_rational(1, 2);
+			sqrtfunc();
+			multiply();
+			push(KET0);
+			push(KET1);
+			subtract();
+			push_rational(1, 2);
+			sqrtfunc();
+			multiply();
+			KET1 = pop();
+			KET0 = pop();
+		}
+	}
+}
+
+// phase
+
+void
+rotate_p(struct atom *PSI, struct atom *PHASE, uint32_t c, int n)
+{
+	int i;
+	n = 1 << n;
+	for (i = 0; i < NUMQBITS; i++) {
+		if ((i & c) != c)
+			continue;
+		if (i & n) {
+			push(KET1);
+			push(PHASE);
+			multiply();
+			KET1 = pop();
+		}
+	}
+}
+
+// swap
+
+void
+rotate_w(struct atom *PSI, uint32_t c, int m, int n)
+{
+	int i;
+	m = 1 << m;
+	n = 1 << n;
+	for (i = 0; i < NUMQBITS; i++) {
+		if ((i & c) != c)
+			continue;
+		if ((i & m) && !(i & n)) {
+			push(PSI->u.tensor->elem[i]);
+			push(PSI->u.tensor->elem[i ^ m ^ n]);
+			PSI->u.tensor->elem[i] = pop();
+			PSI->u.tensor->elem[i ^ m ^ n] = pop();
+		}
+	}
+}
+
+void
+rotate_x(struct atom *PSI, uint32_t c, int n)
+{
+	int i;
+	n = 1 << n;
+	for (i = 0; i < NUMQBITS; i++) {
+		if ((i & c) != c)
+			continue;
+		if (i & n) {
+			push(KET0);
+			push(KET1);
+			KET0 = pop();
+			KET1 = pop();
+		}
+	}
+}
+
+void
+rotate_y(struct atom *PSI, uint32_t c, int n)
+{
+	int i;
+	n = 1 << n;
+	for (i = 0; i < NUMQBITS; i++) {
+		if ((i & c) != c)
+			continue;
+		if (i & n) {
+			push(imaginaryunit);
+			negate();
+			push(KET0);
+			multiply();
+			push(imaginaryunit);
+			push(KET1);
+			multiply();
+			KET0 = pop();
+			KET1 = pop();
+		}
+	}
+}
+
+void
+rotate_z(struct atom *PSI, uint32_t c, int n)
+{
+	int i;
+	n = 1 << n;
+	for (i = 0; i < NUMQBITS; i++) {
+		if ((i & c) != c)
+			continue;
+		if (i & n) {
+			push(KET1);
+			negate();
+			KET1 = pop();
+		}
+	}
+}
+
+// quantum fourier transform
+
+void
+rotate_q(struct atom *PSI, int n)
+{
+	int i, j;
+	struct atom *PHASE;
+	for (i = n; i >= 0; i--) {
+		rotate_h(PSI, 0, i);
+		for (j = 0; j < i; j++) {
+			push_rational(1, 2);
+			push_integer(i - j);
+			power();
+			push(imaginaryunit);
+			push_symbol(PI);
+			evalf();
+			multiply_factors(3);
+			expfunc();
+			PHASE = pop();
+			rotate_p(PSI, PHASE, 1 << j, i);
+		}
+	}
+	for (i = 0; i < (n + 1) / 2; i++)
+		rotate_w(PSI, 0, i, n - i);
+}
+
+// inverse qft
+
+void
+rotate_v(struct atom *PSI, int n)
+{
+	int i, j;
+	struct atom *PHASE;
+	for (i = 0; i < (n + 1) / 2; i++)
+		rotate_w(PSI, 0, i, n - i);
+	for (i = 0; i <= n; i++) {
+		for (j = i - 1; j >= 0; j--) {
+			push_rational(1, 2);
+			push_integer(i - j);
+			power();
+			push(imaginaryunit);
+			push_symbol(PI);
+			evalf();
+			multiply_factors(3);
+			negate();
+			expfunc();
+			PHASE = pop();
+			rotate_p(PSI, PHASE, 1 << j, i);
+		}
+		rotate_h(PSI, 0, i);
+	}
+}
+void
+eval_run(struct atom *p1)
+{
+	char *buf;
+	struct atom *p2;
+
+	push(cadr(p1));
+	evalf();
+	p1 = pop();
+	if (!isstr(p1))
+		stopf("run: file name expected");
+
+	p2 = alloc_str();
+	buf = read_file(p1->u.str);
+	if (buf == NULL)
+		stopf("run: cannot read file");
+	p2->u.str = buf;
+
+	fpush(p2); // make visible to garbage collector
+	run_buf(buf);
+	fpop(); // buf is freed on next gc
+
+	push_symbol(NIL); // return value
+}
+void
+eval_setq(struct atom *p1)
+{
+	struct atom *p2;
+
+	push_symbol(NIL); // return value
+
+	if (caadr(p1) == symbol(INDEX)) {
+		setq_indexed(p1);
+		return;
+	}
+
+	if (iscons(cadr(p1))) {
+		setq_usrfunc(p1);
+		return;
+	}
+
+	if (!isusersymbol(cadr(p1)))
+		stopf("user symbol expected");
+
+	push(caddr(p1));
+	evalg();
+	p2 = pop();
+
+	set_symbol(cadr(p1), p2, symbol(NIL));
+}
+
+//	Example: a[1] = b
+//
+//	p1----->cons--->cons------------------->cons
+//		|	|			|
+//		setq	cons--->cons--->cons	b
+//			|	|	|
+//			index	a	1
+//
+//	caadr(p1) = index
+//	cadadr(p1) = a
+//	caddr(p1) = b
+
+void
+setq_indexed(struct atom *p1)
+{
+	int h;
+	struct atom *S, *LVAL, *RVAL;
+
+	S = cadadr(p1);
+
+	if (!isusersymbol(S))
+		stopf("user symbol expected");
+
+	push(S);
+	evalg();
+
+	push(caddr(p1));
+	evalg();
+
+	RVAL = pop();
+	LVAL = pop();
+
+	// eval indices
+
+	p1 = cddadr(p1);
+
+	h = tos;
+
+	while (iscons(p1)) {
+		push(car(p1));
+		evalf();
+		p1 = cdr(p1);
+	}
+
+	set_component(LVAL, RVAL, h);
+
+	set_symbol(S, LVAL, symbol(NIL));
+}
+
+void
+set_component(struct atom *LVAL, struct atom *RVAL, int h)
+{
+	int i, k, m, n, t;
+
+	if (!istensor(LVAL))
+		stopf("index error");
+
+	// n is the number of indices
+
+	n = tos - h;
+
+	if (n < 1 || n > LVAL->u.tensor->ndim)
+		stopf("index error");
+
+	// k is the combined index
+
+	k = 0;
+
+	for (i = 0; i < n; i++) {
+		push(stack[h + i]);
+		t = pop_integer();
+		if (t < 1 || t > LVAL->u.tensor->dim[i])
+			stopf("index error");
+		k = k * LVAL->u.tensor->dim[i] + t - 1;
+	}
+
+	tos = h; // pop all
+
+	if (istensor(RVAL)) {
+		m = RVAL->u.tensor->ndim;
+		if (n + m != LVAL->u.tensor->ndim)
+			stopf("index error");
+		for (i = 0; i < m; i++)
+			if (LVAL->u.tensor->dim[n + i] != RVAL->u.tensor->dim[i])
+				stopf("index error");
+		m = RVAL->u.tensor->nelem;
+		for (i = 0; i < m; i++)
+			LVAL->u.tensor->elem[m * k + i] = RVAL->u.tensor->elem[i];
+	} else {
+		if (n != LVAL->u.tensor->ndim)
+			stopf("index error");
+		LVAL->u.tensor->elem[k] = RVAL;
+	}
+}
+
+// Example:
+//
+//      f(x,y)=x^y
+//
+// For this definition, p1 points to the following structure.
+//
+//     p1
+//      |
+//   ___v__    ______                        ______
+//  |CONS  |->|CONS  |--------------------->|CONS  |
+//  |______|  |______|                      |______|
+//      |         |                             |
+//   ___v__    ___v__    ______    ______    ___v__    ______    ______
+//  |SETQ  |  |CONS  |->|CONS  |->|CONS  |  |CONS  |->|CONS  |->|CONS  |
+//  |______|  |______|  |______|  |______|  |______|  |______|  |______|
+//                |         |         |         |         |         |
+//             ___v__    ___v__    ___v__    ___v__    ___v__    ___v__
+//            |SYM f |  |SYM x |  |SYM y |  |POWER |  |SYM x |  |SYM y |
+//            |______|  |______|  |______|  |______|  |______|  |______|
+//
+// We have
+//
+//	caadr(p1) points to f
+//	cdadr(p1) points to the list (x y)
+//	caddr(p1) points to (power x y)
+
+void
+setq_usrfunc(struct atom *p1)
+{
+	struct atom *F, *A, *B, *C;
+
+	F = caadr(p1);
+	A = cdadr(p1);
+	B = caddr(p1);
+
+	if (!isusersymbol(F))
+		stopf("user symbol expected");
+
+	if (lengthf(A) > 9)
+		stopf("more than 9 arguments");
+
+	push(B);
+	convert_body(A);
+	C = pop();
+
+	set_symbol(F, B, C);
+}
+
+void
+convert_body(struct atom *A)
+{
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG1);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG2);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG3);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG4);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG5);
+	subst();
+
+	A = cdr(A);
+
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG6);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG7);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG8);
+	subst();
+
+	A = cdr(A);
+	if (!iscons(A))
+		return;
+
+	push(car(A));
+	push_symbol(ARG9);
+	subst();
+}
+void
+eval_sgn(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	sgn();
+}
+
+void
+sgn(void)
+{
+	int i, n;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			sgn();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (!isnum(p1)) {
+		push_symbol(SGN);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	if (isnegativenumber(p1))
+		push_integer(-1);
+	else
+		push_integer(1);
+}
+void
+eval_simplify(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	simplify();
+}
+
+void
+simplify(void)
+{
+	int h, i, n;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			simplify();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	// already simple?
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	h = tos;
+	push(car(p1));
+	p1 = cdr(p1);
+
+	while (iscons(p1)) {
+		push(car(p1));
+		simplify();
+		p1 = cdr(p1);
+	}
+
+	list(tos - h);
+	evalf();
+
+	simplify_pass1();
+	simplify_pass2(); // try exponential form
+	simplify_pass3(); // try polar form
+}
+
+void
+simplify_pass1(void)
+{
+	struct atom *p1, *NUM, *DEN, *R, *T;
+
+	p1 = pop();
+
+	// already simple?
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		push(p1);
+		rationalize();
+		T = pop();
+		if (car(T) == symbol(ADD)) {
+			push(p1); // no change
+			return;
+		}
+	} else
+		T = p1;
+
+	push(T);
+	numerator();
+	NUM = pop();
+
+	push(T);
+	denominator();
+	evalf(); // to expand denominator
+	DEN = pop();
+
+	// if DEN is a sum then rationalize it
+
+	if (car(DEN) == symbol(ADD)) {
+		push(DEN);
+		rationalize();
+		T = pop();
+		if (car(T) != symbol(ADD)) {
+			// update NUM
+			push(T);
+			denominator();
+			evalf(); // to expand denominator
+			push(NUM);
+			multiply();
+			NUM = pop();
+			// update DEN
+			push(T);
+			numerator();
+			DEN = pop();
+		}
+	}
+
+	// are NUM and DEN congruent sums?
+
+	if (car(NUM) != symbol(ADD) || car(DEN) != symbol(ADD) || lengthf(NUM) != lengthf(DEN)) {
+		// no, but NUM over DEN might be simpler than p1
+		push(NUM);
+		push(DEN);
+		divide();
+		T = pop();
+		if (complexity(T) < complexity(p1))
+			p1 = T;
+		push(p1);
+		return;
+	}
+
+	push(cadr(NUM)); // push first term of numerator
+	push(cadr(DEN)); // push first term of denominator
+	divide();
+
+	R = pop(); // provisional ratio
+
+	push(R);
+	push(DEN);
+	multiply();
+
+	push(NUM);
+	subtract();
+
+	T = pop();
+
+	if (iszero(T))
+		p1 = R;
+
+	push(p1);
+}
+
+// try exponential form
+
+void
+simplify_pass2(void)
+{
+	struct atom *p1, *p2;
+
+	p1 = pop();
+
+	// already simple?
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	circexp();
+	rationalize();
+	evalf(); // to normalize
+	p2 = pop();
+
+	if (complexity(p2) < complexity(p1)) {
+		push(p2);
+		return;
+	}
+
+	push(p1);
+}
+
+// try polar form
+
+void
+simplify_pass3(void)
+{
+	struct atom *p1, *p2;
+
+	p1 = pop();
+
+	if (car(p1) != symbol(ADD) || isusersymbolsomewhere(p1) || !findf(p1, imaginaryunit)) {
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	polar();
+	p2 = pop();
+
+	if (!iscons(p2)) {
+		push(p2);
+		return;
+	}
+
+	push(p1);
+}
+void
+eval_sin(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	sinfunc();
+}
+
+void
+sinfunc(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1, *p2, *X, *Y;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			sinfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = sin(d);
+		push_double(d);
+		return;
+	}
+
+	// sin(z) = -i/2 exp(i z) + i/2 exp(-i z)
+
+	if (isdoublez(p1)) {
+		push_double(-0.5);
+		push(imaginaryunit);
+		multiply();
+		push(imaginaryunit);
+		push(p1);
+		multiply();
+		expfunc();
+		push(imaginaryunit);
+		negate();
+		push(p1);
+		multiply();
+		expfunc();
+		subtract();
+		multiply();
+		return;
+	}
+
+	// sin(-x) = -sin(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		sinfunc();
+		negate();
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		sinfunc_sum(p1);
+		return;
+	}
+
+	// sin(arctan(y,x)) = y (x^2 + y^2)^(-1/2)
+
+	if (car(p1) == symbol(ARCTAN)) {
+		X = caddr(p1);
+		Y = cadr(p1);
+		push(Y);
+		push(X);
+		push(X);
+		multiply();
+		push(Y);
+		push(Y);
+		multiply();
+		add();
+		push_rational(-1, 2);
+		power();
+		multiply();
+		return;
+	}
+
+	// sin(arccos(x)) = sqrt(1 - x^2)
+
+	if (car(p1) == symbol(ARCCOS)) {
+		push_integer(1);
+		push(cadr(p1));
+		push_integer(2);
+		power();
+		subtract();
+		push_rational(1, 2);
+		power();
+		return;
+	}
+
+	// n pi ?
+
+	push(p1);
+	push_symbol(PI);
+	divide();
+	p2 = pop();
+
+	if (!isnum(p2)) {
+		push_symbol(SIN);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	if (isdouble(p2)) {
+		push(p2);
+		d = pop_double();
+		d = sin(d * M_PI);
+		push_double(d);
+		return;
+	}
+
+	push(p2); // nonnegative by sin(-x) = -sin(x) above
+	push_integer(180);
+	multiply();
+	p2 = pop();
+
+	if (!isinteger(p2)) {
+		push_symbol(SIN);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	push(p2);
+	push_integer(360);
+	modfunc();
+	n = pop_integer();
+
+	switch (n) {
+	case 0:
+	case 180:
+		push_integer(0);
+		break;
+	case 30:
+	case 150:
+		push_rational(1, 2);
+		break;
+	case 210:
+	case 330:
+		push_rational(-1, 2);
+		break;
+	case 45:
+	case 135:
+		push_rational(1, 2);
+		push_integer(2);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 225:
+	case 315:
+		push_rational(-1, 2);
+		push_integer(2);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 60:
+	case 120:
+		push_rational(1, 2);
+		push_integer(3);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 240:
+	case 300:
+		push_rational(-1, 2);
+		push_integer(3);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 90:
+		push_integer(1);
+		break;
+	case 270:
+		push_integer(-1);
+		break;
+	default:
+		push_symbol(SIN);
+		push(p1);
+		list(2);
+		break;
+	}
+}
+
+// sin(x + n/2 pi) = sin(x) cos(n/2 pi) + cos(x) sin(n/2 pi)
+
+void
+sinfunc_sum(struct atom *p1)
+{
+	struct atom *p2, *p3;
+	p2 = cdr(p1);
+	while (iscons(p2)) {
+		push_integer(2);
+		push(car(p2));
+		multiply();
+		push_symbol(PI);
+		divide();
+		p3 = pop();
+		if (isinteger(p3)) {
+			push(p1);
+			push(car(p2));
+			subtract();
+			p3 = pop();
+			push(p3);
+			sinfunc();
+			push(car(p2));
+			cosfunc();
+			multiply();
+			push(p3);
+			cosfunc();
+			push(car(p2));
+			sinfunc();
+			multiply();
+			add();
+			return;
+		}
+		p2 = cdr(p2);
+	}
+	push_symbol(SIN);
+	push(p1);
+	list(2);
+}
+void
+eval_sinh(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	sinhfunc();
+}
+
+void
+sinhfunc(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			sinhfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = sinh(d);
+		push_double(d);
+		return;
+	}
+
+	// sinh(z) = 1/2 exp(z) - 1/2 exp(-z)
+
+	if (isdoublez(p1)) {
+		push_rational(1, 2);
+		push(p1);
+		expfunc();
+		push(p1);
+		negate();
+		expfunc();
+		subtract();
+		multiply();
+		return;
+	}
+
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	// sinh(-x) -> -sinh(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		sinhfunc();
+		negate();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCSINH)) {
+		push(cadr(p1));
+		return;
+	}
+
+	push_symbol(SINH);
+	push(p1);
+	list(2);
+}
+void
+eval_sqrt(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	sqrtfunc();
+}
+
+void
+sqrtfunc(void)
+{
+	push_rational(1, 2);
+	power();
+}
+void
+eval_status(struct atom *p1)
+{
+	(void) p1; // silence compiler
+
+	outbuf_init();
+
+	snprintf(strbuf, STRBUFLEN, "block_count %d (%d%%)\n", block_count, 100 * block_count / MAXBLOCKS);
+	outbuf_puts(strbuf);
+
+	snprintf(strbuf, STRBUFLEN, "free_count %d\n", free_count);
+	outbuf_puts(strbuf);
+
+	snprintf(strbuf, STRBUFLEN, "gc_count %d\n", gc_count);
+	outbuf_puts(strbuf);
+
+	snprintf(strbuf, STRBUFLEN, "bignum_count %d\n", bignum_count);
+	outbuf_puts(strbuf);
+
+	snprintf(strbuf, STRBUFLEN, "ksym_count %d\n", ksym_count);
+	outbuf_puts(strbuf);
+
+	snprintf(strbuf, STRBUFLEN, "usym_count %d\n", usym_count);
+	outbuf_puts(strbuf);
+
+	snprintf(strbuf, STRBUFLEN, "string_count %d\n", string_count);
+	outbuf_puts(strbuf);
+
+	snprintf(strbuf, STRBUFLEN, "tensor_count %d\n", tensor_count);
+	outbuf_puts(strbuf);
+
+	snprintf(strbuf, STRBUFLEN, "max_eval_level %d\n", max_eval_level);
+	outbuf_puts(strbuf);
+
+	snprintf(strbuf, STRBUFLEN, "max_tos %d (%d%%)\n", max_tos, 100 * max_tos / STACKSIZE);
+	outbuf_puts(strbuf);
+
+	snprintf(strbuf, STRBUFLEN, "max_tof %d (%d%%)\n", max_tof, 100 * max_tof / FRAMESIZE);
+	outbuf_puts(strbuf);
+
+	printbuf(outbuf, BLACK);
+
+	push_symbol(NIL);
+}
+void
+eval_stop(struct atom *p1)
+{
+	(void) p1; // silence compiler
+	stopf("stop function");
+}
+void
+eval_subst(struct atom *p1)
+{
+	push(cadddr(p1));
+	evalf();
+	push(caddr(p1));
+	evalf();
+	push(cadr(p1));
+	evalf();
+	subst();
+	evalf(); // normalize
+}
+
+void
+subst(void)
+{
+	int h, i, n;
+	struct atom *p1, *p2, *p3;
+
+	p3 = pop(); // new expr
+	p2 = pop(); // old expr
+
+	if (p2 == symbol(NIL) || p3 == symbol(NIL))
+		return;
+
+	p1 = pop(); // expr
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			push(p2);
+			push(p3);
+			subst();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (equal(p1, p2)) {
+		push(p3);
+		return;
+	}
+
+	if (iscons(p1)) {
+		h = tos;
+		while (iscons(p1)) {
+			push(car(p1));
+			push(p2);
+			push(p3);
+			subst();
+			p1 = cdr(p1);
+		}
+		list(tos - h);
+		return;
+	}
+
+	push(p1);
+}
+void
+eval_sum(struct atom *p1)
+{
+	int h, i, j, k, n;
+	struct atom *p2, *p3;
+
+	if (lengthf(p1) == 2) {
+		push(cadr(p1));
+		evalf();
+		p1 = pop();
+		if (!istensor(p1)) {
+			push(p1);
+			return;
+		}
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++)
+			push(p1->u.tensor->elem[i]);
+		add_terms(n);
+		return;
+	}
+
+	p2 = cadr(p1);
+	if (!isusersymbol(p2))
+		stopf("sum: symbol error");
+
+	push(caddr(p1));
+	evalf();
+	j = pop_integer();
+
+	push(cadddr(p1));
+	evalf();
+	k = pop_integer();
+
+	p1 = caddddr(p1);
+
+	save_symbol(p2);
+
+	h = tos;
+
+	for (;;) {
+		push_integer(j);
+		p3 = pop();
+		set_symbol(p2, p3, symbol(NIL));
+		push(p1);
+		evalg();
+		if (j == k)
+			break;
+		if (j < k)
+			j++;
+		else
+			j--;
+	}
+
+	add_terms(tos - h);
+
+	restore_symbol();
+}
+void
+eval_tan(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	tanfunc();
+}
+
+void
+tanfunc(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1, *p2;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			tanfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = tan(d);
+		push_double(d);
+		return;
+	}
+
+	if (isdoublez(p1)) {
+		push(p1);
+		sinfunc();
+		push(p1);
+		cosfunc();
+		divide();
+		return;
+	}
+
+	// tan(-x) = -tan(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		tanfunc();
+		negate();
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		tanfunc_sum(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(ARCTAN)) {
+		push(cadr(p1));
+		push(caddr(p1));
+		divide();
+		return;
+	}
+
+	// n pi ?
+
+	push(p1);
+	push_symbol(PI);
+	divide();
+	p2 = pop();
+
+	if (!isnum(p2)) {
+		push_symbol(TAN);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	if (isdouble(p2)) {
+		push(p2);
+		d = pop_double();
+		d = tan(d * M_PI);
+		push_double(d);
+		return;
+	}
+
+	push(p2); // nonnegative by tan(-x) = -tan(x) above
+	push_integer(180);
+	multiply();
+	p2 = pop();
+
+	if (!isinteger(p2)) {
+		push_symbol(TAN);
+		push(p1);
+		list(2);
+		return;
+	}
+
+	push(p2);
+	push_integer(360);
+	modfunc();
+	n = pop_integer();
+
+	switch (n) {
+	case 0:
+	case 180:
+		push_integer(0);
+		break;
+	case 30:
+	case 210:
+		push_rational(1, 3);
+		push_integer(3);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 150:
+	case 330:
+		push_rational(-1, 3);
+		push_integer(3);
+		push_rational(1, 2);
+		power();
+		multiply();
+		break;
+	case 45:
+	case 225:
+		push_integer(1);
+		break;
+	case 135:
+	case 315:
+		push_integer(-1);
+		break;
+	case 60:
+	case 240:
+		push_integer(3);
+		push_rational(1, 2);
+		power();
+		break;
+	case 120:
+	case 300:
+		push_integer(3);
+		push_rational(1, 2);
+		power();
+		negate();
+		break;
+	default:
+		push_symbol(TAN);
+		push(p1);
+		list(2);
+		break;
+	}
+}
+
+// tan(x + n pi) = tan(x)
+
+void
+tanfunc_sum(struct atom *p1)
+{
+	struct atom *p2, *p3;
+	p2 = cdr(p1);
+	while (iscons(p2)) {
+		push(car(p2));
+		push_symbol(PI);
+		divide();
+		p3 = pop();
+		if (isinteger(p3)) {
+			push(p1);
+			push(car(p2));
+			subtract();
+			tanfunc();
+			return;
+		}
+		p2 = cdr(p2);
+	}
+	push_symbol(TAN);
+	push(p1);
+	list(2);
+}
+void
+eval_tanh(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	tanhfunc();
+}
+
+void
+tanhfunc(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			tanhfunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isdouble(p1)) {
+		push(p1);
+		d = pop_double();
+		d = tanh(d);
+		push_double(d);
+		return;
+	}
+
+	if (isdoublez(p1)) {
+		push(p1);
+		sinhfunc();
+		push(p1);
+		coshfunc();
+		divide();
+		return;
+	}
+
+	if (iszero(p1)) {
+		push_integer(0);
+		return;
+	}
+
+	// tanh(-x) = -tanh(x)
+
+	if (isnegativeterm(p1)) {
+		push(p1);
+		negate();
+		tanhfunc();
+		negate();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCTANH)) {
+		push(cadr(p1));
+		return;
+	}
+
+	push_symbol(TANH);
+	push(p1);
+	list(2);
+}
+void
+eval_taylor(struct atom *p1)
+{
+	int h, i, n;
+	struct atom *F, *X, *A, *C;
+
+	push(cadr(p1));
+	evalf();
+	F = pop();
+
+	push(caddr(p1));
+	evalf();
+	X = pop();
+
+	push(cadddr(p1));
+	evalf();
+	n = pop_integer();
+
+	p1 = cddddr(p1);
+
+	if (iscons(p1)) {
+		push(car(p1));
+		evalf();
+	} else
+		push_integer(0); // default expansion point
+
+	A = pop();
+
+	h = tos;
+
+	push(F);	// f(a)
+	push(X);
+	push(A);
+	subst();
+	evalf();
+
+	push_integer(1);
+	C = pop();
+
+	for (i = 1; i <= n; i++) {
+
+		push(F);	// f = f'
+		push(X);
+		derivative();
+		F = pop();
+
+		if (iszero(F))
+			break;
+
+		push(C);	// c = c * (x - a)
+		push(X);
+		push(A);
+		subtract();
+		multiply();
+		C = pop();
+
+		push(F);	// f(a)
+		push(X);
+		push(A);
+		subst();
+		evalf();
+
+		push(C);
+		multiply();
+		push_integer(i);
+		factorial();
+		divide();
+	}
+
+	add_terms(tos - h);
+}
+void
+eval_tensor(struct atom *p1)
+{
+	int i;
+
+	p1 = copy_tensor(p1);
+
+	for (i = 0; i < p1->u.tensor->nelem; i++) {
+		push(p1->u.tensor->elem[i]);
+		evalf();
+		p1->u.tensor->elem[i] = pop();
+	}
+
+	push(p1);
+
+	promote_tensor();
+}
+
+// tensors with elements that are also tensors get promoted to a higher rank
+
+void
+promote_tensor(void)
+{
+	int i, j, k, ndim1, ndim2, nelem1, nelem2;
+	struct atom *p1, *p2, *p3;
+
+	p1 = pop();
+
+	if (!istensor(p1)) {
+		push(p1);
+		return;
+	}
+
+	ndim1 = p1->u.tensor->ndim;
+	nelem1 = p1->u.tensor->nelem;
+
+	// check
+
+	p2 = p1->u.tensor->elem[0];
+
+	for (i = 1; i < nelem1; i++) {
+		p3 = p1->u.tensor->elem[i];
+		if (!compatible_dimensions(p2, p3))
+			stopf("tensor dimensions");
+	}
+
+	if (!istensor(p2)) {
+		push(p1);
+		return; // all elements are scalars
+	}
+
+	ndim2 = p2->u.tensor->ndim;
+	nelem2 = p2->u.tensor->nelem;
+
+	if (ndim1 + ndim2 > MAXDIM)
+		stopf("rank exceeds max");
+
+	// alloc
+
+	p3 = alloc_tensor(nelem1 * nelem2);
+
+	// merge dimensions
+
+	k = 0;
+
+	for (i = 0; i < ndim1; i++)
+		p3->u.tensor->dim[k++] = p1->u.tensor->dim[i];
+
+	for (i = 0; i < ndim2; i++)
+		p3->u.tensor->dim[k++] = p2->u.tensor->dim[i];
+
+	p3->u.tensor->ndim = ndim1 + ndim2;
+
+	// merge elements
+
+	k = 0;
+
+	for (i = 0; i < nelem1; i++) {
+		p2 = p1->u.tensor->elem[i];
+		for (j = 0; j < nelem2; j++)
+			p3->u.tensor->elem[k++] = p2->u.tensor->elem[j];
+	}
+
+	push(p3);
+}
+
+int
+compatible_dimensions(struct atom *p, struct atom *q)
+{
+	int i, n;
+
+	if (!istensor(p) && !istensor(q))
+		return 1; // both p and q are scalars
+
+	if (!istensor(p) || !istensor(q))
+		return 0; // scalar and tensor
+
+	n = p->u.tensor->ndim;
+
+	if (n != q->u.tensor->ndim)
+		return 0;
+
+	for (i = 0; i < n; i++)
+		if (p->u.tensor->dim[i] != q->u.tensor->dim[i])
+			return 0;
+
+	return 1;
+}
+
+int
+compare_tensors(struct atom *p1, struct atom *p2)
+{
+	int i;
+
+	if (p1->u.tensor->ndim < p2->u.tensor->ndim)
+		return -1;
+
+	if (p1->u.tensor->ndim > p2->u.tensor->ndim)
+		return 1;
+
+	for (i = 0; i < p1->u.tensor->ndim; i++) {
+		if (p1->u.tensor->dim[i] < p2->u.tensor->dim[i])
+			return -1;
+		if (p1->u.tensor->dim[i] > p2->u.tensor->dim[i])
+			return 1;
+	}
+
+	for (i = 0; i < p1->u.tensor->nelem; i++) {
+		if (equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+			continue;
+		if (lessp(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+			return -1;
+		else
+			return 1;
+	}
+
+	return 0;
+}
+
+struct atom *
+copy_tensor(struct atom *p1)
+{
+	int i;
+	struct atom *p2;
+
+	p2 = alloc_tensor(p1->u.tensor->nelem);
+
+	p2->u.tensor->ndim = p1->u.tensor->ndim;
+
+	for (i = 0; i < p1->u.tensor->ndim; i++)
+		p2->u.tensor->dim[i] = p1->u.tensor->dim[i];
+
+	for (i = 0; i < p1->u.tensor->nelem; i++)
+		p2->u.tensor->elem[i] = p1->u.tensor->elem[i];
+
+	return p2;
+}
+void
+eval_test(struct atom *p1)
+{
+	struct atom *p2;
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		if (!iscons(cdr(p1))) {
+			push(car(p1)); // default case
+			evalf();
+			return;
+		}
+		push(car(p1));
+		evalp();
+		p2 = pop();
+		if (!iszero(p2)) {
+			push(cadr(p1));
+			evalf();
+			return;
+		}
+		p1 = cddr(p1);
+	}
+	push_symbol(NIL);
+}
+void
+eval_testeq(struct atom *p1)
+{
+	struct atom *p2, *p3;
+
+	push(cadr(p1));
+	evalf();
+
+	push(caddr(p1));
+	evalf();
+
+	p2 = pop();
+	p1 = pop();
+
+	// null tensors are equal no matter the dimensions
+
+	if (iszero(p1) && iszero(p2)) {
+		push_integer(1);
+		return;
+	}
+
+	// shortcut for trivial equality
+
+	if (equal(p1, p2)) {
+		push_integer(1);
+		return;
+	}
+
+	// otherwise subtract and simplify
+
+	if (!istensor(p1) && !istensor(p2)) {
+		if (!iscons(p1) && !iscons(p2)) {
+			push_integer(0); // p1 and p2 are numbers, symbols, or strings
+			return;
+		}
+		push(p1);
+		push(p2);
+		subtract();
+		simplify();
+		p1 = pop();
+		if (iszero(p1))
+			push_integer(1);
+		else
+			push_integer(0);
+		return;
+	}
+
+	if (istensor(p1) && istensor(p2)) {
+		if (!compatible_dimensions(p1, p2)) {
+			push_integer(0);
+			return;
+		}
+		push(p1);
+		push(p2);
+		subtract();
+		simplify();
+		p1 = pop();
+		if (iszero(p1))
+			push_integer(1);
+		else
+			push_integer(0);
+		return;
+	}
+
+	if (istensor(p2)) {
+		// swap p1 and p2
+		p3 = p1;
+		p1 = p2;
+		p2 = p3;
+	}
+
+	if (!iszero(p2)) {
+		push_integer(0); // tensor not equal scalar
+		return;
+	}
+
+	push(p1);
+	simplify();
+	p1 = pop();
+
+	if (iszero(p1))
+		push_integer(1);
+	else
+		push_integer(0);
+}
+void
+eval_testge(struct atom *p1)
+{
+	if (cmp_args(p1) >= 0)
+		push_integer(1);
+	else
+		push_integer(0);
+}
+void
+eval_testgt(struct atom *p1)
+{
+	if (cmp_args(p1) > 0)
+		push_integer(1);
+	else
+		push_integer(0);
+}
+void
+eval_testle(struct atom *p1)
+{
+	if (cmp_args(p1) <= 0)
+		push_integer(1);
+	else
+		push_integer(0);
+}
+void
+eval_testlt(struct atom *p1)
+{
+	if (cmp_args(p1) < 0)
+		push_integer(1);
+	else
+		push_integer(0);
+}
+void
+eval_transpose(struct atom *p1)
+{
+	int m, n;
+	struct atom *p2;
+
+	push(cadr(p1));
+	evalf();
+	p2 = pop();
+	push(p2);
+
+	if (!istensor(p2) || p2->u.tensor->ndim < 2)
+		return;
+
+	p1 = cddr(p1);
+
+	if (!iscons(p1)) {
+		transpose(1, 2);
+		return;
+	}
+
+	while (iscons(p1)) {
+
+		push(car(p1));
+		evalf();
+		n = pop_integer();
+
+		push(cadr(p1));
+		evalf();
+		m = pop_integer();
+
+		transpose(n, m);
+
+		p1 = cddr(p1);
+	}
+}
+
+void
+transpose(int n, int m)
+{
+	int i, j, k, ndim, nelem;
+	int index[MAXDIM];
+	struct atom *p1, *p2;
+
+	p1 = pop();
+
+	ndim = p1->u.tensor->ndim;
+	nelem = p1->u.tensor->nelem;
+
+	if (n < 1 || n > ndim || m < 1 || m > ndim)
+		stopf("transpose: index error");
+
+	n--; // make zero based
+	m--;
+
+	p2 = copy_tensor(p1);
+
+	// interchange indices n and m
+
+	p2->u.tensor->dim[n] = p1->u.tensor->dim[m];
+	p2->u.tensor->dim[m] = p1->u.tensor->dim[n];
+
+	for (i = 0; i < ndim; i++)
+		index[i] = 0;
+
+	for (i = 0; i < nelem; i++) {
+
+		k = 0;
+
+		for (j = 0; j < ndim; j++) {
+			if (j == n)
+				k = k * p1->u.tensor->dim[m] + index[m];
+			else if (j == m)
+				k = k * p1->u.tensor->dim[n] + index[n];
+			else
+				k = k * p1->u.tensor->dim[j] + index[j];
+		}
+
+		p2->u.tensor->elem[k] = p1->u.tensor->elem[i];
+
+		// increment index
+
+		for (j = ndim - 1; j >= 0; j--) {
+			if (++index[j] < p1->u.tensor->dim[j])
+				break;
+			index[j] = 0;
+		}
+	}
+
+	push(p2);
+}
+void
+eval_unit(struct atom *p1)
+{
+	int i, j, n;
+
+	push(cadr(p1));
+	evalf();
+
+	n = pop_integer();
+
+	if (n < 1)
+		stopf("unit: index err");
+
+	if (n == 1) {
+		push_integer(1);
+		return;
+	}
+
+	p1 = alloc_matrix(n, n);
+
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			if (i == j)
+				p1->u.tensor->elem[n * i + j] = one;
+			else
+				p1->u.tensor->elem[n * i + j] = zero;
+
+	push(p1);
+}
+void
+eval_user_function(struct atom *p1)
+{
+	int h, i;
+	struct atom *FUNC_NAME, *FUNC_ARGS, *FUNC_DEFN;
+
+	FUNC_NAME = car(p1);
+	FUNC_ARGS = cdr(p1);
+
+	FUNC_DEFN = get_usrfunc(FUNC_NAME);
+
+	// undefined function?
+
+	if (FUNC_DEFN == symbol(NIL)) {
+		if (FUNC_NAME == symbol(D_LOWER)) {
+			expanding++;
+			eval_derivative(p1);
+			expanding--;
+			return;
+		}
+		h = tos;
+		push(FUNC_NAME);
+		while (iscons(FUNC_ARGS)) {
+			push(car(FUNC_ARGS));
+			evalg(); // p1 is on frame stack, not reclaimed
+			FUNC_ARGS = cdr(FUNC_ARGS);
+		}
+		list(tos - h);
+		return;
+	}
+
+	// push FUNC_DEFN before arg eval to preclude any side effect reclaim
+
+	push(FUNC_DEFN);
+
+	// eval all args before changing bindings
+
+	for (i = 0; i < 9; i++) {
+		push(car(FUNC_ARGS));
+		evalg(); // p1 is on frame stack, not reclaimed
+		FUNC_ARGS = cdr(FUNC_ARGS);
+	}
+
+	save_symbol(symbol(ARG1));
+	save_symbol(symbol(ARG2));
+	save_symbol(symbol(ARG3));
+	save_symbol(symbol(ARG4));
+	save_symbol(symbol(ARG5));
+	save_symbol(symbol(ARG6));
+	save_symbol(symbol(ARG7));
+	save_symbol(symbol(ARG8));
+	save_symbol(symbol(ARG9));
+
+	set_symbol(symbol(ARG9), pop(), symbol(NIL));
+	set_symbol(symbol(ARG8), pop(), symbol(NIL));
+	set_symbol(symbol(ARG7), pop(), symbol(NIL));
+	set_symbol(symbol(ARG6), pop(), symbol(NIL));
+	set_symbol(symbol(ARG5), pop(), symbol(NIL));
+	set_symbol(symbol(ARG4), pop(), symbol(NIL));
+	set_symbol(symbol(ARG3), pop(), symbol(NIL));
+	set_symbol(symbol(ARG2), pop(), symbol(NIL));
+	set_symbol(symbol(ARG1), pop(), symbol(NIL));
+
+	evalg(); // eval FUNC_DEFN
+
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+	restore_symbol();
+}
+void
+eval_user_symbol(struct atom *p1)
+{
+	struct atom *p2;
+	p2 = get_binding(p1);
+	if (p1 == p2)
+		push(p1); // symbol evaluates to itself
+	else {
+		push(p2); // evaluate symbol binding
+		evalg();
+	}
+}
+void
+eval_zero(struct atom *p1)
+{
+	int h, i, m, n;
+
+	p1 = cdr(p1);
+	h = tos;
+	m = 1;
+
+	while (iscons(p1)) {
+		push(car(p1));
+		evalf();
+		dupl();
+		n = pop_integer();
+		if (n < 2)
+			stopf("zero: dim err");
+		m *= n;
+		p1 = cdr(p1);
+	}
+
+	n = tos - h;
+
+	if (n == 0) {
+		push_integer(0); // scalar zero
+		return;
+	}
+
+	if (n > MAXDIM)
+		stopf("zero: rank err");
+
+	p1 = alloc_tensor(m);
+
+	for (i = 0; i < m; i++)
+		p1->u.tensor->elem[i] = zero;
+
+	// dim info
+
+	p1->u.tensor->ndim = n;
+
+	for (i = 0; i < n; i++)
+		p1->u.tensor->dim[n - i - 1] = pop_integer();
+
+	push(p1);
+}
+// like evalf() except '=' is evaluated as '=='
+
+void
+evalp(void)
+{
+	struct atom *p1;
+	p1 = pop();
+	if (car(p1) == symbol(SETQ))
+		eval_testeq(p1);
+	else {
+		push(p1);
+		evalf();
+	}
+}
+void
+factor_bignum(uint32_t *N, struct atom *M)
+{
+	int h, i, n;
+	struct atom *BASE, *EXPO;
+
+	// greater than 31 bits?
+
+	if (!bignum_issmallnum(N)) {
+		push_bignum(MPLUS, mcopy(N), mint(1));
+		if (isplusone(M))
+			return;
+		push_symbol(POWER);
+		swap();
+		push(M);
+		list(3);
+		return;
+	}
+
+	h = tos;
+
+	n = bignum_smallnum(N);
+
+	factor_int(n);
+
+	n = (tos - h) / 2; // number of factors on stack
+
+	for (i = 0; i < n; i++) {
+
+		BASE = stack[h + 2 * i + 0];
+		EXPO = stack[h + 2 * i + 1];
+
+		push(EXPO);
+		push(M);
+		multiply();
+		EXPO = pop();
+
+		if (isplusone(EXPO)) {
+			stack[h + i] = BASE;
+			continue;
+		}
+
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
+		stack[h + i] = pop();
+	}
+
+	tos = h + n; // pop all
+}
+// factors N or N^M where N and M are rational numbers, returns factors on stack
+
+void
+factor_factor(void)
+{
+	uint32_t *numer, *denom;
+	struct atom *INPUT, *BASE, *EXPO;
+
+	INPUT = pop();
+
+	if (car(INPUT) == symbol(POWER)) {
+
+		BASE = cadr(INPUT);
+		EXPO = caddr(INPUT);
+
+		if (!isrational(BASE) || !isrational(EXPO)) {
+			push(INPUT); // cannot factor
+			return;
+		}
+
+		if (isminusone(BASE)) {
+			push(INPUT); // -1 to the M
+			return;
+		}
+
+		if (isnegativenumber(BASE)) {
+			push_symbol(POWER);
+			push_integer(-1);
+			push(EXPO);
+			list(3); // leave on stack
+		}
+
+		numer = BASE->u.q.a;
+		denom = BASE->u.q.b;
+
+		if (!MEQUAL(numer, 1))
+			factor_bignum(numer, EXPO);
+
+		if (!MEQUAL(denom, 1)) {
+			// flip sign of exponent
+			push(EXPO);
+			negate();
+			EXPO = pop();
+			factor_bignum(denom, EXPO);
+		}
+
+		return;
+	}
+
+	if (!isrational(INPUT) || iszero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
+		push(INPUT);
+		return;
+	}
+
+	if (isnegativenumber(INPUT))
+		push_integer(-1);
+
+	numer = INPUT->u.q.a;
+	denom = INPUT->u.q.b;
+
+	if (!MEQUAL(numer, 1))
+		factor_bignum(numer, one);
+
+	if (!MEQUAL(denom, 1))
+		factor_bignum(denom, minusone);
+}
+#define NPRIME 4792
+
+int primetab[NPRIME] = {
+2,3,5,7,11,13,17,19,
+23,29,31,37,41,43,47,53,
+59,61,67,71,73,79,83,89,
+97,101,103,107,109,113,127,131,
+137,139,149,151,157,163,167,173,
+179,181,191,193,197,199,211,223,
+227,229,233,239,241,251,257,263,
+269,271,277,281,283,293,307,311,
+313,317,331,337,347,349,353,359,
+367,373,379,383,389,397,401,409,
+419,421,431,433,439,443,449,457,
+461,463,467,479,487,491,499,503,
+509,521,523,541,547,557,563,569,
+571,577,587,593,599,601,607,613,
+617,619,631,641,643,647,653,659,
+661,673,677,683,691,701,709,719,
+727,733,739,743,751,757,761,769,
+773,787,797,809,811,821,823,827,
+829,839,853,857,859,863,877,881,
+883,887,907,911,919,929,937,941,
+947,953,967,971,977,983,991,997,
+1009,1013,1019,1021,1031,1033,1039,1049,
+1051,1061,1063,1069,1087,1091,1093,1097,
+1103,1109,1117,1123,1129,1151,1153,1163,
+1171,1181,1187,1193,1201,1213,1217,1223,
+1229,1231,1237,1249,1259,1277,1279,1283,
+1289,1291,1297,1301,1303,1307,1319,1321,
+1327,1361,1367,1373,1381,1399,1409,1423,
+1427,1429,1433,1439,1447,1451,1453,1459,
+1471,1481,1483,1487,1489,1493,1499,1511,
+1523,1531,1543,1549,1553,1559,1567,1571,
+1579,1583,1597,1601,1607,1609,1613,1619,
+1621,1627,1637,1657,1663,1667,1669,1693,
+1697,1699,1709,1721,1723,1733,1741,1747,
+1753,1759,1777,1783,1787,1789,1801,1811,
+1823,1831,1847,1861,1867,1871,1873,1877,
+1879,1889,1901,1907,1913,1931,1933,1949,
+1951,1973,1979,1987,1993,1997,1999,2003,
+2011,2017,2027,2029,2039,2053,2063,2069,
+2081,2083,2087,2089,2099,2111,2113,2129,
+2131,2137,2141,2143,2153,2161,2179,2203,
+2207,2213,2221,2237,2239,2243,2251,2267,
+2269,2273,2281,2287,2293,2297,2309,2311,
+2333,2339,2341,2347,2351,2357,2371,2377,
+2381,2383,2389,2393,2399,2411,2417,2423,
+2437,2441,2447,2459,2467,2473,2477,2503,
+2521,2531,2539,2543,2549,2551,2557,2579,
+2591,2593,2609,2617,2621,2633,2647,2657,
+2659,2663,2671,2677,2683,2687,2689,2693,
+2699,2707,2711,2713,2719,2729,2731,2741,
+2749,2753,2767,2777,2789,2791,2797,2801,
+2803,2819,2833,2837,2843,2851,2857,2861,
+2879,2887,2897,2903,2909,2917,2927,2939,
+2953,2957,2963,2969,2971,2999,3001,3011,
+3019,3023,3037,3041,3049,3061,3067,3079,
+3083,3089,3109,3119,3121,3137,3163,3167,
+3169,3181,3187,3191,3203,3209,3217,3221,
+3229,3251,3253,3257,3259,3271,3299,3301,
+3307,3313,3319,3323,3329,3331,3343,3347,
+3359,3361,3371,3373,3389,3391,3407,3413,
+3433,3449,3457,3461,3463,3467,3469,3491,
+3499,3511,3517,3527,3529,3533,3539,3541,
+3547,3557,3559,3571,3581,3583,3593,3607,
+3613,3617,3623,3631,3637,3643,3659,3671,
+3673,3677,3691,3697,3701,3709,3719,3727,
+3733,3739,3761,3767,3769,3779,3793,3797,
+3803,3821,3823,3833,3847,3851,3853,3863,
+3877,3881,3889,3907,3911,3917,3919,3923,
+3929,3931,3943,3947,3967,3989,4001,4003,
+4007,4013,4019,4021,4027,4049,4051,4057,
+4073,4079,4091,4093,4099,4111,4127,4129,
+4133,4139,4153,4157,4159,4177,4201,4211,
+4217,4219,4229,4231,4241,4243,4253,4259,
+4261,4271,4273,4283,4289,4297,4327,4337,
+4339,4349,4357,4363,4373,4391,4397,4409,
+4421,4423,4441,4447,4451,4457,4463,4481,
+4483,4493,4507,4513,4517,4519,4523,4547,
+4549,4561,4567,4583,4591,4597,4603,4621,
+4637,4639,4643,4649,4651,4657,4663,4673,
+4679,4691,4703,4721,4723,4729,4733,4751,
+4759,4783,4787,4789,4793,4799,4801,4813,
+4817,4831,4861,4871,4877,4889,4903,4909,
+4919,4931,4933,4937,4943,4951,4957,4967,
+4969,4973,4987,4993,4999,5003,5009,5011,
+5021,5023,5039,5051,5059,5077,5081,5087,
+5099,5101,5107,5113,5119,5147,5153,5167,
+5171,5179,5189,5197,5209,5227,5231,5233,
+5237,5261,5273,5279,5281,5297,5303,5309,
+5323,5333,5347,5351,5381,5387,5393,5399,
+5407,5413,5417,5419,5431,5437,5441,5443,
+5449,5471,5477,5479,5483,5501,5503,5507,
+5519,5521,5527,5531,5557,5563,5569,5573,
+5581,5591,5623,5639,5641,5647,5651,5653,
+5657,5659,5669,5683,5689,5693,5701,5711,
+5717,5737,5741,5743,5749,5779,5783,5791,
+5801,5807,5813,5821,5827,5839,5843,5849,
+5851,5857,5861,5867,5869,5879,5881,5897,
+5903,5923,5927,5939,5953,5981,5987,6007,
+6011,6029,6037,6043,6047,6053,6067,6073,
+6079,6089,6091,6101,6113,6121,6131,6133,
+6143,6151,6163,6173,6197,6199,6203,6211,
+6217,6221,6229,6247,6257,6263,6269,6271,
+6277,6287,6299,6301,6311,6317,6323,6329,
+6337,6343,6353,6359,6361,6367,6373,6379,
+6389,6397,6421,6427,6449,6451,6469,6473,
+6481,6491,6521,6529,6547,6551,6553,6563,
+6569,6571,6577,6581,6599,6607,6619,6637,
+6653,6659,6661,6673,6679,6689,6691,6701,
+6703,6709,6719,6733,6737,6761,6763,6779,
+6781,6791,6793,6803,6823,6827,6829,6833,
+6841,6857,6863,6869,6871,6883,6899,6907,
+6911,6917,6947,6949,6959,6961,6967,6971,
+6977,6983,6991,6997,7001,7013,7019,7027,
+7039,7043,7057,7069,7079,7103,7109,7121,
+7127,7129,7151,7159,7177,7187,7193,7207,
+7211,7213,7219,7229,7237,7243,7247,7253,
+7283,7297,7307,7309,7321,7331,7333,7349,
+7351,7369,7393,7411,7417,7433,7451,7457,
+7459,7477,7481,7487,7489,7499,7507,7517,
+7523,7529,7537,7541,7547,7549,7559,7561,
+7573,7577,7583,7589,7591,7603,7607,7621,
+7639,7643,7649,7669,7673,7681,7687,7691,
+7699,7703,7717,7723,7727,7741,7753,7757,
+7759,7789,7793,7817,7823,7829,7841,7853,
+7867,7873,7877,7879,7883,7901,7907,7919,
+7927,7933,7937,7949,7951,7963,7993,8009,
+8011,8017,8039,8053,8059,8069,8081,8087,
+8089,8093,8101,8111,8117,8123,8147,8161,
+8167,8171,8179,8191,8209,8219,8221,8231,
+8233,8237,8243,8263,8269,8273,8287,8291,
+8293,8297,8311,8317,8329,8353,8363,8369,
+8377,8387,8389,8419,8423,8429,8431,8443,
+8447,8461,8467,8501,8513,8521,8527,8537,
+8539,8543,8563,8573,8581,8597,8599,8609,
+8623,8627,8629,8641,8647,8663,8669,8677,
+8681,8689,8693,8699,8707,8713,8719,8731,
+8737,8741,8747,8753,8761,8779,8783,8803,
+8807,8819,8821,8831,8837,8839,8849,8861,
+8863,8867,8887,8893,8923,8929,8933,8941,
+8951,8963,8969,8971,8999,9001,9007,9011,
+9013,9029,9041,9043,9049,9059,9067,9091,
+9103,9109,9127,9133,9137,9151,9157,9161,
+9173,9181,9187,9199,9203,9209,9221,9227,
+9239,9241,9257,9277,9281,9283,9293,9311,
+9319,9323,9337,9341,9343,9349,9371,9377,
+9391,9397,9403,9413,9419,9421,9431,9433,
+9437,9439,9461,9463,9467,9473,9479,9491,
+9497,9511,9521,9533,9539,9547,9551,9587,
+9601,9613,9619,9623,9629,9631,9643,9649,
+9661,9677,9679,9689,9697,9719,9721,9733,
+9739,9743,9749,9767,9769,9781,9787,9791,
+9803,9811,9817,9829,9833,9839,9851,9857,
+9859,9871,9883,9887,9901,9907,9923,9929,
+9931,9941,9949,9967,9973,10007,10009,10037,
+10039,10061,10067,10069,10079,10091,10093,10099,
+10103,10111,10133,10139,10141,10151,10159,10163,
+10169,10177,10181,10193,10211,10223,10243,10247,
+10253,10259,10267,10271,10273,10289,10301,10303,
+10313,10321,10331,10333,10337,10343,10357,10369,
+10391,10399,10427,10429,10433,10453,10457,10459,
+10463,10477,10487,10499,10501,10513,10529,10531,
+10559,10567,10589,10597,10601,10607,10613,10627,
+10631,10639,10651,10657,10663,10667,10687,10691,
+10709,10711,10723,10729,10733,10739,10753,10771,
+10781,10789,10799,10831,10837,10847,10853,10859,
+10861,10867,10883,10889,10891,10903,10909,10937,
+10939,10949,10957,10973,10979,10987,10993,11003,
+11027,11047,11057,11059,11069,11071,11083,11087,
+11093,11113,11117,11119,11131,11149,11159,11161,
+11171,11173,11177,11197,11213,11239,11243,11251,
+11257,11261,11273,11279,11287,11299,11311,11317,
+11321,11329,11351,11353,11369,11383,11393,11399,
+11411,11423,11437,11443,11447,11467,11471,11483,
+11489,11491,11497,11503,11519,11527,11549,11551,
+11579,11587,11593,11597,11617,11621,11633,11657,
+11677,11681,11689,11699,11701,11717,11719,11731,
+11743,11777,11779,11783,11789,11801,11807,11813,
+11821,11827,11831,11833,11839,11863,11867,11887,
+11897,11903,11909,11923,11927,11933,11939,11941,
+11953,11959,11969,11971,11981,11987,12007,12011,
+12037,12041,12043,12049,12071,12073,12097,12101,
+12107,12109,12113,12119,12143,12149,12157,12161,
+12163,12197,12203,12211,12227,12239,12241,12251,
+12253,12263,12269,12277,12281,12289,12301,12323,
+12329,12343,12347,12373,12377,12379,12391,12401,
+12409,12413,12421,12433,12437,12451,12457,12473,
+12479,12487,12491,12497,12503,12511,12517,12527,
+12539,12541,12547,12553,12569,12577,12583,12589,
+12601,12611,12613,12619,12637,12641,12647,12653,
+12659,12671,12689,12697,12703,12713,12721,12739,
+12743,12757,12763,12781,12791,12799,12809,12821,
+12823,12829,12841,12853,12889,12893,12899,12907,
+12911,12917,12919,12923,12941,12953,12959,12967,
+12973,12979,12983,13001,13003,13007,13009,13033,
+13037,13043,13049,13063,13093,13099,13103,13109,
+13121,13127,13147,13151,13159,13163,13171,13177,
+13183,13187,13217,13219,13229,13241,13249,13259,
+13267,13291,13297,13309,13313,13327,13331,13337,
+13339,13367,13381,13397,13399,13411,13417,13421,
+13441,13451,13457,13463,13469,13477,13487,13499,
+13513,13523,13537,13553,13567,13577,13591,13597,
+13613,13619,13627,13633,13649,13669,13679,13681,
+13687,13691,13693,13697,13709,13711,13721,13723,
+13729,13751,13757,13759,13763,13781,13789,13799,
+13807,13829,13831,13841,13859,13873,13877,13879,
+13883,13901,13903,13907,13913,13921,13931,13933,
+13963,13967,13997,13999,14009,14011,14029,14033,
+14051,14057,14071,14081,14083,14087,14107,14143,
+14149,14153,14159,14173,14177,14197,14207,14221,
+14243,14249,14251,14281,14293,14303,14321,14323,
+14327,14341,14347,14369,14387,14389,14401,14407,
+14411,14419,14423,14431,14437,14447,14449,14461,
+14479,14489,14503,14519,14533,14537,14543,14549,
+14551,14557,14561,14563,14591,14593,14621,14627,
+14629,14633,14639,14653,14657,14669,14683,14699,
+14713,14717,14723,14731,14737,14741,14747,14753,
+14759,14767,14771,14779,14783,14797,14813,14821,
+14827,14831,14843,14851,14867,14869,14879,14887,
+14891,14897,14923,14929,14939,14947,14951,14957,
+14969,14983,15013,15017,15031,15053,15061,15073,
+15077,15083,15091,15101,15107,15121,15131,15137,
+15139,15149,15161,15173,15187,15193,15199,15217,
+15227,15233,15241,15259,15263,15269,15271,15277,
+15287,15289,15299,15307,15313,15319,15329,15331,
+15349,15359,15361,15373,15377,15383,15391,15401,
+15413,15427,15439,15443,15451,15461,15467,15473,
+15493,15497,15511,15527,15541,15551,15559,15569,
+15581,15583,15601,15607,15619,15629,15641,15643,
+15647,15649,15661,15667,15671,15679,15683,15727,
+15731,15733,15737,15739,15749,15761,15767,15773,
+15787,15791,15797,15803,15809,15817,15823,15859,
+15877,15881,15887,15889,15901,15907,15913,15919,
+15923,15937,15959,15971,15973,15991,16001,16007,
+16033,16057,16061,16063,16067,16069,16073,16087,
+16091,16097,16103,16111,16127,16139,16141,16183,
+16187,16189,16193,16217,16223,16229,16231,16249,
+16253,16267,16273,16301,16319,16333,16339,16349,
+16361,16363,16369,16381,16411,16417,16421,16427,
+16433,16447,16451,16453,16477,16481,16487,16493,
+16519,16529,16547,16553,16561,16567,16573,16603,
+16607,16619,16631,16633,16649,16651,16657,16661,
+16673,16691,16693,16699,16703,16729,16741,16747,
+16759,16763,16787,16811,16823,16829,16831,16843,
+16871,16879,16883,16889,16901,16903,16921,16927,
+16931,16937,16943,16963,16979,16981,16987,16993,
+17011,17021,17027,17029,17033,17041,17047,17053,
+17077,17093,17099,17107,17117,17123,17137,17159,
+17167,17183,17189,17191,17203,17207,17209,17231,
+17239,17257,17291,17293,17299,17317,17321,17327,
+17333,17341,17351,17359,17377,17383,17387,17389,
+17393,17401,17417,17419,17431,17443,17449,17467,
+17471,17477,17483,17489,17491,17497,17509,17519,
+17539,17551,17569,17573,17579,17581,17597,17599,
+17609,17623,17627,17657,17659,17669,17681,17683,
+17707,17713,17729,17737,17747,17749,17761,17783,
+17789,17791,17807,17827,17837,17839,17851,17863,
+17881,17891,17903,17909,17911,17921,17923,17929,
+17939,17957,17959,17971,17977,17981,17987,17989,
+18013,18041,18043,18047,18049,18059,18061,18077,
+18089,18097,18119,18121,18127,18131,18133,18143,
+18149,18169,18181,18191,18199,18211,18217,18223,
+18229,18233,18251,18253,18257,18269,18287,18289,
+18301,18307,18311,18313,18329,18341,18353,18367,
+18371,18379,18397,18401,18413,18427,18433,18439,
+18443,18451,18457,18461,18481,18493,18503,18517,
+18521,18523,18539,18541,18553,18583,18587,18593,
+18617,18637,18661,18671,18679,18691,18701,18713,
+18719,18731,18743,18749,18757,18773,18787,18793,
+18797,18803,18839,18859,18869,18899,18911,18913,
+18917,18919,18947,18959,18973,18979,19001,19009,
+19013,19031,19037,19051,19069,19073,19079,19081,
+19087,19121,19139,19141,19157,19163,19181,19183,
+19207,19211,19213,19219,19231,19237,19249,19259,
+19267,19273,19289,19301,19309,19319,19333,19373,
+19379,19381,19387,19391,19403,19417,19421,19423,
+19427,19429,19433,19441,19447,19457,19463,19469,
+19471,19477,19483,19489,19501,19507,19531,19541,
+19543,19553,19559,19571,19577,19583,19597,19603,
+19609,19661,19681,19687,19697,19699,19709,19717,
+19727,19739,19751,19753,19759,19763,19777,19793,
+19801,19813,19819,19841,19843,19853,19861,19867,
+19889,19891,19913,19919,19927,19937,19949,19961,
+19963,19973,19979,19991,19993,19997,20011,20021,
+20023,20029,20047,20051,20063,20071,20089,20101,
+20107,20113,20117,20123,20129,20143,20147,20149,
+20161,20173,20177,20183,20201,20219,20231,20233,
+20249,20261,20269,20287,20297,20323,20327,20333,
+20341,20347,20353,20357,20359,20369,20389,20393,
+20399,20407,20411,20431,20441,20443,20477,20479,
+20483,20507,20509,20521,20533,20543,20549,20551,
+20563,20593,20599,20611,20627,20639,20641,20663,
+20681,20693,20707,20717,20719,20731,20743,20747,
+20749,20753,20759,20771,20773,20789,20807,20809,
+20849,20857,20873,20879,20887,20897,20899,20903,
+20921,20929,20939,20947,20959,20963,20981,20983,
+21001,21011,21013,21017,21019,21023,21031,21059,
+21061,21067,21089,21101,21107,21121,21139,21143,
+21149,21157,21163,21169,21179,21187,21191,21193,
+21211,21221,21227,21247,21269,21277,21283,21313,
+21317,21319,21323,21341,21347,21377,21379,21383,
+21391,21397,21401,21407,21419,21433,21467,21481,
+21487,21491,21493,21499,21503,21517,21521,21523,
+21529,21557,21559,21563,21569,21577,21587,21589,
+21599,21601,21611,21613,21617,21647,21649,21661,
+21673,21683,21701,21713,21727,21737,21739,21751,
+21757,21767,21773,21787,21799,21803,21817,21821,
+21839,21841,21851,21859,21863,21871,21881,21893,
+21911,21929,21937,21943,21961,21977,21991,21997,
+22003,22013,22027,22031,22037,22039,22051,22063,
+22067,22073,22079,22091,22093,22109,22111,22123,
+22129,22133,22147,22153,22157,22159,22171,22189,
+22193,22229,22247,22259,22271,22273,22277,22279,
+22283,22291,22303,22307,22343,22349,22367,22369,
+22381,22391,22397,22409,22433,22441,22447,22453,
+22469,22481,22483,22501,22511,22531,22541,22543,
+22549,22567,22571,22573,22613,22619,22621,22637,
+22639,22643,22651,22669,22679,22691,22697,22699,
+22709,22717,22721,22727,22739,22741,22751,22769,
+22777,22783,22787,22807,22811,22817,22853,22859,
+22861,22871,22877,22901,22907,22921,22937,22943,
+22961,22963,22973,22993,23003,23011,23017,23021,
+23027,23029,23039,23041,23053,23057,23059,23063,
+23071,23081,23087,23099,23117,23131,23143,23159,
+23167,23173,23189,23197,23201,23203,23209,23227,
+23251,23269,23279,23291,23293,23297,23311,23321,
+23327,23333,23339,23357,23369,23371,23399,23417,
+23431,23447,23459,23473,23497,23509,23531,23537,
+23539,23549,23557,23561,23563,23567,23581,23593,
+23599,23603,23609,23623,23627,23629,23633,23663,
+23669,23671,23677,23687,23689,23719,23741,23743,
+23747,23753,23761,23767,23773,23789,23801,23813,
+23819,23827,23831,23833,23857,23869,23873,23879,
+23887,23893,23899,23909,23911,23917,23929,23957,
+23971,23977,23981,23993,24001,24007,24019,24023,
+24029,24043,24049,24061,24071,24077,24083,24091,
+24097,24103,24107,24109,24113,24121,24133,24137,
+24151,24169,24179,24181,24197,24203,24223,24229,
+24239,24247,24251,24281,24317,24329,24337,24359,
+24371,24373,24379,24391,24407,24413,24419,24421,
+24439,24443,24469,24473,24481,24499,24509,24517,
+24527,24533,24547,24551,24571,24593,24611,24623,
+24631,24659,24671,24677,24683,24691,24697,24709,
+24733,24749,24763,24767,24781,24793,24799,24809,
+24821,24841,24847,24851,24859,24877,24889,24907,
+24917,24919,24923,24943,24953,24967,24971,24977,
+24979,24989,25013,25031,25033,25037,25057,25073,
+25087,25097,25111,25117,25121,25127,25147,25153,
+25163,25169,25171,25183,25189,25219,25229,25237,
+25243,25247,25253,25261,25301,25303,25307,25309,
+25321,25339,25343,25349,25357,25367,25373,25391,
+25409,25411,25423,25439,25447,25453,25457,25463,
+25469,25471,25523,25537,25541,25561,25577,25579,
+25583,25589,25601,25603,25609,25621,25633,25639,
+25643,25657,25667,25673,25679,25693,25703,25717,
+25733,25741,25747,25759,25763,25771,25793,25799,
+25801,25819,25841,25847,25849,25867,25873,25889,
+25903,25913,25919,25931,25933,25939,25943,25951,
+25969,25981,25997,25999,26003,26017,26021,26029,
+26041,26053,26083,26099,26107,26111,26113,26119,
+26141,26153,26161,26171,26177,26183,26189,26203,
+26209,26227,26237,26249,26251,26261,26263,26267,
+26293,26297,26309,26317,26321,26339,26347,26357,
+26371,26387,26393,26399,26407,26417,26423,26431,
+26437,26449,26459,26479,26489,26497,26501,26513,
+26539,26557,26561,26573,26591,26597,26627,26633,
+26641,26647,26669,26681,26683,26687,26693,26699,
+26701,26711,26713,26717,26723,26729,26731,26737,
+26759,26777,26783,26801,26813,26821,26833,26839,
+26849,26861,26863,26879,26881,26891,26893,26903,
+26921,26927,26947,26951,26953,26959,26981,26987,
+26993,27011,27017,27031,27043,27059,27061,27067,
+27073,27077,27091,27103,27107,27109,27127,27143,
+27179,27191,27197,27211,27239,27241,27253,27259,
+27271,27277,27281,27283,27299,27329,27337,27361,
+27367,27397,27407,27409,27427,27431,27437,27449,
+27457,27479,27481,27487,27509,27527,27529,27539,
+27541,27551,27581,27583,27611,27617,27631,27647,
+27653,27673,27689,27691,27697,27701,27733,27737,
+27739,27743,27749,27751,27763,27767,27773,27779,
+27791,27793,27799,27803,27809,27817,27823,27827,
+27847,27851,27883,27893,27901,27917,27919,27941,
+27943,27947,27953,27961,27967,27983,27997,28001,
+28019,28027,28031,28051,28057,28069,28081,28087,
+28097,28099,28109,28111,28123,28151,28163,28181,
+28183,28201,28211,28219,28229,28277,28279,28283,
+28289,28297,28307,28309,28319,28349,28351,28387,
+28393,28403,28409,28411,28429,28433,28439,28447,
+28463,28477,28493,28499,28513,28517,28537,28541,
+28547,28549,28559,28571,28573,28579,28591,28597,
+28603,28607,28619,28621,28627,28631,28643,28649,
+28657,28661,28663,28669,28687,28697,28703,28711,
+28723,28729,28751,28753,28759,28771,28789,28793,
+28807,28813,28817,28837,28843,28859,28867,28871,
+28879,28901,28909,28921,28927,28933,28949,28961,
+28979,29009,29017,29021,29023,29027,29033,29059,
+29063,29077,29101,29123,29129,29131,29137,29147,
+29153,29167,29173,29179,29191,29201,29207,29209,
+29221,29231,29243,29251,29269,29287,29297,29303,
+29311,29327,29333,29339,29347,29363,29383,29387,
+29389,29399,29401,29411,29423,29429,29437,29443,
+29453,29473,29483,29501,29527,29531,29537,29567,
+29569,29573,29581,29587,29599,29611,29629,29633,
+29641,29663,29669,29671,29683,29717,29723,29741,
+29753,29759,29761,29789,29803,29819,29833,29837,
+29851,29863,29867,29873,29879,29881,29917,29921,
+29927,29947,29959,29983,29989,30011,30013,30029,
+30047,30059,30071,30089,30091,30097,30103,30109,
+30113,30119,30133,30137,30139,30161,30169,30181,
+30187,30197,30203,30211,30223,30241,30253,30259,
+30269,30271,30293,30307,30313,30319,30323,30341,
+30347,30367,30389,30391,30403,30427,30431,30449,
+30467,30469,30491,30493,30497,30509,30517,30529,
+30539,30553,30557,30559,30577,30593,30631,30637,
+30643,30649,30661,30671,30677,30689,30697,30703,
+30707,30713,30727,30757,30763,30773,30781,30803,
+30809,30817,30829,30839,30841,30851,30853,30859,
+30869,30871,30881,30893,30911,30931,30937,30941,
+30949,30971,30977,30983,31013,31019,31033,31039,
+31051,31063,31069,31079,31081,31091,31121,31123,
+31139,31147,31151,31153,31159,31177,31181,31183,
+31189,31193,31219,31223,31231,31237,31247,31249,
+31253,31259,31267,31271,31277,31307,31319,31321,
+31327,31333,31337,31357,31379,31387,31391,31393,
+31397,31469,31477,31481,31489,31511,31513,31517,
+31531,31541,31543,31547,31567,31573,31583,31601,
+31607,31627,31643,31649,31657,31663,31667,31687,
+31699,31721,31723,31727,31729,31741,31751,31769,
+31771,31793,31799,31817,31847,31849,31859,31873,
+31883,31891,31907,31957,31963,31973,31981,31991,
+32003,32009,32027,32029,32051,32057,32059,32063,
+32069,32077,32083,32089,32099,32117,32119,32141,
+32143,32159,32173,32183,32189,32191,32203,32213,
+32233,32237,32251,32257,32261,32297,32299,32303,
+32309,32321,32323,32327,32341,32353,32359,32363,
+32369,32371,32377,32381,32401,32411,32413,32423,
+32429,32441,32443,32467,32479,32491,32497,32503,
+32507,32531,32533,32537,32561,32563,32569,32573,
+32579,32587,32603,32609,32611,32621,32633,32647,
+32653,32687,32693,32707,32713,32717,32719,32749,
+32771,32779,32783,32789,32797,32801,32803,32831,
+32833,32839,32843,32869,32887,32909,32911,32917,
+32933,32939,32941,32957,32969,32971,32983,32987,
+32993,32999,33013,33023,33029,33037,33049,33053,
+33071,33073,33083,33091,33107,33113,33119,33149,
+33151,33161,33179,33181,33191,33199,33203,33211,
+33223,33247,33287,33289,33301,33311,33317,33329,
+33331,33343,33347,33349,33353,33359,33377,33391,
+33403,33409,33413,33427,33457,33461,33469,33479,
+33487,33493,33503,33521,33529,33533,33547,33563,
+33569,33577,33581,33587,33589,33599,33601,33613,
+33617,33619,33623,33629,33637,33641,33647,33679,
+33703,33713,33721,33739,33749,33751,33757,33767,
+33769,33773,33791,33797,33809,33811,33827,33829,
+33851,33857,33863,33871,33889,33893,33911,33923,
+33931,33937,33941,33961,33967,33997,34019,34031,
+34033,34039,34057,34061,34123,34127,34129,34141,
+34147,34157,34159,34171,34183,34211,34213,34217,
+34231,34253,34259,34261,34267,34273,34283,34297,
+34301,34303,34313,34319,34327,34337,34351,34361,
+34367,34369,34381,34403,34421,34429,34439,34457,
+34469,34471,34483,34487,34499,34501,34511,34513,
+34519,34537,34543,34549,34583,34589,34591,34603,
+34607,34613,34631,34649,34651,34667,34673,34679,
+34687,34693,34703,34721,34729,34739,34747,34757,
+34759,34763,34781,34807,34819,34841,34843,34847,
+34849,34871,34877,34883,34897,34913,34919,34939,
+34949,34961,34963,34981,35023,35027,35051,35053,
+35059,35069,35081,35083,35089,35099,35107,35111,
+35117,35129,35141,35149,35153,35159,35171,35201,
+35221,35227,35251,35257,35267,35279,35281,35291,
+35311,35317,35323,35327,35339,35353,35363,35381,
+35393,35401,35407,35419,35423,35437,35447,35449,
+35461,35491,35507,35509,35521,35527,35531,35533,
+35537,35543,35569,35573,35591,35593,35597,35603,
+35617,35671,35677,35729,35731,35747,35753,35759,
+35771,35797,35801,35803,35809,35831,35837,35839,
+35851,35863,35869,35879,35897,35899,35911,35923,
+35933,35951,35963,35969,35977,35983,35993,35999,
+36007,36011,36013,36017,36037,36061,36067,36073,
+36083,36097,36107,36109,36131,36137,36151,36161,
+36187,36191,36209,36217,36229,36241,36251,36263,
+36269,36277,36293,36299,36307,36313,36319,36341,
+36343,36353,36373,36383,36389,36433,36451,36457,
+36467,36469,36473,36479,36493,36497,36523,36527,
+36529,36541,36551,36559,36563,36571,36583,36587,
+36599,36607,36629,36637,36643,36653,36671,36677,
+36683,36691,36697,36709,36713,36721,36739,36749,
+36761,36767,36779,36781,36787,36791,36793,36809,
+36821,36833,36847,36857,36871,36877,36887,36899,
+36901,36913,36919,36923,36929,36931,36943,36947,
+36973,36979,36997,37003,37013,37019,37021,37039,
+37049,37057,37061,37087,37097,37117,37123,37139,
+37159,37171,37181,37189,37199,37201,37217,37223,
+37243,37253,37273,37277,37307,37309,37313,37321,
+37337,37339,37357,37361,37363,37369,37379,37397,
+37409,37423,37441,37447,37463,37483,37489,37493,
+37501,37507,37511,37517,37529,37537,37547,37549,
+37561,37567,37571,37573,37579,37589,37591,37607,
+37619,37633,37643,37649,37657,37663,37691,37693,
+37699,37717,37747,37781,37783,37799,37811,37813,
+37831,37847,37853,37861,37871,37879,37889,37897,
+37907,37951,37957,37963,37967,37987,37991,37993,
+37997,38011,38039,38047,38053,38069,38083,38113,
+38119,38149,38153,38167,38177,38183,38189,38197,
+38201,38219,38231,38237,38239,38261,38273,38281,
+38287,38299,38303,38317,38321,38327,38329,38333,
+38351,38371,38377,38393,38431,38447,38449,38453,
+38459,38461,38501,38543,38557,38561,38567,38569,
+38593,38603,38609,38611,38629,38639,38651,38653,
+38669,38671,38677,38693,38699,38707,38711,38713,
+38723,38729,38737,38747,38749,38767,38783,38791,
+38803,38821,38833,38839,38851,38861,38867,38873,
+38891,38903,38917,38921,38923,38933,38953,38959,
+38971,38977,38993,39019,39023,39041,39043,39047,
+39079,39089,39097,39103,39107,39113,39119,39133,
+39139,39157,39161,39163,39181,39191,39199,39209,
+39217,39227,39229,39233,39239,39241,39251,39293,
+39301,39313,39317,39323,39341,39343,39359,39367,
+39371,39373,39383,39397,39409,39419,39439,39443,
+39451,39461,39499,39503,39509,39511,39521,39541,
+39551,39563,39569,39581,39607,39619,39623,39631,
+39659,39667,39671,39679,39703,39709,39719,39727,
+39733,39749,39761,39769,39779,39791,39799,39821,
+39827,39829,39839,39841,39847,39857,39863,39869,
+39877,39883,39887,39901,39929,39937,39953,39971,
+39979,39983,39989,40009,40013,40031,40037,40039,
+40063,40087,40093,40099,40111,40123,40127,40129,
+40151,40153,40163,40169,40177,40189,40193,40213,
+40231,40237,40241,40253,40277,40283,40289,40343,
+40351,40357,40361,40387,40423,40427,40429,40433,
+40459,40471,40483,40487,40493,40499,40507,40519,
+40529,40531,40543,40559,40577,40583,40591,40597,
+40609,40627,40637,40639,40693,40697,40699,40709,
+40739,40751,40759,40763,40771,40787,40801,40813,
+40819,40823,40829,40841,40847,40849,40853,40867,
+40879,40883,40897,40903,40927,40933,40939,40949,
+40961,40973,40993,41011,41017,41023,41039,41047,
+41051,41057,41077,41081,41113,41117,41131,41141,
+41143,41149,41161,41177,41179,41183,41189,41201,
+41203,41213,41221,41227,41231,41233,41243,41257,
+41263,41269,41281,41299,41333,41341,41351,41357,
+41381,41387,41389,41399,41411,41413,41443,41453,
+41467,41479,41491,41507,41513,41519,41521,41539,
+41543,41549,41579,41593,41597,41603,41609,41611,
+41617,41621,41627,41641,41647,41651,41659,41669,
+41681,41687,41719,41729,41737,41759,41761,41771,
+41777,41801,41809,41813,41843,41849,41851,41863,
+41879,41887,41893,41897,41903,41911,41927,41941,
+41947,41953,41957,41959,41969,41981,41983,41999,
+42013,42017,42019,42023,42043,42061,42071,42073,
+42083,42089,42101,42131,42139,42157,42169,42179,
+42181,42187,42193,42197,42209,42221,42223,42227,
+42239,42257,42281,42283,42293,42299,42307,42323,
+42331,42337,42349,42359,42373,42379,42391,42397,
+42403,42407,42409,42433,42437,42443,42451,42457,
+42461,42463,42467,42473,42487,42491,42499,42509,
+42533,42557,42569,42571,42577,42589,42611,42641,
+42643,42649,42667,42677,42683,42689,42697,42701,
+42703,42709,42719,42727,42737,42743,42751,42767,
+42773,42787,42793,42797,42821,42829,42839,42841,
+42853,42859,42863,42899,42901,42923,42929,42937,
+42943,42953,42961,42967,42979,42989,43003,43013,
+43019,43037,43049,43051,43063,43067,43093,43103,
+43117,43133,43151,43159,43177,43189,43201,43207,
+43223,43237,43261,43271,43283,43291,43313,43319,
+43321,43331,43391,43397,43399,43403,43411,43427,
+43441,43451,43457,43481,43487,43499,43517,43541,
+43543,43573,43577,43579,43591,43597,43607,43609,
+43613,43627,43633,43649,43651,43661,43669,43691,
+43711,43717,43721,43753,43759,43777,43781,43783,
+43787,43789,43793,43801,43853,43867,43889,43891,
+43913,43933,43943,43951,43961,43963,43969,43973,
+43987,43991,43997,44017,44021,44027,44029,44041,
+44053,44059,44071,44087,44089,44101,44111,44119,
+44123,44129,44131,44159,44171,44179,44189,44201,
+44203,44207,44221,44249,44257,44263,44267,44269,
+44273,44279,44281,44293,44351,44357,44371,44381,
+44383,44389,44417,44449,44453,44483,44491,44497,
+44501,44507,44519,44531,44533,44537,44543,44549,
+44563,44579,44587,44617,44621,44623,44633,44641,
+44647,44651,44657,44683,44687,44699,44701,44711,
+44729,44741,44753,44771,44773,44777,44789,44797,
+44809,44819,44839,44843,44851,44867,44879,44887,
+44893,44909,44917,44927,44939,44953,44959,44963,
+44971,44983,44987,45007,45013,45053,45061,45077,
+45083,45119,45121,45127,45131,45137,45139,45161,
+45179,45181,45191,45197,45233,45247,45259,45263,
+45281,45289,45293,45307,45317,45319,45329,45337,
+45341,45343,45361,45377,45389,45403,45413,45427,
+45433,45439,45481,45491,45497,45503,45523,45533,
+45541,45553,45557,45569,45587,45589,45599,45613,
+45631,45641,45659,45667,45673,45677,45691,45697,
+45707,45737,45751,45757,45763,45767,45779,45817,
+45821,45823,45827,45833,45841,45853,45863,45869,
+45887,45893,45943,45949,45953,45959,45971,45979,
+45989,46021,46027,46049,46051,46061,46073,46091,
+46093,46099,46103,46133,46141,46147,46153,46171,
+46181,46183,46187,46199,46219,46229,46237,46261,
+46271,46273,46279,46301,46307,46309,46327,46337,
+};
+
+void
+factor_int(int n)
+{
+	int d, k, m;
+
+	n = abs(n);
+
+	if (n < 2)
+		return;
+
+	for (k = 0; k < NPRIME; k++) {
+
+		d = primetab[k];
+
+		m = 0;
+
+		while (n % d == 0) {
+			n /= d;
+			m++;
+		}
+
+		if (m == 0)
+			continue;
+
+		push_integer(d);
+		push_integer(m);
+
+		if (n == 1)
+			return;
+	}
+
+	push_integer(n);
+	push_integer(1);
+}
+// automatic variables not visible to the garbage collector are reclaimed
+
+void
+gc(void)
+{
+	int i, j;
+	struct atom *p;
+
+	gc_count++;
+	alloc_count = 0;
+
+	// tag everything
+
+	for (i = 0; i < block_count; i++)
+		for (j = 0; j < BLOCKSIZE; j++)
+			mem[i][j].tag = 1;
+
+	// untag what's used
+
+	untag(zero);
+	untag(one);
+	untag(minusone);
+	untag(imaginaryunit);
+
+	for (i = 0; i < tos; i++)
+		untag(stack[i]);
+
+	for (i = 0; i < tof; i++)
+		untag(frame[i]);
+
+	for (i = 0; i < 27 * BUCKETSIZE; i++) {
+		untag(symtab[i]);
+		untag(binding[i]);
+		untag(usrfunc[i]);
+	}
+
+	// collect everything that's still tagged
+
+	free_list = NULL;
+	free_count = 0;
+
+	for (i = 0; i < block_count; i++)
+		for (j = 0; j < BLOCKSIZE; j++) {
+
+			p = mem[i] + j;
+
+			if (p->tag == 0)
+				continue;
+
+			// still tagged so it's unused, put on free list
+
+			switch (p->atomtype) {
+			case KSYM:
+				free(p->u.ksym.name);
+				ksym_count--;
+				break;
+			case USYM:
+				free(p->u.usym.name);
+				usym_count--;
+				break;
+			case RATIONAL:
+				mfree(p->u.q.a);
+				mfree(p->u.q.b);
+				break;
+			case STR:
+				if (p->u.str)
+					free(p->u.str);
+				string_count--;
+				break;
+			case TENSOR:
+				free(p->u.tensor);
+				tensor_count--;
+				break;
+			default:
+				break; // FREEATOM, CONS, or DOUBLE
+			}
+
+			p->atomtype = FREEATOM;
+			p->u.next = free_list;
+
+			free_list = p;
+			free_count++;
+		}
+}
+
+void
+untag(struct atom *p)
+{
+	int i;
+
+	if (p == NULL)
+		return;
+
+	while (iscons(p)) {
+		if (p->tag == 0)
+			return;
+		p->tag = 0;
+		untag(p->u.cons.car);
+		p = p->u.cons.cdr;
+	}
+
+	if (p->tag == 0)
+		return;
+
+	p->tag = 0;
+
+	if (istensor(p))
+		for (i = 0; i < p->u.tensor->nelem; i++)
+			untag(p->u.tensor->elem[i]);
+}
+struct atom *mem[MAXBLOCKS]; // an array of pointers
+struct atom *free_list;
+
+int tos; // top of stack
+int tof; // top of frame
+
+struct atom *stack[STACKSIZE];
+struct atom *frame[FRAMESIZE];
+
+struct atom *symtab[27 * BUCKETSIZE];
+struct atom *binding[27 * BUCKETSIZE];
+struct atom *usrfunc[27 * BUCKETSIZE];
+
+struct atom *zero;
+struct atom *one;
+struct atom *minusone;
+struct atom *imaginaryunit;
+
+int eval_level;
+int gc_level;
+int expanding;
+int drawing;
+int nonstop;
+int interrupt;
+jmp_buf jmpbuf0;
+jmp_buf jmpbuf1;
+char *trace1;
+char *trace2;
+
+int alloc_count;
+int block_count;
+int free_count;
+int gc_count;
+int bignum_count;
+int ksym_count;
+int usym_count;
+int string_count;
+int tensor_count;
+int max_eval_level;
+int max_tos;
+int max_tof;
+
+char strbuf[STRBUFLEN];
+
+char *outbuf;
+int outbuf_index;
+int outbuf_length;
+void
+outbuf_init(void)
+{
+	outbuf_index = 0;
+	outbuf_puts("");
+}
+
+void
+outbuf_puts(char *s)
+{
+	int len, m;
+
+	len = (int) strlen(s);
+
+	// Let outbuf_index + len == 1000
+
+	// Then m == 2000 hence there is always room for the terminator '\0'
+
+	m = 1000 * ((outbuf_index + len) / 1000 + 1); // m is a multiple of 1000
+
+	if (m > outbuf_length) {
+		outbuf = realloc(outbuf, m);
+		if (outbuf == NULL)
+			exit(1);
+		outbuf_length = m;
+	}
+
+	strcpy(outbuf + outbuf_index, s);
+	outbuf_index += len;
+}
+
+void
+outbuf_putc(int c)
+{
+	int m;
+
+	// Let outbuf_index + 1 == 1000
+
+	// Then m == 2000 hence there is always room for the terminator '\0'
+
+	m = 1000 * ((outbuf_index + 1) / 1000 + 1); // m is a multiple of 1000
+
+	if (m > outbuf_length) {
+		outbuf = realloc(outbuf, m);
+		if (outbuf == NULL)
+			exit(1);
+		outbuf_length = m;
+	}
+
+	outbuf[outbuf_index++] = c;
+	outbuf[outbuf_index] = '\0';
+}
+void
+partition_term(void)
+{
+	int h, n;
+	struct atom *p1, *F, *X;
+
+	X = pop();
+	F = pop();
+
+	// push const factors
+
+	h = tos;
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (!findf(car(p1), X))
+			push(car(p1));
+		p1 = cdr(p1);
+	}
+
+	n = tos - h;
+
+	if (n == 0)
+		push_integer(1);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
+
+	// push var factors
+
+	h = tos;
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (findf(car(p1), X))
+			push(car(p1));
+		p1 = cdr(p1);
+	}
+
+	n = tos - h;
+
+	if (n == 0)
+		push_integer(1);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
 }
 // BASE is rectangular complex numerical, EXPO is numerical
 
@@ -12954,265 +15719,6 @@ power_sum(struct atom *BASE, struct atom *EXPO)
 		multiply();
 	}
 }
-void
-eval_prefixform(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	p1 = pop();
-
-	outbuf_init();
-	prefixform(p1);
-
-	push_string(outbuf);
-}
-
-// for debugging
-
-void
-print_prefixform(struct atom *p)
-{
-	outbuf_init();
-	prefixform(p);
-	outbuf_puts("\n");
-	printbuf(outbuf, BLACK);
-}
-
-void
-prefixform(struct atom *p)
-{
-	char *s;
-	switch (p->atomtype) {
-	case CONS:
-		outbuf_puts("(");
-		prefixform(car(p));
-		p = cdr(p);
-		while (iscons(p)) {
-			outbuf_puts(" ");
-			prefixform(car(p));
-			p = cdr(p);
-		}
-		if (p != symbol(NIL)) {
-			outbuf_puts(" . ");
-			prefixform(p);
-		}
-		outbuf_puts(")");
-		break;
-	case STR:
-		outbuf_puts("\"");
-		outbuf_puts(p->u.str);
-		outbuf_puts("\"");
-		break;
-	case RATIONAL:
-		if (p->sign == MMINUS)
-			outbuf_puts("-");
-		s = mstr(p->u.q.a);
-		outbuf_puts(s);
-		s = mstr(p->u.q.b);
-		if (strcmp(s, "1") == 0)
-			break;
-		outbuf_puts("/");
-		outbuf_puts(s);
-		break;
-	case DOUBLE:
-		snprintf(strbuf, STRBUFLEN, "%g", p->u.d);
-		outbuf_puts(strbuf);
-		if (!strchr(strbuf, '.') && !strchr(strbuf, 'e'))
-			outbuf_puts(".0");
-		break;
-	case KSYM:
-	case USYM:
-		outbuf_puts(printname(p));
-		break;
-	case TENSOR:
-		outbuf_puts("(tensor)");
-		break;
-	default:
-		outbuf_puts("(?)");
-		break;
-	}
-}
-void
-eval_print(struct atom *p1)
-{
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		push(car(p1));
-		evalf();
-		print_result();
-		p1 = cdr(p1);
-	}
-	push_symbol(NIL);
-}
-
-void
-print_result(void)
-{
-	struct atom *p1, *p2;
-
-	p2 = pop(); // result
-	p1 = pop(); // input
-
-	if (p2 == symbol(NIL))
-		return;
-
-	if (annotate_result(p1, p2)) {
-		push_symbol(SETQ);
-		push(p1);
-		push(p2);
-		list(3);
-		p2 = pop();
-	}
-
-	p1 = get_binding(symbol(TTY));
-
-	if (p1 == symbol(TTY) || iszero(p1)) {
-		push(p2);
-		display();
-	} else
-		print_infixform(p2);
-}
-
-// returns 1 if result should be annotated
-
-int
-annotate_result(struct atom *p1, struct atom *p2)
-{
-	if (!isusersymbol(p1))
-		return 0;
-
-	if (p1 == p2)
-		return 0; // A = A
-
-	if (p1 == symbol(I_LOWER) && isimaginaryunit(p2))
-		return 0;
-
-	if (p1 == symbol(J_LOWER) && isimaginaryunit(p2))
-		return 0;
-
-	return 1;
-}
-void
-eval_product(struct atom *p1)
-{
-	int h, i, j, k, n;
-	struct atom *p2, *p3;
-
-	if (lengthf(p1) == 2) {
-		push(cadr(p1));
-		evalf();
-		p1 = pop();
-		if (!istensor(p1)) {
-			push(p1);
-			return;
-		}
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++)
-			push(p1->u.tensor->elem[i]);
-		multiply_factors(n);
-		return;
-	}
-
-	p2 = cadr(p1);
-	if (!isusersymbol(p2))
-		stopf("product: symbol error");
-
-	push(caddr(p1));
-	evalf();
-	j = pop_integer();
-
-	push(cadddr(p1));
-	evalf();
-	k = pop_integer();
-
-	p1 = caddddr(p1);
-
-	save_symbol(p2);
-
-	h = tos;
-
-	for (;;) {
-		push_integer(j);
-		p3 = pop();
-		set_symbol(p2, p3, symbol(NIL));
-		push(p1);
-		evalg();
-		if (j == k)
-			break;
-		if (j < k)
-			j++;
-		else
-			j--;
-	}
-
-	multiply_factors(tos - h);
-
-	restore_symbol();
-}
-void
-eval_quote(struct atom *p1)
-{
-	push(cadr(p1)); // not evaluated
-}
-void
-eval_rank(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	p1 = pop();
-	if (istensor(p1))
-		push_integer(p1->u.tensor->ndim);
-	else
-		push_integer(0);
-}
-void
-eval_rationalize(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	rationalize();
-}
-
-void
-rationalize(void)
-{
-	int i, n;
-	struct atom *p0, *p1, *p2;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			rationalize();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	p2 = one;
-
-	while (divisor(p1)) {
-		p0 = pop();
-		push(p0);
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-		push(p0);
-		push(p2);
-		multiply_noexpand();
-		p2 = pop();
-	}
-
-	push(p1);
-	push(p2);
-	reciprocate();
-	multiply_noexpand();
-}
 char *
 read_file(char *filename)
 {
@@ -13257,726 +15763,6 @@ read_file(char *filename)
 	buf[n] = '\0';
 
 	return buf;
-}
-void
-eval_real(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	real();
-}
-
-void
-real(void)
-{
-	int i, n;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			real();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	rect();
-	p1 = pop();
-	push(p1);
-	push(p1);
-	conjfunc();
-	add();
-	push_rational(1, 2);
-	multiply();
-}
-void
-eval_rect(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	rect();
-}
-
-void
-rect(void)
-{
-	int h, i, n;
-	struct atom *p1, *p2, *BASE, *EXPO;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			rect();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (car(p1) == symbol(ADD)) {
-		p1 = cdr(p1);
-		h = tos;
-		while (iscons(p1)) {
-			push(car(p1));
-			rect();
-			p1 = cdr(p1);
-		}
-		add_terms(tos - h);
-		return;
-	}
-
-	if (car(p1) == symbol(MULTIPLY)) {
-		p1 = cdr(p1);
-		h = tos;
-		while (iscons(p1)) {
-			push(car(p1));
-			rect();
-			p1 = cdr(p1);
-		}
-		multiply_factors(tos - h);
-		return;
-	}
-
-	if (car(p1) != symbol(POWER)) {
-		push(p1);
-		return;
-	}
-
-	BASE = cadr(p1);
-	EXPO = caddr(p1);
-
-	// handle sum in exponent
-
-	if (car(EXPO) == symbol(ADD)) {
-		p1 = cdr(EXPO);
-		h = tos;
-		while (iscons(p1)) {
-			push_symbol(POWER);
-			push(BASE);
-			push(car(p1));
-			list(3);
-			rect();
-			p1 = cdr(p1);
-		}
-		multiply_factors(tos - h);
-		return;
-	}
-
-	// return mag(p1) * cos(arg(p1)) + i sin(arg(p1)))
-
-	push(p1);
-	mag();
-
-	push(p1);
-	arg();
-	p2 = pop();
-
-	push(p2);
-	cosfunc();
-
-	push(imaginaryunit);
-	push(p2);
-	sinfunc();
-	multiply();
-
-	add();
-
-	multiply();
-}
-void
-eval_roots(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-
-	p1 = cddr(p1);
-
-	if (iscons(p1)) {
-		push(car(p1));
-		evalf();
-	} else
-		push_symbol(X_LOWER);
-
-	roots();
-}
-
-void
-roots(void)
-{
-	int h, i, j, k, n;
-	struct atom *A, *P, *X;
-
-	X = pop();
-	P = pop();
-
-	h = tos;
-
-	coeffs(P, X); // put coeffs on stack
-
-	k = tos;
-
-	n = k - h; // number of coeffs on stack
-
-	// check coeffs
-
-	for (i = 0; i < n; i++)
-		if (!isrational(stack[h + i]))
-			stopf("roots: coeffs");
-
-	// find roots
-
-	while (n > 1) {
-
-		if (findroot(h, n) == 0)
-			break; // no root found
-
-		// A is the root
-
-		A = stack[tos - 1];
-
-		// divide p(x) by X - A
-
-		reduce(h, n, A);
-
-		n--;
-	}
-
-	n = tos - k; // number of roots on stack
-
-	if (n == 0) {
-		tos = h; // pop all
-		push_symbol(NIL); // no roots
-		return;
-	}
-
-	sort(n); // sort roots
-
-	// eliminate repeated roots
-
-	for (i = 0; i < n - 1; i++)
-		if (equal(stack[k + i], stack[k + i + 1])) {
-			for (j = i + 1; j < n - 1; j++)
-				stack[k + j] = stack[k + j + 1];
-			i--;
-			n--;
-		}
-
-	if (n == 1) {
-		A = stack[k];
-		tos = h; // pop all
-		push(A); // one root
-		return;
-	}
-
-	A = alloc_vector(n);
-
-	for (i = 0; i < n; i++)
-		A->u.tensor->elem[i] = stack[k + i];
-
-	tos = h; // pop all
-
-	push(A);
-}
-
-int
-findroot(int h, int n)
-{
-	int i, j, m, p, q, r;
-	struct atom *A, *C, *PA;
-
-	// check constant term
-
-	if (iszero(stack[h])) {
-		push_integer(0); // root is zero
-		return 1;
-	}
-
-	// eliminate denominators
-
-	for (i = 0; i < n; i++) {
-		C = stack[h + i];
-		if (isinteger(C))
-			continue;
-		push(C);
-		denominator();
-		C = pop();
-		for (j = 0; j < n; j++) {
-			push(stack[h + j]);
-			push(C);
-			multiply();
-			stack[h + j] = pop();
-		}
-	}
-
-	p = tos;
-
-	push(stack[h]);
-	m = pop_integer();
-	divisors(m); // divisors of constant term
-
-	q = tos;
-
-	push(stack[h + n - 1]);
-	m = pop_integer();
-	divisors(m); // divisors of leading coeff
-
-	r = tos;
-
-	for (i = p; i < q; i++) {
-		for (j = q; j < r; j++) {
-
-			// try positive A
-
-			push(stack[i]);
-			push(stack[j]);
-			divide();
-			A = pop();
-
-			horner(h, n, A);
-
-			PA = pop(); // polynomial evaluated at A
-
-			if (iszero(PA)) {
-				tos = p; // pop all
-				push(A);
-				return 1; // root on stack
-			}
-
-			// try negative A
-
-			push(A);
-			negate();
-			A = pop();
-
-			horner(h, n, A);
-
-			PA = pop(); // polynomial evaluated at A
-
-			if (iszero(PA)) {
-				tos = p; // pop all
-				push(A);
-				return 1; // root on stack
-			}
-		}
-	}
-
-	tos = p; // pop all
-
-	return 0; // no root
-}
-
-// evaluate p(x) at x = A using horner's rule
-
-void
-horner(int h, int n, struct atom *A)
-{
-	int i;
-
-	push(stack[h + n - 1]);
-
-	for (i = n - 2; i >= 0; i--) {
-		push(A);
-		multiply();
-		push(stack[h + i]);
-		add();
-	}
-}
-
-// push all divisors of n
-
-void
-divisors(int n)
-{
-	int h, i, k;
-
-	h = tos;
-
-	factor_int(n);
-
-	k = tos;
-
-	// contruct divisors by recursive descent
-
-	push_integer(1);
-
-	divisors_nib(h, k);
-
-	// move
-
-	n = tos - k;
-
-	for (i = 0; i < n; i++)
-		stack[h + i] = stack[k + i];
-
-	tos = h + n; // pop all
-}
-
-//	Generate all divisors for a factored number
-//
-//	Input:		Factor pairs on stack (base, expo)
-//
-//			h	first pair
-//
-//			k	just past last pair
-//
-//	Output:		Divisors on stack
-//
-//	For example, the number 12 (= 2^2 3^1) has 6 divisors:
-//
-//	1, 2, 3, 4, 6, 12
-
-void
-divisors_nib(int h, int k)
-{
-	int i, n;
-	struct atom *ACCUM, *BASE, *EXPO;
-
-	if (h == k)
-		return;
-
-	ACCUM = pop();
-
-	BASE = stack[h + 0];
-	EXPO = stack[h + 1];
-
-	push(EXPO);
-	n = pop_integer();
-
-	for (i = 0; i <= n; i++) {
-		push(ACCUM);
-		push(BASE);
-		push_integer(i);
-		power();
-		multiply();
-		divisors_nib(h + 2, k);
-	}
-}
-
-// divide by X - A
-
-void
-reduce(int h, int n, struct atom *A)
-{
-	int i;
-
-	for (i = n - 1; i > 0; i--) {
-		push(A);
-		push(stack[h + i]);
-		multiply();
-		push(stack[h + i - 1]);
-		add();
-		stack[h + i - 1] = pop();
-	}
-
-	if (!iszero(stack[h]))
-		stopf("roots: residual error"); // not a root
-
-	// move
-
-	for (i = 0; i < n - 1; i++)
-		stack[h + i] = stack[h + i + 1];
-}
-#define NUMQBITS PSI->u.tensor->nelem
-#define KET0 PSI->u.tensor->elem[i ^ n]
-#define KET1 PSI->u.tensor->elem[i]
-
-#define POWEROF2(x) (((x) & ((x) - 1)) == 0)
-
-void
-eval_rotate(struct atom *p1)
-{
-	int m, n;
-	uint32_t c;
-	struct atom *PSI, *OPCODE, *PHASE;
-
-	push(cadr(p1));
-	evalf();
-	PSI = pop();
-
-	if (!istensor(PSI) || PSI->u.tensor->ndim > 1 || PSI->u.tensor->nelem > 32768 || !POWEROF2(PSI->u.tensor->nelem))
-		stopf("rotate error 1 first argument is not a vector or dimension error");
-
-	c = 0;
-
-	p1 = cddr(p1);
-
-	while (iscons(p1)) {
-
-		if (!iscons(cdr(p1)))
-			stopf("rotate error 2 unexpected end of argument list");
-
-		OPCODE = car(p1);
-		push(cadr(p1));
-		evalf();
-		n = pop_integer();
-
-		if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
-			stopf("rotate error 3 qubit number format or range");
-
-		p1 = cddr(p1);
-
-		if (OPCODE == symbol(C_UPPER)) {
-			c |= 1 << n;
-			continue;
-		}
-
-		if (OPCODE == symbol(H_UPPER)) {
-			rotate_h(PSI, c, n);
-			c = 0;
-			continue;
-		}
-
-		if (OPCODE == symbol(P_UPPER)) {
-			if (!iscons(p1))
-				stopf("rotate error 2 unexpected end of argument list");
-			push(car(p1));
-			p1 = cdr(p1);
-			evalf();
-			push(imaginaryunit);
-			multiply();
-			expfunc();
-			PHASE = pop();
-			rotate_p(PSI, PHASE, c, n);
-			c = 0;
-			continue;
-		}
-
-		if (OPCODE == symbol(Q_UPPER)) {
-			rotate_q(PSI, n);
-			c = 0;
-			continue;
-		}
-
-		if (OPCODE == symbol(V_UPPER)) {
-			rotate_v(PSI, n);
-			c = 0;
-			continue;
-		}
-
-		if (OPCODE == symbol(W_UPPER)) {
-			m = n;
-			if (!iscons(p1))
-				stopf("rotate error 2 unexpected end of argument list");
-			push(car(p1));
-			p1 = cdr(p1);
-			evalf();
-			n = pop_integer();
-			if (n > 14 || (1 << n) >= PSI->u.tensor->nelem)
-				stopf("rotate error 3 qubit number format or range");
-			rotate_w(PSI, c, m, n);
-			c = 0;
-			continue;
-		}
-
-		if (OPCODE == symbol(X_UPPER)) {
-			rotate_x(PSI, c, n);
-			c = 0;
-			continue;
-		}
-
-		if (OPCODE == symbol(Y_UPPER)) {
-			rotate_y(PSI, c, n);
-			c = 0;
-			continue;
-		}
-
-		if (OPCODE == symbol(Z_UPPER)) {
-			rotate_z(PSI, c, n);
-			c = 0;
-			continue;
-		}
-
-		stopf("rotate error 4 unknown rotation code");
-	}
-
-	push(PSI);
-}
-
-// hadamard
-
-void
-rotate_h(struct atom *PSI, uint32_t c, int n)
-{
-	int i;
-	n = 1 << n;
-	for (i = 0; i < NUMQBITS; i++) {
-		if ((i & c) != c)
-			continue;
-		if (i & n) {
-			push(KET0);
-			push(KET1);
-			add();
-			push_rational(1, 2);
-			sqrtfunc();
-			multiply();
-			push(KET0);
-			push(KET1);
-			subtract();
-			push_rational(1, 2);
-			sqrtfunc();
-			multiply();
-			KET1 = pop();
-			KET0 = pop();
-		}
-	}
-}
-
-// phase
-
-void
-rotate_p(struct atom *PSI, struct atom *PHASE, uint32_t c, int n)
-{
-	int i;
-	n = 1 << n;
-	for (i = 0; i < NUMQBITS; i++) {
-		if ((i & c) != c)
-			continue;
-		if (i & n) {
-			push(KET1);
-			push(PHASE);
-			multiply();
-			KET1 = pop();
-		}
-	}
-}
-
-// swap
-
-void
-rotate_w(struct atom *PSI, uint32_t c, int m, int n)
-{
-	int i;
-	m = 1 << m;
-	n = 1 << n;
-	for (i = 0; i < NUMQBITS; i++) {
-		if ((i & c) != c)
-			continue;
-		if ((i & m) && !(i & n)) {
-			push(PSI->u.tensor->elem[i]);
-			push(PSI->u.tensor->elem[i ^ m ^ n]);
-			PSI->u.tensor->elem[i] = pop();
-			PSI->u.tensor->elem[i ^ m ^ n] = pop();
-		}
-	}
-}
-
-void
-rotate_x(struct atom *PSI, uint32_t c, int n)
-{
-	int i;
-	n = 1 << n;
-	for (i = 0; i < NUMQBITS; i++) {
-		if ((i & c) != c)
-			continue;
-		if (i & n) {
-			push(KET0);
-			push(KET1);
-			KET0 = pop();
-			KET1 = pop();
-		}
-	}
-}
-
-void
-rotate_y(struct atom *PSI, uint32_t c, int n)
-{
-	int i;
-	n = 1 << n;
-	for (i = 0; i < NUMQBITS; i++) {
-		if ((i & c) != c)
-			continue;
-		if (i & n) {
-			push(imaginaryunit);
-			negate();
-			push(KET0);
-			multiply();
-			push(imaginaryunit);
-			push(KET1);
-			multiply();
-			KET0 = pop();
-			KET1 = pop();
-		}
-	}
-}
-
-void
-rotate_z(struct atom *PSI, uint32_t c, int n)
-{
-	int i;
-	n = 1 << n;
-	for (i = 0; i < NUMQBITS; i++) {
-		if ((i & c) != c)
-			continue;
-		if (i & n) {
-			push(KET1);
-			negate();
-			KET1 = pop();
-		}
-	}
-}
-
-// quantum fourier transform
-
-void
-rotate_q(struct atom *PSI, int n)
-{
-	int i, j;
-	struct atom *PHASE;
-	for (i = n; i >= 0; i--) {
-		rotate_h(PSI, 0, i);
-		for (j = 0; j < i; j++) {
-			push_rational(1, 2);
-			push_integer(i - j);
-			power();
-			push(imaginaryunit);
-			push_symbol(PI);
-			evalf();
-			multiply_factors(3);
-			expfunc();
-			PHASE = pop();
-			rotate_p(PSI, PHASE, 1 << j, i);
-		}
-	}
-	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_w(PSI, 0, i, n - i);
-}
-
-// inverse qft
-
-void
-rotate_v(struct atom *PSI, int n)
-{
-	int i, j;
-	struct atom *PHASE;
-	for (i = 0; i < (n + 1) / 2; i++)
-		rotate_w(PSI, 0, i, n - i);
-	for (i = 0; i <= n; i++) {
-		for (j = i - 1; j >= 0; j--) {
-			push_rational(1, 2);
-			push_integer(i - j);
-			power();
-			push(imaginaryunit);
-			push_symbol(PI);
-			evalf();
-			multiply_factors(3);
-			negate();
-			expfunc();
-			PHASE = pop();
-			rotate_p(PSI, PHASE, 1 << j, i);
-		}
-		rotate_h(PSI, 0, i);
-	}
 }
 void
 run(char *buf)
@@ -14077,33 +15863,6 @@ print_trace(int color)
 	if (c != '\n')
 		outbuf_putc('\n');
 	printbuf(outbuf, color);
-}
-
-void
-eval_run(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	p1 = pop();
-	if (!isstr(p1))
-		stopf("run: file name expected");
-	run_file(p1->u.str);
-	push_symbol(NIL);
-}
-
-void
-run_file(char *filename)
-{
-	char *buf;
-	struct atom *p;
-	p = alloc_str();
-	buf = read_file(filename);
-	if (buf == NULL)
-		stopf("run: cannot read file");
-	p->u.str = buf;
-	fpush(p); // make visible to garbage collector
-	run_buf(buf);
-	fpop(); // buf is freed on next gc
 }
 
 char *init_script =
@@ -14730,823 +16489,6 @@ static_reciprocate(void)
 	list(3);
 }
 void
-eval_setq(struct atom *p1)
-{
-	struct atom *p2;
-
-	push_symbol(NIL); // return value
-
-	if (caadr(p1) == symbol(INDEX)) {
-		setq_indexed(p1);
-		return;
-	}
-
-	if (iscons(cadr(p1))) {
-		setq_usrfunc(p1);
-		return;
-	}
-
-	if (!isusersymbol(cadr(p1)))
-		stopf("user symbol expected");
-
-	push(caddr(p1));
-	evalg();
-	p2 = pop();
-
-	set_symbol(cadr(p1), p2, symbol(NIL));
-}
-
-//	Example: a[1] = b
-//
-//	p1----->cons--->cons------------------->cons
-//		|	|			|
-//		setq	cons--->cons--->cons	b
-//			|	|	|
-//			index	a	1
-//
-//	caadr(p1) = index
-//	cadadr(p1) = a
-//	caddr(p1) = b
-
-void
-setq_indexed(struct atom *p1)
-{
-	int h;
-	struct atom *S, *LVAL, *RVAL;
-
-	S = cadadr(p1);
-
-	if (!isusersymbol(S))
-		stopf("user symbol expected");
-
-	push(S);
-	evalg();
-
-	push(caddr(p1));
-	evalg();
-
-	RVAL = pop();
-	LVAL = pop();
-
-	// eval indices
-
-	p1 = cddadr(p1);
-
-	h = tos;
-
-	while (iscons(p1)) {
-		push(car(p1));
-		evalf();
-		p1 = cdr(p1);
-	}
-
-	set_component(LVAL, RVAL, h);
-
-	set_symbol(S, LVAL, symbol(NIL));
-}
-
-void
-set_component(struct atom *LVAL, struct atom *RVAL, int h)
-{
-	int i, k, m, n, t;
-
-	if (!istensor(LVAL))
-		stopf("index error");
-
-	// n is the number of indices
-
-	n = tos - h;
-
-	if (n < 1 || n > LVAL->u.tensor->ndim)
-		stopf("index error");
-
-	// k is the combined index
-
-	k = 0;
-
-	for (i = 0; i < n; i++) {
-		push(stack[h + i]);
-		t = pop_integer();
-		if (t < 1 || t > LVAL->u.tensor->dim[i])
-			stopf("index error");
-		k = k * LVAL->u.tensor->dim[i] + t - 1;
-	}
-
-	tos = h; // pop all
-
-	if (istensor(RVAL)) {
-		m = RVAL->u.tensor->ndim;
-		if (n + m != LVAL->u.tensor->ndim)
-			stopf("index error");
-		for (i = 0; i < m; i++)
-			if (LVAL->u.tensor->dim[n + i] != RVAL->u.tensor->dim[i])
-				stopf("index error");
-		m = RVAL->u.tensor->nelem;
-		for (i = 0; i < m; i++)
-			LVAL->u.tensor->elem[m * k + i] = RVAL->u.tensor->elem[i];
-	} else {
-		if (n != LVAL->u.tensor->ndim)
-			stopf("index error");
-		LVAL->u.tensor->elem[k] = RVAL;
-	}
-}
-
-// Example:
-//
-//      f(x,y)=x^y
-//
-// For this definition, p1 points to the following structure.
-//
-//     p1
-//      |
-//   ___v__    ______                        ______
-//  |CONS  |->|CONS  |--------------------->|CONS  |
-//  |______|  |______|                      |______|
-//      |         |                             |
-//   ___v__    ___v__    ______    ______    ___v__    ______    ______
-//  |SETQ  |  |CONS  |->|CONS  |->|CONS  |  |CONS  |->|CONS  |->|CONS  |
-//  |______|  |______|  |______|  |______|  |______|  |______|  |______|
-//                |         |         |         |         |         |
-//             ___v__    ___v__    ___v__    ___v__    ___v__    ___v__
-//            |SYM f |  |SYM x |  |SYM y |  |POWER |  |SYM x |  |SYM y |
-//            |______|  |______|  |______|  |______|  |______|  |______|
-//
-// We have
-//
-//	caadr(p1) points to f
-//	cdadr(p1) points to the list (x y)
-//	caddr(p1) points to (power x y)
-
-void
-setq_usrfunc(struct atom *p1)
-{
-	struct atom *F, *A, *B, *C;
-
-	F = caadr(p1);
-	A = cdadr(p1);
-	B = caddr(p1);
-
-	if (!isusersymbol(F))
-		stopf("user symbol expected");
-
-	if (lengthf(A) > 9)
-		stopf("more than 9 arguments");
-
-	push(B);
-	convert_body(A);
-	C = pop();
-
-	set_symbol(F, B, C);
-}
-
-void
-convert_body(struct atom *A)
-{
-	if (!iscons(A))
-		return;
-
-	push(car(A));
-	push_symbol(ARG1);
-	subst();
-
-	A = cdr(A);
-	if (!iscons(A))
-		return;
-
-	push(car(A));
-	push_symbol(ARG2);
-	subst();
-
-	A = cdr(A);
-	if (!iscons(A))
-		return;
-
-	push(car(A));
-	push_symbol(ARG3);
-	subst();
-
-	A = cdr(A);
-	if (!iscons(A))
-		return;
-
-	push(car(A));
-	push_symbol(ARG4);
-	subst();
-
-	A = cdr(A);
-	if (!iscons(A))
-		return;
-
-	push(car(A));
-	push_symbol(ARG5);
-	subst();
-
-	A = cdr(A);
-
-	if (!iscons(A))
-		return;
-
-	push(car(A));
-	push_symbol(ARG6);
-	subst();
-
-	A = cdr(A);
-	if (!iscons(A))
-		return;
-
-	push(car(A));
-	push_symbol(ARG7);
-	subst();
-
-	A = cdr(A);
-	if (!iscons(A))
-		return;
-
-	push(car(A));
-	push_symbol(ARG8);
-	subst();
-
-	A = cdr(A);
-	if (!iscons(A))
-		return;
-
-	push(car(A));
-	push_symbol(ARG9);
-	subst();
-}
-void
-eval_sgn(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	sgn();
-}
-
-void
-sgn(void)
-{
-	int i, n;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			sgn();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (!isnum(p1)) {
-		push_symbol(SGN);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	if (isnegativenumber(p1))
-		push_integer(-1);
-	else
-		push_integer(1);
-}
-void
-eval_simplify(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	simplify();
-}
-
-void
-simplify(void)
-{
-	int h, i, n;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			simplify();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	// already simple?
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	h = tos;
-	push(car(p1));
-	p1 = cdr(p1);
-
-	while (iscons(p1)) {
-		push(car(p1));
-		simplify();
-		p1 = cdr(p1);
-	}
-
-	list(tos - h);
-	evalf();
-
-	simplify_pass1();
-	simplify_pass2(); // try exponential form
-	simplify_pass3(); // try polar form
-}
-
-void
-simplify_pass1(void)
-{
-	struct atom *p1, *NUM, *DEN, *R, *T;
-
-	p1 = pop();
-
-	// already simple?
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	if (car(p1) == symbol(ADD)) {
-		push(p1);
-		rationalize();
-		T = pop();
-		if (car(T) == symbol(ADD)) {
-			push(p1); // no change
-			return;
-		}
-	} else
-		T = p1;
-
-	push(T);
-	numerator();
-	NUM = pop();
-
-	push(T);
-	denominator();
-	evalf(); // to expand denominator
-	DEN = pop();
-
-	// if DEN is a sum then rationalize it
-
-	if (car(DEN) == symbol(ADD)) {
-		push(DEN);
-		rationalize();
-		T = pop();
-		if (car(T) != symbol(ADD)) {
-			// update NUM
-			push(T);
-			denominator();
-			evalf(); // to expand denominator
-			push(NUM);
-			multiply();
-			NUM = pop();
-			// update DEN
-			push(T);
-			numerator();
-			DEN = pop();
-		}
-	}
-
-	// are NUM and DEN congruent sums?
-
-	if (car(NUM) != symbol(ADD) || car(DEN) != symbol(ADD) || lengthf(NUM) != lengthf(DEN)) {
-		// no, but NUM over DEN might be simpler than p1
-		push(NUM);
-		push(DEN);
-		divide();
-		T = pop();
-		if (complexity(T) < complexity(p1))
-			p1 = T;
-		push(p1);
-		return;
-	}
-
-	push(cadr(NUM)); // push first term of numerator
-	push(cadr(DEN)); // push first term of denominator
-	divide();
-
-	R = pop(); // provisional ratio
-
-	push(R);
-	push(DEN);
-	multiply();
-
-	push(NUM);
-	subtract();
-
-	T = pop();
-
-	if (iszero(T))
-		p1 = R;
-
-	push(p1);
-}
-
-// try exponential form
-
-void
-simplify_pass2(void)
-{
-	struct atom *p1, *p2;
-
-	p1 = pop();
-
-	// already simple?
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	circexp();
-	rationalize();
-	evalf(); // to normalize
-	p2 = pop();
-
-	if (complexity(p2) < complexity(p1)) {
-		push(p2);
-		return;
-	}
-
-	push(p1);
-}
-
-// try polar form
-
-void
-simplify_pass3(void)
-{
-	struct atom *p1, *p2;
-
-	p1 = pop();
-
-	if (car(p1) != symbol(ADD) || isusersymbolsomewhere(p1) || !findf(p1, imaginaryunit)) {
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	polar();
-	p2 = pop();
-
-	if (!iscons(p2)) {
-		push(p2);
-		return;
-	}
-
-	push(p1);
-}
-void
-eval_sin(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	sinfunc();
-}
-
-void
-sinfunc(void)
-{
-	int i, n;
-	double d;
-	struct atom *p1, *p2, *X, *Y;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			sinfunc();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = sin(d);
-		push_double(d);
-		return;
-	}
-
-	// sin(z) = -i/2 exp(i z) + i/2 exp(-i z)
-
-	if (isdoublez(p1)) {
-		push_double(-0.5);
-		push(imaginaryunit);
-		multiply();
-		push(imaginaryunit);
-		push(p1);
-		multiply();
-		expfunc();
-		push(imaginaryunit);
-		negate();
-		push(p1);
-		multiply();
-		expfunc();
-		subtract();
-		multiply();
-		return;
-	}
-
-	// sin(-x) = -sin(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		sinfunc();
-		negate();
-		return;
-	}
-
-	if (car(p1) == symbol(ADD)) {
-		sinfunc_sum(p1);
-		return;
-	}
-
-	// sin(arctan(y,x)) = y (x^2 + y^2)^(-1/2)
-
-	if (car(p1) == symbol(ARCTAN)) {
-		X = caddr(p1);
-		Y = cadr(p1);
-		push(Y);
-		push(X);
-		push(X);
-		multiply();
-		push(Y);
-		push(Y);
-		multiply();
-		add();
-		push_rational(-1, 2);
-		power();
-		multiply();
-		return;
-	}
-
-	// sin(arccos(x)) = sqrt(1 - x^2)
-
-	if (car(p1) == symbol(ARCCOS)) {
-		push_integer(1);
-		push(cadr(p1));
-		push_integer(2);
-		power();
-		subtract();
-		push_rational(1, 2);
-		power();
-		return;
-	}
-
-	// n pi ?
-
-	push(p1);
-	push_symbol(PI);
-	divide();
-	p2 = pop();
-
-	if (!isnum(p2)) {
-		push_symbol(SIN);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	if (isdouble(p2)) {
-		push(p2);
-		d = pop_double();
-		d = sin(d * M_PI);
-		push_double(d);
-		return;
-	}
-
-	push(p2); // nonnegative by sin(-x) = -sin(x) above
-	push_integer(180);
-	multiply();
-	p2 = pop();
-
-	if (!isinteger(p2)) {
-		push_symbol(SIN);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	push(p2);
-	push_integer(360);
-	modfunc();
-	n = pop_integer();
-
-	switch (n) {
-	case 0:
-	case 180:
-		push_integer(0);
-		break;
-	case 30:
-	case 150:
-		push_rational(1, 2);
-		break;
-	case 210:
-	case 330:
-		push_rational(-1, 2);
-		break;
-	case 45:
-	case 135:
-		push_rational(1, 2);
-		push_integer(2);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 225:
-	case 315:
-		push_rational(-1, 2);
-		push_integer(2);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 60:
-	case 120:
-		push_rational(1, 2);
-		push_integer(3);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 240:
-	case 300:
-		push_rational(-1, 2);
-		push_integer(3);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 90:
-		push_integer(1);
-		break;
-	case 270:
-		push_integer(-1);
-		break;
-	default:
-		push_symbol(SIN);
-		push(p1);
-		list(2);
-		break;
-	}
-}
-
-// sin(x + n/2 pi) = sin(x) cos(n/2 pi) + cos(x) sin(n/2 pi)
-
-void
-sinfunc_sum(struct atom *p1)
-{
-	struct atom *p2, *p3;
-	p2 = cdr(p1);
-	while (iscons(p2)) {
-		push_integer(2);
-		push(car(p2));
-		multiply();
-		push_symbol(PI);
-		divide();
-		p3 = pop();
-		if (isinteger(p3)) {
-			push(p1);
-			push(car(p2));
-			subtract();
-			p3 = pop();
-			push(p3);
-			sinfunc();
-			push(car(p2));
-			cosfunc();
-			multiply();
-			push(p3);
-			cosfunc();
-			push(car(p2));
-			sinfunc();
-			multiply();
-			add();
-			return;
-		}
-		p2 = cdr(p2);
-	}
-	push_symbol(SIN);
-	push(p1);
-	list(2);
-}
-void
-eval_sinh(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	sinhfunc();
-}
-
-void
-sinhfunc(void)
-{
-	int i, n;
-	double d;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			sinhfunc();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = sinh(d);
-		push_double(d);
-		return;
-	}
-
-	// sinh(z) = 1/2 exp(z) - 1/2 exp(-z)
-
-	if (isdoublez(p1)) {
-		push_rational(1, 2);
-		push(p1);
-		expfunc();
-		push(p1);
-		negate();
-		expfunc();
-		subtract();
-		multiply();
-		return;
-	}
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	// sinh(-x) -> -sinh(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		sinhfunc();
-		negate();
-		return;
-	}
-
-	if (car(p1) == symbol(ARCSINH)) {
-		push(cadr(p1));
-		return;
-	}
-
-	push_symbol(SINH);
-	push(p1);
-	list(2);
-}
-void
-eval_sqrt(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	sqrtfunc();
-}
-
-void
-sqrtfunc(void)
-{
-	push_rational(1, 2);
-	power();
-}
-void
 push(struct atom *p)
 {
 	if (tos < 0 || tos >= STACKSIZE)
@@ -15629,168 +16571,6 @@ push_string(char *s)
 		exit(1);
 	p->u.str = s;
 	push(p);
-}
-void
-eval_status(struct atom *p1)
-{
-	(void) p1; // silence compiler
-
-	outbuf_init();
-
-	snprintf(strbuf, STRBUFLEN, "block_count %d (%d%%)\n", block_count, 100 * block_count / MAXBLOCKS);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "free_count %d\n", free_count);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "gc_count %d\n", gc_count);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "bignum_count %d\n", bignum_count);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "ksym_count %d\n", ksym_count);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "usym_count %d\n", usym_count);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "string_count %d\n", string_count);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "tensor_count %d\n", tensor_count);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "max_eval_level %d\n", max_eval_level);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "max_tos %d (%d%%)\n", max_tos, 100 * max_tos / STACKSIZE);
-	outbuf_puts(strbuf);
-
-	snprintf(strbuf, STRBUFLEN, "max_tof %d (%d%%)\n", max_tof, 100 * max_tof / FRAMESIZE);
-	outbuf_puts(strbuf);
-
-	printbuf(outbuf, BLACK);
-
-	push_symbol(NIL);
-}
-void
-eval_subst(struct atom *p1)
-{
-	push(cadddr(p1));
-	evalf();
-	push(caddr(p1));
-	evalf();
-	push(cadr(p1));
-	evalf();
-	subst();
-	evalf(); // normalize
-}
-
-void
-subst(void)
-{
-	int h, i, n;
-	struct atom *p1, *p2, *p3;
-
-	p3 = pop(); // new expr
-	p2 = pop(); // old expr
-
-	if (p2 == symbol(NIL) || p3 == symbol(NIL))
-		return;
-
-	p1 = pop(); // expr
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			push(p2);
-			push(p3);
-			subst();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (equal(p1, p2)) {
-		push(p3);
-		return;
-	}
-
-	if (iscons(p1)) {
-		h = tos;
-		while (iscons(p1)) {
-			push(car(p1));
-			push(p2);
-			push(p3);
-			subst();
-			p1 = cdr(p1);
-		}
-		list(tos - h);
-		return;
-	}
-
-	push(p1);
-}
-void
-eval_sum(struct atom *p1)
-{
-	int h, i, j, k, n;
-	struct atom *p2, *p3;
-
-	if (lengthf(p1) == 2) {
-		push(cadr(p1));
-		evalf();
-		p1 = pop();
-		if (!istensor(p1)) {
-			push(p1);
-			return;
-		}
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++)
-			push(p1->u.tensor->elem[i]);
-		add_terms(n);
-		return;
-	}
-
-	p2 = cadr(p1);
-	if (!isusersymbol(p2))
-		stopf("sum: symbol error");
-
-	push(caddr(p1));
-	evalf();
-	j = pop_integer();
-
-	push(cadddr(p1));
-	evalf();
-	k = pop_integer();
-
-	p1 = caddddr(p1);
-
-	save_symbol(p2);
-
-	h = tos;
-
-	for (;;) {
-		push_integer(j);
-		p3 = pop();
-		set_symbol(p2, p3, symbol(NIL));
-		push(p1);
-		evalg();
-		if (j == k)
-			break;
-		if (j < k)
-			j++;
-		else
-			j--;
-	}
-
-	add_terms(tos - h);
-
-	restore_symbol();
 }
 // symbol lookup, create symbol if not found
 
@@ -16092,788 +16872,4 @@ init_symbol_table(void)
 		}
 		symtab[stab[i].index] = p;
 	}
-}
-void
-eval_tan(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	tanfunc();
-}
-
-void
-tanfunc(void)
-{
-	int i, n;
-	double d;
-	struct atom *p1, *p2;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			tanfunc();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = tan(d);
-		push_double(d);
-		return;
-	}
-
-	if (isdoublez(p1)) {
-		push(p1);
-		sinfunc();
-		push(p1);
-		cosfunc();
-		divide();
-		return;
-	}
-
-	// tan(-x) = -tan(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		tanfunc();
-		negate();
-		return;
-	}
-
-	if (car(p1) == symbol(ADD)) {
-		tanfunc_sum(p1);
-		return;
-	}
-
-	if (car(p1) == symbol(ARCTAN)) {
-		push(cadr(p1));
-		push(caddr(p1));
-		divide();
-		return;
-	}
-
-	// n pi ?
-
-	push(p1);
-	push_symbol(PI);
-	divide();
-	p2 = pop();
-
-	if (!isnum(p2)) {
-		push_symbol(TAN);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	if (isdouble(p2)) {
-		push(p2);
-		d = pop_double();
-		d = tan(d * M_PI);
-		push_double(d);
-		return;
-	}
-
-	push(p2); // nonnegative by tan(-x) = -tan(x) above
-	push_integer(180);
-	multiply();
-	p2 = pop();
-
-	if (!isinteger(p2)) {
-		push_symbol(TAN);
-		push(p1);
-		list(2);
-		return;
-	}
-
-	push(p2);
-	push_integer(360);
-	modfunc();
-	n = pop_integer();
-
-	switch (n) {
-	case 0:
-	case 180:
-		push_integer(0);
-		break;
-	case 30:
-	case 210:
-		push_rational(1, 3);
-		push_integer(3);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 150:
-	case 330:
-		push_rational(-1, 3);
-		push_integer(3);
-		push_rational(1, 2);
-		power();
-		multiply();
-		break;
-	case 45:
-	case 225:
-		push_integer(1);
-		break;
-	case 135:
-	case 315:
-		push_integer(-1);
-		break;
-	case 60:
-	case 240:
-		push_integer(3);
-		push_rational(1, 2);
-		power();
-		break;
-	case 120:
-	case 300:
-		push_integer(3);
-		push_rational(1, 2);
-		power();
-		negate();
-		break;
-	default:
-		push_symbol(TAN);
-		push(p1);
-		list(2);
-		break;
-	}
-}
-
-// tan(x + n pi) = tan(x)
-
-void
-tanfunc_sum(struct atom *p1)
-{
-	struct atom *p2, *p3;
-	p2 = cdr(p1);
-	while (iscons(p2)) {
-		push(car(p2));
-		push_symbol(PI);
-		divide();
-		p3 = pop();
-		if (isinteger(p3)) {
-			push(p1);
-			push(car(p2));
-			subtract();
-			tanfunc();
-			return;
-		}
-		p2 = cdr(p2);
-	}
-	push_symbol(TAN);
-	push(p1);
-	list(2);
-}
-void
-eval_tanh(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	tanhfunc();
-}
-
-void
-tanhfunc(void)
-{
-	int i, n;
-	double d;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			tanhfunc();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (isdouble(p1)) {
-		push(p1);
-		d = pop_double();
-		d = tanh(d);
-		push_double(d);
-		return;
-	}
-
-	if (isdoublez(p1)) {
-		push(p1);
-		sinhfunc();
-		push(p1);
-		coshfunc();
-		divide();
-		return;
-	}
-
-	if (iszero(p1)) {
-		push_integer(0);
-		return;
-	}
-
-	// tanh(-x) = -tanh(x)
-
-	if (isnegativeterm(p1)) {
-		push(p1);
-		negate();
-		tanhfunc();
-		negate();
-		return;
-	}
-
-	if (car(p1) == symbol(ARCTANH)) {
-		push(cadr(p1));
-		return;
-	}
-
-	push_symbol(TANH);
-	push(p1);
-	list(2);
-}
-void
-eval_taylor(struct atom *p1)
-{
-	int h, i, n;
-	struct atom *F, *X, *A, *C;
-
-	push(cadr(p1));
-	evalf();
-	F = pop();
-
-	push(caddr(p1));
-	evalf();
-	X = pop();
-
-	push(cadddr(p1));
-	evalf();
-	n = pop_integer();
-
-	p1 = cddddr(p1);
-
-	if (iscons(p1)) {
-		push(car(p1));
-		evalf();
-	} else
-		push_integer(0); // default expansion point
-
-	A = pop();
-
-	h = tos;
-
-	push(F);	// f(a)
-	push(X);
-	push(A);
-	subst();
-	evalf();
-
-	push_integer(1);
-	C = pop();
-
-	for (i = 1; i <= n; i++) {
-
-		push(F);	// f = f'
-		push(X);
-		derivative();
-		F = pop();
-
-		if (iszero(F))
-			break;
-
-		push(C);	// c = c * (x - a)
-		push(X);
-		push(A);
-		subtract();
-		multiply();
-		C = pop();
-
-		push(F);	// f(a)
-		push(X);
-		push(A);
-		subst();
-		evalf();
-
-		push(C);
-		multiply();
-		push_integer(i);
-		factorial();
-		divide();
-	}
-
-	add_terms(tos - h);
-}
-void
-eval_tensor(struct atom *p1)
-{
-	int i;
-
-	p1 = copy_tensor(p1);
-
-	for (i = 0; i < p1->u.tensor->nelem; i++) {
-		push(p1->u.tensor->elem[i]);
-		evalf();
-		p1->u.tensor->elem[i] = pop();
-	}
-
-	push(p1);
-
-	promote_tensor();
-}
-
-// tensors with elements that are also tensors get promoted to a higher rank
-
-void
-promote_tensor(void)
-{
-	int i, j, k, ndim1, ndim2, nelem1, nelem2;
-	struct atom *p1, *p2, *p3;
-
-	p1 = pop();
-
-	if (!istensor(p1)) {
-		push(p1);
-		return;
-	}
-
-	ndim1 = p1->u.tensor->ndim;
-	nelem1 = p1->u.tensor->nelem;
-
-	// check
-
-	p2 = p1->u.tensor->elem[0];
-
-	for (i = 1; i < nelem1; i++) {
-		p3 = p1->u.tensor->elem[i];
-		if (!compatible_dimensions(p2, p3))
-			stopf("tensor dimensions");
-	}
-
-	if (!istensor(p2)) {
-		push(p1);
-		return; // all elements are scalars
-	}
-
-	ndim2 = p2->u.tensor->ndim;
-	nelem2 = p2->u.tensor->nelem;
-
-	if (ndim1 + ndim2 > MAXDIM)
-		stopf("rank exceeds max");
-
-	// alloc
-
-	p3 = alloc_tensor(nelem1 * nelem2);
-
-	// merge dimensions
-
-	k = 0;
-
-	for (i = 0; i < ndim1; i++)
-		p3->u.tensor->dim[k++] = p1->u.tensor->dim[i];
-
-	for (i = 0; i < ndim2; i++)
-		p3->u.tensor->dim[k++] = p2->u.tensor->dim[i];
-
-	p3->u.tensor->ndim = ndim1 + ndim2;
-
-	// merge elements
-
-	k = 0;
-
-	for (i = 0; i < nelem1; i++) {
-		p2 = p1->u.tensor->elem[i];
-		for (j = 0; j < nelem2; j++)
-			p3->u.tensor->elem[k++] = p2->u.tensor->elem[j];
-	}
-
-	push(p3);
-}
-
-int
-compatible_dimensions(struct atom *p, struct atom *q)
-{
-	int i, n;
-
-	if (!istensor(p) && !istensor(q))
-		return 1; // both p and q are scalars
-
-	if (!istensor(p) || !istensor(q))
-		return 0; // scalar and tensor
-
-	n = p->u.tensor->ndim;
-
-	if (n != q->u.tensor->ndim)
-		return 0;
-
-	for (i = 0; i < n; i++)
-		if (p->u.tensor->dim[i] != q->u.tensor->dim[i])
-			return 0;
-
-	return 1;
-}
-
-int
-compare_tensors(struct atom *p1, struct atom *p2)
-{
-	int i;
-
-	if (p1->u.tensor->ndim < p2->u.tensor->ndim)
-		return -1;
-
-	if (p1->u.tensor->ndim > p2->u.tensor->ndim)
-		return 1;
-
-	for (i = 0; i < p1->u.tensor->ndim; i++) {
-		if (p1->u.tensor->dim[i] < p2->u.tensor->dim[i])
-			return -1;
-		if (p1->u.tensor->dim[i] > p2->u.tensor->dim[i])
-			return 1;
-	}
-
-	for (i = 0; i < p1->u.tensor->nelem; i++) {
-		if (equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-			continue;
-		if (lessp(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-			return -1;
-		else
-			return 1;
-	}
-
-	return 0;
-}
-
-struct atom *
-copy_tensor(struct atom *p1)
-{
-	int i;
-	struct atom *p2;
-
-	p2 = alloc_tensor(p1->u.tensor->nelem);
-
-	p2->u.tensor->ndim = p1->u.tensor->ndim;
-
-	for (i = 0; i < p1->u.tensor->ndim; i++)
-		p2->u.tensor->dim[i] = p1->u.tensor->dim[i];
-
-	for (i = 0; i < p1->u.tensor->nelem; i++)
-		p2->u.tensor->elem[i] = p1->u.tensor->elem[i];
-
-	return p2;
-}
-void
-eval_test(struct atom *p1)
-{
-	struct atom *p2;
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		if (!iscons(cdr(p1))) {
-			push(car(p1)); // default case
-			evalf();
-			return;
-		}
-		push(car(p1));
-		evalp();
-		p2 = pop();
-		if (!iszero(p2)) {
-			push(cadr(p1));
-			evalf();
-			return;
-		}
-		p1 = cddr(p1);
-	}
-	push_symbol(NIL);
-}
-void
-eval_testeq(struct atom *p1)
-{
-	struct atom *p2, *p3;
-
-	push(cadr(p1));
-	evalf();
-
-	push(caddr(p1));
-	evalf();
-
-	p2 = pop();
-	p1 = pop();
-
-	// null tensors are equal no matter the dimensions
-
-	if (iszero(p1) && iszero(p2)) {
-		push_integer(1);
-		return;
-	}
-
-	// shortcut for trivial equality
-
-	if (equal(p1, p2)) {
-		push_integer(1);
-		return;
-	}
-
-	// otherwise subtract and simplify
-
-	if (!istensor(p1) && !istensor(p2)) {
-		if (!iscons(p1) && !iscons(p2)) {
-			push_integer(0); // p1 and p2 are numbers, symbols, or strings
-			return;
-		}
-		push(p1);
-		push(p2);
-		subtract();
-		simplify();
-		p1 = pop();
-		if (iszero(p1))
-			push_integer(1);
-		else
-			push_integer(0);
-		return;
-	}
-
-	if (istensor(p1) && istensor(p2)) {
-		if (!compatible_dimensions(p1, p2)) {
-			push_integer(0);
-			return;
-		}
-		push(p1);
-		push(p2);
-		subtract();
-		simplify();
-		p1 = pop();
-		if (iszero(p1))
-			push_integer(1);
-		else
-			push_integer(0);
-		return;
-	}
-
-	if (istensor(p2)) {
-		// swap p1 and p2
-		p3 = p1;
-		p1 = p2;
-		p2 = p3;
-	}
-
-	if (!iszero(p2)) {
-		push_integer(0); // tensor not equal scalar
-		return;
-	}
-
-	push(p1);
-	simplify();
-	p1 = pop();
-
-	if (iszero(p1))
-		push_integer(1);
-	else
-		push_integer(0);
-}
-void
-eval_testge(struct atom *p1)
-{
-	if (cmp_args(p1) >= 0)
-		push_integer(1);
-	else
-		push_integer(0);
-}
-void
-eval_testgt(struct atom *p1)
-{
-	if (cmp_args(p1) > 0)
-		push_integer(1);
-	else
-		push_integer(0);
-}
-void
-eval_testle(struct atom *p1)
-{
-	if (cmp_args(p1) <= 0)
-		push_integer(1);
-	else
-		push_integer(0);
-}
-void
-eval_testlt(struct atom *p1)
-{
-	if (cmp_args(p1) < 0)
-		push_integer(1);
-	else
-		push_integer(0);
-}
-void
-eval_transpose(struct atom *p1)
-{
-	int m, n;
-	struct atom *p2;
-
-	push(cadr(p1));
-	evalf();
-	p2 = pop();
-	push(p2);
-
-	if (!istensor(p2) || p2->u.tensor->ndim < 2)
-		return;
-
-	p1 = cddr(p1);
-
-	if (!iscons(p1)) {
-		transpose(1, 2);
-		return;
-	}
-
-	while (iscons(p1)) {
-
-		push(car(p1));
-		evalf();
-		n = pop_integer();
-
-		push(cadr(p1));
-		evalf();
-		m = pop_integer();
-
-		transpose(n, m);
-
-		p1 = cddr(p1);
-	}
-}
-
-void
-transpose(int n, int m)
-{
-	int i, j, k, ndim, nelem;
-	int index[MAXDIM];
-	struct atom *p1, *p2;
-
-	p1 = pop();
-
-	ndim = p1->u.tensor->ndim;
-	nelem = p1->u.tensor->nelem;
-
-	if (n < 1 || n > ndim || m < 1 || m > ndim)
-		stopf("transpose: index error");
-
-	n--; // make zero based
-	m--;
-
-	p2 = copy_tensor(p1);
-
-	// interchange indices n and m
-
-	p2->u.tensor->dim[n] = p1->u.tensor->dim[m];
-	p2->u.tensor->dim[m] = p1->u.tensor->dim[n];
-
-	for (i = 0; i < ndim; i++)
-		index[i] = 0;
-
-	for (i = 0; i < nelem; i++) {
-
-		k = 0;
-
-		for (j = 0; j < ndim; j++) {
-			if (j == n)
-				k = k * p1->u.tensor->dim[m] + index[m];
-			else if (j == m)
-				k = k * p1->u.tensor->dim[n] + index[n];
-			else
-				k = k * p1->u.tensor->dim[j] + index[j];
-		}
-
-		p2->u.tensor->elem[k] = p1->u.tensor->elem[i];
-
-		// increment index
-
-		for (j = ndim - 1; j >= 0; j--) {
-			if (++index[j] < p1->u.tensor->dim[j])
-				break;
-			index[j] = 0;
-		}
-	}
-
-	push(p2);
-}
-void
-eval_unit(struct atom *p1)
-{
-	int i, j, n;
-
-	push(cadr(p1));
-	evalf();
-
-	n = pop_integer();
-
-	if (n < 1)
-		stopf("unit: index err");
-
-	if (n == 1) {
-		push_integer(1);
-		return;
-	}
-
-	p1 = alloc_matrix(n, n);
-
-	for (i = 0; i < n; i++)
-		for (j = 0; j < n; j++)
-			if (i == j)
-				p1->u.tensor->elem[n * i + j] = one;
-			else
-				p1->u.tensor->elem[n * i + j] = zero;
-
-	push(p1);
-}
-void
-eval_zero(struct atom *p1)
-{
-	int h, i, m, n;
-
-	p1 = cdr(p1);
-	h = tos;
-	m = 1;
-
-	while (iscons(p1)) {
-		push(car(p1));
-		evalf();
-		dupl();
-		n = pop_integer();
-		if (n < 2)
-			stopf("zero: dim err");
-		m *= n;
-		p1 = cdr(p1);
-	}
-
-	n = tos - h;
-
-	if (n == 0) {
-		push_integer(0); // scalar zero
-		return;
-	}
-
-	if (n > MAXDIM)
-		stopf("zero: rank err");
-
-	p1 = alloc_tensor(m);
-
-	for (i = 0; i < m; i++)
-		p1->u.tensor->elem[i] = zero;
-
-	// dim info
-
-	p1->u.tensor->ndim = n;
-
-	for (i = 0; i < n; i++)
-		p1->u.tensor->dim[n - i - 1] = pop_integer();
-
-	push(p1);
 }
