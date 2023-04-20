@@ -2,7 +2,7 @@ void
 eval_multiply(struct atom *p1)
 {
 	int h = tos;
-	expanding--; // undo expanding++ in eval
+	expanding--; // undo expanding++ in evalf
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));

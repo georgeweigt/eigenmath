@@ -4,7 +4,7 @@ eval_power(struct atom *p1)
 	int t;
 	struct atom *p2;
 
-	expanding--;
+	expanding--; // undo expanding++ in evalf
 
 	// base
 
