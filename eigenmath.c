@@ -777,8 +777,8 @@ void eval_user_function(struct atom *p1);
 void eval_user_symbol(struct atom *p1);
 void eval_zero(struct atom *p1);
 void evalp(void);
-void factor_bignum(uint32_t *N, struct atom *M);
 void factor_factor(void);
+void factor_bignum(uint32_t *N, struct atom *M);
 void factor_int(int n);
 int find_divisor(struct atom *p);
 int find_divisor_term(struct atom *p);
@@ -14643,57 +14643,6 @@ evalp(void)
 		evalf();
 	}
 }
-void
-factor_bignum(uint32_t *N, struct atom *M)
-{
-	int h, i, n;
-	struct atom *BASE, *EXPO;
-
-	// greater than 31 bits?
-
-	if (!bignum_issmallnum(N)) {
-		push_bignum(MPLUS, mcopy(N), mint(1));
-		if (isplusone(M))
-			return;
-		push_symbol(POWER);
-		swap();
-		push(M);
-		list(3);
-		return;
-	}
-
-	h = tos;
-
-	n = bignum_smallnum(N);
-
-	factor_int(n);
-
-	n = (tos - h) / 2; // number of factors on stack
-
-	for (i = 0; i < n; i++) {
-
-		BASE = stack[h + 2 * i + 0];
-		EXPO = stack[h + 2 * i + 1];
-
-		push(EXPO);
-		push(M);
-		multiply();
-		EXPO = pop();
-
-		if (isplusone(EXPO)) {
-			stack[h + i] = BASE;
-			continue;
-		}
-
-		push_symbol(POWER);
-		push(BASE);
-		push(EXPO);
-		list(3);
-		stack[h + i] = pop();
-	}
-
-	tos = h + n; // pop all
-}
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
 void
@@ -14760,6 +14709,61 @@ factor_factor(void)
 	if (!MEQUAL(denom, 1))
 		factor_bignum(denom, minusone);
 }
+
+// factor N, raise each factor to the power M
+
+void
+factor_bignum(uint32_t *N, struct atom *M)
+{
+	int h, i, n;
+	struct atom *BASE, *EXPO;
+
+	// greater than 31 bits?
+
+	if (!bignum_issmallnum(N)) {
+		push_bignum(MPLUS, mcopy(N), mint(1));
+		if (isplusone(M))
+			return;
+		push_symbol(POWER);
+		swap();
+		push(M);
+		list(3);
+		return;
+	}
+
+	h = tos;
+
+	n = bignum_smallnum(N);
+
+	factor_int(n);
+
+	n = (tos - h) / 2; // number of factors on stack
+
+	for (i = 0; i < n; i++) {
+
+		BASE = stack[h + 2 * i + 0];
+		EXPO = stack[h + 2 * i + 1];
+
+		push(EXPO);
+		push(M);
+		multiply();
+		EXPO = pop();
+
+		if (isplusone(EXPO)) {
+			stack[h + i] = BASE;
+			continue;
+		}
+
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
+		stack[h + i] = pop();
+	}
+
+	tos = h + n; // pop all
+}
+
 #define NPRIME 4792
 
 int primetab[NPRIME] = {

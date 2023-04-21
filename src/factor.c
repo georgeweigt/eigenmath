@@ -1,3 +1,124 @@
+// factors N or N^M where N and M are rational numbers, returns factors on stack
+
+void
+factor_factor(void)
+{
+	uint32_t *numer, *denom;
+	struct atom *INPUT, *BASE, *EXPO;
+
+	INPUT = pop();
+
+	if (car(INPUT) == symbol(POWER)) {
+
+		BASE = cadr(INPUT);
+		EXPO = caddr(INPUT);
+
+		if (!isrational(BASE) || !isrational(EXPO)) {
+			push(INPUT); // cannot factor
+			return;
+		}
+
+		if (isminusone(BASE)) {
+			push(INPUT); // -1 to the M
+			return;
+		}
+
+		if (isnegativenumber(BASE)) {
+			push_symbol(POWER);
+			push_integer(-1);
+			push(EXPO);
+			list(3); // leave on stack
+		}
+
+		numer = BASE->u.q.a;
+		denom = BASE->u.q.b;
+
+		if (!MEQUAL(numer, 1))
+			factor_bignum(numer, EXPO);
+
+		if (!MEQUAL(denom, 1)) {
+			// flip sign of exponent
+			push(EXPO);
+			negate();
+			EXPO = pop();
+			factor_bignum(denom, EXPO);
+		}
+
+		return;
+	}
+
+	if (!isrational(INPUT) || iszero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
+		push(INPUT);
+		return;
+	}
+
+	if (isnegativenumber(INPUT))
+		push_integer(-1);
+
+	numer = INPUT->u.q.a;
+	denom = INPUT->u.q.b;
+
+	if (!MEQUAL(numer, 1))
+		factor_bignum(numer, one);
+
+	if (!MEQUAL(denom, 1))
+		factor_bignum(denom, minusone);
+}
+
+// factor N, raise each factor to the power M
+
+void
+factor_bignum(uint32_t *N, struct atom *M)
+{
+	int h, i, n;
+	struct atom *BASE, *EXPO;
+
+	// greater than 31 bits?
+
+	if (!bignum_issmallnum(N)) {
+		push_bignum(MPLUS, mcopy(N), mint(1));
+		if (isplusone(M))
+			return;
+		push_symbol(POWER);
+		swap();
+		push(M);
+		list(3);
+		return;
+	}
+
+	h = tos;
+
+	n = bignum_smallnum(N);
+
+	factor_int(n);
+
+	n = (tos - h) / 2; // number of factors on stack
+
+	for (i = 0; i < n; i++) {
+
+		BASE = stack[h + 2 * i + 0];
+		EXPO = stack[h + 2 * i + 1];
+
+		push(EXPO);
+		push(M);
+		multiply();
+		EXPO = pop();
+
+		if (isplusone(EXPO)) {
+			stack[h + i] = BASE;
+			continue;
+		}
+
+		push_symbol(POWER);
+		push(BASE);
+		push(EXPO);
+		list(3);
+		stack[h + i] = pop();
+	}
+
+	tos = h + n; // pop all
+}
+
 #define NPRIME 4792
 
 int primetab[NPRIME] = {
