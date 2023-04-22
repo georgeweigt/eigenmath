@@ -130,69 +130,6 @@ isequalq(struct atom *p, int a, int b)
 		return 0;
 }
 
-int
-cmpfunc(void)
-{
-	int t;
-	struct atom *p1, *p2;
-	p2 = pop();
-	p1 = pop();
-	t = cmp_numbers(p1, p2);
-	return t;
-}
-
-int
-cmp_numbers(struct atom *p1, struct atom *p2)
-{
-	double d1, d2;
-
-	if (!isnum(p1) || !isnum(p2))
-		stopf("compare");
-
-	if (isrational(p1) && isrational(p2))
-		return cmp_rationals(p1, p2);
-
-	push(p1);
-	d1 = pop_double();
-
-	push(p2);
-	d2 = pop_double();
-
-	if (d1 < d2)
-		return -1;
-
-	if (d1 > d2)
-		return 1;
-
-	return 0;
-}
-
-int
-cmp_rationals(struct atom *a, struct atom *b)
-{
-	int t;
-	uint32_t *ab, *ba;
-	if (a->sign == MMINUS && b->sign == MPLUS)
-		return -1;
-	if (a->sign == MPLUS && b->sign == MMINUS)
-		return 1;
-	if (isinteger(a) && isinteger(b)) {
-		if (a->sign == MMINUS)
-			return mcmp(b->u.q.a, a->u.q.a);
-		else
-			return mcmp(a->u.q.a, b->u.q.a);
-	}
-	ab = mmul(a->u.q.a, b->u.q.b);
-	ba = mmul(a->u.q.b, b->u.q.a);
-	if (a->sign == MMINUS)
-		t = mcmp(ba, ab);
-	else
-		t = mcmp(ab, ba);
-	mfree(ab);
-	mfree(ba);
-	return t;
-}
-
 void
 bignum_scan_integer(char *s)
 {
@@ -220,31 +157,6 @@ bignum_float(uint32_t *p)
 	for (i = 0; i < n; i++)
 		d += scalbn((double) p[i], 32 * i);
 	return d;
-}
-
-void
-bignum_factorial(int n)
-{
-	push_bignum(MPLUS, bignum_factorial_nib(n), mint(1));
-}
-
-uint32_t *
-bignum_factorial_nib(int n)
-{
-	int i;
-	uint32_t *a, *b, *t;
-	if (n == 0 || n == 1)
-		return mint(1);
-	a = mint(2);
-	b = mint(0);
-	for (i = 3; i <= n; i++) {
-		b[0] = (uint32_t) i;
-		t = mmul(a, b);
-		mfree(a);
-		a = t;
-	}
-	mfree(b);
-	return a;
 }
 
 void

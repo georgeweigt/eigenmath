@@ -373,13 +373,8 @@ void push_double(double d);
 double pop_double(void);
 int isequaln(struct atom *p, int n);
 int isequalq(struct atom *p, int a, int b);
-int cmpfunc(void);
-int cmp_numbers(struct atom *p1, struct atom *p2);
-int cmp_rationals(struct atom *a, struct atom *b);
 void bignum_scan_integer(char *s);
 double bignum_float(uint32_t *p);
-void bignum_factorial(int n);
-uint32_t * bignum_factorial_nib(int n);
 void msetbit(uint32_t *x, uint32_t k);
 void mclrbit(uint32_t *x, uint32_t k);
 uint32_t * mscan(char *s);
@@ -404,6 +399,12 @@ uint32_t * mroot(uint32_t *a, uint32_t *n);
 int bignum_issmallnum(uint32_t *N);
 int bignum_smallnum(uint32_t *N);
 void cancel_factor(void);
+int cmpfunc(void);
+int lessp(struct atom *p1, struct atom *p2);
+int cmp(struct atom *p1, struct atom *p2);
+int cmp_numbers(struct atom *p1, struct atom *p2);
+int cmp_rationals(struct atom *a, struct atom *b);
+int cmp_tensors(struct atom *p1, struct atom *p2);
 int cmp_args(struct atom *p1);
 void coeffs(struct atom *P, struct atom *X);
 void list(int n);
@@ -413,8 +414,6 @@ int findf(struct atom *p, struct atom *q);
 int complexity(struct atom *p);
 void sort(int n);
 int sort_func(const void *p1, const void *p2);
-int lessp(struct atom *p1, struct atom *p2);
-int cmp_expr(struct atom *p1, struct atom *p2);
 int sign(int n);
 int iszero(struct atom *p);
 int isplusone(struct atom *p);
@@ -762,7 +761,6 @@ void eval_taylor(struct atom *p1);
 void eval_tensor(struct atom *p1);
 void promote_tensor(void);
 int compatible_dimensions(struct atom *p, struct atom *q);
-int compare_tensors(struct atom *p1, struct atom *p2);
 struct atom * copy_tensor(struct atom *p1);
 void eval_test(struct atom *p1);
 void eval_testeq(struct atom *p1);
@@ -1117,69 +1115,6 @@ isequalq(struct atom *p, int a, int b)
 		return 0;
 }
 
-int
-cmpfunc(void)
-{
-	int t;
-	struct atom *p1, *p2;
-	p2 = pop();
-	p1 = pop();
-	t = cmp_numbers(p1, p2);
-	return t;
-}
-
-int
-cmp_numbers(struct atom *p1, struct atom *p2)
-{
-	double d1, d2;
-
-	if (!isnum(p1) || !isnum(p2))
-		stopf("compare");
-
-	if (isrational(p1) && isrational(p2))
-		return cmp_rationals(p1, p2);
-
-	push(p1);
-	d1 = pop_double();
-
-	push(p2);
-	d2 = pop_double();
-
-	if (d1 < d2)
-		return -1;
-
-	if (d1 > d2)
-		return 1;
-
-	return 0;
-}
-
-int
-cmp_rationals(struct atom *a, struct atom *b)
-{
-	int t;
-	uint32_t *ab, *ba;
-	if (a->sign == MMINUS && b->sign == MPLUS)
-		return -1;
-	if (a->sign == MPLUS && b->sign == MMINUS)
-		return 1;
-	if (isinteger(a) && isinteger(b)) {
-		if (a->sign == MMINUS)
-			return mcmp(b->u.q.a, a->u.q.a);
-		else
-			return mcmp(a->u.q.a, b->u.q.a);
-	}
-	ab = mmul(a->u.q.a, b->u.q.b);
-	ba = mmul(a->u.q.b, b->u.q.a);
-	if (a->sign == MMINUS)
-		t = mcmp(ba, ab);
-	else
-		t = mcmp(ab, ba);
-	mfree(ab);
-	mfree(ba);
-	return t;
-}
-
 void
 bignum_scan_integer(char *s)
 {
@@ -1207,31 +1142,6 @@ bignum_float(uint32_t *p)
 	for (i = 0; i < n; i++)
 		d += scalbn((double) p[i], 32 * i);
 	return d;
-}
-
-void
-bignum_factorial(int n)
-{
-	push_bignum(MPLUS, bignum_factorial_nib(n), mint(1));
-}
-
-uint32_t *
-bignum_factorial_nib(int n)
-{
-	int i;
-	uint32_t *a, *b, *t;
-	if (n == 0 || n == 1)
-		return mint(1);
-	a = mint(2);
-	b = mint(0);
-	for (i = 3; i <= n; i++) {
-		b[0] = (uint32_t) i;
-		t = mmul(a, b);
-		mfree(a);
-		a = t;
-	}
-	mfree(b);
-	return a;
 }
 
 void
@@ -1868,25 +1778,198 @@ cancel_factor(void)
 	multiply();
 }
 int
+cmpfunc(void)
+{
+	struct atom *p1, *p2;
+	p2 = pop();
+	p1 = pop();
+	return cmp(p1, p2);
+}
+
+int
+lessp(struct atom *p1, struct atom *p2)
+{
+	if (cmp(p1, p2) < 0)
+		return 1;
+	else
+		return 0;
+}
+
+int
+cmp(struct atom *p1, struct atom *p2)
+{
+	int n;
+
+	if (p1 == p2)
+		return 0;
+
+	if (p1 == symbol(NIL))
+		return -1;
+
+	if (p2 == symbol(NIL))
+		return 1;
+
+	if (isnum(p1) && isnum(p2))
+		return cmp_numbers(p1, p2);
+
+	if (isnum(p1))
+		return -1;
+
+	if (isnum(p2))
+		return 1;
+
+	if (isstr(p1) && isstr(p2))
+		return sign(strcmp(p1->u.str, p2->u.str));
+
+	if (isstr(p1))
+		return -1;
+
+	if (isstr(p2))
+		return 1;
+
+	if (issymbol(p1) && issymbol(p2))
+		return sign(strcmp(printname(p1), printname(p2)));
+
+	if (issymbol(p1))
+		return -1;
+
+	if (issymbol(p2))
+		return 1;
+
+	if (istensor(p1) && istensor(p2))
+		return cmp_tensors(p1, p2);
+
+	if (istensor(p1))
+		return -1;
+
+	if (istensor(p2))
+		return 1;
+
+	while (iscons(p1) && iscons(p2)) {
+		n = cmp(car(p1), car(p2));
+		if (n != 0)
+			return n;
+		p1 = cdr(p1);
+		p2 = cdr(p2);
+	}
+
+	if (iscons(p2))
+		return -1;
+
+	if (iscons(p1))
+		return 1;
+
+	return 0;
+}
+
+int
+cmp_numbers(struct atom *p1, struct atom *p2)
+{
+	double d1, d2;
+
+	if (isrational(p1) && isrational(p2))
+		return cmp_rationals(p1, p2);
+
+	push(p1);
+	d1 = pop_double();
+
+	push(p2);
+	d2 = pop_double();
+
+	if (d1 < d2)
+		return -1;
+
+	if (d1 > d2)
+		return 1;
+
+	return 0;
+}
+
+int
+cmp_rationals(struct atom *a, struct atom *b)
+{
+	int t;
+	uint32_t *ab, *ba;
+	if (a->sign == MMINUS && b->sign == MPLUS)
+		return -1;
+	if (a->sign == MPLUS && b->sign == MMINUS)
+		return 1;
+	if (isinteger(a) && isinteger(b)) {
+		if (a->sign == MMINUS)
+			return mcmp(b->u.q.a, a->u.q.a);
+		else
+			return mcmp(a->u.q.a, b->u.q.a);
+	}
+	ab = mmul(a->u.q.a, b->u.q.b);
+	ba = mmul(a->u.q.b, b->u.q.a);
+	if (a->sign == MMINUS)
+		t = mcmp(ba, ab);
+	else
+		t = mcmp(ab, ba);
+	mfree(ab);
+	mfree(ba);
+	return t;
+}
+
+int
+cmp_tensors(struct atom *p1, struct atom *p2)
+{
+	int i;
+
+	if (p1->u.tensor->ndim < p2->u.tensor->ndim)
+		return -1;
+
+	if (p1->u.tensor->ndim > p2->u.tensor->ndim)
+		return 1;
+
+	for (i = 0; i < p1->u.tensor->ndim; i++) {
+		if (p1->u.tensor->dim[i] < p2->u.tensor->dim[i])
+			return -1;
+		if (p1->u.tensor->dim[i] > p2->u.tensor->dim[i])
+			return 1;
+	}
+
+	for (i = 0; i < p1->u.tensor->nelem; i++) {
+		if (equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+			continue;
+		if (lessp(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
+			return -1;
+		else
+			return 1;
+	}
+
+	return 0;
+}
+
+int
 cmp_args(struct atom *p1)
 {
-	struct atom *p2;
+	struct atom *p2, *p3;
 
 	push(cadr(p1));
 	evalf();
 	p2 = pop();
-	push(p2);
-	if (!isnum(p2))
-		floatfunc();
 
 	push(caddr(p1));
 	evalf();
-	p2 = pop();
-	push(p2);
-	if (!isnum(p2))
-		floatfunc();
+	p3 = pop();
 
-	return cmpfunc();
+	if (!isnum(p2)) {
+		push(p2);
+		floatfunc();
+		p2 = pop();
+	}
+
+	if (!isnum(p3)) {
+		push(p3);
+		floatfunc();
+		p3 = pop();
+	}
+
+	if (!isnum(p2) || !isnum(p3))
+		stopf("compare err");
+
+	return cmp(p2, p3);
 }
 // push coefficients of polynomial P(X) on stack
 
@@ -2001,83 +2084,7 @@ sort(int n)
 int
 sort_func(const void *p1, const void *p2)
 {
-	return cmp_expr(*((struct atom **) p1), *((struct atom **) p2));
-}
-
-int
-lessp(struct atom *p1, struct atom *p2)
-{
-	if (cmp_expr(p1, p2) < 0)
-		return 1;
-	else
-		return 0;
-}
-
-int
-cmp_expr(struct atom *p1, struct atom *p2)
-{
-	int n;
-
-	if (p1 == p2)
-		return 0;
-
-	if (p1 == symbol(NIL))
-		return -1;
-
-	if (p2 == symbol(NIL))
-		return 1;
-
-	if (isnum(p1) && isnum(p2))
-		return cmp_numbers(p1, p2);
-
-	if (isnum(p1))
-		return -1;
-
-	if (isnum(p2))
-		return 1;
-
-	if (isstr(p1) && isstr(p2))
-		return sign(strcmp(p1->u.str, p2->u.str));
-
-	if (isstr(p1))
-		return -1;
-
-	if (isstr(p2))
-		return 1;
-
-	if (issymbol(p1) && issymbol(p2))
-		return sign(strcmp(printname(p1), printname(p2)));
-
-	if (issymbol(p1))
-		return -1;
-
-	if (issymbol(p2))
-		return 1;
-
-	if (istensor(p1) && istensor(p2))
-		return compare_tensors(p1, p2);
-
-	if (istensor(p1))
-		return -1;
-
-	if (istensor(p2))
-		return 1;
-
-	while (iscons(p1) && iscons(p2)) {
-		n = cmp_expr(car(p1), car(p2));
-		if (n != 0)
-			return n;
-		p1 = cdr(p1);
-		p2 = cdr(p2);
-	}
-
-	if (iscons(p2))
-		return -1;
-
-	if (iscons(p1))
-		return 1;
-
-	return 0;
+	return cmp(*((struct atom **) p1), *((struct atom **) p2));
 }
 
 int
@@ -9578,7 +9585,7 @@ cmp_factors_provisional(struct atom *p1, struct atom *p2)
 	if (car(p2) == symbol(POWER))
 		p2 = cadr(p2); // p2 = base
 
-	return cmp_expr(p1, p2);
+	return cmp(p1, p2);
 }
 
 void
@@ -9702,10 +9709,10 @@ cmp_factors(struct atom *p1, struct atom *p2)
 		expo2 = one;
 	}
 
-	c = cmp_expr(base1, base2);
+	c = cmp(base1, base2);
 
 	if (c == 0)
-		c = cmp_expr(expo2, expo1); // swapped to reverse sort order
+		c = cmp(expo2, expo1); // swapped to reverse sort order
 
 	return c;
 }
@@ -14188,36 +14195,6 @@ compatible_dimensions(struct atom *p, struct atom *q)
 			return 0;
 
 	return 1;
-}
-
-int
-compare_tensors(struct atom *p1, struct atom *p2)
-{
-	int i;
-
-	if (p1->u.tensor->ndim < p2->u.tensor->ndim)
-		return -1;
-
-	if (p1->u.tensor->ndim > p2->u.tensor->ndim)
-		return 1;
-
-	for (i = 0; i < p1->u.tensor->ndim; i++) {
-		if (p1->u.tensor->dim[i] < p2->u.tensor->dim[i])
-			return -1;
-		if (p1->u.tensor->dim[i] > p2->u.tensor->dim[i])
-			return 1;
-	}
-
-	for (i = 0; i < p1->u.tensor->nelem; i++) {
-		if (equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-			continue;
-		if (lessp(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-			return -1;
-		else
-			return 1;
-	}
-
-	return 0;
 }
 
 struct atom *

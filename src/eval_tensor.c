@@ -107,36 +107,6 @@ compatible_dimensions(struct atom *p, struct atom *q)
 	return 1;
 }
 
-int
-compare_tensors(struct atom *p1, struct atom *p2)
-{
-	int i;
-
-	if (p1->u.tensor->ndim < p2->u.tensor->ndim)
-		return -1;
-
-	if (p1->u.tensor->ndim > p2->u.tensor->ndim)
-		return 1;
-
-	for (i = 0; i < p1->u.tensor->ndim; i++) {
-		if (p1->u.tensor->dim[i] < p2->u.tensor->dim[i])
-			return -1;
-		if (p1->u.tensor->dim[i] > p2->u.tensor->dim[i])
-			return 1;
-	}
-
-	for (i = 0; i < p1->u.tensor->nelem; i++) {
-		if (equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-			continue;
-		if (lessp(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-			return -1;
-		else
-			return 1;
-	}
-
-	return 0;
-}
-
 struct atom *
 copy_tensor(struct atom *p1)
 {

@@ -246,7 +246,7 @@ cmp_factors_provisional(struct atom *p1, struct atom *p2)
 	if (car(p2) == symbol(POWER))
 		p2 = cadr(p2); // p2 = base
 
-	return cmp_expr(p1, p2);
+	return cmp(p1, p2);
 }
 
 void
@@ -370,10 +370,10 @@ cmp_factors(struct atom *p1, struct atom *p2)
 		expo2 = one;
 	}
 
-	c = cmp_expr(base1, base2);
+	c = cmp(base1, base2);
 
 	if (c == 0)
-		c = cmp_expr(expo2, expo1); // swapped to reverse sort order
+		c = cmp(expo2, expo1); // swapped to reverse sort order
 
 	return c;
 }
