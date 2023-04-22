@@ -407,7 +407,6 @@ int cmp_rationals(struct atom *a, struct atom *b);
 int cmp_tensors(struct atom *p1, struct atom *p2);
 int cmp_args(struct atom *p1);
 int equal(struct atom *p1, struct atom *p2);
-void coeffs(struct atom *P, struct atom *X);
 void list(int n);
 void cons(void);
 int lengthf(struct atom *p);
@@ -719,6 +718,7 @@ void horner(int h, int n, struct atom *A);
 void divisors(int n);
 void divisors_nib(int h, int k);
 void reduce(int h, int n, struct atom *A);
+void coeffs(struct atom *P, struct atom *X);
 void eval_rotate(struct atom *p1);
 void rotate_h(struct atom *PSI, uint32_t c, int n);
 void rotate_p(struct atom *PSI, struct atom *PHASE, uint32_t c, int n);
@@ -2060,38 +2060,6 @@ equal(struct atom *p1, struct atom *p2)
 	}
 
 	return 0;
-}
-// push coefficients of polynomial P(X) on stack
-
-void
-coeffs(struct atom *P, struct atom *X)
-{
-	struct atom *C;
-
-	for (;;) {
-
-		push(P);
-		push(X);
-		push_integer(0);
-		subst();
-		evalf();
-		C = pop();
-
-		push(C);
-
-		push(P);
-		push(C);
-		subtract();
-		P = pop();
-
-		if (iszero(P))
-			break;
-
-		push(P);
-		push(X);
-		divide();
-		P = pop();
-	}
 }
 // create a list from n things on the stack
 
@@ -12482,6 +12450,39 @@ reduce(int h, int n, struct atom *A)
 
 	for (i = 0; i < n - 1; i++)
 		stack[h + i] = stack[h + i + 1];
+}
+
+// push coefficients of polynomial P(X) on stack
+
+void
+coeffs(struct atom *P, struct atom *X)
+{
+	struct atom *C;
+
+	for (;;) {
+
+		push(P);
+		push(X);
+		push_integer(0);
+		subst();
+		evalf();
+		C = pop();
+
+		push(C);
+
+		push(P);
+		push(C);
+		subtract();
+		P = pop();
+
+		if (iszero(P))
+			break;
+
+		push(P);
+		push(X);
+		divide();
+		P = pop();
+	}
 }
 #define NUMQBITS PSI->u.tensor->nelem
 #define KET0 PSI->u.tensor->elem[i ^ n]

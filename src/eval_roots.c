@@ -291,3 +291,36 @@ reduce(int h, int n, struct atom *A)
 	for (i = 0; i < n - 1; i++)
 		stack[h + i] = stack[h + i + 1];
 }
+
+// push coefficients of polynomial P(X) on stack
+
+void
+coeffs(struct atom *P, struct atom *X)
+{
+	struct atom *C;
+
+	for (;;) {
+
+		push(P);
+		push(X);
+		push_integer(0);
+		subst();
+		evalf();
+		C = pop();
+
+		push(C);
+
+		push(P);
+		push(C);
+		subtract();
+		P = pop();
+
+		if (iszero(P))
+			break;
+
+		push(P);
+		push(X);
+		divide();
+		P = pop();
+	}
+}
