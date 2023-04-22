@@ -398,7 +398,6 @@ uint32_t * mgcd(uint32_t *u, uint32_t *v);
 uint32_t * mroot(uint32_t *a, uint32_t *n);
 int bignum_issmallnum(uint32_t *N);
 int bignum_smallnum(uint32_t *N);
-void cancel_factor(void);
 int cmpfunc(void);
 int lessp(struct atom *p1, struct atom *p2);
 int cmp(struct atom *p1, struct atom *p2);
@@ -707,6 +706,10 @@ void eval_quote(struct atom *p1);
 void eval_rank(struct atom *p1);
 void eval_rationalize(struct atom *p1);
 void rationalize(void);
+int find_divisor(struct atom *p);
+int find_divisor_term(struct atom *p);
+int find_divisor_factor(struct atom *p);
+void cancel_factor(void);
 void eval_real(struct atom *p1);
 void real(void);
 void eval_rect(struct atom *p1);
@@ -729,6 +732,7 @@ void rotate_z(struct atom *PSI, uint32_t c, int n);
 void rotate_q(struct atom *PSI, int n);
 void rotate_v(struct atom *PSI, int n);
 void eval_run(struct atom *p1);
+char * read_file(char *filename);
 void eval_setq(struct atom *p1);
 void setq_indexed(struct atom *p1);
 void set_component(struct atom *LVAL, struct atom *RVAL, int h);
@@ -778,9 +782,6 @@ void eval_zero(struct atom *p1);
 void factor_factor(void);
 void factor_bignum(uint32_t *N, struct atom *M);
 void factor_int(int n);
-int find_divisor(struct atom *p);
-int find_divisor_term(struct atom *p);
-int find_divisor_factor(struct atom *p);
 void fmt(void);
 void fmt_args(struct atom *p);
 void fmt_base(struct atom *p);
@@ -838,7 +839,6 @@ void eval_exit(struct atom *p1);
 void outbuf_init(void);
 void outbuf_puts(char *s);
 void outbuf_putc(int c);
-char * read_file(char *filename);
 void run(char *buf);
 void run_buf(char *buf);
 char * scan_input(char *s);
@@ -1750,32 +1750,6 @@ int
 bignum_smallnum(uint32_t *N)
 {
 	return N[0] & 0x7fffffff;
-}
-void
-cancel_factor(void)
-{
-	int h;
-	struct atom *p1, *p2;
-
-	p2 = pop();
-	p1 = pop();
-
-	if (car(p2) == symbol(ADD)) {
-		h = tos;
-		p2 = cdr(p2);
-		while (iscons(p2)) {
-			push(p1);
-			push(car(p2));
-			multiply();
-			p2 = cdr(p2);
-		}
-		add_terms(tos - h);
-		return;
-	}
-
-	push(p1);
-	push(p2);
-	multiply();
 }
 int
 cmpfunc(void)
@@ -12022,6 +11996,95 @@ rationalize(void)
 	reciprocate();
 	multiply_noexpand();
 }
+
+// returns 1 with divisor on stack, otherwise returns 0
+
+int
+find_divisor(struct atom *p)
+{
+	if (car(p) == symbol(ADD)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (find_divisor_term(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return find_divisor_term(p);
+}
+
+int
+find_divisor_term(struct atom *p)
+{
+	if (car(p) == symbol(MULTIPLY)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (find_divisor_factor(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return find_divisor_factor(p);
+}
+
+int
+find_divisor_factor(struct atom *p)
+{
+	if (isinteger(p))
+		return 0;
+
+	if (isrational(p)) {
+		push(p);
+		denominator();
+		return 1;
+	}
+
+	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
+		if (isminusone(caddr(p)))
+			push(cadr(p));
+		else {
+			push_symbol(POWER);
+			push(cadr(p));
+			push(caddr(p));
+			negate();
+			list(3);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
+void
+cancel_factor(void)
+{
+	int h;
+	struct atom *p1, *p2;
+
+	p2 = pop();
+	p1 = pop();
+
+	if (car(p2) == symbol(ADD)) {
+		h = tos;
+		p2 = cdr(p2);
+		while (iscons(p2)) {
+			push(p1);
+			push(car(p2));
+			multiply();
+			p2 = cdr(p2);
+		}
+		add_terms(tos - h);
+		return;
+	}
+
+	push(p1);
+	push(p2);
+	multiply();
+}
 void
 eval_real(struct atom *p1)
 {
@@ -12798,6 +12861,52 @@ eval_run(struct atom *p1)
 	fpop(); // buf is freed on next gc
 
 	push_symbol(NIL); // return value
+}
+
+char *
+read_file(char *filename)
+{
+	int fd, n;
+	char *buf;
+	off_t t;
+
+	fd = open(filename, O_RDONLY);
+
+	if (fd < 0)
+		return NULL;
+
+	t = lseek(fd, 0, SEEK_END);
+
+	if (t < 0 || t > 0x1000000) { // 16 MB max
+		close(fd);
+		return NULL;
+	}
+
+	if (lseek(fd, 0, SEEK_SET)) {
+		close(fd);
+		return NULL;
+	}
+
+	n = (int) t;
+
+	buf = malloc(n + 1);
+
+	if (buf == NULL) {
+		close(fd);
+		return NULL;
+	}
+
+	if (read(fd, buf, n) != n) {
+		free(buf);
+		close(fd);
+		return NULL;
+	}
+
+	close(fd);
+
+	buf[n] = '\0';
+
+	return buf;
 }
 void
 eval_setq(struct atom *p1)
@@ -15390,67 +15499,6 @@ factor_int(int n)
 	push_integer(n);
 	push_integer(1);
 }
-// returns 1 with divisor on stack, otherwise returns 0
-
-int
-find_divisor(struct atom *p)
-{
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (find_divisor_term(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return find_divisor_term(p);
-}
-
-int
-find_divisor_term(struct atom *p)
-{
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (find_divisor_factor(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return find_divisor_factor(p);
-}
-
-int
-find_divisor_factor(struct atom *p)
-{
-	if (isinteger(p))
-		return 0;
-
-	if (isrational(p)) {
-		push(p);
-		denominator();
-		return 1;
-	}
-
-	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
-		if (isminusone(caddr(p)))
-			push(cadr(p));
-		else {
-			push_symbol(POWER);
-			push(cadr(p));
-			push(caddr(p));
-			negate();
-			list(3);
-		}
-		return 1;
-	}
-
-	return 0;
-}
 // automatic variables not visible to the garbage collector are reclaimed
 
 void
@@ -15659,51 +15707,6 @@ outbuf_putc(int c)
 
 	outbuf[outbuf_index++] = c;
 	outbuf[outbuf_index] = '\0';
-}
-char *
-read_file(char *filename)
-{
-	int fd, n;
-	char *buf;
-	off_t t;
-
-	fd = open(filename, O_RDONLY);
-
-	if (fd < 0)
-		return NULL;
-
-	t = lseek(fd, 0, SEEK_END);
-
-	if (t < 0 || t > 0x1000000) { // 16 MB max
-		close(fd);
-		return NULL;
-	}
-
-	if (lseek(fd, 0, SEEK_SET)) {
-		close(fd);
-		return NULL;
-	}
-
-	n = (int) t;
-
-	buf = malloc(n + 1);
-
-	if (buf == NULL) {
-		close(fd);
-		return NULL;
-	}
-
-	if (read(fd, buf, n) != n) {
-		free(buf);
-		close(fd);
-		return NULL;
-	}
-
-	close(fd);
-
-	buf[n] = '\0';
-
-	return buf;
 }
 void
 run(char *buf)
