@@ -447,6 +447,7 @@ int issmallinteger(struct atom *p);
 void evalg(void);
 void evalf(void);
 void evalf_nib(struct atom *p1);
+void evalp(void);
 void eval_abs(struct atom *p1);
 void absfunc(void);
 void eval_add(struct atom *p1);
@@ -774,7 +775,6 @@ void eval_unit(struct atom *p1);
 void eval_user_function(struct atom *p1);
 void eval_user_symbol(struct atom *p1);
 void eval_zero(struct atom *p1);
-void evalp(void);
 void factor_factor(void);
 void factor_bignum(uint32_t *N, struct atom *M);
 void factor_int(int n);
@@ -2580,6 +2580,21 @@ evalf_nib(struct atom *p1)
 	}
 
 	push(p1); // rational, double, or string
+}
+
+// like evalf() except '=' is evaluated as '=='
+
+void
+evalp(void)
+{
+	struct atom *p1;
+	p1 = pop();
+	if (car(p1) == symbol(SETQ))
+		eval_testeq(p1);
+	else {
+		push(p1);
+		evalf();
+	}
 }
 void
 eval_abs(struct atom *p1)
@@ -14608,20 +14623,6 @@ eval_zero(struct atom *p1)
 		p1->u.tensor->dim[n - i - 1] = pop_integer();
 
 	push(p1);
-}
-// like evalf() except '=' is evaluated as '=='
-
-void
-evalp(void)
-{
-	struct atom *p1;
-	p1 = pop();
-	if (car(p1) == symbol(SETQ))
-		eval_testeq(p1);
-	else {
-		push(p1);
-		evalf();
-	}
 }
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
