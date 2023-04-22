@@ -15349,6 +15349,12 @@ int primetab[NPRIME] = {
 46271,46273,46279,46301,46307,46309,46327,46337,
 };
 
+// the next prime after 46337 is 46349
+
+// 46349 ^ 2 = 2,148,229,801 which is greater than 2 ^ 31 = 2,147,483,648
+
+// hence this table can factor all positive ints
+
 void
 factor_int(int n)
 {
