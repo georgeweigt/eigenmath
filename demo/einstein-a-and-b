@@ -1,0 +1,72 @@
+-- spontaneous emission
+
+A21 = 16 e^8 / (6561 epsilon0^4 h^4 c^3 a0)
+
+-- induced emission
+
+B21 = c^2 / (2 h nu^3) A21
+
+-- absorption
+
+p1 = 2
+p2 = 6
+
+B12 = p2 / p1 B21
+
+"Einstein A and B coefficients for Lyman-alpha line"
+
+A21
+B21
+B12
+
+"Verify Einstein's equilibrium formula"
+
+rho = (2 h nu^3 / c^2) / (exp(h nu / (k T)) - 1)
+
+E(n) = -e^2 / (8 pi epsilon0 a0 n^2)
+
+nu = (E(2) - E(1)) / h
+
+check(B12 rho p1 exp(-E(1) / (k T)) ==
+B21 rho p2 exp(-E(2) / (k T)) + A21 p2 exp(-E(2) / (k T)))
+
+"ok"
+
+-- physical constants (c, h, and k are exact values)
+
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+epsilon0 = 8.8541878128 10^(-12) farad / meter
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+k = 1.380649 10^(-23) joule / kelvin
+me = 9.1093837015 10^(-31) kilogram
+mp = 1.67262192369 10^(-27) kilogram
+mu = me mp / (me + mp)
+
+-- derived units
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+volt = joule / coulomb
+
+-- base units (for printing)
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+pi = float(pi) -- use numerical value of pi
+
+-- Bohr radius (NIST value of 5.29177e-11 is for me, not mu)
+
+a0 = epsilon0 h^2 / (pi e^2 mu)
+
+a0
+nu
+A21
+B21
+B12
