@@ -19,17 +19,10 @@ To run a script
 ./eigenmath scriptfilename
 ```
 
-To run test scripts
+Run demo script
 
 ```
-./eigenmath test/selftest1
-./eigenmath test/selftest2
-```
-
-Run spontaneous emission demo
-
-```
-./eigenmath spontaneous-emission 
+./eigenmath demo/spontaneous-emission 
 Spontaneous emission rate for hydrogen state 2p
                    ┌       ┐ 
                    │       │ 
@@ -60,6 +53,13 @@ A   = ╶──────────╴
 Mean interval
           −9       
 1.59619×10   second
+```
+
+To run test scripts
+
+```
+./eigenmath test/selftest1
+./eigenmath test/selftest2
 ```
 
 #
