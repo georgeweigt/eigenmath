@@ -1,0 +1,92 @@
+"Spontaneous emission rate for hydrogen state 2p"
+
+psi(n,l,m) = R(n,l) Y(l,m)
+ 
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0),n - l - 1,2 l + 1) *
+         exp(-r / (n a0))
+
+L(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))
+
+Y(l,m) = (-1)^m sqrt((2l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated legendre of cos theta
+
+P(l,m) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+         1 / (2^l l!) sin(theta)^m *
+         eval(d((x^2 - 1)^l,x,l + m),x,cos(theta)))
+
+-- E(n) returns the nth energy eigenvalue
+
+E(n) = -e^2 / (8 pi epsilon0 a0 n^2)
+
+-- integrate f
+
+I(f) = do(
+  f = f r^2 sin(theta), -- multiply by volume element
+  f = circexp(f), -- convert to exponential form
+  f = defint(f,theta,0,pi,phi,0,2pi),
+  f = integral(f,r),
+  0 - eval(f,r,0) -- return value
+)
+
+psi2 = psi(2,1,0) -- try psi(2,1,1) and psi(2,1,-1) also
+psi1 = psi(1,0,0)
+
+f21 = conj(psi1) psi2
+f21
+
+x21 = I(r sin(theta) cos(phi) f21)
+y21 = I(r sin(theta) sin(phi) f21)
+z21 = I(r cos(theta) f21)
+
+print(x21,y21,z21)
+
+r21sq = conj(x21) x21 + conj(y21) y21 + conj(z21) z21
+r21sq
+
+-- physical constants (c, h, k are exact values)
+
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+epsilon0 = 8.8541878128 10^(-12) farad / meter
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+k = 1.380649 10^(-23) joule / kelvin
+me = 9.1093837015 10^(-31) kilogram
+mp = 1.67262192369 10^(-27) kilogram
+mu = me mp / (me + mp)
+
+-- derived units
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+volt = joule / coulomb
+
+-- base units (for printing)
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+pi = float(pi) -- use numerical value of pi
+
+a0 = 4 pi epsilon0 hbar^2 / (e^2 mu)
+
+omega21 = (E(2) - E(1)) / hbar
+
+"Spontaneous emission rate"
+
+A21 = e^2 / (3 pi epsilon0 hbar c^3) omega21^3 r21sq
+A21
+
+"Mean interval"
+
+1 / A21
