@@ -13,13 +13,7 @@ make
 
 Press ctrl-C to exit.
 
-To run a script
-
-```
-./eigenmath scriptfilename
-```
-
-Run demo script
+To run a demo script
 
 ```
 ./eigenmath demo/spontaneous-emission 
@@ -53,13 +47,6 @@ A   = ╶──────────╴
 Mean interval
           −9       
 1.59619×10   second
-```
-
-To run test scripts
-
-```
-./eigenmath test/selftest1
-./eigenmath test/selftest2
 ```
 
 #
