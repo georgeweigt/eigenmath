@@ -13,7 +13,7 @@ make
 
 Press ctrl-C to exit.
 
-Run a demo script
+Demo script example
 
 ```
 ./eigenmath demo/spontaneous-emission 
