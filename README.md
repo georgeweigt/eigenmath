@@ -13,11 +13,17 @@ make
 
 Press ctrl-C to exit.
 
-Demo script example
+To run a script (example)
 
 ```
-./eigenmath demo/spontaneous-emission 
+./eigenmath demo/spontaneous-emission
+```
+
+Result
+
+```
 Spontaneous emission rate for hydrogen state 2p
+
                    ┌       ┐ 
                    │       │ 
                    │  3 r  │ 
@@ -29,22 +35,30 @@ f   = ╶─────────────────────╴
  21            1/2  4        
             4 2    a  π      
                     0        
+
 x   = 0
  21    
+
 y   = 0
  21    
+
        128   1/2   
 z   = ╶───╴ 2    a 
  21    243        0
+
          32768   2
 r     = ╶─────╴ a 
  21sq    59049   0
+
 Spontaneous emission rate
+
                 8 
        6.2649×10  
 A   = ╶──────────╴
  21      second   
+
 Mean interval
+
           −9       
 1.59619×10   second
 ```

@@ -17081,6 +17081,7 @@ void
 display(void)
 {
 	fmt();
+	putchar('\n');
 }
 
 void
