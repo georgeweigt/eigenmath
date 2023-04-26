@@ -11,9 +11,9 @@ psi(n,m) = 1 / sqrt(pi a0 (n + 1/2)) *
 
 a0 = hbar^2 / (k mu)
 
--- Laguerre polynomial in x (y is a local variable)
+-- Laguerre polynomial
 
-L(x,n,a,y) = eval(y^(-a) exp(y) / n! d(exp(-y) y^(n + a), y, n), y, x)
+L(x,n,m) = (n + m)! sum(j,0,n,(-x)^j / ((n - j)! (m + j)! j!))
 
 -- energy eigenvalues
 
