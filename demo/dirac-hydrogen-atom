@@ -13,7 +13,7 @@ a0 = hbar^2 / (k mu)
 
 -- Laguerre polynomial
 
-L(x,n,m) = (n + m)! sum(j,0,n,(-x)^j / ((n - j)! (m + j)! j!))
+L(x,n,m,j) = (n + m)! sum(j,0,n,(-x)^j / ((n - j)! (m + j)! j!))
 
 -- energy eigenvalues
 
