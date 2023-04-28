@@ -28,12 +28,7 @@ mscan(char *s)
 	uint32_t *a, *b, *t;
 	a = mint(0);
 	t = mint(0);
-	while (*s) {
-		if (*s < '0' || *s > '9') {
-			mfree(a);
-			a = NULL;
-			break;
-		}
+	while (*s >= '0' && *s <= '9') {
 		t[0] = 10;
 		b = mmul(a, t);
 		mfree(a);

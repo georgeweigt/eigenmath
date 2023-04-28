@@ -319,8 +319,6 @@ scan_integer(void)
 		a = mscan(token_buf);
 		break;
 	}
-	if (a == NULL)
-		stopf("parse error");
 	push_bignum(sign, a, mint(1));
 }
 
