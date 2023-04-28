@@ -1,97 +1,3 @@
-// create a list from n things on the stack
-
-void
-list(int n)
-{
-	int i;
-	push_symbol(NIL);
-	for (i = 0; i < n; i++)
-		cons();
-}
-
-void
-cons(void)
-{
-	struct atom *p;
-	p = alloc_atom();
-	p->atomtype = CONS;
-	p->u.cons.cdr = pop();
-	p->u.cons.car = pop();
-	push(p);
-}
-
-int
-lengthf(struct atom *p)
-{
-	int n = 0;
-	while (iscons(p)) {
-		n++;
-		p = cdr(p);
-	}
-	return n;
-}
-
-// returns 1 if expr p contains expr q, otherweise returns 0
-
-int
-findf(struct atom *p, struct atom *q)
-{
-	int i;
-
-	if (equal(p, q))
-		return 1;
-
-	if (istensor(p)) {
-		for (i = 0; i < p->u.tensor->nelem; i++)
-			if (findf(p->u.tensor->elem[i], q))
-				return 1;
-		return 0;
-	}
-
-	while (iscons(p)) {
-		if (findf(car(p), q))
-			return 1;
-		p = cdr(p);
-	}
-
-	return 0;
-}
-
-int
-complexity(struct atom *p)
-{
-	int n = 1;
-
-	while (iscons(p)) {
-		n += complexity(car(p));
-		p = cdr(p);
-	}
-
-	return n;
-}
-
-void
-sort(int n)
-{
-	qsort(stack + tos - n, n, sizeof (struct atom *), sort_func);
-}
-
-int
-sort_func(const void *p1, const void *p2)
-{
-	return cmp(*((struct atom **) p1), *((struct atom **) p2));
-}
-
-int
-sign(int n)
-{
-	if (n < 0)
-		return -1;
-	if (n > 0)
-		return 1;
-	return 0;
-}
-
 int
 iszero(struct atom *p)
 {
@@ -106,6 +12,28 @@ iszero(struct atom *p)
 				return 0;
 		return 1;
 	} else
+		return 0;
+}
+
+int
+isequaln(struct atom *p, int n)
+{
+	if (isrational(p))
+		return p->sign == (n < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(n)) && MEQUAL(p->u.q.b, 1);
+	else if (isdouble(p))
+		return p->u.d == (double) n;
+	else
+		return 0;
+}
+
+int
+isequalq(struct atom *p, int a, int b)
+{
+	if (isrational(p))
+		return p->sign == (a < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(a)) && MEQUAL(p->u.q.b, b);
+	else if (isdouble(p))
+		return p->u.d == (double) a / b;
+	else
 		return 0;
 }
 
@@ -248,46 +176,6 @@ isdoublez(struct atom *p)
 }
 
 int
-find_denominator(struct atom *p)
-{
-	struct atom *q;
-	p = cdr(p);
-	while (iscons(p)) {
-		q = car(p);
-		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q)))
-			return 1;
-		p = cdr(p);
-	}
-	return 0;
-}
-
-int
-count_denominators(struct atom *p)
-{
-	int n = 0;
-	p = cdr(p);
-	while (iscons(p)) {
-		if (isdenominator(car(p)))
-			n++;
-		p = cdr(p);
-	}
-	return n;
-}
-
-int
-count_numerators(struct atom *p)
-{
-	int n = 0;
-	p = cdr(p);
-	while (iscons(p)) {
-		if (isnumerator(car(p)))
-			n++;
-		p = cdr(p);
-	}
-	return n;
-}
-
-int
 isdenominator(struct atom *p)
 {
 	if (car(p) == symbol(POWER) && isnegativenumber(caddr(p)))
@@ -415,26 +303,4 @@ issmallinteger(struct atom *p)
 		return p->u.d == floor(p->u.d) && fabs(p->u.d) <= 0x7fffffff;
 
 	return 0;
-}
-
-int
-isequaln(struct atom *p, int n)
-{
-	if (isrational(p))
-		return p->sign == (n < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(n)) && MEQUAL(p->u.q.b, 1);
-	else if (isdouble(p))
-		return p->u.d == (double) n;
-	else
-		return 0;
-}
-
-int
-isequalq(struct atom *p, int a, int b)
-{
-	if (isrational(p))
-		return p->sign == (a < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(a)) && MEQUAL(p->u.q.b, b);
-	else if (isdouble(p))
-		return p->u.d == (double) a / b;
-	else
-		return 0;
 }
