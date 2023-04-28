@@ -63,6 +63,13 @@ Mean interval
 1.59619×10   second
 ```
 
+To test the build
+
+```
+./eigenmath test/selftest1
+./eigenmath test/selftest2
+```
+
 #
 
 Packages
