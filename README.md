@@ -63,7 +63,7 @@ Mean interval
 1.59619×10   second
 ```
 
-To test the build product
+Run self tests
 
 ```
 ./eigenmath test/selftest1
