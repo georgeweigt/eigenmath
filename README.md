@@ -4,7 +4,7 @@
 
 Eigenmath uses UTF-8 encoding to display Greek letters and other symbols.
 
-To build and run
+Build and run
 
 ```
 make
@@ -13,7 +13,7 @@ make
 
 Press ctrl-C to exit.
 
-To run a script (example)
+Run a script (example)
 
 ```
 ./eigenmath demo/spontaneous-emission
