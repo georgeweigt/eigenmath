@@ -1,22 +1,5 @@
-void
-bignum_scan_integer(char *s)
-{
-	int sign;
-	uint32_t *a;
-	if (*s == '-')
-		sign = MMINUS;
-	else
-		sign = MPLUS;
-	if (*s == '+' || *s == '-')
-		s++;
-	a = mscan(s);
-	if (a == NULL)
-		stopf("parse error");
-	push_bignum(sign, a, mint(1));
-}
-
 double
-bignum_float(uint32_t *p)
+mfloat(uint32_t *p)
 {
 	int i, n;
 	double d;
@@ -621,16 +604,4 @@ mroot(uint32_t *a, uint32_t *n)
 	mfree(b);
 
 	return NULL;
-}
-
-int
-bignum_issmallnum(uint32_t *N)
-{
-	return MLENGTH(N) == 1 && N[0] <= 0x7fffffff;
-}
-
-int
-bignum_smallnum(uint32_t *N)
-{
-	return N[0] & 0x7fffffff;
 }

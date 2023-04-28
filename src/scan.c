@@ -199,7 +199,7 @@ scan_factor(void)
 		break;
 
 	case T_INTEGER:
-		bignum_scan_integer(token_buf);
+		scan_integer();
 		get_token();
 		break;
 
@@ -298,6 +298,30 @@ scan_function_call(void)
 	scan_level--;
 	get_token(); // get token after ')'
 	list(tos - h);
+}
+
+void
+scan_integer(void)
+{
+	int sign;
+	uint32_t *a;
+	switch (*token_buf) {
+	case '+':
+		sign = MPLUS;
+		a = mscan(token_buf + 1);
+		break;
+	case '-':
+		sign = MMINUS;
+		a = mscan(token_buf + 1);
+		break;
+	default:
+		sign = MPLUS;
+		a = mscan(token_buf);
+		break;
+	}
+	if (a == NULL)
+		stopf("parse error");
+	push_bignum(sign, a, mint(1));
 }
 
 void

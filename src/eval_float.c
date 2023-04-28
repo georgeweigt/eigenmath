@@ -47,8 +47,8 @@ floatfunc_subst(void)
 	}
 
 	if (isrational(p1)) {
-		a = bignum_float(p1->u.q.a);
-		b = bignum_float(p1->u.q.b);
+		a = mfloat(p1->u.q.a);
+		b = mfloat(p1->u.q.b);
 		if (isnegativenumber(p1))
 			a = -a;
 		push_double(a / b);

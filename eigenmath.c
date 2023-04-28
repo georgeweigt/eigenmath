@@ -365,8 +365,7 @@ struct atom * alloc_matrix(int nrow, int ncol);
 struct atom * alloc_tensor(int nelem);
 struct atom * alloc_str(void);
 void * alloc_mem(int n);
-void bignum_scan_integer(char *s);
-double bignum_float(uint32_t *p);
+double mfloat(uint32_t *p);
 void msetbit(uint32_t *x, uint32_t k);
 void mclrbit(uint32_t *x, uint32_t k);
 uint32_t * mscan(char *s);
@@ -388,8 +387,6 @@ uint32_t * mcopy(uint32_t *u);
 void mnorm(uint32_t *u);
 uint32_t * mgcd(uint32_t *u, uint32_t *v);
 uint32_t * mroot(uint32_t *a, uint32_t *n);
-int bignum_issmallnum(uint32_t *N);
-int bignum_smallnum(uint32_t *N);
 int cmpfunc(void);
 int lessp(struct atom *p1, struct atom *p2);
 int cmp(struct atom *p1, struct atom *p2);
@@ -853,6 +850,7 @@ void scan_factor(void);
 void scan_symbol(void);
 void scan_string(void);
 void scan_function_call(void);
+void scan_integer(void);
 void scan_subexpr(void);
 void get_token_skip_newlines(void);
 void get_token(void);
@@ -983,25 +981,8 @@ alloc_mem(int n)
 		exit(1);
 	return p;
 }
-void
-bignum_scan_integer(char *s)
-{
-	int sign;
-	uint32_t *a;
-	if (*s == '-')
-		sign = MMINUS;
-	else
-		sign = MPLUS;
-	if (*s == '+' || *s == '-')
-		s++;
-	a = mscan(s);
-	if (a == NULL)
-		stopf("parse error");
-	push_bignum(sign, a, mint(1));
-}
-
 double
-bignum_float(uint32_t *p)
+mfloat(uint32_t *p)
 {
 	int i, n;
 	double d;
@@ -1606,18 +1587,6 @@ mroot(uint32_t *a, uint32_t *n)
 	mfree(b);
 
 	return NULL;
-}
-
-int
-bignum_issmallnum(uint32_t *N)
-{
-	return MLENGTH(N) == 1 && N[0] <= 0x7fffffff;
-}
-
-int
-bignum_smallnum(uint32_t *N)
-{
-	return N[0] & 0x7fffffff;
 }
 int
 cmpfunc(void)
@@ -6299,8 +6268,8 @@ floatfunc_subst(void)
 	}
 
 	if (isrational(p1)) {
-		a = bignum_float(p1->u.q.a);
-		b = bignum_float(p1->u.q.b);
+		a = mfloat(p1->u.q.a);
+		b = mfloat(p1->u.q.b);
 		if (isnegativenumber(p1))
 			a = -a;
 		push_double(a / b);
@@ -14701,7 +14670,7 @@ factor_bignum(uint32_t *N, struct atom *M)
 
 	// greater than 31 bits?
 
-	if (!bignum_issmallnum(N)) {
+	if (MLENGTH(N) > 1 || N[0] > 0x7fffffff) {
 		push_bignum(MPLUS, mcopy(N), mint(1));
 		if (isplusone(M))
 			return;
@@ -14714,7 +14683,7 @@ factor_bignum(uint32_t *N, struct atom *M)
 
 	h = tos;
 
-	n = bignum_smallnum(N);
+	n = N[0];
 
 	factor_int(n);
 
@@ -17376,7 +17345,7 @@ scan_factor(void)
 		break;
 
 	case T_INTEGER:
-		bignum_scan_integer(token_buf);
+		scan_integer();
 		get_token();
 		break;
 
@@ -17475,6 +17444,30 @@ scan_function_call(void)
 	scan_level--;
 	get_token(); // get token after ')'
 	list(tos - h);
+}
+
+void
+scan_integer(void)
+{
+	int sign;
+	uint32_t *a;
+	switch (*token_buf) {
+	case '+':
+		sign = MPLUS;
+		a = mscan(token_buf + 1);
+		break;
+	case '-':
+		sign = MMINUS;
+		a = mscan(token_buf + 1);
+		break;
+	default:
+		sign = MPLUS;
+		a = mscan(token_buf);
+		break;
+	}
+	if (a == NULL)
+		stopf("parse error");
+	push_bignum(sign, a, mint(1));
 }
 
 void
@@ -17936,8 +17929,8 @@ pop_double(void)
 	if (isdouble(p))
 		d = p->u.d;
 	else {
-		a = bignum_float(p->u.q.a);
-		b = bignum_float(p->u.q.b);
+		a = mfloat(p->u.q.a);
+		b = mfloat(p->u.q.b);
 		d = a / b;
 		if (isnegativenumber(p))
 			d = -d;

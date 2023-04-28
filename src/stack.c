@@ -171,8 +171,8 @@ pop_double(void)
 	if (isdouble(p))
 		d = p->u.d;
 	else {
-		a = bignum_float(p->u.q.a);
-		b = bignum_float(p->u.q.b);
+		a = mfloat(p->u.q.a);
+		b = mfloat(p->u.q.b);
 		d = a / b;
 		if (isnegativenumber(p))
 			d = -d;
