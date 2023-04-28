@@ -416,3 +416,25 @@ issmallinteger(struct atom *p)
 
 	return 0;
 }
+
+int
+isequaln(struct atom *p, int n)
+{
+	if (isrational(p))
+		return p->sign == (n < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(n)) && MEQUAL(p->u.q.b, 1);
+	else if (isdouble(p))
+		return p->u.d == (double) n;
+	else
+		return 0;
+}
+
+int
+isequalq(struct atom *p, int a, int b)
+{
+	if (isrational(p))
+		return p->sign == (a < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(a)) && MEQUAL(p->u.q.b, b);
+	else if (isdouble(p))
+		return p->u.d == (double) a / b;
+	else
+		return 0;
+}

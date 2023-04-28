@@ -365,14 +365,6 @@ struct atom * alloc_matrix(int nrow, int ncol);
 struct atom * alloc_tensor(int nelem);
 struct atom * alloc_str(void);
 void * alloc_mem(int n);
-void push_integer(int n);
-void push_rational(int a, int b);
-void push_bignum(int sign, uint32_t *a, uint32_t *b);
-int pop_integer(void);
-void push_double(double d);
-double pop_double(void);
-int isequaln(struct atom *p, int n);
-int isequalq(struct atom *p, int a, int b);
 void bignum_scan_integer(char *s);
 double bignum_float(uint32_t *p);
 void msetbit(uint32_t *x, uint32_t k);
@@ -442,6 +434,8 @@ int isdenormalpolar(struct atom *p);
 int isdenormalpolarterm(struct atom *p);
 int issquarematrix(struct atom *p);
 int issmallinteger(struct atom *p);
+int isequaln(struct atom *p, int n);
+int isequalq(struct atom *p, int a, int b);
 void evalg(void);
 void evalf(void);
 void evalf_nib(struct atom *p1);
@@ -876,6 +870,12 @@ void save_symbol(struct atom *p);
 void restore_symbol(void);
 void dupl(void);
 void swap(void);
+void push_integer(int n);
+void push_rational(int a, int b);
+void push_bignum(int sign, uint32_t *a, uint32_t *b);
+int pop_integer(void);
+void push_double(double d);
+double pop_double(void);
 void push_string(char *s);
 struct atom * lookup(char *s);
 char * printname(struct atom *p);
@@ -983,138 +983,6 @@ alloc_mem(int n)
 		exit(1);
 	return p;
 }
-void
-push_integer(int n)
-{
-	switch (n) {
-	case 0:
-		push(zero);
-		break;
-	case 1:
-		push(one);
-		break;
-	case -1:
-		push(minusone);
-		break;
-	default:
-		if (n < 0)
-			push_bignum(MMINUS, mint(-n), mint(1));
-		else
-			push_bignum(MPLUS, mint(n), mint(1));
-		break;
-	}
-}
-
-void
-push_rational(int a, int b)
-{
-	if (a < 0)
-		push_bignum(MMINUS, mint(-a), mint(b));
-	else
-		push_bignum(MPLUS, mint(a), mint(b));
-}
-
-void
-push_bignum(int sign, uint32_t *a, uint32_t *b)
-{
-	struct atom *p;
-
-	// normalize zero
-
-	if (MZERO(a)) {
-		sign = MPLUS;
-		if (!MEQUAL(b, 1)) {
-			mfree(b);
-			b = mint(1);
-		}
-	}
-
-	p = alloc_atom();
-	p->atomtype = RATIONAL;
-	p->sign = sign;
-	p->u.q.a = a;
-	p->u.q.b = b;
-
-	push(p);
-}
-
-int
-pop_integer(void)
-{
-	int n;
-	struct atom *p;
-
-	p = pop();
-
-	if (!issmallinteger(p))
-		stopf("small integer expected");
-
-	if (isrational(p)) {
-		n = p->u.q.a[0];
-		if (isnegativenumber(p))
-			n = -n;
-	} else
-		n = (int) p->u.d;
-
-	return n;
-}
-
-void
-push_double(double d)
-{
-	struct atom *p;
-	p = alloc_atom();
-	p->atomtype = DOUBLE;
-	p->u.d = d;
-	push(p);
-}
-
-double
-pop_double(void)
-{
-	double a, b;
-	struct atom *p;
-
-	p = pop();
-
-	if (isrational(p)) {
-		a = bignum_float(p->u.q.a);
-		b = bignum_float(p->u.q.b);
-		if (isnegativenumber(p))
-			a = -a;
-		return a / b;
-	}
-
-	if (isdouble(p))
-		return p->u.d;
-
-	stopf("number expected");
-
-	return 0.0;
-}
-
-int
-isequaln(struct atom *p, int n)
-{
-	if (isrational(p))
-		return p->sign == (n < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(n)) && MEQUAL(p->u.q.b, 1);
-	else if (isdouble(p))
-		return p->u.d == (double) n;
-	else
-		return 0;
-}
-
-int
-isequalq(struct atom *p, int a, int b)
-{
-	if (isrational(p))
-		return p->sign == (a < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(a)) && MEQUAL(p->u.q.b, b);
-	else if (isdouble(p))
-		return p->u.d == (double) a / b;
-	else
-		return 0;
-}
-
 void
 bignum_scan_integer(char *s)
 {
@@ -2452,6 +2320,28 @@ issmallinteger(struct atom *p)
 		return p->u.d == floor(p->u.d) && fabs(p->u.d) <= 0x7fffffff;
 
 	return 0;
+}
+
+int
+isequaln(struct atom *p, int n)
+{
+	if (isrational(p))
+		return p->sign == (n < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(n)) && MEQUAL(p->u.q.b, 1);
+	else if (isdouble(p))
+		return p->u.d == (double) n;
+	else
+		return 0;
+}
+
+int
+isequalq(struct atom *p, int a, int b)
+{
+	if (isrational(p))
+		return p->sign == (a < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(a)) && MEQUAL(p->u.q.b, b);
+	else if (isdouble(p))
+		return p->u.d == (double) a / b;
+	else
+		return 0;
 }
 // automatic variables not visible to the garbage collector are reclaimed
 
@@ -17944,6 +17834,116 @@ swap(void)
 	p2 = pop();
 	push(p1);
 	push(p2);
+}
+
+void
+push_integer(int n)
+{
+	switch (n) {
+	case 0:
+		push(zero);
+		break;
+	case 1:
+		push(one);
+		break;
+	case -1:
+		push(minusone);
+		break;
+	default:
+		if (n < 0)
+			push_bignum(MMINUS, mint(-n), mint(1));
+		else
+			push_bignum(MPLUS, mint(n), mint(1));
+		break;
+	}
+}
+
+void
+push_rational(int a, int b)
+{
+	if (a < 0)
+		push_bignum(MMINUS, mint(-a), mint(b));
+	else
+		push_bignum(MPLUS, mint(a), mint(b));
+}
+
+void
+push_bignum(int sign, uint32_t *a, uint32_t *b)
+{
+	struct atom *p;
+
+	// normalize zero
+
+	if (MZERO(a)) {
+		sign = MPLUS;
+		if (!MEQUAL(b, 1)) {
+			mfree(b);
+			b = mint(1);
+		}
+	}
+
+	p = alloc_atom();
+	p->atomtype = RATIONAL;
+	p->sign = sign;
+	p->u.q.a = a;
+	p->u.q.b = b;
+
+	push(p);
+}
+
+int
+pop_integer(void)
+{
+	int n;
+	struct atom *p;
+
+	p = pop();
+
+	if (!issmallinteger(p))
+		stopf("small integer expected");
+
+	if (isrational(p)) {
+		n = p->u.q.a[0];
+		if (isnegativenumber(p))
+			n = -n;
+	} else
+		n = (int) p->u.d;
+
+	return n;
+}
+
+void
+push_double(double d)
+{
+	struct atom *p;
+	p = alloc_atom();
+	p->atomtype = DOUBLE;
+	p->u.d = d;
+	push(p);
+}
+
+double
+pop_double(void)
+{
+	double a, b, d;
+	struct atom *p;
+
+	p = pop();
+
+	if (!isnum(p))
+		stopf("number expected");
+
+	if (isdouble(p))
+		d = p->u.d;
+	else {
+		a = bignum_float(p->u.q.a);
+		b = bignum_float(p->u.q.b);
+		d = a / b;
+		if (isnegativenumber(p))
+			d = -d;
+	}
+
+	return d;
 }
 
 void
