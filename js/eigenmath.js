@@ -920,26 +920,6 @@ cdr(p)
 		return symbol(NIL);
 }
 function
-cmp_args(p1)
-{
-	push(cadr(p1));
-	evalf();
-	push(caddr(p1));
-	evalf();
-	subtract();
-	simplify();
-	floatfunc();
-	p1 = pop();
-	if (!isnum(p1))
-		stopf("compare err");
-	if (isnegativenumber(p1))
-		return -1;
-	else if (iszero(p1))
-		return 0;
-	else
-		return 1;
-}
-function
 cmp_expr(p1, p2)
 {
 	var n;
@@ -11754,83 +11734,13 @@ eval_test(p1)
 function
 eval_testeq(p1)
 {
-	var p2, p3;
-
 	push(cadr(p1));
 	evalf();
-
 	push(caddr(p1));
 	evalf();
-
-	p2 = pop();
-	p1 = pop();
-
-	// null tensors are equal no matter the dimensions
-
-	if (iszero(p1) && iszero(p2)) {
-		push_integer(1);
-		return;
-	}
-
-	// shortcut for trivial equality
-
-	if (equal(p1, p2)) {
-		push_integer(1);
-		return;
-	}
-
-	// otherwise subtract and simplify
-
-	if (!istensor(p1) && !istensor(p2)) {
-		if (!iscons(p1) && !iscons(p2)) {
-			push_integer(0); // p1 and p2 are numbers, symbols, or strings
-			return;
-		}
-		push(p1);
-		push(p2);
-		subtract();
-		simplify();
-		p1 = pop();
-		if (iszero(p1))
-			push_integer(1);
-		else
-			push_integer(0);
-		return;
-	}
-
-	if (istensor(p1) && istensor(p2)) {
-		if (!compatible_dimensions(p1, p2)) {
-			push_integer(0);
-			return;
-		}
-		push(p1);
-		push(p2);
-		subtract();
-		simplify();
-		p1 = pop();
-		if (iszero(p1))
-			push_integer(1);
-		else
-			push_integer(0);
-		return;
-	}
-
-	if (istensor(p2)) {
-		// swap p1 and p2
-		p3 = p1;
-		p1 = p2;
-		p2 = p3;
-	}
-
-	if (!iszero(p2)) {
-		push_integer(0); // tensor not equal scalar
-		return;
-	}
-
-	push(p1);
+	subtract();
 	simplify();
 	p1 = pop();
-
 	if (iszero(p1))
 		push_integer(1);
 	else
@@ -11839,7 +11749,7 @@ eval_testeq(p1)
 function
 eval_testge(p1)
 {
-	if (cmp_args(p1) >= 0)
+	if (relop(p1) >= 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -11847,7 +11757,7 @@ eval_testge(p1)
 function
 eval_testgt(p1)
 {
-	if (cmp_args(p1) > 0)
+	if (relop(p1) > 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -11855,7 +11765,7 @@ eval_testgt(p1)
 function
 eval_testle(p1)
 {
-	if (cmp_args(p1) <= 0)
+	if (relop(p1) <= 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -11863,7 +11773,7 @@ eval_testle(p1)
 function
 eval_testlt(p1)
 {
-	if (cmp_args(p1) < 0)
+	if (relop(p1) < 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -16036,6 +15946,26 @@ reduce_radical_rational(h, COEFF)
 	}
 
 	return COEFF;
+}
+function
+relop(p1)
+{
+	push(cadr(p1));
+	evalf();
+	push(caddr(p1));
+	evalf();
+	subtract();
+	simplify();
+	floatfunc();
+	p1 = pop();
+	if (!isnum(p1))
+		stopf("compare err");
+	if (isnegativenumber(p1))
+		return -1;
+	else if (iszero(p1))
+		return 0;
+	else
+		return 1;
 }
 function
 restore_symbol()

@@ -297,7 +297,7 @@ cmp_tensors(struct atom *p1, struct atom *p2)
 }
 
 int
-cmp_args(struct atom *p1)
+relop(struct atom *p1)
 {
 	push(cadr(p1));
 	evalf();

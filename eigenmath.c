@@ -404,7 +404,7 @@ int cmp(struct atom *p1, struct atom *p2);
 int cmp_numbers(struct atom *p1, struct atom *p2);
 int cmp_rationals(struct atom *a, struct atom *b);
 int cmp_tensors(struct atom *p1, struct atom *p2);
-int cmp_args(struct atom *p1);
+int relop(struct atom *p1);
 int equal(struct atom *p1, struct atom *p2);
 void evalg(void);
 void evalf(void);
@@ -1882,7 +1882,7 @@ cmp_tensors(struct atom *p1, struct atom *p2)
 }
 
 int
-cmp_args(struct atom *p1)
+relop(struct atom *p1)
 {
 	push(cadr(p1));
 	evalf();
@@ -13907,83 +13907,13 @@ eval_test(struct atom *p1)
 void
 eval_testeq(struct atom *p1)
 {
-	struct atom *p2, *p3;
-
 	push(cadr(p1));
 	evalf();
-
 	push(caddr(p1));
 	evalf();
-
-	p2 = pop();
-	p1 = pop();
-
-	// null tensors are equal no matter the dimensions
-
-	if (iszero(p1) && iszero(p2)) {
-		push_integer(1);
-		return;
-	}
-
-	// shortcut for trivial equality
-
-	if (equal(p1, p2)) {
-		push_integer(1);
-		return;
-	}
-
-	// otherwise subtract and simplify
-
-	if (!istensor(p1) && !istensor(p2)) {
-		if (!iscons(p1) && !iscons(p2)) {
-			push_integer(0); // p1 and p2 are numbers, symbols, or strings
-			return;
-		}
-		push(p1);
-		push(p2);
-		subtract();
-		simplify();
-		p1 = pop();
-		if (iszero(p1))
-			push_integer(1);
-		else
-			push_integer(0);
-		return;
-	}
-
-	if (istensor(p1) && istensor(p2)) {
-		if (!compatible_dimensions(p1, p2)) {
-			push_integer(0);
-			return;
-		}
-		push(p1);
-		push(p2);
-		subtract();
-		simplify();
-		p1 = pop();
-		if (iszero(p1))
-			push_integer(1);
-		else
-			push_integer(0);
-		return;
-	}
-
-	if (istensor(p2)) {
-		// swap p1 and p2
-		p3 = p1;
-		p1 = p2;
-		p2 = p3;
-	}
-
-	if (!iszero(p2)) {
-		push_integer(0); // tensor not equal scalar
-		return;
-	}
-
-	push(p1);
+	subtract();
 	simplify();
 	p1 = pop();
-
 	if (iszero(p1))
 		push_integer(1);
 	else
@@ -13992,7 +13922,7 @@ eval_testeq(struct atom *p1)
 void
 eval_testge(struct atom *p1)
 {
-	if (cmp_args(p1) >= 0)
+	if (relop(p1) >= 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -14000,7 +13930,7 @@ eval_testge(struct atom *p1)
 void
 eval_testgt(struct atom *p1)
 {
-	if (cmp_args(p1) > 0)
+	if (relop(p1) > 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -14008,7 +13938,7 @@ eval_testgt(struct atom *p1)
 void
 eval_testle(struct atom *p1)
 {
-	if (cmp_args(p1) <= 0)
+	if (relop(p1) <= 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -14016,7 +13946,7 @@ eval_testle(struct atom *p1)
 void
 eval_testlt(struct atom *p1)
 {
-	if (cmp_args(p1) < 0)
+	if (relop(p1) < 0)
 		push_integer(1);
 	else
 		push_integer(0);

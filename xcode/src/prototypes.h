@@ -60,7 +60,7 @@ int cmp(struct atom *p1, struct atom *p2);
 int cmp_numbers(struct atom *p1, struct atom *p2);
 int cmp_rationals(struct atom *a, struct atom *b);
 int cmp_tensors(struct atom *p1, struct atom *p2);
-int cmp_args(struct atom *p1);
+int relop(struct atom *p1);
 int equal(struct atom *p1, struct atom *p2);
 void evalg(void);
 void evalf(void);

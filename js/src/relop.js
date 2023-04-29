@@ -1,5 +1,5 @@
 function
-cmp_args(p1)
+relop(p1)
 {
 	push(cadr(p1));
 	evalf();

@@ -8809,12 +8809,6 @@ A = (A1,A2,A3)
 B = (B1,B2,B3)
 C = (C1,C2,C3,C4)
 check(contract(outer(A,B,C))=dot(A,B)*C)
-
--- tensor comparison
-
-check((0,0) == (0,0,0)) -- both are equal to scalar zero
-
-check(not((1,0) == (1,0,0))) -- should not cause a stop like (1,0) - (1,0,0) does
 "Testing tensor promotion"
 
 clear
