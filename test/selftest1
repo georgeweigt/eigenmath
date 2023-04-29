@@ -5615,6 +5615,9 @@ check(infixform(rationalize(f)) == "(x^2 + 3 x + 1) / (x (x + 1)^2)")
 
 clear
 
+check(test(a + 1 < a + 2,"yes","no") == "yes")
+check(test(exp(1) < pi, "yes","no") == "yes")
+
 T = 1==1
 check(T = 1)
 T = 1==2

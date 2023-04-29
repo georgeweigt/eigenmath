@@ -922,23 +922,22 @@ cdr(p)
 function
 cmp_args(p1)
 {
-	var p2;
-
 	push(cadr(p1));
 	evalf();
-	p2 = pop();
-	push(p2);
-	if (!isnum(p2))
-		floatfunc();
-
 	push(caddr(p1));
 	evalf();
-	p2 = pop();
-	push(p2);
-	if (!isnum(p2))
-		floatfunc();
-
-	return cmpfunc();
+	subtract();
+	simplify();
+	floatfunc();
+	p1 = pop();
+	if (!isnum(p1))
+		stopf("compare err");
+	if (isnegativenumber(p1))
+		return -1;
+	else if (iszero(p1))
+		return 0;
+	else
+		return 1;
 }
 function
 cmp_expr(p1, p2)
