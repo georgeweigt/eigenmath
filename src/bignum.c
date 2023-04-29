@@ -28,7 +28,7 @@ mscan(char *s)
 	uint32_t *a, *b, *t;
 	a = mint(0);
 	t = mint(0);
-	while (*s >= '0' && *s <= '9') {
+	while (isdigit(*s)) {
 		t[0] = 10;
 		b = mmul(a, t);
 		mfree(a);
