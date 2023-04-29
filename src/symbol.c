@@ -3,13 +3,13 @@
 struct atom *
 lookup(char *s)
 {
-	int c, i, k;
+	int i, k;
 	struct atom *p;
 
-	c = tolower(*s);
-
-	if (c >= 'a' && c <= 'z')
-		k = BUCKETSIZE * (c - 'a');
+	if (isupper(*s))
+		k = BUCKETSIZE * (*s - 'A');
+	else if (islower(*s))
+		k = BUCKETSIZE * (*s - 'a');
 	else
 		k = BUCKETSIZE * 26;
 
