@@ -1985,8 +1985,8 @@ equal(struct atom *p1, struct atom *p2)
 			return 0;
 	}
 
-	if (iskeyword(p1) && iskeyword(p2)) {
-		if (strcmp(p1->u.ksym.name, p2->u.ksym.name) == 0)
+	if (issymbol(p1) && issymbol(p2)) {
+		if (strcmp(printname(p1), printname(p2)) == 0)
 			return 1;
 		else
 			return 0;
