@@ -150,6 +150,8 @@ lessp(struct atom *p1, struct atom *p2)
 		return 0;
 }
 
+// lexical compare
+
 int
 cmp(struct atom *p1, struct atom *p2)
 {
@@ -307,12 +309,12 @@ relop(struct atom *p1)
 	simplify();
 	floatfunc();
 	p1 = pop();
+	if (iszero(p1))
+		return 0;
 	if (!isnum(p1))
 		stopf("compare err");
 	if (isnegativenumber(p1))
 		return -1;
-	else if (iszero(p1))
-		return 0;
 	else
 		return 1;
 }

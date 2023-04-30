@@ -9,12 +9,12 @@ relop(p1)
 	simplify();
 	floatfunc();
 	p1 = pop();
+	if (iszero(p1))
+		return 0;
 	if (!isnum(p1))
 		stopf("compare err");
 	if (isnegativenumber(p1))
 		return -1;
-	else if (iszero(p1))
-		return 0;
 	else
 		return 1;
 }
