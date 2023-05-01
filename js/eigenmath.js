@@ -978,10 +978,10 @@ cmp(p1, p2)
 	}
 
 	if (iscons(p2))
-		return -1;
+		return -1; // lengthf(p1) < lengthf(p2)
 
 	if (iscons(p1))
-		return 1;
+		return 1; // lengthf(p1) > lengthf(p2)
 
 	return 0;
 }
