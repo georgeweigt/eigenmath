@@ -57,6 +57,8 @@ findf(struct atom *p, struct atom *q)
 	return 0;
 }
 
+// sort n things on the stack
+
 void
 sort(int n)
 {
