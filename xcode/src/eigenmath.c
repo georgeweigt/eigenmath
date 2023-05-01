@@ -393,17 +393,16 @@ void list(int n);
 void cons(void);
 int lengthf(struct atom *p);
 int findf(struct atom *p, struct atom *q);
-int complexity(struct atom *p);
 void sort(int n);
 int sort_func(const void *p1, const void *p2);
-int find_denominator(struct atom *p);
-int count_denominators(struct atom *p);
-int count_numerators(struct atom *p);
 int cmp(struct atom *p1, struct atom *p2);
 int cmp_numbers(struct atom *p1, struct atom *p2);
 int cmp_rationals(struct atom *a, struct atom *b);
 int cmp_tensors(struct atom *p1, struct atom *p2);
 int relop(struct atom *p1);
+int find_denominator(struct atom *p);
+int count_denominators(struct atom *p);
+int count_numerators(struct atom *p);
 void evalg(void);
 void evalf(void);
 void evalf_nib(struct atom *p1);
@@ -707,6 +706,7 @@ void simplify(void);
 void simplify_pass1(void);
 void simplify_pass2(void);
 void simplify_pass3(void);
+int complexity(struct atom *p);
 void eval_sin(struct atom *p1);
 void sinfunc(void);
 void sinfunc_sum(struct atom *p1);
@@ -1640,19 +1640,6 @@ findf(struct atom *p, struct atom *q)
 	return 0;
 }
 
-int
-complexity(struct atom *p)
-{
-	int n = 1;
-
-	while (iscons(p)) {
-		n += complexity(car(p));
-		p = cdr(p);
-	}
-
-	return n;
-}
-
 void
 sort(int n)
 {
@@ -1664,48 +1651,6 @@ sort_func(const void *p1, const void *p2)
 {
 	return cmp(*((struct atom **) p1), *((struct atom **) p2));
 }
-
-int
-find_denominator(struct atom *p)
-{
-	struct atom *q;
-	p = cdr(p);
-	while (iscons(p)) {
-		q = car(p);
-		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q)))
-			return 1;
-		p = cdr(p);
-	}
-	return 0;
-}
-
-int
-count_denominators(struct atom *p)
-{
-	int n = 0;
-	p = cdr(p);
-	while (iscons(p)) {
-		if (isdenominator(car(p)))
-			n++;
-		p = cdr(p);
-	}
-	return n;
-}
-
-int
-count_numerators(struct atom *p)
-{
-	int n = 0;
-	p = cdr(p);
-	while (iscons(p)) {
-		if (isnumerator(car(p)))
-			n++;
-		p = cdr(p);
-	}
-	return n;
-}
-
-// lexical compare
 
 int
 cmp(struct atom *p1, struct atom *p2)
@@ -1867,6 +1812,46 @@ relop(struct atom *p1)
 		return -1;
 	else
 		return 1;
+}
+
+int
+find_denominator(struct atom *p)
+{
+	struct atom *q;
+	p = cdr(p);
+	while (iscons(p)) {
+		q = car(p);
+		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q)))
+			return 1;
+		p = cdr(p);
+	}
+	return 0;
+}
+
+int
+count_denominators(struct atom *p)
+{
+	int n = 0;
+	p = cdr(p);
+	while (iscons(p)) {
+		if (isdenominator(car(p)))
+			n++;
+		p = cdr(p);
+	}
+	return n;
+}
+
+int
+count_numerators(struct atom *p)
+{
+	int n = 0;
+	p = cdr(p);
+	while (iscons(p)) {
+		if (isnumerator(car(p)))
+			n++;
+		p = cdr(p);
+	}
+	return n;
 }
 // automatic variables not visible to the garbage collector are reclaimed
 
@@ -12810,6 +12795,19 @@ simplify_pass3(void)
 	}
 
 	push(p1);
+}
+
+int
+complexity(struct atom *p)
+{
+	int n = 1;
+
+	while (iscons(p)) {
+		n += complexity(car(p));
+		p = cdr(p);
+	}
+
+	return n;
 }
 void
 eval_sin(struct atom *p1)

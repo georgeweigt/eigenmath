@@ -57,19 +57,6 @@ findf(struct atom *p, struct atom *q)
 	return 0;
 }
 
-int
-complexity(struct atom *p)
-{
-	int n = 1;
-
-	while (iscons(p)) {
-		n += complexity(car(p));
-		p = cdr(p);
-	}
-
-	return n;
-}
-
 void
 sort(int n)
 {
@@ -81,48 +68,6 @@ sort_func(const void *p1, const void *p2)
 {
 	return cmp(*((struct atom **) p1), *((struct atom **) p2));
 }
-
-int
-find_denominator(struct atom *p)
-{
-	struct atom *q;
-	p = cdr(p);
-	while (iscons(p)) {
-		q = car(p);
-		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q)))
-			return 1;
-		p = cdr(p);
-	}
-	return 0;
-}
-
-int
-count_denominators(struct atom *p)
-{
-	int n = 0;
-	p = cdr(p);
-	while (iscons(p)) {
-		if (isdenominator(car(p)))
-			n++;
-		p = cdr(p);
-	}
-	return n;
-}
-
-int
-count_numerators(struct atom *p)
-{
-	int n = 0;
-	p = cdr(p);
-	while (iscons(p)) {
-		if (isnumerator(car(p)))
-			n++;
-		p = cdr(p);
-	}
-	return n;
-}
-
-// lexical compare
 
 int
 cmp(struct atom *p1, struct atom *p2)
@@ -284,4 +229,44 @@ relop(struct atom *p1)
 		return -1;
 	else
 		return 1;
+}
+
+int
+find_denominator(struct atom *p)
+{
+	struct atom *q;
+	p = cdr(p);
+	while (iscons(p)) {
+		q = car(p);
+		if (car(q) == symbol(POWER) && isnegativenumber(caddr(q)))
+			return 1;
+		p = cdr(p);
+	}
+	return 0;
+}
+
+int
+count_denominators(struct atom *p)
+{
+	int n = 0;
+	p = cdr(p);
+	while (iscons(p)) {
+		if (isdenominator(car(p)))
+			n++;
+		p = cdr(p);
+	}
+	return n;
+}
+
+int
+count_numerators(struct atom *p)
+{
+	int n = 0;
+	p = cdr(p);
+	while (iscons(p)) {
+		if (isnumerator(car(p)))
+			n++;
+		p = cdr(p);
+	}
+	return n;
 }

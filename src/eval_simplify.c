@@ -196,3 +196,16 @@ simplify_pass3(void)
 
 	push(p1);
 }
+
+int
+complexity(struct atom *p)
+{
+	int n = 1;
+
+	while (iscons(p)) {
+		n += complexity(car(p));
+		p = cdr(p);
+	}
+
+	return n;
+}
