@@ -280,6 +280,8 @@ struct tensor {
 #define iskeyword(p) ((p)->atomtype == KSYM)
 #define isusersymbol(p) ((p)->atomtype == USYM)
 #define issymbol(p) (iskeyword(p) || isusersymbol(p))
+#define equal(p1, p2) (cmp(p1, p2) == 0)
+#define lessp(p1, p2) (cmp(p1, p2) <= 0)
 
 #define car(p) (iscons(p) ? (p)->u.cons.car : symbol(NIL))
 #define cdr(p) (iscons(p) ? (p)->u.cons.cdr : symbol(NIL))
@@ -394,18 +396,14 @@ int findf(struct atom *p, struct atom *q);
 int complexity(struct atom *p);
 void sort(int n);
 int sort_func(const void *p1, const void *p2);
-int sign(int n);
 int find_denominator(struct atom *p);
 int count_denominators(struct atom *p);
 int count_numerators(struct atom *p);
-int cmpfunc(void);
-int lessp(struct atom *p1, struct atom *p2);
 int cmp(struct atom *p1, struct atom *p2);
 int cmp_numbers(struct atom *p1, struct atom *p2);
 int cmp_rationals(struct atom *a, struct atom *b);
 int cmp_tensors(struct atom *p1, struct atom *p2);
 int relop(struct atom *p1);
-int equal(struct atom *p1, struct atom *p2);
 void evalg(void);
 void evalf(void);
 void evalf_nib(struct atom *p1);
@@ -1668,16 +1666,6 @@ sort_func(const void *p1, const void *p2)
 }
 
 int
-sign(int n)
-{
-	if (n < 0)
-		return -1;
-	if (n > 0)
-		return 1;
-	return 0;
-}
-
-int
 find_denominator(struct atom *p)
 {
 	struct atom *q;
@@ -1717,30 +1705,12 @@ count_numerators(struct atom *p)
 	return n;
 }
 
-int
-cmpfunc(void)
-{
-	struct atom *p1, *p2;
-	p2 = pop();
-	p1 = pop();
-	return cmp(p1, p2);
-}
-
-int
-lessp(struct atom *p1, struct atom *p2)
-{
-	if (cmp(p1, p2) < 0)
-		return 1;
-	else
-		return 0;
-}
-
 // lexical compare
 
 int
 cmp(struct atom *p1, struct atom *p2)
 {
-	int n;
+	int t;
 
 	if (p1 == p2)
 		return 0;
@@ -1761,7 +1731,7 @@ cmp(struct atom *p1, struct atom *p2)
 		return 1;
 
 	if (isstr(p1) && isstr(p2))
-		return sign(strcmp(p1->u.str, p2->u.str));
+		return strcmp(p1->u.str, p2->u.str);
 
 	if (isstr(p1))
 		return -1;
@@ -1770,7 +1740,7 @@ cmp(struct atom *p1, struct atom *p2)
 		return 1;
 
 	if (issymbol(p1) && issymbol(p2))
-		return sign(strcmp(printname(p1), printname(p2)));
+		return strcmp(printname(p1), printname(p2));
 
 	if (issymbol(p1))
 		return -1;
@@ -1788,9 +1758,9 @@ cmp(struct atom *p1, struct atom *p2)
 		return 1;
 
 	while (iscons(p1) && iscons(p2)) {
-		n = cmp(car(p1), car(p2));
-		if (n != 0)
-			return n;
+		t = cmp(car(p1), car(p2));
+		if (t)
+			return t;
 		p1 = cdr(p1);
 		p2 = cdr(p2);
 	}
@@ -1856,28 +1826,23 @@ cmp_rationals(struct atom *a, struct atom *b)
 int
 cmp_tensors(struct atom *p1, struct atom *p2)
 {
-	int i;
+	int i, t;
 
-	if (p1->u.tensor->ndim < p2->u.tensor->ndim)
-		return -1;
+	t = p1->u.tensor->ndim - p2->u.tensor->ndim;
 
-	if (p1->u.tensor->ndim > p2->u.tensor->ndim)
-		return 1;
+	if (t)
+		return t;
 
 	for (i = 0; i < p1->u.tensor->ndim; i++) {
-		if (p1->u.tensor->dim[i] < p2->u.tensor->dim[i])
-			return -1;
-		if (p1->u.tensor->dim[i] > p2->u.tensor->dim[i])
-			return 1;
+		t = p1->u.tensor->dim[i] - p2->u.tensor->dim[i];
+		if (t)
+			return t;
 	}
 
 	for (i = 0; i < p1->u.tensor->nelem; i++) {
-		if (equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-			continue;
-		if (lessp(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-			return -1;
-		else
-			return 1;
+		t = cmp(p1->u.tensor->elem[i], p2->u.tensor->elem[i]);
+		if (t)
+			return t;
 	}
 
 	return 0;
@@ -1902,96 +1867,6 @@ relop(struct atom *p1)
 		return -1;
 	else
 		return 1;
-}
-
-// faster than cmp
-
-int
-equal(struct atom *p1, struct atom *p2)
-{
-	int i, n;
-	double d;
-
-	if (p1 == p2)
-		return 1;
-
-	if (istensor(p1) && istensor(p2)) {
-		if (p1->u.tensor->ndim != p2->u.tensor->ndim)
-			return 0;
-		n = p1->u.tensor->ndim;
-		for (i = 0; i < n; i++)
-			if (p1->u.tensor->dim[i] != p2->u.tensor->dim[i])
-				return 0;
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++)
-			if (!equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-				return 0;
-		return 1;
-	}
-
-	if (iscons(p1) && iscons(p2)) {
-		while (iscons(p1) && iscons(p2)) {
-			if (!equal(car(p1), car(p2)))
-				return 0;
-			p1 = cdr(p1);
-			p2 = cdr(p2);
-		}
-		if (p1 == symbol(NIL) && p2 == symbol(NIL))
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isrational(p1) && isrational(p2)) {
-		if (p1->sign != p2->sign)
-			return 0;
-		if (!meq(p1->u.q.a, p2->u.q.a))
-			return 0;
-		if (!meq(p1->u.q.b, p2->u.q.b))
-			return 0;
-		return 1;
-	}
-
-	if (isrational(p1) && isdouble(p2)) {
-		push(p1);
-		d = pop_double();
-		if (d == p2->u.d)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isdouble(p1) && isrational(p2)) {
-		push(p2);
-		d = pop_double();
-		if (p1->u.d == d)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isdouble(p1) && isdouble(p2)) {
-		if (p1->u.d == p2->u.d)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (issymbol(p1) && issymbol(p2)) {
-		if (strcmp(printname(p1), printname(p2)) == 0)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isstr(p1) && isstr(p2)) {
-		if (strcmp(p1->u.str, p2->u.str) == 0)
-			return 1;
-		else
-			return 0;
-	}
-
-	return 0;
 }
 // automatic variables not visible to the garbage collector are reclaimed
 
@@ -16625,15 +16500,15 @@ iszero(struct atom *p)
 	int i;
 	if (isrational(p))
 		return MZERO(p->u.q.a);
-	else if (isdouble(p))
+	if (isdouble(p))
 		return p->u.d == 0.0;
-	else if (istensor(p)) {
+	if (istensor(p)) {
 		for (i = 0; i < p->u.tensor->nelem; i++)
 			if (!iszero(p->u.tensor->elem[i]))
 				return 0;
 		return 1;
-	} else
-		return 0;
+	}
+	return 0;
 }
 
 int
@@ -16641,10 +16516,9 @@ isequaln(struct atom *p, int n)
 {
 	if (isrational(p))
 		return p->sign == (n < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(n)) && MEQUAL(p->u.q.b, 1);
-	else if (isdouble(p))
+	if (isdouble(p))
 		return p->u.d == (double) n;
-	else
-		return 0;
+	return 0;
 }
 
 int
@@ -16652,10 +16526,9 @@ isequalq(struct atom *p, int a, int b)
 {
 	if (isrational(p))
 		return p->sign == (a < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(a)) && MEQUAL(p->u.q.b, b);
-	else if (isdouble(p))
+	if (isdouble(p))
 		return p->u.d == (double) a / b;
-	else
-		return 0;
+	return 0;
 }
 
 int
@@ -16875,8 +16748,6 @@ isdenormalpolar(struct atom *p)
 int
 isdenormalpolarterm(struct atom *p)
 {
-	int t;
-
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
@@ -16888,22 +16759,16 @@ isdenormalpolarterm(struct atom *p)
 
 	p = cadr(p); // p = coeff of term
 
-	if (isdouble(p))
-		return p->u.d < 0.0 || p->u.d >= 0.5;
-
-	push(p);
-	push_rational(1, 2);
-	t = cmpfunc();
-
-	if (t >= 0)
-		return 1; // p >= 1/2
-
-	push(p);
-	push_integer(0);
-	t = cmpfunc();
-
-	if (t < 0)
+	if (isnegativenumber(p))
 		return 1; // p < 0
+
+	push(p);
+	push_rational(-1, 2);
+	add();
+	p = pop();
+
+	if (!isnegativenumber(p))
+		return 1; // p >= 1/2
 
 	return 0;
 }

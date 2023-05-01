@@ -1,7 +1,7 @@
 function
-cmp_expr(p1, p2)
+cmp(p1, p2)
 {
-	var n;
+	var t;
 
 	if (p1 == p2)
 		return 0;
@@ -40,7 +40,7 @@ cmp_expr(p1, p2)
 		return 1;
 
 	if (istensor(p1) && istensor(p2))
-		return 0;
+		return cmp_tensors(p1, p2);
 
 	if (istensor(p1))
 		return -1;
@@ -49,9 +49,9 @@ cmp_expr(p1, p2)
 		return 1;
 
 	while (iscons(p1) && iscons(p2)) {
-		n = cmp_expr(car(p1), car(p2));
-		if (n != 0)
-			return n;
+		t = cmp(car(p1), car(p2));
+		if (t)
+			return t;
 		p1 = cdr(p1);
 		p2 = cdr(p2);
 	}

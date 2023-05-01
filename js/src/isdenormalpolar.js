@@ -17,8 +17,6 @@ isdenormalpolar(p)
 function
 isdenormalpolarterm(p)
 {
-	var t;
-
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
@@ -30,22 +28,16 @@ isdenormalpolarterm(p)
 
 	p = cadr(p); // p = coeff of term
 
-	if (isdouble(p))
-		return p.d < 0 || p.d >= 0.5;
-
-	push(p);
-	push_rational(1, 2);
-	t = cmpfunc();
-
-	if (t >= 0)
-		return 1; // p >= 1/2
-
-	push(p);
-	push_integer(0);
-	t = cmpfunc();
-
-	if (t < 0)
+	if (isnegativenumber(p))
 		return 1; // p < 0
+
+	push(p);
+	push_rational(-1, 2);
+	add();
+	p = pop();
+
+	if (!isnegativenumber(p))
+		return 1; // p >= 1/2
 
 	return 0;
 }

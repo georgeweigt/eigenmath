@@ -920,9 +920,9 @@ cdr(p)
 		return symbol(NIL);
 }
 function
-cmp_expr(p1, p2)
+cmp(p1, p2)
 {
-	var n;
+	var t;
 
 	if (p1 == p2)
 		return 0;
@@ -961,7 +961,7 @@ cmp_expr(p1, p2)
 		return 1;
 
 	if (istensor(p1) && istensor(p2))
-		return 0;
+		return cmp_tensors(p1, p2);
 
 	if (istensor(p1))
 		return -1;
@@ -970,9 +970,9 @@ cmp_expr(p1, p2)
 		return 1;
 
 	while (iscons(p1) && iscons(p2)) {
-		n = cmp_expr(car(p1), car(p2));
-		if (n != 0)
-			return n;
+		t = cmp(car(p1), car(p2));
+		if (t)
+			return t;
 		p1 = cdr(p1);
 		p2 = cdr(p2);
 	}
@@ -1016,10 +1016,10 @@ cmp_factors(p1, p2)
 		expo2 = one;
 	}
 
-	c = cmp_expr(base1, base2);
+	c = cmp(base1, base2);
 
 	if (c == 0)
-		c = cmp_expr(expo2, expo1); // swapped to reverse sort order
+		c = cmp(expo2, expo1); // swapped to reverse sort order
 
 	return c;
 }
@@ -1032,7 +1032,7 @@ cmp_factors_provisional(p1, p2)
 	if (car(p2) == symbol(POWER))
 		p2 = cadr(p2); // p2 = base
 
-	return cmp_expr(p1, p2);
+	return cmp(p1, p2);
 }
 function
 cmp_numbers(p1, p2)
@@ -1091,6 +1091,30 @@ cmp_strings(s1, s2)
 		return -1;
 	if (s1 > s2)
 		return 1;
+	return 0;
+}
+function
+cmp_tensors(p1, p2)
+{
+	var i, t;
+
+	t = p1.dim.length - p2.dim.length;
+
+	if (t)
+		return t;
+
+	for (i = 0; i < p1.dim.length; i++) {
+		t = p1.dim[i] - p2.dim[i];
+		if (t)
+			return t;
+	}
+
+	for (i = 0; i < p1.elem.length; i++) {
+		t = cmp(p1.elem[i], p2.elem[i]);
+		if (t)
+			return t;
+	}
+
 	return 0;
 }
 function
@@ -1183,14 +1207,6 @@ cmp_terms(p1, p2)
 		return -1; // length(p1) < length(p2)
 
 	return 0;
-}
-function
-cmpfunc()
-{
-	var p1, p2;
-	p2 = pop();
-	p1 = pop();
-	return cmp_numbers(p1, p2);
 }
 // push coefficients of polynomial P(X) on stack
 
@@ -3662,45 +3678,7 @@ emit_points()
 function
 equal(p1, p2)
 {
-	var i, n;
-
-	if (p1 == p2)
-		return 1;
-
-	if (istensor(p1) && istensor(p2)) {
-		if (p1.dim.length != p2.dim.length)
-			return 0;
-		n = p1.dim.length;
-		for (i = 0; i < n; i++)
-			if (p1.dim[i] != p2.dim[i])
-				return 0;
-		n = p1.elem.length;
-		for (i = 0; i < n; i++)
-			if (!equal(p1.elem[i], p2.elem[i]))
-				return 0;
-		return 1;
-	}
-
-	if (iscons(p1) && iscons(p2)) {
-		while (iscons(p1) && iscons(p2)) {
-			if (!equal(car(p1), car(p2)))
-				return 0;
-			p1 = cdr(p1);
-			p2 = cdr(p2);
-		}
-		return p1 == symbol(NIL) && p2 == symbol(NIL);
-	}
-
-	if (isnum(p1) && isnum(p2))
-		return cmp_numbers(p1, p2) == 0;
-
-	if (issymbol(p1) && issymbol(p2))
-		return p1.printname == p2.printname;
-
-	if (isstring(p1) && isstring(p2))
-		return p1.string == p2.string;
-
-	return 0;
+	return cmp(p1, p2) == 0;
 }
 function
 eval_abs(p1)
@@ -13898,8 +13876,6 @@ isdenormalpolar(p)
 function
 isdenormalpolarterm(p)
 {
-	var t;
-
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
@@ -13911,22 +13887,16 @@ isdenormalpolarterm(p)
 
 	p = cadr(p); // p = coeff of term
 
-	if (isdouble(p))
-		return p.d < 0 || p.d >= 0.5;
-
-	push(p);
-	push_rational(1, 2);
-	t = cmpfunc();
-
-	if (t >= 0)
-		return 1; // p >= 1/2
-
-	push(p);
-	push_integer(0);
-	t = cmpfunc();
-
-	if (t < 0)
+	if (isnegativenumber(p))
 		return 1; // p < 0
+
+	push(p);
+	push_rational(-1, 2);
+	add();
+	p = pop();
+
+	if (!isnegativenumber(p))
+		return 1; // p >= 1/2
 
 	return 0;
 }
@@ -14222,7 +14192,7 @@ lengthf(p)
 function
 lessp(p1, p2)
 {
-	return cmp_expr(p1, p2) < 0;
+	return cmp(p1, p2) < 0;
 }
 function
 list(n)
@@ -16873,7 +16843,7 @@ simplify_terms(h)
 function
 sort(n)
 {
-	var t = stack.splice(stack.length - n).sort(cmp_expr);
+	var t = stack.splice(stack.length - n).sort(cmp);
 	stack = stack.concat(t);
 }
 function

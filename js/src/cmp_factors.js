@@ -29,10 +29,10 @@ cmp_factors(p1, p2)
 		expo2 = one;
 	}
 
-	c = cmp_expr(base1, base2);
+	c = cmp(base1, base2);
 
 	if (c == 0)
-		c = cmp_expr(expo2, expo1); // swapped to reverse sort order
+		c = cmp(expo2, expo1); // swapped to reverse sort order
 
 	return c;
 }

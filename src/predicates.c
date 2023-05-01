@@ -4,15 +4,15 @@ iszero(struct atom *p)
 	int i;
 	if (isrational(p))
 		return MZERO(p->u.q.a);
-	else if (isdouble(p))
+	if (isdouble(p))
 		return p->u.d == 0.0;
-	else if (istensor(p)) {
+	if (istensor(p)) {
 		for (i = 0; i < p->u.tensor->nelem; i++)
 			if (!iszero(p->u.tensor->elem[i]))
 				return 0;
 		return 1;
-	} else
-		return 0;
+	}
+	return 0;
 }
 
 int
@@ -20,10 +20,9 @@ isequaln(struct atom *p, int n)
 {
 	if (isrational(p))
 		return p->sign == (n < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(n)) && MEQUAL(p->u.q.b, 1);
-	else if (isdouble(p))
+	if (isdouble(p))
 		return p->u.d == (double) n;
-	else
-		return 0;
+	return 0;
 }
 
 int
@@ -31,10 +30,9 @@ isequalq(struct atom *p, int a, int b)
 {
 	if (isrational(p))
 		return p->sign == (a < 0 ? MMINUS : MPLUS) && MEQUAL(p->u.q.a, abs(a)) && MEQUAL(p->u.q.b, b);
-	else if (isdouble(p))
+	if (isdouble(p))
 		return p->u.d == (double) a / b;
-	else
-		return 0;
+	return 0;
 }
 
 int
@@ -254,8 +252,6 @@ isdenormalpolar(struct atom *p)
 int
 isdenormalpolarterm(struct atom *p)
 {
-	int t;
-
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
 
@@ -267,22 +263,16 @@ isdenormalpolarterm(struct atom *p)
 
 	p = cadr(p); // p = coeff of term
 
-	if (isdouble(p))
-		return p->u.d < 0.0 || p->u.d >= 0.5;
-
-	push(p);
-	push_rational(1, 2);
-	t = cmpfunc();
-
-	if (t >= 0)
-		return 1; // p >= 1/2
-
-	push(p);
-	push_integer(0);
-	t = cmpfunc();
-
-	if (t < 0)
+	if (isnegativenumber(p))
 		return 1; // p < 0
+
+	push(p);
+	push_rational(-1, 2);
+	add();
+	p = pop();
+
+	if (!isnegativenumber(p))
+		return 1; // p >= 1/2
 
 	return 0;
 }

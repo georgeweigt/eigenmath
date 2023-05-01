@@ -7,5 +7,5 @@ cmp_factors_provisional(p1, p2)
 	if (car(p2) == symbol(POWER))
 		p2 = cadr(p2); // p2 = base
 
-	return cmp_expr(p1, p2);
+	return cmp(p1, p2);
 }

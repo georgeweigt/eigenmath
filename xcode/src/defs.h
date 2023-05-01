@@ -280,6 +280,8 @@ struct tensor {
 #define iskeyword(p) ((p)->atomtype == KSYM)
 #define isusersymbol(p) ((p)->atomtype == USYM)
 #define issymbol(p) (iskeyword(p) || isusersymbol(p))
+#define equal(p1, p2) (cmp(p1, p2) == 0)
+#define lessp(p1, p2) (cmp(p1, p2) <= 0)
 
 #define car(p) (iscons(p) ? (p)->u.cons.car : symbol(NIL))
 #define cdr(p) (iscons(p) ? (p)->u.cons.cdr : symbol(NIL))

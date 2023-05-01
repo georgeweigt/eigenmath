@@ -83,16 +83,6 @@ sort_func(const void *p1, const void *p2)
 }
 
 int
-sign(int n)
-{
-	if (n < 0)
-		return -1;
-	if (n > 0)
-		return 1;
-	return 0;
-}
-
-int
 find_denominator(struct atom *p)
 {
 	struct atom *q;
@@ -132,30 +122,12 @@ count_numerators(struct atom *p)
 	return n;
 }
 
-int
-cmpfunc(void)
-{
-	struct atom *p1, *p2;
-	p2 = pop();
-	p1 = pop();
-	return cmp(p1, p2);
-}
-
-int
-lessp(struct atom *p1, struct atom *p2)
-{
-	if (cmp(p1, p2) < 0)
-		return 1;
-	else
-		return 0;
-}
-
 // lexical compare
 
 int
 cmp(struct atom *p1, struct atom *p2)
 {
-	int n;
+	int t;
 
 	if (p1 == p2)
 		return 0;
@@ -176,7 +148,7 @@ cmp(struct atom *p1, struct atom *p2)
 		return 1;
 
 	if (isstr(p1) && isstr(p2))
-		return sign(strcmp(p1->u.str, p2->u.str));
+		return strcmp(p1->u.str, p2->u.str);
 
 	if (isstr(p1))
 		return -1;
@@ -185,7 +157,7 @@ cmp(struct atom *p1, struct atom *p2)
 		return 1;
 
 	if (issymbol(p1) && issymbol(p2))
-		return sign(strcmp(printname(p1), printname(p2)));
+		return strcmp(printname(p1), printname(p2));
 
 	if (issymbol(p1))
 		return -1;
@@ -203,9 +175,9 @@ cmp(struct atom *p1, struct atom *p2)
 		return 1;
 
 	while (iscons(p1) && iscons(p2)) {
-		n = cmp(car(p1), car(p2));
-		if (n != 0)
-			return n;
+		t = cmp(car(p1), car(p2));
+		if (t)
+			return t;
 		p1 = cdr(p1);
 		p2 = cdr(p2);
 	}
@@ -271,28 +243,23 @@ cmp_rationals(struct atom *a, struct atom *b)
 int
 cmp_tensors(struct atom *p1, struct atom *p2)
 {
-	int i;
+	int i, t;
 
-	if (p1->u.tensor->ndim < p2->u.tensor->ndim)
-		return -1;
+	t = p1->u.tensor->ndim - p2->u.tensor->ndim;
 
-	if (p1->u.tensor->ndim > p2->u.tensor->ndim)
-		return 1;
+	if (t)
+		return t;
 
 	for (i = 0; i < p1->u.tensor->ndim; i++) {
-		if (p1->u.tensor->dim[i] < p2->u.tensor->dim[i])
-			return -1;
-		if (p1->u.tensor->dim[i] > p2->u.tensor->dim[i])
-			return 1;
+		t = p1->u.tensor->dim[i] - p2->u.tensor->dim[i];
+		if (t)
+			return t;
 	}
 
 	for (i = 0; i < p1->u.tensor->nelem; i++) {
-		if (equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-			continue;
-		if (lessp(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-			return -1;
-		else
-			return 1;
+		t = cmp(p1->u.tensor->elem[i], p2->u.tensor->elem[i]);
+		if (t)
+			return t;
 	}
 
 	return 0;
@@ -317,94 +284,4 @@ relop(struct atom *p1)
 		return -1;
 	else
 		return 1;
-}
-
-// faster than cmp
-
-int
-equal(struct atom *p1, struct atom *p2)
-{
-	int i, n;
-	double d;
-
-	if (p1 == p2)
-		return 1;
-
-	if (istensor(p1) && istensor(p2)) {
-		if (p1->u.tensor->ndim != p2->u.tensor->ndim)
-			return 0;
-		n = p1->u.tensor->ndim;
-		for (i = 0; i < n; i++)
-			if (p1->u.tensor->dim[i] != p2->u.tensor->dim[i])
-				return 0;
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++)
-			if (!equal(p1->u.tensor->elem[i], p2->u.tensor->elem[i]))
-				return 0;
-		return 1;
-	}
-
-	if (iscons(p1) && iscons(p2)) {
-		while (iscons(p1) && iscons(p2)) {
-			if (!equal(car(p1), car(p2)))
-				return 0;
-			p1 = cdr(p1);
-			p2 = cdr(p2);
-		}
-		if (p1 == symbol(NIL) && p2 == symbol(NIL))
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isrational(p1) && isrational(p2)) {
-		if (p1->sign != p2->sign)
-			return 0;
-		if (!meq(p1->u.q.a, p2->u.q.a))
-			return 0;
-		if (!meq(p1->u.q.b, p2->u.q.b))
-			return 0;
-		return 1;
-	}
-
-	if (isrational(p1) && isdouble(p2)) {
-		push(p1);
-		d = pop_double();
-		if (d == p2->u.d)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isdouble(p1) && isrational(p2)) {
-		push(p2);
-		d = pop_double();
-		if (p1->u.d == d)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isdouble(p1) && isdouble(p2)) {
-		if (p1->u.d == p2->u.d)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (issymbol(p1) && issymbol(p2)) {
-		if (strcmp(printname(p1), printname(p2)) == 0)
-			return 1;
-		else
-			return 0;
-	}
-
-	if (isstr(p1) && isstr(p2)) {
-		if (strcmp(p1->u.str, p2->u.str) == 0)
-			return 1;
-		else
-			return 0;
-	}
-
-	return 0;
 }

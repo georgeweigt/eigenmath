@@ -1,5 +1,5 @@
 function
 lessp(p1, p2)
 {
-	return cmp_expr(p1, p2) < 0;
+	return cmp(p1, p2) < 0;
 }
