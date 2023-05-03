@@ -1082,7 +1082,7 @@ cmp_rationals(p1, p2)
 	else
 		return bignum_cmp(a, b);
 }
-// don't use localeCompare
+// this way matches strcmp (localeCompare differs from strcmp)
 
 function
 cmp_strings(s1, s2)

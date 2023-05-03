@@ -1,4 +1,4 @@
-// don't use localeCompare
+// this way matches strcmp (localeCompare differs from strcmp)
 
 function
 cmp_strings(s1, s2)
