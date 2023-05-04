@@ -41,24 +41,26 @@ mscan(char *s)
 	if (len == 0)
 		return a;
 
-	t = mint(0);
+	b = mint(0);
 
 	while (len) {
 
-		t[0] = 1000000000; // 1 billion
-		b = mmul(a, t);
+		b[0] = 1000000000; // 1 billion
+		t = mmul(a, b);
 		mfree(a);
+		a = t;
 
-		t[0] = 0;
+		b[0] = 0;
 		for (i = 0; i < 9; i++)
-			t[0] = 10 * t[0] + *s++ - '0';
-		a = madd(b, t);
-		mfree(b);
+			b[0] = 10 * b[0] + *s++ - '0';
+		t = madd(a, b);
+		mfree(a);
+		a = t;
 
 		len -= 9;
 	}
 
-	mfree(t);
+	mfree(b);
 
 	return a;
 }
