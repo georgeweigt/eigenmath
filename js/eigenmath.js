@@ -339,38 +339,33 @@ bignum_add(u, v)
 
 	return w;
 }
+// 7 decimal digits fits in 24 bits
+
 function
 bignum_atoi(s)
 {
-	var m, n, t, u;
+	var a, b, k;
 
-	u = bignum_int(0);
+	a = bignum_int(0);
+	k = s.length % 7;
 
-	if (s.length <= 7) {
-		u[0] = Number(s);
-		return u;
+	if (k)
+		a[0] = Number(s.substr(0, k));
+
+	if (k == s.length)
+		return a;
+
+	b = bignum_int(0);
+
+	while (k < s.length) {
+		b[0] = 10000000; // 10^7
+		a = bignum_mul(a, b);
+		b[0] = Number(s.substr(k, 7));
+		a = bignum_add(a, b);
+		k += 7;
 	}
 
-	m = bignum_int(10000000); // m = 10^7
-	t = bignum_int(0);
-
-	n = s.length % 7;
-
-	if (n == 0)
-		u[0] = 0;
-	else {
-		u[0] = Number(s.substring(0, n));
-		s = s.substring(n);
-	}
-
-	while (s.length) {
-		t[0] = Number(s.substring(0, 7));
-		s = s.substring(7);
-		u = bignum_mul(u, m);
-		u = bignum_add(u, t);
-	}
-
-	return u;
+	return a;
 }
 function
 bignum_cmp(u, v)
