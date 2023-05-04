@@ -29,7 +29,6 @@ mscan(char *s)
 	uint32_t *a, *b, *t;
 
 	a = mint(0);
-	t = mint(0);
 
 	len = strlen(s);
 	m = len % 9;
@@ -38,6 +37,11 @@ mscan(char *s)
 		a[0] = 10 * a[0] + *s++ - '0';
 
 	len -= m;
+
+	if (len == 0)
+		return a;
+
+	t = mint(0);
 
 	while (len) {
 
