@@ -22,12 +22,13 @@ mclrbit(uint32_t *x, uint32_t k)
 	x[k / 32] &= ~(1 << (k % 32));
 }
 
+// 9 decimal digits fits in 32 bits
+
 uint32_t *
 mscan(char *s)
 {
 	int i, k, len;
 	uint32_t *a, *b, *t;
-
 	a = mint(0);
 	len = strlen(s);
 	if (len == 0)
@@ -35,22 +36,16 @@ mscan(char *s)
 	k = len % 9;
 	if (k == 0)
 		k = 9;
-
 	for (i = 0; i < k; i++)
 		a[0] = 10 * a[0] + s[i] - '0';
-
 	if (k == len)
 		return a;
-
 	b = mint(0);
-
 	while (k < len) {
-
-		b[0] = 1000000000; // 1 billion
+		b[0] = 1000000000; // 10^9
 		t = mmul(a, b);
 		mfree(a);
 		a = t;
-
 		b[0] = 0;
 		for (i = 0; i < 9; i++)
 			b[0] = 10 * b[0] + s[k++] - '0';
@@ -58,9 +53,7 @@ mscan(char *s)
 		mfree(a);
 		a = t;
 	}
-
 	mfree(b);
-
 	return a;
 }
 
