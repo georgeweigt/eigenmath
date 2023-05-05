@@ -978,6 +978,26 @@ cmp(p1, p2)
 	return 0;
 }
 function
+cmp_args(p1)
+{
+	push(cadr(p1));
+	evalf();
+	push(caddr(p1));
+	evalf();
+	subtract();
+	simplify();
+	floatfunc();
+	p1 = pop();
+	if (iszero(p1))
+		return 0;
+	if (!isnum(p1))
+		stopf("compare err");
+	if (isnegativenumber(p1))
+		return -1;
+	else
+		return 1;
+}
+function
 cmp_factors(p1, p2)
 {
 	var a, b, c;
@@ -11719,7 +11739,7 @@ eval_testeq(p1)
 function
 eval_testge(p1)
 {
-	if (relop(p1) >= 0)
+	if (cmp_args(p1) >= 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -11727,7 +11747,7 @@ eval_testge(p1)
 function
 eval_testgt(p1)
 {
-	if (relop(p1) > 0)
+	if (cmp_args(p1) > 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -11735,7 +11755,7 @@ eval_testgt(p1)
 function
 eval_testle(p1)
 {
-	if (relop(p1) <= 0)
+	if (cmp_args(p1) <= 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -11743,7 +11763,7 @@ eval_testle(p1)
 function
 eval_testlt(p1)
 {
-	if (relop(p1) < 0)
+	if (cmp_args(p1) < 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -15908,26 +15928,6 @@ reduce_radical_rational(h, COEFF)
 	}
 
 	return COEFF;
-}
-function
-relop(p1)
-{
-	push(cadr(p1));
-	evalf();
-	push(caddr(p1));
-	evalf();
-	subtract();
-	simplify();
-	floatfunc();
-	p1 = pop();
-	if (iszero(p1))
-		return 0;
-	if (!isnum(p1))
-		stopf("compare err");
-	if (isnegativenumber(p1))
-		return -1;
-	else
-		return 1;
 }
 function
 restore_symbol()

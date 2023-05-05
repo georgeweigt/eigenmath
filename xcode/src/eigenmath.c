@@ -399,7 +399,7 @@ int cmp(struct atom *p1, struct atom *p2);
 int cmp_numbers(struct atom *p1, struct atom *p2);
 int cmp_rationals(struct atom *a, struct atom *b);
 int cmp_tensors(struct atom *p1, struct atom *p2);
-int relop(struct atom *p1);
+int cmp_args(struct atom *p1);
 int find_denominator(struct atom *p);
 int count_denominators(struct atom *p);
 int count_numerators(struct atom *p);
@@ -1011,7 +1011,7 @@ mscan(char *s)
 	int i, k, len;
 	uint32_t *a, *b, *t;
 	a = mint(0);
-	len = strlen(s);
+	len = (int) strlen(s);
 	if (len == 0)
 		return a;
 	k = len % 9;
@@ -1812,7 +1812,7 @@ cmp_tensors(struct atom *p1, struct atom *p2)
 }
 
 int
-relop(struct atom *p1)
+cmp_args(struct atom *p1)
 {
 	push(cadr(p1));
 	evalf();
@@ -13815,7 +13815,7 @@ eval_testeq(struct atom *p1)
 void
 eval_testge(struct atom *p1)
 {
-	if (relop(p1) >= 0)
+	if (cmp_args(p1) >= 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -13823,7 +13823,7 @@ eval_testge(struct atom *p1)
 void
 eval_testgt(struct atom *p1)
 {
-	if (relop(p1) > 0)
+	if (cmp_args(p1) > 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -13831,7 +13831,7 @@ eval_testgt(struct atom *p1)
 void
 eval_testle(struct atom *p1)
 {
-	if (relop(p1) <= 0)
+	if (cmp_args(p1) <= 0)
 		push_integer(1);
 	else
 		push_integer(0);
@@ -13839,7 +13839,7 @@ eval_testle(struct atom *p1)
 void
 eval_testlt(struct atom *p1)
 {
-	if (relop(p1) < 0)
+	if (cmp_args(p1) < 0)
 		push_integer(1);
 	else
 		push_integer(0);

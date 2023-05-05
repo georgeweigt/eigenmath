@@ -30,7 +30,7 @@ mscan(char *s)
 	int i, k, len;
 	uint32_t *a, *b, *t;
 	a = mint(0);
-	len = strlen(s);
+	len = (int) strlen(s);
 	if (len == 0)
 		return a;
 	k = len % 9;
