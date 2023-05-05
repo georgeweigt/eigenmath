@@ -1,4 +1,4 @@
-// 7 decimal digits fits in 24 bits
+// convert string to bignum (7 decimal digits fits in 24 bits)
 
 function
 bignum_atoi(s)

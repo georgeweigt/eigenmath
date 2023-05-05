@@ -22,7 +22,7 @@ mclrbit(uint32_t *x, uint32_t k)
 	x[k / 32] &= ~(1 << (k % 32));
 }
 
-// 9 decimal digits fits in 32 bits
+// convert string to bignum (9 decimal digits fits in 32 bits)
 
 uint32_t *
 mscan(char *s)
