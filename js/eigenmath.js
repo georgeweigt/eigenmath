@@ -347,10 +347,13 @@ bignum_atoi(s)
 	var a, b, k;
 
 	a = bignum_int(0);
+	if (s.length == 0)
+		return a;
 	k = s.length % 7;
+	if (k == 0)
+		k = 7;
 
-	if (k)
-		a[0] = Number(s.substr(0, k));
+	a[0] = Number(s.substr(0, k));
 
 	if (k == s.length)
 		return a;

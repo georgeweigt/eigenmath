@@ -1006,25 +1006,26 @@ mclrbit(uint32_t *x, uint32_t k)
 uint32_t *
 mscan(char *s)
 {
-	int i, len, m;
+	int i, k, len;
 	uint32_t *a, *b, *t;
 
 	a = mint(0);
-
 	len = strlen(s);
-	m = len % 9;
-
-	for (i = 0; i < m; i++)
-		a[0] = 10 * a[0] + *s++ - '0';
-
-	len -= m;
-
 	if (len == 0)
+		return a;
+	k = len % 9;
+	if (k == 0)
+		k = 9;
+
+	for (i = 0; i < k; i++)
+		a[0] = 10 * a[0] + s[i] - '0';
+
+	if (k == len)
 		return a;
 
 	b = mint(0);
 
-	while (len) {
+	while (k < len) {
 
 		b[0] = 1000000000; // 1 billion
 		t = mmul(a, b);
@@ -1033,12 +1034,10 @@ mscan(char *s)
 
 		b[0] = 0;
 		for (i = 0; i < 9; i++)
-			b[0] = 10 * b[0] + *s++ - '0';
+			b[0] = 10 * b[0] + s[k++] - '0';
 		t = madd(a, b);
 		mfree(a);
 		a = t;
-
-		len -= 9;
 	}
 
 	mfree(b);
