@@ -75,23 +75,26 @@ read_file(char *filename)
 {
 	int fd, n;
 	char *buf;
+	off_t t;
 
-	fd = open(filename, O_RDONLY, 0);
+	fd = open(filename, O_RDONLY);
 
-	if (fd == -1)
+	if (fd < 0)
 		return NULL;
 
-	n = lseek(fd, 0, SEEK_END);
+	t = lseek(fd, 0, SEEK_END);
 
-	if (n == -1) {
+	if (t < 0 || t > 0x1000000) { // 16 MB max
 		close(fd);
 		return NULL;
 	}
 
-	if (lseek(fd, 0, SEEK_SET) == -1) {
+	if (lseek(fd, 0, SEEK_SET)) {
 		close(fd);
 		return NULL;
 	}
+
+	n = (int) t;
 
 	buf = malloc(n + 1);
 
@@ -101,8 +104,8 @@ read_file(char *filename)
 	}
 
 	if (read(fd, buf, n) != n) {
-		close(fd);
 		free(buf);
+		close(fd);
 		return NULL;
 	}
 
