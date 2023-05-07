@@ -2,51 +2,20 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <dirent.h>
 #include <string.h>
-
-int filter(const struct dirent *);
-void scan(char *);
+void emit(char *);
 char *read_file(char *);
 
 int
 main(int argc, char *argv[])
 {
-	int i, len, n;
-	char *filename;
-	struct dirent **p;
-
-	n = scandir(argv[1], &p, filter, alphasort);
-
-	for (i = 0; i < n; i++) {
-
-		len = strlen(argv[1]) + 1 + strlen(p[i]->d_name) + 1;
-
-		filename = malloc(len);
-
-		if (filename == NULL)
-			exit(1);
-
-		strcpy(filename, argv[1]);
-		strcat(filename, "/");
-		strcat(filename, p[i]->d_name);
-
-		scan(filename);
-
-		free(filename);
-	}
-}
-
-int
-filter(const struct dirent *p)
-{
-	int len = strlen(p->d_name);
-	return len > 2 && strcmp(p->d_name + len - 2, ".c") == 0;
+	int i;
+	for (i = 1; i < argc; i++)
+		emit(argv[i]);
 }
 
 void
-scan(char *filename)
+emit(char *filename)
 {
 	int i, j, k;
 	char *buf, *s;

@@ -5,7 +5,7 @@ eigenmath: defs.h prototypes.h *.c
 
 prototypes.h: *.c
 	make -s -C ../tools make-prototypes
-	../tools/make-prototypes . > prototypes.h
+	../tools/make-prototypes *.c > prototypes.h
 
 clean:
 	rm -f eigenmath prototypes.h
@@ -19,4 +19,4 @@ sync:
 	cp defs.h ../xcode/src
 	cat defs.h prototypes.h $(FILES) > ../xcode/src/eigenmath.c
 	make -s -C ../tools make-prototypes
-	../tools/make-prototypes ../xcode/src > ../xcode/src/prototypes.h
+	../tools/make-prototypes ../xcode/src/*.c > ../xcode/src/prototypes.h
