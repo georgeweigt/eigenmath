@@ -268,18 +268,44 @@ circexp(cosh(x))
 \noindent
 $\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
 
-\subsection*{d($f,x$)}
+\subsection*{d($f,x,\ldots$)}
 
-Returns the partial derivative of $f$ with respect to $x$.
+Returns the partial derivative of $f$ with respect to $x$ and any additional arguments.
 
 {\color{blue}
 \begin{verbatim}
-d(x^2,x)
+d(sin(x),x)
 \end{verbatim}
 }
 
 \noindent
-$2x$
+$\cos(x)$
+
+\bigskip
+\noindent
+Multiderivatives are computed by extending the argument list.
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x),x,x)
+\end{verbatim}
+}
+
+\noindent
+$-\sin(x)$
+
+\bigskip
+\noindent
+A numeric argument $n$ computes the $n$th derivative with respect to the previous symbol.
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x y),x,2,y,2)
+\end{verbatim}
+}
+
+\noindent
+$x^2y^2\sin(xy)-4xy\cos(xy)-2\sin(xy)$
 
 \bigskip
 \noindent

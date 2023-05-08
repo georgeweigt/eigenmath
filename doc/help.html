@@ -380,14 +380,29 @@ circexp(cosh(x))
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="d">d(<i>f,x</i>)</a>
+<a id="d">d(<i>f,x,...</i>)</a><br>
 <p>
-Returns the partial derivative of <i>f</i> with respect to <i>x</i>.
+Returns the derivative of <i>f</i> with respect to <i>x</i> and any additional arguments.
 <pre style="font-family:courier;color:blue">
-d(x^2,x)
+d(sin(x),x)
 </pre>
 <pre style="font-family:courier">
-2 x
+cos(x)
+</pre>
+Multiderivatives are computed by extending the argument list.
+<pre style="font-family:courier;color:blue">
+d(sin(x),x,x)
+</pre>
+<pre style="font-family:courier">
+−sin(x)
+</pre>
+A numeric argument <i>n</i> computes the <i>n</i>th derivative with respect to the previous symbol.
+<pre style="font-family:courier;color:blue">
+d(sin(x y),x,2,y,2)
+</pre>
+<pre style="font-family:courier">
+ 2  2                                       
+x  y  sin(x y) − 4 x y cos(x y) − 2 sin(x y)
 </pre>
 <p>
 Argument <i>f</i> can be a tensor of any rank.
