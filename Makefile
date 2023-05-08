@@ -14,5 +14,5 @@ clean:
 
 check:
 	make -s -C tools wcheck
-	for FILE in src/*.c; do tools/wcheck $$FILE; done
-	for FILE in js/src/*.js; do tools/wcheck $$FILE; done
+	tools/wcheck src/*.c
+	tools/wcheck js/src/*.js

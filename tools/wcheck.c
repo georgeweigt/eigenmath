@@ -3,41 +3,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+void check_file(char *);
+char *check_line(char *);
 
 char buf[1000];
-char *check(char *);
 
 int
 main(int argc, char *argv[])
+{
+	int i;
+	for (i = 1; i < argc; i++)
+		check_file(argv[i]);
+}
+
+void
+check_file(char *filename)
 {
 	int line = 0;
 	char *s;
 	FILE *f;
 
-	if (argc < 2)
-		exit(1);
-
-	f = fopen(argv[1], "r");
+	f = fopen(filename, "r");
 
 	if (f == NULL) {
-		printf("cannot open %s\n", argv[1]);
-		exit(1);
+		printf("cannot open %s\n", filename);
+		return;
 	}
 
 	while (fgets(buf, sizeof buf, f)) {
 
 		line++;
 
-		s = check(buf);
+		s = check_line(buf);
 
 		if (s) {
-			printf("%s line %d: %s\n", argv[1], line, s);
+			printf("%s line %d: %s\n", filename, line, s);
 			puts(buf);
 		}
 	}
 
 	if (line && buf[0] == '\n') {
-		printf("%s line %d: trailing newline\n", argv[1], line);
+		printf("%s line %d: trailing newline\n", filename, line);
 		puts(buf);
 	}
 
@@ -45,7 +51,7 @@ main(int argc, char *argv[])
 }
 
 char *
-check(char *buf)
+check_line(char *buf)
 {
 	int i, n;
 
@@ -57,8 +63,6 @@ check(char *buf)
 	if (n == 1)
 		return NULL; // ok
 
-	// check for weird ascii chars
-
 	for (i = 0; i < n; i++) {
 		if (buf[i] >= ' ' && buf[i] < 0x7f)
 			continue;
@@ -66,8 +70,6 @@ check(char *buf)
 			continue;
 		return "ascii error";
 	}
-
-	// check trailing space
 
 	if (strstr(buf, " \n") || strstr(buf, "\t\n"))
 		return "trailing space";
