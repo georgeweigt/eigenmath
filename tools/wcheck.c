@@ -53,17 +53,14 @@ check_file(char *filename)
 char *
 check_line(char *buf)
 {
-	int i, n;
+	int i, len;
 
-	n = strlen(buf);
+	len = strlen(buf);
 
-	if (n < 1 || buf[n - 1] != '\n')
+	if (len < 1 || buf[len - 1] != '\n')
 		return "missing newline";
 
-	if (n == 1)
-		return NULL; // ok
-
-	for (i = 0; i < n; i++) {
+	for (i = 0; i < len; i++) {
 		if (buf[i] >= ' ' && buf[i] < 0x7f)
 			continue;
 		if (buf[i] == '\t' || buf[i] == '\n')
