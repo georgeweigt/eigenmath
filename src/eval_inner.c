@@ -15,12 +15,12 @@ eval_inner(struct atom *p1)
 	if (h == tos)
 		stopf("inner: no args");
 
-	evalf();
+	evalg();
 
 	while (tos - h > 1) {
-		p1 = pop();
-		evalf();
-		push(p1);
+		swap();
+		evalg();
+		swap();
 		inner();
 	}
 }

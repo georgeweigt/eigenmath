@@ -703,6 +703,8 @@ void eval_sgn(struct atom *p1);
 void sgn(void);
 void eval_simplify(struct atom *p1);
 void simplify(void);
+void simplify_tensor(struct atom *p1);
+void simplify_scalar(struct atom *p1);
 void simplify_pass1(void);
 void simplify_pass2(void);
 void simplify_pass3(void);
@@ -1942,19 +1944,22 @@ evalf_nib(struct atom *p1)
 	push(p1); // rational, double, or string
 }
 
-// like evalf() except '=' is evaluated as '=='
+// evaluate '=' as '=='
 
 void
 evalp(void)
 {
 	struct atom *p1;
 	p1 = pop();
-	if (car(p1) == symbol(SETQ))
-		eval_testeq(p1);
-	else {
-		push(p1);
-		evalf();
+	if (car(p1) == symbol(SETQ)) {
+		push_symbol(TESTEQ);
+		push(cadr(p1));
+		push(caddr(p1));
+		list(3);
+		p1 = pop();
 	}
+	push(p1);
+	evalg();
 }
 void
 eval_abs(struct atom *p1)
@@ -6707,12 +6712,12 @@ eval_inner(struct atom *p1)
 	if (h == tos)
 		stopf("inner: no args");
 
-	evalf();
+	evalg();
 
 	while (tos - h > 1) {
-		p1 = pop();
-		evalf();
-		push(p1);
+		swap();
+		evalg();
+		swap();
 		inner();
 	}
 }
@@ -12620,29 +12625,47 @@ void
 eval_simplify(struct atom *p1)
 {
 	push(cadr(p1));
-	evalf();
+	evalg();
 	simplify();
 }
 
 void
 simplify(void)
 {
-	int h, i, n;
 	struct atom *p1;
-
 	p1 = pop();
+	if (istensor(p1))
+		simplify_tensor(p1);
+	else
+		simplify_scalar(p1);
+}
 
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			simplify();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
+void
+simplify_tensor(struct atom *p1)
+{
+	int i, n;
+
+	p1 = copy_tensor(p1);
+
+	fpush(p1); // make visible to gc
+
+	n = p1->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		push(p1->u.tensor->elem[i]);
+		simplify();
+		p1->u.tensor->elem[i] = pop();
 	}
+
+	fpop();
+
+	push(p1);
+}
+
+void
+simplify_scalar(struct atom *p1)
+{
+	int h;
 
 	// already simple?
 
@@ -12650,6 +12673,8 @@ simplify(void)
 		push(p1);
 		return;
 	}
+
+	fpush(p1); // make visible to gc
 
 	h = tos;
 	push(car(p1));
@@ -12661,8 +12686,10 @@ simplify(void)
 		p1 = cdr(p1);
 	}
 
+	fpop();
+
 	list(tos - h);
-	evalf();
+	evalg();
 
 	simplify_pass1();
 	simplify_pass2(); // try exponential form
@@ -13801,9 +13828,9 @@ void
 eval_testeq(struct atom *p1)
 {
 	push(cadr(p1));
-	evalf();
+	evalg();
 	push(caddr(p1));
-	evalf();
+	evalg();
 	subtract();
 	simplify();
 	p1 = pop();

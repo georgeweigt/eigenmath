@@ -2,29 +2,47 @@ void
 eval_simplify(struct atom *p1)
 {
 	push(cadr(p1));
-	evalf();
+	evalg();
 	simplify();
 }
 
 void
 simplify(void)
 {
-	int h, i, n;
 	struct atom *p1;
-
 	p1 = pop();
+	if (istensor(p1))
+		simplify_tensor(p1);
+	else
+		simplify_scalar(p1);
+}
 
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			simplify();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
+void
+simplify_tensor(struct atom *p1)
+{
+	int i, n;
+
+	p1 = copy_tensor(p1);
+
+	fpush(p1); // make visible to gc
+
+	n = p1->u.tensor->nelem;
+
+	for (i = 0; i < n; i++) {
+		push(p1->u.tensor->elem[i]);
+		simplify();
+		p1->u.tensor->elem[i] = pop();
 	}
+
+	fpop();
+
+	push(p1);
+}
+
+void
+simplify_scalar(struct atom *p1)
+{
+	int h;
 
 	// already simple?
 
@@ -32,6 +50,8 @@ simplify(void)
 		push(p1);
 		return;
 	}
+
+	fpush(p1); // make visible to gc
 
 	h = tos;
 	push(car(p1));
@@ -43,8 +63,10 @@ simplify(void)
 		p1 = cdr(p1);
 	}
 
+	fpop();
+
 	list(tos - h);
-	evalf();
+	evalg();
 
 	simplify_pass1();
 	simplify_pass2(); // try exponential form

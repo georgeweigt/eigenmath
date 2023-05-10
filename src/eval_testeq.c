@@ -2,9 +2,9 @@ void
 eval_testeq(struct atom *p1)
 {
 	push(cadr(p1));
-	evalf();
+	evalg();
 	push(caddr(p1));
-	evalf();
+	evalg();
 	subtract();
 	simplify();
 	p1 = pop();

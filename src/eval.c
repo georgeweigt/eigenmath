@@ -69,17 +69,20 @@ evalf_nib(struct atom *p1)
 	push(p1); // rational, double, or string
 }
 
-// like evalf() except '=' is evaluated as '=='
+// evaluate '=' as '=='
 
 void
 evalp(void)
 {
 	struct atom *p1;
 	p1 = pop();
-	if (car(p1) == symbol(SETQ))
-		eval_testeq(p1);
-	else {
-		push(p1);
-		evalf();
+	if (car(p1) == symbol(SETQ)) {
+		push_symbol(TESTEQ);
+		push(cadr(p1));
+		push(caddr(p1));
+		list(3);
+		p1 = pop();
 	}
+	push(p1);
+	evalg();
 }

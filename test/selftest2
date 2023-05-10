@@ -508,6 +508,73 @@ check(FDDD + T1 + T2 = 0)
 guu = ((-1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 FDDU = contract(outer(FDDD,guu),3,4)   --Easier to make FDDU than FUUD.
 check(contract(FDDU,2,3) = 0)   --For light J is zero.
+"Muon decay"
+
+p1 = (E1, p1x, p1y, p1z) -- muon
+p2 = (E2, p2x, p2y, p2z) -- muon neutrino
+p3 = (E3, p3x, p3y, p3z) -- electron antineutrino
+p4 = (E4, p4x, p4y, p4z) -- electron
+
+u11 = (E1 + m1, 0, p1z, p1x + i p1y)
+u12 = (0, E1 + m1, p1x - i p1y, -p1z)
+
+u21 = (E2 + m2, 0, p2z, p2x + i p2y)
+u22 = (0, E2 + m2, p2x - i p2y, -p2z)
+
+v31 = (p3z, p3x + i p3y, E3 + m3, 0)
+v32 = (p3x - i p3y, -p3z, 0, E3 + m3)
+
+u41 = (E4 + m4, 0, p4z, p4x + i p4y)
+u42 = (0, E4 + m4, p4x - i p4y, -p4z)
+
+u1 = (u11,u12) -- muon
+u2 = (u21,u22) -- muon neutrino
+v3 = (v31,v32) -- electron antineutrino
+u4 = (u41,u42) -- electron
+
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
+E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
+E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma5 = i dot(gamma0,gamma1,gamma2,gamma3)
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+u2bar = dot(conj(u2),gamma0) -- adjoint of u2
+u4bar = dot(conj(u4),gamma0) -- adjoint of u4
+
+-- transpose to put 1st index in the middle
+
+X = transpose(dot(gamma, I - gamma5))
+
+MM(a,b,c,d) = do(
+  V1 = dot(u2bar[b], X, u1[a]), -- 1st vertex
+  V2 = dot(u4bar[d], X, v3[c]), -- 2nd vertex
+  M = GF / sqrt(2) dot(V2, gmunu, V1),
+  M conj(M)
+)
+
+S = sum(a,1,2, sum(b,1,2, sum(c,1,2, sum(d,1,2, MM(a,b,c,d)))))
+
+N = (E1 + m1) (E2 + m2) (E3 + m3) (E4 + m4)
+
+MMavg = 1/2 S / N
+
+check(MMavg == 64 GF^2 dot(p1,gmunu,p3) dot(p2,gmunu,p4))
 "Muon pair production"
 
 clear

@@ -357,6 +357,8 @@ void eval_sgn(struct atom *p1);
 void sgn(void);
 void eval_simplify(struct atom *p1);
 void simplify(void);
+void simplify_tensor(struct atom *p1);
+void simplify_scalar(struct atom *p1);
 void simplify_pass1(void);
 void simplify_pass2(void);
 void simplify_pass3(void);
