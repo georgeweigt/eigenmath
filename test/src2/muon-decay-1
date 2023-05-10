@@ -1,4 +1,10 @@
-"Muon decay"
+"Muon decay 1"
+
+clear
+
+-- Verify muon decay equation (1)
+
+-- Run time is about 1 minute
 
 p1 = (E1, p1x, p1y, p1z) -- muon
 p2 = (E2, p2x, p2y, p2z) -- muon neutrino
