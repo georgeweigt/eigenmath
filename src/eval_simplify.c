@@ -21,22 +21,14 @@ void
 simplify_tensor(struct atom *p1)
 {
 	int i, n;
-
 	p1 = copy_tensor(p1);
-
-	fpush(p1); // make visible to gc
-
+	push(p1); // make visible to gc
 	n = p1->u.tensor->nelem;
-
 	for (i = 0; i < n; i++) {
 		push(p1->u.tensor->elem[i]);
 		simplify();
 		p1->u.tensor->elem[i] = pop();
 	}
-
-	fpop();
-
-	push(p1);
 }
 
 void
