@@ -7201,14 +7201,14 @@ eval_inner(p1)
 	}
 
 	if (h == stack.length)
-		stopf("dot");
+		stopf("inner: no args");
 
 	evalf();
 
 	while (stack.length - h > 1) {
-		p1 = pop();
+		swap();
 		evalf();
-		push(p1);
+		swap();
 		inner();
 	}
 }
