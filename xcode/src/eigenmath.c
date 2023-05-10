@@ -12,14 +12,14 @@
 #define STACKSIZE 100000 // evaluation stack
 #define FRAMESIZE 10000
 #define BLOCKSIZE 10000
-#define MAXBLOCKS 1000
+#define MAXBLOCKS 2000
 #define BUCKETSIZE 100
 #define STRBUFLEN 1000
 #define MAXDIM 24
 
-// MAXBLOCKS * BLOCKSIZE = 10,000,000 atoms
+// MAXBLOCKS * BLOCKSIZE = 20,000,000 atoms
 
-// MAXBLOCKS * BLOCKSIZE * sizeof (struct atom) = 240,000,000 bytes
+// MAXBLOCKS * BLOCKSIZE * sizeof (struct atom) = 480,000,000 bytes
 
 // Symbolic expressions are built by linking structs of type "atom".
 //

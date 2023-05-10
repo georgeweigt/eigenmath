@@ -791,7 +791,7 @@ check(FDDD + T1 + T2 = 0)
 guu = ((-1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 FDDU = contract(outer(FDDD,guu),3,4)   --Easier to make FDDU than FUUD.
 check(contract(FDDU,2,3) = 0)   --For light J is zero.
-"Muon decay 1"
+"Muon decay 1 (run time is about a minute)"
 
 clear
 
