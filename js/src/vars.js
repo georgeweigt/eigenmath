@@ -99,6 +99,7 @@ var symtab = {
 "sin":		{printname:SIN,		func:eval_sin},
 "sinh":		{printname:SINH,	func:eval_sinh},
 "sqrt":		{printname:SQRT,	func:eval_sqrt},
+"status":	{printname:STATUS,	func:eval_status},
 "stop":		{printname:STOP,	func:eval_stop},
 "subst":	{printname:SUBST,	func:eval_subst},
 "sum":		{printname:SUM,		func:eval_sum},

@@ -1580,6 +1580,7 @@ const SIMPLIFY = "simplify";
 const SIN = "sin";
 const SINH = "sinh";
 const SQRT = "sqrt";
+const STATUS = "status";
 const STOP = "stop";
 const SUBST = "subst";
 const SUM = "sum";
@@ -10729,21 +10730,32 @@ eval_simplify(p1)
 function
 simplify()
 {
-	var h, i, n, p1;
-
+	var p1;
 	p1 = pop();
+	if (istensor(p1))
+		simplify_tensor(p1);
+	else
+		simplify_scalar(p1);
+}
 
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			simplify();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
+function
+simplify_tensor(p1)
+{
+	var i, n;
+	p1 = copy_tensor(p1);
+	push(p1);
+	n = p1.elem.length;
+	for (i = 0; i < n; i++) {
+		push(p1.elem[i]);
+		simplify();
+		p1.elem[i] = pop();
 	}
+}
+
+function
+simplify_scalar(p1)
+{
+	var h;
 
 	// already simple?
 
@@ -11239,6 +11251,11 @@ sqrtfunc()
 {
 	push_rational(1, 2);
 	power();
+}
+function
+eval_status()
+{
+	push_symbol(NIL);
 }
 function
 eval_stop()
@@ -17075,6 +17092,7 @@ var symtab = {
 "sin":		{printname:SIN,		func:eval_sin},
 "sinh":		{printname:SINH,	func:eval_sinh},
 "sqrt":		{printname:SQRT,	func:eval_sqrt},
+"status":	{printname:STATUS,	func:eval_status},
 "stop":		{printname:STOP,	func:eval_stop},
 "subst":	{printname:SUBST,	func:eval_subst},
 "sum":		{printname:SUM,		func:eval_sum},

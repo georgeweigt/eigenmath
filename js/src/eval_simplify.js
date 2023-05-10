@@ -9,21 +9,32 @@ eval_simplify(p1)
 function
 simplify()
 {
-	var h, i, n, p1;
-
+	var p1;
 	p1 = pop();
+	if (istensor(p1))
+		simplify_tensor(p1);
+	else
+		simplify_scalar(p1);
+}
 
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			simplify();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
+function
+simplify_tensor(p1)
+{
+	var i, n;
+	p1 = copy_tensor(p1);
+	push(p1);
+	n = p1.elem.length;
+	for (i = 0; i < n; i++) {
+		push(p1.elem[i]);
+		simplify();
+		p1.elem[i] = pop();
 	}
+}
+
+function
+simplify_scalar(p1)
+{
+	var h;
 
 	// already simple?
 
