@@ -58,17 +58,17 @@ T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
 f22 = contract(contract(contract(T,3,4),2,3))
 
 check(f11 == 32 dot(p1,gmunu,p2) dot(p1,gmunu,p4) +
-64 m^2 dot(p1,gmunu,p2) -
-32 m^2 dot(p1,gmunu,p3) -
-32 m^2 dot(p1,gmunu,p4) + 32 m^4)
+             64 m^2 dot(p1,gmunu,p2) -
+             32 m^2 dot(p1,gmunu,p3) -
+             32 m^2 dot(p1,gmunu,p4) + 32 m^4)
 
 check(f12 == 16 m^2 dot(p1,gmunu,p2) -
-16 m^2 dot(p1,gmunu,p4) + 32 m^4)
+             16 m^2 dot(p1,gmunu,p4) + 32 m^4)
 
 check(f22 == 32 dot(p1,gmunu,p2) dot(p1,gmunu,p4) +
-32 m^2 dot(p1,gmunu,p2) -
-32 m^2 dot(p1,gmunu,p3) -
-64 m^2 dot(p1,gmunu,p4) + 32 m^4)
+             32 m^2 dot(p1,gmunu,p2) -
+             32 m^2 dot(p1,gmunu,p3) -
+             64 m^2 dot(p1,gmunu,p4) + 32 m^4)
 
 s = dot(p1 + p2,gmunu,p1 + p2)
 t = dot(p1 - p3,gmunu,p1 - p3)

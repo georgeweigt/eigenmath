@@ -1,0 +1,104 @@
+"Annihilation 2"
+
+clear
+
+-- Verify formulas for electron-positron annihilation
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      E expsin(theta) expcos(phi),
+      E expsin(theta) expsin(phi),
+      E expcos(theta))
+
+p4 = (E,
+      -E expsin(theta) expcos(phi),
+      -E expsin(theta) expsin(phi),
+      -E expcos(theta))
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+q1 = p1 - p3
+q2 = p1 - p4
+
+qslash1 = dot(q1,gmunu,gamma)
+qslash2 = dot(q2,gmunu,gamma)
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+
+P1 = pslash1 + m I
+P2 = pslash2 - m I
+
+Q1 = qslash1 + m I
+Q2 = qslash2 + m I
+
+T = dot(P1,gammaT,Q1,gammaT,P2,gammaL,Q1,gammaL)
+f11 = contract(contract(contract(T,3,4),2,3))
+
+T = dot(P1,gammaT,Q2,gammaT,P2,gammaL,Q1,gammaL)
+f12 = contract(contract(contract(T,3,5),2,3))
+
+T = dot(P1,gammaT,Q2,gammaT,P2,gammaL,Q2,gammaL)
+f22 = contract(contract(contract(T,3,4),2,3))
+
+-- Verify momentum formulas"
+
+check(f11 == 32 dot(p1,gmunu,p3) dot(p1,gmunu,p4) -
+             32 m^2 dot(p1,gmunu,p2) +
+             64 m^2 dot(p1,gmunu,p3) +
+             32 m^2 dot(p1,gmunu,p4) - 64 m^4)
+
+check(f12 == 16 m^2 dot(p1,gmunu,p3) +
+             16 m^2 dot(p1,gmunu,p4) - 32 m^4)
+
+check(f22 == 32 dot(p1,gmunu,p3) dot(p1,gmunu,p4) -
+             32 m^2 dot(p1,gmunu,p2) +
+             32 m^2 dot(p1,gmunu,p3) +
+             64 m^2 dot(p1,gmunu,p4) - 64 m^4)
+
+-- Verify Mandelstam formulas
+
+s = dot(p1 + p2,gmunu,p1 + p2)
+t = dot(p1 - p3,gmunu,p1 - p3)
+u = dot(p1 - p4,gmunu,p1 - p4)
+
+check(f11 == 8 t u - 24 t m^2 - 8 u m^2 - 8 m^4)
+check(f12 == 8 s m^2 - 32 m^4)
+check(f22 == 8 t u - 8 t m^2 - 24 u m^2 - 8 m^4)
+
+m = 0
+
+check(s == 4 E^2)
+check(t == 2 E^2 (expcos(theta) - 1))
+check(u == -2 E^2 (expcos(theta) + 1))
+
+-- Verify probability density
+
+d11 = (t - m^2)^2
+d12 = (t - m^2) (u - m^2)
+d22 = (u - m^2)^2
+
+A = 1/4 (f11/d11 + 2 f12/d12 + f22/d22)
+
+a = 1 + expcos(theta)
+b = 1 - expcos(theta)
+
+B = 2 (a/b + b/a)
+
+check(A == B)

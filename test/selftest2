@@ -11,6 +11,405 @@ Lz(f) = -i hbar (x d(f,y) - y d(f,x))
 check(Lx(Ly(psi(x,y,z))) - Ly(Lx(psi(x,y,z))) == i hbar Lz(psi(x,y,z)))
 check(Ly(Lz(psi(x,y,z))) - Lz(Ly(psi(x,y,z))) == i hbar Lx(psi(x,y,z)))
 check(Lz(Lx(psi(x,y,z))) - Lx(Lz(psi(x,y,z))) == i hbar Ly(psi(x,y,z)))
+"Annihilation 1"
+
+clear
+
+-- Verify Casimir trick for electron positron annihilation
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      E expsin(theta) expcos(phi),
+      E expsin(theta) expsin(phi),
+      E expcos(theta))
+
+p4 = (E,
+      -E expsin(theta) expcos(phi),
+      -E expsin(theta) expsin(phi),
+      -E expcos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
+
+v21 = (p2[4], p2[2] + i p2[3], E + m, 0)
+v22 = (p2[2] - i p2[3], -p2[4], 0, E + m)
+
+u1 = (u11,u12)
+v2 = (v21,v22)
+
+N = (E + m)^2
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+v2bar = dot(conj(v2),gamma0) -- adjoint of v2
+
+q1 = p1 - p3
+q2 = p1 - p4
+
+qslash1 = dot(q1,gmunu,gamma)
+qslash2 = dot(q2,gmunu,gamma)
+
+t = dot(q1,gmunu,q1)
+u = dot(q2,gmunu,q2)
+
+-- Sum over spin states
+
+a11 = 0
+a12 = 0
+a22 = 0
+
+for(a,1,2,for(b,1,2,
+  a1 = dot(v2bar[b],gammaT,qslash1 + m I,gammaT,u1[a]),
+  a2 = dot(v2bar[b],gammaT,qslash2 + m I,gammaT,u1[a]),
+  a11 = a11 + contract(dot(a1,gmunu,transpose(conj(a1)),gmunu)),
+  a12 = a12 + contract(dot(a1,gmunu,conj(a2),gmunu)),
+  a22 = a22 + contract(dot(a2,gmunu,transpose(conj(a2)),gmunu))
+))
+
+-- Casimir trick
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+
+P1 = pslash1 + m I
+P2 = pslash2 - m I
+
+Q1 = qslash1 + m I
+Q2 = qslash2 + m I
+
+T = dot(P1,gammaT,Q1,gammaT,P2,gammaL,Q1,gammaL)
+f11 = contract(contract(contract(T,3,4),2,3))
+
+T = dot(P1,gammaT,Q2,gammaT,P2,gammaL,Q1,gammaL)
+f12 = contract(contract(contract(T,3,5),2,3))
+
+T = dot(P1,gammaT,Q2,gammaT,P2,gammaL,Q2,gammaL)
+f22 = contract(contract(contract(T,3,4),2,3))
+
+-- Verify Casimir trick
+
+check(f11 == 1/N a11)
+check(f12 == 1/N a12)
+check(f22 == 1/N a22)
+"Annihilation 2"
+
+clear
+
+-- Verify formulas for electron-positron annihilation
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      E expsin(theta) expcos(phi),
+      E expsin(theta) expsin(phi),
+      E expcos(theta))
+
+p4 = (E,
+      -E expsin(theta) expcos(phi),
+      -E expsin(theta) expsin(phi),
+      -E expcos(theta))
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+q1 = p1 - p3
+q2 = p1 - p4
+
+qslash1 = dot(q1,gmunu,gamma)
+qslash2 = dot(q2,gmunu,gamma)
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+
+P1 = pslash1 + m I
+P2 = pslash2 - m I
+
+Q1 = qslash1 + m I
+Q2 = qslash2 + m I
+
+T = dot(P1,gammaT,Q1,gammaT,P2,gammaL,Q1,gammaL)
+f11 = contract(contract(contract(T,3,4),2,3))
+
+T = dot(P1,gammaT,Q2,gammaT,P2,gammaL,Q1,gammaL)
+f12 = contract(contract(contract(T,3,5),2,3))
+
+T = dot(P1,gammaT,Q2,gammaT,P2,gammaL,Q2,gammaL)
+f22 = contract(contract(contract(T,3,4),2,3))
+
+-- Verify momentum formulas"
+
+check(f11 == 32 dot(p1,gmunu,p3) dot(p1,gmunu,p4) -
+             32 m^2 dot(p1,gmunu,p2) +
+             64 m^2 dot(p1,gmunu,p3) +
+             32 m^2 dot(p1,gmunu,p4) - 64 m^4)
+
+check(f12 == 16 m^2 dot(p1,gmunu,p3) +
+             16 m^2 dot(p1,gmunu,p4) - 32 m^4)
+
+check(f22 == 32 dot(p1,gmunu,p3) dot(p1,gmunu,p4) -
+             32 m^2 dot(p1,gmunu,p2) +
+             32 m^2 dot(p1,gmunu,p3) +
+             64 m^2 dot(p1,gmunu,p4) - 64 m^4)
+
+-- Verify Mandelstam formulas
+
+s = dot(p1 + p2,gmunu,p1 + p2)
+t = dot(p1 - p3,gmunu,p1 - p3)
+u = dot(p1 - p4,gmunu,p1 - p4)
+
+check(f11 == 8 t u - 24 t m^2 - 8 u m^2 - 8 m^4)
+check(f12 == 8 s m^2 - 32 m^4)
+check(f22 == 8 t u - 8 t m^2 - 24 u m^2 - 8 m^4)
+
+m = 0
+
+check(s == 4 E^2)
+check(t == 2 E^2 (expcos(theta) - 1))
+check(u == -2 E^2 (expcos(theta) + 1))
+
+-- Verify probability density
+
+d11 = (t - m^2)^2
+d12 = (t - m^2) (u - m^2)
+d22 = (u - m^2)^2
+
+A = 1/4 (f11/d11 + 2 f12/d12 + f22/d22)
+
+a = 1 + expcos(theta)
+b = 1 - expcos(theta)
+
+B = 2 (a/b + b/a)
+
+check(A == B)
+"Bhabha scattering 1"
+
+clear
+
+-- Verify Casimir trick for Bhabha scattering
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p expsin(theta) expcos(phi),
+      p expsin(theta) expsin(phi),
+      p expcos(theta))
+
+p4 = (E,
+      -p expsin(theta) expcos(phi),
+      -p expsin(theta) expsin(phi),
+      -p expcos(theta))
+
+v11 = (p1[4], p1[2] + i p1[3], E + m, 0)
+v12 = (p1[2] - i p1[3], -p1[4], 0, E + m)
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3])
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4])
+
+v31 = (p3[4], p3[2] + i p3[3], E + m, 0)
+v32 = (p3[2] - i p3[3], -p3[4], 0, E + m)
+
+u41 = (E + m, 0, p4[4], p4[2] + i p4[3])
+u42 = (0, E + m, p4[2] - i p4[3], -p4[4])
+
+v1 = (v11,v12)
+u2 = (u21,u22)
+v3 = (v31,v32)
+u4 = (u41,u42)
+
+N = (E + m)^4
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+v1bar = dot(conj(v1),gamma0) -- adjoint of v1
+u4bar = dot(conj(u4),gamma0) -- adjoint of u4
+
+-- Sum over spin states
+
+a11 = 0
+a12 = 0
+a22 = 0
+
+for(a,1,2,for(b,1,2,for(c,1,2,for(d,1,2,
+  a1 = dot(dot(v1bar[a],gammaT,v3[c]),
+           dot(u4bar[d],gammaL,u2[b])),
+  a2 = dot(dot(v1bar[a],gammaT,u2[b]),
+           dot(u4bar[d],gammaL,v3[c])),
+  a11 = a11 + a1 conj(a1),
+  a12 = a12 + a1 conj(a2),
+  a22 = a22 + a2 conj(a2)
+))))
+
+-- Casimir trick
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 - m I
+X2 = pslash2 + m I
+X3 = pslash3 - m I
+X4 = pslash4 + m I
+
+T1 = contract(dot(X1,gammaT,X3,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+f11 = contract(dot(T1,transpose(T2)))
+
+T = contract(dot(X1,gammaT,X2,gammaT,X4,gammaL,X3,gammaL),1,6)
+f12 = contract(contract(T,1,3))
+
+T1 = contract(dot(X1,gammaT,X2,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X3,gammaL),1,4)
+f22 = contract(dot(T1,transpose(T2)))
+
+-- Verify Casimir trick
+
+check(f11 == 1/N a11)
+check(f12 == 1/N a12)
+check(f22 == 1/N a22)
+"Bhabha scattering 2"
+
+clear
+
+-- Verify formulas for Bhabha scattering
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p expsin(theta) expcos(phi),
+      p expsin(theta) expsin(phi),
+      p expcos(theta))
+
+p4 = (E,
+      -p expsin(theta) expcos(phi),
+      -p expsin(theta) expsin(phi),
+      -p expcos(theta))
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 - m I
+X2 = pslash2 + m I
+X3 = pslash3 - m I
+X4 = pslash4 + m I
+
+T1 = contract(dot(X1,gammaT,X3,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+f11 = contract(dot(T1,transpose(T2)))
+
+T = contract(dot(X1,gammaT,X2,gammaT,X4,gammaL,X3,gammaL),1,6)
+f12 = contract(contract(T,1,3))
+
+T1 = contract(dot(X1,gammaT,X2,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X3,gammaL),1,4)
+f22 = contract(dot(T1,transpose(T2)))
+
+-- Verify momentum formulas
+
+check(f11 == 32 dot(p1,gmunu,p2)^2 +
+             32 dot(p1,gmunu,p4)^2 -
+             64 m^2 dot(p1,gmunu,p3) + 64 m^4)
+
+check(f12 == -32 dot(p1,gmunu,p4)^2 -
+             32 m^2 dot(p1,gmunu,p2) +
+             32 m^2 dot(p1,gmunu,p3) -
+             32 m^2 dot(p1,gmunu,p4) - 32 m^4)
+
+check(f22 == 32 dot(p1,gmunu,p3)^2 +
+             32 dot(p1,gmunu,p4)^2 +
+             64 m^2 dot(p1,gmunu,p2) + 64 m^4)
+
+-- Verify Mandelstam formulas
+
+s = dot(p1 + p2,gmunu,p1 + p2)
+t = dot(p1 - p3,gmunu,p1 - p3)
+u = dot(p1 - p4,gmunu,p1 - p4)
+
+check(f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4)
+check(f12 == -8 u^2 + 64 u m^2 - 96 m^4)
+check(f22 == 8 t^2 + 8 u^2 - 64 t m^2 - 64 u m^2 + 192 m^4)
+
+m = 0
+
+check(s == 4 E^2)
+check(t == 2 E^2 (expcos(theta) - 1))
+check(u == -2 E^2 (expcos(theta) + 1))
+
+-- Verify probability density
+
+d11 = t^2
+d12 = s t
+d22 = s^2
+
+A = 1/4 (f11/d11 - 2 f12/d12 + f22/d22)
+
+B = (expcos(theta)^2 + 3)^2 / (expcos(theta) - 1)^2
+
+check(A == B)
 "Birthday problem"
 
 clear
@@ -325,17 +724,17 @@ T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
 f22 = contract(contract(contract(T,3,4),2,3))
 
 check(f11 == 32 dot(p1,gmunu,p2) dot(p1,gmunu,p4) +
-64 m^2 dot(p1,gmunu,p2) -
-32 m^2 dot(p1,gmunu,p3) -
-32 m^2 dot(p1,gmunu,p4) + 32 m^4)
+             64 m^2 dot(p1,gmunu,p2) -
+             32 m^2 dot(p1,gmunu,p3) -
+             32 m^2 dot(p1,gmunu,p4) + 32 m^4)
 
 check(f12 == 16 m^2 dot(p1,gmunu,p2) -
-16 m^2 dot(p1,gmunu,p4) + 32 m^4)
+             16 m^2 dot(p1,gmunu,p4) + 32 m^4)
 
 check(f22 == 32 dot(p1,gmunu,p2) dot(p1,gmunu,p4) +
-32 m^2 dot(p1,gmunu,p2) -
-32 m^2 dot(p1,gmunu,p3) -
-64 m^2 dot(p1,gmunu,p4) + 32 m^4)
+             32 m^2 dot(p1,gmunu,p2) -
+             32 m^2 dot(p1,gmunu,p3) -
+             64 m^2 dot(p1,gmunu,p4) + 32 m^4)
 
 s = dot(p1 + p2,gmunu,p1 + p2)
 t = dot(p1 - p3,gmunu,p1 - p3)
@@ -791,6 +1190,215 @@ check(FDDD + T1 + T2 = 0)
 guu = ((-1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 FDDU = contract(outer(FDDD,guu),3,4)   --Easier to make FDDU than FUUD.
 check(contract(FDDU,2,3) = 0)   --For light J is zero.
+"Moller scattering 1"
+
+clear
+
+-- Verify Casimir trick for electron scattering
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p expsin(theta) expcos(phi),
+      p expsin(theta) expsin(phi),
+      p expcos(theta))
+
+p4 = (E,
+      -p expsin(theta) expcos(phi),
+      -p expsin(theta) expsin(phi),
+      -p expcos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3])
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4])
+
+u31 = (E + m, 0, p3[4], p3[2] + i p3[3])
+u32 = (0, E + m, p3[2] - i p3[3], -p3[4])
+
+u41 = (E + m, 0, p4[4], p4[2] + i p4[3])
+u42 = (0, E + m, p4[2] - i p4[3], -p4[4])
+
+u1 = (u11,u12)
+u2 = (u21,u22)
+u3 = (u31,u32)
+u4 = (u41,u42)
+
+N = (E + m)^4
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+u3bar = dot(conj(u3),gamma0) -- adjoint of u3
+u4bar = dot(conj(u4),gamma0) -- adjoint of u4
+
+-- Sum over spin states
+
+a11 = 0
+a12 = 0
+a22 = 0
+
+for(a,1,2,for(b,1,2,for(c,1,2,for(d,1,2,
+  a1 = dot(dot(u3bar[c],gammaT,u1[a]),
+           dot(u4bar[d],gammaL,u2[b])),
+  a2 = dot(dot(u4bar[d],gammaT,u1[a]),
+           dot(u3bar[c],gammaL,u2[b])),
+  a11 = a11 + a1 conj(a1),
+  a12 = a12 + a1 conj(a2),
+  a22 = a22 + a2 conj(a2)
+))))
+
+-- Casimir trick
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 + m I
+X2 = pslash2 + m I
+X3 = pslash3 + m I
+X4 = pslash4 + m I
+
+T1 = contract(dot(X3,gammaT,X1,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+f11 = contract(dot(T1,transpose(T2)))
+
+T = contract(dot(X3,gammaT,X1,gammaT,X4,gammaL,X2,gammaL),1,6)
+f12 = contract(contract(T,1,3))
+
+T1 = contract(dot(X4,gammaT,X1,gammaT),1,4)
+T2 = contract(dot(X3,gammaL,X2,gammaL),1,4)
+f22 = contract(dot(T1,transpose(T2)))
+
+-- Verfiy Casimir trick
+
+check(f11 == 1/N a11)
+check(f12 == 1/N a12)
+check(f22 == 1/N a22)
+"Moller scattering 2"
+
+clear
+
+-- Verify formulas for electron scattering
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p expsin(theta) expcos(phi),
+      p expsin(theta) expsin(phi),
+      p expcos(theta))
+
+p4 = (E,
+      -p expsin(theta) expcos(phi),
+      -p expsin(theta) expsin(phi),
+      -p expcos(theta))
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 + m I
+X2 = pslash2 + m I
+X3 = pslash3 + m I
+X4 = pslash4 + m I
+
+T1 = contract(dot(X3,gammaT,X1,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+f11 = contract(dot(T1,transpose(T2)))
+
+T = contract(dot(X3,gammaT,X1,gammaT,X4,gammaL,X2,gammaL),1,6)
+f12 = contract(contract(T,1,3))
+
+T1 = contract(dot(X4,gammaT,X1,gammaT),1,4)
+T2 = contract(dot(X3,gammaL,X2,gammaL),1,4)
+f22 = contract(dot(T1,transpose(T2)))
+
+-- Verify momentum formulas
+
+check(f11 == 32 dot(p1,gmunu,p2)^2 +
+             32 dot(p1,gmunu,p4)^2 -
+             64 m^2 dot(p1,gmunu,p3) + 64 m^4)
+
+check(f12 == -32 dot(p1,gmunu,p2)^2 +
+             32 m^2 dot(p1,gmunu,p2) +
+             32 m^2 dot(p1,gmunu,p3) +
+             32 m^2 dot(p1,gmunu,p4) - 32 m^4)
+
+check(f22 == 32 dot(p1,gmunu,p2)^2 +
+             32 dot(p1,gmunu,p3)^2 -
+             64 m^2 dot(p1,gmunu,p4) + 64 m^4)
+
+-- Verify Mandelstam formulas
+
+s = dot(p1 + p2,gmunu,p1 + p2)
+t = dot(p1 - p3,gmunu,p1 - p3)
+u = dot(p1 - p4,gmunu,p1 - p4)
+
+check(f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4)
+check(f12 == -8 s^2 + 64 s m^2 - 96 m^4)
+check(f22 == 8 s^2 + 8 t^2 - 64 s m^2 - 64 t m^2 + 192 m^4)
+
+m = 0
+
+check(s == 4 E^2)
+check(t == 2 E^2 (expcos(theta) - 1))
+check(u == -2 E^2 (expcos(theta) + 1))
+
+-- Verify probability density
+
+d11 = t^2
+d12 = t u
+d22 = u^2
+
+A = 1/4 (f11/d11 - 2 f12/d12 + f22/d22)
+
+B = 4 (expcos(theta)^2 + 3)^2 / (expcos(theta)^2 - 1)^2
+
+check(A == B)
+
+-- Zee formula
+
+A = 2 ((1 + expcos(theta/2)^4) / expsin(theta/2)^4 +
+    2 / (expsin(theta/2)^2 expcos(theta/2)^2) +
+    (1 + expsin(theta/2)^4) / expcos(theta/2)^4)
+
+B = 4 (expcos(theta)^2 + 3)^2 / (expcos(theta)^2 - 1)^2
+
+check(A == B)
 "Muon decay 1 (run time is about a minute)"
 
 clear
@@ -950,6 +1558,177 @@ B = 1 + expcos(theta)^2 +
     m^2*M^2/E^4 * expcos(theta)^2
 
 check(A/(64*E^4)-B == 0)
+"Muon pair production 1"
+
+clear
+
+-- Verify Casimir trick for muon pair production
+
+p = sqrt(E^2 - m^2)
+
+rho = sqrt(E^2 - M^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      rho expsin(theta) expcos(phi),
+      rho expsin(theta) expsin(phi),
+      rho expcos(theta))
+
+p4 = (E,
+      -rho expsin(theta) expcos(phi),
+      -rho expsin(theta) expsin(phi),
+      -rho expcos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
+
+v21 = (p2[4], p2[2] + i p2[3], E + m, 0)
+v22 = (p2[2] - i p2[3], -p2[4], 0, E + m)
+
+u31 = (E + M, 0, p3[4], p3[2] + i p3[3])
+u32 = (0, E + M, p3[2] - i p3[3], -p3[4])
+
+v41 = (p4[4], p4[2] + i p4[3], E + M, 0)
+v42 = (p4[2] - i p4[3], -p4[4], 0, E + M)
+
+u1 = (u11,u12)
+v2 = (v21,v22)
+u3 = (u31,u32)
+v4 = (v41,v42)
+
+N = (E + m)^2 (E + M)^2
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+v2bar = dot(conj(v2),gamma0) -- adjoint of v2
+u3bar = dot(conj(u3),gamma0) -- adjoint of u3
+
+-- Sum over spin states
+
+S = 0
+
+for(s1,1,2,for(s2,1,2,for(s3,1,2,for(s4,1,2,
+  X21 = dot(v2bar[s2],gammaT,u1[s1]),
+  X34 = dot(u3bar[s3],gammaL,v4[s4]),
+  a = dot(X21,X34),  -- a is an amplitude
+  f = a conj(a),     -- f is a probability density function
+  S = S + f
+))))
+
+-- Casimir trick
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 + m I
+X2 = pslash2 - m I
+X3 = pslash3 + M I
+X4 = pslash4 - M I
+
+T1 = contract(dot(X3,gammaT,X4,gammaT),1,4)
+T2 = contract(dot(X2,gammaL,X1,gammaL),1,4)
+
+T = contract(dot(T1,transpose(T2)))
+
+-- Verify Casimir trick
+
+check(1/N S == T)
+"Muon pair production 2"
+
+clear
+
+-- Verify formulas for muon pair production
+
+p = sqrt(E^2 - m^2)
+
+rho = sqrt(E^2 - M^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      rho expsin(theta) expcos(phi),
+      rho expsin(theta) expsin(phi),
+      rho expcos(theta))
+
+p4 = (E,
+      -rho expsin(theta) expcos(phi),
+      -rho expsin(theta) expsin(phi),
+      -rho expcos(theta))
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 + m I
+X2 = pslash2 - m I
+X3 = pslash3 + M I
+X4 = pslash4 - M I
+
+T1 = contract(dot(X3,gammaT,X4,gammaT),1,4)
+T2 = contract(dot(X2,gammaL,X1,gammaL),1,4)
+
+T = contract(dot(T1,transpose(T2)))
+
+-- Verify probability density
+
+f = 1 + expcos(theta)^2 +
+    (m^2 + M^2) E^(-2) expsin(theta)^2 +
+    m^2 M^2 E^(-4) expcos(theta)^2
+
+check(T == 64 E^4 f)
+
+-- Verify momentum formula
+
+f = 32 dot(p1,gmunu,p3) dot(p2,gmunu,p4) +
+    32 dot(p1,gmunu,p4) dot(p2,gmunu,p3) +
+    32 m^2 dot(p3,gmunu,p4) +
+    32 M^2 dot(p1,gmunu,p2) +
+    64 M^2 m^2
+
+check(T == f)
+
+-- Verify Mandelstam formula
+
+s = dot(p1 + p2,gmunu,p1 + p2)
+t = dot(p1 - p3,gmunu,p1 - p3)
+u = dot(p1 - p4,gmunu,p1 - p4)
+
+f = 16 t^2 - 16 s u + 32 u (m^2 + M^2) - 8 s^2 +
+    64 M^2 s + 64 m^2 s - 48 (m^2 + M^2)^2
+
+check(T == f)
 "Quantum electric field"
 
 clear
@@ -1293,6 +2072,75 @@ A = contract(dot(pslash1+m*I,gamma0,pslash2+m*I,gamma0))
 B = E^2 + m^2 + p^2*expcos(theta)
 
 check(A/4-B == 0)
+"Rutherford scattering 1"
+
+clear
+
+-- Verify formulas for Rutherford scattering
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+
+p2 = (E,
+      p expsin(theta) expcos(phi),
+      p expsin(theta) expsin(phi),
+      p expcos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3])
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4])
+
+u1 = (u11,u12)
+u2 = (u21,u22)
+
+N = (E + m)^2
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+
+u2bar = dot(conj(u2),gamma0) -- adjoint of u2
+
+-- Sum over spin states
+
+S = 0
+
+for(a,1,2,for(b,1,2,
+  M = dot(u2bar[b],gamma0,u1[a]),  -- M is an amplitude
+  f = M conj(M),                   -- f = |M|^2
+  S = S + f
+))
+
+-- Casimir trick
+
+T = contract(dot(pslash2 + m I,gamma0,pslash1 + m I,gamma0))
+
+-- Verify Casimir trick
+
+check(1/N S == T)
+
+-- Verify additional formulas
+
+check(T == 4 (E^2 + m^2 + p^2 expcos(theta)))
+
+q = p1 - p2
+q4 = dot(q,gmunu,q)^2
+
+check(q4 == 16 p^4 expsin(theta/2)^4)
+check(q4 == 4 p^4 (expcos(theta) - 1)^2)
 "Schwarzchild metric"
 
 clear

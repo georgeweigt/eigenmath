@@ -1,0 +1,91 @@
+"Muon pair production 1"
+
+clear
+
+-- Verify Casimir trick for muon pair production
+
+p = sqrt(E^2 - m^2)
+
+rho = sqrt(E^2 - M^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      rho expsin(theta) expcos(phi),
+      rho expsin(theta) expsin(phi),
+      rho expcos(theta))
+
+p4 = (E,
+      -rho expsin(theta) expcos(phi),
+      -rho expsin(theta) expsin(phi),
+      -rho expcos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
+
+v21 = (p2[4], p2[2] + i p2[3], E + m, 0)
+v22 = (p2[2] - i p2[3], -p2[4], 0, E + m)
+
+u31 = (E + M, 0, p3[4], p3[2] + i p3[3])
+u32 = (0, E + M, p3[2] - i p3[3], -p3[4])
+
+v41 = (p4[4], p4[2] + i p4[3], E + M, 0)
+v42 = (p4[2] - i p4[3], -p4[4], 0, E + M)
+
+u1 = (u11,u12)
+v2 = (v21,v22)
+u3 = (u31,u32)
+v4 = (v41,v42)
+
+N = (E + m)^2 (E + M)^2
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+v2bar = dot(conj(v2),gamma0) -- adjoint of v2
+u3bar = dot(conj(u3),gamma0) -- adjoint of u3
+
+-- Sum over spin states
+
+S = 0
+
+for(s1,1,2,for(s2,1,2,for(s3,1,2,for(s4,1,2,
+  X21 = dot(v2bar[s2],gammaT,u1[s1]),
+  X34 = dot(u3bar[s3],gammaL,v4[s4]),
+  a = dot(X21,X34),  -- a is an amplitude
+  f = a conj(a),     -- f is a probability density function
+  S = S + f
+))))
+
+-- Casimir trick
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 + m I
+X2 = pslash2 - m I
+X3 = pslash3 + M I
+X4 = pslash4 - M I
+
+T1 = contract(dot(X3,gammaT,X4,gammaT),1,4)
+T2 = contract(dot(X2,gammaL,X1,gammaL),1,4)
+
+T = contract(dot(T1,transpose(T2)))
+
+-- Verify Casimir trick
+
+check(1/N S == T)
