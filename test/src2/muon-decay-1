@@ -68,7 +68,7 @@ V2[1,2] = dot(u4bar[1], X, v3[2])
 V2[2,1] = dot(u4bar[2], X, v3[1])
 V2[2,2] = dot(u4bar[2], X, v3[2])
 
--- spin states
+-- matrix elements
 
 M = zero(2,2,2,2)
 
