@@ -1,10 +1,8 @@
-"Muon decay 1 (run time is about a minute)"
+"Muon decay 1"
 
 clear
 
--- Verify muon decay equation (1)
-
--- Run time is about 1 minute
+-- Verify probability density for muon decay
 
 p1 = (E1, p1x, p1y, p1z) -- muon
 p2 = (E2, p2x, p2y, p2z) -- muon neutrino
@@ -27,11 +25,6 @@ u1 = (u11,u12) -- muon
 u2 = (u21,u22) -- muon neutrino
 v3 = (v31,v32) -- electron antineutrino
 u4 = (u41,u42) -- electron
-
-E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
-E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
-E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
-E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
 
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
@@ -66,8 +59,11 @@ MM(a,b,c,d) = do(
 
 S = sum(a,1,2, sum(b,1,2, sum(c,1,2, sum(d,1,2, MM(a,b,c,d)))))
 
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
+E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
+E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
+
 N = (E1 + m1) (E2 + m2) (E3 + m3) (E4 + m4)
 
-MMavg = 1/2 S / N
-
-check(MMavg == 64 GF^2 dot(p1,gmunu,p3) dot(p2,gmunu,p4))
+check(1/2 S == N 64 GF^2 dot(p1,gmunu,p3) dot(p2,gmunu,p4))
