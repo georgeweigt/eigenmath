@@ -1194,7 +1194,7 @@ check(contract(FDDU,2,3) = 0)   --For light J is zero.
 
 clear
 
--- Verify Casimir trick for electron scattering
+-- Verify Casimir trick for Moller scattering
 
 E = sqrt(p^2 + m^2)
 
@@ -1245,57 +1245,33 @@ gammaL = transpose(dot(gmunu,gamma))
 u3bar = dot(conj(u3),gamma0) -- adjoint of u3
 u4bar = dot(conj(u4),gamma0) -- adjoint of u4
 
--- 1st vertex, no electron interchange
+w31 = zero(2,2,4)
+w42 = zero(2,2,4)
+w41 = zero(2,2,4)
+w32 = zero(2,2,4)
 
-V1 = zero(2,2,4)
-
-V1[1,1] = dot(u3bar[1], gammaT, u1[1])
-V1[1,2] = dot(u3bar[1], gammaT, u1[2])
-V1[2,1] = dot(u3bar[2], gammaT, u1[1])
-V1[2,2] = dot(u3bar[2], gammaT, u1[2])
-
--- 2nd vertex, no electron interchange
-
-V2 = zero(2,2,4)
-
-V2[1,1] = dot(u4bar[1], gammaL, u2[1])
-V2[1,2] = dot(u4bar[1], gammaL, u2[2])
-V2[2,1] = dot(u4bar[2], gammaL, u2[1])
-V2[2,2] = dot(u4bar[2], gammaL, u2[2])
-
--- 1st vertex, electron interchange
-
-W1 = zero(2,2,4)
-
-W1[1,1] = dot(u4bar[1], gammaT, u1[1])
-W1[1,2] = dot(u4bar[1], gammaT, u1[2])
-W1[2,1] = dot(u4bar[2], gammaT, u1[1])
-W1[2,2] = dot(u4bar[2], gammaT, u1[2])
-
--- 2nd vertex, electron interchange
-
-W2 = zero(2,2,4)
-
-W2[1,1] = dot(u3bar[1], gammaL, u2[1])
-W2[1,2] = dot(u3bar[1], gammaL, u2[2])
-W2[2,1] = dot(u3bar[2], gammaL, u2[1])
-W2[2,2] = dot(u3bar[2], gammaL, u2[2])
+for(a,1,2, for(b,1,2,
+  w31[a,b] = dot(u3bar[a], gammaT, u1[b]),
+  w42[a,b] = dot(u4bar[a], gammaL, u2[b]),
+  w41[a,b] = dot(u4bar[a], gammaT, u1[b]),
+  w32[a,b] = dot(u3bar[a], gammaL, u2[b])
+))
 
 -- matrix elements
 
-M1 = zero(2,2,2,2)
-M2 = zero(2,2,2,2)
+a1 = zero(2,2,2,2)
+a2 = zero(2,2,2,2)
 
 for(a,1,2, for(b,1,2, for(c,1,2, for(d,1,2,
-  M1[a,b,c,d] = dot(V1[c,a], V2[d,b]),
-  M2[a,b,c,d] = dot(W1[d,a], W2[c,b])
+  a1[a,b,c,d] = dot(w31[c,a], w42[d,b]),
+  a2[a,b,c,d] = dot(w41[d,a], w32[c,b])
 ))))
 
 -- Sum over spin states
 
-a11 = sum(conj(M1) M1)
-a12 = sum(conj(M2) M1)
-a22 = sum(conj(M2) M2)
+a11 = sum(conj(a1) a1)
+a12 = sum(conj(a2) a1)
+a22 = sum(conj(a2) a2)
 
 -- Casimir trick
 
@@ -1331,7 +1307,7 @@ check(f22 == 1/N a22)
 
 clear
 
--- Verify formulas for electron scattering
+-- Verify formulas for Moller scattering
 
 E = sqrt(p^2 + m^2)
 
