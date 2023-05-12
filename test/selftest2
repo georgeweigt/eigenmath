@@ -1463,30 +1463,20 @@ u4bar = dot(conj(u4),gamma0) -- adjoint of u4
 
 X = transpose(dot(gamma, I - gamma5))
 
--- 1st vertex
+w21 = zero(2,2,4)
+w43 = zero(2,2,4)
 
-V1 = zero(2,2,4)
-
-V1[1,1] = dot(gmunu, u2bar[1], X, u1[1])
-V1[1,2] = dot(gmunu, u2bar[1], X, u1[2])
-V1[2,1] = dot(gmunu, u2bar[2], X, u1[1])
-V1[2,2] = dot(gmunu, u2bar[2], X, u1[2])
-
--- 2nd vertex
-
-V2 = zero(2,2,4)
-
-V2[1,1] = dot(u4bar[1], X, v3[1])
-V2[1,2] = dot(u4bar[1], X, v3[2])
-V2[2,1] = dot(u4bar[2], X, v3[1])
-V2[2,2] = dot(u4bar[2], X, v3[2])
+for(a,1,2, for(b,1,2,
+  w21[a,b] = dot(u2bar[a], X, u1[b]),
+  w43[a,b] = dot(u4bar[a], X, v3[b])
+))
 
 -- matrix elements
 
 M = zero(2,2,2,2)
 
 for(a,1,2, for(b,1,2, for(c,1,2, for(d,1,2,
-  M[a,b,c,d] = dot(V2[d,c], V1[b,a])
+  M[a,b,c,d] = dot(w43[d,c], gmunu, w21[b,a])
 ))))
 
 -- Sum over spin states
