@@ -571,11 +571,15 @@ T21 = (0, -1)
 T22 = (1, 0)
 T = ((T11, T12), (T21, T22))
 check(dot(A,T,B) - P = 0)
-"Compton scattering 1"
+"Compton scattering demo"
 
 clear
 
--- Verify Casimir trick for Compton scattering (run time 25-70 seconds)
+-- Verify formulas for Compton scattering
+
+-- Run time about 30 seconds
+
+-- Safari recommended, click through alerts on other browsers
 
 E = sqrt(omega^2 + m^2)
 
@@ -601,8 +605,6 @@ u42 = (0, p4[1] + m, p4[2] - i p4[3], -p4[4])
 u2 = (u21,u22)
 u4 = (u41,u42)
 
-N = (E + m)^2
-
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
 gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
@@ -625,21 +627,46 @@ q2 = p4 - p1
 qslash1 = dot(q1,gmunu,gamma)
 qslash2 = dot(q2,gmunu,gamma)
 
--- Sum over spin states
+a1 = zero(2,2,4,4)
+a2 = zero(2,2,4,4)
 
-a11 = 0
-a12 = 0
-a22 = 0
-
-for(a,1,2,for(b,1,2,
-  a1 = -dot(u4bar[b],gammaT,qslash1 + m I,gammaT,u2[a]),
-  a2 = -dot(u4bar[b],gammaT,qslash2 + m I,gammaT,u2[a]),
-  a11 = a11 + contract(dot(a1,gmunu,transpose(conj(a1)),gmunu)),
-  a12 = a12 + contract(dot(a1,gmunu,conj(a2),gmunu)),
-  a22 = a22 + contract(dot(a2,gmunu,transpose(conj(a2)),gmunu))
+for(a,1,2, for(b,1,2,
+  a1[a,b] = -dot(u4bar[b], gammaT, qslash1 + m I, gammaT, u2[a]),
+  a2[a,b] = -dot(u4bar[b], gammaT, qslash2 + m I, gammaT, u2[a])
 ))
 
--- Casimir trick
+-- "Sum over spin states"
+
+a11 = sum(a,1,2, sum(b,1,2,
+  contract(dot(a1[a,b], gmunu, transpose(conj(a1[a,b])), gmunu))
+))
+
+a12 = sum(a,1,2, sum(b,1,2,
+ contract(dot(a1[a,b], gmunu, conj(a2[a,b]), gmunu))
+))
+
+a22 = sum(a,1,2, sum(b,1,2,
+  contract(dot(a2[a,b], gmunu, transpose(conj(a2[a,b])), gmunu))
+))
+
+S = a11 + a12 + conj(a12) + a22
+-- S
+
+-- "Verify probability density"
+
+N = (E + m)^2
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+check(a11/N == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
+check(a12/N == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
+check(a22/N == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
+
+-- "ok"
+
+-- "Verify Casimir trick"
 
 pslash2 = dot(p2,gmunu,gamma)
 pslash4 = dot(p4,gmunu,gamma)
@@ -659,90 +686,25 @@ f12 = contract(contract(contract(T,3,5),2,3))
 T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
 f22 = contract(contract(contract(T,3,4),2,3))
 
--- Verify Casimir trick
+check(f11 == a11 / N)
+check(f12 == a12 / N)
+check(f22 == a22 / N)
 
-check(f11 == 1/N a11)
-check(f12 == 1/N a12)
-check(f22 == 1/N a22)
-"Compton scattering 2"
+-- "ok"
 
-clear
+-- "Verify Mandelstam formulas"
 
--- Verify formulas for Compton scattering (run time 20-40 seconds)
-
-E = sqrt(omega^2 + m^2)
-
-p1 = (omega, 0, 0, omega)
-p2 = (E, 0, 0, -omega)
-
-p3 = (omega,
-      omega expsin(theta) expcos(phi),
-      omega expsin(theta) expsin(phi),
-      omega expcos(theta))
-
-p4 = (E,
-      -omega expsin(theta) expcos(phi),
-      -omega expsin(theta) expsin(phi),
-      -omega expcos(theta))
-
-I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
-
-gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-
-gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
-gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
-gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
-
-gamma = (gamma0,gamma1,gamma2,gamma3)
-
-gammaT = transpose(gamma)
-gammaL = transpose(dot(gmunu,gamma))
-
-q1 = p1 + p2
-q2 = p4 - p1
-
-qslash1 = dot(q1,gmunu,gamma)
-qslash2 = dot(q2,gmunu,gamma)
-
-pslash2 = dot(p2,gmunu,gamma)
-pslash4 = dot(p4,gmunu,gamma)
-
-P2 = pslash2 + m I
-P4 = pslash4 + m I
-
-Q1 = qslash1 + m I
-Q2 = qslash2 + m I
-
-T = dot(P2,gammaT,Q1,gammaT,P4,gammaL,Q1,gammaL)
-f11 = contract(contract(contract(T,3,4),2,3))
-
-T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q1,gammaL)
-f12 = contract(contract(contract(T,3,5),2,3))
-
-T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
-f22 = contract(contract(contract(T,3,4),2,3))
-
-check(f11 == 32 dot(p1,gmunu,p2) dot(p1,gmunu,p4) +
-             64 m^2 dot(p1,gmunu,p2) -
-             32 m^2 dot(p1,gmunu,p3) -
-             32 m^2 dot(p1,gmunu,p4) + 32 m^4)
-
-check(f12 == 16 m^2 dot(p1,gmunu,p2) -
-             16 m^2 dot(p1,gmunu,p4) + 32 m^4)
-
-check(f22 == 32 dot(p1,gmunu,p2) dot(p1,gmunu,p4) +
-             32 m^2 dot(p1,gmunu,p2) -
-             32 m^2 dot(p1,gmunu,p3) -
-             64 m^2 dot(p1,gmunu,p4) + 32 m^4)
-
-s = dot(p1 + p2,gmunu,p1 + p2)
-t = dot(p1 - p3,gmunu,p1 - p3)
-u = dot(p1 - p4,gmunu,p1 - p4)
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
 
 check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
 check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
 check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
+
+-- "ok"
+
+-- "Verify formulas for m = 0"
 
 m = 0
 
@@ -753,62 +715,17 @@ d11 = (s - m^2)^2
 d12 = (s - m^2) (u - m^2)
 d22 = (u - m^2)^2
 
-A = 1/4 (f11/d11 + 2 f12/d12 + f22/d22)
+A = (f11/d11 + 2 f12/d12 + f22/d22) / 4
 
-b = expcos(theta) + 1
-
-B = 2 (b/2 + 2/b)
+B = expcos(theta) + 1 + 4 / (expcos(theta) + 1)
 
 check(A == B)
-"Compton scattering 3"
 
-clear
+-- "ok"
 
--- Verify lab frame formulas for Compton scattering
+-- "Verify invariance of Mandelstam variables"
 
-gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-
--- momentum vectors in center of mass frame
-
-E = sqrt(omega^2 + m^2)
-
-p1 = (omega, 0, 0, omega)
-p2 = (E, 0, 0, -omega)
-
-p3 = (omega,
-      omega expsin(theta) expcos(phi),
-      omega expsin(theta) expsin(phi),
-      omega expcos(theta))
-
-p4 = (E,
-      -omega expsin(theta) expcos(phi),
-      -omega expsin(theta) expsin(phi),
-      -omega expcos(theta))
-
-s = dot(p1 + p2,gmunu,p1 + p2)
-t = dot(p1 - p3,gmunu,p1 - p3)
-u = dot(p1 - p4,gmunu,p1 - p4)
-
-f11 = 32 dot(p1,gmunu,p2) dot(p1,gmunu,p4) +
-      64 m^2 dot(p1,gmunu,p2) -
-      32 m^2 dot(p1,gmunu,p3) -
-      32 m^2 dot(p1,gmunu,p4) + 32 m^4
-
-f12 = 16 m^2 dot(p1,gmunu,p2) -
-      16 m^2 dot(p1,gmunu,p4) + 32 m^4
-
-f22 = 32 dot(p1,gmunu,p2) dot(p1,gmunu,p4) +
-      32 m^2 dot(p1,gmunu,p2) -
-      32 m^2 dot(p1,gmunu,p3) -
-      64 m^2 dot(p1,gmunu,p4) + 32 m^4
-
--- Verify probability density in center of mass frame
-
-check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
-check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
-check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
-
--- transform momentum vectors to lab frame
+m = quote(m) -- clear m
 
 Lambda = ((E/m,0,0,omega/m),(0,1,0,0),(0,0,1,0),(omega/m,0,0,E/m))
 
@@ -817,13 +734,13 @@ p2 = dot(Lambda,p2)
 p3 = dot(Lambda,p3)
 p4 = dot(Lambda,p4)
 
--- Verify invariance of Mandelstam variables
+check(s == dot(p1 + p2, gmunu, p1 + p2))
+check(t == dot(p1 - p3, gmunu, p1 - p3))
+check(u == dot(p1 - p4, gmunu, p1 - p4))
 
-check(s == dot(p1 + p2,gmunu,p1 + p2))
-check(t == dot(p1 - p3,gmunu,p1 - p3))
-check(u == dot(p1 - p4,gmunu,p1 - p4))
+-- "ok"
 
--- Verify lab variables"
+-- "Verify lab frame variables"
 
 omegaL = p1[1]
 omegaLp = p3[1]
@@ -832,10 +749,12 @@ check(s == 2 m omegaL + m^2)
 check(t == 2 m (omegaLp - omegaL))
 check(u == -2 m omegaLp + m^2)
 
--- Verify probability density"
+-- "ok"
 
-omegaL = quote(omegaL)    -- clear omegaL
-omegaLp = quote(omegaLp)  -- clear omegaLp
+-- "Verify probability density in lab frame"
+
+omegaL = quote(omegaL)
+omegaLp = quote(omegaLp)
 
 s = 2 m omegaL + m^2
 t = 2 m (omegaLp - omegaL)
@@ -849,11 +768,13 @@ d11 = (s - m^2)^2
 d12 = (s - m^2) (u - m^2)
 d22 = (u - m^2)^2
 
-A = 1/4 (f11/d11 + 2 f12/d12 + f22/d22)
+A = (f11/d11 + 2 f12/d12 + f22/d22) / 4
 
 B = 2 (omegaLp/omegaL + omegaL/omegaLp + (m/omegaL - m/omegaLp + 1)^2 - 1)
 
 check(A == B)
+
+-- "ok"
 "Dirac equation"
 
 clear
