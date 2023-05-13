@@ -1,8 +1,17 @@
-"Muon decay 1"
+"Muon decay demo"
 
 clear
 
--- Verify probability density for muon decay
+-- Verify muon decay formulas
+
+p1x = 0 -- muon rest frame
+p1y = 0
+p1z = 0
+
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
+E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
+E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
 
 p1 = (E1, p1x, p1y, p1z) -- muon
 p2 = (E2, p2x, p2y, p2z) -- muon neutrino
@@ -66,15 +75,43 @@ for(a,1,2, for(b,1,2, for(c,1,2, for(d,1,2,
   M[a,b,c,d] = dot(w43[d,c], gmunu, w21[b,a])
 ))))
 
--- Sum over spin states
+-- "Sum over spin states"
 
-S = 1/2 GF^2 sum(conj(M) M)
+S = sum(conj(M) M)
+-- S
 
-E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
-E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
-E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
-E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
+-- "Verify probability density"
 
 N = (E1 + m1) (E2 + m2) (E3 + m3) (E4 + m4)
 
-check(1/2 S == N 64 GF^2 dot(p1,gmunu,p3) dot(p2,gmunu,p4))
+check(1/4 S == N 64 dot(p1,gmunu,p3) dot(p2,gmunu,p4))
+
+-- "ok"
+
+-- "Verify Casimir trick"
+
+T1 = contract(dot(pslash4, X, pslash3, X), 1,4)
+T2 = contract(dot(pslash2, X, pslash1, X), 1,4)
+T = contract(dot(T1, gmunu, transpose(T2), gmunu))
+
+check(1/4 T == 64 dot(p1,gmunu,p3) dot(p2,gmunu,p4))
+
+-- "ok"
+
+-- Compute muon lifetime
+
+GF = 1.1663787 10^(-5) GeV^(-2)
+mmu = 1.883531627 10^(-28) kilogram
+h = 6.62607015 10^(-34) joule second
+c = 299792458 meter / second
+
+joule = kilogram meter^2 / second^2
+GeV = 10^9 1.602176634 10^(-19) joule
+
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- "Muon lifetime"
+
+check(infixform(float(96 pi^2 h / (GF^2 (mmu c^2)^5))) == "2.18735 10^(-6) second")
