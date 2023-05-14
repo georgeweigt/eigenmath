@@ -742,19 +742,14 @@ check(u == dot(p1 - p4, gmunu, p1 - p4))
 
 -- "Verify probability density in lab frame"
 
-s = 2 m omegaL + m^2
-t = 2 m (omegaLp - omegaL)
-u = -2 m omegaLp + m^2
-
-f11 = -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4
-f12 = 8 s m^2 + 8 u m^2 + 16 m^4
-f22 = -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4
-
 d11 = (s - m^2)^2
 d12 = (s - m^2) (u - m^2)
 d22 = (u - m^2)^2
 
 A = (f11/d11 + 2 f12/d12 + f22/d22) / 4
+
+omegaL = p1[1]
+omegaLp = p3[1]
 
 B = 2 (omegaLp/omegaL + omegaL/omegaLp + (m/omegaL - m/omegaLp + 1)^2 - 1)
 
