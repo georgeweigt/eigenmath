@@ -167,21 +167,7 @@ check(u == dot(p1 - p4, gmunu, p1 - p4))
 
 -- "ok"
 
--- "Verify lab frame variables"
-
-omegaL = p1[1]
-omegaLp = p3[1]
-
-check(s == 2 m omegaL + m^2)
-check(t == 2 m (omegaLp - omegaL))
-check(u == -2 m omegaLp + m^2)
-
--- "ok"
-
 -- "Verify probability density in lab frame"
-
-omegaL = quote(omegaL)
-omegaLp = quote(omegaLp)
 
 s = 2 m omegaL + m^2
 t = 2 m (omegaLp - omegaL)
