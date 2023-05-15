@@ -1,8 +1,8 @@
-"Bhabha scattering 1"
+"Bhabha scattering demo"
 
 clear
 
--- Verify Casimir trick for Bhabha scattering
+-- Verify formulas for Bhabha scattering
 
 E = sqrt(p^2 + m^2)
 
@@ -18,6 +18,10 @@ p4 = (E,
       -p expsin(theta) expcos(phi),
       -p expsin(theta) expsin(phi),
       -p expcos(theta))
+
+-- spinors
+
+N = (E + m)^4
 
 v11 = (p1[4], p1[2] + i p1[3], E + m, 0)
 v12 = (p1[2] - i p1[3], -p1[4], 0, E + m)
@@ -36,8 +40,6 @@ u2 = (u21,u22)
 v3 = (v31,v32)
 u4 = (u41,u42)
 
-N = (E + m)^4
-
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
 gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
@@ -55,23 +57,38 @@ gammaL = transpose(dot(gmunu,gamma))
 v1bar = dot(conj(v1),gamma0) -- adjoint of v1
 u4bar = dot(conj(u4),gamma0) -- adjoint of u4
 
--- Sum over spin states
+w13 = zero(2,2,4)
+w42 = zero(2,2,4)
+w12 = zero(2,2,4)
+w43 = zero(2,2,4)
 
-a11 = 0
-a12 = 0
-a22 = 0
+for(a,1,2, for(b,1,2,
+ w13[a,b] = dot(v1bar[a], gammaT, v3[b]),
+ w42[a,b] = dot(u4bar[a], gammaL, u2[b]),
+ w12[a,b] = dot(v1bar[a], gammaT, u2[b]),
+ w43[a,b] = dot(u4bar[a], gammaL, v3[b])
+))
 
-for(a,1,2,for(b,1,2,for(c,1,2,for(d,1,2,
-  a1 = dot(dot(v1bar[a],gammaT,v3[c]),
-           dot(u4bar[d],gammaL,u2[b])),
-  a2 = dot(dot(v1bar[a],gammaT,u2[b]),
-           dot(u4bar[d],gammaL,v3[c])),
-  a11 = a11 + a1 conj(a1),
-  a12 = a12 + a1 conj(a2),
-  a22 = a22 + a2 conj(a2)
+-- matrix elements
+
+a1 = zero(2,2,2,2)
+a2 = zero(2,2,2,2)
+
+for(a,1,2, for(b,1,2, for(c,1,2, for(d,1,2,
+ a1[a,b,c,d] = dot(w13[a,c], w42[d,b]),
+ a2[a,b,c,d] = dot(w12[a,b], w43[d,c])
 ))))
 
--- Casimir trick
+-- "Sum over spin states"
+
+a11 = sum(conj(a1) a1)
+a12 = sum(conj(a2) a1)
+a22 = sum(conj(a2) a2)
+
+S = a11 - a12 - conj(a12) + a22
+-- S
+
+-- "Verify Casimir trick"
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
@@ -94,8 +111,48 @@ T1 = contract(dot(X1,gammaT,X2,gammaT),1,4)
 T2 = contract(dot(X4,gammaL,X3,gammaL),1,4)
 f22 = contract(dot(T1,transpose(T2)))
 
--- Verify Casimir trick
+check(f11 == a11 / N)
+check(f12 == a12 / N)
+check(f22 == a22 / N)
 
-check(f11 == 1/N a11)
-check(f12 == 1/N a12)
-check(f22 == 1/N a22)
+-- "ok"
+
+-- "Verify Mandelstam formulas"
+
+s = dot(p1 + p2,gmunu,p1 + p2)
+t = dot(p1 - p3,gmunu,p1 - p3)
+u = dot(p1 - p4,gmunu,p1 - p4)
+
+d11 = t^2
+d12 = s t
+d22 = s^2
+
+f = (f11/d11 - 2 f12/d12 + f22/d22) / 4
+
+check(f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4)
+check(f12 == -8 u^2 + 64 u m^2 - 96 m^4)
+check(f22 == 8 t^2 + 8 u^2 - 64 t m^2 - 64 u m^2 + 192 m^4)
+
+-- "ok"
+
+-- "Verify probability density"
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+check(f11 == 32 p12^2 + 32 p14^2 - 64 m^2 p13 + 64 m^4)
+check(f12 == -32 p14^2 - 32 m^2 p12 + 32 m^2 p13 - 32 m^2 p14 - 32 m^4)
+check(f22 == 32 p13^2 + 32 p14^2 + 64 m^2 p12 + 64 m^4)
+
+-- "ok"
+
+-- "Verify probability density for m = 0"
+
+m = 0
+
+check(f == (expcos(theta)^2 + 3)^2 / (expcos(theta) - 1)^2)
+
+m = quote(m) -- undo m = 0
+
+-- "ok"

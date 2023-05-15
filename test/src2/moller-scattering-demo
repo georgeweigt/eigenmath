@@ -19,6 +19,10 @@ p4 = (E,
       -p expsin(theta) expsin(phi),
       -p expcos(theta))
 
+-- spinors
+
+N = (E + m)^4
+
 u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
 u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
 
@@ -84,24 +88,6 @@ a22 = sum(conj(a2) a2)
 S = a11 - a12 - conj(a12) + a22
 -- S
 
--- "Verify probability density"
-
-p12 = dot(p1, gmunu, p2)
-p13 = dot(p1, gmunu, p3)
-p14 = dot(p1, gmunu, p4)
-
-N = (E + m)^4
-
-check(a11/N == 32 p12^2 + 32 p14^2 - 64 m^2 p13 + 64 m^4)
-
-check(a12/N == -32 p12^2 + 32 m^2 p12 + 32 m^2 p13 + 32 m^2 p14 - 32 m^4)
-
-check(a22/N == 32 p12^2 + 32 p13^2 - 64 m^2 p14 + 64 m^4)
-
-check(S/N == 192 m^4 - 64 m^2 p12 - 128 m^2 p13 - 128 m^2 p14 + 128 p12^2 + 32 p13^2 + 32 p14^2)
-
--- "ok"
-
 -- "Verify Casimir trick"
 
 pslash1 = dot(p1,gmunu,gamma)
@@ -137,13 +123,31 @@ s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
 
+d11 = t^2
+d12 = t u
+d22 = u^2
+
+f = (f11/d11 - 2 f12/d12 + f22/d22) / 4
+
 check(f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4)
 check(f12 == -8 s^2 + 64 s m^2 - 96 m^4)
 check(f22 == 8 s^2 + 8 t^2 - 64 s m^2 - 64 t m^2 + 192 m^4)
 
 -- "ok"
 
--- "Verify formulas for m = 0"
+-- "Verify probability density"
+
+p12 = dot(p1, gmunu, p2)
+p13 = dot(p1, gmunu, p3)
+p14 = dot(p1, gmunu, p4)
+
+check(f11 == 32 p12^2 + 32 p14^2 - 64 m^2 p13 + 64 m^4)
+check(f12 == -32 p12^2 + 32 m^2 p12 + 32 m^2 p13 + 32 m^2 p14 - 32 m^4)
+check(f22 == 32 p12^2 + 32 p13^2 - 64 m^2 p14 + 64 m^4)
+
+-- "ok"
+
+-- "Verify probability density for m = 0"
 
 m = 0
 
@@ -151,24 +155,16 @@ check(s == 4 E^2)
 check(t == 2 E^2 (expcos(theta) - 1))
 check(u == -2 E^2 (expcos(theta) + 1))
 
-d11 = t^2
-d12 = t u
-d22 = u^2
-
-A = 1/4 (f11/d11 - 2 f12/d12 + f22/d22)
-
-B = 4 (expcos(theta)^2 + 3)^2 / (expcos(theta)^2 - 1)^2
-
-check(A == B)
+check(f == 4 (expcos(theta)^2 + 3)^2 / (expcos(theta)^2 - 1)^2)
 
 -- Zee formula
 
-A = 2 ((1 + expcos(theta/2)^4) / expsin(theta/2)^4 +
+g = 2 ((1 + expcos(theta/2)^4) / expsin(theta/2)^4 +
     2 / (expsin(theta/2)^2 expcos(theta/2)^2) +
     (1 + expsin(theta/2)^4) / expcos(theta/2)^4)
 
-B = 4 (expcos(theta)^2 + 3)^2 / (expcos(theta)^2 - 1)^2
+check(f == g)
 
-check(A == B)
+m = quote(m) -- undo m = 0
 
 -- "ok"

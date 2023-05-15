@@ -13,6 +13,10 @@ p2 = (E,
       p expsin(theta) expsin(phi),
       p expcos(theta))
 
+-- spinors
+
+N = (E + m)^2
+
 u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
 u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
 
@@ -33,9 +37,6 @@ gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
 
 gamma = (gamma0,gamma1,gamma2,gamma3)
 
-pslash1 = dot(p1,gmunu,gamma)
-pslash2 = dot(p2,gmunu,gamma)
-
 u2bar = dot(conj(u2),gamma0) -- adjoint of u2
 
 -- matrix elements
@@ -51,17 +52,18 @@ for(a,1,2, for(b,1,2,
 S = sum(conj(M) M)
 -- S
 
--- "Verify probability density"
+-- "Verify Casimir trick"
 
-N = (E + m)^2
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
 
-check(S/N == 4 E^2 + 4 m^2 + 4 p^2 expcos(theta))
+T = contract(dot(pslash2 + m I, gamma0, pslash1 + m I, gamma0))
+
+check(T == S/N)
 
 -- "ok"
 
--- "Verify Casimir trick"
-
-T = contract(dot(pslash2 + m I, gamma0, pslash1 + m I, gamma0))
+-- "Verify probability density"
 
 check(T == 4 E^2 + 4 m^2 + 4 p^2 expcos(theta))
 

@@ -1,8 +1,8 @@
-"Muon pair production 1"
+"Muon production demo"
 
 clear
 
--- Verify Casimir trick for muon pair production
+-- Verify formulas for muon pair production
 
 p = sqrt(E^2 - m^2)
 
@@ -21,6 +21,10 @@ p4 = (E,
       -rho expsin(theta) expsin(phi),
       -rho expcos(theta))
 
+-- spinors
+
+N = (E + m)^2 (E + M)^2
+
 u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
 u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
 
@@ -37,8 +41,6 @@ u1 = (u11,u12)
 v2 = (v21,v22)
 u3 = (u31,u32)
 v4 = (v41,v42)
-
-N = (E + m)^2 (E + M)^2
 
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
@@ -57,19 +59,28 @@ gammaL = transpose(dot(gmunu,gamma))
 v2bar = dot(conj(v2),gamma0) -- adjoint of v2
 u3bar = dot(conj(u3),gamma0) -- adjoint of u3
 
--- Sum over spin states
+w21 = zero(2,2,4)
+w34 = zero(2,2,4)
 
-S = 0
+for(a,1,2, for(b,1,2,
+ w21[a,b] = dot(v2bar[a], gammaT, u1[b]),
+ w34[a,b] = dot(u3bar[a], gammaL, v4[b])
+))
 
-for(s1,1,2,for(s2,1,2,for(s3,1,2,for(s4,1,2,
-  X21 = dot(v2bar[s2],gammaT,u1[s1]),
-  X34 = dot(u3bar[s3],gammaL,v4[s4]),
-  a = dot(X21,X34),  -- a is an amplitude
-  f = a conj(a),     -- f is a probability density function
-  S = S + f
+-- matrix elements (use MX, M is used for muon mass)
+
+MX = zero(2,2,2,2)
+
+for(a,1,2, for(b,1,2, for(c,1,2, for(d,1,2,
+ MX[a,b,c,d] = dot(w21[b,a], w34[c,d])
 ))))
 
--- Casimir trick
+-- "Sum over spin states"
+
+S = sum(conj(MX) MX)
+-- S
+
+-- "Verify Casimir trick"
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
@@ -84,8 +95,32 @@ X4 = pslash4 - M I
 T1 = contract(dot(X3,gammaT,X4,gammaT),1,4)
 T2 = contract(dot(X2,gammaL,X1,gammaL),1,4)
 
-T = contract(dot(T1,transpose(T2)))
+f = contract(dot(T1,transpose(T2)))
 
--- Verify Casimir trick
+check(f == S/N)
 
-check(1/N S == T)
+-- "ok"
+
+-- "Verify Mandelstam formula"
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(f == 16 t^2 - 16 s u + 32 u (m^2 + M^2) - 8 s^2 +
+           64 M^2 s + 64 m^2 s - 48 (m^2 + M^2)^2)
+
+-- "ok"
+
+-- "Verify probability density"
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+p23 = dot(p2,gmunu,p3)
+p24 = dot(p2,gmunu,p4)
+p34 = dot(p3,gmunu,p4)
+
+check(f == 32 p13 p24 + 32 p14 p23 + 32 m^2 p34 + 32 M^2 p12 + 64 M^2 m^2)
+
+-- "ok"
