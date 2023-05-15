@@ -836,7 +836,6 @@ char * scan_input(char *s);
 void print_trace(int color);
 void run_init_script(void);
 void stopf(char *s);
-void stopf_cond(char *s);
 char * scan(char *s);
 char * scan1(char *s);
 char * scan_nib(char *s);
@@ -1213,7 +1212,7 @@ mdiv(uint32_t *u, uint32_t *v)
 	mnorm(u);
 	mnorm(v);
 	if (MLENGTH(v) == 1 && v[0] == 0)
-		stopf_cond("divide by zero"); // v = 0
+		stopf("divide by zero"); // v = 0
 	nu = MLENGTH(u);
 	nv = MLENGTH(v);
 	k = nu - nv;
@@ -1285,7 +1284,7 @@ mmod(uint32_t *u, uint32_t *v)
 	mnorm(u);
 	mnorm(v);
 	if (MLENGTH(v) == 1 && v[0] == 0)
-		stopf_cond("divide by zero"); // v = 0
+		stopf("divide by zero"); // v = 0
 	u = mcopy(u);
 	nu = MLENGTH(u);
 	nv = MLENGTH(v);
@@ -10134,7 +10133,7 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 
 	if (iszero(BASE)) {
 		if (isnegativenumber(EXPO))
-			stopf_cond("divide by zero");
+			stopf("divide by zero");
 		push_integer(0);
 		return;
 	}
@@ -15506,19 +15505,12 @@ run_init_script(void)
 void
 stopf(char *s)
 {
+	if (nonstop)
+		longjmp(jmpbuf1, 1);
 	print_trace(RED);
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
 	printbuf(strbuf, RED);
 	longjmp(jmpbuf0, 1);
-}
-
-void
-stopf_cond(char *s)
-{
-	if (nonstop)
-		longjmp(jmpbuf1, 1);
-	else
-		stopf(s);
 }
 // token_str and scan_str are pointers to the input string, for example
 //

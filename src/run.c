@@ -120,17 +120,10 @@ run_init_script(void)
 void
 stopf(char *s)
 {
+	if (nonstop)
+		longjmp(jmpbuf1, 1);
 	print_trace(RED);
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
 	printbuf(strbuf, RED);
 	longjmp(jmpbuf0, 1);
-}
-
-void
-stopf_cond(char *s)
-{
-	if (nonstop)
-		longjmp(jmpbuf1, 1);
-	else
-		stopf(s);
 }
