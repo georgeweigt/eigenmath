@@ -69,17 +69,3 @@ Run self tests
 ./eigenmath test/selftest1
 ./eigenmath test/selftest2
 ```
-
-#
-
-Packages
-
-[ports.macports.org](https://ports.macports.org/port/eigenmath/)
-```
-sudo port install eigenmath
-```
-
-[aur.archlinux.org](https://aur.archlinux.org/packages/eigenmath-git)
-```
-paru -S eigenmath-git
-```
