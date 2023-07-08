@@ -134,9 +134,10 @@ The syntax for defining functions is {\it function-name} ( {\it arg-list} ) = {\
 where {\it arg-list} is a comma separated list of zero to nine symbols that receive arguments.
 Unlike symbol definitions, {\it expr} is not evaluated when {\it function-name} is defined.
 Instead, {\it expr} is evaluated when {\it function-name} is used in a subsequent computation.
+The scope of function arguments is the function definition.
 
 \bigskip
-\noindent
+
 The following example defines a sinc function and evaluates it at $\pi/2$.
 
 {\color{blue}
@@ -150,11 +151,7 @@ f(pi/2)
 $\displaystyle \frac{2}{\pi}$
 
 \bigskip
-\noindent
-The scope of function arguments is the function definition.
 
-\bigskip
-\noindent
 After a user function is defined, {\it expr} can be recalled using the \verb$binding$ function.
 
 {\color{blue}
@@ -165,3 +162,17 @@ binding(f)
 
 \noindent
 $\displaystyle \frac{\sin(x)}{x}$
+
+\bigskip
+
+The following example shows how \verb$eval$ is used to evaluate function arguments at specific values.
+
+{\color{blue}
+\begin{verbatim}
+h(f,x,a,b) = abs(eval(f,x,a) - eval(f,x,b))
+h(cos(y), y, 0, pi / 3)
+\end{verbatim}
+}
+
+\noindent
+$\frac{1}{2}$
