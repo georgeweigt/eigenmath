@@ -27,8 +27,10 @@ E(n) = -e^2 / (8 pi epsilon0 a0 n^2)
 
 nu = (E(2) - E(1)) / h
 
-check(B12 rho p1 exp(-E(1) / (k T))
-== B21 rho p2 exp(-E(2) / (k T)) + A21 p2 exp(-E(2) / (k T)))
+P = B12 rho p1 exp(-E(1) / (k T))
+Q = B21 rho p2 exp(-E(2) / (k T)) + A21 p2 exp(-E(2) / (k T))
+
+check(P == Q)
 
 "ok"
 
