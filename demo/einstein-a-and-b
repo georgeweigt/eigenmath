@@ -27,12 +27,12 @@ E(n) = -e^2 / (8 pi epsilon0 a0 n^2)
 
 nu = (E(2) - E(1)) / h
 
-check(B12 rho p1 exp(-E(1) / (k T)) ==
-B21 rho p2 exp(-E(2) / (k T)) + A21 p2 exp(-E(2) / (k T)))
+check(B12 rho p1 exp(-E(1) / (k T))
+== B21 rho p2 exp(-E(2) / (k T)) + A21 p2 exp(-E(2) / (k T)))
 
 "ok"
 
--- physical constants (c, h, and k are exact values)
+-- physical constants (c, e, h, and k are exact values)
 
 c = 299792458.0 meter / second
 e = 1.602176634 10^(-19) coulomb
