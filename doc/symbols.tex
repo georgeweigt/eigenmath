@@ -8,7 +8,6 @@ N = 212^17
 \end{verbatim}
 }
 
-\noindent
 No result is printed when a symbol is defined.
 To see the value of a symbol, just evaluate it.
 
@@ -18,11 +17,10 @@ N
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle N=3529471145760275132301897342055866171392$
 
 \bigskip
-\noindent
+
 Symbols can have more that one letter.
 Everything after the first letter is displayed as a subscript.
 
@@ -33,11 +31,10 @@ NA
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle N_A=6.02214\times10^{23}$
 
 \bigskip
-\noindent
+
 A symbol can be the name of a Greek letter.
 
 {\color{blue}
@@ -47,11 +44,10 @@ xi
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \xi=\tfrac{1}{2}$
 
 \bigskip
-\noindent
+
 Greek letters can appear in subscripts.
 
 {\color{blue}
@@ -61,11 +57,10 @@ Amu
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle A_\mu=2.0$
 
 \bigskip
-\noindent
+
 The following example shows how a symbol is scanned to find Greek letters.
 
 {\color{blue}
@@ -75,11 +70,10 @@ alphamunu
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \alpha_{\mu\nu}=1$
 
 \bigskip
-\noindent
+
 Symbol definitions are evaluated serially until a terminal symbol is reached.
 The following example sets $A=B$ followed by $B=C$.
 Then when $A$ is evaluated, the result is $C$.
@@ -92,11 +86,10 @@ A
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle A=C$
 
 \bigskip
-\noindent
+
 Although $A=C$ is printed,
 inside the program the binding of $A$ is still $B$, as can be seen with
 the \verb$binding$ function.
@@ -107,11 +100,10 @@ binding(A)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle B$
 
 \bigskip
-\noindent
+
 The \verb$quote$ function returns its argument unevaluated
 and can be used to clear a symbol.
 The following example clears $A$ so that its evaluation goes back to
@@ -124,12 +116,10 @@ A
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle A$
 
 \subsection{Functions}
 
-\noindent
 The syntax for defining functions is {\it function-name} ( {\it arg-list} ) = {\it expr}
 where {\it arg-list} is a comma separated list of zero to nine symbols that receive arguments.
 Unlike symbol definitions, {\it expr} is not evaluated when {\it function-name} is defined.
@@ -147,7 +137,6 @@ f(pi/2)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \frac{2}{\pi}$
 
 \bigskip
@@ -160,7 +149,6 @@ binding(f)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \frac{\sin(x)}{x}$
 
 \bigskip
@@ -174,5 +162,20 @@ h(cos(y), y, 0, pi / 3)
 \end{verbatim}
 }
 
-\noindent
 $\frac{1}{2}$
+
+\bigskip
+
+Symbols in function definition {\it expr} have global scope.
+To define a local symbol, extend the argument list.
+In the following example, argument \verb$y$ is used as a local symbol.
+Note that function \verb$L$ is called without supplying an argument for the local symbol.
+
+{\color{blue}
+\begin{verbatim}
+L(f,n,y) = eval(exp(y) / n! d(exp(-y) y^n, y, n), y, f)
+L(cos(x),2)
+\end{verbatim}
+}
+
+$\frac{1}{2}\cos(x)^2-2\cos(x)+1$
