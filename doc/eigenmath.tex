@@ -12,8 +12,6 @@
 \tableofcontents
 
 \bigskip
-\hrule
-\bigskip
 
 Eigenmath is available for both macOS and Linux.
 
@@ -28,7 +26,6 @@ For macOS, commands are entered in the following field.
 \end{tikzpicture}
 \end{center}
 
-\noindent
 Multiple commands can be put together in a script.
 Scripts are run by clicking the Run button.
 
@@ -39,18 +36,117 @@ Scripts are run by clicking the Run button.
 \end{tikzpicture}
 \end{center}
 
-\noindent
 After a script runs, all of the results are available in command mode.
 
-\newpage
+\section{Introduction}
 
-\input{nabokov}
+Consider the following arithmetic from Vladimir Nabokov's autobiography ``Speak, Memory.''
 
-\input{syntax}
+\begin{quote}
+A foolish tutor had explained logarithms to me much too early, and I had
+read (in a British publication, the {\it Boy's Own Paper}, I believe)
+about a certain Hindu calculator who in exactly two seconds could find the
+seventeenth root of, say,
+352947114576027513 2301897342055866171392
+(I am not sure I have got this right; anyway the root was 212).
+\end{quote}
 
-\newpage
+Let us compute $212^{17}$ and check the result.
+At the Eigenmath prompt, enter
+
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}
+}
+
+The result is
+
+\bigskip
+
+$\displaystyle 3529471145760275132301897342055866171392$
+
+\bigskip
+
+Now let us compute the seventeenth root of this number.
+
+{\color{blue}
+\begin{verbatim}
+N = 212^17
+N
+\end{verbatim}
+}
+
+$\displaystyle N=3529471145760275132301897342055866171392$
+
+{\color{blue}
+\begin{verbatim}
+N^(1/17)
+\end{verbatim}
+}
+
+$\displaystyle 212$
+
+\subsection{Syntax}
+
+Arithmetic operators have the expected precedence of
+multiplication and division before addition and subtraction.
+Subexpressions in parentheses have highest precedence.
+
+\begin{center}
+\begin{tabular}{clll}
+{\it Math} & & {\it Eigenmath} & {\it Comment}
+\\
+\\
+$a=b$ & & \verb$a == b$ & {\it test for equality}
+\\[1ex]
+$-a$ & & {\tt -a} & {\it negation}
+\\[1ex]
+$a+b$ & & {\tt a+b} & {\it addition}
+\\[1ex]
+$a-b$ & & {\tt a-b} & {\it subtraction}
+\\[1ex]
+$ab$ & & {\tt a b} & {\it multiplication, also} \verb$a*b$
+\\
+\\
+$\displaystyle\frac{a}{b}$ & & {\tt a/b} & {\it division}
+\\
+\\
+$\displaystyle\frac{a}{bc}$ & & {\tt a/b/c} & {\it division is left-associative}
+\\
+\\
+$a^2$ & & {\tt a{\char94}2} & {\it power}
+\\
+\\
+$\sqrt{a}$ & & \verb$sqrt(a)$ & {\it square root, also} \verb$a^(1/2)$
+\\
+\\
+$a\,(b+c)$ & & {\tt a (b+c)} & {\it space is required}
+\\
+\\
+$f(a)$ & & {\tt f(a)} & {\it function}
+\\
+\\
+$\begin{pmatrix}a\\ b\\ c\end{pmatrix}$ & & {\tt (a,b,c)} & {\it vector}
+\\
+\\
+$\begin{pmatrix}a&b\\ c&d\end{pmatrix}$ & & {\tt ((a,b),(c,d))} & {\it matrix}
+\\
+\\
+$F^1{}_2$ & & {\tt F[1,2]} & {\it tensor component access}
+\\
+\\
+ & & \verb$"hello, world"$ & {\it string literal}
+\\
+\\
+$\pi$ & & {\tt pi} &
+\\[1ex]
+$e$ && {\tt exp(1)} & {\it natural number}
+\end{tabular}
+\end{center}
 
 \subsection{Testing for equality}
+
 The infix operator \verb$==$ is used to test for equality of operands.
 The operator evaluates to 1 if the operands are equal and 0 if the operands are not equal.
 
@@ -60,11 +156,10 @@ exp(i pi) == -1
 \end{verbatim}
 }
 
-\noindent
-1
+$\displaystyle 1$
 
 \bigskip
-\noindent
+
 The \verb$==$ operator uses \verb$simplify$ internally.
 In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
 
@@ -80,7 +175,6 @@ In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
 
 \subsection{Component arithmetic}
 
-\noindent
 Tensor plus scalar adds the scalar to each component of the tensor.
 
 {\color{blue}
@@ -89,7 +183,6 @@ Tensor plus scalar adds the scalar to each component of the tensor.
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 x+10
@@ -101,7 +194,7 @@ z+10
 $
 
 \bigskip
-\noindent
+
 The product of two tensors is the Hadamard (element-wise) product.
 
 {\color{blue}
@@ -112,7 +205,6 @@ A B
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 a & 2b
@@ -122,7 +214,7 @@ a & 2b
 $
 
 \bigskip
-\noindent
+
 Tensor raised to a power raises each component to the power.
 
 {\color{blue}
@@ -131,7 +223,6 @@ Tensor raised to a power raises each component to the power.
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 x^2
