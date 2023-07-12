@@ -163,15 +163,557 @@ $\displaystyle 1$
 The \verb$==$ operator uses \verb$simplify$ internally.
 In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
 
-\input{arithmetic}
+\subsection{Arithmetic}
 
-\input{exponents}
+Integers and rational numbers can have any number of digits,
+regardless of native word size.
+For example, $212^{17}\gg64\,\text{bits}$.
 
-\input{symbols}
+{\color{blue}
+\begin{verbatim}
+2^64
+\end{verbatim}
+}
 
-\input{complex}
+$\displaystyle 18446744073709551616$
 
-\input{linear-algebra}
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}
+}
+
+$\displaystyle 3529471145760275132301897342055866171392$
+
+\bigskip
+
+Rational number arithmetic is used by default.
+
+{\color{blue}
+\begin{verbatim}
+1/2 + 1/3
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{5}{6}$
+
+\bigskip
+
+Floating point arithmetic can also be used.
+
+{\color{blue}
+\begin{verbatim}
+1/2 + 1/3.0
+\end{verbatim}
+}
+
+$\displaystyle 0.833333$
+
+\bigskip
+
+An integer or rational number result can be converted to a floating
+point value by entering \verb$float$.
+
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}
+}
+
+$\displaystyle 3529471145760275132301897342055866171392$
+
+{\color{blue}
+\begin{verbatim}
+float
+\end{verbatim}
+}
+
+$\displaystyle 3.52947\times10^{39}$
+
+\bigskip
+
+The following example shows how to enter a floating point value
+using scientific notation.
+
+{\color{blue}
+\begin{verbatim}
+epsilon = 1.0 10^(-6)
+epsilon
+\end{verbatim}
+}
+
+$\displaystyle \varepsilon=1.0\times10^{-6}$
+
+\subsection{Exponents}
+
+Parentheses are required around negative exponents.
+For example,
+
+{\color{blue}
+\begin{verbatim}
+10^(-3)
+\end{verbatim}
+}
+
+instead of
+
+{\color{blue}
+\begin{verbatim}
+10^-3
+\end{verbatim}
+}
+
+The reason for this is that the binding of the negative sign is not always obvious.
+For example, consider
+
+{\color{blue}
+\begin{verbatim}
+x^-1/2
+\end{verbatim}
+}
+
+It is not clear whether the exponent should be $-1$ or $-1/2$.
+Hence the following syntax is required.
+
+{\color{blue}
+\begin{verbatim}
+x^(-1/2)
+\end{verbatim}
+}
+
+In general, parentheses are always required when the exponent
+is an expression.
+For example, \verb$x^1/2$ is evaluated as $(x^1)/2$ which
+is probably not the desired result.
+
+{\color{blue}
+\begin{verbatim}
+x^1/2
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{2}x$
+
+\bigskip
+
+Using \verb$x^(1/2)$ yields the desired result.
+
+{\color{blue}
+\begin{verbatim}
+x^(1/2)
+\end{verbatim}
+}
+
+$\displaystyle x^{1/2}$
+
+\subsection{Symbols}
+
+Symbols are defined using an equals sign.
+
+{\color{blue}
+\begin{verbatim}
+N = 212^17
+\end{verbatim}
+}
+
+No result is printed when a symbol is defined.
+To see the value of a symbol, just evaluate it.
+
+{\color{blue}
+\begin{verbatim}
+N
+\end{verbatim}
+}
+
+$\displaystyle N=3529471145760275132301897342055866171392$
+
+\bigskip
+
+Symbols can have more that one letter.
+Everything after the first letter is displayed as a subscript.
+
+{\color{blue}
+\begin{verbatim}
+NA = 6.02214 10^23
+NA
+\end{verbatim}
+}
+
+$\displaystyle N_A=6.02214\times10^{23}$
+
+\bigskip
+
+A symbol can be the name of a Greek letter.
+
+{\color{blue}
+\begin{verbatim}
+xi = 1/2
+xi
+\end{verbatim}
+}
+
+$\displaystyle \xi=\tfrac{1}{2}$
+
+\bigskip
+
+Greek letters can appear in subscripts.
+
+{\color{blue}
+\begin{verbatim}
+Amu = 2.0
+Amu
+\end{verbatim}
+}
+
+$\displaystyle A_\mu=2.0$
+
+\bigskip
+
+The following example shows how a symbol is scanned to find Greek letters.
+
+{\color{blue}
+\begin{verbatim}
+alphamunu = 1
+alphamunu
+\end{verbatim}
+}
+
+$\displaystyle \alpha_{\mu\nu}=1$
+
+\bigskip
+
+Symbol definitions are evaluated serially until a terminal symbol is reached.
+The following example sets $A=B$ followed by $B=C$.
+Then when $A$ is evaluated, the result is $C$.
+
+{\color{blue}
+\begin{verbatim}
+A = B
+B = C
+A
+\end{verbatim}
+}
+
+$\displaystyle A=C$
+
+\bigskip
+
+Although $A=C$ is printed,
+inside the program the binding of $A$ is still $B$, as can be seen with
+the \verb$binding$ function.
+
+{\color{blue}
+\begin{verbatim}
+binding(A)
+\end{verbatim}
+}
+
+$\displaystyle B$
+
+\bigskip
+
+The \verb$quote$ function returns its argument unevaluated
+and can be used to clear a symbol.
+The following example clears $A$ so that its evaluation goes back to
+being $A$ instead of $C$.
+
+{\color{blue}
+\begin{verbatim}
+A = quote(A)
+A
+\end{verbatim}
+}
+
+$\displaystyle A$
+
+\subsection{Function definitions}
+
+The syntax for defining functions is {\it function-name} ( {\it arg-list} ) = {\it expr}
+where {\it arg-list} is a comma separated list of zero to nine symbols that receive arguments.
+Unlike symbol definitions, {\it expr} is not evaluated when {\it function-name} is defined.
+Instead, {\it expr} is evaluated when {\it function-name} is used in a subsequent computation.
+The scope of function arguments is the function definition {\it expr}.
+
+\bigskip
+
+The following example defines a sinc function and evaluates it at $\pi/2$.
+
+{\color{blue}
+\begin{verbatim}
+f(x) = sin(x)/x
+f(pi/2)
+\end{verbatim}
+}
+
+$\displaystyle \frac{2}{\pi}$
+
+\bigskip
+
+After a user function is defined, {\it expr} can be recalled using the \verb$binding$ function.
+
+{\color{blue}
+\begin{verbatim}
+binding(f)
+\end{verbatim}
+}
+
+$\displaystyle \frac{\sin(x)}{x}$
+
+\bigskip
+
+The following example shows how \verb$eval$ is used to evaluate function arguments at specific values.
+
+{\color{blue}
+\begin{verbatim}
+h(f,x,a,b) = abs(eval(f,x,a) - eval(f,x,b))
+h(cos(y), y, 0, pi / 3)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{2}$
+
+\bigskip
+
+Symbols in function definition {\it expr} have global scope.
+To define a local symbol, extend the argument list.
+In the following example, argument \verb$y$ is used as a local symbol.
+Note that function \verb$L$ is called without supplying an argument for the local symbol.
+
+{\color{blue}
+\begin{verbatim}
+L(f,n,y) = eval(exp(y) / n! d(exp(-y) y^n, y, n), y, f)
+L(cos(x),2)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{2}\cos(x)^2-2\cos(x)+1$
+
+\bigskip
+
+Function definitions cannot be nested.
+In other words, function definition {\it expr} cannot contain another function definition.
+
+\subsection{Complex numbers}
+
+Symbol \verb$i$ is initialized to $\sqrt{-1}$.
+
+\bigskip
+
+Complex quantities can be entered in either rectangular or polar form.
+
+{\color{blue}
+\begin{verbatim}
+a + i b
+\end{verbatim}
+}
+
+$\displaystyle a+ib$
+
+{\color{blue}
+\begin{verbatim}
+exp(1/3 i pi)
+\end{verbatim}
+}
+
+$\displaystyle \exp\left(\tfrac{1}{3}i\pi\right)$
+
+\bigskip
+
+Converting a complex number to rectangular or polar coordinates causes
+simplification of mixed forms.
+
+{\color{blue}
+\begin{verbatim}
+A = 1 + i
+B = sqrt(2) exp(1/4 i pi)
+A - B
+\end{verbatim}
+}
+
+$\displaystyle 1+i-2^{1/2}\exp\left(\tfrac{1}{4}i\pi\right)$
+
+{\color{blue}
+\begin{verbatim}
+rect(last)
+\end{verbatim}
+}
+
+$\displaystyle 0$
+
+\bigskip
+
+Rectangular complex quantities, when raised to a power, are multiplied out.
+
+{\color{blue}
+\begin{verbatim}
+(a + i b)^2
+\end{verbatim}
+}
+
+$\displaystyle a^2-b^2+2iab$
+
+\bigskip
+
+When $a$ and $b$ are numerical and the power is negative, the evaluation is done as follows.
+\begin{equation*}
+(a+ib)^{-n}
+=\left(\frac{a-ib}{(a+ib)(a-ib)}\right)^n=
+\left(\frac{a-ib}{a^2+b^2}\right)^n
+\end{equation*}
+
+Here are a few examples.
+
+{\color{blue}
+\begin{verbatim}
+1/(2 - i)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{2}{5}+\tfrac{1}{5}i$
+
+{\color{blue}
+\begin{verbatim}
+(-1 + 3 i)/(2 - i)
+\end{verbatim}
+}
+
+$\displaystyle -1+i$
+
+\bigskip
+
+The absolute value of a complex number returns its magnitude.
+
+{\color{blue}
+\begin{verbatim}
+abs(3 + 4 i)
+\end{verbatim}
+}
+
+$\displaystyle 5$
+
+\bigskip
+
+The imaginary unit can be changed from $i$ to $j$
+by defining $j=\sqrt{-1}$.
+
+{\color{blue}
+\begin{verbatim}
+j = sqrt(-1)
+sqrt(-4)
+\end{verbatim}
+}
+
+$\displaystyle 2j$
+
+\subsection{Linear algebra}
+
+The \verb$dot$ function is used to multiply vectors, matrices, and tensors.
+For example, let
+\begin{equation*}
+A=\begin{pmatrix}1&2\\3&4\end{pmatrix},
+\quad
+x=\begin{pmatrix}x_1\\x_2\end{pmatrix}
+\end{equation*}
+
+The product $Ax$ is computed as follows.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2),(3,4))
+x = (x1,x2)
+dot(A,x)
+\end{verbatim}
+}
+
+$\displaystyle
+\begin{bmatrix}
+x_1+2x_2
+\\[1ex]
+3x_1+4x_2
+\end{bmatrix}
+$
+
+\bigskip
+
+The following example shows how to use \verb$dot$ and \verb$inv$ to solve for
+vector $X$ in $AX=B$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((3,7),(1,-9))
+B = (16,-22)
+X = dot(inv(A),B)
+X
+\end{verbatim}
+}
+
+$\displaystyle
+X=
+\begin{bmatrix}
+-\tfrac{5}{17}
+\\
+\\
+\tfrac{41}{17}
+\end{bmatrix}
+$
+
+\bigskip
+
+The \verb$dot$ function can have more than two arguments.
+For example, \verb$dot(A,B,C)$ can be used for the dot product of three tensors.
+
+\bigskip
+
+Square brackets are used for component access.
+Index numbering starts with 1.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+A[1,2] = -A[1,1]
+A
+\end{verbatim}
+}
+
+$\displaystyle
+\begin{bmatrix}
+a & -a
+\\[1ex]
+c & d
+\end{bmatrix}
+$
+
+\bigskip
+
+The following example demonstrates the relation
+$A^{-1}=(\operatorname{det}A)^{-1}\operatorname{adj}A$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+inv(A) == adj(A) / det(A)
+\end{verbatim}
+}
+
+$\displaystyle 1$
+
+\bigskip
+
+Sometimes a calculation will be simpler if it can be reorganized to use
+\verb$adj$ instead of \verb$inv$.
+The main idea is to try to prevent the determinant from appearing as a
+divisor.
+For example, suppose for matrices $A$ and $B$ you want to show that
+\begin{equation*}
+{A}-{B}^{-1}=0
+\end{equation*}
+
+Depending on the complexity of $\mathop{\rm det}B$, the software
+may not be able to find a simplification that yields zero.
+Should that occur, the following alternative formulation can be tried.
+\begin{equation*}
+A\operatorname{det}B-\operatorname{adj}B=0
+\end{equation*}
 
 \subsection{Component arithmetic}
 
