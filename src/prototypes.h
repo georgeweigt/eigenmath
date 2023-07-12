@@ -337,6 +337,7 @@ void setq_indexed(struct atom *p1);
 void set_component(struct atom *LVAL, struct atom *RVAL, int h);
 void setq_usrfunc(struct atom *p1);
 void convert_body(struct atom *A);
+int find_func_defn(struct atom *p1);
 void eval_sgn(struct atom *p1);
 void sgn(void);
 void eval_simplify(struct atom *p1);
