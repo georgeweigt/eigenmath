@@ -225,17 +225,17 @@ combine_terms_nib(i, j)
 	if (isplusone(coeff1) && !isdouble(coeff1)) {
 		if (denorm) {
 			push_symbol(MULTIPLY);
-			push(p1);
-			cons();
+			push(p1); // p1 is a list, not an atom
+			cons(); // prepend MULTIPLY
 		} else
 			push(p1);
 	} else {
 		if (denorm) {
 			push_symbol(MULTIPLY);
 			push(coeff1);
-			push(p1);
-			cons();
-			cons();
+			push(p1); // p1 is a list, not an atom
+			cons(); // prepend coeff1
+			cons(); // prepend MULTIPLY
 		} else {
 			push_symbol(MULTIPLY);
 			push(coeff1);
@@ -378,7 +378,6 @@ isimaginaryterm(p)
 {
 	if (isimaginaryfactor(p))
 		return 1;
-
 	if (car(p) == symbol(MULTIPLY)) {
 		p = cdr(p);
 		while (iscons(p)) {
@@ -387,8 +386,13 @@ isimaginaryterm(p)
 			p = cdr(p);
 		}
 	}
-
 	return 0;
+}
+
+function
+isimaginaryfactor(p)
+{
+	return car(p) == symbol(POWER) && isminusone(cadr(p));
 }
 
 function

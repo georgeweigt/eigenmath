@@ -172,7 +172,7 @@ int
 combine_terms_nib(int i, int j)
 {
 	int denorm;
-	struct atom *p1, *p2, *p3, *p4;
+	struct atom *coeff1, *coeff2, *p1, *p2;
 
 	p1 = stack[i];
 	p2 = stack[j];
@@ -194,68 +194,64 @@ combine_terms_nib(int i, int j)
 	if (isnum(p1) || isnum(p2))
 		return 0; // cannot add number and something else
 
-	p3 = p1;
-	p4 = p2;
-
-	p1 = one;
-	p2 = one;
+	coeff1 = one;
+	coeff2 = one;
 
 	denorm = 0;
 
-	if (car(p3) == symbol(MULTIPLY)) {
-		p3 = cdr(p3);
+	if (car(p1) == symbol(MULTIPLY)) {
+		p1 = cdr(p1);
 		denorm = 1;
-		if (isnum(car(p3))) {
-			p1 = car(p3); // coeff
-			p3 = cdr(p3);
-			if (cdr(p3) == symbol(NIL)) {
-				p3 = car(p3);
+		if (isnum(car(p1))) {
+			coeff1 = car(p1);
+			p1 = cdr(p1);
+			if (cdr(p1) == symbol(NIL)) {
+				p1 = car(p1);
 				denorm = 0;
 			}
 		}
 	}
 
-	if (car(p4) == symbol(MULTIPLY)) {
-		p4 = cdr(p4);
-		if (isnum(car(p4))) {
-			p2 = car(p4); // coeff
-			p4 = cdr(p4);
-			if (cdr(p4) == symbol(NIL)) {
-				p4 = car(p4);
-			}
+	if (car(p2) == symbol(MULTIPLY)) {
+		p2 = cdr(p2);
+		if (isnum(car(p2))) {
+			coeff2 = car(p2);
+			p2 = cdr(p2);
+			if (cdr(p2) == symbol(NIL))
+				p2 = car(p2);
 		}
 	}
 
-	if (!equal(p3, p4))
+	if (!equal(p1, p2))
 		return 0;
 
-	add_numbers(p1, p2); // add p1 and p2
+	add_numbers(coeff1, coeff2);
 
-	p4 = pop(); // new coeff
+	coeff1 = pop();
 
-	if (iszero(p4)) {
-		stack[i] = p4;
+	if (iszero(coeff1)) {
+		stack[i] = coeff1;
 		return 1;
 	}
 
-	if (isplusone(p4) && !isdouble(p4)) {
+	if (isplusone(coeff1) && !isdouble(coeff1)) {
 		if (denorm) {
 			push_symbol(MULTIPLY);
-			push(p3); // p3 is a list, not an atom
-			cons(); // prepend MULTIPLY to p3
+			push(p1); // p1 is a list, not an atom
+			cons(); // prepend MULTIPLY
 		} else
-			push(p3);
+			push(p1);
 	} else {
 		if (denorm) {
 			push_symbol(MULTIPLY);
-			push(p4);
-			push(p3); // p3 is a list, not an atom
-			cons(); // prepend p4 to p3
+			push(coeff1);
+			push(p1); // p1 is a list, not an atom
+			cons(); // prepend coeff1
 			cons(); // prepend MULTIPLY
 		} else {
 			push_symbol(MULTIPLY);
-			push(p4);
-			push(p3);
+			push(coeff1);
+			push(p1);
 			list(3);
 		}
 	}
@@ -284,8 +280,8 @@ cmp_terms(struct atom *p1, struct atom *p2)
 
 	// 1st level: imaginary terms on the right
 
-	a = is_imaginary_term(p1);
-	b = is_imaginary_term(p2);
+	a = isimaginaryterm(p1);
+	b = isimaginaryterm(p2);
 
 	if (a == 0 && b == 1)
 		return -1; // ok
@@ -396,19 +392,25 @@ isradicalterm(struct atom *p)
 }
 
 int
-is_imaginary_term(struct atom *p)
+isimaginaryterm(struct atom *p)
 {
-	if (car(p) == symbol(POWER) && isminusone(cadr(p)))
+	if (isimaginaryfactor(p))
 		return 1;
-	if (iscons(p)) {
+	if (car(p) == symbol(MULTIPLY)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (caar(p) == symbol(POWER) && isminusone(cadar(p)))
+			if (isimaginaryfactor(car(p)))
 				return 1;
 			p = cdr(p);
 		}
 	}
 	return 0;
+}
+
+int
+isimaginaryfactor(struct atom *p)
+{
+	return car(p) == symbol(POWER) && isminusone(cadr(p));
 }
 
 void
