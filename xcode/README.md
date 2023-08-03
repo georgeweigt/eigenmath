@@ -17,3 +17,8 @@ How to build and install Eigenmath for macOS
 8. Click through nested folders until the Eigenmath app is found.
 
 9. Drag Eigenmath to the macOS Applications folder.
+
+Eigenmath expects Times New Roman and Times New Roman Italic fonts to be the standard macOS fonts that include special symbols and Greek letters.
+See the following link for correcting font problems.
+
+[Restore macOS Fonts](https://support.apple.com/guide/font-book/restore-fonts-that-came-with-your-mac-fb34862/mac)
