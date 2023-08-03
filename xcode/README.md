@@ -23,4 +23,4 @@ How to build and install Eigenmath for macOS
 Eigenmath expects Times New Roman and Times New Roman Italic fonts to be the standard macOS fonts that include special symbols and Greek letters.
 See the following link for correcting font problems.
 
-[Restore macOS Fonts](https://support.apple.com/guide/font-book/restore-fonts-that-came-with-your-mac-fb34862/mac)
+[How to restore macOS fonts](https://support.apple.com/guide/font-book/restore-fonts-that-came-with-your-mac-fb34862/mac)
