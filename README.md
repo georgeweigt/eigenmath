@@ -1,4 +1,8 @@
-[Eigenmath Home Page](https://georgeweigt.github.io)
+[Eigenmath manual](https://georgeweigt.github.io/eigenmath.pdf)
+
+[Quick reference](https://georgeweigt.github.io/help.html)
+
+[examples](https://georgeweigt.github.io/eigenmath/index.html)
 
 #
 
