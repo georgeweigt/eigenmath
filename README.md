@@ -1,8 +1,8 @@
-[Eigenmath manual](https://georgeweigt.github.io/eigenmath.pdf)
+[Eigenmath Manual](https://georgeweigt.github.io/eigenmath.pdf)
 
-[Quick reference](https://georgeweigt.github.io/help.html)
+[Quick Reference](https://georgeweigt.github.io/help.html)
 
-[examples](https://georgeweigt.github.io/eigenmath/index.html)
+[Examples](https://georgeweigt.github.io/eigenmath/index.html)
 
 #
 
