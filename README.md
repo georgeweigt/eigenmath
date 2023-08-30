@@ -2,7 +2,7 @@
 
 [Quick Reference](https://georgeweigt.github.io/help.html)
 
-[Examples](https://georgeweigt.github.io/eigenmath/index.html)
+[Examples](https://georgeweigt.github.io/examples/index.html)
 
 #
 
