@@ -8,8 +8,6 @@
 
 Go to the `xcode` directory to build for macOS.
 
-Eigenmath uses UTF-8 encoding to display Greek letters and other symbols.
-
 To build and run for Linux
 
 ```
