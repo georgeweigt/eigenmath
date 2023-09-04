@@ -6,9 +6,11 @@
 
 #
 
+Go to the `xcode` directory to build for macOS.
+
 Eigenmath uses UTF-8 encoding to display Greek letters and other symbols.
 
-Build and run
+To build and run for Linux
 
 ```
 make
@@ -17,7 +19,7 @@ make
 
 Press ctrl-C to exit.
 
-Run a script (example)
+To run a script (example)
 
 ```
 ./eigenmath demo/spontaneous-emission
@@ -67,7 +69,9 @@ Mean interval
 1.59619×10   second
 ```
 
-Run self tests
+Eigenmath uses UTF-8 encoding to display Greek letters and other symbols.
+
+To run self tests
 
 ```
 ./eigenmath test/selftest1
