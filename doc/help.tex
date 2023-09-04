@@ -1488,9 +1488,23 @@ Arguments are evaluated from left to right.
 For example,
 \verb$transpose(A,1,2,2,3)$
 is equivalent to
+\verb$transpose(transpose(A,1,2),2,3)$
+
+\subsection*{tty}
+
+Set \verb$tty=1$ to show results in string format.
+Set \verb$tty=0$ to turn off.
+Can be useful when displayed results exceed window size.
+
+{\color{blue}
+\begin{verbatim}
+tty = 1
+(x + 1) (x + 2)
+\end{verbatim}
+}
 
 \noindent
-\verb$transpose(transpose(A,1,2),2,3)$
+\verb$x^2 + 3 x + 2$
 
 \subsection*{unit($n$)}
 

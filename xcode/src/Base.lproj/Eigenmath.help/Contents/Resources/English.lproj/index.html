@@ -8,7 +8,6 @@
 
 <table style="font-family:courier;width:100%">
 <tr>
-
 <td>
 <a href="#abs">abs</a><br>
 <a href="#adj">adj</a><br>
@@ -25,10 +24,8 @@
 <a href="#check">check</a><br>
 <a href="#circexp">circexp</a><br>
 <a href="#clear">clear</a><br>
-</td>
-
-<td>
 <a href="#clock">clock</a><br>
+</td><td>
 <a href="#cofactor">cofactor</a><br>
 <a href="#conj">conj</a><br>
 <a href="#contract">contract</a><br>
@@ -43,11 +40,9 @@
 <a href="#dot">dot</a><br>
 <a href="#draw">draw</a><br>
 <a href="#eigenvec">eigenvec</a><br>
-</td>
-
-<td>
 <a href="#eval">eval</a><br>
 <a href="#exp">exp</a><br>
+</td><td>
 <a href="#expcos">expcos</a><br>
 <a href="#expcosh">expcosh</a><br>
 <a href="#expsin">expsin</a><br>
@@ -61,12 +56,10 @@
 <a href="#hadamard">hadamard</a><br>
 <a href="#i">i</a><br>
 <a href="#imag">imag</a><br>
-</td>
-
-<td>
 <a href="#infixform">infixform</a><br>
 <a href="#inner">inner</a><br>
 <a href="#integral">integral</a><br>
+</td><td>
 <a href="#inv">inv</a><br>
 <a href="#j">j</a><br>
 <a href="#kronecker">kronecker</a><br>
@@ -79,13 +72,11 @@
 <a href="#noexpand">noexpand</a><br>
 <a href="#not">not</a><br>
 <a href="#nroots">nroots</a><br>
-</td>
-
-<td>
 <a href="#numerator">numerator</a><br>
 <a href="#or">or</a><br>
 <a href="#outer">outer</a><br>
 <a href="#pi">pi</a><br>
+</td><td>
 <a href="#polar">polar</a><br>
 <a href="#power">power</a><br>
 <a href="#print">print</a><br>
@@ -97,14 +88,12 @@
 <a href="#rect">rect</a><br>
 <a href="#roots">roots</a><br>
 <a href="#rotate">rotate</a><br>
-</td>
-
-<td>
 <a href="#run">run</a><br>
 <a href="#simplify">simplify</a><br>
 <a href="#sin">sin</a><br>
 <a href="#sinh">sinh</a><br>
 <a href="#sqrt">sqrt</a><br>
+</td><td>
 <a href="#stop">stop</a><br>
 <a href="#sum">sum</a><br>
 <a href="#tan">tan</a><br>
@@ -113,10 +102,15 @@
 <a href="#test">test</a><br>
 <a href="#trace">trace</a><br>
 <a href="#transpose">transpose</a><br>
+<a href="#tty">tty</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </td>
-
 </tr>
 </table>
 
@@ -1566,6 +1560,24 @@ For example,
 <span style="font-family:courier">transpose(A,1,2,2,3)</span>
 is equivalent to
 <span style="font-family:courier">transpose(transpose(A,1,2),2,3)</span>.
+
+<p style="font-family:courier;font-size:2em;font-weight:bold">
+<a id="tty">tty</a>
+<p>
+Set
+<span style="font-family:courier">tty=1</span>
+to show results in string format.
+Set
+<span style="font-family:courier">tty=0</span>
+to turn off.
+Can be useful when displayed results exceed window size.
+<pre style="font-family:courier;color:blue">
+tty = 1
+(x + 1) (x + 2)
+</pre>
+<pre style="font-family:courier">
+x^2 + 3 x + 2
+</pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="unit">unit(<i>n</i>)</a>
