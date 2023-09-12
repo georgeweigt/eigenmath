@@ -1,4 +1,4 @@
-.PHONY: sync
+.PHONY: sync clean
 
 # pdflatex twice for table of contents
 
@@ -8,3 +8,6 @@ eigenmath.pdf: *.tex
 
 sync:
 	cp help.html ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
+
+clean:
+	rm -f *.aux *.log *.synctex.gz *.toc
