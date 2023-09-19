@@ -16456,6 +16456,7 @@ run_stdin(void)
 	static char inbuf[1000];
 	for (;;) {
 		fputs("? ", stdout);
+		fflush(stdout);
 		fgets(inbuf, sizeof inbuf, stdin);
 		run(inbuf);
 	}
