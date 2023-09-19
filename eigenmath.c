@@ -16443,9 +16443,9 @@ int outbuf_length;
 int
 main(int argc, char *argv[])
 {
-	if (argc > 1)
-		run_infile(argv[1]);
-
+	int i;
+	for (i = 1; i < argc; i++)
+		run_infile(argv[i]);
 	if (isatty(fileno(stdout)))
 		run_stdin();
 }
@@ -16455,7 +16455,7 @@ run_stdin(void)
 {
 	static char inbuf[1000];
 	for (;;) {
-		printf("? ");
+		fputs("? ", stdout);
 		fgets(inbuf, sizeof inbuf, stdin);
 		run(inbuf);
 	}
@@ -16488,7 +16488,7 @@ void
 display(void)
 {
 	fmt();
-	putchar('\n');
+	fputc('\n', stdout); // blank line after result
 }
 
 void
