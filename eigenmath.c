@@ -16466,16 +16466,12 @@ void
 run_infile(char *infile)
 {
 	char *buf;
-
 	buf = read_file(infile);
-
 	if (buf == NULL) {
 		fprintf(stderr, "cannot read %s\n", infile);
 		exit(1);
 	}
-
 	run(buf);
-
 	free(buf);
 }
 
