@@ -1,7 +1,5 @@
 [Eigenmath Home Page](https://georgeweigt.github.io)
 
-#
-
 To build and run for Linux
 
 ```
