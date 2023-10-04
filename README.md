@@ -2,8 +2,6 @@
 
 #
 
-Go to the `xcode` directory to build for macOS.
-
 To build and run for Linux
 
 ```
@@ -71,3 +69,5 @@ To run self tests
 ./eigenmath test/selftest1
 ./eigenmath test/selftest2
 ```
+
+Go to the `xcode` directory to build for macOS.
