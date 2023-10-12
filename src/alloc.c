@@ -22,8 +22,8 @@ alloc_block(void)
 	struct atom *p;
 
 	if (block_count == MAXBLOCKS) {
-		gc();
-		alloc_count = 0;
+		gc(); // prep for next run
+		nonstop = 0;
 		stopf("out of memory");
 	}
 
