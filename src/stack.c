@@ -2,7 +2,7 @@ void
 push(struct atom *p)
 {
 	if (tos < 0 || tos >= STACKSIZE)
-		stopf("stack error, circular definition?");
+		exitf("stack error, circular definition?");
 	stack[tos++] = p;
 	if (tos > max_tos)
 		max_tos = tos;
@@ -12,7 +12,7 @@ struct atom *
 pop(void)
 {
 	if (tos < 1 || tos > STACKSIZE)
-		stopf("stack error");
+		exitf("stack error");
 	return stack[--tos];
 }
 
@@ -20,7 +20,7 @@ void
 fpush(struct atom *p)
 {
 	if (tof < 0 || tof >= FRAMESIZE)
-		stopf("frame error, circular definition?");
+		exitf("frame error, circular definition?");
 	frame[tof++] = p;
 	if (tof > max_tof)
 		max_tof = tof;
@@ -30,7 +30,7 @@ struct atom *
 fpop(void)
 {
 	if (tof < 1 || tof > FRAMESIZE)
-		stopf("frame error");
+		exitf("frame error");
 	return frame[--tof];
 }
 

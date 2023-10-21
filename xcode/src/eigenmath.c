@@ -838,6 +838,7 @@ char * scan_input(char *s);
 void print_trace(int color);
 void run_init_script(void);
 void stopf(char *s);
+void exitf(char *s);
 char * scan(char *s);
 char * scan1(char *s);
 char * scan_nib(char *s);
@@ -909,8 +910,7 @@ alloc_block(void)
 		tos = 0;
 		tof = 0;
 		gc(); // prep for next run
-		nonstop = 0;
-		stopf("out of memory");
+		exitf("out of memory");
 	}
 
 	p = alloc_mem(BLOCKSIZE * sizeof (struct atom));
@@ -15542,6 +15542,13 @@ stopf(char *s)
 	printbuf(strbuf, RED);
 	longjmp(jmpbuf0, 1);
 }
+
+void
+exitf(char *s)
+{
+	nonstop = 0;
+	stopf(s);
+}
 // token_str and scan_str are pointers to the input string, for example
 //
 //	| g | a | m | m | a |   | a | l | p | h | a |
@@ -16156,7 +16163,7 @@ void
 push(struct atom *p)
 {
 	if (tos < 0 || tos >= STACKSIZE)
-		stopf("stack error, circular definition?");
+		exitf("stack error, circular definition?");
 	stack[tos++] = p;
 	if (tos > max_tos)
 		max_tos = tos;
@@ -16166,7 +16173,7 @@ struct atom *
 pop(void)
 {
 	if (tos < 1 || tos > STACKSIZE)
-		stopf("stack error");
+		exitf("stack error");
 	return stack[--tos];
 }
 
@@ -16174,7 +16181,7 @@ void
 fpush(struct atom *p)
 {
 	if (tof < 0 || tof >= FRAMESIZE)
-		stopf("frame error, circular definition?");
+		exitf("frame error, circular definition?");
 	frame[tof++] = p;
 	if (tof > max_tof)
 		max_tof = tof;
@@ -16184,7 +16191,7 @@ struct atom *
 fpop(void)
 {
 	if (tof < 1 || tof > FRAMESIZE)
-		stopf("frame error");
+		exitf("frame error");
 	return frame[--tof];
 }
 

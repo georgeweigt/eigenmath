@@ -127,3 +127,10 @@ stopf(char *s)
 	printbuf(strbuf, RED);
 	longjmp(jmpbuf0, 1);
 }
+
+void
+exitf(char *s)
+{
+	nonstop = 0;
+	stopf(s);
+}

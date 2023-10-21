@@ -25,8 +25,7 @@ alloc_block(void)
 		tos = 0;
 		tof = 0;
 		gc(); // prep for next run
-		nonstop = 0;
-		stopf("out of memory");
+		exitf("out of memory");
 	}
 
 	p = alloc_mem(BLOCKSIZE * sizeof (struct atom));
