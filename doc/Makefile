@@ -1,8 +1,9 @@
 .PHONY: sync clean
 
-# pdflatex twice for table of contents
+# pdflatex three times for table of contents
 
 eigenmath.pdf: *.tex
+	pdflatex eigenmath.tex
 	pdflatex eigenmath.tex
 	pdflatex eigenmath.tex
 
