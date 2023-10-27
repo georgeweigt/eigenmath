@@ -700,7 +700,6 @@ void setq_indexed(struct atom *p1);
 void set_component(struct atom *LVAL, struct atom *RVAL, int h);
 void setq_usrfunc(struct atom *p1);
 void convert_body(struct atom *A);
-int find_func_defn(struct atom *p1);
 void eval_sgn(struct atom *p1);
 void sgn(void);
 void eval_simplify(struct atom *p1);
@@ -12493,9 +12492,6 @@ setq_usrfunc(struct atom *p1)
 	A = cdadr(p1);
 	B = caddr(p1);
 
-	if (find_func_defn(B))
-		stopf("func defn in func");
-
 	if (!isusersymbol(F))
 		stopf("user symbol expected");
 
@@ -12583,27 +12579,6 @@ convert_body(struct atom *A)
 	push(car(A));
 	push_symbol(ARG9);
 	subst();
-}
-
-int
-find_func_defn(struct atom *p1)
-{
-	if (!iscons(p1))
-		return 0;
-
-	if (car(p1) == symbol(SETQ) && caadr(p1) == symbol(INDEX))
-		return 0; // component access
-
-	if (car(p1) == symbol(SETQ) && iscons(cadr(p1)))
-		return 1; // func defn
-
-	while (iscons(p1)) {
-		if (find_func_defn(car(p1)))
-			return 1;
-		p1 = cdr(p1);
-	}
-
-	return 0;
 }
 void
 eval_sgn(struct atom *p1)
