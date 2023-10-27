@@ -13,8 +13,6 @@
 
 @interface EigenmathView : NSView
 {
-	NSPoint startingPoint;
-	NSRect selectionRect;
 }
 
 @end
