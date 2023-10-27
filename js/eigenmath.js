@@ -10845,9 +10845,6 @@ setq_usrfunc(p1)
 	A = cdadr(p1); // function args
 	B = caddr(p1); // function body
 
-	if (find_func_defn(B))
-		stopf("func defn in func");
-
 	if (!isusersymbol(F))
 		stopf("user symbol expected");
 
@@ -10935,27 +10932,6 @@ convert_body(A)
 	push(car(A));
 	push_symbol(ARG9);
 	subst();
-}
-
-function
-find_func_defn(p1)
-{
-	if (!iscons(p1))
-		return 0;
-
-	if (car(p1) == symbol(SETQ) && caadr(p1) == symbol(INDEX))
-		return 0; // component access
-
-	if (car(p1) == symbol(SETQ) && iscons(cadr(p1)))
-		return 1; // func defn
-
-	while (iscons(p1)) {
-		if (find_func_defn(car(p1)))
-			return 1;
-		p1 = cdr(p1);
-	}
-
-	return 0;
 }
 function
 eval_sgn(p1)
