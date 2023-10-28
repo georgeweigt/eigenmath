@@ -8,6 +8,9 @@
 
 #import "EigenmathView.h"
 
+extern double document_height;
+extern double document_width;
+
 extern void draw_display(double ymin, double ymax);
 extern void draw_selection_rect(double x, double y, double width, double height);
 
@@ -35,6 +38,22 @@ CGContextRef gcontext;
 	y2 = rect.origin.y;
 
 	draw_display(y1, y2);
+}
+
+-(void)copy:(id)sender
+{
+	NSRect r;
+	NSPasteboard *p;
+
+	r.origin.x = 0;
+	r.origin.y = 0;
+
+	r.size.width = document_width;
+	r.size.height = document_height;
+
+	p = [NSPasteboard generalPasteboard];
+	[p declareTypes:[NSArray arrayWithObjects:NSPasteboardTypePDF, nil] owner:self];
+	[self writePDFInsideRect:r toPasteboard:p];
 }
 
 @end
