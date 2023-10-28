@@ -47,7 +47,7 @@ char *instring;
 	NSNotificationCenter *p = [NSNotificationCenter defaultCenter];
 	[p addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:_window];
 
-	[_input setFocusRingType:NSFocusRingTypeNone];
+//	[_input setFocusRingType:NSFocusRingTypeNone];
 	[_input setFont:[NSFont fontWithName:@"Courier" size:16.0]];
 	[_window makeFirstResponder:_input];
 	[_textview setFont:[NSFont fontWithName:@"Courier" size:16.0]];
