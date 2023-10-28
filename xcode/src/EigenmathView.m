@@ -12,13 +12,15 @@ extern double document_height;
 extern double document_width;
 
 extern void draw_display(double ymin, double ymax);
-extern void draw_selection_rect(double x, double y, double width, double height);
 
 CGContextRef gcontext;
 
 @implementation EigenmathView
 
--(BOOL)acceptsFirstResponder {return YES;}
+-(BOOL)acceptsFirstResponder
+{
+	return YES;
+}
 
 -(void)drawRect:(NSRect)rect
 {
