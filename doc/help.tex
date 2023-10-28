@@ -168,6 +168,19 @@ check(A == B) -- stop here if A not equal to B
 \end{verbatim}
 }
 
+\subsection*{choose($n,k$)}
+
+Returns the binomial coefficient $n$ choose $k$.
+
+{\color{blue}
+\begin{verbatim}
+choose(52,5) -- number of poker hands
+\end{verbatim}
+}
+
+\noindent
+$2598960$
+
 \subsection*{circexp($x$)}
 
 Returns expression $x$ with circular and hyperbolic functions
@@ -267,6 +280,14 @@ circexp(cosh(x))
 
 \noindent
 $\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
+
+\subsection*{cross($u,v$)}
+
+Returns the cross product of vectors $u$ and $v$.
+
+\subsection*{curl($v$)}
+
+Returns the curl of vector $v$ with respect to symbols \verb$x$, \verb$y$, and \verb$z$.
 
 \subsection*{d($f,x,\ldots$)}
 
@@ -401,6 +422,10 @@ dim(A,1)
 
 \noindent
 $3$
+
+\subsection*{div($v$)}
+
+Returns the divergence of vector $v$ with respect to symbols \verb$x$, \verb$y$, and \verb$z$.
 
 \subsection*{do($a,b,\ldots$)}
 
@@ -658,6 +683,27 @@ $A=3$
 Note: The original value of $i$ is restored after {\tt for} completes.
 If symbol {\tt i} is used for index variable $i$
 then the imaginary unit is overridden in the scope of {\tt for}.
+
+\subsection*{grad($f$)}
+
+Returns the gradient \verb$d(f,(x,y,z))$.
+
+{\color{blue}
+\begin{verbatim}
+grad(f())
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+{\rm d}(f(),x)
+\\[1ex]
+{\rm d}(f(),y)
+\\[1ex]
+{\rm d}(f(),z)
+\end{bmatrix}
+$
 
 \subsection*{hadamard($a,b,\ldots$)}
 
