@@ -37,7 +37,6 @@
 		7F2C0615271CFF3F00128330 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7F70C944271E015800691D3F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7F79615C27405F4E00211A54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		7F895847292C474E009E793B /* Eigenmath.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Eigenmath.entitlements; sourceTree = "<group>"; };
 		7FA8457A292DAC7700842C3D /* display.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = display.c; sourceTree = "<group>"; };
 		7FA8457B292DAC7700842C3D /* draw_display.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = draw_display.c; sourceTree = "<group>"; };
 		7FA8457C292DAC7700842C3D /* atomic.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = atomic.c; sourceTree = "<group>"; };
@@ -107,7 +106,6 @@
 				7FA8457A292DAC7700842C3D /* display.c */,
 				7FA8457B292DAC7700842C3D /* draw_display.c */,
 				7FA8457D292DAC7700842C3D /* draw_selection_rect.c */,
-				7F895847292C474E009E793B /* Eigenmath.entitlements */,
 				7FF6B91A271DCAC20047F0A7 /* Eigenmath.help */,
 				7F2C060C271CFF3300128330 /* EigenmathAppDelegate.h */,
 				7F2C060D271CFF3300128330 /* EigenmathAppDelegate.m */,
@@ -319,16 +317,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = src/Eigenmath.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 318;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = D273D35927;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = src/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 3.18;
 				PRODUCT_BUNDLE_IDENTIFIER = eigenmath;
@@ -341,16 +334,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = src/Eigenmath.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 318;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = D273D35927;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = src/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 3.18;
 				PRODUCT_BUNDLE_IDENTIFIER = eigenmath;
