@@ -1,16 +1,17 @@
 \section{Tricks}
+
 \begin{enumerate}
 
 \item
-In a script, line breaking is allowed provided the line breaks occur immediately after operators.
-The scanner will automatically go to the next line after an operator.
+In a script, line breaking is allowed where the scanner needs something to complete an expression.
+For example, the scanner will automatically go to the next line after an operator.
 
 \item
 Setting \verb$trace=1$ in a script causes each line to be printed just before it is evaluated.
-This is useful for debugging.
+Useful for debugging.
 
 \item
-The last result is stored in the symbol \verb$last$.
+The last result is stored in symbol \verb$last$.
 
 \item
 Use \verb$contract(A)$ to get the mathematical trace of matrix $A$.
