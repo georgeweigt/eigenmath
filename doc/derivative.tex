@@ -1,37 +1,46 @@
-\section{Calculus}
-
 \subsection{Derivative}
 
-$\text{\tt d}(f,x)$ returns the derivative of $f$ with respect to $x$.
-The $x$ can be omitted for expressions in $x$.
+\verb$d(f,x)$ returns the derivative of $f$ with respect to $x$.
 
 {\color{blue}
 \begin{verbatim}
-d(x^2)
-\end{verbatim}
-}
+d(x^2,x)
+\end{verbatim}}
 
-\noindent
 $2x$
 
 \bigskip
-\noindent
-The following table summarizes the various ways to obtain multi-derivatives.
+Extend the argument list for multiderivatives.
 
-\begin{center}
-\begin{tabular}{cllllll}
-$\displaystyle{\frac{\partial^2f}{\partial x^2}}$ & & \verb$d(f,x,x)$ & & \verb$d(f,x,2)$ \\
-\\
-$\displaystyle{\frac{\partial^2f}{\partial x\,\partial y}}$ & & \verb$d(f,x,y)$ \\
-\\
-$\displaystyle{\frac{\partial^{m+n+\cdot\cdot\cdot} f}{\partial x^m\,\partial y^n\cdots}}$ & &
-\verb$d(f,x,...,y,...)$ & & \verb$d(f,x,m,y,n,...)$ \\
-\end{tabular}
-\end{center}
+{\color{blue}
+\begin{verbatim}
+f = 1 / (x + y)
+d(f,x,y)
+\end{verbatim}}
 
-\subsection{Gradient}
+$\displaystyle
+\frac{2}{(x+y)^3}
+$
 
-The gradient of $f$ is obtained by using a vector for $x$ in $\text{\tt d}(f,x)$.
+{\color{blue}
+\begin{verbatim}
+d(sin(x),x,x)
+\end{verbatim}}
+
+$-\sin(x)$
+
+\bigskip
+Another syntax for $n$th derivative.
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x),x,2)
+\end{verbatim}}
+
+$-\sin(x)$
+
+\bigskip
+The gradient of $f$ is returned for vector $x$ in \verb$d(f,x)$.
 
 {\color{blue}
 \begin{verbatim}
@@ -40,7 +49,6 @@ d(r,(x,y))
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 {\displaystyle \frac{x}{(x^2+y^2)^{1/2}}}
@@ -51,90 +59,21 @@ $\displaystyle
 $
 
 \bigskip
-\noindent
-The $f$ in $\text{\tt d}(f,x)$ can be a vector or higher order function.
-Gradient raises the rank by one.
+The $f$ in \verb$d(f,x)$ can be a vector or higher rank function.
+Gradient increases rank by one.
 
 {\color{blue}
 \begin{verbatim}
-F = (x + 2 y,3 x + 4 y)
+F = (x^2,y^2)
 X = (x,y)
 d(F,X)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
-1 & 2
+2x & 0
 \\[1ex]
-3 & 4
+0 & 2y
 \end{bmatrix}
 $
-
-\subsection{Template functions}
-
-Function $f$ in $\text{\tt d}(f,x)$ does not have to be defined.
-Function \verb$f$ can be a template function with just a name and an argument list.
-The argument list determines the result of \verb$d$.
-For example, \verb$d(f(x),x)$ evaluates to itself because $f$ depends on $x$.
-However, \verb$d(f(x),y)$ evaluates to zero because $f$ does not depend on $y$.
-
-{\color{blue}
-\begin{verbatim}
-d(f(x),x) -- f(x) depends on x
-\end{verbatim}
-}
-
-\noindent
-$\operatorname{d}(f(x),x)$
-
-{\color{blue}
-\begin{verbatim}
-d(f(x),y) -- f(x) does not depend on y
-\end{verbatim}
-}
-
-\noindent
-$0$
-
-{\color{blue}
-\begin{verbatim}
-d(f(x,y),y) -- f(x,y) depends on both x and y
-\end{verbatim}
-}
-
-\noindent
-$\operatorname{d}(f(x,y),y)$
-
-{\color{blue}
-\begin{verbatim}
-d(f(),t) -- f() depends on all symbols
-\end{verbatim}
-}
-
-\noindent
-$\operatorname{d}(f(),t)$
-
-\bigskip
-\noindent
-As the final example shows, an empty argument list causes
-\verb$d$ to evaluate to itself, regardless
-of the second argument.
-
-\bigskip
-\noindent
-Template functions are useful for experimenting with differential forms.
-For example, let us check the identity
-$$\operatorname{div}(\operatorname{curl}{F})=0$$
-for an arbitrary vector function $F$.
-
-{\color{blue}
-\begin{verbatim}
-F = (F1(x,y,z),F2(x,y,z),F3(x,y,z))
-div(curl(F))
-\end{verbatim}
-}
-
-\noindent
-$0$
