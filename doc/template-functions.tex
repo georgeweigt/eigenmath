@@ -1,0 +1,62 @@
+\subsection{Template functions}
+
+Function $f$ in \verb$d(f,x)$ does not have to be defined,
+it can be a template function with just a name and an argument list.
+The argument list determines the result.
+For example, \verb$d(f(x),x)$ evaluates to itself because $f$ depends on $x$.
+However, \verb$d(f(x),y)$ evaluates to zero because $f$ does not depend on $y$.
+
+\bigskip
+Example 1. $f(x)$ depends on $x$.
+
+{\color{blue}
+\begin{verbatim}
+d(f(x),x)
+\end{verbatim}}
+
+$\operatorname{d}(f(x),x)$
+
+\bigskip
+Example 2. $f(x)$ does not depend on $y$.
+
+{\color{blue}
+\begin{verbatim}
+d(f(x),y)
+\end{verbatim}}
+
+$0$
+
+\bigskip
+Example 3. $f(x,y)$ depends on both $x$ and $y$.
+
+{\color{blue}
+\begin{verbatim}
+d(f(x,y),y)
+\end{verbatim}}
+
+$\operatorname{d}(f(x,y),y)$
+
+\bigskip
+Example 4. $f()$ is a wildcard that matches any symbol.
+
+{\color{blue}
+\begin{verbatim}
+d(f(),t)
+\end{verbatim}}
+
+$\operatorname{d}(f(),t)$
+
+\bigskip
+Template functions are useful for experimenting with differential forms.
+For example, verify the identity
+\begin{equation*}
+\nabla\cdot(\nabla\times\mathbf F)=0
+\end{equation*}
+
+{\color{blue}
+\begin{verbatim}
+F = (Fx(),Fy(),Fz())
+div(curl(F))
+\end{verbatim}}
+
+$0$
