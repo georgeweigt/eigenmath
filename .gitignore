@@ -1,5 +1,12 @@
 eigenmath
 eigenmath.pdf
+eigenmath.aux
+eigenmath.log
+eigenmath.synctex.gz
+eigenmath.toc
 wcheck
 make-prototypes
 diffs
+.DS_Store
+project.xcworkspace
+xcuserdata
