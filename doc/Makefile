@@ -2,7 +2,7 @@
 
 # pdflatex three times for table of contents
 
-eigenmath.pdf: *.tex
+eigenmath.pdf: eigenmath.tex
 	pdflatex eigenmath.tex
 	pdflatex eigenmath.tex
 	pdflatex eigenmath.tex
