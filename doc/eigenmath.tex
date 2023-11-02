@@ -15,8 +15,9 @@
 \tableofcontents
 \newpage
 
-Eigenmath is available for both macOS and Linux.
-For macOS, commands are entered in the following field.
+\section{Introduction}
+
+Commands are entered in the following field.
 
 \begin{center}
 \begin{tikzpicture}
@@ -44,16 +45,52 @@ Then press \cmd$\,$P to print, \cmd$\,$C to copy to the clipboard.
 \bigskip
 Note: Eigenmath expects Times New Roman and Times New Roman Italic fonts
 to be the standard macOS fonts that include special symbols and Greek letters.
-See the following link for correcting font problems.\newline
-{\scriptsize
-https://support.apple.com/guide/font-book/restore-fonts-that-came-with-your-mac-fb34862/mac
-}
+See the following link for correcting font problems.
+
+\bigskip
+{\footnotesize\verb$support.apple.com/guide/font-book/restore-fonts-that-came-with-your-mac-fb34862/mac$}
 
 \newpage
 
-\section{Introduction}
+In the following examples, user input is shown in blue.
+Results are shown in black.
 
-Consider the following arithmetic from Vladimir Nabokov's autobiography ``Speak, Memory.''
+\bigskip
+Example 1. Compute $212^{17}$.
+
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}}
+
+$3529471145760275132301897342055866171392$
+
+\bigskip
+Example 2. Compute $212^{17}$ and save as $N$,
+then show the value of $N$.
+
+{\color{blue}
+\begin{verbatim}
+N = 212^17
+N
+\end{verbatim}}
+
+$N=3529471145760275132301897342055866171392$
+
+\bigskip
+Example 3. Compute the 17th root of $N$.
+
+{\color{blue}
+\begin{verbatim}
+N^(1/17)
+\end{verbatim}}
+
+$212$
+
+\iffalse
+\bigskip
+Note: The above examples were inspired by the following passage from
+Vladimir Nabokov's autobiography ``Speak, Memory.''
 
 \begin{quote}
 A foolish tutor had explained logarithms to me much too early, and I had
@@ -63,44 +100,10 @@ seventeenth root of, say,
 3529471145760275132301897342055866171392
 (I am not sure I have got this right; anyway the root was 212).
 \end{quote}
+\fi
 
-Let us compute $212^{17}$ and check the result.
-At the Eigenmath prompt, enter
 
-{\color{blue}
-\begin{verbatim}
-212^17
-\end{verbatim}
-}
-
-The result is
-
-\bigskip
-
-$\displaystyle 3529471145760275132301897342055866171392$
-
-\bigskip
-
-Now let us compute the seventeenth root of this number.
-
-{\color{blue}
-\begin{verbatim}
-N = 212^17
-N
-\end{verbatim}
-}
-
-$\displaystyle N=3529471145760275132301897342055866171392$
-
-{\color{blue}
-\begin{verbatim}
-N^(1/17)
-\end{verbatim}
-}
-
-$\displaystyle 212$
-
-\subsection{Syntax}
+\section{Syntax}
 
 Arithmetic operators have the expected precedence of
 multiplication and division before addition and subtraction.
@@ -158,105 +161,7 @@ $e$ && {\tt exp(1)} & {\it natural number}
 \end{tabular}
 \end{center}
 
-\subsection{Testing for equality}
-
-The infix operator \verb$==$ is used to test for equality of operands.
-The operator evaluates to 1 if the operands are equal and 0 if the operands are not equal.
-
-{\color{blue}
-\begin{verbatim}
-exp(i pi) == -1
-\end{verbatim}
-}
-
-$\displaystyle 1$
-
 \bigskip
-
-The \verb$==$ operator uses \verb$simplify$ internally.
-In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
-
-\subsection{Arithmetic}
-
-Big integer arithmetic is used so that numerical values can exceed machine size.
-
-{\color{blue}
-\begin{verbatim}
-2^64
-\end{verbatim}
-}
-
-$18446744073709551616$
-
-{\color{blue}
-\begin{verbatim}
-212^17
-\end{verbatim}
-}
-
-$3529471145760275132301897342055866171392$
-
-\bigskip
-
-Rational number arithmetic is used by default.
-
-{\color{blue}
-\begin{verbatim}
-1/2 + 1/3
-\end{verbatim}
-}
-
-$\displaystyle \tfrac{5}{6}$
-
-\bigskip
-
-Floating point arithmetic can also be used.
-
-{\color{blue}
-\begin{verbatim}
-1/2 + 1/3.0
-\end{verbatim}
-}
-
-$\displaystyle 0.833333$
-
-\bigskip
-
-An integer or rational number result can be converted to a floating
-point value by entering \verb$float$.
-
-{\color{blue}
-\begin{verbatim}
-212^17
-\end{verbatim}
-}
-
-$\displaystyle 3529471145760275132301897342055866171392$
-
-{\color{blue}
-\begin{verbatim}
-float
-\end{verbatim}
-}
-
-$\displaystyle 3.52947\times10^{39}$
-
-\bigskip
-
-The following example shows how to enter a floating point value
-using scientific notation.
-
-{\color{blue}
-\begin{verbatim}
-epsilon = 1.0 10^(-6)
-epsilon
-\end{verbatim}
-}
-
-$\displaystyle \varepsilon=1.0\times10^{-6}$
-
-\subsection{Exponents}
-
 Parentheses are required around negative exponents.
 For example,
 
@@ -317,9 +222,10 @@ x^(1/2)
 
 $\displaystyle x^{1/2}$
 
-\subsection{Symbols}
 
-Symbols are defined using an equals sign.
+\section{Symbols}
+
+Symbols are defined with an equals sign.
 
 {\color{blue}
 \begin{verbatim}
@@ -437,58 +343,49 @@ A
 
 $\displaystyle A$
 
-\subsection{Function definitions}
 
-The syntax for defining functions is {\it function-name} ( {\it arg-list} ) = {\it expr}
+\section{Function definitions}
+
+The syntax for defining functions is
+\begin{center}
+{\it function-name} ( {\it arg-list} ) = {\it expr}
+\end{center}
 where {\it arg-list} is a comma separated list of zero to nine symbols that receive arguments.
 Unlike symbol definitions, {\it expr} is not evaluated when {\it function-name} is defined.
 Instead, {\it expr} is evaluated when {\it function-name} is used in a subsequent computation.
 The scope of function arguments is the function definition {\it expr}.
 
 \bigskip
+Function definitions cannot be nested.
+In other words, function definition {\it expr}
+cannot contain another function definition.
 
+\bigskip
 The following example defines a sinc function and evaluates it at $\pi/2$.
 
 {\color{blue}
 \begin{verbatim}
 f(x) = sin(x)/x
 f(pi/2)
-\end{verbatim}
-}
+\end{verbatim}}
 
 $\displaystyle \frac{2}{\pi}$
 
 \bigskip
-
-After a user function is defined, {\it expr} can be recalled using the \verb$binding$ function.
+After a user function is defined, {\it expr} can be recalled using the
+\verb$binding$ function.
 
 {\color{blue}
 \begin{verbatim}
 binding(f)
-\end{verbatim}
-}
+\end{verbatim}}
 
 $\displaystyle \frac{\sin(x)}{x}$
 
 \bigskip
-
-The following example shows how \verb$eval$ is used to evaluate function arguments at specific values.
-
-{\color{blue}
-\begin{verbatim}
-h(f,x,a,b) = abs(eval(f,x,a) - eval(f,x,b))
-h(cos(y), y, 0, pi / 3)
-\end{verbatim}
-}
-
-$\displaystyle \tfrac{1}{2}$
-
-\bigskip
-
-Symbols in function definition {\it expr} have global scope.
-To define a local symbol, extend the argument list.
-In the following example, argument \verb$y$ is used as a local symbol.
-Note that function \verb$L$ is called without supplying an argument for the local symbol.
+To define a local symbol for use inside {\it expr}, extend the argument list.
+In the following example, argument $y$ is used as a local symbol.
+Note that function $L$ is called without supplying an argument for $y$.
 
 {\color{blue}
 \begin{verbatim}
@@ -500,11 +397,99 @@ L(cos(x),2)
 $\displaystyle \tfrac{1}{2}\cos(x)^2-2\cos(x)+1$
 
 \bigskip
+Sometimes it is necessary to evauate an argument at a particular value.
+Use \verb$eval$ to evaluate function arguments inside {\it expr}.
 
-Function definitions cannot be nested.
-In other words, function definition {\it expr} cannot contain another function definition.
+{\color{blue}
+\begin{verbatim}
+h(f,x,a) = abs(eval(f,x,a))
+h(cos(y),y,0)
+\end{verbatim}}
 
-\subsection{Complex numbers}
+$1$
+
+
+\section{Arithmetic}
+
+Big integer arithmetic is used so that numerical values can
+exceed machine size.
+
+{\color{blue}
+\begin{verbatim}
+2^64
+\end{verbatim}
+}
+
+$\displaystyle 18446744073709551616$
+
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}
+}
+
+$\displaystyle 3529471145760275132301897342055866171392$
+
+\bigskip
+
+Rational number arithmetic is used by default.
+
+{\color{blue}
+\begin{verbatim}
+1/2 + 1/3
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{5}{6}$
+
+\bigskip
+
+Floating point arithmetic can also be used.
+
+{\color{blue}
+\begin{verbatim}
+1/2 + 1/3.0
+\end{verbatim}
+}
+
+$\displaystyle 0.833333$
+
+\bigskip
+
+An integer or rational number result can be converted to a floating
+point value by entering \verb$float$.
+
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}
+}
+
+$\displaystyle 3529471145760275132301897342055866171392$
+
+{\color{blue}
+\begin{verbatim}
+float
+\end{verbatim}
+}
+
+$\displaystyle 3.52947\times10^{39}$
+
+\bigskip
+The following example shows how to enter a floating point value
+using scientific notation.
+
+{\color{blue}
+\begin{verbatim}
+epsilon = 1.0 10^(-6)
+epsilon
+\end{verbatim}
+}
+
+$\displaystyle \varepsilon=1.0\times10^{-6}$
+
+
+\section{Complex numbers}
 
 Symbol \verb$i$ is initialized to $\sqrt{-1}$.
 
@@ -616,7 +601,143 @@ sqrt(-4)
 
 $\displaystyle 2j$
 
-\subsection{Linear algebra}
+
+\section{Draw}
+
+\verb$draw(f,x)$ draws a graph of function $f$ of $x$.
+
+{\color{blue}
+\begin{verbatim}
+draw(x^2,x)
+\end{verbatim}}
+
+\begin{center}
+\includegraphics[scale=0.4]{parabola1.png}
+\end{center}
+
+The vectors \verb$xrange$ and \verb$yrange$ control the scale of the graph.
+
+{\color{blue}
+\begin{verbatim}
+xrange = (-1,1)
+yrange = (0,2)
+draw(x^2)
+\end{verbatim}}
+
+\begin{center}
+\includegraphics[scale=0.4]{parabola2.png}
+\end{center}
+
+Parametric drawing occurs when a function returns a vector.
+The vector \verb$trange$ controls the parametric range.
+The default is \verb$trange=(-pi,pi)$.
+In the following example, \verb$draw$ varies \verb$theta$
+over the default range $-\pi$ to $+\pi$.
+
+{\color{blue}
+\begin{verbatim}
+xrange = (-10,10)
+yrange = (-10,10)
+f = 5 (cos(theta),sin(theta))
+draw(f,theta)
+\end{verbatim}}
+
+\begin{center}
+\includegraphics[scale=0.4]{circle1.png}
+\end{center}
+
+In the following example, \verb$trange$ is reduced
+to draw a quarter circle instead of a full circle.
+
+{\color{blue}
+\begin{verbatim}
+trange = (0,pi/2)
+f = 5 (cos(theta),sin(theta))
+draw(f,theta)
+\end{verbatim}}
+
+\begin{center}
+\includegraphics[scale=0.4]{circle2.png}
+\end{center}
+
+Draw a lemniscate.
+
+{\color{blue}
+\begin{verbatim}
+trange = (-pi,pi)
+X = cos(t) / (1 + sin(t)^2)
+Y = sin(t) cos(t) / (1 + sin(t)^2)
+f = 5 (X,Y)
+draw(f,t)
+\end{verbatim}}
+
+\begin{center}
+\includegraphics[scale=0.4]{lemniscate.png}
+\end{center}
+
+Draw a cardioid.
+
+{\color{blue}
+\begin{verbatim}
+r = (1 + cos(t)) / 2
+u = (cos(t),sin(t))
+f = r u
+xrange = (-1,1)
+yrange = (-1,1)
+trange = (0,2pi)
+draw(f,t)
+\end{verbatim}}
+
+\begin{center}
+\includegraphics[scale=0.4]{cardioid.png}
+\end{center}
+
+
+\section{Tricks}
+
+\begin{enumerate}
+
+\item
+Use \verb$==$ to test for equality.
+In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
+
+\item
+In a script, line breaking is allowed where the scanner needs something to complete an expression.
+For example, the scanner will automatically go to the next line after an operator.
+
+\item
+Setting \verb$trace=1$ in a script causes each line to be printed just before it is evaluated.
+Useful for debugging.
+
+\item
+The last result is stored in symbol \verb$last$.
+
+\item
+Use \verb$contract(A)$ to get the mathematical trace of matrix $A$.
+
+\item
+Use \verb$binding(s)$ to get the unevaluated binding of symbol $s$.
+
+\item
+Use \verb$s=quote(s)$ to clear symbol $s$.
+
+\item
+Use \verb$float(pi)$ to get the floating point value of $\pi$.
+Set \verb$pi=float(pi)$ to evaluate expressions with a numerical value for $\pi$.
+Set \verb$pi=quote(pi)$ to make $\pi$ symbolic again.
+
+\item
+Assign strings to unit names so they are printed normally.
+For example, setting \verb$meter="meter"$ causes the symbol \verb$meter$
+to be printed as meter instead of $m_{eter}$.
+
+\item
+Use \verb$expsin$ and \verb$expcos$ instead of \verb$sin$ and \verb$cos$.
+Trigonometric simplifications occur automatically when exponentials are used.
+
+\end{enumerate}
+
+\section{Linear algebra}
 
 The \verb$dot$ function is used to multiply vectors, matrices, and tensors.
 For example, let
@@ -726,43 +847,39 @@ Should that occur, the following alternative formulation can be tried.
 A\operatorname{det}B-\operatorname{adj}B=0
 \end{equation*}
 
-\subsection{Component arithmetic}
 
-Tensor plus scalar adds the scalar to each component of the tensor.
+\section{Component arithmetic}
+
+Tensor plus scalar adds scalar to each tensor component.
 
 {\color{blue}
 \begin{verbatim}
-(x,y,z) + 10
-\end{verbatim}
-}
+A = ((a,b),(c,d))
+A + 10
+\end{verbatim}}
 
 $\displaystyle
 \begin{bmatrix}
-x+10
+a+10 & b+10
 \\[1ex]
-y+10
-\\[1ex]
-z+10
+c+10 & d+10
 \end{bmatrix}
 $
 
 \bigskip
-
 The product of two tensors is the Hadamard (element-wise) product.
 
 {\color{blue}
 \begin{verbatim}
-A = ((1,2),(3,4))
-B = ((a,b),(c,d))
-A B
-\end{verbatim}
-}
+A = ((a,b),(c,d))
+A A
+\end{verbatim}}
 
 $\displaystyle
 \begin{bmatrix}
-a & 2b
+a^2 & b^2
 \\[1ex]
-3c & 4d
+c^2 & d^2
 \end{bmatrix}
 $
 
@@ -772,58 +889,2626 @@ Tensor raised to a power raises each component to the power.
 
 {\color{blue}
 \begin{verbatim}
-(x,y,z)^2
+A = ((a,b),(c,d))
+A^2
+\end{verbatim}}
+
+$\displaystyle
+\begin{bmatrix}
+a^2 & b^2
+\\[1ex]
+c^2 & d^2
+\end{bmatrix}
+$
+
+
+\section{Quantum computing}
+
+A quantum computer can be simulated by applying rotations to a
+unit vector
+$u\in\mathbb{C}^{2^n}$ where $\mathbb{C}$ is the set of complex numbers
+and $n$ is the number of qubits.
+The dimension is $2^n$ because a register with $n$ qubits
+has $2^n$ eigenstates.
+(Recall that an eigenstate is the output of a quantum computer.)
+Quantum operations are ``rotations'' because they preserve $|u|=1$.
+Mathematically, a rotation of $u$ is equivalent to the product $Ru$
+where $R$ is a $2^n\times2^n$ matrix.
+
+\bigskip
+Eigenstates $|j\rangle$ are represented by the following vectors.
+(Each vector has $2^n$ elements.)
+\begin{align*}
+&|0\rangle=(1,0,0,\dots,0)
+\\
+&|1\rangle=(0,1,0,\ldots,0)
+\\
+&|2\rangle=(0,0,1,\ldots,0)
+\\
+&\vdots
+\\
+&|2^n-1\rangle=(0,0,0,\ldots,1)
+\end{align*}
+
+A quantum computer algorithm is a sequence of rotations
+applied to the initial state $|0\rangle$.
+(The sequence could be combined into a single rotation
+by associativity of matrix multiplication.)
+Let $\psi_f$ be the final state of the quantum computer
+after all the rotations have been applied.
+Like any other state, $\psi_f$ is a linear combination of eigenstates.
+\begin{equation*}
+\psi_f=\sum_{j=0}^{2^n-1}c_j|j\rangle,
+\quad
+c_j\in\mathbb C,
+\quad
+|\psi_f|=1
+\end{equation*}
+
+The last step is to measure $\psi_f$ and get a result.
+Measurement rotates $\psi_f$ to an eigenstate $|j\rangle$.
+The measurement result is $|j\rangle$.
+The probability $P_j$ of getting a specific result $|j\rangle$ is
+\begin{equation*}
+P_j=|c_j|^2=c_jc_j^*
+\end{equation*}
+
+Note that if $\psi_f$ is already an eigenstate then no rotation occurs.
+(The probability of observing a different eigenstate is zero.)
+Since the measurement result is always an eigenstate,
+the coefficients $c_j$ cannot be observed.
+However, the same calculation can be run multiple times
+to obtain a probability distribution of results.
+The probability distribution is an estimate
+of $|c_j|^2$ for each $|j\rangle$ in $\psi_f$.
+
+\bigskip
+Unlike a real quantum computer, in a simulation
+the final state $\psi_f$, or any other state, is available for inspection.
+Hence there is no need to simulate the measurement process.
+The probability distribution of the result can be computed directly as
+\begin{equation*}
+P=\psi_f\,\psi_f^*
+\end{equation*}
+
+where $\psi_f\,\psi_f^*$
+is the Hadamard (element-wise) product of vector $\psi_f$ and its complex conjugate.
+Result $P$ is a vector such that $P_j$ is the
+probability of eigenstate $|j\rangle$ and
+\begin{equation*}
+\sum_{j=0}^{2^n-1} P_j=1
+\end{equation*}
+
+Note: Eigenmath index numbering begins with 1 hence
+\verb$P[1]$ is the probability of $|0\rangle$,
+\verb$P[2]$ is the probability of $|1\rangle$, etc.
+
+\bigskip
+The Eigenmath function
+$\text{\tt rotate}(u,s,k,\ldots)$
+rotates vector $u$ and returns the result.
+Vector $u$ is required to have $2^n$ elements where $n$ is an
+integer from 1 to 15.
+Arguments $s,k,\ldots$ are a sequence of rotation codes
+where $s$ is an upper case letter and $k$ is a qubit number
+from 0 to $n-1$.
+Rotations are evaluated from left to right.
+The available rotation codes are
+
+\begin{center}
+\begin{tabular}{ll}
+$C,k$ & Control prefix
+\\
+$H,k$ & Hadamard
+\\
+$P,k,\phi$ & Phase modifier (use $\phi=\tfrac{1}{4}\pi$ for $T$ rotation)
+\\
+$Q,k$ & Quantum Fourier transform
+\\
+$V,k$ & Inverse quantum Fourier transform
+\\
+$W,k,j$ & Swap bits
+\\
+$X,k$ & Pauli X
+\\
+$Y,k$ & Pauli Y
+\\
+$Z,k$ & Pauli Z
+\end{tabular}
+\end{center}
+
+Control prefix $C,k$ modifies the next rotation code so that it
+is a controlled rotation with $k$ as the control qubit.
+Use two or more prefixes to specify multiple control qubits.
+For example, $C,k,C,j,X,m$ is a Toffoli rotation.
+Fourier rotations $Q,k$ and $V,k$ are applied to qubits 0 through $k$.
+($Q$ and $V$ ignore any control prefix.)
+
+\bigskip
+List of $\text{\tt rotate}(u,s,k,\ldots)$ error codes:
+\begin{itemize}
+\item[1] Argument $u$ is not a vector or does not have $2^n$ elements where $n=1,2,\ldots,15$.
+\item[2] Unexpected end of argument list (i.e., missing argument).
+\item[3] Bit number format error or range error.
+\item[4] Unknown rotation code.
+\end{itemize}
+
+Example:
+Verify the following truth table for quantum operator CNOT
+where qubit 0 is the control and qubit 1 is the target.
+(Target is inverted when control is set.)
+\begin{center}
+\begin{tabular}{ccc}
+Target & Control & Output \\
+0 & 0 & 00 \\
+0 & 1 & 11 \\
+1 & 0 & 10 \\
+1 & 1 & 01
+\end{tabular}
+\end{center}
+
+{\color{blue}
+\begin{verbatim}
+U(psi) = rotate(psi,C,0,X,1) -- CNOT, control 0, target 1
+
+ket00 = (1,0,0,0)
+ket01 = (0,1,0,0)
+ket10 = (0,0,1,0)
+ket11 = (0,0,0,1)
+
+U(ket00) == ket00
+U(ket01) == ket11
+U(ket10) == ket10
+U(ket11) == ket01
+\end{verbatim}
+}
+
+Here are some useful Eigenmath code snippets for setting up a simulation
+and computing the result.
+
+\bigskip
+1. Initialize $\psi=|0\rangle$.
+{\color{blue}
+\begin{verbatim}
+n = 4           -- number of qubits (example)
+N = 2^n         -- number of eigenstates
+psi = zero(N)
+psi[1] = 1
+\end{verbatim}
+}
+
+2. Compute the probability distribution for state $\psi$.
+{\color{blue}
+\begin{verbatim}
+P = psi conj(psi)
+\end{verbatim}
+}
+
+Hence
+\begin{align*}
+&\text{\tt P[1]}=\text{probability that $|0\rangle$ will be the result}
+\\
+&\text{\tt P[2]}=\text{probability that $|1\rangle$ will be the result}
+\\
+&\text{\tt P[3]}=\text{probability that $|2\rangle$ will be the result}
+\\
+&\vdots
+\\
+&\text{\tt P[N]}=\text{probability that $|N-1\rangle$ will be the result}
+\end{align*}
+
+3. (Only for macOS) Draw a probability distribution.
+{\color{blue}
+\begin{verbatim}
+xrange = (0,N)
+yrange = (0,1)
+draw(P[ceiling(x)],x)
+\end{verbatim}
+}
+
+4. Compute an expectation value.
+{\color{blue}
+\begin{verbatim}
+sum(k,1,N, (k - 1) P[k])
+\end{verbatim}
+}
+
+5. Make the high order qubit ``don't care.''
+{\color{blue}
+\begin{verbatim}
+for(k,1,N/2, P[k] = P[k] + P[k + N/2])
+\end{verbatim}
+}
+
+Hence for $N=16$
+\begin{align*}
+&\text{\tt P[1]}=\text{probability that the result will be $|0\rangle$ or $|8\rangle$}
+\\
+&\text{\tt P[2]}=\text{probability that the result will be $|1\rangle$ or $|9\rangle$}
+\\
+&\text{\tt P[3]}=\text{probability that the result will be $|2\rangle$ or $|10\rangle$}
+\\
+&\vdots
+\\
+&\text{\tt P[8]}=\text{probability that the result will be $|7\rangle$ or $|15\rangle$}
+\end{align*}
+
+
+\section{Derivative}
+
+\verb$d(f,x)$ returns the derivative of $f$ with respect to $x$.
+
+{\color{blue}
+\begin{verbatim}
+d(x^2,x)
+\end{verbatim}}
+
+$2x$
+
+\bigskip
+Extend the argument list for multiderivatives.
+
+{\color{blue}
+\begin{verbatim}
+f = 1 / (x + y)
+d(f,x,y)
+\end{verbatim}}
+
+$\displaystyle
+\frac{2}{(x+y)^3}
+$
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x),x,x)
+\end{verbatim}}
+
+$-\sin(x)$
+
+\bigskip
+Another syntax for $n$th derivative.
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x),x,2)
+\end{verbatim}}
+
+$-\sin(x)$
+
+\bigskip
+The gradient of $f$ is returned for vector $x$ in \verb$d(f,x)$.
+
+{\color{blue}
+\begin{verbatim}
+r = sqrt(x^2 + y^2)
+d(r,(x,y))
 \end{verbatim}
 }
 
 $\displaystyle
 \begin{bmatrix}
-x^2
-\\[1ex]
-y^2
-\\[1ex]
-z^2
+{\displaystyle \frac{x}{(x^2+y^2)^{1/2}}}
+\\
+\\
+{\displaystyle \frac{y}{(x^2+y^2)^{1/2}}}
 \end{bmatrix}
 $
 
-\newpage
+\bigskip
+The $f$ in \verb$d(f,x)$ can be a vector or higher rank function.
+Gradient increases rank by one.
 
-\section{Calculus}
+{\color{blue}
+\begin{verbatim}
+F = (x^2,y^2)
+X = (x,y)
+d(F,X)
+\end{verbatim}
+}
 
-\input{derivative}
+$\displaystyle
+\begin{bmatrix}
+2x & 0
+\\[1ex]
+0 & 2y
+\end{bmatrix}
+$
 
-\input{template-functions}
 
-\input{integral}
+\section{Template functions}
 
-\input{line-integral}
+Function $f$ in \verb$d(f,x)$ does not have to be defined,
+it can be a template function with just a name and an argument list.
+The argument list determines the result.
+For example, \verb$d(f(x),x)$ evaluates to itself because $f$ depends on $x$.
+However, \verb$d(f(x),y)$ evaluates to zero because $f$ does not depend on $y$.
 
-\input{surface-area}
+\bigskip
+Example 1. $f(x)$ depends on $x$.
 
-\input{surface-integral}
+{\color{blue}
+\begin{verbatim}
+d(f(x),x)
+\end{verbatim}}
 
-\input{greens-theorem}
+$\operatorname{d}(f(x),x)$
 
-\input{stokes-theorem}
+\bigskip
+Example 2. $f(x)$ does not depend on $y$.
 
-\newpage
+{\color{blue}
+\begin{verbatim}
+d(f(x),y)
+\end{verbatim}}
 
-\section{Quantum Computing}
+$0$
 
-\input{quantum-computing}
+\bigskip
+Example 3. $f(x,y)$ depends on both $x$ and $y$.
 
-\newpage
+{\color{blue}
+\begin{verbatim}
+d(f(x,y),y)
+\end{verbatim}}
 
-\section{Draw (macOS)}
+$\operatorname{d}(f(x,y),y)$
 
-\input{draw}
+\bigskip
+Example 4. $f()$ is a wildcard that matches any symbol.
 
-\newpage
+{\color{blue}
+\begin{verbatim}
+d(f(),t)
+\end{verbatim}}
 
-\input{help}
+$\operatorname{d}(f(),t)$
 
-\newpage
+\bigskip
+Template functions are useful for working with differential forms.
+For example, show that
+\begin{equation*}
+\nabla\cdot(\nabla\times\mathbf F)=0
+\end{equation*}
 
-\input{tricks}
+{\color{blue}
+\begin{verbatim}
+F = (Fx(),Fy(),Fz())
+div(curl(F))
+\end{verbatim}}
+
+$0$
+
+
+\section{Laplacian}
+
+The Laplacian $\nabla^2$ is the divergence of the gradient of scalar function $f$.
+\begin{equation*}
+\nabla^2f=\nabla\cdot\nabla f
+=\frac{\partial^2 f}{\partial x^2}
++\frac{\partial^2 f}{\partial y^2}
++\frac{\partial^2 f}{\partial z^2}
+\end{equation*}
+
+{\color{blue}
+\begin{verbatim}
+div(grad(f()))
+\end{verbatim}}
+
+$\displaystyle
+\operatorname{\rm d}(\operatorname{\rm d}(f(),x),x)
++\operatorname{\rm d}(\operatorname{\rm d}(f(),y),y)
++\operatorname{\rm d}(\operatorname{\rm d}(f(),z),z)
+$
+
+\bigskip
+This is the vector Laplacian.
+\begin{equation*}
+\nabla^2\mathbf A
+=\nabla\cdot\nabla\mathbf A-\nabla\times(\nabla\times\mathbf A)
+=\begin{pmatrix}
+\nabla^2A_x
+\\
+\nabla^2A_y
+\\
+\nabla^2A_z
+\end{pmatrix}
+=\frac{\partial^2\mathbf A}{\partial x^2}
++\frac{\partial^2\mathbf A}{\partial y^2}
++\frac{\partial^2\mathbf A}{\partial z^2}
+\end{equation*}
+
+{\color{blue}
+\begin{verbatim}
+A = (Ax(),Ay(),Az())
+div(grad(A)) - curl(curl(A)) == d(A,x,x) + d(A,y,y) + d(A,z,z)
+\end{verbatim}}
+
+$1$
+
+\bigskip
+Show that
+\begin{equation*}
+\nabla\cdot\nabla\mathbf A=\nabla(\nabla\cdot\mathbf A)
+\end{equation*}
+
+{\color{blue}
+\begin{verbatim}
+div(grad(A)) == grad(div(A))
+\end{verbatim}}
+
+$1$
+
+
+\section{Integral}
+
+\verb$integral(f,x)$ returns the integral of $f$ with respect to $x$.
+
+{\color{blue}
+\begin{verbatim}
+integral(x^2,x)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{3}x^3$
+
+\bigskip
+Extend the argument list for multiple integrals.
+
+{\color{blue}
+\begin{verbatim}
+f = x y
+integral(f,x,y)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{4}x^2y^2$
+
+\bigskip
+\verb$defint(f,x,a,b)$
+computes the definite integral of $f$ with respect to $x$ evaluated from
+$a$ to $b$.
+The argument list can be extended for multiple integrals.
+The following example computes the integral of $f=x^2$
+over the domain of a semicircle.
+For each $x$ along the abscissa, $y$ ranges from 0 to $\sqrt{1-x^2}$.
+
+{\color{blue}
+\begin{verbatim}
+defint(x^2, y, 0, sqrt(1 - x^2), x, -1, 1)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{8}\pi$
+
+\bigskip
+Alternatively, \verb$eval$ can be used to compute a definite integral step by step.
+
+{\color{blue}
+\begin{verbatim}
+I = integral(x^2,y)
+I = eval(I,y,sqrt(1 - x^2)) - eval(I,y,0)
+I = integral(I,x)
+eval(I,x,1) - eval(I,x,-1)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{8}\pi$
+
+\bigskip
+Here is a useful trick.
+Integrals involving sine and cosine
+can often be solved using exponentials.
+For example, the definite integral
+\begin{equation*}
+\int_0^{2\pi}\left(\sin^4t-2\cos^3(t/2)\sin t\right)dt
+\end{equation*}
+
+can be solved as follows.
+
+{\color{blue}
+\begin{verbatim}
+f = sin(t)^4 - 2 cos(t/2)^3 sin(t)
+f = circexp(f)
+defint(f, t, 0, 2 pi)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{3}{4}\pi-\tfrac{16}{5}$
+
+
+\section{Arc length}
+
+Let $g(t)$ be a parametric function that draws a curve in $\mathbb R^n$.
+The arc length from $g(a)$ to $g(b)$ is given by
+\begin{equation*}
+\int_a^b|g'(t)|\,dt
+\end{equation*}
+
+where $|g'(t)|$ is the length of the tangent vector at $g(t)$.
+For example, find the length of the curve $y=x^2$ from $x=0$ to $x=1$.
+
+{\color{blue}
+\begin{verbatim}
+g = (t,t^2)
+defint(abs(d(g,t)),t,0,1)
+\end{verbatim}}
+
+$
+\tfrac{1}{2}\;5^{1/2}
+-\tfrac{1}{4}\log(2)
++\tfrac{1}{4}\log(2\;5^{1/2}+4)
+$
+
+{\color{blue}
+\begin{verbatim}
+float
+\end{verbatim}}
+
+$1.47894$
+
+\bigskip
+As expected, the result is greater than $\sqrt2\approx1.414$,
+the length of a straight line from $(0,0)$ to $(1,1)$.
+
+\bigskip
+The following script does a discrete computation of the arc length
+by dividing the curve into 100 pieces.
+
+{\color{blue}
+\begin{verbatim}
+g(t) = (t,t^2)
+h(k) = abs(g(k/100.0) - g((k-1)/100.0))
+sum(k,1,100,h(k))
+\end{verbatim}}
+
+$1.47894$
+
+\bigskip
+As expected, the discrete result matches the analytic result.
+
+\bigskip
+Find the length of the curve $y=x^{3/2}$ from the origin to
+$x=\tfrac{4}{3}$.
+
+{\color{blue}
+\begin{verbatim}
+g = (t,t^(3/2))
+defint(abs(d(g,t)),t,0,4/3)
+\end{verbatim}}
+
+$\displaystyle \tfrac{56}{27}$
+
+
+\section{Line integral}
+
+There are two different kinds of line integrals,
+one for scalar fields and one
+for vector fields.
+The following table shows how both are based on the calculation of
+arc length.
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+& Abstract form
+& Computable form
+\\
+\hline
+ & &\\
+Arc length
+& $\displaystyle{\int_C ds}$
+& $\displaystyle{\int_a^b |g'(t)|\,dt}$\\
+ & &\\
+\hline
+ & & \\
+Line integral, scalar field
+& $\displaystyle{\int_C f\,ds}$
+& $\displaystyle{\int_a^b f(g(t))\,|g'(t)|\,dt}$\\
+& &\\
+\hline
+ & & \\
+Line integral, vector field
+& $\displaystyle{\int_C(F\cdot u)\,ds}$
+& $\displaystyle{\int_a^b F(g(t))\cdot g'(t)\,dt}$\\
+ & & \\
+\hline
+\end{tabular}
+\end{center}
+
+For the vector field form, the symbol $u$ is the unit tangent vector
+$$u=\frac{g'(t)}{|g'(t)|}$$
+The length of the tangent vector cancels with $ds$
+as follows.
+$$\int_C(F\cdot u)\,ds
+=\int_a^b\bigg(F(g(t))\cdot\frac{g'(t)}{|g'(t)|}\bigg)\,\bigg(|g'(t)|\,dt\bigg)
+=\int_a^b F(g(t))\cdot g'(t)\,dt
+$$
+
+Evaluate
+$$\int_Cx\,ds\quad\hbox{and}\quad\int_Cx\,dx$$
+where $C$ is a straight line from $(0,0)$ to $(1,1)$.
+
+\bigskip
+What a difference the measure makes.
+The first integral is over a scalar field and the second is over a vector field.
+This can be understood when we recall that
+$$ds=|g'(t)|\,dt
+$$
+Hence for $\int_Cx\,ds$ we have
+
+{\color{blue}
+\begin{verbatim}
+x = t
+y = t
+g = (x,y)
+defint(x abs(d(g,t)),t,0,1)
+\end{verbatim}
+}
+
+$\displaystyle \frac{1}{2^{1/2}}$
+
+\bigskip
+For $\int_Cx\,dx$ we have
+
+{\color{blue}
+\begin{verbatim}
+x = t
+y = t
+g = (x,y)
+F = (x,0)
+defint(dot(F,d(g,t)),t,0,1)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{2}$
+
+\bigskip
+The following line integral problems are from
+{\it Advanced Calculus, Fifth Edition} by Wilfred Kaplan.
+
+\bigskip
+Evaluate $\int y^2\,dx$ along the straight
+line from $(0,0)$ to $(2,2)$.
+
+{\color{blue}
+\begin{verbatim}
+x = 2t
+y = 2t
+g = (x,y)
+F = (y^2,0)
+defint(dot(F,d(g,t)),t,0,1)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{8}{3}$
+
+\bigskip
+Evaluate $\int z\,dx+x\,dy+y\,dz$
+along the path
+$x=2t+1$, $y=t^2$, $z=1+t^3$, $0\le t\le 1$.
+
+{\color{blue}
+\begin{verbatim}
+x = 2t+1
+y = t^2
+z = 1+t^3
+g = (x,y,z)
+F = (z,x,y)
+defint(dot(F,d(g,t)),t,0,1)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{163}{30}$
+
+
+\section{Surface area}
+
+Let $S$ be a surface parameterized by $x$ and $y$.
+That is, let $S=(x,y,z)$ where $z=f(x,y)$.
+The tangent lines at a point on $S$ form a tiny parallelogram.
+The area $a$ of the parallelogram is given by the magnitude of the cross product.
+\begin{equation*}
+a=\left|\frac{\partial S}{\partial x}\times\frac{\partial S}{\partial y}\right|
+\end{equation*}
+
+By summing over all the parallelograms we obtain the total surface area $A$.
+Hence
+\begin{equation*}
+A=\int\int dA=\int\int a\,dx\,dy
+\end{equation*}
+
+The following example computes the surface area of a unit disk
+parallel to the $xy$ plane.
+
+{\color{blue}
+\begin{verbatim}
+z = 2
+S = (x,y,z)
+a = abs(cross(d(S,x),d(S,y)))
+defint(a,y,-sqrt(1 - x^2),sqrt(1 - x^2),x,-1,1)
+\end{verbatim}
+}
+
+$\displaystyle \pi$
+
+\bigskip
+The result is $\pi$, the area of a unit circle, which is what we expect.
+The following example computes the surface area of $z=x^2+2y$ over
+a unit square.
+
+{\color{blue}
+\begin{verbatim}
+z = x^2 + 2y
+S = (x,y,z)
+a = abs(cross(d(S,x),d(S,y)))
+defint(a,x,0,1,y,0,1)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{5}{8}\log(5)+\tfrac{3}{2}$
+
+\bigskip
+The following exercise is from
+{\it Multivariable Mathematics} by Williamson and Trotter, p. 598.
+Find the area of the spiral ramp defined by
+\begin{equation*}
+S=\begin{pmatrix}u\cos v\\\ u\sin v\\ v\end{pmatrix},\quad 0\le u\le1,\quad 0\le v\le3\pi
+\end{equation*}
+
+{\color{blue}
+\begin{verbatim}
+x = u cos(v)
+y = u sin(v)
+z = v
+S = (x,y,z)
+a = circexp(abs(cross(d(S,u),d(S,v))))
+defint(a,u,0,1,v,0,3pi)
+\end{verbatim}
+}
+
+$\displaystyle \frac{3\pi}{2^{1/2}}+\tfrac{3}{2}\pi\log\left(2^{1/2}+1\right)$
+
+{\color{blue}
+\begin{verbatim}
+float
+\end{verbatim}
+}
+
+$\displaystyle 10.8177$
+
+
+\section{Surface integral}
+
+A surface integral is like adding up all the wind on a sail.
+In other words, we want to compute
+$$\int\!\!\!\int{\bf F\cdot n}\,dA$$
+where ${\bf F\cdot n}$ is the amount of wind normal to a tiny parallelogram $dA$.
+The integral sums over the entire area of the sail.
+Let $S$ be the surface of the sail parameterized by $x$ and $y$.
+(In this model, the $z$ direction points downwind.)
+By the properties of the cross product we have the following for the unit normal $\bf n$
+and for $dA$.
+$${\bf n}=\frac{{\frac{\partial S}{\partial x}\times\frac{\partial S}{\partial y}}}
+{{\left|\frac{\partial S}{\partial x}\times\frac{\partial S}{\partial y}\right|}}\qquad
+dA=\left|\frac{\partial S}{\partial x}\times\frac{\partial S}{\partial y}\right|\,dx\,dy$$
+Hence
+$$\int\!\!\!\int{\bf F\cdot n}\,dA=\int\!\!\!\int{\bf F}\cdot
+\left({\frac{\partial S}{\partial x}\times\frac{\partial S}{\partial y}}\right)\,dx\,dy$$
+
+\bigskip
+The following exercise is from
+{\it Advanced Calculus} by Wilfred Kaplan, p.~313.
+Evaluate the surface integral
+$$\int\!\!\!\int_S{\bf F\cdot n}\,d\sigma$$
+
+where ${\bf F}=xy^2z{\bf i}-2x^3{\bf j}+yz^2{\bf k}$, $S$ is the surface
+$z=1-x^2-y^2$, $x^2+y^2\le1$ and $\bf n$ is upper.
+
+\bigskip
+Note that the surface intersects the $xy$ plane in a circle.
+By the right hand rule, crossing $x$ into $y$ yields $\bf n$ pointing upwards hence
+$${\bf n}\,d\sigma=\left({\frac{\partial S}{\partial x}\times\frac{\partial S}{\partial y}}\right)\,dx\,dy$$
+
+The following code computes the surface integral.
+The symbols $f$ and $h$ are used as temporary variables.
+
+{\color{blue}
+\begin{verbatim}
+z = 1 - x^2 - y^2
+F = (x y^2 z, -2 x^3, y z^2)
+S = (x,y,z)
+f = dot(F,cross(d(S,x),d(S,y)))
+h = sqrt(1 - x^2)
+defint(f, y, -h, h, x, -1, 1)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{48}\pi$
+
+
+\section{Green's theorem}
+
+This is Green's theorem.
+\begin{equation*}
+\oint\left(P\,dx+Q\,dy\right)
+=\int\!\!\!\int
+\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)
+\,dx\,dy
+\end{equation*}
+
+In words, a line integral and a surface integral can yield
+the same result.
+
+\bigskip
+Example 1.
+The following exercise is from {\it Advanced Calculus}
+by Wilfred Kaplan, p.~287.
+Evaluate $\oint (2x^3-y^3)\,dx+(x^3+y^3)\,dy$ around the circle
+$x^2+y^2=1$ using Green's theorem.
+
+\bigskip
+Use polar coordinates to solve the surface integral.
+
+{\color{blue}
+\begin{verbatim}
+P = 2x^3 - y^3
+Q = x^3 + y^3
+f = d(Q,x) - d(P,y)
+x = r cos(theta)
+y = r sin(theta)
+defint(f r, r, 0, 1, theta, 0, 2 pi)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{3}{2}\pi$
+
+\bigskip
+The \verb$defint$ integrand is $f\,r$ because $r\,dr\,d\theta=dx\,dy$.
+
+\bigskip
+Now let us try computing the line integral side of Green's theorem
+and see if we get the same result.
+We need to use the trick of converting sine and cosine to exponentials
+so that Eigenmath can find the solution.
+
+{\color{blue}
+\begin{verbatim}
+x = cos(t)
+y = sin(t)
+P = 2x^3 - y^3
+Q = x^3 + y^3
+f = P d(x,t) + Q d(y,t)
+f = circexp(f)
+defint(f, t, 0, 2 pi)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{3}{2}\pi$
+
+\bigskip
+Example 2.
+Compute both sides of Green's theorem for
+$F=(1-y,x)$ over the disk $x^2+y^2\le4$.
+
+\bigskip
+First compute the line integral along the boundary of the disk.
+Note that the radius of the disk is 2.
+
+{\color{blue}
+\begin{verbatim}
+-- Line integral
+P = 1 - y
+Q = x
+x = 2 cos(t)
+y = 2 sin(t)
+defint(P d(x,t) + Q d(y,t),t,0,2pi)
+\end{verbatim}
+}
+
+$\displaystyle 8\pi$
+
+{\color{blue}
+\begin{verbatim}
+-- Surface integral
+x = quote(x) -- clear x
+y = quote(y) -- clear y
+h = sqrt(4 - x^2)
+defint(d(Q,x) - d(P,y), y, -h, h, x, -2, 2)
+\end{verbatim}
+}
+
+$\displaystyle 8\pi$
+
+{\color{blue}
+\begin{verbatim}
+-- use polar coordinates
+P = 1 - y
+Q = x
+f = d(Q,x) - d(P,y) -- do before change of coordinates
+x = r cos(theta)
+y = r sin(theta)
+defint(f r, r, 0, 2, theta, 0, 2 pi)
+\end{verbatim}
+}
+
+$\displaystyle 8\pi$
+
+{\color{blue}
+\begin{verbatim}
+defint(f r, theta, 0, 2 pi, r, 0, 2) -- integrate over theta first
+\end{verbatim}
+}
+
+$\displaystyle 8\pi$
+
+\bigskip
+In this case, Eigenmath solved both forms of the polar integral.
+However, in cases where Eigenmath fails to solve a double integral, try
+changing the order of integration.
+
+
+\section{Stokes's theorem}
+
+Stokes's theorem equates a surface integral of the curl of a function
+with a line integral of the same function.
+In rectangular coordinates the equivalence is
+%
+$$
+\iint_S(\mathop{\rm curl}{\bf F})\cdot{\bf n}\,d\sigma
+=\oint (P\,dx+Q\,dy+R\,dz)
+$$
+%
+where ${\bf F}=(P,Q,R)$.
+For $S$ parametrized by $x$ and $y$ we have
+$${\bf n}\,d\sigma=\left(
+\frac{\partial S}{\partial x}\times\frac{\partial S}{\partial y}
+\right)dx\,dy$$
+
+For example,
+let ${\bf F}=(y,z,x)$ and let $S$ be the part of the paraboloid
+$z=4-x^2-y^2$
+that is above the $xy$ plane.
+The perimeter of the paraboloid is the circle $x^2+y^2=2$.
+The following script computes both the surface and line integrals.
+Polar coordinates are used for the line integral so that \verb$defint$ can succeed.
+
+{\color{blue}
+\begin{verbatim}
+"Surface integral"
+z = 4 - x^2 - y^2
+F = (y,z,x)
+S = (x,y,z)
+z = quote(z) -- clear z for use by curl
+f = dot(curl(F),cross(d(S,x),d(S,y)))
+x = r cos(theta)
+y = r sin(theta)
+defint(f r, r, 0, 2, theta, 0, 2 pi)
+
+"Line integral"
+x = 2 cos(t)
+y = 2 sin(t)
+z = 4 - x^2 - y^2
+P = y
+Q = z
+R = x
+f = P d(x,t) + Q d(y,t) + R d(z,t)
+f = circexp(f)
+defint(f, t, 0, 2 pi)
+\end{verbatim}
+}
+
+This is the result when the script runs.
+Both the surface integral and the line integral
+yield the same result.
+
+\bigskip
+Surface integral
+
+$\displaystyle -4\pi$
+
+Line integral
+
+$\displaystyle -4\pi$
+
+
+\section{Feature Index}
+
+\subsection*{abs($x$)}
+
+Returns the absolute value or vector length of $x$.
+
+{\color{blue}
+\begin{verbatim}
+X = (x,y,z)
+abs(X)
+\end{verbatim}
+}
+
+\noindent
+$\left(x^2+y^2+z^2\right)^{1/2}$
+
+\subsection*{adj($m$)}
+
+Returns the adjunct of matrix $m$.
+Adjunct is equal to determinant times inverse.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+adj(A) == det(A) inv(A)
+\end{verbatim}
+}
+
+\noindent
+$1$
+
+\subsection*{and($a,b,\ldots$)}
+
+Returns 1 if all arguments are true (nonzero).
+Returns 0 otherwise.
+
+{\color{blue}
+\begin{verbatim}
+and(1=1,2=2)
+\end{verbatim}
+}
+
+\noindent
+$1$
+
+\subsection*{arccos($x$)}
+
+Returns the arc cosine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+arccos(1/2)
+\end{verbatim}
+}
+
+\noindent
+$\tfrac{1}{3}\pi$
+
+\subsection*{arccosh($x$)}
+
+Returns the arc hyperbolic cosine of $x$.
+
+\subsection*{arcsin($x$)}
+
+Returns the arc sine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+arcsin(1/2)
+\end{verbatim}
+}
+
+\noindent
+$\tfrac{1}{6}\pi$
+
+\subsection*{arcsinh($x$)}
+
+Returns the arc hyperbolic sine of $x$.
+
+\subsection*{arctan($y,x$)}
+
+Returns the arc tangent of $y$ over $x$.
+If $x$ is omitted then $x=1$ is used.
+
+{\color{blue}
+\begin{verbatim}
+arctan(1,0)
+\end{verbatim}
+}
+
+\noindent
+$\tfrac{1}{2}\pi$
+
+\subsection*{arctanh($x$)}
+
+Returns the arc hyperbolic tangent of $x$.
+
+\subsection*{arg($z$)}
+
+Returns the angle of complex $z$.
+
+{\color{blue}
+\begin{verbatim}
+arg(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+$\arctan(-3,2)$
+
+\subsection*{binding($s$)}
+
+The result of evaluating a symbol can differ from the symbol's binding.
+For example, the result may be expanded.
+The {\tt binding} function returns the actual binding of a symbol.
+
+{\color{blue}
+\begin{verbatim}
+p = quote((x + 1)^2)
+p
+\end{verbatim}
+}
+
+\noindent
+$p=x^2+2x+1$
+
+{\color{blue}
+\begin{verbatim}
+binding(p)
+\end{verbatim}
+}
+
+\noindent
+$(x+1)^2$
+
+\subsection*{ceiling($x$)}
+
+Returns the smallest integer greater than or equal to $x$.
+
+{\color{blue}
+\begin{verbatim}
+ceiling(1/2)
+\end{verbatim}
+}
+
+\noindent
+$1$
+
+\subsection*{check($x$)}
+
+If $x$ is true (nonzero) then continue, else stop.
+Expression $x$ can include the relational operators
+\verb$=$,
+\verb$==$,
+\verb$<$,
+\verb$<=$,
+\verb$>$,
+\verb$>=$.
+Use the
+\verb$not$
+function to test for inequality.
+
+{\color{blue}
+\begin{verbatim}
+A = exp(i pi)
+B = -1
+check(A == B) -- stop here if A not equal to B
+\end{verbatim}
+}
+
+\subsection*{choose($n,k$)}
+
+Returns the binomial coefficient $n$ choose $k$.
+
+{\color{blue}
+\begin{verbatim}
+choose(52,5) -- number of poker hands
+\end{verbatim}
+}
+
+\noindent
+$2598960$
+
+\subsection*{circexp($x$)}
+
+Returns expression $x$ with circular and hyperbolic functions
+converted to exponentials.
+
+{\color{blue}
+\begin{verbatim}
+circexp(cos(x) + i sin(x))
+\end{verbatim}
+}
+
+\noindent
+$\exp(ix)$
+
+\subsection*{clear}
+
+Clears all symbol definitions.
+
+\subsection*{clock($z$)}
+
+Returns complex $z$ in polar form with base of negative 1 instead of $e$.
+
+{\color{blue}
+\begin{verbatim}
+clock(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+$13^{1/2}\,(-1)^{\arctan(-3,2)/\pi}$
+
+\subsection*{cofactor($m,i,j$)}
+
+Returns the cofactor of matrix $m$ for row $i$ and column $j$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+cofactor(A,1,2) == adj(A)[2,1]
+\end{verbatim}
+}
+
+\noindent
+1
+
+\subsection*{conj($z$)}
+
+Returns the complex conjugate of $z$.
+
+{\color{blue}
+\begin{verbatim}
+conj(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+$2 + 3 i$
+
+\subsection*{contract($a,i,j$)}
+
+Returns tensor $a$ summed over indices $i$ and $j$.
+If $i$ and $j$ are omitted then 1 and 2 are used.
+The expression {\tt contract(m)} computes the trace of matrix $m$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+contract(A)
+\end{verbatim}
+}
+
+\noindent
+$a + d$
+
+\subsection*{cos($x$)}
+
+Returns the cosine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+cos(pi/4)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{1}{2^{1/2}}$
+
+\subsection*{cosh($x$)}
+
+Returns the hyperbolic cosine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+circexp(cosh(x))
+\end{verbatim}
+}
+
+\noindent
+$\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
+
+\subsection*{cross($u,v$)}
+
+Returns the cross product of vectors $u$ and $v$.
+
+\subsection*{curl($v$)}
+
+Returns the curl of vector $v$ with respect to symbols \verb$x$, \verb$y$, and \verb$z$.
+
+\subsection*{d($f,x,\ldots$)}
+
+Returns the partial derivative of $f$ with respect to $x$ and any additional arguments.
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x),x)
+\end{verbatim}
+}
+
+\noindent
+$\cos(x)$
+
+\bigskip
+\noindent
+Multiderivatives are computed by extending the argument list.
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x),x,x)
+\end{verbatim}
+}
+
+\noindent
+$-\sin(x)$
+
+\bigskip
+\noindent
+A numeric argument $n$ computes the $n$th derivative with respect to the previous symbol.
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x y),x,2,y,2)
+\end{verbatim}
+}
+
+\noindent
+$x^2y^2\sin(xy)-4xy\cos(xy)-2\sin(xy)$
+
+\bigskip
+\noindent
+Argument $f$ can be a tensor of any rank.
+Argument $x$ can be a vector.
+When $x$ is a vector the result is the gradient of $f$.
+
+{\color{blue}
+\begin{verbatim}
+F = (f(),g(),h())
+X = (x,y,z)
+d(F,X)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+\operatorname{d}(f(),x) & \operatorname{d}(f(),y) &  \operatorname{d}(f(),z)
+\\[1ex]
+\operatorname{d}(g(),x) & \operatorname{d}(g(),y) &  \operatorname{d}(g(),z)
+\\[1ex]
+\operatorname{d}(h(),x) & \operatorname{d}(h(),y) &  \operatorname{d}(h(),z)
+\end{bmatrix}
+$
+
+\bigskip
+\noindent
+Symbol \verb$d$ can be used as a variable name.
+Doing so does not conflict with function \verb$d$.
+
+\bigskip
+\noindent
+Symbol \verb$d$ can be redefined as a different function.
+The function \verb$derivative$, a synonym for \verb$d$, can be used to obtain a partial derivative.
+
+\subsection*{defint($f,x,a,b$)}
+
+Returns the definite integral of $f$ with respect to $x$
+evaluated from $a$ to $b$.
+The argument list can be extended for multiple integrals
+as shown in the following example.
+
+{\color{blue}
+\begin{verbatim}
+f = (1 + cos(theta)^2) sin(theta)
+-- integrate over theta then over phi
+defint(f, theta, 0, pi, phi, 0, 2 pi)
+\end{verbatim}
+}
+
+\noindent
+$\tfrac{16}{3}\pi$
+
+\subsection*{denominator($x$)}
+
+Returns the denominator of expression $x$.
+
+{\color{blue}
+\begin{verbatim}
+denominator(a/b)
+\end{verbatim}
+}
+
+\noindent
+$b$
+
+\subsection*{det($m$)}
+
+Returns the determinant of matrix $m$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+det(A)
+\end{verbatim}
+}
+
+\noindent
+$a d - b c$
+
+\subsection*{dim($a,n$)}
+
+Returns the dimension of the $n$th index of tensor $a$.
+Index numbering starts with 1.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2),(3,4),(5,6))
+dim(A,1)
+\end{verbatim}
+}
+
+\noindent
+$3$
+
+\subsection*{div($v$)}
+
+Returns the divergence of vector $v$ with respect to symbols \verb$x$, \verb$y$, and \verb$z$.
+
+\subsection*{do($a,b,\ldots$)}
+
+Evaluates each argument from left to right.
+Returns the result of the final argument.
+
+{\color{blue}
+\begin{verbatim}
+do(A=1,B=2,A+B)
+\end{verbatim}
+}
+
+\noindent
+$3$
+
+\subsection*{dot($a,b,\ldots$)}
+
+Returns the dot product of vectors, matrices, and tensors.
+Also known as the matrix product.
+Arguments are evaluated from right to left.
+The following example solves for $X$ in $AX=B$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2),(3,4))
+B = (5,6)
+X = dot(inv(A),B)
+X
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+-4
+\\[1ex]
+\tfrac{9}{2}
+\end{bmatrix}
+$
+
+\subsection*{eigenvec($m$)}
+
+Returns eigenvectors for matrix $m$.
+Matrix $m$ is required to be numerical, real, and symmetric.
+The return value is a matrix with each column an eigenvector.
+Eigenvalues are obtained as shown.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2,3),(2,6,4),(3,4,5))
+Q = eigenvec(A)
+D = dot(transpose(Q),A,Q) -- eigenvalues on the diagonal of D
+dot(Q,D,transpose(Q))
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1 & 2 & 3
+\\[1ex]
+2 & 6 & 4
+\\[1ex]
+3 & 4 & 5
+\end{bmatrix}
+$
+
+\subsection*{eval($f,x,a$)}
+
+Returns expression $f$ evaluated at $x$ equals $a$.
+The argument list can be extended as shown.
+
+{\color{blue}
+\begin{verbatim}
+f = sqrt(x^2 + y^2)
+eval(f,x,3,y,4) -- evaluate f at x=3 and y=4
+\end{verbatim}
+}
+
+\noindent
+5
+
+\bigskip
+\noindent
+The \verb$eval$ function can be used for substitution.
+In the following example, \verb$eval$ is used to replace
+\verb$x$ with \verb$cos(theta)$.
+
+{\color{blue}
+\begin{verbatim}
+-- associated legendre of cos theta
+
+P(l,m) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+         1 / (2^l l!) sin(theta)^m *
+         eval(d((x^2 - 1)^l,x,l + m),x,cos(theta)))
+
+P(2,-1)
+\end{verbatim}
+}
+
+$\displaystyle
+-\tfrac{1}{2}\cos(\theta)\sin(\theta)
+$
+
+\subsection*{exp($x$)}
+
+Returns the exponential of $x$.
+
+{\color{blue}
+\begin{verbatim}
+exp(i pi)
+\end{verbatim}
+}
+
+\noindent
+$-1$
+
+\subsection*{expcos($z$)}
+
+Returns the cosine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+expcos(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \tfrac{1}{2}\exp(iz)+\tfrac{1}{2}\exp(-iz)$
+
+\subsection*{expcosh($z$)}
+
+Returns the hyperbolic cosine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+expcosh(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
+
+\subsection*{expsin($z$)}
+
+Returns the sine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+expsin(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle -\tfrac{1}{2}i\exp(iz)+\tfrac{1}{2}i\exp(-iz)$
+
+\subsection*{expsinh($z$)}
+
+Returns the hyperbolic sine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+expsinh(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle -\tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
+
+\subsection*{exptan($z$)}
+
+Returns the tangent of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+exptan(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{i}{\exp(2iz)+1}-\frac{i\exp(2iz)}{\exp(2iz)+1}$
+
+\subsection*{exptanh($z$)}
+
+Returns the hyperbolic tangent of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+exptanh(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle -\frac{1}{\exp(2z)+1}+\frac{\exp(2z)}{\exp(2z)+1}$
+
+\subsection*{factorial($n$)}
+
+Returns the factorial of $n$.
+The expression {\tt n!} can also be used.
+
+{\color{blue}
+\begin{verbatim}
+20!
+\end{verbatim}
+}
+
+\noindent
+$2432902008176640000$
+
+\subsection*{float($x$)}
+
+Returns expression $x$ with rational numbers and integers converted to
+floating point values.
+The symbol {\tt pi} and the natural number are also converted.
+
+{\color{blue}
+\begin{verbatim}
+float(212^17)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle 3.52947\times 10^{39}$
+
+\subsection*{floor($x$)}
+
+Returns the largest integer less than or equal to $x$.
+
+{\color{blue}
+\begin{verbatim}
+floor(1/2)
+\end{verbatim}
+}
+
+\noindent
+$0$
+
+\subsection*{for($i,j,k,a,b,\ldots$)}
+
+For $i$ equals $j$ through $k$ evaluate $a$, $b$, etc.
+
+{\color{blue}
+\begin{verbatim}
+for(k,1,3,A=k,print(A))
+\end{verbatim}
+}
+
+\noindent
+$A=1$\\
+$A=2$\\
+$A=3$
+
+\bigskip
+\noindent
+Note: The original value of $i$ is restored after {\tt for} completes.
+If symbol {\tt i} is used for index variable $i$
+then the imaginary unit is overridden in the scope of {\tt for}.
+
+\subsection*{grad($f$)}
+
+Returns the gradient \verb$d(f,(x,y,z))$.
+
+{\color{blue}
+\begin{verbatim}
+grad(f())
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+{\rm d}(f(),x)
+\\[1ex]
+{\rm d}(f(),y)
+\\[1ex]
+{\rm d}(f(),z)
+\end{bmatrix}
+$
+
+\subsection*{hadamard($a,b,\ldots$)}
+
+Returns the Hadamard (element-wise) product.
+
+{\color{blue}
+\begin{verbatim}
+X = (a,b,c)
+hadamard(X,X)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+a^2
+\\[1ex]
+b^2
+\\[1ex]
+c^2
+\end{bmatrix}
+$
+
+\subsection*{i}
+
+Symbol {\tt i} is initialized to the imaginary unit $\sqrt{-1}$.
+
+{\color{blue}
+\begin{verbatim}
+exp(i pi)
+\end{verbatim}
+}
+
+\noindent
+$-1$
+
+\bigskip
+\noindent
+Note: It is ok to clear or redefine {\tt i} and use the symbol for something else.
+
+\subsection*{imag($z$)}
+
+Returns the imaginary part of complex $z$.
+
+{\color{blue}
+\begin{verbatim}
+imag(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+$-3$
+
+\subsection*{infixform($x$)}
+
+Converts expression $x$ to a string and returns the result.
+
+{\color{blue}
+\begin{verbatim}
+p = (x + 1)^2
+infixform(p)
+\end{verbatim}
+}
+
+\noindent
+\verb$x^2 + 2 x + 1$
+
+\subsection*{inner($a,b,\ldots$)}
+
+Returns the inner product of vectors, matrices, and tensors.
+Also known as the matrix product.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+B = (x,y)
+inner(A,B)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+ax+by
+\\[1ex]
+cx+dy
+\end{bmatrix}
+$
+
+\bigskip
+\noindent
+Note: {\tt inner} and {\tt dot} are the same function.
+
+\subsection*{integral($f,x$)}
+
+Returns the integral of $f$ with respect to $x$.
+
+{\color{blue}
+\begin{verbatim}
+integral(x^2,x)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \tfrac{1}{3}x^3$
+
+\subsection*{inv($m$)}
+
+Returns the inverse of matrix $m$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2),(3,4))
+inv(A)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+-2 & 1
+\\[1ex]
+\tfrac{3}{2} & -\tfrac{1}{2}
+\end{bmatrix}
+$
+
+\subsection*{j}
+
+Set {\tt j=sqrt(-1)} to use {\tt j} for the imaginary unit instead of {\tt i}.
+
+{\color{blue}
+\begin{verbatim}
+j = sqrt(-1)
+1/sqrt(-1)
+\end{verbatim}
+}
+
+\noindent
+$-j$
+
+\subsection*{kronecker($a,b,\ldots$)}
+
+Returns the Kronecker product of vectors and matrices.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2),(3,4))
+B = ((a,b),(c,d))
+kronecker(A,B)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+a & b & 2a & 2b
+\\[1ex]
+c & d & 2c & 2d
+\\[1ex]
+3a & 3b & 4a & 4b
+\\[1ex]
+3c & 3d & 3c & 4d
+\end{bmatrix}
+$
+
+\subsection*{last}
+
+The result of the previous calculation is stored in {\tt last}.
+
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}
+}
+
+\noindent
+$3529471145760275132301897342055866171392$
+
+{\color{blue}
+\begin{verbatim}
+last^(1/17)
+\end{verbatim}
+}
+
+\noindent
+$212$
+
+\bigskip
+\noindent
+Symbol \verb$last$ is an implied argument when a function has no argument list.
+
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}
+}
+
+\noindent
+$3529471145760275132301897342055866171392$
+
+{\color{blue}
+\begin{verbatim}
+float
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle 3.52947\times10^{39}$
+
+\subsection*{log($x$)}
+
+Returns the natural logarithm of $x$.
+
+{\color{blue}
+\begin{verbatim}
+log(x^y)
+\end{verbatim}
+}
+
+\noindent
+$y\log(x)$
+
+\subsection*{mag($z$)}
+
+Returns the magnitude of complex $z$.
+Function {\tt mag} treats undefined symbols as real while {\tt abs} does not.
+
+{\color{blue}
+\begin{verbatim}
+mag(x + i y)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle (x^2+y^2)^{1/2}$
+
+\subsection*{minor($m,i,j$)}
+
+Returns the minor of matrix $m$ for row $i$ and column $j$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2,3),(4,5,6),(7,8,9))
+minor(A,1,1) == det(minormatrix(A,1,1))
+\end{verbatim}
+}
+
+\noindent
+1
+
+\subsection*{minormatrix($m,i,j$)}
+
+Returns a copy of matrix $m$ with row $i$ and column $j$ removed.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2,3),(4,5,6),(7,8,9))
+minormatrix(A,1,1)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+5 & 6
+\\[1ex]
+8 & 9
+\end{bmatrix}
+$
+
+\subsection*{noexpand($x$)}
+
+Evaluates expression $x$ without expanding products of sums.
+
+{\color{blue}
+\begin{verbatim}
+noexpand((x + 1)^2 / (x + 1))
+\end{verbatim}
+}
+
+\noindent
+$x + 1$
+
+\subsection*{not($x$)}
+
+Returns 0 if $x$ is true (nonzero).
+Returns 1 otherwise.
+
+{\color{blue}
+\begin{verbatim}
+not(1=1)
+\end{verbatim}
+}
+
+\noindent
+$0$
+
+\subsection*{nroots($p,x$)}
+
+Returns the approximate roots of polynomials with real or complex coefficients.
+Multiple roots are returned as a vector.
+
+{\color{blue}
+\begin{verbatim}
+p = x^5 - 1
+nroots(p,x)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1
+\\[1ex]
+-0.809017 + 0.587785\,i
+\\[1ex]
+-0.809017 - 0.587785\,i
+\\[1ex]
+0.309017 + 0.951057\,i
+\\[1ex]
+0.309017 - 0.951057\,i
+\end{bmatrix}
+$
+
+\subsection*{numerator($x$)}
+
+Returns the numerator of expression $x$.
+
+{\color{blue}
+\begin{verbatim}
+numerator(a/b)
+\end{verbatim}
+}
+
+\noindent
+$a$
+
+\subsection*{or($a,b,\ldots$)}
+
+Returns 1 if at least one argument is true (nonzero).
+Returns 0 otherwise.
+
+{\color{blue}
+\begin{verbatim}
+or(1=1,2=2)
+\end{verbatim}
+}
+
+\noindent
+$1$
+
+\subsection*{outer($a,b,\ldots$)}
+
+Returns the outer product of vectors, matrices, and tensors.
+
+{\color{blue}
+\begin{verbatim}
+A = (a,b,c)
+B = (x,y,z)
+outer(A,B)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+a x & a y & a z
+\\[1ex]
+b x & b y & b z
+\\[1ex]
+c x & c y & c z
+\end{bmatrix}
+$
+
+\subsection*{pi}
+
+Symbol for $\pi$.
+
+{\color{blue}
+\begin{verbatim}
+exp(i pi)
+\end{verbatim}
+}
+
+\noindent
+$-1$
+
+\subsection*{polar($z$)}
+
+Returns complex $z$ in polar form.
+
+{\color{blue}
+\begin{verbatim}
+polar(x - i y)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle (x^2+y^2)^{1/2}\exp(i\arctan(-y,x))$
+
+\subsection*{power}
+
+Use \verb$^$ to raise something to a power.
+Use parentheses for negative powers.
+
+{\color{blue}
+\begin{verbatim}
+x^(-2)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{1}{x^2}$
+
+\subsection*{print($a,b,\ldots$)}
+
+Evaluate expressions and print the results.
+Useful for printing from inside a {\tt for} loop.
+
+{\color{blue}
+\begin{verbatim}
+for(j,1,3,print(j))
+\end{verbatim}
+}
+
+\noindent
+$j=1$\newline
+$j=2$\newline
+$j=3$
+
+\subsection*{product($i,j,k,f$)}
+
+For $i$ equals $j$ through $k$ evaluate $f$.
+Returns the product of all $f$.
+
+{\color{blue}
+\begin{verbatim}
+product(j,1,3,x + j)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle x^3+6x^2+11x+6$
+
+\bigskip
+\noindent
+The original value of $i$ is restored after {\tt product} completes.
+If symbol {\tt i} is used for index variable $i$
+then the imaginary unit is overridden in the scope of {\tt product}.
+
+\subsection*{product($y$)}
+
+Returns the product of components of $y$.
+
+{\color{blue}
+\begin{verbatim}
+y = (1,2,3,4)
+product(y)
+\end{verbatim}
+}
+
+\noindent
+24
+
+\subsection*{quote($x$)}
+
+Returns expression $x$ without evaluating it first.
+
+{\color{blue}
+\begin{verbatim}
+quote((x + 1)^2)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle (x+1)^2$
+
+\subsection*{rank($a$)}
+
+Returns the number of indices that tensor $a$ has.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+rank(A)
+\end{verbatim}
+}
+
+\noindent
+2
+
+\subsection*{rationalize($x$)}
+
+Returns expression $x$ with everything over a common denominator.
+
+{\color{blue}
+\begin{verbatim}
+rationalize(1/a + 1/b + 1/2)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{2a+ab+2b}{2ab}$
+
+\bigskip
+\noindent
+Note:
+\verb$rationalize$
+returns an unexpanded expression.
+If the result is assigned to a symbol, evaluating the symbol will expand the result.
+Use
+\verb$binding$
+to retrieve the unexpanded expression.
+
+{\color{blue}
+\begin{verbatim}
+f = rationalize(1/a + 1/b + 1/2)
+binding(f)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{2a+ab+2b}{2ab}$
+
+\subsection*{real($z$)}
+
+Returns the real part of complex $z$.
+
+{\color{blue}
+\begin{verbatim}
+real(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+2
+
+\subsection*{rect($z$)}
+
+Returns complex $z$ in rectangular form.
+
+{\color{blue}
+\begin{verbatim}
+rect(exp(i x))
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \cos(x)+i\sin(x)$
+
+\subsection*{roots($p,x$)}
+
+Returns the rational roots of a polynomial.
+Multiple roots are returned as a vector.
+
+{\color{blue}
+\begin{verbatim}
+p = (x + 1) (x - 2)
+roots(p,x)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+-1
+\\[1ex]
+2
+\end{bmatrix}
+$
+
+\bigskip
+\noindent
+If no roots are found then \verb$nil$ is returned.
+A \verb$nil$ result is not printed so the following example uses
+\verb$infixform$ to print \verb$nil$ as a string.
+
+{\color{blue}
+\begin{verbatim}
+p = x^2 + 1
+infixform(roots(p,x))
+\end{verbatim}
+}
+
+\noindent
+nil
+
+\subsection*{rotate($u,s,k,\ldots$)}
+Rotates vector $u$ and returns the result.
+Vector $u$ is required to have $2^n$ elements where
+$n$ is an integer from 1 to 15.
+Arguments $s,k,\ldots$ are a sequence of rotation codes
+where $s$ is an upper case letter and $k$ is a qubit number
+from 0 to $n-1$.
+Rotations are evaluated from left to right.
+See section 3 for a list of rotation codes.
+
+{\color{blue}
+\begin{verbatim}
+psi = (1,0,0,0)
+rotate(psi,H,0)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+{\displaystyle \frac{1}{2^{1/2}}}
+\\
+\\
+{\displaystyle \frac{1}{2^{1/2}}}
+\\
+\\
+0
+\\
+\\
+0
+\end{bmatrix}
+$
+
+\subsection*{run($x$)}
+
+Run script $x$ where $x$ evaluates to a filename string.
+Useful for importing function libraries.
+
+{\color{blue}
+\begin{verbatim}
+run("EVA2.txt")
+\end{verbatim}
+}
+
+\noindent
+For Eigenmath installed from the Mac App Store,
+run files need to be put in the directory
+\verb$~/Library/Containers/eigenmath/Data/$
+
+\subsection*{simplify($x$)}
+
+Returns expression $x$ in a simpler form.
+
+{\color{blue}
+\begin{verbatim}
+simplify(sin(x)^2 + cos(x)^2)
+\end{verbatim}
+}
+
+\noindent
+1
+
+\subsection*{sin($x$)}
+
+Returns the sine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+sin(pi/4)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{1}{2^{1/2}}$
+
+\subsection*{sinh($x$)}
+
+Returns the hyperbolic sine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+circexp(sinh(x))
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle -\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
+
+\subsection*{sqrt($x$)}
+
+Returns the square root of $x$.
+
+{\color{blue}
+\begin{verbatim}
+sqrt(10!)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle 720\; 7^{1/2}$
+
+\subsection*{stop}
+
+In a script, it does what it says.
+
+\subsection*{sum($i,j,k,f$)}
+
+For $i$ equals $j$ through $k$ evaluate $f$.
+Returns the sum of all $f$.
+
+{\color{blue}
+\begin{verbatim}
+sum(j,1,5,x^j)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle x^5+x^4+x^3+x^2+x$
+
+\bigskip
+\noindent
+The original value of $i$ is restored after {\tt sum} completes.
+If symbol {\tt i} is used for index variable $i$
+then the imaginary unit is overridden in the scope of {\tt sum}.
+
+\subsection*{sum($y$)}
+
+Returns the sum of components of $y$.
+
+{\color{blue}
+\begin{verbatim}
+y = (1,2,3,4)
+sum(y)
+\end{verbatim}
+}
+
+\noindent
+$10$
+
+\subsection*{tan($x$)}
+
+Returns the tangent of $x$.
+
+{\color{blue}
+\begin{verbatim}
+simplify(tan(x) - sin(x)/cos(x))
+\end{verbatim}
+}
+
+\noindent
+0
+
+\subsection*{tanh($x$)}
+
+Returns the hyperbolic tangent of $x$.
+
+{\color{blue}
+\begin{verbatim}
+circexp(tanh(x))
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle -\frac{1}{\exp(2x)+1}+\frac{\exp(2x)}{\exp(2x)+1}$
+
+\subsection*{test($a,b,c,d,\ldots$)}
+
+If argument $a$ is true (nonzero) then $b$ is returned, else if $c$ is true then $d$ is returned, etc.
+If the number of arguments is odd then the final argument is returned if all else fails.
+Expressions can include the relational operators
+\verb$=$,
+\verb$==$,
+\verb$<$,
+\verb$<=$,
+\verb$>$,
+\verb$>=$.
+Use the
+\verb$not$
+function to test for inequality.
+(The equality operator
+\verb$==$
+is available for contexts in which
+\verb$=$
+is the assignment operator.)
+
+{\color{blue}
+\begin{verbatim}
+A = 1
+B = 1
+test(A=B,"yes","no")
+\end{verbatim}
+}
+
+\noindent
+yes
+
+\subsection*{trace}
+
+Set {\tt trace=1} in a script to print the script as it is evaluated.
+Useful for debugging.
+
+{\color{blue}
+\begin{verbatim}
+trace = 1
+\end{verbatim}
+}
+
+\noindent
+Note:
+The
+\verb$contract$
+function is used to obtain the trace of a matrix.
+
+\subsection*{transpose($a,i,j$)}
+
+Returns the transpose of tensor $a$ with respect to indices $i$ and $j$.
+If $i$ and $j$ are omitted then 1 and 2 are used.
+Hence a matrix can be transposed with a single argument.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+transpose(A)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+a & c
+\\[1ex]
+b & d
+\end{bmatrix}
+$
+
+\bigskip
+\noindent
+Note:
+The argument list can be extended for multiple transpose operations.
+Arguments are evaluated from left to right.
+For example,
+\verb$transpose(A,1,2,2,3)$
+is equivalent to
+\verb$transpose(transpose(A,1,2),2,3)$
+
+\subsection*{tty}
+
+Set \verb$tty=1$ to show results in string format.
+Set \verb$tty=0$ to turn off.
+Can be useful when displayed results exceed window size.
+
+{\color{blue}
+\begin{verbatim}
+tty = 1
+(x + 1)^2
+\end{verbatim}
+}
+
+\noindent
+\verb$x^2 + 2 x + 1$
+
+\subsection*{unit($n$)}
+
+Returns an $n$ by $n$ identity matrix.
+
+{\color{blue}
+\begin{verbatim}
+unit(3)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1 & 0 & 0
+\\[1ex]
+0 & 1 & 0
+\\[1ex]
+0 & 0 & 1
+\end{bmatrix}
+$
+
+\subsection*{zero($i,j,\ldots$)}
+
+Returns a null tensor with dimensions $i$, $j$, etc.
+Useful for creating a tensor and then setting component values.
+
+{\color{blue}
+\begin{verbatim}
+A = zero(3,3)
+for(k,1,3,A[k,k]=k)
+A
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+A=
+\begin{bmatrix}
+1 & 0 & 0
+\\[1ex]
+0 & 2 & 0
+\\[1ex]
+0 & 0 & 3
+\end{bmatrix}
+$
 
 \end{document}
