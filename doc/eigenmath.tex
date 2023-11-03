@@ -1499,9 +1499,8 @@ $\displaystyle \tfrac{56}{27}$
 
 \section{Line integral}
 
-There are two different kinds of line integrals,
-one for scalar fields and one
-for vector fields.
+There are two kinds of line integrals,
+one for scalar fields and one for vector fields.
 The following table shows how both are based on the calculation of
 arc length.
 
@@ -1533,35 +1532,46 @@ Line integral, vector field
 \end{tabular}
 \end{center}
 
-For the vector field form, the symbol $u$ is the unit tangent vector
-$$u=\frac{g'(t)}{|g'(t)|}$$
-The length of the tangent vector cancels with $ds$
-as follows.
-$$\int_C(F\cdot u)\,ds
-=\int_a^b\bigg(F(g(t))\cdot\frac{g'(t)}{|g'(t)|}\bigg)\,\bigg(|g'(t)|\,dt\bigg)
-=\int_a^b F(g(t))\cdot g'(t)\,dt
-$$
+Note that for the measure $ds$ we have
+\begin{equation*}
+ds=|g'(t)|\,dt
+\end{equation*}
 
-Evaluate
-$$\int_Cx\,ds\quad\hbox{and}\quad\int_Cx\,dx$$
+For vector fields, symbol $u$ is the unit tangent vector
+\begin{equation*}
+u=\frac{g'(t)}{|g'(t)|}
+\end{equation*}
+
+Note that $u$ cancels with $ds$ as follows.
+\begin{equation*}
+\int_C(F\cdot u)\,ds
+=\int_a^b
+\left(F(g(t))\cdot\frac{g'(t)}{|g'(t)|}\right)
+|g'(t)|\,dt
+=\int_a^b F(g(t))\cdot g'(t)\,dt
+\end{equation*}
+
+Example 1. Evaluate
+\begin{equation*}
+\int_Cx\,ds\quad\hbox{and}\quad\int_Cx\,dx
+\end{equation*}
+
 where $C$ is a straight line from $(0,0)$ to $(1,1)$.
 
 \bigskip
-What a difference the measure makes.
-The first integral is over a scalar field and the second is over a vector field.
-This can be understood when we recall that
-$$ds=|g'(t)|\,dt
-$$
-Hence for $\int_Cx\,ds$ we have
+Although the integrals appear similar,
+the first is over a scalar field and the second is over a vector field.
+
+\bigskip
+For $\int_Cx\,ds$ we have
 
 {\color{blue}
 \begin{verbatim}
 x = t
 y = t
 g = (x,y)
-defint(x abs(d(g,t)),t,0,1)
-\end{verbatim}
-}
+defint(x abs(d(g,t)), t, 0, 1)
+\end{verbatim}}
 
 $\displaystyle \frac{1}{2^{1/2}}$
 
@@ -1574,9 +1584,8 @@ x = t
 y = t
 g = (x,y)
 F = (x,0)
-defint(dot(F,d(g,t)),t,0,1)
-\end{verbatim}
-}
+defint(dot(F,d(g,t)), t, 0, 1)
+\end{verbatim}}
 
 $\displaystyle \tfrac{1}{2}$
 
@@ -1585,36 +1594,34 @@ The following line integral problems are from
 {\it Advanced Calculus, Fifth Edition} by Wilfred Kaplan.
 
 \bigskip
-Evaluate $\int y^2\,dx$ along the straight
+Example 2. Evaluate $\int y^2\,dx$ along the straight
 line from $(0,0)$ to $(2,2)$.
 
 {\color{blue}
 \begin{verbatim}
-x = 2t
-y = 2t
+x = t
+y = t
 g = (x,y)
 F = (y^2,0)
-defint(dot(F,d(g,t)),t,0,1)
-\end{verbatim}
-}
+defint(dot(F,d(g,t)), t, 0, 2)
+\end{verbatim}}
 
 $\displaystyle \tfrac{8}{3}$
 
 \bigskip
-Evaluate $\int z\,dx+x\,dy+y\,dz$
+Example 3. Evaluate $\int z\,dx+x\,dy+y\,dz$
 along the path
 $x=2t+1$, $y=t^2$, $z=1+t^3$, $0\le t\le 1$.
 
 {\color{blue}
 \begin{verbatim}
-x = 2t+1
+x = 2 t + 1
 y = t^2
-z = 1+t^3
+z = 1 + t^3
 g = (x,y,z)
 F = (z,x,y)
-defint(dot(F,d(g,t)),t,0,1)
-\end{verbatim}
-}
+defint(dot(F,d(g,t)), t, 0, 1)
+\end{verbatim}}
 
 $\displaystyle \tfrac{163}{30}$
 
