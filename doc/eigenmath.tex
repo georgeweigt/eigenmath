@@ -1597,13 +1597,17 @@ The following line integral problems are from
 Example 2. Evaluate $\int y^2\,dx$ along the straight
 line from $(0,0)$ to $(2,2)$.
 
+\bigskip
+The following solution parametrizes $x$ and $y$ so that
+the endpoint $(2,2)$ corresponds to $t=1$.
+
 {\color{blue}
 \begin{verbatim}
-x = t
-y = t
+x = 2 t
+y = 2 t
 g = (x,y)
 F = (y^2,0)
-defint(dot(F,d(g,t)), t, 0, 2)
+defint(dot(F,d(g,t)), t, 0, 1)
 \end{verbatim}}
 
 $\displaystyle \tfrac{8}{3}$
