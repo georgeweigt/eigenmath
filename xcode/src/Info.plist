@@ -9,7 +9,7 @@
 	<key>CFBundleHelpBookFolder</key>
 	<string>Eigenmath.help</string>
 	<key>CFBundleHelpBookName</key>
-	<string>eigenmath.Eigenmath.help</string>
+	<string>com.gweigt.Eigenmath.help</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
