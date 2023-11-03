@@ -17,10 +17,12 @@ CGContextRef gcontext;
 
 @implementation EigenmathView
 
+/*
 -(BOOL)acceptsFirstResponder
 {
 	return YES;
 }
+*/
 
 -(void)drawRect:(NSRect)rect
 {
@@ -42,6 +44,7 @@ CGContextRef gcontext;
 	draw_display(y1, y2);
 }
 
+/*
 -(void)copy:(id)sender
 {
 	NSRect r;
@@ -57,5 +60,6 @@ CGContextRef gcontext;
 	[p declareTypes:[NSArray arrayWithObjects:NSPasteboardTypePDF, nil] owner:self];
 	[self writePDFInsideRect:r toPasteboard:p];
 }
+*/
 
 @end
