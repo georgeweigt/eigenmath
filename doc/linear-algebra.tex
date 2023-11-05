@@ -1,0 +1,113 @@
+\input{preamble}
+
+\section*{Linear algebra}
+
+The \verb$dot$ function is used to multiply vectors, matrices, and tensors.
+For example, let
+\begin{equation*}
+A=\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix},
+\quad
+X=\begin{pmatrix}x_1\\x_2\end{pmatrix}
+\end{equation*}
+
+The product $AX$ is computed as follows.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a11,a12),(a21,a22))
+X = (x1,x2)
+dot(A,X)
+\end{verbatim}
+}
+
+$\displaystyle
+\begin{bmatrix}
+a_{11}x_1+a_{12}x_2
+\\[1ex]
+a_{21}x_1+a_{22}x_2
+\end{bmatrix}
+$
+
+\bigskip
+
+The following example shows how to use \verb$dot$ and \verb$inv$ to solve for
+vector $X$ in $AX=B$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((3,7),(1,-9))
+B = (16,-22)
+X = dot(inv(A),B)
+X
+\end{verbatim}
+}
+
+$\displaystyle
+X=
+\begin{bmatrix}
+-\tfrac{5}{17}
+\\
+\\
+\tfrac{41}{17}
+\end{bmatrix}
+$
+
+\bigskip
+
+The \verb$dot$ function can have more than two arguments.
+For example, \verb$dot(A,B,C)$ can be used for the dot product of three tensors.
+
+\bigskip
+
+Square brackets are used for component access.
+Index numbering starts with 1.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+A[1,2] = -A[1,1]
+A
+\end{verbatim}
+}
+
+$\displaystyle
+\begin{bmatrix}
+a & -a
+\\[1ex]
+c & d
+\end{bmatrix}
+$
+
+\bigskip
+
+The following example demonstrates the relation
+$A^{-1}=(\operatorname{det}A)^{-1}\operatorname{adj}A$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+inv(A) == adj(A) / det(A)
+\end{verbatim}
+}
+
+$\displaystyle 1$
+
+\bigskip
+
+Sometimes a calculation will be simpler if it can be reorganized to use
+\verb$adj$ instead of \verb$inv$.
+The main idea is to try to prevent the determinant from appearing as a
+divisor.
+For example, suppose for matrices $A$ and $B$ you want to show that
+\begin{equation*}
+{A}-{B}^{-1}=0
+\end{equation*}
+
+Depending on the complexity of $\mathop{\rm det}B$, the software
+may not be able to find a simplification that yields zero.
+Should that occur, the following alternative formulation can be tried.
+\begin{equation*}
+A\operatorname{det}B-\operatorname{adj}B=0
+\end{equation*}
+
+\end{document}

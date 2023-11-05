@@ -1,0 +1,65 @@
+\input{preamble}
+
+\section*{Arc length}
+
+Let $g(t)$ be a parametric function that draws a curve in $\mathbb R^n$.
+The arc length from $g(a)$ to $g(b)$ is given by
+\begin{equation*}
+\int_a^b|g'(t)|\,dt
+\end{equation*}
+
+where $|g'(t)|$ is the length of the tangent vector at $g(t)$.
+For example, find the length of the curve $y=x^2$ from $x=0$ to $x=1$.
+
+{\color{blue}
+\begin{verbatim}
+g = (t,t^2)
+defint(abs(d(g,t)),t,0,1)
+\end{verbatim}}
+
+$
+\tfrac{1}{2}\;5^{1/2}
+-\tfrac{1}{4}\log(2)
++\tfrac{1}{4}\log(2\;5^{1/2}+4)
+$
+
+{\color{blue}
+\begin{verbatim}
+float
+\end{verbatim}}
+
+$1.47894$
+
+\bigskip
+As expected, the result is greater than $\sqrt2\approx1.414$,
+the length of a straight line from $(0,0)$ to $(1,1)$.
+
+\bigskip
+The following script does a discrete computation of the arc length
+by dividing the curve into 100 pieces.
+
+{\color{blue}
+\begin{verbatim}
+g(t) = (t,t^2)
+h(k) = abs(g(k/100.0) - g((k-1)/100.0))
+sum(k,1,100,h(k))
+\end{verbatim}}
+
+$1.47894$
+
+\bigskip
+As expected, the discrete result matches the analytic result.
+
+\bigskip
+Find the length of the curve $y=x^{3/2}$ from the origin to
+$x=\tfrac{4}{3}$.
+
+{\color{blue}
+\begin{verbatim}
+g = (t,t^(3/2))
+defint(abs(d(g,t)),t,0,4/3)
+\end{verbatim}}
+
+$\displaystyle \tfrac{56}{27}$
+
+\end{document}

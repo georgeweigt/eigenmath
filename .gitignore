@@ -7,8 +7,8 @@
 *.toc
 a.out
 diffs
+*.pdf
 eigenmath
-eigenmath.pdf
 wcheck
 make-prototypes
 project.xcworkspace

@@ -1,0 +1,12 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb} % \mathbb
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{menukeys}
+\parindent=0pt
+\title{Eigenmath Manual}
+\author{9634295@gmail.com}
+\begin{document}

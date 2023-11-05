@@ -1,0 +1,122 @@
+\input{preamble}
+
+\section*{Syntax}
+
+\begin{tabular}{clll}
+{\it Math} & & {\it Eigenmath} & {\it Comment}
+\\
+\\
+$a=b$ & & \verb$a == b$ & {\it test for equality}
+\\[1ex]
+$-a$ & & {\tt -a} & {\it negation}
+\\[1ex]
+$a+b$ & & {\tt a+b} & {\it addition}
+\\[1ex]
+$a-b$ & & {\tt a-b} & {\it subtraction}
+\\[1ex]
+$ab$ & & {\tt a b} & {\it multiplication, also} \verb$a*b$
+\\
+\\
+$\displaystyle\frac{a}{b}$ & & {\tt a/b} & {\it division}
+\\
+\\
+$\displaystyle\frac{a}{bc}$ & & {\tt a/b/c} & {\it division is left-associative}
+\\
+\\
+$a^2$ & & {\tt a{\char94}2} & {\it power}
+\\
+\\
+$\sqrt{a}$ & & \verb$sqrt(a)$ & {\it square root, also} \verb$a^(1/2)$
+\\
+\\
+$a\,(b+c)$ & & {\tt a (b+c)} & {\it space is required}
+\\
+\\
+$f(a)$ & & {\tt f(a)} & {\it function}
+\\
+\\
+$\begin{pmatrix}a\\ b\\ c\end{pmatrix}$ & & {\tt (a,b,c)} & {\it vector}
+\\
+\\
+$\begin{pmatrix}a&b\\ c&d\end{pmatrix}$ & & {\tt ((a,b),(c,d))} & {\it matrix}
+\\
+\\
+$F^1{}_2$ & & {\tt F[1,2]} & {\it tensor component access}
+\\
+\\
+ & & \verb$"hello, world"$ & {\it string literal}
+\\
+\\
+$\pi$ & & {\tt pi} &
+\\[1ex]
+$e$ && {\tt exp(1)} & {\it natural number}
+\end{tabular}
+
+\newpage
+
+Arithmetic operators have the expected precedence of
+multiplication and division before addition and subtraction.
+Subexpressions in parentheses have highest precedence.
+
+\bigskip
+Parentheses are required around negative exponents.
+For example,
+
+{\color{blue}
+\begin{verbatim}
+10^(-3)
+\end{verbatim}
+}
+
+instead of
+
+{\color{blue}
+\begin{verbatim}
+10^-3
+\end{verbatim}
+}
+
+The reason for this is that the binding of the negative sign is not always obvious.
+For example, consider
+
+{\color{blue}
+\begin{verbatim}
+x^-1/2
+\end{verbatim}
+}
+
+It is not clear whether the exponent should be $-1$ or $-1/2$.
+Hence the following syntax is required.
+
+{\color{blue}
+\begin{verbatim}
+x^(-1/2)
+\end{verbatim}
+}
+
+In general, parentheses are always required when the exponent
+is an expression.
+For example, \verb$x^1/2$ is evaluated as $(x^1)/2$ which
+is probably not the desired result.
+
+{\color{blue}
+\begin{verbatim}
+x^1/2
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{2}x$
+
+\bigskip
+
+Using \verb$x^(1/2)$ yields the desired result.
+
+{\color{blue}
+\begin{verbatim}
+x^(1/2)
+\end{verbatim}
+}
+
+$\displaystyle x^{1/2}$
+
+\end{document}

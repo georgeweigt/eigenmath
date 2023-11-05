@@ -1,0 +1,62 @@
+\input{preamble}
+
+\section*{Laplacian}
+
+The Laplacian $\nabla^2$ is the divergence of the gradient of scalar function $f$.
+\begin{equation*}
+\nabla^2f=\nabla\cdot\nabla f
+=\frac{\partial^2 f}{\partial x^2}
++\frac{\partial^2 f}{\partial y^2}
++\frac{\partial^2 f}{\partial z^2}
+\end{equation*}
+
+{\color{blue}
+\begin{verbatim}
+div(grad(f()))
+\end{verbatim}}
+
+$\displaystyle
+\operatorname{\rm d}(\operatorname{\rm d}(f(),x),x)
++\operatorname{\rm d}(\operatorname{\rm d}(f(),y),y)
++\operatorname{\rm d}(\operatorname{\rm d}(f(),z),z)
+$
+
+\bigskip
+This is the vector Laplacian.
+\begin{equation*}
+\nabla^2\mathbf A
+=\nabla\cdot\nabla\mathbf A-\nabla\times(\nabla\times\mathbf A)
+=\begin{pmatrix}
+\nabla^2A_x
+\\
+\nabla^2A_y
+\\
+\nabla^2A_z
+\end{pmatrix}
+=\frac{\partial^2\mathbf A}{\partial x^2}
++\frac{\partial^2\mathbf A}{\partial y^2}
++\frac{\partial^2\mathbf A}{\partial z^2}
+\end{equation*}
+
+{\color{blue}
+\begin{verbatim}
+A = (Ax(),Ay(),Az())
+div(grad(A)) - curl(curl(A)) == d(A,x,x) + d(A,y,y) + d(A,z,z)
+\end{verbatim}}
+
+$1$
+
+\bigskip
+Show that
+\begin{equation*}
+\nabla\cdot\nabla\mathbf A=\nabla(\nabla\cdot\mathbf A)
+\end{equation*}
+
+{\color{blue}
+\begin{verbatim}
+div(grad(A)) == grad(div(A))
+\end{verbatim}}
+
+$1$
+
+\end{document}

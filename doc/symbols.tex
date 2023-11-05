@@ -1,0 +1,123 @@
+\input{preamble}
+
+\section*{Symbols}
+
+Symbols are defined with an equals sign.
+
+{\color{blue}
+\begin{verbatim}
+N = 212^17
+\end{verbatim}
+}
+
+No result is printed when a symbol is defined.
+To see the value of a symbol, just evaluate it.
+
+{\color{blue}
+\begin{verbatim}
+N
+\end{verbatim}
+}
+
+$\displaystyle N=3529471145760275132301897342055866171392$
+
+\bigskip
+
+Symbols can have more that one letter.
+Everything after the first letter is displayed as a subscript.
+
+{\color{blue}
+\begin{verbatim}
+NA = 6.02214 10^23
+NA
+\end{verbatim}
+}
+
+$\displaystyle N_A=6.02214\times10^{23}$
+
+\bigskip
+
+A symbol can be the name of a Greek letter.
+
+{\color{blue}
+\begin{verbatim}
+xi = 1/2
+xi
+\end{verbatim}
+}
+
+$\displaystyle \xi=\tfrac{1}{2}$
+
+\bigskip
+
+Greek letters can appear in subscripts.
+
+{\color{blue}
+\begin{verbatim}
+Amu = 2.0
+Amu
+\end{verbatim}
+}
+
+$\displaystyle A_\mu=2.0$
+
+\bigskip
+
+The following example shows how a symbol is scanned to find Greek letters.
+
+{\color{blue}
+\begin{verbatim}
+alphamunu = 1
+alphamunu
+\end{verbatim}
+}
+
+$\displaystyle \alpha_{\mu\nu}=1$
+
+\bigskip
+
+Symbol definitions are evaluated serially until a terminal symbol is reached.
+The following example sets $A=B$ followed by $B=C$.
+Then when $A$ is evaluated, the result is $C$.
+
+{\color{blue}
+\begin{verbatim}
+A = B
+B = C
+A
+\end{verbatim}
+}
+
+$\displaystyle A=C$
+
+\bigskip
+
+Although $A=C$ is printed,
+inside the program the binding of $A$ is still $B$, as can be seen with
+the \verb$binding$ function.
+
+{\color{blue}
+\begin{verbatim}
+binding(A)
+\end{verbatim}
+}
+
+$\displaystyle B$
+
+\bigskip
+
+The \verb$quote$ function returns its argument unevaluated
+and can be used to clear a symbol.
+The following example clears $A$ so that its evaluation goes back to
+being $A$ instead of $C$.
+
+{\color{blue}
+\begin{verbatim}
+A = quote(A)
+A
+\end{verbatim}
+}
+
+$\displaystyle A$
+
+\end{document}

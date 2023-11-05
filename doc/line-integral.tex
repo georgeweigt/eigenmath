@@ -1,0 +1,135 @@
+\input{preamble}
+
+\section*{Line integral}
+
+There are two kinds of line integrals,
+one for scalar fields and one for vector fields.
+The following table shows how both are based on the calculation of
+arc length.
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+& Abstract form
+& Computable form
+\\
+\hline
+ & &\\
+Arc length
+& $\displaystyle{\int_C ds}$
+& $\displaystyle{\int_a^b |g'(t)|\,dt}$\\
+ & &\\
+\hline
+ & & \\
+Line integral, scalar field
+& $\displaystyle{\int_C f\,ds}$
+& $\displaystyle{\int_a^b f(g(t))\,|g'(t)|\,dt}$\\
+& &\\
+\hline
+ & & \\
+Line integral, vector field
+& $\displaystyle{\int_C(F\cdot u)\,ds}$
+& $\displaystyle{\int_a^b F(g(t))\cdot g'(t)\,dt}$\\
+ & & \\
+\hline
+\end{tabular}
+\end{center}
+
+Note that for the measure $ds$ we have
+\begin{equation*}
+ds=|g'(t)|\,dt
+\end{equation*}
+
+For vector fields, symbol $u$ is the unit tangent vector
+\begin{equation*}
+u=\frac{g'(t)}{|g'(t)|}
+\end{equation*}
+
+Note that $u$ cancels with $ds$ as follows.
+\begin{equation*}
+\int_C(F\cdot u)\,ds
+=\int_a^b
+\left(F(g(t))\cdot\frac{g'(t)}{|g'(t)|}\right)
+|g'(t)|\,dt
+=\int_a^b F(g(t))\cdot g'(t)\,dt
+\end{equation*}
+
+Example 1. Evaluate
+\begin{equation*}
+\int_Cx\,ds\quad\hbox{and}\quad\int_Cx\,dx
+\end{equation*}
+
+where $C$ is a straight line from $(0,0)$ to $(1,1)$.
+
+\bigskip
+Although the integrals appear similar,
+the first is over a scalar field and the second is over a vector field.
+
+\bigskip
+For $\int_Cx\,ds$ we have
+
+{\color{blue}
+\begin{verbatim}
+x = t
+y = t
+g = (x,y)
+defint(x abs(d(g,t)), t, 0, 1)
+\end{verbatim}}
+
+$\displaystyle \frac{1}{2^{1/2}}$
+
+\bigskip
+For $\int_Cx\,dx$ we have
+
+{\color{blue}
+\begin{verbatim}
+x = t
+y = t
+g = (x,y)
+F = (x,0)
+defint(dot(F,d(g,t)), t, 0, 1)
+\end{verbatim}}
+
+$\displaystyle \tfrac{1}{2}$
+
+\bigskip
+The following line integral problems are from
+{\it Advanced Calculus, Fifth Edition} by Wilfred Kaplan.
+
+\bigskip
+Example 2. Evaluate $\int y^2\,dx$ along the straight
+line from $(0,0)$ to $(2,2)$.
+
+\bigskip
+The following solution parametrizes $x$ and $y$ so that
+the endpoint $(2,2)$ corresponds to $t=1$.
+
+{\color{blue}
+\begin{verbatim}
+x = 2 t
+y = 2 t
+g = (x,y)
+F = (y^2,0)
+defint(dot(F,d(g,t)), t, 0, 1)
+\end{verbatim}}
+
+$\displaystyle \tfrac{8}{3}$
+
+\bigskip
+Example 3. Evaluate $\int z\,dx+x\,dy+y\,dz$
+along the path
+$x=2t+1$, $y=t^2$, $z=1+t^3$, $0\le t\le 1$.
+
+{\color{blue}
+\begin{verbatim}
+x = 2 t + 1
+y = t^2
+z = 1 + t^3
+g = (x,y,z)
+F = (z,x,y)
+defint(dot(F,d(g,t)), t, 0, 1)
+\end{verbatim}}
+
+$\displaystyle \tfrac{163}{30}$
+
+\end{document}

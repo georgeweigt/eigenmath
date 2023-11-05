@@ -1,0 +1,1603 @@
+\input{preamble}
+
+\section*{Feature index}
+
+\subsection*{abs($x$)}
+
+Returns the absolute value or vector length of $x$.
+
+{\color{blue}
+\begin{verbatim}
+X = (x,y,z)
+abs(X)
+\end{verbatim}
+}
+
+\noindent
+$\left(x^2+y^2+z^2\right)^{1/2}$
+
+\subsection*{adj($m$)}
+
+Returns the adjunct of matrix $m$.
+Adjunct is equal to determinant times inverse.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+adj(A) == det(A) inv(A)
+\end{verbatim}
+}
+
+\noindent
+$1$
+
+\subsection*{and($a,b,\ldots$)}
+
+Returns 1 if all arguments are true (nonzero).
+Returns 0 otherwise.
+
+{\color{blue}
+\begin{verbatim}
+and(1=1,2=2)
+\end{verbatim}
+}
+
+\noindent
+$1$
+
+\subsection*{arccos($x$)}
+
+Returns the arc cosine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+arccos(1/2)
+\end{verbatim}
+}
+
+\noindent
+$\tfrac{1}{3}\pi$
+
+\subsection*{arccosh($x$)}
+
+Returns the arc hyperbolic cosine of $x$.
+
+\subsection*{arcsin($x$)}
+
+Returns the arc sine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+arcsin(1/2)
+\end{verbatim}
+}
+
+\noindent
+$\tfrac{1}{6}\pi$
+
+\subsection*{arcsinh($x$)}
+
+Returns the arc hyperbolic sine of $x$.
+
+\subsection*{arctan($y,x$)}
+
+Returns the arc tangent of $y$ over $x$.
+If $x$ is omitted then $x=1$ is used.
+
+{\color{blue}
+\begin{verbatim}
+arctan(1,0)
+\end{verbatim}
+}
+
+\noindent
+$\tfrac{1}{2}\pi$
+
+\subsection*{arctanh($x$)}
+
+Returns the arc hyperbolic tangent of $x$.
+
+\subsection*{arg($z$)}
+
+Returns the angle of complex $z$.
+
+{\color{blue}
+\begin{verbatim}
+arg(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+$\arctan(-3,2)$
+
+\subsection*{binding($s$)}
+
+The result of evaluating a symbol can differ from the symbol's binding.
+For example, the result may be expanded.
+The {\tt binding} function returns the actual binding of a symbol.
+
+{\color{blue}
+\begin{verbatim}
+p = quote((x + 1)^2)
+p
+\end{verbatim}
+}
+
+\noindent
+$p=x^2+2x+1$
+
+{\color{blue}
+\begin{verbatim}
+binding(p)
+\end{verbatim}
+}
+
+\noindent
+$(x+1)^2$
+
+\subsection*{ceiling($x$)}
+
+Returns the smallest integer greater than or equal to $x$.
+
+{\color{blue}
+\begin{verbatim}
+ceiling(1/2)
+\end{verbatim}
+}
+
+\noindent
+$1$
+
+\subsection*{check($x$)}
+
+If $x$ is true (nonzero) then continue, else stop.
+Expression $x$ can include the relational operators
+\verb$=$,
+\verb$==$,
+\verb$<$,
+\verb$<=$,
+\verb$>$,
+\verb$>=$.
+Use the
+\verb$not$
+function to test for inequality.
+
+{\color{blue}
+\begin{verbatim}
+A = exp(i pi)
+B = -1
+check(A == B) -- stop here if A not equal to B
+\end{verbatim}
+}
+
+\subsection*{choose($n,k$)}
+
+Returns the binomial coefficient $n$ choose $k$.
+
+{\color{blue}
+\begin{verbatim}
+choose(52,5) -- number of poker hands
+\end{verbatim}
+}
+
+\noindent
+$2598960$
+
+\subsection*{circexp($x$)}
+
+Returns expression $x$ with circular and hyperbolic functions
+converted to exponentials.
+
+{\color{blue}
+\begin{verbatim}
+circexp(cos(x) + i sin(x))
+\end{verbatim}
+}
+
+\noindent
+$\exp(ix)$
+
+\subsection*{clear}
+
+Clears all symbol definitions.
+
+\subsection*{clock($z$)}
+
+Returns complex $z$ in polar form with base of negative 1 instead of $e$.
+
+{\color{blue}
+\begin{verbatim}
+clock(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+$13^{1/2}\,(-1)^{\arctan(-3,2)/\pi}$
+
+\subsection*{cofactor($m,i,j$)}
+
+Returns the cofactor of matrix $m$ for row $i$ and column $j$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+cofactor(A,1,2) == adj(A)[2,1]
+\end{verbatim}
+}
+
+\noindent
+1
+
+\subsection*{conj($z$)}
+
+Returns the complex conjugate of $z$.
+
+{\color{blue}
+\begin{verbatim}
+conj(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+$2 + 3 i$
+
+\subsection*{contract($a,i,j$)}
+
+Returns tensor $a$ summed over indices $i$ and $j$.
+If $i$ and $j$ are omitted then 1 and 2 are used.
+The expression {\tt contract(m)} computes the trace of matrix $m$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+contract(A)
+\end{verbatim}
+}
+
+\noindent
+$a + d$
+
+\subsection*{cos($x$)}
+
+Returns the cosine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+cos(pi/4)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{1}{2^{1/2}}$
+
+\subsection*{cosh($x$)}
+
+Returns the hyperbolic cosine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+circexp(cosh(x))
+\end{verbatim}
+}
+
+\noindent
+$\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
+
+\subsection*{cross($u,v$)}
+
+Returns the cross product of vectors $u$ and $v$.
+
+\subsection*{curl($v$)}
+
+Returns the curl of vector $v$ with respect to symbols \verb$x$, \verb$y$, and \verb$z$.
+
+\subsection*{d($f,x,\ldots$)}
+
+Returns the partial derivative of $f$ with respect to $x$ and any additional arguments.
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x),x)
+\end{verbatim}
+}
+
+\noindent
+$\cos(x)$
+
+\bigskip
+\noindent
+Multiderivatives are computed by extending the argument list.
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x),x,x)
+\end{verbatim}
+}
+
+\noindent
+$-\sin(x)$
+
+\bigskip
+\noindent
+A numeric argument $n$ computes the $n$th derivative with respect to the previous symbol.
+
+{\color{blue}
+\begin{verbatim}
+d(sin(x y),x,2,y,2)
+\end{verbatim}
+}
+
+\noindent
+$x^2y^2\sin(xy)-4xy\cos(xy)-2\sin(xy)$
+
+\bigskip
+\noindent
+Argument $f$ can be a tensor of any rank.
+Argument $x$ can be a vector.
+When $x$ is a vector the result is the gradient of $f$.
+
+{\color{blue}
+\begin{verbatim}
+F = (f(),g(),h())
+X = (x,y,z)
+d(F,X)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+\operatorname{d}(f(),x) & \operatorname{d}(f(),y) &  \operatorname{d}(f(),z)
+\\[1ex]
+\operatorname{d}(g(),x) & \operatorname{d}(g(),y) &  \operatorname{d}(g(),z)
+\\[1ex]
+\operatorname{d}(h(),x) & \operatorname{d}(h(),y) &  \operatorname{d}(h(),z)
+\end{bmatrix}
+$
+
+\bigskip
+\noindent
+Symbol \verb$d$ can be used as a variable name.
+Doing so does not conflict with function \verb$d$.
+
+\bigskip
+\noindent
+Symbol \verb$d$ can be redefined as a different function.
+The function \verb$derivative$, a synonym for \verb$d$, can be used to obtain a partial derivative.
+
+\subsection*{defint($f,x,a,b$)}
+
+Returns the definite integral of $f$ with respect to $x$
+evaluated from $a$ to $b$.
+The argument list can be extended for multiple integrals
+as shown in the following example.
+
+{\color{blue}
+\begin{verbatim}
+f = (1 + cos(theta)^2) sin(theta)
+-- integrate over theta then over phi
+defint(f, theta, 0, pi, phi, 0, 2 pi)
+\end{verbatim}
+}
+
+\noindent
+$\tfrac{16}{3}\pi$
+
+\subsection*{denominator($x$)}
+
+Returns the denominator of expression $x$.
+
+{\color{blue}
+\begin{verbatim}
+denominator(a/b)
+\end{verbatim}
+}
+
+\noindent
+$b$
+
+\subsection*{det($m$)}
+
+Returns the determinant of matrix $m$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+det(A)
+\end{verbatim}
+}
+
+\noindent
+$a d - b c$
+
+\subsection*{dim($a,n$)}
+
+Returns the dimension of the $n$th index of tensor $a$.
+Index numbering starts with 1.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2),(3,4),(5,6))
+dim(A,1)
+\end{verbatim}
+}
+
+\noindent
+$3$
+
+\subsection*{div($v$)}
+
+Returns the divergence of vector $v$ with respect to symbols \verb$x$, \verb$y$, and \verb$z$.
+
+\subsection*{do($a,b,\ldots$)}
+
+Evaluates each argument from left to right.
+Returns the result of the final argument.
+
+{\color{blue}
+\begin{verbatim}
+do(A=1,B=2,A+B)
+\end{verbatim}
+}
+
+\noindent
+$3$
+
+\subsection*{dot($a,b,\ldots$)}
+
+Returns the dot product of vectors, matrices, and tensors.
+Also known as the matrix product.
+Arguments are evaluated from right to left.
+The following example solves for $X$ in $AX=B$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2),(3,4))
+B = (5,6)
+X = dot(inv(A),B)
+X
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+-4
+\\[1ex]
+\tfrac{9}{2}
+\end{bmatrix}
+$
+
+\subsection*{eigenvec($m$)}
+
+Returns eigenvectors for matrix $m$.
+Matrix $m$ is required to be numerical, real, and symmetric.
+The return value is a matrix with each column an eigenvector.
+Eigenvalues are obtained as shown.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2,3),(2,6,4),(3,4,5))
+Q = eigenvec(A)
+D = dot(transpose(Q),A,Q) -- eigenvalues on the diagonal of D
+dot(Q,D,transpose(Q))
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1 & 2 & 3
+\\[1ex]
+2 & 6 & 4
+\\[1ex]
+3 & 4 & 5
+\end{bmatrix}
+$
+
+\subsection*{eval($f,x,a$)}
+
+Returns expression $f$ evaluated at $x$ equals $a$.
+The argument list can be extended as shown.
+
+{\color{blue}
+\begin{verbatim}
+f = sqrt(x^2 + y^2)
+eval(f,x,3,y,4) -- evaluate f at x=3 and y=4
+\end{verbatim}
+}
+
+\noindent
+5
+
+\bigskip
+\noindent
+The \verb$eval$ function can be used for substitution.
+In the following example, \verb$eval$ is used to replace
+\verb$x$ with \verb$cos(theta)$.
+
+{\color{blue}
+\begin{verbatim}
+-- associated legendre of cos theta
+
+P(l,m) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+         1 / (2^l l!) sin(theta)^m *
+         eval(d((x^2 - 1)^l,x,l + m),x,cos(theta)))
+
+P(2,-1)
+\end{verbatim}
+}
+
+$\displaystyle
+-\tfrac{1}{2}\cos(\theta)\sin(\theta)
+$
+
+\subsection*{exp($x$)}
+
+Returns the exponential of $x$.
+
+{\color{blue}
+\begin{verbatim}
+exp(i pi)
+\end{verbatim}
+}
+
+\noindent
+$-1$
+
+\subsection*{expcos($z$)}
+
+Returns the cosine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+expcos(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \tfrac{1}{2}\exp(iz)+\tfrac{1}{2}\exp(-iz)$
+
+\subsection*{expcosh($z$)}
+
+Returns the hyperbolic cosine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+expcosh(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
+
+\subsection*{expsin($z$)}
+
+Returns the sine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+expsin(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle -\tfrac{1}{2}i\exp(iz)+\tfrac{1}{2}i\exp(-iz)$
+
+\subsection*{expsinh($z$)}
+
+Returns the hyperbolic sine of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+expsinh(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle -\tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
+
+\subsection*{exptan($z$)}
+
+Returns the tangent of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+exptan(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{i}{\exp(2iz)+1}-\frac{i\exp(2iz)}{\exp(2iz)+1}$
+
+\subsection*{exptanh($z$)}
+
+Returns the hyperbolic tangent of $z$ in exponential form.
+
+{\color{blue}
+\begin{verbatim}
+exptanh(z)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle -\frac{1}{\exp(2z)+1}+\frac{\exp(2z)}{\exp(2z)+1}$
+
+\subsection*{factorial($n$)}
+
+Returns the factorial of $n$.
+The expression {\tt n!} can also be used.
+
+{\color{blue}
+\begin{verbatim}
+20!
+\end{verbatim}
+}
+
+\noindent
+$2432902008176640000$
+
+\subsection*{float($x$)}
+
+Returns expression $x$ with rational numbers and integers converted to
+floating point values.
+The symbol {\tt pi} and the natural number are also converted.
+
+{\color{blue}
+\begin{verbatim}
+float(212^17)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle 3.52947\times 10^{39}$
+
+\subsection*{floor($x$)}
+
+Returns the largest integer less than or equal to $x$.
+
+{\color{blue}
+\begin{verbatim}
+floor(1/2)
+\end{verbatim}
+}
+
+\noindent
+$0$
+
+\subsection*{for($i,j,k,a,b,\ldots$)}
+
+For $i$ equals $j$ through $k$ evaluate $a$, $b$, etc.
+
+{\color{blue}
+\begin{verbatim}
+for(k,1,3,A=k,print(A))
+\end{verbatim}
+}
+
+\noindent
+$A=1$\\
+$A=2$\\
+$A=3$
+
+\bigskip
+\noindent
+Note: The original value of $i$ is restored after {\tt for} completes.
+If symbol {\tt i} is used for index variable $i$
+then the imaginary unit is overridden in the scope of {\tt for}.
+
+\subsection*{grad($f$)}
+
+Returns the gradient \verb$d(f,(x,y,z))$.
+
+{\color{blue}
+\begin{verbatim}
+grad(f())
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+{\rm d}(f(),x)
+\\[1ex]
+{\rm d}(f(),y)
+\\[1ex]
+{\rm d}(f(),z)
+\end{bmatrix}
+$
+
+\subsection*{hadamard($a,b,\ldots$)}
+
+Returns the Hadamard (element-wise) product.
+
+{\color{blue}
+\begin{verbatim}
+X = (a,b,c)
+hadamard(X,X)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+a^2
+\\[1ex]
+b^2
+\\[1ex]
+c^2
+\end{bmatrix}
+$
+
+\subsection*{i}
+
+Symbol {\tt i} is initialized to the imaginary unit $\sqrt{-1}$.
+
+{\color{blue}
+\begin{verbatim}
+exp(i pi)
+\end{verbatim}
+}
+
+\noindent
+$-1$
+
+\bigskip
+\noindent
+Note: It is ok to clear or redefine {\tt i} and use the symbol for something else.
+
+\subsection*{imag($z$)}
+
+Returns the imaginary part of complex $z$.
+
+{\color{blue}
+\begin{verbatim}
+imag(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+$-3$
+
+\subsection*{infixform($x$)}
+
+Converts expression $x$ to a string and returns the result.
+
+{\color{blue}
+\begin{verbatim}
+p = (x + 1)^2
+infixform(p)
+\end{verbatim}
+}
+
+\noindent
+\verb$x^2 + 2 x + 1$
+
+\subsection*{inner($a,b,\ldots$)}
+
+Returns the inner product of vectors, matrices, and tensors.
+Also known as the matrix product.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+B = (x,y)
+inner(A,B)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+ax+by
+\\[1ex]
+cx+dy
+\end{bmatrix}
+$
+
+\bigskip
+\noindent
+Note: {\tt inner} and {\tt dot} are the same function.
+
+\subsection*{integral($f,x$)}
+
+Returns the integral of $f$ with respect to $x$.
+
+{\color{blue}
+\begin{verbatim}
+integral(x^2,x)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \tfrac{1}{3}x^3$
+
+\subsection*{inv($m$)}
+
+Returns the inverse of matrix $m$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2),(3,4))
+inv(A)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+-2 & 1
+\\[1ex]
+\tfrac{3}{2} & -\tfrac{1}{2}
+\end{bmatrix}
+$
+
+\subsection*{j}
+
+Set {\tt j=sqrt(-1)} to use {\tt j} for the imaginary unit instead of {\tt i}.
+
+{\color{blue}
+\begin{verbatim}
+j = sqrt(-1)
+1/sqrt(-1)
+\end{verbatim}
+}
+
+\noindent
+$-j$
+
+\subsection*{kronecker($a,b,\ldots$)}
+
+Returns the Kronecker product of vectors and matrices.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2),(3,4))
+B = ((a,b),(c,d))
+kronecker(A,B)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+a & b & 2a & 2b
+\\[1ex]
+c & d & 2c & 2d
+\\[1ex]
+3a & 3b & 4a & 4b
+\\[1ex]
+3c & 3d & 3c & 4d
+\end{bmatrix}
+$
+
+\subsection*{last}
+
+The result of the previous calculation is stored in {\tt last}.
+
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}
+}
+
+\noindent
+$3529471145760275132301897342055866171392$
+
+{\color{blue}
+\begin{verbatim}
+last^(1/17)
+\end{verbatim}
+}
+
+\noindent
+$212$
+
+\bigskip
+\noindent
+Symbol \verb$last$ is an implied argument when a function has no argument list.
+
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}
+}
+
+\noindent
+$3529471145760275132301897342055866171392$
+
+{\color{blue}
+\begin{verbatim}
+float
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle 3.52947\times10^{39}$
+
+\subsection*{log($x$)}
+
+Returns the natural logarithm of $x$.
+
+{\color{blue}
+\begin{verbatim}
+log(x^y)
+\end{verbatim}
+}
+
+\noindent
+$y\log(x)$
+
+\subsection*{mag($z$)}
+
+Returns the magnitude of complex $z$.
+Function {\tt mag} treats undefined symbols as real while {\tt abs} does not.
+
+{\color{blue}
+\begin{verbatim}
+mag(x + i y)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle (x^2+y^2)^{1/2}$
+
+\subsection*{minor($m,i,j$)}
+
+Returns the minor of matrix $m$ for row $i$ and column $j$.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2,3),(4,5,6),(7,8,9))
+minor(A,1,1) == det(minormatrix(A,1,1))
+\end{verbatim}
+}
+
+\noindent
+1
+
+\subsection*{minormatrix($m,i,j$)}
+
+Returns a copy of matrix $m$ with row $i$ and column $j$ removed.
+
+{\color{blue}
+\begin{verbatim}
+A = ((1,2,3),(4,5,6),(7,8,9))
+minormatrix(A,1,1)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+5 & 6
+\\[1ex]
+8 & 9
+\end{bmatrix}
+$
+
+\subsection*{noexpand($x$)}
+
+Evaluates expression $x$ without expanding products of sums.
+
+{\color{blue}
+\begin{verbatim}
+noexpand((x + 1)^2 / (x + 1))
+\end{verbatim}
+}
+
+\noindent
+$x + 1$
+
+\subsection*{not($x$)}
+
+Returns 0 if $x$ is true (nonzero).
+Returns 1 otherwise.
+
+{\color{blue}
+\begin{verbatim}
+not(1=1)
+\end{verbatim}
+}
+
+\noindent
+$0$
+
+\subsection*{nroots($p,x$)}
+
+Returns the approximate roots of polynomials with real or complex coefficients.
+Multiple roots are returned as a vector.
+
+{\color{blue}
+\begin{verbatim}
+p = x^5 - 1
+nroots(p,x)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1
+\\[1ex]
+-0.809017 + 0.587785\,i
+\\[1ex]
+-0.809017 - 0.587785\,i
+\\[1ex]
+0.309017 + 0.951057\,i
+\\[1ex]
+0.309017 - 0.951057\,i
+\end{bmatrix}
+$
+
+\subsection*{numerator($x$)}
+
+Returns the numerator of expression $x$.
+
+{\color{blue}
+\begin{verbatim}
+numerator(a/b)
+\end{verbatim}
+}
+
+\noindent
+$a$
+
+\subsection*{or($a,b,\ldots$)}
+
+Returns 1 if at least one argument is true (nonzero).
+Returns 0 otherwise.
+
+{\color{blue}
+\begin{verbatim}
+or(1=1,2=2)
+\end{verbatim}
+}
+
+\noindent
+$1$
+
+\subsection*{outer($a,b,\ldots$)}
+
+Returns the outer product of vectors, matrices, and tensors.
+
+{\color{blue}
+\begin{verbatim}
+A = (a,b,c)
+B = (x,y,z)
+outer(A,B)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+a x & a y & a z
+\\[1ex]
+b x & b y & b z
+\\[1ex]
+c x & c y & c z
+\end{bmatrix}
+$
+
+\subsection*{pi}
+
+Symbol for $\pi$.
+
+{\color{blue}
+\begin{verbatim}
+exp(i pi)
+\end{verbatim}
+}
+
+\noindent
+$-1$
+
+\subsection*{polar($z$)}
+
+Returns complex $z$ in polar form.
+
+{\color{blue}
+\begin{verbatim}
+polar(x - i y)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle (x^2+y^2)^{1/2}\exp(i\arctan(-y,x))$
+
+\subsection*{power}
+
+Use \verb$^$ to raise something to a power.
+Use parentheses for negative powers.
+
+{\color{blue}
+\begin{verbatim}
+x^(-2)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{1}{x^2}$
+
+\subsection*{print($a,b,\ldots$)}
+
+Evaluate expressions and print the results.
+Useful for printing from inside a {\tt for} loop.
+
+{\color{blue}
+\begin{verbatim}
+for(j,1,3,print(j))
+\end{verbatim}
+}
+
+\noindent
+$j=1$\newline
+$j=2$\newline
+$j=3$
+
+\subsection*{product($i,j,k,f$)}
+
+For $i$ equals $j$ through $k$ evaluate $f$.
+Returns the product of all $f$.
+
+{\color{blue}
+\begin{verbatim}
+product(j,1,3,x + j)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle x^3+6x^2+11x+6$
+
+\bigskip
+\noindent
+The original value of $i$ is restored after {\tt product} completes.
+If symbol {\tt i} is used for index variable $i$
+then the imaginary unit is overridden in the scope of {\tt product}.
+
+\subsection*{product($y$)}
+
+Returns the product of components of $y$.
+
+{\color{blue}
+\begin{verbatim}
+y = (1,2,3,4)
+product(y)
+\end{verbatim}
+}
+
+\noindent
+24
+
+\subsection*{quote($x$)}
+
+Returns expression $x$ without evaluating it first.
+
+{\color{blue}
+\begin{verbatim}
+quote((x + 1)^2)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle (x+1)^2$
+
+\subsection*{rank($a$)}
+
+Returns the number of indices that tensor $a$ has.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+rank(A)
+\end{verbatim}
+}
+
+\noindent
+2
+
+\subsection*{rationalize($x$)}
+
+Returns expression $x$ with everything over a common denominator.
+
+{\color{blue}
+\begin{verbatim}
+rationalize(1/a + 1/b + 1/2)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{2a+ab+2b}{2ab}$
+
+\bigskip
+\noindent
+Note:
+\verb$rationalize$
+returns an unexpanded expression.
+If the result is assigned to a symbol, evaluating the symbol will expand the result.
+Use
+\verb$binding$
+to retrieve the unexpanded expression.
+
+{\color{blue}
+\begin{verbatim}
+f = rationalize(1/a + 1/b + 1/2)
+binding(f)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{2a+ab+2b}{2ab}$
+
+\subsection*{real($z$)}
+
+Returns the real part of complex $z$.
+
+{\color{blue}
+\begin{verbatim}
+real(2 - 3i)
+\end{verbatim}
+}
+
+\noindent
+2
+
+\subsection*{rect($z$)}
+
+Returns complex $z$ in rectangular form.
+
+{\color{blue}
+\begin{verbatim}
+rect(exp(i x))
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \cos(x)+i\sin(x)$
+
+\subsection*{roots($p,x$)}
+
+Returns the rational roots of a polynomial.
+Multiple roots are returned as a vector.
+
+{\color{blue}
+\begin{verbatim}
+p = (x + 1) (x - 2)
+roots(p,x)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+-1
+\\[1ex]
+2
+\end{bmatrix}
+$
+
+\bigskip
+\noindent
+If no roots are found then \verb$nil$ is returned.
+A \verb$nil$ result is not printed so the following example uses
+\verb$infixform$ to print \verb$nil$ as a string.
+
+{\color{blue}
+\begin{verbatim}
+p = x^2 + 1
+infixform(roots(p,x))
+\end{verbatim}
+}
+
+\noindent
+nil
+
+\subsection*{rotate($u,s,k,\ldots$)}
+Rotates vector $u$ and returns the result.
+Vector $u$ is required to have $2^n$ elements where
+$n$ is an integer from 1 to 15.
+Arguments $s,k,\ldots$ are a sequence of rotation codes
+where $s$ is an upper case letter and $k$ is a qubit number
+from 0 to $n-1$.
+Rotations are evaluated from left to right.
+See the section on quantum computing for a list of rotation codes.
+
+{\color{blue}
+\begin{verbatim}
+psi = (1,0,0,0)
+rotate(psi,H,0)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+{\displaystyle \frac{1}{2^{1/2}}}
+\\
+\\
+{\displaystyle \frac{1}{2^{1/2}}}
+\\
+\\
+0
+\\
+\\
+0
+\end{bmatrix}
+$
+
+\subsection*{run($x$)}
+
+Run script $x$ where $x$ evaluates to a filename string.
+Useful for importing function libraries.
+
+{\color{blue}
+\begin{verbatim}
+run("EVA2.txt")
+\end{verbatim}
+}
+
+\noindent
+For Eigenmath installed from the Mac App Store,
+run files need to be put in the directory
+\verb$~/Library/Containers/eigenmath/Data/$
+
+\subsection*{simplify($x$)}
+
+Returns expression $x$ in a simpler form.
+
+{\color{blue}
+\begin{verbatim}
+simplify(sin(x)^2 + cos(x)^2)
+\end{verbatim}
+}
+
+\noindent
+1
+
+\subsection*{sin($x$)}
+
+Returns the sine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+sin(pi/4)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle \frac{1}{2^{1/2}}$
+
+\subsection*{sinh($x$)}
+
+Returns the hyperbolic sine of $x$.
+
+{\color{blue}
+\begin{verbatim}
+circexp(sinh(x))
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle -\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
+
+\subsection*{sqrt($x$)}
+
+Returns the square root of $x$.
+
+{\color{blue}
+\begin{verbatim}
+sqrt(10!)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle 720\; 7^{1/2}$
+
+\subsection*{stop}
+
+In a script, it does what it says.
+
+\subsection*{sum($i,j,k,f$)}
+
+For $i$ equals $j$ through $k$ evaluate $f$.
+Returns the sum of all $f$.
+
+{\color{blue}
+\begin{verbatim}
+sum(j,1,5,x^j)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle x^5+x^4+x^3+x^2+x$
+
+\bigskip
+\noindent
+The original value of $i$ is restored after {\tt sum} completes.
+If symbol {\tt i} is used for index variable $i$
+then the imaginary unit is overridden in the scope of {\tt sum}.
+
+\subsection*{sum($y$)}
+
+Returns the sum of components of $y$.
+
+{\color{blue}
+\begin{verbatim}
+y = (1,2,3,4)
+sum(y)
+\end{verbatim}
+}
+
+\noindent
+$10$
+
+\subsection*{tan($x$)}
+
+Returns the tangent of $x$.
+
+{\color{blue}
+\begin{verbatim}
+simplify(tan(x) - sin(x)/cos(x))
+\end{verbatim}
+}
+
+\noindent
+0
+
+\subsection*{tanh($x$)}
+
+Returns the hyperbolic tangent of $x$.
+
+{\color{blue}
+\begin{verbatim}
+circexp(tanh(x))
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle -\frac{1}{\exp(2x)+1}+\frac{\exp(2x)}{\exp(2x)+1}$
+
+\subsection*{test($a,b,c,d,\ldots$)}
+
+If argument $a$ is true (nonzero) then $b$ is returned, else if $c$ is true then $d$ is returned, etc.
+If the number of arguments is odd then the final argument is returned if all else fails.
+Expressions can include the relational operators
+\verb$=$,
+\verb$==$,
+\verb$<$,
+\verb$<=$,
+\verb$>$,
+\verb$>=$.
+Use the
+\verb$not$
+function to test for inequality.
+(The equality operator
+\verb$==$
+is available for contexts in which
+\verb$=$
+is the assignment operator.)
+
+{\color{blue}
+\begin{verbatim}
+A = 1
+B = 1
+test(A=B,"yes","no")
+\end{verbatim}
+}
+
+\noindent
+yes
+
+\subsection*{trace}
+
+Set {\tt trace=1} in a script to print the script as it is evaluated.
+Useful for debugging.
+
+{\color{blue}
+\begin{verbatim}
+trace = 1
+\end{verbatim}
+}
+
+\noindent
+Note:
+The
+\verb$contract$
+function is used to obtain the trace of a matrix.
+
+\subsection*{transpose($a,i,j$)}
+
+Returns the transpose of tensor $a$ with respect to indices $i$ and $j$.
+If $i$ and $j$ are omitted then 1 and 2 are used.
+Hence a matrix can be transposed with a single argument.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+transpose(A)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+a & c
+\\[1ex]
+b & d
+\end{bmatrix}
+$
+
+\bigskip
+\noindent
+Note:
+The argument list can be extended for multiple transpose operations.
+Arguments are evaluated from left to right.
+For example,
+\verb$transpose(A,1,2,2,3)$
+is equivalent to
+\verb$transpose(transpose(A,1,2),2,3)$
+
+\subsection*{tty}
+
+Set \verb$tty=1$ to show results in string format.
+Set \verb$tty=0$ to turn off.
+Can be useful when displayed results exceed window size.
+
+{\color{blue}
+\begin{verbatim}
+tty = 1
+(x + 1)^2
+\end{verbatim}
+}
+
+\noindent
+\verb$x^2 + 2 x + 1$
+
+\subsection*{unit($n$)}
+
+Returns an $n$ by $n$ identity matrix.
+
+{\color{blue}
+\begin{verbatim}
+unit(3)
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+\begin{bmatrix}
+1 & 0 & 0
+\\[1ex]
+0 & 1 & 0
+\\[1ex]
+0 & 0 & 1
+\end{bmatrix}
+$
+
+\subsection*{zero($i,j,\ldots$)}
+
+Returns a null tensor with dimensions $i$, $j$, etc.
+Useful for creating a tensor and then setting component values.
+
+{\color{blue}
+\begin{verbatim}
+A = zero(3,3)
+for(k,1,3,A[k,k]=k)
+A
+\end{verbatim}
+}
+
+\noindent
+$\displaystyle
+A=
+\begin{bmatrix}
+1 & 0 & 0
+\\[1ex]
+0 & 2 & 0
+\\[1ex]
+0 & 0 & 3
+\end{bmatrix}
+$
+
+\end{document}

@@ -1,0 +1,56 @@
+\input{preamble}
+
+\section*{Component arithmetic}
+
+Tensor plus scalar adds scalar to each tensor component.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+A + 10
+\end{verbatim}}
+
+$\displaystyle
+\begin{bmatrix}
+a+10 & b+10
+\\[1ex]
+c+10 & d+10
+\end{bmatrix}
+$
+
+\bigskip
+The product of two tensors is the Hadamard (element-wise) product.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+A A
+\end{verbatim}}
+
+$\displaystyle
+\begin{bmatrix}
+a^2 & b^2
+\\[1ex]
+c^2 & d^2
+\end{bmatrix}
+$
+
+\bigskip
+
+Tensor raised to a power raises each component to the power.
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+A^2
+\end{verbatim}}
+
+$\displaystyle
+\begin{bmatrix}
+a^2 & b^2
+\\[1ex]
+c^2 & d^2
+\end{bmatrix}
+$
+
+\end{document}
