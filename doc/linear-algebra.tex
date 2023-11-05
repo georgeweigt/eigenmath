@@ -2,7 +2,7 @@
 
 \section*{Linear algebra}
 
-The \verb$dot$ function is used to multiply vectors, matrices, and tensors.
+The \verb$dot$ function multiplies vectors and matrices.
 For example, let
 \begin{equation*}
 A=\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix},
@@ -30,6 +30,11 @@ $
 
 \bigskip
 
+The \verb$dot$ function can have more than two arguments.
+For example, \verb$dot(A,B,C)$.
+
+\bigskip
+
 The following example shows how to use \verb$dot$ and \verb$inv$ to solve for
 vector $X$ in $AX=B$.
 
@@ -54,11 +59,6 @@ $
 
 \bigskip
 
-The \verb$dot$ function can have more than two arguments.
-For example, \verb$dot(A,B,C)$ can be used for the dot product of three tensors.
-
-\bigskip
-
 Square brackets are used for component access.
 Index numbering starts with 1.
 
@@ -80,7 +80,7 @@ $
 
 \bigskip
 
-The following example demonstrates the relation
+The following example shows that
 $A^{-1}=(\operatorname{det}A)^{-1}\operatorname{adj}A$.
 
 {\color{blue}
@@ -105,7 +105,7 @@ For example, suppose for matrices $A$ and $B$ you want to show that
 
 Depending on the complexity of $\mathop{\rm det}B$, the software
 may not be able to find a simplification that yields zero.
-Should that occur, the following alternative formulation can be tried.
+A trick is to multiplying by $\operatorname{det}B$ and try
 \begin{equation*}
 A\operatorname{det}B-\operatorname{adj}B=0
 \end{equation*}
