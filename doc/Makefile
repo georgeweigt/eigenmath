@@ -1,4 +1,4 @@
-.PHONY: default clean
+.PHONY: default clean sync
 
 FILES = introduction.tex syntax.tex symbols.tex function-definitions.tex \
         arithmetic.tex complex-numbers.tex draw.tex tricks.tex \
@@ -30,3 +30,6 @@ a.out: merge.c
 
 clean:
 	rm -f *.aux *.log *.synctex.gz *.toc
+
+sync:
+	cp help.html ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
