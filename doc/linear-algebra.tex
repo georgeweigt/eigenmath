@@ -2,15 +2,18 @@
 
 \section*{Linear algebra}
 
-The \verb$dot$ function multiplies vectors and matrices.
-For example, let
+Function \verb$dot$ returns the product of vectors, matrices,
+and higher rank tensors.
+Also known as the matrix product and inner product.
+
+\bigskip
+
+Example 1. Compute $AX$ for
 \begin{equation*}
 A=\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix},
 \quad
 X=\begin{pmatrix}x_1\\x_2\end{pmatrix}
 \end{equation*}
-
-The product $AX$ is computed as follows.
 
 {\color{blue}
 \begin{verbatim}
@@ -30,13 +33,7 @@ $
 
 \bigskip
 
-The \verb$dot$ function can have more than two arguments.
-For example, \verb$dot(A,B,C)$.
-
-\bigskip
-
-The following example shows how to use \verb$dot$ and \verb$inv$ to solve for
-vector $X$ in $AX=B$.
+Example 2. Solve for vector $X$ in $AX=B$.
 
 {\color{blue}
 \begin{verbatim}
@@ -50,12 +47,29 @@ X
 $\displaystyle
 X=
 \begin{bmatrix}
--\tfrac{5}{17}
-\\
-\\
-\tfrac{41}{17}
+-\frac{5}{17}
+\\[1ex]
+\frac{41}{17}
 \end{bmatrix}
 $
+
+\bigskip
+
+Example 3. Show that
+\begin{equation*}
+A^{-1}=\frac{\operatorname{adj}A}{\operatorname{det}A}
+\end{equation*}
+
+{\color{blue}
+\begin{verbatim}
+A = ((a,b),(c,d))
+inv(A) == adj(A) / det(A)
+\end{verbatim}
+}
+
+$1$
+
+\iffalse
 
 \bigskip
 
@@ -80,20 +94,6 @@ $
 
 \bigskip
 
-The following example shows that
-$A^{-1}=(\operatorname{det}A)^{-1}\operatorname{adj}A$.
-
-{\color{blue}
-\begin{verbatim}
-A = ((a,b),(c,d))
-inv(A) == adj(A) / det(A)
-\end{verbatim}
-}
-
-$\displaystyle 1$
-
-\bigskip
-
 Sometimes a calculation will be simpler if it can be reorganized to use
 \verb$adj$ instead of \verb$inv$.
 The main idea is to try to prevent the determinant from appearing as a
@@ -109,5 +109,7 @@ A trick is to multiplying by $\operatorname{det}B$ and try
 \begin{equation*}
 A\operatorname{det}B-\operatorname{adj}B=0
 \end{equation*}
+
+\fi
 
 \end{document}
