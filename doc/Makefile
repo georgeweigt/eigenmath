@@ -1,4 +1,4 @@
-.PHONY: default clean sync
+.PHONY: default clean update
 
 FILES = introduction.tex syntax.tex symbols.tex function-definitions.tex \
         arithmetic.tex complex-numbers.tex draw.tex tricks.tex \
@@ -10,6 +10,9 @@ FILES = introduction.tex syntax.tex symbols.tex function-definitions.tex \
 
 # https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 
+../../georgeweigt.github.io/manual/%.pdf: %.pdf
+	cp $< $@
+
 # Sometimes, must do pdflatex three times to get correct toc
 
 %.pdf: %.tex preamble
@@ -19,7 +22,7 @@ FILES = introduction.tex syntax.tex symbols.tex function-definitions.tex \
 # $$ sends a single $ to the shell
 
 default:
-	make eigenmath.tex # in case eigenmath.tex does not exist
+	make eigenmath.tex
 	for file in $$(ls *.tex | sed "s/\.tex/\.pdf/") ; do make $$file ; done
 
 eigenmath.tex : a.out preamble $(FILES)
@@ -31,5 +34,16 @@ a.out: merge.c
 clean:
 	rm -f *.aux *.log *.synctex.gz *.toc
 
-sync:
-	cp help.html ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
+FILE1 = ../../georgeweigt.github.io/help.html
+FILE2 = ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
+
+$(FILE1): help.html
+	cp help.html $(FILE1)
+
+$(FILE2): help.html
+	cp help.html $(FILE2)
+
+update:
+	make $(FILE1)
+	make $(FILE2)
+	for file in *.pdf ; do make ../../georgeweigt.github.io/manual/$$file ; done
