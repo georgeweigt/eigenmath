@@ -791,7 +791,7 @@ void fmt_draw_delims(int x, int y, int h, int d, int w);
 void fmt_draw_ldelim(int x, int y, int h, int d);
 void fmt_draw_rdelim(int x, int y, int h, int d);
 void fmt_draw_table(int x, int y, struct atom *p);
-void writec(uint32_t c);
+void fmt_putw(uint32_t w);
 void gc(void);
 void untag(struct atom *p);
 int main(int argc, char *argv[]);
@@ -14970,12 +14970,12 @@ fmt(void)
 	for (i = 0; i < fmt_nrow; i++) {
 		for (j = 0; j < fmt_ncol; j++) {
 			c = fmt_buf[i * fmt_ncol + j];
-			writec(c);
+			fmt_putw(c);
 		}
-		writec('\n');
+		fmt_putw('\n');
 	}
 
-	writec('\n'); // blank line after result
+	fmt_putw('\n'); // blank line after result
 
 	printbuf(outbuf, BLACK);
 }
@@ -16240,15 +16240,15 @@ fmt_draw_table(int x, int y, struct atom *p)
 }
 
 void
-writec(uint32_t c)
+fmt_putw(uint32_t w)
 {
 	uint8_t buf[4];
-	if (c == 0)
-		c = ' ';
-	buf[0] = c >> 24;
-	buf[1] = c >> 16;
-	buf[2] = c >> 8;
-	buf[3] = c;
+	if (w == 0)
+		w = ' ';
+	buf[0] = w >> 24;
+	buf[1] = w >> 16;
+	buf[2] = w >> 8;
+	buf[3] = w;
 	if (buf[1])
 		outbuf_putc(buf[1]);
 	if (buf[2])
