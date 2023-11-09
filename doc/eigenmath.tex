@@ -704,9 +704,11 @@ draw(f,t)
 
 \section{Linear algebra}
 
-Function \verb$dot$ returns the inner product of vectors, matrices,
+\verb$dot(a,b,...)$ returns the inner product of vectors, matrices,
 and higher rank tensors.
 Also known as the matrix product.
+Arguments are evaluated from right to left
+for improved efficiency when the last argument is a vector.
 
 \bigskip
 
@@ -770,12 +772,6 @@ inv(A) == adj(A) / det(A)
 }
 
 $1$
-
-\bigskip
-
-The argument list can be extended, for example, \verb$dot(A,B,C)$.
-Arguments are evaluated from right to left
-for improved efficiency when the last argument is a vector.
 
 \iffalse
 
