@@ -1,4 +1,4 @@
-.PHONY: default clean update
+.PHONY: default sync clean
 
 FILES = introduction.tex syntax.tex symbols.tex function-definitions.tex \
         arithmetic.tex complex-numbers.tex draw.tex \
@@ -31,9 +31,6 @@ eigenmath.tex : a.out preamble $(FILES)
 a.out: merge.c
 	$(CC) merge.c
 
-clean:
-	rm -f *.aux *.log *.synctex.gz *.toc
-
 FILE1 = ../../georgeweigt.github.io/help.html
 FILE2 = ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
 
@@ -43,7 +40,10 @@ $(FILE1): help.html
 $(FILE2): help.html
 	cp help.html $(FILE2)
 
-update:
+sync:
 	make $(FILE1)
 	make $(FILE2)
 	for file in *.pdf ; do make ../../georgeweigt.github.io/manual/$$file ; done
+
+clean:
+	rm -f *.aux *.log *.synctex.gz *.toc
