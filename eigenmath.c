@@ -16476,7 +16476,7 @@ void
 outbuf_init(void)
 {
 	outbuf_index = 0;
-	outbuf_puts(""); // so that string length is zero
+	outbuf_puts(""); // init outbuf as empty string
 }
 
 void
