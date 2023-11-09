@@ -89,6 +89,10 @@ fmt(void)
 		}
 		writec('\n');
 	}
+
+	writec('\n'); // blank line after result
+
+	printbuf(outbuf, BLACK);
 }
 
 void

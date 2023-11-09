@@ -14974,6 +14974,10 @@ fmt(void)
 		}
 		writec('\n');
 	}
+
+	writec('\n'); // blank line after result
+
+	printbuf(outbuf, BLACK);
 }
 
 void
@@ -16453,8 +16457,6 @@ void
 display(void)
 {
 	fmt();
-	fputs(outbuf, stdout);
-	fputc('\n', stdout); // blank line after result
 }
 
 void
