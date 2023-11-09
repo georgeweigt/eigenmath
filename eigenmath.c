@@ -791,7 +791,7 @@ void fmt_draw_delims(int x, int y, int h, int d, int w);
 void fmt_draw_ldelim(int x, int y, int h, int d);
 void fmt_draw_rdelim(int x, int y, int h, int d);
 void fmt_draw_table(int x, int y, struct atom *p);
-void writec(int c);
+void writec(uint32_t c);
 void gc(void);
 void untag(struct atom *p);
 int main(int argc, char *argv[]);
@@ -14926,7 +14926,7 @@ factor_int(int n)
 int fmt_level;
 int fmt_nrow;
 int fmt_ncol;
-int *fmt_buf;
+uint32_t *fmt_buf;
 int fmt_buf_len;
 
 void
@@ -14950,9 +14950,9 @@ fmt(void)
 	fmt_nrow = h + d;
 	fmt_ncol = w;
 
-	n = fmt_nrow * fmt_ncol * sizeof (int); // number of bytes
+	n = fmt_nrow * fmt_ncol * sizeof (uint32_t); // number of bytes
 
-	m = 10000 * (n / 10000 + 1);
+	m = 1000 * (n / 1000 + 1); // round up
 
 	if (m > fmt_buf_len) {
 		if (fmt_buf)
@@ -14965,16 +14965,14 @@ fmt(void)
 
 	fmt_draw(0, h - 1, p1);
 
-	fflush(stdout);
+	outbuf_init();
 
 	for (i = 0; i < fmt_nrow; i++) {
 		for (j = 0; j < fmt_ncol; j++) {
 			c = fmt_buf[i * fmt_ncol + j];
 			writec(c);
-			fflush(stdout);
 		}
 		writec('\n');
-		fflush(stdout);
 	}
 }
 
@@ -16238,27 +16236,20 @@ fmt_draw_table(int x, int y, struct atom *p)
 }
 
 void
-writec(int c)
+writec(uint32_t c)
 {
-	int f;
 	uint8_t buf[4];
-
-	f = fileno(stdout);
-
 	if (c == 0)
 		c = ' ';
-
 	buf[0] = c >> 24;
 	buf[1] = c >> 16;
 	buf[2] = c >> 8;
 	buf[3] = c;
-
-	if (c < 256)
-		write(f, buf + 3, 1);
-	else if (c < 65536)
-		write(f, buf + 2, 2);
-	else
-		write(f, buf + 1, 3);
+	if (buf[1])
+		outbuf_putc(buf[1]);
+	if (buf[2])
+		outbuf_putc(buf[2]);
+	outbuf_putc(buf[3]);
 }
 // automatic variables not visible to the garbage collector are reclaimed
 
@@ -16462,6 +16453,7 @@ void
 display(void)
 {
 	fmt();
+	fputs(outbuf, stdout);
 	fputc('\n', stdout); // blank line after result
 }
 

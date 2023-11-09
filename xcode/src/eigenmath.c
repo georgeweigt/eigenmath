@@ -791,7 +791,7 @@ void fmt_draw_delims(int x, int y, int h, int d, int w);
 void fmt_draw_ldelim(int x, int y, int h, int d);
 void fmt_draw_rdelim(int x, int y, int h, int d);
 void fmt_draw_table(int x, int y, struct atom *p);
-void writec(int c);
+void writec(uint32_t c);
 void gc(void);
 void untag(struct atom *p);
 int main(int argc, char *argv[]);

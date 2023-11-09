@@ -43,6 +43,7 @@ void
 display(void)
 {
 	fmt();
+	fputs(outbuf, stdout);
 	fputc('\n', stdout); // blank line after result
 }
 
