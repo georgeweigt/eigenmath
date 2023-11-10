@@ -9,18 +9,6 @@ main(int argc, char *argv[])
 }
 
 void
-run_stdin(void)
-{
-	static char inbuf[1000];
-	for (;;) {
-		fputs("? ", stdout);
-		fflush(stdout);
-		fgets(inbuf, sizeof inbuf, stdin);
-		run(inbuf);
-	}
-}
-
-void
 run_infile(char *infile)
 {
 	char *buf;
@@ -34,15 +22,27 @@ run_infile(char *infile)
 }
 
 void
-printbuf(char *s, int color)
+run_stdin(void)
 {
-	fputs(s, stdout);
+	static char inbuf[1000];
+	for (;;) {
+		fputs("? ", stdout);
+		fflush(stdout);
+		fgets(inbuf, sizeof inbuf, stdin);
+		run(inbuf);
+	}
 }
 
 void
 display(void)
 {
 	fmt();
+}
+
+void
+printbuf(char *s, int color)
+{
+	fputs(s, stdout);
 }
 
 void

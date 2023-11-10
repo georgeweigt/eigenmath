@@ -1,4 +1,4 @@
-.PHONY: default sync clean
+.PHONY: default sync syncweb clean
 
 FILES = introduction.tex syntax.tex symbols.tex function-definitions.tex \
         arithmetic.tex complex-numbers.tex draw.tex \
@@ -31,18 +31,22 @@ eigenmath.tex : a.out preamble $(FILES)
 a.out: merge.c
 	$(CC) merge.c
 
-FILE1 = ../../georgeweigt.github.io/help.html
-FILE2 = ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
+HELPBOOK = ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
 
-$(FILE1): help.html
-	cp help.html $(FILE1)
-
-$(FILE2): help.html
-	cp help.html $(FILE2)
+$(HELPBOOK): help.html
+	cp help.html $(HELPBOOK)
 
 sync:
-	make $(FILE1)
-	make $(FILE2)
+	make $(HELPBOOK)
+	if [ -e ../../georgeweigt.github.io ] ; then make syncweb ; fi
+
+QR = ../../georgeweigt.github.io/help.html
+
+$(QR): help.html
+	cp help.html $(QR)
+
+syncweb:
+	make $(QR)
 	for file in *.pdf ; do make ../../georgeweigt.github.io/manual/$$file ; done
 
 clean:

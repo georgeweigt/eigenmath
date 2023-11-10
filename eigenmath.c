@@ -795,10 +795,10 @@ void fmt_putw(uint32_t w);
 void gc(void);
 void untag(struct atom *p);
 int main(int argc, char *argv[]);
-void run_stdin(void);
 void run_infile(char *infile);
-void printbuf(char *s, int color);
+void run_stdin(void);
 void display(void);
+void printbuf(char *s, int color);
 void eval_draw(struct atom *p1);
 void eval_exit(struct atom *p1);
 void outbuf_init(void);
@@ -16423,18 +16423,6 @@ main(int argc, char *argv[])
 }
 
 void
-run_stdin(void)
-{
-	static char inbuf[1000];
-	for (;;) {
-		fputs("? ", stdout);
-		fflush(stdout);
-		fgets(inbuf, sizeof inbuf, stdin);
-		run(inbuf);
-	}
-}
-
-void
 run_infile(char *infile)
 {
 	char *buf;
@@ -16448,15 +16436,27 @@ run_infile(char *infile)
 }
 
 void
-printbuf(char *s, int color)
+run_stdin(void)
 {
-	fputs(s, stdout);
+	static char inbuf[1000];
+	for (;;) {
+		fputs("? ", stdout);
+		fflush(stdout);
+		fgets(inbuf, sizeof inbuf, stdin);
+		run(inbuf);
+	}
 }
 
 void
 display(void)
 {
 	fmt();
+}
+
+void
+printbuf(char *s, int color)
+{
+	fputs(s, stdout);
 }
 
 void
