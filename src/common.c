@@ -213,27 +213,6 @@ cmp_tensors(struct atom *p1, struct atom *p2)
 }
 
 int
-cmp_args(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	push(caddr(p1));
-	evalf();
-	subtract();
-	simplify();
-	floatfunc();
-	p1 = pop();
-	if (iszero(p1))
-		return 0;
-	if (!isnum(p1))
-		stopf("compare err");
-	if (isnegativenumber(p1))
-		return -1;
-	else
-		return 1;
-}
-
-int
 find_denominator(struct atom *p)
 {
 	struct atom *q;

@@ -399,7 +399,6 @@ int cmp(struct atom *p1, struct atom *p2);
 int cmp_numbers(struct atom *p1, struct atom *p2);
 int cmp_rationals(struct atom *a, struct atom *b);
 int cmp_tensors(struct atom *p1, struct atom *p2);
-int cmp_args(struct atom *p1);
 int find_denominator(struct atom *p);
 int count_denominators(struct atom *p);
 int count_numerators(struct atom *p);
@@ -738,6 +737,7 @@ void eval_testge(struct atom *p1);
 void eval_testgt(struct atom *p1);
 void eval_testle(struct atom *p1);
 void eval_testlt(struct atom *p1);
+int cmp_args(struct atom *p1);
 void eval_transpose(struct atom *p1);
 void transpose(int n, int m);
 void eval_unit(struct atom *p1);
@@ -1813,27 +1813,6 @@ cmp_tensors(struct atom *p1, struct atom *p2)
 	}
 
 	return 0;
-}
-
-int
-cmp_args(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	push(caddr(p1));
-	evalf();
-	subtract();
-	simplify();
-	floatfunc();
-	p1 = pop();
-	if (iszero(p1))
-		return 0;
-	if (!isnum(p1))
-		stopf("compare err");
-	if (isnegativenumber(p1))
-		return -1;
-	else
-		return 1;
 }
 
 int
@@ -13820,6 +13799,7 @@ eval_test(struct atom *p1)
 	}
 	push_symbol(NIL);
 }
+
 void
 eval_testeq(struct atom *p1)
 {
@@ -13835,6 +13815,7 @@ eval_testeq(struct atom *p1)
 	else
 		push_integer(0);
 }
+
 void
 eval_testge(struct atom *p1)
 {
@@ -13843,6 +13824,7 @@ eval_testge(struct atom *p1)
 	else
 		push_integer(0);
 }
+
 void
 eval_testgt(struct atom *p1)
 {
@@ -13851,6 +13833,7 @@ eval_testgt(struct atom *p1)
 	else
 		push_integer(0);
 }
+
 void
 eval_testle(struct atom *p1)
 {
@@ -13859,6 +13842,7 @@ eval_testle(struct atom *p1)
 	else
 		push_integer(0);
 }
+
 void
 eval_testlt(struct atom *p1)
 {
@@ -13866,6 +13850,27 @@ eval_testlt(struct atom *p1)
 		push_integer(1);
 	else
 		push_integer(0);
+}
+
+int
+cmp_args(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	push(caddr(p1));
+	evalf();
+	subtract();
+	simplify();
+	floatfunc();
+	p1 = pop();
+	if (iszero(p1))
+		return 0;
+	if (!isnum(p1))
+		stopf("compare err");
+	if (isnegativenumber(p1))
+		return -1;
+	else
+		return 1;
 }
 void
 eval_transpose(struct atom *p1)
