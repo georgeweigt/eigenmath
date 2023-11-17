@@ -1,4 +1,4 @@
-.PHONY: default sync syncweb clean
+.PHONY: default sync clean
 
 FILES = introduction.tex syntax.tex symbols.tex function-definitions.tex \
         arithmetic.tex complex-numbers.tex draw.tex \
@@ -7,6 +7,8 @@ FILES = introduction.tex syntax.tex symbols.tex function-definitions.tex \
         integral.tex arc-length.tex line-integral.tex surface-area.tex \
         surface-integral.tex greens-theorem.tex stokes-theorem.tex \
         feature-index.tex tricks.tex
+
+HELPBOOK = ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
 
 # https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 
@@ -22,8 +24,12 @@ FILES = introduction.tex syntax.tex symbols.tex function-definitions.tex \
 # $$ sends a single $ to the shell
 
 default:
+	make $(HELPBOOK)
 	make eigenmath.tex
 	for file in $$(ls *.tex | sed "s/\.tex/\.pdf/") ; do make $$file ; done
+
+$(HELPBOOK): help.html
+	cp help.html $(HELPBOOK)
 
 eigenmath.tex : a.out preamble $(FILES)
 	./a.out $(FILES) > eigenmath.tex
@@ -31,23 +37,14 @@ eigenmath.tex : a.out preamble $(FILES)
 a.out: merge.c
 	$(CC) merge.c
 
-HELPBOOK = ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
-
-$(HELPBOOK): help.html
-	cp help.html $(HELPBOOK)
+QUICKREF = ../../georgeweigt.github.io/help.html
 
 sync:
-	make $(HELPBOOK)
-	if [ -e ../../georgeweigt.github.io ] ; then make syncweb ; fi
-
-QR = ../../georgeweigt.github.io/help.html
-
-$(QR): help.html
-	cp help.html $(QR)
-
-syncweb:
-	make $(QR)
+	make $(QUICKREF)
 	for file in *.pdf ; do make ../../georgeweigt.github.io/manual/$$file ; done
+
+$(QUICKREF): help.html
+	cp help.html $(QUICKREF)
 
 clean:
 	rm -f *.aux *.log *.synctex.gz *.toc
