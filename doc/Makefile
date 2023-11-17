@@ -27,6 +27,7 @@ default:
 	make $(HELPBOOK)
 	make eigenmath.tex
 	for file in $$(ls *.tex | sed "s/\.tex/\.pdf/") ; do make $$file ; done
+	if [ -e ../../georgeweigt.github.io/manual ] ; then make sync ; fi
 
 $(HELPBOOK): help.html
 	cp help.html $(HELPBOOK)
