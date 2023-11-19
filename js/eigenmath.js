@@ -7923,6 +7923,16 @@ var integral_tab_power = [
 	" + (i log(1 - i ((sqrt(2) a^(1/4) x)/b^(1/4) + 1)))/(4 sqrt(2) a^(1/4) b^(3/4))" +
 	" - (i log(1 + i ((sqrt(2) a^(1/4) x)/b^(1/4) + 1)))/(4 sqrt(2) a^(1/4) b^(3/4))", // from Wolfram Alpha
 	"1",
+//
+	"1 / (a x^5 + b)",
+	"(sqrt(5) log(2 a^(2/5) x^2 + (sqrt(5) - 1) a^(1/5) b^(1/5) x + 2 b^(2/5))" +
+	" - log(2 a^(2/5) x^2 + (sqrt(5) - 1) a^(1/5) b^(1/5) x + 2 b^(2/5))" +
+	" - sqrt(5) log(2 a^(2/5) x^2 - (1 + sqrt(5)) a^(1/5) b^(1/5) x + 2 b^(2/5))" +
+	" - log(2 a^(2/5) x^2 - (1 + sqrt(5)) a^(1/5) b^(1/5) x + 2 b^(2/5))" +
+	" + 4 log(a^(1/5) x + b^(1/5))" +
+	" + 2 sqrt(2 (5 + sqrt(5))) arctan((4 a^(1/5) x + (sqrt(5) - 1) b^(1/5))/(sqrt(2 (5 + sqrt(5))) b^(1/5)))" +
+	" + 2 sqrt(10 - 2 sqrt(5)) arctan((4 a^(1/5) x - (1 + sqrt(5)) b^(1/5))/(sqrt(10 - 2 sqrt(5)) b^(1/5))))/(20 a^(1/5) b^(4/5))", // from Wolfram Alpha
+	"1",
 // 164
 	"sqrt(a + x^6 + 3 a^(1/3) x^4 + 3 a^(2/3) x^2)",
 	"1/4 (x sqrt((x^2 + a^(1/3))^3) + 3/2 a^(1/3) x sqrt(x^2 + a^(1/3)) + 3/2 a^(2/3) log(x + sqrt(x^2 + a^(1/3))))",
@@ -8018,27 +8028,32 @@ var integral_tab = [
 	"1 / x^2 * 1 / (a x^2 + b)",
 	"1/2 i sqrt(a) b^(-3/2) (log(1 + i sqrt(a) x / sqrt(b)) - log(1 - i sqrt(a) x / sqrt(b))) - 1 / (b x)",
 	"1",
+// 75
+	"x / (a x^3 + b)",
+	"log(a^(2/3) x^2 - a^(1/3) b^(1/3) x + b^(2/3))/(6 a^(2/3) b^(1/3))" +
+	" - log(a^(1/3) x + b^(1/3))/(3 a^(2/3) b^(1/3))" +
+	" - (i log(1 - (i (1 - (2 a^(1/3) x)/b^(1/3)))/sqrt(3)))/(2 sqrt(3) a^(2/3) b^(1/3))" +
+	" + (i log(1 + (i (1 - (2 a^(1/3) x)/b^(1/3)))/sqrt(3)))/(2 sqrt(3) a^(2/3) b^(1/3))", // from Wolfram Alpha
+	"1",
 // 76
 	"x^2 / (a + b x^3)",
 	"1 log(a + b x^3) / (3 b)",
 	"1",
-
-	"x / (a + b x^4)",
-	"sqrt(b / a) arctan(x^2 sqrt(b / a)) / (2 b)",
-	"or(not(number(a b)),testgt(a b,0))",
-
-	"x / (a + b x^4)",
-	"sqrt(-b / a) log((x^2 - sqrt(-a / b)) / (x^2 + sqrt(-a / b))) / (4 b)",
-	"or(not(number(a b)),testlt(a b,0))",
-
-	"x^2 / (a + b x^4)",
-	"1 (1/2 log((x^2 - 2 (a 1/4 / b)^(1/4) x + 2 sqrt(a 1/4 / b)) / (x^2 + 2 (a 1/4 / b)^(1/4) x + 2 sqrt(a 1/4 / b))) + arctan(2 (a 1/4 / b)^(1/4) x / (2 sqrt(a 1/4 / b) - x^2))) / (4 b (a 1/4 / b)^(1/4))",
-	"or(not(number(a b)),testgt(a b,0))",
-
-	"x^2 / (a + b x^4)",
-	"1 (log((x - (-a / b)^(1/4)) / (x + (-a / b)^(1/4))) + 2 arctan(x / ((-a / b)^(1/4)))) / (4 b (-a / b)^(1/4))",
-	"or(not(number(a b)),testlt(a b,0))",
-
+// 79 80
+	"x / (a x^4 + b)",
+	"(i log(1 - (i sqrt(a) x^2)/sqrt(b)))/(4 sqrt(a) sqrt(b))" +
+	" - (i log(1 + (i sqrt(a) x^2)/sqrt(b)))/(4 sqrt(a) sqrt(b))", // from Wolfram Alpha
+	"1",
+// 81 82
+	"x^2 / (a x^4 + b)",
+	"log(-sqrt(2) a^(1/4) b^(1/4) x + sqrt(a) x^2 + sqrt(b))/(4 sqrt(2) a^(3/4) b^(1/4))" +
+	" - log(sqrt(2) a^(1/4) b^(1/4) x + sqrt(a) x^2 + sqrt(b))/(4 sqrt(2) a^(3/4) b^(1/4))" +
+	" - (i log(1 - i (1 - (sqrt(2) a^(1/4) x)/b^(1/4))))/(4 sqrt(2) a^(3/4) b^(1/4))" +
+	" + (i log(1 + i (1 - (sqrt(2) a^(1/4) x)/b^(1/4))))/(4 sqrt(2) a^(3/4) b^(1/4))" +
+	" + (i log(1 - i ((sqrt(2) a^(1/4) x)/b^(1/4) + 1)))/(4 sqrt(2) a^(3/4) b^(1/4))" +
+	" - (i log(1 + i ((sqrt(2) a^(1/4) x)/b^(1/4) + 1)))/(4 sqrt(2) a^(3/4) b^(1/4))", // from Wolfram Alpha
+	"1",
+//
 	"x^3 / (a + b x^4)",
 	"1 log(a + b x^4) / (4 b)",
 	"1",
