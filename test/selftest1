@@ -4268,7 +4268,7 @@ check(f == d(F,X))
 f = X^2 / (A X^3 + B)
 F = integral(f,X)
 check(f == d(F,X))
-#77
+#77 78
 f = 1 / (A X^4 + B)
 F = integral(f,X)
 check(f == d(F,X))
