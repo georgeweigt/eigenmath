@@ -8020,7 +8020,15 @@ var integral_tab = [
 	"x^2 / (a x^2 + b)",
 	"1/2 i a^(-3/2) sqrt(b) (log(1 + i sqrt(a) x / sqrt(b)) - log(1 - i sqrt(a) x / sqrt(b))) + x / a",
 	"1",
-
+// 68
+        "x / (a + b x^2)^2",
+        "-1 / (2 b (a + b x^2))",
+        "1",
+// 69
+        "x^2 / (a + b x^2)^2",
+        "-x / (2 b (a + b x^2)) + arctan(sqrt(b/a) x) / (2 sqrt(a b^3))",
+        "1",
+// 70
 	"1 / x * 1 / (a + b x^2)",
 	"1 log(x^2 / (a + b x^2)) / (2 a)",
 	"1",
