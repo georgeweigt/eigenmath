@@ -194,6 +194,7 @@ f = X^2 / (-3 X^2 - 7)
 g = integral(f,X)
 h = d(g,X)
 check(f == h)
+
 #65
 f = 1 / (3 X^2 + 7)^2
 g = integral(f,X)
@@ -212,17 +213,54 @@ g = integral(f,X)
 h = d(g,X)
 check(f == h)
 
-# 68
+#66 (same as 62)
+f = 1 / (A - B X^2)
+F = integral(f,X)
+check(f == d(F,X))
+
+#67 (m=1) (same as 65)
+f = 1 / (A X^2 + B)^2
+F = integral(f,X)
+check(f == d(F,X))
+#67 (m=2)
+f = 1 / (A X^2 + B)^3
+F = integral(f,X)
+check(f == d(F,X))
+#67 (m=3)
+f = 1 / (A X^2 + B)^4
+F = integral(f,X)
+check(f == d(F,X))
+
+#68 (m=1)
 f = X / (A X^2 + B)^2
 F = integral(f,X)
 check(f == d(F,X))
-# 69
-f = X^2 / (A x^2 + B)^2
+#68 (m=2)
+f = X / (A X^2 + B)^3
 F = integral(f,X)
 check(f == d(F,X))
+#68 (m=3)
+f = X / (A X^2 + B)^4
+F = integral(f,X)
+check(f == d(F,X))
+
+#69 (m=1)
+f = X^2 / (A X^2 + B)^2
+F = integral(f,X)
+check(f == d(F,X))
+#69 (m=2)
+f = X^2 / (A X^2 + B)^3
+F = integral(f,X)
+check(f == d(F,X))
+#69 (m=3)
+f = X^2 / (A X^2 + B)^4
+F = integral(f,X)
+check(f == d(F,X))
+
 #70
 T = integral(1/X*1/(A+B*X^2),X)-1/2*1/A*log(X^2/(A+B*X^2))
 check(T = 0)
+
 #71
 f = 1 / X^2 * 1 / (3 X^2 + 7)
 g = integral(f,X)
