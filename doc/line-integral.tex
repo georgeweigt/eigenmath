@@ -54,19 +54,8 @@ Note that $u$ cancels with $ds$ as follows.
 =\int_a^b F(g(t))\cdot g'(t)\,dt
 \end{equation*}
 
-Example 1. Evaluate
-\begin{equation*}
-\int_Cx\,ds\quad\hbox{and}\quad\int_Cx\,dx
-\end{equation*}
-
+Example 1. Evaluate $\int_Cx\,ds$
 where $C$ is a straight line from $(0,0)$ to $(1,1)$.
-
-\bigskip
-Although the integrals appear similar,
-the first is over a scalar field and the second is over a vector field.
-
-\bigskip
-For $\int_Cx\,ds$ we have
 
 {\color{blue}
 \begin{verbatim}
@@ -79,7 +68,11 @@ defint(x abs(d(g,t)), t, 0, 1)
 $\displaystyle \frac{1}{2^{1/2}}$
 
 \bigskip
-For $\int_Cx\,dx$ we have $x\,dx=(F\cdot u)\,ds$ hence
+Example 2. Evaluate $\int_Cx\,dx$
+where $C$ is a straight line from $(0,0)$ to $(1,1)$.
+
+\bigskip
+We have $x\,dx=(F\cdot u)\,ds$ hence
 
 {\color{blue}
 \begin{verbatim}
@@ -97,7 +90,7 @@ The following line integral problems are from
 {\it Advanced Calculus, Fifth Edition} by Wilfred Kaplan.
 
 \bigskip
-Example 2. Evaluate $\int y^2\,dx$ along the straight
+Example 3. Evaluate $\int y^2\,dx$ along the straight
 line from $(0,0)$ to $(2,2)$.
 
 \bigskip
@@ -116,7 +109,7 @@ defint(dot(F,d(g,t)), t, 0, 1)
 $\displaystyle \tfrac{8}{3}$
 
 \bigskip
-Example 3. Evaluate $\int z\,dx+x\,dy+y\,dz$
+Example 4. Evaluate $\int z\,dx+x\,dy+y\,dz$
 along the path
 $x=2t+1$, $y=t^2$, $z=1+t^3$, $0\le t\le 1$.
 
