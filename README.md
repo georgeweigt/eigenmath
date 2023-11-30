@@ -74,4 +74,4 @@ To run self tests
 
 Go to the `xcode` directory to build for macOS.
 
-See also the `js` directory for a Javascript version.
+See also directory `js` for a Javascript version.
