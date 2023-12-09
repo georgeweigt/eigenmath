@@ -8029,9 +8029,9 @@ var integral_tab = [
 	"1/2 i a^(-3/2) sqrt(b) (log(1 + i sqrt(a) x / sqrt(b)) - log(1 - i sqrt(a) x / sqrt(b))) + x / a",
 	"1",
 // 68 (m=1)
-        "x / (a + b x^2)^2",
-        "-1 / (2 b (a + b x^2))",
-        "1",
+	"x / (a + b x^2)^2",
+	"-1 / (2 b (a + b x^2))",
+	"1",
 // 68 (m=2)
 	"x / (a + b x^2)^3",
 	"-1 / (4 b (a + b x^2)^2)",
@@ -8041,9 +8041,9 @@ var integral_tab = [
 	"-1 / (6 b (a + b x^2)^3)",
 	"1",
 // 69 (m=1)
-        "x^2 / (a + b x^2)^2",
-        "-x / (2 b (a + b x^2)) + arctan(sqrt(b/a) x) / (2 sqrt(a b^3))",
-        "1",
+	"x^2 / (a + b x^2)^2",
+	"-x / (2 b (a + b x^2)) + arctan(sqrt(b/a) x) / (2 sqrt(a b^3))",
+	"1",
 // 69 (m=2)
 	"x^2 / (a + b x^2)^3",
 	"x^3 / (8 a (a + b x^2)^2) + arctan(b^(1/2) x / a^(1/2),1) / (8 a^(3/2) b^(3/2)) - x / (8 b (a + b x^2)^2)",

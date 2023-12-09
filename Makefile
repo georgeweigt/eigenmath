@@ -1,4 +1,8 @@
-.PHONY: clean check
+.PHONY: default clean check
+
+default:
+	make -C src prototypes.h
+	make eigenmath
 
 eigenmath: eigenmath.c
 	$(CC) -Wall -O0 -o eigenmath eigenmath.c -lm
@@ -6,13 +10,10 @@ eigenmath: eigenmath.c
 eigenmath.c: src/defs.h src/prototypes.h src/*.c
 	cat src/defs.h src/prototypes.h src/*.c > eigenmath.c
 
-src/prototypes.h: src/*.c
-	make -C src prototypes.h
-
 clean:
 	rm -f eigenmath eigenmath.c
 
 check:
-	make -C tools wcheck
+	make -s -C tools wcheck
 	tools/wcheck src/*.c
 	tools/wcheck js/src/*.js
