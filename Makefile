@@ -13,6 +13,6 @@ clean:
 	rm -f eigenmath eigenmath.c
 
 check:
-	make -s -C tools wcheck
+	make -C tools wcheck
 	tools/wcheck src/*.c
 	tools/wcheck js/src/*.js
