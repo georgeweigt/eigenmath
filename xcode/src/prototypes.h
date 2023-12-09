@@ -13,7 +13,6 @@ void draw_formula(double x, double y, double *p);
 void draw_char(double x, double y, int font_num, int char_num);
 void draw_stroke(double x1, double y1, double x2, double y2, double stroke_width);
 void draw_point(double x, double y);
-void draw_selection_rect(double x, double y, double width, double height);
 struct atom * alloc_atom(void);
 void alloc_block(void);
 struct atom * alloc_vector(int nrow);

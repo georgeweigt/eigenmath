@@ -14,7 +14,6 @@
 		7FA84581292DAC7800842C3D /* display.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8457A292DAC7700842C3D /* display.c */; };
 		7FA84582292DAC7800842C3D /* draw_display.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8457B292DAC7700842C3D /* draw_display.c */; };
 		7FA84583292DAC7800842C3D /* atomic.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8457C292DAC7700842C3D /* atomic.c */; };
-		7FA84584292DAC7800842C3D /* draw_selection_rect.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FA8457D292DAC7700842C3D /* draw_selection_rect.c */; };
 		7FA84585292DAC7800842C3D /* app.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FA84580292DAC7800842C3D /* app.c */; };
 		7FA84592292DACA000842C3D /* history.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FA84588292DACA000842C3D /* history.c */; };
 		7FA84593292DACA000842C3D /* eigenmath.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FA84589292DACA000842C3D /* eigenmath.c */; };
@@ -41,7 +40,6 @@
 		7FA8457A292DAC7700842C3D /* display.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = display.c; sourceTree = "<group>"; };
 		7FA8457B292DAC7700842C3D /* draw_display.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = draw_display.c; sourceTree = "<group>"; };
 		7FA8457C292DAC7700842C3D /* atomic.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = atomic.c; sourceTree = "<group>"; };
-		7FA8457D292DAC7700842C3D /* draw_selection_rect.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = draw_selection_rect.c; sourceTree = "<group>"; };
 		7FA8457E292DAC7700842C3D /* defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defs.h; sourceTree = "<group>"; };
 		7FA8457F292DAC7800842C3D /* app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app.h; sourceTree = "<group>"; };
 		7FA84580292DAC7800842C3D /* app.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = app.c; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				7FA8457E292DAC7700842C3D /* defs.h */,
 				7FA8457A292DAC7700842C3D /* display.c */,
 				7FA8457B292DAC7700842C3D /* draw_display.c */,
-				7FA8457D292DAC7700842C3D /* draw_selection_rect.c */,
 				7FF6B91A271DCAC20047F0A7 /* Eigenmath.help */,
 				7F2C060C271CFF3300128330 /* EigenmathAppDelegate.h */,
 				7F2C060D271CFF3300128330 /* EigenmathAppDelegate.m */,
@@ -204,7 +201,6 @@
 				7FA8459A292DACA000842C3D /* emit.c in Sources */,
 				7FA84595292DACA000842C3D /* eval_draw.c in Sources */,
 				7FAB24A4271D0556007ED5D2 /* EigenmathView.m in Sources */,
-				7FA84584292DAC7800842C3D /* draw_selection_rect.c in Sources */,
 				7FA84593292DACA000842C3D /* eigenmath.c in Sources */,
 				7F2C0616271CFF3F00128330 /* main.m in Sources */,
 				7F2C060E271CFF3300128330 /* EigenmathAppDelegate.m in Sources */,
