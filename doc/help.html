@@ -588,21 +588,20 @@ A = │       │
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="eval">eval(<i>f,x,a</i>)</a>
+<a id="eval">eval(<i>f,x,a,y,b,...</i>)</a>
 <p>
-Returns expression <i>f</i> evaluated at <i>x</i> equals <i>a</i>.
-The argument list can be extended as shown.
+Returns <i>f</i> evaluated at
+<i>x</i> equals <i>a</i>,
+<i>y</i> equals <i>b</i>, etc.
+All of the arguments can be expressions.
 <pre style="font-family:courier;color:blue">
 f = sqrt(x^2 + y^2)
-eval(f,x,3,y,4) -- evaluate f at x=3 and y=4
+eval(f,x,3,y,4)
 </pre>
 <pre style="font-family:courier">
 5
 </pre>
 <p>
-The
-<span style="font-family:courier">eval</span>
-function can be used for substitution.
 In the following example,
 <span style="font-family:courier">eval</span>
 is used to replace
@@ -611,10 +610,9 @@ with
 <span style="font-family:courier">cos(theta)</span>.
 <pre style="font-family:courier;color:blue">
 -- associated legendre of cos theta
-
-P(l,m) = test(m &lt; 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-         1 / (2^l l!) sin(theta)^m *
-         eval(d((x^2 - 1)^l,x,l + m),x,cos(theta)))
+P(l,m,x) = test(m &lt; 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           1 / (2^l l!) sin(theta)^m *
+           eval(d((x^2 - 1)^l, x, l + m), x, cos(theta)))
 
 P(2,-1)
 </pre>
@@ -623,6 +621,14 @@ P(2,-1)
 −╶─╴ cos(θ) sin(θ)
   2
 </pre>
+<p>
+Note:
+<span style="font-family:courier">eval</span>
+uses exact pattern matching, not arithmetic matching.
+For example,
+<span style="font-family:courier">eval(a b c, b c, 1)</span>
+does not match, returns
+<span style="font-family:courier">a b c</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="exp">exp(<i>x</i>)</a>

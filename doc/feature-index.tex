@@ -495,15 +495,15 @@ $\displaystyle
 \end{bmatrix}
 $
 
-\subsection*{eval($f,x,a$)}
+\subsection*{eval($f,x,a,y,b,\ldots$)}
 
-Returns expression $f$ evaluated at $x$ equals $a$.
-The argument list can be extended as shown.
+Returns $f$ evaluated at $x$ equals $a$, $y$ equals $b$, etc.
+All of the arguments can be expressions.
 
 {\color{blue}
 \begin{verbatim}
 f = sqrt(x^2 + y^2)
-eval(f,x,3,y,4) -- evaluate f at x=3 and y=4
+eval(f,x,3,y,4)
 \end{verbatim}
 }
 
@@ -512,17 +512,15 @@ eval(f,x,3,y,4) -- evaluate f at x=3 and y=4
 
 \bigskip
 \noindent
-The \verb$eval$ function can be used for substitution.
 In the following example, \verb$eval$ is used to replace
 \verb$x$ with \verb$cos(theta)$.
 
 {\color{blue}
 \begin{verbatim}
 -- associated legendre of cos theta
-
-P(l,m) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-         1 / (2^l l!) sin(theta)^m *
-         eval(d((x^2 - 1)^l,x,l + m),x,cos(theta)))
+P(l,m,x) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           1 / (2^l l!) sin(theta)^m *
+           eval(d((x^2 - 1)^l, x, l + m), x, cos(theta)))
 
 P(2,-1)
 \end{verbatim}
@@ -531,6 +529,11 @@ P(2,-1)
 $\displaystyle
 -\tfrac{1}{2}\cos(\theta)\sin(\theta)
 $
+
+\bigskip
+Note: \verb$eval$ uses exact pattern matching, not arithmetic matching.
+For example, \verb$eval(a b c, b c, 1)$ does not match, returns
+\verb$a b c$.
 
 \subsection*{exp($x$)}
 
