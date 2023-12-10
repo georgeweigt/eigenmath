@@ -3546,5 +3546,45 @@ to be printed as meter instead of $m_{eter}$.
 Use \verb$expsin$ and \verb$expcos$ instead of \verb$sin$ and \verb$cos$.
 Trigonometric simplifications occur automatically when exponentials are used.
 
+\item
+Here are some \verb$eval$ tricks. Let
+\begin{equation*}
+\langle A\rangle=\int\psi^*A\psi\,dx
+\end{equation*}
+
+where
+\begin{equation*}
+\psi
+=\frac{\phi_1+\phi_2}{2}\exp\left(-\frac{iE_1t}{\hbar}\right)
++\frac{\phi_1-\phi_2}{2}\exp\left(-\frac{iE_2t}{\hbar}\right)
+\end{equation*}
+
+and
+\begin{align*}
+A\psi&=a_1\psi
+\\
+A\psi&=a_2\psi
+\end{align*}
+
+Verify that
+\begin{equation*}
+\langle A\rangle
+=\frac{a_1+a_2}{2}+\frac{a_1-a_2}{2}+\cos\left(\frac{(E_1-E_2)t}{\hbar}\right)
+\end{equation*}
+
+\begin{verbatim}
+psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
+      (phi1 - phi2) / 2 exp(-i E2 t / hbar)
+
+Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2)
+
+A = conj(psi) Apsi
+
+A = eval(A, phi1^2, 1, phi2^2, 1)
+A = eval(A, phi1, 0, phi2, 0)
+
+check(A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar))
+\end{verbatim}
+
 \end{enumerate}
 \end{document}
