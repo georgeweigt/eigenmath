@@ -3549,28 +3549,27 @@ Trigonometric simplifications occur automatically when exponentials are used.
 \item
 Here are some \verb$eval$ tricks. Let
 \begin{equation*}
-\langle A\rangle=\int\psi^*A\psi\,dx
-\end{equation*}
-
-where
-\begin{equation*}
 \psi
 =\frac{\phi_1+\phi_2}{2}\exp\left(-\frac{iE_1t}{\hbar}\right)
 +\frac{\phi_1-\phi_2}{2}\exp\left(-\frac{iE_2t}{\hbar}\right)
 \end{equation*}
 
-and
+where $\phi_1$ and $\phi_2$ are orthogonal and
 \begin{align*}
-A\psi&=a_1\psi
+A\phi_1&=a_1\phi_1
 \\
-A\psi&=a_2\psi
+A\phi_2&=a_2\phi_2
 \end{align*}
 
 Verify that
+
 \begin{equation*}
 \langle A\rangle
+=\int\psi^*A\psi\,dx
 =\frac{a_1+a_2}{2}+\frac{a_1-a_2}{2}+\cos\left(\frac{(E_1-E_2)t}{\hbar}\right)
 \end{equation*}
+
+(From exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.)
 
 \begin{verbatim}
 psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
@@ -3580,6 +3579,7 @@ Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2)
 
 A = conj(psi) Apsi
 
+-- delta function trick (not perfect but works for this psi)
 A = eval(A, phi1^2, 1, phi2^2, 1)
 A = eval(A, phi1, 0, phi2, 0)
 
