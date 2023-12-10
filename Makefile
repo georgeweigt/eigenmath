@@ -1,4 +1,4 @@
-.PHONY: default clean check
+.PHONY: default clean
 
 default:
 	make -C src prototypes.h
@@ -12,8 +12,3 @@ eigenmath.c: src/defs.h src/prototypes.h src/*.c
 
 clean:
 	rm -f eigenmath eigenmath.c
-
-check:
-	make -s -C tools wcheck
-	tools/wcheck src/*.c
-	tools/wcheck js/src/*.js
