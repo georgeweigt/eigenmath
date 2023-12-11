@@ -3569,7 +3569,7 @@ Verify that
 \begin{equation*}
 \langle A\rangle
 =\int\psi^*A\psi\,dx
-=\frac{a_1+a_2}{2}+\frac{a_1-a_2}{2}+\cos\left(\frac{(E_1-E_2)t}{\hbar}\right)
+=\frac{a_1+a_2}{2}+\frac{a_1-a_2}{2}\cos\left(\frac{(E_1-E_2)t}{\hbar}\right)
 \end{equation*}
 
 \begin{verbatim}
@@ -3580,7 +3580,7 @@ Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2)
 
 A = conj(psi) Apsi
 
--- delta function trick (not perfect but works for this psi)
+-- delta function trick
 A = eval(A, phi1^2, 1, phi2^2, 1)
 A = eval(A, phi1, 0, phi2, 0)
 
