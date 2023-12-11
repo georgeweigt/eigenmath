@@ -147,6 +147,8 @@ void erffunc(void);
 void eval_erfc(struct atom *p1);
 void erfcfunc(void);
 void eval_eval(struct atom *p1);
+void asubst(void);
+int acmp(struct atom *p1, struct atom *p2);
 void eval_exp(struct atom *p1);
 void expfunc(void);
 void eval_expcos(struct atom *p1);

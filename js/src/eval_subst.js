@@ -11,6 +11,8 @@ eval_subst(p1)
 	evalf(); // normalize
 }
 
+// cannot do any evalf in subst because subst is used by func defn
+
 function
 subst()
 {
@@ -18,11 +20,12 @@ subst()
 
 	p3 = pop(); // new expr
 	p2 = pop(); // old expr
-
-	if (p2 == symbol(NIL) || p3 == symbol(NIL))
-		return;
-
 	p1 = pop(); // expr
+
+	if (p2 == symbol(NIL) || p3 == symbol(NIL)) {
+		push(p1);
+		return;
+	}
 
 	if (istensor(p1)) {
 		p1 = copy_tensor(p1);
@@ -43,18 +46,22 @@ subst()
 		return;
 	}
 
-	if (iscons(p1)) {
-		h = stack.length;
-		while (iscons(p1)) {
-			push(car(p1));
-			push(p2);
-			push(p3);
-			subst();
-			p1 = cdr(p1);
-		}
-		list(stack.length - h);
+	if (!iscons(p1)) {
+		push(p1);
 		return;
 	}
 
-	push(p1);
+	// depth first
+
+	h = stack.length;
+
+	while (iscons(p1)) {
+		push(car(p1));
+		push(p2);
+		push(p3);
+		subst();
+		p1 = cdr(p1);
+	}
+
+	list(stack.length - h);
 }

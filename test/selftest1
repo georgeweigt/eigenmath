@@ -3708,6 +3708,10 @@ clear
 
 f = sqrt(1 - cos(theta)^2)
 check(eval(f,sqrt(1 - cos(theta)^2),sin(theta)) == sin(theta))
+
+check(eval(a b c d, b d, 2) == 2 a c)
+check(eval(a b c d + e, b d, 2) == 2 a c + e)
+check(eval(a + b + c + d, b + d, 2) == a + c + 2)
 "Testing exp"
 
 clear
