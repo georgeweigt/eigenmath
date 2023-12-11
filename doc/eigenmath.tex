@@ -3581,9 +3581,7 @@ Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2)
 
 A = conj(psi) Apsi
 
--- delta function trick
-A = eval(A, phi1^2, 1, phi2^2, 1)
-A = eval(A, phi1, 0, phi2, 0)
+A = eval(A, phi1^2, 1, phi2^2, 1, phi1, 0) -- delta function
 
 A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
 \end{verbatim}
