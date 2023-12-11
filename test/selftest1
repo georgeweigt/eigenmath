@@ -3712,6 +3712,13 @@ check(eval(f,sqrt(1 - cos(theta)^2),sin(theta)) == sin(theta))
 check(eval(a b c d, b d, 2) == 2 a c)
 check(eval(a b c d + e, b d, 2) == 2 a c + e)
 check(eval(a + b + c + d, b + d, 2) == a + c + 2)
+
+psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
+      (phi1 - phi2) / 2 exp(-i E2 t / hbar)
+Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2)
+A = conj(psi) Apsi 
+A = eval(A, phi1^2, 1, phi2^2, 1, phi1 phi2, 0) -- delta function
+check(A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar))
 "Testing exp"
 
 clear
