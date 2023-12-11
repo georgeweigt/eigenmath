@@ -3549,8 +3549,9 @@ Use \verb$expsin$ and \verb$expcos$ instead of \verb$sin$ and \verb$cos$.
 Trigonometric simplifications occur automatically when exponentials are used.
 
 \item
-The following exercise demonstrates some \verb$eval$ tricks.
-Let\footnote{From exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.}
+The following exercise\footnote{See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.}
+demonstrates some \verb$eval$ tricks.
+Let
 \begin{equation*}
 \psi
 =\frac{\phi_1+\phi_2}{2}\exp\left(-\frac{iE_1t}{\hbar}\right)
@@ -3584,7 +3585,7 @@ A = conj(psi) Apsi
 A = eval(A, phi1^2, 1, phi2^2, 1)
 A = eval(A, phi1, 0, phi2, 0)
 
-check(A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar))
+A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
 \end{verbatim}
 
 Note: \verb$eval$ uses exact pattern matching, not arithmetic matching.
