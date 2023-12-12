@@ -497,8 +497,8 @@ $
 
 \subsection*{eval($f,x,a,y,b,\ldots$)}
 
-Returns $f$ evaluated at $x$ equals $a$, $y$ equals $b$, etc.
-All of the arguments can be expressions.
+Returns $f$ evaluated with $x$ replaced by $a$, $y$ replaced by $b$, etc.
+All arguments can be expressions.
 
 {\color{blue}
 \begin{verbatim}
@@ -529,10 +529,6 @@ P(2,-1)
 $\displaystyle
 -\tfrac{1}{2}\cos(\theta)\sin(\theta)
 $
-
-\bigskip
-Note: \verb$eval$ uses exact pattern matching, not arithmetic matching.
-For example, \verb$eval(a b c, b c, 1)$ does not match, returns $abc$.
 
 \subsection*{exp($x$)}
 
