@@ -974,7 +974,10 @@ emit_roman_char(int char_num)
 		font_num = SMALL_ROMAN_FONT;
 
 	h = get_cap_height(font_num);
-	d = get_char_depth(font_num, char_num);
+	if (emit_text_mode)
+		d = get_descent(font_num);
+	else
+		d = get_char_depth(font_num, char_num);
 	w = get_char_width(font_num, char_num);
 
 	push_double(EMIT_CHAR);

@@ -12,6 +12,11 @@ display(void)
 	emit_index = 0;
 	emit_count = 1; // for DRAW_END
 
+	if (isstr(p1))
+		emit_text_mode = 1;
+	else
+		emit_text_mode = 0;
+
 	emit_list(p1);
 
 	p1 = pop();

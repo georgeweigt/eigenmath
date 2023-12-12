@@ -21,6 +21,7 @@ double ymin, ymax;
 int emit_level;
 int emit_index;
 int emit_count;
+int emit_text_mode;
 struct display *emit_display;
 
 void

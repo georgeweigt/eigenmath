@@ -106,4 +106,5 @@ extern double ymin, ymax;
 extern int emit_level;
 extern int emit_index;
 extern int emit_count;
+extern int emit_text_mode;
 extern struct display *emit_display;
