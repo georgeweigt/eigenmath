@@ -590,9 +590,9 @@ A = │       │
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="eval">eval(<i>f,x,a,y,b,...</i>)</a>
 <p>
-Returns <i>f</i> evaluated at
-<i>x</i> equals <i>a</i>,
-<i>y</i> equals <i>b</i>, etc.
+Returns <i>f</i> with
+<i>x</i> replaced by <i>a</i>,
+<i>y</i> replaced by <i>b</i>, etc.
 All of the arguments can be expressions.
 <pre style="font-family:courier;color:blue">
 f = sqrt(x^2 + y^2)
@@ -621,13 +621,6 @@ P(2,-1)
 −╶─╴ cos(θ) sin(θ)
   2
 </pre>
-<p>
-Note:
-<span style="font-family:courier">eval</span>
-uses exact pattern matching, not arithmetic matching.
-For example,
-<span style="font-family:courier">eval(a b c, b c, 1)</span>
-does not match, returns <i>abc</i>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="exp">exp(<i>x</i>)</a>
