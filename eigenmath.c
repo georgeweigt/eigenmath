@@ -11433,6 +11433,8 @@ eval_product(struct atom *p1)
 	int h, i, j, k, n;
 	struct atom *p2, *p3;
 
+	// product of tensor elements?
+
 	if (lengthf(p1) == 2) {
 		push(cadr(p1));
 		evalf();
@@ -11478,6 +11480,8 @@ eval_product(struct atom *p1)
 			j++;
 		else
 			j--;
+		if (tos - h == 1000)
+			multiply_factors(1000); // to prevent stack overflow
 	}
 
 	multiply_factors(tos - h);
@@ -13427,6 +13431,8 @@ eval_sum(struct atom *p1)
 	int h, i, j, k, n;
 	struct atom *p2, *p3;
 
+	// sum over tensor elements?
+
 	if (lengthf(p1) == 2) {
 		push(cadr(p1));
 		evalf();
@@ -13472,6 +13478,8 @@ eval_sum(struct atom *p1)
 			j++;
 		else
 			j--;
+		if (tos - h == 1000)
+			add_terms(1000); // to prevent stack overflow
 	}
 
 	add_terms(tos - h);

@@ -9957,6 +9957,8 @@ eval_product(p1)
 {
 	var h, i, j, k, n, p2, p3;
 
+	// product of tensor elements?
+
 	if (lengthf(p1) == 2) {
 		push(cadr(p1));
 		evalf();
@@ -10002,6 +10004,8 @@ eval_product(p1)
 			j++;
 		else
 			j--;
+		if (stack.length - h == 1000)
+			multiply_factors(1000); // to prevent stack overflow
 	}
 
 	multiply_factors(stack.length - h);
@@ -11723,6 +11727,8 @@ eval_sum(p1)
 {
 	var h, i, j, k, n, p2, p3;
 
+	// sum over tensor elements?
+
 	if (lengthf(p1) == 2) {
 		push(cadr(p1));
 		evalf();
@@ -11768,6 +11774,8 @@ eval_sum(p1)
 			j++;
 		else
 			j--;
+		if (stack.length - h == 1000)
+			add_terms(1000); // to prevent stack overflow
 	}
 
 	add_terms(stack.length - h);
