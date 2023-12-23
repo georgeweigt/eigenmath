@@ -36,8 +36,8 @@ $(HELPBOOK): help.html
 eigenmath.tex : a.out preamble $(FILES)
 	./a.out $(FILES) > eigenmath.tex
 
-a.out: merge.c
-	$(CC) merge.c
+a.out: unify.c
+	$(CC) unify.c
 
 QUICKREF = ../../georgeweigt.github.io/help.html
 
