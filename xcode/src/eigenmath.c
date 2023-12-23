@@ -10422,8 +10422,8 @@ power_numbers_factor(struct atom *BASE, struct atom *EXPO)
 
 	// process r
 
-	if (MLENGTH(BASE->u.q.a) == 1) {
-		// BASE is 32 bits or less, hence BASE is a prime number, no root
+	if (MLENGTH(BASE->u.q.a) == 1 && BASE->u.q.a[0] <= 0x7fffffff) {
+		// BASE is smaller than 2^31, hence BASE is a prime number, no root
 		push_symbol(POWER);
 		push(BASE);
 		push_bignum(EXPO->sign, r, mcopy(EXPO->u.q.b)); // r used here, r is not leaked
@@ -15010,7 +15010,7 @@ int primetab[NPRIME] = {
 
 // the next prime after 46337 is 46349
 
-// 46349 ^ 2 = 2,148,229,801 which is greater than 2 ^ 31 = 2,147,483,648
+// 46349 ^ 2 = 2,148,229,801 which is greater than 2^31 - 1 = 2,147,483,648 = 0x7fffffff
 
 // hence this table can factor all positive ints
 

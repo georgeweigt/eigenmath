@@ -725,7 +725,7 @@ int primetab[NPRIME] = {
 
 // the next prime after 46337 is 46349
 
-// 46349 ^ 2 = 2,148,229,801 which is greater than 2 ^ 31 = 2,147,483,648
+// 46349 ^ 2 = 2,148,229,801 which is greater than 2^31 - 1 = 2,147,483,648 = 0x7fffffff
 
 // hence this table can factor all positive ints
 
