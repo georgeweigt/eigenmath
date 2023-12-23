@@ -9,8 +9,8 @@ default:
 	make eigenmath.c
 	make prototypes.h
 
-eigenmath.c: defs.h ../../src/prototypes.h $(FILES)
-	cat defs.h ../../src/prototypes.h $(FILES) > eigenmath.c
+eigenmath.c: ../../src/LICENSE defs.h ../../src/prototypes.h $(FILES)
+	cat ../../src/LICENSE defs.h ../../src/prototypes.h $(FILES) > eigenmath.c
 
 defs.h: ../../src/defs.h
 	cp ../../src/defs.h .

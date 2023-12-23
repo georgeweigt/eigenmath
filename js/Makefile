@@ -1,7 +1,7 @@
 .PHONY: check clean
 
-eigenmath.js: src/*
-	cat src/* > eigenmath.js
+eigenmath.js: src/LICENSE src/*.js
+	cat src/LICENSE src/*.js > eigenmath.js
 	npx eslint eigenmath.js
 
 check:

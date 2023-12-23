@@ -7,8 +7,8 @@ default:
 eigenmath: eigenmath.c
 	$(CC) -Wall -O0 -o eigenmath eigenmath.c -lm
 
-eigenmath.c: src/defs.h src/prototypes.h src/*.c
-	cat src/defs.h src/prototypes.h src/*.c > eigenmath.c
+eigenmath.c: src/LICENSE src/defs.h src/prototypes.h src/*.c
+	cat src/LICENSE src/defs.h src/prototypes.h src/*.c > eigenmath.c
 
 clean:
 	rm -f eigenmath eigenmath.c
