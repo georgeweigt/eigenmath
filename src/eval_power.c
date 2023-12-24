@@ -406,7 +406,7 @@ power_numbers_factor(struct atom *BASE, struct atom *EXPO)
 	// process r
 
 	if (MLENGTH(BASE->u.q.a) == 1 && BASE->u.q.a[0] <= 0x7fffffff) {
-		// BASE is smaller than 2^31, hence BASE is a prime number, no root
+		// BASE is less than 2^31, hence BASE is a prime number, no root
 		push_symbol(POWER);
 		push(BASE);
 		push_bignum(EXPO->sign, r, mcopy(EXPO->u.q.b)); // r used here, r is not leaked

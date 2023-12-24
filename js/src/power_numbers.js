@@ -176,10 +176,8 @@ power_numbers_factor(BASE, EXPO)
 
 	// process r
 
-	n = bignum_smallnum(BASE.a);
-
-	if (n != null) {
-		// BASE is 32 bits or less, hence BASE is a prime number, no root
+	if (bignum_issmallnum(BASE.a)) {
+		// BASE is less than 2^31, hence BASE is a prime number, no root
 		push_symbol(POWER);
 		push(BASE);
 		push_bignum(EXPO.sign, r, bignum_copy(EXPO.b));

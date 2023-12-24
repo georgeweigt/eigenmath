@@ -7074,14 +7074,22 @@ eval_for(p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("for: symbol error");
+		stopf("for: index symbol err");
 
 	push(caddr(p1));
 	evalf();
+	p3 = pop();
+	if (!issmallinteger(p3))
+		stopf("for: index range err");
+	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
+	p3 = pop();
+	if (!issmallinteger(p3))
+		stopf("for: index range err");
+	push(p3);
 	k = pop_integer();
 
 	p1 = cddddr(p1);
@@ -10003,14 +10011,22 @@ eval_product(p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("product: symbol error");
+		stopf("product: index symbol err");
 
 	push(caddr(p1));
 	evalf();
+	p3 = pop();
+	if (!issmallinteger(p3))
+		stopf("product: index range err");
+	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
+	p3 = pop();
+	if (!issmallinteger(p3))
+		stopf("product: index range err");
+	push(p3);
 	k = pop_integer();
 
 	p1 = caddddr(p1);
@@ -11773,14 +11789,22 @@ eval_sum(p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("sum: symbol error");
+		stopf("sum: index symbol err");
 
 	push(caddr(p1));
 	evalf();
+	p3 = pop();
+	if (!issmallinteger(p3))
+		stopf("sum: index range err");
+	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
+	p3 = pop();
+	if (!issmallinteger(p3))
+		stopf("sum: index range err");
+	push(p3);
 	k = pop_integer();
 
 	p1 = caddddr(p1);
@@ -15924,10 +15948,8 @@ power_numbers_factor(BASE, EXPO)
 
 	// process r
 
-	n = bignum_smallnum(BASE.a);
-
-	if (n != null) {
-		// BASE is 32 bits or less, hence BASE is a prime number, no root
+	if (bignum_issmallnum(BASE.a)) {
+		// BASE is less than 2^31, hence BASE is a prime number, no root
 		push_symbol(POWER);
 		push(BASE);
 		push_bignum(EXPO.sign, r, bignum_copy(EXPO.b));
