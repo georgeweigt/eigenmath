@@ -13,8 +13,6 @@ main(int argc, char *argv[])
 
 	system("cat preamble");
 
-	fputs("\\maketitle\n\\newpage\n\\tableofcontents\n", stdout);
-
 	for (i = 1; i < argc; i++)
 		emit(argv[i]);
 

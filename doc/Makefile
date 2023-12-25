@@ -1,6 +1,6 @@
 .PHONY: default sync clean
 
-FILES = macos.tex \
+FILES = title.tex macos.tex \
 	introduction.tex syntax.tex symbols.tex function-definitions.tex \
         arithmetic.tex complex-numbers.tex draw.tex \
         linear-algebra.tex component-arithmetic.tex quantum-computing.tex \
