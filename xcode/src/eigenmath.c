@@ -3331,10 +3331,13 @@ eval_arg(struct atom *p1)
 {
 	push(cadr(p1));
 	evalf();
+	polar(); // normalize
 	arg();
 }
 
 // use numerator and denominator to handle (a + i b) / (c + i d)
+
+// may return a denormalized angle
 
 void
 arg(void)
