@@ -11348,7 +11348,9 @@ simplify_pass3()
 
 	p1 = pop();
 
-	if (car(p1) != symbol(ADD) || !findf(p1, imaginaryunit)) {
+	// already simple?
+
+	if (!iscons(p1)) {
 		push(p1);
 		return;
 	}
