@@ -2780,7 +2780,7 @@ check(T = 1/2*exp(-i*x)+1/2*exp(i*x))
 T = circexp(sin(x))
 check(T = 1/2*i*exp(-i*x)-1/2*i*exp(i*x))
 T = circexp(tan(x))
-check(T = simplify(i*exp(-i*x)/(exp(-i*x)+exp(i*x))-i*exp(i*x)/(exp(-i*x)+exp(i*x))))
+check(T = i / (exp(2 i x) + 1) - i exp(2 i x) / (exp(2 i x) + 1))
 T = circexp(cosh(x))
 check(T = 1/2*exp(x)+1/2*exp(-x))
 T = circexp(sinh(x))
@@ -2804,9 +2804,6 @@ T = circexp(sin(x)^2-1)
 check(T = circexp(-cos(x)^2))
 T = circexp(cos(x)^2-1)
 check(T = circexp(-sin(x)^2))
-
-T = circexp(-3 exp(-1/3 r + i phi) cos(theta) / sin(theta) + 3 exp(-1/3 r + i phi) cos(theta) sin(theta) + 3 exp(-1/3 r + i phi) cos(theta)^3 / sin(theta))
-check(T = 0)
 "Testing clock"
 
 clear
@@ -8580,6 +8577,23 @@ check(T=unit(4))
 A = exp(i pi / 4)
 B = (1 + i) / sqrt(2)
 check(A == B)
+
+clear
+
+T = 2 m / hbar^2 abs(E - V)
+
+T1 = (+sqrt(+T))^(-1/2)
+T2 = (+sqrt(-T))^(-1/2)
+T3 = (-sqrt(+T))^(-1/2)
+T4 = (-sqrt(-T))^(-1/2)
+
+check(T1 == T^(-1/4))
+check(T2 == exp(-1/4 i pi) T^(-1/4))
+check(T3 == exp(-1/2 i pi) T^(-1/4))
+check(T4 == exp(-3/4 i pi) T^(-1/4))
+
+T = -3 exp(-1/3 r + i phi) cos(theta) / sin(theta) + 3 exp(-1/3 r + i phi) cos(theta) sin(theta) + 3 exp(-1/3 r + i phi) cos(theta)^3 / sin(theta)
+check(T == 0)
 "Testing sin"
 
 clear

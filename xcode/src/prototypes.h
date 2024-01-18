@@ -429,7 +429,6 @@ int isdoublez(struct atom *p);
 int isdenominator(struct atom *p);
 int isnumerator(struct atom *p);
 int isdoublesomewhere(struct atom *p);
-int isusersymbolsomewhere(struct atom *p);
 int isdenormalpolar(struct atom *p);
 int isdenormalpolarterm(struct atom *p);
 int issquarematrix(struct atom *p);

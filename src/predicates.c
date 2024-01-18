@@ -214,24 +214,6 @@ isdoublesomewhere(struct atom *p)
 }
 
 int
-isusersymbolsomewhere(struct atom *p)
-{
-	if (isusersymbol(p) && p != symbol(PI) && p != symbol(EXP1))
-		return 1;
-
-	if (iscons(p)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (isusersymbolsomewhere(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-	}
-
-	return 0;
-}
-
-int
 isdenormalpolar(struct atom *p)
 {
 	if (car(p) == symbol(ADD)) {

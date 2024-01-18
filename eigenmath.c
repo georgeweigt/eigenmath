@@ -855,7 +855,6 @@ int isdoublez(struct atom *p);
 int isdenominator(struct atom *p);
 int isnumerator(struct atom *p);
 int isdoublesomewhere(struct atom *p);
-int isusersymbolsomewhere(struct atom *p);
 int isdenormalpolar(struct atom *p);
 int isdenormalpolarterm(struct atom *p);
 int issquarematrix(struct atom *p);
@@ -12978,12 +12977,10 @@ simplify_pass2(void)
 	evalf(); // to normalize
 	p2 = pop();
 
-	if (complexity(p2) < complexity(p1)) {
+	if (complexity(p1) <= complexity(p2))
+		push(p1);
+	else
 		push(p2);
-		return;
-	}
-
-	push(p1);
 }
 
 // try polar form
@@ -12995,7 +12992,7 @@ simplify_pass3(void)
 
 	p1 = pop();
 
-	if (car(p1) != symbol(ADD) || isusersymbolsomewhere(p1) || !findf(p1, imaginaryunit)) {
+	if (car(p1) != symbol(ADD) || !findf(p1, imaginaryunit)) {
 		push(p1);
 		return;
 	}
@@ -13004,12 +13001,10 @@ simplify_pass3(void)
 	polar();
 	p2 = pop();
 
-	if (!iscons(p2)) {
+	if (complexity(p1) <= complexity(p2))
+		push(p1);
+	else
 		push(p2);
-		return;
-	}
-
-	push(p1);
 }
 
 int
@@ -16950,24 +16945,6 @@ isdoublesomewhere(struct atom *p)
 		p = cdr(p);
 		while (iscons(p)) {
 			if (isdoublesomewhere(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-	}
-
-	return 0;
-}
-
-int
-isusersymbolsomewhere(struct atom *p)
-{
-	if (isusersymbol(p) && p != symbol(PI) && p != symbol(EXP1))
-		return 1;
-
-	if (iscons(p)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (isusersymbolsomewhere(car(p)))
 				return 1;
 			p = cdr(p);
 		}
