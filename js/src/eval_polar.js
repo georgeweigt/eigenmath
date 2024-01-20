@@ -27,17 +27,19 @@ polar()
 
 	push(p1);
 	mag();
-	push(imaginaryunit);
 	push(p1);
 	arg();
 	p2 = pop();
 	if (isdouble(p2)) {
 		push_double(p2.d / Math.PI);
 		push_symbol(PI);
+		push(imaginaryunit);
 		multiply_factors(3);
 	} else {
+		// the result of arg is arctan
 		push(p2);
-		multiply_factors(2);
+		push(imaginaryunit);
+		multiply();
 	}
 	expfunc();
 	multiply();

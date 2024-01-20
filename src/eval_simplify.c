@@ -39,7 +39,7 @@ simplify(void)
 	polar();
 	p2 = pop();
 	if (iszero(p2)) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 

@@ -15,3 +15,17 @@ check(infixform(polar(2 + 3 i)) == "13^(1/2) exp(i arctan(3,2))")
 check(infixform(polar(2 - 3 i)) == "13^(1/2) exp(-i arctan(3,2))")
 check(infixform(polar(-2 + 3 i)) == "13^(1/2) exp(i arctan(3,-2))")
 check(infixform(polar(-2 - 3 i)) == "13^(1/2) exp(-i arctan(3,-2))")
+
+check(infixform(polar(1/2)) == "1/2")
+check(infixform(polar(-1/2)) == "-1/2")
+
+check(infixform(polar(a)) == "a")
+check(infixform(polar(-a)) == "-a")
+
+check(infixform(polar(1/2 a)) == "1/2 a")
+check(infixform(polar(-1/2 a)) == "-1/2 a")
+
+check(infixform(polar(a + b)) == "a + b")
+check(infixform(polar(i a + i b)) == "i a + i b")
+
+check(infixform(polar(a + i b)) == "(a^2 + b^2)^(1/2) exp(i arctan(b,a))")

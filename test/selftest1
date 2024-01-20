@@ -640,6 +640,26 @@ check(infixform(arctanh(tanh(z4))) == infixform(z4))
 
 clear
 
+check(arg(0) == 0)
+check(arg(1) == 0)
+check(arg(-1) == -pi)
+
+check(arg(i) == 1/2 pi)
+check(arg(-i) == -1/2 pi)
+
+check(arg(a) == 0)
+check(arg(-a) == -pi)
+
+check(arg(i a) == 1/2 pi)
+check(arg(-i a) == -1/2 pi)
+
+check(arg(i a b) == 1/2 pi)
+check(arg(-i a b) == -1/2 pi)
+
+check(arg(a + b) == 0)
+check(arg(i a + i b) == 1/2 pi)
+check(arg(i a - i b) == 1/2 pi) -- mag(i a - i b) == a - b
+
 z1 = x1 + i y1
 z2 = x2 + i y2
 check(arg((z1,z2)) == (arctan(y1,x1),arctan(y2,x2)))
@@ -698,6 +718,8 @@ T = arg((a+b*i)/(c+d*i))
 check(T = arctan(b,a)-arctan(d,c))
 
 check(infixform(arg(sqrt(-sqrt(-1)))) == "3/4 pi") -- bug fix
+
+check(arg((a + i b) / (c + i d)) == arctan(b,a) - arctan(d,c))
 "Testing associativity"
 
 clear
@@ -5410,9 +5432,22 @@ check(not(F) == 1)
 clear
 
 check(infixform(mag((a + i b) / (c + i d))) == "(a^2 + b^2)^(1/2) / (c^2 + d^2)^(1/2)")
+check(mag((a + i b) / (c + i d)) == sqrt(a^2 + b^2) / sqrt(c^2 + d^2))
 
 check(infixform(mag(a + b)) == "a + b")
 check(infixform(mag(i a + i b)) == "a + b")
+check(mag(-1) == 1)
+
+check(mag(a) == a)
+check(mag(-a) == a)
+check(mag(a b) == a b)
+check(mag(-a b) == a b)
+check(mag(a + b) == a + b)
+check(mag(i a + i b) == a + b)
+
+psi = A exp(-k x)
+v = defint(conj(psi) (-i hbar d(psi,x)), x, 0, L) / m
+check(i mag(v) == v)
 "Testing minor"
 
 clear
@@ -5670,6 +5705,20 @@ check(infixform(polar(2 + 3 i)) == "13^(1/2) exp(i arctan(3,2))")
 check(infixform(polar(2 - 3 i)) == "13^(1/2) exp(-i arctan(3,2))")
 check(infixform(polar(-2 + 3 i)) == "13^(1/2) exp(i arctan(3,-2))")
 check(infixform(polar(-2 - 3 i)) == "13^(1/2) exp(-i arctan(3,-2))")
+
+check(infixform(polar(1/2)) == "1/2")
+check(infixform(polar(-1/2)) == "-1/2")
+
+check(infixform(polar(a)) == "a")
+check(infixform(polar(-a)) == "-a")
+
+check(infixform(polar(1/2 a)) == "1/2 a")
+check(infixform(polar(-1/2 a)) == "-1/2 a")
+
+check(infixform(polar(a + b)) == "a + b")
+check(infixform(polar(i a + i b)) == "i a + i b")
+
+check(infixform(polar(a + i b)) == "(a^2 + b^2)^(1/2) exp(i arctan(b,a))")
 "Testing product"
 
 clear

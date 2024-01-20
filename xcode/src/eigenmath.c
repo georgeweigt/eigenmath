@@ -3377,7 +3377,7 @@ void
 arg_nib(void)
 {
 	int h;
-	struct atom *p1, *RE, *IM;
+	struct atom *p1, *x, *y;
 
 	p1 = pop();
 
@@ -3420,7 +3420,7 @@ arg_nib(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			arg();
+			arg_nib();
 			p1 = cdr(p1);
 		}
 		add_terms(tos - h);
@@ -3429,16 +3429,23 @@ arg_nib(void)
 
 	if (car(p1) == symbol(ADD)) {
 		push(p1);
-		rect(); // convert polar and clock forms
-		p1 = pop();
-		push(p1);
 		real();
-		RE = pop();
+		x = pop();
 		push(p1);
 		imag();
-		IM = pop();
-		push(IM);
-		push(RE);
+		y = pop();
+		if (iszero(y)) {
+			push_integer(0);
+			return;
+		}
+		if (iszero(x)) {
+			push_rational(1, 2);
+			push_symbol(PI);
+			multiply();
+			return;
+		}
+		push(y);
+		push(x);
 		arctan();
 		return;
 	}
@@ -10062,17 +10069,19 @@ polar(void)
 
 	push(p1);
 	mag();
-	push(imaginaryunit);
 	push(p1);
 	arg();
 	p2 = pop();
 	if (isdouble(p2)) {
 		push_double(p2->u.d / M_PI);
 		push_symbol(PI);
+		push(imaginaryunit);
 		multiply_factors(3);
 	} else {
+		// the result of arg is arctan
 		push(p2);
-		multiply_factors(2);
+		push(imaginaryunit);
+		multiply();
 	}
 	expfunc();
 	multiply();
@@ -12864,7 +12873,7 @@ simplify(void)
 	polar();
 	p2 = pop();
 	if (iszero(p2)) {
-		push(zero);
+		push_integer(0);
 		return;
 	}
 
@@ -14063,7 +14072,6 @@ cmp_args(struct atom *p1)
 	push(caddr(p1));
 	evalf();
 	subtract();
-	simplify();
 	floatfunc();
 	p1 = pop();
 	if (iszero(p1))

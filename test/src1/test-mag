@@ -3,6 +3,19 @@
 clear
 
 check(infixform(mag((a + i b) / (c + i d))) == "(a^2 + b^2)^(1/2) / (c^2 + d^2)^(1/2)")
+check(mag((a + i b) / (c + i d)) == sqrt(a^2 + b^2) / sqrt(c^2 + d^2))
 
 check(infixform(mag(a + b)) == "a + b")
 check(infixform(mag(i a + i b)) == "a + b")
+check(mag(-1) == 1)
+
+check(mag(a) == a)
+check(mag(-a) == a)
+check(mag(a b) == a b)
+check(mag(-a b) == a b)
+check(mag(a + b) == a + b)
+check(mag(i a + i b) == a + b)
+
+psi = A exp(-k x)
+v = defint(conj(psi) (-i hbar d(psi,x)), x, 0, L) / m
+check(i mag(v) == v)

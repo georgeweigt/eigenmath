@@ -82,7 +82,6 @@ cmp_args(struct atom *p1)
 	push(caddr(p1));
 	evalf();
 	subtract();
-	simplify();
 	floatfunc();
 	p1 = pop();
 	if (iszero(p1))

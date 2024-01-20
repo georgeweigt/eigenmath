@@ -47,7 +47,7 @@ void
 arg_nib(void)
 {
 	int h;
-	struct atom *p1, *RE, *IM;
+	struct atom *p1, *x, *y;
 
 	p1 = pop();
 
@@ -90,7 +90,7 @@ arg_nib(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			arg();
+			arg_nib();
 			p1 = cdr(p1);
 		}
 		add_terms(tos - h);
@@ -99,16 +99,23 @@ arg_nib(void)
 
 	if (car(p1) == symbol(ADD)) {
 		push(p1);
-		rect(); // convert polar and clock forms
-		p1 = pop();
-		push(p1);
 		real();
-		RE = pop();
+		x = pop();
 		push(p1);
 		imag();
-		IM = pop();
-		push(IM);
-		push(RE);
+		y = pop();
+		if (iszero(y)) {
+			push_integer(0);
+			return;
+		}
+		if (iszero(x)) {
+			push_rational(1, 2);
+			push_symbol(PI);
+			multiply();
+			return;
+		}
+		push(y);
+		push(x);
 		arctan();
 		return;
 	}
