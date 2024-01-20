@@ -472,7 +472,7 @@ void eval_arctanh(struct atom *p1);
 void arctanh(void);
 void eval_arg(struct atom *p1);
 void arg(void);
-void arg1(void);
+void arg_nib(void);
 void eval_binding(struct atom *p1);
 void eval_ceiling(struct atom *p1);
 void ceilingfunc(void);
@@ -607,6 +607,7 @@ void eval_kronecker(struct atom *p1);
 void kronecker(void);
 void eval_log(struct atom *p1);
 void logfunc(void);
+void logfunc_nib(void);
 void eval_mag(struct atom *p1);
 void mag(void);
 void mag_nib(void);
@@ -732,11 +733,8 @@ void eval_sgn(struct atom *p1);
 void sgn(void);
 void eval_simplify(struct atom *p1);
 void simplify(void);
-void simplify_tensor(struct atom *p1);
-void simplify_scalar(struct atom *p1);
 void simplify_pass1(void);
 void simplify_pass2(void);
-void simplify_pass3(void);
 int complexity(struct atom *p);
 void eval_sin(struct atom *p1);
 void sinfunc(void);
@@ -830,6 +828,11 @@ void display(void);
 void printbuf(char *s, int color);
 void eval_draw(struct atom *p1);
 void eval_exit(struct atom *p1);
+void numden(void);
+int numden_find_divisor(struct atom *p);
+int numden_find_divisor_term(struct atom *p);
+int numden_find_divisor_factor(struct atom *p);
+void numden_cancel_factor(void);
 void outbuf_init(void);
 void outbuf_puts(char *s);
 void outbuf_putc(int c);
@@ -3334,15 +3337,13 @@ eval_arg(struct atom *p1)
 	arg();
 }
 
-// use numerator and denominator to handle (a + i b) / (c + i d)
-
 // may return a denormalized angle
 
 void
 arg(void)
 {
-	int i, n, t;
-	struct atom *p1;
+	int i, n;
+	struct atom *p1, *num, *den;
 
 	p1 = pop();
 
@@ -3358,24 +3359,22 @@ arg(void)
 		return;
 	}
 
-	t = isdoublesomewhere(p1);
-
 	push(p1);
-	numerator();
-	arg1();
-
-	push(p1);
-	denominator();
-	arg1();
-
+	numden();
+	num = pop();
+	den = pop();
+	push(num);
+	arg_nib();
+	push(den);
+	arg_nib();
 	subtract();
 
-	if (t)
+	if (isdoublesomewhere(p1))
 		floatfunc();
 }
 
 void
-arg1(void)
+arg_nib(void)
 {
 	int h;
 	struct atom *p1, *RE, *IM;
@@ -8444,9 +8443,8 @@ eval_log(struct atom *p1)
 void
 logfunc(void)
 {
-	int h, i, n;
-	double d;
-	struct atom *p1, *p2;
+	int i, n;
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -8461,6 +8459,23 @@ logfunc(void)
 		push(p1);
 		return;
 	}
+
+	push(p1);
+
+	logfunc_nib();
+
+	if (isdoublesomewhere(p1))
+		floatfunc();
+}
+
+void
+logfunc_nib(void)
+{
+	int h, i;
+	double d;
+	struct atom *p1, *p2;
+
+	p1 = pop();
 
 	// log of zero is not evaluated
 
@@ -8485,7 +8500,7 @@ logfunc(void)
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
 		mag();
-		logfunc();
+		logfunc_nib();
 		push(p1);
 		arg();
 		push(imaginaryunit);
@@ -8511,7 +8526,7 @@ logfunc(void)
 	if (isnegativenumber(p1)) {
 		push(p1);
 		negate();
-		logfunc();
+		logfunc_nib();
 		push(imaginaryunit);
 		push_symbol(PI);
 		multiply();
@@ -8549,7 +8564,7 @@ logfunc(void)
 	if (car(p1) == symbol(POWER)) {
 		push(caddr(p1));
 		push(cadr(p1));
-		logfunc();
+		logfunc_nib();
 		multiply();
 		return;
 	}
@@ -8561,7 +8576,7 @@ logfunc(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			logfunc();
+			logfunc_nib();
 			p1 = cdr(p1);
 		}
 		add_terms(tos - h);
@@ -8584,7 +8599,7 @@ void
 mag(void)
 {
 	int i, n;
-	struct atom *p1;
+	struct atom *p1, *num, *den;
 
 	p1 = pop();
 
@@ -8600,24 +8615,27 @@ mag(void)
 		return;
 	}
 
-	// use numerator and denominator to handle (a + i b) / (c + i d)
+	// use numden to handle (a + i b) / (c + i d)
 
 	push(p1);
-	numerator();
+	numden();
+	num = pop();
+	den = pop();
+	push(num);
 	mag_nib();
-
-	push(p1);
-	denominator();
+	push(den);
 	mag_nib();
-
 	divide();
+
+	if (isdoublesomewhere(p1))
+		floatfunc();
 }
 
 void
 mag_nib(void)
 {
 	int h;
-	struct atom *p1, *RE, *IM;
+	struct atom *p1, *x, *y;
 
 	p1 = pop();
 
@@ -8650,7 +8668,7 @@ mag_nib(void)
 		h = tos;
 		while (iscons(p1)) {
 			push(car(p1));
-			mag();
+			mag_nib();
 			p1 = cdr(p1);
 		}
 		multiply_factors(tos - h);
@@ -8665,19 +8683,26 @@ mag_nib(void)
 		p1 = pop();
 		push(p1);
 		real();
-		RE = pop();
+		x = pop();
 		push(p1);
 		imag();
-		IM = pop();
-		push(RE);
-		push(RE);
+		y = pop();
+		if (iszero(y)) {
+			push(x);
+			return;
+		}
+		if (iszero(x)) {
+			push(y);
+			return;
+		}
+		push(x);
+		push(x);
 		multiply();
-		push(IM);
-		push(IM);
+		push(y);
+		push(y);
 		multiply();
 		add();
-		push_rational(1, 2);
-		power();
+		sqrtfunc();
 		return;
 	}
 
@@ -12802,39 +12827,29 @@ void
 eval_simplify(struct atom *p1)
 {
 	push(cadr(p1));
-	evalg();
+	evalf();
 	simplify();
 }
 
 void
 simplify(void)
 {
-	struct atom *p1;
+	int h, i, n;
+	struct atom *p1, *p2;
+
 	p1 = pop();
-	if (istensor(p1))
-		simplify_tensor(p1);
-	else
-		simplify_scalar(p1);
-}
 
-void
-simplify_tensor(struct atom *p1)
-{
-	int i, n;
-	p1 = copy_tensor(p1);
-	push(p1); // make visible to gc
-	n = p1->u.tensor->nelem;
-	for (i = 0; i < n; i++) {
-		push(p1->u.tensor->elem[i]);
-		simplify();
-		p1->u.tensor->elem[i] = pop();
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			simplify();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
 	}
-}
-
-void
-simplify_scalar(struct atom *p1)
-{
-	int h;
 
 	// already simple?
 
@@ -12843,26 +12858,31 @@ simplify_scalar(struct atom *p1)
 		return;
 	}
 
-	fpush(p1); // make visible to gc
+	// mixed complex forms
+
+	push(p1);
+	polar();
+	p2 = pop();
+	if (iszero(p2)) {
+		push(zero);
+		return;
+	}
+
+	// simplify depth first
 
 	h = tos;
 	push(car(p1));
 	p1 = cdr(p1);
-
 	while (iscons(p1)) {
 		push(car(p1));
 		simplify();
 		p1 = cdr(p1);
 	}
-
-	fpop();
-
 	list(tos - h);
-	evalg();
+	evalf();
 
 	simplify_pass1();
 	simplify_pass2(); // try exponential form
-	simplify_pass3(); // try polar form
 }
 
 void
@@ -12983,42 +13003,14 @@ simplify_pass2(void)
 		push(p2);
 }
 
-// try polar form
-
-void
-simplify_pass3(void)
-{
-	struct atom *p1, *p2;
-
-	p1 = pop();
-
-	// already simple?
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	polar();
-	p2 = pop();
-
-	if (complexity(p1) <= complexity(p2))
-		push(p1);
-	else
-		push(p2);
-}
-
 int
 complexity(struct atom *p)
 {
 	int n = 1;
-
 	while (iscons(p)) {
 		n += complexity(car(p));
 		p = cdr(p);
 	}
-
 	return n;
 }
 void
@@ -14015,9 +14007,9 @@ void
 eval_testeq(struct atom *p1)
 {
 	push(cadr(p1));
-	evalg();
+	evalf();
 	push(caddr(p1));
-	evalg();
+	evalf();
 	subtract();
 	simplify();
 	p1 = pop();
@@ -16687,6 +16679,109 @@ eval_exit(struct atom *p1)
 {
 	(void) p1; // silence compiler
 	exit(0);
+}
+void
+numden(void)
+{
+	struct atom *p0, *p1, *p2;
+
+	p1 = pop();
+	p2 = one;
+
+	while (numden_find_divisor(p1)) {
+		p0 = pop();
+		push(p0);
+		push(p1);
+		numden_cancel_factor();
+		p1 = pop();
+		push(p0);
+		push(p2);
+		multiply();
+		p2 = pop();
+	}
+
+	push(p2);
+	push(p1);
+}
+
+// returns 1 with divisor on stack, otherwise returns 0
+
+int
+numden_find_divisor(struct atom *p)
+{
+	if (car(p) == symbol(ADD)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (numden_find_divisor_term(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return numden_find_divisor_term(p);
+}
+
+int
+numden_find_divisor_term(struct atom *p)
+{
+	if (car(p) == symbol(MULTIPLY)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (numden_find_divisor_factor(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return numden_find_divisor_factor(p);
+}
+
+int
+numden_find_divisor_factor(struct atom *p)
+{
+	if (car(p) == symbol(POWER) && caadr(p) == symbol(ADD) && isnegativenumber(caddr(p))) {
+		if (isminusone(caddr(p)))
+			push(cadr(p));
+		else {
+			push_symbol(POWER);
+			push(cadr(p));
+			push(caddr(p));
+			negate();
+			list(3);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
+void
+numden_cancel_factor(void)
+{
+	int h;
+	struct atom *p1, *p2;
+
+	p2 = pop();
+	p1 = pop();
+
+	if (car(p2) == symbol(ADD)) {
+		h = tos;
+		p2 = cdr(p2);
+		while (iscons(p2)) {
+			push(p1);
+			push(car(p2));
+			multiply();
+			p2 = cdr(p2);
+		}
+		add_terms(tos - h);
+		return;
+	}
+
+	push(p1);
+	push(p2);
+	multiply();
 }
 void
 outbuf_init(void)

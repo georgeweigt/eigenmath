@@ -9,32 +9,21 @@ eval_simplify(p1)
 function
 simplify()
 {
-	var p1;
+	var h, i, n, p1, p2;
+
 	p1 = pop();
-	if (istensor(p1))
-		simplify_tensor(p1);
-	else
-		simplify_scalar(p1);
-}
 
-function
-simplify_tensor(p1)
-{
-	var i, n;
-	p1 = copy_tensor(p1);
-	push(p1);
-	n = p1.elem.length;
-	for (i = 0; i < n; i++) {
-		push(p1.elem[i]);
-		simplify();
-		p1.elem[i] = pop();
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			simplify();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
 	}
-}
-
-function
-simplify_scalar(p1)
-{
-	var h;
 
 	// already simple?
 
@@ -43,22 +32,31 @@ simplify_scalar(p1)
 		return;
 	}
 
+	// mixed complex forms
+
+	push(p1);
+	polar();
+	p2 = pop();
+	if (iszero(p2)) {
+		push(zero);
+		return;
+	}
+
+	// simplify depth first
+
 	h = stack.length;
 	push(car(p1));
 	p1 = cdr(p1);
-
 	while (iscons(p1)) {
 		push(car(p1));
 		simplify();
 		p1 = cdr(p1);
 	}
-
 	list(stack.length - h);
 	evalf();
 
 	simplify_pass1();
 	simplify_pass2(); // try exponential form
-	simplify_pass3(); // try polar form
 }
 
 function
@@ -179,28 +177,13 @@ simplify_pass2()
 		push(p2);
 }
 
-// try polar form
-
 function
-simplify_pass3()
+complexity(p)
 {
-	var p1, p2;
-
-	p1 = pop();
-
-	// already simple?
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
+	var n = 1;
+	while (iscons(p)) {
+		n += complexity(car(p));
+		p = cdr(p);
 	}
-
-	push(p1);
-	polar();
-	p2 = pop();
-
-	if (complexity(p1) <= complexity(p2))
-		push(p1);
-	else
-		push(p2);
+	return n;
 }

@@ -3,3 +3,6 @@
 clear
 
 check(infixform(mag((a + i b) / (c + i d))) == "(a^2 + b^2)^(1/2) / (c^2 + d^2)^(1/2)")
+
+check(infixform(mag(a + b)) == "a + b")
+check(infixform(mag(i a + i b)) == "a + b")

@@ -9,7 +9,7 @@ eval_log(p1)
 function
 logfunc()
 {
-	var d, h, i, n, p1, p2;
+	var i, n, p1;
 
 	p1 = pop();
 
@@ -24,6 +24,21 @@ logfunc()
 		push(p1);
 		return;
 	}
+
+	push(p1);
+
+	logfunc_nib();
+
+	if (isdoublesomewhere(p1))
+		floatfunc();
+}
+
+function
+logfunc_nib()
+{
+	var d, h, i, p1, p2;
+
+	p1 = pop();
 
 	// log of zero is not evaluated
 
@@ -48,7 +63,7 @@ logfunc()
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
 		mag();
-		logfunc();
+		logfunc_nib();
 		push(p1);
 		arg();
 		push(imaginaryunit);
@@ -74,7 +89,7 @@ logfunc()
 	if (isnegativenumber(p1)) {
 		push(p1);
 		negate();
-		logfunc();
+		logfunc_nib();
 		push(imaginaryunit);
 		push_symbol(PI);
 		multiply();
@@ -112,7 +127,7 @@ logfunc()
 	if (car(p1) == symbol(POWER)) {
 		push(caddr(p1));
 		push(cadr(p1));
-		logfunc();
+		logfunc_nib();
 		multiply();
 		return;
 	}
@@ -124,7 +139,7 @@ logfunc()
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			logfunc();
+			logfunc_nib();
 			p1 = cdr(p1);
 		}
 		add_terms(stack.length - h);

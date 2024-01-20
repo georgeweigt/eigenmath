@@ -1096,16 +1096,6 @@ compatible_dimensions(p1, p2)
 	return 1;
 }
 function
-complexity(p)
-{
-	var n = 1;
-	while (iscons(p)) {
-		n += complexity(car(p));
-		p = cdr(p);
-	}
-	return n;
-}
-function
 cons()
 {
 	var p1, p2;
@@ -4556,14 +4546,12 @@ eval_arg(p1)
 	arg();
 }
 
-// use numerator and denominator to handle (a + i b) / (c + i d)
-
 // may return a denormalized angle
 
 function
 arg()
 {
-	var i, n, t, p1;
+	var i, n, p1, num, den;
 
 	p1 = pop();
 
@@ -4579,24 +4567,22 @@ arg()
 		return;
 	}
 
-	t = isdoublesomewhere(p1);
-
 	push(p1);
-	numerator();
-	arg1();
-
-	push(p1);
-	denominator();
-	arg1();
-
+	numden();
+	num = pop();
+	den = pop();
+	push(num);
+	arg_nib();
+	push(den);
+	arg_nib();
 	subtract();
 
-	if (t)
+	if (isdoublesomewhere(p1))
 		floatfunc();
 }
 
 function
-arg1()
+arg_nib()
 {
 	var h, p1, RE, IM;
 
@@ -8721,7 +8707,7 @@ eval_log(p1)
 function
 logfunc()
 {
-	var d, h, i, n, p1, p2;
+	var i, n, p1;
 
 	p1 = pop();
 
@@ -8736,6 +8722,21 @@ logfunc()
 		push(p1);
 		return;
 	}
+
+	push(p1);
+
+	logfunc_nib();
+
+	if (isdoublesomewhere(p1))
+		floatfunc();
+}
+
+function
+logfunc_nib()
+{
+	var d, h, i, p1, p2;
+
+	p1 = pop();
 
 	// log of zero is not evaluated
 
@@ -8760,7 +8761,7 @@ logfunc()
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
 		mag();
-		logfunc();
+		logfunc_nib();
 		push(p1);
 		arg();
 		push(imaginaryunit);
@@ -8786,7 +8787,7 @@ logfunc()
 	if (isnegativenumber(p1)) {
 		push(p1);
 		negate();
-		logfunc();
+		logfunc_nib();
 		push(imaginaryunit);
 		push_symbol(PI);
 		multiply();
@@ -8824,7 +8825,7 @@ logfunc()
 	if (car(p1) == symbol(POWER)) {
 		push(caddr(p1));
 		push(cadr(p1));
-		logfunc();
+		logfunc_nib();
 		multiply();
 		return;
 	}
@@ -8836,7 +8837,7 @@ logfunc()
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			logfunc();
+			logfunc_nib();
 			p1 = cdr(p1);
 		}
 		add_terms(stack.length - h);
@@ -8858,7 +8859,7 @@ eval_mag(p1)
 function
 mag()
 {
-	var i, n, p1;
+	var i, n, p1, num, den;
 
 	p1 = pop();
 
@@ -8874,23 +8875,26 @@ mag()
 		return;
 	}
 
-	// use numerator and denominator to handle (a + i b) / (c + i d)
+	// use numden to handle (a + i b) / (c + i d)
 
 	push(p1);
-	numerator();
+	numden();
+	num = pop();
+	den = pop();
+	push(num);
 	mag_nib();
-
-	push(p1);
-	denominator();
+	push(den);
 	mag_nib();
-
 	divide();
+
+	if (isdoublesomewhere(p1))
+		floatfunc();
 }
 
 function
 mag_nib()
 {
-	var h, p1, RE, IM;
+	var h, p1, x, y;
 
 	p1 = pop();
 
@@ -8923,7 +8927,7 @@ mag_nib()
 		h = stack.length;
 		while (iscons(p1)) {
 			push(car(p1));
-			mag();
+			mag_nib();
 			p1 = cdr(p1);
 		}
 		multiply_factors(stack.length - h);
@@ -8938,19 +8942,26 @@ mag_nib()
 		p1 = pop();
 		push(p1);
 		real();
-		RE = pop();
+		x = pop();
 		push(p1);
 		imag();
-		IM = pop();
-		push(RE);
-		push(RE);
+		y = pop();
+		if (iszero(y)) {
+			push(x);
+			return;
+		}
+		if (iszero(x)) {
+			push(y);
+			return;
+		}
+		push(x);
+		push(x);
 		multiply();
-		push(IM);
-		push(IM);
+		push(y);
+		push(y);
 		multiply();
 		add();
-		push_rational(1, 2);
-		power();
+		sqrtfunc();
 		return;
 	}
 
@@ -11169,32 +11180,21 @@ eval_simplify(p1)
 function
 simplify()
 {
-	var p1;
+	var h, i, n, p1, p2;
+
 	p1 = pop();
-	if (istensor(p1))
-		simplify_tensor(p1);
-	else
-		simplify_scalar(p1);
-}
 
-function
-simplify_tensor(p1)
-{
-	var i, n;
-	p1 = copy_tensor(p1);
-	push(p1);
-	n = p1.elem.length;
-	for (i = 0; i < n; i++) {
-		push(p1.elem[i]);
-		simplify();
-		p1.elem[i] = pop();
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			simplify();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
 	}
-}
-
-function
-simplify_scalar(p1)
-{
-	var h;
 
 	// already simple?
 
@@ -11203,22 +11203,31 @@ simplify_scalar(p1)
 		return;
 	}
 
+	// mixed complex forms
+
+	push(p1);
+	polar();
+	p2 = pop();
+	if (iszero(p2)) {
+		push(zero);
+		return;
+	}
+
+	// simplify depth first
+
 	h = stack.length;
 	push(car(p1));
 	p1 = cdr(p1);
-
 	while (iscons(p1)) {
 		push(car(p1));
 		simplify();
 		p1 = cdr(p1);
 	}
-
 	list(stack.length - h);
 	evalf();
 
 	simplify_pass1();
 	simplify_pass2(); // try exponential form
-	simplify_pass3(); // try polar form
 }
 
 function
@@ -11339,30 +11348,15 @@ simplify_pass2()
 		push(p2);
 }
 
-// try polar form
-
 function
-simplify_pass3()
+complexity(p)
 {
-	var p1, p2;
-
-	p1 = pop();
-
-	// already simple?
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
+	var n = 1;
+	while (iscons(p)) {
+		n += complexity(car(p));
+		p = cdr(p);
 	}
-
-	push(p1);
-	polar();
-	p2 = pop();
-
-	if (complexity(p1) <= complexity(p2))
-		push(p1);
-	else
-		push(p2);
+	return n;
 }
 function
 eval_sin(p1)
@@ -15111,6 +15105,108 @@ normalize_power_factors(h)
 				stack[i] = p1;
 		}
 	}
+}
+function
+numden()
+{
+	var p0, p1, p2;
+
+	p1 = pop();
+	p2 = one;
+
+	while (numden_find_divisor(p1)) {
+		p0 = pop();
+		push(p0);
+		push(p1);
+		numden_cancel_factor();
+		p1 = pop();
+		push(p0);
+		push(p2);
+		multiply();
+		p2 = pop();
+	}
+
+	push(p2);
+	push(p1);
+}
+
+// returns 1 with divisor on stack, otherwise returns 0
+
+function
+numden_find_divisor(p)
+{
+	if (car(p) == symbol(ADD)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (numden_find_divisor_term(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return numden_find_divisor_term(p);
+}
+
+function
+numden_find_divisor_term(p)
+{
+	if (car(p) == symbol(MULTIPLY)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (numden_find_divisor_factor(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+		return 0;
+	}
+
+	return numden_find_divisor_factor(p);
+}
+
+function
+numden_find_divisor_factor(p)
+{
+	if (car(p) == symbol(POWER) && caadr(p) == symbol(ADD) && isnegativenumber(caddr(p))) {
+		if (isminusone(caddr(p)))
+			push(cadr(p));
+		else {
+			push_symbol(POWER);
+			push(cadr(p));
+			push(caddr(p));
+			negate();
+			list(3);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
+function
+numden_cancel_factor()
+{
+	var h, p1, p2;
+
+	p2 = pop();
+	p1 = pop();
+
+	if (car(p2) == symbol(ADD)) {
+		h = stack.length;
+		p2 = cdr(p2);
+		while (iscons(p2)) {
+			push(p1);
+			push(car(p2));
+			multiply();
+			p2 = cdr(p2);
+		}
+		add_terms(stack.length - h);
+		return;
+	}
+
+	push(p1);
+	push(p2);
+	multiply();
 }
 //  1   number
 //  2   number to power (root)

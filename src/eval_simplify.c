@@ -2,39 +2,29 @@ void
 eval_simplify(struct atom *p1)
 {
 	push(cadr(p1));
-	evalg();
+	evalf();
 	simplify();
 }
 
 void
 simplify(void)
 {
-	struct atom *p1;
+	int h, i, n;
+	struct atom *p1, *p2;
+
 	p1 = pop();
-	if (istensor(p1))
-		simplify_tensor(p1);
-	else
-		simplify_scalar(p1);
-}
 
-void
-simplify_tensor(struct atom *p1)
-{
-	int i, n;
-	p1 = copy_tensor(p1);
-	push(p1); // make visible to gc
-	n = p1->u.tensor->nelem;
-	for (i = 0; i < n; i++) {
-		push(p1->u.tensor->elem[i]);
-		simplify();
-		p1->u.tensor->elem[i] = pop();
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			simplify();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
 	}
-}
-
-void
-simplify_scalar(struct atom *p1)
-{
-	int h;
 
 	// already simple?
 
@@ -43,26 +33,31 @@ simplify_scalar(struct atom *p1)
 		return;
 	}
 
-	fpush(p1); // make visible to gc
+	// mixed complex forms
+
+	push(p1);
+	polar();
+	p2 = pop();
+	if (iszero(p2)) {
+		push(zero);
+		return;
+	}
+
+	// simplify depth first
 
 	h = tos;
 	push(car(p1));
 	p1 = cdr(p1);
-
 	while (iscons(p1)) {
 		push(car(p1));
 		simplify();
 		p1 = cdr(p1);
 	}
-
-	fpop();
-
 	list(tos - h);
-	evalg();
+	evalf();
 
 	simplify_pass1();
 	simplify_pass2(); // try exponential form
-	simplify_pass3(); // try polar form
 }
 
 void
@@ -183,41 +178,13 @@ simplify_pass2(void)
 		push(p2);
 }
 
-// try polar form
-
-void
-simplify_pass3(void)
-{
-	struct atom *p1, *p2;
-
-	p1 = pop();
-
-	// already simple?
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	polar();
-	p2 = pop();
-
-	if (complexity(p1) <= complexity(p2))
-		push(p1);
-	else
-		push(p2);
-}
-
 int
 complexity(struct atom *p)
 {
 	int n = 1;
-
 	while (iscons(p)) {
 		n += complexity(car(p));
 		p = cdr(p);
 	}
-
 	return n;
 }

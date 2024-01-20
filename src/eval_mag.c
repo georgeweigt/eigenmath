@@ -10,7 +10,7 @@ void
 mag(void)
 {
 	int i, n;
-	struct atom *p1;
+	struct atom *p1, *num, *den;
 
 	p1 = pop();
 
@@ -26,24 +26,27 @@ mag(void)
 		return;
 	}
 
-	// use numerator and denominator to handle (a + i b) / (c + i d)
+	// use numden to handle (a + i b) / (c + i d)
 
 	push(p1);
-	numerator();
+	numden();
+	num = pop();
+	den = pop();
+	push(num);
 	mag_nib();
-
-	push(p1);
-	denominator();
+	push(den);
 	mag_nib();
-
 	divide();
+
+	if (isdoublesomewhere(p1))
+		floatfunc();
 }
 
 void
 mag_nib(void)
 {
 	int h;
-	struct atom *p1, *RE, *IM;
+	struct atom *p1, *x, *y;
 
 	p1 = pop();
 
@@ -76,7 +79,7 @@ mag_nib(void)
 		h = tos;
 		while (iscons(p1)) {
 			push(car(p1));
-			mag();
+			mag_nib();
 			p1 = cdr(p1);
 		}
 		multiply_factors(tos - h);
@@ -91,19 +94,26 @@ mag_nib(void)
 		p1 = pop();
 		push(p1);
 		real();
-		RE = pop();
+		x = pop();
 		push(p1);
 		imag();
-		IM = pop();
-		push(RE);
-		push(RE);
+		y = pop();
+		if (iszero(y)) {
+			push(x);
+			return;
+		}
+		if (iszero(x)) {
+			push(y);
+			return;
+		}
+		push(x);
+		push(x);
 		multiply();
-		push(IM);
-		push(IM);
+		push(y);
+		push(y);
 		multiply();
 		add();
-		push_rational(1, 2);
-		power();
+		sqrtfunc();
 		return;
 	}
 

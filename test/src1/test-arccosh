@@ -18,7 +18,7 @@ for(x,-12,12,
 for(x,0,3,for(y,0,3,
   z = 1/3.0 (x + i y),
   w = log(z + sqrt(z^2 - 1)),
-  check(abs(arccosh(z) - w) < 1.0 10^(-6))
+  check(abs(arccosh(z) - float(w)) < 1.0 10^(-6))
 ))
 
 z1 =  0.2 + 0.3 i

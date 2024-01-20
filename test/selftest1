@@ -399,7 +399,7 @@ for(x,-12,12,
 for(x,-2,2,for(y,-2,2,
   z = 1/3.0 (x + i y),
   w = -i log(z + i sqrt(1 - z^2)),
-  check(abs(arccos(z) - w) < 1.0 10^(-6))
+  check(abs(arccos(z) - float(w)) < 1.0 10^(-6))
 ))
 
 z1 =  0.2 + 0.3 i
@@ -441,7 +441,7 @@ for(x,-12,12,
 for(x,0,3,for(y,0,3,
   z = 1/3.0 (x + i y),
   w = log(z + sqrt(z^2 - 1)),
-  check(abs(arccosh(z) - w) < 1.0 10^(-6))
+  check(abs(arccosh(z) - float(w)) < 1.0 10^(-6))
 ))
 
 z1 =  0.2 + 0.3 i
@@ -5373,6 +5373,10 @@ check(infixform(exp(log(z1))) == infixform(z1))
 check(infixform(exp(log(z2))) == infixform(z2))
 check(infixform(exp(log(z3))) == infixform(z3))
 check(infixform(exp(log(z4))) == infixform(z4))
+
+z = 1.0 i
+w = log(z + sqrt(z^2 - 1))
+check(infixform(w) == "0.881374 + 1.5708 i") -- bug fix
 "Testing logical operators"
 
 clear
@@ -5406,6 +5410,9 @@ check(not(F) == 1)
 clear
 
 check(infixform(mag((a + i b) / (c + i d))) == "(a^2 + b^2)^(1/2) / (c^2 + d^2)^(1/2)")
+
+check(infixform(mag(a + b)) == "a + b")
+check(infixform(mag(i a + i b)) == "a + b")
 "Testing minor"
 
 clear

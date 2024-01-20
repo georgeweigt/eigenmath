@@ -7,14 +7,12 @@ eval_arg(p1)
 	arg();
 }
 
-// use numerator and denominator to handle (a + i b) / (c + i d)
-
 // may return a denormalized angle
 
 function
 arg()
 {
-	var i, n, t, p1;
+	var i, n, p1, num, den;
 
 	p1 = pop();
 
@@ -30,24 +28,22 @@ arg()
 		return;
 	}
 
-	t = isdoublesomewhere(p1);
-
 	push(p1);
-	numerator();
-	arg1();
-
-	push(p1);
-	denominator();
-	arg1();
-
+	numden();
+	num = pop();
+	den = pop();
+	push(num);
+	arg_nib();
+	push(den);
+	arg_nib();
 	subtract();
 
-	if (t)
+	if (isdoublesomewhere(p1))
 		floatfunc();
 }
 
 function
-arg1()
+arg_nib()
 {
 	var h, p1, RE, IM;
 

@@ -9,9 +9,8 @@ eval_log(struct atom *p1)
 void
 logfunc(void)
 {
-	int h, i, n;
-	double d;
-	struct atom *p1, *p2;
+	int i, n;
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -26,6 +25,23 @@ logfunc(void)
 		push(p1);
 		return;
 	}
+
+	push(p1);
+
+	logfunc_nib();
+
+	if (isdoublesomewhere(p1))
+		floatfunc();
+}
+
+void
+logfunc_nib(void)
+{
+	int h, i;
+	double d;
+	struct atom *p1, *p2;
+
+	p1 = pop();
 
 	// log of zero is not evaluated
 
@@ -50,7 +66,7 @@ logfunc(void)
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
 		mag();
-		logfunc();
+		logfunc_nib();
 		push(p1);
 		arg();
 		push(imaginaryunit);
@@ -76,7 +92,7 @@ logfunc(void)
 	if (isnegativenumber(p1)) {
 		push(p1);
 		negate();
-		logfunc();
+		logfunc_nib();
 		push(imaginaryunit);
 		push_symbol(PI);
 		multiply();
@@ -114,7 +130,7 @@ logfunc(void)
 	if (car(p1) == symbol(POWER)) {
 		push(caddr(p1));
 		push(cadr(p1));
-		logfunc();
+		logfunc_nib();
 		multiply();
 		return;
 	}
@@ -126,7 +142,7 @@ logfunc(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			logfunc();
+			logfunc_nib();
 			p1 = cdr(p1);
 		}
 		add_terms(tos - h);

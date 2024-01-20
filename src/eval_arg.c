@@ -7,15 +7,13 @@ eval_arg(struct atom *p1)
 	arg();
 }
 
-// use numerator and denominator to handle (a + i b) / (c + i d)
-
 // may return a denormalized angle
 
 void
 arg(void)
 {
-	int i, n, t;
-	struct atom *p1;
+	int i, n;
+	struct atom *p1, *num, *den;
 
 	p1 = pop();
 
@@ -31,24 +29,22 @@ arg(void)
 		return;
 	}
 
-	t = isdoublesomewhere(p1);
-
 	push(p1);
-	numerator();
-	arg1();
-
-	push(p1);
-	denominator();
-	arg1();
-
+	numden();
+	num = pop();
+	den = pop();
+	push(num);
+	arg_nib();
+	push(den);
+	arg_nib();
 	subtract();
 
-	if (t)
+	if (isdoublesomewhere(p1))
 		floatfunc();
 }
 
 void
-arg1(void)
+arg_nib(void)
 {
 	int h;
 	struct atom *p1, *RE, *IM;
