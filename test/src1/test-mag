@@ -6,14 +6,23 @@ check(infixform(mag((a + i b) / (c + i d))) == "(a^2 + b^2)^(1/2) / (c^2 + d^2)^
 
 check(infixform(mag(1)) == "1")
 check(infixform(mag(-1)) == "1")
+check(infixform(mag(i)) == "1")
+check(infixform(mag(-i)) == "1")
+
 check(infixform(mag(a)) == "a")
 check(infixform(mag(-a)) == "a")
+check(infixform(mag(i a)) == "a")
+check(infixform(mag(-i a)) == "a")
+
 check(infixform(mag(a b)) == "a b")
 check(infixform(mag(-a b)) == "a b")
+check(infixform(mag(i a b)) == "a b")
+check(infixform(mag(-i a b)) == "a b")
+
 check(infixform(mag(a + b)) == "a + b")
-check(infixform(mag(-a + b)) == "-a + b")
+check(infixform(mag(-a - b)) == "-a - b")
 check(infixform(mag(i a + i b)) == "a + b")
-check(infixform(mag(-i a + i b)) == "-a + b")
+check(infixform(mag(-i a - i b)) == "-a - b")
 
 psi = A exp(-k x)
 v = defint(conj(psi) (-i hbar d(psi,x)), x, 0, L) / m

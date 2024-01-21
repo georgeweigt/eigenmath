@@ -640,25 +640,27 @@ check(infixform(arctanh(tanh(z4))) == infixform(z4))
 
 clear
 
-check(arg(0) == 0)
-check(arg(1) == 0)
-check(arg(-1) == -pi)
+check(arg((a + i b) / (c + i d)) == arctan(b,a) - arctan(d,c))
 
-check(arg(i) == 1/2 pi)
-check(arg(-i) == -1/2 pi)
+check(infixform(arg(1)) == "0")
+check(infixform(arg(-1)) == "-pi")
+check(infixform(arg(i)) == "1/2 pi")
+check(infixform(arg(-i)) == "-1/2 pi")
 
-check(arg(a) == 0)
-check(arg(-a) == -pi)
+check(infixform(arg(a)) == "0")
+check(infixform(arg(-a)) == "-pi")
+check(infixform(arg(i a)) == "1/2 pi")
+check(infixform(arg(-i a)) == "-1/2 pi")
 
-check(arg(i a) == 1/2 pi)
-check(arg(-i a) == -1/2 pi)
+check(infixform(arg(a b)) == "0")
+check(infixform(arg(-a b)) == "-pi")
+check(infixform(arg(i a b)) == "1/2 pi")
+check(infixform(arg(-i a b)) == "-1/2 pi")
 
-check(arg(i a b) == 1/2 pi)
-check(arg(-i a b) == -1/2 pi)
-
-check(arg(a + b) == 0)
-check(arg(i a + i b) == 1/2 pi)
-check(arg(i a - i b) == 1/2 pi) -- mag(i a - i b) == a - b
+check(infixform(arg(a + b)) == "0")
+check(infixform(arg(-a - b)) == "0")
+check(infixform(arg(i a + i b)) == "1/2 pi")
+check(infixform(arg(-i a - i b)) == "1/2 pi")
 
 z1 = x1 + i y1
 z2 = x2 + i y2
@@ -718,8 +720,6 @@ T = arg((a+b*i)/(c+d*i))
 check(T = arctan(b,a)-arctan(d,c))
 
 check(infixform(arg(sqrt(-sqrt(-1)))) == "3/4 pi") -- bug fix
-
-check(arg((a + i b) / (c + i d)) == arctan(b,a) - arctan(d,c))
 "Testing associativity"
 
 clear
@@ -5435,14 +5435,23 @@ check(infixform(mag((a + i b) / (c + i d))) == "(a^2 + b^2)^(1/2) / (c^2 + d^2)^
 
 check(infixform(mag(1)) == "1")
 check(infixform(mag(-1)) == "1")
+check(infixform(mag(i)) == "1")
+check(infixform(mag(-i)) == "1")
+
 check(infixform(mag(a)) == "a")
 check(infixform(mag(-a)) == "a")
+check(infixform(mag(i a)) == "a")
+check(infixform(mag(-i a)) == "a")
+
 check(infixform(mag(a b)) == "a b")
 check(infixform(mag(-a b)) == "a b")
+check(infixform(mag(i a b)) == "a b")
+check(infixform(mag(-i a b)) == "a b")
+
 check(infixform(mag(a + b)) == "a + b")
-check(infixform(mag(-a + b)) == "-a + b")
+check(infixform(mag(-a - b)) == "-a - b")
 check(infixform(mag(i a + i b)) == "a + b")
-check(infixform(mag(-i a + i b)) == "-a + b")
+check(infixform(mag(-i a - i b)) == "-a - b")
 
 psi = A exp(-k x)
 v = defint(conj(psi) (-i hbar d(psi,x)), x, 0, L) / m
