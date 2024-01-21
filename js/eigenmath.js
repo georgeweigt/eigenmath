@@ -11253,45 +11253,23 @@ simplify_pass1()
 		return;
 	}
 
-	if (car(p1) == symbol(ADD)) {
-		push(p1);
-		rationalize();
-		T = pop();
-		if (car(T) == symbol(ADD)) {
-			push(p1); // no change
-			return;
-		}
-	} else
-		T = p1;
-
-	push(T);
-	numerator();
+	push(p1);
+	numden();
 	NUM = pop();
-
-	push(T);
-	denominator();
-	evalf(); // to expand denominator
 	DEN = pop();
 
-	// if DEN is a sum then rationalize it
+	// NUM / DEN = A / (B / C) = A C / B
+
+	// for example, 1 / (x + y^2 / x) -> x / (x^2 + y^2)
 
 	if (car(DEN) == symbol(ADD)) {
 		push(DEN);
-		rationalize();
-		T = pop();
-		if (car(T) != symbol(ADD)) {
-			// update NUM
-			push(T);
-			denominator();
-			evalf(); // to expand denominator
-			push(NUM);
-			multiply();
-			NUM = pop();
-			// update DEN
-			push(T);
-			numerator();
-			DEN = pop();
-		}
+		rationalize(); // exp(i x) + exp(-i x) -> (exp(2 i x) + 1) / exp(i x)
+		numden();
+		DEN = pop();
+		push(NUM);
+		multiply();
+		NUM = pop();
 	}
 
 	// are NUM and DEN congruent sums?
@@ -11302,9 +11280,10 @@ simplify_pass1()
 		push(DEN);
 		divide();
 		T = pop();
-		if (complexity(T) < complexity(p1))
-			p1 = T;
-		push(p1);
+		if (divdepth(T) < divdepth(p1) || complexity(T) < complexity(p1))
+			push(T);
+		else
+			push(p1);
 		return;
 	}
 
@@ -11347,11 +11326,12 @@ simplify_pass2()
 
 	push(p1);
 	circexp();
-	rationalize();
-	evalf(); // to normalize
+	numden();
+	swap();
+	divide();
 	p2 = pop();
 
-	if (complexity(p1) <= complexity(p2))
+	if (divdepth(p1) <= divdepth(p2) && complexity(p1) <= complexity(p2))
 		push(p1);
 	else
 		push(p2);
@@ -11366,6 +11346,26 @@ complexity(p)
 		p = cdr(p);
 	}
 	return n;
+}
+
+// for example, 1 / (x + y^2 / x) has depth of 2
+
+function
+divdepth(p)
+{
+	var max = 0, n;
+
+	if (car(p) == symbol(POWER) && isnegativenumber(caddr(p)))
+		return divdepth(cadr(p)) + 1;
+
+	while (iscons(p)) {
+		n = divdepth(car(p));
+		if (n > max)
+			max = n;
+		p = cdr(p);
+	}
+
+	return max;
 }
 function
 eval_sin(p1)
@@ -15175,7 +15175,7 @@ numden_find_divisor_term(p)
 function
 numden_find_divisor_factor(p)
 {
-	if (car(p) == symbol(POWER) && caadr(p) == symbol(ADD) && isnegativenumber(caddr(p))) {
+	if (car(p) == symbol(POWER) && isnegativenumber(caddr(p))) {
 		if (isminusone(caddr(p)))
 			push(cadr(p));
 		else {
@@ -15187,7 +15187,6 @@ numden_find_divisor_factor(p)
 		}
 		return 1;
 	}
-
 	return 0;
 }
 

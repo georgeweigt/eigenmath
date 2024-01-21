@@ -59,7 +59,7 @@ numden_find_divisor_term(struct atom *p)
 int
 numden_find_divisor_factor(struct atom *p)
 {
-	if (car(p) == symbol(POWER) && caadr(p) == symbol(ADD) && isnegativenumber(caddr(p))) {
+	if (car(p) == symbol(POWER) && isnegativenumber(caddr(p))) {
 		if (isminusone(caddr(p)))
 			push(cadr(p));
 		else {
@@ -71,7 +71,6 @@ numden_find_divisor_factor(struct atom *p)
 		}
 		return 1;
 	}
-
 	return 0;
 }
 
