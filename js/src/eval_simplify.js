@@ -84,7 +84,6 @@ simplify_pass1()
 
 	if (car(DEN) == symbol(ADD)) {
 		push(DEN);
-		rationalize(); // exp(i x) + exp(-i x) -> (exp(2 i x) + 1) / exp(i x)
 		numden();
 		DEN = pop();
 		push(NUM);
