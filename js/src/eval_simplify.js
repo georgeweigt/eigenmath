@@ -83,10 +83,7 @@ simplify_pass1()
 		push(DEN);
 		divide();
 		p2 = pop();
-		if (simpler(p1, p2))
-			push(p1);
-		else
-			push(p2);
+		simpler(p1, p2);
 		return;
 	}
 
@@ -108,10 +105,7 @@ simplify_pass1()
 		push(DEN);
 		divide();
 		p2 = pop();
-		if (simpler(p1, p2))
-			push(p1);
-		else
-			push(p2);
+		simpler(p1, p2);
 		return;
 	}
 
@@ -150,10 +144,7 @@ simplify_pass1()
 	divide();
 	p2 = pop();
 
-	if (simpler(p1, p2))
-		push(p1);
-	else
-		push(p2);
+	simpler(p1, p2);
 }
 
 // try exponential form
@@ -179,30 +170,43 @@ simplify_pass2()
 	divide();
 	p2 = pop();
 
-	if (simpler(p1, p2))
-		push(p1);
-	else
-		push(p2);
+	simpler(p1, p2);
 }
 
 function
 simpler(p1, p2)
 {
-	return divd(p1) <= divd(p2) && complexity(p1) <= complexity(p2);
+	var n1, n2;
+
+	n1 = powdep(p1);
+	n2 = powdep(p2);
+
+	if (n1 == n2) {
+		if (complexity(p1) <= complexity(p2))
+			push(p1);
+		else
+			push(p2);
+		return;
+	}
+
+	if (n1 < n2)
+		push(p1);
+	else
+		push(p2);
 }
 
-// for example, 1 / (x + y^2 / x) has divd of 2
+// for example, 1 / (x + y^2 / x) has powdep of 2
 
 function
-divd(p)
+powdep(p)
 {
 	var max = 0, n;
 
 	if (car(p) == symbol(POWER) && isnegativenumber(caddr(p)))
-		return 1 + divd(cadr(p));
+		return 1 + powdep(cadr(p));
 
 	while (iscons(p)) {
-		n = divd(car(p));
+		n = powdep(car(p));
 		if (n > max)
 			max = n;
 		p = cdr(p);
