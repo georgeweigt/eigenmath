@@ -2,6 +2,9 @@
 
 clear
 
+check(rationalize(0) == 0)
+check(rationalize((a,b)) == (a,b))
+
 -- test rationalize function (this used to get stuck)
 
 s = 4 E^2
@@ -19,4 +22,6 @@ Z = (1 + expsin(theta/2)^4) / expcos(theta/2)^4
 check(rationalize(A + B + C - X - Y - Z) == 0)
 
 f = 1/x + 1/(x + 1)^2
-check(infixform(rationalize(f)) == "(x^2 + 3 x + 1) / (x (x + 1)^2)")
+check(infixform(rationalize(f)) == "(x^2 + 3 x + 1) / (x^3 + 2 x^2 + x)")
+f = exp(i x) + exp(-i x)
+check(infixform(rationalize(f)) == "(exp(2 i x) + 1) exp(-i x)")

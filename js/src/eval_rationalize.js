@@ -9,7 +9,7 @@ eval_rationalize(p1)
 function
 rationalize()
 {
-	var i, n, p0, p1, p2;
+	var i, n, p1;
 
 	p1 = pop();
 
@@ -25,22 +25,9 @@ rationalize()
 		return;
 	}
 
-	p2 = one;
-
-	while (find_divisor(p1)) {
-		p0 = pop();
-		push(p0);
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-		push(p0);
-		push(p2);
-		multiply_noexpand();
-		p2 = pop();
-	}
-
 	push(p1);
-	push(p2);
+	numden();
+	swap();
 	reciprocate();
 	multiply_noexpand();
 }

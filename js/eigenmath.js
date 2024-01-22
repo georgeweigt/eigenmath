@@ -701,31 +701,6 @@ cadr(p)
 	return car(cdr(p));
 }
 function
-cancel_factor()
-{
-	var h, p1, p2;
-
-	p2 = pop();
-	p1 = pop();
-
-	if (car(p2) == symbol(ADD)) {
-		h = stack.length;
-		p2 = cdr(p2);
-		while (iscons(p2)) {
-			push(p1);
-			push(car(p2));
-			multiply();
-			p2 = cdr(p2);
-		}
-		add_terms(stack.length - h);
-		return;
-	}
-
-	push(p1);
-	push(p2);
-	multiply();
-}
-function
 car(p)
 {
 	if ("car" in p)
@@ -5457,33 +5432,8 @@ eval_denominator(p1)
 function
 denominator()
 {
-	var p0, p1, p2;
-
-	p1 = pop();
-
-	if (isrational(p1)) {
-		push_bignum(1, bignum_copy(p1.b), bignum_int(1));
-		return;
-	}
-
-	p2 = one; // denominator
-
-	while (find_divisor(p1)) {
-
-		p0 = pop(); // p0 is a denominator
-
-		push(p0); // cancel in orig expr
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-
-		push(p0); // update denominator
-		push(p2);
-		cancel_factor();
-		p2 = pop();
-	}
-
-	push(p2);
+	numden();
+	pop(); // discard numerator
 }
 function
 eval_derivative(p1)
@@ -9575,22 +9525,9 @@ eval_numerator(p1)
 function
 numerator()
 {
-	var p1;
-
-	p1 = pop();
-
-	if (isrational(p1)) {
-		push_bignum(p1.sign, bignum_copy(p1.a), bignum_int(1));
-		return;
-	}
-
-	while (find_divisor(p1)) {
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-	}
-
-	push(p1);
+	numden();
+	swap();
+	pop(); // discard denominator
 }
 function
 eval_or(p1)
@@ -10105,7 +10042,7 @@ eval_rationalize(p1)
 function
 rationalize()
 {
-	var i, n, p0, p1, p2;
+	var i, n, p1;
 
 	p1 = pop();
 
@@ -10121,22 +10058,9 @@ rationalize()
 		return;
 	}
 
-	p2 = one;
-
-	while (find_divisor(p1)) {
-		p0 = pop();
-		push(p0);
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-		push(p0);
-		push(p2);
-		multiply_noexpand();
-		p2 = pop();
-	}
-
 	push(p1);
-	push(p2);
+	numden();
+	swap();
 	reciprocate();
 	multiply_noexpand();
 }
@@ -13388,67 +13312,6 @@ find_denominator(p)
 	}
 	return 0;
 }
-// returns 1 with divisor on stack, otherwise returns 0
-
-function
-find_divisor(p)
-{
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (find_divisor_term(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return find_divisor_term(p);
-}
-
-function
-find_divisor_term(p)
-{
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (find_divisor_factor(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return find_divisor_factor(p);
-}
-
-function
-find_divisor_factor(p)
-{
-	if (isinteger(p))
-		return 0;
-
-	if (isrational(p)) {
-		push(p);
-		denominator();
-		return 1;
-	}
-
-	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
-		if (isminusone(caddr(p)))
-			push(cadr(p));
-		else {
-			push_symbol(POWER);
-			push(cadr(p));
-			push(caddr(p));
-			negate();
-			list(3);
-		}
-		return 1;
-	}
-
-	return 0;
-}
 function
 findf(p, q) // is q in p?
 {
@@ -15174,12 +15037,8 @@ numden_find_divisor_term(p)
 function
 numden_find_divisor_factor(p)
 {
-	if (isinteger(p))
-		return 0;
-
-	if (isrational(p)) {
-		push(p);
-		denominator();
+	if (isrational(p) && !isinteger(p)) {
+		push_bignum(1, bignum_copy(p.b), bignum_int(1));
 		return 1;
 	}
 
@@ -15206,6 +15065,8 @@ numden_cancel_factor()
 
 	p2 = pop();
 	p1 = pop();
+
+	// multiply term by term to ensure divisor is not distributed
 
 	if (car(p2) == symbol(ADD)) {
 		h = stack.length;

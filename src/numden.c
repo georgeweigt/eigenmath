@@ -59,12 +59,8 @@ numden_find_divisor_term(struct atom *p)
 int
 numden_find_divisor_factor(struct atom *p)
 {
-	if (isinteger(p))
-		return 0;
-
-	if (isrational(p)) {
-		push(p);
-		denominator();
+	if (isrational(p) && !isinteger(p)) {
+		push_bignum(MPLUS, mcopy(p->u.q.b), mint(1));
 		return 1;
 	}
 
@@ -92,6 +88,8 @@ numden_cancel_factor(void)
 
 	p2 = pop();
 	p1 = pop();
+
+	// multiply term by term to ensure divisor is not distributed
 
 	if (car(p2) == symbol(ADD)) {
 		h = tos;

@@ -697,10 +697,6 @@ void eval_quote(struct atom *p1);
 void eval_rank(struct atom *p1);
 void eval_rationalize(struct atom *p1);
 void rationalize(void);
-int find_divisor(struct atom *p);
-int find_divisor_term(struct atom *p);
-int find_divisor_factor(struct atom *p);
-void cancel_factor(void);
 void eval_real(struct atom *p1);
 void real(void);
 void eval_rect(struct atom *p1);
@@ -4274,33 +4270,8 @@ eval_denominator(struct atom *p1)
 void
 denominator(void)
 {
-	struct atom *p0, *p1, *p2;
-
-	p1 = pop();
-
-	if (isrational(p1)) {
-		push_bignum(MPLUS, mcopy(p1->u.q.b), mint(1));
-		return;
-	}
-
-	p2 = one; // denominator
-
-	while (find_divisor(p1)) {
-
-		p0 = pop(); // p0 is a denominator
-
-		push(p0); // cancel in orig expr
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-
-		push(p0); // update denominator
-		push(p2);
-		cancel_factor();
-		p2 = pop();
-	}
-
-	push(p2);
+	numden();
+	pop(); // discard numerator
 }
 void
 eval_derivative(struct atom *p1)
@@ -9940,22 +9911,9 @@ eval_numerator(struct atom *p1)
 void
 numerator(void)
 {
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (isrational(p1)) {
-		push_bignum(p1->sign, mcopy(p1->u.q.a), mint(1));
-		return;
-	}
-
-	while (find_divisor(p1)) {
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-	}
-
-	push(p1);
+	numden();
+	swap();
+	pop(); // discard denominator
 }
 void
 eval_or(struct atom *p1)
@@ -11596,7 +11554,7 @@ void
 rationalize(void)
 {
 	int i, n;
-	struct atom *p0, *p1, *p2;
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -11612,113 +11570,11 @@ rationalize(void)
 		return;
 	}
 
-	p2 = one;
-
-	while (find_divisor(p1)) {
-		p0 = pop();
-		push(p0);
-		push(p1);
-		cancel_factor();
-		p1 = pop();
-		push(p0);
-		push(p2);
-		multiply_noexpand();
-		p2 = pop();
-	}
-
 	push(p1);
-	push(p2);
+	numden();
+	swap();
 	reciprocate();
 	multiply_noexpand();
-}
-
-// returns 1 with divisor on stack, otherwise returns 0
-
-int
-find_divisor(struct atom *p)
-{
-	if (car(p) == symbol(ADD)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (find_divisor_term(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return find_divisor_term(p);
-}
-
-int
-find_divisor_term(struct atom *p)
-{
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (find_divisor_factor(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-		return 0;
-	}
-
-	return find_divisor_factor(p);
-}
-
-int
-find_divisor_factor(struct atom *p)
-{
-	if (isinteger(p))
-		return 0;
-
-	if (isrational(p)) {
-		push(p);
-		denominator();
-		return 1;
-	}
-
-	if (car(p) == symbol(POWER) && !isminusone(cadr(p)) && isnegativeterm(caddr(p))) {
-		if (isminusone(caddr(p)))
-			push(cadr(p));
-		else {
-			push_symbol(POWER);
-			push(cadr(p));
-			push(caddr(p));
-			negate();
-			list(3);
-		}
-		return 1;
-	}
-
-	return 0;
-}
-
-void
-cancel_factor(void)
-{
-	int h;
-	struct atom *p1, *p2;
-
-	p2 = pop();
-	p1 = pop();
-
-	if (car(p2) == symbol(ADD)) {
-		h = tos;
-		p2 = cdr(p2);
-		while (iscons(p2)) {
-			push(p1);
-			push(car(p2));
-			multiply();
-			p2 = cdr(p2);
-		}
-		add_terms(tos - h);
-		return;
-	}
-
-	push(p1);
-	push(p2);
-	multiply();
 }
 void
 eval_real(struct atom *p1)
@@ -15317,12 +15173,8 @@ numden_find_divisor_term(struct atom *p)
 int
 numden_find_divisor_factor(struct atom *p)
 {
-	if (isinteger(p))
-		return 0;
-
-	if (isrational(p)) {
-		push(p);
-		denominator();
+	if (isrational(p) && !isinteger(p)) {
+		push_bignum(MPLUS, mcopy(p->u.q.b), mint(1));
 		return 1;
 	}
 
@@ -15350,6 +15202,8 @@ numden_cancel_factor(void)
 
 	p2 = pop();
 	p1 = pop();
+
+	// multiply term by term to ensure divisor is not distributed
 
 	if (car(p2) == symbol(ADD)) {
 		h = tos;

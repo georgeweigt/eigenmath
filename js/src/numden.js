@@ -59,12 +59,8 @@ numden_find_divisor_term(p)
 function
 numden_find_divisor_factor(p)
 {
-	if (isinteger(p))
-		return 0;
-
-	if (isrational(p)) {
-		push(p);
-		denominator();
+	if (isrational(p) && !isinteger(p)) {
+		push_bignum(1, bignum_copy(p.b), bignum_int(1));
 		return 1;
 	}
 
@@ -91,6 +87,8 @@ numden_cancel_factor()
 
 	p2 = pop();
 	p1 = pop();
+
+	// multiply term by term to ensure divisor is not distributed
 
 	if (car(p2) == symbol(ADD)) {
 		h = stack.length;
