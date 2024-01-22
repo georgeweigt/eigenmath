@@ -11182,31 +11182,30 @@ simplify_pass1()
 	NUM = pop();
 	DEN = pop();
 
+	if (car(DEN) != symbol(ADD)) {
+		push(NUM);
+		push(DEN);
+		divide();
+		return;
+	}
+
 	// NUM / DEN = A / (B / C) = A C / B
 
 	// for example, 1 / (x + y^2 / x) -> x / (x^2 + y^2)
 
-	if (car(DEN) == symbol(ADD)) {
-		push(DEN);
-		numden();
-		DEN = pop();
-		push(NUM);
-		multiply();
-		NUM = pop();
-	}
+	push(DEN);
+	numden();
+	DEN = pop();
+	push(NUM);
+	multiply();
+	NUM = pop();
 
 	// are NUM and DEN congruent sums?
 
 	if (car(NUM) != symbol(ADD) || car(DEN) != symbol(ADD) || lengthf(NUM) != lengthf(DEN)) {
-		// no, but NUM over DEN might be simpler than p1
 		push(NUM);
 		push(DEN);
 		divide();
-		T = pop();
-		if (divdepth(T) < divdepth(p1) || complexity(T) < complexity(p1))
-			push(T);
-		else
-			push(p1);
 		return;
 	}
 
@@ -11254,7 +11253,7 @@ simplify_pass2()
 	divide();
 	p2 = pop();
 
-	if (divdepth(p1) <= divdepth(p2) && complexity(p1) <= complexity(p2))
+	if (complexity(p1) <= complexity(p2))
 		push(p1);
 	else
 		push(p2);
@@ -11269,26 +11268,6 @@ complexity(p)
 		p = cdr(p);
 	}
 	return n;
-}
-
-// for example, 1 / (x + y^2 / x) has depth of 2
-
-function
-divdepth(p)
-{
-	var max = 0, n;
-
-	if (car(p) == symbol(POWER) && isnegativenumber(caddr(p)))
-		return divdepth(cadr(p)) + 1;
-
-	while (iscons(p)) {
-		n = divdepth(car(p));
-		if (n > max)
-			max = n;
-		p = cdr(p);
-	}
-
-	return max;
 }
 function
 eval_sin(p1)
