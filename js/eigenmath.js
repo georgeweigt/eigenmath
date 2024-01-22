@@ -11166,7 +11166,7 @@ simplify()
 function
 simplify_pass1()
 {
-	var p1, p2, NUM, DEN, R;
+	var p1, p2, p3, NUM, DEN, R;
 
 	p1 = pop();
 
@@ -11219,25 +11219,34 @@ simplify_pass1()
 		return;
 	}
 
-	// provisional ratio
+	// search for R such that NUM = R DEN
 
-	push(cadr(NUM)); // push first term of numerator
-	push(cadr(DEN)); // push first term of denominator
-	divide();
-	R = pop();
+	p2 = cdr(DEN);
 
-	// check
+	while (iscons(p2)) {
 
-	push(R);
-	push(DEN);
-	multiply();
-	push(NUM);
-	subtract();
-	p2 = pop();
+		// provisional ratio
 
-	if (iszero(p2)) {
+		push(cadr(NUM)); // 1st term of numerator
+		push(car(p2));
+		divide();
+		R = pop();
+
+		// check
+
 		push(R);
-		return;
+		push(DEN);
+		multiply();
+		push(NUM);
+		subtract();
+		p3 = pop();
+
+		if (iszero(p3)) {
+			push(R);
+			return;
+		}
+
+		p2 = cdr(p2);
 	}
 
 	push(NUM);

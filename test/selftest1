@@ -8588,6 +8588,8 @@ check(sqrt(N) == 46349) -- bug fix
 
 clear
 
+check(infixform(simplify((a x + a) / (x + 1))) == "a")
+
 T = simplify((A^2 C^2 + A^2 D^2 + B^2 C^2 + B^2 D^2)/(A^2+B^2)/(C^2+D^2))
 check(T = 1)
 
