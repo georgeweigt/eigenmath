@@ -86,8 +86,8 @@ numden_cancel_factor(void)
 	int h;
 	struct atom *p1, *p2;
 
-	p2 = pop();
-	p1 = pop();
+	p2 = pop(); // numerator
+	p1 = pop(); // divisor
 
 	// multiply term by term to ensure divisor is not distributed
 
