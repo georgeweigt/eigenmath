@@ -62,7 +62,7 @@ simplify()
 function
 simplify_pass1()
 {
-	var p1, NUM, DEN, R, T;
+	var p1, p2, NUM, DEN, R;
 
 	p1 = pop();
 
@@ -82,6 +82,11 @@ simplify_pass1()
 		push(NUM);
 		push(DEN);
 		divide();
+		p2 = pop();
+		if (simpler(p1, p2))
+			push(p1);
+		else
+			push(p2);
 		return;
 	}
 
@@ -102,28 +107,44 @@ simplify_pass1()
 		push(NUM);
 		push(DEN);
 		divide();
+		p2 = pop();
+		if (simpler(p1, p2))
+			push(p1);
+		else
+			push(p2);
 		return;
 	}
+
+	// provisional ratio
 
 	push(cadr(NUM)); // push first term of numerator
 	push(cadr(DEN)); // push first term of denominator
 	divide();
+	R = pop();
 
-	R = pop(); // provisional ratio
+	// check
 
 	push(R);
 	push(DEN);
 	multiply();
-
 	push(NUM);
 	subtract();
+	p2 = pop();
 
-	T = pop();
+	if (iszero(p2)) {
+		push(R);
+		return;
+	}
 
-	if (iszero(T))
-		p1 = R;
+	push(NUM);
+	push(DEN);
+	divide();
+	p2 = pop();
 
-	push(p1);
+	if (simpler(p1, p2))
+		push(p1);
+	else
+		push(p2);
 }
 
 // try exponential form
@@ -149,10 +170,36 @@ simplify_pass2()
 	divide();
 	p2 = pop();
 
-	if (complexity(p1) <= complexity(p2))
+	if (simpler(p1, p2))
 		push(p1);
 	else
 		push(p2);
+}
+
+function
+simpler(p1, p2)
+{
+	return divd(p1) <= divd(p2) && complexity(p1) <= complexity(p2);
+}
+
+// for example, 1 / (x + y^2 / x) has divd of 2
+
+function
+divd(p)
+{
+	var max = 0, n;
+
+	if (car(p) == symbol(POWER) && isnegativenumber(caddr(p)))
+		return 1 + divd(cadr(p));
+
+	while (iscons(p)) {
+		n = divd(car(p));
+		if (n > max)
+			max = n;
+		p = cdr(p);
+	}
+
+	return max;
 }
 
 function

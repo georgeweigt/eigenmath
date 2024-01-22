@@ -342,6 +342,8 @@ void eval_simplify(struct atom *p1);
 void simplify(void);
 void simplify_pass1(void);
 void simplify_pass2(void);
+int simpler(struct atom *p1, struct atom *p2);
+int divd(struct atom *p);
 int complexity(struct atom *p);
 void eval_sin(struct atom *p1);
 void sinfunc(void);

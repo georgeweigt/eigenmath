@@ -5750,6 +5750,7 @@ clear
 
 check(rationalize(0) == 0)
 check(rationalize((a,b)) == (a,b))
+check(infixform(rationalize((-1)^(-1/4) + 1)) == "(1 + (-1)^(1/4)) / (-1)^(1/4)")
 
 -- test rationalize function (this used to get stuck)
 
