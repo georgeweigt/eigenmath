@@ -8588,7 +8588,11 @@ check(sqrt(N) == 46349) -- bug fix
 
 clear
 
+-- finding expression ratio
 check(infixform(simplify((a x + a) / (x + 1))) == "a")
+
+-- verify that powdep uses isnegativenumber and not isnegativeterm
+check(infixform(simplify(1 / (exp(i x) + exp(-i x)))) == "1 / (exp(i x) + exp(-i x))")
 
 T = simplify((A^2 C^2 + A^2 D^2 + B^2 C^2 + B^2 D^2)/(A^2+B^2)/(C^2+D^2))
 check(T = 1)
