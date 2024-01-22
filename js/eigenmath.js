@@ -11234,10 +11234,10 @@ simplify_pass1()
 
 		// check
 
+		push(NUM);
 		push(R);
 		push(DEN);
 		multiply();
-		push(NUM);
 		subtract();
 		p3 = pop();
 

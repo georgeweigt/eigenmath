@@ -12823,10 +12823,10 @@ simplify_pass1(void)
 
 		// check
 
+		push(NUM);
 		push(R);
 		push(DEN);
 		multiply();
-		push(NUM);
 		subtract();
 		p3 = pop();
 
