@@ -729,8 +729,8 @@ void eval_sgn(struct atom *p1);
 void sgn(void);
 void eval_simplify(struct atom *p1);
 void simplify(void);
-void simplify_pass1(void);
-void simplify_pass2(void);
+void simplify_sum(void);
+void simplify_trig(void);
 void simpler(struct atom *p1, struct atom *p2);
 int powdep(struct atom *p);
 int complexity(struct atom *p);
@@ -12701,7 +12701,7 @@ eval_simplify(struct atom *p1)
 void
 simplify(void)
 {
-	int h, i, n;
+	int i, n;
 	struct atom *p1, *p2;
 
 	p1 = pop();
@@ -12718,8 +12718,6 @@ simplify(void)
 		return;
 	}
 
-	// already simple?
-
 	if (!iscons(p1)) {
 		push(p1);
 		return;
@@ -12735,31 +12733,39 @@ simplify(void)
 		return;
 	}
 
-	// simplify depth first
+	push(p1);
 
-	h = tos;
-	push(car(p1));
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		simplify();
-		p1 = cdr(p1);
-	}
-	list(tos - h);
-	evalf();
-
-	simplify_pass1();
-	simplify_pass2(); // try exponential form
+	simplify_trig();
+	simplify_sum();
 }
 
 void
-simplify_pass1(void)
+simplify_sum(void)
 {
+	int h;
 	struct atom *p1, *p2, *p3, *NUM, *DEN, *R;
 
 	p1 = pop();
 
-	// already simple?
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	// recursive first
+
+	h = tos;
+	push(car(p1)); // function name
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		simplify_sum();
+		p1 = cdr(p1);
+	}
+	list(tos - h);
+	evalf(); // normalize
+
+	p1 = pop();
 
 	if (!iscons(p1)) {
 		push(p1);
@@ -12843,13 +12849,11 @@ simplify_pass1(void)
 // try exponential form
 
 void
-simplify_pass2(void)
+simplify_trig(void)
 {
 	struct atom *p1, *p2;
 
 	p1 = pop();
-
-	// already simple?
 
 	if (!iscons(p1)) {
 		push(p1);

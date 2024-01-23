@@ -11113,7 +11113,7 @@ eval_simplify(p1)
 function
 simplify()
 {
-	var h, i, n, p1, p2;
+	var i, n, p1, p2;
 
 	p1 = pop();
 
@@ -11128,8 +11128,6 @@ simplify()
 		push(p1);
 		return;
 	}
-
-	// already simple?
 
 	if (!iscons(p1)) {
 		push(p1);
@@ -11146,31 +11144,38 @@ simplify()
 		return;
 	}
 
-	// simplify depth first
+	push(p1);
 
-	h = stack.length;
-	push(car(p1));
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		simplify();
-		p1 = cdr(p1);
-	}
-	list(stack.length - h);
-	evalf();
-
-	simplify_pass1();
-	simplify_pass2(); // try exponential form
+	simplify_trig();
+	simplify_sum();
 }
 
 function
-simplify_pass1()
+simplify_sum()
 {
-	var p1, p2, p3, NUM, DEN, R;
+	var h, p1, p2, p3, NUM, DEN, R;
 
 	p1 = pop();
 
-	// already simple?
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	// recursive first
+
+	h = stack.length;
+	push(car(p1)); // function name
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		simplify_sum();
+		p1 = cdr(p1);
+	}
+	list(stack.length - h);
+	evalf(); // normalize
+
+	p1 = pop();
 
 	if (!iscons(p1)) {
 		push(p1);
@@ -11254,13 +11259,11 @@ simplify_pass1()
 // try exponential form
 
 function
-simplify_pass2()
+simplify_trig()
 {
 	var p1, p2;
 
 	p1 = pop();
-
-	// already simple?
 
 	if (!iscons(p1)) {
 		push(p1);
