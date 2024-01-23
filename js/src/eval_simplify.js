@@ -41,7 +41,6 @@ simplify()
 	}
 
 	push(p1);
-
 	simplify_trig();
 	simplify_sum();
 }
