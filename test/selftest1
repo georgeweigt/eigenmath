@@ -8591,6 +8591,9 @@ clear
 -- finding expression ratio
 check(infixform(simplify((a x + a) / (x + 1))) == "a")
 
+-- continued fraction
+check(infixform(simplify(1 / (1 + 1 / x))) == "x / (x + 1)")
+
 -- verify that powdep uses isnegativenumber and not isnegativeterm
 check(infixform(simplify(1 / (exp(i x) + exp(-i x)))) == "1 / (exp(i x) + exp(-i x))")
 
