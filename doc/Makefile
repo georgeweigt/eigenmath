@@ -1,4 +1,4 @@
-.PHONY: default sync clean
+.PHONY: default clean
 
 FILES = title.tex macos.tex \
 	introduction.tex syntax.tex symbols.tex function-definitions.tex \
@@ -13,9 +13,6 @@ HELPBOOK = ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lpr
 
 # https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 
-../../georgeweigt.github.io/manual/%.pdf: %.pdf
-	cp $< $@
-
 # Sometimes, must do pdflatex three times to get correct toc
 
 %.pdf: %.tex preamble
@@ -28,7 +25,6 @@ default:
 	make $(HELPBOOK)
 	make eigenmath.tex
 	for file in $$(ls *.tex | sed "s/\.tex/\.pdf/") ; do make $$file ; done
-	if [ -e ../../georgeweigt.github.io/manual ] ; then make sync ; fi
 
 $(HELPBOOK): help.html
 	cp help.html $(HELPBOOK)
@@ -38,15 +34,6 @@ eigenmath.tex : a.out preamble $(FILES)
 
 a.out: unify.c
 	$(CC) unify.c
-
-QUICKREF = ../../georgeweigt.github.io/help.html
-
-sync:
-	make $(QUICKREF)
-	for file in *.pdf ; do make ../../georgeweigt.github.io/manual/$$file ; done
-
-$(QUICKREF): help.html
-	cp help.html $(QUICKREF)
 
 clean:
 	rm -f *.aux *.log *.synctex.gz *.toc
