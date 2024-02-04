@@ -22,12 +22,9 @@ HELPBOOK = ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lpr
 # $$ sends a single $ to the shell
 
 default:
-	make $(HELPBOOK)
+	rsync help.html $(HELPBOOK)
 	make eigenmath.tex
 	for file in $$(ls *.tex | sed "s/\.tex/\.pdf/") ; do make $$file ; done
-
-$(HELPBOOK): help.html
-	cp help.html $(HELPBOOK)
 
 eigenmath.tex : a.out preamble $(FILES)
 	./a.out $(FILES) > eigenmath.tex
