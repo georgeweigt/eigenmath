@@ -1,10 +1,13 @@
 .PHONY: default clean
 
+HELPBOOK = Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
+
 # sed removes ../../main.c and ../../fmt.c
 
 FILES := $(shell ls ../../src/*.c | sed "s/\.\.\/\.\.\/src\/main\.c//;s/\.\.\/\.\.\/src\/fmt\.c//")
 
 default:
+	rsync ../../doc/help.html $(HELPBOOK)
 	make -C ../../src prototypes.h
 	make eigenmath.c
 	make prototypes.h

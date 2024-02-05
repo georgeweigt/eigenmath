@@ -9,8 +9,6 @@ FILES = title.tex macos.tex \
         surface-integral.tex greens-theorem.tex stokes-theorem.tex \
         feature-index.tex tricks.tex
 
-HELPBOOK = ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
-
 # https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 
 # Sometimes, must do pdflatex three times to get correct toc
@@ -22,7 +20,6 @@ HELPBOOK = ../xcode/src/Base.lproj/Eigenmath.help/Contents/Resources/English.lpr
 # $$ sends a single $ to the shell
 
 default:
-	rsync help.html $(HELPBOOK)
 	make eigenmath.tex
 	for file in $$(ls *.tex | sed "s/\.tex/\.pdf/") ; do make $$file ; done
 
