@@ -465,8 +465,7 @@ get_token_nib()
 
 	// single char token
 
-	token = instring.charAt(scan_index);
-	scan_index++;
+	token = instring.charAt(scan_index++);
 }
 
 function
