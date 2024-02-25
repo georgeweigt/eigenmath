@@ -16850,9 +16850,7 @@ get_token_nib()
 {
 	// skip spaces
 
-	while (scan_index < instring.length &&
-	instring.charCodeAt(scan_index) != 10 && instring.charCodeAt(scan_index) != 13 &&
-	(instring.charCodeAt(scan_index) < 33 || instring.charCodeAt(scan_index) > 126))
+	while (scan_index < instring.length && instring.charCodeAt(scan_index) != 10 && instring.charCodeAt(scan_index) != 13 && (instring.charCodeAt(scan_index) < 33 || instring.charCodeAt(scan_index) > 126))
 		scan_index++;
 
 	token_index = scan_index;
@@ -16874,11 +16872,8 @@ get_token_nib()
 
 	// comment?
 
-	if (instring.charCodeAt(scan_index) == T_NUMBERSIGN ||
-	(instring.charCodeAt(scan_index) == T_HYPHEN &&
-	scan_index + 1 < instring.length && instring.charCodeAt(scan_index + 1) == T_HYPHEN)) {
-		while (scan_index < instring.length &&
-		instring.charCodeAt(scan_index) != 10 && instring.charCodeAt(scan_index) != 13)
+	if (instring.charCodeAt(scan_index) == T_NUMBERSIGN || (instring.charCodeAt(scan_index) == T_HYPHEN && scan_index + 1 < instring.length && instring.charCodeAt(scan_index + 1) == T_HYPHEN)) {
+		while (scan_index < instring.length && instring.charCodeAt(scan_index) != 10 && instring.charCodeAt(scan_index) != 13)
 			scan_index++;
 		if (scan_index < instring.length)
 			scan_index++;
@@ -16921,8 +16916,7 @@ get_token_nib()
 
 	if (instring.charCodeAt(scan_index) == T_QUOTEDBL) {
 		scan_index++;
-		while (scan_index < instring.length && instring.charCodeAt(scan_index) != T_QUOTEDBL &&
-		instring.charCodeAt(scan_index) != 10 && instring.charCodeAt(scan_index) != 13)
+		while (scan_index < instring.length && instring.charCodeAt(scan_index) != T_QUOTEDBL && instring.charCodeAt(scan_index) != 10 && instring.charCodeAt(scan_index) != 13)
 			scan_index++;
 		if (scan_index == instring.length || instring.charCodeAt(scan_index) != T_QUOTEDBL)
 			scan_error("runaway string");
@@ -16934,22 +16928,19 @@ get_token_nib()
 
 	// relational operator?
 
-	if (instring.charCodeAt(scan_index) == T_EQUAL &&
-	scan_index + 1 < instring.length && instring.charCodeAt(scan_index + 1) == T_EQUAL) {
+	if (instring.charCodeAt(scan_index) == T_EQUAL && scan_index + 1 < instring.length && instring.charCodeAt(scan_index + 1) == T_EQUAL) {
 		scan_index += 2;
 		token = T_EQ;
 		return;
 	}
 
-	if (instring.charCodeAt(scan_index) == T_LESS &&
-	scan_index + 1 < instring.length && instring.charCodeAt(scan_index + 1) == T_EQUAL) {
+	if (instring.charCodeAt(scan_index) == T_LESS && scan_index + 1 < instring.length && instring.charCodeAt(scan_index + 1) == T_EQUAL) {
 		scan_index += 2;
 		token = T_LTEQ;
 		return;
 	}
 
-	if (instring.charCodeAt(scan_index) == T_GREATER &&
-	scan_index + 1 < instring.length && instring.charCodeAt(scan_index + 1) == T_EQUAL) {
+	if (instring.charCodeAt(scan_index) == T_GREATER && scan_index + 1 < instring.length && instring.charCodeAt(scan_index + 1) == T_EQUAL) {
 		scan_index += 2;
 		token = T_GTEQ;
 		return;
