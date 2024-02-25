@@ -16467,6 +16467,23 @@ save_symbol(p)
 	frame.push(get_binding(p));
 	frame.push(get_usrfunc(p));
 }
+const T_EXCLAM = 33;
+const T_QUOTEDBL = 34;
+const T_NUMBERSIGN = 35;
+const T_PARENLEFT = 40;
+const T_PARENRIGHT = 41;
+const T_ASTERISK = 42;
+const T_PLUS = 43;
+const T_COMMA = 44;
+const T_HYPHEN = 45;
+const T_PERIOD = 46;
+const T_SLASH = 47;
+const T_LESS = 60;
+const T_EQUAL = 61;
+const T_GREATER = 62;
+const T_BRACKETLEFT = 91;
+const T_BRACKETRIGHT = 93;
+const T_ASCIICIRCUM = 94;
 const T_INTEGER = 1001;
 const T_DOUBLE = 1002;
 const T_SYMBOL = 1003;
@@ -16524,7 +16541,7 @@ function
 scan_stmt()
 {
 	scan_comparison();
-	if (token == "=") {
+	if (token == T_EQUAL) {
 		get_token_skip_newlines(); // get token after =
 		push_symbol(SETQ);
 		swap();
@@ -16547,10 +16564,10 @@ scan_comparison()
 	case T_GTEQ:
 		push_symbol(TESTGE);
 		break;
-	case "<":
+	case T_LESS:
 		push_symbol(TESTLT);
 		break;
-	case ">":
+	case T_GREATER:
 		push_symbol(TESTGT);
 		break;
 	default:
@@ -16566,16 +16583,16 @@ function
 scan_expression()
 {
 	var h = stack.length, t = token;
-	if (token == "+" || token == "-")
+	if (token == T_PLUS || token == T_HYPHEN)
 		get_token_skip_newlines();
 	scan_term();
-	if (t == "-")
+	if (t == T_HYPHEN)
 		static_negate();
-	while (token == "+" || token == "-") {
+	while (token == T_PLUS || token == T_HYPHEN) {
 		t = token;
 		get_token_skip_newlines(); // get token after + or -
 		scan_term();
-		if (t == "-")
+		if (t == T_HYPHEN)
 			static_negate();
 	}
 	if (stack.length - h > 1) {
@@ -16597,12 +16614,12 @@ scan_term()
 
 		t = token;
 
-		if (token == "*" || token == "/")
+		if (token == T_ASTERISK || token == T_SLASH)
 			get_token_skip_newlines();
 
 		scan_power();
 
-		if (t == "/")
+		if (t == T_SLASH)
 			static_reciprocate();
 	}
 
@@ -16618,9 +16635,9 @@ function
 scan_factor_pending()
 {
 	switch (token) {
-	case "*":
-	case "/":
-	case "(":
+	case T_ASTERISK:
+	case T_SLASH:
+	case T_PARENLEFT:
 	case T_SYMBOL:
 	case T_FUNCTION:
 	case T_INTEGER:
@@ -16638,7 +16655,7 @@ scan_power()
 {
 	scan_factor();
 
-	if (token == "^") {
+	if (token == T_ASCIICIRCUM) {
 
 		get_token_skip_newlines();
 
@@ -16658,7 +16675,7 @@ scan_factor()
 
 	switch (token) {
 
-	case "(":
+	case T_PARENLEFT:
 		scan_subexpr();
 		break;
 
@@ -16694,7 +16711,7 @@ scan_factor()
 
 	// index
 
-	if (token == "[") {
+	if (token == T_BRACKETLEFT) {
 
 		scan_level++;
 
@@ -16704,12 +16721,12 @@ scan_factor()
 
 		scan_expression();
 
-		while (token == ",") {
+		while (token == T_COMMA) {
 			get_token(); // get token after ,
 			scan_expression();
 		}
 
-		if (token != "]")
+		if (token != T_BRACKETRIGHT)
 			scan_error("expected ]");
 
 		scan_level--;
@@ -16719,7 +16736,7 @@ scan_factor()
 		list(stack.length - h);
 	}
 
-	while (token == "!") {
+	while (token == T_EXCLAM) {
 		get_token(); // get token after !
 		push_symbol(FACTORIAL);
 		swap();
@@ -16765,18 +16782,18 @@ scan_function_call()
 	push(lookup(token_buf)); // push function name
 	get_token(); // get token after function name
 	get_token(); // get token after (
-	if (token == ")") {
+	if (token == T_PARENRIGHT) {
 		scan_level--;
 		get_token(); // get token after )
 		list(1); // function call with no args
 		return;
 	}
 	scan_stmt();
-	while (token == ",") {
+	while (token == T_COMMA) {
 		get_token(); // get token after ,
 		scan_stmt();
 	}
-	if (token != ")")
+	if (token != T_PARENRIGHT)
 		scan_error("expected )");
 	scan_level--;
 	get_token(); // get token after )
@@ -16794,12 +16811,12 @@ scan_subexpr()
 
 	scan_stmt();
 
-	while (token == ",") {
+	while (token == T_COMMA) {
 		get_token(); // get token after ,
 		scan_stmt();
 	}
 
-	if (token != ")")
+	if (token != T_PARENRIGHT)
 		scan_error("expected )");
 
 	scan_level--;
@@ -16833,7 +16850,7 @@ get_token_nib()
 {
 	// skip spaces
 
-	while (instring.charAt(scan_index) != "" && instring.charAt(scan_index) != "\n" && instring.charAt(scan_index) != "\r" && (instring.charCodeAt(scan_index) < 33 || instring.charCodeAt(scan_index) > 126))
+	while (instring.charAt(scan_index) != "" && instring.charCodeAt(scan_index) != 10 && instring.charCodeAt(scan_index) != 13 && (instring.charCodeAt(scan_index) < 33 || instring.charCodeAt(scan_index) > 126))
 		scan_index++;
 
 	token_index = scan_index;
@@ -16847,7 +16864,7 @@ get_token_nib()
 
 	// newline?
 
-	if (instring.charAt(scan_index) == "\n" || instring.charAt(scan_index) == "\r") {
+	if (instring.charCodeAt(scan_index) == 10 || instring.charCodeAt(scan_index) == 13) {
 		scan_index++;
 		token = T_NEWLINE;
 		return;
@@ -16855,8 +16872,8 @@ get_token_nib()
 
 	// comment?
 
-	if (instring.charAt(scan_index) == "#" || (instring.charAt(scan_index) == "-" && instring.charAt(scan_index + 1) == "-")) {
-		while (instring.charAt(scan_index) != "" && instring.charAt(scan_index) != "\n" && instring.charAt(scan_index) != "\r")
+	if (instring.charCodeAt(scan_index) == T_NUMBERSIGN || (instring.charCodeAt(scan_index) == T_HYPHEN && instring.charCodeAt(scan_index + 1) == T_HYPHEN)) {
+		while (instring.charAt(scan_index) != "" && instring.charCodeAt(scan_index) != 10 && instring.charCodeAt(scan_index) != 13)
 			scan_index++;
 		if (instring.charAt(scan_index) != "")
 			scan_index++;
@@ -16866,10 +16883,10 @@ get_token_nib()
 
 	// number?
 
-	if (isdigit(instring.charCodeAt(scan_index)) || instring.charAt(scan_index) == ".") {
+	if (isdigit(instring.charCodeAt(scan_index)) || instring.charCodeAt(scan_index) == T_PERIOD) {
 		while (isdigit(instring.charCodeAt(scan_index)))
 			scan_index++;
-		if (instring.charAt(scan_index) == ".") {
+		if (instring.charCodeAt(scan_index) == T_PERIOD) {
 			scan_index++;
 			while (isdigit(instring.charCodeAt(scan_index)))
 				scan_index++;
@@ -16887,7 +16904,7 @@ get_token_nib()
 	if (isalpha(instring.charCodeAt(scan_index))) {
 		while (isalnum(instring.charCodeAt(scan_index)))
 			scan_index++;
-		if (instring.charAt(scan_index) == "(")
+		if (instring.charCodeAt(scan_index) == T_PARENLEFT)
 			token = T_FUNCTION;
 		else
 			token = T_SYMBOL;
@@ -16897,10 +16914,10 @@ get_token_nib()
 
 	// string?
 
-	if (instring.charAt(scan_index) == "\"") {
+	if (instring.charCodeAt(scan_index) == T_QUOTEDBL) {
 		scan_index++;
-		while (instring.charAt(scan_index) != "\"") {
-			if (instring.charAt(scan_index) == "" || instring.charAt(scan_index) == "\n" || instring.charAt(scan_index) == "\r") {
+		while (instring.charCodeAt(scan_index) != T_QUOTEDBL) {
+			if (instring.charAt(scan_index) == "" || instring.charCodeAt(scan_index) == 10 || instring.charCodeAt(scan_index) == 13) {
 				token_index = scan_index;
 				scan_error("runaway string");
 			}
@@ -16914,19 +16931,19 @@ get_token_nib()
 
 	// relational operator?
 
-	if (instring.charAt(scan_index) == "=" && instring.charAt(scan_index + 1) == "=") {
+	if (instring.charCodeAt(scan_index) == T_EQUAL && instring.charCodeAt(scan_index + 1) == T_EQUAL) {
 		scan_index += 2;
 		token = T_EQ;
 		return;
 	}
 
-	if (instring.charAt(scan_index) == "<" && instring.charAt(scan_index + 1) == "=") {
+	if (instring.charCodeAt(scan_index) == T_LESS && instring.charCodeAt(scan_index + 1) == T_EQUAL) {
 		scan_index += 2;
 		token = T_LTEQ;
 		return;
 	}
 
-	if (instring.charAt(scan_index) == ">" && instring.charAt(scan_index + 1) == "=") {
+	if (instring.charCodeAt(scan_index) == T_GREATER && instring.charCodeAt(scan_index + 1) == T_EQUAL) {
 		scan_index += 2;
 		token = T_GTEQ;
 		return;
@@ -16934,7 +16951,7 @@ get_token_nib()
 
 	// single char token
 
-	token = instring.charAt(scan_index++);
+	token = instring.charCodeAt(scan_index++);
 }
 
 function
