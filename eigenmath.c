@@ -17534,7 +17534,7 @@ get_token_nib(void)
 
 	token_str = scan_str;
 
-	// end of string?
+	// end of input?
 
 	if (*scan_str == '\0') {
 		token = T_END;
