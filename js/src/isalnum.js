@@ -1,5 +1,5 @@
 function
-isalnum(s)
+isalnum(n)
 {
-	return isalpha(s) || isdigit(s);
+	return isalpha(n) || isdigit(n);
 }

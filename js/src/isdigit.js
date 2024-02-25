@@ -1,6 +1,5 @@
 function
-isdigit(s)
+isdigit(n)
 {
-	var c = s.charCodeAt(0);
-	return c >= 48 && c <= 57;
+	return n >= 48 && n <= 57;
 }

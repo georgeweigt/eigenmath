@@ -2243,7 +2243,7 @@ emit_symbol_fragment(s, k)
 	}
 
 	if (i == n) {
-		if (isdigit(s.charAt(k)))
+		if (isdigit(s.charCodeAt(k)))
 			emit_roman_char(s.charCodeAt(k));
 		else
 			emit_italic_char(s.charCodeAt(k));
@@ -14218,15 +14218,14 @@ inrange(x, y)
 	return x > -0.5 && x < DRAW_WIDTH + 0.5 && y > -0.5 && y < DRAW_HEIGHT + 0.5;
 }
 function
-isalnum(s)
+isalnum(n)
 {
-	return isalpha(s) || isdigit(s);
+	return isalpha(n) || isdigit(n);
 }
 function
-isalpha(s)
+isalpha(n)
 {
-	var c = s.charCodeAt(0);
-	return (c >= 65 && c <= 90) || (c >= 97 && c <= 122);
+	return (n >= 65 && n <= 90) || (n >= 97 && n <= 122);
 }
 function
 iscomplexnumber(p)
@@ -14296,10 +14295,9 @@ isdenormalpolarterm(p)
 	return 0;
 }
 function
-isdigit(s)
+isdigit(n)
 {
-	var c = s.charCodeAt(0);
-	return c >= 48 && c <= 57;
+	return n >= 48 && n <= 57;
 }
 function
 isdouble(p)
@@ -16858,7 +16856,7 @@ get_token_nib()
 	// comment?
 
 	if (instring.charAt(scan_index) == "#" || (instring.charAt(scan_index) == "-" && instring.charAt(scan_index + 1) == "-")) {
-		while (instring.charAt(scan_index) != "" && instring.charAt(scan_index) != "\n")
+		while (instring.charAt(scan_index) != "" && instring.charAt(scan_index) != "\n" && instring.charAt(scan_index) != "\r")
 			scan_index++;
 		if (instring.charAt(scan_index) != "")
 			scan_index++;
@@ -16868,12 +16866,12 @@ get_token_nib()
 
 	// number?
 
-	if (isdigit(instring.charAt(scan_index)) || instring.charAt(scan_index) == ".") {
-		while (isdigit(instring.charAt(scan_index)))
+	if (isdigit(instring.charCodeAt(scan_index)) || instring.charAt(scan_index) == ".") {
+		while (isdigit(instring.charCodeAt(scan_index)))
 			scan_index++;
 		if (instring.charAt(scan_index) == ".") {
 			scan_index++;
-			while (isdigit(instring.charAt(scan_index)))
+			while (isdigit(instring.charCodeAt(scan_index)))
 				scan_index++;
 			if (token_index + 1 == scan_index)
 				scan_error("expected decimal digit"); // only a decimal point
@@ -16886,8 +16884,8 @@ get_token_nib()
 
 	// symbol?
 
-	if (isalpha(instring.charAt(scan_index))) {
-		while (isalnum(instring.charAt(scan_index)))
+	if (isalpha(instring.charCodeAt(scan_index))) {
+		while (isalnum(instring.charCodeAt(scan_index)))
 			scan_index++;
 		if (instring.charAt(scan_index) == "(")
 			token = T_FUNCTION;
@@ -16897,12 +16895,12 @@ get_token_nib()
 		return;
 	}
 
-	// string ?
+	// string?
 
 	if (instring.charAt(scan_index) == "\"") {
 		scan_index++;
 		while (instring.charAt(scan_index) != "\"") {
-			if (instring.charAt(scan_index) == "" || instring.charAt(scan_index) == "\n") {
+			if (instring.charAt(scan_index) == "" || instring.charAt(scan_index) == "\n" || instring.charAt(scan_index) == "\r") {
 				token_index = scan_index;
 				scan_error("runaway string");
 			}

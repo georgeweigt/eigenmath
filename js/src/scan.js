@@ -387,7 +387,7 @@ get_token_nib()
 	// comment?
 
 	if (instring.charAt(scan_index) == "#" || (instring.charAt(scan_index) == "-" && instring.charAt(scan_index + 1) == "-")) {
-		while (instring.charAt(scan_index) != "" && instring.charAt(scan_index) != "\n")
+		while (instring.charAt(scan_index) != "" && instring.charAt(scan_index) != "\n" && instring.charAt(scan_index) != "\r")
 			scan_index++;
 		if (instring.charAt(scan_index) != "")
 			scan_index++;
@@ -397,12 +397,12 @@ get_token_nib()
 
 	// number?
 
-	if (isdigit(instring.charAt(scan_index)) || instring.charAt(scan_index) == ".") {
-		while (isdigit(instring.charAt(scan_index)))
+	if (isdigit(instring.charCodeAt(scan_index)) || instring.charAt(scan_index) == ".") {
+		while (isdigit(instring.charCodeAt(scan_index)))
 			scan_index++;
 		if (instring.charAt(scan_index) == ".") {
 			scan_index++;
-			while (isdigit(instring.charAt(scan_index)))
+			while (isdigit(instring.charCodeAt(scan_index)))
 				scan_index++;
 			if (token_index + 1 == scan_index)
 				scan_error("expected decimal digit"); // only a decimal point
@@ -415,8 +415,8 @@ get_token_nib()
 
 	// symbol?
 
-	if (isalpha(instring.charAt(scan_index))) {
-		while (isalnum(instring.charAt(scan_index)))
+	if (isalpha(instring.charCodeAt(scan_index))) {
+		while (isalnum(instring.charCodeAt(scan_index)))
 			scan_index++;
 		if (instring.charAt(scan_index) == "(")
 			token = T_FUNCTION;
@@ -426,12 +426,12 @@ get_token_nib()
 		return;
 	}
 
-	// string ?
+	// string?
 
 	if (instring.charAt(scan_index) == "\"") {
 		scan_index++;
 		while (instring.charAt(scan_index) != "\"") {
-			if (instring.charAt(scan_index) == "" || instring.charAt(scan_index) == "\n") {
+			if (instring.charAt(scan_index) == "" || instring.charAt(scan_index) == "\n" || instring.charAt(scan_index) == "\r") {
 				token_index = scan_index;
 				scan_error("runaway string");
 			}

@@ -1,6 +1,5 @@
 function
-isalpha(s)
+isalpha(n)
 {
-	var c = s.charCodeAt(0);
-	return (c >= 65 && c <= 90) || (c >= 97 && c <= 122);
+	return (n >= 65 && n <= 90) || (n >= 97 && n <= 122);
 }

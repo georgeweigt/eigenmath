@@ -833,7 +833,7 @@ emit_symbol_fragment(s, k)
 	}
 
 	if (i == n) {
-		if (isdigit(s.charAt(k)))
+		if (isdigit(s.charCodeAt(k)))
 			emit_roman_char(s.charCodeAt(k));
 		else
 			emit_italic_char(s.charCodeAt(k));
