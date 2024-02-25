@@ -16833,102 +16833,80 @@ get_token()
 function
 get_token_nib()
 {
-	var c;
-
 	// skip spaces
 
-	for (;;) {
-		c = inchar();
-		if (c == "" || c == "\n" || c == "\r" || (c.charCodeAt(0) > 32 && c.charCodeAt(0) < 127))
-			break;
+	while (instring.charAt(scan_index) != "" && instring.charAt(scan_index) != "\n" && instring.charAt(scan_index) != "\r" && (instring.charCodeAt(scan_index) < 33 || instring.charCodeAt(scan_index) > 126))
 		scan_index++;
-	}
 
 	token_index = scan_index;
 
 	// end of input?
 
-	if (c == "") {
+	if (instring.charAt(scan_index) == "") {
 		token = T_END;
 		return;
 	}
 
-	scan_index++;
-
 	// newline?
 
-	if (c == "\n" || c == "\r") {
+	if (instring.charAt(scan_index) == "\n" || instring.charAt(scan_index) == "\r") {
+		scan_index++;
 		token = T_NEWLINE;
 		return;
 	}
 
 	// comment?
 
-	if (c == "#" || (c == "-" && inchar() == "-")) {
-
-		while (inchar() != "" && inchar() != "\n")
+	if (instring.charAt(scan_index) == "#" || (instring.charAt(scan_index) == "-" && instring.charAt(scan_index + 1) == "-")) {
+		while (instring.charAt(scan_index) != "" && instring.charAt(scan_index) != "\n")
 			scan_index++;
-
-		if (inchar() == "\n") {
+		if (instring.charAt(scan_index) != "")
 			scan_index++;
-			token = T_NEWLINE;
-		} else
-			token = T_END;
-
+		token = T_NEWLINE;
 		return;
 	}
 
 	// number?
 
-	if (isdigit(c) || c == ".") {
-
-		while (isdigit(inchar()))
+	if (isdigit(instring.charAt(scan_index)) || instring.charAt(scan_index) == ".") {
+		while (isdigit(instring.charAt(scan_index)))
 			scan_index++;
-
-		if (inchar() == ".") {
-
+		if (instring.charAt(scan_index) == ".") {
 			scan_index++;
-
-			while (isdigit(inchar()))
+			while (isdigit(instring.charAt(scan_index)))
 				scan_index++;
-
-			if (scan_index - token_index == 1)
+			if (token_index + 1 == scan_index)
 				scan_error("expected decimal digit"); // only a decimal point
-
 			token = T_DOUBLE;
 		} else
 			token = T_INTEGER;
-
 		update_token_buf(token_index, scan_index);
-
 		return;
 	}
 
 	// symbol?
 
-	if (isalpha(c)) {
-
-		while (isalnum(inchar()))
+	if (isalpha(instring.charAt(scan_index))) {
+		while (isalnum(instring.charAt(scan_index)))
 			scan_index++;
-
-		if (inchar() == "(")
+		if (instring.charAt(scan_index) == "(")
 			token = T_FUNCTION;
 		else
 			token = T_SYMBOL;
-
 		update_token_buf(token_index, scan_index);
-
 		return;
 	}
 
 	// string ?
 
-	if (c == "\"") {
-		while (inchar() != "" && inchar() != "\n" && inchar() != "\"")
+	if (instring.charAt(scan_index) == "\"") {
+		scan_index++;
+		while (instring.charAt(scan_index) != "\"") {
+			if (instring.charAt(scan_index) == "" || instring.charAt(scan_index) == "\n") {
+				token_index = scan_index;
+				scan_error("runaway string");
+			}
 			scan_index++;
-		if (inchar() != "\"") {
-			token_index = scan_index; // no token
-			scan_error("runaway string");
 		}
 		scan_index++;
 		token = T_STRING;
@@ -16938,27 +16916,28 @@ get_token_nib()
 
 	// relational operator?
 
-	if (c == "=" && inchar() == "=") {
-		scan_index++;
+	if (instring.charAt(scan_index) == "=" && instring.charAt(scan_index + 1) == "=") {
+		scan_index += 2;
 		token = T_EQ;
 		return;
 	}
 
-	if (c == "<" && inchar() == "=") {
-		scan_index++;
+	if (instring.charAt(scan_index) == "<" && instring.charAt(scan_index + 1) == "=") {
+		scan_index += 2;
 		token = T_LTEQ;
 		return;
 	}
 
-	if (c == ">" && inchar() == "=") {
-		scan_index++;
+	if (instring.charAt(scan_index) == ">" && instring.charAt(scan_index + 1) == "=") {
+		scan_index += 2;
 		token = T_GTEQ;
 		return;
 	}
 
 	// single char token
 
-	token = c;
+	token = instring.charAt(scan_index);
+	scan_index++;
 }
 
 function
@@ -16968,26 +16947,10 @@ update_token_buf(j, k)
 }
 
 function
-scan_error(s)
+scan_error(errmsg)
 {
-	var t = inbuf.substring(trace1, scan_index);
-
-	t += "\nStop: Syntax error, " + s;
-
-	if (token_index < scan_index) {
-		t += " instead of ";
-		t += instring.substring(token_index, scan_index);
-	}
-
-	printbuf(t, RED);
-
-	stopf("");
-}
-
-function
-inchar()
-{
-	return instring.charAt(scan_index); // returns empty string if index out of range
+	trace2 = scan_index;
+	stopf(errmsg);
 }
 function
 scan_inbuf(k)
