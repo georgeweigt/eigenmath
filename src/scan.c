@@ -425,17 +425,14 @@ get_token_nib(void)
 		return;
 	}
 
-	// string ?
+	// string?
 
 	if (*scan_str == '"') {
 		scan_str++;
-		while (*scan_str != '"') {
-			if (*scan_str == '\0' || *scan_str == '\n' || *scan_str == '\r') {
-				token_str = scan_str;
-				scan_error("runaway string");
-			}
+		while (*scan_str && *scan_str != '"' && *scan_str != '\n' && *scan_str != '\r')
 			scan_str++;
-		}
+		if (*scan_str != '"')
+			scan_error("runaway string");
 		scan_str++;
 		token = T_STRING;
 		update_token_buf(token_str + 1, scan_str - 1); // don't include quote chars
