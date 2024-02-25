@@ -386,7 +386,7 @@ get_token_nib(void)
 	// comment?
 
 	if (*scan_str == '#' || (scan_str[0] == '-' && scan_str[1] == '-')) {
-		while (*scan_str && *scan_str != '\n')
+		while (*scan_str && *scan_str != '\n' && *scan_str != '\r')
 			scan_str++;
 		if (*scan_str)
 			scan_str++;
@@ -430,7 +430,7 @@ get_token_nib(void)
 	if (*scan_str == '"') {
 		scan_str++;
 		while (*scan_str != '"') {
-			if (*scan_str == '\0' || *scan_str == '\n') {
+			if (*scan_str == '\0' || *scan_str == '\n' || *scan_str == '\r') {
 				token_str = scan_str;
 				scan_error("runaway string");
 			}
