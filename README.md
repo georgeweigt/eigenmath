@@ -69,9 +69,3 @@ To run self tests
 ./eigenmath test/selftest1
 ./eigenmath test/selftest2
 ```
-
-#
-
-Go to the `xcode` directory to build for macOS.
-
-See also directory `js` for a Javascript version.
