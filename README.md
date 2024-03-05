@@ -60,12 +60,3 @@ Mean interval
           −9       
 1.59619×10   second
 ```
-
-Eigenmath uses UTF-8 encoding to display Greek letters and other symbols.
-
-To run self tests
-
-```
-./eigenmath test/selftest1
-./eigenmath test/selftest2
-```
