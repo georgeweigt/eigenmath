@@ -1,5 +1,3 @@
-[Eigenmath Home Page](https://georgeweigt.github.io)
-
 To build and run for Linux
 
 ```
@@ -19,3 +17,6 @@ To run self tests
 ./eigenmath test/selftest1
 ./eigenmath test/selftest2
 ```
+
+[Eigenmath Home Page](https://georgeweigt.github.io)
+
