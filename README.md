@@ -1,17 +1,17 @@
-To build and run for Linux
+Build and run for Linux
 
 ```
 make
 ./eigenmath
 ```
 
-To run a script
+Run a script
 
 ```
 ./eigenmath demo/spontaneous-emission
 ```
 
-To run self tests
+Run self tests
 
 ```
 ./eigenmath test/selftest1
