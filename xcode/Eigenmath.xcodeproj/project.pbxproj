@@ -72,7 +72,6 @@
 		7F2C0600271CFF3300128330 = {
 			isa = PBXGroup;
 			children = (
-				7F2896F52AF52E3C00139151 /* Eigenmath.entitlements */,
 				7F2C060B271CFF3300128330 /* src */,
 				7F2C060A271CFF3300128330 /* Products */,
 			);
@@ -114,6 +113,7 @@
 				7F2C0614271CFF3F00128330 /* Info.plist */,
 				7F2C0615271CFF3F00128330 /* main.m */,
 				7F79615B27405F4E00211A54 /* MainMenu.xib */,
+				7F2896F52AF52E3C00139151 /* Eigenmath.entitlements */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -145,7 +145,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					7F2C0608271CFF3300128330 = {
 						CreatedOnToolsVersion = 12.4;
@@ -318,7 +318,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Eigenmath.entitlements;
+				CODE_SIGN_ENTITLEMENTS = src/Eigenmath.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CURRENT_PROJECT_VERSION = 323;
 				DEAD_CODE_STRIPPING = YES;
@@ -339,7 +339,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Eigenmath.entitlements;
+				CODE_SIGN_ENTITLEMENTS = src/Eigenmath.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CURRENT_PROJECT_VERSION = 323;
 				DEAD_CODE_STRIPPING = YES;
