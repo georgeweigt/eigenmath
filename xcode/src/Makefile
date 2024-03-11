@@ -7,8 +7,8 @@ HELPBOOK = Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
 FILES := $(shell ls ../../src/*.c | sed "s/\.\.\/\.\.\/src\/main\.c//;s/\.\.\/\.\.\/src\/fmt\.c//")
 
 default:
-	rsync ../../doc/help.html $(HELPBOOK)
-	rsync ../../src/defs.h defs.h
+	rsync -c ../../doc/help.html $(HELPBOOK)
+	rsync -c ../../src/defs.h ./
 	make -C ../../src prototypes.h
 	make eigenmath.c
 	make prototypes.h
