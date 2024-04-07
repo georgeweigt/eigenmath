@@ -8674,6 +8674,8 @@ check(T1 == T^(-1/4))
 check(T2 == exp(-1/4 i pi) T^(-1/4))
 check(T3 == exp(-1/2 i pi) T^(-1/4))
 check(T4 == exp(-3/4 i pi) T^(-1/4))
+
+check(infixform(simplify(c / (a c + b c))) == "1 / (a + b)") -- version 3.24
 "Testing sin"
 
 clear

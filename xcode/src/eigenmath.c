@@ -729,9 +729,9 @@ void eval_sgn(struct atom *p1);
 void sgn(void);
 void eval_simplify(struct atom *p1);
 void simplify(void);
-void simplify_sum(void);
+void simplify_nib(void);
 void simplify_trig(void);
-void simpler(struct atom *p1, struct atom *p2);
+int simpler(struct atom *p1, struct atom *p2);
 int powdep(struct atom *p);
 int complexity(struct atom *p);
 void eval_sin(struct atom *p1);
@@ -12735,11 +12735,11 @@ simplify(void)
 
 	push(p1);
 	simplify_trig();
-	simplify_sum();
+	simplify_nib();
 }
 
 void
-simplify_sum(void)
+simplify_nib(void)
 {
 	int h;
 	struct atom *p1, *p2, *p3, *NUM, *DEN, *R;
@@ -12758,32 +12758,21 @@ simplify_sum(void)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		simplify_sum();
+		simplify_nib();
 		p1 = cdr(p1);
 	}
 	list(tos - h);
 	evalf(); // normalize
 
 	p1 = pop();
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
 	push(p1);
+
+	if (!iscons(p1))
+		return;
+
 	numden();
 	NUM = pop();
 	DEN = pop();
-
-	if (car(DEN) != symbol(ADD)) {
-		push(NUM);
-		push(DEN);
-		divide();
-		p2 = pop();
-		simpler(p1, p2);
-		return;
-	}
 
 	// NUM / DEN = A / (B / C) = A C / B
 
@@ -12796,14 +12785,22 @@ simplify_sum(void)
 	multiply();
 	NUM = pop();
 
-	// are NUM and DEN congruent sums?
+	push(NUM);
+	push(DEN);
+	divide();
+	p2 = pop();
+	if (complexity(p2) < complexity(p1)) {
+		push(p2);
+		return;
+	}
 
-	if (car(NUM) != symbol(ADD) || car(DEN) != symbol(ADD) || lengthf(NUM) != lengthf(DEN)) {
-		push(NUM);
-		push(DEN);
-		divide();
-		p2 = pop();
-		simpler(p1, p2);
+	push(DEN);
+	push(NUM);
+	divide();
+	reciprocate();
+	p2 = pop();
+	if (complexity(p2) < complexity(p1)) {
+		push(p2);
 		return;
 	}
 
@@ -12842,7 +12839,10 @@ simplify_sum(void)
 	divide();
 	p2 = pop();
 
-	simpler(p1, p2);
+	if (simpler(p2, p1))
+		push(p2);
+	else
+		push(p1);
 }
 
 // try exponential form
@@ -12866,10 +12866,13 @@ simplify_trig(void)
 	divide();
 	p2 = pop();
 
-	simpler(p1, p2);
+	if (simpler(p2, p1))
+		push(p2);
+	else
+		push(p1);
 }
 
-void
+int
 simpler(struct atom *p1, struct atom *p2)
 {
 	int n1, n2;
@@ -12877,18 +12880,10 @@ simpler(struct atom *p1, struct atom *p2)
 	n1 = powdep(p1);
 	n2 = powdep(p2);
 
-	if (n1 == n2) {
-		if (complexity(p1) <= complexity(p2))
-			push(p1);
-		else
-			push(p2);
-		return;
-	}
-
-	if (n1 < n2)
-		push(p1);
+	if (n1 == n2)
+		return complexity(p1) < complexity(p2);
 	else
-		push(p2);
+		return n1 < n2;
 }
 
 // for example, 1 / (x + y^2 / x) has powdep of 2
