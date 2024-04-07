@@ -11216,32 +11216,35 @@ simplify_nib()
 
 	// search for R such that NUM = R DEN
 
-	p2 = cdr(DEN);
+	if (car(NUM) == symbol(ADD) && car(DEN) == symbol(ADD)) {
 
-	while (iscons(p2)) {
+		p2 = cdr(DEN);
 
-		// provisional ratio
+		while (iscons(p2)) {
 
-		push(cadr(NUM)); // 1st term of numerator
-		push(car(p2));
-		divide();
-		R = pop();
+			// provisional ratio
 
-		// check
+			push(cadr(NUM)); // 1st term of numerator
+			push(car(p2));
+			divide();
+			R = pop();
 
-		push(NUM);
-		push(R);
-		push(DEN);
-		multiply();
-		subtract();
-		p3 = pop();
+			// check
 
-		if (iszero(p3)) {
+			push(NUM);
 			push(R);
-			return;
-		}
+			push(DEN);
+			multiply();
+			subtract();
+			p3 = pop();
 
-		p2 = cdr(p2);
+			if (iszero(p3)) {
+				push(R);
+				return;
+			}
+
+			p2 = cdr(p2);
+		}
 	}
 
 	push(NUM);
