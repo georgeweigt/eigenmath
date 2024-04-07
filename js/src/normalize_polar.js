@@ -76,7 +76,7 @@ normalize_polar_term_rational(R)
 	add();
 	R = pop(); // remainder
 
-	switch (n) {
+	switch (n % 4) {
 
 	case 0:
 		if (iszero(R))
@@ -173,7 +173,7 @@ normalize_polar_term_double(R)
 
 	r = coeff - n / 2; // remainder
 
-	switch (n) {
+	switch (n % 4) {
 
 	case 0:
 		if (r == 0)

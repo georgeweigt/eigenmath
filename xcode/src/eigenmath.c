@@ -10855,7 +10855,7 @@ normalize_polar_term_rational(struct atom *R)
 	add();
 	R = pop(); // remainder
 
-	switch (n) {
+	switch (n % 4) {
 
 	case 0:
 		if (iszero(R))
@@ -10935,7 +10935,8 @@ normalize_polar_term_rational(struct atom *R)
 void
 normalize_polar_term_double(struct atom *R)
 {
-	double coeff, n, r;
+	int n;
+	double coeff, r;
 
 	coeff = R->u.d;
 
@@ -10948,11 +10949,11 @@ normalize_polar_term_double(struct atom *R)
 	if (coeff < 0.0)
 		coeff += 2.0;
 
-	n = floor(2.0 * coeff); // number of 90 degree turns
+	n = (int) floor(2.0 * coeff); // number of 90 degree turns
 
 	r = coeff - n / 2.0; // remainder
 
-	switch ((int) n) {
+	switch (n % 4) {
 
 	case 0:
 		if (r == 0.0)
@@ -12728,8 +12729,8 @@ simplify(void)
 	push(p1);
 	polar();
 	p2 = pop();
-	if (iszero(p2)) {
-		push_integer(0);
+	if (!iscons(p2)) {
+		push(p2);
 		return;
 	}
 

@@ -35,8 +35,8 @@ simplify()
 	push(p1);
 	polar();
 	p2 = pop();
-	if (iszero(p2)) {
-		push_integer(0);
+	if (!iscons(p2)) {
+		push(p2);
 		return;
 	}
 

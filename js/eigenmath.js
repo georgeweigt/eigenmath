@@ -11139,8 +11139,8 @@ simplify()
 	push(p1);
 	polar();
 	p2 = pop();
-	if (iszero(p2)) {
-		push_integer(0);
+	if (!iscons(p2)) {
+		push(p2);
 		return;
 	}
 
@@ -14812,7 +14812,7 @@ normalize_polar_term_rational(R)
 	add();
 	R = pop(); // remainder
 
-	switch (n) {
+	switch (n % 4) {
 
 	case 0:
 		if (iszero(R))
@@ -14909,7 +14909,7 @@ normalize_polar_term_double(R)
 
 	r = coeff - n / 2; // remainder
 
-	switch (n) {
+	switch (n % 4) {
 
 	case 0:
 		if (r == 0)

@@ -62,3 +62,11 @@ check(infixform(-0) == "0") -- eigenmath.js result was -0, now fixed
 
 check(infixform(abs(32/59049)) == "32/59049") -- bug in absfunc(), now fixed
 check(infixform(abs(-32/59049)) == "32/59049")
+
+-- fixed in version 3.24
+
+eta = 1 / ((18.7179 (0.399323 - 0.91681 i) - 6.61777 i (0.399323 - 0.91681 i)) (18.7179 (0.399323 + 0.91681 i) + 6.61777 i (0.399323 + 0.91681 i)))
+
+check(infixform(rect(eta)) == "0.00253708")
+check(infixform(polar(eta)) == "0.00253708")
+check(infixform(simplify(eta)) == "0.00253708")
