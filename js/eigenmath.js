@@ -11195,25 +11195,6 @@ simplify_nib()
 	multiply();
 	NUM = pop();
 
-	push(NUM);
-	push(DEN);
-	divide();
-	p2 = pop();
-	if (complexity(p2) < complexity(p1)) {
-		push(p2);
-		return;
-	}
-
-	push(DEN);
-	push(NUM);
-	divide();
-	reciprocate();
-	p2 = pop();
-	if (complexity(p2) < complexity(p1)) {
-		push(p2);
-		return;
-	}
-
 	// search for R such that NUM = R DEN
 
 	if (car(NUM) == symbol(ADD) && car(DEN) == symbol(ADD)) {
@@ -11251,11 +11232,22 @@ simplify_nib()
 	push(DEN);
 	divide();
 	p2 = pop();
-
-	if (simpler(p2, p1))
+	if (simpler(p2, p1)) {
 		push(p2);
-	else
-		push(p1);
+		return;
+	}
+
+	push(DEN);
+	push(NUM);
+	divide();
+	reciprocate();
+	p2 = pop();
+	if (simpler(p2, p1)) {
+		push(p2);
+		return;
+	}
+
+	push(p1);
 }
 
 // try exponential form
