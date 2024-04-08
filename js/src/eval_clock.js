@@ -26,12 +26,12 @@ clockfunc()
 	}
 
 	push(p1);
-	mag();
+	magfunc();
 
 	push_integer(-1); // base
 
 	push(p1);
-	arg();
+	argfunc();
 	push_symbol(PI);
 	divide();
 

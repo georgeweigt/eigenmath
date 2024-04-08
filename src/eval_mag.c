@@ -3,11 +3,11 @@ eval_mag(struct atom *p1)
 {
 	push(cadr(p1));
 	evalf();
-	mag();
+	magfunc();
 }
 
 void
-mag(void)
+magfunc(void)
 {
 	int i, n;
 	struct atom *p1, *num, *den;
@@ -19,7 +19,7 @@ mag(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			mag();
+			magfunc();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
@@ -33,9 +33,9 @@ mag(void)
 	num = pop();
 	den = pop();
 	push(num);
-	mag_nib();
+	magfunc_nib();
 	push(den);
-	mag_nib();
+	magfunc_nib();
 	divide();
 
 	if (isdoublesomewhere(p1))
@@ -43,7 +43,7 @@ mag(void)
 }
 
 void
-mag_nib(void)
+magfunc_nib(void)
 {
 	int h;
 	struct atom *p1, *x, *y;
@@ -79,7 +79,7 @@ mag_nib(void)
 		h = tos;
 		while (iscons(p1)) {
 			push(car(p1));
-			mag_nib();
+			magfunc_nib();
 			p1 = cdr(p1);
 		}
 		multiply_factors(tos - h);

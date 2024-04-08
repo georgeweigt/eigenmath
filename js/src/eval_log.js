@@ -62,10 +62,10 @@ logfunc_nib()
 
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
-		mag();
+		magfunc();
 		logfunc_nib();
 		push(p1);
-		arg();
+		argfunc();
 		push(imaginaryunit);
 		multiply();
 		add();

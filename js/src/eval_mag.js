@@ -3,11 +3,11 @@ eval_mag(p1)
 {
 	push(cadr(p1));
 	evalf();
-	mag();
+	magfunc();
 }
 
 function
-mag()
+magfunc()
 {
 	var i, n, p1, num, den;
 
@@ -18,7 +18,7 @@ mag()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			mag();
+			magfunc();
 			p1.elem[i] = pop();
 		}
 		push(p1);
@@ -32,9 +32,9 @@ mag()
 	num = pop();
 	den = pop();
 	push(num);
-	mag_nib();
+	magfunc_nib();
 	push(den);
-	mag_nib();
+	magfunc_nib();
 	divide();
 
 	if (isdoublesomewhere(p1))
@@ -42,7 +42,7 @@ mag()
 }
 
 function
-mag_nib()
+magfunc_nib()
 {
 	var h, p1, x, y;
 
@@ -77,7 +77,7 @@ mag_nib()
 		h = stack.length;
 		while (iscons(p1)) {
 			push(car(p1));
-			mag_nib();
+			magfunc_nib();
 			p1 = cdr(p1);
 		}
 		multiply_factors(stack.length - h);

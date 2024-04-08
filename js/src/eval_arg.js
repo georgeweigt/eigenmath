@@ -4,13 +4,13 @@ eval_arg(p1)
 	push(cadr(p1));
 	evalf();
 	polar(); // normalize
-	arg();
+	argfunc();
 }
 
 // may return a denormalized angle
 
 function
-arg()
+argfunc()
 {
 	var i, n, p1, num, den;
 
@@ -21,7 +21,7 @@ arg()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			arg();
+			argfunc();
 			p1.elem[i] = pop();
 		}
 		push(p1);

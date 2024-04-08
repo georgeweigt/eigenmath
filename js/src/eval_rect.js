@@ -77,10 +77,10 @@ rect()
 	// return mag(p1) * cos(arg(p1)) + i sin(arg(p1)))
 
 	push(p1);
-	mag();
+	magfunc();
 
 	push(p1);
-	arg();
+	argfunc();
 	p2 = pop();
 
 	push(p2);

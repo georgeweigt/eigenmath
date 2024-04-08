@@ -4,13 +4,13 @@ eval_arg(struct atom *p1)
 	push(cadr(p1));
 	evalf();
 	polar(); // normalize
-	arg();
+	argfunc();
 }
 
 // may return a denormalized angle
 
 void
-arg(void)
+argfunc(void)
 {
 	int i, n;
 	struct atom *p1, *num, *den;
@@ -22,7 +22,7 @@ arg(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			arg();
+			argfunc();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);

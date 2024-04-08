@@ -4518,13 +4518,13 @@ eval_arg(p1)
 	push(cadr(p1));
 	evalf();
 	polar(); // normalize
-	arg();
+	argfunc();
 }
 
 // may return a denormalized angle
 
 function
-arg()
+argfunc()
 {
 	var i, n, p1, num, den;
 
@@ -4535,7 +4535,7 @@ arg()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			arg();
+			argfunc();
 			p1.elem[i] = pop();
 		}
 		push(p1);
@@ -4849,12 +4849,12 @@ clockfunc()
 	}
 
 	push(p1);
-	mag();
+	magfunc();
 
 	push_integer(-1); // base
 
 	push(p1);
-	arg();
+	argfunc();
 	push_symbol(PI);
 	divide();
 
@@ -8717,10 +8717,10 @@ logfunc_nib()
 
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
-		mag();
+		magfunc();
 		logfunc_nib();
 		push(p1);
-		arg();
+		argfunc();
 		push(imaginaryunit);
 		multiply();
 		add();
@@ -8810,11 +8810,11 @@ eval_mag(p1)
 {
 	push(cadr(p1));
 	evalf();
-	mag();
+	magfunc();
 }
 
 function
-mag()
+magfunc()
 {
 	var i, n, p1, num, den;
 
@@ -8825,7 +8825,7 @@ mag()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			mag();
+			magfunc();
 			p1.elem[i] = pop();
 		}
 		push(p1);
@@ -8839,9 +8839,9 @@ mag()
 	num = pop();
 	den = pop();
 	push(num);
-	mag_nib();
+	magfunc_nib();
 	push(den);
-	mag_nib();
+	magfunc_nib();
 	divide();
 
 	if (isdoublesomewhere(p1))
@@ -8849,7 +8849,7 @@ mag()
 }
 
 function
-mag_nib()
+magfunc_nib()
 {
 	var h, p1, x, y;
 
@@ -8884,7 +8884,7 @@ mag_nib()
 		h = stack.length;
 		while (iscons(p1)) {
 			push(car(p1));
-			mag_nib();
+			magfunc_nib();
 			p1 = cdr(p1);
 		}
 		multiply_factors(stack.length - h);
@@ -9634,9 +9634,9 @@ polar()
 	}
 
 	push(p1);
-	mag();
+	magfunc();
 	push(p1);
-	arg();
+	argfunc();
 	p2 = pop();
 	if (isdouble(p2)) {
 		push_double(p2.d / Math.PI);
@@ -10180,10 +10180,10 @@ rect()
 	// return mag(p1) * cos(arg(p1)) + i sin(arg(p1)))
 
 	push(p1);
-	mag();
+	magfunc();
 
 	push(p1);
-	arg();
+	argfunc();
 	p2 = pop();
 
 	push(p2);

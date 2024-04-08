@@ -471,7 +471,7 @@ void arctan_numbers(struct atom *X, struct atom *Y);
 void eval_arctanh(struct atom *p1);
 void arctanh(void);
 void eval_arg(struct atom *p1);
-void arg(void);
+void argfunc(void);
 void arg_nib(void);
 void eval_binding(struct atom *p1);
 void eval_ceiling(struct atom *p1);
@@ -609,8 +609,8 @@ void eval_log(struct atom *p1);
 void logfunc(void);
 void logfunc_nib(void);
 void eval_mag(struct atom *p1);
-void mag(void);
-void mag_nib(void);
+void magfunc(void);
+void magfunc_nib(void);
 void eval_minor(struct atom *p1);
 void eval_minormatrix(struct atom *p1);
 void minormatrix(int row, int col);
@@ -3332,13 +3332,13 @@ eval_arg(struct atom *p1)
 	push(cadr(p1));
 	evalf();
 	polar(); // normalize
-	arg();
+	argfunc();
 }
 
 // may return a denormalized angle
 
 void
-arg(void)
+argfunc(void)
 {
 	int i, n;
 	struct atom *p1, *num, *den;
@@ -3350,7 +3350,7 @@ arg(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			arg();
+			argfunc();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
@@ -3679,12 +3679,12 @@ clockfunc(void)
 	}
 
 	push(p1);
-	mag();
+	magfunc();
 
 	push_integer(-1); // base
 
 	push(p1);
-	arg();
+	argfunc();
 	push_symbol(PI);
 	divide();
 
@@ -8479,10 +8479,10 @@ logfunc_nib(void)
 
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
-		mag();
+		magfunc();
 		logfunc_nib();
 		push(p1);
-		arg();
+		argfunc();
 		push(imaginaryunit);
 		multiply();
 		add();
@@ -8572,11 +8572,11 @@ eval_mag(struct atom *p1)
 {
 	push(cadr(p1));
 	evalf();
-	mag();
+	magfunc();
 }
 
 void
-mag(void)
+magfunc(void)
 {
 	int i, n;
 	struct atom *p1, *num, *den;
@@ -8588,7 +8588,7 @@ mag(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			mag();
+			magfunc();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
@@ -8602,9 +8602,9 @@ mag(void)
 	num = pop();
 	den = pop();
 	push(num);
-	mag_nib();
+	magfunc_nib();
 	push(den);
-	mag_nib();
+	magfunc_nib();
 	divide();
 
 	if (isdoublesomewhere(p1))
@@ -8612,7 +8612,7 @@ mag(void)
 }
 
 void
-mag_nib(void)
+magfunc_nib(void)
 {
 	int h;
 	struct atom *p1, *x, *y;
@@ -8648,7 +8648,7 @@ mag_nib(void)
 		h = tos;
 		while (iscons(p1)) {
 			push(car(p1));
-			mag_nib();
+			magfunc_nib();
 			p1 = cdr(p1);
 		}
 		multiply_factors(tos - h);
@@ -10028,9 +10028,9 @@ polar(void)
 	}
 
 	push(p1);
-	mag();
+	magfunc();
 	push(p1);
-	arg();
+	argfunc();
 	p2 = pop();
 	if (isdouble(p2)) {
 		push_double(p2->u.d / M_PI);
@@ -11696,10 +11696,10 @@ rect(void)
 	// return mag(p1) * cos(arg(p1)) + i sin(arg(p1)))
 
 	push(p1);
-	mag();
+	magfunc();
 
 	push(p1);
-	arg();
+	argfunc();
 	p2 = pop();
 
 	push(p2);

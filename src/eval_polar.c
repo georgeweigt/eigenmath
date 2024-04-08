@@ -27,9 +27,9 @@ polar(void)
 	}
 
 	push(p1);
-	mag();
+	magfunc();
 	push(p1);
-	arg();
+	argfunc();
 	p2 = pop();
 	if (isdouble(p2)) {
 		push_double(p2->u.d / M_PI);
