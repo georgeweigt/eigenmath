@@ -30,15 +30,11 @@ simplify()
 		return;
 	}
 
-	// mixed complex forms
-
 	push(p1);
-	polar();
+	rect();
 	p2 = pop();
-	if (!iscons(p2)) {
-		push(p2);
-		return;
-	}
+	if (simpler(p2, p1))
+		p1 = p2;
 
 	push(p1);
 	simplify_trig();

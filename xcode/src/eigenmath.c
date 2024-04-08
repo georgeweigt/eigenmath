@@ -3536,15 +3536,8 @@ eval_circexp(struct atom *p1)
 void
 circexp(void)
 {
-	circexp_subst();
-	evalf();
-}
-
-void
-circexp_subst(void)
-{
-	int i, h, n;
-	struct atom *p1;
+	int i, n;
+	struct atom *p1, *num, *den;
 
 	p1 = pop();
 
@@ -3553,9 +3546,42 @@ circexp_subst(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			circexp_subst();
+			circexp();
 			p1->u.tensor->elem[i] = pop();
 		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	numden();
+	num = pop();
+	den = pop();
+
+	push(num);
+	circexp_subst();
+	evalf();
+	num = pop();
+
+	push(den);
+	circexp_subst();
+	evalf();
+	den = pop();
+
+	push(num);
+	push(den);
+	divide();
+}
+
+void
+circexp_subst(void)
+{
+	int h;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (!iscons(p1)) {
 		push(p1);
 		return;
 	}
@@ -3608,22 +3634,15 @@ circexp_subst(void)
 		return;
 	}
 
-	// none of the above
-
-	if (iscons(p1)) {
-		h = tos;
+	h = tos;
+	push(car(p1));
+	p1 = cdr(p1);
+	while (iscons(p1)) {
 		push(car(p1));
+		circexp_subst();
 		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			circexp_subst();
-			p1 = cdr(p1);
-		}
-		list(tos - h);
-		return;
 	}
-
-	push(p1);
+	list(tos - h);
 }
 void
 eval_clear(struct atom *p1)
@@ -12724,15 +12743,11 @@ simplify(void)
 		return;
 	}
 
-	// mixed complex forms
-
 	push(p1);
-	polar();
+	rect();
 	p2 = pop();
-	if (!iscons(p2)) {
-		push(p2);
-		return;
-	}
+	if (simpler(p2, p1))
+		p1 = p2;
 
 	push(p1);
 	simplify_trig();

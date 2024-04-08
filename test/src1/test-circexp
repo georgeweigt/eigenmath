@@ -31,3 +31,9 @@ T = circexp(sin(x)^2-1)
 check(T = circexp(-cos(x)^2))
 T = circexp(cos(x)^2-1)
 check(T = circexp(-sin(x)^2))
+
+T = circexp(1 / (2 cos(theta)))
+check(infixform(T) == "1 / (exp(i theta) + exp(-i theta))")
+
+T = circexp((sin(theta),0)) -- vector
+check(infixform(T) == "(-1/2 i exp(i theta) + 1/2 i exp(-i theta),0)")

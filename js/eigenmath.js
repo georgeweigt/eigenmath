@@ -4717,14 +4717,7 @@ eval_circexp(p1)
 function
 circexp()
 {
-	circexp_subst();
-	evalf();
-}
-
-function
-circexp_subst()
-{
-	var i, h, n, p1;
+	var i, n, p1, num, den;
 
 	p1 = pop();
 
@@ -4733,9 +4726,41 @@ circexp_subst()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			circexp_subst();
+			circexp();
 			p1.elem[i] = pop();
 		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	numden();
+	num = pop();
+	den = pop();
+
+	push(num);
+	circexp_subst();
+	evalf();
+	num = pop();
+
+	push(den);
+	circexp_subst();
+	evalf();
+	den = pop();
+
+	push(num);
+	push(den);
+	divide();
+}
+
+function
+circexp_subst()
+{
+	var h, p1;
+
+	p1 = pop();
+
+	if (!iscons(p1)) {
 		push(p1);
 		return;
 	}
@@ -4788,22 +4813,15 @@ circexp_subst()
 		return;
 	}
 
-	// none of the above
-
-	if (iscons(p1)) {
-		h = stack.length;
+	h = stack.length;
+	push(car(p1));
+	p1 = cdr(p1);
+	while (iscons(p1)) {
 		push(car(p1));
+		circexp_subst();
 		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			circexp_subst();
-			p1 = cdr(p1);
-		}
-		list(stack.length - h);
-		return;
 	}
-
-	push(p1);
+	list(stack.length - h);
 }
 function
 eval_clear()
@@ -11134,15 +11152,11 @@ simplify()
 		return;
 	}
 
-	// mixed complex forms
-
 	push(p1);
-	polar();
+	rect();
 	p2 = pop();
-	if (!iscons(p2)) {
-		push(p2);
-		return;
-	}
+	if (simpler(p2, p1))
+		p1 = p2;
 
 	push(p1);
 	simplify_trig();

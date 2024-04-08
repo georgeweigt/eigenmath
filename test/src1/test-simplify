@@ -11,9 +11,6 @@ check(infixform(simplify(1 / (1 + 1 / x))) == "x / (x + 1)")
 -- another continued fraction
 check(infixform(simplify(1 / (x + y^2 / x))) == "x / (x^2 + y^2)")
 
--- not a continued fraction (isnegativenumber in powdep)
-check(infixform(simplify(1 / (exp(i x) + exp(-i x)))) == "1 / (exp(i x) + exp(-i x))")
-
 -- mixed forms of complex numbers
 check(exp(i pi / 4) == (1 + i) / sqrt(2))
 
@@ -30,12 +27,6 @@ check(infixform(T) = "-y / (x^2 + y^2)")
 
 T = simplify(1/(x*(y^2/x^2+1)))
 check(infixform(T) = "x / (x^2 + y^2)")
-
-T = simplify(-i * exp(i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x))))
-check(infixform(T) = "-i exp(2 i x) / (exp(2 i x) + 1)")
-
-T = simplify(i * exp(-i * x) / (2 * (1/2 * exp(i * x) + 1/2 * exp(-i * x))))
-check(infixform(T) = "i / (exp(2 i x) + 1)")
 
 T = simplify(tan(x) - sin(x)/cos(x))
 check(infixform(T) = "0")
