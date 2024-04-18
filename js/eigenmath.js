@@ -16810,16 +16810,16 @@ scan_subexpr()
 	var h, i, n, p;
 	h = stack.length;
 	scan_level++;
-	get_token(); // get token after (
+	get_token(); // get token after '('
 	scan_stmt();
 	while (token == T_COMMA) {
-		get_token(); // get token after ,
+		get_token(); // get token after ','
 		scan_stmt();
 	}
 	if (token != T_PARENRIGHT)
-		scan_error("expected )");
+		scan_error("expected ')'");
 	scan_level--;
-	get_token(); // get token after )
+	get_token(); // get token after ')'
 	n = stack.length - h;
 	if (n < 2)
 		return;
