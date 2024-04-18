@@ -9,16 +9,17 @@ R(n,l) = 2 / n^2 *
          L(2 r / (n a0),n - l - 1,2 l + 1) *
          exp(-r / (n a0))
 
-L(x,n,m) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))
+L(x,n,m,k) = (n + m)! sum(k,0,n, (-x)^k / ((n - k)! (m + k)! k!))
 
-Y(l,m) = (-1)^m sqrt((2l + 1) / (4 pi) (l - m)! / (l + m)!) *
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
          P(l,m) exp(i m phi)
 
--- associated legendre of cos theta
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
 
-P(l,m) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-         1 / (2^l l!) sin(theta)^m *
-         eval(d((x^2 - 1)^l,x,l + m),x,cos(theta)))
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           2^(-m) sin(theta)^m sum(k,0,l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
 
 -- E(n) returns the nth energy eigenvalue
 
