@@ -887,7 +887,6 @@ void get_token(void);
 void get_token_nib(void);
 void update_token_buf(char *a, char *b);
 void scan_error(char *errmsg);
-void build_tensor(int h);
 void static_negate(void);
 void static_reciprocate(void);
 void push(struct atom *p);
@@ -17497,7 +17496,9 @@ scan_integer(void)
 void
 scan_subexpr(void)
 {
-	int h = tos;
+	int h, i, n;
+	struct atom *p;
+	h = tos;
 	scan_level++;
 	get_token(); // get token after '('
 	scan_stmt();
@@ -17509,8 +17510,14 @@ scan_subexpr(void)
 		scan_error("expected ')'");
 	scan_level--;
 	get_token(); // get token after ')'
-	if (tos - h > 1)
-		build_tensor(h);
+	n = tos - h;
+	if (n < 2)
+		return;
+	p = alloc_vector(n);
+	for (i = 0; i < n; i++)
+		p->u.tensor->elem[i] = stack[h + i];
+	tos = h;
+	push(p);
 }
 
 void
@@ -17665,28 +17672,6 @@ scan_error(char *errmsg)
 {
 	trace2 = scan_str;
 	stopf(errmsg);
-}
-
-// There are n expressions on the stack, possibly tensors.
-// This function assembles the stack expressions into a single tensor.
-// For example, at the top level of the expression ((a,b),(c,d)), the vectors
-// (a,b) and (c,d) would be on the stack.
-
-void
-build_tensor(int h)
-{
-	int i, n = tos - h;
-	struct atom **s = stack + h, *p2;
-
-	p2 = alloc_tensor(n);
-	p2->u.tensor->ndim = 1;
-	p2->u.tensor->dim[0] = n;
-	for (i = 0; i < n; i++)
-		p2->u.tensor->elem[i] = s[i];
-
-	tos = h;
-
-	push(p2);
 }
 
 void

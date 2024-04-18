@@ -16807,28 +16807,27 @@ scan_function_call()
 function
 scan_subexpr()
 {
-	var h = stack.length;
-
+	var h, i, n, p;
+	h = stack.length;
 	scan_level++;
-
 	get_token(); // get token after (
-
 	scan_stmt();
-
 	while (token == T_COMMA) {
 		get_token(); // get token after ,
 		scan_stmt();
 	}
-
 	if (token != T_PARENRIGHT)
 		scan_error("expected )");
-
 	scan_level--;
-
 	get_token(); // get token after )
-
-	if (stack.length - h > 1)
-		vector(h);
+	n = stack.length - h;
+	if (n < 2)
+		return;
+	p = alloc_vector(n);
+	for (i = 0; i < n; i++)
+		p.elem[i] = stack[h + i];
+	stack.length = h;
+	push(p);
 }
 
 function
@@ -16966,6 +16965,95 @@ scan_error(errmsg)
 {
 	trace2 = scan_index;
 	stopf(errmsg);
+}
+
+function
+static_negate()
+{
+	var p1;
+
+	p1 = pop();
+
+	if (isnum(p1)) {
+		push(p1);
+		negate();
+		return;
+	}
+
+	if (car(p1) == symbol(MULTIPLY)) {
+		push_symbol(MULTIPLY);
+		if (isnum(cadr(p1))) {
+			push(cadr(p1)); // A
+			negate();
+			push(cddr(p1)); // B
+		} else {
+			push_integer(-1); // A
+			push(cdr(p1)); // B
+		}
+		cons(); // prepend A to B
+		cons(); // prepend MULTIPLY
+		return;
+	}
+
+	push_symbol(MULTIPLY);
+	push_integer(-1);
+	push(p1);
+	list(3);
+}
+
+function
+static_reciprocate()
+{
+	var p1, p2;
+
+	p2 = pop();
+	p1 = pop();
+
+	// save divide by zero error for runtime
+
+	if (iszero(p2)) {
+		if (!isinteger1(p1))
+			push(p1);
+		push_symbol(POWER);
+		push(p2);
+		push_integer(-1);
+		list(3);
+		return;
+	}
+
+	if (isnum(p1) && isnum(p2)) {
+		push(p1);
+		push(p2);
+		divide();
+		return;
+	}
+
+	if (isnum(p2)) {
+		if (!isinteger1(p1))
+			push(p1);
+		push(p2);
+		reciprocate();
+		return;
+	}
+
+	if (car(p2) == symbol(POWER) && isnum(caddr(p2))) {
+		if (!isinteger1(p1))
+			push(p1);
+		push_symbol(POWER);
+		push(cadr(p2));
+		push(caddr(p2));
+		negate();
+		list(3);
+		return;
+	}
+
+	if (!isinteger1(p1))
+		push(p1);
+
+	push_symbol(POWER);
+	push(p2);
+	push_integer(-1);
+	list(3);
 }
 function
 scan_inbuf(k)
@@ -17108,91 +17196,6 @@ sort_factors_provisional(h)
 {
 	var t = stack.splice(h).sort(cmp_factors_provisional);
 	stack = stack.concat(t);
-}
-function
-static_negate()
-{
-	var p1 = pop();
-
-	if (isnum(p1)) {
-		push(p1);
-		negate();
-		return;
-	}
-
-	if (car(p1) == symbol(MULTIPLY)) {
-		push_symbol(MULTIPLY);
-		if (isnum(cadr(p1))) {
-			push(cadr(p1));
-			negate();
-			push(cddr(p1));
-		} else {
-			push_integer(-1);
-			push(cdr(p1));
-		}
-		cons();
-		cons();
-		return;
-	}
-
-	push_symbol(MULTIPLY);
-	push_integer(-1);
-	push(p1);
-	list(3);
-}
-function
-static_reciprocate()
-{
-	var p1, p2;
-
-	p2 = pop();
-	p1 = pop();
-
-	// save divide by zero error for runtime
-
-	if (iszero(p2)) {
-		if (!isinteger1(p1))
-			push(p1);
-		push_symbol(POWER);
-		push(p2);
-		push_integer(-1);
-		list(3);
-		return;
-	}
-
-	if (isnum(p1) && isnum(p2)) {
-		push(p1);
-		push(p2);
-		divide();
-		return;
-	}
-
-	if (isnum(p2)) {
-		if (!isinteger1(p1))
-			push(p1);
-		push(p2);
-		reciprocate();
-		return;
-	}
-
-	if (car(p2) == symbol(POWER) && isnum(caddr(p2))) {
-		if (!isinteger1(p1))
-			push(p1);
-		push_symbol(POWER);
-		push(cadr(p2));
-		push(caddr(p2));
-		negate();
-		list(3);
-		return;
-	}
-
-	if (!isinteger1(p1))
-		push(p1);
-
-	push_symbol(POWER);
-	push(p2);
-	push_integer(-1);
-	list(3);
 }
 function
 stopf(errmsg)
@@ -17376,17 +17379,3 @@ var symtab = {
 "$8":		{printname:ARG8,	func:eval_user_symbol},
 "$9":		{printname:ARG9,	func:eval_user_symbol},
 };
-function
-vector(h)
-{
-	var n, p;
-
-	n = stack.length - h;
-
-	p = alloc_tensor();
-
-	p.dim[0] = n;
-	p.elem = stack.splice(h, n);
-
-	push(p);
-}

@@ -498,7 +498,6 @@ void get_token(void);
 void get_token_nib(void);
 void update_token_buf(char *a, char *b);
 void scan_error(char *errmsg);
-void build_tensor(int h);
 void static_negate(void);
 void static_reciprocate(void);
 void push(struct atom *p);
