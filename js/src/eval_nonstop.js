@@ -28,8 +28,8 @@ eval_nonstop_nib()
 
 	} catch (errmsg) {
 
-		stack.splice(save_tos);
-		frame.splice(save_tof);
+		stack.length = save_tos;
+		frame.length = save_tof;
 
 		eval_level = save_eval_level;
 		expanding = save_expanding;

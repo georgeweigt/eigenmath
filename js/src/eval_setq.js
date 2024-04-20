@@ -98,7 +98,7 @@ set_component(LVAL, RVAL, h)
 		k = k * LVAL.dim[i] + t - 1;
 	}
 
-	stack.splice(h); // pop all indices
+	stack.length = h; // pop all
 
 	if (istensor(RVAL)) {
 		m = RVAL.dim.length;

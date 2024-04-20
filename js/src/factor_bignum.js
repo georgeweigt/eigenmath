@@ -49,5 +49,5 @@ factor_bignum(N, M)
 		stack[h + i] = pop();
 	}
 
-	stack.splice(h + n); // pop all
+	stack.length = h + n; // pop all
 }

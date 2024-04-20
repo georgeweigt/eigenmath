@@ -33,7 +33,7 @@ eval_index(p1)
 	T = pop();
 
 	if (!istensor(T)) {
-		stack.splice(h); // pop all
+		stack.length = h; // pop all
 		push(T); // quirky, but EVA2.txt depends on it
 		return;
 	}
@@ -65,7 +65,7 @@ indexfunc(T, h)
 		k = k * T.dim[i] + t - 1;
 	}
 
-	stack.splice(h); // pop all
+	stack.length = h; // pop all
 
 	if (r == 0) {
 		push(T.elem[k]); // scalar result

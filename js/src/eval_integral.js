@@ -1139,7 +1139,7 @@ integral_search(h, F, table, n)
 	if (i >= n)
 		return 0;
 
-	stack.splice(h); // pop all
+	stack.length = h; // pop all
 
 	scan1(table[i + 1]); // answer
 	evalf();

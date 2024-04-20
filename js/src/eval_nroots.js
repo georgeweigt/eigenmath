@@ -57,7 +57,7 @@ nroots()
 		ci[i] = IM.d;
 	}
 
-	stack.splice(h); // pop all
+	stack.length = h; // pop all
 
 	// divide p(x) by leading coeff
 
@@ -125,7 +125,7 @@ nroots()
 	for (i = 0; i < n; i++)
 		A.elem[i] = stack[h + i];
 
-	stack.splice(h); // pop all
+	stack.length = h; // pop all
 
 	push(A);
 }

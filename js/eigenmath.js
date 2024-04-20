@@ -7207,7 +7207,7 @@ eval_index(p1)
 	T = pop();
 
 	if (!istensor(T)) {
-		stack.splice(h); // pop all
+		stack.length = h; // pop all
 		push(T); // quirky, but EVA2.txt depends on it
 		return;
 	}
@@ -7239,7 +7239,7 @@ indexfunc(T, h)
 		k = k * T.dim[i] + t - 1;
 	}
 
-	stack.splice(h); // pop all
+	stack.length = h; // pop all
 
 	if (r == 0) {
 		push(T.elem[k]); // scalar result
@@ -8537,7 +8537,7 @@ integral_search(h, F, table, n)
 	if (i >= n)
 		return 0;
 
-	stack.splice(h); // pop all
+	stack.length = h; // pop all
 
 	scan1(table[i + 1]); // answer
 	evalf();
@@ -9199,8 +9199,8 @@ eval_nonstop_nib()
 
 	} catch (errmsg) {
 
-		stack.splice(save_tos);
-		frame.splice(save_tof);
+		stack.length = save_tos;
+		frame.length = save_tof;
 
 		eval_level = save_eval_level;
 		expanding = save_expanding;
@@ -9278,7 +9278,7 @@ nroots()
 		ci[i] = IM.d;
 	}
 
-	stack.splice(h); // pop all
+	stack.length = h; // pop all
 
 	// divide p(x) by leading coeff
 
@@ -9346,7 +9346,7 @@ nroots()
 	for (i = 0; i < n; i++)
 		A.elem[i] = stack[h + i];
 
-	stack.splice(h); // pop all
+	stack.length = h; // pop all
 
 	push(A);
 }
@@ -10934,7 +10934,7 @@ set_component(LVAL, RVAL, h)
 		k = k * LVAL.dim[i] + t - 1;
 	}
 
-	stack.splice(h); // pop all indices
+	stack.length = h; // pop all
 
 	if (istensor(RVAL)) {
 		m = RVAL.dim.length;
@@ -12640,7 +12640,7 @@ factor_bignum(N, M)
 		stack[h + i] = pop();
 	}
 
-	stack.splice(h + n); // pop all
+	stack.length = h + n; // pop all
 }
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
@@ -14668,7 +14668,7 @@ multiply_scalar_factors(h)
 	COEFF = combine_numerical_factors(h, one);
 
 	if (iszero(COEFF) || h == stack.length) {
-		stack.splice(h); // pop all
+		stack.length = h; // pop all
 		push(COEFF);
 		return;
 	}
@@ -14684,7 +14684,7 @@ multiply_scalar_factors(h)
 	COEFF = combine_numerical_factors(h, COEFF);
 
 	if (iszero(COEFF) || h == stack.length) {
-		stack.splice(h); // pop all
+		stack.length = h; // pop all
 		push(COEFF);
 		return;
 	}

@@ -6,7 +6,7 @@ multiply_scalar_factors(h)
 	COEFF = combine_numerical_factors(h, one);
 
 	if (iszero(COEFF) || h == stack.length) {
-		stack.splice(h); // pop all
+		stack.length = h; // pop all
 		push(COEFF);
 		return;
 	}
@@ -22,7 +22,7 @@ multiply_scalar_factors(h)
 	COEFF = combine_numerical_factors(h, COEFF);
 
 	if (iszero(COEFF) || h == stack.length) {
-		stack.splice(h); // pop all
+		stack.length = h; // pop all
 		push(COEFF);
 		return;
 	}
