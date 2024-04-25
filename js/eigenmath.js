@@ -15819,10 +15819,9 @@ iszero(p)
 	if (isdouble(p))
 		return p.d == 0;
 	if (istensor(p)) {
-		for (i = 0; i < p.elem.length; i++) {
+		for (i = 0; i < p.elem.length; i++)
 			if (!iszero(p.elem[i]))
 				return 0;
-		}
 		return 1;
 	}
 	return 0;
