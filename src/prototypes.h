@@ -454,7 +454,6 @@ int isinteger(struct atom *p);
 int isinteger1(struct atom *p);
 int isfraction(struct atom *p);
 int isposint(struct atom *p);
-int iseveninteger(struct atom *p);
 int isradical(struct atom *p);
 int isnegativeterm(struct atom *p);
 int isnegativenumber(struct atom *p);

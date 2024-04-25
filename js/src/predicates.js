@@ -1,136 +1,137 @@
-int
-iszero(struct atom *p)
+function
+iszero(p)
 {
-	int i;
+	var i;
 	if (isrational(p))
-		return MZERO(p->u.q.a);
+		return bignum_iszero(p.a);
 	if (isdouble(p))
-		return p->u.d == 0.0;
+		return p.d == 0;
 	if (istensor(p)) {
-		for (i = 0; i < p->u.tensor->nelem; i++)
-			if (!iszero(p->u.tensor->elem[i]))
+		for (i = 0; i < p.elem.length; i++) {
+			if (!iszero(p.elem[i]))
 				return 0;
+		}
 		return 1;
 	}
 	return 0;
 }
 
-int
-isequaln(struct atom *p, int n)
+function
+isequaln(p, n)
 {
 	return isequalq(p, n, 1);
 }
 
-int
-isequalq(struct atom *p, int a, int b)
+function
+isequalq(p, a, b)
 {
-	int sign;
+	var sign;
 	if (isrational(p)) {
 		if (a < 0) {
-			sign = MMINUS;
+			sign = -1;
 			a = -a;
 		} else
-			sign = MPLUS;
-		return p->sign == sign && MEQUAL(p->u.q.a, a) && MEQUAL(p->u.q.b, b);
+			sign = 1;
+		return p.sign == sign && bignum_equal(p.a, a) && bignum_equal(p.b, b);
 	}
 	if (isdouble(p))
-		return p->u.d == (double) a / b;
+		return p.d == a / b;
 	return 0;
 }
 
-int
-isplusone(struct atom *p)
+function
+isplusone(p)
 {
 	return isequaln(p, 1);
 }
 
-int
-isminusone(struct atom *p)
+function
+isminusone(p)
 {
 	return isequaln(p, -1);
 }
 
-int
-isinteger(struct atom *p)
+function
+isinteger(p)
 {
-	return isrational(p) && MEQUAL(p->u.q.b, 1);
+	return isrational(p) && bignum_equal(p.b, 1);
 }
 
-int
-isinteger1(struct atom *p)
+function
+isinteger1(p)
 {
 	return isrational(p) && isplusone(p);
 }
 
-int
-isfraction(struct atom *p)
+function
+isfraction(p)
 {
-	return isrational(p) && !MEQUAL(p->u.q.b, 1);
+	return isrational(p) && !bignum_equal(p.b, 1);
 }
 
-int
-isposint(struct atom *p)
+function
+isposint(p)
 {
 	return isinteger(p) && !isnegativenumber(p);
 }
 
-int
-isradical(struct atom *p)
+function
+isradical(p)
 {
 	return car(p) == symbol(POWER) && isposint(cadr(p)) && isfraction(caddr(p));
 }
 
-int
-isnegativeterm(struct atom *p)
+function
+isnegativeterm(p)
 {
 	return isnegativenumber(p) || (car(p) == symbol(MULTIPLY) && isnegativenumber(cadr(p)));
 }
 
-int
-isnegativenumber(struct atom *p)
+function
+isnegativenumber(p)
 {
 	if (isrational(p))
-		return p->sign == MMINUS;
+		return p.sign == -1;
 	else if (isdouble(p))
-		return p->u.d < 0.0;
+		return p.d < 0.0;
 	else
 		return 0;
 }
 
-int
-iscomplexnumber(struct atom *p)
+function
+iscomplexnumber(p)
 {
 	return isimaginarynumber(p) || (lengthf(p) == 3 && car(p) == symbol(ADD) && isnum(cadr(p)) && isimaginarynumber(caddr(p)));
 }
 
-int
-isimaginarynumber(struct atom *p)
+function
+isimaginarynumber(p)
 {
 	return isimaginaryunit(p) || (lengthf(p) == 3 && car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isimaginaryunit(caddr(p)));
 }
 
-int
-isimaginaryunit(struct atom *p)
+function
+isimaginaryunit(p)
 {
 	return car(p) == symbol(POWER) && isminusone(cadr(p)) && isequalq(caddr(p), 1, 2);
 }
 
-int
-isoneoversqrttwo(struct atom *p)
+function
+isoneoversqrttwo(p)
 {
 	return car(p) == symbol(POWER) && isequaln(cadr(p), 2) && isequalq(caddr(p), -1, 2);
 }
 
-int
-isminusoneoversqrttwo(struct atom *p)
+function
+isminusoneoversqrttwo(p)
 {
 	return lengthf(p) == 3 && car(p) == symbol(MULTIPLY) && isminusone(cadr(p)) && isoneoversqrttwo(caddr(p));
 }
 
 // x + y * (-1)^(1/2) where x and y are double?
 
-int
-isdoublez(struct atom *p)
+function
+isdoublez(p)
 {
 	if (car(p) == symbol(ADD)) {
 
@@ -166,30 +167,30 @@ isdoublez(struct atom *p)
 	return 1;
 }
 
-int
-isdenominator(struct atom *p)
+function
+isdenominator(p)
 {
 	if (car(p) == symbol(POWER) && isnegativenumber(caddr(p)))
 		return 1;
-	else if (isrational(p) && !MEQUAL(p->u.q.b, 1))
+	else if (isrational(p) && !bignum_equal(p.b, 1))
 		return 1;
 	else
 		return 0;
 }
 
-int
-isnumerator(struct atom *p)
+function
+isnumerator(p)
 {
 	if (car(p) == symbol(POWER) && isnegativenumber(caddr(p)))
 		return 0;
-	else if (isrational(p) && MEQUAL(p->u.q.a, 1))
+	else if (isrational(p) && bignum_equal(p.a, 1))
 		return 0;
 	else
 		return 1;
 }
 
-int
-isdoublesomewhere(struct atom *p)
+function
+isdoublesomewhere(p)
 {
 	if (isdouble(p))
 		return 1;
@@ -206,8 +207,8 @@ isdoublesomewhere(struct atom *p)
 	return 0;
 }
 
-int
-isdenormalpolar(struct atom *p)
+function
+isdenormalpolar(p)
 {
 	if (car(p) == symbol(ADD)) {
 		p = cdr(p);
@@ -224,8 +225,8 @@ isdenormalpolar(struct atom *p)
 
 // returns 1 if term is (coeff * i * pi) and coeff < 0 or coeff >= 1/2
 
-int
-isdenormalpolarterm(struct atom *p)
+function
+isdenormalpolarterm(p)
 {
 	if (car(p) != symbol(MULTIPLY))
 		return 0;
@@ -252,20 +253,20 @@ isdenormalpolarterm(struct atom *p)
 	return 0;
 }
 
-int
-issquarematrix(struct atom *p)
+function
+issquarematrix(p)
 {
-	return istensor(p) && p->u.tensor->ndim == 2 && p->u.tensor->dim[0] == p->u.tensor->dim[1];
+	return istensor(p) && p.dim.length == 2 && p.dim[0] == p.dim[1];
 }
 
-int
-issmallinteger(struct atom *p)
+function
+issmallinteger(p)
 {
 	if (isinteger(p))
-		return MLENGTH(p->u.q.a) == 1 && p->u.q.a[0] <= 0x7fffffff;
+		return bignum_issmallnum(p.a);
 
 	if (isdouble(p))
-		return p->u.d == floor(p->u.d) && fabs(p->u.d) <= 0x7fffffff;
+		return p.d == Math.floor(p.d) && Math.abs(p.d) <= 0x7fffffff;
 
 	return 0;
 }

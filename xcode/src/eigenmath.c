@@ -843,7 +843,6 @@ int isinteger(struct atom *p);
 int isinteger1(struct atom *p);
 int isfraction(struct atom *p);
 int isposint(struct atom *p);
-int iseveninteger(struct atom *p);
 int isradical(struct atom *p);
 int isnegativeterm(struct atom *p);
 int isnegativenumber(struct atom *p);
@@ -15383,7 +15382,7 @@ isinteger(struct atom *p)
 int
 isinteger1(struct atom *p)
 {
-	return isinteger(p) && isplusone(p);
+	return isrational(p) && isplusone(p);
 }
 
 int
@@ -15396,12 +15395,6 @@ int
 isposint(struct atom *p)
 {
 	return isinteger(p) && !isnegativenumber(p);
-}
-
-int
-iseveninteger(struct atom *p)
-{
-	return isinteger(p) && (p->u.q.a[0] & 1) == 0;
 }
 
 int
@@ -15445,15 +15438,11 @@ isimaginaryunit(struct atom *p)
 	return car(p) == symbol(POWER) && isminusone(cadr(p)) && isequalq(caddr(p), 1, 2);
 }
 
-// p == 1/sqrt(2) ?
-
 int
 isoneoversqrttwo(struct atom *p)
 {
 	return car(p) == symbol(POWER) && isequaln(cadr(p), 2) && isequalq(caddr(p), -1, 2);
 }
-
-// p == -1/sqrt(2) ?
 
 int
 isminusoneoversqrttwo(struct atom *p)
@@ -15565,7 +15554,7 @@ isdenormalpolarterm(struct atom *p)
 		return 0;
 
 	if (lengthf(p) == 3 && isimaginaryunit(cadr(p)) && caddr(p) == symbol(PI))
-		return 1;
+		return 1; // exp(i pi)
 
 	if (lengthf(p) != 4 || !isnum(cadr(p)) || !isimaginaryunit(caddr(p)) || cadddr(p) != symbol(PI))
 		return 0;
