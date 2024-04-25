@@ -839,8 +839,8 @@ int isequaln(struct atom *p, int n);
 int isequalq(struct atom *p, int a, int b);
 int isplusone(struct atom *p);
 int isminusone(struct atom *p);
-int isinteger(struct atom *p);
 int isinteger1(struct atom *p);
+int isinteger(struct atom *p);
 int isfraction(struct atom *p);
 int isposint(struct atom *p);
 int isradical(struct atom *p);
@@ -16806,15 +16806,15 @@ isminusone(struct atom *p)
 }
 
 int
-isinteger(struct atom *p)
+isinteger1(struct atom *p)
 {
-	return isrational(p) && MEQUAL(p->u.q.b, 1);
+	return isrational(p) && isequaln(p, 1);
 }
 
 int
-isinteger1(struct atom *p)
+isinteger(struct atom *p)
 {
-	return isrational(p) && isplusone(p);
+	return isrational(p) && MEQUAL(p->u.q.b, 1);
 }
 
 int

@@ -15863,15 +15863,15 @@ isminusone(p)
 }
 
 function
-isinteger(p)
+isinteger1(p)
 {
-	return isrational(p) && bignum_equal(p.b, 1);
+	return isrational(p) && isequaln(p, 1);
 }
 
 function
-isinteger1(p)
+isinteger(p)
 {
-	return isrational(p) && isplusone(p);
+	return isrational(p) && bignum_equal(p.b, 1);
 }
 
 function
