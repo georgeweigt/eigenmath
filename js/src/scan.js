@@ -539,8 +539,7 @@ static_reciprocate()
 	// save divide by zero error for runtime
 
 	if (iszero(p2)) {
-		if (!isinteger1(p1))
-			push(p1);
+		push(p1);
 		push_symbol(POWER);
 		push(p2);
 		push_integer(-1);
@@ -555,17 +554,16 @@ static_reciprocate()
 		return;
 	}
 
+	if (!isrational(p1) || !isequaln(p1, 1))
+		push(p1); // p1 != 1
+
 	if (isnum(p2)) {
-		if (!isinteger1(p1))
-			push(p1);
 		push(p2);
 		reciprocate();
 		return;
 	}
 
 	if (car(p2) == symbol(POWER) && isnum(caddr(p2))) {
-		if (!isinteger1(p1))
-			push(p1);
 		push_symbol(POWER);
 		push(cadr(p2));
 		push(caddr(p2));
@@ -573,9 +571,6 @@ static_reciprocate()
 		list(3);
 		return;
 	}
-
-	if (!isinteger1(p1))
-		push(p1);
 
 	push_symbol(POWER);
 	push(p2);

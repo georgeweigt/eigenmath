@@ -51,12 +51,6 @@ isminusone(struct atom *p)
 }
 
 int
-isinteger1(struct atom *p)
-{
-	return isrational(p) && isequaln(p, 1);
-}
-
-int
 isinteger(struct atom *p)
 {
 	return isrational(p) && MEQUAL(p->u.q.b, 1);

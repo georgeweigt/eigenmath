@@ -839,7 +839,6 @@ int isequaln(struct atom *p, int n);
 int isequalq(struct atom *p, int a, int b);
 int isplusone(struct atom *p);
 int isminusone(struct atom *p);
-int isinteger1(struct atom *p);
 int isinteger(struct atom *p);
 int isfraction(struct atom *p);
 int isposint(struct atom *p);
@@ -15374,12 +15373,6 @@ isminusone(struct atom *p)
 }
 
 int
-isinteger1(struct atom *p)
-{
-	return isrational(p) && isequaln(p, 1);
-}
-
-int
 isinteger(struct atom *p)
 {
 	return isrational(p) && MEQUAL(p->u.q.b, 1);
@@ -15735,6 +15728,23 @@ exitf(char *s)
 //	  ^                   ^
 //	  token_str           scan_str
 
+#define T_EXCLAM 33
+#define T_QUOTEDBL 34
+#define T_NUMBERSIGN 35
+#define T_PARENLEFT 40
+#define T_PARENRIGHT 41
+#define T_ASTERISK 42
+#define T_PLUS 43
+#define T_COMMA 44
+#define T_HYPHEN 45
+#define T_PERIOD 46
+#define T_SLASH 47
+#define T_LESS 60
+#define T_EQUAL 61
+#define T_GREATER 62
+#define T_BRACKETLEFT 91
+#define T_BRACKETRIGHT 93
+#define T_ASCIICIRCUM 94
 #define T_INTEGER 1001
 #define T_DOUBLE 1002
 #define T_SYMBOL 1003
@@ -16279,8 +16289,7 @@ static_reciprocate(void)
 	// save divide by zero error for runtime
 
 	if (iszero(p2)) {
-		if (!isinteger1(p1))
-			push(p1);
+		push(p1);
 		push_symbol(POWER);
 		push(p2);
 		push_integer(-1);
@@ -16295,17 +16304,16 @@ static_reciprocate(void)
 		return;
 	}
 
+	if (!isrational(p1) || !isequaln(p1, 1))
+		push(p1); // p1 != 1
+
 	if (isnum(p2)) {
-		if (!isinteger1(p1))
-			push(p1);
 		push(p2);
 		reciprocate();
 		return;
 	}
 
 	if (car(p2) == symbol(POWER) && isnum(caddr(p2))) {
-		if (!isinteger1(p1))
-			push(p1);
 		push_symbol(POWER);
 		push(cadr(p2));
 		push(caddr(p2));
@@ -16313,9 +16321,6 @@ static_reciprocate(void)
 		list(3);
 		return;
 	}
-
-	if (!isinteger1(p1))
-		push(p1);
 
 	push_symbol(POWER);
 	push(p2);

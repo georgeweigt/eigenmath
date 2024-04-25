@@ -450,7 +450,6 @@ int isequaln(struct atom *p, int n);
 int isequalq(struct atom *p, int a, int b);
 int isplusone(struct atom *p);
 int isminusone(struct atom *p);
-int isinteger1(struct atom *p);
 int isinteger(struct atom *p);
 int isfraction(struct atom *p);
 int isposint(struct atom *p);
