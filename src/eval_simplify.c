@@ -10,7 +10,7 @@ void
 simplify(void)
 {
 	int i, n;
-	struct atom *p1, *p2, *p3;
+	struct atom *p1;
 
 	p1 = pop();
 
@@ -25,6 +25,19 @@ simplify(void)
 		push(p1);
 		return;
 	}
+
+	push(p1);
+	simplify_nib();
+	simplify_trig();
+}
+
+void
+simplify_nib(void)
+{
+	int h;
+	struct atom *p1, *p2, *p3, *NUM, *DEN, *R;
+
+	p1 = pop();
 
 	if (!iscons(p1)) {
 		push(p1);
@@ -41,19 +54,6 @@ simplify(void)
 		p2 = p3;
 	if (simpler(p2, p1))
 		p1 = p2;
-
-	push(p1);
-	simplify_trig();
-	simplify_nib();
-}
-
-void
-simplify_nib(void)
-{
-	int h;
-	struct atom *p1, *p2, *p3, *NUM, *DEN, *R;
-
-	p1 = pop();
 
 	if (!iscons(p1)) {
 		push(p1);

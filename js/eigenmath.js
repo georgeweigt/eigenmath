@@ -11132,7 +11132,7 @@ function
 simplify()
 {
 	var i, n;
-	var p1, p2, p3;
+	var p1;
 
 	p1 = pop();
 
@@ -11147,6 +11147,19 @@ simplify()
 		push(p1);
 		return;
 	}
+
+	push(p1);
+	simplify_nib();
+	simplify_trig();
+}
+
+function
+simplify_nib()
+{
+	var h;
+	var p1, p2, p3, NUM, DEN, R;
+
+	p1 = pop();
 
 	if (!iscons(p1)) {
 		push(p1);
@@ -11163,19 +11176,6 @@ simplify()
 		p2 = p3;
 	if (simpler(p2, p1))
 		p1 = p2;
-
-	push(p1);
-	simplify_trig();
-	simplify_nib();
-}
-
-function
-simplify_nib()
-{
-	var h;
-	var p1, p2, p3, NUM, DEN, R;
-
-	p1 = pop();
 
 	if (!iscons(p1)) {
 		push(p1);
