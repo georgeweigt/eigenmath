@@ -8681,6 +8681,10 @@ check(T3 == exp(-1/2 i pi) T^(-1/4))
 check(T4 == exp(-3/4 i pi) T^(-1/4))
 
 check(infixform(simplify(c / (a c + b c))) == "1 / (a + b)") -- version 3.24
+
+T = exp(-x^2 + i omega + 1/4 i pi) / (sqrt(sqrt(-1)) pi)
+T = simplify(T)
+check(infixform(T) == "exp(-x^2 + i omega) / pi")
 "Testing sin"
 
 clear

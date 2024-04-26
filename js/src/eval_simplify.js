@@ -9,7 +9,8 @@ eval_simplify(p1)
 function
 simplify()
 {
-	var i, n, p1, p2;
+	var i, n;
+	var p1, p2, p3;
 
 	p1 = pop();
 
@@ -33,6 +34,11 @@ simplify()
 	push(p1);
 	rect();
 	p2 = pop();
+	push(p1);
+	polar();
+	p3 = pop();
+	if (simpler(p3, p2))
+		p2 = p3;
 	if (simpler(p2, p1))
 		p1 = p2;
 
@@ -44,7 +50,8 @@ simplify()
 function
 simplify_nib()
 {
-	var h, p1, p2, p3, NUM, DEN, R;
+	var h;
+	var p1, p2, p3, NUM, DEN, R;
 
 	p1 = pop();
 

@@ -10,7 +10,7 @@ void
 simplify(void)
 {
 	int i, n;
-	struct atom *p1, *p2;
+	struct atom *p1, *p2, *p3;
 
 	p1 = pop();
 
@@ -34,6 +34,11 @@ simplify(void)
 	push(p1);
 	rect();
 	p2 = pop();
+	push(p1);
+	polar();
+	p3 = pop();
+	if (simpler(p3, p2))
+		p2 = p3;
 	if (simpler(p2, p1))
 		p1 = p2;
 
