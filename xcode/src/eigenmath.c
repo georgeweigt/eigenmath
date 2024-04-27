@@ -12769,7 +12769,7 @@ simplify_nib(void)
 		return;
 	}
 
-	// recursive first
+	// depth first
 
 	h = tos;
 	push(car(p1)); // function name
@@ -12781,13 +12781,14 @@ simplify_nib(void)
 	}
 	list(tos - h);
 	evalf(); // normalize
-
 	p1 = pop();
-	push(p1);
 
-	if (!iscons(p1))
+	if (!iscons(p1)) {
+		push(p1);
 		return;
+	}
 
+	push(p1);
 	numden();
 	NUM = pop();
 	DEN = pop();

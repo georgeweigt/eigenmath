@@ -11182,7 +11182,7 @@ simplify_nib()
 		return;
 	}
 
-	// recursive first
+	// depth first
 
 	h = stack.length;
 	push(car(p1)); // function name
@@ -11194,13 +11194,14 @@ simplify_nib()
 	}
 	list(stack.length - h);
 	evalf(); // normalize
-
 	p1 = pop();
-	push(p1);
 
-	if (!iscons(p1))
+	if (!iscons(p1)) {
+		push(p1);
 		return;
+	}
 
+	push(p1);
 	numden();
 	NUM = pop();
 	DEN = pop();
