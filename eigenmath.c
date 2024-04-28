@@ -442,8 +442,8 @@ void flatten_terms(int h);
 struct atom * combine_tensors(int h);
 void add_tensors(void);
 void combine_terms(int h);
-int combine_terms_nib(int i, int j);
-void sort_terms(int n);
+int combine_terms_nib(int i);
+void sort_terms(int h);
 int sort_terms_func(const void *q1, const void *q2);
 int cmp_terms(struct atom *p1, struct atom *p2);
 int simplify_terms(int h);
@@ -2207,9 +2207,14 @@ void
 combine_terms(int h)
 {
 	int i;
-	sort_terms(tos - h);
-	for (i = h; i < tos - 1; i++) {
-		if (combine_terms_nib(i, i + 1)) {
+	sort_terms(h);
+	for (i = h; i < tos; i++) {
+		if (iszero(stack[i])) {
+			slice(i, 1); // remove
+			i--; // use same index again
+			continue;
+		}
+		if (i + 1 < tos && combine_terms_nib(i)) {
 			if (iszero(stack[i]))
 				slice(i, 2); // remove 2 terms
 			else
@@ -2217,26 +2222,19 @@ combine_terms(int h)
 			i--; // use same index again
 		}
 	}
-	if (h < tos && iszero(stack[tos - 1]))
-		tos--;
 }
 
 int
-combine_terms_nib(int i, int j)
+combine_terms_nib(int i)
 {
 	int denorm;
 	struct atom *coeff1, *coeff2, *p1, *p2;
 
 	p1 = stack[i];
-	p2 = stack[j];
+	p2 = stack[i + 1];
 
 	if (iszero(p2))
 		return 1;
-
-	if (iszero(p1)) {
-		stack[i] = p2;
-		return 1;
-	}
 
 	if (isnum(p1) && isnum(p2)) {
 		add_numbers(p1, p2);
@@ -2315,9 +2313,9 @@ combine_terms_nib(int i, int j)
 }
 
 void
-sort_terms(int n)
+sort_terms(int h)
 {
-	qsort(stack + tos - n, n, sizeof (struct atom *), sort_terms_func);
+	qsort(stack + h, tos - h, sizeof (struct atom *), sort_terms_func);
 }
 
 int

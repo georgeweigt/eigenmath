@@ -3301,8 +3301,13 @@ combine_terms(h)
 {
 	var i;
 	sort_terms(h);
-	for (i = h; i < stack.length - 1; i++) {
-		if (combine_terms_nib(i, i + 1)) {
+	for (i = h; i < stack.length; i++) {
+		if (iszero(stack[i])) {
+			stack.splice(i, 1); // remove
+			i--; // use same index again
+			continue;
+		}
+		if (i + 1 < stack.length && combine_terms_nib(i)) {
 			if (iszero(stack[i]))
 				stack.splice(i, 2); // remove 2 terms
 			else
@@ -3310,25 +3315,18 @@ combine_terms(h)
 			i--; // use same index again
 		}
 	}
-	if (h < stack.length && iszero(stack[stack.length - 1]))
-		stack.pop();
 }
 
 function
-combine_terms_nib(i, j)
+combine_terms_nib(i)
 {
 	var coeff1, coeff2, denorm, p1, p2;
 
 	p1 = stack[i];
-	p2 = stack[j];
+	p2 = stack[i + 1];
 
 	if (iszero(p2))
 		return 1;
-
-	if (iszero(p1)) {
-		stack[i] = p2;
-		return 1;
-	}
 
 	if (isnum(p1) && isnum(p2)) {
 		add_numbers(p1, p2);
