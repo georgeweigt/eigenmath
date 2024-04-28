@@ -192,3 +192,17 @@ push_string(char *s)
 	p->u.str = s;
 	push(p);
 }
+
+// start from stack + h and remove n items
+
+void
+slice(int h, int n)
+{
+	int i, m;
+	m = tos - h - n;
+	if (m < 0)
+		stopf("stack slice error");
+	for (i = 0; i < m; i++)
+		stack[h + i] = stack[h + n + i];
+	tos -= n;
+}

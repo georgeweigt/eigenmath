@@ -902,6 +902,7 @@ int pop_integer(void);
 void push_double(double d);
 double pop_double(void);
 void push_string(char *s);
+void slice(int h, int n);
 struct atom * lookup(char *s);
 char * printname(struct atom *p);
 void set_symbol(struct atom *p1, struct atom *p2, struct atom *p3);
@@ -2083,7 +2084,7 @@ add(void)
 void
 add_terms(int n)
 {
-	int i, h;
+	int h, i;
 	struct atom *p1, *T;
 
 	if (n < 2)
@@ -2158,7 +2159,7 @@ flatten_terms(int h)
 struct atom *
 combine_tensors(int h)
 {
-	int i, j;
+	int i;
 	struct atom *p1, *T;
 	T = symbol(NIL);
 	for (i = h; i < tos; i++) {
@@ -2171,9 +2172,7 @@ combine_tensors(int h)
 				T = pop();
 			} else
 				T = p1;
-			for (j = i + 1; j < tos; j++)
-				stack[j - 1] = stack[j];
-			tos--;
+			slice(i, 1);
 			i--; // use same index again
 		}
 	}
@@ -2209,19 +2208,14 @@ add_tensors(void)
 void
 combine_terms(int h)
 {
-	int i, j;
+	int i;
 	sort_terms(tos - h);
 	for (i = h; i < tos - 1; i++) {
 		if (combine_terms_nib(i, i + 1)) {
-			if (iszero(stack[i])) {
-				for (j = i + 2; j < tos; j++)
-					stack[j - 2] = stack[j]; // remove 2 terms
-				tos -= 2;
-			} else {
-				for (j = i + 2; j < tos; j++)
-					stack[j - 1] = stack[j]; // remove 1 term
-				tos -= 1;
-			}
+			if (iszero(stack[i]))
+				slice(i, 2); // remove 2 terms
+			else
+				slice(i + 1, 1); // remove 1 term
 			i--; // use same index again
 		}
 	}
@@ -8972,7 +8966,7 @@ flatten_factors(int h)
 struct atom *
 multiply_tensor_factors(int h)
 {
-	int i, j;
+	int i;
 	struct atom *p1, *T;
 	T = symbol(NIL);
 	for (i = h; i < tos; i++) {
@@ -8986,11 +8980,8 @@ multiply_tensor_factors(int h)
 			T = pop();
 		} else
 			T = p1;
-		// remove the factor
-		for (j = i + 1; j < tos; j++)
-			stack[j - 1] = stack[j];
-		i--;
-		tos--;
+		slice(i, 1); // remove factor
+		i--; // use same index again
 	}
 	return T;
 }
@@ -9056,18 +9047,15 @@ multiply_scalar_factors(int h)
 struct atom *
 combine_numerical_factors(int h, struct atom *COEF)
 {
-	int i, j;
+	int i;
 	struct atom *p1;
 	for (i = h; i < tos; i++) {
 		p1 = stack[i];
 		if (isnum(p1)) {
 			multiply_numbers(COEF, p1);
 			COEF = pop();
-			// remove the factor
-			for (j = i + 1; j < tos; j++)
-				stack[j - 1] = stack[j];
-			i--;
-			tos--;
+			slice(i, 1); // remove factor
+			i--; // use same index again
 		}
 	}
 	return COEF;
@@ -9078,15 +9066,12 @@ combine_numerical_factors(int h, struct atom *COEF)
 void
 combine_factors(int h)
 {
-	int i, j;
+	int i;
 	sort_factors_provisional(h);
 	for (i = h; i < tos - 1; i++) {
 		if (combine_factors_nib(i, i + 1)) {
-			// remove the factor
-			for (j = i + 2; j < tos; j++)
-				stack[j - 1] = stack[j];
-			i--;
-			tos--;
+			slice(i + 1, 1); // remove factor
+			i--; // use same index again
 		}
 	}
 }
@@ -17958,6 +17943,20 @@ push_string(char *s)
 		exit(1);
 	p->u.str = s;
 	push(p);
+}
+
+// start from stack + h and remove n items
+
+void
+slice(int h, int n)
+{
+	int i, m;
+	m = tos - h - n;
+	if (m < 0)
+		stopf("stack slice error");
+	for (i = 0; i < m; i++)
+		stack[h + i] = stack[h + n + i];
+	tos -= n;
 }
 // symbol lookup, create symbol if not found
 

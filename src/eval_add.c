@@ -22,7 +22,7 @@ add(void)
 void
 add_terms(int n)
 {
-	int i, h;
+	int h, i;
 	struct atom *p1, *T;
 
 	if (n < 2)
@@ -97,7 +97,7 @@ flatten_terms(int h)
 struct atom *
 combine_tensors(int h)
 {
-	int i, j;
+	int i;
 	struct atom *p1, *T;
 	T = symbol(NIL);
 	for (i = h; i < tos; i++) {
@@ -110,9 +110,7 @@ combine_tensors(int h)
 				T = pop();
 			} else
 				T = p1;
-			for (j = i + 1; j < tos; j++)
-				stack[j - 1] = stack[j];
-			tos--;
+			slice(i, 1);
 			i--; // use same index again
 		}
 	}
@@ -148,19 +146,14 @@ add_tensors(void)
 void
 combine_terms(int h)
 {
-	int i, j;
+	int i;
 	sort_terms(tos - h);
 	for (i = h; i < tos - 1; i++) {
 		if (combine_terms_nib(i, i + 1)) {
-			if (iszero(stack[i])) {
-				for (j = i + 2; j < tos; j++)
-					stack[j - 2] = stack[j]; // remove 2 terms
-				tos -= 2;
-			} else {
-				for (j = i + 2; j < tos; j++)
-					stack[j - 1] = stack[j]; // remove 1 term
-				tos -= 1;
-			}
+			if (iszero(stack[i]))
+				slice(i, 2); // remove 2 terms
+			else
+				slice(i + 1, 1); // remove 1 term
 			i--; // use same index again
 		}
 	}

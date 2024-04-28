@@ -974,14 +974,12 @@ coeffs(P, X)
 function
 combine_factors(h)
 {
-	var i, n;
+	var i;
 	sort_factors_provisional(h);
-	n = stack.length;
-	for (i = h; i < n - 1; i++) {
+	for (i = h; i < stack.length - 1; i++) {
 		if (combine_factors_nib(i, i + 1)) {
 			stack.splice(i + 1, 1); // remove factor
 			i--; // use same index again
-			n--;
 		}
 	}
 }
@@ -1027,26 +1025,19 @@ combine_factors_nib(i, j)
 	return 1;
 }
 function
-combine_numerical_factors(h, COEFF)
+combine_numerical_factors(h, COEF)
 {
-	var i, n, p1;
-
-	n = stack.length;
-
-	for (i = h; i < n; i++) {
-
+	var i, p1;
+	for (i = h; i < stack.length; i++) {
 		p1 = stack[i];
-
 		if (isnum(p1)) {
-			multiply_numbers(COEFF, p1);
-			COEFF = pop();
+			multiply_numbers(COEF, p1);
+			COEF = pop();
 			stack.splice(i, 1); // remove factor
-			i--;
-			n--;
+			i--; // use same index again
 		}
 	}
-
-	return COEFF;
+	return COEF;
 }
 function
 compatible_dimensions(p1, p2)
@@ -3717,6 +3708,16 @@ function
 add_rationals(p1, p2)
 {
 	var a, ab, b, ba, d, sign;
+
+	if (iszero(p1)) {
+		push(p2);
+		return;
+	}
+
+	if (iszero(p2)) {
+		push(p1);
+		return;
+	}
 
 	if (isinteger(p1) && isinteger(p2)) {
 		add_integers(p1, p2);
@@ -14477,10 +14478,9 @@ multiply_scalar_factors(h)
 function
 multiply_tensor_factors(h)
 {
-	var i, n, p1, T;
+	var i, p1, T;
 	T = symbol(NIL);
-	n = stack.length;
-	for (i = h; i < n; i++) {
+	for (i = h; i < stack.length; i++) {
 		p1 = stack[i];
 		if (!istensor(p1))
 			continue;
@@ -14493,7 +14493,6 @@ multiply_tensor_factors(h)
 			T = p1;
 		stack.splice(i, 1); // remove factor
 		i--; // use same index again
-		n--;
 	}
 	return T;
 }

@@ -476,6 +476,7 @@ int pop_integer(void);
 void push_double(double d);
 double pop_double(void);
 void push_string(char *s);
+void slice(int h, int n);
 struct atom * lookup(char *s);
 char * printname(struct atom *p);
 void set_symbol(struct atom *p1, struct atom *p2, struct atom *p3);

@@ -64,7 +64,7 @@ flatten_factors(int h)
 struct atom *
 multiply_tensor_factors(int h)
 {
-	int i, j;
+	int i;
 	struct atom *p1, *T;
 	T = symbol(NIL);
 	for (i = h; i < tos; i++) {
@@ -78,11 +78,8 @@ multiply_tensor_factors(int h)
 			T = pop();
 		} else
 			T = p1;
-		// remove the factor
-		for (j = i + 1; j < tos; j++)
-			stack[j - 1] = stack[j];
-		i--;
-		tos--;
+		slice(i, 1); // remove factor
+		i--; // use same index again
 	}
 	return T;
 }
@@ -148,18 +145,15 @@ multiply_scalar_factors(int h)
 struct atom *
 combine_numerical_factors(int h, struct atom *COEF)
 {
-	int i, j;
+	int i;
 	struct atom *p1;
 	for (i = h; i < tos; i++) {
 		p1 = stack[i];
 		if (isnum(p1)) {
 			multiply_numbers(COEF, p1);
 			COEF = pop();
-			// remove the factor
-			for (j = i + 1; j < tos; j++)
-				stack[j - 1] = stack[j];
-			i--;
-			tos--;
+			slice(i, 1); // remove factor
+			i--; // use same index again
 		}
 	}
 	return COEF;
@@ -170,15 +164,12 @@ combine_numerical_factors(int h, struct atom *COEF)
 void
 combine_factors(int h)
 {
-	int i, j;
+	int i;
 	sort_factors_provisional(h);
 	for (i = h; i < tos - 1; i++) {
 		if (combine_factors_nib(i, i + 1)) {
-			// remove the factor
-			for (j = i + 2; j < tos; j++)
-				stack[j - 1] = stack[j];
-			i--;
-			tos--;
+			slice(i + 1, 1); // remove factor
+			i--; // use same index again
 		}
 	}
 }
