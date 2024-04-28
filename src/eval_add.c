@@ -489,34 +489,28 @@ add_rationals(struct atom *p1, struct atom *p2)
 void
 add_integers(struct atom *p1, struct atom *p2)
 {
-	int sign;
-	uint32_t *a, *b, *c;
-
-	a = p1->u.q.a;
-	b = p2->u.q.a;
-
+	int sign = 0; // compiler nag
+	uint32_t *c = NULL; // compiler nag
 	if (p1->sign == p2->sign) {
-		c = madd(a, b);
+		c = madd(p1->u.q.a, p2->u.q.a);
 		sign = p1->sign;
 	} else {
-		switch (mcmp(a, b)) {
+		switch (mcmp(p1->u.q.a, p2->u.q.a)) {
 		case 1:
-			c = msub(a, b);
+			c = msub(p1->u.q.a, p2->u.q.a);
 			sign = p1->sign;
 			break;
 		case 0:
 			push_integer(0);
 			return;
 		case -1:
-			c = msub(b, a);
+			c = msub(p2->u.q.a, p1->u.q.a);
 			sign = p2->sign;
 			break;
 		default:
-			// never gets here, fix compiler warning
-			return;
+			stopf("error");
 		}
 	}
-
 	push_bignum(sign, c, mint(1));
 }
 

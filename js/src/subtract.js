@@ -1,6 +1,0 @@
-function
-subtract()
-{
-	negate();
-	add();
-}

@@ -469,28 +469,33 @@ add_rationals(p1, p2)
 function
 add_integers(p1, p2)
 {
-	var a, b, sign;
-
+	var c, sign;
 	if (p1.sign == p2.sign) {
-		a = bignum_add(p1.a, p2.a);
+		c = bignum_add(p1.a, p2.a);
 		sign = p1.sign;
 	} else {
 		switch (bignum_cmp(p1.a, p2.a)) {
 		case 1:
-			a = bignum_sub(p1.a, p2.a);
+			c = bignum_sub(p1.a, p2.a);
 			sign = p1.sign;
 			break;
 		case 0:
 			push_integer(0);
 			return;
 		case -1:
-			a = bignum_sub(p2.a, p1.a);
+			c = bignum_sub(p2.a, p1.a);
 			sign = p2.sign;
 			break;
+		default:
+			stopf("error");
 		}
 	}
+	push_bignum(sign, c, bignum_int(1));
+}
 
-	b = bignum_int(1);
-
-	push_bignum(sign, a, b);
+function
+subtract()
+{
+	negate();
+	add();
 }
