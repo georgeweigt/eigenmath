@@ -90,12 +90,10 @@ multiply_scalar_factors(int h)
 	int n;
 	struct atom *COEF;
 
-	COEF = one;
-
-	COEF = combine_numerical_factors(h, COEF);
+	COEF = combine_numerical_factors(h, one);
 
 	if (iszero(COEF) || h == tos) {
-		tos = h;
+		tos = h; // pop all
 		push(COEF);
 		return;
 	}
@@ -111,7 +109,7 @@ multiply_scalar_factors(int h)
 	COEF = combine_numerical_factors(h, COEF);
 
 	if (iszero(COEF) || h == tos) {
-		tos = h;
+		tos = h; // pop all
 		push(COEF);
 		return;
 	}
@@ -133,7 +131,7 @@ multiply_scalar_factors(int h)
 	case 1:
 		break;
 	default:
-		sort_factors(n);
+		sort_factors(n); // previously sorted provisionally
 		list(n);
 		push_symbol(MULTIPLY);
 		swap();
@@ -269,32 +267,28 @@ normalize_power_factors(int h)
 void
 expand_sum_factors(int h)
 {
-	int i, j, n = tos - h;
-	struct atom **s = stack + h, *p1, *p2;
+	int i, n;
+	struct atom *p1, *p2;
 
-	p2 = symbol(NIL); // silence compiler
-
-	if (n < 2)
+	if (tos - h < 2)
 		return;
 
 	// search for a sum factor
 
-	for (i = 0; i < n; i++) {
-		p2 = s[i];
+	for (i = h; i < tos; i++) {
+		p2 = stack[i];
 		if (car(p2) == symbol(ADD))
 			break;
 	}
 
-	if (i == n)
+	if (i == tos)
 		return; // no sum factors
 
 	// remove the sum factor
 
-	for (j = i + 1; j < n; j++)
-		s[j - 1] = s[j];
+	slice(i, 1);
 
-	n--;
-	tos--;
+	n = tos - h;
 
 	if (n > 1) {
 		sort_factors(n);
@@ -306,7 +300,7 @@ expand_sum_factors(int h)
 
 	p1 = pop(); // p1 is the multiplier
 
-	p2 = cdr(p2); // p2 is the sum factor
+	p2 = cdr(p2); // p2 is the sum
 
 	while (iscons(p2)) {
 		push(p1);
@@ -485,7 +479,7 @@ any_radical_factors(int h)
 struct atom *
 reduce_radical_double(int h, struct atom *COEF)
 {
-	int i, j;
+	int i;
 	double a, b, c;
 	struct atom *p1;
 
@@ -505,13 +499,9 @@ reduce_radical_double(int h, struct atom *COEF)
 
 			c = c * pow(a, b); // a > 0 by isradical above
 
-			// remove the factor
-
-			for (j = i + 1; j < tos; j++)
-				stack[j - 1] = stack[j];
+			slice(i, 1); // remove factor
 
 			i--; // use same index again
-			tos--;
 		}
 	}
 

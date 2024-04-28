@@ -113,7 +113,7 @@ power_numbers(BASE, EXPO)
 	if (n == 1)
 		return;
 
-	sort_factors(h);
+	sort_factors(n);
 	list(n);
 	push_symbol(MULTIPLY);
 	swap();

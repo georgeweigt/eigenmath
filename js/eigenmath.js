@@ -9027,7 +9027,7 @@ multiply()
 }
 
 function
-multiply_factors(n) // n is number of factors on stack
+multiply_factors(n)
 {
 	var h, T;
 
@@ -9056,9 +9056,8 @@ flatten_factors(h)
 	for (i = h; i < n; i++) {
 		p1 = stack[i];
 		if (car(p1) == symbol(MULTIPLY)) {
-			p1 = cdr(p1);
-			stack[i] = car(p1);
-			p1 = cdr(p1);
+			stack[i] = cadr(p1);
+			p1 = cddr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
 				p1 = cdr(p1);
@@ -9120,7 +9119,7 @@ multiply_scalar_factors(h)
 
 	COEF = reduce_radical_factors(h, COEF);
 
-	if (!isplusone(COEF) || isdouble(COEF))
+	if (isdouble(COEF) || !isplusone(COEF))
 		push(COEF);
 
 	if (expanding)
@@ -9130,16 +9129,16 @@ multiply_scalar_factors(h)
 
 	switch (n) {
 	case 0:
-		push_integer(1);
+		push_integer(1); // all factors canceled
 		break;
 	case 1:
 		break;
 	default:
-		sort_factors(h); // previously sorted provisionally
+		sort_factors(n); // previously sorted provisionally
 		list(n);
 		push_symbol(MULTIPLY);
 		swap();
-		cons();
+		cons(); // prepend MULTIPLY to list
 		break;
 	}
 }
@@ -9249,9 +9248,8 @@ normalize_power_factors(h)
 			power();
 			p1 = pop();
 			if (car(p1) == symbol(MULTIPLY)) {
-				p1 = cdr(p1);
-				stack[i] = car(p1);
-				p1 = cdr(p1);
+				stack[i] = cadr(p1);
+				p1 = cddr(p1);
 				while (iscons(p1)) {
 					push(car(p1));
 					p1 = cdr(p1);
@@ -9267,20 +9265,18 @@ expand_sum_factors(h)
 {
 	var i, n, p1, p2;
 
-	n = stack.length;
-
-	if (n - h < 2)
+	if (stack.length - h < 2)
 		return;
 
 	// search for a sum factor
 
-	for (i = h; i < n; i++) {
+	for (i = h; i < stack.length; i++) {
 		p2 = stack[i];
 		if (car(p2) == symbol(ADD))
 			break;
 	}
 
-	if (i == n)
+	if (i == stack.length)
 		return; // no sum factors
 
 	// remove the sum factor
@@ -9290,11 +9286,11 @@ expand_sum_factors(h)
 	n = stack.length - h;
 
 	if (n > 1) {
-		sort_factors(h);
+		sort_factors(n);
 		list(n);
 		push_symbol(MULTIPLY);
 		swap();
-		cons();
+		cons(); // prepend MULTIPLY to list
 	}
 
 	p1 = pop(); // p1 is the multiplier
@@ -9312,9 +9308,9 @@ expand_sum_factors(h)
 }
 
 function
-sort_factors(h)
+sort_factors(n)
 {
-	var t = stack.splice(h).sort(cmp_factors);
+	var t = stack.splice(stack.length - n).sort(cmp_factors);
 	stack = stack.concat(t);
 }
 
@@ -9357,12 +9353,12 @@ cmp_factors(p1, p2)
 	return c;
 }
 
-//  1   number
-//  2   number to power (root)
-//  3   -1 to power (imaginary)
-//  4   other factor (symbol, power, func, etc)
-//  5   exponential
-//  6   derivative
+//  1	number
+//  2	number to power (root)
+//  3	-1 to power (imaginary)
+//  4	other factor (symbol, power, func, etc)
+//  5	exponential
+//  6	derivative
 
 function
 order_factor(p)
@@ -9399,7 +9395,7 @@ order_factor(p)
 function
 multiply_numbers(p1, p2)
 {
-	var a, b;
+	var d1, d2;
 
 	if (isrational(p1) && isrational(p2)) {
 		multiply_rationals(p1, p2);
@@ -9407,12 +9403,12 @@ multiply_numbers(p1, p2)
 	}
 
 	push(p1);
-	a = pop_double();
+	d1 = pop_double();
 
 	push(p2);
-	b = pop_double();
+	d2 = pop_double();
 
-	push_double(a * b);
+	push_double(d1 * d2);
 }
 
 function
@@ -10289,7 +10285,7 @@ power()
 			stack[h + i] = pop();
 		}
 		if (n > 1) {
-			sort_factors(h);
+			sort_factors(n);
 			list(n);
 			push_symbol(MULTIPLY);
 			swap();
@@ -15807,7 +15803,7 @@ power_numbers(BASE, EXPO)
 	if (n == 1)
 		return;
 
-	sort_factors(h);
+	sort_factors(n);
 	list(n);
 	push_symbol(MULTIPLY);
 	swap();

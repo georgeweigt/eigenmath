@@ -148,7 +148,7 @@ power()
 			stack[h + i] = pop();
 		}
 		if (n > 1) {
-			sort_factors(h);
+			sort_factors(n);
 			list(n);
 			push_symbol(MULTIPLY);
 			swap();
