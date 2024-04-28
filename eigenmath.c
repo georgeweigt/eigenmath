@@ -644,9 +644,7 @@ struct atom * reduce_radical_double(int h, struct atom *COEF);
 struct atom * reduce_radical_rational(int h, struct atom *COEF);
 void multiply_expand(void);
 void multiply_noexpand(void);
-void multiply_factors_noexpand(int n);
 void negate(void);
-void negate_noexpand(void);
 void reciprocate(void);
 void divide(void);
 void eval_nil(struct atom *p1);
@@ -9377,9 +9375,8 @@ reduce_radical_factors(int h, struct atom *COEF)
 int
 any_radical_factors(int h)
 {
-	int i, n;
-	n = tos;
-	for (i = h; i < n; i++)
+	int i;
+	for (i = h; i < tos; i++)
 		if (isradical(stack[i]))
 			return 1;
 	return 0;
@@ -9521,30 +9518,10 @@ multiply_noexpand(void)
 }
 
 void
-multiply_factors_noexpand(int n)
-{
-	int t;
-	t = expanding;
-	expanding = 0;
-	multiply_factors(n);
-	expanding = t;
-}
-
-void
 negate(void)
 {
 	push_integer(-1);
 	multiply();
-}
-
-void
-negate_noexpand(void)
-{
-	int t;
-	t = expanding;
-	expanding = 0;
-	negate();
-	expanding = t;
 }
 
 void
