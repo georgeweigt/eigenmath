@@ -2215,10 +2215,7 @@ combine_terms(int h)
 			continue;
 		}
 		if (i + 1 < tos && combine_terms_nib(i)) {
-			if (iszero(stack[i]))
-				slice(i, 2); // remove 2 terms
-			else
-				slice(i + 1, 1); // remove 1 term
+			slice(i + 1, 1); // remove
 			i--; // use same index again
 		}
 	}
