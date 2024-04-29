@@ -69,6 +69,12 @@ isposint(struct atom *p)
 }
 
 int
+isradicalterm(struct atom *p)
+{
+	return car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isradical(caddr(p));
+}
+
+int
 isradical(struct atom *p)
 {
 	return car(p) == symbol(POWER) && isposint(cadr(p)) && isfraction(caddr(p));
@@ -89,6 +95,28 @@ isnegativenumber(struct atom *p)
 		return p->u.d < 0.0;
 	else
 		return 0;
+}
+
+int
+isimaginaryterm(struct atom *p)
+{
+	if (isimaginaryfactor(p))
+		return 1;
+	if (car(p) == symbol(MULTIPLY)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (isimaginaryfactor(car(p)))
+				return 1;
+			p = cdr(p);
+		}
+	}
+	return 0;
+}
+
+int
+isimaginaryfactor(struct atom *p)
+{
+	return car(p) == symbol(POWER) && isminusone(cadr(p));
 }
 
 int

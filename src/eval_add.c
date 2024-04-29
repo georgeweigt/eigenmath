@@ -364,34 +364,6 @@ normalize_terms(int h)
 	}
 }
 
-int
-isradicalterm(struct atom *p)
-{
-	return car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isradical(caddr(p));
-}
-
-int
-isimaginaryterm(struct atom *p)
-{
-	if (isimaginaryfactor(p))
-		return 1;
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (isimaginaryfactor(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-	}
-	return 0;
-}
-
-int
-isimaginaryfactor(struct atom *p)
-{
-	return car(p) == symbol(POWER) && isminusone(cadr(p));
-}
-
 void
 add_numbers(struct atom *p1, struct atom *p2)
 {

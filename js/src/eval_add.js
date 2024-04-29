@@ -354,34 +354,6 @@ normalize_terms(h)
 }
 
 function
-isradicalterm(p)
-{
-	return car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isradical(caddr(p));
-}
-
-function
-isimaginaryterm(p)
-{
-	if (isimaginaryfactor(p))
-		return 1;
-	if (car(p) == symbol(MULTIPLY)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (isimaginaryfactor(car(p)))
-				return 1;
-			p = cdr(p);
-		}
-	}
-	return 0;
-}
-
-function
-isimaginaryfactor(p)
-{
-	return car(p) == symbol(POWER) && isminusone(cadr(p));
-}
-
-function
 add_numbers(p1, p2)
 {
 	var a, b;
