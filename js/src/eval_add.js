@@ -165,9 +165,6 @@ combine_terms_nib(i)
 	p1 = stack[i];
 	p2 = stack[i + 1];
 
-	if (iszero(p2))
-		return 1;
-
 	if (isnum(p1) && isnum(p2)) {
 		add_numbers(p1, p2);
 		stack[i] = pop();
