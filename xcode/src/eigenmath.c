@@ -2410,6 +2410,8 @@ cmp_terms(struct atom *p1, struct atom *p2)
 	return 0;
 }
 
+// for example, sqrt(1/2) + sqrt(1/2) -> 2 sqrt(1/2) -> sqrt(2)
+
 int
 simplify_terms(int h)
 {

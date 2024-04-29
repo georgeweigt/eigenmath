@@ -340,6 +340,8 @@ cmp_terms(p1, p2)
 	return 0;
 }
 
+// for example, sqrt(1/2) + sqrt(1/2) -> 2 sqrt(1/2) -> sqrt(2)
+
 function
 simplify_terms(h)
 {
