@@ -23,7 +23,7 @@ void
 add_terms(int n)
 {
 	int h, i;
-	struct atom *p1, *T;
+	struct atom *p, *T;
 
 	if (n < 2)
 		return;
@@ -58,19 +58,17 @@ add_terms(int n)
 	if (!istensor(T))
 		return;
 
-	p1 = pop();
+	// add scalar p to every element of T, as is done in R
 
+	p = pop();
 	T = copy_tensor(T);
-
 	n = T->u.tensor->nelem;
-
 	for (i = 0; i < n; i++) {
 		push(T->u.tensor->elem[i]);
-		push(p1);
+		push(p);
 		add();
 		T->u.tensor->elem[i] = pop();
 	}
-
 	push(T);
 }
 

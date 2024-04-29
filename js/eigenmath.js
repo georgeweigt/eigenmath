@@ -3193,7 +3193,7 @@ add()
 function
 add_terms(n)
 {
-	var h, i, p1, T;
+	var h, i, p, T;
 
 	if (n < 2)
 		return;
@@ -3228,19 +3228,17 @@ add_terms(n)
 	if (!istensor(T))
 		return;
 
-	p1 = pop();
+	// add scalar p to every element of T, as is done in R
 
+	p = pop();
 	T = copy_tensor(T);
-
 	n = T.elem.length;
-
 	for (i = 0; i < n; i++) {
 		push(T.elem[i]);
-		push(p1);
+		push(p);
 		add();
 		T.elem[i] = pop();
 	}
-
 	push(T);
 }
 
