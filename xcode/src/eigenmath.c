@@ -2212,9 +2212,7 @@ combine_terms(int h)
 		if (iszero(stack[i])) {
 			slice(i, 1); // remove
 			i--; // use same index again
-			continue;
-		}
-		if (i + 1 < tos && combine_terms_nib(i)) {
+		} else if (i + 1 < tos && combine_terms_nib(i)) {
 			slice(i + 1, 1); // remove
 			i--; // use same index again
 		}

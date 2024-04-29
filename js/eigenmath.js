@@ -3319,9 +3319,7 @@ combine_terms(h)
 		if (iszero(stack[i])) {
 			stack.splice(i, 1); // remove
 			i--; // use same index again
-			continue;
-		}
-		if (i + 1 < stack.length && combine_terms_nib(i)) {
+		} else if (i + 1 < stack.length && combine_terms_nib(i)) {
 			stack.splice(i + 1, 1); // remove
 			i--; // use same index again
 		}

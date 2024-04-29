@@ -66,15 +66,12 @@ A = ((A11,A12,A13,A14),(A21,A22,A23,A24),(A31,A32,A33,A34),(A41,A42,A43,A44))
 T = simplify(dot(A,inv(A)))
 check(T=unit(4))
 
-clear()
-
+clear
 T = 2 m / hbar^2 abs(E - V)
-
 T1 = (+sqrt(+T))^(-1/2)
 T2 = (+sqrt(-T))^(-1/2)
 T3 = (-sqrt(+T))^(-1/2)
 T4 = (-sqrt(-T))^(-1/2)
-
 check(T1 == T^(-1/4))
 check(T2 == exp(-1/4 i pi) T^(-1/4))
 check(T3 == exp(-1/2 i pi) T^(-1/4))
@@ -82,25 +79,17 @@ check(T4 == exp(-3/4 i pi) T^(-1/4))
 
 check(infixform(simplify(c / (a c + b c))) == "1 / (a + b)") -- version 3.24
 
-clear()
-
+clear
 T = exp(-x^2 + i omega + 1/4 i pi) / (sqrt(sqrt(-1)) pi)
 T = simplify(T)
 check(infixform(T) == "exp(-x^2 + i omega) / pi")
 
-clear()
-
+clear
 A = -i m omega exp(i omega T) / (2 hbar sin(omega T))
-
 B = -i m omega xb / (hbar sin(omega T))
-
 C = i m omega xb^2 cos(omega T) / (2 hbar sin(omega T))
-
 D = -m^(5/4) omega^(5/4) / ((-1)^(1/4) hbar^(5/4) pi^(3/4) *
      sin(omega T)^(1/2))
-
 I = 1/2 sqrt(pi) D B A^(-3/2) exp(B^2 / (4 A) + C)
-
 I = simplify(I)
-
 check(infixform(I) == "2^(1/2) m^(3/4) omega^(3/4) xb exp(-m omega xb^2 / (2 hbar) - 3/2 i T omega) / (hbar^(3/4) pi^(1/4))")
