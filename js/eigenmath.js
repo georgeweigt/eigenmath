@@ -3205,9 +3205,8 @@ add_terms(n)
 	T = combine_tensors(h);
 
 	combine_terms(h);
-
-	if (simplify_terms(h))
-		combine_terms(h);
+	normalize_terms(h);
+	combine_terms(h);
 
 	n = stack.length - h;
 
@@ -3512,22 +3511,17 @@ cmp_terms(p1, p2)
 // for example, sqrt(1/2) + sqrt(1/2) -> 2 sqrt(1/2) -> sqrt(2)
 
 function
-simplify_terms(h)
+normalize_terms(h)
 {
-	var i, n = 0, p1, p2;
+	var i, p;
 	for (i = h; i < stack.length; i++) {
-		p1 = stack[i];
-		if (isradicalterm(p1)) {
-			push(p1);
+		p = stack[i];
+		if (isradicalterm(p)) {
+			push(p);
 			evalf();
-			p2 = pop();
-			if (!equal(p1, p2)) {
-				stack[i] = p2;
-				n++;
-			}
+			stack[i] = pop();
 		}
 	}
-	return n;
 }
 
 function

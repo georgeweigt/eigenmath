@@ -35,9 +35,8 @@ add_terms(int n)
 	T = combine_tensors(h);
 
 	combine_terms(h);
-
-	if (simplify_terms(h))
-		combine_terms(h);
+	normalize_terms(h);
+	combine_terms(h);
 
 	n = tos - h;
 
@@ -350,24 +349,19 @@ cmp_terms(struct atom *p1, struct atom *p2)
 
 // for example, sqrt(1/2) + sqrt(1/2) -> 2 sqrt(1/2) -> sqrt(2)
 
-int
-simplify_terms(int h)
+void
+normalize_terms(int h)
 {
-	int i, n = 0;
-	struct atom *p1, *p2;
+	int i;
+	struct atom *p;
 	for (i = h; i < tos; i++) {
-		p1 = stack[i];
-		if (isradicalterm(p1)) {
-			push(p1);
+		p = stack[i];
+		if (isradicalterm(p)) {
+			push(p);
 			evalf();
-			p2 = pop();
-			if (!equal(p1, p2)) {
-				stack[i] = p2;
-				n++;
-			}
+			stack[i] = pop();
 		}
 	}
-	return n;
 }
 
 int

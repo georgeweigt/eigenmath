@@ -72,7 +72,7 @@ int combine_terms_nib(int i);
 void sort_terms(int h);
 int sort_terms_func(const void *q1, const void *q2);
 int cmp_terms(struct atom *p1, struct atom *p2);
-int simplify_terms(int h);
+void normalize_terms(int h);
 int isradicalterm(struct atom *p);
 int isimaginaryterm(struct atom *p);
 int isimaginaryfactor(struct atom *p);
