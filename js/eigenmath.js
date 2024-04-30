@@ -3206,7 +3206,6 @@ add_terms(n)
 
 	combine_terms(h);
 	normalize_terms(h);
-	combine_terms(h);
 
 	n = stack.length - h;
 
@@ -3511,15 +3510,19 @@ cmp_terms(p1, p2)
 function
 normalize_terms(h)
 {
-	var i, p;
+	var i, n, p;
+	n = 0;
 	for (i = h; i < stack.length; i++) {
 		p = stack[i];
 		if (isradicalterm(p)) {
 			push(p);
 			evalf();
 			stack[i] = pop();
+			n++;
 		}
 	}
+	if (n)
+		combine_terms(h);
 }
 
 function

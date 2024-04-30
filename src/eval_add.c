@@ -36,7 +36,6 @@ add_terms(int n)
 
 	combine_terms(h);
 	normalize_terms(h);
-	combine_terms(h);
 
 	n = tos - h;
 
@@ -350,16 +349,20 @@ cmp_terms(struct atom *p1, struct atom *p2)
 void
 normalize_terms(int h)
 {
-	int i;
+	int i, n;
 	struct atom *p;
+	n = 0;
 	for (i = h; i < tos; i++) {
 		p = stack[i];
 		if (isradicalterm(p)) {
 			push(p);
 			evalf();
 			stack[i] = pop();
+			n++;
 		}
 	}
+	if (n)
+		combine_terms(h);
 }
 
 void
