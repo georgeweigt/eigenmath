@@ -3601,15 +3601,22 @@ Verify that
 =\frac{a_1+a_2}{2}+\frac{a_1-a_2}{2}\cos\left(\frac{(E_1-E_2)t}{\hbar}\right)
 \end{equation*}
 
+Note: Because $\phi_1$ and $\phi_2$ are normalized we have $\int|\phi_1|^2=\int|\phi_2|^2=1$.
+By orthogonality we have $\int\phi_1^*\phi_2=0$.
+Hence the integral can be accomplished with \verb$eval$.
+
 \begin{verbatim}
 psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
       (phi1 - phi2) / 2 exp(-i E2 t / hbar)
 
-Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2) -- eigenvalues
+Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2) -- subst. eigenvalues
+
+phi1 = r1 exp(i theta1)
+phi2 = r2 exp(i theta2)
 
 A = conj(psi) Apsi
 
-A = eval(A, phi1^2, 1, phi2^2, 1, phi1 phi2, 0) -- delta function
+A = eval(A, r1^2, 1, r2^2, 1, r1 r2, 0) -- see note
 
 A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
 \end{verbatim}
