@@ -69,6 +69,12 @@ isposint(struct atom *p)
 }
 
 int
+isexponential(struct atom *p)
+{
+	return car(p) == symbol(POWER) && cadr(p) == symbol(EXP1);
+}
+
+int
 isradicalterm(struct atom *p)
 {
 	return car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isradical(caddr(p));

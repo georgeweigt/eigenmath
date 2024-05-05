@@ -75,7 +75,7 @@ asubst()
 
 	p1 = pop();
 
-	if (car(p1) == symbol(ADD) && car(p2) == symbol(ADD) && acmp(p1, p2)) {
+	if (car(p1) == symbol(ADD) && car(p2) == symbol(ADD) && addcmp(p1, p2)) {
 		push(p1);
 		push(p2);
 		subtract();
@@ -84,7 +84,16 @@ asubst()
 		return;
 	}
 
-	if (car(p1) == symbol(MULTIPLY) && car(p2) == symbol(MULTIPLY) && acmp(p1, p2)) {
+	if (car(p1) == symbol(MULTIPLY) && car(p2) == symbol(MULTIPLY) && mulcmp(p1, p2)) {
+		push(p1);
+		push(p2);
+		divide();
+		push(p3);
+		multiply();
+		return;
+	}
+
+	if (isexponential(p1) && isexponential(p2) && expcmp(p1, p2)) {
 		push(p1);
 		push(p2);
 		divide();
@@ -97,7 +106,7 @@ asubst()
 }
 
 function
-acmp(p1, p2)
+addcmp(p1, p2)
 {
 	while (iscons(p1) && iscons(p2)) {
 		if (equal(car(p1), car(p2)))
@@ -108,4 +117,36 @@ acmp(p1, p2)
 		return 0;
 	else
 		return 1;
+}
+
+function
+mulcmp(p1, p2)
+{
+	while (iscons(p1) && iscons(p2)) {
+		if (equal(car(p1), car(p2)) || (isexponential(car(p1)) && isexponential(car(p2)) && expcmp(car(p1), car(p2))))
+			p2 = cdr(p2);
+		p1 = cdr(p1);
+	}
+	if (iscons(p2))
+		return 0;
+	else
+		return 1;
+}
+
+function
+expcmp(p1, p2)
+{
+	p1 = caddr(p1);
+	p2 = caddr(p2);
+	if (car(p1) != symbol(ADD))
+		return 0;
+	if (car(p2) == symbol(ADD))
+		return addcmp(p1, p2);
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		if (equal(car(p1), p2))
+			return 1;
+		p1 = cdr(p1);
+	}
+	return 0;
 }

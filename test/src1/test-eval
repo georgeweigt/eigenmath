@@ -13,5 +13,32 @@ psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
       (phi1 - phi2) / 2 exp(-i E2 t / hbar)
 Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2)
 A = conj(psi) Apsi 
-A = eval(A, phi1^2, 1, phi2^2, 1, phi1 phi2, 0) -- delta function
+A = eval(A, phi1^2, 1, phi2^2, 1, phi1 phi2, 0)
+check(A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar))
+
+-- version 3.25
+clear
+f = exp(a+b+c)
+check(eval(f,exp(a),d) == d exp(b+c))
+check(eval(f,exp(b),d) == d exp(a+c))
+check(eval(f,exp(c),d) == d exp(a+b))
+check(eval(f,exp(a+b),d) == d exp(c))
+check(eval(f,exp(a+c),d) == d exp(b))
+check(eval(f,exp(b+c),d) == d exp(a))
+check(eval(f,exp(a+b+c),d) == d)
+f = a exp(b+c)
+check(eval(f,a,d) == d exp(b+c))
+check(eval(f,exp(b+c),d) == a d)
+check(eval(f,exp(b),d) == a d exp(c))
+check(eval(f,exp(c),d) == a d exp(b))
+check(eval(f,a exp(b),d) == d exp(c))
+check(eval(f,a exp(c),d) == d exp(b))
+check(eval(f,a exp(b+c),d) == d)
+phi1 = r1 exp(i theta1)
+phi2 = r2 exp(i theta2)
+psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
+      (phi1 - phi2) / 2 exp(-i E2 t / hbar)
+Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2)
+A = conj(psi) Apsi 
+A = eval(A, r1^2, 1, r2^2, 1, r1 r2, 0)
 check(A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar))
