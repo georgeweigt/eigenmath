@@ -7,6 +7,7 @@ Results are written to `document.getElementById("stdout").innerHTML`
 For example (click [here](https://georgeweigt.github.io/demo.html) to try)
 
 ```
+<!DOCTYPE html>
 <html>
 <body>
 
