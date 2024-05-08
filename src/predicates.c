@@ -217,21 +217,33 @@ isnumerator(struct atom *p)
 }
 
 int
-isdoublesomewhere(struct atom *p)
+allnum(struct atom *p)
 {
-	if (isdouble(p))
-		return 1;
-
 	if (iscons(p)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (isdoublesomewhere(car(p)))
+			if (!allnum(car(p)))
+				return 0;
+			p = cdr(p);
+		}
+		return 1;
+	}
+	return isnum(p) || p == symbol(PI) || p == symbol(EXP1);
+}
+
+int
+hasdouble(struct atom *p)
+{
+	if (iscons(p)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (hasdouble(car(p)))
 				return 1;
 			p = cdr(p);
 		}
+		return 0;
 	}
-
-	return 0;
+	return isdouble(p);
 }
 
 int

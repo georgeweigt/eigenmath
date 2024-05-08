@@ -1,0 +1,251 @@
+-- tests float conversions
+
+clear
+"1. Annihilation"
+
+N = 12 -- number of bins
+
+pi = float(pi) -- use numerical value of pi
+a = pi / N
+I = 2 cos(theta) + 2 log(1 - cos(theta)) - 2 log(1 + cos(theta))
+F = (I - eval(I,theta,a)) / (eval(I,theta,pi-a) - eval(I,theta,a))
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability (first and last not observed)"
+
+P = zero(N)
+for(k,2,N-1, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"2. Bhabha scattering"
+
+N = 12 -- number of bins
+
+pi = float(pi) -- use numerical value of pi
+a = pi / N
+I = 16 / (cos(theta) - 1) -
+    1/3 cos(theta)^3 -
+    cos(theta)^2 -
+    9 cos(theta) -
+    16 log(1 - cos(theta))
+F = (I - eval(I,theta,a)) / (eval(I,theta,pi) - eval(I,theta,a))
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability (first bin not observed)"
+
+P = zero(N)
+for(k,2,N, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"3. Compton scattering"
+
+-- number of bins
+
+N = 12
+
+-- incident energy
+
+E = 0.1 10^6 eV
+omega = E / hbar
+
+joule = kilogram meter^2 / second^2
+
+c = 299792458.0 meter / second
+eV = 1.602176634 10^(-19) joule
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+me = 9.1093837015 10^(-31) kilogram
+
+R = hbar omega / (me c^2)
+
+I = -cos(theta) / R^2 +
+    log(1 + R (1 - cos(theta))) (1/R - 2/R^2 - 2/R^3) -
+    1 / (2 R (1 + R (1 - cos(theta)))^2) +
+    1 / (1 + R (1 - cos(theta))) (-2/R^2 - 1/R^3)
+
+pi = float(pi) -- use numerical value of pi
+
+F = (I - eval(I,theta,0)) / (eval(I,theta,pi) - eval(I,theta,0))
+
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability"
+
+P = zero(N)
+for(k,1,N, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"4. Moller scattering"
+
+N = 12 -- number of bins
+
+pi = float(pi) -- use numerical value of pi
+a = pi / N
+I = -8 cos(theta) / sin(theta)^2 - cos(theta)
+F = (I - eval(I,theta,a)) / (eval(I,theta,pi-a) - eval(I,theta,a))
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability (first and last not observed)"
+
+P = zero(N)
+for(k,2,N-1, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"5. Muon pair production"
+
+N = 12 -- number of bins
+
+pi = float(pi) -- use numerical value of pi
+F = -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability"
+
+P = zero(N)
+for(k,1,N, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"6. Rutherford scattering"
+
+N = 12 -- number of bins
+
+pi = float(pi) -- use numerical value of pi
+a = pi / N
+I = 1 / (cos(theta) - 1)
+F = (I - eval(I,theta,a)) / (eval(I,theta,pi) - eval(I,theta,a))
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability (first bin not observed)"
+
+P = zero(N)
+for(k,2,N, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"7. Thomson scattering"
+
+-- number of bins
+
+N = 12
+
+pi = float(pi) -- use numerical value of pi
+f = 1 + cos(theta)^2
+I = integral(f,theta)
+F = (I - eval(I,theta,0)) / (eval(I,theta,pi) - eval(I,theta,0))
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability"
+
+P = zero(N)
+for(k,1,N, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)

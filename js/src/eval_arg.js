@@ -38,7 +38,7 @@ argfunc()
 	arg_nib();
 	subtract();
 
-	if (isdoublesomewhere(p1))
+	if (allnum(p1) && hasdouble(p1))
 		floatfunc();
 }
 

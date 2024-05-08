@@ -854,7 +854,8 @@ int isminusoneoversqrttwo(struct atom *p);
 int isdoublez(struct atom *p);
 int isdenominator(struct atom *p);
 int isnumerator(struct atom *p);
-int isdoublesomewhere(struct atom *p);
+int allnum(struct atom *p);
+int hasdouble(struct atom *p);
 int isdenormalpolar(struct atom *p);
 int isdenormalpolarterm(struct atom *p);
 int issquarematrix(struct atom *p);
@@ -3312,7 +3313,7 @@ argfunc(void)
 	arg_nib();
 	subtract();
 
-	if (isdoublesomewhere(p1))
+	if (allnum(p1) && hasdouble(p1))
 		floatfunc();
 }
 
@@ -8458,7 +8459,7 @@ logfunc(void)
 
 	logfunc_nib();
 
-	if (isdoublesomewhere(p1))
+	if (allnum(p1) && hasdouble(p1))
 		floatfunc();
 }
 
@@ -8612,7 +8613,7 @@ magfunc(void)
 	magfunc_nib();
 	divide();
 
-	if (isdoublesomewhere(p1))
+	if (allnum(p1) && hasdouble(p1))
 		floatfunc();
 }
 
@@ -16926,21 +16927,33 @@ isnumerator(struct atom *p)
 }
 
 int
-isdoublesomewhere(struct atom *p)
+allnum(struct atom *p)
 {
-	if (isdouble(p))
-		return 1;
-
 	if (iscons(p)) {
 		p = cdr(p);
 		while (iscons(p)) {
-			if (isdoublesomewhere(car(p)))
+			if (!allnum(car(p)))
+				return 0;
+			p = cdr(p);
+		}
+		return 1;
+	}
+	return isnum(p) || p == symbol(PI) || p == symbol(EXP1);
+}
+
+int
+hasdouble(struct atom *p)
+{
+	if (iscons(p)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (hasdouble(car(p)))
 				return 1;
 			p = cdr(p);
 		}
+		return 0;
 	}
-
-	return 0;
+	return isdouble(p);
 }
 
 int

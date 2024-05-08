@@ -38,7 +38,7 @@ magfunc(void)
 	magfunc_nib();
 	divide();
 
-	if (isdoublesomewhere(p1))
+	if (allnum(p1) && hasdouble(p1))
 		floatfunc();
 }
 
