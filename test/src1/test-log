@@ -47,3 +47,4 @@ check(infixform(exp(log(z4))) == infixform(z4))
 z = 1.0 i
 w = log(z + sqrt(z^2 - 1))
 check(infixform(w) == "0.881374 + 1.5708 i") -- bug fix
+check(log(0.0) == log(0))

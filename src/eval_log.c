@@ -26,6 +26,15 @@ logfunc(void)
 		return;
 	}
 
+	// log of zero is not evaluated
+
+	if (iszero(p1)) {
+		push_symbol(LOG);
+		push_integer(0);
+		list(2);
+		return;
+	}
+
 	push(p1);
 
 	logfunc_nib();
@@ -42,15 +51,6 @@ logfunc_nib(void)
 	struct atom *p1, *p2;
 
 	p1 = pop();
-
-	// log of zero is not evaluated
-
-	if (iszero(p1)) {
-		push_symbol(LOG);
-		push_integer(0);
-		list(2);
-		return;
-	}
 
 	if (isdouble(p1)) {
 		push(p1);

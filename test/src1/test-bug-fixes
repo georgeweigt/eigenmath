@@ -70,3 +70,6 @@ eta = 1 / ((18.7179 (0.399323 - 0.91681 i) - 6.61777 i (0.399323 - 0.91681 i)) (
 check(infixform(rect(eta)) == "0.00253708")
 check(infixform(polar(eta)) == "0.00253708")
 check(infixform(simplify(eta)) == "0.00253708")
+
+-- log(0.0) caused stop, fixed in version 3.26
+check(log(0.0) == log(0))
