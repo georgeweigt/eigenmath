@@ -10,7 +10,7 @@ void
 logfunc(void)
 {
 	int i, n;
-	struct atom *p1;
+	struct atom *p1, *p2;
 
 	p1 = pop();
 
@@ -39,7 +39,10 @@ logfunc(void)
 
 	logfunc_nib();
 
-	if (allnum(p1) && hasdouble(p1))
+	p2 = pop();
+	push(p2);
+
+	if (hasdouble(p1) && allnum(p2))
 		floatfunc();
 }
 
