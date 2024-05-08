@@ -4372,7 +4372,7 @@ eval_arg(p1)
 function
 argfunc()
 {
-	var i, n, p1, num, den;
+	var i, n, p1, p2, num, den;
 
 	p1 = pop();
 
@@ -4398,7 +4398,10 @@ argfunc()
 	arg_nib();
 	subtract();
 
-	if (allnum(p1) && hasdouble(p1))
+	p2 = pop();
+	push(p2);
+
+	if (hasdouble(p1) && allnum(p2))
 		floatfunc();
 }
 
@@ -8569,7 +8572,7 @@ eval_log(p1)
 function
 logfunc()
 {
-	var i, n, p1;
+	var i, n, p1, p2;
 
 	p1 = pop();
 
@@ -8598,7 +8601,10 @@ logfunc()
 
 	logfunc_nib();
 
-	if (allnum(p1) && hasdouble(p1))
+	p2 = pop();
+	push(p2);
+
+	if (hasdouble(p1) && allnum(p2))
 		floatfunc();
 }
 
@@ -8721,7 +8727,7 @@ eval_mag(p1)
 function
 magfunc()
 {
-	var i, n, p1, num, den;
+	var i, n, p1, p2, num, den;
 
 	p1 = pop();
 
@@ -8749,7 +8755,10 @@ magfunc()
 	magfunc_nib();
 	divide();
 
-	if (allnum(p1) && hasdouble(p1))
+	p2 = pop();
+	push(p2);
+
+	if (hasdouble(p1) && allnum(p2))
 		floatfunc();
 }
 

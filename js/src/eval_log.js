@@ -9,7 +9,7 @@ eval_log(p1)
 function
 logfunc()
 {
-	var i, n, p1;
+	var i, n, p1, p2;
 
 	p1 = pop();
 
@@ -38,7 +38,10 @@ logfunc()
 
 	logfunc_nib();
 
-	if (allnum(p1) && hasdouble(p1))
+	p2 = pop();
+	push(p2);
+
+	if (hasdouble(p1) && allnum(p2))
 		floatfunc();
 }
 

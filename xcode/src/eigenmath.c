@@ -3287,7 +3287,7 @@ void
 argfunc(void)
 {
 	int i, n;
-	struct atom *p1, *num, *den;
+	struct atom *p1, *p2, *num, *den;
 
 	p1 = pop();
 
@@ -3313,7 +3313,10 @@ argfunc(void)
 	arg_nib();
 	subtract();
 
-	if (allnum(p1) && hasdouble(p1))
+	p2 = pop();
+	push(p2);
+
+	if (hasdouble(p1) && allnum(p2))
 		floatfunc();
 }
 
@@ -8430,7 +8433,7 @@ void
 logfunc(void)
 {
 	int i, n;
-	struct atom *p1;
+	struct atom *p1, *p2;
 
 	p1 = pop();
 
@@ -8459,7 +8462,10 @@ logfunc(void)
 
 	logfunc_nib();
 
-	if (allnum(p1) && hasdouble(p1))
+	p2 = pop();
+	push(p2);
+
+	if (hasdouble(p1) && allnum(p2))
 		floatfunc();
 }
 
@@ -8585,7 +8591,7 @@ void
 magfunc(void)
 {
 	int i, n;
-	struct atom *p1, *num, *den;
+	struct atom *p1, *p2, *num, *den;
 
 	p1 = pop();
 
@@ -8613,7 +8619,10 @@ magfunc(void)
 	magfunc_nib();
 	divide();
 
-	if (allnum(p1) && hasdouble(p1))
+	p2 = pop();
+	push(p2);
+
+	if (hasdouble(p1) && allnum(p2))
 		floatfunc();
 }
 
