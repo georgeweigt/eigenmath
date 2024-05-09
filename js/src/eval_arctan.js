@@ -95,7 +95,7 @@ arctan_numbers(X, Y)
 		return;
 	}
 
-	if (isnum(X) && isnum(Y) && (isdouble(X) || isdouble(Y))) {
+	if (isdouble(X) || isdouble(Y)) {
 		push(X);
 		x = pop_double();
 		push(Y);
