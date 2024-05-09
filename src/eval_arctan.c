@@ -115,9 +115,10 @@ arctan_numbers(struct atom *X, struct atom *Y)
 	// X and Y are rational numbers
 
 	if (iszero(Y)) {
-		if (isnegativenumber(X))
+		if (isnegativenumber(X)) {
 			push_symbol(PI);
-		else
+			negate();
+		} else
 			push_integer(0);
 		return;
 	}

@@ -27,3 +27,13 @@ check(infixform(mag(-i a - i b)) == "-a - b")
 psi = A exp(-k x)
 v = defint(conj(psi) (-i hbar d(psi,x)), x, 0, L) / m
 check(i mag(v) == v)
+
+for(x,-2,2,for(y,-2,2,
+  check(mag(x + i y) == sqrt(x^2 + y^2))
+))
+
+for(x,-2,2,for(y,-2,2,
+  x = float(x),
+  y = float(y),
+  check(abs(mag(x + i y) - sqrt(x^2 + y^2)) < 0.000001)
+))

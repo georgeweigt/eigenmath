@@ -550,7 +550,7 @@ check(arctan(-1,1)=-pi/4)
 check(arctan(-1,-1)=-3*pi/4)
 
 check(arctan(0,3)=0)
-check(arctan(0,-3)=pi)
+check(arctan(0,-3)=-pi)
 check(arctan(3,0)=pi/2)
 check(arctan(-3,0)=-pi/2)
 
@@ -712,8 +712,13 @@ check(T = arctan(b,a)-arctan(d,c))
 check(infixform(arg(sqrt(-sqrt(-1)))) == "3/4 pi") -- bug fix
 
 for(x,-2,2,for(y,-2,2,
-  z = float(x + i y),
-  check(abs(arg(z) - arctan(float(y),float(x))) < 0.000001)
+  check(arg(x + i y) == arctan(y,x))
+))
+
+for(x,-2,2,for(y,-2,2,
+  x = float(x),
+  y = float(y),
+  check(abs(arg(x + i y) - arctan(y,x)) < 0.000001)
 ))
 "Testing associativity"
 
@@ -5511,6 +5516,16 @@ check(infixform(mag(-i a - i b)) == "-a - b")
 psi = A exp(-k x)
 v = defint(conj(psi) (-i hbar d(psi,x)), x, 0, L) / m
 check(i mag(v) == v)
+
+for(x,-2,2,for(y,-2,2,
+  check(mag(x + i y) == sqrt(x^2 + y^2))
+))
+
+for(x,-2,2,for(y,-2,2,
+  x = float(x),
+  y = float(y),
+  check(abs(mag(x + i y) - sqrt(x^2 + y^2)) < 0.000001)
+))
 "Testing minor"
 
 clear

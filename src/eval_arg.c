@@ -62,7 +62,7 @@ arg_nib(void)
 	if (isrational(p1)) {
 		if (isnegativenumber(p1)) {
 			push_symbol(PI);
-			negate(); // so that arg(-i) == arg(-1) + arg(i) == -pi + 1/2 pi == -1/2 pi
+			negate();
 		} else
 			push_integer(0);
 		return;

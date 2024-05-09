@@ -12,7 +12,7 @@ check(arctan(-1,1)=-pi/4)
 check(arctan(-1,-1)=-3*pi/4)
 
 check(arctan(0,3)=0)
-check(arctan(0,-3)=pi)
+check(arctan(0,-3)=-pi)
 check(arctan(3,0)=pi/2)
 check(arctan(-3,0)=-pi/2)
 
