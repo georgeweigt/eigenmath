@@ -5444,6 +5444,14 @@ z = 1.0 i
 w = log(z + sqrt(z^2 - 1))
 check(infixform(w) == "0.881374 + 1.5708 i") -- bug fix
 check(log(0.0) == log(0))
+
+-- pathological cases
+check(infixform(log(log(0))) == "log(log(0))")
+check(infixform(log(log(0.0))) == "log(log(0))")
+check(infixform(log(2 log(0))) == "log(2) + log(log(0))")
+check(infixform(log(2.0 log(0))) == "log(log(0)) + 0.693147")
+check(infixform(log(2 + log(0))) == "log(log(0) + 2)")
+check(infixform(log(2.0 + log(0))) == "log(log(0) + 2)")
 "Testing logical operators"
 
 clear

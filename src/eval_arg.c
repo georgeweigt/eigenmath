@@ -40,10 +40,15 @@ argfunc(void)
 	subtract();
 
 	p2 = pop();
-	push(p2);
 
-	if (hasdouble(p1) && allnum(p2))
-		floatfunc();
+	if (hasdouble(p1) && findf(p2, symbol(PI))) {
+		push(p2);
+		push_symbol(PI);
+		push_double(M_PI);
+		subst();
+		evalf();
+	} else
+		push(p2);
 }
 
 void

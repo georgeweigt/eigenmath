@@ -10,7 +10,7 @@ void
 magfunc(void)
 {
 	int i, n;
-	struct atom *p1, *p2, *num, *den;
+	struct atom *p1, *num, *den;
 
 	p1 = pop();
 
@@ -37,12 +37,6 @@ magfunc(void)
 	push(den);
 	magfunc_nib();
 	divide();
-
-	p2 = pop();
-	push(p2);
-
-	if (hasdouble(p1) && allnum(p2))
-		floatfunc();
 }
 
 void

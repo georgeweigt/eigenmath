@@ -9,7 +9,7 @@ eval_mag(p1)
 function
 magfunc()
 {
-	var i, n, p1, p2, num, den;
+	var i, n, p1, num, den;
 
 	p1 = pop();
 
@@ -36,12 +36,6 @@ magfunc()
 	push(den);
 	magfunc_nib();
 	divide();
-
-	p2 = pop();
-	push(p2);
-
-	if (hasdouble(p1) && allnum(p2))
-		floatfunc();
 }
 
 function

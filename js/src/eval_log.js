@@ -9,7 +9,7 @@ eval_log(p1)
 function
 logfunc()
 {
-	var i, n, p1, p2;
+	var d, h, i, n, p1, p2;
 
 	p1 = pop();
 
@@ -25,7 +25,11 @@ logfunc()
 		return;
 	}
 
-	// log of zero is not evaluated
+	if (hasdouble(p1)) {
+		push(p1);
+		floatfunc();
+		p1 = pop();
+	}
 
 	if (iszero(p1)) {
 		push_symbol(LOG);
@@ -33,24 +37,6 @@ logfunc()
 		list(2);
 		return;
 	}
-
-	push(p1);
-
-	logfunc_nib();
-
-	p2 = pop();
-	push(p2);
-
-	if (hasdouble(p1) && allnum(p2))
-		floatfunc();
-}
-
-function
-logfunc_nib()
-{
-	var d, h, i, p1, p2;
-
-	p1 = pop();
 
 	if (isdouble(p1)) {
 		push(p1);
@@ -66,7 +52,7 @@ logfunc_nib()
 	if (isdouble(p1) || isdoublez(p1)) {
 		push(p1);
 		magfunc();
-		logfunc_nib();
+		logfunc();
 		push(p1);
 		argfunc();
 		push(imaginaryunit);
@@ -92,7 +78,7 @@ logfunc_nib()
 	if (isnegativenumber(p1)) {
 		push(p1);
 		negate();
-		logfunc_nib();
+		logfunc();
 		push(imaginaryunit);
 		push_symbol(PI);
 		multiply();
@@ -130,7 +116,7 @@ logfunc_nib()
 	if (car(p1) == symbol(POWER)) {
 		push(caddr(p1));
 		push(cadr(p1));
-		logfunc_nib();
+		logfunc();
 		multiply();
 		return;
 	}
@@ -142,7 +128,7 @@ logfunc_nib()
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			logfunc_nib();
+			logfunc();
 			p1 = cdr(p1);
 		}
 		add_terms(stack.length - h);

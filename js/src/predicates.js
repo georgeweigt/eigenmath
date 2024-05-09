@@ -217,21 +217,6 @@ isnumerator(p)
 }
 
 function
-allnum(p)
-{
-	if (iscons(p)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (!allnum(car(p)))
-				return 0;
-			p = cdr(p);
-		}
-		return 1;
-	}
-	return isnum(p) || p == symbol(PI) || p == symbol(EXP1);
-}
-
-function
 hasdouble(p)
 {
 	if (iscons(p)) {
