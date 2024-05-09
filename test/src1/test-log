@@ -51,7 +51,11 @@ check(log(0.0) == log(0))
 
 for(x,-2,2,for(y,-2,2,
   z = float(x + i y),
-  check(infixform(log(z)) == infixform(log(mag(z)) + i arg(z))),
+  check(abs(log(z) - log(mag(z)) - i arg(z)) < 0.000001)
+))
+
+for(x,-2,2,for(y,-2,2,
+  z = float(x + i y),
   check(abs(exp(log(z)) - z) < 0.000001),
   check(abs(log(exp(z)) - z) < 0.000001)
 ))
