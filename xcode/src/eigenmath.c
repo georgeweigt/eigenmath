@@ -3090,10 +3090,7 @@ arctan_numbers(struct atom *X, struct atom *Y)
 	struct atom *T;
 
 	if (iszero(X) && iszero(Y)) {
-		push_symbol(ARCTAN);
 		push_integer(0);
-		push_integer(0);
-		list(3);
 		return;
 	}
 
@@ -3102,7 +3099,13 @@ arctan_numbers(struct atom *X, struct atom *Y)
 		x = pop_double();
 		push(Y);
 		y = pop_double();
-		push_double(atan2(y, x));
+		if (y == 0.0) {
+			if (x < 0.0)
+				push_double(-M_PI);
+			else
+				push_double(0.0);
+		} else
+			push_double(atan2(y, x));
 		return;
 	}
 

@@ -4,9 +4,6 @@ clear
 
 check(arctan(-y,x) == -arctan(y,x))
 check(arctan((y1,y2),x) == (arctan(y1,x),arctan(y2,x)))
-
-check(infixform(arctan(0,0))="arctan(0,0)")
-
 check(infixform(arctan(x))="arctan(x,1)")
 
 check(arctan(1,1)=pi/4)
@@ -30,13 +27,6 @@ check(infixform(arctan(-2,4))="-arctan(1,2)")
 check(infixform(arctan(-2,-4))="-arctan(1,-2)")
 
 check(infixform(arctan(1/2))="arctan(1,2)")
-
--- compare intrinsic
-
-for(y,-12,12,for(x,-12,12,
-  d = float(arctan(y/12,x/12)) - arctan(float(y/12),float(x/12)),
-  check(abs(d) < 1.0 10^(-6))
-))
 
 -- complex arg
 

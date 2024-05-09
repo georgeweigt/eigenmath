@@ -4096,11 +4096,15 @@ eval_arctan(p1)
 {
 	push(cadr(p1));
 	evalf();
-	if (iscons(cddr(p1))) {
-		push(caddr(p1));
+
+	p1 = cddr(p1);
+
+	if (iscons(p1)) {
+		push(car(p1));
 		evalf();
 	} else
 		push_integer(1);
+
 	arctan();
 }
 
@@ -4180,10 +4184,7 @@ arctan_numbers(X, Y)
 	var x, y, T;
 
 	if (iszero(X) && iszero(Y)) {
-		push_symbol(ARCTAN);
 		push_integer(0);
-		push_integer(0);
-		list(3);
 		return;
 	}
 
@@ -4192,7 +4193,13 @@ arctan_numbers(X, Y)
 		x = pop_double();
 		push(Y);
 		y = pop_double();
-		push_double(Math.atan2(y, x));
+		if (y == 0.0) {
+			if (x < 0.0)
+				push_double(-Math.PI);
+			else
+				push_double(0.0);
+		} else
+			push_double(Math.atan2(y, x));
 		return;
 	}
 
