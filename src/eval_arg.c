@@ -51,6 +51,9 @@ argfunc(void)
 		push(p2);
 }
 
+// This is why Eigenmath returns -pi for the arg of a negative number:
+// arg(-i) == arg(-1) + arg(i) == -pi + 1/2 pi == -1/2 pi
+
 void
 arg_nib(void)
 {
@@ -62,7 +65,7 @@ arg_nib(void)
 	if (isrational(p1)) {
 		if (isnegativenumber(p1)) {
 			push_symbol(PI);
-			negate();
+			negate(); // see comment above
 		} else
 			push_integer(0);
 		return;
