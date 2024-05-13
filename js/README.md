@@ -13,7 +13,7 @@ For example (click [here](https://georgeweigt.github.io/demo.html) to try)
 
 <script src="https://georgeweigt.github.io/eigenmath.js"></script>
 
-<textarea id="stdin" rows="20" cols="80" style="font-family:courier;font-size:12pt">
+<textarea id="stdin" rows="25" cols="80" style="font-family:courier;font-size:12pt">
 f = sin(x) / x
 f
 yrange = (-1,1)
