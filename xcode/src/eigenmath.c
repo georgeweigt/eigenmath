@@ -1661,7 +1661,7 @@ lengthf(struct atom *p)
 	return n;
 }
 
-// returns 1 if expr p contains expr q, otherweise returns 0
+// returns 1 if expr p contains expr q, otherwise returns 0
 
 int
 findf(struct atom *p, struct atom *q)
@@ -13692,7 +13692,7 @@ eval_taylor(struct atom *p1)
 		derivative();
 		F = pop();
 
-		if (car(F) == symbol(DERIVATIVE))
+		if (findf(F, symbol(DERIVATIVE)))
 			stopf("taylor: derivative err");
 
 		if (iszero(F))

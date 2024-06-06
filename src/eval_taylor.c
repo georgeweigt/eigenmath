@@ -44,7 +44,7 @@ eval_taylor(struct atom *p1)
 		derivative();
 		F = pop();
 
-		if (car(F) == symbol(DERIVATIVE))
+		if (findf(F, symbol(DERIVATIVE)))
 			stopf("taylor: derivative err");
 
 		if (iszero(F))
