@@ -2,6 +2,10 @@
 
 clear
 
+check(infixform(simplify(2 a / (2 b + 2 c))) == "a / (b + c)")
+check(infixform(simplify(4 a / (2 b + 2 c))) == "2 a / (b + c)")
+check(infixform(simplify(2 a / (4 b + 4 c))) == "a / (2 b + 2 c)")
+
 -- ratio of expressions
 check(infixform(simplify((a x + a) / (x + 1))) == "a")
 

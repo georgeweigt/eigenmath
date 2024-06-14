@@ -11751,6 +11751,7 @@ simplify_nib()
 	push(DEN);
 	push(NUM);
 	divide();
+	rationalize();
 	reciprocate();
 	p2 = pop();
 	if (simpler(p2, p1)) {
@@ -11791,29 +11792,31 @@ simplify_trig()
 function
 simpler(p1, p2)
 {
-	var n1, n2;
+	var d1, d2;
 
-	n1 = powdep(p1);
-	n2 = powdep(p2);
+	d1 = diameter(p1);
+	d2 = diameter(p2);
 
-	if (n1 == n2)
-		return complexity(p1) < complexity(p2);
-	else
-		return n1 < n2;
+	if (d1 == d2) {
+		d1 = mass(p1);
+		d2 = mass(p2);
+	}
+
+	return d1 < d2;
 }
 
-// for example, 1 / (x + y^2 / x) has powdep of 2
+// for example, 1 / (x + y^2 / x) has diameter of 2
 
 function
-powdep(p)
+diameter(p)
 {
 	var max = 0, n;
 
 	if (car(p) == symbol(POWER) && isnegativenumber(caddr(p)))
-		return 1 + powdep(cadr(p));
+		return 1 + diameter(cadr(p));
 
 	while (iscons(p)) {
-		n = powdep(car(p));
+		n = diameter(car(p));
 		if (n > max)
 			max = n;
 		p = cdr(p);
@@ -11823,11 +11826,11 @@ powdep(p)
 }
 
 function
-complexity(p)
+mass(p)
 {
 	var n = 1;
 	while (iscons(p)) {
-		n += complexity(car(p));
+		n += mass(car(p));
 		p = cdr(p);
 	}
 	return n;
