@@ -1,5 +1,3 @@
-/* exported run */
-
 function
 run()
 {

@@ -16500,8 +16500,6 @@ restore_symbol()
 	p1 = frame.pop();
 	set_symbol(p1, p2, p3);
 }
-/* exported run */
-
 function
 run()
 {
