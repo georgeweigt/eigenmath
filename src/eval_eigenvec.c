@@ -10,19 +10,19 @@ eval_eigenvec(struct atom *p1)
 	p1 = pop();
 
 	if (!issquarematrix(p1))
-		stopf("eigenvec: square matrix expected");
+		stopf("eigenvec");
 
 	n = p1->u.tensor->dim[0];
 
 	for (i = 0; i < n; i++)
 		for (j = 0; j < n; j++)
 			if (!isdouble(p1->u.tensor->elem[n * i + j]))
-				stopf("eigenvec: numerical matrix expected");
+				stopf("eigenvec");
 
 	for (i = 0; i < n - 1; i++)
 		for (j = i + 1; j < n; j++)
 			if (fabs(p1->u.tensor->elem[n * i + j]->u.d - p1->u.tensor->elem[n * j + i]->u.d) > 1e-10)
-				stopf("eigenvec: symmetrical matrix expected");
+				stopf("eigenvec");
 
 	if (D)
 		free(D);

@@ -6170,19 +6170,19 @@ eval_eigenvec(p1)
 	p1 = pop();
 
 	if (!issquarematrix(p1))
-		stopf("eigenvec: square matrix expected");
+		stopf("eigenvec");
 
 	n = p1.dim[0];
 
 	for (i = 0; i < n; i++)
 		for (j = 0; j < n; j++)
 			if (!isdouble(p1.elem[n * i + j]))
-				stopf("eigenvec: numerical matrix expected");
+				stopf("eigenvec");
 
 	for (i = 0; i < n - 1; i++)
 		for (j = i + 1; j < n; j++)
 			if (Math.abs(p1.elem[n * i + j] - p1.elem[n * j + i]) > 1e-10)
-				stopf("eigenvec: symmetrical matrix expected");
+				stopf("eigenvec");
 
 	// initialize D
 
