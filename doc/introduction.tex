@@ -45,13 +45,21 @@ N^(1/17)
 $212$
 
 \bigskip
-Example 4. Show that $N$ is greater than 64 bits.
+Example 4. How many 32-bit words does the value of $N$ require?
+\begin{equation*}
+2^{32n}=212^{17}
+\end{equation*}
+
+Hence
+\begin{equation*}
+n=\frac{17 \log212}{32\log2}
+\end{equation*}
 
 {\color{blue}
 \begin{verbatim}
-N > 2^64
+17 log(212.0) / (32 log(2.0))
 \end{verbatim}}
 
-$1$
+$4.10546$
 
 \end{document}
