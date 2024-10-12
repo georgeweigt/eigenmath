@@ -5,11 +5,8 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{xcolor}
-\usepackage{menukeys}
+%\usepackage{menukeys}
 \parindent=0pt
-\title{Eigenmath Manual}
-\author{9634295@gmail.com}
-\date{}
 \pdfinfoomitdate=1
 \pdftrailerid{}
 \begin{document}
