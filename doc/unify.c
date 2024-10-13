@@ -10,12 +10,10 @@ int
 main(int argc, char *argv[])
 {
 	int i;
-
 	system("cat preamble");
-
+	fputs("\\tableofcontents\n", stdout);
 	for (i = 1; i < argc; i++)
 		emit(argv[i]);
-
 	fputs("\\end{document}\n", stdout);
 }
 
