@@ -1,6 +1,7 @@
 .PHONY: default clean
 
-FILES =	introduction.tex syntax.tex symbols.tex function-definitions.tex \
+FILES =	table-of-contents.tex \
+	introduction.tex syntax.tex symbols.tex function-definitions.tex \
         arithmetic.tex complex-numbers.tex draw.tex \
         linear-algebra.tex component-arithmetic.tex quantum-computing.tex \
         derivative.tex template-functions.tex laplacian.tex \
