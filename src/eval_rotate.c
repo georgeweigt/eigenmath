@@ -209,10 +209,10 @@ rotate_y(struct atom *PSI, uint32_t c, int n)
 			continue;
 		if (i & n) {
 			push(imaginaryunit);
-			negate();
 			push(KET0);
 			multiply();
 			push(imaginaryunit);
+			negate();
 			push(KET1);
 			multiply();
 			KET0 = pop();

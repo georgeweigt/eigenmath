@@ -2761,6 +2761,9 @@ check(infixform(simplify(eta)) == "0.00253708")
 
 -- log(0.0) caused stop, fixed in version 3.26
 check(log(0.0) == log(0))
+
+psi = (1,1) / sqrt(2)
+check(rotate(psi,Y,0) == (-i,i) / sqrt(2))
 "Testing ceiling"
 
 clear
@@ -6311,22 +6314,22 @@ outer(ket14,ket15) +
 outer(ket15,ket14)
 
 Y0 =
-outer(ket0,i ket1) +
-outer(ket1,-i ket0) +
-outer(ket2,i ket3) +
-outer(ket3,-i ket2) +
-outer(ket4,i ket5) +
-outer(ket5,-i ket4) +
-outer(ket6,i ket7) +
-outer(ket7,-i ket6) +
-outer(ket8,i ket9) +
-outer(ket9,-i ket8) +
-outer(ket10,i ket11) +
-outer(ket11,-i ket10) +
-outer(ket12,i ket13) +
-outer(ket13,-i ket12) +
-outer(ket14,i ket15) +
-outer(ket15,-i ket14)
+outer(ket0,-i ket1) +
+outer(ket1,i ket0) +
+outer(ket2,-i ket3) +
+outer(ket3,i ket2) +
+outer(ket4,-i ket5) +
+outer(ket5,i ket4) +
+outer(ket6,-i ket7) +
+outer(ket7,i ket6) +
+outer(ket8,-i ket9) +
+outer(ket9,i ket8) +
+outer(ket10,-i ket11) +
+outer(ket11,i ket10) +
+outer(ket12,-i ket13) +
+outer(ket13,i ket12) +
+outer(ket14,-i ket15) +
+outer(ket15,i ket14)
 
 Z0 =
 outer(ket0,ket0) +
@@ -6395,22 +6398,22 @@ outer(ket14,ket15) +
 outer(ket15,ket14)
 
 Y00 =
-outer(ket0,i ket1) +
-outer(ket1,-i ket0) +
-outer(ket2,i ket3) +
-outer(ket3,-i ket2) +
-outer(ket4,i ket5) +
-outer(ket5,-i ket4) +
-outer(ket6,i ket7) +
-outer(ket7,-i ket6) +
-outer(ket8,i ket9) +
-outer(ket9,-i ket8) +
-outer(ket10,i ket11) +
-outer(ket11,-i ket10) +
-outer(ket12,i ket13) +
-outer(ket13,-i ket12) +
-outer(ket14,i ket15) +
-outer(ket15,-i ket14)
+outer(ket0,-i ket1) +
+outer(ket1,i ket0) +
+outer(ket2,-i ket3) +
+outer(ket3,i ket2) +
+outer(ket4,-i ket5) +
+outer(ket5,i ket4) +
+outer(ket6,-i ket7) +
+outer(ket7,i ket6) +
+outer(ket8,-i ket9) +
+outer(ket9,i ket8) +
+outer(ket10,-i ket11) +
+outer(ket11,i ket10) +
+outer(ket12,-i ket13) +
+outer(ket13,i ket12) +
+outer(ket14,-i ket15) +
+outer(ket15,i ket14)
 
 Z00 =
 outer(ket0,ket0) +
@@ -6495,20 +6498,20 @@ outer(ket15,ket14)
 Y10 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
-outer(ket2,i ket3) +
-outer(ket3,-i ket2) +
+outer(ket2,-i ket3) +
+outer(ket3,i ket2) +
 outer(ket4,ket4) +
 outer(ket5,ket5) +
-outer(ket6,i ket7) +
-outer(ket7,-i ket6) +
+outer(ket6,-i ket7) +
+outer(ket7,i ket6) +
 outer(ket8,ket8) +
 outer(ket9,ket9) +
-outer(ket10,i ket11) +
-outer(ket11,-i ket10) +
+outer(ket10,-i ket11) +
+outer(ket11,i ket10) +
 outer(ket12,ket12) +
 outer(ket13,ket13) +
-outer(ket14,i ket15) +
-outer(ket15,-i ket14)
+outer(ket14,-i ket15) +
+outer(ket15,i ket14)
 
 Z10 =
 outer(ket0,ket0) +
@@ -6595,18 +6598,18 @@ outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
 outer(ket3,ket3) +
-outer(ket4,i ket5) +
-outer(ket5,-i ket4) +
-outer(ket6,i ket7) +
-outer(ket7,-i ket6) +
+outer(ket4,-i ket5) +
+outer(ket5,i ket4) +
+outer(ket6,-i ket7) +
+outer(ket7,i ket6) +
 outer(ket8,ket8) +
 outer(ket9,ket9) +
 outer(ket10,ket10) +
 outer(ket11,ket11) +
-outer(ket12,i ket13) +
-outer(ket13,-i ket12) +
-outer(ket14,i ket15) +
-outer(ket15,-i ket14)
+outer(ket12,-i ket13) +
+outer(ket13,i ket12) +
+outer(ket14,-i ket15) +
+outer(ket15,i ket14)
 
 Z20 =
 outer(ket0,ket0) +
@@ -6697,14 +6700,14 @@ outer(ket4,ket4) +
 outer(ket5,ket5) +
 outer(ket6,ket6) +
 outer(ket7,ket7) +
-outer(ket8,i ket9) +
-outer(ket9,-i ket8) +
-outer(ket10,i ket11) +
-outer(ket11,-i ket10) +
-outer(ket12,i ket13) +
-outer(ket13,-i ket12) +
-outer(ket14,i ket15) +
-outer(ket15,-i ket14)
+outer(ket8,-i ket9) +
+outer(ket9,i ket8) +
+outer(ket10,-i ket11) +
+outer(ket11,i ket10) +
+outer(ket12,-i ket13) +
+outer(ket13,i ket12) +
+outer(ket14,-i ket15) +
+outer(ket15,i ket14)
 
 Z30 =
 outer(ket0,ket0) +
@@ -6791,22 +6794,22 @@ outer(ket14,ket12) +
 outer(ket15,ket13)
 
 Y1 =
-outer(ket0,i ket2) +
-outer(ket1,i ket3) +
-outer(ket2,-i ket0) +
-outer(ket3,-i ket1) +
-outer(ket4,i ket6) +
-outer(ket5,i ket7) +
-outer(ket6,-i ket4) +
-outer(ket7,-i ket5) +
-outer(ket8,i ket10) +
-outer(ket9,i ket11) +
-outer(ket10,-i ket8) +
-outer(ket11,-i ket9) +
-outer(ket12,i ket14) +
-outer(ket13,i ket15) +
-outer(ket14,-i ket12) +
-outer(ket15,-i ket13)
+outer(ket0,-i ket2) +
+outer(ket1,-i ket3) +
+outer(ket2,i ket0) +
+outer(ket3,i ket1) +
+outer(ket4,-i ket6) +
+outer(ket5,-i ket7) +
+outer(ket6,i ket4) +
+outer(ket7,i ket5) +
+outer(ket8,-i ket10) +
+outer(ket9,-i ket11) +
+outer(ket10,i ket8) +
+outer(ket11,i ket9) +
+outer(ket12,-i ket14) +
+outer(ket13,-i ket15) +
+outer(ket14,i ket12) +
+outer(ket15,i ket13)
 
 Z1 =
 outer(ket0,ket0) +
@@ -6872,21 +6875,21 @@ outer(ket15,ket13)
 
 Y01 =
 outer(ket0,ket0) +
-outer(ket1,i ket3) +
+outer(ket1,-i ket3) +
 outer(ket2,ket2) +
-outer(ket3,-i ket1) +
+outer(ket3,i ket1) +
 outer(ket4,ket4) +
-outer(ket5,i ket7) +
+outer(ket5,-i ket7) +
 outer(ket6,ket6) +
-outer(ket7,-i ket5) +
+outer(ket7,i ket5) +
 outer(ket8,ket8) +
-outer(ket9,i ket11) +
+outer(ket9,-i ket11) +
 outer(ket10,ket10) +
-outer(ket11,-i ket9) +
+outer(ket11,i ket9) +
 outer(ket12,ket12) +
-outer(ket13,i ket15) +
+outer(ket13,-i ket15) +
 outer(ket14,ket14) +
-outer(ket15,-i ket13)
+outer(ket15,i ket13)
 
 Z01 =
 outer(ket0,ket0) +
@@ -6973,22 +6976,22 @@ outer(ket14,ket12) +
 outer(ket15,ket13)
 
 Y11 =
-outer(ket0,i ket2) +
-outer(ket1,i ket3) +
-outer(ket2,-i ket0) +
-outer(ket3,-i ket1) +
-outer(ket4,i ket6) +
-outer(ket5,i ket7) +
-outer(ket6,-i ket4) +
-outer(ket7,-i ket5) +
-outer(ket8,i ket10) +
-outer(ket9,i ket11) +
-outer(ket10,-i ket8) +
-outer(ket11,-i ket9) +
-outer(ket12,i ket14) +
-outer(ket13,i ket15) +
-outer(ket14,-i ket12) +
-outer(ket15,-i ket13)
+outer(ket0,-i ket2) +
+outer(ket1,-i ket3) +
+outer(ket2,i ket0) +
+outer(ket3,i ket1) +
+outer(ket4,-i ket6) +
+outer(ket5,-i ket7) +
+outer(ket6,i ket4) +
+outer(ket7,i ket5) +
+outer(ket8,-i ket10) +
+outer(ket9,-i ket11) +
+outer(ket10,i ket8) +
+outer(ket11,i ket9) +
+outer(ket12,-i ket14) +
+outer(ket13,-i ket15) +
+outer(ket14,i ket12) +
+outer(ket15,i ket13)
 
 Z11 =
 outer(ket0,ket0) +
@@ -7075,18 +7078,18 @@ outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
 outer(ket3,ket3) +
-outer(ket4,i ket6) +
-outer(ket5,i ket7) +
-outer(ket6,-i ket4) +
-outer(ket7,-i ket5) +
+outer(ket4,-i ket6) +
+outer(ket5,-i ket7) +
+outer(ket6,i ket4) +
+outer(ket7,i ket5) +
 outer(ket8,ket8) +
 outer(ket9,ket9) +
 outer(ket10,ket10) +
 outer(ket11,ket11) +
-outer(ket12,i ket14) +
-outer(ket13,i ket15) +
-outer(ket14,-i ket12) +
-outer(ket15,-i ket13)
+outer(ket12,-i ket14) +
+outer(ket13,-i ket15) +
+outer(ket14,i ket12) +
+outer(ket15,i ket13)
 
 Z21 =
 outer(ket0,ket0) +
@@ -7177,14 +7180,14 @@ outer(ket4,ket4) +
 outer(ket5,ket5) +
 outer(ket6,ket6) +
 outer(ket7,ket7) +
-outer(ket8,i ket10) +
-outer(ket9,i ket11) +
-outer(ket10,-i ket8) +
-outer(ket11,-i ket9) +
-outer(ket12,i ket14) +
-outer(ket13,i ket15) +
-outer(ket14,-i ket12) +
-outer(ket15,-i ket13)
+outer(ket8,-i ket10) +
+outer(ket9,-i ket11) +
+outer(ket10,i ket8) +
+outer(ket11,i ket9) +
+outer(ket12,-i ket14) +
+outer(ket13,-i ket15) +
+outer(ket14,i ket12) +
+outer(ket15,i ket13)
 
 Z31 =
 outer(ket0,ket0) +
@@ -7271,22 +7274,22 @@ outer(ket14,ket10) +
 outer(ket15,ket11)
 
 Y2 =
-outer(ket0,i ket4) +
-outer(ket1,i ket5) +
-outer(ket2,i ket6) +
-outer(ket3,i ket7) +
-outer(ket4,-i ket0) +
-outer(ket5,-i ket1) +
-outer(ket6,-i ket2) +
-outer(ket7,-i ket3) +
-outer(ket8,i ket12) +
-outer(ket9,i ket13) +
-outer(ket10,i ket14) +
-outer(ket11,i ket15) +
-outer(ket12,-i ket8) +
-outer(ket13,-i ket9) +
-outer(ket14,-i ket10) +
-outer(ket15,-i ket11)
+outer(ket0,-i ket4) +
+outer(ket1,-i ket5) +
+outer(ket2,-i ket6) +
+outer(ket3,-i ket7) +
+outer(ket4,i ket0) +
+outer(ket5,i ket1) +
+outer(ket6,i ket2) +
+outer(ket7,i ket3) +
+outer(ket8,-i ket12) +
+outer(ket9,-i ket13) +
+outer(ket10,-i ket14) +
+outer(ket11,-i ket15) +
+outer(ket12,i ket8) +
+outer(ket13,i ket9) +
+outer(ket14,i ket10) +
+outer(ket15,i ket11)
 
 Z2 =
 outer(ket0,ket0) +
@@ -7352,21 +7355,21 @@ outer(ket15,ket11)
 
 Y02 =
 outer(ket0,ket0) +
-outer(ket1,i ket5) +
+outer(ket1,-i ket5) +
 outer(ket2,ket2) +
-outer(ket3,i ket7) +
+outer(ket3,-i ket7) +
 outer(ket4,ket4) +
-outer(ket5,-i ket1) +
+outer(ket5,i ket1) +
 outer(ket6,ket6) +
-outer(ket7,-i ket3) +
+outer(ket7,i ket3) +
 outer(ket8,ket8) +
-outer(ket9,i ket13) +
+outer(ket9,-i ket13) +
 outer(ket10,ket10) +
-outer(ket11,i ket15) +
+outer(ket11,-i ket15) +
 outer(ket12,ket12) +
-outer(ket13,-i ket9) +
+outer(ket13,i ket9) +
 outer(ket14,ket14) +
-outer(ket15,-i ket11)
+outer(ket15,i ket11)
 
 Z02 =
 outer(ket0,ket0) +
@@ -7451,20 +7454,20 @@ outer(ket15,ket11)
 Y12 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
-outer(ket2,i ket6) +
-outer(ket3,i ket7) +
+outer(ket2,-i ket6) +
+outer(ket3,-i ket7) +
 outer(ket4,ket4) +
 outer(ket5,ket5) +
-outer(ket6,-i ket2) +
-outer(ket7,-i ket3) +
+outer(ket6,i ket2) +
+outer(ket7,i ket3) +
 outer(ket8,ket8) +
 outer(ket9,ket9) +
-outer(ket10,i ket14) +
-outer(ket11,i ket15) +
+outer(ket10,-i ket14) +
+outer(ket11,-i ket15) +
 outer(ket12,ket12) +
 outer(ket13,ket13) +
-outer(ket14,-i ket10) +
-outer(ket15,-i ket11)
+outer(ket14,i ket10) +
+outer(ket15,i ket11)
 
 Z12 =
 outer(ket0,ket0) +
@@ -7551,22 +7554,22 @@ outer(ket14,ket10) +
 outer(ket15,ket11)
 
 Y22 =
-outer(ket0,i ket4) +
-outer(ket1,i ket5) +
-outer(ket2,i ket6) +
-outer(ket3,i ket7) +
-outer(ket4,-i ket0) +
-outer(ket5,-i ket1) +
-outer(ket6,-i ket2) +
-outer(ket7,-i ket3) +
-outer(ket8,i ket12) +
-outer(ket9,i ket13) +
-outer(ket10,i ket14) +
-outer(ket11,i ket15) +
-outer(ket12,-i ket8) +
-outer(ket13,-i ket9) +
-outer(ket14,-i ket10) +
-outer(ket15,-i ket11)
+outer(ket0,-i ket4) +
+outer(ket1,-i ket5) +
+outer(ket2,-i ket6) +
+outer(ket3,-i ket7) +
+outer(ket4,i ket0) +
+outer(ket5,i ket1) +
+outer(ket6,i ket2) +
+outer(ket7,i ket3) +
+outer(ket8,-i ket12) +
+outer(ket9,-i ket13) +
+outer(ket10,-i ket14) +
+outer(ket11,-i ket15) +
+outer(ket12,i ket8) +
+outer(ket13,i ket9) +
+outer(ket14,i ket10) +
+outer(ket15,i ket11)
 
 Z22 =
 outer(ket0,ket0) +
@@ -7657,14 +7660,14 @@ outer(ket4,ket4) +
 outer(ket5,ket5) +
 outer(ket6,ket6) +
 outer(ket7,ket7) +
-outer(ket8,i ket12) +
-outer(ket9,i ket13) +
-outer(ket10,i ket14) +
-outer(ket11,i ket15) +
-outer(ket12,-i ket8) +
-outer(ket13,-i ket9) +
-outer(ket14,-i ket10) +
-outer(ket15,-i ket11)
+outer(ket8,-i ket12) +
+outer(ket9,-i ket13) +
+outer(ket10,-i ket14) +
+outer(ket11,-i ket15) +
+outer(ket12,i ket8) +
+outer(ket13,i ket9) +
+outer(ket14,i ket10) +
+outer(ket15,i ket11)
 
 Z32 =
 outer(ket0,ket0) +
@@ -7751,22 +7754,22 @@ outer(ket14,ket6) +
 outer(ket15,ket7)
 
 Y3 =
-outer(ket0,i ket8) +
-outer(ket1,i ket9) +
-outer(ket2,i ket10) +
-outer(ket3,i ket11) +
-outer(ket4,i ket12) +
-outer(ket5,i ket13) +
-outer(ket6,i ket14) +
-outer(ket7,i ket15) +
-outer(ket8,-i ket0) +
-outer(ket9,-i ket1) +
-outer(ket10,-i ket2) +
-outer(ket11,-i ket3) +
-outer(ket12,-i ket4) +
-outer(ket13,-i ket5) +
-outer(ket14,-i ket6) +
-outer(ket15,-i ket7)
+outer(ket0,-i ket8) +
+outer(ket1,-i ket9) +
+outer(ket2,-i ket10) +
+outer(ket3,-i ket11) +
+outer(ket4,-i ket12) +
+outer(ket5,-i ket13) +
+outer(ket6,-i ket14) +
+outer(ket7,-i ket15) +
+outer(ket8,i ket0) +
+outer(ket9,i ket1) +
+outer(ket10,i ket2) +
+outer(ket11,i ket3) +
+outer(ket12,i ket4) +
+outer(ket13,i ket5) +
+outer(ket14,i ket6) +
+outer(ket15,i ket7)
 
 Z3 =
 outer(ket0,ket0) +
@@ -7832,21 +7835,21 @@ outer(ket15,ket7)
 
 Y03 =
 outer(ket0,ket0) +
-outer(ket1,i ket9) +
+outer(ket1,-i ket9) +
 outer(ket2,ket2) +
-outer(ket3,i ket11) +
+outer(ket3,-i ket11) +
 outer(ket4,ket4) +
-outer(ket5,i ket13) +
+outer(ket5,-i ket13) +
 outer(ket6,ket6) +
-outer(ket7,i ket15) +
+outer(ket7,-i ket15) +
 outer(ket8,ket8) +
-outer(ket9,-i ket1) +
+outer(ket9,i ket1) +
 outer(ket10,ket10) +
-outer(ket11,-i ket3) +
+outer(ket11,i ket3) +
 outer(ket12,ket12) +
-outer(ket13,-i ket5) +
+outer(ket13,i ket5) +
 outer(ket14,ket14) +
-outer(ket15,-i ket7)
+outer(ket15,i ket7)
 
 Z03 =
 outer(ket0,ket0) +
@@ -7931,20 +7934,20 @@ outer(ket15,ket7)
 Y13 =
 outer(ket0,ket0) +
 outer(ket1,ket1) +
-outer(ket2,i ket10) +
-outer(ket3,i ket11) +
+outer(ket2,-i ket10) +
+outer(ket3,-i ket11) +
 outer(ket4,ket4) +
 outer(ket5,ket5) +
-outer(ket6,i ket14) +
-outer(ket7,i ket15) +
+outer(ket6,-i ket14) +
+outer(ket7,-i ket15) +
 outer(ket8,ket8) +
 outer(ket9,ket9) +
-outer(ket10,-i ket2) +
-outer(ket11,-i ket3) +
+outer(ket10,i ket2) +
+outer(ket11,i ket3) +
 outer(ket12,ket12) +
 outer(ket13,ket13) +
-outer(ket14,-i ket6) +
-outer(ket15,-i ket7)
+outer(ket14,i ket6) +
+outer(ket15,i ket7)
 
 Z13 =
 outer(ket0,ket0) +
@@ -8031,18 +8034,18 @@ outer(ket0,ket0) +
 outer(ket1,ket1) +
 outer(ket2,ket2) +
 outer(ket3,ket3) +
-outer(ket4,i ket12) +
-outer(ket5,i ket13) +
-outer(ket6,i ket14) +
-outer(ket7,i ket15) +
+outer(ket4,-i ket12) +
+outer(ket5,-i ket13) +
+outer(ket6,-i ket14) +
+outer(ket7,-i ket15) +
 outer(ket8,ket8) +
 outer(ket9,ket9) +
 outer(ket10,ket10) +
 outer(ket11,ket11) +
-outer(ket12,-i ket4) +
-outer(ket13,-i ket5) +
-outer(ket14,-i ket6) +
-outer(ket15,-i ket7)
+outer(ket12,i ket4) +
+outer(ket13,i ket5) +
+outer(ket14,i ket6) +
+outer(ket15,i ket7)
 
 Z23 =
 outer(ket0,ket0) +
@@ -8129,22 +8132,22 @@ outer(ket14,ket6) +
 outer(ket15,ket7)
 
 Y33 =
-outer(ket0,i ket8) +
-outer(ket1,i ket9) +
-outer(ket2,i ket10) +
-outer(ket3,i ket11) +
-outer(ket4,i ket12) +
-outer(ket5,i ket13) +
-outer(ket6,i ket14) +
-outer(ket7,i ket15) +
-outer(ket8,-i ket0) +
-outer(ket9,-i ket1) +
-outer(ket10,-i ket2) +
-outer(ket11,-i ket3) +
-outer(ket12,-i ket4) +
-outer(ket13,-i ket5) +
-outer(ket14,-i ket6) +
-outer(ket15,-i ket7)
+outer(ket0,-i ket8) +
+outer(ket1,-i ket9) +
+outer(ket2,-i ket10) +
+outer(ket3,-i ket11) +
+outer(ket4,-i ket12) +
+outer(ket5,-i ket13) +
+outer(ket6,-i ket14) +
+outer(ket7,-i ket15) +
+outer(ket8,i ket0) +
+outer(ket9,i ket1) +
+outer(ket10,i ket2) +
+outer(ket11,i ket3) +
+outer(ket12,i ket4) +
+outer(ket13,i ket5) +
+outer(ket14,i ket6) +
+outer(ket15,i ket7)
 
 Z33 =
 outer(ket0,ket0) +

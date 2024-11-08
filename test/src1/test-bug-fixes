@@ -73,3 +73,6 @@ check(infixform(simplify(eta)) == "0.00253708")
 
 -- log(0.0) caused stop, fixed in version 3.26
 check(log(0.0) == log(0))
+
+psi = (1,1) / sqrt(2)
+check(rotate(psi,Y,0) == (-i,i) / sqrt(2))

@@ -11201,10 +11201,10 @@ rotate_y(PSI, c, n)
 			continue;
 		if (i & n) {
 			push(imaginaryunit);
-			negate();
 			push(PSI.elem[i ^ n]);		// KET0
 			multiply();
 			push(imaginaryunit);
+			negate();
 			push(PSI.elem[i]);		// KET1
 			multiply();
 			PSI.elem[i ^ n] = pop();	// KET0
