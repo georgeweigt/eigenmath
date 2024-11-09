@@ -2763,7 +2763,8 @@ check(infixform(simplify(eta)) == "0.00253708")
 check(log(0.0) == log(0))
 
 psi = (1,1) / sqrt(2)
-check(rotate(psi,Y,0) == (-i,i) / sqrt(2))
+sigmay = ((0,-i),(i,0))
+check(rotate(psi,Y,0) == dot(sigmay,psi))
 "Testing ceiling"
 
 clear
