@@ -252,7 +252,7 @@ rotate_q(struct atom *PSI, int n)
 			power();
 			push(imaginaryunit);
 			push_symbol(PI);
-			evalf();
+			evalf(); // in case PI is numerical
 			multiply_factors(3);
 			expfunc();
 			PHASE = pop();
@@ -279,7 +279,7 @@ rotate_v(struct atom *PSI, int n)
 			power();
 			push(imaginaryunit);
 			push_symbol(PI);
-			evalf();
+			evalf(); // in case PI is numerical
 			multiply_factors(3);
 			negate();
 			expfunc();

@@ -11243,7 +11243,7 @@ rotate_q(PSI, n)
 			power();
 			push(imaginaryunit);
 			push_symbol(PI);
-			evalf();
+			evalf(); // in case PI is numerical
 			multiply_factors(3);
 			expfunc();
 			PHASE = pop();
@@ -11269,7 +11269,7 @@ rotate_v(PSI, n)
 			power();
 			push(imaginaryunit);
 			push_symbol(PI);
-			evalf();
+			evalf(); // in case PI is numerical
 			multiply_factors(3);
 			negate();
 			expfunc();
