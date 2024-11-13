@@ -54,7 +54,7 @@
 		7FA84591292DACA000842C3D /* emit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = emit.c; sourceTree = "<group>"; };
 		7FAB24A2271D054B007ED5D2 /* EigenmathView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EigenmathView.h; sourceTree = "<group>"; };
 		7FAB24A3271D0556007ED5D2 /* EigenmathView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EigenmathView.m; sourceTree = "<group>"; };
-		7FF6B91B271DCAC20047F0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base; path = Base.lproj/Eigenmath.help; sourceTree = "<group>"; };
+		7FF6B91B271DCAC20047F0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Base; path = Base.lproj/Eigenmath.help; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,22 +69,6 @@
 
 /* Begin PBXGroup section */
 		7F2C0600271CFF3300128330 = {
-			isa = PBXGroup;
-			children = (
-				7F2C060B271CFF3300128330 /* src */,
-				7F2C060A271CFF3300128330 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		7F2C060A271CFF3300128330 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7F2C0609271CFF3300128330 /* Eigenmath.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		7F2C060B271CFF3300128330 /* src */ = {
 			isa = PBXGroup;
 			children = (
 				7FA84589292DACA000842C3D /* eigenmath.c */,
@@ -112,8 +96,16 @@
 				7F2C0614271CFF3F00128330 /* Info.plist */,
 				7F2C0615271CFF3F00128330 /* main.m */,
 				7F79615B27405F4E00211A54 /* MainMenu.xib */,
+				7F2C060A271CFF3300128330 /* Products */,
 			);
-			path = src;
+			sourceTree = "<group>";
+		};
+		7F2C060A271CFF3300128330 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7F2C0609271CFF3300128330 /* Eigenmath.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -308,7 +300,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = src/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				MARKETING_VERSION = 3.33;
 				PRODUCT_BUNDLE_IDENTIFIER = eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -320,7 +312,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = src/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				MARKETING_VERSION = 3.33;
 				PRODUCT_BUNDLE_IDENTIFIER = eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
