@@ -54,6 +54,7 @@
 		7FA84591292DACA000842C3D /* emit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = emit.c; sourceTree = "<group>"; };
 		7FAB24A2271D054B007ED5D2 /* EigenmathView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EigenmathView.h; sourceTree = "<group>"; };
 		7FAB24A3271D0556007ED5D2 /* EigenmathView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EigenmathView.m; sourceTree = "<group>"; };
+		7FF594D12CE505E40042DA9B /* Eigenmath.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Eigenmath.entitlements; sourceTree = "<group>"; };
 		7FF6B91B271DCAC20047F0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Base; path = Base.lproj/Eigenmath.help; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +72,7 @@
 		7F2C0600271CFF3300128330 = {
 			isa = PBXGroup;
 			children = (
+				7FF594D12CE505E40042DA9B /* Eigenmath.entitlements */,
 				7FA84589292DACA000842C3D /* eigenmath.c */,
 				7FA84591292DACA000842C3D /* emit.c */,
 				7FA8458C292DACA000842C3D /* eval_draw.c */,
@@ -297,12 +299,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Eigenmath.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D273D35927;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 3.33;
 				PRODUCT_BUNDLE_IDENTIFIER = eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -310,12 +319,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Eigenmath.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D273D35927;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 3.33;
 				PRODUCT_BUNDLE_IDENTIFIER = eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
