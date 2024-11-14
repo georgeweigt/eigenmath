@@ -29,7 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7F2C0609271CFF3300128330 /* Eigenmath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eigenmath.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F2C0609271CFF3300128330 /* Eigenmath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Eigenmath.app; path = /Users/georgeweigt/github/eigenmath/xcode/build/Debug/Eigenmath.app; sourceTree = "<absolute>"; };
 		7F2C060C271CFF3300128330 /* EigenmathAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EigenmathAppDelegate.h; sourceTree = "<group>"; };
 		7F2C060D271CFF3300128330 /* EigenmathAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EigenmathAppDelegate.m; sourceTree = "<group>"; };
 		7F2C0614271CFF3F00128330 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,42 +72,33 @@
 		7F2C0600271CFF3300128330 = {
 			isa = PBXGroup;
 			children = (
-				7FF594D12CE505E40042DA9B /* Eigenmath.entitlements */,
-				7FA84589292DACA000842C3D /* eigenmath.c */,
-				7FA84591292DACA000842C3D /* emit.c */,
-				7FA8458C292DACA000842C3D /* eval_draw.c */,
-				7FA8458A292DACA000842C3D /* eval_nonstop.c */,
-				7FA8458D292DACA000842C3D /* fontinfo.c */,
-				7FA84588292DACA000842C3D /* history.c */,
-				7FA8458E292DACA000842C3D /* printbuf.c */,
-				7FA84587292DACA000842C3D /* prototypes.h */,
-				7FA8458F292DACA000842C3D /* run_thread.c */,
-				7FA84590292DACA000842C3D /* shipout.c */,
-				7FA84580292DAC7800842C3D /* app.c */,
 				7FA8457F292DAC7800842C3D /* app.h */,
+				7FA84580292DAC7800842C3D /* app.c */,
 				7FA8457C292DAC7700842C3D /* atomic.c */,
 				7FA8457E292DAC7700842C3D /* defs.h */,
 				7FA8457A292DAC7700842C3D /* display.c */,
 				7FA8457B292DAC7700842C3D /* draw_display.c */,
+				7FA84589292DACA000842C3D /* eigenmath.c */,
+				7FF594D12CE505E40042DA9B /* Eigenmath.entitlements */,
 				7FF6B91A271DCAC20047F0A7 /* Eigenmath.help */,
 				7F2C060C271CFF3300128330 /* EigenmathAppDelegate.h */,
 				7F2C060D271CFF3300128330 /* EigenmathAppDelegate.m */,
 				7FAB24A2271D054B007ED5D2 /* EigenmathView.h */,
 				7FAB24A3271D0556007ED5D2 /* EigenmathView.m */,
+				7FA84591292DACA000842C3D /* emit.c */,
+				7FA8458C292DACA000842C3D /* eval_draw.c */,
+				7FA8458A292DACA000842C3D /* eval_nonstop.c */,
+				7FA8458D292DACA000842C3D /* fontinfo.c */,
+				7FA84588292DACA000842C3D /* history.c */,
 				7F70C944271E015800691D3F /* Images.xcassets */,
 				7F2C0614271CFF3F00128330 /* Info.plist */,
 				7F2C0615271CFF3F00128330 /* main.m */,
 				7F79615B27405F4E00211A54 /* MainMenu.xib */,
-				7F2C060A271CFF3300128330 /* Products */,
+				7FA8458E292DACA000842C3D /* printbuf.c */,
+				7FA84587292DACA000842C3D /* prototypes.h */,
+				7FA8458F292DACA000842C3D /* run_thread.c */,
+				7FA84590292DACA000842C3D /* shipout.c */,
 			);
-			sourceTree = "<group>";
-		};
-		7F2C060A271CFF3300128330 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7F2C0609271CFF3300128330 /* Eigenmath.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,7 +144,7 @@
 			);
 			mainGroup = 7F2C0600271CFF3300128330;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 7F2C060A271CFF3300128330 /* Products */;
+			productRefGroup = 7F2C0600271CFF3300128330;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
