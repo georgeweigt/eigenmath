@@ -1,4 +1,4 @@
-.PHONY: default clean
+.PHONY: default clean all
 
 default:
 	make -C src prototypes.h
@@ -12,3 +12,10 @@ eigenmath.c: src/LICENSE src/defs.h src/prototypes.h src/*.c
 
 clean:
 	rm -f eigenmath eigenmath.c
+
+all:
+	make -C src
+	make -C xcode
+	make -C js
+	make -C test
+	make eigenmath
