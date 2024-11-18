@@ -14,6 +14,7 @@ clean:
 	rm -f eigenmath eigenmath.c
 
 all:
+	make -C doc
 	make -C src
 	make -C xcode
 	make -C js
