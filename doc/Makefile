@@ -21,7 +21,7 @@ FILES =	title.tex \
 
 default:
 	make eigenmath.tex
-	for file in $$(ls *.tex | sed "s/\.tex/\.pdf/") ; do make $$file ; done
+	for file in $$(basename -a -s .tex *.tex) ; do make $$file.pdf ; done
 
 eigenmath.tex : a.out preamble $(FILES)
 	./a.out $(FILES) > eigenmath.tex
