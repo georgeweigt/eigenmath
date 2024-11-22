@@ -5,11 +5,11 @@
 *.log
 *.synctex.gz
 *.toc
-a.out
-diffs
 *.pdf
 eigenmath
 wcheck
 make-prototypes
 project.xcworkspace
 xcuserdata
+unify
+diffs

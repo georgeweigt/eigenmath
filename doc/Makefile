@@ -1,5 +1,13 @@
 .PHONY: default clean
 
+%.pdf: %.tex preamble
+	pdflatex $<
+	if [ -e $*.toc ] ; then pdflatex $< ; pdflatex $< ; fi
+
+default:
+	make eigenmath.tex
+	for file in $$(basename -a -s .tex *.tex) ; do make $$file.pdf ; done
+
 FILES =	title.tex \
 	introduction.tex syntax.tex symbols.tex function-definitions.tex \
         arithmetic.tex complex-numbers.tex draw.tex \
@@ -9,25 +17,11 @@ FILES =	title.tex \
         surface-integral.tex greens-theorem.tex stokes-theorem.tex \
         feature-index.tex tricks.tex
 
-# https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
+eigenmath.tex: unify preamble $(FILES)
+	./unify $(FILES) > eigenmath.tex
 
-# Sometimes, must do pdflatex three times to get correct toc
-
-%.pdf: %.tex preamble
-	pdflatex $<
-	if [ -e $*.toc ] ; then pdflatex $< ; pdflatex $< ; fi
-
-# $$ sends a single $ to the shell
-
-default:
-	make eigenmath.tex
-	for file in $$(basename -a -s .tex *.tex) ; do make $$file.pdf ; done
-
-eigenmath.tex : a.out preamble $(FILES)
-	./a.out $(FILES) > eigenmath.tex
-
-a.out: unify.c
-	$(CC) unify.c
+unify: unify.c
+	$(CC) -o unify unify.c
 
 clean:
 	rm -f *.aux *.log *.synctex.gz *.toc
