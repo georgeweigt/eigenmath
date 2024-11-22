@@ -4,6 +4,8 @@
 	pdflatex $<
 	if [ -e $*.toc ] ; then pdflatex $< ; pdflatex $< ; fi
 
+# make eigenmath.tex in case eigenmath.tex doesn't exist
+
 default:
 	make eigenmath.tex
 	for file in $$(basename -a -s .tex *.tex) ; do make $$file.pdf ; done
