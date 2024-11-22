@@ -1,14 +1,4 @@
-.PHONY: default clean
+# https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 
-default:
-	make wcheck
-	make make-prototypes
-
-wcheck: wcheck.c
-	$(CC) -Wall -O0 -o wcheck wcheck.c
-
-make-prototypes: make-prototypes.c
-	$(CC) -Wall -O0 -o make-prototypes make-prototypes.c
-
-clean:
-	rm -f wcheck make-prototypes
+%: %.c
+	$(CC) -Wall -O0 -o $@ $<

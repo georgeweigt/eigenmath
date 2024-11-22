@@ -19,11 +19,9 @@ FILES =	title.tex \
         surface-integral.tex greens-theorem.tex stokes-theorem.tex \
         feature-index.tex tricks.tex
 
-eigenmath.tex: unify preamble $(FILES)
-	./unify $(FILES) > eigenmath.tex
-
-unify: unify.c
-	$(CC) -o unify unify.c
+eigenmath.tex: preamble $(FILES)
+	make -C ../tools unify
+	../tools/unify $(FILES) > eigenmath.tex
 
 clean:
 	rm -f *.aux *.log *.synctex.gz *.toc
