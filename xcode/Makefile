@@ -2,7 +2,7 @@
 
 HELPBOOK = Base.lproj/Eigenmath.help/Contents/Resources/English.lproj/index.html
 
-# sed removes ../../main.c and ../../fmt.c
+# sed removes main.c and fmt.c
 
 FILES := $(shell ls ../src/*.c | sed "s/\.\.\/src\/main\.c//;s/\.\.\/src\/fmt\.c//")
 
