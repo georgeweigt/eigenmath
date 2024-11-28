@@ -4,7 +4,7 @@ Scripts are read from `document.getElementById("stdin").value`
 
 Results are written to `document.getElementById("stdout").innerHTML`
 
-For example (click [here](https://georgeweigt.github.io/demo.html) to try)
+For example (click [here](https://georgeweigt.github.io/sinc.html) to try)
 
 ```
 <!DOCTYPE html>
