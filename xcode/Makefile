@@ -12,6 +12,8 @@ default:
 	make -C ../src prototypes.h
 	make eigenmath.c
 	make prototypes.h
+	xcodebuild -project Eigenmath.xcodeproj
+	find build -name Eigenmath.app -print
 
 eigenmath.c: ../src/LICENSE ../src/defs.h ../src/prototypes.h $(FILES)
 	cat ../src/LICENSE ../src/defs.h ../src/prototypes.h $(FILES) > eigenmath.c

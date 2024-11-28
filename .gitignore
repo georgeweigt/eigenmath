@@ -1,15 +1,4 @@
 .DS_Store
 *.swp
 *.tmp
-*.aux
-*.log
-*.synctex.gz
-*.toc
-*.pdf
 eigenmath
-wcheck
-make-prototypes
-project.xcworkspace
-xcuserdata
-unify
-diffs
