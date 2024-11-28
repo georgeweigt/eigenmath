@@ -17,6 +17,7 @@ Run self tests
 ./eigenmath test/selftest1
 ./eigenmath test/selftest2
 ```
+#
 
 To build for macOS (requires Xcode)
 
