@@ -11,11 +11,10 @@ Run a script
 ./eigenmath demo/spontaneous-emission
 ```
 
-Run self tests
+Run a self test
 
 ```
 ./eigenmath test/selftest1
-./eigenmath test/selftest2
 ```
 
 #
