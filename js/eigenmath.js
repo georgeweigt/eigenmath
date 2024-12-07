@@ -11638,8 +11638,8 @@ simplify()
 	}
 
 	push(p1);
+	simplify_trig(); // do this first otherwise compton-demo runs out of memory
 	simplify_nib();
-	simplify_trig();
 }
 
 function

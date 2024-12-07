@@ -1,6 +1,4 @@
-"Compton scattering demo"
-
-clear
+"Compton scattering"
 
 -- Verify formulas for Compton scattering
 
@@ -14,14 +12,14 @@ p1 = (omega, 0, 0, omega)
 p2 = (E, 0, 0, -omega)
 
 p3 = (omega,
-      omega expsin(theta) expcos(phi),
-      omega expsin(theta) expsin(phi),
-      omega expcos(theta))
+      omega sin(theta) cos(phi),
+      omega sin(theta) sin(phi),
+      omega cos(theta))
 
 p4 = (E,
-      -omega expsin(theta) expcos(phi),
-      -omega expsin(theta) expsin(phi),
-      -omega expcos(theta))
+      -omega sin(theta) cos(phi),
+      -omega sin(theta) sin(phi),
+      -omega cos(theta))
 
 -- spinors
 
@@ -109,7 +107,7 @@ check(f22 == a22 / N)
 
 -- "ok"
 
--- "Verify Mandelstam formulas"
+-- "Verify probability density"
 
 s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
@@ -125,10 +123,6 @@ check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
 check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
 check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
 
--- "ok"
-
--- "Verify probability density"
-
 p12 = dot(p1,gmunu,p2)
 p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
@@ -137,16 +131,19 @@ check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
 check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
 check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
 
-w1 = omega^2 / m + omega (m^2 + omega^2)^(1/2) / m
-w2 = omega^2 exp(i theta) / (2 m) +
-     omega^2 exp(-i theta) / (2 m) +
-     omega (m^2 + omega^2)^(1/2) / m
+-- verify high energy approximation m = 0
 
-check(f == 2 (w2/w1 + w1/w2 + (m/w1 - m/w2 + 1)^2 - 1))
+m = 0
+
+check(s == 4 omega^2)
+check(u == -2 omega^2 (cos(theta) + 1))
+check(f == 2 ((cos(theta) + 1) / 2 + 2 / (cos(theta) + 1)))
+
+m = quote(m) -- undo m = 0
 
 -- "ok"
 
--- "Verify frame invariance of probability density"
+-- "Verify lab frame"
 
 -- rotate to lab frame (electron at rest)
 
@@ -169,19 +166,33 @@ check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
 check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
 check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
 
--- "ok"
+-- verify s, t, and u in the lab frame
 
--- "Verify probability density for m = 0"
+omegaL = dot(p1, (1,0,0,0))
+omegaLp = dot(p3, (1,0,0,0))
 
-m = 0
+check(omegaL == omega^2 / m + omega E / m)
+check(omegaLp == omega^2 cos(theta) / m + omega E / m)
 
-check(s == 4 omega^2)
-check(u == -2 omega^2 (expcos(theta) + 1))
+check(s == m^2 + 2 m omegaL)
+check(t == 2 m (omegaLp - omegaL))
+check(u == m^2 - 2 m omegaLp)
 
-a = expcos(theta) + 1
+check(f == 2 (omegaL/omegaLp + omegaLp/omegaL + (m/omegaL - m/omegaLp + 1)^2 - 1))
 
-check(f == 2 (a/2 + 2/a))
+-- verify integral
 
-m = quote(m) -- undo m = 0
+R = hbar omega / (m c^2)
+
+omegap = omega / (1 + R (1 - cos(theta)))
+
+f = (omegap / omega)^2 (omega / omegap + omegap / omega - sin(theta)^2)
+
+I = -cos(theta) / R^2 +
+    log(1 + R (1 - cos(theta))) (1/R - 2/R^2 - 2/R^3) -
+    1 / (2 R (1 + R (1 - cos(theta)))^2) +
+    1 / (1 + R (1 - cos(theta))) (-2/R^2 - 1/R^3)
+
+check(f sin(theta) == d(I,theta))
 
 -- "ok"
