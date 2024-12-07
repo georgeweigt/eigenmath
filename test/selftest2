@@ -490,7 +490,9 @@ T21 = (0, -1)
 T22 = (1, 0)
 T = ((T11, T12), (T21, T22))
 check(dot(A,T,B) - P = 0)
-"Compton scattering"
+"Compton scattering demo"
+
+clear
 
 -- Verify formulas for Compton scattering
 

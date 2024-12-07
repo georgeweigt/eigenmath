@@ -1,4 +1,6 @@
-"Compton scattering"
+"Compton scattering demo"
+
+clear
 
 -- Verify formulas for Compton scattering
 
