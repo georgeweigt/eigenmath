@@ -1063,11 +1063,9 @@ integral_nib(F, X)
 	integral_lookup(h, F);
 
 	p = pop();
-
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
-
 	push(p);
 }
 

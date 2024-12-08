@@ -39,7 +39,7 @@ eval_user_function(struct atom *p1)
 	save_symbol(symbol(ARG8));
 	save_symbol(symbol(ARG9));
 
-	push(FUNC_DEFN); // make visible to gc
+	push(FUNC_DEFN); // make visible to garbage collector
 
 	// eval all args before changing bindings
 
@@ -62,7 +62,6 @@ eval_user_function(struct atom *p1)
 	evalg(); // eval FUNC_DEFN
 
 	p1 = pop();
-
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
@@ -72,6 +71,5 @@ eval_user_function(struct atom *p1)
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
-
 	push(p1);
 }

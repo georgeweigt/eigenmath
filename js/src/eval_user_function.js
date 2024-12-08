@@ -61,7 +61,6 @@ eval_user_function(p1)
 	evalf(); // eval FUNC_DEFN
 
 	p1 = pop();
-
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
@@ -71,6 +70,5 @@ eval_user_function(p1)
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
-
 	push(p1);
 }

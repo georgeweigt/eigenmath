@@ -8367,11 +8367,9 @@ integral_nib(F, X)
 	integral_lookup(h, F);
 
 	p = pop();
-
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
-
 	push(p);
 }
 
@@ -12925,7 +12923,6 @@ eval_user_function(p1)
 	evalf(); // eval FUNC_DEFN
 
 	p1 = pop();
-
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
@@ -12935,7 +12932,6 @@ eval_user_function(p1)
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
-
 	push(p1);
 }
 function
