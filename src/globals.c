@@ -2,10 +2,8 @@ struct atom *mem[MAXBLOCKS]; // an array of pointers
 struct atom *free_list;
 
 int tos; // top of stack
-int tof; // top of frame
 
 struct atom *stack[STACKSIZE];
-struct atom *frame[FRAMESIZE];
 
 struct atom *symtab[27 * BUCKETSIZE];
 struct atom *binding[27 * BUCKETSIZE];
@@ -38,7 +36,6 @@ int string_count;
 int tensor_count;
 int max_eval_level;
 int max_tos;
-int max_tof;
 
 char strbuf[STRBUFLEN];
 

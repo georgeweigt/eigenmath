@@ -18,9 +18,11 @@ evalf(void)
 	struct atom *p;
 	eval_level++;
 	p = pop();
-	fpush(p); // make visible to garbage collector
+	push(p); // make visible to garbage collector
 	evalf_nib(p);
-	fpop();
+	p = pop();
+	pop(); // remove
+	push(p);
 	eval_level--;
 }
 

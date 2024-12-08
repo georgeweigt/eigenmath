@@ -64,5 +64,7 @@ eval_sum(p1)
 
 	add_terms(stack.length - h);
 
+	p1 = pop();
 	restore_symbol();
+	push(p1);
 }

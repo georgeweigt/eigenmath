@@ -37,7 +37,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <errno.h>
 
 #define STACKSIZE 100000 // evaluation stack
-#define FRAMESIZE 10000
 #define BLOCKSIZE 10000
 #define MAXBLOCKS 2000
 #define BUCKETSIZE 100
@@ -351,9 +350,7 @@ struct tensor {
 extern struct atom *mem[MAXBLOCKS]; // an array of pointers
 extern struct atom *free_list;
 extern int tos; // top of stack
-extern int tof; // top of frame
 extern struct atom *stack[STACKSIZE];
-extern struct atom *frame[FRAMESIZE];
 extern struct atom *symtab[27 * BUCKETSIZE];
 extern struct atom *binding[27 * BUCKETSIZE];
 extern struct atom *usrfunc[27 * BUCKETSIZE];
@@ -889,8 +886,6 @@ void static_negate(void);
 void static_reciprocate(void);
 void push(struct atom *p);
 struct atom * pop(void);
-void fpush(struct atom *p);
-struct atom * fpop(void);
 void save_symbol(struct atom *p);
 void restore_symbol(void);
 void dupl(void);
@@ -934,7 +929,6 @@ alloc_block(void)
 
 	if (block_count == MAXBLOCKS) {
 		tos = 0;
-		tof = 0;
 		gc(); // prep for next run
 		exitf("out of memory");
 	}
@@ -1901,9 +1895,11 @@ evalf(void)
 	struct atom *p;
 	eval_level++;
 	p = pop();
-	fpush(p); // make visible to garbage collector
+	push(p); // make visible to garbage collector
 	evalf_nib(p);
-	fpop();
+	p = pop();
+	pop(); // remove
+	push(p);
 	eval_level--;
 }
 
@@ -7985,6 +7981,7 @@ void
 integral_nib(struct atom *F, struct atom *X)
 {
 	int h;
+	struct atom *p;
 
 	save_symbol(symbol(SA));
 	save_symbol(symbol(SB));
@@ -8004,9 +8001,13 @@ integral_nib(struct atom *F, struct atom *X)
 
 	integral_lookup(h, F);
 
+	p = pop();
+
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
+
+	push(p);
 }
 
 void
@@ -11490,7 +11491,9 @@ eval_product(struct atom *p1)
 
 	multiply_factors(tos - h);
 
+	p1 = pop();
 	restore_symbol();
+	push(p1);
 }
 void
 eval_quote(struct atom *p1)
@@ -12313,9 +12316,9 @@ eval_run(struct atom *p1)
 		stopf("run: cannot read file");
 	p2->u.str = buf;
 
-	fpush(p2); // make visible to garbage collector
+	push(p2); // make visible to garbage collector
 	run_buf(buf);
-	fpop(); // buf is freed on next gc
+	pop(); // buf is freed on next gc
 
 	push_symbol(NIL); // return value
 }
@@ -13247,9 +13250,6 @@ eval_status(struct atom *p1)
 	snprintf(strbuf, STRBUFLEN, "max_tos %d (%d%%)\n", max_tos, 100 * max_tos / STACKSIZE);
 	outbuf_puts(strbuf);
 
-	snprintf(strbuf, STRBUFLEN, "max_tof %d (%d%%)\n", max_tof, 100 * max_tof / FRAMESIZE);
-	outbuf_puts(strbuf);
-
 	printbuf(outbuf, BLACK);
 
 	push_symbol(NIL);
@@ -13395,7 +13395,9 @@ eval_sum(struct atom *p1)
 
 	add_terms(tos - h);
 
+	p1 = pop();
 	restore_symbol();
+	push(p1);
 }
 void
 eval_tan(struct atom *p1)
@@ -14096,18 +14098,6 @@ eval_user_function(struct atom *p1)
 		return;
 	}
 
-	// push FUNC_DEFN before arg eval to preclude any side effect reclaim
-
-	push(FUNC_DEFN);
-
-	// eval all args before changing bindings
-
-	for (i = 0; i < 9; i++) {
-		push(car(FUNC_ARGS));
-		evalg(); // p1 is on frame stack, not reclaimed
-		FUNC_ARGS = cdr(FUNC_ARGS);
-	}
-
 	save_symbol(symbol(ARG1));
 	save_symbol(symbol(ARG2));
 	save_symbol(symbol(ARG3));
@@ -14117,6 +14107,16 @@ eval_user_function(struct atom *p1)
 	save_symbol(symbol(ARG7));
 	save_symbol(symbol(ARG8));
 	save_symbol(symbol(ARG9));
+
+	push(FUNC_DEFN); // make visible to gc
+
+	// eval all args before changing bindings
+
+	for (i = 0; i < 9; i++) {
+		push(car(FUNC_ARGS));
+		evalg();
+		FUNC_ARGS = cdr(FUNC_ARGS);
+	}
 
 	set_symbol(symbol(ARG9), pop(), symbol(NIL));
 	set_symbol(symbol(ARG8), pop(), symbol(NIL));
@@ -14130,6 +14130,8 @@ eval_user_function(struct atom *p1)
 
 	evalg(); // eval FUNC_DEFN
 
+	p1 = pop();
+
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
@@ -14139,6 +14141,8 @@ eval_user_function(struct atom *p1)
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
+
+	push(p1);
 }
 void
 eval_user_symbol(struct atom *p1)
@@ -16360,9 +16364,6 @@ gc(void)
 	for (i = 0; i < tos; i++)
 		untag(stack[i]);
 
-	for (i = 0; i < tof; i++)
-		untag(frame[i]);
-
 	for (i = 0; i < 27 * BUCKETSIZE; i++) {
 		untag(symtab[i]);
 		untag(binding[i]);
@@ -16447,10 +16448,8 @@ struct atom *mem[MAXBLOCKS]; // an array of pointers
 struct atom *free_list;
 
 int tos; // top of stack
-int tof; // top of frame
 
 struct atom *stack[STACKSIZE];
-struct atom *frame[FRAMESIZE];
 
 struct atom *symtab[27 * BUCKETSIZE];
 struct atom *binding[27 * BUCKETSIZE];
@@ -16483,7 +16482,6 @@ int string_count;
 int tensor_count;
 int max_eval_level;
 int max_tos;
-int max_tof;
 
 char strbuf[STRBUFLEN];
 
@@ -17015,7 +17013,6 @@ run(char *buf)
 		return;
 
 	tos = 0;
-	tof = 0;
 	interrupt = 0;
 	eval_level = 0;
 	gc_level = 0;
@@ -17769,38 +17766,20 @@ pop(void)
 }
 
 void
-fpush(struct atom *p)
-{
-	if (tof < 0 || tof >= FRAMESIZE)
-		exitf("frame error, circular definition?");
-	frame[tof++] = p;
-	if (tof > max_tof)
-		max_tof = tof;
-}
-
-struct atom *
-fpop(void)
-{
-	if (tof < 1 || tof > FRAMESIZE)
-		exitf("frame error");
-	return frame[--tof];
-}
-
-void
 save_symbol(struct atom *p)
 {
-	fpush(p);
-	fpush(get_binding(p));
-	fpush(get_usrfunc(p));
+	push(p);
+	push(get_binding(p));
+	push(get_usrfunc(p));
 }
 
 void
 restore_symbol(void)
 {
 	struct atom *p1, *p2, *p3;
-	p3 = fpop();
-	p2 = fpop();
-	p1 = fpop();
+	p3 = pop();
+	p2 = pop();
+	p1 = pop();
 	set_symbol(p1, p2, p3);
 }
 

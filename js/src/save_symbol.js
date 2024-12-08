@@ -1,7 +1,7 @@
 function
 save_symbol(p)
 {
-	frame.push(p);
-	frame.push(get_binding(p));
-	frame.push(get_usrfunc(p));
+	stack.push(p);
+	stack.push(get_binding(p));
+	stack.push(get_usrfunc(p));
 }

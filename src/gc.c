@@ -25,9 +25,6 @@ gc(void)
 	for (i = 0; i < tos; i++)
 		untag(stack[i]);
 
-	for (i = 0; i < tof; i++)
-		untag(frame[i]);
-
 	for (i = 0; i < 27 * BUCKETSIZE; i++) {
 		untag(symtab[i]);
 		untag(binding[i]);

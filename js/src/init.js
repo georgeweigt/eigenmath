@@ -7,7 +7,6 @@ init()
 	nonstop = 0;
 
 	stack = [];
-	frame = [];
 
 	binding = {};
 	usrfunc = {};

@@ -29,18 +29,6 @@ eval_user_function(struct atom *p1)
 		return;
 	}
 
-	// push FUNC_DEFN before arg eval to preclude any side effect reclaim
-
-	push(FUNC_DEFN);
-
-	// eval all args before changing bindings
-
-	for (i = 0; i < 9; i++) {
-		push(car(FUNC_ARGS));
-		evalg(); // p1 is on frame stack, not reclaimed
-		FUNC_ARGS = cdr(FUNC_ARGS);
-	}
-
 	save_symbol(symbol(ARG1));
 	save_symbol(symbol(ARG2));
 	save_symbol(symbol(ARG3));
@@ -50,6 +38,16 @@ eval_user_function(struct atom *p1)
 	save_symbol(symbol(ARG7));
 	save_symbol(symbol(ARG8));
 	save_symbol(symbol(ARG9));
+
+	push(FUNC_DEFN); // make visible to gc
+
+	// eval all args before changing bindings
+
+	for (i = 0; i < 9; i++) {
+		push(car(FUNC_ARGS));
+		evalg();
+		FUNC_ARGS = cdr(FUNC_ARGS);
+	}
 
 	set_symbol(symbol(ARG9), pop(), symbol(NIL));
 	set_symbol(symbol(ARG8), pop(), symbol(NIL));
@@ -63,6 +61,8 @@ eval_user_function(struct atom *p1)
 
 	evalg(); // eval FUNC_DEFN
 
+	p1 = pop();
+
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
@@ -72,4 +72,6 @@ eval_user_function(struct atom *p1)
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
+
+	push(p1);
 }

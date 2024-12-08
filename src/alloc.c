@@ -23,7 +23,6 @@ alloc_block(void)
 
 	if (block_count == MAXBLOCKS) {
 		tos = 0;
-		tof = 0;
 		gc(); // prep for next run
 		exitf("out of memory");
 	}

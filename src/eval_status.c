@@ -35,9 +35,6 @@ eval_status(struct atom *p1)
 	snprintf(strbuf, STRBUFLEN, "max_tos %d (%d%%)\n", max_tos, 100 * max_tos / STACKSIZE);
 	outbuf_puts(strbuf);
 
-	snprintf(strbuf, STRBUFLEN, "max_tof %d (%d%%)\n", max_tof, 100 * max_tof / FRAMESIZE);
-	outbuf_puts(strbuf);
-
 	printbuf(outbuf, BLACK);
 
 	push_symbol(NIL);

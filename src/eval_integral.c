@@ -1045,6 +1045,7 @@ void
 integral_nib(struct atom *F, struct atom *X)
 {
 	int h;
+	struct atom *p;
 
 	save_symbol(symbol(SA));
 	save_symbol(symbol(SB));
@@ -1064,9 +1065,13 @@ integral_nib(struct atom *F, struct atom *X)
 
 	integral_lookup(h, F);
 
+	p = pop();
+
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
+
+	push(p);
 }
 
 void

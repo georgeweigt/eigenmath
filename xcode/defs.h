@@ -10,7 +10,6 @@
 #include <errno.h>
 
 #define STACKSIZE 100000 // evaluation stack
-#define FRAMESIZE 10000
 #define BLOCKSIZE 10000
 #define MAXBLOCKS 2000
 #define BUCKETSIZE 100
@@ -324,9 +323,7 @@ struct tensor {
 extern struct atom *mem[MAXBLOCKS]; // an array of pointers
 extern struct atom *free_list;
 extern int tos; // top of stack
-extern int tof; // top of frame
 extern struct atom *stack[STACKSIZE];
-extern struct atom *frame[FRAMESIZE];
 extern struct atom *symtab[27 * BUCKETSIZE];
 extern struct atom *binding[27 * BUCKETSIZE];
 extern struct atom *usrfunc[27 * BUCKETSIZE];

@@ -2,7 +2,6 @@ var inbuf;
 var outbuf;
 var stdout;
 var stack;
-var frame;
 var binding;
 var usrfunc;
 var zero;

@@ -8346,7 +8346,7 @@ integral()
 function
 integral_nib(F, X)
 {
-	var h;
+	var h, p;
 
 	save_symbol(symbol(SA));
 	save_symbol(symbol(SB));
@@ -8366,9 +8366,13 @@ integral_nib(F, X)
 
 	integral_lookup(h, F);
 
+	p = pop();
+
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
+
+	push(p);
 }
 
 function
@@ -9675,25 +9679,19 @@ eval_nonstop()
 function
 eval_nonstop_nib()
 {
-	var save_tos, save_tof, save_eval_level, save_expanding;
+	var save_tos, save_eval_level, save_expanding;
 
 	try {
 		save_tos = stack.length - 1;
-		save_tof = frame.length;
-
 		save_eval_level = eval_level;
 		save_expanding = expanding;
-
 		evalf();
 
 	} catch (errmsg) {
 
 		stack.length = save_tos;
-		frame.length = save_tof;
-
 		eval_level = save_eval_level;
 		expanding = save_expanding;
-
 		push_symbol(NIL); // return value
 	}
 }
@@ -10520,7 +10518,9 @@ eval_product(p1)
 
 	multiply_factors(stack.length - h);
 
+	p1 = pop();
 	restore_symbol();
+	push(p1);
 }
 function
 eval_quote(p1)
@@ -12303,7 +12303,9 @@ eval_sum(p1)
 
 	add_terms(stack.length - h);
 
+	p1 = pop();
 	restore_symbol();
+	push(p1);
 }
 function
 eval_tan(p1)
@@ -12890,16 +12892,6 @@ eval_user_function(p1)
 		return;
 	}
 
-	push(FUNC_DEFN);
-
-	// eval all args before changing bindings
-
-	for (i = 0; i < 9; i++) {
-		push(car(FUNC_ARGS));
-		evalf();
-		FUNC_ARGS = cdr(FUNC_ARGS);
-	}
-
 	save_symbol(symbol(ARG1));
 	save_symbol(symbol(ARG2));
 	save_symbol(symbol(ARG3));
@@ -12909,6 +12901,16 @@ eval_user_function(p1)
 	save_symbol(symbol(ARG7));
 	save_symbol(symbol(ARG8));
 	save_symbol(symbol(ARG9));
+
+	push(FUNC_DEFN);
+
+	// eval all args before changing bindings
+
+	for (i = 0; i < 9; i++) {
+		push(car(FUNC_ARGS));
+		evalf();
+		FUNC_ARGS = cdr(FUNC_ARGS);
+	}
 
 	set_symbol(symbol(ARG9), pop(), symbol(NIL));
 	set_symbol(symbol(ARG8), pop(), symbol(NIL));
@@ -12920,7 +12922,9 @@ eval_user_function(p1)
 	set_symbol(symbol(ARG2), pop(), symbol(NIL));
 	set_symbol(symbol(ARG1), pop(), symbol(NIL));
 
-	evalf();
+	evalf(); // eval FUNC_DEFN
+
+	p1 = pop();
 
 	restore_symbol();
 	restore_symbol();
@@ -12931,6 +12935,8 @@ eval_user_function(p1)
 	restore_symbol();
 	restore_symbol();
 	restore_symbol();
+
+	push(p1);
 }
 function
 eval_user_symbol(p1)
@@ -14607,7 +14613,6 @@ init()
 	nonstop = 0;
 
 	stack = [];
-	frame = [];
 
 	binding = {};
 	usrfunc = {};
@@ -16495,9 +16500,9 @@ function
 restore_symbol()
 {
 	var p1, p2, p3;
-	p3 = frame.pop();
-	p2 = frame.pop();
-	p1 = frame.pop();
+	p3 = stack.pop();
+	p2 = stack.pop();
+	p1 = stack.pop();
 	set_symbol(p1, p2, p3);
 }
 function
@@ -16579,9 +16584,9 @@ sample(F, T, t)
 function
 save_symbol(p)
 {
-	frame.push(p);
-	frame.push(get_binding(p));
-	frame.push(get_usrfunc(p));
+	stack.push(p);
+	stack.push(get_binding(p));
+	stack.push(get_usrfunc(p));
 }
 const T_EXCLAM = 33;
 const T_QUOTEDBL = 34;
@@ -17323,7 +17328,6 @@ var inbuf;
 var outbuf;
 var stdout;
 var stack;
-var frame;
 var binding;
 var usrfunc;
 var zero;

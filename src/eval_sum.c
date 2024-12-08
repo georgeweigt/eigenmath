@@ -65,5 +65,7 @@ eval_sum(struct atom *p1)
 
 	add_terms(tos - h);
 
+	p1 = pop();
 	restore_symbol();
+	push(p1);
 }

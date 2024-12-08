@@ -35,7 +35,7 @@ eval_draw(struct atom *p1)
 
 	restore_symbol();
 
-	push_symbol(NIL);
+	push_symbol(NIL); // return value
 
 	drawing = 0;
 }

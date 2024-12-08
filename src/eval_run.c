@@ -16,9 +16,9 @@ eval_run(struct atom *p1)
 		stopf("run: cannot read file");
 	p2->u.str = buf;
 
-	fpush(p2); // make visible to garbage collector
+	push(p2); // make visible to garbage collector
 	run_buf(buf);
-	fpop(); // buf is freed on next gc
+	pop(); // buf is freed on next gc
 
 	push_symbol(NIL); // return value
 }

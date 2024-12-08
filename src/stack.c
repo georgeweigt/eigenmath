@@ -17,38 +17,20 @@ pop(void)
 }
 
 void
-fpush(struct atom *p)
-{
-	if (tof < 0 || tof >= FRAMESIZE)
-		exitf("frame error, circular definition?");
-	frame[tof++] = p;
-	if (tof > max_tof)
-		max_tof = tof;
-}
-
-struct atom *
-fpop(void)
-{
-	if (tof < 1 || tof > FRAMESIZE)
-		exitf("frame error");
-	return frame[--tof];
-}
-
-void
 save_symbol(struct atom *p)
 {
-	fpush(p);
-	fpush(get_binding(p));
-	fpush(get_usrfunc(p));
+	push(p);
+	push(get_binding(p));
+	push(get_usrfunc(p));
 }
 
 void
 restore_symbol(void)
 {
 	struct atom *p1, *p2, *p3;
-	p3 = fpop();
-	p2 = fpop();
-	p1 = fpop();
+	p3 = pop();
+	p2 = pop();
+	p1 = pop();
 	set_symbol(p1, p2, p3);
 }
 

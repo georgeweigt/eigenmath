@@ -5,7 +5,6 @@ run(char *buf)
 		return;
 
 	tos = 0;
-	tof = 0;
 	interrupt = 0;
 	eval_level = 0;
 	gc_level = 0;

@@ -64,5 +64,7 @@ eval_product(p1)
 
 	multiply_factors(stack.length - h);
 
+	p1 = pop();
 	restore_symbol();
+	push(p1);
 }

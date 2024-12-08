@@ -500,8 +500,6 @@ void static_negate(void);
 void static_reciprocate(void);
 void push(struct atom *p);
 struct atom * pop(void);
-void fpush(struct atom *p);
-struct atom * fpop(void);
 void save_symbol(struct atom *p);
 void restore_symbol(void);
 void dupl(void);
