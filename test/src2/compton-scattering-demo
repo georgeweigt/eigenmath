@@ -2,15 +2,10 @@
 
 clear
 
--- Verify formulas for Compton scattering
-
--- Run time about 30 seconds
-
--- Safari recommended, click through alerts on other browsers
-
 E = sqrt(omega^2 + m^2)
 
 p1 = (omega, 0, 0, omega)
+
 p2 = (E, 0, 0, -omega)
 
 p3 = (omega,
@@ -23,18 +18,11 @@ p4 = (E,
       -omega sin(theta) sin(phi),
       -omega cos(theta))
 
--- spinors
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
 
-N = (E + m)^2
-
-u21 = (p2[1] + m, 0, p2[4], p2[2] + i p2[3])
-u22 = (0, p2[1] + m, p2[2] - i p2[3], -p2[4])
-
-u41 = (p4[1] + m, 0, p4[4], p4[2] + i p4[3])
-u42 = (0, p4[1] + m, p4[2] - i p4[3], -p4[4])
-
-u2 = (u21,u22)
-u4 = (u41,u42)
+u41 = (E + m, 0, p4[4], p4[2] + i p4[3]) / sqrt(E + m)
+u42 = (0, E + m, p4[2] - i p4[3], -p4[4]) / sqrt(E + m)
 
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
@@ -50,7 +38,8 @@ gamma = (gamma0,gamma1,gamma2,gamma3)
 gammaT = transpose(gamma)
 gammaL = transpose(dot(gmunu,gamma))
 
-u4bar = dot(conj(u4),gamma0) -- adjoint of u4
+u41bar = dot(conj(u41), gamma0) -- adjoint of u41
+u42bar = dot(conj(u42), gamma0) -- adjoint of u42
 
 q1 = p1 + p2
 q2 = p4 - p1
@@ -58,32 +47,30 @@ q2 = p4 - p1
 qslash1 = dot(q1,gmunu,gamma)
 qslash2 = dot(q2,gmunu,gamma)
 
-a1 = zero(2,2,4,4)
-a2 = zero(2,2,4,4)
+M111 = dot(u41bar, -i e gammaT, qslash1 + m I, -i e gammaT, u21)
+M112 = dot(u41bar, -i e gammaT, qslash1 + m I, -i e gammaT, u22)
+M121 = dot(u42bar, -i e gammaT, qslash1 + m I, -i e gammaT, u21)
+M122 = dot(u42bar, -i e gammaT, qslash1 + m I, -i e gammaT, u22)
 
-for(a,1,2, for(b,1,2,
- a1[a,b] = -dot(u4bar[b], gammaT, qslash1 + m I, gammaT, u2[a]),
- a2[a,b] = -dot(u4bar[b], gammaT, qslash2 + m I, gammaT, u2[a])
-))
+M211 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
+M212 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
+M221 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
+M222 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
 
--- "Sum over spin states"
+M11 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu)) +
+      contract(dot(M112, gmunu, transpose(conj(M112)), gmunu)) +
+      contract(dot(M121, gmunu, transpose(conj(M121)), gmunu)) +
+      contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
 
-a11 = sum(a,1,2, sum(b,1,2,
-  contract(dot(a1[a,b], gmunu, transpose(conj(a1[a,b])), gmunu))
-))
+M12 = contract(dot(M111, gmunu, conj(M211), gmunu)) +
+      contract(dot(M112, gmunu, conj(M212), gmunu)) +
+      contract(dot(M121, gmunu, conj(M221), gmunu)) +
+      contract(dot(M122, gmunu, conj(M222), gmunu))
 
-a12 = sum(a,1,2, sum(b,1,2,
- contract(dot(a1[a,b], gmunu, conj(a2[a,b]), gmunu))
-))
-
-a22 = sum(a,1,2, sum(b,1,2,
-  contract(dot(a2[a,b], gmunu, transpose(conj(a2[a,b])), gmunu))
-))
-
-S = a11 + a12 + conj(a12) + a22
--- S
-
--- "Verify Casimir trick"
+M22 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu)) +
+      contract(dot(M212, gmunu, transpose(conj(M212)), gmunu)) +
+      contract(dot(M221, gmunu, transpose(conj(M221)), gmunu)) +
+      contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
 
 pslash2 = dot(p2,gmunu,gamma)
 pslash4 = dot(p4,gmunu,gamma)
@@ -95,21 +82,17 @@ Q1 = qslash1 + m I
 Q2 = qslash2 + m I
 
 T = dot(P2,gammaT,Q1,gammaT,P4,gammaL,Q1,gammaL)
-f11 = contract(contract(contract(T,3,4),2,3))
+f11 = e^4 contract(contract(contract(T,3,4),2,3))
 
 T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q1,gammaL)
-f12 = contract(contract(contract(T,3,5),2,3))
+f12 = e^4 contract(contract(contract(T,3,5),2,3))
 
 T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
-f22 = contract(contract(contract(T,3,4),2,3))
+f22 = e^4 contract(contract(contract(T,3,4),2,3))
 
-check(f11 == a11 / N)
-check(f12 == a12 / N)
-check(f22 == a22 / N)
-
--- "ok"
-
--- "Verify probability density"
+check(f11 == M11)
+check(f12 == M12)
+check(f22 == M22)
 
 s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
@@ -121,33 +104,21 @@ d22 = (u - m^2)^2
 
 f = (f11/d11 + 2 f12/d12 + f22/d22) / 4
 
-check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
-check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
-check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
+check(f11 == e^4 (-8 s u + 24 s m^2 + 8 u m^2 + 8 m^4))
+check(f12 == e^4 (8 s m^2 + 8 u m^2 + 16 m^4))
+check(f22 == e^4 (-8 s u + 8 s m^2 + 24 u m^2 + 8 m^4))
 
 p12 = dot(p1,gmunu,p2)
 p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
 
-check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
-check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
-check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
+check(f11 == e^4 (32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4))
+check(f12 == e^4 (16 m^2 p12 - 16 m^2 p14 + 32 m^4))
+check(f22 == e^4 (32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4))
 
--- verify high energy approximation m = 0
-
-m = 0
-
-check(s == 4 omega^2)
-check(u == -2 omega^2 (cos(theta) + 1))
-check(f == 2 ((cos(theta) + 1) / 2 + 2 / (cos(theta) + 1)))
-
-m = quote(m) -- undo m = 0
-
--- "ok"
-
--- "Verify lab frame"
-
--- rotate to lab frame (electron at rest)
+check(eval(s,m,0) == 4 omega^2)
+check(eval(u,m,0) == -2 omega^2 (cos(theta) + 1))
+check(eval(f,m,0) == 2 e^4 ((cos(theta) + 1) / 2 + 2 / (cos(theta) + 1)))
 
 Lambda = ((E/m,0,0,omega/m),(0,1,0,0),(0,0,1,0),(omega/m,0,0,E/m))
 
@@ -164,11 +135,9 @@ p12 = dot(p1,gmunu,p2)
 p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
 
-check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
-check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
-check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
-
--- verify s, t, and u in the lab frame
+check(f11 == e^4 (32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4))
+check(f12 == e^4 (16 m^2 p12 - 16 m^2 p14 + 32 m^4))
+check(f22 == e^4 (32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4))
 
 omegaL = dot(p1, (1,0,0,0))
 omegaLp = dot(p3, (1,0,0,0))
@@ -180,9 +149,7 @@ check(s == m^2 + 2 m omegaL)
 check(t == 2 m (omegaLp - omegaL))
 check(u == m^2 - 2 m omegaLp)
 
-check(f == 2 (omegaL/omegaLp + omegaLp/omegaL + (m/omegaL - m/omegaLp + 1)^2 - 1))
-
--- verify integral
+check(f == 2 e^4 (omegaL/omegaLp + omegaLp/omegaL + (m/omegaL - m/omegaLp + 1)^2 - 1))
 
 R = hbar omega / (m c^2)
 
@@ -196,5 +163,3 @@ I = -cos(theta) / R^2 +
     1 / (1 + R (1 - cos(theta))) (-2/R^2 - 1/R^3)
 
 check(f sin(theta) == d(I,theta))
-
--- "ok"
