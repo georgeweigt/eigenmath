@@ -1260,45 +1260,33 @@ check(infixform(float(96 pi^2 h / (GF^2 (mmu c^2)^5))) == "2.18735 10^(-6) secon
 
 clear
 
--- Verify formulas for muon pair production
-
 p = sqrt(E^2 - m^2)
-
 rho = sqrt(E^2 - M^2)
 
 p1 = (E, 0, 0, p)
 p2 = (E, 0, 0, -p)
 
 p3 = (E,
-      rho expsin(theta) expcos(phi),
-      rho expsin(theta) expsin(phi),
-      rho expcos(theta))
+      rho sin(theta) cos(phi),
+      rho sin(theta) sin(phi),
+      rho cos(theta))
 
 p4 = (E,
-      -rho expsin(theta) expcos(phi),
-      -rho expsin(theta) expsin(phi),
-      -rho expcos(theta))
+      -rho sin(theta) cos(phi),
+      -rho sin(theta) sin(phi),
+      -rho cos(theta))
 
--- spinors
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3]) / sqrt(E + m)
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4]) / sqrt(E + m)
 
-N = (E + m)^2 (E + M)^2
+v21 = (p2[4], p2[2] + i p2[3], E + m, 0) / sqrt(E + m)
+v22 = (p2[2] - i p2[3], -p2[4], 0, E + m) / sqrt(E + m)
 
-u11 = (E + m, 0, p1[4], p1[2] + i p1[3])
-u12 = (0, E + m, p1[2] - i p1[3], -p1[4])
+u31 = (E + M, 0, p3[4], p3[2] + i p3[3]) / sqrt(E + M)
+u32 = (0, E + M, p3[2] - i p3[3], -p3[4]) / sqrt(E + M)
 
-v21 = (p2[4], p2[2] + i p2[3], E + m, 0)
-v22 = (p2[2] - i p2[3], -p2[4], 0, E + m)
-
-u31 = (E + M, 0, p3[4], p3[2] + i p3[3])
-u32 = (0, E + M, p3[2] - i p3[3], -p3[4])
-
-v41 = (p4[4], p4[2] + i p4[3], E + M, 0)
-v42 = (p4[2] - i p4[3], -p4[4], 0, E + M)
-
-u1 = (u11,u12)
-v2 = (v21,v22)
-u3 = (u31,u32)
-v4 = (v41,v42)
+v41 = (p4[4], p4[2] + i p4[3], E + M, 0) / sqrt(E + M)
+v42 = (p4[2] - i p4[3], -p4[4], 0, E + M) / sqrt(E + M)
 
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
@@ -1314,31 +1302,17 @@ gamma = (gamma0,gamma1,gamma2,gamma3)
 gammaT = transpose(gamma)
 gammaL = transpose(dot(gmunu,gamma))
 
+u1 = (u11,u12)
+v2 = (v21,v22)
+u3 = (u31,u32)
+v4 = (v41,v42)
+
 v2bar = dot(conj(v2),gamma0) -- adjoint of v2
 u3bar = dot(conj(u3),gamma0) -- adjoint of u3
 
-w21 = zero(2,2,4)
-w34 = zero(2,2,4)
+M1(a,b,c,d) = dot(dot(u3bar[c],gammaL,v4[d]),dot(v2bar[b],gammaT,u1[a]))
 
-for(a,1,2, for(b,1,2,
- w21[a,b] = dot(v2bar[a], gammaT, u1[b]),
- w34[a,b] = dot(u3bar[a], gammaL, v4[b])
-))
-
--- matrix elements (use MX, M is used for muon mass)
-
-MX = zero(2,2,2,2)
-
-for(a,1,2, for(b,1,2, for(c,1,2, for(d,1,2,
- MX[a,b,c,d] = dot(w21[b,a], w34[c,d])
-))))
-
--- "Sum over spin states"
-
-S = sum(conj(MX) MX)
--- S
-
--- "Verify Casimir trick"
+MM = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2, M1(a,b,c,d) conj(M1(a,b,c,d)) ))))
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
@@ -1352,36 +1326,22 @@ X4 = pslash4 - M I
 
 T1 = contract(dot(X3,gammaT,X4,gammaT),1,4)
 T2 = contract(dot(X2,gammaL,X1,gammaL),1,4)
-
 f = contract(dot(T1,transpose(T2)))
 
-check(f == S/N)
-
--- "ok"
-
--- "Verify Mandelstam formula"
+check(f == MM)
 
 s = dot(p1 + p2, gmunu, p1 + p2)
-t = dot(p1 - p3, gmunu, p1 - p3)
-u = dot(p1 - p4, gmunu, p1 - p4)
 
-check(f == 16 t^2 - 16 s u + 32 u (m^2 + M^2) - 8 s^2 +
-           64 M^2 s + 64 m^2 s - 48 (m^2 + M^2)^2)
+check(4 s^2 == 64 E^4)
 
--- "ok"
+check(f / (64 E^4) == 1 + cos(theta)^2 + (m^2 + M^2) / E^2 sin(theta)^2 + m^2 M^2 cos(theta)^2 / E^4)
 
--- "Verify probability density"
+f = 1 + cos(theta)^2
+I = -1/3 cos(theta)^3 - cos(theta)
+check(f sin(theta) == d(I,theta))
 
-p12 = dot(p1,gmunu,p2)
-p13 = dot(p1,gmunu,p3)
-p14 = dot(p1,gmunu,p4)
-p23 = dot(p2,gmunu,p3)
-p24 = dot(p2,gmunu,p4)
-p34 = dot(p3,gmunu,p4)
-
-check(f == 32 p13 p24 + 32 p14 p23 + 32 m^2 p34 + 32 M^2 p12 + 64 M^2 m^2)
-
--- "ok"
+F = (I - eval(I,theta,0)) / (eval(I,theta,pi) - eval(I,theta,0))
+check(F == -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2)
 "Quantum electric field"
 
 clear
