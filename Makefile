@@ -16,7 +16,6 @@ clean:
 all:
 	make -C doc
 	make -C src
-	make -C xcode
 	make -C js
 	make -C test
 	make eigenmath
