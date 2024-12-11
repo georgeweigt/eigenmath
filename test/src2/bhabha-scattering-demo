@@ -2,38 +2,32 @@
 
 clear
 
--- Verify formulas for Bhabha scattering
-
 E = sqrt(p^2 + m^2)
 
 p1 = (E, 0, 0, p)
 p2 = (E, 0, 0, -p)
 
 p3 = (E,
-      p expsin(theta) expcos(phi),
-      p expsin(theta) expsin(phi),
-      p expcos(theta))
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
 
 p4 = (E,
-      -p expsin(theta) expcos(phi),
-      -p expsin(theta) expsin(phi),
-      -p expcos(theta))
+      -p sin(theta) cos(phi),
+      -p sin(theta) sin(phi),
+      -p cos(theta))
 
--- spinors
+v11 = (p1[4], p1[2] + i p1[3], E + m, 0) / sqrt(E + m)
+v12 = (p1[2] - i p1[3], -p1[4], 0, E + m) / sqrt(E + m)
 
-N = (E + m)^4
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
 
-v11 = (p1[4], p1[2] + i p1[3], E + m, 0)
-v12 = (p1[2] - i p1[3], -p1[4], 0, E + m)
+v31 = (p3[4], p3[2] + i p3[3], E + m, 0) / sqrt(E + m)
+v32 = (p3[2] - i p3[3], -p3[4], 0, E + m) / sqrt(E + m)
 
-u21 = (E + m, 0, p2[4], p2[2] + i p2[3])
-u22 = (0, E + m, p2[2] - i p2[3], -p2[4])
-
-v31 = (p3[4], p3[2] + i p3[3], E + m, 0)
-v32 = (p3[2] - i p3[3], -p3[4], 0, E + m)
-
-u41 = (E + m, 0, p4[4], p4[2] + i p4[3])
-u42 = (0, E + m, p4[2] - i p4[3], -p4[4])
+u41 = (E + m, 0, p4[4], p4[2] + i p4[3]) / sqrt(E + m)
+u42 = (0, E + m, p4[2] - i p4[3], -p4[4]) / sqrt(E + m)
 
 v1 = (v11,v12)
 u2 = (u21,u22)
@@ -57,38 +51,23 @@ gammaL = transpose(dot(gmunu,gamma))
 v1bar = dot(conj(v1),gamma0) -- adjoint of v1
 u4bar = dot(conj(u4),gamma0) -- adjoint of u4
 
-w13 = zero(2,2,4)
-w42 = zero(2,2,4)
-w12 = zero(2,2,4)
-w43 = zero(2,2,4)
+M1(a,b,c,d) = e^2 dot(dot(v1bar[a],gammaT,u2[b]),dot(u4bar[d],gammaL,v3[c]))
 
-for(a,1,2, for(b,1,2,
- w13[a,b] = dot(v1bar[a], gammaT, v3[b]),
- w42[a,b] = dot(u4bar[a], gammaL, u2[b]),
- w12[a,b] = dot(v1bar[a], gammaT, u2[b]),
- w43[a,b] = dot(u4bar[a], gammaL, v3[b])
-))
+M2(a,b,c,d) = -e^2 dot(dot(v1bar[a],gammaT,v3[c]),dot(u4bar[d],gammaL,u2[b]))
 
--- matrix elements
+M11 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M1(a,b,c,d) conj(M1(a,b,c,d)) ))))
 
-a1 = zero(2,2,2,2)
-a2 = zero(2,2,2,2)
+M12 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M1(a,b,c,d) conj(M2(a,b,c,d)) ))))
 
-for(a,1,2, for(b,1,2, for(c,1,2, for(d,1,2,
- a1[a,b,c,d] = dot(w13[a,c], w42[d,b]),
- a2[a,b,c,d] = dot(w12[a,b], w43[d,c])
-))))
+M21 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M2(a,b,c,d) conj(M1(a,b,c,d)) ))))
 
--- "Sum over spin states"
+M22 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M2(a,b,c,d) conj(M2(a,b,c,d)) ))))
 
-a11 = sum(conj(a1) a1)
-a12 = sum(conj(a2) a1)
-a22 = sum(conj(a2) a2)
-
-S = a11 - a12 - conj(a12) + a22
--- S
-
--- "Verify Casimir trick"
+check(M12 == M21)
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
@@ -100,59 +79,55 @@ X2 = pslash2 + m I
 X3 = pslash3 - m I
 X4 = pslash4 + m I
 
-T1 = contract(dot(X1,gammaT,X3,gammaT),1,4)
-T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+T1 = contract(dot(X1,gammaT,X2,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X3,gammaL),1,4)
 f11 = contract(dot(T1,transpose(T2)))
 
 T = contract(dot(X1,gammaT,X2,gammaT,X4,gammaL,X3,gammaL),1,6)
-f12 = contract(contract(T,1,3))
+f12 = contract(T,1,3,1,2)
 
-T1 = contract(dot(X1,gammaT,X2,gammaT),1,4)
-T2 = contract(dot(X4,gammaL,X3,gammaL),1,4)
+T1 = contract(dot(X1,gammaT,X3,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
 f22 = contract(dot(T1,transpose(T2)))
 
-check(f11 == a11 / N)
-check(f12 == a12 / N)
-check(f22 == a22 / N)
-
--- "ok"
-
--- "Verify Mandelstam formulas"
-
-s = dot(p1 + p2,gmunu,p1 + p2)
-t = dot(p1 - p3,gmunu,p1 - p3)
-u = dot(p1 - p4,gmunu,p1 - p4)
-
-d11 = t^2
-d12 = s t
-d22 = s^2
-
-f = (f11/d11 - 2 f12/d12 + f22/d22) / 4
-
-check(f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4)
-check(f12 == -8 u^2 + 64 u m^2 - 96 m^4)
-check(f22 == 8 t^2 + 8 u^2 - 64 t m^2 - 64 u m^2 + 192 m^4)
-
--- "ok"
-
--- "Verify probability density"
+check(e^4 f11 == M11)
+check(e^4 f12 == -M12)
+check(e^4 f22 == M22)
 
 p12 = dot(p1,gmunu,p2)
 p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
 
-check(f11 == 32 p12^2 + 32 p14^2 - 64 m^2 p13 + 64 m^4)
+check(f11 == 32 p13^2 + 32 p14^2 + 64 m^2 p12 + 64 m^4)
 check(f12 == -32 p14^2 - 32 m^2 p12 + 32 m^2 p13 - 32 m^2 p14 - 32 m^4)
-check(f22 == 32 p13^2 + 32 p14^2 + 64 m^2 p12 + 64 m^4)
+check(f22 == 32 p12^2 + 32 p14^2 - 64 m^2 p13 + 64 m^4)
 
--- "ok"
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
 
--- "Verify probability density for m = 0"
+d11 = s^2
+d12 = s t
+d22 = t^2
+
+f = e^4 (f11/d11 - 2 f12/d12 + f22/d22) / 4
 
 m = 0
 
-check(f == (expcos(theta)^2 + 3)^2 / (expcos(theta) - 1)^2)
+check(f11 == 64 E^4 (cos(theta)^2 + 1))
+check(f12 == -32 E^4 (cos(theta) + 1)^2)
+check(f22 == 32 E^4 (cos(theta) + 1)^2 + 128 E^4)
 
-m = quote(m) -- undo m = 0
+check(s == 4 E^2)
+check(t == 2 E^2 (cos(theta) - 1))
 
--- "ok"
+check(f == e^4 (cos(theta)^2 + 3)^2 / (cos(theta) - 1)^2)
+
+m = quote(m)
+
+f = (cos(theta)^2 + 3)^2 / (cos(theta) - 1)^2
+I = 16 / (cos(theta) - 1) -
+    1/3 cos(theta)^3 -
+    cos(theta)^2 -
+    9 cos(theta) -
+    16 log(1 - cos(theta))
+check(f sin(theta) == d(I,theta))
