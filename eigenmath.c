@@ -3491,7 +3491,7 @@ eval_circexp(struct atom *p1)
 void
 circexp(void)
 {
-	int i, n;
+	int h, i, n;
 	struct atom *p1, *num, *den;
 
 	p1 = pop();
@@ -3505,6 +3505,18 @@ circexp(void)
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		h = tos;
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			circexp();
+			p1 = cdr(p1);
+		}
+		add_terms(tos - h);
 		return;
 	}
 

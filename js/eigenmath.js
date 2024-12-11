@@ -4582,7 +4582,7 @@ eval_circexp(p1)
 function
 circexp()
 {
-	var i, n, p1, num, den;
+	var h, i, n, p1, num, den;
 
 	p1 = pop();
 
@@ -4595,6 +4595,18 @@ circexp()
 			p1.elem[i] = pop();
 		}
 		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		h = stack.length;
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			circexp();
+			p1 = cdr(p1);
+		}
+		add_terms(stack.length - h);
 		return;
 	}
 
