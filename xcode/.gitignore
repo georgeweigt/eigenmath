@@ -1,5 +1,6 @@
 build
 project.xcworkspace
 xcuserdata
+defs.h
 prototypes.h
 eigenmath.c
