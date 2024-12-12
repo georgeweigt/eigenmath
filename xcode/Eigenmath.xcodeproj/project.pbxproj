@@ -310,7 +310,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Eigenmath;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 335;
+				MARKETING_VERSION = 336;
 				PRODUCT_BUNDLE_IDENTIFIER = eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -334,7 +334,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Eigenmath;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 335;
+				MARKETING_VERSION = 336;
 				PRODUCT_BUNDLE_IDENTIFIER = eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
