@@ -9,14 +9,13 @@ FILES := $(shell ls ../src/*.c | sed "s/\.\.\/src\/main\.c//;s/\.\.\/src\/fmt\.c
 default:
 	rsync -c ../doc/help.html $(HELPBOOK)
 	rsync -c ../src/defs.h .
-	make -C ../src prototypes.h
 	make eigenmath.c
 	make prototypes.h
 	xcodebuild -project Eigenmath.xcodeproj
 	find build -name Eigenmath.app -print
 
-eigenmath.c: ../src/LICENSE ../src/defs.h ../src/prototypes.h $(FILES)
-	cat ../src/LICENSE ../src/defs.h ../src/prototypes.h $(FILES) > eigenmath.c
+eigenmath.c: app.h $(FILES)
+	cat app.h $(FILES) > eigenmath.c
 
 prototypes.h: *.c
 	make -s -C ../tools make-prototypes
