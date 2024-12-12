@@ -162,10 +162,11 @@ struct tensor {
 #define EXP		(4 * BUCKETSIZE + 5)
 #define EXPCOS		(4 * BUCKETSIZE + 6)
 #define EXPCOSH		(4 * BUCKETSIZE + 7)
-#define EXPSIN		(4 * BUCKETSIZE + 8)
-#define EXPSINH		(4 * BUCKETSIZE + 9)
-#define EXPTAN		(4 * BUCKETSIZE + 10)
-#define EXPTANH		(4 * BUCKETSIZE + 11)
+#define EXPFORM		(4 * BUCKETSIZE + 8)
+#define EXPSIN		(4 * BUCKETSIZE + 9)
+#define EXPSINH		(4 * BUCKETSIZE + 10)
+#define EXPTAN		(4 * BUCKETSIZE + 11)
+#define EXPTANH		(4 * BUCKETSIZE + 12)
 
 #define FACTORIAL	(5 * BUCKETSIZE + 0)
 #define FLOATF		(5 * BUCKETSIZE + 1)
@@ -471,9 +472,6 @@ void eval_binding(struct atom *p1);
 void eval_ceiling(struct atom *p1);
 void ceilingfunc(void);
 void eval_check(struct atom *p1);
-void eval_circexp(struct atom *p1);
-void circexp(void);
-void circexp_subst(void);
 void eval_clear(struct atom *p1);
 void eval_clock(struct atom *p1);
 void clockfunc(void);
@@ -540,6 +538,9 @@ void eval_expcos(struct atom *p1);
 void expcos(void);
 void eval_expcosh(struct atom *p1);
 void expcosh(void);
+void eval_expform(struct atom *p1);
+void expform(void);
+void expform_subst(void);
 void eval_expsin(struct atom *p1);
 void expsin(void);
 void eval_expsinh(struct atom *p1);
@@ -3481,137 +3482,6 @@ eval_check(struct atom *p1)
 	push_symbol(NIL); // no result is printed
 }
 void
-eval_circexp(struct atom *p1)
-{
-	push(cadr(p1));
-	evalf();
-	circexp();
-}
-
-void
-circexp(void)
-{
-	int h, i, n;
-	struct atom *p1, *num, *den;
-
-	p1 = pop();
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			circexp();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (car(p1) == symbol(ADD)) {
-		h = tos;
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			circexp();
-			p1 = cdr(p1);
-		}
-		add_terms(tos - h);
-		return;
-	}
-
-	push(p1);
-	numden();
-	num = pop();
-	den = pop();
-
-	push(num);
-	circexp_subst();
-	evalf();
-	num = pop();
-
-	push(den);
-	circexp_subst();
-	evalf();
-	den = pop();
-
-	push(num);
-	push(den);
-	divide();
-}
-
-void
-circexp_subst(void)
-{
-	int h;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	if (car(p1) == symbol(COS)) {
-		push_symbol(EXPCOS);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(SIN)) {
-		push_symbol(EXPSIN);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(TAN)) {
-		push_symbol(EXPTAN);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(COSH)) {
-		push_symbol(EXPCOSH);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(SINH)) {
-		push_symbol(EXPSINH);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	if (car(p1) == symbol(TANH)) {
-		push_symbol(EXPTANH);
-		push(cadr(p1));
-		circexp_subst();
-		list(2);
-		return;
-	}
-
-	h = tos;
-	push(car(p1));
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		circexp_subst();
-		p1 = cdr(p1);
-	}
-	list(tos - h);
-}
-void
 eval_clear(struct atom *p1)
 {
 	int i;
@@ -5741,6 +5611,137 @@ expcosh(void)
 	add();
 	push_rational(1, 2);
 	multiply();
+}
+void
+eval_expform(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	expform();
+}
+
+void
+expform(void)
+{
+	int h, i, n;
+	struct atom *p1, *num, *den;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			expform();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(ADD)) {
+		h = tos;
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			expform();
+			p1 = cdr(p1);
+		}
+		add_terms(tos - h);
+		return;
+	}
+
+	push(p1);
+	numden();
+	num = pop();
+	den = pop();
+
+	push(num);
+	expform_subst();
+	evalf();
+	num = pop();
+
+	push(den);
+	expform_subst();
+	evalf();
+	den = pop();
+
+	push(num);
+	push(den);
+	divide();
+}
+
+void
+expform_subst(void)
+{
+	int h;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(COS)) {
+		push_symbol(EXPCOS);
+		push(cadr(p1));
+		expform_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(SIN)) {
+		push_symbol(EXPSIN);
+		push(cadr(p1));
+		expform_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(TAN)) {
+		push_symbol(EXPTAN);
+		push(cadr(p1));
+		expform_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(COSH)) {
+		push_symbol(EXPCOSH);
+		push(cadr(p1));
+		expform_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(SINH)) {
+		push_symbol(EXPSINH);
+		push(cadr(p1));
+		expform_subst();
+		list(2);
+		return;
+	}
+
+	if (car(p1) == symbol(TANH)) {
+		push_symbol(EXPTANH);
+		push(cadr(p1));
+		expform_subst();
+		list(2);
+		return;
+	}
+
+	h = tos;
+	push(car(p1));
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		expform_subst();
+		p1 = cdr(p1);
+	}
+	list(tos - h);
 }
 void
 eval_expsin(struct atom *p1)
@@ -12836,7 +12837,7 @@ simplify_trig(void)
 	}
 
 	push(p1);
-	circexp();
+	expform();
 	numden();
 	swap();
 	divide();
@@ -18050,7 +18051,7 @@ struct se {
 	{ "c",			C_LOWER,	NULL			},
 	{ "ceiling",		CEILING,	eval_ceiling		},
 	{ "check",		CHECK,		eval_check		},
-	{ "circexp",		CIRCEXP,	eval_circexp		},
+	{ "circexp",		CIRCEXP,	eval_expform		},
 	{ "clear",		CLEAR,		eval_clear		},
 	{ "clock",		CLOCK,		eval_clock		},
 	{ "cofactor",		COFACTOR,	eval_cofactor		},
@@ -18078,6 +18079,7 @@ struct se {
 	{ "exp",		EXP,		eval_exp		},
 	{ "expcos",		EXPCOS,		eval_expcos		},
 	{ "expcosh",		EXPCOSH,	eval_expcosh		},
+	{ "expform",		EXPFORM,	eval_expform		},
 	{ "expsin",		EXPSIN,		eval_expsin		},
 	{ "expsinh",		EXPSINH,	eval_expsinh		},
 	{ "exptan",		EXPTAN,		eval_exptan		},

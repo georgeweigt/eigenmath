@@ -52,7 +52,7 @@ y = sin(t)
 P = 2x^3 - y^3
 Q = x^3 + y^3
 f = P d(x,t) + Q d(y,t)
-f = circexp(f)
+f = expform(f)
 defint(f, t, 0, 2 pi)
 \end{verbatim}
 }

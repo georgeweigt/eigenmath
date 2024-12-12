@@ -1,13 +1,13 @@
 void
-eval_circexp(struct atom *p1)
+eval_expform(struct atom *p1)
 {
 	push(cadr(p1));
 	evalf();
-	circexp();
+	expform();
 }
 
 void
-circexp(void)
+expform(void)
 {
 	int h, i, n;
 	struct atom *p1, *num, *den;
@@ -19,7 +19,7 @@ circexp(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			circexp();
+			expform();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
@@ -31,7 +31,7 @@ circexp(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			circexp();
+			expform();
 			p1 = cdr(p1);
 		}
 		add_terms(tos - h);
@@ -44,12 +44,12 @@ circexp(void)
 	den = pop();
 
 	push(num);
-	circexp_subst();
+	expform_subst();
 	evalf();
 	num = pop();
 
 	push(den);
-	circexp_subst();
+	expform_subst();
 	evalf();
 	den = pop();
 
@@ -59,7 +59,7 @@ circexp(void)
 }
 
 void
-circexp_subst(void)
+expform_subst(void)
 {
 	int h;
 	struct atom *p1;
@@ -74,7 +74,7 @@ circexp_subst(void)
 	if (car(p1) == symbol(COS)) {
 		push_symbol(EXPCOS);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -82,7 +82,7 @@ circexp_subst(void)
 	if (car(p1) == symbol(SIN)) {
 		push_symbol(EXPSIN);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -90,7 +90,7 @@ circexp_subst(void)
 	if (car(p1) == symbol(TAN)) {
 		push_symbol(EXPTAN);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -98,7 +98,7 @@ circexp_subst(void)
 	if (car(p1) == symbol(COSH)) {
 		push_symbol(EXPCOSH);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -106,7 +106,7 @@ circexp_subst(void)
 	if (car(p1) == symbol(SINH)) {
 		push_symbol(EXPSINH);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -114,7 +114,7 @@ circexp_subst(void)
 	if (car(p1) == symbol(TANH)) {
 		push_symbol(EXPTANH);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -124,7 +124,7 @@ circexp_subst(void)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		circexp_subst();
+		expform_subst();
 		p1 = cdr(p1);
 	}
 	list(tos - h);

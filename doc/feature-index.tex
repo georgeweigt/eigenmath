@@ -183,20 +183,6 @@ choose(52,5) -- number of poker hands
 \noindent
 $2598960$
 
-\subsection*{circexp($x$)}
-
-Returns expression $x$ with circular and hyperbolic functions
-converted to exponentials.
-
-{\color{blue}
-\begin{verbatim}
-circexp(cos(x) + i sin(x))
-\end{verbatim}
-}
-
-\noindent
-$\exp(ix)$
-
 \subsection*{clear}
 
 Clears all symbol definitions.
@@ -276,7 +262,7 @@ Returns the hyperbolic cosine of $x$.
 
 {\color{blue}
 \begin{verbatim}
-circexp(cosh(x))
+expform(cosh(x))
 \end{verbatim}
 }
 
@@ -565,6 +551,20 @@ Returns the hyperbolic cosine of $z$ in exponential form.
 expcosh(z)
 \end{verbatim}
 }
+
+\subsection*{expform($x$)}
+
+Returns expression $x$ with trigonometric and hyperbolic functions
+converted to exponentials.
+
+{\color{blue}
+\begin{verbatim}
+expform(cos(x) + i sin(x))
+\end{verbatim}
+}
+
+\noindent
+$\exp(ix)$
 
 \noindent
 $\displaystyle \tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
@@ -1378,7 +1378,7 @@ Returns the hyperbolic sine of $x$.
 
 {\color{blue}
 \begin{verbatim}
-circexp(sinh(x))
+expform(sinh(x))
 \end{verbatim}
 }
 
@@ -1455,7 +1455,7 @@ Returns the hyperbolic tangent of $x$.
 
 {\color{blue}
 \begin{verbatim}
-circexp(tanh(x))
+expform(tanh(x))
 \end{verbatim}
 }
 

@@ -1,13 +1,13 @@
 function
-eval_circexp(p1)
+eval_expform(p1)
 {
 	push(cadr(p1));
 	evalf();
-	circexp();
+	expform();
 }
 
 function
-circexp()
+expform()
 {
 	var h, i, n, p1, num, den;
 
@@ -18,7 +18,7 @@ circexp()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			circexp();
+			expform();
 			p1.elem[i] = pop();
 		}
 		push(p1);
@@ -30,7 +30,7 @@ circexp()
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			circexp();
+			expform();
 			p1 = cdr(p1);
 		}
 		add_terms(stack.length - h);
@@ -43,12 +43,12 @@ circexp()
 	den = pop();
 
 	push(num);
-	circexp_subst();
+	expform_subst();
 	evalf();
 	num = pop();
 
 	push(den);
-	circexp_subst();
+	expform_subst();
 	evalf();
 	den = pop();
 
@@ -58,7 +58,7 @@ circexp()
 }
 
 function
-circexp_subst()
+expform_subst()
 {
 	var h, p1;
 
@@ -72,7 +72,7 @@ circexp_subst()
 	if (car(p1) == symbol(COS)) {
 		push_symbol(EXPCOS);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -80,7 +80,7 @@ circexp_subst()
 	if (car(p1) == symbol(SIN)) {
 		push_symbol(EXPSIN);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -88,7 +88,7 @@ circexp_subst()
 	if (car(p1) == symbol(TAN)) {
 		push_symbol(EXPTAN);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -96,7 +96,7 @@ circexp_subst()
 	if (car(p1) == symbol(COSH)) {
 		push_symbol(EXPCOSH);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -104,7 +104,7 @@ circexp_subst()
 	if (car(p1) == symbol(SINH)) {
 		push_symbol(EXPSINH);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -112,7 +112,7 @@ circexp_subst()
 	if (car(p1) == symbol(TANH)) {
 		push_symbol(EXPTANH);
 		push(cadr(p1));
-		circexp_subst();
+		expform_subst();
 		list(2);
 		return;
 	}
@@ -122,7 +122,7 @@ circexp_subst()
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		circexp_subst();
+		expform_subst();
 		p1 = cdr(p1);
 	}
 	list(stack.length - h);

@@ -60,7 +60,7 @@ x = u cos(v)
 y = u sin(v)
 z = v
 S = (x,y,z)
-a = circexp(abs(cross(d(S,u),d(S,v))))
+a = expform(abs(cross(d(S,u),d(S,v))))
 defint(a,u,0,1,v,0,3pi)
 \end{verbatim}
 }

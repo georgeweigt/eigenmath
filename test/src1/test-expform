@@ -1,0 +1,39 @@
+"Testing expform"
+
+clear
+
+T = expform(cos(x))
+check(T = 1/2*exp(-i*x)+1/2*exp(i*x))
+T = expform(sin(x))
+check(T = 1/2*i*exp(-i*x)-1/2*i*exp(i*x))
+T = expform(tan(x))
+check(T = i / (exp(2 i x) + 1) - i exp(2 i x) / (exp(2 i x) + 1))
+T = expform(cosh(x))
+check(T = 1/2*exp(x)+1/2*exp(-x))
+T = expform(sinh(x))
+check(T = 1/2*exp(x)-1/2*exp(-x))
+T = expform(tanh(x))
+check(T = -1/(1+exp(2*x))+exp(2*x)/(1+exp(2*x)))
+T = expform((cos(x),sin(x)))
+check(T = (1/2*exp(-i*x)+1/2*exp(i*x),1/2*i*exp(-i*x)-1/2*i*exp(i*x)))
+T = expform(cos(x)*sin(x))-expcos(x)*expsin(x)
+check(T = 0)
+
+T = expform(d(arctan(y/x),y))
+check(T = x/(x^2+y^2))
+T = expform(d(arctan(y/x),x))
+check(T = -y/(x^2+y^2))
+T = expform(1-sin(x)^2)
+check(T = expform(cos(x)^2))
+T = expform(1-cos(x)^2)
+check(T = expform(sin(x)^2))
+T = expform(sin(x)^2-1)
+check(T = expform(-cos(x)^2))
+T = expform(cos(x)^2-1)
+check(T = expform(-sin(x)^2))
+
+T = expform(1 / (2 cos(theta)))
+check(infixform(T) == "1 / (exp(i theta) + exp(-i theta))")
+
+T = expform((sin(theta),0)) -- vector
+check(infixform(T) == "(-1/2 i exp(i theta) + 1/2 i exp(-i theta),0)")

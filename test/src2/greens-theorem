@@ -15,7 +15,7 @@ y = sin(t)
 P = 2x^3 - y^3
 Q = x^3 + y^3
 f = P d(x,t) + Q d(y,t)
-f = circexp(f)
+f = expform(f)
 T = defint(f,t,0,2pi)
 check(T = 3/2 pi)
 

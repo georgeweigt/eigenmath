@@ -2,5 +2,5 @@
 
 clear
 
-check(exptan(z)=(exp(2*i*z)-1)/(i*(exp(2*i*z)+1)))
-check(circexp(expsin(z)/expcos(z)-exptan(z))=0)
+check(exptan(z)==(exp(2*i*z)-1)/(i*(exp(2*i*z)+1)))
+check(expsin(z)/expcos(z)==exptan(z))

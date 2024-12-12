@@ -23,10 +23,9 @@
 <a href="#ceiling">ceiling</a><br>
 <a href="#check">check</a><br>
 <a href="#choose">choose</a><br>
-<a href="#circexp">circexp</a><br>
 <a href="#clear">clear</a><br>
-</td><td>
 <a href="#clock">clock</a><br>
+</td><td>
 <a href="#cofactor">cofactor</a><br>
 <a href="#conj">conj</a><br>
 <a href="#contract">contract</a><br>
@@ -42,13 +41,14 @@
 <a href="#div">div</a><br>
 <a href="#do">do</a><br>
 <a href="#dot">dot</a><br>
-</td><td>
 <a href="#draw">draw</a><br>
+</td><td>
 <a href="#eigenvec">eigenvec</a><br>
 <a href="#eval">eval</a><br>
 <a href="#exp">exp</a><br>
 <a href="#expcos">expcos</a><br>
 <a href="#expcosh">expcosh</a><br>
+<a href="#expform">expform</a><br>
 <a href="#expsin">expsin</a><br>
 <a href="#expsinh">expsinh</a><br>
 <a href="#exptan">exptan</a><br>
@@ -289,17 +289,6 @@ choose(52,5) -- number of poker hands
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="circexp">circexp(<i>x</i>)</a>
-<p>
-Returns expression <i>x</i> with circular and hyperbolic functions converted to exponentials.
-<pre style="font-family:courier;color:blue">
-circexp(cos(x) + i sin(x))
-</pre>
-<pre style="font-family:courier">
-exp(i x)
-</pre>
-
-<p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="clear">clear</a>
 <p>
 Clears all symbol definitions.
@@ -376,7 +365,7 @@ cos(pi/4)
 <p>
 Returns the hyperbolic cosine of <i>x</i>.
 <pre style="font-family:courier;color:blue">
-circexp(cosh(x))
+expform(cosh(x))
 </pre>
 <pre style="font-family:courier">
  1             1        
@@ -657,6 +646,17 @@ expcosh(z)
  1             1        
 ╶─╴ exp(−z) + ╶─╴ exp(z)
  2             2        
+</pre>
+
+<p style="font-family:courier;font-size:2em;font-weight:bold">
+<a id="expform">expform(<i>x</i>)</a>
+<p>
+Returns expression <i>x</i> with trigonometric and hyperbolic functions converted to exponentials.
+<pre style="font-family:courier;color:blue">
+expform(cos(x) + i sin(x))
+</pre>
+<pre style="font-family:courier">
+exp(i x)
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -1453,7 +1453,7 @@ sin(pi/4)
 <p>
 Returns the hyperbolic sine of <i>x</i>.
 <pre style="font-family:courier;color:blue">
-circexp(sinh(x))
+expform(sinh(x))
 </pre>
 <pre style="font-family:courier">
   1             1        
@@ -1521,7 +1521,7 @@ Returns the tangent of <i>x</i>.
 <p>
 Returns the hyperbolic tangent of <i>x</i>.
 <pre style="font-family:courier;color:blue">
-circexp(tanh(x))
+expform(tanh(x))
 </pre>
 <pre style="font-family:courier">
        1             exp(2 x)   

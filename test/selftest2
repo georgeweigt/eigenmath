@@ -815,7 +815,7 @@ y = sin(t)
 P = 2x^3 - y^3
 Q = x^3 + y^3
 f = P d(x,t) + Q d(y,t)
-f = circexp(f)
+f = expform(f)
 T = defint(f,t,0,2pi)
 check(T = 3/2 pi)
 
@@ -2103,7 +2103,7 @@ P = y
 Q = z
 R = x
 f = P d(x,t) + Q d(y,t) + R d(z,t)
-f = circexp(f)
+f = expform(f)
 check(defint(f,t,0,2pi) == -4 pi)
 "Surface area"
 
@@ -2141,7 +2141,7 @@ x = u cos(v)
 y = u sin(v)
 z = v
 S = (x,y,z)
-a = circexp(abs(cross(d(S,u),d(S,v))))
+a = expform(abs(cross(d(S,u),d(S,v))))
 T = defint(a,u,0,1,v,0,3pi)
 check(T = 3/2 pi log(1 + sqrt(2)) + 3 pi / sqrt(2))
 "Surface integral"

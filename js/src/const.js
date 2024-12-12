@@ -35,6 +35,7 @@ const EXIT = "exit";
 const EXP = "exp";
 const EXPCOS = "expcos";
 const EXPCOSH = "expcosh";
+const EXPFORM = "expform";
 const EXPSIN = "expsin";
 const EXPSINH = "expsinh";
 const EXPTAN = "exptan";

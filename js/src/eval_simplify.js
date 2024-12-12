@@ -166,7 +166,7 @@ simplify_trig()
 	}
 
 	push(p1);
-	circexp();
+	expform();
 	numden();
 	swap();
 	divide();

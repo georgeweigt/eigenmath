@@ -1398,7 +1398,7 @@ can be solved as follows.
 {\color{blue}
 \begin{verbatim}
 f = sin(t)^4 - 2 cos(t/2)^3 sin(t)
-f = circexp(f)
+f = expform(f)
 defint(f, t, 0, 2 pi)
 \end{verbatim}
 }
@@ -1662,7 +1662,7 @@ x = u cos(v)
 y = u sin(v)
 z = v
 S = (x,y,z)
-a = circexp(abs(cross(d(S,u),d(S,v))))
+a = expform(abs(cross(d(S,u),d(S,v))))
 defint(a,u,0,1,v,0,3pi)
 \end{verbatim}
 }
@@ -1781,7 +1781,7 @@ y = sin(t)
 P = 2x^3 - y^3
 Q = x^3 + y^3
 f = P d(x,t) + Q d(y,t)
-f = circexp(f)
+f = expform(f)
 defint(f, t, 0, 2 pi)
 \end{verbatim}
 }
@@ -1896,7 +1896,7 @@ P = y
 Q = z
 R = x
 f = P d(x,t) + Q d(y,t) + R d(z,t)
-f = circexp(f)
+f = expform(f)
 defint(f, t, 0, 2 pi)
 \end{verbatim}
 }
@@ -2099,20 +2099,6 @@ choose(52,5) -- number of poker hands
 \noindent
 $2598960$
 
-\subsection*{circexp($x$)}
-
-Returns expression $x$ with circular and hyperbolic functions
-converted to exponentials.
-
-{\color{blue}
-\begin{verbatim}
-circexp(cos(x) + i sin(x))
-\end{verbatim}
-}
-
-\noindent
-$\exp(ix)$
-
 \subsection*{clear}
 
 Clears all symbol definitions.
@@ -2192,7 +2178,7 @@ Returns the hyperbolic cosine of $x$.
 
 {\color{blue}
 \begin{verbatim}
-circexp(cosh(x))
+expform(cosh(x))
 \end{verbatim}
 }
 
@@ -2481,6 +2467,20 @@ Returns the hyperbolic cosine of $z$ in exponential form.
 expcosh(z)
 \end{verbatim}
 }
+
+\subsection*{expform($x$)}
+
+Returns expression $x$ with trigonometric and hyperbolic functions
+converted to exponentials.
+
+{\color{blue}
+\begin{verbatim}
+expform(cos(x) + i sin(x))
+\end{verbatim}
+}
+
+\noindent
+$\exp(ix)$
 
 \noindent
 $\displaystyle \tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
@@ -3294,7 +3294,7 @@ Returns the hyperbolic sine of $x$.
 
 {\color{blue}
 \begin{verbatim}
-circexp(sinh(x))
+expform(sinh(x))
 \end{verbatim}
 }
 
@@ -3371,7 +3371,7 @@ Returns the hyperbolic tangent of $x$.
 
 {\color{blue}
 \begin{verbatim}
-circexp(tanh(x))
+expform(tanh(x))
 \end{verbatim}
 }
 
