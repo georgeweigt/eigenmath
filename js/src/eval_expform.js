@@ -25,6 +25,11 @@ expform()
 		return;
 	}
 
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
 	if (car(p1) == symbol(ADD)) {
 		h = stack.length;
 		p1 = cdr(p1);
@@ -43,12 +48,12 @@ expform()
 	den = pop();
 
 	push(num);
-	expform_subst();
+	expform_nib();
 	evalf();
 	num = pop();
 
 	push(den);
-	expform_subst();
+	expform_nib();
 	evalf();
 	den = pop();
 
@@ -58,7 +63,7 @@ expform()
 }
 
 function
-expform_subst()
+expform_nib()
 {
 	var h, p1;
 
@@ -72,7 +77,7 @@ expform_subst()
 	if (car(p1) == symbol(COS)) {
 		push_symbol(EXPCOS);
 		push(cadr(p1));
-		expform_subst();
+		expform();
 		list(2);
 		return;
 	}
@@ -80,7 +85,7 @@ expform_subst()
 	if (car(p1) == symbol(SIN)) {
 		push_symbol(EXPSIN);
 		push(cadr(p1));
-		expform_subst();
+		expform();
 		list(2);
 		return;
 	}
@@ -88,7 +93,7 @@ expform_subst()
 	if (car(p1) == symbol(TAN)) {
 		push_symbol(EXPTAN);
 		push(cadr(p1));
-		expform_subst();
+		expform();
 		list(2);
 		return;
 	}
@@ -96,7 +101,7 @@ expform_subst()
 	if (car(p1) == symbol(COSH)) {
 		push_symbol(EXPCOSH);
 		push(cadr(p1));
-		expform_subst();
+		expform();
 		list(2);
 		return;
 	}
@@ -104,7 +109,7 @@ expform_subst()
 	if (car(p1) == symbol(SINH)) {
 		push_symbol(EXPSINH);
 		push(cadr(p1));
-		expform_subst();
+		expform();
 		list(2);
 		return;
 	}
@@ -112,7 +117,7 @@ expform_subst()
 	if (car(p1) == symbol(TANH)) {
 		push_symbol(EXPTANH);
 		push(cadr(p1));
-		expform_subst();
+		expform();
 		list(2);
 		return;
 	}
@@ -122,7 +127,7 @@ expform_subst()
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		expform_subst();
+		expform();
 		p1 = cdr(p1);
 	}
 	list(stack.length - h);
