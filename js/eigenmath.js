@@ -6526,7 +6526,7 @@ eval_expform(p1)
 function
 expform()
 {
-	var h, i, n, p1;
+	var h, i, n, p1, num, den;
 
 	p1 = pop();
 
@@ -6559,73 +6559,99 @@ expform()
 		return;
 	}
 
-	push(p1);
-	numden();
-	expform_nib(); // numerator
-	evalf();
-	swap();
-	expform_nib(); // denominator
-	evalf();
-	divide();
-}
+	if (car(p1) == symbol(MULTIPLY)) {
 
-function
-expform_nib()
-{
-	var h, p1;
-
-	p1 = pop();
-
-	if (!iscons(p1)) {
 		push(p1);
+		numden();
+		num = pop();
+		den = pop();
+
+		p1 = num;
+		if (car(p1) == symbol(MULTIPLY)) {
+			h = stack.length;
+			p1 = cdr(p1);
+			while (iscons(p1)) {
+				push(car(p1));
+				expform();
+				p1 = cdr(p1);
+			}
+			multiply_factors(stack.length - h);
+		} else {
+			push(p1);
+			expform();
+		}
+		num = pop();
+
+		p1 = den;
+		if (car(p1) == symbol(MULTIPLY)) {
+			h = stack.length;
+			p1 = cdr(p1);
+			while (iscons(p1)) {
+				push(car(p1));
+				expform();
+				p1 = cdr(p1);
+			}
+			multiply_factors(stack.length - h);
+		} else {
+			push(p1);
+			expform();
+		}
+		den = pop();
+
+		push(num);
+		push(den);
+		divide();
+		return;
+	}
+
+	if (car(p1) == symbol(POWER)) {
+		push(cadr(p1));
+		expform();
+		push(caddr(p1));
+		expform();
+		power();
 		return;
 	}
 
 	if (car(p1) == symbol(COS)) {
-		push_symbol(EXPCOS);
 		push(cadr(p1));
 		expform();
-		list(2);
+		expcos();
 		return;
 	}
 
 	if (car(p1) == symbol(SIN)) {
-		push_symbol(EXPSIN);
 		push(cadr(p1));
 		expform();
-		list(2);
+		expsin();
 		return;
 	}
 
 	if (car(p1) == symbol(TAN)) {
-		push_symbol(EXPTAN);
 		push(cadr(p1));
 		expform();
-		list(2);
+		exptan();
 		return;
 	}
 
 	if (car(p1) == symbol(COSH)) {
-		push_symbol(EXPCOSH);
 		push(cadr(p1));
 		expform();
-		list(2);
+		expcosh();
 		return;
 	}
 
 	if (car(p1) == symbol(SINH)) {
-		push_symbol(EXPSINH);
 		push(cadr(p1));
 		expform();
-		list(2);
+		expsinh();
 		return;
 	}
 
 	if (car(p1) == symbol(TANH)) {
-		push_symbol(EXPTANH);
 		push(cadr(p1));
 		expform();
-		list(2);
+		exptanh();
 		return;
 	}
 
@@ -6638,6 +6664,7 @@ expform_nib()
 		p1 = cdr(p1);
 	}
 	list(stack.length - h);
+	evalf();
 }
 function
 eval_expsin(p1)

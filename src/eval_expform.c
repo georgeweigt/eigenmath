@@ -10,7 +10,7 @@ void
 expform(void)
 {
 	int h, i, n;
-	struct atom *p1;
+	struct atom *p1, *num, *den;
 
 	p1 = pop();
 
@@ -43,74 +43,99 @@ expform(void)
 		return;
 	}
 
-	push(p1);
-	numden();
-	expform_nib(); // numerator
-	evalf();
-	swap();
-	expform_nib(); // denominator
-	evalf();
-	divide();
-}
+	if (car(p1) == symbol(MULTIPLY)) {
 
-void
-expform_nib(void)
-{
-	int h;
-	struct atom *p1;
-
-	p1 = pop();
-
-	if (!iscons(p1)) {
 		push(p1);
+		numden();
+		num = pop();
+		den = pop();
+
+		p1 = num;
+		if (car(p1) == symbol(MULTIPLY)) {
+			h = tos;
+			p1 = cdr(p1);
+			while (iscons(p1)) {
+				push(car(p1));
+				expform();
+				p1 = cdr(p1);
+			}
+			multiply_factors(tos - h);
+		} else {
+			push(p1);
+			expform();
+		}
+		num = pop();
+
+		p1 = den;
+		if (car(p1) == symbol(MULTIPLY)) {
+			h = tos;
+			p1 = cdr(p1);
+			while (iscons(p1)) {
+				push(car(p1));
+				expform();
+				p1 = cdr(p1);
+			}
+			multiply_factors(tos - h);
+		} else {
+			push(p1);
+			expform();
+		}
+		den = pop();
+
+		push(num);
+		push(den);
+		divide();
+		return;
+	}
+
+	if (car(p1) == symbol(POWER)) {
+		push(cadr(p1));
+		expform();
+		push(caddr(p1));
+		expform();
+		power();
 		return;
 	}
 
 	if (car(p1) == symbol(COS)) {
-		push_symbol(EXPCOS);
 		push(cadr(p1));
 		expform();
-		list(2);
+		expcos();
 		return;
 	}
 
 	if (car(p1) == symbol(SIN)) {
-		push_symbol(EXPSIN);
 		push(cadr(p1));
 		expform();
-		list(2);
+		expsin();
 		return;
 	}
 
 	if (car(p1) == symbol(TAN)) {
-		push_symbol(EXPTAN);
 		push(cadr(p1));
 		expform();
-		list(2);
+		exptan();
 		return;
 	}
 
 	if (car(p1) == symbol(COSH)) {
-		push_symbol(EXPCOSH);
 		push(cadr(p1));
 		expform();
-		list(2);
+		expcosh();
 		return;
 	}
 
 	if (car(p1) == symbol(SINH)) {
-		push_symbol(EXPSINH);
 		push(cadr(p1));
 		expform();
-		list(2);
+		expsinh();
 		return;
 	}
 
 	if (car(p1) == symbol(TANH)) {
-		push_symbol(EXPTANH);
 		push(cadr(p1));
 		expform();
-		list(2);
+		exptanh();
 		return;
 	}
 
@@ -123,4 +148,5 @@ expform_nib(void)
 		p1 = cdr(p1);
 	}
 	list(tos - h);
+	evalf();
 }
