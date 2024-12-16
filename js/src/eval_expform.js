@@ -9,7 +9,7 @@ eval_expform(p1)
 function
 expform()
 {
-	var h, i, n, p1, num, den;
+	var h, i, n, p1;
 
 	p1 = pop();
 
@@ -44,21 +44,11 @@ expform()
 
 	push(p1);
 	numden();
-	num = pop();
-	den = pop();
-
-	push(num);
-	expform_nib();
+	expform_nib(); // numerator
 	evalf();
-	num = pop();
-
-	push(den);
-	expform_nib();
+	swap();
+	expform_nib(); // denominator
 	evalf();
-	den = pop();
-
-	push(num);
-	push(den);
 	divide();
 }
 
