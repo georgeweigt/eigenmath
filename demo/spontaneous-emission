@@ -29,7 +29,7 @@ E(n) = -e^2 / (8 pi epsilon0 a0 n^2)
 
 I(f) = do(
   f = f r^2 sin(theta), -- multiply by volume element
-  f = circexp(f), -- convert to exponential form
+  f = expform(f), -- convert to exponential form
   f = defint(f,theta,0,pi,phi,0,2pi),
   f = integral(f,r),
   0 - eval(f,r,0) -- return value
