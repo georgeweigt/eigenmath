@@ -3608,11 +3608,11 @@ A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
 \end{verbatim}
 
 \item
-Use \verb$simplify(expform(f))$ to find an equivalent form
+Use \verb$rect(expform(f))$ to maybe find a new form
 of trigonometric expression \verb$f$.
 \begin{verbatim}
 f = cos(theta/2)^2
-simplify(expform(f))
+rect(expform(f))
 \end{verbatim}
 
 $\frac{1}{2}\cos(\theta)+\frac{1}{2}$
