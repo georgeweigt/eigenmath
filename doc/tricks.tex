@@ -60,7 +60,6 @@ A\phi_2&=a_2\phi_2
 \end{align*}
 
 Verify that
-
 \begin{equation*}
 \langle A\rangle
 =\int\psi^*A\psi\,dx
@@ -70,7 +69,6 @@ Verify that
 Note: Because $\phi_1$ and $\phi_2$ are normalized we have $\int|\phi_1|^2=\int|\phi_2|^2=1$.
 By orthogonality we have $\int\phi_1^*\phi_2=0$.
 Hence the integral can be accomplished with \verb$eval$.
-
 \begin{verbatim}
 psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
       (phi1 - phi2) / 2 exp(-i E2 t / hbar)
@@ -86,6 +84,16 @@ A = eval(A, r1^2, 1, r2^2, 1, r1 r2, 0) -- see note
 
 A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
 \end{verbatim}
+
+\item
+Use \verb$simplify(expform(f))$ to find an equivalent form
+of trigonometric expression \verb$f$.
+\begin{verbatim}
+f = cos(theta/2)^2
+simplify(expform(f))
+\end{verbatim}
+
+$\frac{1}{2}\cos(\theta)+\frac{1}{2}$
 
 \end{enumerate}
 \end{document}
