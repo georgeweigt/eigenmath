@@ -3564,7 +3564,7 @@ Let
 +\frac{\phi_1-\phi_2}{2}\exp\left(-\frac{iE_2t}{\hbar}\right)
 \end{equation*}
 
-where $\phi_1$ and $\phi_2$ are orthogonal and
+where $\phi_1$ and $\phi_2$ are orthogonal and operator $A$ has the following eigenvalues.
 \begin{align*}
 A\phi_1&=a_1\phi_1
 \\
@@ -3587,14 +3587,14 @@ Hence the integral can be accomplished with \verb$eval$.
 psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
       (phi1 - phi2) / 2 exp(-i E2 t / hbar)
 
-Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2) -- subst. eigenvalues
+Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2) -- eigenvalues
 
 phi1 = r1 exp(i theta1)
 phi2 = r2 exp(i theta2)
 
 A = conj(psi) Apsi
 
-A = eval(A, r1^2, 1, r2^2, 1, r1 r2, 0) -- see note
+A = eval(A, r1^2, 1, r2^2, 1, r1 r2, 0) -- integral
 
 A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
 \end{verbatim}}
@@ -3632,6 +3632,24 @@ conj(z) z
 \end{verbatim}}
 
 $A^2$
+
+\item
+Use \verb$mag$ for component magnitude (\verb$abs$ gives vector length).
+
+{\color{blue}
+\begin{verbatim}
+y = (a, -b)
+mag(y)
+\end{verbatim}}
+
+$\begin{bmatrix}a\\b\end{bmatrix}$
+
+{\color{blue}
+\begin{verbatim}
+abs(y)
+\end{verbatim}}
+
+$\left[a^2+b^2\right]^{1/2}$
 
 \end{enumerate}
 \end{document}
