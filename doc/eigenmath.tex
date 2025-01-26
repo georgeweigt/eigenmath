@@ -3556,6 +3556,18 @@ Trigonometric simplifications occur automatically when exponentials are used.
 See also \verb$expform$ for converting an expression to exponential form.
 
 \item
+Use \verb$rect(expform(f))$ to maybe find a new form
+of trigonometric expression \verb$f$.
+
+{\color{blue}
+\begin{verbatim}
+f = cos(theta/2)^2
+rect(expform(f))
+\end{verbatim}}
+
+$\frac{1}{2}\cos(\theta)+\frac{1}{2}$
+
+\item
 The following exercise\footnote{See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.}
 demonstrates some \verb$eval$ tricks.
 Let
@@ -3601,18 +3613,6 @@ A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
 \end{verbatim}}
 
 \item
-Use \verb$rect(expform(f))$ to maybe find a new form
-of trigonometric expression \verb$f$.
-
-{\color{blue}
-\begin{verbatim}
-f = cos(theta/2)^2
-rect(expform(f))
-\end{verbatim}}
-
-$\frac{1}{2}\cos(\theta)+\frac{1}{2}$
-
-\item
 Complex number functions \verb$conj$, \verb$mag$, etc.~treat undefined symbols as
 representing real numbers.
 To define symbols that represent complex numbers, use separate symbols for the
@@ -3635,7 +3635,7 @@ conj(z) z
 $A^2$
 
 \item
-Use \verb$mag$ for component magnitude (\verb$abs$ gives vector magnitude).
+Use \verb$mag$ for component magnitude, \verb$abs$ for vector magnitude.
 
 {\color{blue}
 \begin{verbatim}
