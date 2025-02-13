@@ -5,6 +5,12 @@
 \begin{enumerate}
 
 \item
+To export a result in the macOS version, click on the result text.
+The result can now be printed or copied to the pasteboard.
+(To work properly, it is necessary to click on the result text
+instead of somewhere else in the result window.)
+
+\item
 Use \verb$==$ to test for equality.
 In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
 
@@ -55,50 +61,7 @@ rect(expform(f))
 
 $\frac{1}{2}\cos(\theta)+\frac{1}{2}$
 
-\item
-The following exercise\footnote{See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.}
-demonstrates some \verb$eval$ tricks.
-Let
-\begin{equation*}
-\psi
-=\frac{\phi_1+\phi_2}{2}\exp\left(-\frac{iE_1t}{\hbar}\right)
-+\frac{\phi_1-\phi_2}{2}\exp\left(-\frac{iE_2t}{\hbar}\right)
-\end{equation*}
-
-where $\phi_1$ and $\phi_2$ are orthogonal and operator $A$ has the following eigenvalues.
-\begin{align*}
-A\phi_1&=a_1\phi_1
-\\
-A\phi_2&=a_2\phi_2
-\end{align*}
-
-Verify that
-\begin{equation*}
-\langle A\rangle
-=\int\psi^*A\psi\,dx
-=\frac{a_1+a_2}{2}+\frac{a_1-a_2}{2}\cos\left(\frac{(E_1-E_2)t}{\hbar}\right)
-\end{equation*}
-
-Note: Because $\phi_1$ and $\phi_2$ are normalized we have $\int|\phi_1|^2=\int|\phi_2|^2=1$.
-By orthogonality we have $\int\phi_1^*\phi_2=0$.
-Hence the integral can be accomplished with \verb$eval$.
-
-{\color{blue}
-\begin{verbatim}
-psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
-      (phi1 - phi2) / 2 exp(-i E2 t / hbar)
-
-Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2) -- eigenvalues
-
-phi1 = r1 exp(i theta1)
-phi2 = r2 exp(i theta2)
-
-A = conj(psi) Apsi
-
-A = eval(A, r1^2, 1, r2^2, 1, r1 r2, 0) -- integral
-
-A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
-\end{verbatim}}
+\newpage
 
 \item
 Complex number functions \verb$conj$, \verb$mag$, etc.~treat undefined symbols as
@@ -148,6 +111,54 @@ Use \verb$draw(y[floor(x)],x)$ to plot the values of vector \verb$y$.
 y = (1,2,3,4)
 draw(y[floor(x)],x)
 \end{verbatim}}
+
+\newpage
+
+\item
+The following exercise\footnote{See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.}
+demonstrates some \verb$eval$ tricks.
+Let
+\begin{equation*}
+\psi
+=\frac{\phi_1+\phi_2}{2}\exp\left(-\frac{iE_1t}{\hbar}\right)
++\frac{\phi_1-\phi_2}{2}\exp\left(-\frac{iE_2t}{\hbar}\right)
+\end{equation*}
+
+where $\phi_1$ and $\phi_2$ are orthogonal and operator $A$ has the following eigenvalues.
+\begin{align*}
+A\phi_1&=a_1\phi_1
+\\
+A\phi_2&=a_2\phi_2
+\end{align*}
+
+Verify that
+\begin{equation*}
+\langle A\rangle
+=\int\psi^*A\psi\,dx
+=\frac{a_1+a_2}{2}+\frac{a_1-a_2}{2}\cos\left(\frac{(E_1-E_2)t}{\hbar}\right)
+\end{equation*}
+
+Note: Because $\phi_1$ and $\phi_2$ are normalized we have $\int|\phi_1|^2=\int|\phi_2|^2=1$.
+By orthogonality we have $\int\phi_1^*\phi_2=0$.
+Hence the integral can be accomplished with \verb$eval$.
+
+{\color{blue}
+\begin{verbatim}
+psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
+      (phi1 - phi2) / 2 exp(-i E2 t / hbar)
+
+Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2) -- eigenvalues
+
+phi1 = r1 exp(i theta1)
+phi2 = r2 exp(i theta2)
+
+A = conj(psi) Apsi
+
+A = eval(A, r1^2, 1, r2^2, 1, r1 r2, 0) -- integral
+
+A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
+\end{verbatim}}
+
 
 \end{enumerate}
 \end{document}
