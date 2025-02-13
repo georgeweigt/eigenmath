@@ -5,12 +5,6 @@
 \begin{enumerate}
 
 \item
-To export a result in the macOS version, click on the result text.
-The result can now be printed or copied to the pasteboard.
-(To work properly, it is necessary to click on the result text
-instead of somewhere else in the result window.)
-
-\item
 Use \verb$==$ to test for equality.
 In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
 
@@ -40,6 +34,9 @@ Set \verb$pi=float(pi)$ to evaluate expressions with a numerical value for $\pi$
 Set \verb$pi=quote(pi)$ to make $\pi$ symbolic again.
 
 \item
+Use \verb$e=exp(1)$ to assign the natural number $e$ to symbol \verb$e$.
+
+\item
 Assign strings to unit names so they are printed normally.
 For example, setting \verb$meter="meter"$ causes symbol \verb$meter$
 to be printed as meter instead of $m_{eter}$.
@@ -60,8 +57,6 @@ rect(expform(f))
 \end{verbatim}}
 
 $\frac{1}{2}\cos(\theta)+\frac{1}{2}$
-
-\newpage
 
 \item
 Complex number functions \verb$conj$, \verb$mag$, etc.~treat undefined symbols as
@@ -111,8 +106,6 @@ Use \verb$draw(y[floor(x)],x)$ to plot the values of vector \verb$y$.
 y = (1,2,3,4)
 draw(y[floor(x)],x)
 \end{verbatim}}
-
-\newpage
 
 \item
 The following exercise\footnote{See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.}

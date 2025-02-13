@@ -18,26 +18,22 @@
 9634295@gmail.com
 \end{center}
 
-Commands are entered in the following field.
-
 \begin{center}
 \begin{tikzpicture}
-\node at (0,0) {\includegraphics[scale=0.25]{screenshot.png}};
-\draw[red,thick] (3,-2.7) ellipse (3.5cm and 0.5cm);
+\node at (0,0) {\includegraphics[scale=0.3]{screenshot.png}};
+\draw (-4,1) node {Scripts go here};
+\draw (3.6,-2.2) node {Commands are entered here};
+\draw (3.8,-2.8) node {$\downarrow$};
 \end{tikzpicture}
 \end{center}
 
 Multiple commands can be put together in a script.
 Scripts are run by clicking the Run button.
-
-\begin{center}
-\begin{tikzpicture}
-\node at (0,0) {\includegraphics[scale=0.25]{screenshot.png}};
-\draw (-3,0) node {Scripts go here};
-\end{tikzpicture}
-\end{center}
-
 After a script runs, all of the results are available in command mode.
+To export a result, click on the result text.
+The result can now be printed or copied to the pasteboard.
+(Note that it is necessary to click on the result text
+instead of somewhere else in the result window.)
 
 \iffalse
 \bigskip
@@ -3517,12 +3513,6 @@ $
 \begin{enumerate}
 
 \item
-To export a result in the macOS version, click on the result text.
-The result can now be printed or copied to the pasteboard.
-(To work properly, it is necessary to click on the result text
-instead of somewhere else in the result window.)
-
-\item
 Use \verb$==$ to test for equality.
 In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
 
@@ -3552,6 +3542,9 @@ Set \verb$pi=float(pi)$ to evaluate expressions with a numerical value for $\pi$
 Set \verb$pi=quote(pi)$ to make $\pi$ symbolic again.
 
 \item
+Use \verb$e=exp(1)$ to assign the natural number $e$ to symbol \verb$e$.
+
+\item
 Assign strings to unit names so they are printed normally.
 For example, setting \verb$meter="meter"$ causes symbol \verb$meter$
 to be printed as meter instead of $m_{eter}$.
@@ -3572,8 +3565,6 @@ rect(expform(f))
 \end{verbatim}}
 
 $\frac{1}{2}\cos(\theta)+\frac{1}{2}$
-
-\newpage
 
 \item
 Complex number functions \verb$conj$, \verb$mag$, etc.~treat undefined symbols as
@@ -3623,8 +3614,6 @@ Use \verb$draw(y[floor(x)],x)$ to plot the values of vector \verb$y$.
 y = (1,2,3,4)
 draw(y[floor(x)],x)
 \end{verbatim}}
-
-\newpage
 
 \item
 The following exercise\footnote{See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.}
