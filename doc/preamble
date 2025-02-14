@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{xcolor}
-%\usepackage{menukeys}
+\usepackage{menukeys}
 \parindent=0pt
 \pdfinfoomitdate=1
 \pdftrailerid{}
