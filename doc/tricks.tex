@@ -142,18 +142,17 @@ Hence the integral can be accomplished with \verb$eval$.
 psi = (phi1 + phi2) / 2 exp(-i E1 t / hbar) +
       (phi1 - phi2) / 2 exp(-i E2 t / hbar)
 
-Apsi = eval(psi, phi1, a1 phi1, phi2, a2 phi2) -- eigenvalues
+A(f) = eval(f, phi1, a1 phi1, phi2, a2 phi2) -- eigenvalues
 
 phi1 = r1 exp(i theta1)
 phi2 = r2 exp(i theta2)
 
-A = conj(psi) Apsi
+f = conj(psi) A(psi)
 
-A = eval(A, r1^2, 1, r2^2, 1, r1 r2, 0) -- integral
+Abar = eval(f, r1^2, 1, r2^2, 1, r1 r2, 0) -- integral
 
-A == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
+Abar == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
 \end{verbatim}}
-
 
 \end{enumerate}
 \end{document}
