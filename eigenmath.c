@@ -531,7 +531,7 @@ void eval_eval(struct atom *p1);
 void asubst(void);
 int addcmp(struct atom *p1, struct atom *p2);
 int mulcmp(struct atom *p1, struct atom *p2);
-int expcmp(struct atom *p1, struct atom *p2);
+int powcmp(struct atom *p1, struct atom *p2);
 void eval_exp(struct atom *p1);
 void expfunc(void);
 void eval_expcos(struct atom *p1);
@@ -835,7 +835,6 @@ int isminusone(struct atom *p);
 int isinteger(struct atom *p);
 int isfraction(struct atom *p);
 int isposint(struct atom *p);
-int isexponential(struct atom *p);
 int isradicalterm(struct atom *p);
 int isradical(struct atom *p);
 int isnegativeterm(struct atom *p);
@@ -5486,7 +5485,7 @@ asubst(void)
 		return;
 	}
 
-	if (isexponential(p1) && isexponential(p2) && expcmp(p1, p2)) {
+	if (powcmp(p1, p2)) {
 		push(p1);
 		push(p2);
 		divide();
@@ -5503,34 +5502,38 @@ addcmp(struct atom *p1, struct atom *p2)
 {
 	while (iscons(p1) && iscons(p2)) {
 		if (equal(car(p1), car(p2)))
-			p2 = cdr(p2);
+			p2 = cdr(p2); // next term on list
 		p1 = cdr(p1);
 	}
 	if (iscons(p2))
 		return 0;
 	else
-		return 1;
+		return 1; // all terms matched
 }
 
 int
 mulcmp(struct atom *p1, struct atom *p2)
 {
 	while (iscons(p1) && iscons(p2)) {
-		if (equal(car(p1), car(p2)) || (isexponential(car(p1)) && isexponential(car(p2)) && expcmp(car(p1), car(p2))))
-			p2 = cdr(p2);
+		if (equal(car(p1), car(p2)) || powcmp(car(p1), car(p2)))
+			p2 = cdr(p2); // next factor on list
 		p1 = cdr(p1);
 	}
 	if (iscons(p2))
 		return 0;
 	else
-		return 1;
+		return 1; // all factors matched
 }
 
 int
-expcmp(struct atom *p1, struct atom *p2)
+powcmp(struct atom *p1, struct atom *p2)
 {
-	p1 = caddr(p1);
-	p2 = caddr(p2);
+	if (car(p1) != symbol(POWER) || car(p2) != symbol(POWER))
+		return 0;
+	if (!equal(cadr(p1), cadr(p2)))
+		return 0; // bases don't match
+	p1 = caddr(p1); // exponent
+	p2 = caddr(p2); // exponent
 	if (car(p1) != symbol(ADD))
 		return 0;
 	if (car(p2) == symbol(ADD))
@@ -16807,12 +16810,6 @@ int
 isposint(struct atom *p)
 {
 	return isinteger(p) && !isnegativenumber(p);
-}
-
-int
-isexponential(struct atom *p)
-{
-	return car(p) == symbol(POWER) && cadr(p) == symbol(EXP1);
 }
 
 int

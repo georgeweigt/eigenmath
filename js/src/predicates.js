@@ -69,12 +69,6 @@ isposint(p)
 }
 
 function
-isexponential(p)
-{
-	return car(p) == symbol(POWER) && cadr(p) == symbol(EXP1);
-}
-
-function
 isradicalterm(p)
 {
 	return car(p) == symbol(MULTIPLY) && isnum(cadr(p)) && isradical(caddr(p));

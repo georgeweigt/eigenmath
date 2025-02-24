@@ -94,7 +94,7 @@ asubst(void)
 		return;
 	}
 
-	if (isexponential(p1) && isexponential(p2) && expcmp(p1, p2)) {
+	if (powcmp(p1, p2)) {
 		push(p1);
 		push(p2);
 		divide();
@@ -111,34 +111,38 @@ addcmp(struct atom *p1, struct atom *p2)
 {
 	while (iscons(p1) && iscons(p2)) {
 		if (equal(car(p1), car(p2)))
-			p2 = cdr(p2);
+			p2 = cdr(p2); // next term on list
 		p1 = cdr(p1);
 	}
 	if (iscons(p2))
 		return 0;
 	else
-		return 1;
+		return 1; // all terms matched
 }
 
 int
 mulcmp(struct atom *p1, struct atom *p2)
 {
 	while (iscons(p1) && iscons(p2)) {
-		if (equal(car(p1), car(p2)) || (isexponential(car(p1)) && isexponential(car(p2)) && expcmp(car(p1), car(p2))))
-			p2 = cdr(p2);
+		if (equal(car(p1), car(p2)) || powcmp(car(p1), car(p2)))
+			p2 = cdr(p2); // next factor on list
 		p1 = cdr(p1);
 	}
 	if (iscons(p2))
 		return 0;
 	else
-		return 1;
+		return 1; // all factors matched
 }
 
 int
-expcmp(struct atom *p1, struct atom *p2)
+powcmp(struct atom *p1, struct atom *p2)
 {
-	p1 = caddr(p1);
-	p2 = caddr(p2);
+	if (car(p1) != symbol(POWER) || car(p2) != symbol(POWER))
+		return 0;
+	if (!equal(cadr(p1), cadr(p2)))
+		return 0; // bases don't match
+	p1 = caddr(p1); // exponent
+	p2 = caddr(p2); // exponent
 	if (car(p1) != symbol(ADD))
 		return 0;
 	if (car(p2) == symbol(ADD))
