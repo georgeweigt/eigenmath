@@ -143,7 +143,7 @@ powcmp(p1, p2)
 	p1 = caddr(p1); // exponent
 	p2 = caddr(p2); // exponent
 	if (car(p1) != symbol(ADD))
-		return 0;
+		return 0; // p1 and p2 already failed exact match
 	if (car(p2) == symbol(ADD))
 		return addcmp(p1, p2);
 	p1 = cdr(p1);
