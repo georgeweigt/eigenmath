@@ -6367,7 +6367,7 @@ asubst()
 
 	p1 = pop();
 
-	if (car(p1) == symbol(ADD) && car(p2) == symbol(ADD) && addcmp(p1, p2)) {
+	if (addcmp(p1, p2)) {
 		push(p1);
 		push(p2);
 		subtract();
@@ -6376,16 +6376,7 @@ asubst()
 		return;
 	}
 
-	if (car(p1) == symbol(MULTIPLY) && car(p2) == symbol(MULTIPLY) && mulcmp(p1, p2)) {
-		push(p1);
-		push(p2);
-		divide();
-		push(p3);
-		multiply();
-		return;
-	}
-
-	if (powcmp(p1, p2)) {
+	if (mulcmp(p1, p2) || powcmp(p1, p2)) {
 		push(p1);
 		push(p2);
 		divide();
@@ -6400,6 +6391,8 @@ asubst()
 function
 addcmp(p1, p2)
 {
+	if (car(p1) != symbol(ADD) || car(p2) != symbol(ADD))
+		return 0;
 	while (iscons(p1) && iscons(p2)) {
 		if (equal(car(p1), car(p2)))
 			p2 = cdr(p2); // next term on list
@@ -6414,6 +6407,8 @@ addcmp(p1, p2)
 function
 mulcmp(p1, p2)
 {
+	if (car(p1) != symbol(MULTIPLY) || car(p2) != symbol(MULTIPLY))
+		return 0;
 	while (iscons(p1) && iscons(p2)) {
 		if (equal(car(p1), car(p2)) || powcmp(car(p1), car(p2)))
 			p2 = cdr(p2); // next factor on list
