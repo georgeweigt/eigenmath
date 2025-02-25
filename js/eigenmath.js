@@ -6393,6 +6393,8 @@ addcmp(p1, p2)
 {
 	if (car(p1) != symbol(ADD) || car(p2) != symbol(ADD))
 		return 0;
+	p1 = cdr(p1);
+	p2 = cdr(p2);
 	while (iscons(p1) && iscons(p2)) {
 		if (equal(car(p1), car(p2)))
 			p2 = cdr(p2); // next term on list
@@ -6409,6 +6411,8 @@ mulcmp(p1, p2)
 {
 	if (car(p1) != symbol(MULTIPLY) || car(p2) != symbol(MULTIPLY))
 		return 0;
+	p1 = cdr(p1);
+	p2 = cdr(p2);
 	while (iscons(p1) && iscons(p2)) {
 		if (equal(car(p1), car(p2)) || powcmp(car(p1), car(p2)))
 			p2 = cdr(p2); // next factor on list
