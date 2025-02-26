@@ -212,8 +212,7 @@ struct tensor {
 #define SQRT		(18 * BUCKETSIZE + 6)
 #define STATUS		(18 * BUCKETSIZE + 7)
 #define STOP		(18 * BUCKETSIZE + 8)
-#define SUBST		(18 * BUCKETSIZE + 9)
-#define SUM		(18 * BUCKETSIZE + 10)
+#define SUM		(18 * BUCKETSIZE + 9)
 
 #define T_UPPER		(19 * BUCKETSIZE + 0)
 #define T_LOWER		(19 * BUCKETSIZE + 1)

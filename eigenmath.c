@@ -239,8 +239,7 @@ struct tensor {
 #define SQRT		(18 * BUCKETSIZE + 6)
 #define STATUS		(18 * BUCKETSIZE + 7)
 #define STOP		(18 * BUCKETSIZE + 8)
-#define SUBST		(18 * BUCKETSIZE + 9)
-#define SUM		(18 * BUCKETSIZE + 10)
+#define SUM		(18 * BUCKETSIZE + 9)
 
 #define T_UPPER		(19 * BUCKETSIZE + 0)
 #define T_LOWER		(19 * BUCKETSIZE + 1)
@@ -427,6 +426,7 @@ int cmp_tensors(struct atom *p1, struct atom *p2);
 int find_denominator(struct atom *p);
 int count_denominators(struct atom *p);
 int count_numerators(struct atom *p);
+void subst(void);
 void evalg(void);
 void evalf(void);
 void evalf_nib(struct atom *p1);
@@ -736,8 +736,6 @@ void eval_sqrt(struct atom *p1);
 void sqrtfunc(void);
 void eval_status(struct atom *p1);
 void eval_stop(struct atom *p1);
-void eval_subst(struct atom *p1);
-void subst(void);
 void eval_sum(struct atom *p1);
 void eval_tan(struct atom *p1);
 void tanfunc(void);
@@ -1873,6 +1871,62 @@ count_numerators(struct atom *p)
 		p = cdr(p);
 	}
 	return n;
+}
+
+// cannot do any evalf in subst because subst is used by func defn
+
+void
+subst(void)
+{
+	int h, i, n;
+	struct atom *p1, *p2, *p3;
+
+	p3 = pop(); // new expr
+	p2 = pop(); // old expr
+	p1 = pop(); // expr
+
+	if (p2 == symbol(NIL) || p3 == symbol(NIL)) {
+		push(p1);
+		return;
+	}
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			push(p2);
+			push(p3);
+			subst();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (equal(p1, p2)) {
+		push(p3);
+		return;
+	}
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	// depth first
+
+	h = tos;
+
+	while (iscons(p1)) {
+		push(car(p1));
+		push(p2);
+		push(p3);
+		subst();
+		p1 = cdr(p1);
+	}
+
+	list(tos - h);
 }
 // automatic variables not visible to the garbage collector are reclaimed
 
@@ -13294,74 +13348,6 @@ eval_stop(struct atom *p1)
 	stopf("stop function");
 }
 void
-eval_subst(struct atom *p1)
-{
-	push(cadddr(p1));
-	evalf();
-	push(caddr(p1));
-	evalf();
-	push(cadr(p1));
-	evalf();
-	subst();
-	evalf(); // normalize
-}
-
-// cannot do any evalf in subst because subst is used by func defn
-
-void
-subst(void)
-{
-	int h, i, n;
-	struct atom *p1, *p2, *p3;
-
-	p3 = pop(); // new expr
-	p2 = pop(); // old expr
-	p1 = pop(); // expr
-
-	if (p2 == symbol(NIL) || p3 == symbol(NIL)) {
-		push(p1);
-		return;
-	}
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1->u.tensor->nelem;
-		for (i = 0; i < n; i++) {
-			push(p1->u.tensor->elem[i]);
-			push(p2);
-			push(p3);
-			subst();
-			p1->u.tensor->elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (equal(p1, p2)) {
-		push(p3);
-		return;
-	}
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	// depth first
-
-	h = tos;
-
-	while (iscons(p1)) {
-		push(car(p1));
-		push(p2);
-		push(p3);
-		subst();
-		p1 = cdr(p1);
-	}
-
-	list(tos - h);
-}
-void
 eval_sum(struct atom *p1)
 {
 	int h, i, j, k, n;
@@ -18172,7 +18158,6 @@ struct se {
 	{ "sqrt",		SQRT,		eval_sqrt		},
 	{ "status",		STATUS,		eval_status		},
 	{ "stop",		STOP,		eval_stop		},
-	{ "subst",		SUBST,		eval_subst		},
 	{ "sum",		SUM,		eval_sum		},
 
 	{ "T",			T_UPPER,	NULL			},

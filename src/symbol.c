@@ -208,7 +208,6 @@ struct se {
 	{ "sqrt",		SQRT,		eval_sqrt		},
 	{ "status",		STATUS,		eval_status		},
 	{ "stop",		STOP,		eval_stop		},
-	{ "subst",		SUBST,		eval_subst		},
 	{ "sum",		SUM,		eval_sum		},
 
 	{ "T",			T_UPPER,	NULL			},

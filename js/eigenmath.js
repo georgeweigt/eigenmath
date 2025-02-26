@@ -946,7 +946,6 @@ const SINH = "sinh";
 const SQRT = "sqrt";
 const STATUS = "status";
 const STOP = "stop";
-const SUBST = "subst";
 const SUM = "sum";
 const TAN = "tan";
 const TANH = "tanh";
@@ -12207,73 +12206,6 @@ eval_stop()
 	stopf("stop");
 }
 function
-eval_subst(p1)
-{
-	push(cadddr(p1));
-	evalf();
-	push(caddr(p1));
-	evalf();
-	push(cadr(p1));
-	evalf();
-	subst();
-	evalf(); // normalize
-}
-
-// cannot do any evalf in subst because subst is used by func defn
-
-function
-subst()
-{
-	var h, i, n, p1, p2, p3;
-
-	p3 = pop(); // new expr
-	p2 = pop(); // old expr
-	p1 = pop(); // expr
-
-	if (p2 == symbol(NIL) || p3 == symbol(NIL)) {
-		push(p1);
-		return;
-	}
-
-	if (istensor(p1)) {
-		p1 = copy_tensor(p1);
-		n = p1.elem.length;
-		for (i = 0; i < n; i++) {
-			push(p1.elem[i]);
-			push(p2);
-			push(p3);
-			subst();
-			p1.elem[i] = pop();
-		}
-		push(p1);
-		return;
-	}
-
-	if (equal(p1, p2)) {
-		push(p3);
-		return;
-	}
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	// depth first
-
-	h = stack.length;
-
-	while (iscons(p1)) {
-		push(car(p1));
-		push(p2);
-		push(p3);
-		subst();
-		p1 = cdr(p1);
-	}
-
-	list(stack.length - h);
-}
-function
 eval_sum(p1)
 {
 	var h, i, j, k, n, p2, p3;
@@ -17330,6 +17262,60 @@ stopf(errmsg)
 {
 	throw errmsg;
 }
+// cannot do any evalf in subst because subst is used by func defn
+
+function
+subst()
+{
+	var h, i, n, p1, p2, p3;
+
+	p3 = pop(); // new expr
+	p2 = pop(); // old expr
+	p1 = pop(); // expr
+
+	if (p2 == symbol(NIL) || p3 == symbol(NIL)) {
+		push(p1);
+		return;
+	}
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			push(p2);
+			push(p3);
+			subst();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (equal(p1, p2)) {
+		push(p3);
+		return;
+	}
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	// depth first
+
+	h = stack.length;
+
+	while (iscons(p1)) {
+		push(car(p1));
+		push(p2);
+		push(p3);
+		subst();
+		p1 = cdr(p1);
+	}
+
+	list(stack.length - h);
+}
 function
 swap()
 {
@@ -17455,7 +17441,6 @@ var symtab = {
 "sqrt":		{printname:SQRT,	func:eval_sqrt},
 "status":	{printname:STATUS,	func:eval_status},
 "stop":		{printname:STOP,	func:eval_stop},
-"subst":	{printname:SUBST,	func:eval_subst},
 "sum":		{printname:SUM,		func:eval_sum},
 "tan":		{printname:TAN,		func:eval_tan},
 "tanh":		{printname:TANH,	func:eval_tanh},

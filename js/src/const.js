@@ -83,7 +83,6 @@ const SINH = "sinh";
 const SQRT = "sqrt";
 const STATUS = "status";
 const STOP = "stop";
-const SUBST = "subst";
 const SUM = "sum";
 const TAN = "tan";
 const TANH = "tanh";
