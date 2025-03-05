@@ -351,23 +351,21 @@ Doing so does not conflict with function \verb$d$.
 Symbol \verb$d$ can be redefined as a different function.
 The function \verb$derivative$, a synonym for \verb$d$, can be used to obtain a partial derivative.
 
-\subsection*{defint($f,x,a,b$)}
+\subsection*{defint($f,x,a,b,\ldots$)}
 
 Returns the definite integral of $f$ with respect to $x$
 evaluated from $a$ to $b$.
-The argument list can be extended for multiple integrals
-as shown in the following example.
+The argument list can be extended for multiple integrals.
+The following example integrates over theta then over phi.
 
 {\color{blue}
 \begin{verbatim}
-f = (1 + cos(theta)^2) sin(theta)
--- integrate over theta then over phi
-defint(f, theta, 0, pi, phi, 0, 2 pi)
+defint(sin(theta), theta, 0, pi, phi, 0, 2 pi)
 \end{verbatim}
 }
 
 \noindent
-$\tfrac{16}{3}\pi$
+$4\pi$
 
 \subsection*{denominator($x$)}
 

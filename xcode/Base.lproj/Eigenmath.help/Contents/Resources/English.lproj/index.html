@@ -447,19 +447,17 @@ a synonym for
 can be used to obtain a partial derivative.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="defint">defint(<i>f,x,a,b</i>)</a>
+<a id="defint">defint(<i>f,x,a,b,...</i>)</a>
 <p>
 Returns the definite integral of <i>f</i> with respect to <i>x</i>
 evaluated from <i>a</i> to <i>b</i>.
-The argument list can be extended for multiple integrals as shown in the following example.
+The argument list can be extended for multiple integrals.
+The following example integrates over theta then over phi.
 <pre style="font-family:courier;color:blue">
-f = (1 + cos(theta)^2) sin(theta)
-defint(f, theta, 0, pi, phi, 0, 2 pi) -- integrate over theta then over phi
+defint(sin(theta), theta, 0, pi, phi, 0, 2 pi)
 </pre>
 <pre style="font-family:courier">
- 16   
-╶──╴ π
- 3    
+4 π
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
