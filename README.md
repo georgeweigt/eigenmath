@@ -16,3 +16,11 @@ Run a self test
 ```
 ./eigenmath test/selftest1
 ```
+
+To build for macOS (requires Xcode)
+
+```
+cd xcode
+make
+mv build/Release/Eigenmath.app ~/
+```
