@@ -45,7 +45,7 @@ Note that function \verb$L$ is called without supplying an argument for \verb$y$
 
 {\color{blue}
 \begin{verbatim}
-L(f,n,y) = eval(exp(y) / n! d(exp(-y) y^n, y, n), y, f)
+L(f,n,y) = eval(d(exp(-y) y^n, y, n) exp(y) / n!, y, f)
 L(cos(x),2)
 \end{verbatim}
 }
@@ -58,22 +58,35 @@ In this case \verb$eval$ should be used.
 
 {\color{blue}
 \begin{verbatim}
-h(f,x,a) = abs(eval(f,x,a))
-h(cos(y),y,0)
+h(f,a,b) = eval(f,x,b) - eval(f,x,a)
+h(x^2, 1, 2)
 \end{verbatim}}
 
-$1$
+$3$
 
 \bigskip
+Use \verb$do$ when multiple steps are needed in a function.
+The last \verb$do$ item is the return value.
+The following example defines function \verb$I$ for
+integrating hydrogen wavefunctions.
+
+{\color{blue}
+\begin{verbatim}
+I(f) = do(
+  f = f r^2 sin(theta),
+  f = expform(f),
+  f = defint(f, theta, 0, pi, phi, 0, 2 pi),
+  f = integral(f,r),
+  -eval(f,r,0) -- return value
+)
+\end{verbatim}}
+
 Notes:
 
 1. Maximum number of arguments is nine.
 
-2. The scope of arguments is the function definition.
+2. Argument scope is restricted to just the function definition.
 
 3. Function definitions cannot be nested.
-
-4. Use \verb$do$ for sequential statements in a function.
-The last expression is the return value.
 
 \end{document}
