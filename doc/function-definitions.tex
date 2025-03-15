@@ -2,22 +2,6 @@
 
 \section*{Function definitions}
 
-\iffalse
-The syntax for defining functions is
-\begin{center}
-{\it function-name} ( {\it arg-list} ) = {\it expr}
-\end{center}
-where {\it arg-list} is a comma separated list of zero to nine symbols that receive arguments.
-Unlike symbol definitions, {\it expr} is not evaluated when {\it function-name} is defined.
-Instead, {\it expr} is evaluated when {\it function-name} is used in a subsequent computation.
-The scope of function arguments is the function definition {\it expr}.
-
-\bigskip
-Function definitions cannot be nested.
-In other words, function definition {\it expr}
-cannot contain another function definition.
-\fi
-
 The following example defines a sinc function and evaluates it at $\pi/2$.
 
 {\color{blue}
@@ -29,32 +13,7 @@ f(pi/2)
 $\displaystyle \frac{2}{\pi}$
 
 \bigskip
-A function definition can be recalled using \verb$binding$.
-
-{\color{blue}
-\begin{verbatim}
-binding(f)
-\end{verbatim}}
-
-$\displaystyle \frac{\sin(x)}{x}$
-
-\bigskip
-To define a local symbol in a function, extend the argument list.
-In the following example, argument \verb$y$ is used as a local symbol.
-Note that function \verb$L$ is called without supplying an argument for \verb$y$.
-
-{\color{blue}
-\begin{verbatim}
-L(f,n,y) = eval(d(exp(-y) y^n, y, n) exp(y) / n!, y, f)
-L(cos(x),2)
-\end{verbatim}
-}
-
-$\displaystyle \tfrac{1}{2}\cos(x)^2-2\cos(x)+1$
-
-\bigskip
-Sometimes it is necessary to evaluate an argument at a particular value.
-In this case \verb$eval$ should be used.
+Use \verb$eval$ to evaluate an argument with a substitution.
 
 {\color{blue}
 \begin{verbatim}
@@ -63,6 +22,20 @@ h(x^2, 1, 2)
 \end{verbatim}}
 
 $3$
+
+\bigskip
+To define a local symbol in a function, extend the argument list.
+In the following example, argument \verb$y$ is used as a local symbol.
+Note that function \verb$L$ is called without supplying an argument for \verb$y$.
+
+{\color{blue}
+\begin{verbatim}
+L(f,n,y) = eval(exp(y) d(exp(-y) y^n, y, n) / n!, y, f)
+L(cos(x),2)
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{2}\cos(x)^2-2\cos(x)+1$
 
 \bigskip
 Use \verb$do$ when multiple steps are needed in a function.
