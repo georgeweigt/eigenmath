@@ -2,6 +2,7 @@
 
 \section*{Function definitions}
 
+\iffalse
 The syntax for defining functions is
 \begin{center}
 {\it function-name} ( {\it arg-list} ) = {\it expr}
@@ -15,8 +16,8 @@ The scope of function arguments is the function definition {\it expr}.
 Function definitions cannot be nested.
 In other words, function definition {\it expr}
 cannot contain another function definition.
+\fi
 
-\bigskip
 The following example defines a sinc function and evaluates it at $\pi/2$.
 
 {\color{blue}
@@ -28,8 +29,17 @@ f(pi/2)
 $\displaystyle \frac{2}{\pi}$
 
 \bigskip
-After a user function is defined, {\it expr} can be recalled using the
-\verb$binding$ function.
+A function definition can be recalled by evaluating its name.
+
+{\color{blue}
+\begin{verbatim}
+f
+\end{verbatim}}
+
+$\displaystyle \frac{\sin(x)}{x}$
+
+\bigskip
+If a function has programmatic elements then \verb$binding$ should be used for recall.
 
 {\color{blue}
 \begin{verbatim}
@@ -39,9 +49,9 @@ binding(f)
 $\displaystyle \frac{\sin(x)}{x}$
 
 \bigskip
-To define a local symbol for use inside {\it expr}, extend the argument list.
-In the following example, argument $y$ is used as a local symbol.
-Note that function $L$ is called without supplying an argument for $y$.
+To define a local symbol in a function, extend the argument list.
+In the following example, argument \verb$y$ is used as a local symbol.
+Note that function \verb$L$ is called without supplying an argument for \verb$y$.
 
 {\color{blue}
 \begin{verbatim}
@@ -53,8 +63,8 @@ L(cos(x),2)
 $\displaystyle \tfrac{1}{2}\cos(x)^2-2\cos(x)+1$
 
 \bigskip
-Sometimes it is necessary to evauate an argument at a particular value.
-Use \verb$eval$ to evaluate function arguments inside {\it expr}.
+Sometimes it is necessary to evaluate an argument at a particular value.
+In this case \verb$eval$ should be used.
 
 {\color{blue}
 \begin{verbatim}
@@ -63,5 +73,14 @@ h(cos(y),y,0)
 \end{verbatim}}
 
 $1$
+
+\bigskip
+Notes:
+
+1. Maximum number of arguments is nine.
+
+2. The scope of arguments is the function definition.
+
+3. Function definitions cannot be nested.
 
 \end{document}

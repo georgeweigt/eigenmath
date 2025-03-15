@@ -2,6 +2,70 @@
 
 \section*{Introduction}
 
+Consider the canonical commutation relation in one dimension.
+\begin{equation*}
+XP-PX=i\hbar
+\end{equation*}
+
+Let
+\begin{equation*}
+X=x,\quad P=-i\hbar\frac{\partial}{\partial x}
+\end{equation*}
+
+Show that
+\begin{equation*}
+(XP-PX)\psi(x,t)=i\hbar\psi(x,t)
+\end{equation*}
+
+Eigenmath code:
+{\color{blue}
+\begin{verbatim}
+X(f) = x f
+P(f) = -i hbar d(f,x)
+X(P(psi(x,t))) - P(X(psi(x,t)))
+\end{verbatim}}
+
+Result:
+
+\bigskip
+$i\hbar\psi(x,t)$
+
+\bigskip
+Another example: Show that
+\begin{equation*}
+[X^2,P^2]=2i\hbar(XP+PX)
+\end{equation*}
+
+Eigenmath code:
+{\color{blue}
+\begin{verbatim}
+X2(f) = X(X(f))
+P2(f) = P(P(f))
+A = X2(P2(psi(x,t))) - P2(X2(psi(x,t)))
+B = 2 i hbar (X(P(psi(x,t))) + P(X(psi(x,t))))
+check(A == B) -- continue if A equals B
+"ok"
+\end{verbatim}}
+
+Result:
+
+\bigskip
+ok
+
+\iffalse
+\bigskip
+Notes:
+\begin{enumerate}
+\item
+Fedak  and Prentis write, ``The theory of Fourier and the correspondence principle of Bohr played a vital role in Heisenberg's development of quantum mechanics.''
+\item
+Aitchison, MacManus, and Snyder write, ``This `difficulty' clearly unsettled Heisenberg: but it very quickly became clear that the non-commutativity (in general) of kinematical quantities in quantum theory was the really essential new technical idea in the paper.''
+\end{enumerate}
+\fi
+
+\end{document}
+
+\iffalse
 From Vladimir Nabokov's autobiography ``Speak, Memory.''
 \begin{quote}
 A foolish tutor had explained logarithms to me much too early, and I had
@@ -61,5 +125,6 @@ n=\frac{17 \log212}{32\log2}
 \end{verbatim}}
 
 $4.10546$
+\fi
 
 \end{document}
