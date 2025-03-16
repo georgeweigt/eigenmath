@@ -408,8 +408,7 @@ integrating hydrogen wavefunctions.
 {\color{blue}
 \begin{verbatim}
 I(f) = do(
-  f = f r^2 sin(theta),
-  f = expform(f),
+  f = expform(f r^2 sin(theta)),
   f = defint(f, theta, 0, pi, phi, 0, 2 pi),
   f = integral(f,r),
   -eval(f,r,0) -- return value
