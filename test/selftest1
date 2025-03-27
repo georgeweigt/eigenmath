@@ -8727,6 +8727,13 @@ D = -m^(5/4) omega^(5/4) / ((-1)^(1/4) hbar^(5/4) pi^(3/4) *
 I = 1/2 sqrt(pi) D B A^(-3/2) exp(B^2 / (4 A) + C)
 I = simplify(I)
 check(infixform(I) == "2^(1/2) m^(3/4) omega^(3/4) xb exp(-m omega xb^2 / (2 hbar) - 3/2 i T omega) / (hbar^(3/4) pi^(1/4))")
+
+clear
+x = theta - sin(theta)
+z = 1 - cos(theta)
+a = d(x,theta)^2 + d(z,theta)^2
+f = simplify(sqrt(a / (2 g z)))
+check(infixform(f) == "1 / g^(1/2)")
 "Testing sin"
 
 clear

@@ -12807,6 +12807,18 @@ simplify_nib(void)
 		return;
 	}
 
+	push(p1);
+	expform();
+	rect();
+	p2 = pop();
+	if (simpler(p2, p1))
+		p1 = p2;
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
 	// depth first
 
 	h = tos;

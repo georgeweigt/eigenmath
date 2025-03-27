@@ -11,8 +11,8 @@ default:
 	rsync -c ../src/defs.h .
 	make eigenmath.c
 	make prototypes.h
-	xcodebuild -project Eigenmath.xcodeproj
-	find build -name Eigenmath.app -print
+#	xcodebuild -project Eigenmath.xcodeproj
+#	find build -name Eigenmath.app -print
 
 eigenmath.c: app.h $(FILES)
 	cat app.h $(FILES) > eigenmath.c
