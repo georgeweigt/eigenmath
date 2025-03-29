@@ -1,0 +1,66 @@
+\input{preamble}
+
+\section*{Units of measure}
+
+Symbols can be used for units of measure.
+
+{\color{blue}
+\begin{verbatim}
+v = 1.2 meter / second
+v
+\end{verbatim}}
+
+$\displaystyle\frac{1.2\,m_{eter}}{s_{econd}}$
+
+\bigskip
+Assign strings to unit symbols for improved display appearance.
+
+{\color{blue}
+\begin{verbatim}
+meter = "m"
+second = "s"
+v
+\end{verbatim}}
+
+$\displaystyle\frac{1.2\,\text{m}}{\text{s}}$
+
+\iffalse
+\bigskip
+Use strings for unit conversions.
+
+{\color{blue}
+\begin{verbatim}
+v 10^(-3) "km" / meter
+\end{verbatim}}
+
+$\displaystyle\frac{0.0012\,\text{km}}{\text{s}}$
+\fi
+
+\bigskip
+Derived units can be handled by converting to base units.
+
+{\color{blue}
+\begin{verbatim}
+h = 6.626 10^(-34) joule second
+joule = kilogram meter^2 / second^2
+kilogram = "kg"
+h
+\end{verbatim}}
+
+$\displaystyle h=\frac{6.626\times10^{-34}\,\text{kg}\,\text{m}^2}{\text{s}}$
+
+\bigskip
+Here is a trick for displaying derived units.
+
+{\color{blue}
+\begin{verbatim}
+h "J" / joule
+\end{verbatim}}
+
+$6.626\times10^{-34}\,\text{J}\,\text{s}$
+
+\bigskip
+See the following link for a script with recommended physical values and SI unit conversions.\\
+{\footnotesize\verb$https://georgeweigt.github.io/examples/physical-constants.html$}
+
+\end{document}
