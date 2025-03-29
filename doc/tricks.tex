@@ -110,8 +110,10 @@ draw(y[floor(x)],x)
 \newpage
 
 \item
-The following exercise\footnote{See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.}
-demonstrates some \verb$eval$ tricks.
+The following example demonstrates some \verb$eval$ tricks.
+(See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.)
+
+\bigskip
 Let
 \begin{equation*}
 \psi
@@ -119,7 +121,8 @@ Let
 +\frac{\phi_1-\phi_2}{2}\exp\left(-\frac{iE_2t}{\hbar}\right)
 \end{equation*}
 
-where $\phi_1$ and $\phi_2$ are orthogonal and operator $A$ has the following eigenvalues.
+where $\phi_1$ and $\phi_2$ are orthogonal.
+Let operator $A$ have the following eigenvalues.
 \begin{align*}
 A\phi_1&=a_1\phi_1
 \\
@@ -152,7 +155,9 @@ f = conj(psi) A(psi)
 
 Abar = eval(f, r1(x)^2, 1, r2(x)^2, 1, r1(x) r2(x), 0) -- integral
 
-Abar == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar)
+check(Abar == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar))
+
+"ok"
 \end{verbatim}}
 
 \end{enumerate}
