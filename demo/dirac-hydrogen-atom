@@ -11,9 +11,9 @@ psi(n,m) = 1 / sqrt(pi a0 (n + 1/2)) *
 
 a0 = hbar^2 / (k mu)
 
--- Laguerre polynomial
+-- Laguerre polynomial (j is a local var)
 
-L(x,n,m,j) = (n + m)! sum(j,0,n,(-x)^j / ((n - j)! (m + j)! j!))
+L(x,n,m,j) = (n + m)! sum(j, 0, n, (-x)^j / ((n - j)! (m + j)! j!))
 
 -- energy eigenvalues
 
@@ -32,9 +32,9 @@ N = 5 -- arbitrary cutoff for demo
 R = zero(N,N)
 Enm = zero(N,N)
 
-for(n,1,N, for(m,1,N, R[n,m] = I(conj(psi(n,0)) r psi(m,0))))
+for(n, 1, N, for(m, 1, N, R[n,m] = I(conj(psi(n,0)) r psi(m,0))))
 
-for(n,1,N, Enm[n,n] = E(n))
+for(n, 1, N, Enm[n,n] = E(n))
 
 -- solve for P
 

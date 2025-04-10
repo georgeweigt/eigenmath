@@ -6,10 +6,10 @@ R(n,l) = 2 / n^2 *
          a0^(-3/2) *
          sqrt((n - l - 1)! / (n + l)!) *
          (2 r / (n a0))^l *
-         L(2 r / (n a0),n - l - 1,2 l + 1) *
+         L(2 r / (n a0), n - l - 1, 2 l + 1) *
          exp(-r / (n a0))
 
-L(x,n,m,k) = (n + m)! sum(k,0,n, (-x)^k / ((n - k)! (m + k)! k!))
+L(x,n,m,k) = (n + m)! sum(k, 0, n, (-x)^k / ((n - k)! (m + k)! k!))
 
 Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
          P(l,m) exp(i m phi)
@@ -17,7 +17,7 @@ Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
 -- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
 
 P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-           2^(-m) sin(theta)^m sum(k,0,l - m,
+           2^(-m) sin(theta)^m sum(k, 0, l - m,
            (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
            ((1 - cos(theta)) / 2)^k))
 
