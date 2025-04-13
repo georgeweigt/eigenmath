@@ -1,4 +1,4 @@
-"Spontaneous emission rate for hydrogen state 2p"
+-- Spontaneous emission rate for hydrogen state 2p
 
 psi(n,l,m) = R(n,l) Y(l,m)
  
@@ -9,7 +9,7 @@ R(n,l) = 2 / n^2 *
          L(2 r / (n a0), n - l - 1, 2 l + 1) *
          exp(-r / (n a0))
 
-L(x,n,m,k) = (n + m)! sum(k, 0, n, (-x)^k / ((n - k)! (m + k)! k!))
+L(x,n,m,k) = (n + m)! sum(k,0,n, (-x)^k / ((n - k)! (m + k)! k!))
 
 Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
          P(l,m) exp(i m phi)
@@ -17,13 +17,13 @@ Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
 -- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
 
 P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-           2^(-m) sin(theta)^m sum(k, 0, l - m,
+           (sin(theta)/2)^m sum(k, 0, l - m,
            (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
            ((1 - cos(theta)) / 2)^k))
 
 -- E(n) returns the nth energy eigenvalue
 
-E(n) = -e^2 / (8 pi epsilon0 a0 n^2)
+E(n) = -alpha^2 mu c^2 / (2 n^2)
 
 -- integrate f
 
@@ -41,35 +41,41 @@ psi1 = psi(1,0,0)
 f21 = conj(psi1) psi2
 f21
 
-x21 = I(r sin(theta) cos(phi) f21)
-y21 = I(r sin(theta) sin(phi) f21)
-z21 = I(r cos(theta) f21)
+x = r sin(theta) cos(phi)
+y = r sin(theta) sin(phi)
+z = r cos(theta)
+
+x21 = I(x f21)
+y21 = I(y f21)
+z21 = I(z f21)
 
 print(x21,y21,z21)
 
 r21sq = conj(x21) x21 + conj(y21) y21 + conj(z21) z21
 r21sq
 
--- physical constants (c, h, k are exact values)
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+-- c, e, h, and k are exact values
 
+a0 = 5.29177210544 10^(-11) meter
+alpha = 7.2973525643 10^(-3)
 c = 299792458.0 meter / second
 e = 1.602176634 10^(-19) coulomb
-epsilon0 = 8.8541878128 10^(-12) farad / meter
+epsilon0 = 8.8541878188 10^(-12) farad / meter
 h = 6.62607015 10^(-34) joule second
 hbar = h / float(2 pi)
 k = 1.380649 10^(-23) joule / kelvin
-me = 9.1093837015 10^(-31) kilogram
-mp = 1.67262192369 10^(-27) kilogram
-mu = me mp / (me + mp)
-
--- derived units
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+mu0 = 1.25663706127 10^(-6) newton / ampere^2
 
 coulomb = ampere second
 farad = coulomb / volt
 joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+tesla = kilogram / second^2 / ampere
 volt = joule / coulomb
-
--- base units (for printing)
 
 ampere = "ampere"
 kelvin = "kelvin"
@@ -78,9 +84,8 @@ meter = "meter"
 second = "second"
 
 pi = float(pi) -- use numerical value of pi
-
-a0 = 4 pi epsilon0 hbar^2 / (e^2 mu)
-
+mu = me mp / (me + mp)
+a0 = a0 me / mu -- correction
 omega21 = (E(2) - E(1)) / hbar
 
 "Spontaneous emission rate"

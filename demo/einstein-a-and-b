@@ -1,6 +1,6 @@
 -- spontaneous emission
 
-A21 = 16 e^8 / (6561 epsilon0^4 h^4 c^3 a0)
+A21 = 256 alpha^4 c / (6561 a0)
 
 -- induced emission
 
@@ -23,7 +23,7 @@ B12
 
 rho = (2 h nu^3 / c^2) / (exp(h nu / (k T)) - 1)
 
-E(n) = -e^2 / (8 pi epsilon0 a0 n^2)
+E(n) = -alpha^2 mu c^2 / (2 n^2)
 
 nu = (E(2) - E(1)) / h
 
@@ -34,26 +34,28 @@ check(P == Q)
 
 "ok"
 
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
 -- physical constants (c, e, h, and k are exact values)
 
+a0 = 5.29177210544 10^(-11) meter
+alpha = 7.2973525643 10^(-3)
 c = 299792458.0 meter / second
 e = 1.602176634 10^(-19) coulomb
-epsilon0 = 8.8541878128 10^(-12) farad / meter
+epsilon0 = 8.8541878188 10^(-12) farad / meter
 h = 6.62607015 10^(-34) joule second
 hbar = h / float(2 pi)
 k = 1.380649 10^(-23) joule / kelvin
-me = 9.1093837015 10^(-31) kilogram
-mp = 1.67262192369 10^(-27) kilogram
-mu = me mp / (me + mp)
-
--- derived units
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+mu0 = 1.25663706127 10^(-6) newton / ampere^2
 
 coulomb = ampere second
 farad = coulomb / volt
 joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+tesla = kilogram / second^2 / ampere
 volt = joule / coulomb
-
--- base units (for printing)
 
 ampere = "ampere"
 kelvin = "kelvin"
@@ -62,10 +64,8 @@ meter = "meter"
 second = "second"
 
 pi = float(pi) -- use numerical value of pi
-
--- Bohr radius (NIST value of 5.29177e-11 is for me, not mu)
-
-a0 = epsilon0 h^2 / (pi e^2 mu)
+mu = me mp / (me + mp)
+a0 = a0 me / mu -- correction
 
 a0
 nu
