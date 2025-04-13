@@ -50,9 +50,8 @@ print(x21,y21,z21)
 r21sq = conj(x21) x21 + conj(y21) y21 + conj(z21) z21
 r21sq
 
-E(n) = -alpha^2 mu c^2 / (2 n^2)
+E(n) = -alpha hbar c / (2 n^2 a0)
 omega21 = (E(2) - E(1)) / hbar
-omega21 = eval(omega21, hbar, alpha a0 mu c) -- simplify
 omega21
 
 A21 = 4 alpha omega21^3 r21sq / (3 c^2)
