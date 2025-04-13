@@ -21,10 +21,6 @@ P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
            (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
            ((1 - cos(theta)) / 2)^k))
 
--- E(n) returns the nth energy eigenvalue
-
-E(n) = -alpha^2 mu c^2 / (2 n^2)
-
 -- integrate f
 
 I(f) = do(
@@ -53,6 +49,14 @@ print(x21,y21,z21)
 
 r21sq = conj(x21) x21 + conj(y21) y21 + conj(z21) z21
 r21sq
+
+E(n) = -alpha^2 mu c^2 / (2 n^2)
+omega21 = (E(2) - E(1)) / hbar
+omega21 = eval(omega21, hbar, alpha a0 mu c) -- simplify
+omega21
+
+A21 = 4 alpha omega21^3 r21sq / (3 c^2)
+A21
 
 -- CODATA Internationally recommended 2022 values
 -- https://physics.nist.gov/cuu/Constants/
@@ -86,13 +90,16 @@ second = "second"
 pi = float(pi) -- use numerical value of pi
 mu = me mp / (me + mp)
 a0 = a0 me / mu -- correction
-omega21 = (E(2) - E(1)) / hbar
 
 "Spontaneous emission rate"
 
-A21 = e^2 / (3 pi epsilon0 hbar c^3) omega21^3 r21sq
 A21
 
 "Mean interval"
 
 1 / A21
+
+err(a,b) = 2 abs((a - b) / (a + b)) -- relative error
+check(err(A21, 6.265 10^8 / second) < 0.0001)
+
+"ok"
