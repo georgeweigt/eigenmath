@@ -8,7 +8,7 @@ make
 Run a script
 
 ```
-./eigenmath demo/spontaneous-emission
+./eigenmath demo/spontaneous-emission-rate
 ```
 
 Run a self test

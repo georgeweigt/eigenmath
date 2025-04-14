@@ -88,15 +88,13 @@ second = "second"
 
 pi = float(pi) -- use numerical value of pi
 mu = me mp / (me + mp)
-a0 = a0 me / mu -- correction
+a0 = a0 me / mu -- correction for reduced electron mass
 
 "Spontaneous emission rate"
 
 A21
 
-"Mean interval"
-
-1 / A21
+"Verify emission rate"
 
 err(a,b) = 2 abs((a - b) / (a + b)) -- relative error
 check(err(A21, 6.265 10^8 / second) < 0.0001)
