@@ -18,4 +18,5 @@ all:
 	make -C src
 	make -C js
 	make -C test
+	make -C xcode
 	make eigenmath
