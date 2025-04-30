@@ -427,10 +427,6 @@ int find_denominator(struct atom *p);
 int count_denominators(struct atom *p);
 int count_numerators(struct atom *p);
 void subst(void);
-void evalg(void);
-void evalf(void);
-void evalf_nib(struct atom *p1);
-void evalp(void);
 void eval_abs(struct atom *p1);
 void absfunc(void);
 void eval_add(struct atom *p1);
@@ -589,7 +585,7 @@ void inner(void);
 void eval_integral(struct atom *p1);
 void integral(void);
 void integral_nib(struct atom *F, struct atom *X);
-void integral_lookup(int h, struct atom *F);
+void integral_solve(struct atom *F, struct atom *X);
 int integral_classify(struct atom *p);
 int integral_search(int h, struct atom *F, char **table, int n);
 int integral_search_nib(int h, struct atom *F, struct atom *I, struct atom *C);
@@ -760,6 +756,10 @@ void eval_unit(struct atom *p1);
 void eval_user_function(struct atom *p1);
 void eval_user_symbol(struct atom *p1);
 void eval_zero(struct atom *p1);
+void evalg(void);
+void evalf(void);
+void evalf_nib(struct atom *p1);
+void evalp(void);
 void factor_factor(void);
 void factor_bignum(uint32_t *N, struct atom *M);
 void factor_int(int n);
@@ -1927,96 +1927,6 @@ subst(void)
 	}
 
 	list(tos - h);
-}
-// automatic variables not visible to the garbage collector are reclaimed
-
-void
-evalg(void)
-{
-	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
-		gc();
-	gc_level++;
-	evalf();
-	gc_level--;
-}
-
-// call evalf instead of evalg to evaluate without garbage collection
-
-void
-evalf(void)
-{
-	struct atom *p;
-	eval_level++;
-	p = pop();
-	push(p); // make visible to garbage collector
-	evalf_nib(p);
-	p = pop();
-	pop(); // remove
-	push(p);
-	eval_level--;
-}
-
-void
-evalf_nib(struct atom *p1)
-{
-	if (interrupt)
-		stopf("interrupt");
-
-	if (eval_level == 200)
-		stopf("circular definition?");
-
-	if (eval_level > max_eval_level)
-		max_eval_level = eval_level;
-
-	if (iscons(p1) && iskeyword(car(p1))) {
-		expanding++;
-		car(p1)->u.ksym.func(p1); // call through function pointer
-		expanding--;
-		return;
-	}
-
-	if (iscons(p1) && isusersymbol(car(p1))) {
-		eval_user_function(p1);
-		return;
-	}
-
-	if (iskeyword(p1)) { // bare keyword
-		push(p1);
-		push_symbol(LAST); // default arg
-		list(2);
-		evalg();
-		return;
-	}
-
-	if (isusersymbol(p1)) {
-		eval_user_symbol(p1);
-		return;
-	}
-
-	if (istensor(p1)) {
-		eval_tensor(p1);
-		return;
-	}
-
-	push(p1); // rational, double, or string
-}
-
-// evaluate '=' as '=='
-
-void
-evalp(void)
-{
-	struct atom *p1;
-	p1 = pop();
-	if (car(p1) == symbol(SETQ)) {
-		push_symbol(TESTEQ);
-		push(cadr(p1));
-		push(caddr(p1));
-		list(3);
-		p1 = pop();
-	}
-	push(p1);
-	evalg();
 }
 void
 eval_abs(struct atom *p1)
@@ -8069,7 +7979,6 @@ integral(void)
 void
 integral_nib(struct atom *F, struct atom *X)
 {
-	int h;
 	struct atom *p;
 
 	save_symbol(symbol(SA));
@@ -8078,17 +7987,7 @@ integral_nib(struct atom *F, struct atom *X)
 
 	set_symbol(symbol(SX), X, symbol(NIL));
 
-	// put constants in F(X) on the stack
-
-	h = tos;
-
-	push_integer(1); // 1 is a candidate for a or b
-
-	push(F);
-	push(X);
-	decomp(); // push const coeffs
-
-	integral_lookup(h, F);
+	integral_solve(F, X);
 
 	p = pop();
 	restore_symbol();
@@ -8098,9 +7997,17 @@ integral_nib(struct atom *F, struct atom *X)
 }
 
 void
-integral_lookup(int h, struct atom *F)
+integral_solve(struct atom *F, struct atom *X)
 {
-	int t;
+	int h, t;
+
+	h = tos;
+
+	push_integer(1); // 1 is a candidate for a and b
+
+	push(F);
+	push(X);
+	decomp(); // push possible substitutions for a and b
 
 	t = integral_classify(F);
 
@@ -8121,7 +8028,12 @@ integral_lookup(int h, struct atom *F)
 			return;
 	}
 
-	stopf("integral: no solution found");
+	tos = h; // pop all
+
+	push_symbol(INTEGRAL);
+	push(F);
+	push(X);
+	list(3);
 }
 
 int
@@ -14228,6 +14140,96 @@ eval_zero(struct atom *p1)
 		p1->u.tensor->dim[n - i - 1] = pop_integer();
 
 	push(p1);
+}
+// automatic variables not visible to the garbage collector are reclaimed
+
+void
+evalg(void)
+{
+	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
+		gc();
+	gc_level++;
+	evalf();
+	gc_level--;
+}
+
+// call evalf instead of evalg to evaluate without garbage collection
+
+void
+evalf(void)
+{
+	struct atom *p;
+	eval_level++;
+	p = pop();
+	push(p); // make visible to garbage collector
+	evalf_nib(p);
+	p = pop();
+	pop(); // remove
+	push(p);
+	eval_level--;
+}
+
+void
+evalf_nib(struct atom *p1)
+{
+	if (interrupt)
+		stopf("interrupt");
+
+	if (eval_level == 200)
+		stopf("circular definition?");
+
+	if (eval_level > max_eval_level)
+		max_eval_level = eval_level;
+
+	if (iscons(p1) && iskeyword(car(p1))) {
+		expanding++;
+		car(p1)->u.ksym.func(p1); // call through function pointer
+		expanding--;
+		return;
+	}
+
+	if (iscons(p1) && isusersymbol(car(p1))) {
+		eval_user_function(p1);
+		return;
+	}
+
+	if (iskeyword(p1)) { // bare keyword
+		push(p1);
+		push_symbol(LAST); // default arg
+		list(2);
+		evalg();
+		return;
+	}
+
+	if (isusersymbol(p1)) {
+		eval_user_symbol(p1);
+		return;
+	}
+
+	if (istensor(p1)) {
+		eval_tensor(p1);
+		return;
+	}
+
+	push(p1); // rational, double, or string
+}
+
+// evaluate '=' as '=='
+
+void
+evalp(void)
+{
+	struct atom *p1;
+	p1 = pop();
+	if (car(p1) == symbol(SETQ)) {
+		push_symbol(TESTEQ);
+		push(cadr(p1));
+		push(caddr(p1));
+		list(3);
+		p1 = pop();
+	}
+	push(p1);
+	evalg();
 }
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 

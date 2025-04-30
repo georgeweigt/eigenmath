@@ -1,7 +1,7 @@
 .PHONY: check clean
 
 eigenmath.js: src/*
-	cat src/* > eigenmath.js
+	cat src/LICENSE src/* > eigenmath.js
 
 check:
 	make -s -C ../tools wcheck

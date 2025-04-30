@@ -1207,3 +1207,5 @@ f = exp(a x^2 + b + c)
 g = integral(f,x)
 check(infixform(g) == "-i pi^(1/2) erf(i a^(1/2) x) exp(b + c) / (2 a^(1/2))")
 check(f == d(g,x))
+
+check(infixform(integral(a(t),t)) == "integral(a(t),t)")

@@ -1042,7 +1042,7 @@ integral()
 function
 integral_nib(F, X)
 {
-	var h, p;
+	var p;
 
 	save_symbol(symbol(SA));
 	save_symbol(symbol(SB));
@@ -1050,17 +1050,7 @@ integral_nib(F, X)
 
 	set_symbol(symbol(SX), X, symbol(NIL));
 
-	// put constants in F(X) on the stack
-
-	h = stack.length;
-
-	push_integer(1); // 1 is a candidate for a or b
-
-	push(F);
-	push(X);
-	decomp(); // push const coeffs
-
-	integral_lookup(h, F);
+	integral_solve(F, X);
 
 	p = pop();
 	restore_symbol();
@@ -1070,9 +1060,17 @@ integral_nib(F, X)
 }
 
 function
-integral_lookup(h, F)
+integral_solve(F, X)
 {
-	var t;
+	var h, t;
+
+	h = stack.length;
+
+	push_integer(1); // 1 is a candidate for a and b
+
+	push(F);
+	push(X);
+	decomp(); // push possible substitutions for a and b
 
 	t = integral_classify(F);
 
@@ -1093,7 +1091,12 @@ integral_lookup(h, F)
 			return;
 	}
 
-	stopf("integral: no solution found");
+	stack.length = h; // pop all
+
+	push_symbol(INTEGRAL);
+	push(F);
+	push(X);
+	list(3);
 }
 
 function

@@ -45,108 +45,6 @@ alloc_vector(n)
 	p.dim[0] = n;
 	return p;
 }
-const BIGM = 0x1000000; // 24 bits
-
-function
-bignum_int(n)
-{
-	var u = [];
-
-	if (n < BIGM)
-		u[0] = n;
-	else {
-		u[0] = n % BIGM;
-		u[1] = Math.floor(n / BIGM);
-	}
-
-	return u;
-}
-
-function
-bignum_copy(u)
-{
-	var i, v = [];
-	for (i = 0; i < u.length; i++)
-		v[i] = u[i];
-	return v;
-}
-
-// remove leading zeroes
-
-function
-bignum_norm(u)
-{
-	while (u.length > 1 && u[u.length - 1] == 0)
-		u.pop();
-}
-
-function
-bignum_iszero(u)
-{
-	return bignum_equal(u, 0);
-}
-
-function
-bignum_equal(u, n)
-{
-	return u.length == 1 && u[0] == n;
-}
-
-function
-bignum_odd(u)
-{
-	return u[0] % 2 == 1;
-}
-
-function
-bignum_float(u)
-{
-	var d, i;
-
-	d = 0;
-
-	for (i = u.length - 1; i >= 0; i--)
-		d = BIGM * d + u[i];
-
-	if (!isFinite(d))
-		stopf("floating point nan or infinity");
-
-	return d;
-}
-
-// convert bignum to int32
-
-function
-bignum_smallnum(u)
-{
-	if (u.length == 1)
-		return u[0];
-
-	if (u.length == 2 && u[1] < 128)
-		return BIGM * u[1] + u[0];
-
-	return null;
-}
-
-function
-bignum_issmallnum(u)
-{
-	return u.length == 1 || (u.length == 2 && u[1] < 128);
-}
-
-function
-push_bignum(sign, a, b)
-{
-	// normalize zero
-
-	if (bignum_iszero(a)) {
-		sign = 1;
-		if (!bignum_equal(b, 1))
-			b = bignum_int(1);
-	}
-
-	push({sign:sign, a:a, b:b});
-}
 function
 bignum_add(u, v)
 {
@@ -650,71 +548,107 @@ bignum_sub(u, v)
 
 	return w;
 }
+const BIGM = 0x1000000; // 24 bits
+
 function
-cmp(p1, p2)
+bignum_int(n)
 {
-	var t;
+	var u = [];
 
-	if (p1 == p2)
-		return 0;
-
-	if (p1 == symbol(NIL))
-		return -1;
-
-	if (p2 == symbol(NIL))
-		return 1;
-
-	if (isnum(p1) && isnum(p2))
-		return cmp_numbers(p1, p2);
-
-	if (isnum(p1))
-		return -1;
-
-	if (isnum(p2))
-		return 1;
-
-	if (isstring(p1) && isstring(p2))
-		return cmp_strings(p1.string, p2.string);
-
-	if (isstring(p1))
-		return -1;
-
-	if (isstring(p2))
-		return 1;
-
-	if (issymbol(p1) && issymbol(p2))
-		return cmp_strings(printname(p1), printname(p2));
-
-	if (issymbol(p1))
-		return -1;
-
-	if (issymbol(p2))
-		return 1;
-
-	if (istensor(p1) && istensor(p2))
-		return cmp_tensors(p1, p2);
-
-	if (istensor(p1))
-		return -1;
-
-	if (istensor(p2))
-		return 1;
-
-	while (iscons(p1) && iscons(p2)) {
-		t = cmp(car(p1), car(p2));
-		if (t)
-			return t;
-		p1 = cdr(p1);
-		p2 = cdr(p2);
+	if (n < BIGM)
+		u[0] = n;
+	else {
+		u[0] = n % BIGM;
+		u[1] = Math.floor(n / BIGM);
 	}
 
-	if (iscons(p2))
-		return -1; // lengthf(p1) < lengthf(p2)
+	return u;
+}
 
-	if (iscons(p1))
-		return 1; // lengthf(p1) > lengthf(p2)
+function
+bignum_copy(u)
+{
+	var i, v = [];
+	for (i = 0; i < u.length; i++)
+		v[i] = u[i];
+	return v;
+}
 
-	return 0;
+// remove leading zeroes
+
+function
+bignum_norm(u)
+{
+	while (u.length > 1 && u[u.length - 1] == 0)
+		u.pop();
+}
+
+function
+bignum_iszero(u)
+{
+	return bignum_equal(u, 0);
+}
+
+function
+bignum_equal(u, n)
+{
+	return u.length == 1 && u[0] == n;
+}
+
+function
+bignum_odd(u)
+{
+	return u[0] % 2 == 1;
+}
+
+function
+bignum_float(u)
+{
+	var d, i;
+
+	d = 0;
+
+	for (i = u.length - 1; i >= 0; i--)
+		d = BIGM * d + u[i];
+
+	if (!isFinite(d))
+		stopf("floating point nan or infinity");
+
+	return d;
+}
+
+// convert bignum to int32
+
+function
+bignum_smallnum(u)
+{
+	if (u.length == 1)
+		return u[0];
+
+	if (u.length == 2 && u[1] < 128)
+		return BIGM * u[1] + u[0];
+
+	return null;
+}
+
+function
+bignum_issmallnum(u)
+{
+	return u.length == 1 || (u.length == 2 && u[1] < 128);
+}
+
+function
+push_bignum(sign, a, b)
+{
+	// normalize zero
+
+	if (bignum_iszero(a)) {
+		sign = 1;
+		if (!bignum_equal(b, 1))
+			b = bignum_int(1);
+	}
+
+	push({sign:sign, a:a, b:b});
 }
 function
 cmp_numbers(p1, p2)
@@ -796,6 +730,72 @@ cmp_tensors(p1, p2)
 		if (t)
 			return t;
 	}
+
+	return 0;
+}
+function
+cmp(p1, p2)
+{
+	var t;
+
+	if (p1 == p2)
+		return 0;
+
+	if (p1 == symbol(NIL))
+		return -1;
+
+	if (p2 == symbol(NIL))
+		return 1;
+
+	if (isnum(p1) && isnum(p2))
+		return cmp_numbers(p1, p2);
+
+	if (isnum(p1))
+		return -1;
+
+	if (isnum(p2))
+		return 1;
+
+	if (isstring(p1) && isstring(p2))
+		return cmp_strings(p1.string, p2.string);
+
+	if (isstring(p1))
+		return -1;
+
+	if (isstring(p2))
+		return 1;
+
+	if (issymbol(p1) && issymbol(p2))
+		return cmp_strings(printname(p1), printname(p2));
+
+	if (issymbol(p1))
+		return -1;
+
+	if (issymbol(p2))
+		return 1;
+
+	if (istensor(p1) && istensor(p2))
+		return cmp_tensors(p1, p2);
+
+	if (istensor(p1))
+		return -1;
+
+	if (istensor(p2))
+		return 1;
+
+	while (iscons(p1) && iscons(p2)) {
+		t = cmp(car(p1), car(p2));
+		if (t)
+			return t;
+		p1 = cdr(p1);
+		p2 = cdr(p2);
+	}
+
+	if (iscons(p2))
+		return -1; // lengthf(p1) < lengthf(p2)
+
+	if (iscons(p1))
+		return 1; // lengthf(p1) > lengthf(p2)
 
 	return 0;
 }
@@ -3693,23 +3693,6 @@ adj()
 	push(p2);
 }
 function
-eval_and(p1)
-{
-	var p2;
-	p1 = cdr(p1);
-	while (iscons(p1)) {
-		push(car(p1));
-		evalp();
-		p2 = pop();
-		if (iszero(p2)) {
-			push_integer(0);
-			return;
-		}
-		p1 = cdr(p1);
-	}
-	push_integer(1);
-}
-function
 eval_and_print_result()
 {
 	var p1, p2;
@@ -3725,6 +3708,23 @@ eval_and_print_result()
 
 	if (p2 != symbol(NIL))
 		set_symbol(symbol(LAST), p2, symbol(NIL));
+}
+function
+eval_and(p1)
+{
+	var p2;
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		evalp();
+		p2 = pop();
+		if (iszero(p2)) {
+			push_integer(0);
+			return;
+		}
+		p1 = cdr(p1);
+	}
+	push_integer(1);
 }
 function
 eval_arccos(p1)
@@ -8383,7 +8383,7 @@ integral()
 function
 integral_nib(F, X)
 {
-	var h, p;
+	var p;
 
 	save_symbol(symbol(SA));
 	save_symbol(symbol(SB));
@@ -8391,17 +8391,7 @@ integral_nib(F, X)
 
 	set_symbol(symbol(SX), X, symbol(NIL));
 
-	// put constants in F(X) on the stack
-
-	h = stack.length;
-
-	push_integer(1); // 1 is a candidate for a or b
-
-	push(F);
-	push(X);
-	decomp(); // push const coeffs
-
-	integral_lookup(h, F);
+	integral_solve(F, X);
 
 	p = pop();
 	restore_symbol();
@@ -8411,9 +8401,17 @@ integral_nib(F, X)
 }
 
 function
-integral_lookup(h, F)
+integral_solve(F, X)
 {
-	var t;
+	var h, t;
+
+	h = stack.length;
+
+	push_integer(1); // 1 is a candidate for a and b
+
+	push(F);
+	push(X);
+	decomp(); // push possible substitutions for a and b
 
 	t = integral_classify(F);
 
@@ -8434,7 +8432,12 @@ integral_lookup(h, F)
 			return;
 	}
 
-	stopf("integral: no solution found");
+	stack.length = h; // pop all
+
+	push_symbol(INTEGRAL);
+	push(F);
+	push(X);
+	list(3);
 }
 
 function
@@ -14719,6 +14722,33 @@ lessp(p1, p2)
 {
 	return cmp(p1, p2) < 0;
 }
+/*
+BSD 2-Clause License
+
+Copyright (c) 2024, George Weigt
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 function
 list(n)
 {
@@ -15183,13 +15213,6 @@ erfc(x)
 	return 1.0 - erf(x);
 }
 function
-pop()
-{
-	if (stack.length == 0)
-		stopf("stack error");
-	return stack.pop();
-}
-function
 pop_double()
 {
 	var a, b, d, p;
@@ -15229,6 +15252,13 @@ pop_integer()
 		n = p.d;
 
 	return n;
+}
+function
+pop()
+{
+	if (stack.length == 0)
+		stopf("stack error");
+	return stack.pop();
 }
 function
 power_complex_double(BASE, EXPO, X, Y)
@@ -16427,11 +16457,6 @@ promote_tensor()
 	push(p3);
 }
 function
-push(a)
-{
-	stack.push(a);
-}
-function
 push_double(d)
 {
 	push({d:d});
@@ -16467,6 +16492,11 @@ function
 push_symbol(p)
 {
 	push(symbol(p));
+}
+function
+push(a)
+{
+	stack.push(a);
 }
 function
 restore_symbol()
@@ -16559,6 +16589,17 @@ save_symbol(p)
 	stack.push(p);
 	stack.push(get_binding(p));
 	stack.push(get_usrfunc(p));
+}
+function
+scan_inbuf(k)
+{
+	trace1 = k;
+	k = scan(inbuf, k);
+	if (k) {
+		trace2 = k;
+		trace_input();
+	}
+	return k;
 }
 const T_EXCLAM = 33;
 const T_QUOTEDBL = 34;
@@ -17138,17 +17179,6 @@ static_reciprocate()
 	push(p2);
 	push_integer(-1);
 	list(3);
-}
-function
-scan_inbuf(k)
-{
-	trace1 = k;
-	k = scan(inbuf, k);
-	if (k) {
-		trace2 = k;
-		trace_input();
-	}
-	return k;
 }
 function
 set_symbol(p1, p2, p3)

@@ -1044,7 +1044,6 @@ integral(void)
 void
 integral_nib(struct atom *F, struct atom *X)
 {
-	int h;
 	struct atom *p;
 
 	save_symbol(symbol(SA));
@@ -1053,17 +1052,7 @@ integral_nib(struct atom *F, struct atom *X)
 
 	set_symbol(symbol(SX), X, symbol(NIL));
 
-	// put constants in F(X) on the stack
-
-	h = tos;
-
-	push_integer(1); // 1 is a candidate for a or b
-
-	push(F);
-	push(X);
-	decomp(); // push const coeffs
-
-	integral_lookup(h, F);
+	integral_solve(F, X);
 
 	p = pop();
 	restore_symbol();
@@ -1073,9 +1062,17 @@ integral_nib(struct atom *F, struct atom *X)
 }
 
 void
-integral_lookup(int h, struct atom *F)
+integral_solve(struct atom *F, struct atom *X)
 {
-	int t;
+	int h, t;
+
+	h = tos;
+
+	push_integer(1); // 1 is a candidate for a and b
+
+	push(F);
+	push(X);
+	decomp(); // push possible substitutions for a and b
 
 	t = integral_classify(F);
 
@@ -1096,7 +1093,12 @@ integral_lookup(int h, struct atom *F)
 			return;
 	}
 
-	stopf("integral: no solution found");
+	tos = h; // pop all
+
+	push_symbol(INTEGRAL);
+	push(F);
+	push(X);
+	list(3);
 }
 
 int
