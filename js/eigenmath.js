@@ -1033,164 +1033,6 @@ count_numerators(p)
 	}
 	return n;
 }
-// push const coeffs
-
-function
-decomp()
-{
-	var p1, F, X;
-
-	X = pop();
-	F = pop();
-
-	// is the entire expression constant?
-
-	if (!findf(F, X)) {
-		push(F);
-		return;
-	}
-
-	// sum?
-
-	if (car(F) == symbol(ADD)) {
-		decomp_sum(F, X);
-		return;
-	}
-
-	// product?
-
-	if (car(F) == symbol(MULTIPLY)) {
-		decomp_product(F, X);
-		return;
-	}
-
-	// naive decomp
-
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		push(car(p1));
-		push(X);
-		decomp();
-		p1 = cdr(p1);
-	}
-}
-
-function
-decomp_sum(F, X)
-{
-	var h, i, j, k, n;
-	var p1, p2;
-
-	h = stack.length;
-
-	// partition terms
-
-	p1 = cdr(F);
-
-	while (iscons(p1)) {
-		p2 = car(p1);
-		if (findf(p2, X)) {
-			if (car(p2) == symbol(MULTIPLY)) {
-				push(p2);
-				push(X);
-				partition_term();	// push const part then push var part
-			} else {
-				push_integer(1);	// const part
-				push(p2);		// var part
-			}
-		}
-		p1 = cdr(p1);
-	}
-
-	// combine const parts of matching var parts
-
-	n = stack.length - h;
-
-	for (i = 0; i < n - 2; i += 2)
-		for (j = i + 2; j < n; j += 2) {
-			if (!equal(stack[h + i + 1], stack[h + j + 1]))
-				continue;
-			push(stack[h + i]); // add const parts
-			push(stack[h + j]);
-			add();
-			stack[h + i] = pop();
-			for (k = j; k < n - 2; k++)
-				stack[h + k] = stack[h + k + 2];
-			j -= 2; // use same j again
-			n -= 2;
-			stack.splice(stack.length - 2); // pop
-		}
-
-	// push const parts, decomp var parts
-
-	list(stack.length - h);
-	p1 = pop();
-
-	while (iscons(p1)) {
-		push(car(p1)); // const part
-		push(cadr(p1)); // var part
-		push(X);
-		decomp();
-		p1 = cddr(p1);
-	}
-
-	// add together all constant terms
-
-	h = stack.length;
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		if (!findf(car(p1), X))
-			push(car(p1));
-		p1 = cdr(p1);
-	}
-
-	n = stack.length - h;
-
-	if (n > 1) {
-		list(n);
-		push_symbol(ADD);
-		swap();
-		cons(); // makes ADD head of list
-	}
-}
-
-function
-decomp_product(F, X)
-{
-	var h, n;
-	var p1;
-
-	// decomp factors involving x
-
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		if (findf(car(p1), X)) {
-			push(car(p1));
-			push(X);
-			decomp();
-		}
-		p1 = cdr(p1);
-	}
-
-	// combine constant factors
-
-	h = stack.length;
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		if (!findf(car(p1), X))
-			push(car(p1));
-		p1 = cdr(p1);
-	}
-
-	n = stack.length - h;
-
-	if (n > 1) {
-		list(n);
-		push_symbol(MULTIPLY);
-		swap();
-		cons(); // makes MULTIPLY head of list
-	}
-}
 function
 car(p)
 {
@@ -8524,6 +8366,217 @@ integral_search_nib(h, F, I, C)
 
 	return 0;					// no
 }
+
+// push const coeffs
+
+function
+decomp()
+{
+	var p1, F, X;
+
+	X = pop();
+	F = pop();
+
+	// is the entire expression constant?
+
+	if (!findf(F, X)) {
+		push(F);
+		return;
+	}
+
+	// sum?
+
+	if (car(F) == symbol(ADD)) {
+		decomp_sum(F, X);
+		return;
+	}
+
+	// product?
+
+	if (car(F) == symbol(MULTIPLY)) {
+		decomp_product(F, X);
+		return;
+	}
+
+	// naive decomp
+
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		push(car(p1));
+		push(X);
+		decomp();
+		p1 = cdr(p1);
+	}
+}
+
+function
+decomp_sum(F, X)
+{
+	var h, i, j, k, n;
+	var p1, p2;
+
+	h = stack.length;
+
+	// partition terms
+
+	p1 = cdr(F);
+
+	while (iscons(p1)) {
+		p2 = car(p1);
+		if (findf(p2, X)) {
+			if (car(p2) == symbol(MULTIPLY)) {
+				push(p2);
+				push(X);
+				partition_term();	// push const part then push var part
+			} else {
+				push_integer(1);	// const part
+				push(p2);		// var part
+			}
+		}
+		p1 = cdr(p1);
+	}
+
+	// combine const parts of matching var parts
+
+	n = stack.length - h;
+
+	for (i = 0; i < n - 2; i += 2)
+		for (j = i + 2; j < n; j += 2) {
+			if (!equal(stack[h + i + 1], stack[h + j + 1]))
+				continue;
+			push(stack[h + i]); // add const parts
+			push(stack[h + j]);
+			add();
+			stack[h + i] = pop();
+			for (k = j; k < n - 2; k++)
+				stack[h + k] = stack[h + k + 2];
+			j -= 2; // use same j again
+			n -= 2;
+			stack.length -= 2; // pop
+		}
+
+	// push const parts, decomp var parts
+
+	list(stack.length - h);
+	p1 = pop();
+
+	while (iscons(p1)) {
+		push(car(p1)); // const part
+		push(cadr(p1)); // var part
+		push(X);
+		decomp();
+		p1 = cddr(p1);
+	}
+
+	// add together all constant terms
+
+	h = stack.length;
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (!findf(car(p1), X))
+			push(car(p1));
+		p1 = cdr(p1);
+	}
+
+	n = stack.length - h;
+
+	if (n > 1) {
+		list(n);
+		push_symbol(ADD);
+		swap();
+		cons(); // makes ADD head of list
+	}
+}
+
+function
+decomp_product(F, X)
+{
+	var h, n;
+	var p1;
+
+	// decomp factors involving x
+
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (findf(car(p1), X)) {
+			push(car(p1));
+			push(X);
+			decomp();
+		}
+		p1 = cdr(p1);
+	}
+
+	// combine constant factors
+
+	h = stack.length;
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (!findf(car(p1), X))
+			push(car(p1));
+		p1 = cdr(p1);
+	}
+
+	n = stack.length - h;
+
+	if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
+}
+
+function
+partition_term()
+{
+	var h, n;
+	var p1, F, X;
+
+	X = pop();
+	F = pop();
+
+	// push const factors
+
+	h = stack.length;
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (!findf(car(p1), X))
+			push(car(p1));
+		p1 = cdr(p1);
+	}
+
+	n = stack.length - h;
+
+	if (n == 0)
+		push_integer(1);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
+
+	// push var factors
+
+	h = stack.length;
+	p1 = cdr(F);
+	while (iscons(p1)) {
+		if (findf(car(p1), X))
+			push(car(p1));
+		p1 = cdr(p1);
+	}
+
+	n = stack.length - h;
+
+	if (n == 0)
+		push_integer(1);
+	else if (n > 1) {
+		list(n);
+		push_symbol(MULTIPLY);
+		swap();
+		cons(); // makes MULTIPLY head of list
+	}
+}
 function
 eval_inv(p1)
 {
@@ -15126,57 +15179,6 @@ numden_cancel_factor()
 	push(p1);
 	push(p2);
 	multiply();
-}
-function
-partition_term()
-{
-	var h, n;
-	var p1, F, X;
-
-	X = pop();
-	F = pop();
-
-	// push const factors
-
-	h = stack.length;
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		if (!findf(car(p1), X))
-			push(car(p1));
-		p1 = cdr(p1);
-	}
-
-	n = stack.length - h;
-
-	if (n == 0)
-		push_integer(1);
-	else if (n > 1) {
-		list(n);
-		push_symbol(MULTIPLY);
-		swap();
-		cons(); // makes MULTIPLY head of list
-	}
-
-	// push var factors
-
-	h = stack.length;
-	p1 = cdr(F);
-	while (iscons(p1)) {
-		if (findf(car(p1), X))
-			push(car(p1));
-		p1 = cdr(p1);
-	}
-
-	n = stack.length - h;
-
-	if (n == 0)
-		push_integer(1);
-	else if (n > 1) {
-		list(n);
-		push_symbol(MULTIPLY);
-		swap();
-		cons(); // makes MULTIPLY head of list
-	}
 }
 // https://github.com/ghewgill/picomath
 
