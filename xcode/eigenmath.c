@@ -7192,8 +7192,6 @@ integral_nib(struct atom *F, struct atom *X)
 	save_symbol(symbol(SB));
 	save_symbol(symbol(SX));
 
-	set_symbol(symbol(SX), X, symbol(NIL));
-
 	integral_solve(F, X);
 
 	p = pop();
@@ -7207,6 +7205,8 @@ void
 integral_solve(struct atom *F, struct atom *X)
 {
 	int h, t;
+
+	set_symbol(symbol(SX), X, symbol(NIL));
 
 	h = tos;
 

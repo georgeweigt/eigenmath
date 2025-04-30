@@ -1048,8 +1048,6 @@ integral_nib(F, X)
 	save_symbol(symbol(SB));
 	save_symbol(symbol(SX));
 
-	set_symbol(symbol(SX), X, symbol(NIL));
-
 	integral_solve(F, X);
 
 	p = pop();
@@ -1063,6 +1061,8 @@ function
 integral_solve(F, X)
 {
 	var h, t;
+
+	set_symbol(symbol(SX), X, symbol(NIL));
 
 	h = stack.length;
 
