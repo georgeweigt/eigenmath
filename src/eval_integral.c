@@ -1033,16 +1033,16 @@ integral(void)
 		push(X);
 		partition_term();	// push const part then push var part
 		F = pop();		// pop var part
-		integral_nib(F, X);
+		integral_solve(F, X);
 		multiply();		// multiply by const part
 		return;
 	}
 
-	integral_nib(F, X);
+	integral_solve(F, X);
 }
 
 void
-integral_nib(struct atom *F, struct atom *X)
+integral_solve(struct atom *F, struct atom *X)
 {
 	struct atom *p;
 
@@ -1050,7 +1050,7 @@ integral_nib(struct atom *F, struct atom *X)
 	save_symbol(symbol(SB));
 	save_symbol(symbol(SX));
 
-	integral_solve(F, X);
+	integral_solve_nib(F, X);
 
 	p = pop();
 	restore_symbol();
@@ -1060,7 +1060,7 @@ integral_nib(struct atom *F, struct atom *X)
 }
 
 void
-integral_solve(struct atom *F, struct atom *X)
+integral_solve_nib(struct atom *F, struct atom *X)
 {
 	int h, t;
 

@@ -584,8 +584,8 @@ void eval_inner(struct atom *p1);
 void inner(void);
 void eval_integral(struct atom *p1);
 void integral(void);
-void integral_nib(struct atom *F, struct atom *X);
 void integral_solve(struct atom *F, struct atom *X);
+void integral_solve_nib(struct atom *F, struct atom *X);
 int integral_classify(struct atom *p);
 int integral_search(int h, struct atom *F, char **table, int n);
 int integral_search_nib(int h, struct atom *F, struct atom *I, struct atom *C);
@@ -7968,16 +7968,16 @@ integral(void)
 		push(X);
 		partition_term();	// push const part then push var part
 		F = pop();		// pop var part
-		integral_nib(F, X);
+		integral_solve(F, X);
 		multiply();		// multiply by const part
 		return;
 	}
 
-	integral_nib(F, X);
+	integral_solve(F, X);
 }
 
 void
-integral_nib(struct atom *F, struct atom *X)
+integral_solve(struct atom *F, struct atom *X)
 {
 	struct atom *p;
 
@@ -7985,7 +7985,7 @@ integral_nib(struct atom *F, struct atom *X)
 	save_symbol(symbol(SB));
 	save_symbol(symbol(SX));
 
-	integral_solve(F, X);
+	integral_solve_nib(F, X);
 
 	p = pop();
 	restore_symbol();
@@ -7995,7 +7995,7 @@ integral_nib(struct atom *F, struct atom *X)
 }
 
 void
-integral_solve(struct atom *F, struct atom *X)
+integral_solve_nib(struct atom *F, struct atom *X)
 {
 	int h, t;
 

@@ -8214,16 +8214,16 @@ integral()
 		push(X);
 		partition_term();	// push const part then push var part
 		F = pop();		// pop var part
-		integral_nib(F, X);
+		integral_solve(F, X);
 		multiply();		// multiply by const part
 		return;
 	}
 
-	integral_nib(F, X);
+	integral_solve(F, X);
 }
 
 function
-integral_nib(F, X)
+integral_solve(F, X)
 {
 	var p;
 
@@ -8231,7 +8231,7 @@ integral_nib(F, X)
 	save_symbol(symbol(SB));
 	save_symbol(symbol(SX));
 
-	integral_solve(F, X);
+	integral_solve_nib(F, X);
 
 	p = pop();
 	restore_symbol();
@@ -8241,7 +8241,7 @@ integral_nib(F, X)
 }
 
 function
-integral_solve(F, X)
+integral_solve_nib(F, X)
 {
 	var h, t;
 
