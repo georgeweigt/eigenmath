@@ -5335,6 +5335,7 @@ check(infixform(integral(f(x,y),y,x)) == "integral(integral(f(x,y),x),y)")
 
 -- integral of integral
 
+check(infixform(integral(f(x),x,x)) == "integral(integral(f(x),x),x)")
 check(infixform(integral(f(x,y),x,y)) == "integral(integral(f(x,y),x),y)")
 check(infixform(integral(f(x,y),y,x)) == "integral(integral(f(x,y),x),y)")
 
