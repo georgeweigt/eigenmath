@@ -99,3 +99,27 @@ check(T = 140*x^3*y^6)
 T = d(f,x,x,y,y)
 check(T = 840*x^3*y^5)
 
+-- derivative of derivative
+
+check(infixform(d(f(x),x,x)) == "d(d(f(x),x),x)")
+check(infixform(d(f(x),x,y)) == "0")
+check(infixform(d(f(x),y,x)) == "0")
+check(infixform(d(f(x),y,y)) == "0")
+
+-- derivative of integral
+
+check(infixform(d(integral(f(x),x),x)) == "f(x)")
+check(infixform(d(integral(f(x),x),y)) == "0")
+check(infixform(d(integral(f(x),y),x)) == "y d(f(x),x)")
+
+check(infixform(d(integral(f(x,y),x),y)) == "integral(d(f(x,y),y),x)")
+check(infixform(d(integral(f(x,y),y),x)) == "integral(d(f(x,y),x),y)")
+
+check(infixform(d(integral(f(x,y),x,y),x)) == "integral(f(x,y),y)")
+check(infixform(d(integral(f(x,y),x,y),y)) == "integral(f(x,y),x)")
+
+check(infixform(d(integral(f(x,y),y,x),x)) == "integral(f(x,y),y)")
+check(infixform(d(integral(f(x,y),y,x),y)) == "integral(f(x,y),x)")
+
+check(infixform(d(integral(f(x,y),x),x,y)) == "d(f(x,y),y)")
+check(infixform(d(integral(f(x,y),x),y,x)) == "d(f(x,y),y)")
