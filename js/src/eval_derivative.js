@@ -91,6 +91,16 @@ d_scalar_scalar(F, X)
 	if (!isusersymbol(X))
 		stopf("derivative: symbol expected");
 
+	if (car(F) == symbol(DERIVATIVE)) {
+		derivative_of_derivative(F, X);
+		return;
+	}
+
+	if (car(F) == symbol(INTEGRAL)) {
+		derivative_of_integral(F, X);
+		return;
+	}
+
 	// d(x,x)?
 
 	if (equal(F, X)) {
@@ -117,11 +127,6 @@ d_scalar_scalar(F, X)
 
 	if (car(F) == symbol(POWER)) {
 		dpower(F, X);
-		return;
-	}
-
-	if (car(F) == symbol(DERIVATIVE)) {
-		dd(F, X);
 		return;
 	}
 
@@ -197,11 +202,6 @@ d_scalar_scalar(F, X)
 
 	if (car(F) == symbol(ERFC)) {
 		derfc(F, X);
-		return;
-	}
-
-	if (car(F) == symbol(INTEGRAL) && caddr(F) == X) {
-		push(cadr(F));
 		return;
 	}
 
@@ -297,58 +297,6 @@ dlog(p1, p2)
 	derivative();
 	push(cadr(p1));
 	divide();
-}
-
-//	derivative of derivative
-//
-//	example: d(d(f(x,y),y),x)
-//
-//	p1 = d(f(x,y),y)
-//
-//	p2 = x
-//
-//	cadr(p1) = f(x,y)
-//
-//	caddr(p1) = y
-
-function
-dd(p1, p2)
-{
-	var p3;
-
-	// d(f(x,y),x)
-
-	push(cadr(p1));
-	push(p2);
-	derivative();
-
-	p3 = pop();
-
-	if (car(p3) == symbol(DERIVATIVE)) {
-
-		// sort dx terms
-
-		push_symbol(DERIVATIVE);
-		push_symbol(DERIVATIVE);
-		push(cadr(p3));
-
-		if (lessp(caddr(p3), caddr(p1))) {
-			push(caddr(p3));
-			list(3);
-			push(caddr(p1));
-		} else {
-			push(caddr(p1));
-			list(3);
-			push(caddr(p3));
-		}
-
-		list(3);
-
-	} else {
-		push(p3);
-		push(caddr(p1));
-		derivative();
-	}
 }
 
 // derivative of a generic function
@@ -656,4 +604,77 @@ d_tensor_scalar(p1, p2)
 	}
 
 	push(p3);
+}
+
+function
+derivative_of_derivative(F, X)
+{
+	var G, Y;
+
+	G = cadr(F);
+	Y = caddr(F);
+
+	if (X == Y) {
+		push_symbol(DERIVATIVE);
+		push(F);
+		push(X);
+		list(3);
+		return;
+	}
+
+	push(G);
+	push(X);
+	derivative();
+
+	G = pop();
+
+	if (car(G) == symbol(DERIVATIVE)) {
+
+		// sort derivatives
+
+		F = cadr(G);
+		X = caddr(G);
+
+		push_symbol(DERIVATIVE);
+		push_symbol(DERIVATIVE);
+		push(F);
+
+		if (lessp(X, Y)) {
+			push(X);
+			list(3);
+			push(Y);
+			list(3);
+		} else {
+			push(Y);
+			list(3);
+			push(X);
+			list(3);
+		}
+
+		return;
+	}
+
+	push(G);
+	push(Y);
+	derivative();
+}
+
+function
+derivative_of_integral(F, X)
+{
+	var G, Y;
+
+	G = cadr(F);
+	Y = caddr(F);
+
+	if (X == Y) {
+		push(G); // derivative and integral cancel
+		return;
+	}
+
+	push(G);
+	push(X);
+	derivative();
+	push(Y);
+	integral();
 }

@@ -1044,6 +1044,16 @@ integral_solve(F, X)
 {
 	var p;
 
+	if (car(F) == symbol(INTEGRAL)) {
+		integral_of_integral(F, X);
+		return;
+	}
+
+	if (car(F) == symbol(DERIVATIVE)) {
+		integral_of_derivative(F, X);
+		return;
+	}
+
 	save_symbol(symbol(SA));
 	save_symbol(symbol(SB));
 	save_symbol(symbol(SX));
@@ -1393,4 +1403,98 @@ partition_term()
 		swap();
 		cons(); // makes MULTIPLY head of list
 	}
+}
+
+function
+integral_of_integral(F, X)
+{
+	var G, Y;
+
+	G = cadr(F);
+	Y = caddr(F);
+
+	// if X == Y then F is not integrable for X
+
+	if (X == Y) {
+		push_symbol(INTEGRAL);
+		push(F);
+		push(X);
+		list(3);
+		return;
+	}
+
+	push(G);
+	push(X);
+	integral();
+
+	G = pop();
+
+	if (car(G) == symbol(INTEGRAL)) {
+
+		// sort integrals by measure
+
+		F = cadr(G);
+		X = caddr(G);
+
+		push_symbol(INTEGRAL);
+		push_symbol(INTEGRAL);
+		push(F);
+
+		if (lessp(X, Y)) {
+			push(X);
+			list(3);
+			push(Y);
+			list(3);
+		} else {
+			push(Y);
+			list(3);
+			push(X);
+			list(3);
+		}
+
+		return;
+	}
+
+	push(G);
+	push(Y);
+	integral();
+}
+
+function
+integral_of_derivative(F, X)
+{
+	var G, Y;
+
+	G = cadr(F);
+	Y = caddr(F);
+
+	if (X == Y) {
+		push(G); // integral and derivative cancel
+		return;
+	}
+
+	push(G);
+	push(X);
+	integral();
+
+	G = pop();
+
+	// integral before derivative
+
+	if (car(G) == symbol(INTEGRAL)) {
+		F = cadr(G);
+		X = caddr(G);
+		push_symbol(INTEGRAL);
+		push_symbol(DERIVATIVE);
+		push(F);
+		push(Y);
+		list(3);
+		push(X);
+		list(3);
+		return;
+	}
+
+	push(G);
+	push(Y);
+	derivative();
 }
