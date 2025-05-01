@@ -5009,6 +5009,9 @@ eval_defint(p1)
 		integral();
 		F = pop();
 
+		if (findf(F, symbol(INTEGRAL)))
+			stopf("defint: unsolved integral");
+
 		push(F);
 		push(X);
 		push(B);
