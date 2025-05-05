@@ -4132,6 +4132,8 @@ check(integral(a x^2) = 1/3 a x^3)
 check(integral(x^n) = x^(n + 1) / (n + 1))
 check(integral(a x^n) = a x^(n + 1) / (n + 1))
 check(infixform(integral(f(),x)) == "integral(f(),x)")
+check(infixform(integral(f(a,b,c),x)) == "x f(a,b,c)")
+check(infixform(integral(f(a,b,c,x))) == "integral(f(a,b,c,x),x)")
 
 -- check classifier false positives
 
