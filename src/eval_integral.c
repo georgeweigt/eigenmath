@@ -1419,7 +1419,7 @@ integral_of_integral(struct atom *F, struct atom *X)
 
 	// if X == Y then F is not integrable for X
 
-	if (X == Y) {
+	if (equal(X, Y)) {
 		push_symbol(INTEGRAL);
 		push(F);
 		push(X);
@@ -1472,7 +1472,7 @@ integral_of_derivative(struct atom *F, struct atom *X)
 	G = cadr(F);
 	Y = caddr(F);
 
-	if (X == Y) {
+	if (equal(X, Y)) {
 		push(G); // integral and derivative cancel
 		return;
 	}
