@@ -1210,7 +1210,7 @@ decomp(void)
 
 	// is the entire expression constant?
 
-	if (!findf(F, X)) {
+	if (!dependent(F, X)) {
 		push(F);
 		return;
 	}
@@ -1254,7 +1254,7 @@ decomp_sum(struct atom *F, struct atom *X)
 
 	while (iscons(p1)) {
 		p2 = car(p1);
-		if (findf(p2, X)) {
+		if (dependent(p2, X)) {
 			if (car(p2) == symbol(MULTIPLY)) {
 				push(p2);
 				push(X);
@@ -1304,7 +1304,7 @@ decomp_sum(struct atom *F, struct atom *X)
 	h = tos;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!findf(car(p1), X))
+		if (!dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -1329,7 +1329,7 @@ decomp_product(struct atom *F, struct atom *X)
 
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (findf(car(p1), X)) {
+		if (dependent(car(p1), X)) {
 			push(car(p1));
 			push(X);
 			decomp();
@@ -1342,7 +1342,7 @@ decomp_product(struct atom *F, struct atom *X)
 	h = tos;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!findf(car(p1), X))
+		if (!dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -1371,7 +1371,7 @@ partition_term(void)
 	h = tos;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!findf(car(p1), X))
+		if (!dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -1392,7 +1392,7 @@ partition_term(void)
 	h = tos;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (findf(car(p1), X))
+		if (dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}

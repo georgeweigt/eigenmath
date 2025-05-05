@@ -1206,7 +1206,7 @@ decomp()
 
 	// is the entire expression constant?
 
-	if (!findf(F, X)) {
+	if (!dependent(F, X)) {
 		push(F);
 		return;
 	}
@@ -1250,7 +1250,7 @@ decomp_sum(F, X)
 
 	while (iscons(p1)) {
 		p2 = car(p1);
-		if (findf(p2, X)) {
+		if (dependent(p2, X)) {
 			if (car(p2) == symbol(MULTIPLY)) {
 				push(p2);
 				push(X);
@@ -1300,7 +1300,7 @@ decomp_sum(F, X)
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!findf(car(p1), X))
+		if (!dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -1325,7 +1325,7 @@ decomp_product(F, X)
 
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (findf(car(p1), X)) {
+		if (dependent(car(p1), X)) {
 			push(car(p1));
 			push(X);
 			decomp();
@@ -1338,7 +1338,7 @@ decomp_product(F, X)
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!findf(car(p1), X))
+		if (!dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -1367,7 +1367,7 @@ partition_term()
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!findf(car(p1), X))
+		if (!dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -1388,7 +1388,7 @@ partition_term()
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (findf(car(p1), X))
+		if (dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}

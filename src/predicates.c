@@ -288,3 +288,25 @@ issmallinteger(struct atom *p)
 
 	return 0;
 }
+
+// does f depend on x?
+
+int
+dependent(struct atom *f, struct atom *x)
+{
+	if (equal(f, x))
+		return 1;
+
+	// a user function with no arguments?
+
+	if (isusersymbol(car(f)) && lengthf(f) == 1)
+		return 1;
+
+	while (iscons(f)) {
+		if (dependent(car(f), x))
+			return 1;
+		f = cdr(f);
+	}
+
+	return 0;
+}

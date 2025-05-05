@@ -432,6 +432,7 @@ int isdenormalpolar(struct atom *p);
 int isdenormalpolarterm(struct atom *p);
 int issquarematrix(struct atom *p);
 int issmallinteger(struct atom *p);
+int dependent(struct atom *f, struct atom *x);
 void run(char *buf);
 void run_buf(char *buf);
 char * scan_input(char *s);

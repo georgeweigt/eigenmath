@@ -1128,6 +1128,27 @@ caddddr(p)
 {
 	return car(cdr(cdr(cdr(cdr(p)))));
 }
+// does f depend on x?
+
+function
+dependent(f, x)
+{
+	if (equal(f, x))
+		return 1;
+
+	// a user function with no arguments?
+
+	if (isusersymbol(car(f)) && lengthf(f) == 1)
+		return 1;
+
+	while (iscons(f)) {
+		if (dependent(car(f), x))
+			return 1;
+		f = cdr(f);
+	}
+
+	return 0;
+}
 const HPAD = 10;
 const VPAD = 10;
 
@@ -8413,7 +8434,7 @@ decomp()
 
 	// is the entire expression constant?
 
-	if (!findf(F, X)) {
+	if (!dependent(F, X)) {
 		push(F);
 		return;
 	}
@@ -8457,7 +8478,7 @@ decomp_sum(F, X)
 
 	while (iscons(p1)) {
 		p2 = car(p1);
-		if (findf(p2, X)) {
+		if (dependent(p2, X)) {
 			if (car(p2) == symbol(MULTIPLY)) {
 				push(p2);
 				push(X);
@@ -8507,7 +8528,7 @@ decomp_sum(F, X)
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!findf(car(p1), X))
+		if (!dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -8532,7 +8553,7 @@ decomp_product(F, X)
 
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (findf(car(p1), X)) {
+		if (dependent(car(p1), X)) {
 			push(car(p1));
 			push(X);
 			decomp();
@@ -8545,7 +8566,7 @@ decomp_product(F, X)
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!findf(car(p1), X))
+		if (!dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -8574,7 +8595,7 @@ partition_term()
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (!findf(car(p1), X))
+		if (!dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
@@ -8595,7 +8616,7 @@ partition_term()
 	h = stack.length;
 	p1 = cdr(F);
 	while (iscons(p1)) {
-		if (findf(car(p1), X))
+		if (dependent(car(p1), X))
 			push(car(p1));
 		p1 = cdr(p1);
 	}
