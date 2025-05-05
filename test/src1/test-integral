@@ -14,6 +14,9 @@ check(integral(a x^n) = a x^(n + 1) / (n + 1))
 check(infixform(integral(f(),x)) == "integral(f(),x)")
 check(infixform(integral(f(a,b,c),x)) == "x f(a,b,c)")
 check(infixform(integral(f(a,b,c,x))) == "integral(f(a,b,c,x),x)")
+check(infixform(integral(d(f()))) == "f()")
+check(infixform(integral(d(f(t),t),t)) == "f(t)")
+check(infixform(d(integral(f(),x),y)) == "integral(d(f(),y),x)")
 
 -- check classifier false positives
 
