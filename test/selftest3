@@ -4488,12 +4488,12 @@ clear
 Vab = A exp(i phi) -- arbitrary complex number
 Vba = conj(Vab)
 
-cb = -i / (2 hbar omegar) Vba sin(omegar t) exp(1/2 i (omega0 - omega) t)
-ca = 2 i hbar / Vba exp(-i (omega0 - omega) t) d(cb,t)
+cb = -i / (2 hbar omegar) Vba sin(omegar t) exp(i/2 (omega0 - omega) t)
+ca = -2 hbar / (i Vba exp(i (omega0 - omega) t)) d(cb,t)
 
-check(ca == (cos(omegar t) + i (omega0 - omega) / (2 omegar) sin(omegar t)) exp(-1/2 i (omega0 - omega) t))
+check(ca == (cos(omegar t) + i (omega0 - omega) / (2 omegar) sin(omegar t)) exp(-i/2 (omega0 - omega) t))
 
-omegar = 1/2 sqrt((omega - omega0)^2 + Vab Vba / hbar^2)
+omegar = 1/2 sqrt((omega0 - omega)^2 + Vab Vba / hbar^2)
 
 "Verify equation (3)"
 check(d(ca,t) == -i / (2 hbar) Vab exp(i (omega - omega0) t) cb)
