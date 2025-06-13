@@ -14,5 +14,5 @@ Run a script
 Run a self test
 
 ```
-./eigenmath test/selftest1
+./eigenmath test/selftest
 ```
