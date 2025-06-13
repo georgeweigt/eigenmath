@@ -1,0 +1,6891 @@
+clear
+
+"Verify angular separation formulas"
+
+x1 = r1 sin(theta1) cos(phi1)
+y1 = r1 sin(theta1) sin(phi1)
+z1 = r1 cos(theta1)
+
+x2 = r2 sin(theta2) cos(phi2)
+y2 = r2 sin(theta2) sin(phi2)
+z2 = r2 cos(theta2)
+
+check(r1^2 == x1^2 + y1^2 + z1^2)
+check(r2^2 == x2^2 + y2^2 + z2^2)
+
+r12 = sqrt((x1 - x2)^2 + (y1 - y2)^2 + (z1 - z2)^2)
+
+d = sin(theta1) sin(theta2) cos(phi1 - phi2) + cos(theta1) cos(theta2)
+
+check(d == (r1^2 + r2^2 - r12^2) / (2 r1 r2))
+
+check(d == (x1 x2 + y1 y2 + z1 z2) / (r1 r2))
+
+"ok"
+clear
+
+-- Verify formulas for electron-positron annihilation
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      E sin(theta) cos(phi),
+      E sin(theta) sin(phi),
+      E cos(theta))
+
+p4 = (E,
+      -E sin(theta) cos(phi),
+      -E sin(theta) sin(phi),
+      -E cos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3]) / sqrt(E + m)
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4]) / sqrt(E + m)
+
+v21 = (p2[4], p2[2] + i p2[3], E + m, 0) / sqrt(E + m)
+v22 = (p2[2] - i p2[3], -p2[4], 0, E + m) / sqrt(E + m)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+q1 = p1 - p3
+q2 = p1 - p4
+
+qslash1 = dot(q1,gmunu,gamma)
+qslash2 = dot(q2,gmunu,gamma)
+
+"Verify Casimir trick"
+
+v21bar = dot(conj(v21),gamma0) -- adjoint of v21
+v22bar = dot(conj(v22),gamma0) -- adjoint of v22
+
+M111 = dot(v21bar, -i e gammaT, qslash1 + m I, -i e gammaT, u11)
+M112 = dot(v21bar, -i e gammaT, qslash1 + m I, -i e gammaT, u12)
+M121 = dot(v22bar, -i e gammaT, qslash1 + m I, -i e gammaT, u11)
+M122 = dot(v22bar, -i e gammaT, qslash1 + m I, -i e gammaT, u12)
+
+M211 = dot(v21bar, -i e gammaT, qslash2 + m I, -i e gammaT, u11)
+M212 = dot(v21bar, -i e gammaT, qslash2 + m I, -i e gammaT, u12)
+M221 = dot(v22bar, -i e gammaT, qslash2 + m I, -i e gammaT, u11)
+M222 = dot(v22bar, -i e gammaT, qslash2 + m I, -i e gammaT, u12)
+
+M11 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu)) +
+      contract(dot(M112, gmunu, transpose(conj(M112)), gmunu)) +
+      contract(dot(M121, gmunu, transpose(conj(M121)), gmunu)) +
+      contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
+
+M12 = contract(dot(M111, gmunu, conj(M211), gmunu)) +
+      contract(dot(M112, gmunu, conj(M212), gmunu)) +
+      contract(dot(M121, gmunu, conj(M221), gmunu)) +
+      contract(dot(M122, gmunu, conj(M222), gmunu))
+
+M21 = contract(dot(M211, gmunu, conj(M111), gmunu)) +
+      contract(dot(M212, gmunu, conj(M112), gmunu)) +
+      contract(dot(M221, gmunu, conj(M121), gmunu)) +
+      contract(dot(M222, gmunu, conj(M122), gmunu))
+
+M22 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu)) +
+      contract(dot(M212, gmunu, transpose(conj(M212)), gmunu)) +
+      contract(dot(M221, gmunu, transpose(conj(M221)), gmunu)) +
+      contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
+
+check(M12 == M21)
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+
+P1 = pslash1 + m I
+P2 = pslash2 - m I
+
+Q1 = qslash1 + m I
+Q2 = qslash2 + m I
+
+T = dot(P1,gammaT,Q1,gammaT,P2,gammaL,Q1,gammaL)
+f11 = contract(T,3,4,2,3,1,2)
+
+T = dot(P1,gammaT,Q2,gammaT,P2,gammaL,Q1,gammaL)
+f12 = contract(T,3,5,2,3,1,2)
+
+T = dot(P1,gammaT,Q2,gammaT,P2,gammaL,Q2,gammaL)
+f22 = contract(T,3,4,2,3,1,2)
+
+check(e^4 f11 == M11)
+check(2 e^4 f12 == M12 + M21)
+check(e^4 f22 == M22)
+
+"ok"
+
+"Verify probability density"
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+check(f11 == 32 p13 p14 - 32 m^2 p12 + 64 m^2 p13 + 32 m^2 p14 - 64 m^4)
+check(f12 == 16 m^2 p13 + 16 m^2 p14 - 32 m^4)
+check(f22 == 32 p13 p14 - 32 m^2 p12 + 32 m^2 p13 + 64 m^2 p14 - 64 m^4)
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(f11 == 8 t u - 24 t m^2 - 8 u m^2 - 8 m^4)
+check(f12 == 8 s m^2 - 32 m^4)
+check(f22 == 8 t u - 8 t m^2 - 24 u m^2 - 8 m^4)
+
+d11 = (t - m^2)^2
+d12 = (t - m^2) (u - m^2)
+d22 = (u - m^2)^2
+
+f = e^4 (f11/d11 + 2 f12/d12 + f22/d22) / 4
+
+-- high energy approximation
+
+m = 0
+
+check(s == 4 E^2)
+check(t == -2 E^2 (1 - cos(theta)))
+check(u == -2 E^2 (1 + cos(theta)))
+
+a = 1 + cos(theta)
+b = 1 - cos(theta)
+
+check(f == 2 e^4 (a/b + b/a))
+
+m = quote(m)
+
+-- verify integral
+
+a = 1 + cos(theta)
+b = 1 - cos(theta)
+f = a/b + b/a
+I = 2 cos(theta) + 2 log(1 - cos(theta)) - 2 log(1 + cos(theta))
+check(f sin(theta) == d(I,theta))
+
+"ok"
+clear
+
+-- Compute R-squared for annihilation data from DESY PETRA
+
+-- www.hepdata.net/record/ins191231 (Table 2, 14.0 GeV)
+
+-- x is cos(theta)
+
+x = (
+0.0502,
+0.1505,
+0.2509,
+0.3512,
+0.4516,
+0.5521,
+0.6526,
+0.7312)
+
+-- y is differential cross section
+
+y = (
+0.09983,
+0.10791,
+0.12026,
+0.13002,
+0.17681,
+0.1957,
+0.279,
+0.33204) "nanobarn"
+
+"Predicted values"
+
+alpha = 7.2973525693 10^(-3)
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+eV = 1.602176634 10^(-19) joule
+
+s = (14.0 10^9 eV)^2
+
+C1 = alpha^2 / (2 s)
+C2 = (hbar c)^2
+C3 = 10^37 "nanobarn" / meter^2 -- convert square meters to nanobarns
+
+yhat = C1 ((1 + x) / (1 - x) + (1 - x) / (1 + x)) C2 C3
+yhat
+
+"Coefficient of determination (R squared)"
+
+ybar = sum(y) / dim(y)
+
+RSS = sum((y - yhat)^2) -- residual sum of squares
+TSS = sum((y - ybar)^2) -- total sum of squares
+
+1 - RSS / TSS
+clear
+
+-- Compute Balmer's coefficient using linear regression
+
+m = (3,3,3,3,3,4,4,4,4,4,5,5,5,6,6,6,7,8,8,9,9,10,10,11,11)
+
+x = m^2 / (m^2 - 4)
+
+y = (
+6565.60, 6562.10, 6561.62, 6560.70, 6559.50,
+4863.94, 4860.74, 4860.16, 4859.80, 4859.74,
+4342.80, 4340.10, 4338.60, 4103.80, 4101.20,
+4100.00, 3969.00, 3887.50, 3887.00, 3834.00,
+3834.00, 3795.00, 3795.00, 3767.50, 3769.00)
+
+"Model coefficient"
+
+beta = dot(x,y) / dot(x,x)
+beta
+clear
+
+psi1 = A exp(i k x) + B exp(-i k x)
+psi2 = C exp(i kappa x) + D exp(-i kappa x)
+psi3 = F exp(i k x)
+
+k = sqrt(2 m E) / hbar
+kappa = sqrt(2 m (E - V0)) / hbar
+
+"Verify C and D"
+C = (kappa + k) F exp(i k a - i kappa a) / (2 kappa)
+D = (kappa - k) F exp(i k a + i kappa a) / (2 kappa)
+check(eval(psi2,x,a) == eval(psi3,x,a))
+check(eval(d(psi2,x),x,a) == eval(d(psi3,x),x,a))
+check(-hbar^2 / (2 m) d(psi2,x,x) + V0 psi2 == E psi2)
+"ok"
+
+"Verify A and B"
+A = (k + kappa) C exp( i k a - i kappa a) / (2 k) +
+    (k - kappa) D exp( i k a + i kappa a) / (2 k)
+B = (k - kappa) C exp(-i k a - i kappa a) / (2 k) +
+    (k + kappa) D exp(-i k a + i kappa a) / (2 k)
+check(eval(psi1,x,-a) == eval(psi2,x,-a))
+check(eval(d(psi1,x),x,-a) == eval(d(psi2,x),x,-a))
+check(-hbar^2 / (2 m) d(psi1,x,x) == E psi1)
+"ok"
+
+T = A/F conj(A/F)
+K = E / (V0 - E) + V0 / E + 1
+
+"Verify equation (5)"
+check(T == 1 + K/8 (cos(4 a sqrt(2 m (E - V0)) / hbar) - 1))
+"ok"
+
+"Verify equation (6)"
+check(T == 1 + K/4 sinh(2 i a / hbar sqrt(2 m (E - V0)))^2)
+"ok"
+
+"Verify equation (7)"
+check(K == V0^2 / (E (V0 - E)))
+"ok"
+clear
+
+"Exercise 1. Verify equation (2)."
+
+sigmax = ((0,1),(1,0))
+sigmay = ((0,-i),(i,0))
+sigmaz = ((1,0),(0,-1))
+
+A0 = sigmaz
+A1 = sigmax
+
+B0 = -(sigmax + sigmaz) / sqrt(2)
+B1 = (sigmax - sigmaz) / sqrt(2)
+
+uu = (1,0,0,0)
+ud = (0,1,0,0)
+du = (0,0,1,0)
+dd = (0,0,0,1)
+
+s = (ud - du) / sqrt(2)
+
+S = dot(conj(s),kronecker(A0,B0),s) +
+    dot(conj(s),kronecker(A0,B1),s) +
+    dot(conj(s),kronecker(A1,B0),s) -
+    dot(conj(s),kronecker(A1,B1),s)
+
+check(S == 2 sqrt(2))
+
+"ok"
+
+"Exercise 2. Verify spin expectation values."
+
+I = ((1,0),(0,1))
+
+check(dot(conj(s),kronecker(A0,I),s) == 0)
+check(dot(conj(s),kronecker(A1,I),s) == 0)
+
+check(dot(conj(s),kronecker(I,B0),s) == 0)
+check(dot(conj(s),kronecker(I,B1),s) == 0)
+
+"ok"
+
+"Exercise 3. Verify that A and B are correlated for all entangled states."
+
+s1 = (uu + dd) / sqrt(2)
+s2 = (uu - dd) / sqrt(2)
+s3 = (ud + du) / sqrt(2)
+
+S1 = dot(conj(s1),kronecker(A0,B0),s1) +
+     dot(conj(s1),kronecker(A0,B1),s1) +
+     dot(conj(s1),kronecker(A1,B0),s1) -
+     dot(conj(s1),kronecker(A1,B1),s1)
+
+S2 = dot(conj(s2),kronecker(A0,B0),s2) +
+     dot(conj(s2),kronecker(A0,B1),s2) -
+     dot(conj(s2),kronecker(A1,B0),s2) +
+     dot(conj(s2),kronecker(A1,B1),s2)
+
+S3 = dot(conj(s3),kronecker(A0,B0),s3) +
+     dot(conj(s3),kronecker(A0,B1),s3) -
+     dot(conj(s3),kronecker(A1,B0),s3) +
+     dot(conj(s3),kronecker(A1,B1),s3)
+
+check(abs(S1) > 2)
+check(abs(S2) > 2)
+check(abs(S3) > 2)
+
+"ok"
+clear
+
+-- Verify formulas for Bhabha scattering
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
+
+p4 = (E,
+      -p sin(theta) cos(phi),
+      -p sin(theta) sin(phi),
+      -p cos(theta))
+
+v11 = (p1[4], p1[2] + i p1[3], E + m, 0) / sqrt(E + m)
+v12 = (p1[2] - i p1[3], -p1[4], 0, E + m) / sqrt(E + m)
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
+
+v31 = (p3[4], p3[2] + i p3[3], E + m, 0) / sqrt(E + m)
+v32 = (p3[2] - i p3[3], -p3[4], 0, E + m) / sqrt(E + m)
+
+u41 = (E + m, 0, p4[4], p4[2] + i p4[3]) / sqrt(E + m)
+u42 = (0, E + m, p4[2] - i p4[3], -p4[4]) / sqrt(E + m)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+"Verify Casimir trick"
+
+v1 = (v11,v12)
+u2 = (u21,u22)
+v3 = (v31,v32)
+u4 = (u41,u42)
+
+v1bar = dot(conj(v1),gamma0) -- adjoint of v1
+u4bar = dot(conj(u4),gamma0) -- adjoint of u4
+
+M1(a,b,c,d) = -e^2 dot(dot(v1bar[a],gammaT,v3[c]),dot(u4bar[d],gammaL,u2[b]))
+
+M2(a,b,c,d) = e^2 dot(dot(v1bar[a],gammaT,u2[b]),dot(u4bar[d],gammaL,v3[c]))
+
+M11 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M1(a,b,c,d) conj(M1(a,b,c,d)) ))))
+
+M12 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M1(a,b,c,d) conj(M2(a,b,c,d)) ))))
+
+M21 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M2(a,b,c,d) conj(M1(a,b,c,d)) ))))
+
+M22 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M2(a,b,c,d) conj(M2(a,b,c,d)) ))))
+
+check(M12 == M21)
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 - m I
+X2 = pslash2 + m I
+X3 = pslash3 - m I
+X4 = pslash4 + m I
+
+T1 = contract(dot(X1,gammaT,X3,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+f11 = contract(dot(T1,transpose(T2)))
+
+T = contract(dot(X1,gammaT,X2,gammaT,X4,gammaL,X3,gammaL),1,6)
+f12 = contract(T,1,3,1,2)
+
+T1 = contract(dot(X1,gammaT,X2,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X3,gammaL),1,4)
+f22 = contract(dot(T1,transpose(T2)))
+
+check(e^4 f11 == M11)
+check(-2 e^4 f12 == M12 + M21)
+check(e^4 f22 == M22)
+
+"ok"
+
+"Verify probability density"
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+check(f11 == 32 p12^2 + 32 p14^2 - 64 m^2 p13 + 64 m^4)
+check(f12 == -32 p14^2 - 32 m^2 p12 + 32 m^2 p13 - 32 m^2 p14 - 32 m^4)
+check(f22 == 32 p13^2 + 32 p14^2 + 64 m^2 p12 + 64 m^4)
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(f11 == 8 u^2 + 8 s^2 - 64 u m^2 - 64 s m^2 + 192 m^4)
+check(f12 == -8 u^2 + 64 u m^2 - 96 m^4)
+check(f22 == 8 u^2 + 8 t^2 - 64 u m^2 - 64 t m^2 + 192 m^4)
+
+d11 = t^2
+d12 = s t
+d22 = s^2
+
+f = e^4 (f11/d11 - 2 f12/d12 + f22/d22) / 4
+
+-- high energy approximation
+
+m = 0
+
+check(f11 == 8 u^2 + 8 s^2)
+check(f12 == -8 u^2)
+check(f22 == 8 u^2 + 8 t^2)
+
+check(s == 4 E^2)
+check(t == -2 E^2 (1 - cos(theta)))
+check(u == -2 E^2 (1 + cos(theta)))
+
+A = (2 (1 + cos(theta))^2 + 8) / (1 - cos(theta))^2
+B = -2 (1 + cos(theta))^2 / (1 - cos(theta))
+C = 1 + cos(theta)^2
+
+check(f11 / t^2 == 4 A)
+check(-2 f12 / (s t) == 4 B)
+check(f22 / s^2 == 4 C)
+
+check(f == e^4 (A + B + C))
+check(f == e^4 ((cos(theta)^2 + 3) / (cos(theta) - 1))^2)
+
+m = quote(m)
+
+-- verify integral
+
+f = (cos(theta)^2 + 3)^2 / (cos(theta) - 1)^2
+I = 16 / (cos(theta) - 1) -
+    1/3 cos(theta)^3 -
+    cos(theta)^2 -
+    9 cos(theta) -
+    16 log(1 - cos(theta))
+check(f sin(theta) == d(I,theta))
+
+"ok"
+clear
+
+-- Compute R-squared for Bhabha scattering data from DESY PETRA
+
+-- www.hepdata.net/record/ins191231 (Table 3, 14.0 GeV)
+
+-- x is cos(theta)
+
+x = (
+-0.73,
+-0.6495,
+-0.5495,
+-0.4494,
+-0.3493,
+-0.2491,
+-0.149,
+-0.0488,
+0.0514,
+0.1516,
+0.252,
+0.3524,
+0.4529,
+0.5537,
+0.6548,
+0.7323)
+
+-- y is differential cross section
+
+y = (
+0.10115,
+0.12235,
+0.11258,
+0.09968,
+0.14749,
+0.14017,
+0.1819,
+0.22964,
+0.25312,
+0.30998,
+0.40898,
+0.62695,
+0.91803,
+1.51743,
+2.56714,
+4.30279) "nanobarn"
+
+"Predicted values"
+
+alpha = 7.2973525693 10^(-3)
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+eV = 1.602176634 10^(-19) joule
+
+s = (14.0 10^9 eV)^2
+
+C1 = alpha^2 / (4 s)
+C2 = (hbar c)^2
+C3 = 10^37 "nanobarn" / meter^2 -- convert square meters to nanobarns
+
+yhat = C1 ((x^2 + 3) / (x - 1))^2 C2 C3
+yhat
+
+"Coefficient of determination (R squared)"
+
+ybar = sum(y) / dim(y)
+
+RSS = sum((y - yhat)^2) -- residual sum of squares
+TSS = sum((y - ybar)^2) -- total sum of squares
+
+1 - RSS / TSS
+clear
+
+-- Compute R-squared for Bhabha scattering data from SLAC-PUB-1501 (SLAC SPEAR)
+
+N = 12 -- number of observations
+
+-- x is cos(theta)
+
+x = (
+0.6,
+0.5,
+0.4,
+0.3,
+0.2,
+0.1,
+0.0,
+-0.1,
+-0.2,
+-0.3,
+-0.4,
+-0.5,
+-0.6)
+
+-- y is count data
+
+y = (
+4432,
+2841,
+2045,
+1420,
+1136,
+852,
+656,
+625,
+511,
+455,
+402,
+398)
+
+-- I is integral of probability density function
+
+I = 16 / (cos(theta) - 1) -
+    1/3 cos(theta)^3 -
+    cos(theta)^2 -
+    9 cos(theta) -
+    16 log(1 - cos(theta))
+
+theta1 = arccos(x[1])
+theta2 = arccos(x[13])
+
+-- F is cumulative distribution function
+
+F = (I - eval(I,theta,theta1)) /
+    (eval(I,theta,theta2) - eval(I,theta,theta1))
+
+-- probability per bin
+
+P = zero(N)
+
+for(k,1,N,
+  theta1 = arccos(x[k]),
+  theta2 = arccos(x[k + 1]),
+  P[k] = eval(F,theta,theta2) - eval(F,theta,theta1)
+)
+
+"Predicted values"
+
+yhat = sum(y) P
+yhat
+
+"Coefficient of determination (R squared)"
+
+ybar = sum(y) / N
+
+RSS = sum((y - yhat)^2) -- residual sum of squares
+TSS = sum((y - ybar)^2) -- total sum of squares
+
+1 - RSS / TSS
+clear
+
+"Bohr model"
+
+E = -alpha^2 m c^2 / (2 n^2)
+v = alpha c / n
+r = n^2 hbar / (alpha m c)
+check(E == -1/2 m v^2)
+check(m v r == n hbar)
+
+alpha = e^2 / (4 pi epsilon0 hbar c)
+check(E == -m e^4 / (2 (4 pi epsilon0)^2 hbar^2 n^2))
+check(r == 4 pi epsilon0 hbar^2 n^2 / (m e^2))
+
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+
+a0 = 5.29177210544 10^(-11) meter
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+epsilon0 = 8.8541878188 10^(-12) farad / meter
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+k = 1.380649 10^(-23) joule / kelvin
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+mu0 = 1.25663706127 10^(-6) newton / ampere^2
+
+-- derived units
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+tesla = kilogram / second^2 / ampere
+volt = joule / coulomb
+
+-- base units
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- eV per joule
+
+eV = 1/e coulomb / joule "eV"
+
+E1 = -1/2 alpha^2 me c^2 eV
+r1 = hbar / (alpha me c)
+
+E1
+r1
+
+"Reduced electron mass"
+
+mu = me mp / (me + mp)
+
+E1 = -1/2 alpha^2 mu c^2 eV
+r1 = hbar / (alpha mu c)
+
+E1
+r1
+clear
+
+E = hbar^2 / (2 me r^2) - e^2 / (4 pi epsilon0 r)
+dE = d(E,r)
+check(dE == -hbar^2 / (me r^3) + e^2 / (4 pi epsilon0 r^2))
+
+"Verify energy is minimized"
+r = 4 pi epsilon0 hbar^2 / (e^2 me)
+check(dE == 0)
+"ok"
+
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+
+-- a0       Bohr radius (per electron mass, not reduced electron mass)
+-- alpha    fine structure constant
+-- c        speed of light in vacuum
+-- e        elementary charge
+-- epsilon0 vacuum electric permittivity
+-- h        Planck constant
+-- hbar     reduced Planck constant
+-- k        Boltzmann constant
+-- me       electron mass
+-- mp       proton mass
+-- mu0      vacuum magnetic permeability
+
+-- c, e, h, and k are exact values
+
+a0 = 5.29177210544 10^(-11) meter
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+epsilon0 = 8.8541878188 10^(-12) farad / meter
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+k = 1.380649 10^(-23) joule / kelvin
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+mu0 = 1.25663706127 10^(-6) newton / ampere^2
+
+-- derived units
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+tesla = kilogram / second^2 / ampere
+volt = joule / coulomb
+
+-- base units (for printing)
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- eV per joule
+
+eV = 1/e coulomb / joule "eV"
+
+"NIST value"
+a0
+
+"Computed value"
+r = float(r)
+r
+clear
+
+-- https://mathworld.wolfram.com/BrachistochroneProblem.html
+
+x = theta - sin(theta)
+y = 1 - cos(theta)
+
+f = (d(x,theta)^2 + d(y,theta)^2) / (2 g y)
+f = simplify(f)
+f
+
+thetaA = -pi
+thetaB = 0
+
+A = eval((x,y), theta, thetaA)
+A
+
+B = eval((x,y), theta, thetaB)
+B
+
+"Time to go from A to B"
+
+t = defint(sqrt(f), theta, thetaA, thetaB)
+t
+clear
+
+X(f) = x f
+P(f) = -i hbar d(f,x)
+X(P(psi(x,t))) - P(X(psi(x,t)))
+
+X2(f) = X(X(f))
+P2(f) = P(P(f))
+A = X2(P2(psi(x,t))) - P2(X2(psi(x,t)))
+B = 2 i hbar (X(P(psi(x,t))) + P(X(psi(x,t))))
+check(A == B) -- continue if A equals B
+"ok"
+clear
+
+"Classic integration trick"
+a = 1 / (2 sigma^2)
+b = i k
+f = sqrt(pi / a) exp(b^2 / (4 a))
+f
+check(f == sqrt(2 pi sigma^2) exp(-k^2 sigma^2 / 2))
+"ok"
+clear
+
+"Verify formulas"
+
+E = i sqrt(nbar hbar omega / (2 epsilon0)) (exp(-i omega t) - exp(i omega t))
+B = sqrt(nbar hbar omega mu0 / 2) (exp(-i omega t) + exp(i omega t))
+
+check(E == sqrt(2 nbar hbar omega / epsilon0) sin(omega t))
+check(B == sqrt(2 nbar hbar omega mu0) cos(omega t))
+
+E2 = -hbar omega / (2 epsilon0) *
+(nbar exp(-2 i omega t) + nbar exp(2 i omega t) - 2 nbar - 1)
+
+B2 = hbar omega mu0 / 2 *
+(nbar exp(-2 i omega t) + nbar exp(2 i omega t) + 2 nbar + 1)
+
+check(E2 == -hbar omega / (2 epsilon0) (-4 nbar sin(omega t)^2 - 1))
+
+check(B2 == hbar omega mu0 / 2 (4 nbar cos(omega t)^2 + 1))
+
+check(epsilon0 / 2 E2 + 1 / (2 mu0) B2 == (nbar + 1/2) hbar omega)
+
+"ok"
+clear
+
+-- Compton scattering data from CERN LEP
+
+-- arxiv.org/abs/hep-ex/0504012
+
+-- Data from Table 4, page 11.
+
+-- x is cos(theta)
+
+x = (
+-0.74,
+-0.60,
+-0.47,
+-0.34,
+-0.20,
+-0.07,
+0.06,
+0.20,
+0.33,
+0.46,
+0.60,
+0.73)
+
+-- y is cross section
+
+y = (
+13380,
+7720,
+6360,
+4600,
+4310,
+3700,
+3640,
+3340,
+3500,
+3010,
+3310,
+3330) "picobarn"
+
+"Predicted values"
+
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+eV = 1.602176634 10^(-19) joule
+
+s = (40.0 10^9 eV)^2
+
+C1 = float(pi) alpha^2 / s
+C2 = (h c)^2 -- should be hbar instead of h, error in arxiv paper?
+C3 = 10^40 "picobarn" / meter^2 -- convert square meters to picobarns
+
+yhat = C1 ((x + 1) / 2 + 2 / (x + 1)) C2 C3
+yhat
+
+"Coefficient of determination (R squared)"
+
+ybar = sum(y) / dim(y)
+
+RSS = sum((y - yhat)^2) -- residual sum of squares
+TSS = sum((y - ybar)^2) -- total sum of squares
+
+1 - RSS / TSS
+clear
+
+-- Verify formulas for Compton scattering
+
+E = sqrt(omega^2 + m^2)
+
+p1 = (omega, 0, 0, omega)
+p2 = (E, 0, 0, -omega)
+
+p3 = (omega,
+      omega sin(theta) cos(phi),
+      omega sin(theta) sin(phi),
+      omega cos(theta))
+
+p4 = (E,
+      -omega sin(theta) cos(phi),
+      -omega sin(theta) sin(phi),
+      -omega cos(theta))
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
+
+u41 = (E + m, 0, p4[4], p4[2] + i p4[3]) / sqrt(E + m)
+u42 = (0, E + m, p4[2] - i p4[3], -p4[4]) / sqrt(E + m)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+q1 = p1 + p2
+q2 = p4 - p1
+
+qslash1 = dot(q1,gmunu,gamma)
+qslash2 = dot(q2,gmunu,gamma)
+
+"Verify Casimir trick"
+
+u41bar = dot(conj(u41),gamma0) -- adjoint of u41
+u42bar = dot(conj(u42),gamma0) -- adjoint of u42
+
+M111 = dot(u41bar, -i e gammaT, qslash1 + m I, -i e gammaT, u21)
+M112 = dot(u41bar, -i e gammaT, qslash1 + m I, -i e gammaT, u22)
+M121 = dot(u42bar, -i e gammaT, qslash1 + m I, -i e gammaT, u21)
+M122 = dot(u42bar, -i e gammaT, qslash1 + m I, -i e gammaT, u22)
+
+M211 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
+M212 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
+M221 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
+M222 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
+
+M11 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu)) +
+      contract(dot(M112, gmunu, transpose(conj(M112)), gmunu)) +
+      contract(dot(M121, gmunu, transpose(conj(M121)), gmunu)) +
+      contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
+
+M12 = contract(dot(M111, gmunu, conj(M211), gmunu)) +
+      contract(dot(M112, gmunu, conj(M212), gmunu)) +
+      contract(dot(M121, gmunu, conj(M221), gmunu)) +
+      contract(dot(M122, gmunu, conj(M222), gmunu))
+
+M21 = contract(dot(M211, gmunu, conj(M111), gmunu)) +
+      contract(dot(M212, gmunu, conj(M112), gmunu)) +
+      contract(dot(M221, gmunu, conj(M121), gmunu)) +
+      contract(dot(M222, gmunu, conj(M122), gmunu))
+
+M22 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu)) +
+      contract(dot(M212, gmunu, transpose(conj(M212)), gmunu)) +
+      contract(dot(M221, gmunu, transpose(conj(M221)), gmunu)) +
+      contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
+
+check(M12 == M21)
+
+pslash2 = dot(p2,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+P2 = pslash2 + m I
+P4 = pslash4 + m I
+
+Q1 = qslash1 + m I
+Q2 = qslash2 + m I
+
+T = dot(P2,gammaT,Q1,gammaT,P4,gammaL,Q1,gammaL)
+f11 = contract(T,3,4,2,3,1,2)
+
+T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q1,gammaL)
+f12 = contract(T,3,5,2,3,1,2)
+
+T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
+f22 = contract(T,3,4,2,3,1,2)
+
+check(e^4 f11 == M11)
+check(2 e^4 f12 == M12 + M21)
+check(e^4 f22 == M22)
+
+"ok"
+
+"Verify probability density"
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
+check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
+check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
+check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
+check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
+
+d11 = (s - m^2)^2
+d12 = (s - m^2) (u - m^2)
+d22 = (u - m^2)^2
+
+f = e^4 (f11/d11 + 2 f12/d12 + f22/d22) / 4
+
+-- high energy approximation
+
+m = 0
+
+check(s == 4 omega^2)
+check(u == -2 omega^2 (cos(theta) + 1))
+
+check(f == 2 e^4 ((cos(theta) + 1) / 2 + 2 / (cos(theta) + 1)))
+
+m = quote(m)
+
+"ok"
+
+"Verify lab frame"
+
+Lambda = ((E/m,0,0,omega/m),(0,1,0,0),(0,0,1,0),(omega/m,0,0,E/m))
+
+p1 = dot(Lambda,p1)
+p2 = dot(Lambda,p2)
+p3 = dot(Lambda,p3)
+p4 = dot(Lambda,p4)
+
+check(s == dot(p1 + p2, gmunu, p1 + p2))
+check(t == dot(p1 - p3, gmunu, p1 - p3))
+check(u == dot(p1 - p4, gmunu, p1 - p4))
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
+check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
+check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
+
+-- verify s, t, and u in the lab frame
+
+omegaL = dot(p1, (1,0,0,0))
+omegaLp = dot(p3, (1,0,0,0))
+
+check(omegaL == omega^2 / m + omega E / m)
+check(omegaLp == omega^2 cos(theta) / m + omega E / m)
+
+check(s == m^2 + 2 m omegaL)
+check(t == 2 m (omegaLp - omegaL))
+check(u == m^2 - 2 m omegaLp)
+
+check(f == 2 e^4 (omegaL/omegaLp + omegaLp/omegaL + (m/omegaL - m/omegaLp + 1)^2 - 1))
+
+-- verify integral
+
+R = hbar omega / (m c^2)
+
+omegap = omega / (1 + R (1 - cos(theta)))
+
+f = (omegap / omega)^2 (omega / omegap + omegap / omega - sin(theta)^2)
+
+I = -cos(theta) / R^2 +
+    log(1 + R (1 - cos(theta))) (1/R - 2/R^2 - 2/R^3) -
+    1 / (2 R (1 + R (1 - cos(theta)))^2) +
+    1 / (1 + R (1 - cos(theta))) (-2/R^2 - 1/R^3)
+
+check(f sin(theta) == d(I,theta))
+
+"ok"
+clear
+
+A = (xb - xa) / T - F T / (2 m)
+B = xa
+x = F t^2 / (2 m) + A t + B
+v = d(x,t)
+L = m v^2 / 2 + F x
+S = defint(L, t, 0, T)
+
+"Verify equation (1)"
+check(x == F t^2 / (2 m) + (xb - xa) t / T - F T t / (2 m) + xa)
+check(d(x,t,t) == F / m)
+check(eval(x,t,0) == xa)
+check(eval(x,t,T) == xb)
+"ok"
+
+"Verify equation (2)"
+check(v == F t / m + (xb - xa) / T - F T / (2 m))
+"ok"
+
+"Verify equation (3)"
+check(S == m (xb - xa)^2 / (2 T) + F T (xb + xa) / 2 - F^2 T^3 / (24 m))
+"ok"
+clear
+
+"Verify Mathematica formula for derivative of spherical harmonic"
+
+DY(l,m) = m cos(theta) / sin(theta) Y(l,m) +
+         sqrt((l - m) (l + m + 1)) exp(-i phi) Y(l,m + 1)
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+check(DY(0,0) == d(Y(0,0),theta))
+
+check(DY(1,0) == d(Y(1,0),theta))
+check(DY(1,1) == d(Y(1,1),theta))
+check(DY(1,-1) == d(Y(1,-1),theta))
+
+check(DY(2,0) == d(Y(2,0),theta))
+check(DY(2,1) == d(Y(2,1),theta))
+check(DY(2,2) == d(Y(2,2),theta))
+check(DY(2,-1) == d(Y(2,-1),theta))
+check(DY(2,-2) == d(Y(2,-2),theta))
+
+"ok"
+clear
+
+-- dirac delta function approximations
+
+delta = n / sqrt(pi) exp(-n^2 x^2)
+
+for(n,1,10,draw(delta))
+clear
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+phi = px x + py y + pz z - E t
+
+E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
+
+psi1 = exp(i phi / hbar) (E/c + m c, 0, pz, px + i py)
+psi2 = exp(i phi / hbar) (0, E/c + m c, px - i py, -pz)
+psi3 = exp(i phi / hbar) (pz, px + i py, E/c - m c, 0)
+psi4 = exp(i phi / hbar) (px - i py, -pz, 0, E/c - m c)
+
+psi5 = exp(-i phi / hbar) (E/c - m c, 0, pz, px + i py)
+psi6 = exp(-i phi / hbar) (0, E/c - m c, px - i py, -pz)
+psi7 = exp(-i phi / hbar) (pz, px + i py, E/c + m c, 0)
+psi8 = exp(-i phi / hbar) (px - i py, -pz, 0, E/c + m c)
+
+D(psi) = 1/c dot(gamma0,d(psi,t)) +
+         dot(gamma1,d(psi,x)) +
+         dot(gamma2,d(psi,y)) +
+         dot(gamma3,d(psi,z))
+
+"Verify solutions"
+
+check(i hbar D(psi1) == m c psi1)
+check(i hbar D(psi2) == m c psi2)
+check(i hbar D(psi3) == m c psi3)
+check(i hbar D(psi4) == m c psi4)
+check(i hbar D(psi5) == m c psi5)
+check(i hbar D(psi6) == m c psi6)
+check(i hbar D(psi7) == m c psi7)
+check(i hbar D(psi8) == m c psi8)
+
+"ok"
+clear
+
+u0 = (1, 0, 0, 0)
+
+Lambda = ((E + m, 0, p, 0),
+          (0, E + m, 0, p),
+          (p, 0, E + m, 0),
+          (0, p, 0, E + m))
+
+u = dot(Lambda, u0) / sqrt(E + m)
+u
+
+"Verify equation (1)"
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+pslash = m dot(Lambda,gamma0,inv(Lambda))
+check(1/m dot(pslash,Lambda) == dot(Lambda,gamma0))
+"ok"
+
+"Verify equation (2)"
+check(dot(pslash,u) == m u)
+"ok"
+clear
+
+-- Verify Dirac's equation (32)
+
+-- See "Quantum Mechanics and a Preliminary Investigation of the Hydrogen Atom"
+
+psi(n,m) = 1 / sqrt(pi a0 (n + 1/2)) *
+           sqrt((n - abs(m))! / (n + abs(m))!) *
+           (2 r / a0 / (n + 1/2))^abs(m) *
+           L(2 r / a0 / (n + 1/2), n - abs(m), 2 abs(m)) *
+           exp(-r / a0 / (n + 1/2)) *
+           exp(i m phi)
+
+a0 = hbar^2 / (k mu)
+
+-- Laguerre polynomial
+
+L(x,n,m,j) = (n + m)! sum(j,0,n, (-x)^j / ((n - j)! (m + j)! j!))
+
+-- energy eigenvalues
+
+E(n) = -1/2 k^2 mu / hbar^2 / (n + 1/2)^2
+
+-- integrator
+
+I(f) = do(
+  f = defint(f, phi, 0, 2 pi),
+  f = integral(f,r),
+  0 - eval(f,r,0)
+)
+
+N = 5 -- arbitrary cutoff for demo
+
+R = zero(N,N)
+Enm = zero(N,N)
+
+for(n,1,N, for(m,1,N, R[n,m] = I(conj(psi(n,0)) r psi(m,0))))
+
+for(n,1,N, Enm[n,n] = E(n))
+
+-- solve for P
+
+P = sqrt(-2 mu / hbar^2 (Enm + k inv(R)))
+
+print(R,P)
+
+"Verify Dirac's equation (32)"
+
+Pn = P + n hbar unit(5,5)
+
+H(P) = -hbar^2 / (2 mu) inv(dot(P,P))
+
+check(H(Pn) - H(P) == hbar^2 / (2 mu) (inv(dot(P,P)) - inv(dot(Pn,Pn))))
+
+"ok"
+
+"Verify Schroedinger equation"
+
+check(-hbar^2 / (2 mu) dot(P,P) - k inv(R) == Enm)
+
+"ok"
+clear
+
+E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
+
+u1 = (E/c + m c, 0, pz, px + i py)
+u2 = (0, E/c + m c, px - i py, -pz)
+
+v1 = (pz, px + i py, E/c + m c, 0)
+v2 = (px - i py, -pz, 0, E/c + m c)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+p = (E/c, px, py, pz)
+
+pslash = dot(p,gmunu,gamma)
+
+"Verify spinor formulas"
+
+check(dot(pslash,u1) == m c u1)
+check(dot(pslash,u2) == m c u2)
+
+check(dot(pslash,v1) == -m c v1)
+check(dot(pslash,v2) == -m c v2)
+
+"ok"
+
+"Verify completeness"
+
+adjoint(u) = dot(conj(u),gamma0)
+
+check(outer(u1,adjoint(u1)) + outer(u2,adjoint(u2)) ==
+(E/c + m c) (pslash + m c I))
+
+check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) ==
+(E/c + m c) (pslash - m c I))
+
+"ok"
+clear
+
+-- Draw demo
+
+draw(floor(x))
+draw(1/x)
+draw(5 sin(x) / x)
+draw(5 cos(x) / x)
+draw(5 (sin(x),cos(x)))
+
+-- lemniscate
+X = cos(t) / (1 + sin(t)^2)
+Y = sin(t) cos(t) / (1 + sin(t)^2)
+f = (X,Y)
+draw(5f,t)
+
+-- cardioid
+r = 1/2 (1 + cos(t))
+u = (cos(t),sin(t))
+xrange = (-1,1)
+yrange = (-1,1)
+trange = (0,2pi)
+draw(r u,t)
+
+-- smiley face
+xrange = (-10,10)
+yrange = (-10,10)
+trange = (-pi,pi)
+
+f(t) = test(
+  t < 0, 5 * (cos(2*t),sin(2*t)),
+  t < pi/4, (cos(8*t)/2,sin(8*t)) + (-2,2),
+  t < pi/2, (cos(8*t)/2,sin(8*t)) + (2,2),
+  3 * (cos(2*t),sin(2*t))
+)
+
+draw(f,t)
+
+f = quote(abs(x^x))
+xrange = (-2,2)
+yrange = (-2,2)
+draw(f,x)
+
+f(t) = (real(t^t),imag(t^t))
+xrange = (-2,2)
+yrange = (-2,2)
+trange = (-4,2)
+draw(f,t)
+clear
+
+-- electromagnetic tensor demo
+
+-- u for up index, d for down index
+
+gdd = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+guu = inv(gdd)
+
+A = (Ax(),Ay(),Az())
+Au = (phi(),Ax(),Ay(),Az())
+Ad = dot(gdd,Au)
+
+B = curl(A)
+E = -d(phi(),(x,y,z)) - d(A,t)
+
+Bx = B[1]
+By = B[2]
+Bz = B[3]
+
+Ex = E[1]
+Ey = E[2]
+Ez = E[3]
+
+X = (t,x,y,z)
+Add = d(Ad,X)
+Fdd = transpose(Add) - Add
+Fdd
+
+T = ((0, Ex, Ey, Ez),
+     (-Ex, 0, -Bz, By),
+     (-Ey, Bz, 0, -Bx),
+     (-Ez, -By, Bx, 0))
+
+check(Fdd == T)
+
+Fuu = dot(guu,Fdd,guu)
+T = contract(dot(transpose(Fdd),Fuu))
+check(T == 2 dot(B,B) - 2 dot(E,E))
+
+check(det(Fdd) == dot(B,E)^2)
+check(det(Fuu) == dot(B,E)^2)
+
+Ju = contract(d(Fuu,X),1,3)
+
+check(contract(d(Ju,X)) == 0)
+
+Jx = Ju[2]
+Jy = Ju[3]
+Jz = Ju[4]
+J = (Jx,Jy,Jz)
+check(J == curl(B) - d(E,t))
+
+"ok"
+clear
+
+"Emission equilibrium"
+
+-- physical constants (c, e, h, and k are exact values)
+
+c = 299792458.0 meter / second                 -- speed of light in vacuum
+e = 1.602176634 10^(-19) coulomb               -- elementary charge
+epsilon0 = 8.8541878128 10^(-12) farad / meter -- vacuum electric permittivity
+h = 6.62607015 10^(-34) joule second           -- Planck constant
+hbar = h / float(2 pi)                         -- reduced Planck constant
+k = 1.380649 10^(-23) joule / kelvin           -- Boltzmann constant
+me = 9.1093837015 10^(-31) kilogram            -- electron mass
+mp = 1.67262192369 10^(-27) kilogram           -- proton mass
+mu = me mp / (me + mp)                         -- reduced electron mass
+
+-- derived units
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+volt = joule / coulomb
+
+-- base units (for printing)
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+electronvolt = e joule / coulomb -- convert electronvolt to joule
+
+T = 300 kelvin
+
+nu = k T log(2.0) / h
+nu
+clear
+
+-- Verify formulas for Fermi's golden rule
+
+Delta = omega2 - omega1
+
+f = expcos(omega t + phi) exp(i Delta t)
+I = defint(f,t,0,t)
+c2 = 2 M21 / (i hbar) I
+
+c21 = -M21 / hbar *
+      (exp(i (Delta - omega) t) - 1) / (Delta - omega) *
+      exp(-i phi)
+
+c22 = -M21 / hbar *
+      (exp(i (Delta + omega) t) - 1) / (Delta + omega) *
+      exp(i phi)
+
+"Verify integral (1)"
+check(c2 == c21 + c22)
+check(f == d(I,t))
+"ok"
+
+c2 = c21
+
+sinc(x) = expsin(x) / x
+
+c2prime = -i t / hbar M21 *
+          exp(i (Delta - omega) / 2 t - i phi) *
+          sinc((Delta - omega) / 2 t)
+
+"Verify sinc form (2)"
+check(c2 == c2prime)
+"ok"
+
+sinc = quote(sinc) -- clear sinc def
+
+c2 = -i t / hbar M21 *
+     exp(i (Delta - omega) / 2 t - i phi) *
+     sinc((Delta - omega) / 2 t)
+
+P = conj(c2) c2
+
+Pprime = t^2 / hbar^2 M21^2 sinc((Delta - omega) / 2 t)^2
+
+"Verify equation (3)"
+check(P == Pprime)
+"ok"
+clear
+
+omega = k c
+
+A = -i A0 / omega (exp(i k z - i omega t), 0, 0)
+
+E = -1/c d(A,t)
+B = curl(A)
+
+E
+B
+
+"Verify Maxwell equations"
+
+check(div(E) == 0)
+check(div(B) == 0)
+
+check(curl(E) == -1/c d(B,t))
+check(curl(B) == 1/c d(E,t))
+
+"ok"
+clear
+
+"Fine structure 1"
+
+"Verify equation (1)"
+x = alpha / (A + sqrt(B^2 - alpha^2))
+f = 1 / sqrt(1 + x^2)
+f = taylor(f,alpha,4)
+f = eval(f, A, n - j - 1/2, B, j + 1/2)
+y = 1 - alpha^2 / (2 n^2) - alpha^4 / (2 n^3 (j + 1/2)) + 3 alpha^4 / (8 n^4)
+check(f == y)
+"ok"
+
+"Verify equation (2)"
+E = -mu c^2 alpha^2 / (2 n^2) (1 + alpha^2 / (n (j + 1/2)) - 3 alpha^2 / (4 n^2))
+check(-mu c^2 (1 - f) == E)
+"ok"
+
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+
+joule = kilogram meter^2 / second^2
+eV = 1/e coulomb / joule "eV" -- eV per joule
+
+mu = me mp / (me + mp) -- reduced electron mass
+
+-mu c^2 alpha^2 / 2 eV
+clear
+
+"Fine structure 2"
+
+"Verify equation (1)"
+
+En = -mu c^2 alpha^2 / (2 n^2)
+Er = -En^2 / (2 mu c^2) (4 n / (l + 1/2) - 3)
+Eso = n En^2 / (mu c^2) (j (j + 1) - l (l + 1) - 3/4) / (l (l + 1/2) (l + 1))
+
+T = En + Er + Eso - En (1 + alpha^2 / (n (j + 1/2)) - 3 alpha^2 / (4 n^2))
+
+check(eval(T, j, l + 1/2) == 0)
+check(eval(T, j, l - 1/2) == 0)
+
+check(eval(T, l, j + 1/2) == 0)
+check(eval(T, l, j - 1/2) == 0)
+
+"ok"
+clear
+
+"Fine structure 3"
+
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+h = 6.62607015 10^(-34) joule second
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+
+joule = kilogram meter^2 / second^2
+eV = 1/e coulomb / joule "eV" -- eV per joule
+
+mu = me mp / (me + mp) -- reduced electron mass
+
+E(n,j) = -mu c^2 (1 - 1 / sqrt(1 + (alpha / (n - j - 1/2 + sqrt((j + 1/2)^2 - alpha^2)))^2))
+
+Delta(n1,j1,n2,j2) = E(n1,j1) - E(n2, j2)
+
+h c / Delta(3, 1/2, 2, 1/2) 10^9 "nm" / meter
+h c / Delta(3, 1/2, 2, 3/2) 10^9 "nm" / meter
+
+h c / Delta(3, 1/2, 2, 1/2) 10^9 "nm" / meter
+h c / Delta(3, 3/2, 2, 1/2) 10^9 "nm" / meter
+
+h c / Delta(3, 3/2, 2, 1/2) 10^9 "nm" / meter
+h c / Delta(3, 3/2, 2, 3/2) 10^9 "nm" / meter
+h c / Delta(3, 5/2, 2, 3/2) 10^9 "nm" / meter
+clear
+
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+-- c, e, h, and k are exact values
+
+a0 = 5.29177210544 10^(-11) meter
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+epsilon0 = 8.8541878188 10^(-12) farad / meter
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+k = 1.380649 10^(-23) joule / kelvin
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+mu0 = 1.25663706127 10^(-6) newton / ampere^2
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+tesla = kilogram / second^2 / ampere
+volt = joule / coulomb
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+alpha
+
+e^2 / (4 float(pi) epsilon0 hbar c)
+
+err(a,b) = 2 abs((a - b) / (a + b)) -- relative error
+
+err(alpha, e^2 / (4 float(pi) epsilon0 hbar c))
+clear
+
+"Verify equation (1)"
+
+T = tb - ta
+v = (xb - xa) / T
+L = m v^2 / 2
+
+check(defint(L, t, 0, T) == m (xb - xa)^2 / (2 T))
+
+"ok"
+clear
+
+"Verify equation (3)"
+
+a = i (tb - ta) / (2 m hbar)
+b = i (xb - xa) / hbar
+
+check(1 / (2 pi hbar)^2 pi / a == m / (2 pi i hbar (tb - ta)))
+
+check(b^2 / (4 a) == i m (xb - xa)^2 / (2 hbar (tb - ta)))
+
+"ok"
+clear
+
+"Verify equation (1)"
+
+f = i m (xb - xa)^2 / (2 hbar tb) + i p xa / hbar
+
+a = -i m / (2 hbar tb)
+b = -i m xb / (hbar tb) + i p / hbar
+c = i m xb^2 / (2 hbar tb)
+
+check(f == -a xa^2 + b xa + c)
+
+"ok"
+
+"Verify equation (2)"
+
+check(m / (2 pi i hbar tb) == a / pi)
+
+check(b^2 / (4 a) + c == i p xb / hbar - i p^2 tb / (2 m hbar))
+
+"ok"
+clear
+
+"Galilean transformation"
+
+X1(f) = x1 f
+X2(f) = x2 f
+X3(f) = x3 f
+
+P1(f) = -i hbar d(f,x1)
+P2(f) = -i hbar d(f,x2)
+P3(f) = -i hbar d(f,x3)
+
+L1(f) = X2(P3(f)) - X3(P2(f))
+L2(f) = X3(P1(f)) - X1(P3(f))
+L3(f) = X1(P2(f)) - X2(P1(f))
+
+G1(f) = m / hbar X1(f)
+G2(f) = m / hbar X2(f)
+G3(f) = m / hbar X3(f)
+
+U(f) = f - i epsilon G3(f) - 1/2 epsilon^2 G3(G3(f))
+V(f) = f + i epsilon G3(f) - 1/2 epsilon^2 G3(G3(f)) -- inverse of U
+
+psi = Psi(x1,x2,x3)
+
+T = V(U(psi))
+T = eval(T, epsilon^4, 0)
+check(T == psi)
+
+"Verify (1)"
+
+T1 = V(X1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == X1(psi))
+
+T2 = V(X2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == X2(psi))
+
+T3 = V(X3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == X3(psi))
+
+"ok"
+
+"Verify (2)"
+
+T1 = V(P1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == P1(psi))
+
+T2 = V(P2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == P2(psi))
+
+T3 = V(P3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == P3(psi) - epsilon m psi)
+
+"ok"
+
+"Verify (3)"
+
+T1 = V(L1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == L1(psi) - epsilon m X2(psi))
+
+T2 = V(L2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == L2(psi) + epsilon m X1(psi))
+
+T3 = V(L3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == L3(psi))
+
+"ok"
+
+"Verify (4)"
+
+H(f) = (P1(P1(f)) + P2(P2(f)) + P3(P3(f))) / (2 m)
+
+T = V(H(U(psi)))
+T = eval(T, epsilon^4, 0, epsilon^3, 0)
+check(T == H(psi) - epsilon P3(psi) + 1/2 epsilon^2 m psi)
+
+"ok"
+clear
+
+"Gordon decomposition"
+
+p1 = (E1, p1x, p1y, p1z)
+p2 = (E2, p2x, p2y, p2z)
+
+u11 = (E1 + m1, 0, p1z, p1x + i p1y) / sqrt(E1 + m1) -- spin up
+u12 = (0, E1 + m1, p1x - i p1y, -p1z) / sqrt(E1 + m1) -- spin down
+
+u21 = (E2 + m2, 0, p2z, p2x + i p2y) / sqrt(E2 + m2) -- spin up
+u22 = (0, E2 + m2, p2x - i p2y, -p2z) / sqrt(E2 + m2) -- spin down
+
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
+
+"Verify spinor normalization"
+check(dot(conj(u11),u11) == 2 E1)
+check(dot(conj(u12),u12) == 2 E1)
+check(dot(conj(u21),u21) == 2 E2)
+check(dot(conj(u22),u22) == 2 E2)
+"ok"
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+-- transpose first two indices to make compatible with dot function
+gammaT = transpose(gamma)
+
+T = dot(gamma,gammaT)
+sigmamunu = i/2 (T - transpose(T,1,3)) -- transpose mu and nu
+sigmamunu = transpose(sigmamunu,3,4) -- transpose nu and beta
+G = (outer(p1 + p2, I) + i dot(sigmamunu, gmunu, p2 - p1)) / (m1 + m2)
+-- transpose first two indices to make compatible with dot function
+G = transpose(G)
+
+"Verify G for spin up-up"
+u1 = u11
+u2 = u21
+u2bar = dot(conj(u2),gamma0)
+A = dot(u2bar, gammaT, u1)
+B = dot(u2bar, G, u1)
+check(A == B)
+"ok"
+
+"Verify G for spin up-down"
+u1 = u11
+u2 = u22
+u2bar = dot(conj(u2),gamma0)
+A = dot(u2bar, gammaT, u1)
+B = dot(u2bar, G, u1)
+check(A == B)
+"ok"
+
+"Verify G for spin down-up"
+u1 = u12
+u2 = u21
+u2bar = dot(conj(u2),gamma0)
+A = dot(u2bar, gammaT, u1)
+B = dot(u2bar, G, u1)
+check(A == B)
+"ok"
+
+"Verify G for spin down-down"
+u1 = u12
+u2 = u22
+u2bar = dot(conj(u2),gamma0)
+A = dot(u2bar, gammaT, u1)
+B = dot(u2bar, G, u1)
+check(A == B)
+"ok"
+clear
+
+"Line integral"
+P = 1 - y
+Q = x
+x = 2 cos(t)
+y = 2 sin(t)
+defint(P d(x,t) + Q d(y,t), t, 0, 2pi)
+
+"Surface integral"
+x = quote(x) -- clear x
+y = quote(y) -- clear y
+h = sqrt(4 - x^2)
+defint(d(Q,x) - d(P,y), y, -h, h, x, -2, 2)
+clear
+
+-- https://arxiv.org/abs/1703.10535
+
+Q0 = 0
+Q1 = 1
+Q2 = 2
+
+psi = (1,0,0,0,0,0,0,0) -- 3 qubits
+
+-- init
+
+psi = rotate(psi, H,Q0, H,Q1, H,Q2)
+
+-- oracle
+
+psi = rotate(psi, C,Q0, Z,Q2, C,Q1, Z,Q2)
+
+-- amplification (diffuser)
+
+psi = rotate(psi, H,Q0, H,Q1, H,Q2)
+psi = rotate(psi, X,Q0, X,Q1, X,Q2)
+psi = rotate(psi, C,Q0, C,Q1, Z,Q2)
+psi = rotate(psi, X,Q0, X,Q1, X,Q2)
+psi = rotate(psi, H,Q0, H,Q1, H,Q2)
+
+-- probability
+
+p = psi conj(psi)
+
+-- format result
+
+b = ("000","100","010","110","001","101","011","111")
+
+transpose((b,p))
+clear
+
+A = (xb - xa cos(omega T)) / sin(omega T)
+B = xa
+x = A sin(omega t) + B cos(omega t)
+v = d(x,t)
+f = m / 2 (v^2 - omega^2 x^2)
+S = defint(f, t, 0, T)
+
+"Verify equation (3)"
+check(x == (xb - xa cos(omega T)) / sin(omega T) sin(omega t) + xa cos(omega t))
+"ok"
+
+"Verify equation (4)"
+check(v == (xb - xa cos(omega T)) / sin(omega T) omega cos(omega t) - xa omega sin(omega t))
+"ok"
+
+"Verify equation (5)"
+x0 = eval(x,t,0)
+v0 = eval(v,t,0)
+xT = eval(x,t,T)
+vT = eval(v,t,T)
+check(S == m / 2 (vT xT - v0 x0))
+"ok"
+
+"Verify equation (6)"
+check(v0 == omega (xb - xa cos(omega T)) / sin(omega T))
+"ok"
+
+"Verify equation (7)"
+check(vT == omega (xb cos(omega T) - xa) / sin(omega T))
+"ok"
+
+"Verify equation (8)"
+check(S == m / 2 omega ((xb^2 + xa^2) cos(omega T) - 2 xb xa) / sin(omega T))
+"ok"
+clear
+
+"Exercise 1. Verify wave function."
+
+psi(n) = 1 / sqrt(2^n n!) *
+         (m omega / (pi hbar))^(1/4) *
+         H(n, sqrt(m omega / hbar) (x - xbar)) *
+         exp(-m omega / (2 hbar) (x - xbar)^2) *
+         exp(i / hbar pbar (x - xbar / 2)) *
+         exp(-i (n + 1/2) omega t)
+
+H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
+
+xbar = sqrt(2 hbar / m / omega) r cos(omega t + theta)
+pbar = -sqrt(2 m hbar omega) r sin(omega t + theta)
+
+Hhat(f) = phat(phat(f)) / (2 m) + V f
+phat(f) = -i hbar d(f,x)
+V = m omega^2 x^2 / 2
+
+check(i hbar d(psi(0),t) == Hhat(psi(0)))
+check(i hbar d(psi(1),t) == Hhat(psi(1)))
+check(i hbar d(psi(2),t) == Hhat(psi(2)))
+check(i hbar d(psi(3),t) == Hhat(psi(3)))
+check(i hbar d(psi(4),t) == Hhat(psi(4)))
+
+"ok"
+
+"Exercise 2. Verify normalization."
+
+clear
+
+psi(n) = 1 / sqrt(2^n n!) *
+         (m omega / (pi hbar))^(1/4) *
+         H(n, sqrt(m omega / hbar) (x - xbar)) *
+         exp(-m omega / (2 hbar) (x - xbar)^2) *
+         exp(i / hbar pbar (x - xbar / 2)) *
+         exp(-i (n + 1/2) omega t)
+
+H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
+
+xbar = sqrt(2 hbar / m / omega) r cos(omega t + theta)
+pbar = -sqrt(2 m hbar omega) r sin(omega t + theta)
+
+f = conj(psi(1)) psi(1)
+
+A = m omega / hbar
+B = 2 sqrt(2 m omega / hbar) r cos(omega t + theta)
+C = -2 r^2 cos(omega t + theta)^2
+
+G2 = sqrt(pi / A) / (2 A) (1 + B^2 / (2 A)) exp(B^2 / (4 A) + C)
+G1 = sqrt(pi / A) (B / (2 A)) exp(B^2 / (4 A) + C)
+G0 = sqrt(pi / A) exp(B^2 / (4 A) + C)
+
+C2 = 2 m^(3/2) omega^(3/2) hbar^(-3/2) pi^(-1/2)
+C1 = (-4) sqrt(2 / pi) m omega r / hbar cos(omega t + theta)
+C0 = 4 sqrt(m omega / (pi hbar)) r^2 cos(omega t + theta)^2
+
+check(f == (C2 x^2 + C1 x + C0) exp(-A x^2 + B x + C))
+
+I = C2 G2 + C1 G1 + C0 G0 -- gaussian integral
+
+check(I == 1)
+
+"ok"
+
+"Exercise 3. Verify uncertainty."
+
+clear
+
+psi(n) = 1 / sqrt(2^n n!) *
+         (m omega / (pi hbar))^(1/4) *
+         H(n, sqrt(m omega / hbar) (x - xbar)) *
+         exp(-m omega / (2 hbar) (x - xbar)^2) *
+         exp(i / hbar pbar (x - xbar / 2)) *
+         exp(-i (n + 1/2) omega t)
+
+H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
+
+xbar = sqrt(2 hbar / m / omega) r cos(omega t + theta)
+pbar = -sqrt(2 m hbar omega) r sin(omega t + theta)
+
+psi0 = psi(0)
+
+A = m omega / hbar
+B = 2 sqrt(2 m omega / hbar) r cos(omega t + theta)
+C = -2 r^2 cos(omega t + theta)^2
+
+G2 = sqrt(pi / A) / (2 A) (1 + B^2 / (2 A)) exp(B^2 / (4 A) + C)
+G1 = sqrt(pi / A) (B / (2 A)) exp(B^2 / (4 A) + C)
+G0 = sqrt(pi / A) exp(B^2 / (4 A) + C)
+
+-- expectation of x
+
+f = conj(psi0) x psi0
+C1 = sqrt(m omega / (hbar pi))
+check(f == C1 x exp(-A x^2 + B x + C))
+X = C1 G1 -- gaussian integral
+
+-- expectation of x^2
+
+f = conj(psi0) x^2 psi0
+C2 = sqrt(m omega / (hbar pi))
+check(f == C2 x^2 exp(-A x^2 + B x + C))
+X2 = C2 G2 -- gaussian integral
+
+-- expectation of p
+
+phat(f) = -i hbar d(f,x)
+
+f = conj(psi0) phat(psi0)
+
+C1 = i (m omega)^(3/2) / sqrt(pi hbar)
+
+C0 = -sqrt(2 / pi) m omega r *
+    (sin(omega t + theta) + i cos(omega t + theta))
+
+check(f == (C1 x + C0) exp(-A x^2 + B x + C))
+
+P = C1 G1 + C0 G0 -- gaussian integral
+
+-- expectation of p^2
+
+f = conj(psi0) phat(phat(psi0))
+
+C2 = -sqrt(m^5 omega^5 / (pi hbar))
+
+C1 = 2 sqrt(2 / pi) m^2 omega^2 r cos(omega t + theta) -
+     2 sqrt(2 / pi) i m^2 omega^2 r sin(omega t + theta)
+
+C0 = sqrt(hbar m^3 omega^3 / pi) *
+     (1 - 2 r^2 cos(omega t + theta)^2 + 2 r^2 sin(omega t + theta)^2 +
+     4 i r^2 cos(omega t + theta) sin(omega t + theta))
+
+check(f == (C2 x^2 + C1 x + C0) exp(-A x^2 + B x + C))
+
+P2 = C2 G2 + C1 G1 + C0 G0 -- gaussian integral
+
+-- verify
+
+check(X2 - X^2 == hbar / (2 m omega))
+
+check(P2 - P^2 == m hbar omega / 2)
+
+check(sqrt((X2 - X^2) (P2 - P^2)) == hbar / 2)
+
+"ok"
+clear
+
+"Verify equation (6)"
+
+A = -i m omega / (2 hbar) (xb^2 + xa^2) tan(omega t / 2) +
+    i m omega (xb - xa)^2 / (2 hbar sin(omega t))
+
+B = i m omega (xb^2 + xa^2) cot(omega t) / (2 hbar) -
+    i m omega xb xa / (hbar sin(omega t))
+
+cot(alpha) = -tan(alpha / 2) + 1 / sin(alpha)
+
+check(A == B)
+
+"ok"
+clear
+
+psi(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4) *
+         H(n, x sqrt(m omega / hbar)) *
+         exp(-m omega x^2 / (2 hbar) - i (n + 1/2) omega t)
+
+-- Hermite polynomial (z is a local variable)
+
+H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
+
+"Wave function"
+
+psi1 = eval(psi(1), x, xa, t, 0)
+psi1
+
+-- propagator
+
+K = sqrt(m omega / (2 pi i hbar sin(omega t))) *
+    exp(i m omega / (2 hbar sin(omega t)) *
+    ((xb^2 + xa^2) cos(omega t) - 2 xb xa))
+
+-- decomposition of K psi1
+
+A = -i m omega exp(i omega t) / (2 hbar sin(omega t))
+
+B = -i m omega xb / (hbar sin(omega t))
+
+C = i m omega xb^2 cos(omega t) / (2 hbar sin(omega t))
+
+D = sqrt(2) (m^3 omega^3 / (pi hbar^3))^(1/4) *
+    sqrt(m omega / (2 pi i hbar sin(omega t)))
+
+-- check decomposition
+
+check(K psi1 == D xa exp(-A xa^2 + B xa + C))
+
+"Path integral"
+
+I = D sqrt(pi) / 2 B A^(-3/2) exp(simplify(B^2 / (4 A) + C))
+I
+
+"Verify result"
+
+check(I == eval(psi(1), x, xb))
+
+"ok"
+clear
+
+"Verify equation (1)"
+
+f = sin(theta1) sin(theta2)
+
+I = defint(f,theta1,0,pi,theta2,0,pi,phi1,0,2pi,phi2,0,2pi)
+
+check(I == 16 pi^2)
+
+"ok"
+
+"Verify equation (2)"
+
+psi = alpha^3 / pi exp(-alpha (r1 + r2))
+
+Laplacian(psi) = 1 / r1^2 d(r1^2 d(psi, r1), r1)
+
+f = -1/2 psi Laplacian(psi) r1^2 r2^2
+
+I = 16 pi^2 integral(f,r1,r2)
+
+I = 0 - eval(I,r1,0) -- I evaluated at r1 = infinity is zero
+I = 0 - eval(I,r2,0) -- I evaluated at r2 = infinity is zero
+
+check(I == 1/2 alpha^2)
+
+"ok"
+
+"Verify equation (3)"
+
+f = -psi (Z / r1) psi r1^2 r2^2
+
+I = 16 pi^2 integral(f,r1,r2)
+
+I = 0 - eval(I,r1,0) -- I evaluated at r1 = infinity is zero
+I = 0 - eval(I,r2,0) -- I evaluated at r2 = infinity is zero
+
+check(I == -Z alpha)
+
+"ok"
+
+"Verify equation (6)"
+
+A = 4 alpha^3 / r1 integral(exp(-2 alpha r2) r2^2, r2)
+B = 4 alpha^3 integral(exp(-2 alpha r2) r2, r2)
+
+check(A == 4 alpha^3 / r1 exp(-2 alpha r2) *
+(-r2^2 / (2 alpha) - r2 / (2 alpha^2) - 1 / (4 alpha^3)))
+
+check(B == 4 alpha^3 exp(-2 alpha r2) (-r2 / (2 alpha) - 1 / (4 alpha^2)))
+
+A = eval(A,r2,r1) - eval(A,r2,0)
+B = 0 - eval(B,r2,r1)
+
+I = A + B
+
+check(I == 1/r1 - 1/r1 exp(-2 alpha r1) - alpha exp(-2 alpha r1))
+
+"ok"
+
+"Verify equation (7)"
+
+I = 4 alpha^3 integral(exp(-2 alpha r1) I r1^2, r1)
+
+check(I == exp(-2 alpha r1) (-2 alpha^2 r1 - alpha) -
+exp(-4 alpha r1) (-alpha^2 r1 - 1/4 alpha) -
+exp(-4 alpha r1) (-alpha^3 r1^2 - 1/2 alpha^2 r1 - 1/8 alpha))
+
+I = 0 - eval(I,r1,0)
+
+check(I == 5/8 alpha)
+
+"ok"
+
+"Verify equation (5)"
+
+P(f,n) = eval(d((x^2 - 1)^n, x, n), x, f) / (2^n n!) -- Rodrigues's formula
+
+check(defint(P(expcos(theta),0) expsin(theta), theta, 0, pi) == 2)
+check(defint(P(expcos(theta),1) expsin(theta), theta, 0, pi) == 0)
+check(defint(P(expcos(theta),2) expsin(theta), theta, 0, pi) == 0)
+check(defint(P(expcos(theta),10) expsin(theta), theta, 0, pi) == 0)
+
+"ok"
+clear
+
+-- Verify Einstein's equilibrium equation (2) for Lyman-alpha line
+
+-- spontaneous emission
+
+A21 = 256 alpha^4 c / (6561 a0)
+
+-- induced emission
+
+B21 = c^2 / (2 h nu^3) A21
+
+-- absorption
+
+p1 = 2
+p2 = 6
+
+B12 = p2 / p1 B21
+
+"Coefficients for Lyman-alpha line"
+
+A21
+B21
+B12
+
+"Verify Einstein equilibrium equation (2)"
+
+rho = (2 h nu^3 / c^2) / (exp(h nu / (k T)) - 1)
+
+E(n) = -alpha hbar c / (2 n^2 a0)
+
+nu = (E(2) - E(1)) / h
+
+P = B12 rho p1 exp(-E(1) / (k T))
+Q = B21 rho p2 exp(-E(2) / (k T)) + A21 p2 exp(-E(2) / (k T))
+
+check(P == Q)
+
+"ok"
+
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+-- c, e, h, and k are exact values
+
+a0 = 5.29177210544 10^(-11) meter
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+epsilon0 = 8.8541878188 10^(-12) farad / meter
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+k = 1.380649 10^(-23) joule / kelvin
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+mu0 = 1.25663706127 10^(-6) newton / ampere^2
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+tesla = kilogram / second^2 / ampere
+volt = joule / coulomb
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+pi = float(pi) -- use numerical value of pi
+mu = me mp / (me + mp)
+a0 = a0 me / mu -- correction for reduced electron mass
+
+a0
+nu
+A21
+B21
+B12
+clear
+
+"How Planck calculated h and k"
+
+-- base units
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- derived units
+
+coulomb = ampere second
+farad = ampere^2 kilogram^(-1) meter^(-2) second^4
+joule = kilogram meter^2 second^(-2)
+volt = ampere^(-1) kilogram meter^2 second^(-3)
+
+centimeter = 10^(-2) meter
+erg = 10^(-7) joule
+
+"Kurlbaum measurement"
+
+S = 7.31 10^5 erg / (centimeter^2 second)
+S
+
+"Lummer and Pringsheim measurement"
+
+lambdam = 0.294 centimeter kelvin
+lambdam
+
+-- calculate
+
+c = 299792458 meter / second
+pi = float(pi) -- use numerical value of pi
+
+-- sigma is the Stefan-Boltzmann constant
+
+sigma = S / ((373 kelvin)^4 - (273 kelvin)^4)
+
+-- E is energy density at theta = 1
+
+E = 4 sigma / c
+
+-- R is h/k in Planck's paper
+
+R = 4.9651 lambdam / c
+
+"Solve for k"
+
+k = E (15/8 c^3 / pi^5) R^3
+k
+
+"Solve for h"
+
+h = k R
+h
+
+"Convert base units to joules"
+
+k = k "joule" / joule
+h = h "joule" / joule
+
+k
+h
+clear
+
+"Spontaneous emission coefficients for H-alpha"
+
+psi(n,l,m) = R(n,l) Y(l,m)
+
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0), n - l - 1, 2 l + 1) *
+         exp(-r / (n a0))
+
+-- associated Laguerre polynomial (k is a local var)
+
+L(x,n,m,k) = (n + m)! sum(k, 0, n, (-x)^k / ((n - k)! (m + k)! k!))
+
+-- spherical harmonic
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+-- integrate f
+
+I(f) = do(
+  f = f r^2 sin(theta), -- multiply by volume element
+  f = expform(f), -- convert to exponential form
+  f = defint(f,theta,0,pi,phi,0,2pi),
+  f = integral(f,r),
+  0 - eval(f,r,0) -- return value
+)
+
+X(fk,fi) = do(
+  xki = I(conj(fk) r sin(theta) cos(phi) fi),
+  yki = I(conj(fk) r sin(theta) sin(phi) fi),
+  zki = I(conj(fk) r cos(theta) fi),
+  conj(xki) xki + conj(yki) yki + conj(zki) zki -- return value
+)
+
+X3s2p = X(psi(2,1,1),psi(3,0,0)) +
+        X(psi(2,1,0),psi(3,0,0)) +
+        X(psi(2,1,-1),psi(3,0,0))
+
+X3p2s = X(psi(2,0,0),psi(3,1,1)) +
+        X(psi(2,0,0),psi(3,1,0)) +
+        X(psi(2,0,0),psi(3,1,-1))
+
+X3d2p = X(psi(2,1,1),psi(3,2,2)) +
+        X(psi(2,1,1),psi(3,2,1)) +
+        X(psi(2,1,1),psi(3,2,0)) +
+        X(psi(2,1,1),psi(3,2,-1)) +
+        X(psi(2,1,1),psi(3,2,-1)) +
+
+        X(psi(2,1,0),psi(3,2,2)) +
+        X(psi(2,1,0),psi(3,2,1)) +
+        X(psi(2,1,0),psi(3,2,0)) +
+        X(psi(2,1,0),psi(3,2,-1)) +
+        X(psi(2,1,0),psi(3,2,-1)) +
+
+        X(psi(2,1,-1),psi(3,2,2)) +
+        X(psi(2,1,-1),psi(3,2,1)) +
+        X(psi(2,1,-1),psi(3,2,0)) +
+        X(psi(2,1,-1),psi(3,2,-1)) +
+        X(psi(2,1,-1),psi(3,2,-1))
+
+-- average over 3 initial states per final state
+
+X3p2s = 1/3 X3p2s
+
+-- average over 5 initial states per final state
+
+X3d2p = 1/5 X3d2p
+
+E(n) = -alpha hbar c / (2 n^2 a0)
+omega32 = (E(3) - E(2)) / hbar
+
+A3s2p = 4 alpha omega32^3 X3s2p / (3 c^2)
+A3p2s = 4 alpha omega32^3 X3p2s / (3 c^2)
+A3d2p = 4 alpha omega32^3 X3d2p / (3 c^2)
+
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+-- c, e, h, and k are exact values
+
+a0 = 5.29177210544 10^(-11) meter
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+epsilon0 = 8.8541878188 10^(-12) farad / meter
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+k = 1.380649 10^(-23) joule / kelvin
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+mu0 = 1.25663706127 10^(-6) newton / ampere^2
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+tesla = kilogram / second^2 / ampere
+volt = joule / coulomb
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+pi = float(pi) -- use numerical value of pi
+mu = me mp / (me + mp)
+a0 = a0 me / mu -- correction for reduced electron mass
+
+A3s2p
+A3p2s
+A3d2p
+
+"Verify coefficients"
+
+err(a,b) = 2 abs((a - b) / (a + b)) -- relative error
+
+check(err(A3s2p, 6.313 10^6 / second) < 0.0001)
+check(err(A3p2s, 2.245 10^7 / second) < 0.0001)
+check(err(A3d2p, 6.465 10^7 / second) < 0.0001)
+
+"ok"
+clear
+
+-- Draw radial probability density for hydrogen atom electron
+
+"x axis: radius (nanometers)"
+
+"y axis: probability density (1/nanometers)"
+
+"n: principal quantum number"
+
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0), n - l - 1, 2 l + 1) *
+         exp(-r / (n a0))
+
+L(x,n,m,k) = (n + m)! sum(k,0,n,(-x)^k / ((n - k)! (m + k)! k!))
+
+a0 = 0.0529 -- Bohr radius in nanometers
+
+xrange = (0,2)
+yrange = (0,10)
+
+"n = 1"
+f = R(1,0)^2 r^2
+draw(f,r)
+
+"n = 2"
+f = R(2,0)^2 r^2
+draw(f,r)
+
+"n = 3"
+f = R(3,0)^2 r^2
+draw(f,r)
+clear
+
+"Verify hydrogen eigenfunctions"
+
+psi(n,l,m) = R(n,l) Y(l,m)
+
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0), n - l - 1, 2 l + 1) *
+         exp(-r / (n a0))
+
+-- associated Laguerre polynomial (k is a local var)
+
+L(x,n,m,k) = (n + m)! sum(k, 0, n, (-x)^k / ((n - k)! (m + k)! k!))
+
+-- spherical harmonic
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+-- Hamiltonian
+
+H(f) = -hbar^2 D(f) / (2 mu) - hbar^2 / (mu a0 r) f
+
+-- Laplacian
+
+D(f) = 1/r^2 d(r^2 d(f,r), r) +
+       1/(r^2 sin(theta)) d(sin(theta) d(f,theta), theta) +
+       1/(r sin(theta))^2 d(f,phi,2)
+
+-- E(n) returns the nth energy eigenvalue
+
+E(n) = -hbar^2 / (2 n^2 mu a0^2)
+
+for(n, 1, 3, for(l, 0, n - 1, for(m, -l, l,
+ f = psi(n,l,m),
+ check(H(f) == E(n) f)
+)))
+
+"ok"
+clear
+
+"Verify hydrogen energy formulas"
+
+A = -mu / (2 n^2) (e^2 / (4 pi epsilon0 hbar))^2
+B = -hbar^2 / (2 n^2 mu a0^2)
+C = -alpha hbar c / (2 n^2 a0)
+D = -alpha^2 mu c^2 / (2 n^2)
+
+e = sqrt(4 pi epsilon0 alpha hbar c)
+a0 = hbar / (alpha mu c)
+
+check(A == D)
+check(B == D)
+check(C == D)
+
+"ok"
+clear
+
+"Verify hydrogen radius"
+
+psi(n,l,m) = R(n,l) Y(l,m)
+ 
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0), n - l - 1, 2 l + 1) *
+         exp(-r / (n a0))
+
+-- associated Laguerre polynomial (k is a local var)
+
+L(x,n,m,k) = (n + m)! sum(k, 0, n, (-x)^k / ((n - k)! (m + k)! k!))
+
+-- spherical harmonic
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+for(n, 1, 3, for(l, 0, n - 1, for(m, -l, l,
+ a = psi(n,l,m),
+ y = conj(a) a r^2 sin(theta),
+ f = defint(expform(y), theta, 0, pi, phi, 0, 2 pi),
+ I = integral(r f, r),
+ rbar = 0 - eval(I,r,0),
+ check(rbar == (3 n^2 - l (l + 1)) / 2 a0)
+)))
+
+"ok"
+clear
+
+"Verify selection rules"
+
+-- energy levels
+
+na = 3
+nb = 2
+
+-- wave function
+
+psi(n,l,m) = R(n,l) Y(l,m)
+ 
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0), n - l - 1, 2 l + 1) *
+         exp(-r / (n a0))
+
+-- associated Laguerre polynomial (k is a local var)
+
+L(x,n,m,k) = (n + m)! sum(k, 0, n, (-x)^k / ((n - k)! (m + k)! k!))
+
+-- spherical harmonic
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+-- integrator
+
+I(f) = do(
+ f = f r^2 sin(theta), -- multiply by volume element
+ f = expform(f), -- convert to exponential form
+ f = defint(f, theta, 0, pi, phi, 0, 2 pi),
+ f = integral(f,r),
+ 0 - eval(f,r,0) -- return value
+)
+
+N = 0
+
+for(la, 0, na - 1, for(ma, -la, la,
+for(lb, 0, nb - 1, for(mb, -lb, lb,
+ psia = psi(na,la,ma),
+ psib = psi(nb,lb,mb),
+ xab = I(conj(psib) psia r sin(theta) cos(phi)),
+ yab = I(conj(psib) psia r sin(theta) sin(phi)),
+ zab = I(conj(psib) psia r cos(theta)),
+ Tab = conj(xab) xab + conj(yab) yab + conj(zab) zab,
+ test(Tab, do(
+  check(abs(lb - la) == 1),
+  check(abs(mb - ma) <= 1),
+  N = N + 1))
+))))
+
+"ok"
+
+"Number of allowed transitions"
+N
+clear
+
+-- inverse Laplace transform for 1 / (s^2 + a s + b)
+
+-- from Wolfram
+T = -(exp(t (-1/2 sqrt(a^2 - 4 b) - a/2)) - exp(t (1/2 sqrt(a^2 - 4 b) - a/2)))/sqrt(a^2 - 4 b)
+
+T = eval(T, a^2 - 4 b, K^2)
+
+T1 = exp(1/2 K t) / K
+T2 = -exp(-1/2 K t) / K
+
+check(T == (T1 + T2) exp(-1/2 a t))
+
+-- factor out i
+
+k = sqrt(4 b - a^2)
+K = i k
+check(T1 + T2 == 2 sin(1/2 k t) / k)
+
+f = 2 sin(1/2 k t) / k exp(-1/2 a t)
+check(T == f)
+
+F = 1 / (s^2 + a s + b)
+F
+"Inverse transform is"
+f
+clear
+
+-- inverse Laplace transform for s / (s^2 + a s + b)
+
+-- from Wolfram
+T = (a exp(t (-1/2 sqrt(a^2 - 4 b) - a/2)) - a exp(t (1/2 sqrt(a^2 - 4 b) - a/2)) + sqrt(a^2 - 4 b) exp(t (-1/2 sqrt(a^2 - 4 b) - a/2)) + sqrt(a^2 - 4 b) exp(t (1/2 sqrt(a^2 - 4 b) - a/2)))/(2 sqrt(a^2 - 4 b))
+
+T = eval(T, a^2 - 4 b, K^2)
+
+T1 = -a exp(1/2 K t) / (2 K)
+T2 = a exp(-1/2 K t) / (2 K)
+T3 = 1/2 exp(1/2 K t)
+T4 = 1/2 exp(-1/2 K t)
+
+check(T == (T1 + T2 + T3 + T4) exp(-1/2 a t))
+
+-- factor out i
+
+k = sqrt(4 b - a^2)
+K = i k
+check(T1 + T2 == -a sin(1/2 k t) / k)
+check(T3 + T4 == cos(1/2 k t))
+
+f = (cos(1/2 k t) - a sin(1/2 k t) / k) exp(-1/2 a t)
+check(T == f)
+
+F = s / (s^2 + a s + b)
+F
+"Inverse transform is"
+f
+clear
+
+-- Klein-Nishina formula
+
+E = sqrt(omega^2 + m^2)
+
+p1 = (omega, 0, 0, omega)
+p2 = (E, 0, 0, -omega)
+
+p3 = (omega,
+      omega sin(theta) cos(phi),
+      omega sin(theta) sin(phi),
+      omega cos(theta))
+
+p4 = (E,
+      -omega sin(theta) cos(phi),
+      -omega sin(theta) sin(phi),
+      -omega cos(theta))
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
+
+u41 = (E + m, 0, p4[4], p4[2] + i p4[3]) / sqrt(E + m)
+u42 = (0, E + m, p4[2] - i p4[3], -p4[4]) / sqrt(E + m)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+q1 = p1 + p2
+q2 = p4 - p1
+
+qslash1 = dot(q1,gmunu,gamma)
+qslash2 = dot(q2,gmunu,gamma)
+
+"Verify equation (1)"
+
+u41bar = dot(conj(u41),gamma0) -- adjoint of u41
+u42bar = dot(conj(u42),gamma0) -- adjoint of u42
+
+M111 = dot(u41bar, -i e gammaT, qslash1 + m I, -i e gammaT, u21)
+M112 = dot(u41bar, -i e gammaT, qslash1 + m I, -i e gammaT, u22)
+M121 = dot(u42bar, -i e gammaT, qslash1 + m I, -i e gammaT, u21)
+M122 = dot(u42bar, -i e gammaT, qslash1 + m I, -i e gammaT, u22)
+
+M211 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
+M212 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
+M221 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
+M222 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
+
+M11 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu)) +
+      contract(dot(M112, gmunu, transpose(conj(M112)), gmunu)) +
+      contract(dot(M121, gmunu, transpose(conj(M121)), gmunu)) +
+      contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
+
+M12 = contract(dot(M111, gmunu, conj(M211), gmunu)) +
+      contract(dot(M112, gmunu, conj(M212), gmunu)) +
+      contract(dot(M121, gmunu, conj(M221), gmunu)) +
+      contract(dot(M122, gmunu, conj(M222), gmunu))
+
+M21 = contract(dot(M211, gmunu, conj(M111), gmunu)) +
+      contract(dot(M212, gmunu, conj(M112), gmunu)) +
+      contract(dot(M221, gmunu, conj(M121), gmunu)) +
+      contract(dot(M222, gmunu, conj(M122), gmunu))
+
+M22 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu)) +
+      contract(dot(M212, gmunu, transpose(conj(M212)), gmunu)) +
+      contract(dot(M221, gmunu, transpose(conj(M221)), gmunu)) +
+      contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
+
+check(M12 == M21)
+
+pslash2 = dot(p2,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+P2 = pslash2 + m I
+P4 = pslash4 + m I
+
+Q1 = qslash1 + m I
+Q2 = qslash2 + m I
+
+T = dot(P2,gammaT,Q1,gammaT,P4,gammaL,Q1,gammaL)
+f11 = contract(T,3,4,2,3,1,2)
+
+T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q1,gammaL)
+f12 = contract(T,3,5,2,3,1,2)
+
+T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
+f22 = contract(T,3,4,2,3,1,2)
+
+check(e^4 f11 == M11)
+check(2 e^4 f12 == M12 + M21)
+check(e^4 f22 == M22)
+
+"ok"
+
+"Verify equation (2)"
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
+check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
+check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
+
+"ok"
+
+"Verify equation (3)"
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
+check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
+check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
+
+"ok"
+
+"Verify equation (4)"
+
+Lambda = ((E/m,0,0,omega/m),(0,1,0,0),(0,0,1,0),(omega/m,0,0,E/m))
+
+p1 = dot(Lambda,p1)
+p2 = dot(Lambda,p2)
+p3 = dot(Lambda,p3)
+p4 = dot(Lambda,p4)
+
+check(s == dot(p1 + p2, gmunu, p1 + p2))
+check(t == dot(p1 - p3, gmunu, p1 - p3))
+check(u == dot(p1 - p4, gmunu, p1 - p4))
+
+"ok"
+
+"Verify equation (2) for boosted momentum vectors"
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
+check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
+check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
+
+"ok"
+
+"Verify equation (5)"
+
+omegaL = dot(p1, (1,0,0,0))
+omegaLp = dot(p3, (1,0,0,0))
+
+check(omegaL == omega^2 / m + omega E / m)
+check(omegaLp == omega^2 cos(theta) / m + omega E / m)
+
+check(s == m^2 + 2 m omegaL)
+check(t == 2 m (omegaLp - omegaL))
+check(u == m^2 - 2 m omegaLp)
+
+"ok"
+
+"Verify equation (6)"
+
+d11 = (s - m^2)^2
+d12 = (s - m^2) (u - m^2)
+d22 = (u - m^2)^2
+
+fcom = 1/4 e^4 (f11/d11 + 2 f12/d12 + f22/d22)
+
+flab = 2 e^4 (omegaL/omegaLp + omegaLp/omegaL + (m/omegaL - m/omegaLp + 1)^2 - 1)
+
+check(fcom == flab)
+
+"ok"
+clear
+
+"Verify Laguerre polynomials"
+
+-- use eval to substitute arbitrary expression x for y (y is a local var)
+
+L(x,n,a,y) = eval(exp(y) / (y^a n!) d(y^(n + a) exp(-y), y, n), y, x)
+
+for(n, 1, 3,
+ y = L(x,n,a),
+ check(x d(y,x,x) + (a + 1 - x) d(y,x) + n y == 0)
+)
+
+-- for integer a (k is a local var)
+
+L(x,n,a,k) = (n + a)! sum(k, 0, n, (-x)^k / ((n - k)! (a + k)! k!))
+
+for(n, 1, 3, for(a, 0, n - 1,
+ y = L(x,n,a),
+ check(x d(y,x,x) + (a + 1 - x) d(y,x) + n y == 0)
+))
+
+"ok"
+clear
+
+"Verify quantum LRL operators"
+
+R = sqrt(x^2 + y^2 + z^2)
+
+-- linear momentum operators
+
+Px(f) = -i hbar d(f,x)
+Py(f) = -i hbar d(f,y)
+Pz(f) = -i hbar d(f,z)
+
+-- angular momentum operators
+
+Lx(f) = y Pz(f) - z Py(f)
+Ly(f) = z Px(f) - x Pz(f)
+Lz(f) = x Py(f) - y Px(f)
+
+-- Laplace-Runge-Lenz (LRL) operators
+
+Ax(f) = 1 / (2 m) *
+        (Py(Lz(f)) - Pz(Ly(f)) - Ly(Pz(f)) + Lz(Py(f))) -
+        Z / R x f
+
+Ay(f) = 1 / (2 m) *
+        (Pz(Lx(f)) - Px(Lz(f)) - Lz(Px(f)) + Lx(Pz(f))) -
+        Z / R y f
+
+Az(f) = 1 / (2 m) *
+        (Px(Ly(f)) - Py(Lx(f)) - Lx(Py(f)) + Ly(Px(f))) -
+        Z / R z f
+
+-- squared operators
+
+P2(f) = Px(Px(f)) + Py(Py(f)) + Pz(Pz(f))
+L2(f) = Lx(Lx(f)) + Ly(Ly(f)) + Lz(Lz(f))
+A2(f) = Ax(Ax(f)) + Ay(Ay(f)) + Az(Az(f))
+
+-- hamiltonian operator
+
+H(f) = 1 / (2 m) P2(f) - Z / R f
+
+-- psi is a generic function of x, y, and z
+
+psi = f(x,y,z)
+
+check(Ax(Lx(psi)) + Ay(Ly(psi)) + Az(Lz(psi)) == 0)
+
+check(Lx(Ax(psi)) + Ly(Ay(psi)) + Lz(Az(psi)) == 0)
+
+check(H(Ax(psi)) == Ax(H(psi)))
+check(H(Ay(psi)) == Ay(H(psi)))
+check(H(Az(psi)) == Az(H(psi)))
+
+check(A2(psi) == 2 / m H(L2(psi) + hbar^2 psi) + Z^2 psi)
+
+"ok"
+clear
+
+"Laplace transform example"
+
+X = B / (s - i omega)
+Y = s - A B / (s - i omega)
+
+Cb = X / Y
+
+a = -i omega
+b = -A B
+
+check(Cb == B / (s^2 + a s + b))
+
+k = sqrt(4 b - a^2)
+
+cb = B 2/k sin(1/2 k t) exp(-1/2 a t)
+
+ca = d(cb,t) / (B exp(i omega t))
+
+ca
+cb
+
+-- verify solutions
+
+X = cos(1/2 k t) exp(-1/2 i omega t) +
+    i omega / k sin(1/2 k t) exp(-1/2 i omega t)
+
+Y = 2 B / k sin(1/2 k t) exp(1/2 i omega t)
+
+check(ca == X)
+check(cb == Y)
+
+check(d(ca,t) == A exp(-i omega t) cb)
+check(d(cb,t) == B exp(i omega t) ca)
+
+check(eval(ca,t,0) == 1)
+check(eval(cb,t,0) == 0)
+
+"ok"
+clear
+
+-- use rectangular coordinates
+
+r = sqrt(x^2 + y^2 + z^2)
+
+F = exp(i k r) / r
+
+"Verify equation (1)"
+A = dot(grad(1/r),grad(exp(i k r)))
+B = div(grad(exp(i k r))) / r
+C = exp(i k r) div(grad(1/r))
+check(div(grad(F)) == 2 A + B + C)
+"ok"
+
+"Verify equation (2)"
+check(A == -i k exp(i k r) / r^2)
+"ok"
+
+"Verify equation (3)"
+check(B == 2 i k exp(i k r) / r^2 - k^2 exp(i k r) / r)
+"ok"
+
+-- verify for nonzero r
+
+"Verify equation (4)"
+check(div(grad(F)) == -k^2 F)
+"ok"
+clear
+
+"Verify Legendre polynomials"
+
+P(l,m) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+         1/(2^l l!) (1 - x^2)^(m/2) d((x^2 - 1)^l, x, l + m))
+
+for(l, 0, 2, for(m, -l, l,
+ f = P(l,m),
+ check((1 - x^2) d(f,x,2) - 2 x d(f,x) + (l (l + 1) - m^2 / (1 - x^2)) f == 0)
+))
+
+"ok"
+clear
+
+"l'Hopital's rule"
+
+f = log(1 - alpha / n^2)
+g = 1 / n
+
+check(d(f,n) == 2 alpha / (n^3 - alpha n))
+check(d(g,n) == -1 / n^2)
+
+y = d(f,n) / d(g,n)
+
+check(y == 2 alpha / (alpha / n - n))
+
+"ok"
+clear
+
+-- Compute diagonal elements of H in equation (10) of
+
+-- "Accurate energies of the He atom with undergraduate quantum mechanics"
+
+-- by Robert C. Masse and Thad G. Walker
+
+-- https://pages.physics.wisc.edu/~tgwalker/118.HeAtom.pdf
+
+-- equation (4)
+
+P(r,n,l) = sqrt(2 (n - l - 1)! / n^2 / (n + l)!) *
+           (4 r / n)^(l + 1) *
+           exp(-2 r / n) *
+           L(4 r / n, n - l - 1, 2 l + 1) 
+
+-- Laguerre polynomial
+
+L(x,n,a,k) = (n + a)! sum(k, 0, n, (-x)^k / ((n - k)! (a + k)! k!))
+
+-- equation 5
+
+E0(n1,n2) = -2 / n1^2 - 2 / n2^2
+
+-- R is distance
+-- N is number of intervals
+
+R = 20.0
+N = 400
+dr = R / N
+
+f1 = zero(N)
+f2 = zero(N)
+f3 = zero(N)
+f4 = zero(N)
+
+for(k, 1, N, f1[k] = P((k - 0.5) dr, 1, 0)^2)
+for(k, 1, N, f2[k] = P((k - 0.5) dr, 2, 0)^2)
+for(k, 1, N, f3[k] = P((k - 0.5) dr, 3, 0)^2)
+for(k, 1, N, f4[k] = P((k - 0.5) dr, 4, 0)^2)
+
+-- numerical integrator
+
+I(u,v) = sum(j, 1, N, sum(k, 1, N,
+ u[j] v[k] / (test(j > k, j, k) - 0.5)
+))
+
+H11 = E0(1,1) + I(f1,f1) dr
+H22 = E0(1,2) + I(f1,f2) dr
+H33 = E0(1,3) + I(f1,f3) dr
+H44 = E0(1,4) + I(f1,f4) dr
+
+H11
+H22
+H33
+H44
+
+-- compare with equation (10)
+
+check(abs(H11 - (-2.750)) < 0.001)
+check(abs(H22 - (-2.080)) < 0.001)
+check(abs(H33 - (-2.023)) < 0.001)
+check(abs(H44 - (-2.010)) < 0.001)
+
+"ok"
+clear
+
+-- Maxwell-Boltzmann velocity distribution
+
+fMB = (m / (2 pi k T))^(3/2) exp(-m v^2 / (2 k T))
+fMB
+
+-- Maxwell speed distribution (integrate over theta, then phi)
+
+fM = defint(fMB v^2 sin(theta), theta, 0, pi, phi, 0, 2 pi)
+fM
+
+"Verify integral"
+
+check(fM == 4 pi v^2 fMB)
+
+"ok"
+clear
+
+-- Verify formulas for Moller scattering
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
+
+p4 = (E,
+      -p sin(theta) cos(phi),
+      -p sin(theta) sin(phi),
+      -p cos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3]) / sqrt(E + m)
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4]) / sqrt(E + m)
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
+
+u31 = (E + m, 0, p3[4], p3[2] + i p3[3]) / sqrt(E + m)
+u32 = (0, E + m, p3[2] - i p3[3], -p3[4]) / sqrt(E + m)
+
+u41 = (E + m, 0, p4[4], p4[2] + i p4[3]) / sqrt(E + m)
+u42 = (0, E + m, p4[2] - i p4[3], -p4[4]) / sqrt(E + m)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+"Verify Casimir trick"
+
+u1 = (u11,u12)
+u2 = (u21,u22)
+u3 = (u31,u32)
+u4 = (u41,u42)
+
+u3bar = dot(conj(u3),gamma0) -- adjoint of u3
+u4bar = dot(conj(u4),gamma0) -- adjoint of u4
+
+M1(a,b,c,d) = e^2 dot(dot(u3bar[c],gammaT,u1[a]),dot(u4bar[d],gammaL,u2[b]))
+
+M2(a,b,c,d) = -e^2 dot(dot(u4bar[d],gammaT,u1[a]),dot(u3bar[c],gammaL,u2[b]))
+
+M11 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M1(a,b,c,d) conj(M1(a,b,c,d)) ))))
+
+M12 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M1(a,b,c,d) conj(M2(a,b,c,d)) ))))
+
+M21 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M2(a,b,c,d) conj(M1(a,b,c,d)) ))))
+
+M22 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+M2(a,b,c,d) conj(M2(a,b,c,d)) ))))
+
+check(M12 == M21)
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 + m I
+X2 = pslash2 + m I
+X3 = pslash3 + m I
+X4 = pslash4 + m I
+
+T1 = contract(dot(X3,gammaT,X1,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+f11 = contract(dot(T1,transpose(T2)))
+
+T = contract(dot(X3,gammaT,X1,gammaT,X4,gammaL,X2,gammaL),1,6)
+f12 = contract(contract(T,1,3))
+
+T1 = contract(dot(X4,gammaT,X1,gammaT),1,4)
+T2 = contract(dot(X3,gammaL,X2,gammaL),1,4)
+f22 = contract(dot(T1,transpose(T2)))
+
+check(e^4 f11 == M11)
+check(-2 e^4 f12 == M12 + M21)
+check(e^4 f22 == M22)
+
+"ok"
+
+"Verify probability density"
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+check(f11 == 32 p12^2 + 32 p14^2 - 64 m^2 p13 + 64 m^4)
+check(f12 == -32 p12^2 + 32 m^2 p12 + 32 m^2 p13 + 32 m^2 p14 - 32 m^4)
+check(f22 == 32 p12^2 + 32 p13^2 - 64 m^2 p14 + 64 m^4)
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4)
+check(f12 == -8 s^2 + 64 s m^2 - 96 m^4)
+check(f22 == 8 s^2 + 8 t^2 - 64 s m^2 - 64 t m^2 + 192 m^4)
+
+d11 = t^2
+d12 = t u
+d22 = u^2
+
+f = e^4 (f11/d11 - 2 f12/d12 + f22/d22) / 4
+
+-- high energy approximation
+
+m = 0
+
+check(f11 == 8 s^2 + 8 u^2)
+check(f12 == -8 s^2)
+check(f22 == 8 s^2 + 8 t^2)
+
+check(s == 4 E^2)
+check(t == -2 E^2 (1 - cos(theta)))
+check(u == -2 E^2 (1 + cos(theta)))
+
+A = (1 + cos(theta/2)^4) / sin(theta/2)^4
+B = 2 / (sin(theta/2)^2 cos(theta/2)^2)
+C = (1 + sin(theta/2)^4) / cos(theta/2)^4
+
+check(A == (s^2 + u^2) / t^2)
+check(B == 2 s^2 / (t u))
+check(C == (s^2 + t^2) / u^2)
+
+check(8 A == f11 / t^2)
+check(8 B == -2 f12 / (t u))
+check(8 C == f22 / u^2)
+
+check(f == 2 e^4 (A + B + C))
+check(f == 4 e^4 (cos(theta)^2 + 3)^2 / sin(theta)^4)
+
+m = quote(m)
+
+-- verify integral
+
+f = (cos(theta)^2 + 3)^2 / sin(theta)^4
+I = -8 cos(theta) / sin(theta)^2 - cos(theta)
+check(f sin(theta) == d(I,theta))
+
+"ok"
+clear
+
+"Verify that equation (1) is a solution"
+
+-- psi returns a hydrogen atom eigenfunction
+
+psi(n,l,m) = R(n,l) Y(l,m)
+
+-- R returns a radial eigenfunction
+ 
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0),n - l - 1,2 l + 1) *
+         exp(-r / (n a0))
+
+-- associated Laguerre polynomial (k is a local var)
+
+L(x,n,m,k) = (n + m)! sum(k,0,n, (-x)^k / ((n - k)! (m + k)! k!))
+
+-- Bohr radius
+
+a0 = 4 pi epsilon0 hbar^2 / (e^2 mu)
+
+-- Y returns a spherical harmonic eigenfunction
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+-- E(n) returns the nth energy eigenvalue
+
+E(n) = -mu / (2 n^2) (e^2 / (4 pi epsilon0 hbar))^2
+
+-- H is the Hamiltonian
+
+H1(psi) = -hbar^2 Lap1(psi) / (2 mu) - e^2 / (4 pi epsilon0 r1) psi
+
+Lap1(f) = 1/r1^2 d(r1^2 d(f,r1),r1) +
+         1/(r1^2 sin(theta1)) d(sin(theta1) d(f,theta1),theta1) +
+         1/(r1 sin(theta1))^2 d(f,phi1,2)
+
+H2(psi) = -hbar^2 Lap2(psi) / (2 mu) - e^2 / (4 pi epsilon0 r2) psi
+
+Lap2(f) = 1/r2^2 d(r2^2 d(f,r2),r2) +
+         1/(r2^2 sin(theta2)) d(sin(theta2) d(f,theta2),theta2) +
+         1/(r2 sin(theta2))^2 d(f,phi2,2)
+
+n1 = 1
+n2 = 1
+
+psi1 = eval(psi(n1,0,0),r,r1,theta,theta1,phi,phi1)
+psi2 = eval(psi(n2,0,0),r,r2,theta,theta2,phi,phi2)
+
+E1 = E(n1)
+E2 = E(n2)
+
+check(H1(psi1) == E1 psi1)
+check(H2(psi2) == E2 psi2)
+
+H0(psi) = -hbar^2 / (2 M) Lap0(psi)
+
+Lap0(f) = d(r0^2 d(f,r0), r0) / r0^2 +
+          d(sin(theta0) d(f,theta0), theta0) / (r0^2 sin(theta0)) +
+          d(f,phi0,2) / (r0 sin(theta0))^2
+
+k = sqrt(2 M (E - E1 - E2)) / hbar
+
+f = exp(i k r0) / r0
+
+F = f psi1 psi2
+
+check(H0(F) == (E - E1 - E2) F)
+check(H1(F) == E1 F)
+check(H2(F) == E2 F)
+
+check(H0(F) + H1(F) + H2(F) == E F)
+
+"ok"
+clear
+
+-- Verify muon decay formulas
+
+p1x = 0
+p1y = 0
+p1z = 0
+
+E1 = sqrt(p1x^2 + p1y^2 + p1z^2 + m1^2)
+E2 = sqrt(p2x^2 + p2y^2 + p2z^2 + m2^2)
+E3 = sqrt(p3x^2 + p3y^2 + p3z^2 + m3^2)
+E4 = sqrt(p4x^2 + p4y^2 + p4z^2 + m4^2)
+
+p1 = (E1, p1x, p1y, p1z) -- muon
+p2 = (E2, p2x, p2y, p2z) -- muon neutrino
+p3 = (E3, p3x, p3y, p3z) -- electron antineutrino
+p4 = (E4, p4x, p4y, p4z) -- electron
+
+u11 = (E1 + m1, 0, p1z, p1x + i p1y) / sqrt(E1 + m1)
+u12 = (0, E1 + m1, p1x - i p1y, -p1z) / sqrt(E1 + m1)
+
+u21 = (E2 + m2, 0, p2z, p2x + i p2y) / sqrt(E2 + m2)
+u22 = (0, E2 + m2, p2x - i p2y, -p2z) / sqrt(E2 + m2)
+
+v31 = (p3z, p3x + i p3y, E3 + m3, 0) / sqrt(E3 + m3)
+v32 = (p3x - i p3y, -p3z, 0, E3 + m3) / sqrt(E3 + m3)
+
+u41 = (E4 + m4, 0, p4z, p4x + i p4y) / sqrt(E4 + m4)
+u42 = (0, E4 + m4, p4x - i p4y, -p4z) / sqrt(E4 + m4)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma5 = i dot(gamma0,gamma1,gamma2,gamma3)
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+"Verify Casimir trick"
+
+u1 = (u11,u12) -- muon
+u2 = (u21,u22) -- muon neutrino
+v3 = (v31,v32) -- electron antineutrino
+u4 = (u41,u42) -- electron
+
+u2bar = dot(conj(u2),gamma0) -- adjoint of u2
+u4bar = dot(conj(u4),gamma0) -- adjoint of u4
+
+M(a,b,c,d) = dot(dot(u4bar[d],gammaT,I-gamma5,v3[c]),dot(u2bar[b],gammaL,I-gamma5,u1[a]))
+
+MM = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2, M(a,b,c,d) conj(M(a,b,c,d)) ))))
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+T1 = dot(pslash4,gammaT,I-gamma5,pslash3,gammaT,I-gamma5)
+T2 = dot(pslash2,gammaL,I-gamma5,pslash1,gammaL,I-gamma5)
+
+T1 = contract(T1,1,4) -- Tr
+T2 = contract(T2,1,4) -- Tr
+
+f = contract(dot(T1,transpose(T2)))
+
+check(f == MM)
+
+"ok"
+
+"Verify probability"
+
+check(f/4 == 64 dot(p1,gmunu,p3) dot(p2,gmunu,p4))
+
+"ok"
+
+-- Compute muon lifetime
+
+GF = 1.1663787 10^(-5) GeV^(-2)
+mmu = 1.883531627 10^(-28) kilogram -- muon mass
+h = 6.62607015 10^(-34) joule second
+c = 299792458 meter / second
+
+joule = kilogram meter^2 / second^2
+GeV = 10^9 1.602176634 10^(-19) joule
+
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+pi = float(pi)
+
+"Muon lifetime"
+
+96 pi^2 h / (GF^2 (mmu c^2)^5)
+clear
+
+-- Verify formulas for muon pair production
+
+p = sqrt(E^2 - m^2)
+rho = sqrt(E^2 - M^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      rho sin(theta) cos(phi),
+      rho sin(theta) sin(phi),
+      rho cos(theta))
+
+p4 = (E,
+      -rho sin(theta) cos(phi),
+      -rho sin(theta) sin(phi),
+      -rho cos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3]) / sqrt(E + m)
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4]) / sqrt(E + m)
+
+v21 = (p2[4], p2[2] + i p2[3], E + m, 0) / sqrt(E + m)
+v22 = (p2[2] - i p2[3], -p2[4], 0, E + m) / sqrt(E + m)
+
+u31 = (E + M, 0, p3[4], p3[2] + i p3[3]) / sqrt(E + M)
+u32 = (0, E + M, p3[2] - i p3[3], -p3[4]) / sqrt(E + M)
+
+v41 = (p4[4], p4[2] + i p4[3], E + M, 0) / sqrt(E + M)
+v42 = (p4[2] - i p4[3], -p4[4], 0, E + M) / sqrt(E + M)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+"Verify Casimir trick"
+
+u1 = (u11,u12)
+v2 = (v21,v22)
+u3 = (u31,u32)
+v4 = (v41,v42)
+
+v2bar = dot(conj(v2),gamma0) -- adjoint of v2
+u3bar = dot(conj(u3),gamma0) -- adjoint of u3
+
+M1(a,b,c,d) = dot(dot(u3bar[c],gammaL,v4[d]),dot(v2bar[b],gammaT,u1[a]))
+
+MM = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2, M1(a,b,c,d) conj(M1(a,b,c,d)) ))))
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+pslash3 = dot(p3,gmunu,gamma)
+pslash4 = dot(p4,gmunu,gamma)
+
+X1 = pslash1 + m I
+X2 = pslash2 - m I
+X3 = pslash3 + M I
+X4 = pslash4 - M I
+
+T1 = contract(dot(X3,gammaT,X4,gammaT),1,4)
+T2 = contract(dot(X2,gammaL,X1,gammaL),1,4)
+f = contract(dot(T1,transpose(T2)))
+
+check(f == MM)
+
+"ok"
+
+"Verify probability density"
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+
+check(4 s^2 == 64 E^4)
+
+check(f / (64 E^4) == 1 + cos(theta)^2 + (m^2 + M^2) / E^2 sin(theta)^2 + m^2 M^2 cos(theta)^2 / E^4)
+
+-- verify integral
+
+f = 1 + cos(theta)^2
+I = -1/3 cos(theta)^3 - cos(theta)
+check(f sin(theta) == d(I,theta))
+
+-- verify cdf
+
+F = (I - eval(I,theta,0)) / (eval(I,theta,pi) - eval(I,theta,0))
+check(F == -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2)
+
+"ok"
+clear
+
+-- frequencies in hertz (cycles per second)
+
+r = 2^(1/12)
+
+A4 = 440
+A4sharp = 440 r
+B4 = 440 r^2
+C5 = 440 r^3
+C5sharp = 440 r^4
+D5 = 440 r^5
+D5sharp = 440 r^6
+E5 = 440 r^7
+F5 = 440 r^8
+F5sharp = 440 r^9
+G5 = 440 r^10
+G5sharp = 440 r^11
+
+-- chord C F G (multiply freq by 2 pi to convert to radians)
+
+f = sin(2 pi C5 t) + sin(2 pi F5 t) + sin(2 pi G5 t)
+
+f = float(f) -- convert to floating point for faster drawing
+
+xrange = (0,0.05)
+draw(f,t)
+clear
+
+-- In this script, an octonion is a vector of 8 real numbers.
+
+-- M(x,y) returns the product of octonions x and y.
+
+-- C(x) returns the conjugate of octonion x.
+
+-- dot(x,x) returns the magnitude-squared of octonion x as a scalar.
+
+-- M(x,C(x)) returns the magnitude-squared of octonion x as another octonion.
+
+-- dot(x,x)*e0 and M(x,C(x)) return the same octonion.
+
+-- Use ordinary vector arithmetic to add and subtract octonions.
+
+e0 = (1,0,0,0,0,0,0,0)
+e1 = (0,1,0,0,0,0,0,0)
+e2 = (0,0,1,0,0,0,0,0)
+e3 = (0,0,0,1,0,0,0,0)
+e4 = (0,0,0,0,1,0,0,0)
+e5 = (0,0,0,0,0,1,0,0)
+e6 = (0,0,0,0,0,0,1,0)
+e7 = (0,0,0,0,0,0,0,1)
+
+-- octonion multiplication table (per Wikipedia)
+
+T = ((e0,e1,e2,e3,e4,e5,e6,e7),
+     (e1,-e0,e3,-e2,e5,-e4,-e7,e6),
+     (e2,-e3,-e0,e1,e6,e7,-e4,-e5),
+     (e3,e2,-e1,-e0,e7,-e6,e5,-e4),
+     (e4,-e5,-e6,-e7,-e0,e1,e2,e3),
+     (e5,e4,-e7,e6,-e1,-e0,-e3,e2),
+     (e6,e7,e4,-e5,-e2,e3,-e0,-e1),
+     (e7,-e6,e5,e4,-e3,-e2,e1,-e0))
+
+-- define M(x,y) for multiplying octonions x and y
+
+T = transpose(T,2,3)
+
+M(x,y) = dot(x,T,y)
+
+-- define conjugation function (flip component signs except first)
+
+C(x) = 2*dot(x,e0)*e0 - x
+
+-- define symbolic octonions
+
+x = (x0,x1,x2,x3,x4,x5,x6,x7)
+y = (y0,y1,y2,y3,y4,y5,y6,y7)
+z = (z0,z1,z2,z3,z4,z5,z6,z7)
+
+"Is octonion multiplication commutative?"
+
+test(M(x,y)=M(y,x),"yes","no")
+
+"Is octonion multiplication associative?"
+
+test(M(M(x,y),z)=M(x,M(y,z)),"yes","no")
+
+"Is octonion multiplication alternative?"
+
+test(and(M(M(x,x),y)=M(x,M(x,y)),
+         M(M(y,x),x)=M(y,M(x,x))),"yes","no")
+
+"Checking product of normed octonions is normed."
+
+w = M(x,y)
+
+test(dot(w,w)=dot(x,x)*dot(y,y),"ok","fail")
+
+"Checking product of an octonion and its conjugate is real."
+
+test(M(x,C(x))=dot(x,x)*e0,"ok","fail")
+
+"Checking octonion multiplication table."
+
+check(M(e0,e0)=e0)
+check(M(e0,e1)=e1)
+check(M(e0,e2)=e2)
+check(M(e0,e3)=e3)
+check(M(e0,e4)=e4)
+check(M(e0,e5)=e5)
+check(M(e0,e6)=e6)
+check(M(e0,e7)=e7)
+
+check(M(e1,e0)=e1)
+check(M(e1,e1)=-e0)
+check(M(e1,e2)=e3)
+check(M(e1,e3)=-e2)
+check(M(e1,e4)=e5)
+check(M(e1,e5)=-e4)
+check(M(e1,e6)=-e7)
+check(M(e1,e7)=e6)
+
+check(M(e2,e0)=e2)
+check(M(e2,e1)=-e3)
+check(M(e2,e2)=-e0)
+check(M(e2,e3)=e1)
+check(M(e2,e4)=e6)
+check(M(e2,e5)=e7)
+check(M(e2,e6)=-e4)
+check(M(e2,e7)=-e5)
+
+check(M(e3,e0)=e3)
+check(M(e3,e1)=e2)
+check(M(e3,e2)=-e1)
+check(M(e3,e3)=-e0)
+check(M(e3,e4)=e7)
+check(M(e3,e5)=-e6)
+check(M(e3,e6)=e5)
+check(M(e3,e7)=-e4)
+
+check(M(e4,e0)=e4)
+check(M(e4,e1)=-e5)
+check(M(e4,e2)=-e6)
+check(M(e4,e3)=-e7)
+check(M(e4,e4)=-e0)
+check(M(e4,e5)=e1)
+check(M(e4,e6)=e2)
+check(M(e4,e7)=e3)
+
+check(M(e5,e0)=e5)
+check(M(e5,e1)=e4)
+check(M(e5,e2)=-e7)
+check(M(e5,e3)=e6)
+check(M(e5,e4)=-e1)
+check(M(e5,e5)=-e0)
+check(M(e5,e6)=-e3)
+check(M(e5,e7)=e2)
+
+check(M(e6,e0)=e6)
+check(M(e6,e1)=e7)
+check(M(e6,e2)=e4)
+check(M(e6,e3)=-e5)
+check(M(e6,e4)=-e2)
+check(M(e6,e5)=e3)
+check(M(e6,e6)=-e0)
+check(M(e6,e7)=-e1)
+
+check(M(e7,e0)=e7)
+check(M(e7,e1)=-e6)
+check(M(e7,e2)=e5)
+check(M(e7,e3)=e4)
+check(M(e7,e4)=-e3)
+check(M(e7,e5)=-e2)
+check(M(e7,e6)=e1)
+check(M(e7,e7)=-e0)
+
+"ok"
+clear
+
+"Orbital angular momentum 1"
+
+X1(f) = x1 f
+X2(f) = x2 f
+X3(f) = x3 f
+
+P1(f) = -i hbar d(f,x1)
+P2(f) = -i hbar d(f,x2)
+P3(f) = -i hbar d(f,x3)
+
+L1(f) = X2(P3(f)) - X3(P2(f))
+L2(f) = X3(P1(f)) - X1(P3(f))
+L3(f) = X1(P2(f)) - X2(P1(f))
+
+Lsq(f) = L1(L1(f)) + L2(L2(f)) + L3(L3(f))
+
+psi = Psi(x1,x2,x3,t)
+
+"Verify equation (1)"
+check(X1(L3(psi)) - L3(X1(psi)) == -i hbar X2(psi))
+check(X2(L3(psi)) - L3(X2(psi)) == i hbar X1(psi))
+check(X3(L3(psi)) - L3(X3(psi)) == 0)
+"ok"
+
+"Verify equation (2)"
+check(P1(L3(psi)) - L3(P1(psi)) == -i hbar P2(psi))
+check(P2(L3(psi)) - L3(P2(psi)) == i hbar P1(psi))
+check(P3(L3(psi)) - L3(P3(psi)) == 0)
+"ok"
+
+"Verify equation (3)"
+check(L1(Lsq(psi)) - Lsq(L1(psi)) == 0)
+check(L2(Lsq(psi)) - Lsq(L2(psi)) == 0)
+check(L3(Lsq(psi)) - Lsq(L3(psi)) == 0)
+"ok"
+
+"Verify equation (4)"
+check(L2(L3(psi)) - L3(L2(psi)) == i hbar L1(psi))
+check(L3(L1(psi)) - L1(L3(psi)) == i hbar L2(psi))
+check(L1(L2(psi)) - L2(L1(psi)) == i hbar L3(psi))
+"ok"
+
+"Verify equation (5)"
+
+PxL = (P2(L3(psi)) - P3(L2(psi)),
+       P3(L1(psi)) - P1(L3(psi)),
+       P1(L2(psi)) - P2(L1(psi)))
+
+LxP = (L2(P3(psi)) - L3(P2(psi)),
+       L3(P1(psi)) - L1(P3(psi)),
+       L1(P2(psi)) - L2(P1(psi)))
+
+P = (P1(psi),P2(psi),P3(psi))
+
+check(PxL + LxP == 2 i hbar P)
+
+"ok"
+
+"Verify equation (6)"
+check(1/2 (PxL - LxP) == PxL - i hbar P)
+"ok"
+
+"Verify equation (7)"
+
+epsilon = (((0,0,0),(0,0,1),(0,-1,0)),
+           ((0,0,-1),(0,0,0),(1,0,0)),
+           ((0,1,0),(-1,0,0),(0,0,0)))
+
+S(I1,I2) = epsilon[I1,I2,1] P1(psi) + epsilon[I1,I2,2] P2(psi) + epsilon[I1,I2,3] P3(psi)
+
+check(L1(P1(psi)) - P1(L1(psi)) == i hbar S(1,1))
+check(L1(P2(psi)) - P2(L1(psi)) == i hbar S(1,2))
+check(L1(P3(psi)) - P3(L1(psi)) == i hbar S(1,3))
+
+check(L2(P1(psi)) - P1(L2(psi)) == i hbar S(2,1))
+check(L2(P2(psi)) - P2(L2(psi)) == i hbar S(2,2))
+check(L2(P3(psi)) - P3(L2(psi)) == i hbar S(2,3))
+
+check(L3(P1(psi)) - P1(L3(psi)) == i hbar S(3,1))
+check(L3(P2(psi)) - P2(L3(psi)) == i hbar S(3,2))
+check(L3(P3(psi)) - P3(L3(psi)) == i hbar S(3,3))
+
+"ok"
+clear
+
+"Orbital angular momentum 2"
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+Lx(f) = i hbar sin(phi) d(f,theta) +
+        i hbar cos(phi) cos(theta) / sin(theta) d(f,phi)
+
+cp(l,m) = sqrt(l (l + 1) - m (m + 1))
+cm(l,m) = sqrt(l (l + 1) - m (m - 1))
+
+cp(l,m) = sqrt((l - m) (l + m + 1))
+cm(l,m) = sqrt((l + m) (l - m + 1))
+
+"Verify for azimuth = 1"
+
+Ym = (Y(1,1),Y(1,0),Y(1,-1))
+
+Mx = zero(3,3)
+for(k,1,2, Mx[k,k+1] = 1/2 cp(1, 1 - k))
+for(k,1,2, Mx[k+1,k] = 1/2 cm(1, 2 - k))
+
+check((Lx(Y(1,1)),Lx(Y(1,0)),Lx(Y(1,-1))) == hbar dot(Mx,Ym))
+
+-- m = 1
+
+x = (1/2, sqrt(1/2), 1/2)
+check(dot(Mx,x) == x)
+psi = dot(x,Ym)
+check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
+check(Lx(psi) == hbar psi)
+
+-- m = 0
+
+x = (-sqrt(1/2), 0, sqrt(1/2))
+check(dot(Mx,x) == 0)
+psi = dot(x,Ym)
+check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
+check(Lx(psi) == 0)
+
+-- m = -1
+
+x = (-1/2, sqrt(1/2), -1/2)
+check(dot(Mx,x) == -x)
+psi = dot(x,Ym)
+check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
+check(Lx(psi) == -hbar psi)
+
+"ok"
+
+"Verify for azimuth = 2"
+
+Ym = (Y(2,2),Y(2,1),Y(2,0),Y(2,-1),Y(2,-2))
+
+Mx = zero(5,5)
+for(k,1,4, Mx[k,k+1] = 1/2 cp(2,2 - k))
+for(k,1,4, Mx[k+1,k] = 1/2 cm(2,3 - k))
+
+check((Lx(Y(2,2)),Lx(Y(2,1)),Lx(Y(2,0)),Lx(Y(2,-1)),Lx(Y(2,-2))) == hbar dot(Mx,Ym))
+
+-- m = 2
+
+x = (1/4, 1/2, 1/2 sqrt(3/2), 1/2, 1/4)
+check(dot(Mx,x) == 2 x)
+psi = dot(x,Ym)
+check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
+check(Lx(psi) == 2 hbar psi)
+
+-- m = -2
+
+x = (-1/4, 1/2, -1/2 sqrt(3/2), 1/2, -1/4)
+check(dot(Mx,x) == -2 x)
+psi = dot(x,Ym)
+check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
+check(Lx(psi) == -2 hbar psi)
+
+-- m = 1
+
+x = (-1/2, -1/2, 0, 1/2, 1/2)
+check(dot(Mx,x) == x)
+psi = dot(x,Ym)
+check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
+check(Lx(psi) == hbar psi)
+
+-- m = -1
+
+x = (-1/2, 1/2, 0, -1/2, 1/2)
+check(dot(Mx,x) == -x)
+psi = dot(x,Ym)
+check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
+check(Lx(psi) == -hbar psi)
+
+-- m = 0
+
+x = (1/2 sqrt(3/2), 0, -1/2, 0, 1/2 sqrt(3/2))
+check(dot(Mx,x) == 0)
+psi = dot(x,Ym)
+check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
+check(Lx(psi) == 0)
+
+"ok"
+clear
+
+"Probability of exactly 75 heads"
+f(k) = choose(n,k) p^k (1-p)^(n-k)
+n = 100
+p = 1/2
+float(f(75))
+
+F(x) = sum(k,0,x,f(k))
+
+"Verify symmetry"
+check(F(25) == 1 - F(74))
+"ok"
+
+"Probability that number of heads is beyond 5 standard deviations of the mean"
+float(2 F(25))
+
+"Probability that number of heads is within 1 standard deviation of the mean"
+float(F(55) - F(45))
+clear
+
+"Perturbation example"
+
+ca0 = a
+cb0 = b
+
+dca = -i/hbar Hab(t) exp(-i omega t) cb
+dcb = -i/hbar Hba(t) exp(i omega t) ca
+
+"Verify equation (1)"
+dca1 = eval(dca, cb, cb0)
+dcb1 = eval(dcb, ca, ca0)
+check(dca1 == -i b / hbar Hab(t) exp(-i omega t))
+check(dcb1 == -i a / hbar Hba(t) exp(i omega t))
+"ok"
+
+"Verify equation (2)"
+ca1 = ca0 + integral(dca1,t)
+cb1 = cb0 + integral(dcb1,t)
+check(ca1 == a - i b / hbar integral(Hab(t) exp(-i omega t), t))
+check(cb1 == b - i a / hbar integral(Hba(t) exp(i omega t), t))
+"ok"
+
+"Verify equation (3)"
+dca2 = eval(dca, cb, cb1)
+dcb2 = eval(dcb, ca, ca1)
+Ta = -i b / hbar Hab(t) exp(-i omega t) -
+     a / hbar^2 Hab(t) exp(-i omega t) *
+     integral(Hba(t) exp(i omega t), t)
+Tb = -i a / hbar Hba(t) exp(i omega t) -
+     b / hbar^2 Hba(t) exp(i omega t) *
+     integral(Hab(t) exp(-i omega t), t)
+check(dca2 == Ta)
+check(dcb2 == Tb)
+"ok"
+
+"Verify equation (4)"
+ca2 = ca0 + integral(dca2,t)
+I = integral(Hba(t) exp(i omega t), t)
+T = a - i b / hbar integral(Hab(t) exp(-i omega t), t) -
+    a / hbar^2 integral(Hab(t) exp(-i omega t) I, t)
+check(ca2 == T)
+"ok"
+
+"Verify equation (5)"
+cb2 = cb0 + integral(dcb2,t)
+I = integral(Hab(t) exp(-i omega t), t)
+T = b - i a / hbar integral(Hba(t) exp(i omega t), t) -
+    b / hbar^2 integral(Hba(t) exp(i omega t) I, t)
+check(cb2 == T)
+
+"ok"
+clear
+
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+
+-- a0       Bohr radius (per electron mass, not reduced electron mass)
+-- alpha    fine structure constant
+-- c        speed of light in vacuum
+-- e        elementary charge
+-- epsilon0 vacuum electric permittivity
+-- h        Planck constant
+-- hbar     reduced Planck constant
+-- k        Boltzmann constant
+-- me       electron mass
+-- mp       proton mass
+-- mu0      vacuum magnetic permeability
+
+-- c, e, h, and k are exact values
+
+a0 = 5.29177210544 10^(-11) meter
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+epsilon0 = 8.8541878188 10^(-12) farad / meter
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+k = 1.380649 10^(-23) joule / kelvin
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+mu0 = 1.25663706127 10^(-6) newton / ampere^2
+
+-- derived units
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+tesla = kilogram / second^2 / ampere
+volt = joule / coulomb
+
+-- base units (for printing)
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- eV per joule
+
+eV = 1/e coulomb / joule "eV"
+
+-- examples
+
+"Hydrogen atom"
+mu = me mp / (me + mp)
+E1 = -mu c^2 alpha^2 / 2
+E1
+
+"In electron volts"
+E1 eV
+
+"Elementary charge"
+e
+sqrt(4 float(pi) epsilon0 alpha hbar c) "coulomb" / coulomb -- convert to coulombs
+
+"Speed of light"
+c
+1 / sqrt(mu0 epsilon0)
+clear
+
+"Planck's law"
+
+rho = 2 h nu^3 / c^2 / (exp(h nu / k / T) - 1)
+rho
+
+"For T = 3000 kelvin"
+
+T = 3000 kelvin
+c = 299792458 meter / second
+h = 6.62607015 10^(-34) joule second -- exact since 2019 definition of kilogram
+k = 1.38064852 10^(-23) joule / kelvin
+
+rho = eval(rho, nu, nu / second) meter^2 / joule -- cancel physical units
+rho
+
+"Radiant energy (rho) vs frequency (nu)"
+
+xrange = (0,10^15)
+yrange = (0,10^(-8))
+draw(rho,nu)
+clear
+
+-- Your portfolio increased 30% over the last 5 years.
+
+-- What is the annualized rate of return?
+
+(1.3)^(1/5)
+clear
+
+Psi = Psi1(x,y,z,t) + i Psi2(x,y,z,t)
+
+J = i hbar / (2 m) (Psi grad(conj(Psi)) - conj(Psi) grad(Psi))
+
+"Verify equation (1)"
+T = Psi div(grad(conj(Psi))) - conj(Psi) div(grad(Psi))
+check(div(J) == i hbar / (2 m) T)
+"ok"
+
+"Verify equation (2)"
+T = conj(Psi) (i hbar / (2 m) div(grad(Psi)) - i / hbar V Psi) +
+    Psi (-i hbar / (2 m) div(grad(conj(Psi))) + i / hbar V conj(Psi))
+check(div(J) == -T)
+"ok"
+clear
+
+"Exercise 1. Verify eigenstates and eigenvalues."
+
+Hhat(f) = phat(phat(f)) / (2 m) + V f
+phat(f) = -i hbar d(f,x)
+V = m omega^2 x^2 / 2
+
+psi(n) = C(n) exp(-m omega x^2 / (2 hbar)) H(n, x sqrt(m omega / hbar))
+C(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4)
+H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
+
+E(n) = hbar omega (n + 1/2)
+
+check(Hhat(psi(0)) == E(0) psi(0))
+check(Hhat(psi(1)) == E(1) psi(1))
+check(Hhat(psi(2)) == E(2) psi(2))
+check(Hhat(psi(3)) == E(3) psi(3))
+check(Hhat(psi(4)) == E(4) psi(4))
+
+"ok"
+
+"Exercise 2. Verify ladder operators."
+
+clear
+
+psi(n) = C(n) exp(-m omega x^2 / (2 hbar)) H(n, x sqrt(m omega / hbar))
+C(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4)
+H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
+
+ahat(f) = sqrt(m omega / (2 hbar)) (x f + i phat(f) / (m omega))
+ahat1(f) = sqrt(m omega / (2 hbar)) (x f - i phat(f) / (m omega))
+phat(f) = -i hbar d(f,x)
+
+check(ahat(psi(0)) == 0)
+check(ahat(psi(1)) == psi(0))
+check(ahat(psi(2)) == sqrt(2) psi(1))
+check(ahat(psi(3)) == sqrt(3) psi(2))
+check(ahat(psi(4)) == 2 psi(3))
+
+check(ahat1(psi(0)) == psi(1))
+check(ahat1(psi(1)) == sqrt(2) psi(2))
+check(ahat1(psi(2)) == sqrt(3) psi(3))
+check(ahat1(psi(3)) == 2 psi(4))
+check(ahat1(psi(4)) == sqrt(5) psi(5))
+
+-- number operator
+
+Nhat(f) = ahat1(ahat(f))
+
+check(Nhat(psi(0)) == 0)
+check(Nhat(psi(1)) == psi(1))
+check(Nhat(psi(2)) == 2 psi(2))
+check(Nhat(psi(3)) == 3 psi(3))
+check(Nhat(psi(4)) == 4 psi(4))
+
+"ok"
+
+"Exercise 3. Verify probability."
+
+clear
+
+psi(n) = C(n) exp(-m omega x^2 / (2 hbar)) H(n, x sqrt(m omega / hbar))
+C(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4)
+H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
+
+-- dummy values ok because of normalization constant
+
+m = 1
+omega = 1
+hbar = 1
+
+Psi = (psi(2) + psi(3)) / sqrt(2)
+
+f = conj(Psi) Psi
+
+Pr = float(defint(f, x, 0, 100.0))
+
+check(infixform(Pr) == "0.845494")
+
+"ok"
+
+"Exercise 4."
+
+clear
+
+e = 1.602176634 10^(-19) coulomb     -- elementary charge
+h = 6.62607015 10^(-34) joule second -- Planck constant
+hbar = h / float(2 pi)               -- reduced Planck constant
+
+electronvolt = e joule / coulomb
+joule = kilogram meter^2 / second^2
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+m = 6.64 10^(-27) kilogram
+V = 1 electronvolt
+L = 10^(-6) meter
+
+omega = sqrt(2 V / m) / L
+omega
+
+psi(n) = C(n) exp(-m omega x^2 / (2 hbar)) H(n, x sqrt(m omega / hbar))
+C(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4)
+H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
+
+Psi = (psi(2) + psi(3)) / sqrt(2)
+infty = 100.0 meter
+
+xbar = float(defint(x conj(Psi) Psi, x, -infty, infty))
+xbar
+
+Hhat(f) = phat(phat(f)) / (2 m) + V f
+phat(f) = -i hbar d(f,x)
+V = m omega^2 x^2 / 2
+
+Ebar = float(defint(conj(Psi) Hhat(Psi), x, -infty, infty))
+Ebar = Ebar / electronvolt "electronvolt" -- convert joule to electronvolt
+Ebar
+
+E(n) = hbar omega (n + 1/2)
+
+"Expected eigenvalue"
+
+1/2 (E(2) + E(3)) / electronvolt "electronvolt"
+clear
+
+-- In this script, a quaternion is a vector of 4 real numbers.
+
+-- M(x,y) returns the product of quaternions x and y.
+
+-- C(x) returns the conjugate of quaternion x.
+
+-- dot(x,x) returns the magnitude-squared of quaternion x as a scalar.
+
+-- M(x,C(x)) returns the magnitude-squared of quaternion x as another quaternion.
+
+-- dot(x,x)*e0 and M(x,C(x)) return the same quaternion.
+
+-- Use ordinary vector arithmetic to add and subtract quaternions.
+
+e0 = (1,0,0,0)
+e1 = (0,1,0,0)
+e2 = (0,0,1,0)
+e3 = (0,0,0,1)
+
+-- quaternion multiplication table (per Wikipedia)
+
+T = ((e0,e1,e2,e3),
+     (e1,-e0,e3,-e2),
+     (e2,-e3,-e0,e1),
+     (e3,e2,-e1,-e0))
+
+-- define M(x,y) for multiplying quaternions x and y
+
+T = transpose(T,2,3)
+
+M(x,y) = dot(x,T,y)
+
+-- define conjugation function (flip component signs except first)
+
+C(x) = 2*dot(x,e0)*e0 - x
+
+-- define symbolic quaternions
+
+x = (x0,x1,x2,x3)
+y = (y0,y1,y2,y3)
+z = (z0,z1,z2,z3)
+
+"Is quaternion multiplication commutative?"
+
+test(M(x,y)=M(y,x),"yes","no")
+
+"Is quaternion multiplication associative?"
+
+test(M(M(x,y),z)=M(x,M(y,z)),"yes","no")
+
+"Is quaternion multiplication alternative?"
+
+test(and(M(M(x,x),y)=M(x,M(x,y)),
+         M(M(y,x),x)=M(y,M(x,x))),"yes","no")
+
+"Checking product of normed quaternions is normed."
+
+w = M(x,y)
+
+test(dot(w,w)=dot(x,x)*dot(y,y),"ok","fail")
+
+"Checking product of a quaternion and its conjugate is real."
+
+test(M(x,C(x))=dot(x,x)*e0,"ok","fail")
+
+"Checking quaternion multiplication table."
+
+check(M(e0,e0)=e0)
+check(M(e0,e1)=e1)
+check(M(e0,e2)=e2)
+check(M(e0,e3)=e3)
+
+check(M(e1,e0)=e1)
+check(M(e1,e1)=-e0)
+check(M(e1,e2)=e3)
+check(M(e1,e3)=-e2)
+
+check(M(e2,e0)=e2)
+check(M(e2,e1)=-e3)
+check(M(e2,e2)=-e0)
+check(M(e2,e3)=e1)
+
+check(M(e3,e0)=e3)
+check(M(e3,e1)=e2)
+check(M(e3,e2)=-e1)
+check(M(e3,e3)=-e0)
+
+"ok"
+clear
+
+-- V. Rojansky, "Introductory Quantum Mechanics", p. 24
+
+u(n) = A(n) H(n) exp(-x^2 / 2)
+
+A(n) = 1 / sqrt(2^n n! sqrt(pi))
+
+H(n) = (-1)^n exp(x^2) d(exp(-x^2),x,n)
+
+yrange = (-1,1)
+
+for(n,0,5, y = u(n), y = float(y), draw(y))
+clear
+
+"Rotating wave approximation"
+
+Vab = A exp(i phi) -- arbitrary complex number
+Vba = conj(Vab)
+
+cb = -i/hbar Vba sin(omegar t) / (2 omegar) exp(i/2 (omega0 - omega) t)
+ca = -2 hbar / (i Vba exp(i (omega0 - omega) t)) d(cb,t)
+
+check(ca == (cos(omegar t) + i (omega0 - omega) / (2 omegar) sin(omegar t)) exp(-i/2 (omega0 - omega) t))
+
+omegar = 1/2 sqrt((omega0 - omega)^2 + Vab Vba / hbar^2)
+
+"Verify equation (3)"
+check(d(ca,t) == -i / (2 hbar) Vab exp(i (omega - omega0) t) cb)
+"ok"
+
+"Verify equation (4)"
+check(d(cb,t) == -i / (2 hbar) Vba exp(i (omega0 - omega) t) ca)
+"ok"
+clear
+
+"Verify equation (1)"
+f = exp(i p r / hbar - epsilon r) - exp(-i p r / hbar - epsilon r)
+F = integral(f,r)
+I = 0 - eval(F,r,0)
+check(I == -1 / (i p / hbar - epsilon) - 1 / (i p / hbar + epsilon))
+"ok"
+
+"Verify equation (2)"
+epsilon = 0
+f = -m Z e^2 / (4 pi epsilon0 hbar^2) hbar / (i p) I
+check(f == -m Z e^2 / (2 pi epsilon0 p^2))
+e = sqrt(4 pi epsilon0 alpha hbar c)
+p = sqrt(4 m E (1 - cos(theta)))
+dsigma = conj(f) f
+check(dsigma == Z^2 alpha^2 (hbar c)^2 / (4 E^2 (1 - cos(theta))^2))
+"ok"
+
+"Verify equation (3)"
+check(dsigma == Z^2 alpha^2 (hbar c)^2 / (16 E^2 sin(theta/2)^4))
+"ok"
+clear
+
+"Verify equation (1)"
+f = exp(i p / hbar r - r / a) - exp(-i p / hbar r - r / a)
+F = integral(f,r)
+I = 0 - eval(F,r,0)
+check(I == -1 / (i p / hbar - 1 / a) - 1 / (i p / hbar + 1 / a))
+f = -m Z e^2 / (4 pi epsilon0 hbar^2) hbar / (i p) I
+check(f == -m Z e^2 / (2 pi epsilon0 (p^2 + (hbar / a)^2)))
+"ok"
+
+"Verify equation (2)"
+e = sqrt(4 pi epsilon0 alpha hbar c)
+p = sqrt(4 m E (1 - cos(theta)))
+check(f == -2 m Z alpha hbar c / (4 m E (1 - cos(theta)) + (hbar/a)^2))
+"ok"
+clear
+
+-- Verify formulas for Rutherford scattering
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+
+p2 = (E,
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3]) / sqrt(E + m)
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4]) / sqrt(E + m)
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+"Verify Casimir trick"
+
+u21bar = dot(conj(u22),gamma0) -- adjoint of u21
+u22bar = dot(conj(u22),gamma0) -- adjoint of u22
+
+M11 = dot(u21bar, gamma0, u11)
+M12 = dot(u21bar, gamma0, u12)
+M21 = dot(u22bar, gamma0, u11)
+M22 = dot(u22bar, gamma0, u12)
+
+M = 1/2 (conj(M11) M11 + conj(M12) M12 + conj(M21) M21 + conj(M22) M22)
+
+pslash1 = dot(p1,gmunu,gamma)
+pslash2 = dot(p2,gmunu,gamma)
+
+f = 1/2 contract(dot(pslash2 + m I, gamma0, pslash1 + m I, gamma0))
+
+check(f == M)
+
+"ok"
+
+"Verify probability density"
+
+check(f == 2 (E^2 + m^2 + p^2 cos(theta)))
+
+q = p1 - p2
+q4 = dot(q,gmunu,q)^2
+check(q4 == 16 p^4 sin(theta/2)^4)
+check(q4 == 4 p^4 (cos(theta) - 1)^2)
+
+-- verify integral
+
+f = 1 / (cos(theta) - 1)^2
+I = 1 / (cos(theta) - 1)
+check(f sin(theta) == d(I,theta))
+
+-- verify cdf
+
+F = (I - eval(I,theta,a)) / (eval(I,theta,pi) - eval(I,theta,a))
+check(F == 2 (cos(a) - cos(theta)) / ((1 + cos(a)) (1 - cos(theta))))
+
+"ok"
+clear
+
+-- Geiger and Marsden data
+
+theta = (150,135,120,105,75,60,45,37.5,30,22.5,15)
+y = (22.2,27.4,33.0,47.3,136,320,989,1760,5260,20300,105400)
+
+theta = float(2 pi) theta / 360 -- convert to radians
+
+"Predicted values"
+x = 1 / (1 - cos(theta))^2
+yhat = x / sum(x) sum(y)
+yhat
+
+"Coefficient of determination (R squared)"
+
+ybar = sum(y) / dim(y)
+
+RSS = sum((y - yhat)^2) -- residual sum of squares
+TSS = sum((y - ybar)^2) -- total sum of squares
+
+1 - RSS / TSS
+clear
+
+"Rydberg unit of energy"
+
+-- planck constant (exact value since 2019 definition of kilogram)
+
+h = 6.62607015 10^(-34) joule second
+
+-- electron mass
+
+me = 9.1093837015 10^(-31) kilogram
+
+-- elementary charge
+
+e = 1.602176634 10^(-19) coulomb
+
+-- vacuum electric permittivity
+
+epsilon0 = 8.8541878128 10^(-12) farad / meter
+
+-- derived units
+
+joule = kilogram meter^2 / second^2
+coulomb = ampere second
+volt = joule / coulomb
+farad = coulomb / volt
+
+-- base units (for printing)
+
+ampere = "ampere"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+-- rydberg unit of energy
+
+Ry = me e^4 / (8 h^2 epsilon0^2)
+
+-- convert to electron volts
+
+Ry = Ry 1/e coulomb / joule "eV"
+Ry
+clear
+
+"1. Annihilation"
+
+N = 12 -- number of bins
+
+pi = float(pi) -- use numerical value of pi
+a = pi / N
+I = 2 cos(theta) + 2 log(1 - cos(theta)) - 2 log(1 + cos(theta))
+F = (I - eval(I,theta,a)) / (eval(I,theta,pi-a) - eval(I,theta,a))
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability (first and last not observed)"
+
+P = zero(N)
+for(k,2,N-1, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"2. Bhabha scattering"
+
+N = 12 -- number of bins
+
+pi = float(pi) -- use numerical value of pi
+a = pi / N
+I = 16 / (cos(theta) - 1) -
+    1/3 cos(theta)^3 -
+    cos(theta)^2 -
+    9 cos(theta) -
+    16 log(1 - cos(theta))
+F = (I - eval(I,theta,a)) / (eval(I,theta,pi) - eval(I,theta,a))
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability (first bin not observed)"
+
+P = zero(N)
+for(k,2,N, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"3. Compton scattering"
+
+-- number of bins
+
+N = 12
+
+-- incident energy
+
+E = 0.1 10^6 eV
+omega = E / hbar
+
+joule = kilogram meter^2 / second^2
+
+c = 299792458.0 meter / second
+eV = 1.602176634 10^(-19) joule
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+me = 9.1093837015 10^(-31) kilogram
+
+R = hbar omega / (me c^2)
+
+I = -cos(theta) / R^2 +
+    log(1 + R (1 - cos(theta))) (1/R - 2/R^2 - 2/R^3) -
+    1 / (2 R (1 + R (1 - cos(theta)))^2) +
+    1 / (1 + R (1 - cos(theta))) (-2/R^2 - 1/R^3)
+
+pi = float(pi) -- use numerical value of pi
+
+F = (I - eval(I,theta,0)) / (eval(I,theta,pi) - eval(I,theta,0))
+
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability"
+
+P = zero(N)
+for(k,1,N, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"4. Moller scattering"
+
+N = 12 -- number of bins
+
+pi = float(pi) -- use numerical value of pi
+a = pi / N
+I = -8 cos(theta) / sin(theta)^2 - cos(theta)
+F = (I - eval(I,theta,a)) / (eval(I,theta,pi-a) - eval(I,theta,a))
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability (first and last not observed)"
+
+P = zero(N)
+for(k,2,N-1, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"5. Muon pair production"
+
+N = 12 -- number of bins
+
+pi = float(pi) -- use numerical value of pi
+F = -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability"
+
+P = zero(N)
+for(k,1,N, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"6. Rutherford scattering"
+
+N = 12 -- number of bins
+
+pi = float(pi) -- use numerical value of pi
+a = pi / N
+I = 1 / (cos(theta) - 1)
+F = (I - eval(I,theta,a)) / (eval(I,theta,pi) - eval(I,theta,a))
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability (first bin not observed)"
+
+P = zero(N)
+for(k,2,N, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+
+clear
+"7. Thomson scattering"
+
+-- number of bins
+
+N = 12
+
+pi = float(pi) -- use numerical value of pi
+f = 1 + cos(theta)^2
+I = integral(f,theta)
+F = (I - eval(I,theta,0)) / (eval(I,theta,pi) - eval(I,theta,0))
+f = d(F,theta)
+
+"Probability density function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(f,theta)
+
+"Cumulative distribution function"
+
+xrange = (0,pi)
+yrange = (0,1)
+draw(F,theta)
+
+"Bin probability"
+
+P = zero(N)
+for(k,1,N, P[k] = eval(F,theta,k pi/N) - eval(F,theta,(k-1) pi/N))
+h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
+xrange = (0,N)
+yrange = (0,1)
+draw(h,x)
+clear
+
+a = i m / (2 hbar epsilon)
+C = sqrt(2 pi i hbar epsilon / m)
+
+"Verify integral (1)"
+check(sqrt(-pi / a) == C)
+"ok"
+
+"Verify integral (3)"
+check(1/2 sqrt(-pi / a) (-1 / (2 a)) == C i hbar epsilon / (2 m))
+"ok"
+clear
+
+C = (2 pi i hbar epsilon / m)^(3/2)
+A = (Ax,Ay,Az)
+Y = exp(-i q^2 epsilon / (2 hbar m c^2) dot(A,A))
+
+-- gaussian integrals
+
+G0(a,b) = sqrt(-pi / a) exp(-b^2 / (4 a))
+G1(a,b) = sqrt(-pi / a) (-b / (2 a)) exp(-b^2 / (4 a))
+G2(a,b) = sqrt(-pi / a) (-1 / (2 a)) (1 - b^2 / (2 a)) exp(-b^2 / (4 a))
+
+"Verify integral (1)"
+
+a = i m / (2 hbar epsilon)
+b = -i q / (hbar c)
+I1 = G0(a, b Ax) G0(a, b Ay) G0(a, b Az)
+
+check(I1 == C Y)
+
+"ok"
+
+"Verify integral (2)"
+
+I2 = G1(a, b Ax) G0(a, b Ay) G0(a, b Az) d(psi(),x) +
+     G0(a, b Ax) G1(a, b Ay) G0(a, b Az) d(psi(),y) +
+     G0(a, b Ax) G0(a, b Ay) G1(a, b Az) d(psi(),z)
+
+check(I2 == C Y q epsilon / (m c) dot(A,grad(psi())))
+
+"ok"
+
+"Verify integral (3)"
+
+I3 = G2(a, b Ax) G0(a, b Ay) G0(a, b Az) 1/2 d(psi(),x,x) +
+     G0(a, b Ax) G2(a, b Ay) G0(a, b Az) 1/2 d(psi(),y,y) +
+     G0(a, b Ax) G0(a, b Ay) G2(a, b Az) 1/2 d(psi(),z,z)
+
+-- discard terms of order C epsilon^2
+
+I3 = eval(I3,epsilon^(7/2),0)
+
+check(I3 == C Y i hbar epsilon / (2 m) div(grad(psi())))
+
+"ok"
+clear
+
+"Verify equation (4)"
+
+K0 = sqrt(m / (2 pi i hbar (t - ta))) *
+     exp(i m (x - xa)^2 / (2 hbar (t - ta)))
+
+check(d(K0,t) == i hbar / (2 m) d(K0,x,x))
+
+"ok"
+clear
+
+-- metric tensor
+
+gdd = zero(4,4)
+
+gdd[1,1] = xi(r)
+gdd[2,2] = -1/xi(r)
+gdd[3,3] = r^2
+gdd[4,4] = r^2 sin(theta)^2
+
+X = (t,r,theta,phi) -- for computing gradients
+
+-- Step 1. Calculate guu
+
+guu = inv(gdd)
+
+-- Step 2. Calculate connection coefficients ("Gravitation" by MTW p. 210)
+--
+-- Gamma    = 1/2 (g     + g     - g    )
+--      abc         ab,c    ac,b    bc,a
+
+gddd = d(gdd,X)
+
+GAMDDD = 1/2 (gddd + transpose(gddd,2,3) -
+transpose(gddd,2,3,1,2)) -- transpose bc,a to (,a)bc
+
+GAMUDD = dot(guu,GAMDDD) -- raise first index
+
+-- Step 3. Calculate Riemann tensor (MTW p. 219)
+--
+--  a           a            a            a        u          a        u
+-- R     = Gamma      - Gamma      + Gamma    Gamma    - Gamma    Gamma
+--   bcd         bd,c         bc,d         uc       bd         ud       bc
+
+GAMUDDD = d(GAMUDD,X)
+
+GAMGAM = dot(transpose(GAMUDD,2,3),GAMUDD)
+
+RUDDD = transpose(GAMUDDD,3,4) - GAMUDDD +
+transpose(GAMGAM,2,3) - transpose(GAMGAM,2,3,3,4)
+
+-- Step 4. Calculate Ricci tensor (MTW p. 343)
+--
+--        a
+-- R   = R
+--  uv     uav
+
+RDD = contract(RUDDD,1,3)
+
+-- Step 5. Calculate Ricci scalar (MTW p. 343)
+--
+--      u
+-- R = R
+--       u
+
+R = contract(dot(guu,RDD))
+
+-- Step 6. Calculate Einstein tensor (MTW p. 343)
+--
+-- G   = R   - 1/2 g   R
+--  uv    uv        uv
+
+Gmunu = RDD - 1/2 gdd R
+
+"Einstein tensor"
+
+Gmunu
+
+"Verify Einstein tensor vanishes for Schwarzschild metric"
+
+xi(r) = 2 M/r - 1
+xi
+
+Gmunu = simplify(Gmunu)
+Gmunu
+clear
+
+-- In this script, a sedenion is a vector of 16 real numbers.
+
+-- M(x,y) returns the product of sedenions x and y.
+
+-- C(x) returns the conjugate of sedenion x.
+
+-- Use ordinary vector arithmetic to add and subtract sedenions.
+
+e0  = (1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+e1  = (0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+e2  = (0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0)
+e3  = (0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0)
+e4  = (0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0)
+e5  = (0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0)
+e6  = (0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0)
+e7  = (0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0)
+e8  = (0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0)
+e9  = (0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0)
+e10 = (0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0)
+e11 = (0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0)
+e12 = (0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0)
+e13 = (0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0)
+e14 = (0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0)
+e15 = (0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1)
+
+-- sedenion multiplication table (per Wikipedia)
+
+T = ((e0,e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12,e13,e14,e15),
+     (e1,-e0,e3,-e2,e5,-e4,-e7,e6,e9,-e8,-e11,e10,-e13,e12,e15,-e14),
+     (e2,-e3,-e0,e1,e6,e7,-e4,-e5,e10,e11,-e8,-e9,-e14,-e15,e12,e13),
+     (e3,e2,-e1,-e0,e7,-e6,e5,-e4,e11,-e10,e9,-e8,-e15,e14,-e13,e12),
+     (e4,-e5,-e6,-e7,-e0,e1,e2,e3,e12,e13,e14,e15,-e8,-e9,-e10,-e11),
+     (e5,e4,-e7,e6,-e1,-e0,-e3,e2,e13,-e12,e15,-e14,e9,-e8,e11,-e10),
+     (e6,e7,e4,-e5,-e2,e3,-e0,-e1,e14,-e15,-e12,e13,e10,-e11,-e8,e9),
+     (e7,-e6,e5,e4,-e3,-e2,e1,-e0,e15,e14,-e13,-e12,e11,e10,-e9,-e8),
+     (e8,-e9,-e10,-e11,-e12,-e13,-e14,-e15,-e0,e1,e2,e3,e4,e5,e6,e7),
+     (e9,e8,-e11,e10,-e13,e12,e15,-e14,-e1,-e0,-e3,e2,-e5,e4,e7,-e6),
+     (e10,e11,e8,-e9,-e14,-e15,e12,e13,-e2,e3,-e0,-e1,-e6,-e7,e4,e5),
+     (e11,-e10,e9,e8,-e15,e14,-e13,e12,-e3,-e2,e1,-e0,-e7,e6,-e5,e4),
+     (e12,e13,e14,e15,e8,-e9,-e10,-e11,-e4,e5,e6,e7,-e0,-e1,-e2,-e3),
+     (e13,-e12,e15,-e14,e9,e8,e11,-e10,-e5,-e4,e7,-e6,e1,-e0,e3,-e2),
+     (e14,-e15,-e12,e13,e10,-e11,e8,e9,-e6,-e7,-e4,e5,e2,-e3,-e0,e1),
+     (e15,e14,-e13,-e12,e11,e10,-e9,e8,-e7,e6,-e5,-e4,e3,e2,-e1,-e0))
+
+-- define M(x,y) for multiplying sedenions x and y
+
+T = transpose(T,2,3)
+
+M(x,y) = dot(x,T,y)
+
+-- define conjugation function (flip component signs except first)
+
+C(x) = 2*dot(x,e0)*e0 - x
+
+-- define symbolic sedenions
+
+x = (x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15)
+y = (y0,y1,y2,y3,y4,y5,y6,y7,y8,y9,y10,y11,y12,y13,y14,y15)
+z = (z0,z1,z2,z3,z4,z5,z6,z7,z8,z9,z10,z11,z12,z13,z14,z15)
+
+"Is sedenion multiplication commutative?"
+
+test(M(x,y)=M(y,x),"yes","no")
+
+"Is sedenion multiplication associative?"
+
+test(M(M(x,y),z)=M(x,M(y,z)),"yes","no")
+
+"Is sedenion multiplication alternative?"
+
+test(and(M(M(x,x),y)=M(x,M(x,y)),
+         M(M(y,x),x)=M(y,M(x,x))),"yes","no")
+
+"Checking product of a sedenion and its conjugate is real."
+
+test(M(x,C(x))=dot(x,x)*e0,"ok","fail")
+
+"Checking sedenion multiplication table."
+
+check(M(e0,e0)=e0)
+check(M(e0,e1)=e1)
+check(M(e0,e2)=e2)
+check(M(e0,e3)=e3)
+check(M(e0,e4)=e4)
+check(M(e0,e5)=e5)
+check(M(e0,e6)=e6)
+check(M(e0,e7)=e7)
+check(M(e0,e8)=e8)
+check(M(e0,e9)=e9)
+check(M(e0,e10)=e10)
+check(M(e0,e11)=e11)
+check(M(e0,e12)=e12)
+check(M(e0,e13)=e13)
+check(M(e0,e14)=e14)
+check(M(e0,e15)=e15)
+
+check(M(e1,e0)=e1)
+check(M(e1,e1)=-e0)
+check(M(e1,e2)=e3)
+check(M(e1,e3)=-e2)
+check(M(e1,e4)=e5)
+check(M(e1,e5)=-e4)
+check(M(e1,e6)=-e7)
+check(M(e1,e7)=e6)
+check(M(e1,e8)=e9)
+check(M(e1,e9)=-e8)
+check(M(e1,e10)=-e11)
+check(M(e1,e11)=e10)
+check(M(e1,e12)=-e13)
+check(M(e1,e13)=e12)
+check(M(e1,e14)=e15)
+check(M(e1,e15)=-e14)
+
+check(M(e2,e0)=e2)
+check(M(e2,e1)=-e3)
+check(M(e2,e2)=-e0)
+check(M(e2,e3)=e1)
+check(M(e2,e4)=e6)
+check(M(e2,e5)=e7)
+check(M(e2,e6)=-e4)
+check(M(e2,e7)=-e5)
+check(M(e2,e8)=e10)
+check(M(e2,e9)=e11)
+check(M(e2,e10)=-e8)
+check(M(e2,e11)=-e9)
+check(M(e2,e12)=-e14)
+check(M(e2,e13)=-e15)
+check(M(e2,e14)=e12)
+check(M(e2,e15)=e13)
+
+check(M(e3,e0)=e3)
+check(M(e3,e1)=e2)
+check(M(e3,e2)=-e1)
+check(M(e3,e3)=-e0)
+check(M(e3,e4)=e7)
+check(M(e3,e5)=-e6)
+check(M(e3,e6)=e5)
+check(M(e3,e7)=-e4)
+check(M(e3,e8)=e11)
+check(M(e3,e9)=-e10)
+check(M(e3,e10)=e9)
+check(M(e3,e11)=-e8)
+check(M(e3,e12)=-e15)
+check(M(e3,e13)=e14)
+check(M(e3,e14)=-e13)
+check(M(e3,e15)=e12)
+
+check(M(e4,e0)=e4)
+check(M(e4,e1)=-e5)
+check(M(e4,e2)=-e6)
+check(M(e4,e3)=-e7)
+check(M(e4,e4)=-e0)
+check(M(e4,e5)=e1)
+check(M(e4,e6)=e2)
+check(M(e4,e7)=e3)
+check(M(e4,e8)=e12)
+check(M(e4,e9)=e13)
+check(M(e4,e10)=e14)
+check(M(e4,e11)=e15)
+check(M(e4,e12)=-e8)
+check(M(e4,e13)=-e9)
+check(M(e4,e14)=-e10)
+check(M(e4,e15)=-e11)
+
+check(M(e5,e0)=e5)
+check(M(e5,e1)=e4)
+check(M(e5,e2)=-e7)
+check(M(e5,e3)=e6)
+check(M(e5,e4)=-e1)
+check(M(e5,e5)=-e0)
+check(M(e5,e6)=-e3)
+check(M(e5,e7)=e2)
+check(M(e5,e8)=e13)
+check(M(e5,e9)=-e12)
+check(M(e5,e10)=e15)
+check(M(e5,e11)=-e14)
+check(M(e5,e12)=e9)
+check(M(e5,e13)=-e8)
+check(M(e5,e14)=e11)
+check(M(e5,e15)=-e10)
+
+check(M(e6,e0)=e6)
+check(M(e6,e1)=e7)
+check(M(e6,e2)=e4)
+check(M(e6,e3)=-e5)
+check(M(e6,e4)=-e2)
+check(M(e6,e5)=e3)
+check(M(e6,e6)=-e0)
+check(M(e6,e7)=-e1)
+check(M(e6,e8)=e14)
+check(M(e6,e9)=-e15)
+check(M(e6,e10)=-e12)
+check(M(e6,e11)=e13)
+check(M(e6,e12)=e10)
+check(M(e6,e13)=-e11)
+check(M(e6,e14)=-e8)
+check(M(e6,e15)=e9)
+
+check(M(e7,e0)=e7)
+check(M(e7,e1)=-e6)
+check(M(e7,e2)=e5)
+check(M(e7,e3)=e4)
+check(M(e7,e4)=-e3)
+check(M(e7,e5)=-e2)
+check(M(e7,e6)=e1)
+check(M(e7,e7)=-e0)
+check(M(e7,e8)=e15)
+check(M(e7,e9)=e14)
+check(M(e7,e10)=-e13)
+check(M(e7,e11)=-e12)
+check(M(e7,e12)=e11)
+check(M(e7,e13)=e10)
+check(M(e7,e14)=-e9)
+check(M(e7,e15)=-e8)
+
+check(M(e8,e0)=e8)
+check(M(e8,e1)=-e9)
+check(M(e8,e2)=-e10)
+check(M(e8,e3)=-e11)
+check(M(e8,e4)=-e12)
+check(M(e8,e5)=-e13)
+check(M(e8,e6)=-e14)
+check(M(e8,e7)=-e15)
+check(M(e8,e8)=-e0)
+check(M(e8,e9)=e1)
+check(M(e8,e10)=e2)
+check(M(e8,e11)=e3)
+check(M(e8,e12)=e4)
+check(M(e8,e13)=e5)
+check(M(e8,e14)=e6)
+check(M(e8,e15)=e7)
+
+check(M(e9,e0)=e9)
+check(M(e9,e1)=e8)
+check(M(e9,e2)=-e11)
+check(M(e9,e3)=e10)
+check(M(e9,e4)=-e13)
+check(M(e9,e5)=e12)
+check(M(e9,e6)=e15)
+check(M(e9,e7)=-e14)
+check(M(e9,e8)=-e1)
+check(M(e9,e9)=-e0)
+check(M(e9,e10)=-e3)
+check(M(e9,e11)=e2)
+check(M(e9,e12)=-e5)
+check(M(e9,e13)=e4)
+check(M(e9,e14)=e7)
+check(M(e9,e15)=-e6)
+
+check(M(e10,e0)=e10)
+check(M(e10,e1)=e11)
+check(M(e10,e2)=e8)
+check(M(e10,e3)=-e9)
+check(M(e10,e4)=-e14)
+check(M(e10,e5)=-e15)
+check(M(e10,e6)=e12)
+check(M(e10,e7)=e13)
+check(M(e10,e8)=-e2)
+check(M(e10,e9)=e3)
+check(M(e10,e10)=-e0)
+check(M(e10,e11)=-e1)
+check(M(e10,e12)=-e6)
+check(M(e10,e13)=-e7)
+check(M(e10,e14)=e4)
+check(M(e10,e15)=e5)
+
+check(M(e11,e0)=e11)
+check(M(e11,e1)=-e10)
+check(M(e11,e2)=e9)
+check(M(e11,e3)=e8)
+check(M(e11,e4)=-e15)
+check(M(e11,e5)=e14)
+check(M(e11,e6)=-e13)
+check(M(e11,e7)=e12)
+check(M(e11,e8)=-e3)
+check(M(e11,e9)=-e2)
+check(M(e11,e10)=e1)
+check(M(e11,e11)=-e0)
+check(M(e11,e12)=-e7)
+check(M(e11,e13)=e6)
+check(M(e11,e14)=-e5)
+check(M(e11,e15)=e4)
+
+check(M(e12,e0)=e12)
+check(M(e12,e1)=e13)
+check(M(e12,e2)=e14)
+check(M(e12,e3)=e15)
+check(M(e12,e4)=e8)
+check(M(e12,e5)=-e9)
+check(M(e12,e6)=-e10)
+check(M(e12,e7)=-e11)
+check(M(e12,e8)=-e4)
+check(M(e12,e9)=e5)
+check(M(e12,e10)=e6)
+check(M(e12,e11)=e7)
+check(M(e12,e12)=-e0)
+check(M(e12,e13)=-e1)
+check(M(e12,e14)=-e2)
+check(M(e12,e15)=-e3)
+
+check(M(e13,e0)=e13)
+check(M(e13,e1)=-e12)
+check(M(e13,e2)=e15)
+check(M(e13,e3)=-e14)
+check(M(e13,e4)=e9)
+check(M(e13,e5)=e8)
+check(M(e13,e6)=e11)
+check(M(e13,e7)=-e10)
+check(M(e13,e8)=-e5)
+check(M(e13,e9)=-e4)
+check(M(e13,e10)=e7)
+check(M(e13,e11)=-e6)
+check(M(e13,e12)=e1)
+check(M(e13,e13)=-e0)
+check(M(e13,e14)=e3)
+check(M(e13,e15)=-e2)
+
+check(M(e14,e0)=e14)
+check(M(e14,e1)=-e15)
+check(M(e14,e2)=-e12)
+check(M(e14,e3)=e13)
+check(M(e14,e4)=e10)
+check(M(e14,e5)=-e11)
+check(M(e14,e6)=e8)
+check(M(e14,e7)=e9)
+check(M(e14,e8)=-e6)
+check(M(e14,e9)=-e7)
+check(M(e14,e10)=-e4)
+check(M(e14,e11)=e5)
+check(M(e14,e12)=e2)
+check(M(e14,e13)=-e3)
+check(M(e14,e14)=-e0)
+check(M(e14,e15)=e1)
+
+check(M(e15,e0)=e15)
+check(M(e15,e1)=e14)
+check(M(e15,e2)=-e13)
+check(M(e15,e3)=-e12)
+check(M(e15,e4)=e11)
+check(M(e15,e5)=e10)
+check(M(e15,e6)=-e9)
+check(M(e15,e7)=e8)
+check(M(e15,e8)=-e7)
+check(M(e15,e9)=e6)
+check(M(e15,e10)=-e5)
+check(M(e15,e11)=-e4)
+check(M(e15,e12)=e3)
+check(M(e15,e13)=e2)
+check(M(e15,e14)=-e1)
+check(M(e15,e15)=-e0)
+
+"ok"
+clear
+
+"Sine perturbation"
+
+"Verify equation (1)"
+f = cos(omega t) exp(i omega0 t)
+f = expform(f)
+I = integral(f,t)
+I = eval(I,t,t) - eval(I,t,0)
+A = (exp(i (omega0 - omega) t) - 1) / (omega0 - omega)
+B = (exp(i (omega0 + omega) t) - 1) / (omega0 + omega)
+check(I == -i/2 (A + B))
+"ok"
+
+"Verify equation (2)"
+cb = -i/hbar Vba (-i/2) (A + B)
+check(cb == -Vba / (2 hbar) (A + B))
+"ok"
+
+"Verify equation (3)"
+cb = -Vba / (2 hbar) A
+check(cb == -i/hbar Vba sin(1/2 (omega0 - omega) t) / (omega0 - omega) exp(i/2 (omega0 - omega) t))
+"ok"
+
+"Verify equation (4)"
+P = conj(cb) cb
+check(P == Vba^2 / hbar^2 sin(1/2 (omega0 - omega) t)^2 / (omega0 - omega)^2)
+"ok"
+clear
+
+"Small rotation"
+
+X1(f) = x1 f
+X2(f) = x2 f
+X3(f) = x3 f
+
+P1(f) = -i hbar d(f,x1)
+P2(f) = -i hbar d(f,x2)
+P3(f) = -i hbar d(f,x3)
+
+L1(f) = X2(P3(f)) - X3(P2(f))
+L2(f) = X3(P1(f)) - X1(P3(f))
+L3(f) = X1(P2(f)) - X2(P1(f))
+
+J1(f) = L1(f) / hbar
+J2(f) = L2(f) / hbar
+J3(f) = L3(f) / hbar
+
+U(f) = f - i epsilon J3(f) - 1/2 epsilon^2 J3(J3(f))
+V(f) = f + i epsilon J3(f) - 1/2 epsilon^2 J3(J3(f)) -- inverse of U
+
+psi = Psi(x1,x2,x3)
+
+T = V(U(psi))
+T = eval(T, epsilon^4, 0)
+check(T == psi)
+
+"Verify (1)"
+
+T1 = V(X1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == (1 - 1/2 epsilon^2) X1(psi) - epsilon X2(psi))
+
+T2 = V(X2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == (1 - 1/2 epsilon^2) X2(psi) + epsilon X1(psi))
+
+T3 = V(X3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == X3(psi))
+
+"ok"
+
+"Verify (2)"
+
+T1 = V(P1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == (1 - 1/2 epsilon^2) P1(psi) - epsilon P2(psi))
+
+T2 = V(P2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == (1 - 1/2 epsilon^2) P2(psi) + epsilon P1(psi))
+
+T3 = V(P3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == P3(psi))
+
+"ok"
+
+"Verify (3)"
+
+T1 = V(L1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == (1 - 1/2 epsilon^2) L1(psi) - epsilon L2(psi))
+
+T2 = V(L2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == (1 - 1/2 epsilon^2) L2(psi) + epsilon L1(psi))
+
+T3 = V(L3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == L3(psi))
+
+"ok"
+
+"Verify (4)"
+
+H(f) = (P1(P1(f)) + P2(P2(f)) + P3(P3(f))) / (2 m)
+
+T = V(H(U(psi)))
+T = eval(T, epsilon^4, 0, epsilon^3, 0)
+check(T == H(psi))
+
+"ok"
+clear
+
+t = d1 / v1 + d2 / v2
+t
+
+"Verify dt/dy"
+
+d1 = sqrt((x - x1)^2 + (y - y1)^2)
+d2 = sqrt((x - x2)^2 + (y - y2)^2)
+
+dt = (y - y1) / (v1 d1) + (y - y2) / (v2 d2)
+
+check(d(t,y) == dt)
+
+"ok"
+clear
+
+"Verify spherical harmonics"
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+D(f) = 1/sin(theta) d(sin(theta) d(f,theta), theta) +
+       1/sin(theta)^2 d(f,phi,2)
+
+for(l, 0, 2, for(m, -l, l, check(D(Y(l,m)) == -l (l + 1) Y(l,m))))
+
+"ok"
+clear
+
+"Exercise 1. Verify spin operators and expectation values."
+
+zp = (1,0)
+zm = (0,1)
+
+xp = (zp + zm) / sqrt(2)
+xm = (zp - zm) / sqrt(2)
+
+yp = (zp + i zm) / sqrt(2)
+ym = (zp - i zm) / sqrt(2)
+
+Sx = hbar / 2 ((0,1),(1,0))
+Sy = hbar / 2 ((0,-i),(i,0))
+Sz = hbar / 2 ((1,0),(0,-1))
+
+check(Sx == hbar / 2 (outer(xp,conj(xp)) - outer(xm,conj(xm))))
+check(Sy == hbar / 2 (outer(yp,conj(yp)) - outer(ym,conj(ym))))
+check(Sz == hbar / 2 (outer(zp,conj(zp)) - outer(zm,conj(zm))))
+
+S2 = dot(Sx,Sx) + dot(Sy,Sy) + dot(Sz,Sz)
+
+check(S2 == 3/4 hbar^2 ((1,0),(0,1)))
+
+cp = Xp + i Yp
+cm = Xm + i Ym
+
+s = (cp,cm)
+
+check(dot(conj(s),Sx,s) == 1/2 hbar (cp conj(cm) + conj(cp) cm))
+check(dot(conj(s),Sy,s) == 1/2 i hbar (cp conj(cm) - conj(cp) cm))
+check(dot(conj(s),Sz,s) == 1/2 hbar (cp conj(cp) - cm conj(cm)))
+
+check(dot(conj(s),S2,s) == 3/4 hbar^2 (cp conj(cp) + cm conj(cm)))
+
+"ok"
+
+"Exercise 2. Verify expected spin vector."
+
+clear
+
+s = (1/3 - 2/3 i, 2/3)
+
+check(dot(conj(s),s) == 1)
+
+Sx = hbar / 2 ((0,1),(1,0))
+Sy = hbar / 2 ((0,-i),(i,0))
+Sz = hbar / 2 ((1,0),(0,-1))
+
+S = (Sx,Sy,Sz)
+
+check(dot(conj(s),transpose(S),s) == hbar / 2 (4/9, 8/9, 1/9))
+
+"ok"
+
+"Exercise 3. Verify spin measurement probabilities."
+
+clear
+
+s = (1/3 - 2/3 i, 2/3)
+
+zp = (1,0)
+zm = (0,1)
+
+xp = (zp + zm) / sqrt(2)
+xm = (zp - zm) / sqrt(2)
+
+yp = (zp + i zm) / sqrt(2)
+ym = (zp - i zm) / sqrt(2)
+
+Pr(a,b) = dot(conj(a),b) dot(conj(b),a)
+
+check(Pr(xp,s) == 13/18)
+check(Pr(xm,s) == 5/18)
+
+check(Pr(yp,s) == 17/18)
+check(Pr(ym,s) == 1/18)
+
+check(Pr(zp,s) == 5/9)
+check(Pr(zm,s) == 4/9)
+
+"ok"
+
+"Exercise 4. Verify indistinguishable spin states."
+
+clear
+
+s = (1/3 - 2/3 i, 2/3)
+
+Sx = hbar / 2 ((0,1),(1,0))
+Sy = hbar / 2 ((0,-i),(i,0))
+Sz = hbar / 2 ((1,0),(0,-1))
+
+S = (Sx,Sy,Sz)
+
+x = 2 / hbar dot(conj(s),Sx,s)
+y = 2 / hbar dot(conj(s),Sy,s)
+z = 2 / hbar dot(conj(s),Sz,s)
+
+cp = sqrt((z + 1) / 2)
+cm = sqrt((1 - z) / 2) (x + i y) / sqrt(x^2 + y^2)
+
+check(cp == sqrt(5) / 3)
+check(cm == (2 + 4 i) / (3 sqrt(5)))
+
+chi = (cp,cm)
+
+check(dot(conj(s),transpose(S),s) == dot(conj(chi),transpose(S),chi))
+
+"ok"
+
+"Exercise 5. Verify spin commutators."
+
+clear
+
+Sx(psi) = -i hbar (y d(psi,z) - z d(psi,y))
+Sy(psi) = -i hbar (z d(psi,x) - x d(psi,z))
+Sz(psi) = -i hbar (x d(psi,y) - y d(psi,x))
+
+psi = Psi()
+
+check(Sy(Sz(psi)) - Sz(Sy(psi)) == i hbar Sx(psi))
+check(Sz(Sx(psi)) - Sx(Sz(psi)) == i hbar Sy(psi))
+check(Sx(Sy(psi)) - Sy(Sx(psi)) == i hbar Sz(psi))
+
+S2(psi) = Sx(Sx(psi)) + Sy(Sy(psi)) + Sz(Sz(psi))
+
+check(S2(Sx(psi)) - Sx(S2(psi)) == 0)
+check(S2(Sy(psi)) - Sy(S2(psi)) == 0)
+check(S2(Sz(psi)) - Sz(S2(psi)) == 0)
+
+Sp(psi) = Sx(psi) + i Sy(psi)
+Sm(psi) = Sx(psi) - i Sy(psi)
+
+check(Sp(Sm(psi)) - Sm(Sp(psi)) == 2 hbar Sz(psi))
+
+"ok"
+clear
+
+"Spin flip"
+
+B = B0 cos(omega t) (0,0,1)
+
+Sx = 1/2 hbar ((0,1),(1,0))
+Sy = 1/2 hbar ((0,-i),(i,0))
+Sz = 1/2 hbar ((1,0),(0,-1))
+
+S = (Sx,Sy,Sz)
+
+H = g e / (2 m) dot(B,S)
+
+"Verify equation (1)"
+c1 = a1 exp(i theta1) exp(-i g e / (4 m omega) B0 sin(omega t))
+c2 = a2 exp(i theta2) exp(i g e / (4 m omega) B0 sin(omega t))
+s = (c1,c2)
+check(i hbar d(s,t) == dot(H,s))
+"ok"
+
+"Verify equation (2)"
+check(dot(conj(s),Sx,s) ==
+a1 a2 hbar cos(g e / (2 m omega) B0 sin(omega t) - theta1 + theta2))
+"ok"
+clear
+
+"Spin measurement"
+
+cp = cos(theta/2)
+cm = sin(theta/2) exp(i phi)
+
+s = (cp,cm)
+
+xp = (1,1) / sqrt(2)
+xm = (1,-1) / sqrt(2)
+
+yp = (1,i) / sqrt(2)
+ym = (1,-i) / sqrt(2)
+
+zp = (1,0)
+zm = (0,1)
+
+check(mag(dot(conj(xp),s))^2 == 1/2 + 1/2 sin(theta) cos(phi))
+check(mag(dot(conj(xm),s))^2 == 1/2 - 1/2 sin(theta) cos(phi))
+
+check(mag(dot(conj(yp),s))^2 == 1/2 + 1/2 sin(theta) sin(phi))
+check(mag(dot(conj(ym),s))^2 == 1/2 - 1/2 sin(theta) sin(phi))
+
+check(mag(dot(conj(zp),s))^2 == 1/2 + 1/2 cos(theta))
+check(mag(dot(conj(zm),s))^2 == 1/2 - 1/2 cos(theta))
+
+"ok"
+clear
+
+"Verify spin operator table"
+
+u = (1,0)
+d = (0,1)
+
+uu = kronecker(u,u)
+ud = kronecker(u,d)
+du = kronecker(d,u)
+dd = kronecker(d,d)
+
+sigmaz = ((1,0),(0,-1))
+sigmax = ((0,1),(1,0))
+sigmay = ((0,-i),(i,0))
+
+tauz = ((1,0),(0,-1))
+taux = ((0,1),(1,0))
+tauy = ((0,-i),(i,0))
+
+I = ((1,0),(0,1))
+
+sigmaz = kronecker(sigmaz,I)
+sigmax = kronecker(sigmax,I)
+sigmay = kronecker(sigmay,I)
+
+tauz = kronecker(I,tauz)
+taux = kronecker(I,taux)
+tauy = kronecker(I,tauy)
+
+check(dot(sigmaz,uu) == uu)
+check(dot(sigmaz,ud) == ud)
+check(dot(sigmaz,du) == -du)
+check(dot(sigmaz,dd) == -dd)
+
+check(dot(sigmax,uu) == du)
+check(dot(sigmax,ud) == dd)
+check(dot(sigmax,du) == uu)
+check(dot(sigmax,dd) == ud)
+
+check(dot(sigmay,uu) == i du)
+check(dot(sigmay,ud) == i dd)
+check(dot(sigmay,du) == -i uu)
+check(dot(sigmay,dd) == -i ud)
+
+check(dot(tauz,uu) == uu)
+check(dot(tauz,ud) == -ud)
+check(dot(tauz,du) == du)
+check(dot(tauz,dd) == -dd)
+
+check(dot(taux,uu) == ud)
+check(dot(taux,ud) == uu)
+check(dot(taux,du) == dd)
+check(dot(taux,dd) == du)
+
+check(dot(tauy,uu) == i ud)
+check(dot(tauy,ud) == -i uu)
+check(dot(tauy,du) == i dd)
+check(dot(tauy,dd) == -i du)
+
+"ok"
+clear
+
+"Spin operators from scratch"
+
+xp = (1,1) / sqrt(2)
+xm = (1,-1) / sqrt(2)
+
+yp = (1,i) / sqrt(2)
+ym = (1,-i) / sqrt(2)
+
+zp = (1,0)
+zm = (0,1)
+
+Sx = 1/2 hbar ((0,1),(1,0))
+Sy = 1/2 hbar ((0,-i),(i,0))
+Sz = 1/2 hbar ((1,0),(0,-1))
+
+check(Sx == 1/2 hbar (outer(xp,conj(xp)) - outer(xm,conj(xm))))
+check(Sy == 1/2 hbar (outer(yp,conj(yp)) - outer(ym,conj(ym))))
+check(Sz == 1/2 hbar (outer(zp,conj(zp)) - outer(zm,conj(zm))))
+
+"ok"
+clear
+
+-- Spontaneous emission rate for hydrogen state 2p
+
+psi(n,l,m) = R(n,l) Y(l,m)
+ 
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0), n - l - 1, 2 l + 1) *
+         exp(-r / (n a0))
+
+L(x,n,m,k) = (n + m)! sum(k,0,n, (-x)^k / ((n - k)! (m + k)! k!))
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+-- integrate f
+
+I(f) = do(
+  f = f r^2 sin(theta), -- multiply by volume element
+  f = expform(f), -- convert to exponential form
+  f = defint(f,theta,0,pi,phi,0,2pi),
+  f = integral(f,r),
+  0 - eval(f,r,0) -- return value
+)
+
+psi2 = psi(2,1,0) -- try psi(2,1,1) and psi(2,1,-1) also
+psi1 = psi(1,0,0)
+
+f21 = conj(psi1) psi2
+f21
+
+x = r sin(theta) cos(phi)
+y = r sin(theta) sin(phi)
+z = r cos(theta)
+
+x21 = I(x f21)
+y21 = I(y f21)
+z21 = I(z f21)
+
+print(x21,y21,z21)
+
+r21sq = conj(x21) x21 + conj(y21) y21 + conj(z21) z21
+r21sq
+
+E(n) = -alpha hbar c / (2 n^2 a0)
+omega21 = (E(2) - E(1)) / hbar
+omega21
+
+A21 = 4 alpha omega21^3 r21sq / (3 c^2)
+A21
+
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+-- c, e, h, and k are exact values
+
+a0 = 5.29177210544 10^(-11) meter
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+epsilon0 = 8.8541878188 10^(-12) farad / meter
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+k = 1.380649 10^(-23) joule / kelvin
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+mu0 = 1.25663706127 10^(-6) newton / ampere^2
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+tesla = kilogram / second^2 / ampere
+volt = joule / coulomb
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+pi = float(pi) -- use numerical value of pi
+mu = me mp / (me + mp)
+a0 = a0 me / mu -- correction for reduced electron mass
+
+"Spontaneous emission rate"
+
+A21
+
+"Verify emission rate"
+
+err(a,b) = 2 abs((a - b) / (a + b)) -- relative error
+check(err(A21, 6.265 10^8 / second) < 0.0001)
+
+"ok"
+clear
+
+-- metric tensor
+
+gdd = zero(4,4)
+
+gdd[1,1] = -exp(2 Phi(r))
+gdd[2,2] = exp(2 Lambda(r))
+gdd[3,3] = r^2
+gdd[4,4] = r^2 sin(theta)^2
+
+X = (t,r,theta,phi) -- for computing gradients
+
+-- Step 1. Calculate guu
+
+guu = inv(gdd)
+
+-- Step 2. Calculate connection coefficients ("Gravitation" by MTW p. 210)
+--
+-- Gamma    = 1/2 (g     + g     - g    )
+--      abc         ab,c    ac,b    bc,a
+
+gddd = d(gdd,X)
+
+GAMDDD = 1/2 (gddd + transpose(gddd,2,3) -
+transpose(gddd,2,3,1,2)) -- transpose bc,a to (,a)bc
+
+GAMUDD = dot(guu,GAMDDD) -- raise first index
+
+-- Step 3. Calculate Riemann tensor (MTW p. 219)
+--
+--  a           a            a            a        u          a        u
+-- R     = Gamma      - Gamma      + Gamma    Gamma    - Gamma    Gamma
+--   bcd         bd,c         bc,d         uc       bd         ud       bc
+
+GAMUDDD = d(GAMUDD,X)
+
+GAMGAM = dot(transpose(GAMUDD,2,3),GAMUDD)
+
+RUDDD = transpose(GAMUDDD,3,4) - GAMUDDD +
+transpose(GAMGAM,2,3) - transpose(GAMGAM,2,3,3,4)
+
+-- Step 4. Calculate Ricci tensor (MTW p. 343)
+--
+--        a
+-- R   = R
+--  uv     uav
+
+RDD = contract(RUDDD,1,3)
+
+-- Step 5. Calculate Ricci scalar (MTW p. 343)
+--
+--      u
+-- R = R
+--       u
+
+R = contract(dot(guu,RDD))
+
+-- Step 6. Calculate Einstein tensor (MTW p. 343)
+--
+-- G   = R   - 1/2 g   R
+--  uv    uv        uv
+
+GDD = RDD - 1/2 gdd R
+
+-- Check GDD
+
+Gtt = exp(2 Phi(r)) d(r (1 - exp(-2 Lambda(r))),r) / r^2
+
+Grr = (1 - exp(2 Lambda(r))) / r^2 + 2 d(Phi(r),r) / r
+
+Gthetatheta = r^2 exp(-2 Lambda(r)) (
+d(d(Phi(r),r),r) +
+d(Phi(r),r)^2 +
+d(Phi(r),r) / r -
+d(Phi(r),r) d(Lambda(r),r) -
+d(Lambda(r),r) / r)
+
+Gphiphi = Gthetatheta sin(theta)^2
+
+G = zero(4,4)
+
+G[1,1] = Gtt
+G[2,2] = Grr
+G[3,3] = Gthetatheta
+G[4,4] = Gphiphi
+
+"Verify Einstein tensor"
+check(GDD == G)
+"ok"
+
+"Non-zero components of Einstein tensor"
+Gtt
+Grr
+Gthetatheta
+Gphiphi
+clear
+
+A = 6 10^(-4) "meter"^2
+epsilon = 0.94
+sigma = 5.67 10^(-8) "watt" "meter"^(-2) "kelvin"^(-4)
+T = 1000 "kelvin"
+A epsilon sigma T^4
+clear
+
+"Surface integral"
+z = 4 - x^2 - y^2
+F = (y,z,x)
+S = (x,y,z)
+z = quote(z) -- clear z for use by curl
+f = dot(curl(F),cross(d(S,x),d(S,y)))
+x = r cos(theta)
+y = r sin(theta)
+defint(f r,r,0,2,theta,0,2pi)
+
+"Line integral"
+x = 2 cos(t)
+y = 2 sin(t)
+z = 4 - x^2 - y^2
+P = y
+Q = z
+R = x
+f = P d(x,t) + Q d(y,t) + R d(z,t)
+defint(f,t,0,2pi)
+clear
+
+-- www.sciencealert.com/the-sum-of-three-cubes-problem-has-been-solved-for-42
+
+x = -80538738812075974
+y = 80435758145817515
+z = 12602123297335631
+
+x^3 + y^3 + z^3
+clear
+
+"Time translation"
+
+X1(f) = x1 f
+X2(f) = x2 f
+X3(f) = x3 f
+
+P1(f) = -i hbar d(f,x1)
+P2(f) = -i hbar d(f,x2)
+P3(f) = -i hbar d(f,x3)
+
+L1(f) = X2(P3(f)) - X3(P2(f))
+L2(f) = X3(P1(f)) - X1(P3(f))
+L3(f) = X1(P2(f)) - X2(P1(f))
+
+H(f) = (P1(P1(f)) + P2(P2(f)) + P3(P3(f))) / (2 m)
+
+Omega(f) = H(f) / hbar
+
+U(f) = f - i epsilon Omega(f) - 1/2 epsilon^2 Omega(Omega(f))
+V(f) = f + i epsilon Omega(f) - 1/2 epsilon^2 Omega(Omega(f)) -- inverse of U
+
+psi = Psi(x1,x2,x3)
+
+T = V(U(psi))
+T = eval(T, epsilon^4, 0)
+check(T == psi)
+
+"Verify (1)"
+
+T1 = V(X1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == X1(psi) + epsilon P1(psi) / m)
+
+T2 = V(X2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == X2(psi) + epsilon P2(psi) / m)
+
+T3 = V(X3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == X3(psi) + epsilon P3(psi) / m)
+
+"ok"
+
+"Verify (2)"
+
+T1 = V(P1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == P1(psi))
+
+T2 = V(P2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == P2(psi))
+
+T3 = V(P3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == P3(psi))
+
+"ok"
+
+"Verify (3)"
+
+T1 = V(L1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == L1(psi))
+
+T2 = V(L2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == L2(psi))
+
+T3 = V(L3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == L3(psi))
+
+"ok"
+
+"Verify (4)"
+
+T = V(H(U(psi)))
+T = eval(T, epsilon^4, 0, epsilon^3, 0)
+check(T == H(psi))
+
+"ok"
+clear
+
+"Translation"
+
+X1(f) = x1 f
+X2(f) = x2 f
+X3(f) = x3 f
+
+P1(f) = -i hbar d(f,x1)
+P2(f) = -i hbar d(f,x2)
+P3(f) = -i hbar d(f,x3)
+
+L1(f) = X2(P3(f)) - X3(P2(f))
+L2(f) = X3(P1(f)) - X1(P3(f))
+L3(f) = X1(P2(f)) - X2(P1(f))
+
+K1(f) = P1(f) / hbar
+K2(f) = P2(f) / hbar
+K3(f) = P3(f) / hbar
+
+U(f) = f - i epsilon K3(f) - 1/2 epsilon^2 K3(K3(f))
+V(f) = f + i epsilon K3(f) - 1/2 epsilon^2 K3(K3(f)) -- inverse of U
+
+psi = Psi(x1,x2,x3)
+
+T = V(U(psi))
+T = eval(T, epsilon^4, 0)
+check(T == psi)
+
+"Verify (1)"
+
+T1 = V(X1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == X1(psi))
+
+T2 = V(X2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == X2(psi))
+
+T3 = V(X3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == X3(psi) + epsilon psi)
+
+"ok"
+
+"Verify (2)"
+
+T1 = V(P1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == P1(psi))
+
+T2 = V(P2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == P2(psi))
+
+T3 = V(P3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == P3(psi))
+
+"ok"
+
+"Verify (3)"
+
+T1 = V(L1(U(psi)))
+T1 = eval(T1, epsilon^4, 0, epsilon^3, 0)
+check(T1 == L1(psi) - epsilon P2(psi))
+
+T2 = V(L2(U(psi)))
+T2 = eval(T2, epsilon^4, 0, epsilon^3, 0)
+check(T2 == L2(psi) + epsilon P1(psi))
+
+T3 = V(L3(U(psi)))
+T3 = eval(T3, epsilon^4, 0, epsilon^3, 0)
+check(T3 == L3(psi))
+
+"ok"
+
+"Verify (4)"
+
+H(f) = (P1(P1(f)) + P2(P2(f)) + P3(P3(f))) / (2 m)
+
+T = V(H(U(psi)))
+T = eval(T, epsilon^4, 0, epsilon^3, 0)
+check(T == H(psi))
+
+"ok"
+clear
+
+-- https://arxiv.org/abs/2408.11606
+
+-- Find X and Y such that X + Y = 5
+
+-- 13 qubits
+
+psi = zero(2^13)
+
+-- ground state
+
+psi[1] = 1
+
+-- qubit names (reverse bit order for X and Y)
+
+X2 = 0
+X1 = 1
+X0 = 2
+
+Y2 = 3
+Y1 = 4
+Y0 = 5
+
+A0 = 6
+A1 = 7
+
+S0 = 8
+S1 = 9
+S2 = 10
+S3 = 11
+
+Q12 = 12
+
+-- init
+
+psi = rotate(psi, H,X0, H,X1, H,X2)
+psi = rotate(psi, H,Y0, H,Y1, H,Y2)
+psi = rotate(psi, X,Q12, H,Q12)
+
+for(k,1,2,
+
+  -- QuantumAdder
+
+  psi = rotate(psi, C,X2, X,S3),
+  psi = rotate(psi, C,Y2, X,S3),
+  psi = rotate(psi, C,X2, C,Y2, X,A0),
+
+  psi = rotate(psi, C,X1, X,S2),
+  psi = rotate(psi, C,Y1, X,S2),
+  psi = rotate(psi, C,X1, C,Y1, X,A1),
+
+  psi = rotate(psi, C,A0, X,S2),
+  psi = rotate(psi, C,X1, C,A0, X,A1),
+  psi = rotate(psi, C,Y1, C,A0, X,A1),
+
+  psi = rotate(psi, C,X0, X,S1),
+  psi = rotate(psi, C,Y0, X,S1),
+  psi = rotate(psi, C,X0, C,Y0, X,S0),
+
+  psi = rotate(psi, C,A1, X,S1),
+  psi = rotate(psi, C,X0, C,A1, X,S0),
+  psi = rotate(psi, C,Y0, C,A1, X,S0),
+
+  -- Query
+
+  psi = rotate(psi, X,S0, X,S2),
+  psi = rotate(psi, C,S0, C,S1, C,S2, C,S3, X,Q12),
+  psi = rotate(psi, X,S0, X,S2),
+
+  -- Inverse QuantumAdder
+
+  psi = rotate(psi, C,Y0, C,A1, X,S0),
+  psi = rotate(psi, C,X0, C,A1, X,S0),
+  psi = rotate(psi, C,A1, X,S1),
+
+  psi = rotate(psi, C,X0, C,Y0, X,S0),
+  psi = rotate(psi, C,Y0, X,S1),
+  psi = rotate(psi, C,X0, X,S1),
+
+  psi = rotate(psi, C,Y1, C,A0, X,A1),
+  psi = rotate(psi, C,X1, C,A0, X,A1),
+  psi = rotate(psi, C,A0, X,S2),
+
+  psi = rotate(psi, C,X1, C,Y1, X,A1),
+  psi = rotate(psi, C,Y1, X,S2),
+  psi = rotate(psi, C,X1, X,S2),
+
+  psi = rotate(psi, C,X2, C,Y2, X,A0),
+  psi = rotate(psi, C,Y2, X,S3),
+  psi = rotate(psi, C,X2, X,S3),
+
+  -- Diffuser
+
+  psi = rotate(psi, H,X0, H,X1, H,X2),
+  psi = rotate(psi, H,Y0, H,Y1, H,Y2),
+
+  psi = rotate(psi, X,X0, X,X1, X,X2),
+  psi = rotate(psi, X,Y0, X,Y1, X,Y2),
+
+  psi = rotate(psi, C,X0, C,X1, C,X2, C,Y0, C,Y1, C,Y2, X,Q12),
+
+  psi = rotate(psi, X,X0, X,X1, X,X2),
+  psi = rotate(psi, X,Y0, X,Y1, X,Y2),
+
+  psi = rotate(psi, H,X0, H,X1, H,X2),
+  psi = rotate(psi, H,Y0, H,Y1, H,Y2)
+)
+
+-- probability
+
+P = psi conj(psi)
+
+-- sum over 7 don't care bits (2^7 = 128)
+
+for(j,1,64, for(k,1,127, P[j] = P[j] + P[j + 64 k]))
+
+-- draw graph
+
+"Probability vs. eigenstate"
+xrange = (0,64)
+yrange = (0,0.2)
+draw(P[ceiling(x)],x)
+
+"Probability of observing Y=0, X=5"
+P[5 + 1] -- add 1 because index numbering starts at 1
+
+"Probability of observing Y=1, X=4"
+P[8 * 1 + 4 + 1]
+
+"Probability of observing Y=2, X=3"
+P[8 * 2 + 3 + 1]
+
+"Probability of observing Y=3, X=2"
+P[8 * 3 + 2 + 1]
+
+"Probability of observing Y=4, X=1"
+P[8 * 4 + 1 + 1]
+
+"Probability of observing Y=5, X=0"
+P[8 * 5 + 1]
+clear
+
+-- Tunneling probability
+
+C = (beta + i k) F exp(i k L - beta L) / (2 beta)
+D = (beta - i k) F exp(i k L + beta L) / (2 beta)
+
+"Verify equation (3)"
+check(C exp(beta L) + D exp(-beta L) == F exp(i k L))
+"ok"
+
+"Verify equation (4)"
+check(beta C exp(beta L) - beta D exp(-beta L) == i k F exp(i k L))
+"ok"
+
+"Verify equation (7)"
+A = beta (C - D) / (2 i k) + (C + D) / 2
+gamma = (beta / k - k / beta) / 2
+check(A == F exp(i k L) (expcosh(beta L) + i gamma expsinh(beta L)))
+"ok"
+
+"Verify equation (8)"
+M = 1 / (exp(i k L) (expcosh(beta L) + i gamma expsinh(beta L)))
+T = 1 / (cosh(beta L)^2 + gamma^2 sinh(beta L)^2)
+check(conj(M) M == T)
+"ok"
+
+"Verify equation (9)"
+k = sqrt(2 m E / hbar^2)
+beta = sqrt(2 m (V0 - E) / hbar^2)
+check(T == (1 + V0^2 sinh(beta L)^2 / (4 E (V0 - E)))^(-1))
+"ok"
+
+-- physical constants (c, e, h, and k are exact values)
+
+c = 299792458.0 meter / second -- speed of light in vacuum
+e = 1.602176634 10^(-19) coulomb -- elementary charge
+epsilon0 = 8.8541878128 10^(-12) farad / meter -- vacuum electric permittivity
+h = 6.62607015 10^(-34) joule second -- Planck constant
+hbar = h / float(2 pi) -- reduced Planck constant
+k = 1.380649 10^(-23) joule / kelvin -- Boltzmann constant
+me = 9.1093837015 10^(-31) kilogram -- electron mass
+mp = 1.67262192369 10^(-27) kilogram -- proton mass
+mu = me mp / (me + mp) -- reduced electron mass
+
+-- derived units
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+volt = joule / coulomb
+
+-- base units (for printing)
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+eV = e joule / coulomb -- convert eV to joules
+
+-- Example
+
+m = me
+E = 1 eV
+V0 = 1.1 eV
+L = 10^(-9) meter
+
+beta = sqrt(2 m (V0 - E) / hbar^2)
+
+"Tunneling probability"
+
+T = 1 / (1 + V0^2 sinh(beta L)^2 / (4 E (V0 - E)))
+T
+
+"Approximation"
+
+T = 16 E (V0 - E) / V0^2 exp(-2 beta L)
+T
+clear
+
+"Exercise 1. Verify spin operators for two spins."
+
+sigmax = ((0,1),(1,0))
+sigmay = ((0,-i),(i,0))
+sigmaz = ((1,0),(0,-1))
+
+I = ((1,0),(0,1))
+
+S1x = 1/2 hbar kronecker(sigmax,I)
+S1y = 1/2 hbar kronecker(sigmay,I)
+S1z = 1/2 hbar kronecker(sigmaz,I)
+
+S2x = 1/2 hbar kronecker(I,sigmax)
+S2y = 1/2 hbar kronecker(I,sigmay)
+S2z = 1/2 hbar kronecker(I,sigmaz)
+
+check(S1x == 1/2 hbar ((0,0,1,0),(0,0,0,1),(1,0,0,0),(0,1,0,0)))
+check(S1y == 1/2 hbar ((0,0,-i,0),(0,0,0,-i),(i,0,0,0),(0,i,0,0)))
+check(S1z == 1/2 hbar ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1)))
+
+check(S2x == 1/2 hbar ((0,1,0,0),(1,0,0,0),(0,0,0,1),(0,0,1,0)))
+check(S2y == 1/2 hbar ((0,-i,0,0),(i,0,0,0),(0,0,0,-i),(0,0,i,0)))
+check(S2z == 1/2 hbar ((1,0,0,0),(0,-1,0,0),(0,0,1,0),(0,0,0,-1)))
+
+-- total spin
+
+Sx = S1x + S2x
+Sy = S1y + S2y
+Sz = S1z + S2z
+
+S2 = dot(Sx,Sx) + dot(Sy,Sy) + dot(Sz,Sz)
+
+check(S2 == hbar^2 ((2,0,0,0),(0,1,1,0),(0,1,1,0),(0,0,0,2)))
+
+"ok"
+
+"Exercise 2. Verify expectation values for two spins."
+
+clear
+
+S1x = 1/2 hbar ((0,0,1,0),(0,0,0,1),(1,0,0,0),(0,1,0,0))
+S1y = 1/2 hbar ((0,0,-i,0),(0,0,0,-i),(i,0,0,0),(0,i,0,0))
+S1z = 1/2 hbar ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+S2x = 1/2 hbar ((0,1,0,0),(1,0,0,0),(0,0,0,1),(0,0,1,0))
+S2y = 1/2 hbar ((0,-i,0,0),(i,0,0,0),(0,0,0,-i),(0,0,i,0))
+S2z = 1/2 hbar ((1,0,0,0),(0,-1,0,0),(0,0,1,0),(0,0,0,-1))
+
+cpp = xpp + i ypp
+cpm = xpm + i ypm
+cmp = xmp + i ymp
+cmm = xmm + i ymm
+
+s = (cpp,cpm,cmp,cmm)
+
+check(dot(conj(s),S1x,s) ==
+1/2 hbar (cpp conj(cmp) + conj(cpp) cmp + cpm conj(cmm) + conj(cpm) cmm))
+
+check(dot(conj(s),S1y,s) ==
+1/2 i hbar (cpp conj(cmp) - conj(cpp) cmp + cpm conj(cmm) - conj(cpm) cmm))
+
+check(dot(conj(s),S1z,s) ==
+1/2 hbar (cpp conj(cpp) + cpm conj(cpm) - cmp conj(cmp) - cmm conj(cmm)))
+
+check(dot(conj(s),S2x,s) ==
+1/2 hbar (cpp conj(cpm) + conj(cpp) cpm + cmp conj(cmm) + conj(cmp) cmm))
+
+check(dot(conj(s),S2y,s) ==
+1/2 i hbar (cpp conj(cpm) - conj(cpp) cpm + cmp conj(cmm) - conj(cmp) cmm))
+
+check(dot(conj(s),S2z,s) ==
+1/2 hbar (cpp conj(cpp) - cpm conj(cpm) + cmp conj(cmp) - cmm conj(cmm)))
+
+-- total spin
+
+Sx = S1x + S2x
+Sy = S1y + S2y
+Sz = S1z + S2z
+
+S2 = dot(Sx,Sx) + dot(Sy,Sy) + dot(Sz,Sz)
+
+check(dot(conj(s),S2,s) ==
+hbar^2 (2 cpp conj(cpp) + (cpm + cmp) conj(cpm + cmp) + 2 cmm conj(cmm)))
+
+"ok"
+
+"Exercise 3. Verify angle formula for two spins."
+
+clear
+
+s1 = (cos(theta1/2), sin(theta1/2) exp(i phi1))
+s2 = (cos(theta2/2), sin(theta2/2) exp(i phi2))
+
+s = kronecker(s1,s2)
+
+S1x = 1/2 hbar ((0,0,1,0),(0,0,0,1),(1,0,0,0),(0,1,0,0))
+S1y = 1/2 hbar ((0,0,-i,0),(0,0,0,-i),(i,0,0,0),(0,i,0,0))
+S1z = 1/2 hbar ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+S2x = 1/2 hbar ((0,1,0,0),(1,0,0,0),(0,0,0,1),(0,0,1,0))
+S2y = 1/2 hbar ((0,-i,0,0),(i,0,0,0),(0,0,0,-i),(0,0,i,0))
+S2z = 1/2 hbar ((1,0,0,0),(0,-1,0,0),(0,0,1,0),(0,0,0,-1))
+
+check(dot(conj(s),S1x,s) == 1/2 hbar sin(theta1) cos(phi1))
+check(dot(conj(s),S1y,s) == 1/2 hbar sin(theta1) sin(phi1))
+check(dot(conj(s),S1z,s) == 1/2 hbar cos(theta1))
+
+check(dot(conj(s),S2x,s) == 1/2 hbar sin(theta2) cos(phi2))
+check(dot(conj(s),S2y,s) == 1/2 hbar sin(theta2) sin(phi2))
+check(dot(conj(s),S2z,s) == 1/2 hbar cos(theta2))
+
+"ok"
+
+"Exercise 4. Verify expectation values for a product state."
+
+clear
+
+sigmax = ((0,1),(1,0))
+sigmay = ((0,-i),(i,0))
+sigmaz = ((1,0),(0,-1))
+
+I = ((1,0),(0,1))
+
+S1x = 1/2 hbar kronecker(sigmax,I)
+S1y = 1/2 hbar kronecker(sigmay,I)
+S1z = 1/2 hbar kronecker(sigmaz,I)
+
+S2x = 1/2 hbar kronecker(I,sigmax)
+S2y = 1/2 hbar kronecker(I,sigmay)
+S2z = 1/2 hbar kronecker(I,sigmaz)
+
+s1 = (cos(1/2 theta1), sin(1/2 theta1) exp(i phi1))
+s2 = (cos(1/2 theta2), sin(1/2 theta2) exp(i phi2))
+
+s = kronecker(s1,s2)
+
+ES1x = dot(conj(s),S1x,s)
+ES1y = dot(conj(s),S1y,s)
+ES1z = dot(conj(s),S1z,s)
+
+ES2x = dot(conj(s),S2x,s)
+ES2y = dot(conj(s),S2y,s)
+ES2z = dot(conj(s),S2z,s)
+
+check(dot(conj(s),S1x,S2x,s) == ES1x ES2x)
+check(dot(conj(s),S1x,S2y,s) == ES1x ES2y)
+check(dot(conj(s),S1x,S2z,s) == ES1x ES2z)
+
+check(dot(conj(s),S1y,S2x,s) == ES1y ES2x)
+check(dot(conj(s),S1y,S2y,s) == ES1y ES2y)
+check(dot(conj(s),S1y,S2z,s) == ES1y ES2z)
+
+check(dot(conj(s),S1z,S2x,s) == ES1z ES2x)
+check(dot(conj(s),S1z,S2y,s) == ES1z ES2y)
+check(dot(conj(s),S1z,S2z,s) == ES1z ES2z)
+
+"ok"
+clear
+
+"Verify Mandelstam variables for W pair production"
+
+p = sqrt(E^2 - m^2) -- m is mass of electron
+
+rho = sqrt(E^2 - M^2) -- M is mass of W
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      rho sin(theta) cos(phi),
+      rho sin(theta) sin(phi),
+      rho cos(theta))
+
+p4 = (E,
+      -rho sin(theta) cos(phi),
+      -rho sin(theta) sin(phi),
+      -rho cos(theta))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(s == 4 E^2)
+check(t == -2 E^2 + M^2 + m^2 + 2 p rho cos(theta))
+check(u == -2 E^2 + M^2 + m^2 - 2 p rho cos(theta))
+
+m = 0
+
+check(t == -2 E^2 + M^2 + 2 E rho cos(theta))
+check(u == -2 E^2 + M^2 - 2 E rho cos(theta))
+
+beta = rho / E
+
+check(t == -E^2 (1 + beta^2 - 2 beta cos(theta)))
+check(u == -E^2 (1 + beta^2 + 2 beta cos(theta)))
+
+"ok"
+clear
+
+f = 5 sin(3 x) exp(-x^2 / 10)
+
+draw(f)
+clear
+
+-- Compute R-squared for Bhabha scattering data from DESY PETRA
+
+-- www.hepdata.net/record/ins191231 (Table 3, 14.0 GeV)
+
+-- x is cos(theta)
+
+x = (
+-0.73,
+-0.6495,
+-0.5495,
+-0.4494,
+-0.3493,
+-0.2491,
+-0.149,
+-0.0488,
+0.0514,
+0.1516,
+0.252,
+0.3524,
+0.4529,
+0.5537,
+0.6548,
+0.7323)
+
+-- y is differential cross section
+
+y = (
+0.10115,
+0.12235,
+0.11258,
+0.09968,
+0.14749,
+0.14017,
+0.1819,
+0.22964,
+0.25312,
+0.30998,
+0.40898,
+0.62695,
+0.91803,
+1.51743,
+2.56714,
+4.30279) "nanobarn"
+
+"Predicted values"
+
+alpha = 7.2973525693 10^(-3)
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+eV = 1.602176634 10^(-19) joule
+
+s = (14.0 10^9 eV)^2
+
+C1 = alpha^2 / (4 s)
+C2 = (hbar c)^2
+C3 = 10^37 "nanobarn" / meter^2 -- convert square meters to nanobarns
+
+yhat = C1 ((x^2 + 3) / (x - 1))^2 C2 C3
+yhat
+
+"Coefficient of determination (R squared)"
+
+ybar = sum(y) / dim(y)
+
+RSS = sum((y - yhat)^2) -- residual sum of squares
+TSS = sum((y - ybar)^2) -- total sum of squares
+
+1 - RSS / TSS
+clear
+
+"Verify equation (1)"
+E = (3 pi^2 / 2)^(1/3) 9 hbar^2 N^(5/3) / (20 me R^2)
+U = -3 G M^2 / (5 R)
+R = -R d(E,R) / d(U,R)
+check(R == (3 pi^2 / 2)^(1/3) 3 hbar^2 N^(5/3) / (2 me G M^2))
+"ok"
+
+"Verify equation (3)"
+N = M / (2 mp)
+check(R == 3 hbar^2 / (8 G me) (3 pi^2 / (M mp^5))^(1/3))
+"ok"
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+volt = joule / coulomb
+
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+me = 9.1093837015 10^(-31) kilogram
+mp = 1.67262192369 10^(-27) kilogram
+G = 6.67430 10^(-11) meter^3 / (kilogram second^2)
+pi = float(pi)
+
+"Verify equation (4)"
+check(infixform(R M^(1/3)) == "9.00395 10^16 kilogram^(1/3) meter")
+"ok"
+
+"For one solar mass"
+M = 2 10^30 kilogram
+R
+clear
+
+-- Wien's displacement law
+
+W0(z,n) = sum(n,1,20, (-n)^(n - 1) z^n / n!)
+x = W0(-5.0 exp(-5.0)) + 5.0
+x
+
+"Verify x"
+epsilon = 1.0 10^(-10)
+check(abs(x exp(x) - 5 exp(x) + 5) < epsilon)
+"ok"
+
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+k = 1.380649 10^(-23) joule / kelvin
+
+joule = kilogram meter^2 / second^2
+kelvin = "kelvin"
+meter = "meter"
+
+b = h c / (k x)
+b
+clear
+
+"Verify equation (3)"
+
+psi = A(x) exp(i phi(x))
+
+T1 = d(A(x),x,x)
+T2 = 2 i d(A(x),x) d(phi(x),x)
+T3 = i A(x) d(phi(x),x,x)
+T4 = -A(x) d(phi(x),x)^2
+
+check(d(psi,x,x) == (T1 + T2 + T3 + T4) exp(i phi(x)))
+
+"ok"
+
+"Verify equation (12)"
+
+T = 2 m / hbar^2 abs(E - V)
+
+T1 = (+sqrt(+T))^(-1/2)
+T2 = (+sqrt(-T))^(-1/2)
+T3 = (-sqrt(+T))^(-1/2)
+T4 = (-sqrt(-T))^(-1/2)
+
+check(polar(T1) == T^(-1/4))
+check(polar(T2) == exp(-1/4 i pi) T^(-1/4))
+check(polar(T3) == exp(-1/2 i pi) T^(-1/4))
+check(polar(T4) == exp(-3/4 i pi) T^(-1/4))
+
+"ok"
+clear
+
+"Yukawa potential"
+
+"Verify equation (1)"
+f = -m V0 / (hbar^2 mu) / (i k) *
+    (exp(i k r - mu r) - exp(-i k r - mu r))
+I = integral(f,r)
+f = 0 - eval(I,r,0)
+check(f == -2 m V0 / (hbar^2 mu) / (k^2 + mu^2))
+"ok"
+
+"Verify equation (2)"
+k = sqrt(4 m E (1 - cos(theta)) / hbar^2)
+check(f == -2 m V0 / mu / (4 m E (1 - cos(theta)) + mu^2 hbar^2))
+"ok"
+
+"Verify equation (3)"
+f = 1 / (4 m E y + mu^2 hbar^2)^2
+I = defint(f, y, 0, 2)
+check(I == 2 / (8 m E mu^2 hbar^2 + mu^4 hbar^4))
+"ok"
+clear
+
+"Zeeman effect"
+
+E(n,l,j,mj) = E1 / n^2 (1 + alpha^2 / n^2 (n / (j + 1/2) - 3/4)) +
+              gJ(l,j) mj muB B
+
+gJ(l,j) = 1 + (j (j + 1) - l (l + 1) + 3/4) / (2 j (j + 1))
+
+check(E(2,1,3/2,3/2) == 1/4 E1 (1 + 1/16 alpha^2) + 2 muB B)
+check(E(2,1,3/2,-3/2) == 1/4 E1 (1 + 1/16 alpha^2) - 2 muB B)
+
+check(E(2,1,3/2,1/2) == 1/4 E1 (1 + 1/16 alpha^2) + 2/3 muB B)
+check(E(2,1,3/2,-1/2) == 1/4 E1 (1 + 1/16 alpha^2) - 2/3 muB B)
+
+check(E(2,1,1/2,1/2) == 1/4 E1 (1 + 5/16 alpha^2) + 1/3 muB B)
+check(E(2,1,1/2,-1/2) == 1/4 E1 (1 + 5/16 alpha^2) - 1/3 muB B)
+
+check(E(2,0,1/2,1/2) == 1/4 E1 (1 + 5/16 alpha^2) + muB B)
+check(E(2,0,1/2,-1/2) == 1/4 E1 (1 + 5/16 alpha^2) - muB B)
+
+"ok"
