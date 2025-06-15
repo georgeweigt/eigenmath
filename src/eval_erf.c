@@ -1,3 +1,5 @@
+// first author: philippe.billet@noos.fr
+
 void
 eval_erf(struct atom *p1)
 {

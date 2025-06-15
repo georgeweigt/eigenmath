@@ -1,3 +1,5 @@
+// first author: philippe.billet@noos.fr
+
 void
 eval_erfc(struct atom *p1)
 {
