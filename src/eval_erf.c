@@ -1,4 +1,4 @@
-// first author: philippe.billet@noos.fr
+// first author: github.com/phbillet
 
 void
 eval_erf(struct atom *p1)

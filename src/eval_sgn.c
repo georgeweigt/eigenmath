@@ -1,4 +1,4 @@
-// first author: philippe.billet@noos.fr
+// first author: github.com/phbillet
 
 void
 eval_sgn(struct atom *p1)

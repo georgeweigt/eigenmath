@@ -5280,7 +5280,7 @@ eigenvec_step_nib(double *D, double *Q, int n, int p, int q)
 	D[n * p + q] = 0.0;
 	D[n * q + p] = 0.0;
 }
-// first author: philippe.billet@noos.fr
+// first author: github.com/phbillet
 
 void
 eval_erf(struct atom *p1)
@@ -5337,7 +5337,7 @@ erffunc(void)
 	push(p1);
 	list(2);
 }
-// first author: philippe.billet@noos.fr
+// first author: github.com/phbillet
 
 void
 eval_erfc(struct atom *p1)
@@ -12748,7 +12748,7 @@ convert_body(struct atom *A)
 	push_symbol(ARG9);
 	subst();
 }
-// first author: philippe.billet@noos.fr
+// first author: github.com/phbillet
 
 void
 eval_sgn(struct atom *p1)
