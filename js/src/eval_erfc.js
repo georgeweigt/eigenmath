@@ -9,7 +9,7 @@ eval_erfc(p1)
 function
 erfcfunc()
 {
-	var d, i, n, p1;
+	var d, i, n, p1, p2;
 
 	p1 = pop();
 
@@ -25,8 +25,12 @@ erfcfunc()
 		return;
 	}
 
-	if (isnum(p1)) {
-		push(p1);
+	push(p1);
+	floatfunc();
+	p2 = pop();
+
+	if (isnum(p2)) {
+		push(p2);
 		d = pop_double();
 		d = erfc(d);
 		push_double(d);

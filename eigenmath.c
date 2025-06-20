@@ -720,7 +720,7 @@ void set_component(struct atom *LVAL, struct atom *RVAL, int h);
 void setq_usrfunc(struct atom *p1);
 void convert_body(struct atom *A);
 void eval_sgn(struct atom *p1);
-void sgn(void);
+void sgnfunc(void);
 void eval_simplify(struct atom *p1);
 void simplify(void);
 void simplify_nib(void);
@@ -5300,7 +5300,7 @@ erffunc(void)
 {
 	int i, n;
 	double d;
-	struct atom *p1;
+	struct atom *p1, *p2;
 
 	p1 = pop();
 
@@ -5316,8 +5316,12 @@ erffunc(void)
 		return;
 	}
 
-	if (isnum(p1)) {
-		push(p1);
+	push(p1);
+	floatfunc();
+	p2 = pop();
+
+	if (isnum(p2)) {
+		push(p2);
 		d = pop_double();
 		d = erf(d);
 		push_double(d);
@@ -5352,7 +5356,7 @@ erfcfunc(void)
 {
 	int i, n;
 	double d;
-	struct atom *p1;
+	struct atom *p1, *p2;
 
 	p1 = pop();
 
@@ -5368,8 +5372,12 @@ erfcfunc(void)
 		return;
 	}
 
-	if (isnum(p1)) {
-		push(p1);
+	push(p1);
+	floatfunc();
+	p2 = pop();
+
+	if (isnum(p2)) {
+		push(p2);
 		d = pop_double();
 		d = erfc(d);
 		push_double(d);
@@ -12750,14 +12758,14 @@ eval_sgn(struct atom *p1)
 {
 	push(cadr(p1));
 	evalf();
-	sgn();
+	sgnfunc();
 }
 
 void
-sgn(void)
+sgnfunc(void)
 {
 	int i, n;
-	struct atom *p1;
+	struct atom *p1, *p2;
 
 	p1 = pop();
 
@@ -12766,26 +12774,34 @@ sgn(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			sgn();
+			sgnfunc();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
 		return;
 	}
 
-	if (!isnum(p1)) {
+	p2 = p1;
+
+	if (!isnum(p2)) {
+		push(p2);
+		floatfunc();
+		p2 = pop();
+	}
+
+	if (!isnum(p2)) {
 		push_symbol(SGN);
 		push(p1);
 		list(2);
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iszero(p2)) {
 		push_integer(0);
 		return;
 	}
 
-	if (isnegativenumber(p1))
+	if (isnegativenumber(p2))
 		push_integer(-1);
 	else
 		push_integer(1);

@@ -6095,7 +6095,7 @@ eval_erf(p1)
 function
 erffunc()
 {
-	var d, i, n, p1;
+	var d, i, n, p1, p2;
 
 	p1 = pop();
 
@@ -6111,8 +6111,12 @@ erffunc()
 		return;
 	}
 
-	if (isnum(p1)) {
-		push(p1);
+	push(p1);
+	floatfunc();
+	p2 = pop();
+
+	if (isnum(p2)) {
+		push(p2);
 		d = pop_double();
 		d = erf(d);
 		push_double(d);
@@ -6143,7 +6147,7 @@ eval_erfc(p1)
 function
 erfcfunc()
 {
-	var d, i, n, p1;
+	var d, i, n, p1, p2;
 
 	p1 = pop();
 
@@ -6159,8 +6163,12 @@ erfcfunc()
 		return;
 	}
 
-	if (isnum(p1)) {
-		push(p1);
+	push(p1);
+	floatfunc();
+	p2 = pop();
+
+	if (isnum(p2)) {
+		push(p2);
 		d = pop_double();
 		d = erfc(d);
 		push_double(d);
@@ -11805,11 +11813,11 @@ eval_sgn(p1)
 {
 	push(cadr(p1));
 	evalf();
-	sgn();
+	sgnfunc();
 }
 
 function
-sgn()
+sgnfunc()
 {
 	var i, n, p1;
 
@@ -11820,26 +11828,34 @@ sgn()
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			sgn();
+			sgnfunc();
 			p1.elem[i] = pop();
 		}
 		push(p1);
 		return;
 	}
 
-	if (!isnum(p1)) {
+	p2 = p1;
+
+	if (!isnum(p2)) {
+		push(p2);
+		floatfunc();
+		p2 = pop();
+	}
+
+	if (!isnum(p2)) {
 		push_symbol(SGN);
 		push(p1);
 		list(2);
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iszero(p2)) {
 		push_integer(0);
 		return;
 	}
 
-	if (isnegativenumber(p1))
+	if (isnegativenumber(p2))
 		push_integer(-1);
 	else
 		push_integer(1);
