@@ -32,8 +32,10 @@ evalf_nib(struct atom *p1)
 	if (interrupt)
 		stopf("interrupt");
 
-//	if (eval_level == 100)
-//		stopf("circular definition?");
+	// this is needed to prevent seg fault (STACKSIZE is greater than process stack)
+
+	if (eval_level > 1000)
+		stopf("evaluation depth exceeded, possibly due to recursive function or circular symbol definition");
 
 	if (eval_level > max_eval_level)
 		max_eval_level = eval_level;

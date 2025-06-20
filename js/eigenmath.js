@@ -13249,8 +13249,8 @@ evalf_nib()
 {
 	var p1;
 
-	if (eval_level == 200)
-		stopf("circular definition?");
+	if (eval_level > 1000)
+		stopf("evaluation depth exceeded, possibly due to recursive function or circular symbol definition");
 
 	p1 = pop();
 

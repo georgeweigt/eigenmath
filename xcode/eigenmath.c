@@ -13577,8 +13577,10 @@ evalf_nib(struct atom *p1)
 	if (interrupt)
 		stopf("interrupt");
 
-//	if (eval_level == 100)
-//		stopf("circular definition?");
+	// this is needed to prevent seg fault (STACKSIZE is greater than process stack)
+
+	if (eval_level > 1000)
+		stopf("evaluation depth exceeded, possibly due to recursive function or circular symbol definition");
 
 	if (eval_level > max_eval_level)
 		max_eval_level = eval_level;
@@ -15768,7 +15770,7 @@ void
 push(struct atom *p)
 {
 	if (tos < 0 || tos >= STACKSIZE)
-		exitf("stack error, circular definition?");
+		exitf("stack error");
 	stack[tos++] = p;
 	if (tos > max_tos)
 		max_tos = tos;
