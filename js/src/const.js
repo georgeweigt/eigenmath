@@ -93,9 +93,11 @@ const TESTGE = "testge";
 const TESTGT = "testgt";
 const TESTLE = "testle";
 const TESTLT = "testlt";
+const TGAMMA = "tgamma";
 const TRANSPOSE = "transpose";
 const TTY = "tty";
 const UNIT = "unit";
+const WHILE = "while";
 const ZERO = "zero";
 
 const ADD = "+";

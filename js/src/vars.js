@@ -111,8 +111,10 @@ var symtab = {
 "testgt":	{printname:TESTGT,	func:eval_testgt},
 "testle":	{printname:TESTLE,	func:eval_testle},
 "testlt":	{printname:TESTLT,	func:eval_testlt},
+"tgamma":	{printname:TGAMMA,	func:eval_tgamma},
 "transpose":	{printname:TRANSPOSE,	func:eval_transpose},
 "unit":		{printname:UNIT,	func:eval_unit},
+"while":	{printname:WHILE,	func:eval_while},
 "zero":		{printname:ZERO,	func:eval_zero},
 
 "+":		{printname:ADD,		func:eval_add},

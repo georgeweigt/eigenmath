@@ -117,6 +117,7 @@ function gamma
         var den = 1.0;
 
         var z = y - 1;
+	var i;
         for (i = 0; i < 8; i++)
         {
             num = (num + p[i])*z;
@@ -148,7 +149,8 @@ function gamma
     if (x > 171.624)
     {
         // Correct answer too large to display. 
-        return Double.POSITIVE_INFINITY;
+//        return Double.POSITIVE_INFINITY;
+	return Infinity;
     }
 
     return Math.exp(log_gamma(x));
