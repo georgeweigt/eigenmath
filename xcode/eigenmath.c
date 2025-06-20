@@ -4514,16 +4514,11 @@ erffunc(void)
 		return;
 	}
 
-	if (isdouble(p1)) {
+	if (isnum(p1)) {
 		push(p1);
 		d = pop_double();
 		d = erf(d);
 		push_double(d);
-		return;
-	}
-
-	if (iszero(p1)) {
-		push_integer(0);
 		return;
 	}
 
@@ -4571,16 +4566,11 @@ erfcfunc(void)
 		return;
 	}
 
-	if (isdouble(p1)) {
+	if (isnum(p1)) {
 		push(p1);
 		d = pop_double();
 		d = erfc(d);
 		push_double(d);
-		return;
-	}
-
-	if (iszero(p1)) {
-		push_integer(1);
 		return;
 	}
 
