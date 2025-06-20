@@ -1,0 +1,6 @@
+"Testing sgn"
+clear
+check(infixform(sgn(0)) == "0")
+check(infixform(sgn(1/2)) == "1")
+check(infixform(sgn(-1/2)) == "-1")
+check(infixform(sgn(-x)) == "sgn(-x)")

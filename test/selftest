@@ -5729,6 +5729,10 @@ check(infixform(nroots(p,t)) == "(1,2,3)")
 p = i (x^5 + x^4 + x^3 + x^2 + x + 1)
 A = nroots(p)
 for(k,1,4,check(abs(eval(p,x,A[k])) < epsilon))
+"Testing number"
+clear
+check(number(1/2) == 1)
+check(number(x) == 0)
 "Testing numerator"
 
 clear
@@ -8615,6 +8619,12 @@ check(U(ket0000) == ket0000)
 check(U(ket0001) == ket0101)
 check(U(ket0010) == ket0110)
 check(U(ket0011) == ket1011)
+"Testing sgn"
+clear
+check(infixform(sgn(0)) == "0")
+check(infixform(sgn(1/2)) == "1")
+check(infixform(sgn(-1/2)) == "-1")
+check(infixform(sgn(-x)) == "sgn(-x)")
 "Testing simple powers"
 
 clear
@@ -9195,4 +9205,3 @@ A = (0,0,0)
 k = 1
 while(k < 4, A[k] = k, k = k + 1)
 check(A == (1,2,3))
-"ok"

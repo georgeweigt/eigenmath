@@ -1,0 +1,4 @@
+"Testing number"
+clear
+check(number(1/2) == 1)
+check(number(x) == 0)
