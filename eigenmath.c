@@ -252,9 +252,10 @@ struct tensor {
 #define TESTGT		(19 * BUCKETSIZE + 8)
 #define TESTLE		(19 * BUCKETSIZE + 9)
 #define TESTLT		(19 * BUCKETSIZE + 10)
-#define TRACE		(19 * BUCKETSIZE + 11)
-#define TRANSPOSE	(19 * BUCKETSIZE + 12)
-#define TTY		(19 * BUCKETSIZE + 13)
+#define TGAMMA		(19 * BUCKETSIZE + 11)
+#define TRACE		(19 * BUCKETSIZE + 12)
+#define TRANSPOSE	(19 * BUCKETSIZE + 13)
+#define TTY		(19 * BUCKETSIZE + 14)
 
 #define U_UPPER		(20 * BUCKETSIZE + 0)
 #define U_LOWER		(20 * BUCKETSIZE + 1)
@@ -265,6 +266,7 @@ struct tensor {
 
 #define W_UPPER		(22 * BUCKETSIZE + 0)
 #define W_LOWER		(22 * BUCKETSIZE + 1)
+#define WHILE		(22 * BUCKETSIZE + 2)
 
 #define X_UPPER		(23 * BUCKETSIZE + 0)
 #define X_LOWER		(23 * BUCKETSIZE + 1)
@@ -753,11 +755,14 @@ void eval_testgt(struct atom *p1);
 void eval_testle(struct atom *p1);
 void eval_testlt(struct atom *p1);
 int cmp_args(struct atom *p1);
+void eval_tgamma(struct atom *p1);
+void tgammafunc(void);
 void eval_transpose(struct atom *p1);
 void transpose(int n, int m);
 void eval_unit(struct atom *p1);
 void eval_user_function(struct atom *p1);
 void eval_user_symbol(struct atom *p1);
+void eval_while(struct atom *p1);
 void eval_zero(struct atom *p1);
 void evalg(void);
 void evalf(void);
@@ -14029,6 +14034,47 @@ cmp_args(struct atom *p1)
 		return 1;
 }
 void
+eval_tgamma(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	tgammafunc();
+}
+
+void
+tgammafunc(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			tgammafunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isnum(p1)) {
+		push(p1);
+		d = pop_double();
+		d = tgamma(d);
+		push_double(d);
+		return;
+	}
+
+	push_symbol(TGAMMA);
+	push(p1);
+	list(2);
+}
+void
 eval_transpose(struct atom *p1)
 {
 	int m, n;
@@ -14236,6 +14282,26 @@ eval_user_symbol(struct atom *p1)
 	}
 }
 void
+eval_while(struct atom *p1)
+{
+	struct atom *p2, *p3;
+	for (;;) {
+		p2 = cdr(p1);
+		push(car(p2));
+		evalp();
+		p3 = pop();
+		if (iszero(p3))
+			break;
+		p2 = cdr(p2);
+		while (iscons(p2)) {
+			push(car(p2));
+			evalg();
+			p2 = cdr(p2);
+		}
+	}
+	push_symbol(NIL);
+}
+void
 eval_zero(struct atom *p1)
 {
 	int h, i, m, n;
@@ -14313,8 +14379,8 @@ evalf_nib(struct atom *p1)
 	if (interrupt)
 		stopf("interrupt");
 
-	if (eval_level == 200)
-		stopf("circular definition?");
+//	if (eval_level == 100)
+//		stopf("circular definition?");
 
 	if (eval_level > max_eval_level)
 		max_eval_level = eval_level;
@@ -18345,6 +18411,7 @@ struct se {
 	{ "testgt",		TESTGT,		eval_testgt		},
 	{ "testle",		TESTLE,		eval_testle		},
 	{ "testlt",		TESTLT,		eval_testlt		},
+	{ "tgamma",		TGAMMA,		eval_tgamma		},
 	{ "trace",		TRACE,		NULL			},
 	{ "transpose",		TRANSPOSE,	eval_transpose		},
 	{ "tty",		TTY,		NULL			},
@@ -18358,6 +18425,7 @@ struct se {
 
 	{ "W",			W_UPPER,	NULL			},
 	{ "w",			W_LOWER,	NULL			},
+	{ "while",		WHILE,		eval_while		},
 
 	{ "X",			X_UPPER,	NULL			},
 	{ "x",			X_LOWER,	NULL			},

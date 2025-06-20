@@ -32,8 +32,8 @@ evalf_nib(struct atom *p1)
 	if (interrupt)
 		stopf("interrupt");
 
-	if (eval_level == 200)
-		stopf("circular definition?");
+//	if (eval_level == 100)
+//		stopf("circular definition?");
 
 	if (eval_level > max_eval_level)
 		max_eval_level = eval_level;

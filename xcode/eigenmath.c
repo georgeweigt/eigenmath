@@ -13232,6 +13232,47 @@ cmp_args(struct atom *p1)
 		return 1;
 }
 void
+eval_tgamma(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	tgammafunc();
+}
+
+void
+tgammafunc(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			tgammafunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (isnum(p1)) {
+		push(p1);
+		d = pop_double();
+		d = tgamma(d);
+		push_double(d);
+		return;
+	}
+
+	push_symbol(TGAMMA);
+	push(p1);
+	list(2);
+}
+void
 eval_transpose(struct atom *p1)
 {
 	int m, n;
@@ -13439,6 +13480,26 @@ eval_user_symbol(struct atom *p1)
 	}
 }
 void
+eval_while(struct atom *p1)
+{
+	struct atom *p2, *p3;
+	for (;;) {
+		p2 = cdr(p1);
+		push(car(p2));
+		evalp();
+		p3 = pop();
+		if (iszero(p3))
+			break;
+		p2 = cdr(p2);
+		while (iscons(p2)) {
+			push(car(p2));
+			evalg();
+			p2 = cdr(p2);
+		}
+	}
+	push_symbol(NIL);
+}
+void
 eval_zero(struct atom *p1)
 {
 	int h, i, m, n;
@@ -13516,8 +13577,8 @@ evalf_nib(struct atom *p1)
 	if (interrupt)
 		stopf("interrupt");
 
-	if (eval_level == 200)
-		stopf("circular definition?");
+//	if (eval_level == 100)
+//		stopf("circular definition?");
 
 	if (eval_level > max_eval_level)
 		max_eval_level = eval_level;
@@ -16116,6 +16177,7 @@ struct se {
 	{ "testgt",		TESTGT,		eval_testgt		},
 	{ "testle",		TESTLE,		eval_testle		},
 	{ "testlt",		TESTLT,		eval_testlt		},
+	{ "tgamma",		TGAMMA,		eval_tgamma		},
 	{ "trace",		TRACE,		NULL			},
 	{ "transpose",		TRANSPOSE,	eval_transpose		},
 	{ "tty",		TTY,		NULL			},
@@ -16129,6 +16191,7 @@ struct se {
 
 	{ "W",			W_UPPER,	NULL			},
 	{ "w",			W_LOWER,	NULL			},
+	{ "while",		WHILE,		eval_while		},
 
 	{ "X",			X_UPPER,	NULL			},
 	{ "x",			X_LOWER,	NULL			},

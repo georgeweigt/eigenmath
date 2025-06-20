@@ -221,6 +221,7 @@ struct se {
 	{ "testgt",		TESTGT,		eval_testgt		},
 	{ "testle",		TESTLE,		eval_testle		},
 	{ "testlt",		TESTLT,		eval_testlt		},
+	{ "tgamma",		TGAMMA,		eval_tgamma		},
 	{ "trace",		TRACE,		NULL			},
 	{ "transpose",		TRANSPOSE,	eval_transpose		},
 	{ "tty",		TTY,		NULL			},
@@ -234,6 +235,7 @@ struct se {
 
 	{ "W",			W_UPPER,	NULL			},
 	{ "w",			W_LOWER,	NULL			},
+	{ "while",		WHILE,		eval_while		},
 
 	{ "X",			X_UPPER,	NULL			},
 	{ "x",			X_LOWER,	NULL			},

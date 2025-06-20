@@ -9148,6 +9148,9 @@ check(B[1,1] = a)
 check(B[1,2] = b)
 check(B[2,1] = c)
 check(B[2,2] = d)
+"Testing tgamma"
+clear
+for(k,1,3,check(tgamma(k)==factorial(k-1)))
 "Testing transpose"
 
 clear
@@ -9186,3 +9189,10 @@ check((1,2,3,4) + 10 == (11,12,13,14))
 check((1,2,3,4)^2 == (1,4,9,16))
 check(sum((1,2,3,4)) == 10)
 check(product((1,2,3,4)) == 24)
+"Testing while"
+clear
+A = (0,0,0)
+k = 1
+while(k < 4, A[k] = k, k = k + 1)
+check(A == (1,2,3))
+"ok"

@@ -225,9 +225,10 @@ struct tensor {
 #define TESTGT		(19 * BUCKETSIZE + 8)
 #define TESTLE		(19 * BUCKETSIZE + 9)
 #define TESTLT		(19 * BUCKETSIZE + 10)
-#define TRACE		(19 * BUCKETSIZE + 11)
-#define TRANSPOSE	(19 * BUCKETSIZE + 12)
-#define TTY		(19 * BUCKETSIZE + 13)
+#define TGAMMA		(19 * BUCKETSIZE + 11)
+#define TRACE		(19 * BUCKETSIZE + 12)
+#define TRANSPOSE	(19 * BUCKETSIZE + 13)
+#define TTY		(19 * BUCKETSIZE + 14)
 
 #define U_UPPER		(20 * BUCKETSIZE + 0)
 #define U_LOWER		(20 * BUCKETSIZE + 1)
@@ -238,6 +239,7 @@ struct tensor {
 
 #define W_UPPER		(22 * BUCKETSIZE + 0)
 #define W_LOWER		(22 * BUCKETSIZE + 1)
+#define WHILE		(22 * BUCKETSIZE + 2)
 
 #define X_UPPER		(23 * BUCKETSIZE + 0)
 #define X_LOWER		(23 * BUCKETSIZE + 1)
