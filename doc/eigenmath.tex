@@ -1773,7 +1773,6 @@ abs(X)
 \end{verbatim}
 }
 
-\noindent
 $\left(x^2+y^2+z^2\right)^{1/2}$
 
 \subsection*{adj($m$)}
@@ -1788,7 +1787,6 @@ adj(A) == det(A) inv(A)
 \end{verbatim}
 }
 
-\noindent
 $1$
 
 \subsection*{and($a,b,\ldots$)}
@@ -1802,7 +1800,6 @@ and(1=1,2=2)
 \end{verbatim}
 }
 
-\noindent
 $1$
 
 \subsection*{arccos($x$)}
@@ -1815,7 +1812,6 @@ arccos(1/2)
 \end{verbatim}
 }
 
-\noindent
 $\tfrac{1}{3}\pi$
 
 \subsection*{arccosh($x$)}
@@ -1832,7 +1828,6 @@ arcsin(1/2)
 \end{verbatim}
 }
 
-\noindent
 $\tfrac{1}{6}\pi$
 
 \subsection*{arcsinh($x$)}
@@ -1850,7 +1845,6 @@ arctan(1,0)
 \end{verbatim}
 }
 
-\noindent
 $\tfrac{1}{2}\pi$
 
 \subsection*{arctanh($x$)}
@@ -1867,7 +1861,6 @@ arg(2 - 3i)
 \end{verbatim}
 }
 
-\noindent
 $-\arctan(3,2)$
 
 \subsection*{binding($s$)}
@@ -1883,7 +1876,6 @@ p
 \end{verbatim}
 }
 
-\noindent
 $p=x^2+2x+1$
 
 {\color{blue}
@@ -1892,7 +1884,6 @@ binding(p)
 \end{verbatim}
 }
 
-\noindent
 $(x+1)^2$
 
 \subsection*{ceiling($x$)}
@@ -1905,7 +1896,6 @@ ceiling(1/2)
 \end{verbatim}
 }
 
-\noindent
 $1$
 
 \subsection*{check($x$)}
@@ -1940,7 +1930,6 @@ choose(52,5) -- number of poker hands
 \end{verbatim}
 }
 
-\noindent
 $2598960$
 
 \subsection*{clear}
@@ -1957,7 +1946,6 @@ clock(2 - 3i)
 \end{verbatim}
 }
 
-\noindent
 $13^{1/2}\,(-1)^{-\arctan(3,2)/\pi}$
 
 \subsection*{cofactor($m,i,j$)}
@@ -1971,8 +1959,7 @@ cofactor(A,1,2) == adj(A)[2,1]
 \end{verbatim}
 }
 
-\noindent
-1
+$1$
 
 \subsection*{conj($z$)}
 
@@ -1984,7 +1971,6 @@ conj(2 - 3i)
 \end{verbatim}
 }
 
-\noindent
 $2 + 3 i$
 
 \subsection*{contract($a,i,j$)}
@@ -2000,7 +1986,6 @@ contract(A)
 \end{verbatim}
 }
 
-\noindent
 $a + d$
 
 \subsection*{cos($x$)}
@@ -2013,7 +1998,6 @@ cos(pi/4)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \frac{1}{2^{1/2}}$
 
 \subsection*{cosh($x$)}
@@ -2026,7 +2010,6 @@ expform(cosh(x))
 \end{verbatim}
 }
 
-\noindent
 $\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
 
 \subsection*{cross($u,v$)}
@@ -2047,11 +2030,9 @@ d(sin(x),x)
 \end{verbatim}
 }
 
-\noindent
 $\cos(x)$
 
 \bigskip
-\noindent
 Multiderivatives are computed by extending the argument list.
 
 {\color{blue}
@@ -2060,11 +2041,9 @@ d(sin(x),x,x)
 \end{verbatim}
 }
 
-\noindent
 $-\sin(x)$
 
 \bigskip
-\noindent
 A numeric argument $n$ computes the $n$th derivative with respect to the previous symbol.
 
 {\color{blue}
@@ -2073,11 +2052,9 @@ d(sin(x y),x,2,y,2)
 \end{verbatim}
 }
 
-\noindent
 $x^2y^2\sin(xy)-4xy\cos(xy)-2\sin(xy)$
 
 \bigskip
-\noindent
 Argument $f$ can be a tensor of any rank.
 Argument $x$ can be a vector.
 When $x$ is a vector the result is the gradient of $f$.
@@ -2090,7 +2067,6 @@ d(F,X)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 \operatorname{d}(f(),x) & \operatorname{d}(f(),y) &  \operatorname{d}(f(),z)
@@ -2102,12 +2078,10 @@ $\displaystyle
 $
 
 \bigskip
-\noindent
 Symbol \verb$d$ can be used as a variable name.
 Doing so does not conflict with function \verb$d$.
 
 \bigskip
-\noindent
 Symbol \verb$d$ can be redefined as a different function.
 The function \verb$derivative$, a synonym for \verb$d$, can be used to obtain a partial derivative.
 
@@ -2124,7 +2098,6 @@ defint(sin(theta), theta, 0, pi, phi, 0, 2 pi)
 \end{verbatim}
 }
 
-\noindent
 $4\pi$
 
 \subsection*{denominator($x$)}
@@ -2137,7 +2110,6 @@ denominator(a/b)
 \end{verbatim}
 }
 
-\noindent
 $b$
 
 \subsection*{det($m$)}
@@ -2151,7 +2123,6 @@ det(A)
 \end{verbatim}
 }
 
-\noindent
 $a d - b c$
 
 \subsection*{dim($a,n$)}
@@ -2166,7 +2137,6 @@ dim(A,1)
 \end{verbatim}
 }
 
-\noindent
 $3$
 
 \subsection*{div($v$)}
@@ -2184,7 +2154,6 @@ do(A=1,B=2,A+B)
 \end{verbatim}
 }
 
-\noindent
 $3$
 
 \subsection*{dot($a,b,\ldots$)}
@@ -2203,7 +2172,6 @@ X
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 -4
@@ -2228,7 +2196,6 @@ dot(Q,D,transpose(Q))
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 1 & 2 & 3
@@ -2238,6 +2205,46 @@ $\displaystyle
 3 & 4 & 5
 \end{bmatrix}
 $
+
+\subsection*{erf($x$)}
+
+Returns the error function of $x$ if $x$ is a real number.
+
+{\color{blue}
+\begin{verbatim}
+erf(1.0)
+\end{verbatim}
+}
+
+$0.842701$
+
+{\color{blue}
+\begin{verbatim}
+2/sqrt(pi) integral(exp(-x^2),x)
+\end{verbatim}
+}
+
+$\operatorname{erf}(x)$
+
+\subsection*{erfc($x$)}
+
+Returns the complementary error function of $x$ if $x$ is a real number.
+
+{\color{blue}
+\begin{verbatim}
+erfc(1.0)
+\end{verbatim}
+}
+
+$0.157299$
+
+{\color{blue}
+\begin{verbatim}
+1 - erf(1.0)
+\end{verbatim}
+}
+
+$0.157299$
 
 \subsection*{eval($f,x,a,y,b,\ldots$)}
 
@@ -2251,11 +2258,9 @@ eval(f,x,3,y,4)
 \end{verbatim}
 }
 
-\noindent
-5
+$5$
 
 \bigskip
-\noindent
 In the following example, \verb$eval$ is used to replace
 \verb$x$ with \verb$cos(theta)$.
 
@@ -2284,7 +2289,6 @@ exp(i pi)
 \end{verbatim}
 }
 
-\noindent
 $-1$
 
 \subsection*{expcos($z$)}
@@ -2297,7 +2301,6 @@ expcos(z)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \tfrac{1}{2}\exp(iz)+\tfrac{1}{2}\exp(-iz)$
 
 \subsection*{expcosh($z$)}
@@ -2310,7 +2313,6 @@ expcosh(z)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
 
 \subsection*{expform($x$)}
@@ -2324,7 +2326,6 @@ expform(cos(x) + i sin(x))
 \end{verbatim}
 }
 
-\noindent
 $\exp(ix)$
 
 \subsection*{expsin($z$)}
@@ -2337,7 +2338,6 @@ expsin(z)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle -\tfrac{1}{2}i\exp(iz)+\tfrac{1}{2}i\exp(-iz)$
 
 \subsection*{expsinh($z$)}
@@ -2350,7 +2350,6 @@ expsinh(z)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle -\tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
 
 \subsection*{exptan($z$)}
@@ -2363,7 +2362,6 @@ exptan(z)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \frac{i}{\exp(2iz)+1}-\frac{i\exp(2iz)}{\exp(2iz)+1}$
 
 \subsection*{exptanh($z$)}
@@ -2376,7 +2374,6 @@ exptanh(z)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle -\frac{1}{\exp(2z)+1}+\frac{\exp(2z)}{\exp(2z)+1}$
 
 \subsection*{factorial($n$)}
@@ -2390,7 +2387,6 @@ The expression {\tt n!} can also be used.
 \end{verbatim}
 }
 
-\noindent
 $2432902008176640000$
 
 \subsection*{float($x$)}
@@ -2405,7 +2401,6 @@ float(212^17)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle 3.52947\times 10^{39}$
 
 \subsection*{floor($x$)}
@@ -2418,7 +2413,6 @@ floor(1/2)
 \end{verbatim}
 }
 
-\noindent
 $0$
 
 \subsection*{for($i,j,k,a,b,\ldots$)}
@@ -2431,13 +2425,11 @@ for(k,1,3,A=k,print(A))
 \end{verbatim}
 }
 
-\noindent
 $A=1$\\
 $A=2$\\
 $A=3$
 
 \bigskip
-\noindent
 Note: The original value of $i$ is restored after {\tt for} completes.
 If symbol {\tt i} is used for index variable $i$
 then the imaginary unit is overridden in the scope of {\tt for}.
@@ -2452,7 +2444,6 @@ grad(f())
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 {\rm d}(f(),x)
@@ -2474,7 +2465,6 @@ hadamard(X,X)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 a^2
@@ -2495,11 +2485,9 @@ exp(i pi)
 \end{verbatim}
 }
 
-\noindent
 $-1$
 
 \bigskip
-\noindent
 Note: It is ok to clear or redefine {\tt i} and use the symbol for something else.
 
 \subsection*{imag($z$)}
@@ -2512,7 +2500,6 @@ imag(2 - 3i)
 \end{verbatim}
 }
 
-\noindent
 $-3$
 
 \subsection*{infixform($x$)}
@@ -2526,7 +2513,6 @@ infixform(p)
 \end{verbatim}
 }
 
-\noindent
 \verb$x^2 + 2 x + 1$
 
 \subsection*{inner($a,b,\ldots$)}
@@ -2542,7 +2528,6 @@ inner(A,B)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 ax+by
@@ -2552,7 +2537,6 @@ cx+dy
 $
 
 \bigskip
-\noindent
 Note: {\tt inner} and {\tt dot} are the same function.
 
 \subsection*{integral($f,x$)}
@@ -2565,7 +2549,6 @@ integral(x^2,x)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \tfrac{1}{3}x^3$
 
 \subsection*{inv($m$)}
@@ -2579,7 +2562,6 @@ inv(A)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 -2 & 1
@@ -2599,7 +2581,6 @@ j = sqrt(-1)
 \end{verbatim}
 }
 
-\noindent
 $-j$
 
 \subsection*{kronecker($a,b,\ldots$)}
@@ -2614,7 +2595,6 @@ kronecker(A,B)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 a & b & 2a & 2b
@@ -2637,7 +2617,6 @@ The result of the previous calculation is stored in {\tt last}.
 \end{verbatim}
 }
 
-\noindent
 $3529471145760275132301897342055866171392$
 
 {\color{blue}
@@ -2646,11 +2625,9 @@ last^(1/17)
 \end{verbatim}
 }
 
-\noindent
 $212$
 
 \bigskip
-\noindent
 Symbol \verb$last$ is an implied argument when a function has no argument list.
 
 {\color{blue}
@@ -2659,7 +2636,6 @@ Symbol \verb$last$ is an implied argument when a function has no argument list.
 \end{verbatim}
 }
 
-\noindent
 $3529471145760275132301897342055866171392$
 
 {\color{blue}
@@ -2668,7 +2644,6 @@ float
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle 3.52947\times10^{39}$
 
 \subsection*{log($x$)}
@@ -2681,7 +2656,6 @@ log(x^y)
 \end{verbatim}
 }
 
-\noindent
 $y\log(x)$
 
 \subsection*{mag($z$)}
@@ -2695,7 +2669,6 @@ mag(x + i y)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle (x^2+y^2)^{1/2}$
 
 \subsection*{minor($m,i,j$)}
@@ -2709,8 +2682,7 @@ minor(A,1,1) == det(minormatrix(A,1,1))
 \end{verbatim}
 }
 
-\noindent
-1
+$1$
 
 \subsection*{minormatrix($m,i,j$)}
 
@@ -2723,7 +2695,6 @@ minormatrix(A,1,1)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 5 & 6
@@ -2742,7 +2713,6 @@ noexpand((x + 1)^2 / (x + 1))
 \end{verbatim}
 }
 
-\noindent
 $x + 1$
 
 \subsection*{not($x$)}
@@ -2756,7 +2726,6 @@ not(1=1)
 \end{verbatim}
 }
 
-\noindent
 $0$
 
 \subsection*{nroots($p,x$)}
@@ -2771,7 +2740,6 @@ nroots(p,x)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 1
@@ -2786,6 +2754,27 @@ $\displaystyle
 \end{bmatrix}
 $
 
+\subsection*{number($x$)}
+
+Returns 1 if $x$ is a real number.
+Returns 0 otherwise.
+
+{\color{blue}
+\begin{verbatim}
+number(1/2)
+\end{verbatim}
+}
+
+$1$
+
+{\color{blue}
+\begin{verbatim}
+number(x)
+\end{verbatim}
+}
+
+$0$
+
 \subsection*{numerator($x$)}
 
 Returns the numerator of expression $x$.
@@ -2796,7 +2785,6 @@ numerator(a/b)
 \end{verbatim}
 }
 
-\noindent
 $a$
 
 \subsection*{or($a,b,\ldots$)}
@@ -2810,7 +2798,6 @@ or(1=1,2=2)
 \end{verbatim}
 }
 
-\noindent
 $1$
 
 \subsection*{outer($a,b,\ldots$)}
@@ -2825,7 +2812,6 @@ outer(A,B)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 a x & a y & a z
@@ -2846,7 +2832,6 @@ exp(i pi)
 \end{verbatim}
 }
 
-\noindent
 $-1$
 
 \subsection*{polar($z$)}
@@ -2859,7 +2844,6 @@ polar(x - i y)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle (x^2+y^2)^{1/2}\exp(-i\arctan(y,x))$
 
 \subsection*{power}
@@ -2873,7 +2857,6 @@ x^(-2)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \frac{1}{x^2}$
 
 \subsection*{print($a,b,\ldots$)}
@@ -2887,9 +2870,8 @@ for(j,1,3,print(j))
 \end{verbatim}
 }
 
-\noindent
-$j=1$\newline
-$j=2$\newline
+$j=1$\\
+$j=2$\\
 $j=3$
 
 \subsection*{product($i,j,k,f$)}
@@ -2903,11 +2885,9 @@ product(j,1,3,x + j)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle x^3+6x^2+11x+6$
 
 \bigskip
-\noindent
 The original value of $i$ is restored after {\tt product} completes.
 If symbol {\tt i} is used for index variable $i$
 then the imaginary unit is overridden in the scope of {\tt product}.
@@ -2923,8 +2903,7 @@ product(y)
 \end{verbatim}
 }
 
-\noindent
-24
+$24$
 
 \subsection*{quote($x$)}
 
@@ -2936,7 +2915,6 @@ quote((x + 1)^2)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle (x+1)^2$
 
 \subsection*{rank($a$)}
@@ -2950,8 +2928,7 @@ rank(A)
 \end{verbatim}
 }
 
-\noindent
-2
+$2$
 
 \subsection*{rationalize($x$)}
 
@@ -2963,11 +2940,9 @@ rationalize(1/a + 1/b + 1/2)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \frac{2a+ab+2b}{2ab}$
 
 \bigskip
-\noindent
 Note:
 \verb$rationalize$
 returns an unexpanded expression.
@@ -2983,7 +2958,6 @@ binding(f)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \frac{2a+ab+2b}{2ab}$
 
 \subsection*{real($z$)}
@@ -2996,8 +2970,7 @@ real(2 - 3i)
 \end{verbatim}
 }
 
-\noindent
-2
+$2$
 
 \subsection*{rect($z$)}
 
@@ -3009,7 +2982,6 @@ rect(exp(i x))
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \cos(x)+i\sin(x)$
 
 \subsection*{roots($p,x$)}
@@ -3024,7 +2996,6 @@ roots(p,x)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 -1
@@ -3034,7 +3005,6 @@ $\displaystyle
 $
 
 \bigskip
-\noindent
 If no roots are found then \verb$nil$ is returned.
 A \verb$nil$ result is not printed so the following example uses
 \verb$infixform$ to print \verb$nil$ as a string.
@@ -3046,7 +3016,6 @@ infixform(roots(p,x))
 \end{verbatim}
 }
 
-\noindent
 nil
 
 \subsection*{rotate($u,s,k,\ldots$)}
@@ -3066,7 +3035,6 @@ rotate(psi,H,0)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 {\displaystyle \frac{1}{2^{1/2}}}
@@ -3104,6 +3072,42 @@ run("EVA2.txt")
 \end{verbatim}
 }
 
+\subsection*{sgn($x$)}
+
+Returns the sign of $x$ if $x$ is a real number.
+
+{\color{blue}
+\begin{verbatim}
+sgn(0)
+\end{verbatim}
+}
+
+$0$
+
+{\color{blue}
+\begin{verbatim}
+sgn(1/2)
+\end{verbatim}
+}
+
+$1$
+
+{\color{blue}
+\begin{verbatim}
+sgn(-1/2)
+\end{verbatim}
+}
+
+$-1$
+
+{\color{blue}
+\begin{verbatim}
+sgn(-x)
+\end{verbatim}
+}
+
+$\operatorname{sgn}(-x)$
+
 \subsection*{simplify($x$)}
 
 Returns expression $x$ in a simpler form.
@@ -3114,8 +3118,7 @@ simplify(sin(x)^2 + cos(x)^2)
 \end{verbatim}
 }
 
-\noindent
-1
+$1$
 
 \subsection*{sin($x$)}
 
@@ -3127,7 +3130,6 @@ sin(pi/4)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle \frac{1}{2^{1/2}}$
 
 \subsection*{sinh($x$)}
@@ -3140,7 +3142,6 @@ expform(sinh(x))
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle -\tfrac{1}{2}\exp(-x)+\tfrac{1}{2}\exp(x)$
 
 \subsection*{sqrt($x$)}
@@ -3153,7 +3154,6 @@ sqrt(10!)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle 720\; 7^{1/2}$
 
 \subsection*{stop}
@@ -3171,11 +3171,9 @@ sum(j,1,5,x^j)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle x^5+x^4+x^3+x^2+x$
 
 \bigskip
-\noindent
 The original value of $i$ is restored after {\tt sum} completes.
 If symbol {\tt i} is used for index variable $i$
 then the imaginary unit is overridden in the scope of {\tt sum}.
@@ -3191,7 +3189,6 @@ sum(y)
 \end{verbatim}
 }
 
-\noindent
 $10$
 
 \subsection*{tan($x$)}
@@ -3204,8 +3201,7 @@ simplify(tan(x) - sin(x)/cos(x))
 \end{verbatim}
 }
 
-\noindent
-0
+$0$
 
 \subsection*{tanh($x$)}
 
@@ -3217,7 +3213,6 @@ expform(tanh(x))
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle -\frac{1}{\exp(2x)+1}+\frac{\exp(2x)}{\exp(2x)+1}$
 
 \subsection*{test($a,b,c,d,\ldots$)}
@@ -3248,8 +3243,19 @@ test(A=B,"yes","no")
 \end{verbatim}
 }
 
-\noindent
 yes
+
+\subsection*{tgamma($x$)}
+
+Returns the Gamma function of $x$ if $x$ is a real number.
+
+{\color{blue}
+\begin{verbatim}
+tgamma(4)
+\end{verbatim}
+}
+
+$6$
 
 \subsection*{trace}
 
@@ -3262,7 +3268,6 @@ trace = 1
 \end{verbatim}
 }
 
-\noindent
 Note:
 The
 \verb$contract$
@@ -3281,7 +3286,6 @@ transpose(A)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 a & c
@@ -3291,7 +3295,6 @@ b & d
 $
 
 \bigskip
-\noindent
 Note:
 The argument list can be extended for multiple transpose operations.
 Arguments are evaluated from left to right.
@@ -3313,7 +3316,6 @@ tty = 1
 \end{verbatim}
 }
 
-\noindent
 \verb$x^2 + 2 x + 1$
 
 \subsection*{unit($n$)}
@@ -3326,7 +3328,6 @@ unit(3)
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 \begin{bmatrix}
 1 & 0 & 0
@@ -3336,6 +3337,21 @@ $\displaystyle
 0 & 0 & 1
 \end{bmatrix}
 $
+
+\subsection*{while($a,b,c,\ldots$)}
+
+While $a$ is true (nonzero), evaluate $b$, $c$, etc., in a loop.
+
+{\color{blue}
+\begin{verbatim}
+k = 0
+while(k < 3, print(k), k = k + 1)
+\end{verbatim}
+}
+
+$k=0$\\
+$k=1$\\
+$k=2$
 
 \subsection*{zero($i,j,\ldots$)}
 
@@ -3350,7 +3366,6 @@ A
 \end{verbatim}
 }
 
-\noindent
 $\displaystyle
 A=
 \begin{bmatrix}
