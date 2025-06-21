@@ -1,15 +1,14 @@
 function
 eval_while(p1)
 {
-	var p2, p3;
+	var p2;
 	for (;;) {
-		p2 = cdr(p1);
-		push(car(p2));
+		push(cadr(p1));
 		evalp();
-		p3 = pop();
-		if (iszero(p3))
+		p2 = pop();
+		if (iszero(p2))
 			break;
-		p2 = cdr(p2);
+		p2 = cddr(p1);
 		while (iscons(p2)) {
 			push(car(p2));
 			evalf();
