@@ -14052,7 +14052,7 @@ tgammafunc(void)
 {
 	int i, n;
 	double d;
-	struct atom *p1;
+	struct atom *p1, *p2;
 
 	p1 = pop();
 
@@ -14068,8 +14068,12 @@ tgammafunc(void)
 		return;
 	}
 
-	if (isnum(p1)) {
-		push(p1);
+	push(p1);
+	floatfunc();
+	p2 = pop();
+
+	if (isnum(p2)) {
+		push(p2);
 		d = pop_double();
 		d = tgamma(d);
 		push_double(d);

@@ -9,7 +9,7 @@ eval_sgn(p1)
 function
 sgnfunc()
 {
-	var i, n, p1;
+	var i, n, p1, p2;
 
 	p1 = pop();
 
