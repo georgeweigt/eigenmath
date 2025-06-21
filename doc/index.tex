@@ -674,10 +674,15 @@ floor(1/2)
 
 $0$
 
-\subsection*{for($i,j,k,a,b,\ldots$)}
+\subsection*{for($a,b,c,d,e,f,\ldots$)}
 
-For $i$ equals $j$ through $k$ evaluate $a$, $b$, etc.~in a loop.
-Use \verb$break$ to break out of the loop before $i$ reaches $k$.
+For $a$ equals $b$ through $c$ inclusive, evaluate the remaining arguments in a loop.
+Arguments $b$ and $c$ are integers.
+Symbol $a$ is advanced by plus or minus 1 to reach $c$.
+Use \verb$break$ to break out of the loop early.
+The original value of $a$ is restored after \verb$for$ completes.
+Note that if symbol \verb$i$ is used for $a$ then the imaginary unit is overridden
+in the scope of \verb$for$.
 
 {\color{blue}
 \begin{verbatim}
@@ -690,11 +695,6 @@ $k=1$
 $k=2$
 
 $k=3$
-
-\bigskip
-Note: The original value of $i$ is restored after {\tt for} completes.
-If symbol {\tt i} is used for index variable $i$
-then the imaginary unit is overridden in the scope of {\tt for}.
 
 \subsection*{grad($f$)}
 
