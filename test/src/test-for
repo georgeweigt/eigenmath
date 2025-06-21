@@ -24,3 +24,7 @@ t = 0
 A = 2 k
 for(k,1,3, t = t + A)
 check(t == 12)
+
+k = 0
+for(j, 1, 10, k = k + 1, test(k == 3, break))
+check(k == 3)

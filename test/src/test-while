@@ -1,6 +1,0 @@
-"Testing while"
-clear
-A = (0,0,0)
-k = 1
-while(k < 4, A[k] = k, k = k + 1)
-check(A == (1,2,3))

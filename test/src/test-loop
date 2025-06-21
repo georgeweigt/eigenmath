@@ -1,0 +1,5 @@
+"Testing loop"
+clear
+k = 0
+loop(k = k + 1, test(k == 3, break))
+check(k == 3)

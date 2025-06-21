@@ -162,6 +162,7 @@ struct se {
 
 	{ "last",		LAST,		NULL			},
 	{ "log",		LOG,		eval_log		},
+	{ "loop",		LOOP,		eval_loop		},
 
 	{ "mag",		MAG,		eval_mag		},
 	{ "minor",		MINOR,		eval_minor		},
@@ -236,7 +237,6 @@ struct se {
 
 	{ "W",			W_UPPER,	NULL			},
 	{ "w",			W_LOWER,	NULL			},
-	{ "while",		WHILE,		eval_while		},
 
 	{ "X",			X_UPPER,	NULL			},
 	{ "x",			X_LOWER,	NULL			},

@@ -3901,6 +3901,10 @@ t = 0
 A = 2 k
 for(k,1,3, t = t + A)
 check(t == 12)
+
+k = 0
+for(j, 1, 10, k = k + 1, test(k == 3, break))
+check(k == 3)
 "Testing hadamard"
 
 clear
@@ -5528,6 +5532,11 @@ check(or(F,F,F) == 0)
 
 check(not(T) == 0)
 check(not(F) == 1)
+"Testing loop"
+clear
+k = 0
+loop(k = k + 1, test(k == 3, break))
+check(k == 3)
 "Testing mag"
 
 clear
@@ -9199,9 +9208,3 @@ check((1,2,3,4) + 10 == (11,12,13,14))
 check((1,2,3,4)^2 == (1,4,9,16))
 check(sum((1,2,3,4)) == 10)
 check(product((1,2,3,4)) == 24)
-"Testing while"
-clear
-A = (0,0,0)
-k = 1
-while(k < 4, A[k] = k, k = k + 1)
-check(A == (1,2,3))

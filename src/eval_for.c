@@ -28,6 +28,8 @@ eval_for(struct atom *p1)
 
 	save_symbol(p2);
 
+	breakflag = 0;
+
 	for (;;) {
 		push_integer(j);
 		p3 = pop();
@@ -36,8 +38,14 @@ eval_for(struct atom *p1)
 		while (iscons(p3)) {
 			push(car(p3));
 			evalg();
-			pop(); // discard return value
+			pop();
 			p3 = cdr(p3);
+			if (breakflag) {
+				breakflag = 0;
+				restore_symbol();
+				push_symbol(NIL);
+				return;
+			}
 		}
 		if (j == k)
 			break;
@@ -48,6 +56,5 @@ eval_for(struct atom *p1)
 	}
 
 	restore_symbol();
-
-	push_symbol(NIL); // return value
+	push_symbol(NIL);
 }

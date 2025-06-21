@@ -193,6 +193,7 @@ struct tensor {
 
 #define LAST		(11 * BUCKETSIZE + 0)
 #define LOG		(11 * BUCKETSIZE + 1)
+#define LOOP		(11 * BUCKETSIZE + 2)
 
 #define MAG		(12 * BUCKETSIZE + 0)
 #define MINOR		(12 * BUCKETSIZE + 1)
@@ -267,7 +268,6 @@ struct tensor {
 
 #define W_UPPER		(22 * BUCKETSIZE + 0)
 #define W_LOWER		(22 * BUCKETSIZE + 1)
-#define WHILE		(22 * BUCKETSIZE + 2)
 
 #define X_UPPER		(23 * BUCKETSIZE + 0)
 #define X_LOWER		(23 * BUCKETSIZE + 1)
@@ -607,6 +607,7 @@ void eval_kronecker(struct atom *p1);
 void kronecker(void);
 void eval_log(struct atom *p1);
 void logfunc(void);
+void eval_loop(struct atom *p1);
 void eval_mag(struct atom *p1);
 void magfunc(void);
 void magfunc_nib(void);
@@ -765,7 +766,6 @@ void transpose(int n, int m);
 void eval_unit(struct atom *p1);
 void eval_user_function(struct atom *p1);
 void eval_user_symbol(struct atom *p1);
-void eval_while(struct atom *p1);
 void eval_zero(struct atom *p1);
 void evalg(void);
 void evalf(void);
@@ -6116,6 +6116,8 @@ eval_for(struct atom *p1)
 
 	save_symbol(p2);
 
+	breakflag = 0;
+
 	for (;;) {
 		push_integer(j);
 		p3 = pop();
@@ -6124,8 +6126,14 @@ eval_for(struct atom *p1)
 		while (iscons(p3)) {
 			push(car(p3));
 			evalg();
-			pop(); // discard return value
+			pop();
 			p3 = cdr(p3);
+			if (breakflag) {
+				breakflag = 0;
+				restore_symbol();
+				push_symbol(NIL);
+				return;
+			}
 		}
 		if (j == k)
 			break;
@@ -6136,8 +6144,7 @@ eval_for(struct atom *p1)
 	}
 
 	restore_symbol();
-
-	push_symbol(NIL); // return value
+	push_symbol(NIL);
 }
 void
 eval_hadamard(struct atom *p1)
@@ -8721,6 +8728,30 @@ logfunc(void)
 	push_symbol(LOG);
 	push(p1);
 	list(2);
+}
+void
+eval_loop(struct atom *p1)
+{
+	struct atom *p2;
+	breakflag = 0;
+	if (lengthf(p1) < 2) {
+		push_symbol(NIL);
+		return;
+	}
+	for (;;) {
+		p2 = cdr(p1);
+		while (iscons(p2)) {
+			push(car(p2));
+			evalg();
+			pop();
+			p2 = cdr(p2);
+			if (breakflag) {
+				breakflag = 0;
+				push_symbol(NIL);
+				return;
+			}
+		}
+	}
 }
 void
 eval_mag(struct atom *p1)
@@ -14301,25 +14332,6 @@ eval_user_symbol(struct atom *p1)
 	}
 }
 void
-eval_while(struct atom *p1)
-{
-	struct atom *p2;
-	for (;;) {
-		push(cadr(p1));
-		evalp();
-		p2 = pop();
-		if (iszero(p2))
-			break;
-		p2 = cddr(p1);
-		while (iscons(p2)) {
-			push(car(p2));
-			evalg();
-			p2 = cdr(p2);
-		}
-	}
-	push_symbol(NIL);
-}
-void
 eval_zero(struct atom *p1)
 {
 	int h, i, m, n;
@@ -18373,6 +18385,7 @@ struct se {
 
 	{ "last",		LAST,		NULL			},
 	{ "log",		LOG,		eval_log		},
+	{ "loop",		LOOP,		eval_loop		},
 
 	{ "mag",		MAG,		eval_mag		},
 	{ "minor",		MINOR,		eval_minor		},
@@ -18447,7 +18460,6 @@ struct se {
 
 	{ "W",			W_UPPER,	NULL			},
 	{ "w",			W_LOWER,	NULL			},
-	{ "while",		WHILE,		eval_while		},
 
 	{ "X",			X_UPPER,	NULL			},
 	{ "x",			X_LOWER,	NULL			},

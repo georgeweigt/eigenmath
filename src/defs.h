@@ -166,6 +166,7 @@ struct tensor {
 
 #define LAST		(11 * BUCKETSIZE + 0)
 #define LOG		(11 * BUCKETSIZE + 1)
+#define LOOP		(11 * BUCKETSIZE + 2)
 
 #define MAG		(12 * BUCKETSIZE + 0)
 #define MINOR		(12 * BUCKETSIZE + 1)
@@ -240,7 +241,6 @@ struct tensor {
 
 #define W_UPPER		(22 * BUCKETSIZE + 0)
 #define W_LOWER		(22 * BUCKETSIZE + 1)
-#define WHILE		(22 * BUCKETSIZE + 2)
 
 #define X_UPPER		(23 * BUCKETSIZE + 0)
 #define X_LOWER		(23 * BUCKETSIZE + 1)
