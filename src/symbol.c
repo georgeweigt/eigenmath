@@ -98,6 +98,7 @@ struct se {
 	{ "arg",		ARG,		eval_arg		},
 
 	{ "binding",		BINDING,	eval_binding		},
+	{ "break",		BREAK,		eval_break		},
 
 	{ "C",			C_UPPER,	NULL			},
 	{ "c",			C_LOWER,	NULL			},
@@ -256,15 +257,15 @@ struct se {
 	{ "$a",			SA,		NULL			},
 	{ "$b",			SB,		NULL			},
 	{ "$x",			SX,		NULL			},
-	{ "$1",			ARG1,		NULL			},
-	{ "$2",			ARG2,		NULL			},
-	{ "$3",			ARG3,		NULL			},
-	{ "$4",			ARG4,		NULL			},
-	{ "$5",			ARG5,		NULL			},
-	{ "$6",			ARG6,		NULL			},
-	{ "$7",			ARG7,		NULL			},
-	{ "$8",			ARG8,		NULL			},
-	{ "$9",			ARG9,		NULL			},
+	{ "$arg1",		ARG1,		NULL			},
+	{ "$arg2",		ARG2,		NULL			},
+	{ "$arg3",		ARG3,		NULL			},
+	{ "$arg4",		ARG4,		NULL			},
+	{ "$arg5",		ARG5,		NULL			},
+	{ "$arg6",		ARG6,		NULL			},
+	{ "$arg7",		ARG7,		NULL			},
+	{ "$arg8",		ARG8,		NULL			},
+	{ "$arg9",		ARG9,		NULL			},
 };
 
 void

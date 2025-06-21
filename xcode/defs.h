@@ -102,6 +102,7 @@ struct tensor {
 #define ARG		(0 * BUCKETSIZE + 9)
 
 #define BINDING		(1 * BUCKETSIZE + 0)
+#define BREAK		(1 * BUCKETSIZE + 1)
 
 #define C_UPPER		(2 * BUCKETSIZE + 0)
 #define C_LOWER		(2 * BUCKETSIZE + 1)
@@ -339,6 +340,7 @@ extern int expanding;
 extern int drawing;
 extern int nonstop;
 extern int interrupt;
+extern int breakflag;
 extern jmp_buf jmpbuf0;
 extern jmp_buf jmpbuf1;
 extern char *trace1;

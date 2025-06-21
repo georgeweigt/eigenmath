@@ -20,6 +20,7 @@ int expanding;
 int drawing;
 int nonstop;
 int interrupt;
+int breakflag;
 jmp_buf jmpbuf0;
 jmp_buf jmpbuf1;
 char *trace1;

@@ -94,6 +94,7 @@ void eval_arg(struct atom *p1);
 void argfunc(void);
 void arg_nib(void);
 void eval_binding(struct atom *p1);
+void eval_break(struct atom *p1);
 void eval_ceiling(struct atom *p1);
 void ceilingfunc(void);
 void eval_check(struct atom *p1);

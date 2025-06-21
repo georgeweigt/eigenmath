@@ -129,6 +129,7 @@ struct tensor {
 #define ARG		(0 * BUCKETSIZE + 9)
 
 #define BINDING		(1 * BUCKETSIZE + 0)
+#define BREAK		(1 * BUCKETSIZE + 1)
 
 #define C_UPPER		(2 * BUCKETSIZE + 0)
 #define C_LOWER		(2 * BUCKETSIZE + 1)
@@ -366,6 +367,7 @@ extern int expanding;
 extern int drawing;
 extern int nonstop;
 extern int interrupt;
+extern int breakflag;
 extern jmp_buf jmpbuf0;
 extern jmp_buf jmpbuf1;
 extern char *trace1;
@@ -467,6 +469,7 @@ void eval_arg(struct atom *p1);
 void argfunc(void);
 void arg_nib(void);
 void eval_binding(struct atom *p1);
+void eval_break(struct atom *p1);
 void eval_ceiling(struct atom *p1);
 void ceilingfunc(void);
 void eval_check(struct atom *p1);
@@ -3381,6 +3384,12 @@ void
 eval_binding(struct atom *p1)
 {
 	push(get_binding(cadr(p1)));
+}
+void
+eval_break(struct atom *p1)
+{
+	breakflag = 1;
+	push_symbol(NIL);
 }
 void
 eval_ceiling(struct atom *p1)
@@ -16712,6 +16721,7 @@ int expanding;
 int drawing;
 int nonstop;
 int interrupt;
+int breakflag;
 jmp_buf jmpbuf0;
 jmp_buf jmpbuf1;
 char *trace1;
@@ -18299,6 +18309,7 @@ struct se {
 	{ "arg",		ARG,		eval_arg		},
 
 	{ "binding",		BINDING,	eval_binding		},
+	{ "break",		BREAK,		eval_break		},
 
 	{ "C",			C_UPPER,	NULL			},
 	{ "c",			C_LOWER,	NULL			},
@@ -18457,15 +18468,15 @@ struct se {
 	{ "$a",			SA,		NULL			},
 	{ "$b",			SB,		NULL			},
 	{ "$x",			SX,		NULL			},
-	{ "$1",			ARG1,		NULL			},
-	{ "$2",			ARG2,		NULL			},
-	{ "$3",			ARG3,		NULL			},
-	{ "$4",			ARG4,		NULL			},
-	{ "$5",			ARG5,		NULL			},
-	{ "$6",			ARG6,		NULL			},
-	{ "$7",			ARG7,		NULL			},
-	{ "$8",			ARG8,		NULL			},
-	{ "$9",			ARG9,		NULL			},
+	{ "$arg1",		ARG1,		NULL			},
+	{ "$arg2",		ARG2,		NULL			},
+	{ "$arg3",		ARG3,		NULL			},
+	{ "$arg4",		ARG4,		NULL			},
+	{ "$arg5",		ARG5,		NULL			},
+	{ "$arg6",		ARG6,		NULL			},
+	{ "$arg7",		ARG7,		NULL			},
+	{ "$arg8",		ARG8,		NULL			},
+	{ "$arg9",		ARG9,		NULL			},
 };
 
 void
