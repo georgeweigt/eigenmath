@@ -3709,26 +3709,26 @@ D = dot(transpose(Q),A,Q)
 B = dot(Q,D,transpose(Q))
 check(infixform(B) == "((1,0,0,0),(0,-1,2,0),(0,2,-1,0),(0,0,0,1))")
 "Testing erf"
-
 clear
-
 check(erf(-x) == -erf(x))
 check(erf((x,y)) == (erf(x),erf(y)))
-
 check(erf(0) == 0)
 check(erf(0.0) == 0)
 check(erf(1000.0) == 1)
 check(erf(-1000.0) == -1)
+check(infixform(erf(1.0)) == "0.842701")
+check(d(erf(x),x) == 2 exp(-x^2) / sqrt(pi))
 "Testing erfc"
-
 clear
-
+check(erfc(x) == 1 - erf(x))
+check(erfc(-x) == 1 + erf(x))
 check(erfc((x,y)) == (erfc(x),erfc(y)))
-
 check(erfc(0) == 1)
 check(erfc(0.0) == 1)
 check(erfc(1000.0) == 0)
 check(erfc(-1000.0) == 2)
+check(infixform(erfc(1.0)) == "0.157299")
+check(d(erfc(x),x) == -2 exp(-x^2) / sqrt(pi))
 "Testing eval"
 
 clear

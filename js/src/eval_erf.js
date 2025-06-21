@@ -43,10 +43,9 @@ erffunc()
 		negate();
 		list(2);
 		negate();
-		return;
+	} else {
+		push_symbol(ERF);
+		push(p1);
+		list(2);
 	}
-
-	push_symbol(ERF);
-	push(p1);
-	list(2);
 }

@@ -1,10 +1,11 @@
 "Testing erfc"
-
 clear
-
+check(erfc(x) == 1 - erf(x))
+check(erfc(-x) == 1 + erf(x))
 check(erfc((x,y)) == (erfc(x),erfc(y)))
-
 check(erfc(0) == 1)
 check(erfc(0.0) == 1)
 check(erfc(1000.0) == 0)
 check(erfc(-1000.0) == 2)
+check(infixform(erfc(1.0)) == "0.157299")
+check(d(erfc(x),x) == -2 exp(-x^2) / sqrt(pi))

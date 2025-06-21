@@ -4538,12 +4538,11 @@ erffunc(void)
 		negate();
 		list(2);
 		negate();
-		return;
+	} else {
+		push_symbol(ERF);
+		push(p1);
+		list(2);
 	}
-
-	push_symbol(ERF);
-	push(p1);
-	list(2);
 }
 // first author: github.com/phbillet
 
@@ -4588,9 +4587,20 @@ erfcfunc(void)
 		return;
 	}
 
-	push_symbol(ERFC);
-	push(p1);
-	list(2);
+	if (isnegativeterm(p1)) {
+		push_symbol(ERF);
+		push(p1);
+		negate();
+		list(2);
+	} else {
+		push_symbol(ERF);
+		push(p1);
+		list(2);
+		negate();
+	}
+
+	push_integer(1);
+	add();
 }
 void
 eval_eval(struct atom *p1)

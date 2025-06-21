@@ -1,11 +1,10 @@
 "Testing erf"
-
 clear
-
 check(erf(-x) == -erf(x))
 check(erf((x,y)) == (erf(x),erf(y)))
-
 check(erf(0) == 0)
 check(erf(0.0) == 0)
 check(erf(1000.0) == 1)
 check(erf(-1000.0) == -1)
+check(infixform(erf(1.0)) == "0.842701")
+check(d(erf(x),x) == 2 exp(-x^2) / sqrt(pi))
