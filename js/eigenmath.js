@@ -875,6 +875,7 @@ const ARCTAN = "arctan";
 const ARCTANH = "arctanh";
 const ARG = "arg";
 const BINDING = "binding";
+const BREAK = "break";
 const CEILING = "ceiling";
 const CHECK = "check";
 const CIRCEXP = "circexp";
@@ -918,6 +919,7 @@ const INTEGRAL = "integral";
 const INV = "inv";
 const KRONECKER = "kronecker";
 const LOG = "log";
+const LOOP = "loop";
 const MAG = "mag";
 const MINOR = "minor";
 const MINORMATRIX = "minormatrix";
@@ -963,7 +965,6 @@ const TGAMMA = "tgamma";
 const TRANSPOSE = "transpose";
 const TTY = "tty";
 const UNIT = "unit";
-const WHILE = "while";
 const ZERO = "zero";
 
 const ADD = "+";
@@ -986,15 +987,15 @@ const SA = "$a";
 const SB = "$b";
 const SX = "$x";
 
-const ARG1 = "$1";
-const ARG2 = "$2";
-const ARG3 = "$3";
-const ARG4 = "$4";
-const ARG5 = "$5";
-const ARG6 = "$6";
-const ARG7 = "$7";
-const ARG8 = "$8";
-const ARG9 = "$9";
+const ARG1 = "$arg1";
+const ARG2 = "$arg2";
+const ARG3 = "$arg3";
+const ARG4 = "$arg4";
+const ARG5 = "$arg5";
+const ARG6 = "$arg6";
+const ARG7 = "$arg7";
+const ARG8 = "$arg8";
+const ARG9 = "$arg9";
 function
 copy_tensor(p1)
 {
@@ -4373,6 +4374,12 @@ eval_binding(p1)
 	push(get_binding(cadr(p1)));
 }
 function
+eval_break()
+{
+	breakflag = 1;
+	push_symbol(NIL);
+}
+function
 eval_ceiling(p1)
 {
 	push(cadr(p1));
@@ -6893,6 +6900,8 @@ eval_for(p1)
 
 	save_symbol(p2);
 
+	breakflag = 0;
+
 	for (;;) {
 		push_integer(j);
 		p3 = pop();
@@ -6903,6 +6912,12 @@ eval_for(p1)
 			evalf();
 			pop();
 			p3 = cdr(p3);
+			if (breakflag) {
+				breakflag = 0;
+				restore_symbol();
+				push_symbol(NIL);
+				return;
+			}
 		}
 		if (j == k)
 			break;
@@ -6913,8 +6928,7 @@ eval_for(p1)
 	}
 
 	restore_symbol();
-
-	push_symbol(NIL); // return value
+	push_symbol(NIL);
 }
 function
 eval_hadamard(p1)
@@ -8964,6 +8978,30 @@ logfunc()
 	push_symbol(LOG);
 	push(p1);
 	list(2);
+}
+function
+eval_loop(p1)
+{
+	var p2;
+	breakflag = 0;
+	if (lengthf(p1) < 2) {
+		push_symbol(NIL);
+		return;
+	}
+	for (;;) {
+		p2 = cdr(p1);
+		while (iscons(p2)) {
+			push(car(p2));
+			evalf();
+			pop();
+			p2 = cdr(p2);
+			if (breakflag) {
+				breakflag = 0;
+				push_symbol(NIL);
+				return;
+			}
+		}
+	}
 }
 function
 eval_mag(p1)
@@ -13186,25 +13224,6 @@ eval_user_symbol(p1)
 		push(p2); // evaluate symbol binding
 		evalf();
 	}
-}
-function
-eval_while(p1)
-{
-	var p2;
-	for (;;) {
-		push(cadr(p1));
-		evalp();
-		p2 = pop();
-		if (iszero(p2))
-			break;
-		p2 = cddr(p1);
-		while (iscons(p2)) {
-			push(car(p2));
-			evalf();
-			p2 = cdr(p2);
-		}
-	}
-	push_symbol(NIL);
 }
 function
 eval_zero(p1)
@@ -17762,6 +17781,7 @@ var drawing;
 var nonstop;
 var trace1;
 var trace2;
+var breakflag;
 
 var symtab = {
 "abs":		{printname:ABS,		func:eval_abs},
@@ -17775,6 +17795,7 @@ var symtab = {
 "arctanh":	{printname:ARCTANH,	func:eval_arctanh},
 "arg":		{printname:ARG,		func:eval_arg},
 "binding":	{printname:BINDING,	func:eval_binding},
+"break":	{printname:BREAK,	func:eval_break},
 "ceiling":	{printname:CEILING,	func:eval_ceiling},
 "check":	{printname:CHECK,	func:eval_check},
 "circexp":	{printname:CIRCEXP,	func:eval_expform},
@@ -17818,6 +17839,7 @@ var symtab = {
 "inv":		{printname:INV,		func:eval_inv},
 "kronecker":	{printname:KRONECKER,	func:eval_kronecker},
 "log":		{printname:LOG,		func:eval_log},
+"loop":		{printname:LOOP,	func:eval_loop},
 "mag":		{printname:MAG,		func:eval_mag},
 "minor":	{printname:MINOR,	func:eval_minor},
 "minormatrix":	{printname:MINORMATRIX,	func:eval_minormatrix},
@@ -17862,7 +17884,6 @@ var symtab = {
 "tgamma":	{printname:TGAMMA,	func:eval_tgamma},
 "transpose":	{printname:TRANSPOSE,	func:eval_transpose},
 "unit":		{printname:UNIT,	func:eval_unit},
-"while":	{printname:WHILE,	func:eval_while},
 "zero":		{printname:ZERO,	func:eval_zero},
 
 "+":		{printname:ADD,		func:eval_add},

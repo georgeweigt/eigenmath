@@ -14,6 +14,7 @@ var drawing;
 var nonstop;
 var trace1;
 var trace2;
+var breakflag;
 
 var symtab = {
 "abs":		{printname:ABS,		func:eval_abs},
@@ -27,6 +28,7 @@ var symtab = {
 "arctanh":	{printname:ARCTANH,	func:eval_arctanh},
 "arg":		{printname:ARG,		func:eval_arg},
 "binding":	{printname:BINDING,	func:eval_binding},
+"break":	{printname:BREAK,	func:eval_break},
 "ceiling":	{printname:CEILING,	func:eval_ceiling},
 "check":	{printname:CHECK,	func:eval_check},
 "circexp":	{printname:CIRCEXP,	func:eval_expform},
@@ -70,6 +72,7 @@ var symtab = {
 "inv":		{printname:INV,		func:eval_inv},
 "kronecker":	{printname:KRONECKER,	func:eval_kronecker},
 "log":		{printname:LOG,		func:eval_log},
+"loop":		{printname:LOOP,	func:eval_loop},
 "mag":		{printname:MAG,		func:eval_mag},
 "minor":	{printname:MINOR,	func:eval_minor},
 "minormatrix":	{printname:MINORMATRIX,	func:eval_minormatrix},
@@ -114,7 +117,6 @@ var symtab = {
 "tgamma":	{printname:TGAMMA,	func:eval_tgamma},
 "transpose":	{printname:TRANSPOSE,	func:eval_transpose},
 "unit":		{printname:UNIT,	func:eval_unit},
-"while":	{printname:WHILE,	func:eval_while},
 "zero":		{printname:ZERO,	func:eval_zero},
 
 "+":		{printname:ADD,		func:eval_add},
