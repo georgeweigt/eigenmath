@@ -1886,6 +1886,23 @@ binding(p)
 
 $(x+1)^2$
 
+\subsection*{break}
+
+Break out of a \verb$loop$ or \verb$for$ function.
+
+{\color{blue}
+\begin{verbatim}
+k = 0
+loop(k = k + 1, test(k == 4, break), print(k))
+\end{verbatim}
+}
+
+$k=1$
+
+$k=2$
+
+$k=3$
+
 \subsection*{ceiling($x$)}
 
 Returns the smallest integer greater than or equal to $x$.
@@ -2208,7 +2225,8 @@ $
 
 \subsection*{erf($x$)}
 
-Returns the error function of $x$ if $x$ is a real number.
+Error function of $x$.
+Returns a numerical value if $x$ is a real number.
 
 {\color{blue}
 \begin{verbatim}
@@ -2220,15 +2238,16 @@ $0.842701$
 
 {\color{blue}
 \begin{verbatim}
-2/sqrt(pi) integral(exp(-x^2),x)
+d(erf(x),x)
 \end{verbatim}
 }
 
-$\operatorname{erf}(x)$
+$\displaystyle \frac{2\exp(-x^2)}{\pi^{1/2}}$
 
 \subsection*{erfc($x$)}
 
-Returns the complementary error function of $x$ if $x$ is a real number.
+Complementary error function of $x$.
+Returns a numerical value if $x$ is a real number.
 
 {\color{blue}
 \begin{verbatim}
@@ -2237,6 +2256,14 @@ erfc(1.0)
 }
 
 $0.157299$
+
+{\color{blue}
+\begin{verbatim}
+d(erfc(x),x)
+\end{verbatim}
+}
+
+$\displaystyle -\frac{2\exp(-x^2)}{\pi^{1/2}}$
 
 \subsection*{eval($f,x,a,y,b,\ldots$)}
 
@@ -2413,13 +2440,15 @@ For $i$ equals $j$ through $k$ evaluate $a$, $b$, etc.
 
 {\color{blue}
 \begin{verbatim}
-for(k,1,3,A=k,print(A))
+for(k,1,3,print(k))
 \end{verbatim}
 }
 
-$A=1$\\
-$A=2$\\
-$A=3$
+$k=1$
+
+$k=2$
+
+$k=3$
 
 \bigskip
 Note: The original value of $i$ is restored after {\tt for} completes.
@@ -2650,6 +2679,23 @@ log(x^y)
 
 $y\log(x)$
 
+\subsection*{loop($a,b,c,\ldots$)}
+
+Evaluate arguments in a loop. Use \verb$break$ to break out of the loop.
+
+{\color{blue}
+\begin{verbatim}
+k = 0
+loop(k = k + 1, test(k == 4, break), print(k))
+\end{verbatim}
+}
+
+$k=1$
+
+$k=2$
+
+$k=3$
+
 \subsection*{mag($z$)}
 
 Returns the magnitude of complex $z$.
@@ -2853,7 +2899,7 @@ $\displaystyle \frac{1}{x^2}$
 
 \subsection*{print($a,b,\ldots$)}
 
-Evaluate expressions and print the results.
+Evaluate arguments and print the results.
 Useful for printing from inside a {\tt for} loop.
 
 {\color{blue}
@@ -2862,8 +2908,10 @@ for(j,1,3,print(j))
 \end{verbatim}
 }
 
-$j=1$\\
-$j=2$\\
+$j=1$
+
+$j=2$
+
 $j=3$
 
 \subsection*{product($i,j,k,f$)}
@@ -3027,17 +3075,14 @@ rotate(psi,H,0)
 \end{verbatim}
 }
 
-$\displaystyle
+$
 \begin{bmatrix}
-{\displaystyle \frac{1}{2^{1/2}}}
-\\
-\\
-{\displaystyle \frac{1}{2^{1/2}}}
-\\
-\\
+\frac{1}{2^{1/2}}
+\\[1ex]
+\frac{1}{2^{1/2}}
+\\[1ex]
 0
-\\
-\\
+\\[1ex]
 0
 \end{bmatrix}
 $
@@ -3329,21 +3374,6 @@ $\displaystyle
 0 & 0 & 1
 \end{bmatrix}
 $
-
-\subsection*{while($a,b,c,\ldots$)}
-
-While $a$ is true (nonzero), evaluate $b$, $c$, etc., in a loop.
-
-{\color{blue}
-\begin{verbatim}
-k = 0
-while(k < 3, print(k), k = k + 1)
-\end{verbatim}
-}
-
-$k=0$\\
-$k=1$\\
-$k=2$
 
 \subsection*{zero($i,j,\ldots$)}
 

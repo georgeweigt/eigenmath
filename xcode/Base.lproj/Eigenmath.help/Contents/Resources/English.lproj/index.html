@@ -264,7 +264,7 @@ binding(p)
 <p>
 Break out of a
 <span style="font-family:courier">loop</span>
-function or a
+or
 <span style="font-family:courier">for</span>
 function.
 <pre style="font-family:courier;color:blue">
@@ -838,14 +838,14 @@ floor(1/2)
 <p>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>a</i>, <i>b</i>, etc.
 <pre style="font-family:courier;color:blue">
-for(k,1,3,A=k,print(A))
+for(k,1,3,print(k))
 </pre>
 <pre style="font-family:courier">
-A = 1
+k = 1
 
-A = 2
+k = 2
 
-A = 3
+k = 3
 </pre>
 <p>
 Note:
@@ -1306,7 +1306,7 @@ x^(-1/2)
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="print">print(<i>a,b,...</i>)</a>
 <p>
-Evaluate expressions and print the results.
+Evaluate arguments and print the results.
 Useful for printing from inside a
 <span style="font-family:courier">for</span>
 loop.
@@ -1315,7 +1315,9 @@ for(j,1,3,print(j))
 </pre>
 <pre style="font-family:courier">
 j = 1
+
 j = 2
+
 j = 3
 </pre>
 
