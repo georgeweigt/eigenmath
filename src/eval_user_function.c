@@ -22,7 +22,7 @@ eval_user_function(struct atom *p1)
 		push(FUNC_NAME);
 		while (iscons(FUNC_ARGS)) {
 			push(car(FUNC_ARGS));
-			evalg(); // p1 is on frame stack, not reclaimed
+			evalg();
 			FUNC_ARGS = cdr(FUNC_ARGS);
 		}
 		list(tos - h);

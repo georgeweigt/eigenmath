@@ -1813,23 +1813,30 @@ unit(3)
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="zero">zero(<i>i,j,...</i>)</a>
+<a id="zero">zero(<i>a,b,...</i>)</a>
 <p>
-Returns a null tensor with dimensions <i>i</i>, <i>j</i>, etc.
-Useful for creating a tensor and then setting the component values.
+Returns a null tensor with dimensions <i>a</i>, <i>b</i>, etc.
 <pre style="font-family:courier;color:blue">
-A = zero(3,3)
-for(k,1,3,A[k,k]=k)
-A
+zero(2,3,3)
 </pre>
 <pre style="font-family:courier">
-    ┌           ┐
-    │ 1   0   0 │
-    │           │
-A = │ 0   2   0 │
-    │           │
-    │ 0   0   3 │
-    └           ┘
+┌               ┐
+│ ┌           ┐ │
+│ │ 0   0   0 │ │
+│ │           │ │
+│ │ 0   0   0 │ │
+│ │           │ │
+│ │ 0   0   0 │ │
+│ └           ┘ │
+│               │
+│ ┌           ┐ │
+│ │ 0   0   0 │ │
+│ │           │ │
+│ │ 0   0   0 │ │
+│ │           │ │
+│ │ 0   0   0 │ │
+│ └           ┘ │
+└               ┘
 </pre>
 
 </body>

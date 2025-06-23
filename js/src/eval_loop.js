@@ -1,7 +1,8 @@
 function
 eval_loop(p1)
 {
-	var p2;
+	var t, p2;
+	t = breakflag;
 	breakflag = 0;
 	if (lengthf(p1) < 2) {
 		push_symbol(NIL);
@@ -15,7 +16,7 @@ eval_loop(p1)
 			pop();
 			p2 = cdr(p2);
 			if (breakflag) {
-				breakflag = 0;
+				breakflag = t;
 				push_symbol(NIL);
 				return;
 			}

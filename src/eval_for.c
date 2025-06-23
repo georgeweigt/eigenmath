@@ -1,7 +1,7 @@
 void
 eval_for(struct atom *p1)
 {
-	int j, k;
+	int j, k, t;
 	struct atom *p2, *p3;
 
 	p2 = cadr(p1);
@@ -28,6 +28,7 @@ eval_for(struct atom *p1)
 
 	save_symbol(p2);
 
+	t = breakflag;
 	breakflag = 0;
 
 	for (;;) {
@@ -41,7 +42,7 @@ eval_for(struct atom *p1)
 			pop();
 			p3 = cdr(p3);
 			if (breakflag) {
-				breakflag = 0;
+				breakflag = t;
 				restore_symbol();
 				push_symbol(NIL);
 				return;
@@ -55,6 +56,7 @@ eval_for(struct atom *p1)
 			j--;
 	}
 
+	breakflag = t;
 	restore_symbol();
 	push_symbol(NIL);
 }

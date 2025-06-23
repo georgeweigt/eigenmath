@@ -3376,27 +3376,22 @@ $\displaystyle
 \end{bmatrix}
 $
 
-\subsection*{zero($i,j,\ldots$)}
+\subsection*{zero($a,b,\ldots$)}
 
-Returns a null tensor with dimensions $i$, $j$, etc.
-Useful for creating a tensor and then setting component values.
+Returns a null tensor with dimensions $a$, $b$, etc.
 
 {\color{blue}
 \begin{verbatim}
-A = zero(3,3)
-for(k,1,3,A[k,k]=k)
-A
+zero(2,3,3)
 \end{verbatim}
 }
 
-$\displaystyle
-A=
+$
 \begin{bmatrix}
-1 & 0 & 0
-\\[1ex]
-0 & 2 & 0
-\\[1ex]
-0 & 0 & 3
+\begin{bmatrix}0&0&0\\0&0&0\\0&0&0\end{bmatrix}
+\\
+\\
+\begin{bmatrix}0&0&0\\0&0&0\\0&0&0\end{bmatrix}
 \end{bmatrix}
 $
 
