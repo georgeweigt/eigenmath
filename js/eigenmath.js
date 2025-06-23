@@ -6884,7 +6884,7 @@ floorfunc()
 function
 eval_for(p1)
 {
-	var j, k, p2, p3;
+	var j, k, t, p2, p3;
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
@@ -6910,6 +6910,7 @@ eval_for(p1)
 
 	save_symbol(p2);
 
+	t = breakflag;
 	breakflag = 0;
 
 	for (;;) {
@@ -6923,7 +6924,7 @@ eval_for(p1)
 			pop();
 			p3 = cdr(p3);
 			if (breakflag) {
-				breakflag = 0;
+				breakflag = t;
 				restore_symbol();
 				push_symbol(NIL);
 				return;
@@ -6937,6 +6938,7 @@ eval_for(p1)
 			j--;
 	}
 
+	breakflag = t;
 	restore_symbol();
 	push_symbol(NIL);
 }
@@ -8992,7 +8994,8 @@ logfunc()
 function
 eval_loop(p1)
 {
-	var p2;
+	var t, p2;
+	t = breakflag;
 	breakflag = 0;
 	if (lengthf(p1) < 2) {
 		push_symbol(NIL);
@@ -9006,7 +9009,7 @@ eval_loop(p1)
 			pop();
 			p2 = cdr(p2);
 			if (breakflag) {
-				breakflag = 0;
+				breakflag = t;
 				push_symbol(NIL);
 				return;
 			}

@@ -6099,7 +6099,7 @@ floorfunc(void)
 void
 eval_for(struct atom *p1)
 {
-	int j, k;
+	int j, k, t;
 	struct atom *p2, *p3;
 
 	p2 = cadr(p1);
@@ -6126,6 +6126,7 @@ eval_for(struct atom *p1)
 
 	save_symbol(p2);
 
+	t = breakflag;
 	breakflag = 0;
 
 	for (;;) {
@@ -6139,7 +6140,7 @@ eval_for(struct atom *p1)
 			pop();
 			p3 = cdr(p3);
 			if (breakflag) {
-				breakflag = 0;
+				breakflag = t;
 				restore_symbol();
 				push_symbol(NIL);
 				return;
@@ -6153,6 +6154,7 @@ eval_for(struct atom *p1)
 			j--;
 	}
 
+	breakflag = t;
 	restore_symbol();
 	push_symbol(NIL);
 }
@@ -8742,7 +8744,9 @@ logfunc(void)
 void
 eval_loop(struct atom *p1)
 {
+	int t;
 	struct atom *p2;
+	t = breakflag;
 	breakflag = 0;
 	if (lengthf(p1) < 2) {
 		push_symbol(NIL);
@@ -8756,7 +8760,7 @@ eval_loop(struct atom *p1)
 			pop();
 			p2 = cdr(p2);
 			if (breakflag) {
-				breakflag = 0;
+				breakflag = t;
 				push_symbol(NIL);
 				return;
 			}
@@ -14278,7 +14282,7 @@ eval_user_function(struct atom *p1)
 		push(FUNC_NAME);
 		while (iscons(FUNC_ARGS)) {
 			push(car(FUNC_ARGS));
-			evalg(); // p1 is on frame stack, not reclaimed
+			evalg();
 			FUNC_ARGS = cdr(FUNC_ARGS);
 		}
 		list(tos - h);
