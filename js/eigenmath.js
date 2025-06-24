@@ -6923,7 +6923,7 @@ eval_for(p1)
 			evalf();
 			pop();
 			p3 = cdr(p3);
-			if (breakflag) {
+			if (breakflag || errorflag) {
 				breakflag = t;
 				restore_symbol();
 				push_symbol(NIL);
@@ -7093,8 +7093,13 @@ indexfunc(T, h)
 	for (i = 0; i < n; i++) {
 		push(stack[h + i]);
 		t = pop_integer();
-		if (t < 1 || t > T.dim[i])
-			stopf("index error");
+		if (t < 1 || t > T.dim[i]) {
+			if (shuntflag) {
+				errorflag = 1;
+				t = 1;
+			} else
+				stopf("index error");
+		}
 		k = k * T.dim[i] + t - 1;
 	}
 
@@ -9008,7 +9013,7 @@ eval_loop(p1)
 			evalf();
 			pop();
 			p2 = cdr(p2);
-			if (breakflag) {
+			if (breakflag || errorflag) {
 				breakflag = t;
 				push_symbol(NIL);
 				return;
@@ -9959,35 +9964,20 @@ eval_noexpand(p1)
 function
 eval_nonstop()
 {
-	if (nonstop) {
+	if (shuntflag) {
 		pop();
 		push_symbol(NIL);
 		return; // not reentrant
 	}
-
-	nonstop = 1;
-	eval_nonstop_nib();
-	nonstop = 0;
-}
-
-function
-eval_nonstop_nib()
-{
-	var save_tos, save_eval_level, save_expanding;
-
-	try {
-		save_tos = stack.length - 1;
-		save_eval_level = eval_level;
-		save_expanding = expanding;
-		evalf();
-
-	} catch (errmsg) {
-
-		stack.length = save_tos;
-		eval_level = save_eval_level;
-		expanding = save_expanding;
-		push_symbol(NIL); // return value
+	shuntflag = 1;
+	errorflag = 0;
+	evalf();
+	if (errorflag) {
+		errorflag = 0;
+		pop();
+		push_symbol(NIL);
 	}
+	shuntflag = 0;
 }
 function
 eval_not(p1)
@@ -14898,7 +14888,9 @@ init()
 	eval_level = 0;
 	expanding = 1;
 	drawing = 0;
-	nonstop = 0;
+	shuntflag = 0;
+	errorflag = 0;
+	breakflag = 0;
 
 	stack = [];
 
@@ -16146,8 +16138,12 @@ power_numbers(BASE, EXPO)
 	// 0^n
 
 	if (iszero(BASE)) {
-		if (isnegativenumber(EXPO))
-			stopf("divide by zero");
+		if (isnegativenumber(EXPO)) {
+			if (shuntflag)
+				errorflag = 1;
+			else
+				stopf("divide by zero");
+		}
 		push_integer(0);
 		return;
 	}
@@ -17791,10 +17787,11 @@ var imaginaryunit;
 var eval_level;
 var expanding;
 var drawing;
-var nonstop;
+var shuntflag;
+var errorflag;
+var breakflag;
 var trace1;
 var trace2;
-var breakflag;
 
 var symtab = {
 "abs":		{printname:ABS,		func:eval_abs},

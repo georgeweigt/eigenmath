@@ -4,7 +4,9 @@ init()
 	eval_level = 0;
 	expanding = 1;
 	drawing = 0;
-	nonstop = 0;
+	shuntflag = 0;
+	errorflag = 0;
+	breakflag = 0;
 
 	stack = [];
 

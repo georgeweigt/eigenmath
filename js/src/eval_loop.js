@@ -15,7 +15,7 @@ eval_loop(p1)
 			evalf();
 			pop();
 			p2 = cdr(p2);
-			if (breakflag) {
+			if (breakflag || errorflag) {
 				breakflag = t;
 				push_symbol(NIL);
 				return;

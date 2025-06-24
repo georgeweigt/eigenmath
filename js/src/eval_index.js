@@ -60,8 +60,13 @@ indexfunc(T, h)
 	for (i = 0; i < n; i++) {
 		push(stack[h + i]);
 		t = pop_integer();
-		if (t < 1 || t > T.dim[i])
-			stopf("index error");
+		if (t < 1 || t > T.dim[i]) {
+			if (shuntflag) {
+				errorflag = 1;
+				t = 1;
+			} else
+				stopf("index error");
+		}
 		k = k * T.dim[i] + t - 1;
 	}
 

@@ -40,7 +40,7 @@ eval_for(p1)
 			evalf();
 			pop();
 			p3 = cdr(p3);
-			if (breakflag) {
+			if (breakflag || errorflag) {
 				breakflag = t;
 				restore_symbol();
 				push_symbol(NIL);

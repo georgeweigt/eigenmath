@@ -11,10 +11,11 @@ var imaginaryunit;
 var eval_level;
 var expanding;
 var drawing;
-var nonstop;
+var shuntflag;
+var errorflag;
+var breakflag;
 var trace1;
 var trace2;
-var breakflag;
 
 var symtab = {
 "abs":		{printname:ABS,		func:eval_abs},
