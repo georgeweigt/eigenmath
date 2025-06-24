@@ -480,7 +480,6 @@ char * scan_input(char *s);
 void print_trace(int color);
 void run_init_script(void);
 void stopf(char *s);
-void exitf(char *s);
 char * scan(char *s);
 char * scan1(char *s);
 char * scan_nib(char *s);

@@ -1,7 +1,7 @@
 void
 run(char *buf)
 {
-	if (setjmp(jmpbuf0))
+	if (setjmp(jmpbuf))
 		return;
 
 	tos = 0;
@@ -10,7 +10,9 @@ run(char *buf)
 	gc_level = 0;
 	expanding = 1;
 	drawing = 0;
-	nonstop = 0;
+	shuntflag = 0;
+	errorflag = 0;
+	breakflag = 0;
 
 	if (zero == NULL) {
 		init_symbol_table();
@@ -120,17 +122,8 @@ run_init_script(void)
 void
 stopf(char *s)
 {
-	if (nonstop)
-		longjmp(jmpbuf1, 1);
 	print_trace(RED);
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
 	printbuf(strbuf, RED);
-	longjmp(jmpbuf0, 1);
-}
-
-void
-exitf(char *s)
-{
-	nonstop = 0;
-	stopf(s);
+	longjmp(jmpbuf, 1);
 }

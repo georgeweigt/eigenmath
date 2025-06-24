@@ -2,7 +2,7 @@ void
 push(struct atom *p)
 {
 	if (tos < 0 || tos >= STACKSIZE)
-		exitf("stack error");
+		stopf("stack error");
 	stack[tos++] = p;
 	if (tos > max_tos)
 		max_tos = tos;
@@ -12,7 +12,7 @@ struct atom *
 pop(void)
 {
 	if (tos < 1 || tos > STACKSIZE)
-		exitf("stack error");
+		stopf("stack error");
 	return stack[--tos];
 }
 

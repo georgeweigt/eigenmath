@@ -24,7 +24,7 @@ alloc_block(void)
 	if (block_count == MAXBLOCKS) {
 		tos = 0;
 		gc(); // prep for next run
-		exitf("out of memory");
+		stopf("out of memory");
 	}
 
 	p = alloc_mem(BLOCKSIZE * sizeof (struct atom));

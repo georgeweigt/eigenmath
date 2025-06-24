@@ -18,11 +18,11 @@ int eval_level;
 int gc_level;
 int expanding;
 int drawing;
-int nonstop;
 int interrupt;
+int shuntflag;
+int errorflag;
 int breakflag;
-jmp_buf jmpbuf0;
-jmp_buf jmpbuf1;
+jmp_buf jmpbuf;
 char *trace1;
 char *trace2;
 

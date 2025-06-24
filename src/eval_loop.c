@@ -16,7 +16,7 @@ eval_loop(struct atom *p1)
 			evalg();
 			pop();
 			p2 = cdr(p2);
-			if (breakflag) {
+			if (breakflag || errorflag) {
 				breakflag = t;
 				push_symbol(NIL);
 				return;

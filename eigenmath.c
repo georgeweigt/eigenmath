@@ -365,11 +365,11 @@ extern int eval_level;
 extern int gc_level;
 extern int expanding;
 extern int drawing;
-extern int nonstop;
 extern int interrupt;
+extern int shuntflag;
 extern int breakflag;
-extern jmp_buf jmpbuf0;
-extern jmp_buf jmpbuf1;
+extern int errorflag;
+extern jmp_buf jmpbuf;
 extern char *trace1;
 extern char *trace2;
 extern int alloc_count;
@@ -870,7 +870,6 @@ char * scan_input(char *s);
 void print_trace(int color);
 void run_init_script(void);
 void stopf(char *s);
-void exitf(char *s);
 char * scan(char *s);
 char * scan1(char *s);
 char * scan_nib(char *s);
@@ -939,7 +938,7 @@ alloc_block(void)
 	if (block_count == MAXBLOCKS) {
 		tos = 0;
 		gc(); // prep for next run
-		exitf("out of memory");
+		stopf("out of memory");
 	}
 
 	p = alloc_mem(BLOCKSIZE * sizeof (struct atom));
@@ -6139,7 +6138,7 @@ eval_for(struct atom *p1)
 			evalg();
 			pop();
 			p3 = cdr(p3);
-			if (breakflag) {
+			if (breakflag || errorflag) {
 				breakflag = t;
 				restore_symbol();
 				push_symbol(NIL);
@@ -6313,8 +6312,13 @@ indexfunc(struct atom *T, int h)
 	for (i = 0; i < n; i++) {
 		push(stack[h + i]);
 		t = pop_integer();
-		if (t < 1 || t > T->u.tensor->dim[i])
-			stopf("index error");
+		if (t < 1 || t > T->u.tensor->dim[i]) {
+			if (shuntflag) {
+				errorflag = 1;
+				t = 1;
+			} else
+				stopf("index error");
+		}
 		k = k * T->u.tensor->dim[i] + t - 1;
 	}
 
@@ -8759,7 +8763,7 @@ eval_loop(struct atom *p1)
 			evalg();
 			pop();
 			p2 = cdr(p2);
-			if (breakflag) {
+			if (breakflag || errorflag) {
 				breakflag = t;
 				push_symbol(NIL);
 				return;
@@ -10449,8 +10453,12 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 	// 0^n
 
 	if (iszero(BASE)) {
-		if (isnegativenumber(EXPO))
-			stopf("divide by zero");
+		if (isnegativenumber(EXPO)) {
+			if (shuntflag)
+				errorflag = 1;
+			else
+				stopf("divide by zero");
+		}
 		push_integer(0);
 		return;
 	}
@@ -16745,11 +16753,11 @@ int eval_level;
 int gc_level;
 int expanding;
 int drawing;
-int nonstop;
 int interrupt;
+int shuntflag;
+int errorflag;
 int breakflag;
-jmp_buf jmpbuf0;
-jmp_buf jmpbuf1;
+jmp_buf jmpbuf;
 char *trace1;
 char *trace2;
 
@@ -17307,7 +17315,7 @@ dependent(struct atom *f, struct atom *x)
 void
 run(char *buf)
 {
-	if (setjmp(jmpbuf0))
+	if (setjmp(jmpbuf))
 		return;
 
 	tos = 0;
@@ -17316,7 +17324,9 @@ run(char *buf)
 	gc_level = 0;
 	expanding = 1;
 	drawing = 0;
-	nonstop = 0;
+	shuntflag = 0;
+	errorflag = 0;
+	breakflag = 0;
 
 	if (zero == NULL) {
 		init_symbol_table();
@@ -17426,19 +17436,10 @@ run_init_script(void)
 void
 stopf(char *s)
 {
-	if (nonstop)
-		longjmp(jmpbuf1, 1);
 	print_trace(RED);
 	snprintf(strbuf, STRBUFLEN, "Stop: %s\n", s);
 	printbuf(strbuf, RED);
-	longjmp(jmpbuf0, 1);
-}
-
-void
-exitf(char *s)
-{
-	nonstop = 0;
-	stopf(s);
+	longjmp(jmpbuf, 1);
 }
 // token_str and scan_str are pointers to the input string, for example
 //
@@ -18049,7 +18050,7 @@ void
 push(struct atom *p)
 {
 	if (tos < 0 || tos >= STACKSIZE)
-		exitf("stack error");
+		stopf("stack error");
 	stack[tos++] = p;
 	if (tos > max_tos)
 		max_tos = tos;
@@ -18059,7 +18060,7 @@ struct atom *
 pop(void)
 {
 	if (tos < 1 || tos > STACKSIZE)
-		exitf("stack error");
+		stopf("stack error");
 	return stack[--tos];
 }
 

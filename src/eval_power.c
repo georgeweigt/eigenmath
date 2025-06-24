@@ -244,8 +244,12 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 	// 0^n
 
 	if (iszero(BASE)) {
-		if (isnegativenumber(EXPO))
-			stopf("divide by zero");
+		if (isnegativenumber(EXPO)) {
+			if (shuntflag)
+				errorflag = 1;
+			else
+				stopf("divide by zero");
+		}
 		push_integer(0);
 		return;
 	}
