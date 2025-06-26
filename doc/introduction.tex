@@ -31,18 +31,24 @@ Result:
 $i\hbar\psi(x,t)$
 
 \bigskip
-Another example: Show that
+Another example: Let
 \begin{equation*}
-[X^2,P^2]=2i\hbar(XP+PX)
+H=\frac{P^2}{2m}
+\end{equation*}
+
+Show that
+\begin{equation*}
+[X,H]=\frac{i\hbar P}{m}
 \end{equation*}
 
 Eigenmath code:
 {\color{blue}
 \begin{verbatim}
-X2(f) = X(X(f))
-P2(f) = P(P(f))
-A = X2(P2(psi(x,t))) - P2(X2(psi(x,t)))
-B = 2 i hbar (X(P(psi(x,t))) + P(X(psi(x,t))))
+X(f) = x f
+P(f) = -i hbar d(f,x)
+H(f) = P(P(f)) / (2 m)
+A = X(H(psi(x,t))) - H(X(psi(x,t)))
+B = i hbar P(psi(x,t)) / m
 check(A == B) -- continue if A equals B
 "ok"
 \end{verbatim}}
