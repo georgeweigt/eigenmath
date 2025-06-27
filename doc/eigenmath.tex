@@ -87,7 +87,7 @@ H=\frac{P^2}{2m}
 
 Show that
 \begin{equation*}
-[X,H]=\frac{i\hbar P}{m}
+XH-HX=\frac{i\hbar P}{m}
 \end{equation*}
 
 Eigenmath code:
@@ -98,6 +98,29 @@ P(f) = -i hbar d(f,x)
 H(f) = P(P(f)) / (2 m)
 A = X(H(psi(x,t))) - H(X(psi(x,t)))
 B = i hbar P(psi(x,t)) / m
+check(A == B) -- continue if A equals B
+"ok"
+\end{verbatim}}
+
+Result:
+
+\bigskip
+ok
+
+\bigskip
+In three dimensions:
+\begin{equation*}
+X=(x,y,z),\quad P=-i\hbar\nabla,\quad H=-\frac{\hbar^2}{2m}\nabla^2
+\end{equation*}
+
+Eigenmath code:
+{\color{blue}
+\begin{verbatim}
+X(f) = (x,y,z) f
+P(f) = -i hbar d(f,(x,y,z))
+H(f) = -hbar^2 (d(f,x,x) + d(f,y,y) + d(f,z,z)) / (2 m)
+A = X(H(psi(x,y,z,t))) - H(X(psi(x,y,z,t)))
+B = i hbar P(psi(x,y,z,t)) / m
 check(A == B) -- continue if A equals B
 "ok"
 \end{verbatim}}
