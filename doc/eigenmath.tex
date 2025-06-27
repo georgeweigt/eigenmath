@@ -107,40 +107,6 @@ Result:
 \bigskip
 ok
 
-\bigskip
-In three dimensions:
-\begin{equation*}
-X=(x,y,z),\quad P=-i\hbar\nabla,\quad H=-\frac{\hbar^2}{2m}\nabla^2
-\end{equation*}
-
-Eigenmath code:
-{\color{blue}
-\begin{verbatim}
-X(f) = (x,y,z) f
-P(f) = -i hbar d(f,(x,y,z))
-H(f) = -hbar^2 (d(f,x,x) + d(f,y,y) + d(f,z,z)) / (2 m)
-A = X(H(psi(x,y,z,t))) - H(X(psi(x,y,z,t)))
-B = i hbar P(psi(x,y,z,t)) / m
-check(A == B) -- continue if A equals B
-"ok"
-\end{verbatim}}
-
-Result:
-
-\bigskip
-ok
-
-\iffalse
-\bigskip
-Notes:
-\begin{enumerate}
-\item
-Fedak  and Prentis write, ``The theory of Fourier and the correspondence principle of Bohr played a vital role in Heisenberg's development of quantum mechanics.''
-\item
-Aitchison, MacManus, and Snyder write, ``This `difficulty' clearly unsettled Heisenberg: but it very quickly became clear that the non-commutativity (in general) of kinematical quantities in quantum theory was the really essential new technical idea in the paper.''
-\end{enumerate}
-\fi
-
 \newpage
 
 \section{Syntax}
