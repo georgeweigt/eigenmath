@@ -233,6 +233,100 @@ TSS = sum((y - ybar)^2) -- total sum of squares
 1 - RSS / TSS
 clear
 
+"Atomic transitions 2"
+
+H1 = -e E0 epsilon p / (m omega) expcos(k r - omega t)
+
+cb = -i / hbar defint(H1 exp(i omega0 t), t, 0, t)
+
+A = e E0 / (2 m hbar omega) epsilon p exp(i k r) *
+    (exp(i (omega0 - omega) t) - 1) / (omega0 - omega)
+
+B = e E0 / (2 m hbar omega) epsilon p exp(-i k r) *
+    (exp(i (omega0 + omega) t) - 1) / (omega0 + omega)
+
+"Verify equation (1)"
+check(cb == A + B)
+"ok"
+
+cb = A
+
+"Verify equation (2)"
+T = i e E0 / (m hbar omega) epsilon p exp(i k r) *
+    sin(1/2 (omega0 - omega) t) / (omega0 - omega) *
+    exp(i/2 (omega0 - omega) t)
+check(cb == T)
+"ok"
+
+"Verify dimensions"
+
+momentum = kilogram meter / second
+newton = kilogram meter / second^2
+joule = kilogram meter^2 / second^2
+
+e = coulomb
+E0 = newton / coulomb
+hbar = joule second
+m = kilogram
+omega = second^(-1)
+p = momentum
+
+check(e E0 p / (m omega) == joule)
+check(e E0 / (m hbar omega) p / omega == 1)
+
+"ok"
+clear
+
+"Atomic transitions 3"
+
+"Verify dimensions"
+
+momentum = kilogram meter / second
+newton = kilogram meter / second^2
+joule = kilogram meter^2 / second^2
+
+e = coulomb
+rho = joule second / meter^3
+epsilon0 = coulomb^2 / joule / meter
+hbar = joule second
+m = kilogram
+omega = 1/second
+A = momentum
+
+check(e^2 rho / (epsilon0 m^2 hbar^2 omega^2) A^2 == 1/second)
+
+"ok"
+clear
+
+"Atomic transitions 4"
+
+r(f) = outer(f,(x,y,z))
+p(f) = -i hbar (d(f,x), d(f,y), d(f,z))
+p2(f) = -hbar^2 (d(f,x,x) + d(f,y,y) + d(f,z,z))
+H0(f) = p2(f) / (2 m) + V(x,y,z) f
+
+"Verify equation (1)"
+Psi = psi(x,y,z,t)
+check(p(Psi) == i m / hbar (H0(r(Psi)) - r(H0(Psi))))
+"ok"
+
+"Verify dimensions"
+
+momentum = kilogram meter / second
+newton = kilogram meter / second^2
+joule = kilogram meter^2 / second^2
+
+e = coulomb
+rho = joule second / meter^3
+epsilon0 = coulomb^2 / joule / meter
+hbar = joule second
+A = meter
+
+check(e^2 rho / (epsilon0 hbar^2) A^2 == 1/second)
+
+"ok"
+clear
+
 -- Compute Balmer's coefficient using linear regression
 
 m = (3,3,3,3,3,4,4,4,4,4,5,5,5,6,6,6,7,8,8,9,9,10,10,11,11)
@@ -835,15 +929,6 @@ P2(f) = P(P(f))
 A = X2(P2(psi(x,t))) - P2(X2(psi(x,t)))
 B = 2 i hbar (X(P(psi(x,t))) + P(X(psi(x,t))))
 check(A == B) -- continue if A equals B
-"ok"
-clear
-
-"Classic integration trick"
-a = 1 / (2 sigma^2)
-b = i k
-f = sqrt(pi / a) exp(b^2 / (4 a))
-f
-check(f == sqrt(2 pi sigma^2) exp(-k^2 sigma^2 / 2))
 "ok"
 clear
 
@@ -1726,6 +1811,48 @@ check(m / (2 pi i hbar tb) == a / pi)
 
 check(b^2 / (4 a) + c == i p xb / hbar - i p^2 tb / (2 m hbar))
 
+"ok"
+clear
+
+"Fun trick 1"
+
+r(f) = outer(f,(x,y,z))
+p(f) = -i hbar (d(f,x), d(f,y), d(f,z))
+p2(f) = -hbar^2 (d(f,x,x) + d(f,y,y) + d(f,z,z))
+
+Psi = psi(x,y,z,t)
+C = p2(r(Psi)) - r(p2(Psi))
+
+"Verify equation (1)"
+check(C == -2 i hbar p(Psi))
+"ok"
+
+"Verify equation (2)"
+T = p(p(r(Psi))) - r(p(p(Psi)))
+check(C == contract(T))
+"ok"
+
+"Verify equation (3)"
+T = p(p(r(Psi))) - p(r(p(Psi))) + p(r(p(Psi))) - r(p(p(Psi)))
+check(C == contract(T))
+"ok"
+
+"Verify equation (4)"
+I = ((1,0,0),(0,1,0),(0,0,1))
+check(p(r(Psi)) - r(p(Psi)) == -i hbar Psi I)
+"ok"
+
+"Verify equation (5)"
+check(p2(Psi) == contract(p(p(Psi))))
+"ok"
+clear
+
+"Fun trick 2"
+a = 1 / (2 sigma^2)
+b = i k
+f = sqrt(pi / a) exp(b^2 / (4 a))
+f
+check(f == sqrt(2 pi sigma^2) exp(-k^2 sigma^2 / 2))
 "ok"
 clear
 
@@ -2751,6 +2878,60 @@ for(lb, 0, nb - 1, for(mb, -lb, lb,
 N
 clear
 
+-- Incomplete beta function
+
+-- zlib License
+-- Copyright (c) 2016, 2017 Lewis Van Winkle
+-- https://codeplea.com/incomplete-beta-function-c
+
+-- What follows is the copyrighted C code converted to Eigenmath:
+
+incbeta(x,a,b) = test(
+ or(x < 0, x > 1), tgamma(0),
+ x > (a + 1) / (a + b + 2), 1 - incbeta1(1 - x, b, a),
+ incbeta1(x,a,b)
+)
+
+incbeta1(x,a,b,c,d,f,i,m,n) = do(
+ f = 1,
+ c = 1,
+ d = 0,
+ for(i,0,200,
+  m = floor(i / 2),
+  test(
+   i == 0, n = 1,
+   mod(i,2) == 0, n = m (b - m) x / (a + 2 m - 1) / (a + 2 m),
+   n = -(a + m) (a + b + m) x / (a + 2 m) / (a + 2 m + 1)
+  ),
+  d = 1 + n d,
+  test(abs(d) < 10.0^(-30), d = 10.0^(-30)),
+  d = 1 / d,
+  c = 1 + n / c,
+  test(abs(c) < 10.0^(-30), c = 10.0^(-30)),
+  f = f c d,
+  test(abs(1 - c d) < 10.0^(-8), break)
+ ),
+ m = log(tgamma(a)) + log(tgamma(b)) - log(tgamma(a + b)),
+ x = float(x),
+ m = exp(log(x) a + log(1 - x) b - m) / a,
+ test(abs(1 - c d) < 10.0^(-8), m (f - 1), tgamma(0))
+)
+
+xrange = (0,1)
+yrange = (0,1)
+draw(incbeta(x,8,8))
+
+fdist(t,df1,df2) = test(
+ t == tgamma(0), 1,
+ t <= 0, 0,
+ incbeta(t / (t + df2 / df1), df1 / 2, df2 / 2)
+)
+
+xrange = (0,5)
+yrange = (0,1)
+draw(fdist(x,1,1))
+clear
+
 -- inverse Laplace transform for 1 / (s^2 + a s + b)
 
 -- from Wolfram
@@ -3072,7 +3253,7 @@ check(A2(psi) == 2 / m H(L2(psi) + hbar^2 psi) + Z^2 psi)
 "ok"
 clear
 
-"Laplace transform example"
+"Laplace transform example 1"
 
 X = B / (s - i omega)
 Y = s - A B / (s - i omega)
@@ -3109,6 +3290,37 @@ check(d(cb,t) == B exp(i omega t) ca)
 check(eval(ca,t,0) == 1)
 check(eval(cb,t,0) == 0)
 
+"ok"
+clear
+
+"Laplace transform example 2"
+
+a = -(Haa + Hbb + i omega0)
+b = Haa Hbb - Hab Hba + i Hbb omega0
+k = sqrt(4 b - a^2)
+
+cb = 2 Hba / k sin(1/2 k t) exp(-1/2 a t)
+ca = (d(cb,t) - Hbb cb) / (Hba exp(i omega0 t))
+
+check(ca == (cos(1/2 k t) - (a + 2 Hbb) / k sin(1/2 k t)) exp(-i omega0 t) exp(-1/2 a t))
+
+"Verify equation (1)"
+check(d(ca,t) == Haa ca + Hab cb exp(-i omega0 t))
+"ok"
+
+"Verify equation (2)"
+check(d(cb,t) == Hbb cb + Hba ca exp(i omega0 t))
+"ok"
+
+Haa = 0
+Hbb = 0
+
+"Verify equation (6)"
+check(ca == (cos(1/2 k t) + i omega0 / k sin(1/2 k t)) exp(-1/2 i omega0 t))
+"ok"
+
+"Verify equation (7)"
+check(cb == 2 Hba / k sin(1/2 k t) exp(1/2 i omega0 t))
 "ok"
 clear
 
@@ -4495,11 +4707,11 @@ check(ca == (cos(omegar t) + i (omega0 - omega) / (2 omegar) sin(omegar t)) exp(
 
 omegar = 1/2 sqrt((omega0 - omega)^2 + Vab Vba / hbar^2)
 
-"Verify equation (3)"
+"Verify equation (4)"
 check(d(ca,t) == -i / (2 hbar) Vab exp(i (omega - omega0) t) cb)
 "ok"
 
-"Verify equation (4)"
+"Verify equation (5)"
 check(d(cb,t) == -i / (2 hbar) Vba exp(i (omega0 - omega) t) ca)
 "ok"
 clear
