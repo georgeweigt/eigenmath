@@ -260,16 +260,14 @@ check(cb == T)
 
 "Verify dimensions"
 
-momentum = kilogram meter / second
 newton = kilogram meter / second^2
 joule = kilogram meter^2 / second^2
-
 e = coulomb
 E0 = newton / coulomb
 hbar = joule second
 m = kilogram
-omega = second^(-1)
-p = momentum
+omega = 1/second
+p = kilogram meter / second
 
 check(e E0 p / (m omega) == joule)
 check(e E0 / (m hbar omega) p / omega == 1)
@@ -281,19 +279,16 @@ clear
 
 "Verify dimensions"
 
-momentum = kilogram meter / second
-newton = kilogram meter / second^2
 joule = kilogram meter^2 / second^2
-
 e = coulomb
 rho = joule second / meter^3
-epsilon0 = coulomb^2 / joule / meter
+epsilon0 = coulomb^2 / (joule meter)
 hbar = joule second
 m = kilogram
 omega = 1/second
-A = momentum
+Iab = kilogram meter / second
 
-check(e^2 rho / (epsilon0 m^2 hbar^2 omega^2) A^2 == 1/second)
+check(e^2 / (epsilon0 m^2 hbar^2) Iab^2 rho / omega^2 == 1/second)
 
 "ok"
 clear
@@ -312,17 +307,58 @@ check(p(Psi) == i m / hbar (H0(r(Psi)) - r(H0(Psi))))
 
 "Verify dimensions"
 
-momentum = kilogram meter / second
-newton = kilogram meter / second^2
 joule = kilogram meter^2 / second^2
-
 e = coulomb
 rho = joule second / meter^3
-epsilon0 = coulomb^2 / joule / meter
+epsilon0 = coulomb^2 / (joule meter)
 hbar = joule second
-A = meter
+Iba = meter
 
-check(e^2 rho / (epsilon0 hbar^2) A^2 == 1/second)
+check(e^2 / (epsilon0 hbar^2) Iba^2 rho == 1/second)
+
+"ok"
+clear
+
+"Atomic transitions 5"
+
+"Verify equation (1)"
+
+cx = ax exp(i bx)
+cy = ay exp(i by)
+cz = az exp(i bz)
+
+ex = sin(theta) cos(phi)
+ey = sin(theta) sin(phi)
+ez = cos(theta)
+
+r = ex cx + ey cy + ez cz
+A = defint(r conj(r) sin(theta), theta, 0, pi, phi, 0, 2 pi) / (4 pi)
+B = 1/3 cx conj(cx) + 1/3 cy conj(cy) + 1/3 cz conj(cz)
+
+check(A == B)
+
+"ok"
+clear
+
+"Atomic transitions 6"
+
+"Verify equation (1)"
+Bba = pi e^2 / (3 epsilon0 hbar^2)
+Aba = e^2 omega0^3 / (3 pi epsilon0 hbar c^3)
+check(Aba / Bba == hbar omega0^3 / (pi^2 c^3))
+"ok"
+
+"Verify dimensions"
+
+joule = kilogram meter^2 / second^2
+e = coulomb
+omega0 = 1/second
+epsilon0 = coulomb^2 / (joule meter)
+hbar = joule second
+c = meter / second
+Iab = meter
+
+check(e^2 omega0^3 / (epsilon0 hbar c^3) Iab^2 == 1/second)
 
 "ok"
 clear
@@ -2393,84 +2429,6 @@ check(defint(P(expcos(theta),2) expsin(theta), theta, 0, pi) == 0)
 check(defint(P(expcos(theta),10) expsin(theta), theta, 0, pi) == 0)
 
 "ok"
-clear
-
--- Verify Einstein's equilibrium equation (2) for Lyman-alpha line
-
--- spontaneous emission
-
-A21 = 256 alpha^4 c / (6561 a0)
-
--- induced emission
-
-B21 = c^2 / (2 h nu^3) A21
-
--- absorption
-
-p1 = 2
-p2 = 6
-
-B12 = p2 / p1 B21
-
-"Coefficients for Lyman-alpha line"
-
-A21
-B21
-B12
-
-"Verify Einstein equilibrium equation (2)"
-
-rho = (2 h nu^3 / c^2) / (exp(h nu / (k T)) - 1)
-
-E(n) = -alpha hbar c / (2 n^2 a0)
-
-nu = (E(2) - E(1)) / h
-
-P = B12 rho p1 exp(-E(1) / (k T))
-Q = B21 rho p2 exp(-E(2) / (k T)) + A21 p2 exp(-E(2) / (k T))
-
-check(P == Q)
-
-"ok"
-
--- CODATA Internationally recommended 2022 values
--- https://physics.nist.gov/cuu/Constants/
--- c, e, h, and k are exact values
-
-a0 = 5.29177210544 10^(-11) meter
-alpha = 7.2973525643 10^(-3)
-c = 299792458.0 meter / second
-e = 1.602176634 10^(-19) coulomb
-epsilon0 = 8.8541878188 10^(-12) farad / meter
-h = 6.62607015 10^(-34) joule second
-hbar = h / float(2 pi)
-k = 1.380649 10^(-23) joule / kelvin
-me = 9.1093837139 10^(-31) kilogram
-mp = 1.67262192595 10^(-27) kilogram
-mu0 = 1.25663706127 10^(-6) newton / ampere^2
-
-coulomb = ampere second
-farad = coulomb / volt
-joule = kilogram meter^2 / second^2
-newton = kilogram meter / second^2
-tesla = kilogram / second^2 / ampere
-volt = joule / coulomb
-
-ampere = "ampere"
-kelvin = "kelvin"
-kilogram = "kilogram"
-meter = "meter"
-second = "second"
-
-pi = float(pi) -- use numerical value of pi
-mu = me mp / (me + mp)
-a0 = a0 me / mu -- correction for reduced electron mass
-
-a0
-nu
-A21
-B21
-B12
 clear
 
 "How Planck calculated h and k"
