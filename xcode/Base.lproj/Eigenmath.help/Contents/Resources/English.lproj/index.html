@@ -73,6 +73,7 @@
 <a href="#j">j</a><br>
 <a href="#kronecker">kronecker</a><br>
 <a href="#last">last</a><br>
+<a href="#lgamma">lgamma</a><br>
 <a href="#log">log</a><br>
 <a href="#loop">loop</a><br>
 <a href="#mag">mag</a><br>
@@ -84,8 +85,8 @@
 <a href="#nroots">nroots</a><br>
 <a href="#number">number</a><br>
 <a href="#numerator">numerator</a><br>
-<a href="#or">or</a><br>
 </td><td>
+<a href="#or">or</a><br>
 <a href="#outer">outer</a><br>
 <a href="#pi">pi</a><br>
 <a href="#polar">polar</a><br>
@@ -93,6 +94,7 @@
 <a href="#print">print</a><br>
 <a href="#product">product</a><br>
 <a href="#quote">quote</a><br>
+<a href="#rand">rand</a><br>
 <a href="#rank">rank</a><br>
 <a href="#rationalize">rationalize</a><br>
 <a href="#real">real</a><br>
@@ -102,9 +104,9 @@
 <a href="#run">run</a><br>
 <a href="#sgn">sgn</a><br>
 <a href="#simplify">simplify</a><br>
+</td><td>
 <a href="#sin">sin</a><br>
 <a href="#sinh">sinh</a><br>
-</td><td>
 <a href="#sqrt">sqrt</a><br>
 <a href="#stop">stop</a><br>
 <a href="#sum">sum</a><br>
@@ -118,8 +120,6 @@
 <a href="#tty">tty</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
-<br>
-<br>
 <br>
 <br>
 <br>
@@ -1071,6 +1071,17 @@ float
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
+<a id="lgamma">lgamma(<i>x</i>)</a>
+<p>
+Returns the log of the absolute value of the Gamma function of <i>x</i>.
+<pre style="font-family:courier;color:blue">
+lgamma(0.5)
+</pre>
+<pre style="font-family:courier">
+0.572365
+</pre>
+
+<p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="log">log(<i>x</i>)</a>
 <p>
 Returns the natural logarithm of <i>x</i>.
@@ -1367,6 +1378,17 @@ quote((x + 1)^2)
 <pre style="font-family:courier">
        2
 (x + 1)
+</pre>
+
+<p style="font-family:courier;font-size:2em;font-weight:bold">
+<a id="rand">rand()</a>
+<p>
+Returns a random floating point value from the interval [0,1).
+<pre style="font-family:courier;color:blue">
+rand()
+</pre>
+<pre style="font-family:courier">
+0.655424
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
