@@ -7799,6 +7799,51 @@ kronecker(void)
 	push(p3);
 }
 void
+eval_lgamma(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	lgammafunc();
+}
+
+void
+lgammafunc(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1, *p2;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			lgammafunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	floatfunc();
+	p2 = pop();
+
+	if (isnum(p2)) {
+		push(p2);
+		d = pop_double();
+		d = lgamma(d);
+		push_double(d);
+		return;
+	}
+
+	push_symbol(LGAMMA);
+	push(p1);
+	list(2);
+}
+void
 eval_log(struct atom *p1)
 {
 	push(cadr(p1));
@@ -10895,6 +10940,13 @@ void
 eval_quote(struct atom *p1)
 {
 	push(cadr(p1)); // not evaluated
+}
+void
+eval_rand(struct atom *p1)
+{
+	double d;
+	d = (double) rand() / ((double) RAND_MAX + 1);
+	push_double(d);
 }
 void
 eval_rank(struct atom *p1)
@@ -15093,6 +15145,7 @@ run(char *buf)
 	breakflag = 0;
 
 	if (zero == NULL) {
+		srand((unsigned) time(NULL));
 		init_symbol_table();
 		push_bignum(MPLUS, mint(0), mint(1));
 		zero = pop();
@@ -16163,6 +16216,7 @@ struct se {
 	{ "kronecker",		KRONECKER,	eval_kronecker		},
 
 	{ "last",		LAST,		NULL			},
+	{ "lgamma",		LGAMMA,		eval_lgamma		},
 	{ "log",		LOG,		eval_log		},
 	{ "loop",		LOOP,		eval_loop		},
 
@@ -16195,6 +16249,7 @@ struct se {
 
 	{ "R",			R_UPPER,	NULL			},
 	{ "r",			R_LOWER,	NULL			},
+	{ "rand",		RAND,		eval_rand		},
 	{ "rank",		RANK,		eval_rank		},
 	{ "rationalize",	RATIONALIZE,	eval_rationalize	},
 	{ "real",		REAL,		eval_real		},

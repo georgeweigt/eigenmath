@@ -8,6 +8,7 @@
 #include <setjmp.h>
 #include <math.h>
 #include <errno.h>
+#include <time.h>
 
 #define STACKSIZE 100000 // evaluation stack
 #define BLOCKSIZE 10000
@@ -165,8 +166,9 @@ struct tensor {
 #define KRONECKER	(10 * BUCKETSIZE + 0)
 
 #define LAST		(11 * BUCKETSIZE + 0)
-#define LOG		(11 * BUCKETSIZE + 1)
-#define LOOP		(11 * BUCKETSIZE + 2)
+#define LGAMMA		(11 * BUCKETSIZE + 1)
+#define LOG		(11 * BUCKETSIZE + 2)
+#define LOOP		(11 * BUCKETSIZE + 3)
 
 #define MAG		(12 * BUCKETSIZE + 0)
 #define MINOR		(12 * BUCKETSIZE + 1)
@@ -197,13 +199,14 @@ struct tensor {
 
 #define R_UPPER		(17 * BUCKETSIZE + 0)
 #define R_LOWER		(17 * BUCKETSIZE + 1)
-#define RANK		(17 * BUCKETSIZE + 2)
-#define RATIONALIZE	(17 * BUCKETSIZE + 3)
-#define REAL		(17 * BUCKETSIZE + 4)
-#define RECTF		(17 * BUCKETSIZE + 5)
-#define ROOTS		(17 * BUCKETSIZE + 6)
-#define ROTATE		(17 * BUCKETSIZE + 7)
-#define RUN		(17 * BUCKETSIZE + 8)
+#define RAND		(17 * BUCKETSIZE + 2)
+#define RANK		(17 * BUCKETSIZE + 3)
+#define RATIONALIZE	(17 * BUCKETSIZE + 4)
+#define REAL		(17 * BUCKETSIZE + 5)
+#define RECTF		(17 * BUCKETSIZE + 6)
+#define ROOTS		(17 * BUCKETSIZE + 7)
+#define ROTATE		(17 * BUCKETSIZE + 8)
+#define RUN		(17 * BUCKETSIZE + 9)
 
 #define S_UPPER		(18 * BUCKETSIZE + 0)
 #define S_LOWER		(18 * BUCKETSIZE + 1)

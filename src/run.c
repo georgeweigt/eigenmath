@@ -15,6 +15,7 @@ run(char *buf)
 	breakflag = 0;
 
 	if (zero == NULL) {
+		srand((unsigned) time(NULL));
 		init_symbol_table();
 		push_bignum(MPLUS, mint(0), mint(1));
 		zero = pop();

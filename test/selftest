@@ -5429,6 +5429,9 @@ T=laguerre(x,2,0)-1/2*(x^2-4*x+2)
 check(T=0)
 T=laguerre(x,3,0)-1/6*(-x^3+9*x^2-18*x+6)
 check(T=0)
+"Testing lgamma"
+clear
+check(infixform(lgamma(1/2)) == "0.572365")
 "Testing local variables"
 clear
 x = 123 -- global x in use, need local x in P
@@ -5868,6 +5871,9 @@ check(infixform(sqrt(1/2) + sqrt(1/2) + sqrt(1/2)) == "3 / 2^(1/2)")
 
 check(infixform(A / sqrt(2) + A / sqrt(2)) == "2^(1/2) A")
 check(infixform(sqrt(2) A + A / sqrt(2) + A / sqrt(2)) == "2 2^(1/2) A")
+"Testing rand"
+clear
+check(number(rand))
 "Testing rationalize"
 
 clear

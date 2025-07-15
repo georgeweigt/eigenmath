@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <setjmp.h>
 #include <math.h>
 #include <errno.h>
+#include <time.h>
 
 #define STACKSIZE 100000 // evaluation stack
 #define BLOCKSIZE 10000
@@ -192,8 +193,9 @@ struct tensor {
 #define KRONECKER	(10 * BUCKETSIZE + 0)
 
 #define LAST		(11 * BUCKETSIZE + 0)
-#define LOG		(11 * BUCKETSIZE + 1)
-#define LOOP		(11 * BUCKETSIZE + 2)
+#define LGAMMA		(11 * BUCKETSIZE + 1)
+#define LOG		(11 * BUCKETSIZE + 2)
+#define LOOP		(11 * BUCKETSIZE + 3)
 
 #define MAG		(12 * BUCKETSIZE + 0)
 #define MINOR		(12 * BUCKETSIZE + 1)
@@ -224,13 +226,14 @@ struct tensor {
 
 #define R_UPPER		(17 * BUCKETSIZE + 0)
 #define R_LOWER		(17 * BUCKETSIZE + 1)
-#define RANK		(17 * BUCKETSIZE + 2)
-#define RATIONALIZE	(17 * BUCKETSIZE + 3)
-#define REAL		(17 * BUCKETSIZE + 4)
-#define RECTF		(17 * BUCKETSIZE + 5)
-#define ROOTS		(17 * BUCKETSIZE + 6)
-#define ROTATE		(17 * BUCKETSIZE + 7)
-#define RUN		(17 * BUCKETSIZE + 8)
+#define RAND		(17 * BUCKETSIZE + 2)
+#define RANK		(17 * BUCKETSIZE + 3)
+#define RATIONALIZE	(17 * BUCKETSIZE + 4)
+#define REAL		(17 * BUCKETSIZE + 5)
+#define RECTF		(17 * BUCKETSIZE + 6)
+#define ROOTS		(17 * BUCKETSIZE + 7)
+#define ROTATE		(17 * BUCKETSIZE + 8)
+#define RUN		(17 * BUCKETSIZE + 9)
 
 #define S_UPPER		(18 * BUCKETSIZE + 0)
 #define S_LOWER		(18 * BUCKETSIZE + 1)
@@ -605,6 +608,8 @@ void eval_inv(struct atom *p1);
 void inv(void);
 void eval_kronecker(struct atom *p1);
 void kronecker(void);
+void eval_lgamma(struct atom *p1);
+void lgammafunc(void);
 void eval_log(struct atom *p1);
 void logfunc(void);
 void eval_loop(struct atom *p1);
@@ -692,6 +697,7 @@ void print_result(void);
 int annotate_result(struct atom *p1, struct atom *p2);
 void eval_product(struct atom *p1);
 void eval_quote(struct atom *p1);
+void eval_rand(struct atom *p1);
 void eval_rank(struct atom *p1);
 void eval_rationalize(struct atom *p1);
 void rationalize(void);
@@ -8603,6 +8609,51 @@ kronecker(void)
 	push(p3);
 }
 void
+eval_lgamma(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	lgammafunc();
+}
+
+void
+lgammafunc(void)
+{
+	int i, n;
+	double d;
+	struct atom *p1, *p2;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			lgammafunc();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	floatfunc();
+	p2 = pop();
+
+	if (isnum(p2)) {
+		push(p2);
+		d = pop_double();
+		d = lgamma(d);
+		push_double(d);
+		return;
+	}
+
+	push_symbol(LGAMMA);
+	push(p1);
+	list(2);
+}
+void
 eval_log(struct atom *p1)
 {
 	push(cadr(p1));
@@ -11699,6 +11750,13 @@ void
 eval_quote(struct atom *p1)
 {
 	push(cadr(p1)); // not evaluated
+}
+void
+eval_rand(struct atom *p1)
+{
+	double d;
+	d = (double) rand() / ((double) RAND_MAX + 1);
+	push_double(d);
 }
 void
 eval_rank(struct atom *p1)
@@ -17329,6 +17387,7 @@ run(char *buf)
 	breakflag = 0;
 
 	if (zero == NULL) {
+		srand((unsigned) time(NULL));
 		init_symbol_table();
 		push_bignum(MPLUS, mint(0), mint(1));
 		zero = pop();
@@ -18399,6 +18458,7 @@ struct se {
 	{ "kronecker",		KRONECKER,	eval_kronecker		},
 
 	{ "last",		LAST,		NULL			},
+	{ "lgamma",		LGAMMA,		eval_lgamma		},
 	{ "log",		LOG,		eval_log		},
 	{ "loop",		LOOP,		eval_loop		},
 
@@ -18431,6 +18491,7 @@ struct se {
 
 	{ "R",			R_UPPER,	NULL			},
 	{ "r",			R_LOWER,	NULL			},
+	{ "rand",		RAND,		eval_rand		},
 	{ "rank",		RANK,		eval_rank		},
 	{ "rationalize",	RATIONALIZE,	eval_rationalize	},
 	{ "real",		REAL,		eval_real		},

@@ -161,6 +161,7 @@ struct se {
 	{ "kronecker",		KRONECKER,	eval_kronecker		},
 
 	{ "last",		LAST,		NULL			},
+	{ "lgamma",		LGAMMA,		eval_lgamma		},
 	{ "log",		LOG,		eval_log		},
 	{ "loop",		LOOP,		eval_loop		},
 
@@ -193,6 +194,7 @@ struct se {
 
 	{ "R",			R_UPPER,	NULL			},
 	{ "r",			R_LOWER,	NULL			},
+	{ "rand",		RAND,		eval_rand		},
 	{ "rank",		RANK,		eval_rank		},
 	{ "rationalize",	RATIONALIZE,	eval_rationalize	},
 	{ "real",		REAL,		eval_real		},

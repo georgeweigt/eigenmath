@@ -918,6 +918,7 @@ const INNER = "inner";
 const INTEGRAL = "integral";
 const INV = "inv";
 const KRONECKER = "kronecker";
+const LGAMMA = "lgamma";
 const LOG = "log";
 const LOOP = "loop";
 const MAG = "mag";
@@ -937,6 +938,7 @@ const PREFIXFORM = "prefixform";
 const PRINT = "print";
 const PRODUCT = "product";
 const QUOTE = "quote";
+const RAND = "rand";
 const RANK = "rank";
 const RATIONALIZE = "rationalize";
 const REAL = "real";
@@ -8856,6 +8858,49 @@ kronecker()
 	push(p3);
 }
 function
+eval_lgamma(p1)
+{
+	push(cadr(p1));
+	evalf();
+	lgammafunc();
+}
+
+function
+lgammafunc()
+{
+	var d, i, n, p1, p2;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			lgammafunc();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	floatfunc();
+	p2 = pop();
+
+	if (isnum(p2)) {
+		push(p2);
+		d = pop_double();
+		d = log_gamma(d);
+		push_double(d);
+		return;
+	}
+
+	push_symbol(LGAMMA);
+	push(p1);
+	list(2);
+}
+function
 eval_log(p1)
 {
 	push(cadr(p1));
@@ -10810,6 +10855,13 @@ function
 eval_quote(p1)
 {
 	push(cadr(p1)); // not evaluated
+}
+function
+eval_rand()
+{
+	var d;
+	d = Math.random();
+	push_double(d);
 }
 function
 eval_rank(p1)
@@ -17848,6 +17900,7 @@ var symtab = {
 "integral":	{printname:INTEGRAL,	func:eval_integral},
 "inv":		{printname:INV,		func:eval_inv},
 "kronecker":	{printname:KRONECKER,	func:eval_kronecker},
+"lgamma":	{printname:LGAMMA,	func:eval_lgamma},
 "log":		{printname:LOG,		func:eval_log},
 "loop":		{printname:LOOP,	func:eval_loop},
 "mag":		{printname:MAG,		func:eval_mag},
@@ -17867,6 +17920,7 @@ var symtab = {
 "print":	{printname:PRINT,	func:eval_print},
 "product":	{printname:PRODUCT,	func:eval_product},
 "quote":	{printname:QUOTE,	func:eval_quote},
+"rand":		{printname:RAND,	func:eval_rand},
 "rank":		{printname:RANK,	func:eval_rank},
 "rationalize":	{printname:RATIONALIZE,	func:eval_rationalize},
 "real":		{printname:REAL,	func:eval_real},
