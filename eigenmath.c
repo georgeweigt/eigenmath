@@ -14153,7 +14153,7 @@ cmp_args(struct atom *p1)
 	if (iszero(p1))
 		return 0;
 	if (!isnum(p1))
-		stopf("compare err");
+		stopf("arithmetic comparison: not a number");
 	if (isnegativenumber(p1))
 		return -1;
 	else
