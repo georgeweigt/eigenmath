@@ -233,16 +233,93 @@ TSS = sum((y - ybar)^2) -- total sum of squares
 1 - RSS / TSS
 clear
 
+"Atomic transitions 1"
+
+-- hydrogen wave function
+
+psi(n,l,m) = R(n,l) Y(l,m)
+ 
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0), n - l - 1, 2 l + 1) *
+         exp(-r / (n a0))
+
+-- associated Laguerre polynomial (k is a local var)
+
+L(x,n,m,k) = (n + m)! sum(k, 0, n, (-x)^k / ((n - k)! (m + k)! k!))
+
+-- spherical harmonic
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+E(n) = -hbar^2 / (2 n^2 mu a0^2)
+
+-- for example, energy levels 1 and 2
+
+na = 1
+nb = 2
+
+psia = psi(na,0,0)
+psib = psi(nb,0,0)
+
+Ea = E(na)
+Eb = E(nb)
+
+Psi = ca(t) psia exp(-i/hbar Ea t) + cb(t) psib exp(-i/hbar Eb t)
+
+-- time-independent Hamiltonian
+
+H0(f) = -hbar^2 D(f) / (2 mu) - hbar^2 / (mu a0 r) f
+
+-- Laplacian
+
+D(f) = 1/r^2 d(r^2 d(f,r), r) +
+       1/(r^2 sin(theta)) d(sin(theta) d(f,theta), theta) +
+       1/(r sin(theta))^2 d(f,phi,2)
+
+-- left side of Schrodinger equation
+
+A = i hbar d(Psi, t)
+
+-- right side of Schrodinger equation
+
+B = H0(Psi) + H1(Psi)
+
+-- C is the part that cancels
+
+C = Ea ca(t) psia exp(-i/hbar Ea t) + Eb cb(t) psib exp(-i/hbar Eb t)
+
+-- D is the part that remains
+
+D = i hbar d(ca(t),t) psia exp(-i/hbar Ea t) +
+    i hbar d(cb(t),t) psib exp(-i/hbar Eb t)
+
+"Verify equation (1)"
+check(A - C == D)
+check(B - C == H1(Psi))
+"ok"
+clear
+
 "Atomic transitions 2"
 
-H1 = -e E0 epsilon p / (m omega) expcos(k r - omega t)
+H1 = -e E0 / (m omega) expcos(k r - omega t) epsilon p
 
 cb = -i / hbar defint(H1 exp(i omega0 t), t, 0, t)
 
-A = e E0 / (2 m hbar omega) epsilon p exp(i k r) *
+A = e E0 / (2 m hbar omega) exp(i k r) epsilon p *
     (exp(i (omega0 - omega) t) - 1) / (omega0 - omega)
 
-B = e E0 / (2 m hbar omega) epsilon p exp(-i k r) *
+B = e E0 / (2 m hbar omega) exp(-i k r) epsilon p *
     (exp(i (omega0 + omega) t) - 1) / (omega0 + omega)
 
 "Verify equation (1)"
@@ -252,7 +329,7 @@ check(cb == A + B)
 cb = A
 
 "Verify equation (2)"
-T = i e E0 / (m hbar omega) epsilon p exp(i k r) *
+T = i e E0 / (m hbar omega) exp(i k r) epsilon p *
     sin(1/2 (omega0 - omega) t) / (omega0 - omega) *
     exp(i/2 (omega0 - omega) t)
 check(cb == T)
@@ -342,10 +419,18 @@ clear
 
 "Atomic transitions 6"
 
+Rab = pi e^2 / (3 epsilon0 hbar^2) Iab^2 rho
+Rba = Rab
+Exp = 1 / (exp(hbar omega0 / (k T)) - 1)
+rho = hbar omega0^3 / (pi^2 c^3) Exp
+
 "Verify equation (1)"
-Bba = pi e^2 / (3 epsilon0 hbar^2)
-Aba = e^2 omega0^3 / (3 pi epsilon0 hbar c^3)
-check(Aba / Bba == hbar omega0^3 / (pi^2 c^3))
+check(Rab == e^2 omega0^3 / (3 pi epsilon0 hbar c^3) Iab^2 Exp)
+"ok"
+
+"Verify equation (2)"
+Aba = Rba (exp(hbar omega0 / (k T)) - 1)
+check(Aba == e^2 omega0^3 / (3 pi epsilon0 hbar c^3) Iab^2)
 "ok"
 
 "Verify dimensions"
@@ -2842,10 +2927,9 @@ clear
 -- Copyright (c) 2016, 2017 Lewis Van Winkle
 -- https://codeplea.com/incomplete-beta-function-c
 
--- What follows is the copyrighted C code converted to Eigenmath:
-
 incbeta(x,a,b) = test(
- or(x < 0, x > 1), tgamma(0),
+ x <= 0, 0,
+ x >= 1, 1,
  x > (a + 1) / (a + b + 2), 1 - incbeta1(1 - x, b, a),
  incbeta1(x,a,b)
 )
@@ -2869,25 +2953,68 @@ incbeta1(x,a,b,c,d,f,i,m,n) = do(
   f = f c d,
   test(abs(1 - c d) < 10.0^(-8), break)
  ),
- m = log(tgamma(a)) + log(tgamma(b)) - log(tgamma(a + b)),
+ m = lgamma(a) + lgamma(b) - lgamma(a + b),
  x = float(x),
  m = exp(log(x) a + log(1 - x) b - m) / a,
  test(abs(1 - c d) < 10.0^(-8), m (f - 1), tgamma(0))
 )
 
-xrange = (0,1)
-yrange = (0,1)
-draw(incbeta(x,8,8))
+fdist(t,df1,df2) = incbeta(t / (t + df2 / df1), 0.5 df1, 0.5 df2)
 
-fdist(t,df1,df2) = test(
- t == tgamma(0), 1,
- t <= 0, 0,
- incbeta(t / (t + df2 / df1), df1 / 2, df2 / 2)
-)
+tdist(t,df) = incbeta(0.5 (t+sqrt(t^2+df)) / sqrt(t^2+df), 0.5 df, 0.5 df)
 
+"Check fdist and tdist"
+
+epsilon = 10.0^(-6)
+
+check(fdist(0,1,1) == 0)
+check(abs(fdist(0.1,3,2) - 0.04710751) < epsilon) -- R code: pf(0.1,3,2)
+check(abs(fdist(1,3,2) - 0.464758)     < epsilon)
+check(abs(fdist(2,3,2) - 0.6495191)    < epsilon)
+check(abs(fdist(3,3,2) - 0.7400733)    < epsilon)
+check(abs(fdist(4,3,2) - 0.7935601)    < epsilon)
+
+check(abs(tdist(-3,10) - 0.006671828)  < epsilon) -- R code: pt(-3,10)
+check(abs(tdist(-2,10) - 0.03669402)   < epsilon)
+check(abs(tdist(-1,10) - 0.1704466)    < epsilon)
+check(abs(tdist(0,10) - 0.5)           < epsilon)
+check(abs(tdist(1,10) - 0.8295534)     < epsilon)
+check(abs(tdist(2,10) - 0.963306)      < epsilon)
+check(abs(tdist(3,10) - 0.9933282)     < epsilon)
+
+"ok"
+
+"F distribution"
 xrange = (0,5)
 yrange = (0,1)
-draw(fdist(x,1,1))
+draw(fdist(t,3,2),t)
+
+"t distribution"
+xrange = (-5,5)
+yrange = (0,1)
+draw(tdist(t,10),t)
+clear
+
+-- Inverse error function
+-- https://dlmf.nist.gov/7.17
+-- https://mathworld.wolfram.com/InverseErf.html
+
+-- https://oeis.org/A092676
+Ainverf = (1, 1, 7, 127, 4369, 34807, 20036983, 2280356863, 49020204823, 65967241200001, 15773461423793767, 655889589032992201, 94020690191035873697, 655782249799531714375489)
+
+-- https://oeis.org/A092677
+Binverf = (1, 3, 30, 630, 22680, 178200, 97297200, 10216206000, 198486288000, 237588086736000, 49893498214560000, 1803293578326240000, 222759794969712000000, 1329207696584271504000000)
+
+Cinverf = float(Ainverf / Binverf)
+Dinverf = sqrt(float(pi)) / 2
+
+Finverf(x,k) = sum(k, 1, 14, Cinverf[k] (Dinverf x)^(2 k - 1))
+
+-- errors for x = -1 to 1
+
+for(k, -10, 10, x = k / 10.0, print(x, erf(Finverf(x)) - x))
+
+draw(Finverf(x),x)
 clear
 
 -- inverse Laplace transform for 1 / (s^2 + a s + b)
@@ -4238,6 +4365,29 @@ check(Lx(psi) == 0)
 "ok"
 clear
 
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+Lz(f) = -i hbar d(f,phi)
+
+-- Y is (trivially) an eigenfunction of Lz
+
+-- Lz Y(l,m) = m hbar Y(l,m)
+
+Lz(Y(2,2)) == 2 hbar Y(2,2)
+Lz(Y(2,1)) == hbar Y(2,1)
+Lz(Y(2,0)) == 0
+Lz(Y(2,-1)) == -hbar Y(2,-1)
+Lz(Y(2,-2)) == -2 hbar Y(2,-2)
+clear
+
 "Probability of exactly 75 heads"
 f(k) = choose(n,k) p^k (1-p)^(n-k)
 n = 100
@@ -4399,6 +4549,13 @@ rho
 xrange = (0,10^15)
 yrange = (0,10^(-8))
 draw(rho,nu)
+clear
+
+y = zero(100)
+for(k, 1, 100, y[k] = rand())
+yrange = (0,1)
+xrange = (1,101)
+draw(y[floor(x)],x)
 clear
 
 -- Your portfolio increased 30% over the last 5 years.
