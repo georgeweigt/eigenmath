@@ -448,6 +448,113 @@ check(e^2 omega0^3 / (epsilon0 hbar c^3) Iab^2 == 1/second)
 "ok"
 clear
 
+-- Spontaneous emission rate for hydrogen state 2p
+
+psi(n,l,m) = R(n,l) Y(l,m)
+ 
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0), n - l - 1, 2 l + 1) *
+         exp(-r / (n a0))
+
+L(x,n,m,k) = (n + m)! sum(k,0,n, (-x)^k / ((n - k)! (m + k)! k!))
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+-- integrate f
+
+I(f) = do(
+  f = f r^2 sin(theta), -- multiply by volume element
+  f = expform(f), -- convert to exponential form
+  f = defint(f,theta,0,pi,phi,0,2pi),
+  f = integral(f,r),
+  0 - eval(f,r,0) -- return value
+)
+
+psi2 = psi(2,1,0) -- try psi(2,1,1) and psi(2,1,-1) also
+psi1 = psi(1,0,0)
+
+f21 = conj(psi1) psi2
+f21
+
+x = r sin(theta) cos(phi)
+y = r sin(theta) sin(phi)
+z = r cos(theta)
+
+x21 = I(x f21)
+y21 = I(y f21)
+z21 = I(z f21)
+
+print(x21,y21,z21)
+
+r21sq = conj(x21) x21 + conj(y21) y21 + conj(z21) z21
+r21sq
+
+E(n) = -alpha hbar c / (2 n^2 a0)
+omega21 = (E(2) - E(1)) / hbar
+omega21
+
+A21 = 4 alpha omega21^3 r21sq / (3 c^2)
+A21
+
+-- CODATA Internationally recommended 2022 values
+-- https://physics.nist.gov/cuu/Constants/
+-- c, e, h, and k are exact values
+
+a0 = 5.29177210544 10^(-11) meter
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+e = 1.602176634 10^(-19) coulomb
+epsilon0 = 8.8541878188 10^(-12) farad / meter
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+k = 1.380649 10^(-23) joule / kelvin
+me = 9.1093837139 10^(-31) kilogram
+mp = 1.67262192595 10^(-27) kilogram
+mu0 = 1.25663706127 10^(-6) newton / ampere^2
+
+coulomb = ampere second
+farad = coulomb / volt
+joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+tesla = kilogram / second^2 / ampere
+volt = joule / coulomb
+
+ampere = "ampere"
+kelvin = "kelvin"
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+pi = float(pi) -- use numerical value of pi
+mu = me mp / (me + mp)
+a0 = a0 me / mu -- correction for reduced electron mass
+
+"Spontaneous emission rate"
+
+A21
+
+"Verify emission rate"
+
+err(a,b) = 2 abs((a - b) / (a + b)) -- relative error
+check(err(A21, 6.265 10^8 / second) < 0.0001)
+
+A21 = (2/3)^8 alpha^5 mu c^2 / hbar
+check(err(A21, 6.265 10^8 / second) < 0.0001)
+
+"ok"
+clear
+
 -- Compute Balmer's coefficient using linear regression
 
 m = (3,3,3,3,3,4,4,4,4,4,5,5,5,6,6,6,7,8,8,9,9,10,10,11,11)
@@ -2855,72 +2962,6 @@ for(n, 1, 3, for(l, 0, n - 1, for(m, -l, l,
 "ok"
 clear
 
-"Verify selection rules"
-
--- energy levels
-
-na = 3
-nb = 2
-
--- wave function
-
-psi(n,l,m) = R(n,l) Y(l,m)
- 
-R(n,l) = 2 / n^2 *
-         a0^(-3/2) *
-         sqrt((n - l - 1)! / (n + l)!) *
-         (2 r / (n a0))^l *
-         L(2 r / (n a0), n - l - 1, 2 l + 1) *
-         exp(-r / (n a0))
-
--- associated Laguerre polynomial (k is a local var)
-
-L(x,n,m,k) = (n + m)! sum(k, 0, n, (-x)^k / ((n - k)! (m + k)! k!))
-
--- spherical harmonic
-
-Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
-         P(l,m) exp(i m phi)
-
--- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
-
-P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-           (sin(theta)/2)^m sum(k, 0, l - m,
-           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
-           ((1 - cos(theta)) / 2)^k))
-
--- integrator
-
-I(f) = do(
- f = f r^2 sin(theta), -- multiply by volume element
- f = expform(f), -- convert to exponential form
- f = defint(f, theta, 0, pi, phi, 0, 2 pi),
- f = integral(f,r),
- 0 - eval(f,r,0) -- return value
-)
-
-N = 0
-
-for(la, 0, na - 1, for(ma, -la, la,
-for(lb, 0, nb - 1, for(mb, -lb, lb,
- psia = psi(na,la,ma),
- psib = psi(nb,lb,mb),
- xab = I(conj(psib) psia r sin(theta) cos(phi)),
- yab = I(conj(psib) psia r sin(theta) sin(phi)),
- zab = I(conj(psib) psia r cos(theta)),
- Tab = conj(xab) xab + conj(yab) yab + conj(zab) zab,
- test(Tab, do(
-  check(abs(lb - la) == 1),
-  check(abs(mb - ma) <= 1),
-  N = N + 1))
-))))
-
-"ok"
-
-"Number of allowed transitions"
-N
-clear
-
 -- Incomplete beta function
 
 -- zlib License
@@ -2967,14 +3008,17 @@ tdist(t,df) = incbeta(0.5 (t+sqrt(t^2+df)) / sqrt(t^2+df), 0.5 df, 0.5 df)
 
 epsilon = 10.0^(-6)
 
+check(incbeta(0,0.5,0.5) == 0)
+check(incbeta(1,0.5,0.5) == 1)
+
 check(fdist(0,1,1) == 0)
-check(abs(fdist(0.1,3,2) - 0.04710751) < epsilon) -- R code: pf(0.1,3,2)
+check(abs(fdist(0.1,3,2) - 0.04710751) < epsilon) -- R: pf(0.1,3,2)
 check(abs(fdist(1,3,2) - 0.464758)     < epsilon)
 check(abs(fdist(2,3,2) - 0.6495191)    < epsilon)
 check(abs(fdist(3,3,2) - 0.7400733)    < epsilon)
 check(abs(fdist(4,3,2) - 0.7935601)    < epsilon)
 
-check(abs(tdist(-3,10) - 0.006671828)  < epsilon) -- R code: pt(-3,10)
+check(abs(tdist(-3,10) - 0.006671828)  < epsilon) -- R: pt(-3,10)
 check(abs(tdist(-2,10) - 0.03669402)   < epsilon)
 check(abs(tdist(-1,10) - 0.1704466)    < epsilon)
 check(abs(tdist(0,10) - 0.5)           < epsilon)
@@ -3527,6 +3571,33 @@ check(abs(H11 - (-2.750)) < 0.001)
 check(abs(H22 - (-2.080)) < 0.001)
 check(abs(H33 - (-2.023)) < 0.001)
 check(abs(H44 - (-2.010)) < 0.001)
+
+"ok"
+clear
+
+-- Matrix mechanics 1
+
+N = 10
+
+x = zero(N,N)
+E = zero(N,N)
+
+for(n, 1, N - 1, x[n, n + 1] = exp(-i omega0 t) sqrt(n hbar / (2 m omega0)))
+x = x + conj(transpose(x))
+v = d(x,t)
+
+x2 = dot(x,x)
+v2 = dot(v,v)
+
+for(n, 1, N, E[n,n] = (n - 1/2) hbar omega0)
+
+"Verify equation (1)"
+
+-- row N and column N are incomplete due to finite N
+
+for(n, 1, N - 1, for(m, 1, N - 1,
+ check(1/2 m v2[n,m] + 1/2 m omega0^2 x2[n,m] == E[n,m])
+))
 
 "ok"
 clear
@@ -4462,6 +4533,7 @@ clear
 
 -- CODATA Internationally recommended 2022 values
 -- https://physics.nist.gov/cuu/Constants/
+-- c, e, h, and k are exact values
 
 -- a0       Bohr radius (per electron mass, not reduced electron mass)
 -- alpha    fine structure constant
@@ -4474,8 +4546,6 @@ clear
 -- me       electron mass
 -- mp       proton mass
 -- mu0      vacuum magnetic permeability
-
--- c, e, h, and k are exact values
 
 a0 = 5.29177210544 10^(-11) meter
 alpha = 7.2973525643 10^(-3)
@@ -4823,11 +4893,11 @@ check(ca == (cos(omegar t) + i (omega0 - omega) / (2 omegar) sin(omegar t)) exp(
 omegar = 1/2 sqrt((omega0 - omega)^2 + Vab Vba / hbar^2)
 
 "Verify equation (4)"
-check(d(ca,t) == -i / (2 hbar) Vab exp(i (omega - omega0) t) cb)
+check(d(ca,t) == -i / (2 hbar) cb Vab exp(i (omega - omega0) t))
 "ok"
 
 "Verify equation (5)"
-check(d(cb,t) == -i / (2 hbar) Vba exp(i (omega0 - omega) t) ca)
+check(d(cb,t) == -i / (2 hbar) ca Vba exp(i (omega0 - omega) t))
 "ok"
 clear
 
@@ -5881,6 +5951,30 @@ check(d(t,y) == dt)
 "ok"
 clear
 
+sort(v,i,k,n,t) = do(
+ n = dim(v),
+ loop(
+  test(n < 2, break),
+  k = 1,
+  for(i, 1, n - 1,
+   test(v[i] > v[i + 1], do(
+    t = v[i],
+    v[i] = v[i + 1],
+    v[i + 1] = t,
+    k = i
+  ))),
+  n = k
+ ),
+ v
+)
+
+A = zero(5)
+for(i, 1, 5, A[i] = floor(10 rand()))
+B = sort(A)
+check(sum(A) == sum(B))
+B
+clear
+
 "Verify spherical harmonics"
 
 Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
@@ -6274,6 +6368,9 @@ A21
 "Verify emission rate"
 
 err(a,b) = 2 abs((a - b) / (a + b)) -- relative error
+check(err(A21, 6.265 10^8 / second) < 0.0001)
+
+A21 = (2/3)^8 alpha^5 mu c^2 / hbar
 check(err(A21, 6.265 10^8 / second) < 0.0001)
 
 "ok"
