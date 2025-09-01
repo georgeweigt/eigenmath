@@ -31,31 +31,27 @@ Result:
 $i\hbar\psi(x,t)$
 
 \bigskip
-Another example: Let
+In three dimensions:
 \begin{equation*}
-H=\frac{P^2}{2m}
-\end{equation*}
-
-Show that
-\begin{equation*}
-XH-HX=\frac{i\hbar P}{m}
+X=\begin{pmatrix}x_1\\x_2\\x_3\end{pmatrix}\otimes,\quad P=-i\hbar\nabla
 \end{equation*}
 
 Eigenmath code:
 {\color{blue}
 \begin{verbatim}
-X(f) = x f
-P(f) = -i hbar d(f,x)
-H(f) = P(P(f)) / (2 m)
-A = X(H(psi(x,t))) - H(X(psi(x,t)))
-B = i hbar P(psi(x,t)) / m
-check(A == B) -- continue if A equals B
-"ok"
+X(f) = outer((x1,x2,x3),f)
+P(f) = -i hbar d(f,(x1,x2,x3))
+X(P(psi(x1,x2,x3,t))) - P(X(psi(x1,x2,x3,t)))
 \end{verbatim}}
 
 Result:
 
 \bigskip
-ok
+$\begin{bmatrix}
+i\hbar\psi(x_1,x_2,x_3,t)&0&0\\
+0&i\hbar\psi(x_1,x_2,x_3,t)&0\\
+0&0&i\hbar\psi(x_1,x_2,x_3,t)
+\end{bmatrix}
+$
 
 \end{document}
