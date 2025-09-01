@@ -33,24 +33,24 @@ $i\hbar\psi(x,t)$
 \bigskip
 In three dimensions:
 \begin{equation*}
-X=\begin{pmatrix}x_1\\x_2\\x_3\end{pmatrix}\otimes,\quad P=-i\hbar\nabla
+X=\begin{pmatrix}x\\y\\z\end{pmatrix}\otimes,\quad P=-i\hbar\nabla
 \end{equation*}
 
 Eigenmath code:
 {\color{blue}
 \begin{verbatim}
-X(f) = outer((x1,x2,x3),f)
-P(f) = -i hbar d(f,(x1,x2,x3))
-X(P(psi(x1,x2,x3,t))) - P(X(psi(x1,x2,x3,t)))
+X(f) = outer((x,y,z),f)
+P(f) = -i hbar d(f,(x,y,z))
+X(P(psi(x,y,z,t))) - P(X(psi(x,y,z,t)))
 \end{verbatim}}
 
 Result:
 
 \bigskip
 $\begin{bmatrix}
-i\hbar\psi(x_1,x_2,x_3,t)&0&0\\
-0&i\hbar\psi(x_1,x_2,x_3,t)&0\\
-0&0&i\hbar\psi(x_1,x_2,x_3,t)
+i\hbar\psi(x,y,z,t)&0&0\\
+0&i\hbar\psi(x,y,z,t)&0\\
+0&0&i\hbar\psi(x,y,z,t)
 \end{bmatrix}
 $
 
