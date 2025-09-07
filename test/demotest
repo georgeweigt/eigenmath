@@ -82,27 +82,25 @@ M212 = dot(v21bar, -i e gammaT, qslash2 + m I, -i e gammaT, u12)
 M221 = dot(v22bar, -i e gammaT, qslash2 + m I, -i e gammaT, u11)
 M222 = dot(v22bar, -i e gammaT, qslash2 + m I, -i e gammaT, u12)
 
-M11 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu)) +
-      contract(dot(M112, gmunu, transpose(conj(M112)), gmunu)) +
-      contract(dot(M121, gmunu, transpose(conj(M121)), gmunu)) +
-      contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
+P1111 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu))
+P1112 = contract(dot(M112, gmunu, transpose(conj(M112)), gmunu))
+P1121 = contract(dot(M121, gmunu, transpose(conj(M121)), gmunu))
+P1122 = contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
 
-M12 = contract(dot(M111, gmunu, conj(M211), gmunu)) +
-      contract(dot(M112, gmunu, conj(M212), gmunu)) +
-      contract(dot(M121, gmunu, conj(M221), gmunu)) +
-      contract(dot(M122, gmunu, conj(M222), gmunu))
+P1211 = contract(dot(M111, gmunu, conj(M211), gmunu))
+P1212 = contract(dot(M112, gmunu, conj(M212), gmunu))
+P1221 = contract(dot(M121, gmunu, conj(M221), gmunu))
+P1222 = contract(dot(M122, gmunu, conj(M222), gmunu))
 
-M21 = contract(dot(M211, gmunu, conj(M111), gmunu)) +
-      contract(dot(M212, gmunu, conj(M112), gmunu)) +
-      contract(dot(M221, gmunu, conj(M121), gmunu)) +
-      contract(dot(M222, gmunu, conj(M122), gmunu))
+P2111 = contract(dot(M211, gmunu, conj(M111), gmunu))
+P2112 = contract(dot(M212, gmunu, conj(M112), gmunu))
+P2121 = contract(dot(M221, gmunu, conj(M121), gmunu))
+P2122 = contract(dot(M222, gmunu, conj(M122), gmunu))
 
-M22 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu)) +
-      contract(dot(M212, gmunu, transpose(conj(M212)), gmunu)) +
-      contract(dot(M221, gmunu, transpose(conj(M221)), gmunu)) +
-      contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
-
-check(M12 == M21)
+P2211 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu))
+P2212 = contract(dot(M212, gmunu, transpose(conj(M212)), gmunu))
+P2221 = contract(dot(M221, gmunu, transpose(conj(M221)), gmunu))
+P2222 = contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
@@ -122,9 +120,10 @@ f12 = contract(T,3,5,2,3,1,2)
 T = dot(P1,gammaT,Q2,gammaT,P2,gammaL,Q2,gammaL)
 f22 = contract(T,3,4,2,3,1,2)
 
-check(e^4 f11 == M11)
-check(2 e^4 f12 == M12 + M21)
-check(e^4 f22 == M22)
+check(e^4 f11 == P1111 + P1112 + P1121 + P1122)
+check(e^4 f12 == P1211 + P1212 + P1221 + P1222)
+check(e^4 f12 == P2111 + P2112 + P2121 + P2122)
+check(e^4 f22 == P2211 + P2212 + P2221 + P2222)
 
 "ok"
 
@@ -174,6 +173,29 @@ b = 1 - cos(theta)
 f = a/b + b/a
 I = 2 cos(theta) + 2 log(1 - cos(theta)) - 2 log(1 + cos(theta))
 check(f sin(theta) == d(I,theta))
+
+"ok"
+
+"Verify another way"
+
+P = P1111 + P1112 + P1121 + P1122 +
+    P1211 + P1212 + P1221 + P1222 +
+    P2111 + P2112 + P2121 + P2122 +
+    P2211 + P2212 + P2221 + P2222
+
+M11 = M111 + transpose(M211)
+M12 = M112 + transpose(M212)
+M21 = M121 + transpose(M221)
+M22 = M122 + transpose(M222)
+
+-- sum over mu and nu
+
+P11 = contract(dot(M11,gmunu,transpose(conj(M11)),gmunu))
+P12 = contract(dot(M12,gmunu,transpose(conj(M12)),gmunu))
+P21 = contract(dot(M21,gmunu,transpose(conj(M21)),gmunu))
+P22 = contract(dot(M22,gmunu,transpose(conj(M22)),gmunu))
+
+check(P == P11 + P12 + P21 + P22)
 
 "ok"
 clear
@@ -1303,27 +1325,25 @@ M212 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
 M221 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
 M222 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
 
-M11 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu)) +
-      contract(dot(M112, gmunu, transpose(conj(M112)), gmunu)) +
-      contract(dot(M121, gmunu, transpose(conj(M121)), gmunu)) +
-      contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
+P1111 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu))
+P1112 = contract(dot(M112, gmunu, transpose(conj(M112)), gmunu))
+P1121 = contract(dot(M121, gmunu, transpose(conj(M121)), gmunu))
+P1122 = contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
 
-M12 = contract(dot(M111, gmunu, conj(M211), gmunu)) +
-      contract(dot(M112, gmunu, conj(M212), gmunu)) +
-      contract(dot(M121, gmunu, conj(M221), gmunu)) +
-      contract(dot(M122, gmunu, conj(M222), gmunu))
+P1211 = contract(dot(M111, gmunu, conj(M211), gmunu))
+P1212 = contract(dot(M112, gmunu, conj(M212), gmunu))
+P1221 = contract(dot(M121, gmunu, conj(M221), gmunu))
+P1222 = contract(dot(M122, gmunu, conj(M222), gmunu))
 
-M21 = contract(dot(M211, gmunu, conj(M111), gmunu)) +
-      contract(dot(M212, gmunu, conj(M112), gmunu)) +
-      contract(dot(M221, gmunu, conj(M121), gmunu)) +
-      contract(dot(M222, gmunu, conj(M122), gmunu))
+P2111 = contract(dot(M211, gmunu, conj(M111), gmunu))
+P2112 = contract(dot(M212, gmunu, conj(M112), gmunu))
+P2121 = contract(dot(M221, gmunu, conj(M121), gmunu))
+P2122 = contract(dot(M222, gmunu, conj(M122), gmunu))
 
-M22 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu)) +
-      contract(dot(M212, gmunu, transpose(conj(M212)), gmunu)) +
-      contract(dot(M221, gmunu, transpose(conj(M221)), gmunu)) +
-      contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
-
-check(M12 == M21)
+P2211 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu))
+P2212 = contract(dot(M212, gmunu, transpose(conj(M212)), gmunu))
+P2221 = contract(dot(M221, gmunu, transpose(conj(M221)), gmunu))
+P2222 = contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
 
 pslash2 = dot(p2,gmunu,gamma)
 pslash4 = dot(p4,gmunu,gamma)
@@ -1343,9 +1363,10 @@ f12 = contract(T,3,5,2,3,1,2)
 T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
 f22 = contract(T,3,4,2,3,1,2)
 
-check(e^4 f11 == M11)
-check(2 e^4 f12 == M12 + M21)
-check(e^4 f22 == M22)
+check(e^4 f11 == P1111 + P1112 + P1121 + P1122)
+check(e^4 f12 == P1211 + P1212 + P1221 + P1222)
+check(e^4 f12 == P2111 + P2112 + P2121 + P2122)
+check(e^4 f22 == P2211 + P2212 + P2221 + P2222)
 
 "ok"
 
@@ -3087,27 +3108,25 @@ M212 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
 M221 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
 M222 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
 
-M11 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu)) +
-      contract(dot(M112, gmunu, transpose(conj(M112)), gmunu)) +
-      contract(dot(M121, gmunu, transpose(conj(M121)), gmunu)) +
-      contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
+P1111 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu))
+P1112 = contract(dot(M112, gmunu, transpose(conj(M112)), gmunu))
+P1121 = contract(dot(M121, gmunu, transpose(conj(M121)), gmunu))
+P1122 = contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
 
-M12 = contract(dot(M111, gmunu, conj(M211), gmunu)) +
-      contract(dot(M112, gmunu, conj(M212), gmunu)) +
-      contract(dot(M121, gmunu, conj(M221), gmunu)) +
-      contract(dot(M122, gmunu, conj(M222), gmunu))
+P1211 = contract(dot(M111, gmunu, conj(M211), gmunu))
+P1212 = contract(dot(M112, gmunu, conj(M212), gmunu))
+P1221 = contract(dot(M121, gmunu, conj(M221), gmunu))
+P1222 = contract(dot(M122, gmunu, conj(M222), gmunu))
 
-M21 = contract(dot(M211, gmunu, conj(M111), gmunu)) +
-      contract(dot(M212, gmunu, conj(M112), gmunu)) +
-      contract(dot(M221, gmunu, conj(M121), gmunu)) +
-      contract(dot(M222, gmunu, conj(M122), gmunu))
+P2111 = contract(dot(M211, gmunu, conj(M111), gmunu))
+P2112 = contract(dot(M212, gmunu, conj(M112), gmunu))
+P2121 = contract(dot(M221, gmunu, conj(M121), gmunu))
+P2122 = contract(dot(M222, gmunu, conj(M122), gmunu))
 
-M22 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu)) +
-      contract(dot(M212, gmunu, transpose(conj(M212)), gmunu)) +
-      contract(dot(M221, gmunu, transpose(conj(M221)), gmunu)) +
-      contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
-
-check(M12 == M21)
+P2211 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu))
+P2212 = contract(dot(M212, gmunu, transpose(conj(M212)), gmunu))
+P2221 = contract(dot(M221, gmunu, transpose(conj(M221)), gmunu))
+P2222 = contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
 
 pslash2 = dot(p2,gmunu,gamma)
 pslash4 = dot(p4,gmunu,gamma)
@@ -3127,9 +3146,10 @@ f12 = contract(T,3,5,2,3,1,2)
 T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
 f22 = contract(T,3,4,2,3,1,2)
 
-check(e^4 f11 == M11)
-check(2 e^4 f12 == M12 + M21)
-check(e^4 f22 == M22)
+check(e^4 f11 == P1111 + P1112 + P1121 + P1122)
+check(e^4 f12 == P1211 + P1212 + P1221 + P1222)
+check(e^4 f12 == P2111 + P2112 + P2121 + P2122)
+check(e^4 f22 == P2211 + P2212 + P2221 + P2222)
 
 "ok"
 
