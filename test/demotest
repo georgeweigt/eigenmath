@@ -1376,9 +1376,9 @@ p12 = dot(p1,gmunu,p2)
 p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
 
-check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
-check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
-check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
+check(f11 == 32 p12 p14 + 32 p12 m^2 + 32 m^4)
+check(f12 == 16 p12 m^2 - 16 p14 m^2 + 32 m^4)
+check(f22 == 32 p12 p14 - 32 p14 m^2 + 32 m^4)
 
 s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
@@ -3159,9 +3159,9 @@ p12 = dot(p1,gmunu,p2)
 p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
 
-check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
-check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
-check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
+check(f11 == 32 p12 p14 + 32 p12 m^2 + 32 m^4)
+check(f12 == 16 p12 m^2 - 16 p14 m^2 + 32 m^4)
+check(f22 == 32 p12 p14 - 32 p14 m^2 + 32 m^4)
 
 "ok"
 
