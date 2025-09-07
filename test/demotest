@@ -1391,6 +1391,13 @@ s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
 
+t = simplify(t)
+u = simplify(u)
+
+check(s == 2 p12 + m^2)
+check(t == -2 p13)
+check(u == -2 p14 + m^2)
+
 check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
 check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
 check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
@@ -3177,6 +3184,13 @@ check(f22 == 32 p12 p14 - 32 p14 m^2 + 32 m^4)
 s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
+
+t = simplify(t)
+u = simplify(u)
+
+check(s == 2 p12 + m^2)
+check(t == -2 p13)
+check(u == -2 p14 + m^2)
 
 check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
 check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
