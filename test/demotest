@@ -120,6 +120,10 @@ f12 = contract(T,3,5,2,3,1,2)
 T = dot(P1,gammaT,Q2,gammaT,P2,gammaL,Q2,gammaL)
 f22 = contract(T,3,4,2,3,1,2)
 
+--f11 = simplify(f11)
+--f12 = simplify(f12)
+--f22 = simplify(f22)
+
 check(e^4 f11 == P1111 + P1112 + P1121 + P1122)
 check(e^4 f12 == P1211 + P1212 + P1221 + P1222)
 check(e^4 f12 == P2111 + P2112 + P2121 + P2122)
@@ -134,29 +138,37 @@ p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
 
 check(f11 == 32 p13 p14 + 32 p13 m^2 - 32 m^4)
-check(f12 == 16 p13 m^2 + 16 p14 m^2 - 32 m^4)
+check(f12 == 16 p12 m^2 - 16 m^4)
 check(f22 == 32 p13 p14 + 32 p14 m^2 - 32 m^4)
 
 s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
 
-t = simplify(t)
-u = simplify(u)
-
-check(s == 2 p12 + 2 m^2)
-check(t == -2 p13 + m^2)
-check(u == -2 p14 + m^2)
+--t = simplify(t)
+--u = simplify(u)
 
 check(f11 == 8 t u - 24 t m^2 - 8 u m^2 - 8 m^4)
 check(f12 == 8 s m^2 - 32 m^4)
 check(f22 == 8 t u - 8 t m^2 - 24 u m^2 - 8 m^4)
 
+-- save these relations for future use
+
+check(s == 2 p12 + 2 m^2)
+check(t == -2 p13 + m^2)
+check(u == -2 p14 + m^2)
+
+check(p12 == 1/2 s - m^2)
+check(p13 == -1/2 (t - m^2))
+check(p14 == -1/2 (u - m^2))
+
+-- f is the expected probability density function
+
 d11 = (t - m^2)^2
 d12 = (t - m^2) (u - m^2)
 d22 = (u - m^2)^2
 
-f = e^4 (f11/d11 + 2 f12/d12 + f22/d22) / 4
+f = 1/4 e^4 (f11/d11 + 2 f12/d12 + f22/d22)
 
 -- high energy approximation
 
@@ -765,23 +777,31 @@ u4 = (u41,u42)
 v1bar = dot(conj(v1),gamma0) -- adjoint of v1
 u4bar = dot(conj(u4),gamma0) -- adjoint of u4
 
-M1(a,b,c,d) = -e^2 dot(dot(v1bar[a],gammaT,v3[c]),dot(u4bar[d],gammaL,u2[b]))
+M1(a,b,c,d) = -e^2 dot(
+ dot(v1bar[a],gammaT,v3[c]),
+ dot(u4bar[d],gammaL,u2[b])
+)
 
-M2(a,b,c,d) = e^2 dot(dot(v1bar[a],gammaT,u2[b]),dot(u4bar[d],gammaL,v3[c]))
+M2(a,b,c,d) = e^2 dot(
+ dot(v1bar[a],gammaT,u2[b]),
+ dot(u4bar[d],gammaL,v3[c])
+)
 
 M11 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
-M1(a,b,c,d) conj(M1(a,b,c,d)) ))))
+ M1(a,b,c,d) conj(M1(a,b,c,d))
+))))
 
 M12 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
-M1(a,b,c,d) conj(M2(a,b,c,d)) ))))
+ M1(a,b,c,d) conj(M2(a,b,c,d))
+))))
 
 M21 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
-M2(a,b,c,d) conj(M1(a,b,c,d)) ))))
+ M2(a,b,c,d) conj(M1(a,b,c,d))
+))))
 
 M22 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
-M2(a,b,c,d) conj(M2(a,b,c,d)) ))))
-
-check(M12 == M21)
+ M2(a,b,c,d) conj(M2(a,b,c,d))
+))))
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
@@ -798,14 +818,15 @@ T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
 f11 = contract(dot(T1,transpose(T2)))
 
 T = contract(dot(X1,gammaT,X2,gammaT,X4,gammaL,X3,gammaL),1,6)
-f12 = contract(T,1,3,1,2)
+f12 = -contract(T,1,3,1,2)
 
 T1 = contract(dot(X1,gammaT,X2,gammaT),1,4)
 T2 = contract(dot(X4,gammaL,X3,gammaL),1,4)
 f22 = contract(dot(T1,transpose(T2)))
 
 check(e^4 f11 == M11)
-check(-2 e^4 f12 == M12 + M21)
+check(e^4 f12 == M12)
+check(e^4 f12 == M21)
 check(e^4 f22 == M22)
 
 "ok"
@@ -816,45 +837,53 @@ p12 = dot(p1,gmunu,p2)
 p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
 
-check(f11 == 32 p12^2 + 32 p14^2 - 64 m^2 p13 + 64 m^4)
-check(f12 == -32 p14^2 - 32 m^2 p12 + 32 m^2 p13 - 32 m^2 p14 - 32 m^4)
-check(f22 == 32 p13^2 + 32 p14^2 + 64 m^2 p12 + 64 m^4)
+check(f11 == 32 p12^2 + 32 p14^2 - 64 p12 m^2 + 64 p14 m^2)
+check(f12 == 32 p14^2 + 64 p14 m^2)
+check(f22 == 32 p13^2 + 32 p14^2 + 64 p13 m^2 + 64 p14 m^2)
 
 s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
 
-check(f11 == 8 u^2 + 8 s^2 - 64 u m^2 - 64 s m^2 + 192 m^4)
-check(f12 == -8 u^2 + 64 u m^2 - 96 m^4)
-check(f22 == 8 u^2 + 8 t^2 - 64 u m^2 - 64 t m^2 + 192 m^4)
+check(f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4)
+check(f12 == 8 u^2 - 64 u m^2 + 96 m^4)
+check(f22 == 8 t^2 + 8 u^2 - 64 t m^2 - 64 u m^2 + 192 m^4)
+
+check(s == 2 p12 + 2 m^2)
+check(t == -2 p13 + 2 m^2)
+check(u == -2 p14 + 2 m^2)
+
+check(p12 == 1/2 s - m^2)
+check(p13 == -1/2 t + m^2)
+check(p14 == -1/2 u + m^2)
 
 d11 = t^2
 d12 = s t
 d22 = s^2
 
-f = e^4 (f11/d11 - 2 f12/d12 + f22/d22) / 4
+f = e^4 (f11/d11 + 2 f12/d12 + f22/d22) / 4
 
 -- high energy approximation
 
 m = 0
 
 check(f11 == 8 u^2 + 8 s^2)
-check(f12 == -8 u^2)
+check(f12 == 8 u^2)
 check(f22 == 8 u^2 + 8 t^2)
 
 check(s == 4 E^2)
 check(t == -2 E^2 (1 - cos(theta)))
 check(u == -2 E^2 (1 + cos(theta)))
 
-A = (2 (1 + cos(theta))^2 + 8) / (1 - cos(theta))^2
-B = -2 (1 + cos(theta))^2 / (1 - cos(theta))
-C = 1 + cos(theta)^2
+T11 = 1/8 f11 / t^2
+T12 = 1/8 2 f12 / (s t)
+T22 = 1/8 f22 / s^2
 
-check(f11 / t^2 == 4 A)
-check(-2 f12 / (s t) == 4 B)
-check(f22 / s^2 == 4 C)
+check(2 T11 == (2 (1 + cos(theta))^2 + 8) / (1 - cos(theta))^2)
+check(2 T12 == -2 (1 + cos(theta))^2 / (1 - cos(theta)))
+check(2 T22 == 1 + cos(theta)^2)
 
-check(f == e^4 (A + B + C))
+check(f == 2 e^4 (T11 + T12 + T22))
 check(f == e^4 ((cos(theta)^2 + 3) / (cos(theta) - 1))^2)
 
 m = quote(m)
@@ -870,6 +899,12 @@ I = 16 / (cos(theta) - 1) -
 check(f sin(theta) == d(I,theta))
 
 "ok"
+
+f11 = simplify(f11)
+f12 = simplify(f12)
+f22 = simplify(f22)
+
+print(f11,f12,f22)
 clear
 
 -- Compute R-squared for Bhabha scattering data from DESY PETRA
@@ -1370,6 +1405,10 @@ f12 = contract(T,3,5,2,3,1,2)
 T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
 f22 = contract(T,3,4,2,3,1,2)
 
+--f11 = simplify(f11)
+--f12 = simplify(f12)
+--f22 = simplify(f22)
+
 check(e^4 f11 == P1111 + P1112 + P1121 + P1122)
 check(e^4 f12 == P1211 + P1212 + P1221 + P1222)
 check(e^4 f12 == P2111 + P2112 + P2121 + P2122)
@@ -1391,22 +1430,22 @@ s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
 
-t = simplify(t)
-u = simplify(u)
-
-check(s == 2 p12 + m^2)
-check(t == -2 p13)
-check(u == -2 p14 + m^2)
+--t = simplify(t)
+--u = simplify(u)
 
 check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
 check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
 check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
 
+check(s == 2 p12 + m^2)
+check(t == -2 p13)
+check(u == -2 p14 + m^2)
+
 d11 = (s - m^2)^2
 d12 = (s - m^2) (u - m^2)
 d22 = (u - m^2)^2
 
-f = e^4 (f11/d11 + 2 f12/d12 + f22/d22) / 4
+f = 1/4 e^4 (f11/d11 + 2 f12/d12 + f22/d22)
 
 -- high energy approximation
 
@@ -1438,9 +1477,9 @@ p12 = dot(p1,gmunu,p2)
 p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
 
-check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
-check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
-check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
+check(f11 == 32 p12 p14 + 32 p12 m^2 + 32 m^4)
+check(f12 == 16 p12 m^2 - 16 p14 m^2 + 32 m^4)
+check(f22 == 32 p12 p14 - 32 p14 m^2 + 32 m^4)
 
 -- verify s, t, and u in the lab frame
 
@@ -3160,6 +3199,10 @@ f12 = contract(T,3,5,2,3,1,2)
 T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
 f22 = contract(T,3,4,2,3,1,2)
 
+--f11 = simplify(f11)
+--f12 = simplify(f12)
+--f22 = simplify(f22)
+
 check(e^4 f11 == P1111 + P1112 + P1121 + P1122)
 check(e^4 f12 == P1211 + P1212 + P1221 + P1222)
 check(e^4 f12 == P2111 + P2112 + P2121 + P2122)
@@ -3185,16 +3228,16 @@ s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
 
-t = simplify(t)
-u = simplify(u)
-
-check(s == 2 p12 + m^2)
-check(t == -2 p13)
-check(u == -2 p14 + m^2)
+--t = simplify(t)
+--u = simplify(u)
 
 check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
 check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
 check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
+
+check(s == 2 p12 + m^2)
+check(t == -2 p13)
+check(u == -2 p14 + m^2)
 
 "ok"
 
@@ -3219,9 +3262,9 @@ p12 = dot(p1,gmunu,p2)
 p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
 
-check(f11 == 32 p12 p14 + 64 m^2 p12 - 32 m^2 p13 - 32 m^2 p14 + 32 m^4)
-check(f12 == 16 m^2 p12 - 16 m^2 p14 + 32 m^4)
-check(f22 == 32 p12 p14 + 32 m^2 p12 - 32 m^2 p13 - 64 m^2 p14 + 32 m^4)
+check(f11 == 32 p12 p14 + 32 p12 m^2 + 32 m^4)
+check(f12 == 16 p12 m^2 - 16 p14 m^2 + 32 m^4)
+check(f22 == 32 p12 p14 - 32 p14 m^2 + 32 m^4)
 
 "ok"
 
@@ -3704,23 +3747,31 @@ u4 = (u41,u42)
 u3bar = dot(conj(u3),gamma0) -- adjoint of u3
 u4bar = dot(conj(u4),gamma0) -- adjoint of u4
 
-M1(a,b,c,d) = e^2 dot(dot(u3bar[c],gammaT,u1[a]),dot(u4bar[d],gammaL,u2[b]))
+M1(a,b,c,d) = e^2 dot(
+ dot(u3bar[c],gammaT,u1[a]),
+ dot(u4bar[d],gammaL,u2[b])
+)
 
-M2(a,b,c,d) = -e^2 dot(dot(u4bar[d],gammaT,u1[a]),dot(u3bar[c],gammaL,u2[b]))
+M2(a,b,c,d) = -e^2 dot(
+ dot(u4bar[d],gammaT,u1[a]),
+ dot(u3bar[c],gammaL,u2[b])
+)
 
 M11 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
-M1(a,b,c,d) conj(M1(a,b,c,d)) ))))
+ M1(a,b,c,d) conj(M1(a,b,c,d))
+))))
 
 M12 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
-M1(a,b,c,d) conj(M2(a,b,c,d)) ))))
+ M1(a,b,c,d) conj(M2(a,b,c,d))
+))))
 
 M21 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
-M2(a,b,c,d) conj(M1(a,b,c,d)) ))))
+ M2(a,b,c,d) conj(M1(a,b,c,d))
+))))
 
 M22 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
-M2(a,b,c,d) conj(M2(a,b,c,d)) ))))
-
-check(M12 == M21)
+ M2(a,b,c,d) conj(M2(a,b,c,d))
+))))
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
@@ -3737,14 +3788,15 @@ T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
 f11 = contract(dot(T1,transpose(T2)))
 
 T = contract(dot(X3,gammaT,X1,gammaT,X4,gammaL,X2,gammaL),1,6)
-f12 = contract(contract(T,1,3))
+f12 = -contract(contract(T,1,3))
 
 T1 = contract(dot(X4,gammaT,X1,gammaT),1,4)
 T2 = contract(dot(X3,gammaL,X2,gammaL),1,4)
 f22 = contract(dot(T1,transpose(T2)))
 
 check(e^4 f11 == M11)
-check(-2 e^4 f12 == M12 + M21)
+check(e^4 f12 == M12)
+check(e^4 f12 == M21)
 check(e^4 f22 == M22)
 
 "ok"
@@ -3755,49 +3807,53 @@ p12 = dot(p1,gmunu,p2)
 p13 = dot(p1,gmunu,p3)
 p14 = dot(p1,gmunu,p4)
 
-check(f11 == 32 p12^2 + 32 p14^2 - 64 m^2 p13 + 64 m^4)
-check(f12 == -32 p12^2 + 32 m^2 p12 + 32 m^2 p13 + 32 m^2 p14 - 32 m^4)
-check(f22 == 32 p12^2 + 32 p13^2 - 64 m^2 p14 + 64 m^4)
+check(f11 == 32 p12^2 + 32 p14^2 - 64 p12 m^2 + 64 p14 m^2)
+check(f12 == 32 p12^2 - 64 p12 m^2)
+check(f22 == 32 p12^2 + 32 p13^2 - 64 p12 m^2 + 64 p13 m^2)
 
 s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
 
 check(f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4)
-check(f12 == -8 s^2 + 64 s m^2 - 96 m^4)
+check(f12 == 8 s^2 - 64 s m^2 + 96 m^4)
 check(f22 == 8 s^2 + 8 t^2 - 64 s m^2 - 64 t m^2 + 192 m^4)
+
+check(s == 2 p12 + 2 m^2)
+check(t == -2 p13 + 2 m^2)
+check(u == -2 p14 + 2 m^2)
+
+check(p12 == 1/2 s - m^2)
+check(p13 == -1/2 t + m^2)
+check(p14 == -1/2 u + m^2)
 
 d11 = t^2
 d12 = t u
 d22 = u^2
 
-f = e^4 (f11/d11 - 2 f12/d12 + f22/d22) / 4
+f = 1/4 e^4 (f11/d11 + 2 f12/d12 + f22/d22)
 
 -- high energy approximation
 
 m = 0
 
 check(f11 == 8 s^2 + 8 u^2)
-check(f12 == -8 s^2)
+check(f12 == 8 s^2)
 check(f22 == 8 s^2 + 8 t^2)
 
 check(s == 4 E^2)
 check(t == -2 E^2 (1 - cos(theta)))
 check(u == -2 E^2 (1 + cos(theta)))
 
-A = (1 + cos(theta/2)^4) / sin(theta/2)^4
-B = 2 / (sin(theta/2)^2 cos(theta/2)^2)
-C = (1 + sin(theta/2)^4) / cos(theta/2)^4
+T11 = 1/8 f11 / t^2
+T12 = 1/8 2 f12 / (t u)
+T22 = 1/8 f22 / u^2
 
-check(A == (s^2 + u^2) / t^2)
-check(B == 2 s^2 / (t u))
-check(C == (s^2 + t^2) / u^2)
+check(T11 == (1 + cos(theta/2)^4) / sin(theta/2)^4)
+check(T12 == 2 / (sin(theta/2)^2 cos(theta/2)^2))
+check(T22 == (1 + sin(theta/2)^4) / cos(theta/2)^4)
 
-check(8 A == f11 / t^2)
-check(8 B == -2 f12 / (t u))
-check(8 C == f22 / u^2)
-
-check(f == 2 e^4 (A + B + C))
+check(f == 2 e^4 (T11 + T12 + T22))
 check(f == 4 e^4 (cos(theta)^2 + 3)^2 / sin(theta)^4)
 
 m = quote(m)
@@ -3809,6 +3865,12 @@ I = -8 cos(theta) / sin(theta)^2 - cos(theta)
 check(f sin(theta) == d(I,theta))
 
 "ok"
+
+f11 = simplify(f11)
+f12 = simplify(f12)
+f22 = simplify(f22)
+
+print(f11,f12,f22)
 clear
 
 "Verify that equation (1) is a solution"
@@ -4052,9 +4114,16 @@ v4 = (v41,v42)
 v2bar = dot(conj(v2),gamma0) -- adjoint of v2
 u3bar = dot(conj(u3),gamma0) -- adjoint of u3
 
-M1(a,b,c,d) = dot(dot(u3bar[c],gammaL,v4[d]),dot(v2bar[b],gammaT,u1[a]))
+-- M is muon mass so use A for amplitude
 
-MM = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2, M1(a,b,c,d) conj(M1(a,b,c,d)) ))))
+A(a,b,c,d) = dot(
+ dot(u3bar[c],gammaT,v4[d]),
+ dot(v2bar[b],gammaL,u1[a])
+)
+
+S = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+ A(a,b,c,d) conj(A(a,b,c,d))
+))))
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
@@ -4070,7 +4139,7 @@ T1 = contract(dot(X3,gammaT,X4,gammaT),1,4)
 T2 = contract(dot(X2,gammaL,X1,gammaL),1,4)
 f = contract(dot(T1,transpose(T2)))
 
-check(f == MM)
+check(f == S)
 
 "ok"
 
