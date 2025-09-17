@@ -6,11 +6,8 @@
     {
       "layers" : [
         {
-          "blend-mode" : "normal",
-          "glass" : true,
-          "hidden" : false,
-          "image-name" : "1024x1024.png",
-          "name" : "1024x1024"
+          "image-name" : "1024x1024 3.png",
+          "name" : "1024x1024 3"
         }
       ],
       "shadow" : {
