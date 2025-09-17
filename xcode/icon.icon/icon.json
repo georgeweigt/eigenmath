@@ -6,8 +6,8 @@
     {
       "layers" : [
         {
-          "image-name" : "1024x1024 3.png",
-          "name" : "1024x1024 3"
+          "image-name" : "1024x1024.png",
+          "name" : "1024x1024"
         }
       ],
       "shadow" : {
