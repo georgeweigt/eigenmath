@@ -3096,26 +3096,126 @@ yrange = (0,1)
 draw(tdist(t,10),t)
 clear
 
--- Inverse error function
--- https://dlmf.nist.gov/7.17
--- https://mathworld.wolfram.com/InverseErf.html
+-- stackoverflow.com/questions/27229371/inverse-error-function-in-c
 
--- https://oeis.org/A092676
-Ainverf = (1, 1, 7, 127, 4369, 34807, 20036983, 2280356863, 49020204823, 65967241200001, 15773461423793767, 655889589032992201, 94020690191035873697, 655782249799531714375489)
+-- f is inverse error function
 
--- https://oeis.org/A092677
-Binverf = (1, 3, 30, 630, 22680, 178200, 97297200, 10216206000, 198486288000, 237588086736000, 49893498214560000, 1803293578326240000, 222759794969712000000, 1329207696584271504000000)
+f(x) = test(x <= -1.0, -10.0, x >= 1.0, 10.0, f1(x))
 
-Cinverf = float(Ainverf / Binverf)
-Dinverf = sqrt(float(pi)) / 2
+f1(x,p,t) = do(
+ t = log(1 - x^2),
+ test(abs(t) > 6.125,
+  do(
+  p =       3.03697567 10.0^(-10),
+  p = p t + 2.93243101 10.0^(-8),
+  p = p t + 1.22150334 10.0^(-6),
+  p = p t + 2.84108955 10.0^(-5),
+  p = p t + 3.93552968 10.0^(-4),
+  p = p t + 3.02698812 10.0^(-3),
+  p = p t + 4.83185798 10.0^(-3),
+  p = p t - 2.64646143 10.0^(-1),
+  p = p t + 8.40016484 10.0^(-1)),
+  do(
+  p =       5.43877832 10.0^(-9),
+  p = p t + 1.43285448 10.0^(-7),
+  p = p t + 1.22774793 10.0^(-6),
+  p = p t + 1.12963626 10.0^(-7),
+  p = p t - 5.61530760 10.0^(-5),
+  p = p t - 1.47697632 10.0^(-4),
+  p = p t + 2.31468678 10.0^(-3),
+  p = p t + 1.15392581 10.0^(-2),
+  p = p t - 2.32015476 10.0^(-1),
+  p = p t + 8.86226892 10.0^(-1))
+ ), -- end of test
+ p x -- return value
+)
 
-Finverf(x,k) = sum(k, 1, 14, Cinverf[k] (Dinverf x)^(2 k - 1))
+"Max error"
 
--- errors for x = -1 to 1
+m = 0
+for(k, -1000, 1000,
+ x = 0.001 k,
+ t = abs(erf(f(x)) - x),
+ test(t > m, do(m = t, y = x))
+) -- end of for loop
+m
+y
+clear
 
-for(k, -10, 10, x = k / 10.0, print(x, erf(Finverf(x)) - x))
+-- Abramowitz and Stegun algorithm for computing inverse erf
 
-draw(Finverf(x),x)
+-- stackoverflow.com/questions/12556685/is-there-a-javascript-implementation-of-the-inverse-error-function-akin-to-matl
+
+f(x) = test(x <= -1.0, -10.0, x >= 1.0, 10.0, f1(x))
+
+f1(x,a,b,sqrt1,sqrt2) = do(
+ a = 0.147,  
+ b = 2/(float(pi) * a) + log(1-x^2)/2,
+ sqrt1 = sqrt( b^2 - log(1-x^2)/a ),
+ sqrt2 = sqrt( sqrt1 - b ),
+ sqrt2 * sgn(x) -- return value
+)
+
+"Max error"
+
+m = 0
+for(k, -1000, 1000,
+ x = 0.001 k,
+ t = abs(erf(f(x)) - x),
+ test(t > m, do(m = t, y = x))
+) -- end of for loop
+m
+y
+clear
+
+-- mathworld.wolfram.com/InverseErf.html
+
+c = zero(100) -- coefficients
+
+c[1] = 1.0
+for(n,2,dim(c),c[n]=sum(k,1,n-1,c[k]*c[n-k]/k/(2k-1)))
+for(n,1,dim(c),c[n]=c[n]/(2n-1)*(sqrt(float(pi))/2)^(2n-1))
+
+f(x) = test(x <= -0.999, -10.0, x >= 0.999, 10.0,
+       sum(k, 1, dim(c), c[k] x^(2 k - 1)))
+
+"Max error"
+
+m = 0
+for(k, -1000, 1000,
+ x = 0.001 k,
+ t = abs(erf(f(x)) - x),
+ test(t > m, do(m = t, y = x))
+) -- end of for loop
+m
+y
+clear
+
+-- binary search method
+
+-- f is inverse erf
+
+f(x,a,b,k,t,y) = do(
+ a = -10.0,
+ b = 10.0,
+ for(k,1,100,
+  t = (a + b) / 2,
+  y = erf(t),
+  test(abs(x - y) < 10.0^(-6), break, y < x, a = t, b = t)
+ ), -- end of for loop
+ t -- return value
+)
+
+"Max error"
+
+m = 0
+for(k, -1000, 1000,
+ x = 0.001 k,
+ t = abs(erf(f(x)) - x),
+ test(t > m, do(m = t, y = x))
+) -- end of for loop
+m
+y
 clear
 
 -- inverse Laplace transform for 1 / (s^2 + a s + b)
@@ -4803,19 +4903,31 @@ clear
 (1.3)^(1/5)
 clear
 
-Psi = Psi1(x,y,z,t) + i Psi2(x,y,z,t)
+"Probability current"
+
+Psi = a(x,y,z,t) + i b(x,y,z,t) -- make Psi complex valued
 
 J = i hbar / (2 m) (Psi grad(conj(Psi)) - conj(Psi) grad(Psi))
 
-"Verify equation (1)"
-T = Psi div(grad(conj(Psi))) - conj(Psi) div(grad(Psi))
-check(div(J) == i hbar / (2 m) T)
+L(f) = div(grad(f)) -- Laplacian
+
+"Verify equation (3)"
+
+check(div(J) == i hbar / (2 m) (Psi L(conj(Psi)) - conj(Psi) L(Psi)))
+
 "ok"
 
-"Verify equation (2)"
-T = conj(Psi) (i hbar / (2 m) div(grad(Psi)) - i / hbar V Psi) +
-    Psi (-i hbar / (2 m) div(grad(conj(Psi))) + i / hbar V conj(Psi))
-check(div(J) == -T)
+-- Schrodinger equation
+
+dt(f) = i hbar / (2 m) div(grad(f)) - i / hbar V(x,y,z,t) f
+
+check(dt(conj(Psi)) == -conj(dt(Psi)))
+
+"Verify equation (6)"
+
+check(-div(J) == conj(Psi) dt(Psi) - Psi dt(conj(Psi)))
+check(-div(J) == conj(Psi) dt(Psi) + Psi conj(dt(Psi)))
+
 "ok"
 clear
 
