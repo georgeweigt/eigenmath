@@ -3098,7 +3098,7 @@ clear
 
 -- stackoverflow.com/questions/27229371/inverse-error-function-in-c
 
--- f is inverse error function
+-- f(x) is inverse erf
 
 f(x) = test(x <= -1.0, -10.0, x >= 1.0, 10.0, f1(x))
 
@@ -3146,6 +3146,8 @@ clear
 
 -- stackoverflow.com/questions/12556685/is-there-a-javascript-implementation-of-the-inverse-error-function-akin-to-matl
 
+-- f(x) is inverse erf
+
 f(x) = test(x <= -1.0, -10.0, x >= 1.0, 10.0, f1(x))
 
 f1(x,a,b,sqrt1,sqrt2) = do(
@@ -3171,12 +3173,15 @@ clear
 -- mathworld.wolfram.com/InverseErf.html
 
 c = zero(100) -- coefficients
-
 c[1] = 1.0
 for(n,2,dim(c),c[n]=sum(k,1,n-1,c[k]*c[n-k]/k/(2k-1)))
 for(n,1,dim(c),c[n]=c[n]/(2n-1)*(sqrt(float(pi))/2)^(2n-1))
 
-f(x) = test(x <= -0.999, -10.0, x >= 0.999, 10.0,
+-- f(x) is inverse erf
+
+-- k is a local var
+
+f(x,k) = test(x <= -0.999, -10.0, x >= 0.999, 10.0,
        sum(k, 1, dim(c), c[k] x^(2 k - 1)))
 
 "Max error"
@@ -3193,7 +3198,9 @@ clear
 
 -- binary search method
 
--- f is inverse erf
+-- f(x) is inverse erf
+
+-- a, b, k, t, and y are local vars
 
 f(x,a,b,k,t,y) = do(
  a = -10.0,
@@ -3201,7 +3208,7 @@ f(x,a,b,k,t,y) = do(
  for(k,1,100,
   t = (a + b) / 2,
   y = erf(t),
-  test(abs(x - y) < 10.0^(-6), break, y < x, a = t, b = t)
+  test(abs(x - y) < 0.000001, break, y < x, a = t, b = t)
  ), -- end of for loop
  t -- return value
 )
@@ -7079,6 +7086,62 @@ check(dot(conj(s),S1y,S2z,s) == ES1y ES2z)
 check(dot(conj(s),S1z,S2x,s) == ES1z ES2x)
 check(dot(conj(s),S1z,S2y,s) == ES1z ES2y)
 check(dot(conj(s),S1z,S2z,s) == ES1z ES2z)
+
+"ok"
+clear
+
+"Vector calculus identities"
+
+grad(v) = d(v,(x,y,z))
+
+div(v) = contract(grad(v))
+
+cross(u,v) = (
+  u[2] v[3] - u[3] v[2],
+  u[3] v[1] - u[1] v[3],
+  u[1] v[2] - u[2] v[1]
+)
+
+curl(f) = (
+  d(f[3],y) - d(f[2],z),
+  d(f[1],z) - d(f[3],x),
+  d(f[2],x) - d(f[1],y)
+)
+
+laplacian(f) = d(f,x,x) + d(f,y,y) + d(f,z,z)
+
+F = (FX(x,y,z),FY(x,y,z),FZ(x,y,z))
+G = (GX(x,y,z),GY(x,y,z),GZ(x,y,z))
+
+"1. Verify div curl F = 0"
+check(div(curl(F)) == 0)
+
+"2. Verify curl grad f = 0"
+check(curl(grad(f(x,y,z))) == 0)
+
+"3. Verify div grad f = laplacian f"
+check(div(grad(f(x,y,z))) == laplacian(f(x,y,z)))
+
+"4. Verify curl curl F = grad div F - laplacian F"
+check(curl(curl(F)) == grad(div(F)) - laplacian(F))
+
+"5. Verify grad(f g) = f grad g + g grad f"
+check(grad(f(x,y,z) g(x,y,z)) == f(x,y,z) grad(g(x,y,z)) + g(x,y,z) grad(f(x,y,z)))
+
+"6. Verify grad(F . G) = (grad F) . G + (grad G) . F + F x curl G + G x curl F"
+check(grad(dot(F,G)) == dot(grad(F),G) + dot(grad(G),F) + cross(F,curl(G)) + cross(G,curl(F)))
+
+"7. Verify div(f F) = f div F + F . grad f"
+check(div(f(x,y,z) F) == f(x,y,z) div(F) + dot(F,grad(f(x,y,z))))
+
+"8. Verify div(F x G) = G . curl F - F . curl G"
+check(div(cross(F,G)) == dot(G,curl(F)) - dot(F,curl(G)))
+
+"9. Verify curl(f F) = f curl F - F x grad f"
+check(curl(f(x,y,z) F) == f(x,y,z) curl(F) - cross(F,grad(f(x,y,z))))
+
+"10. Verify curl(F x G) = F div G - G div F + (grad F) . G - (grad G) . F"
+check(curl(cross(F,G)) == F div(G) - G div(F) + dot(grad(F),G) - dot(grad(G),F))
 
 "ok"
 clear
