@@ -1,4 +1,4 @@
-Build and run for Linux
+Build and run
 
 ```
 make
