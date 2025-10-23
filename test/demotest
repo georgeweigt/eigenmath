@@ -2059,6 +2059,48 @@ err(a,b) = 2 abs((a - b) / (a + b)) -- relative error
 err(alpha, e^2 / (4 float(pi) epsilon0 hbar c))
 clear
 
+"Verify that 126 decimal digits are needed to print N = (1/2)^126"
+
+-- Note that (5/10)^n = (1/2)^n hence n decimal digits are needed
+
+n = 126
+N = (1/2)^n
+N
+
+-- convert N to decimal D
+
+D = 0
+m = 0
+
+loop(
+ test(N == 0, break),
+ N = 10 N,
+ d = floor(N),
+ D = 10 D + d,
+ N = N - d,
+ m = m + 1 -- digit counter
+) -- end of loop
+
+D
+m
+
+check(m == n)
+check(D == 5^n)
+check(D / 10^n == (1/2)^n)
+
+"ok"
+clear
+
+"Verify 0x3dcccccd is the best approximation for 0.1"
+
+A = 100000001490116119384765625 / 10^27 -- 0x3dcccccd from strtof
+B = 099999994039535522460937500 / 10^27 -- 0x3dcccccc
+
+check(abs(10 A - 1) < abs(10 B - 1))
+
+"ok"
+clear
+
 "Verify equation (1)"
 
 T = tb - ta
