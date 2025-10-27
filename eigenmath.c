@@ -14455,7 +14455,9 @@ eval_zero(struct atom *p1)
 
 	push(p1);
 }
-// automatic variables not visible to the garbage collector are reclaimed
+// all automatic variables must be visible to the garbage collector
+
+// otherwise, use evalf
 
 void
 evalg(void)
@@ -14468,6 +14470,8 @@ evalg(void)
 }
 
 // call evalf instead of evalg to evaluate without garbage collection
+
+// calls to evalg in the scope of evalf do no garbage collection either
 
 void
 evalf(void)
