@@ -54,7 +54,6 @@
 		7FAB24A2271D054B007ED5D2 /* EigenmathView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EigenmathView.h; sourceTree = "<group>"; };
 		7FAB24A3271D0556007ED5D2 /* EigenmathView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EigenmathView.m; sourceTree = "<group>"; };
 		7FD0125C2CE68EFB00238020 /* Eigenmath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eigenmath.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7FE93B212EBBDAD500205431 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		7FF594D12CE505E40042DA9B /* Eigenmath.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Eigenmath.entitlements; sourceTree = "<group>"; };
 		7FF6B91B271DCAC20047F0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Base; path = Base.lproj/Eigenmath.help; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,7 +198,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				7F79615C27405F4E00211A54 /* Base */,
-				7FE93B212EBBDAD500205431 /* en */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
