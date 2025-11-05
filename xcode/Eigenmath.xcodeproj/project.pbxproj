@@ -320,7 +320,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Eigenmath;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 3.46;
+				MARKETING_VERSION = 3.47;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gweigt.eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -348,7 +348,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Eigenmath;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 3.46;
+				MARKETING_VERSION = 3.47;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gweigt.eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
