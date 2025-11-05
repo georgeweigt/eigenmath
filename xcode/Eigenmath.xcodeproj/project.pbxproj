@@ -54,6 +54,7 @@
 		7FAB24A2271D054B007ED5D2 /* EigenmathView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EigenmathView.h; sourceTree = "<group>"; };
 		7FAB24A3271D0556007ED5D2 /* EigenmathView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EigenmathView.m; sourceTree = "<group>"; };
 		7FD0125C2CE68EFB00238020 /* Eigenmath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eigenmath.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FE93B212EBBDAD500205431 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		7FF594D12CE505E40042DA9B /* Eigenmath.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Eigenmath.entitlements; sourceTree = "<group>"; };
 		7FF6B91B271DCAC20047F0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Base; path = Base.lproj/Eigenmath.help; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,7 +73,6 @@
 		7F2C0600271CFF3300128330 = {
 			isa = PBXGroup;
 			children = (
-				7F9D4D072E7B3FAA0060E8FA /* icon.icon */,
 				7FA8457F292DAC7800842C3D /* app.h */,
 				7FA84580292DAC7800842C3D /* app.c */,
 				7FA8457C292DAC7700842C3D /* atomic.c */,
@@ -80,6 +80,7 @@
 				7FA8457A292DAC7700842C3D /* display.c */,
 				7FA8457B292DAC7700842C3D /* draw_display.c */,
 				7FA84589292DACA000842C3D /* eigenmath.c */,
+				7FD0125C2CE68EFB00238020 /* Eigenmath.app */,
 				7FF594D12CE505E40042DA9B /* Eigenmath.entitlements */,
 				7FF6B91A271DCAC20047F0A7 /* Eigenmath.help */,
 				7F2C060C271CFF3300128330 /* EigenmathAppDelegate.h */,
@@ -91,6 +92,7 @@
 				7FA8458A292DACA000842C3D /* eval_nonstop.c */,
 				7FA8458D292DACA000842C3D /* fontinfo.c */,
 				7FA84588292DACA000842C3D /* history.c */,
+				7F9D4D072E7B3FAA0060E8FA /* icon.icon */,
 				7F2C0614271CFF3F00128330 /* Info.plist */,
 				7F2C0615271CFF3F00128330 /* main.m */,
 				7F79615B27405F4E00211A54 /* MainMenu.xib */,
@@ -98,7 +100,6 @@
 				7FA84587292DACA000842C3D /* prototypes.h */,
 				7FA8458F292DACA000842C3D /* run_thread.c */,
 				7FA84590292DACA000842C3D /* shipout.c */,
-				7FD0125C2CE68EFB00238020 /* Eigenmath.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,7 +130,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					7F2C0608271CFF3300128330 = {
 						CreatedOnToolsVersion = 12.4;
@@ -198,6 +199,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				7F79615C27405F4E00211A54 /* Base */,
+				7FE93B212EBBDAD500205431 /* en */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -216,6 +218,7 @@
 		7F2C0618271CFF3F00128330 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -259,6 +262,7 @@
 		7F2C0619271CFF3F00128330 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -301,12 +305,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = icon;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Eigenmath.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 345;
+				CURRENT_PROJECT_VERSION = 346;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_APP_SANDBOX = YES;
@@ -318,7 +322,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Eigenmath;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 3.45;
+				MARKETING_VERSION = 3.46;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gweigt.eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -329,12 +333,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = icon;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Eigenmath.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 345;
+				CURRENT_PROJECT_VERSION = 346;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_APP_SANDBOX = YES;
@@ -346,7 +350,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Eigenmath;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 3.45;
+				MARKETING_VERSION = 3.46;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gweigt.eigenmath;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
