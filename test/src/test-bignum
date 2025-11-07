@@ -5,7 +5,7 @@ for(i,1,7,for(j,1,7,for(k,1,7,
  A = 2^64 W[i] + 2^32 W[j] + W[k],
  for(i,1,7,for(j,1,7,for(k,1,7,
   B = 2^64 W[i] + 2^32 W[j] + W[k],
-  test(B == 0, B = B + 1),
+  test(B == 0, B = 1),
   Q = floor(A/B),
   R = mod(A,B),
   check(A == B Q + R)
