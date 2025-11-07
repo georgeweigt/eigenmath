@@ -2689,15 +2689,15 @@ check(A == B)
 "Testing bignum"
 clear
 W = (0, 1, 2^31 - 1, 2^31, 2^31 + 1, 2^32 - 2, 2^32 - 1)
-for(i,1,7,for(j,1,7,for(k,1,7,
- A = 2^64 W[i] + 2^32 W[j] + W[k],
- for(i,1,7,for(j,1,7,for(k,1,7,
-  B = 2^64 W[i] + 2^32 W[j] + W[k],
-  test(B == 0, B = 1),
-  Q = floor(A/B),
-  R = mod(A,B),
-  check(A == B Q + R)
-))))))
+N = zero(343)
+for(i, 1, 7, for(j, 1, 7, for(k, 1, 7,
+ N[49 i + 7 j + k - 56] = 2^64 W[i] + 2^32 W[j] + W[k]
+)))
+for(i,1,343,for(j,2,343,
+  Q = floor(N[i]/N[j]),
+  R = mod(N[i],N[j]),
+  check(N[i] == N[j] Q + R)
+))
 "Testing bug fixes"
 
 clear
