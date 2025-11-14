@@ -63,6 +63,22 @@ check(J2(Sx(phi)) - Sx(J2(phi)))
 check(J2(Sy(phi)) - Sy(J2(phi)))
 check(J2(Sz(phi)) - Sz(J2(phi)))
 
+check(L2(Lx(phi)) - Lx(L2(phi)) == 0)
+check(L2(Ly(phi)) - Ly(L2(phi)) == 0)
+check(L2(Lz(phi)) - Lz(L2(phi)) == 0)
+
+check(Lx(Ly(phi)) - Ly(Lx(phi)) == i hbar Lz(phi))
+check(Ly(Lz(phi)) - Lz(Ly(phi)) == i hbar Lx(phi))
+check(Lz(Lx(phi)) - Lx(Lz(phi)) == i hbar Ly(phi))
+
+check(S2(Sx(phi)) - Sx(S2(phi)) == 0)
+check(S2(Sy(phi)) - Sy(S2(phi)) == 0)
+check(S2(Sz(phi)) - Sz(S2(phi)) == 0)
+
+check(Sx(Sy(phi)) - Sy(Sx(phi)) == i hbar Sz(phi))
+check(Sy(Sz(phi)) - Sz(Sy(phi)) == i hbar Sx(phi))
+check(Sz(Sx(phi)) - Sx(Sz(phi)) == i hbar Sy(phi))
+
 "ok"
 "addition-of-angular-momentum-1-demo.txt"
 status
