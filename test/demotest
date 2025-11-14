@@ -1,5 +1,73 @@
-clear
+"addition-of-angular-momentum-1-demo.txt"
+"Addition of angular momentum"
 
+Lx(f) = -i hbar (y d(f,z) - z d(f,y))
+Ly(f) = -i hbar (z d(f,x) - x d(f,z))
+Lz(f) = -i hbar (x d(f,y) - y d(f,x))
+
+L(f) = (Lx(f),Ly(f),Lz(f))
+L2(f) = Lx(Lx(f)) + Ly(Ly(f)) + Lz(Lz(f))
+
+LxL(f) = (Ly(Lz(f)) - Lz(Ly(f)),
+          Lz(Lx(f)) - Lx(Lz(f)),
+          Lx(Ly(f)) - Ly(Lx(f)))
+
+Sx(f) = hbar / 2 dot(((0,1),(1,0)),f)
+Sy(f) = hbar / 2 dot(((0,-i),(i,0)),f)
+Sz(f) = hbar / 2 dot(((1,0),(0,-1)),f)
+
+S(f) = (Sx(f),Sy(f),Sz(f))
+S2(f) = Sx(Sx(f)) + Sy(Sy(f)) + Sz(Sz(f))
+
+SxS(f) = (Sy(Sz(f)) - Sz(Sy(f)),
+          Sz(Sx(f)) - Sx(Sz(f)),
+          Sx(Sy(f)) - Sy(Sx(f)))
+
+Jx(f) = Lx(f) + Sx(f)
+Jy(f) = Ly(f) + Sy(f)
+Jz(f) = Lz(f) + Sz(f)
+
+J(f) = (Jx(f),Jy(f),Jz(f))
+J2(f) = Jx(Jx(f)) + Jy(Jy(f)) + Jz(Jz(f))
+
+JxJ(f) = (Jy(Jz(f)) - Jz(Jy(f)),
+          Jz(Jx(f)) - Jx(Jz(f)),
+          Jx(Jy(f)) - Jy(Jx(f)))
+
+chi = (c1(x,y,z,t), c2(x,y,z,t))
+phi = psi(x,y,z,t) chi
+
+check(LxL(phi) == i hbar L(phi))
+check(SxS(phi) == i hbar S(phi))
+check(JxJ(phi) == i hbar J(phi))
+
+"Verify equation (1)"
+LS(f) = contract(L(S(phi)))
+check(J2(phi) == L2(phi) + S2(phi) + 2 LS(phi))
+"ok"
+
+"Verify commutation relations"
+
+check(J2(L2(phi)) - L2(J2(phi)) == 0)
+check(J2(S2(phi)) - S2(J2(phi)) == 0)
+
+check(J2(Jx(phi)) - Jx(J2(phi)) == 0)
+check(J2(Jy(phi)) - Jy(J2(phi)) == 0)
+check(J2(Jz(phi)) - Jz(J2(phi)) == 0)
+
+check(J2(Lx(phi)) - Lx(J2(phi)))
+check(J2(Ly(phi)) - Ly(J2(phi)))
+check(J2(Lz(phi)) - Lz(J2(phi)))
+
+check(J2(Sx(phi)) - Sx(J2(phi)))
+check(J2(Sy(phi)) - Sy(J2(phi)))
+check(J2(Sz(phi)) - Sz(J2(phi)))
+
+"ok"
+"addition-of-angular-momentum-1-demo.txt"
+status
+clear
+"angular-separation-demo.txt"
 "Verify angular separation formulas"
 
 x1 = r1 sin(theta1) cos(phi1)
@@ -24,8 +92,10 @@ check(d == (r1^2 + r2^2 - r12^2) / (2 r1 r2))
 check(d == (x1 x2 + y1 y2 + z1 z2) / (r1 r2))
 
 "ok"
+"angular-separation-demo.txt"
+status
 clear
-
+"annihilation-demo.txt"
 -- Verify formulas for electron-positron annihilation
 
 E = sqrt(p^2 + m^2)
@@ -216,8 +286,10 @@ P22 = contract(dot(M22,gmunu,transpose(conj(M22)),gmunu))
 check(P == P11 + P12 + P21 + P22)
 
 "ok"
+"annihilation-demo.txt"
+status
 clear
-
+"annihilation-desy-demo.txt"
 -- Compute R-squared for annihilation data from DESY PETRA
 
 -- www.hepdata.net/record/ins191231 (Table 2, 14.0 GeV)
@@ -271,8 +343,10 @@ RSS = sum((y - yhat)^2) -- residual sum of squares
 TSS = sum((y - ybar)^2) -- total sum of squares
 
 1 - RSS / TSS
+"annihilation-desy-demo.txt"
+status
 clear
-
+"atomic-transitions-1-demo.txt"
 "Atomic transitions 1"
 
 -- hydrogen wave function
@@ -348,8 +422,10 @@ D = i hbar d(ca(t),t) psia exp(-i/hbar Ea t) +
 check(A - C == D)
 check(B - C == H1(Psi))
 "ok"
+"atomic-transitions-1-demo.txt"
+status
 clear
-
+"atomic-transitions-2-demo.txt"
 "Atomic transitions 2"
 
 H1 = -e E0 / (m omega) expcos(k r - omega t) epsilon p
@@ -390,8 +466,10 @@ check(e E0 p / (m omega) == joule)
 check(e E0 / (m hbar omega) p / omega == 1)
 
 "ok"
+"atomic-transitions-2-demo.txt"
+status
 clear
-
+"atomic-transitions-3-demo.txt"
 "Atomic transitions 3"
 
 "Verify dimensions"
@@ -408,8 +486,10 @@ Iab = kilogram meter / second
 check(e^2 / (epsilon0 m^2 hbar^2) Iab^2 rho / omega^2 == 1/second)
 
 "ok"
+"atomic-transitions-3-demo.txt"
+status
 clear
-
+"atomic-transitions-4-demo.txt"
 "Atomic transitions 4"
 
 r(f) = outer(f,(x,y,z))
@@ -434,8 +514,10 @@ Iba = meter
 check(e^2 / (epsilon0 hbar^2) Iba^2 rho == 1/second)
 
 "ok"
+"atomic-transitions-4-demo.txt"
+status
 clear
-
+"atomic-transitions-5-demo.txt"
 "Atomic transitions 5"
 
 "Verify equation (1)"
@@ -455,8 +537,10 @@ B = 1/3 cx conj(cx) + 1/3 cy conj(cy) + 1/3 cz conj(cz)
 check(A == B)
 
 "ok"
+"atomic-transitions-5-demo.txt"
+status
 clear
-
+"atomic-transitions-6-demo.txt"
 "Atomic transitions 6"
 
 Rab = pi e^2 / (3 epsilon0 hbar^2) Iab^2 rho
@@ -486,8 +570,10 @@ Iab = meter
 check(e^2 omega0^3 / (epsilon0 hbar c^3) Iab^2 == 1/second)
 
 "ok"
+"atomic-transitions-6-demo.txt"
+status
 clear
-
+"atomic-transitions-7-demo.txt"
 -- Spontaneous emission rate for hydrogen state 2p
 
 psi(n,l,m) = R(n,l) Y(l,m)
@@ -593,8 +679,10 @@ A21 = (2/3)^8 alpha^5 mu c^2 / hbar
 check(err(A21, 6.265 10^8 / second) < 0.0001)
 
 "ok"
+"atomic-transitions-7-demo.txt"
+status
 clear
-
+"balmers-formula-demo.txt"
 -- Compute Balmer's coefficient using linear regression
 
 m = (3,3,3,3,3,4,4,4,4,4,5,5,5,6,6,6,7,8,8,9,9,10,10,11,11)
@@ -612,8 +700,10 @@ y = (
 
 beta = dot(x,y) / dot(x,x)
 beta
+"balmers-formula-demo.txt"
+status
 clear
-
+"barrier-potential-demo.txt"
 psi1 = A exp(i k x) + B exp(-i k x)
 psi2 = C exp(i kappa x) + D exp(-i kappa x)
 psi3 = F exp(i k x)
@@ -653,8 +743,10 @@ check(T == 1 + K/4 sinh(2 i a / hbar sqrt(2 m (E - V0)))^2)
 "Verify equation (7)"
 check(K == V0^2 / (E (V0 - E)))
 "ok"
+"barrier-potential-demo.txt"
+status
 clear
-
+"bells-theorem-demo.txt"
 "Exercise 1. Verify equation (2)."
 
 sigmax = ((0,1),(1,0))
@@ -721,8 +813,10 @@ check(abs(S2) > 2)
 check(abs(S3) > 2)
 
 "ok"
+"bells-theorem-demo.txt"
+status
 clear
-
+"bhabha-scattering-demo.txt"
 -- Verify formulas for Bhabha scattering
 
 E = sqrt(p^2 + m^2)
@@ -898,8 +992,10 @@ I = 16 / (cos(theta) - 1) -
 check(f sin(theta) == d(I,theta))
 
 "ok"
+"bhabha-scattering-demo.txt"
+status
 clear
-
+"bhabha-scattering-desy-demo.txt"
 -- Compute R-squared for Bhabha scattering data from DESY PETRA
 
 -- www.hepdata.net/record/ins191231 (Table 3, 14.0 GeV)
@@ -969,8 +1065,10 @@ RSS = sum((y - yhat)^2) -- residual sum of squares
 TSS = sum((y - ybar)^2) -- total sum of squares
 
 1 - RSS / TSS
+"bhabha-scattering-desy-demo.txt"
+status
 clear
-
+"bhabha-scattering-slac-demo.txt"
 -- Compute R-squared for Bhabha scattering data from SLAC-PUB-1501 (SLAC SPEAR)
 
 N = 12 -- number of observations
@@ -1047,8 +1145,10 @@ RSS = sum((y - yhat)^2) -- residual sum of squares
 TSS = sum((y - ybar)^2) -- total sum of squares
 
 1 - RSS / TSS
+"bhabha-scattering-slac-demo.txt"
+status
 clear
-
+"bohr-model-demo.txt"
 "Bohr model"
 
 E = -alpha^2 m c^2 / (2 n^2)
@@ -1112,8 +1212,10 @@ r1 = hbar / (alpha mu c)
 
 E1
 r1
+"bohr-model-demo.txt"
+status
 clear
-
+"bohr-radius-demo.txt"
 E = hbar^2 / (2 me r^2) - e^2 / (4 pi epsilon0 r)
 dE = d(E,r)
 check(dE == -hbar^2 / (me r^3) + e^2 / (4 pi epsilon0 r^2))
@@ -1179,8 +1281,10 @@ a0
 "Computed value"
 r = float(r)
 r
+"bohr-radius-demo.txt"
+status
 clear
-
+"brachistochrone-problem.txt"
 -- https://mathworld.wolfram.com/BrachistochroneProblem.html
 
 x = theta - sin(theta)
@@ -1203,8 +1307,10 @@ B
 
 t = defint(sqrt(f), theta, thetaA, thetaB)
 t
+"brachistochrone-problem.txt"
+status
 clear
-
+"canonical-commutation-relation-demo.txt"
 X(f) = x f
 P(f) = -i hbar d(f,x)
 X(P(psi(x,t))) - P(X(psi(x,t)))
@@ -1212,8 +1318,10 @@ X(P(psi(x,t))) - P(X(psi(x,t)))
 X(f) = outer((x,y,z),f)
 P(f) = -i hbar d(f,(x,y,z))
 X(P(psi(x,y,z,t))) - P(X(psi(x,y,z,t)))
+"canonical-commutation-relation-demo.txt"
+status
 clear
-
+"coherent-state-demo.txt"
 "Verify formulas"
 
 E = i sqrt(nbar hbar omega / (2 epsilon0)) (exp(-i omega t) - exp(i omega t))
@@ -1235,8 +1343,10 @@ check(B2 == hbar omega mu0 / 2 (4 nbar cos(omega t)^2 + 1))
 check(epsilon0 / 2 E2 + 1 / (2 mu0) B2 == (nbar + 1/2) hbar omega)
 
 "ok"
+"coherent-state-demo.txt"
+status
 clear
-
+"compton-scattering-cern-demo.txt"
 -- Compton scattering data from CERN LEP
 
 -- arxiv.org/abs/hep-ex/0504012
@@ -1300,8 +1410,10 @@ RSS = sum((y - yhat)^2) -- residual sum of squares
 TSS = sum((y - ybar)^2) -- total sum of squares
 
 1 - RSS / TSS
+"compton-scattering-cern-demo.txt"
+status
 clear
-
+"compton-scattering-demo.txt"
 -- Verify formulas for Compton scattering
 
 E = sqrt(omega^2 + m^2)
@@ -1501,8 +1613,10 @@ I = -cos(theta) / R^2 +
 check(f sin(theta) == d(I,theta))
 
 "ok"
+"compton-scattering-demo.txt"
+status
 clear
-
+"constant-force-action-demo.txt"
 A = (xb - xa) / T - F T / (2 m)
 B = xa
 x = F t^2 / (2 m) + A t + B
@@ -1524,8 +1638,10 @@ check(v == F t / m + (xb - xa) / T - F T / (2 m))
 "Verify equation (3)"
 check(S == m (xb - xa)^2 / (2 T) + F T (xb + xa) / 2 - F^2 T^3 / (24 m))
 "ok"
+"constant-force-action-demo.txt"
+status
 clear
-
+"derivative-of-spherical-harmonic.txt"
 "Verify Mathematica formula for derivative of spherical harmonic"
 
 DY(l,m) = m cos(theta) / sin(theta) Y(l,m) +
@@ -1554,15 +1670,19 @@ check(DY(2,-1) == d(Y(2,-1),theta))
 check(DY(2,-2) == d(Y(2,-2),theta))
 
 "ok"
+"derivative-of-spherical-harmonic.txt"
+status
 clear
-
+"dirac-delta-function-approximations.txt"
 -- dirac delta function approximations
 
 delta = n / sqrt(pi) exp(-n^2 x^2)
 
 for(n,1,10,draw(delta))
+"dirac-delta-function-approximations.txt"
+status
 clear
-
+"dirac-equation-demo.txt"
 gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
 gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
 gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
@@ -1599,8 +1719,10 @@ check(i hbar D(psi7) == m c psi7)
 check(i hbar D(psi8) == m c psi8)
 
 "ok"
+"dirac-equation-demo.txt"
+status
 clear
-
+"dirac-from-boost-demo.txt"
 u0 = (1, 0, 0, 0)
 
 Lambda = ((E + m, 0, p, 0),
@@ -1620,8 +1742,10 @@ check(1/m dot(pslash,Lambda) == dot(Lambda,gamma0))
 "Verify equation (2)"
 check(dot(pslash,u) == m u)
 "ok"
+"dirac-from-boost-demo.txt"
+status
 clear
-
+"dirac-hydrogen-atom.txt"
 -- Verify Dirac's equation (32)
 
 -- See "Quantum Mechanics and a Preliminary Investigation of the Hydrogen Atom"
@@ -1681,8 +1805,10 @@ check(H(Pn) - H(P) == hbar^2 / (2 mu) (inv(dot(P,P)) - inv(dot(Pn,Pn))))
 check(-hbar^2 / (2 mu) dot(P,P) - k inv(R) == Enm)
 
 "ok"
+"dirac-hydrogen-atom.txt"
+status
 clear
-
+"dirac-spinors-demo.txt"
 E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
 
 u1 = (E/c + m c, 0, pz, px + i py)
@@ -1727,8 +1853,10 @@ check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) ==
 (E/c + m c) (pslash - m c I))
 
 "ok"
+"dirac-spinors-demo.txt"
+status
 clear
-
+"draw.txt"
 -- Draw demo
 
 draw(floor(x))
@@ -1775,8 +1903,10 @@ xrange = (-2,2)
 yrange = (-2,2)
 trange = (-4,2)
 draw(f,t)
+"draw.txt"
+status
 clear
-
+"electromagnetic-tensor-demo.txt"
 -- electromagnetic tensor demo
 
 -- u for up index, d for down index
@@ -1829,8 +1959,10 @@ J = (Jx,Jy,Jz)
 check(J == curl(B) - d(E,t))
 
 "ok"
+"electromagnetic-tensor-demo.txt"
+status
 clear
-
+"emission-equilibrium-demo.txt"
 "Emission equilibrium"
 
 -- physical constants (c, e, h, and k are exact values)
@@ -1866,8 +1998,185 @@ T = 300 kelvin
 
 nu = k T log(2.0) / h
 nu
+"emission-equilibrium-demo.txt"
+status
 clear
+"equivalent-quantum-circuits-1.txt"
+# Show that the following quantum circuits are equivalent
 
+# Q0 ---------.----
+#             |
+# Q1 ----X----X----
+
+# Q0 ----.---------
+#        |
+# Q1 ----X----X----
+
+psi1 = (a,b,c,d)
+psi2 = (a,b,c,d)
+
+psi1 = rotate(psi1,X,1,C,0,X,1)
+psi1
+
+psi2 = rotate(psi2,C,0,X,1,X,1)
+psi2
+
+check(psi1 == psi2)
+"ok"
+"equivalent-quantum-circuits-1.txt"
+status
+clear
+"equivalent-quantum-circuits-2.txt"
+# Show that the following quantum circuits are equivalent
+
+# Q0 ---------.----
+#             |
+# Q1 ----Z----X----
+
+# Q0 ----.----Z----
+#        |
+# Q1 ----X----Z----
+
+psi1 = (a,b,c,d)
+psi2 = (a,b,c,d)
+
+psi1 = rotate(psi1,Z,1,C,0,X,1)
+psi1
+
+psi2 = rotate(psi2,C,0,X,1,Z,0,Z,1)
+psi2
+
+check(psi1 == psi2)
+"ok"
+"equivalent-quantum-circuits-2.txt"
+status
+clear
+"equivalent-quantum-circuits-3.txt"
+# Show that the following quantum circuits are equivalent
+
+# Q0 ----X----.----
+#             |
+# Q1 ---------X----
+
+# Q0 ----.----X----
+#        |
+# Q1 ----X----X----
+
+psi1 = (a,b,c,d)
+psi2 = (a,b,c,d)
+
+psi1 = rotate(psi1,X,0,C,0,X,1)
+psi1
+
+psi2 = rotate(psi2,C,0,X,1,X,0,X,1)
+psi2
+
+check(psi1 == psi2)
+"ok"
+"equivalent-quantum-circuits-3.txt"
+status
+clear
+"equivalent-quantum-circuits-4.txt"
+# Show that the following quantum circuits are equivalent
+
+# Q0 ----Z----.----
+#             |
+# Q1 ---------X----
+
+# Q0 ----.----Z----
+#        |
+# Q1 ----X---------
+
+psi1 = (a,b,c,d)
+psi2 = (a,b,c,d)
+
+psi1 = rotate(psi1,Z,0,C,0,X,1)
+psi1
+
+psi2 = rotate(psi2,C,0,X,1,Z,0)
+psi2
+
+check(psi1 == psi2)
+"ok"
+"equivalent-quantum-circuits-4.txt"
+status
+clear
+"equivalent-quantum-circuits-5.txt"
+# Show that the following quantum circuits are equivalent
+
+# Q0 ----.----
+#        |
+# Q1 ----Z----
+
+# Q0 ----Z----
+#        |
+# Q1 ----.----
+
+psi1 = (a,b,c,d)
+psi2 = (a,b,c,d)
+
+psi1 = rotate(psi1,C,0,Z,1)
+psi1
+
+psi2 = rotate(psi2,C,1,Z,0)
+psi2
+
+check(psi1 == psi2)
+"ok"
+"equivalent-quantum-circuits-5.txt"
+status
+clear
+"equivalent-quantum-circuits-6.txt"
+# Show that the following quantum circuits are equivalent
+
+# Q0 ----H----.----H----
+#             |
+# Q1 ----H----X----H----
+
+# Q0 ----X----
+#        |
+# Q1 ----.----
+
+psi1 = (a,b,c,d)
+psi2 = (a,b,c,d)
+
+psi1 = rotate(psi1,H,0,H,1,C,0,X,1,H,0,H,1)
+psi1
+
+psi2 = rotate(psi2,C,1,X,0)
+psi2
+
+check(psi1 == psi2)
+"ok"
+"equivalent-quantum-circuits-6.txt"
+status
+clear
+"equivalent-quantum-circuits-7.txt"
+# Show that the following quantum circuits are equivalent
+
+# Q0 ----*----
+#        |
+# Q1 ----*----
+
+# Q0 ----.----X----.----
+#        |    |    |
+# Q1 ----X----.----X----
+
+psi1 = (a,b,c,d)
+psi2 = (a,b,c,d)
+
+psi1 = rotate(psi1,W,0,1) # W,0,1 swaps Q0 and Q1
+psi1
+
+psi2 = rotate(psi2,C,0,X,1,C,1,X,0,C,0,X,1)
+psi2
+
+check(psi1 == psi2)
+"ok"
+"equivalent-quantum-circuits-7.txt"
+status
+clear
+"fermi-golden-rule-demo.txt"
 -- Verify formulas for Fermi's golden rule
 
 Delta = omega2 - omega1
@@ -1914,8 +2223,10 @@ Pprime = t^2 / hbar^2 M21^2 sinc((Delta - omega) / 2 t)^2
 "Verify equation (3)"
 check(P == Pprime)
 "ok"
+"fermi-golden-rule-demo.txt"
+status
 clear
-
+"field-momentum-demo.txt"
 omega = k c
 
 A = -i A0 / omega (exp(i k z - i omega t), 0, 0)
@@ -1935,8 +2246,10 @@ check(curl(E) == -1/c d(B,t))
 check(curl(B) == 1/c d(E,t))
 
 "ok"
+"field-momentum-demo.txt"
+status
 clear
-
+"fine-structure-1-demo.txt"
 "Fine structure 1"
 
 "Verify equation (1)"
@@ -1968,8 +2281,10 @@ eV = 1/e coulomb / joule "eV" -- eV per joule
 mu = me mp / (me + mp) -- reduced electron mass
 
 -mu c^2 alpha^2 / 2 eV
+"fine-structure-1-demo.txt"
+status
 clear
-
+"fine-structure-2-demo.txt"
 "Fine structure 2"
 
 "Verify equation (1)"
@@ -1987,8 +2302,10 @@ check(eval(T, l, j + 1/2) == 0)
 check(eval(T, l, j - 1/2) == 0)
 
 "ok"
+"fine-structure-2-demo.txt"
+status
 clear
-
+"fine-structure-3-demo.txt"
 "Fine structure 3"
 
 -- CODATA Internationally recommended 2022 values
@@ -2019,8 +2336,10 @@ h c / Delta(3, 3/2, 2, 1/2) 10^9 "nm" / meter
 h c / Delta(3, 3/2, 2, 1/2) 10^9 "nm" / meter
 h c / Delta(3, 3/2, 2, 3/2) 10^9 "nm" / meter
 h c / Delta(3, 5/2, 2, 3/2) 10^9 "nm" / meter
+"fine-structure-3-demo.txt"
+status
 clear
-
+"fine-structure-constant.txt"
 -- CODATA Internationally recommended 2022 values
 -- https://physics.nist.gov/cuu/Constants/
 -- c, e, h, and k are exact values
@@ -2057,8 +2376,10 @@ e^2 / (4 float(pi) epsilon0 hbar c)
 err(a,b) = 2 abs((a - b) / (a + b)) -- relative error
 
 err(alpha, e^2 / (4 float(pi) epsilon0 hbar c))
+"fine-structure-constant.txt"
+status
 clear
-
+"floating-point-1.txt"
 "Verify that 126 decimal digits are needed to print N = (1/2)^126"
 
 -- Note that (5/10)^n = (1/2)^n hence n decimal digits are needed
@@ -2089,8 +2410,10 @@ check(D == 5^n)
 check(D / 10^n == (1/2)^n)
 
 "ok"
+"floating-point-1.txt"
+status
 clear
-
+"floating-point-2.txt"
 "Verify 0xcccccd is the best 24 bit mantissa for 0.1"
 
 A = 13421773 / 2^27 -- 0xcccccd = 13421773
@@ -2104,8 +2427,10 @@ C = 1/10
 check(A - C < C - B)
 
 "ok"
+"floating-point-2.txt"
+status
 clear
-
+"free-particle-action-demo.txt"
 "Verify equation (1)"
 
 T = tb - ta
@@ -2115,8 +2440,10 @@ L = m v^2 / 2
 check(defint(L, t, 0, T) == m (xb - xa)^2 / (2 T))
 
 "ok"
+"free-particle-action-demo.txt"
+status
 clear
-
+"free-particle-propagator-1-demo.txt"
 "Verify equation (3)"
 
 a = i (tb - ta) / (2 m hbar)
@@ -2127,8 +2454,10 @@ check(1 / (2 pi hbar)^2 pi / a == m / (2 pi i hbar (tb - ta)))
 check(b^2 / (4 a) == i m (xb - xa)^2 / (2 hbar (tb - ta)))
 
 "ok"
+"free-particle-propagator-1-demo.txt"
+status
 clear
-
+"free-particle-propagator-2-demo.txt"
 "Verify equation (1)"
 
 f = i m (xb - xa)^2 / (2 hbar tb) + i p xa / hbar
@@ -2148,8 +2477,10 @@ check(m / (2 pi i hbar tb) == a / pi)
 check(b^2 / (4 a) + c == i p xb / hbar - i p^2 tb / (2 m hbar))
 
 "ok"
+"free-particle-propagator-2-demo.txt"
+status
 clear
-
+"full-adder-with-toffoli.txt"
 UADD(psi) = rotate(psi,
   C,0,X,2,      -- cnot
   C,1,X,2,      -- cnot
@@ -2182,8 +2513,10 @@ check(UADD(ket0010) == ket0110)
 check(UADD(ket0011) == ket1011)
 
 "ok"
+"full-adder-with-toffoli.txt"
+status
 clear
-
+"full-adder-without-toffoli.txt"
 UADD(psi) = rotate(psi,
   C,0,X,2,      -- cnot
   C,1,X,2,      -- cnot
@@ -2230,8 +2563,10 @@ check(UADD(ket0010) == ket0110)
 check(UADD(ket0011) == ket1011)
 
 "ok"
+"full-adder-without-toffoli.txt"
+status
 clear
-
+"fun-trick-1-demo.txt"
 "Fun trick 1"
 
 r(f) = outer(f,(x,y,z))
@@ -2263,8 +2598,10 @@ check(p(r(Psi)) - r(p(Psi)) == -i hbar Psi I)
 "Verify equation (5)"
 check(p2(Psi) == contract(p(p(Psi))))
 "ok"
+"fun-trick-1-demo.txt"
+status
 clear
-
+"fun-trick-2-demo.txt"
 "Fun trick 2"
 a = 1 / (2 sigma^2)
 b = i k
@@ -2272,8 +2609,10 @@ f = sqrt(pi / a) exp(b^2 / (4 a))
 f
 check(f == sqrt(2 pi sigma^2) exp(-k^2 sigma^2 / 2))
 "ok"
+"fun-trick-2-demo.txt"
+status
 clear
-
+"gordon-decomposition-demo.txt"
 "Gordon decomposition"
 
 p1 = (E1, p1x, p1y, p1z)
@@ -2347,8 +2686,10 @@ A = dot(u2bar, gammaT, u1)
 B = dot(u2bar, G, u1)
 check(A == B)
 "ok"
+"gordon-decomposition-demo.txt"
+status
 clear
-
+"greens-theorem-demo.txt"
 "Line integral"
 P = 1 - y
 Q = x
@@ -2361,8 +2702,10 @@ x = quote(x) -- clear x
 y = quote(y) -- clear y
 h = sqrt(4 - x^2)
 defint(d(Q,x) - d(P,y), y, -h, h, x, -2, 2)
+"greens-theorem-demo.txt"
+status
 clear
-
+"grover.txt"
 -- https://arxiv.org/abs/1703.10535
 
 Q0 = 0
@@ -2396,8 +2739,10 @@ p = psi conj(psi)
 b = ("000","100","010","110","001","101","011","111")
 
 transpose((b,p))
+"grover.txt"
+status
 clear
-
+"harmonic-oscillator-action-demo.txt"
 A = (xb - xa cos(omega T)) / sin(omega T)
 B = xa
 x = A sin(omega t) + B cos(omega t)
@@ -2432,8 +2777,10 @@ check(vT == omega (xb cos(omega T) - xa) / sin(omega T))
 "Verify equation (8)"
 check(S == m / 2 omega ((xb^2 + xa^2) cos(omega T) - 2 xb xa) / sin(omega T))
 "ok"
+"harmonic-oscillator-action-demo.txt"
+status
 clear
-
+"harmonic-oscillator-coherent-state-demo.txt"
 "Exercise 1. Verify wave function."
 
 psi(n) = 1 / sqrt(2^n n!) *
@@ -2579,8 +2926,10 @@ check(P2 - P^2 == m hbar omega / 2)
 check(sqrt((X2 - X^2) (P2 - P^2)) == hbar / 2)
 
 "ok"
+"harmonic-oscillator-coherent-state-demo.txt"
+status
 clear
-
+"harmonic-oscillator-propagator-1-demo.txt"
 "Verify equation (6)"
 
 A = -i m omega / (2 hbar) (xb^2 + xa^2) tan(omega t / 2) +
@@ -2594,8 +2943,10 @@ cot(alpha) = -tan(alpha / 2) + 1 / sin(alpha)
 check(A == B)
 
 "ok"
+"harmonic-oscillator-propagator-1-demo.txt"
+status
 clear
-
+"harmonic-oscillator-propagator-2-demo.txt"
 psi(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4) *
          H(n, x sqrt(m omega / hbar)) *
          exp(-m omega x^2 / (2 hbar) - i (n + 1/2) omega t)
@@ -2640,8 +2991,10 @@ I
 check(I == eval(psi(1), x, xb))
 
 "ok"
+"harmonic-oscillator-propagator-2-demo.txt"
+status
 clear
-
+"helium-demo.txt"
 "Verify equation (1)"
 
 f = sin(theta1) sin(theta2)
@@ -2725,8 +3078,10 @@ check(defint(P(expcos(theta),2) expsin(theta), theta, 0, pi) == 0)
 check(defint(P(expcos(theta),10) expsin(theta), theta, 0, pi) == 0)
 
 "ok"
+"helium-demo.txt"
+status
 clear
-
+"how-planck-demo.txt"
 "How Planck calculated h and k"
 
 -- base units
@@ -2791,8 +3146,10 @@ h = h "joule" / joule
 
 k
 h
+"how-planck-demo.txt"
+status
 clear
-
+"hydrogen-alpha-line-demo.txt"
 "Spontaneous emission coefficients for H-alpha"
 
 psi(n,l,m) = R(n,l) Y(l,m)
@@ -2924,8 +3281,10 @@ check(err(A3p2s, 2.245 10^7 / second) < 0.0001)
 check(err(A3d2p, 6.465 10^7 / second) < 0.0001)
 
 "ok"
+"hydrogen-alpha-line-demo.txt"
+status
 clear
-
+"hydrogen-atom-radial-pdf.txt"
 -- Draw radial probability density for hydrogen atom electron
 
 "x axis: radius (nanometers)"
@@ -2959,8 +3318,10 @@ draw(f,r)
 "n = 3"
 f = R(3,0)^2 r^2
 draw(f,r)
+"hydrogen-atom-radial-pdf.txt"
+status
 clear
-
+"hydrogen-eigenfunctions-demo.txt"
 "Verify hydrogen eigenfunctions"
 
 psi(n,l,m) = R(n,l) Y(l,m)
@@ -3008,8 +3369,10 @@ for(n, 1, 3, for(l, 0, n - 1, for(m, -l, l,
 )))
 
 "ok"
+"hydrogen-eigenfunctions-demo.txt"
+status
 clear
-
+"hydrogen-energy-four-ways-demo.txt"
 "Verify hydrogen energy formulas"
 
 A = -mu / (2 n^2) (e^2 / (4 pi epsilon0 hbar))^2
@@ -3025,8 +3388,10 @@ check(B == D)
 check(C == D)
 
 "ok"
+"hydrogen-energy-four-ways-demo.txt"
+status
 clear
-
+"hydrogen-radius-demo.txt"
 "Verify hydrogen radius"
 
 psi(n,l,m) = R(n,l) Y(l,m)
@@ -3064,8 +3429,10 @@ for(n, 1, 3, for(l, 0, n - 1, for(m, -l, l,
 )))
 
 "ok"
+"hydrogen-radius-demo.txt"
+status
 clear
-
+"incbeta.txt"
 -- Incomplete beta function
 
 -- zlib License
@@ -3141,8 +3508,10 @@ draw(fdist(t,3,2),t)
 xrange = (-5,5)
 yrange = (0,1)
 draw(tdist(t,10),t)
+"incbeta.txt"
+status
 clear
-
+"inverse-erf-1.txt"
 -- stackoverflow.com/questions/27229371/inverse-error-function-in-c
 
 -- f(x) is inverse erf
@@ -3187,8 +3556,10 @@ for(k, -1000, 1000,
 ) -- end of for loop
 m
 y
+"inverse-erf-1.txt"
+status
 clear
-
+"inverse-erf-2.txt"
 -- Abramowitz and Stegun algorithm for computing inverse erf
 
 -- stackoverflow.com/questions/12556685/is-there-a-javascript-implementation-of-the-inverse-error-function-akin-to-matl
@@ -3215,8 +3586,10 @@ for(k, -1000, 1000,
 ) -- end of for loop
 m
 y
+"inverse-erf-2.txt"
+status
 clear
-
+"inverse-erf-3.txt"
 -- mathworld.wolfram.com/InverseErf.html
 
 c = zero(100) -- coefficients
@@ -3241,8 +3614,10 @@ for(k, -1000, 1000,
 ) -- end of for loop
 m
 y
+"inverse-erf-3.txt"
+status
 clear
-
+"inverse-erf-4.txt"
 -- binary search method
 
 -- f(x) is inverse erf
@@ -3270,8 +3645,10 @@ for(k, -1000, 1000,
 ) -- end of for loop
 m
 y
+"inverse-erf-4.txt"
+status
 clear
-
+"inverse-laplace-1.txt"
 -- inverse Laplace transform for 1 / (s^2 + a s + b)
 
 -- from Wolfram
@@ -3297,8 +3674,10 @@ F = 1 / (s^2 + a s + b)
 F
 "Inverse transform is"
 f
+"inverse-laplace-1.txt"
+status
 clear
-
+"inverse-laplace-2.txt"
 -- inverse Laplace transform for s / (s^2 + a s + b)
 
 -- from Wolfram
@@ -3327,8 +3706,10 @@ F = s / (s^2 + a s + b)
 F
 "Inverse transform is"
 f
+"inverse-laplace-2.txt"
+status
 clear
-
+"klein-nishina-formula-demo.txt"
 -- Klein-Nishina formula
 
 E = sqrt(omega^2 + m^2)
@@ -3518,8 +3899,10 @@ flab = 2 e^4 (omegaL/omegaLp + omegaLp/omegaL + (m/omegaL - m/omegaLp + 1)^2 - 1
 check(fcom == flab)
 
 "ok"
+"klein-nishina-formula-demo.txt"
+status
 clear
-
+"laguerre-polynomials-demo.txt"
 "Verify Laguerre polynomials"
 
 -- use eval to substitute arbitrary expression x for y (y is a local var)
@@ -3541,8 +3924,10 @@ for(n, 1, 3, for(a, 0, n - 1,
 ))
 
 "ok"
+"laguerre-polynomials-demo.txt"
+status
 clear
-
+"laplace-runge-lenz.txt"
 "Verify quantum LRL operators"
 
 R = sqrt(x^2 + y^2 + z^2)
@@ -3598,8 +3983,10 @@ check(H(Az(psi)) == Az(H(psi)))
 check(A2(psi) == 2 / m H(L2(psi) + hbar^2 psi) + Z^2 psi)
 
 "ok"
+"laplace-runge-lenz.txt"
+status
 clear
-
+"laplace-transform-example-1-demo.txt"
 "Laplace transform example 1"
 
 X = B / (s - i omega)
@@ -3638,8 +4025,10 @@ check(eval(ca,t,0) == 1)
 check(eval(cb,t,0) == 0)
 
 "ok"
+"laplace-transform-example-1-demo.txt"
+status
 clear
-
+"laplace-transform-example-2-demo.txt"
 "Laplace transform example 2"
 
 a = -(Haa + Hbb + i omega0)
@@ -3669,8 +4058,10 @@ check(ca == (cos(1/2 k t) + i omega0 / k sin(1/2 k t)) exp(-1/2 i omega0 t))
 "Verify equation (7)"
 check(cb == 2 Hba / k sin(1/2 k t) exp(1/2 i omega0 t))
 "ok"
+"laplace-transform-example-2-demo.txt"
+status
 clear
-
+"laplacian-of-product-demo.txt"
 -- use rectangular coordinates
 
 r = sqrt(x^2 + y^2 + z^2)
@@ -3697,8 +4088,10 @@ check(B == 2 i k exp(i k r) / r^2 - k^2 exp(i k r) / r)
 "Verify equation (4)"
 check(div(grad(F)) == -k^2 F)
 "ok"
+"laplacian-of-product-demo.txt"
+status
 clear
-
+"legendre-polynomials-demo.txt"
 "Verify Legendre polynomials"
 
 P(l,m) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
@@ -3710,8 +4103,10 @@ for(l, 0, 2, for(m, -l, l,
 ))
 
 "ok"
+"legendre-polynomials-demo.txt"
+status
 clear
-
+"lhopitals-rule-demo.txt"
 "l'Hopital's rule"
 
 f = log(1 - alpha / n^2)
@@ -3725,8 +4120,10 @@ y = d(f,n) / d(g,n)
 check(y == 2 alpha / (alpha / n - n))
 
 "ok"
+"lhopitals-rule-demo.txt"
+status
 clear
-
+"masse-walker.txt"
 -- Compute diagonal elements of H in equation (10) of
 
 -- "Accurate energies of the He atom with undergraduate quantum mechanics"
@@ -3791,8 +4188,10 @@ check(abs(H33 - (-2.023)) < 0.001)
 check(abs(H44 - (-2.010)) < 0.001)
 
 "ok"
+"masse-walker.txt"
+status
 clear
-
+"matrix-mechanics-1-demo.txt"
 -- Matrix mechanics 1
 
 N = 10
@@ -3818,8 +4217,10 @@ for(n, 1, N - 1, for(m, 1, N - 1,
 ))
 
 "ok"
+"matrix-mechanics-1-demo.txt"
+status
 clear
-
+"matrix-mechanics-2-demo.txt"
 -- Matrix mechanics 2
 
 psi(n,l,m) = R(n,l) Y(l,m)
@@ -3898,8 +4299,10 @@ check(dot(L1,L2) - dot(L2,L1) == i hbar L3)
 check(Lsq == dot(L1,L1) + dot(L2,L2) + dot(L3,L3))
 
 "ok"
+"matrix-mechanics-2-demo.txt"
+status
 clear
-
+"maxwell-boltzmann-demo.txt"
 -- Maxwell-Boltzmann velocity distribution
 
 fMB = (m / (2 pi k T))^(3/2) exp(-m v^2 / (2 k T))
@@ -3915,8 +4318,10 @@ fM
 check(fM == 4 pi v^2 fMB)
 
 "ok"
+"maxwell-boltzmann-demo.txt"
+status
 clear
-
+"moller-scattering-demo.txt"
 -- Verify formulas for Moller scattering
 
 E = sqrt(p^2 + m^2)
@@ -4092,8 +4497,10 @@ I = -8 cos(theta) / sin(theta)^2 - cos(theta)
 check(f sin(theta) == d(I,theta))
 
 "ok"
+"moller-scattering-demo.txt"
+status
 clear
-
+"mott-problem-demo.txt"
 "Verify that equation (1) is a solution"
 
 -- psi returns a hydrogen atom eigenfunction
@@ -4178,8 +4585,10 @@ check(H2(F) == E2 F)
 check(H0(F) + H1(F) + H2(F) == E F)
 
 "ok"
+"mott-problem-demo.txt"
+status
 clear
-
+"muon-decay-demo.txt"
 -- Verify muon decay formulas
 
 p1x = 0
@@ -4279,8 +4688,10 @@ pi = float(pi)
 "Muon lifetime"
 
 96 pi^2 h / (GF^2 (mmu c^2)^5)
+"muon-decay-demo.txt"
+status
 clear
-
+"muon-pair-production-demo.txt"
 -- Verify formulas for muon pair production
 
 p = sqrt(E^2 - m^2)
@@ -4384,8 +4795,10 @@ F = (I - eval(I,theta,0)) / (eval(I,theta,pi) - eval(I,theta,0))
 check(F == -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2)
 
 "ok"
+"muon-pair-production-demo.txt"
+status
 clear
-
+"musical-note.txt"
 -- frequencies in hertz (cycles per second)
 
 r = 2^(1/12)
@@ -4411,8 +4824,10 @@ f = float(f) -- convert to floating point for faster drawing
 
 xrange = (0,0.05)
 draw(f,t)
+"musical-note.txt"
+status
 clear
-
+"octonions.txt"
 -- In this script, an octonion is a vector of 8 real numbers.
 
 -- M(x,y) returns the product of octonions x and y.
@@ -4561,8 +4976,10 @@ check(M(e7,e6)=e1)
 check(M(e7,e7)=-e0)
 
 "ok"
+"octonions.txt"
+status
 clear
-
+"orbital-angular-momentum-1-demo.txt"
 "Orbital angular momentum 1"
 
 X1(f) = x1 f
@@ -4646,8 +5063,10 @@ check(L3(P2(psi)) - P2(L3(psi)) == i hbar S(3,2))
 check(L3(P3(psi)) - P3(L3(psi)) == i hbar S(3,3))
 
 "ok"
+"orbital-angular-momentum-1-demo.txt"
+status
 clear
-
+"orbital-angular-momentum-2-demo.txt"
 "Orbital angular momentum 2"
 
 Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
@@ -4756,8 +5175,10 @@ check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
 check(Lx(psi) == 0)
 
 "ok"
+"orbital-angular-momentum-2-demo.txt"
+status
 clear
-
+"orbital-angular-momentum.txt"
 Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
          P(l,m) exp(i m phi)
 
@@ -4779,8 +5200,10 @@ Lz(Y(2,1)) == hbar Y(2,1)
 Lz(Y(2,0)) == 0
 Lz(Y(2,-1)) == -hbar Y(2,-1)
 Lz(Y(2,-2)) == -2 hbar Y(2,-2)
+"orbital-angular-momentum.txt"
+status
 clear
-
+"penguin-anomaly-demo.txt"
 "Probability of exactly 75 heads"
 f(k) = choose(n,k) p^k (1-p)^(n-k)
 n = 100
@@ -4798,8 +5221,10 @@ float(2 F(25))
 
 "Probability that number of heads is within 1 standard deviation of the mean"
 float(F(55) - F(45))
+"penguin-anomaly-demo.txt"
+status
 clear
-
+"perturbation-example-demo.txt"
 "Perturbation example"
 
 ca0 = a
@@ -4851,8 +5276,10 @@ T = b - i a / hbar integral(Hba(t) exp(i omega t), t) -
 check(cb2 == T)
 
 "ok"
+"perturbation-example-demo.txt"
+status
 clear
-
+"physical-constants.txt"
 -- CODATA Internationally recommended 2022 values
 -- https://physics.nist.gov/cuu/Constants/
 -- c, e, h, and k are exact values
@@ -4919,8 +5346,10 @@ sqrt(4 float(pi) epsilon0 alpha hbar c) "coulomb" / coulomb -- convert to coulom
 "Speed of light"
 c
 1 / sqrt(mu0 epsilon0)
+"physical-constants.txt"
+status
 clear
-
+"plancks-law.txt"
 "Planck's law"
 
 rho = 2 h nu^3 / c^2 / (exp(h nu / k / T) - 1)
@@ -4941,22 +5370,28 @@ rho
 xrange = (0,10^15)
 yrange = (0,10^(-8))
 draw(rho,nu)
+"plancks-law.txt"
+status
 clear
-
+"plot-random-numbers.txt"
 y = zero(100)
 for(k, 1, 100, y[k] = rand())
 yrange = (0,1)
 xrange = (1,101)
 draw(y[floor(x)],x)
+"plot-random-numbers.txt"
+status
 clear
-
+"portfolio.txt"
 -- Your portfolio increased 30% over the last 5 years.
 
 -- What is the annualized rate of return?
 
 (1.3)^(1/5)
+"portfolio.txt"
+status
 clear
-
+"probability-current-demo.txt"
 "Probability current"
 
 Psi = a(x,y,z,t) + i b(x,y,z,t) -- make Psi complex valued
@@ -4983,8 +5418,10 @@ check(-div(J) == conj(Psi) dt(Psi) - Psi dt(conj(Psi)))
 check(-div(J) == conj(Psi) dt(Psi) + Psi conj(dt(Psi)))
 
 "ok"
+"probability-current-demo.txt"
+status
 clear
-
+"quantum-harmonic-oscillator-demo.txt"
 "Exercise 1. Verify eigenstates and eigenvalues."
 
 Hhat(f) = phat(phat(f)) / (2 m) + V f
@@ -5109,8 +5546,10 @@ E(n) = hbar omega (n + 1/2)
 "Expected eigenvalue"
 
 1/2 (E(2) + E(3)) / electronvolt "electronvolt"
+"quantum-harmonic-oscillator-demo.txt"
+status
 clear
-
+"quaternions.txt"
 -- In this script, a quaternion is a vector of 4 real numbers.
 
 -- M(x,y) returns the product of quaternions x and y.
@@ -5199,8 +5638,10 @@ check(M(e3,e2)=-e1)
 check(M(e3,e3)=-e0)
 
 "ok"
+"quaternions.txt"
+status
 clear
-
+"rojansky.txt"
 -- V. Rojansky, "Introductory Quantum Mechanics", p. 24
 
 u(n) = A(n) H(n) exp(-x^2 / 2)
@@ -5212,8 +5653,10 @@ H(n) = (-1)^n exp(x^2) d(exp(-x^2),x,n)
 yrange = (-1,1)
 
 for(n,0,5, y = u(n), y = float(y), draw(y))
+"rojansky.txt"
+status
 clear
-
+"rotating-wave-approximation-demo.txt"
 "Rotating wave approximation"
 
 Vab = A exp(i phi) -- arbitrary complex number
@@ -5233,8 +5676,10 @@ check(d(ca,t) == -i / (2 hbar) cb Vab exp(i (omega - omega0) t))
 "Verify equation (5)"
 check(d(cb,t) == -i / (2 hbar) ca Vba exp(i (omega0 - omega) t))
 "ok"
+"rotating-wave-approximation-demo.txt"
+status
 clear
-
+"rutherford-scattering-1-demo.txt"
 "Verify equation (1)"
 f = exp(i p r / hbar - epsilon r) - exp(-i p r / hbar - epsilon r)
 F = integral(f,r)
@@ -5255,8 +5700,10 @@ check(dsigma == Z^2 alpha^2 (hbar c)^2 / (4 E^2 (1 - cos(theta))^2))
 "Verify equation (3)"
 check(dsigma == Z^2 alpha^2 (hbar c)^2 / (16 E^2 sin(theta/2)^4))
 "ok"
+"rutherford-scattering-1-demo.txt"
+status
 clear
-
+"rutherford-scattering-2-demo.txt"
 "Verify equation (1)"
 f = exp(i p / hbar r - r / a) - exp(-i p / hbar r - r / a)
 F = integral(f,r)
@@ -5271,8 +5718,10 @@ e = sqrt(4 pi epsilon0 alpha hbar c)
 p = sqrt(4 m E (1 - cos(theta)))
 check(f == -2 m Z alpha hbar c / (4 m E (1 - cos(theta)) + (hbar/a)^2))
 "ok"
+"rutherford-scattering-2-demo.txt"
+status
 clear
-
+"rutherford-scattering-3-demo.txt"
 -- Verify formulas for Rutherford scattering
 
 E = sqrt(p^2 + m^2)
@@ -5343,8 +5792,10 @@ F = (I - eval(I,theta,a)) / (eval(I,theta,pi) - eval(I,theta,a))
 check(F == 2 (cos(a) - cos(theta)) / ((1 + cos(a)) (1 - cos(theta))))
 
 "ok"
+"rutherford-scattering-3-demo.txt"
+status
 clear
-
+"rutherford-scattering-data-demo.txt"
 -- Geiger and Marsden data
 
 theta = (150,135,120,105,75,60,45,37.5,30,22.5,15)
@@ -5365,8 +5816,10 @@ RSS = sum((y - yhat)^2) -- residual sum of squares
 TSS = sum((y - ybar)^2) -- total sum of squares
 
 1 - RSS / TSS
+"rutherford-scattering-data-demo.txt"
+status
 clear
-
+"rydberg-unit-of-energy.txt"
 "Rydberg unit of energy"
 
 -- planck constant (exact value since 2019 definition of kilogram)
@@ -5407,8 +5860,10 @@ Ry = me e^4 / (8 h^2 epsilon0^2)
 
 Ry = Ry 1/e coulomb / joule "eV"
 Ry
+"rydberg-unit-of-energy.txt"
+status
 clear
-
+"scattering-pdfs.txt"
 "1. Annihilation"
 
 N = 12 -- number of bins
@@ -5657,8 +6112,10 @@ h(x) = test(x <= 0, 0, x > N, 0, P[ceiling(x)])
 xrange = (0,N)
 yrange = (0,1)
 draw(h,x)
+"scattering-pdfs.txt"
+status
 clear
-
+"schrodinger-from-lagrangian-1-demo.txt"
 a = i m / (2 hbar epsilon)
 C = sqrt(2 pi i hbar epsilon / m)
 
@@ -5669,8 +6126,10 @@ check(sqrt(-pi / a) == C)
 "Verify integral (3)"
 check(1/2 sqrt(-pi / a) (-1 / (2 a)) == C i hbar epsilon / (2 m))
 "ok"
+"schrodinger-from-lagrangian-1-demo.txt"
+status
 clear
-
+"schrodinger-from-lagrangian-2-demo.txt"
 C = (2 pi i hbar epsilon / m)^(3/2)
 A = (Ax,Ay,Az)
 Y = exp(-i q^2 epsilon / (2 hbar m c^2) dot(A,A))
@@ -5714,8 +6173,10 @@ I3 = eval(I3,epsilon^(7/2),0)
 check(I3 == C Y i hbar epsilon / (2 m) div(grad(psi())))
 
 "ok"
+"schrodinger-from-lagrangian-2-demo.txt"
+status
 clear
-
+"schrodinger-from-propagator-demo.txt"
 "Verify equation (4)"
 
 K0 = sqrt(m / (2 pi i hbar (t - ta))) *
@@ -5724,8 +6185,10 @@ K0 = sqrt(m / (2 pi i hbar (t - ta))) *
 check(d(K0,t) == i hbar / (2 m) d(K0,x,x))
 
 "ok"
+"schrodinger-from-propagator-demo.txt"
+status
 clear
-
+"schwarzschild-metric-demo.txt"
 -- metric tensor
 
 gdd = zero(4,4)
@@ -5800,8 +6263,10 @@ xi
 
 Gmunu = simplify(Gmunu)
 Gmunu
+"schwarzschild-metric-demo.txt"
+status
 clear
-
+"sedenions.txt"
 -- In this script, a sedenion is a vector of 16 real numbers.
 
 -- M(x,y) returns the product of sedenions x and y.
@@ -6154,8 +6619,10 @@ check(M(e15,e14)=-e1)
 check(M(e15,e15)=-e0)
 
 "ok"
+"sedenions.txt"
+status
 clear
-
+"sine-perturbation-demo.txt"
 "Sine perturbation"
 
 "Verify equation (1)"
@@ -6182,8 +6649,10 @@ check(cb == -i/hbar Vba sin(1/2 (omega0 - omega) t) / (omega0 - omega) exp(i/2 (
 P = conj(cb) cb
 check(P == Vba^2 / hbar^2 sin(1/2 (omega0 - omega) t)^2 / (omega0 - omega)^2)
 "ok"
+"sine-perturbation-demo.txt"
+status
 clear
-
+"snells-law-demo.txt"
 t = d1 / v1 + d2 / v2
 t
 
@@ -6197,8 +6666,10 @@ dt = (y - y1) / (v1 d1) + (y - y2) / (v2 d2)
 check(d(t,y) == dt)
 
 "ok"
+"snells-law-demo.txt"
+status
 clear
-
+"sort.txt"
 sort(v,i,k,n,t) = do(
  n = dim(v),
  loop(
@@ -6221,8 +6692,10 @@ for(i, 1, 5, A[i] = floor(10 rand()))
 B = sort(A)
 check(sum(A) == sum(B))
 B
+"sort.txt"
+status
 clear
-
+"spherical-harmonics-demo.txt"
 "Verify spherical harmonics"
 
 Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
@@ -6241,8 +6714,10 @@ D(f) = 1/sin(theta) d(sin(theta) d(f,theta), theta) +
 for(l, 0, 2, for(m, -l, l, check(D(Y(l,m)) == -l (l + 1) Y(l,m))))
 
 "ok"
+"spherical-harmonics-demo.txt"
+status
 clear
-
+"spin-demo.txt"
 "Exercise 1. Verify spin operators and expectation values."
 
 zp = (1,0)
@@ -6379,8 +6854,10 @@ Sm(psi) = Sx(psi) - i Sy(psi)
 check(Sp(Sm(psi)) - Sm(Sp(psi)) == 2 hbar Sz(psi))
 
 "ok"
+"spin-demo.txt"
+status
 clear
-
+"spin-flip-demo.txt"
 "Spin flip"
 
 B = B0 cos(omega t) (0,0,1)
@@ -6404,8 +6881,10 @@ check(i hbar d(s,t) == dot(H,s))
 check(dot(conj(s),Sx,s) ==
 a1 a2 hbar cos(g e / (2 m omega) B0 sin(omega t) - theta1 + theta2))
 "ok"
+"spin-flip-demo.txt"
+status
 clear
-
+"spin-measurement-demo.txt"
 "Spin measurement"
 
 cp = cos(theta/2)
@@ -6432,8 +6911,10 @@ check(mag(dot(conj(zp),s))^2 == 1/2 + 1/2 cos(theta))
 check(mag(dot(conj(zm),s))^2 == 1/2 - 1/2 cos(theta))
 
 "ok"
+"spin-measurement-demo.txt"
+status
 clear
-
+"spin-operator-table-demo.txt"
 "Verify spin operator table"
 
 u = (1,0)
@@ -6493,8 +6974,10 @@ check(dot(tauy,du) == i dd)
 check(dot(tauy,dd) == -i du)
 
 "ok"
+"spin-operator-table-demo.txt"
+status
 clear
-
+"spin-operators-from-scratch-demo.txt"
 "Spin operators from scratch"
 
 xp = (1,1) / sqrt(2)
@@ -6515,8 +6998,10 @@ check(Sy == 1/2 hbar (outer(yp,conj(yp)) - outer(ym,conj(ym))))
 check(Sz == 1/2 hbar (outer(zp,conj(zp)) - outer(zm,conj(zm))))
 
 "ok"
+"spin-operators-from-scratch-demo.txt"
+status
 clear
-
+"spontaneous-emission-rate-demo.txt"
 -- Spontaneous emission rate for hydrogen state 2p
 
 psi(n,l,m) = R(n,l) Y(l,m)
@@ -6622,8 +7107,10 @@ A21 = (2/3)^8 alpha^5 mu c^2 / hbar
 check(err(A21, 6.265 10^8 / second) < 0.0001)
 
 "ok"
+"spontaneous-emission-rate-demo.txt"
+status
 clear
-
+"static-spherical-metric-demo.txt"
 -- metric tensor
 
 gdd = zero(4,4)
@@ -6718,15 +7205,19 @@ Gtt
 Grr
 Gthetatheta
 Gphiphi
+"static-spherical-metric-demo.txt"
+status
 clear
-
+"stefan-boltzmann-law-demo.txt"
 A = 6 10^(-4) "meter"^2
 epsilon = 0.94
 sigma = 5.67 10^(-8) "watt" "meter"^(-2) "kelvin"^(-4)
 T = 1000 "kelvin"
 A epsilon sigma T^4
+"stefan-boltzmann-law-demo.txt"
+status
 clear
-
+"stokes-theorem-demo.txt"
 "Surface integral"
 z = 4 - x^2 - y^2
 F = (y,z,x)
@@ -6746,8 +7237,10 @@ Q = z
 R = x
 f = P d(x,t) + Q d(y,t) + R d(z,t)
 defint(f,t,0,2pi)
+"stokes-theorem-demo.txt"
+status
 clear
-
+"sum-of-three-cubes.txt"
 -- www.sciencealert.com/the-sum-of-three-cubes-problem-has-been-solved-for-42
 
 x = -80538738812075974
@@ -6755,8 +7248,10 @@ y = 80435758145817515
 z = 12602123297335631
 
 x^3 + y^3 + z^3
+"sum-of-three-cubes.txt"
+status
 clear
-
+"tatli-stevenson.txt"
 -- https://arxiv.org/abs/2408.11606
 
 -- Find X and Y such that X + Y = 5
@@ -6896,8 +7391,10 @@ P[8 * 4 + 1 + 1]
 
 "Probability of observing Y=5, X=0"
 P[8 * 5 + 1]
+"tatli-stevenson.txt"
+status
 clear
-
+"tunneling-probability-demo.txt"
 -- Tunneling probability
 
 C = (beta + i k) F exp(i k L - beta L) / (2 beta)
@@ -6976,8 +7473,10 @@ T
 
 T = 16 E (V0 - E) / V0^2 exp(-2 beta L)
 T
+"tunneling-probability-demo.txt"
+status
 clear
-
+"two-spins-demo.txt"
 "Exercise 1. Verify spin operators for two spins."
 
 sigmax = ((0,1),(1,0))
@@ -7135,8 +7634,10 @@ check(dot(conj(s),S1z,S2y,s) == ES1z ES2y)
 check(dot(conj(s),S1z,S2z,s) == ES1z ES2z)
 
 "ok"
+"two-spins-demo.txt"
+status
 clear
-
+"vector-calculus-identities.txt"
 "Vector calculus identities"
 
 grad(v) = d(v,(x,y,z))
@@ -7191,8 +7692,10 @@ check(curl(f(x,y,z) F) == f(x,y,z) curl(F) - cross(F,grad(f(x,y,z))))
 check(curl(cross(F,G)) == F div(G) - G div(F) + dot(grad(F),G) - dot(grad(G),F))
 
 "ok"
+"vector-calculus-identities.txt"
+status
 clear
-
+"w-pair-production.txt"
 "Verify Mandelstam variables for W pair production"
 
 p = sqrt(E^2 - m^2) -- m is mass of electron
@@ -7233,13 +7736,17 @@ check(t == -E^2 (1 + beta^2 - 2 beta cos(theta)))
 check(u == -E^2 (1 + beta^2 + 2 beta cos(theta)))
 
 "ok"
+"w-pair-production.txt"
+status
 clear
-
+"wave-packet.txt"
 f = 5 sin(3 x) exp(-x^2 / 10)
 
 draw(f)
+"wave-packet.txt"
+status
 clear
-
+"what-is-dsigma-demo.txt"
 -- Compute R-squared for Bhabha scattering data from DESY PETRA
 
 -- www.hepdata.net/record/ins191231 (Table 3, 14.0 GeV)
@@ -7309,8 +7816,10 @@ RSS = sum((y - yhat)^2) -- residual sum of squares
 TSS = sum((y - ybar)^2) -- total sum of squares
 
 1 - RSS / TSS
+"what-is-dsigma-demo.txt"
+status
 clear
-
+"white-dwarf-demo.txt"
 "Verify equation (1)"
 E = (3 pi^2 / 2)^(1/3) 9 hbar^2 N^(5/3) / (20 me R^2)
 U = -3 G M^2 / (5 R)
@@ -7350,8 +7859,10 @@ check(infixform(R M^(1/3)) == "9.00395 10^16 kilogram^(1/3) meter")
 "For one solar mass"
 M = 2 10^30 kilogram
 R
+"white-dwarf-demo.txt"
+status
 clear
-
+"wien-displacement-law-demo.txt"
 -- Wien's displacement law
 
 W0(z,n) = sum(n,1,20, (-n)^(n - 1) z^n / n!)
@@ -7373,8 +7884,10 @@ meter = "meter"
 
 b = h c / (k x)
 b
+"wien-displacement-law-demo.txt"
+status
 clear
-
+"wkb-approximation-demo.txt"
 "Verify equation (3)"
 
 psi = A(x) exp(i phi(x))
@@ -7403,8 +7916,10 @@ check(polar(T3) == exp(-1/2 i pi) T^(-1/4))
 check(polar(T4) == exp(-3/4 i pi) T^(-1/4))
 
 "ok"
+"wkb-approximation-demo.txt"
+status
 clear
-
+"yukawa-potential-demo.txt"
 "Yukawa potential"
 
 "Verify equation (1)"
@@ -7425,8 +7940,10 @@ f = 1 / (4 m E y + mu^2 hbar^2)^2
 I = defint(f, y, 0, 2)
 check(I == 2 / (8 m E mu^2 hbar^2 + mu^4 hbar^4))
 "ok"
+"yukawa-potential-demo.txt"
+status
 clear
-
+"zeeman-effect-demo.txt"
 "Zeeman effect"
 
 E(n,l,j,mj) = E1 / n^2 (1 + alpha^2 / n^2 (n / (j + 1/2) - 3/4)) +
@@ -7447,3 +7964,6 @@ check(E(2,0,1/2,1/2) == 1/4 E1 (1 + 5/16 alpha^2) + muB B)
 check(E(2,0,1/2,-1/2) == 1/4 E1 (1 + 5/16 alpha^2) - muB B)
 
 "ok"
+"zeeman-effect-demo.txt"
+status
+clear
