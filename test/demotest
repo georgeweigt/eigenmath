@@ -34,7 +34,11 @@ JxJ(f) = (Jy(Jz(f)) - Jz(Jy(f)),
           Jz(Jx(f)) - Jx(Jz(f)),
           Jx(Jy(f)) - Jy(Jx(f)))
 
-chi = (c1(x,y,z,t), c2(x,y,z,t))
+# thetas and phis are the spin direction
+
+chi = (c1(thetas,phis),
+       c2(thetas,phis))
+
 phi = psi(x,y,z,t) chi
 
 check(LxL(phi) == i hbar L(phi))
@@ -55,13 +59,13 @@ check(J2(Jx(phi)) - Jx(J2(phi)) == 0)
 check(J2(Jy(phi)) - Jy(J2(phi)) == 0)
 check(J2(Jz(phi)) - Jz(J2(phi)) == 0)
 
-check(J2(Lx(phi)) - Lx(J2(phi)))
-check(J2(Ly(phi)) - Ly(J2(phi)))
-check(J2(Lz(phi)) - Lz(J2(phi)))
+check(J2(Lx(phi)) - Lx(J2(phi)) == 2 i hbar (Ly(Sz(phi)) - Lz(Sy(phi))))
+check(J2(Ly(phi)) - Ly(J2(phi)) == 2 i hbar (Lz(Sx(phi)) - Lx(Sz(phi))))
+check(J2(Lz(phi)) - Lz(J2(phi)) == 2 i hbar (Lx(Sy(phi)) - Ly(Sx(phi))))
 
-check(J2(Sx(phi)) - Sx(J2(phi)))
-check(J2(Sy(phi)) - Sy(J2(phi)))
-check(J2(Sz(phi)) - Sz(J2(phi)))
+check(J2(Sx(phi)) - Sx(J2(phi)) == -2 i hbar (Ly(Sz(phi)) - Lz(Sy(phi))))
+check(J2(Sy(phi)) - Sy(J2(phi)) == -2 i hbar (Lz(Sx(phi)) - Lx(Sz(phi))))
+check(J2(Sz(phi)) - Sz(J2(phi)) == -2 i hbar (Lx(Sy(phi)) - Ly(Sx(phi))))
 
 check(L2(Lx(phi)) - Lx(L2(phi)) == 0)
 check(L2(Ly(phi)) - Ly(L2(phi)) == 0)
