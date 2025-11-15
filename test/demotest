@@ -34,54 +34,54 @@ JxJ(f) = (Jy(Jz(f)) - Jz(Jy(f)),
           Jz(Jx(f)) - Jx(Jz(f)),
           Jx(Jy(f)) - Jy(Jx(f)))
 
-# thetas and phis are the spin direction
+# theta and phi are the spin direction
 
-chi = (c1(thetas,phis),
-       c2(thetas,phis))
+chi = (c1(theta,phi),
+       c2(theta,phi))
 
-phi = psi(x,y,z,t) chi
+Psi = psi(x,y,z) chi
 
-check(LxL(phi) == i hbar L(phi))
-check(SxS(phi) == i hbar S(phi))
-check(JxJ(phi) == i hbar J(phi))
+check(LxL(Psi) == i hbar L(Psi))
+check(SxS(Psi) == i hbar S(Psi))
+check(JxJ(Psi) == i hbar J(Psi))
 
 "Verify equation (1)"
-LS(f) = contract(L(S(phi)))
-check(J2(phi) == L2(phi) + S2(phi) + 2 LS(phi))
+LS(f) = contract(L(S(Psi)))
+check(J2(Psi) == L2(Psi) + S2(Psi) + 2 LS(Psi))
 "ok"
 
 "Verify commutation relations"
 
-check(J2(L2(phi)) - L2(J2(phi)) == 0)
-check(J2(S2(phi)) - S2(J2(phi)) == 0)
+check(J2(L2(Psi)) - L2(J2(Psi)) == 0)
+check(J2(S2(Psi)) - S2(J2(Psi)) == 0)
 
-check(J2(Jx(phi)) - Jx(J2(phi)) == 0)
-check(J2(Jy(phi)) - Jy(J2(phi)) == 0)
-check(J2(Jz(phi)) - Jz(J2(phi)) == 0)
+check(J2(Jx(Psi)) - Jx(J2(Psi)) == 0)
+check(J2(Jy(Psi)) - Jy(J2(Psi)) == 0)
+check(J2(Jz(Psi)) - Jz(J2(Psi)) == 0)
 
-check(J2(Lx(phi)) - Lx(J2(phi)) == 2 i hbar (Ly(Sz(phi)) - Lz(Sy(phi))))
-check(J2(Ly(phi)) - Ly(J2(phi)) == 2 i hbar (Lz(Sx(phi)) - Lx(Sz(phi))))
-check(J2(Lz(phi)) - Lz(J2(phi)) == 2 i hbar (Lx(Sy(phi)) - Ly(Sx(phi))))
+check(J2(Lx(Psi)) - Lx(J2(Psi)) == 2 i hbar (Ly(Sz(Psi)) - Lz(Sy(Psi))))
+check(J2(Ly(Psi)) - Ly(J2(Psi)) == 2 i hbar (Lz(Sx(Psi)) - Lx(Sz(Psi))))
+check(J2(Lz(Psi)) - Lz(J2(Psi)) == 2 i hbar (Lx(Sy(Psi)) - Ly(Sx(Psi))))
 
-check(J2(Sx(phi)) - Sx(J2(phi)) == -2 i hbar (Ly(Sz(phi)) - Lz(Sy(phi))))
-check(J2(Sy(phi)) - Sy(J2(phi)) == -2 i hbar (Lz(Sx(phi)) - Lx(Sz(phi))))
-check(J2(Sz(phi)) - Sz(J2(phi)) == -2 i hbar (Lx(Sy(phi)) - Ly(Sx(phi))))
+check(J2(Sx(Psi)) - Sx(J2(Psi)) == -2 i hbar (Ly(Sz(Psi)) - Lz(Sy(Psi))))
+check(J2(Sy(Psi)) - Sy(J2(Psi)) == -2 i hbar (Lz(Sx(Psi)) - Lx(Sz(Psi))))
+check(J2(Sz(Psi)) - Sz(J2(Psi)) == -2 i hbar (Lx(Sy(Psi)) - Ly(Sx(Psi))))
 
-check(L2(Lx(phi)) - Lx(L2(phi)) == 0)
-check(L2(Ly(phi)) - Ly(L2(phi)) == 0)
-check(L2(Lz(phi)) - Lz(L2(phi)) == 0)
+check(L2(Lx(Psi)) - Lx(L2(Psi)) == 0)
+check(L2(Ly(Psi)) - Ly(L2(Psi)) == 0)
+check(L2(Lz(Psi)) - Lz(L2(Psi)) == 0)
 
-check(Lx(Ly(phi)) - Ly(Lx(phi)) == i hbar Lz(phi))
-check(Ly(Lz(phi)) - Lz(Ly(phi)) == i hbar Lx(phi))
-check(Lz(Lx(phi)) - Lx(Lz(phi)) == i hbar Ly(phi))
+check(Lx(Ly(Psi)) - Ly(Lx(Psi)) == i hbar Lz(Psi))
+check(Ly(Lz(Psi)) - Lz(Ly(Psi)) == i hbar Lx(Psi))
+check(Lz(Lx(Psi)) - Lx(Lz(Psi)) == i hbar Ly(Psi))
 
-check(S2(Sx(phi)) - Sx(S2(phi)) == 0)
-check(S2(Sy(phi)) - Sy(S2(phi)) == 0)
-check(S2(Sz(phi)) - Sz(S2(phi)) == 0)
+check(S2(Sx(Psi)) - Sx(S2(Psi)) == 0)
+check(S2(Sy(Psi)) - Sy(S2(Psi)) == 0)
+check(S2(Sz(Psi)) - Sz(S2(Psi)) == 0)
 
-check(Sx(Sy(phi)) - Sy(Sx(phi)) == i hbar Sz(phi))
-check(Sy(Sz(phi)) - Sz(Sy(phi)) == i hbar Sx(phi))
-check(Sz(Sx(phi)) - Sx(Sz(phi)) == i hbar Sy(phi))
+check(Sx(Sy(Psi)) - Sy(Sx(Psi)) == i hbar Sz(Psi))
+check(Sy(Sz(Psi)) - Sz(Sy(Psi)) == i hbar Sx(Psi))
+check(Sz(Sx(Psi)) - Sx(Sz(Psi)) == i hbar Sy(Psi))
 
 "ok"
 "addition-of-angular-momentum-1-demo.txt"
