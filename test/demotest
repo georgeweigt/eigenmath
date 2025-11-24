@@ -193,31 +193,23 @@ P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
 
 "Check equation 1"
 
-for(l,0,3,
- Psi = Y(l,l) (1,0),
+for(l,0,3,for(m, -l, l,
+ A = sqrt((l + m + 1) / (2 l + 1)),
+ B = sqrt((l - m) / (2 l + 1)),
+ Psi = A Y(l,m) (1,0) + B Y(l, m + 1) (0,1),
  j = l + 1/2,
  check(J2(Psi) == j (j + 1) hbar^2 Psi)
-)
+))
 
 "ok"
 
 "Check equation 2"
 
-for(l,0,3,
- Psi = Y(l,-l) (0,1),
- j = l + 1/2,
- check(J2(Psi) == j (j + 1) hbar^2 Psi)
-)
-
-"ok"
-
-"Check equation 3"
-
-for(l,1,3,for(m, -l + 1, l - 1,
+for(l,1,3,for(m, -l, l - 1,
  A = sqrt((l + m + 1) / (2 l + 1)),
  B = sqrt((l - m) / (2 l + 1)),
- Psi = A Y(l,m) (1,0) + B Y(l, m + 1) (0,1),
- j = l + 1/2,
+ Psi = B Y(l,m) (1,0) - A Y(l, m + 1) (0,1),
+ j = l - 1/2,
  check(J2(Psi) == j (j + 1) hbar^2 Psi)
 ))
 
