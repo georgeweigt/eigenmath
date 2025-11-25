@@ -191,23 +191,22 @@ P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
            (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
            ((1 - cos(theta)) / 2)^k))
 
-"Check equation 1"
+"Verify eigenstates"
 
-for(l,0,3,for(m, -l, l,
- A = sqrt((l + m + 1) / (2 l + 1)),
- B = sqrt((l - m) / (2 l + 1)),
- Psi = A Y(l,m) (1,0) + B Y(l, m + 1) (0,1),
+for(l,0,3,
  j = l + 1/2,
+ Psi = Y(l,l) (1,0),
+ check(J2(Psi) == j (j + 1) hbar^2 Psi),
+ Psi = Y(l,-l) (0,1),
  check(J2(Psi) == j (j + 1) hbar^2 Psi)
-))
-
-"ok"
-
-"Check equation 2"
+)
 
 for(l,1,3,for(m, -l, l - 1,
  A = sqrt((l + m + 1) / (2 l + 1)),
  B = sqrt((l - m) / (2 l + 1)),
+ Psi = A Y(l,m) (1,0) + B Y(l, m + 1) (0,1),
+ j = l + 1/2,
+ check(J2(Psi) == j (j + 1) hbar^2 Psi),
  Psi = B Y(l,m) (1,0) - A Y(l, m + 1) (0,1),
  j = l - 1/2,
  check(J2(Psi) == j (j + 1) hbar^2 Psi)
