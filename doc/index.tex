@@ -446,20 +446,18 @@ Eigenvalues are obtained as shown.
 
 {\color{blue}
 \begin{verbatim}
-A = ((1,2,3),(2,6,4),(3,4,5))
+A = ((3,5),(5,3))
 Q = eigenvec(A)
 D = dot(transpose(Q),A,Q) -- eigenvalues on diagonal of D
-dot(Q,D,transpose(Q))
+D
 \end{verbatim}
 }
 
 $\displaystyle
-\begin{bmatrix}
-1 & 2 & 3
+D=\begin{bmatrix}
+8 & 0
 \\[1ex]
-2 & 6 & 4
-\\[1ex]
-3 & 4 & 5
+0 & -2
 \end{bmatrix}
 $
 

@@ -603,18 +603,17 @@ Matrix <i>m</i> is required to be numerical, real, and symmetric.
 The return value is a matrix with each column an eigenvector.
 Eigenvalues are obtained as shown.
 <pre class="foo">
-A = ((1,2),(3,4))
-A = A + transpose(A) -- symmetrize
+A = ((3,5),(5,3))
 Q = eigenvec(A)
 D = dot(transpose(Q),A,Q) -- eigenvalues on diagonal of D
-dot(Q,D,transpose(Q))
+D
 </pre>
 <pre style="font-family:courier">
-    ┌       ┐
-    │ 2   5 │
-A = │       │
-    │ 5   8 │
-    └       ┘
+    ┌        ┐
+    │ 8   0  │
+D = │        │
+    │ 0   -2 │
+    └        ┘
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
