@@ -11,9 +11,12 @@ a {
  font-family: courier;
  background-color: #f0f0f0;
 }
+.baz {
+ font-family: "Courier New";
+}
 </style>
 </head>
-<body>
+<body style="font-family:ui-serif">
 <table style="font-family:courier;width:100%">
 <tr>
 <td>
@@ -248,7 +251,7 @@ arg(2 - 3i)
 The result of evaluating a symbol can differ from the symbol's binding.
 For example, the result may be expanded.
 The
-<span style="font-family:courier">binding</span>
+<span class="baz">binding</span>
 function returns the actual binding of a symbol.
 <pre class="foo">
 p = quote((x + 1)^2)
@@ -270,9 +273,9 @@ binding(p)
 <a id="break">break</a>
 <p>
 Break out of a
-<span style="font-family:courier">loop</span>
+<span class="baz">loop</span>
 or
-<span style="font-family:courier">for</span>
+<span class="baz">for</span>
 function.
 <pre class="foo">
 k = 0
@@ -302,14 +305,14 @@ ceiling(1/2)
 <p>
 If <i>x</i> is true (nonzero) then continue in a script, else stop.
 Expression <i>x</i> can include the relational operators
-<span style="font-family:courier">=</span>,
-<span style="font-family:courier">==</span>,
-<span style="font-family:courier">&lt;</span>,
-<span style="font-family:courier">&lt;=</span>,
-<span style="font-family:courier">&gt;</span>,
-<span style="font-family:courier">&gt;=</span>.
+<span class="baz">=</span>,
+<span class="baz">==</span>,
+<span class="baz">&lt;</span>,
+<span class="baz">&lt;=</span>,
+<span class="baz">&gt;</span>,
+<span class="baz">&gt;=</span>.
 Use the
-<span style="font-family:courier">not</span>
+<span class="baz">not</span>
 function to test for inequality.
 <pre class="foo">
 A = exp(i pi)
@@ -376,7 +379,7 @@ conj(2 - 3i)
 Returns tensor <i>a</i> summed over indices <i>i</i> and <i>j</i>.
 If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
 The expression
-<span style="font-family:courier">contract(m)</span>
+<span class="baz">contract(m)</span>
 computes the trace of matrix <i>m</i>.
 <pre class="foo">
 A = ((a,b),(c,d))
@@ -422,9 +425,9 @@ Returns the cross product of vectors <i>u</i> and <i>v</i>.
 <a id="curl">curl(<i>v</i>)</a>
 <p>
 Returns the curl of vector <i>v</i> with respect to symbols
-<span style="font-family:courier">x</span>,
-<span style="font-family:courier">y</span>, and
-<span style="font-family:courier">z</span>.
+<span class="baz">x</span>,
+<span class="baz">y</span>, and
+<span class="baz">z</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="d">d(<i>f,x,...</i>)</a><br>
@@ -471,18 +474,18 @@ d(F,X)
 </pre>
 <p>
 Symbol
-<span style="font-family:courier">d</span>
+<span class="baz">d</span>
 can be used as a variable name.
 Doing so does not conflict with function
-<span style="font-family:courier">d</span>.
+<span class="baz">d</span>.
 <p>
 Symbol
-<span style="font-family:courier">d</span>
+<span class="baz">d</span>
 can be redefined as a different function.
 The function
-<span style="font-family:courier">derivative</span>,
+<span class="baz">derivative</span>,
 a synonym for
-<span style="font-family:courier">d</span>,
+<span class="baz">d</span>,
 can be used to obtain a partial derivative.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -539,9 +542,9 @@ dim(A,1)
 <a id="div">div(<i>v</i>)</a>
 <p>
 Returns the divergence of vector <i>v</i> with respect to symbols
-<span style="font-family:courier">x</span>,
-<span style="font-family:courier">y</span>, and
-<span style="font-family:courier">z</span>.
+<span class="baz">x</span>,
+<span class="baz">y</span>, and
+<span class="baz">z</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="do">do(<i>a,b,...</i>)</a>
@@ -583,9 +586,9 @@ X = │  9  │
 <p>
 Draws a graph of <i>f</i>(<i>x</i>).
 Drawing ranges can be set with
-<span style="font-family:courier">xrange</span>
+<span class="baz">xrange</span>
 and
-<span style="font-family:courier">yrange</span>.
+<span class="baz">yrange</span>.
 <pre class="foo">
 xrange = (0,1)
 yrange = (0,1)
@@ -680,11 +683,11 @@ eval(f,x,3,y,4)
 </pre>
 <p>
 In the following example,
-<span style="font-family:courier">eval</span>
+<span class="baz">eval</span>
 is used to replace
-<span style="font-family:courier">x</span>
+<span class="baz">x</span>
 with
-<span style="font-family:courier">cos(theta)</span>.
+<span class="baz">cos(theta)</span>.
 <pre class="foo">
 -- associated legendre of cos theta
 P(l,m,x) = test(m &lt; 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
@@ -804,7 +807,7 @@ exptanh(z)
 <p>
 Returns the factorial of <i>n</i>.
 The expression
-<span style="font-family:courier">n!</span>
+<span class="baz">n!</span>
 can also be used.
 <pre class="foo">
 20!
@@ -819,7 +822,7 @@ can also be used.
 Returns expression <i>x</i> with rational numbers and integers converted to
 floating point values.
 The symbol
-<span style="font-family:courier">pi</span>
+<span class="baz">pi</span>
 and the natural number are also converted.
 <pre class="foo">
 float(212^17)
@@ -847,15 +850,15 @@ For <i>a</i> equals <i>b</i> through <i>c</i> inclusive, evaluate the remaining 
 Arguments <i>b</i> and <i>c</i> are integers.
 Symbol <i>a</i> is advanced by plus or minus 1 in the direction of <i>c</i> each time through the loop.
 Use
-<span style="font-family:courier">break</span>
+<span class="baz">break</span>
 to break out of the loop early.
 The original value of <i>a</i> is restored after
-<span style="font-family:courier">for</span>
+<span class="baz">for</span>
 completes.
 Note that if symbol
-<span style="font-family:courier">i</span>
+<span class="baz">i</span>
 is used for <i>a</i> then the imaginary unit is overridden in the scope of
-<span style="font-family:courier">for</span>.
+<span class="baz">for</span>.
 <pre class="foo">
 for(k,1,3,print(k))
 </pre>
@@ -871,7 +874,7 @@ k = 3
 <a id="grad">grad(<i>f</i>)</a>
 <p>
 Returns the gradient
-<span style="font-family:courier">d(f,(x,y,z))</span>.
+<span class="baz">d(f,(x,y,z))</span>.
 <pre class="foo">
 grad(f())
 </pre>
@@ -910,7 +913,7 @@ A B
 <a id="i">i</a>
 <p>
 Symbol
-<span style="font-family:courier">i</span>
+<span class="baz">i</span>
 is initialized to the imaginary unit (&minus;1)<sup>1/2</sup>.
 <pre class="foo">
 exp(i pi)
@@ -921,7 +924,7 @@ exp(i pi)
 <p>
 Note:
 It is OK to clear or redefine
-<span style="font-family:courier">i</span>
+<span class="baz">i</span>
 and use the symbol for something else.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -967,9 +970,9 @@ inner(A,B)
 </pre>
 <p>
 Note:
-<span style="font-family:courier">inner</span>
+<span class="baz">inner</span>
 and
-<span style="font-family:courier">dot</span>
+<span class="baz">dot</span>
 are the same function.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -1007,11 +1010,11 @@ inv(A)
 <a id="j">j</a>
 <p>
 Set
-<span style="font-family:courier">j=sqrt(-1)</span>
+<span class="baz">j=sqrt(-1)</span>
 to use
-<span style="font-family:courier">j</span>
+<span class="baz">j</span>
 for the imaginary unit instead of
-<span style="font-family:courier">i</span>.
+<span class="baz">i</span>.
 <pre class="foo">
 j = sqrt(-1)
 1/sqrt(-1)
@@ -1045,7 +1048,7 @@ kronecker(A,B)
 <a id="last">last</a>
 <p>
 The result of the previous calculation is stored in
-<span style="font-family:courier">last</span>.
+<span class="baz">last</span>.
 <pre class="foo">
 212^17
 </pre>
@@ -1061,7 +1064,7 @@ last^(1/17)
 <p>
 Note:
 Symbol
-<span style="font-family:courier">last</span>
+<span class="baz">last</span>
 is an implied argument when a function has no argument list.
 <pre class="foo">
 212^17
@@ -1104,7 +1107,7 @@ y log(x)
 <p>
 Evaluate arguments in a loop.
 Use
-<span style="font-family:courier">break</span>
+<span class="baz">break</span>
 to break out of the loop.
 <pre class="foo">
 k = 0
@@ -1311,7 +1314,7 @@ polar(x - i y)
 <a id="power">power</a>
 <p>
 Use
-<span style="font-family:courier">^</span>
+<span class="baz">^</span>
 to raise something to a power.
 Use parentheses for negative powers.
 <pre class="foo">
@@ -1329,7 +1332,7 @@ x^(-1/2)
 <p>
 Evaluate arguments and print the results.
 Useful for printing from inside a
-<span style="font-family:courier">for</span>
+<span class="baz">for</span>
 loop.
 <pre class="foo">
 for(j,1,3,print(j))
@@ -1356,12 +1359,12 @@ x  + 6 x  + 11 x + 6
 </pre>
 <p>
 The original value of <i>i</i> is restored after
-<span style="font-family:courier">product</span>
+<span class="baz">product</span>
 completes.
 If symbol
-<span style="font-family:courier">i</span>
+<span class="baz">i</span>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<span style="font-family:courier">product</span>.
+<span class="baz">product</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 product(<i>y</i>)
@@ -1424,11 +1427,11 @@ rationalize(1/a + 1/b + 1/2)
 </pre>
 <p>
 Note:
-<span style="font-family:courier">rationalize</span>
+<span class="baz">rationalize</span>
 returns an unexpanded expression.
 If the result is assigned to a symbol, evaluating the symbol will expand the result.
 Use
-<span style="font-family:courier">binding</span>
+<span class="baz">binding</span>
 to retrieve the unexpanded expression.
 <pre class="foo">
 f = rationalize(1/a + 1/b + 1/2)
@@ -1482,14 +1485,14 @@ roots(p,x)
 
 <p>
 If no roots are found then
-<span style="font-family:courier">nil</span>
+<span class="baz">nil</span>
 is returned.
 A
-<span style="font-family:courier">nil</span>
+<span class="baz">nil</span>
 result prints as blank so the following example uses
-<span style="font-family:courier">infixform</span>
+<span class="baz">infixform</span>
 to print
-<span style="font-family:courier">nil</span>
+<span class="baz">nil</span>
 as a string.
 <pre class="foo">
 p = x^2 + 1
@@ -1570,7 +1573,7 @@ run("/Users/heisenberg/EVA2.txt")
 </pre>
 <p>
 For Eigenmath installed from the Mac App Store, run files need to be put in the directory
-<span style="font-family:courier">~/Library/Containers/com.gweigt.eigenmath/Data/</span>
+<span class="baz">~/Library/Containers/com.gweigt.eigenmath/Data/</span>
 and the filename does not require a path.
 <pre class="foo">
 run("EVA2.txt")
@@ -1674,12 +1677,12 @@ x  + x  + x  + x  + x
 </pre>
 <p>
 The original value of <i>i</i> is restored after
-<span style="font-family:courier">sum</span>
+<span class="baz">sum</span>
 completes.
 If symbol
-<span style="font-family:courier">i</span>
+<span class="baz">i</span>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<span style="font-family:courier">sum</span>.
+<span class="baz">sum</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 sum(<i>y</i>)
@@ -1730,19 +1733,19 @@ x  + x  + x  + x  + x + 1
 If argument <i>a</i> is true (nonzero) then <i>b</i> is returned, else if <i>c</i> is true then <i>d</i> is returned, etc.
 If the number of arguments is odd then the final argument is returned if all else fails.
 Expressions can include the relational operators
-<span style="font-family:courier">=</span>,
-<span style="font-family:courier">==</span>,
-<span style="font-family:courier">&lt;</span>,
-<span style="font-family:courier">&lt;=</span>,
-<span style="font-family:courier">&gt;</span>,
-<span style="font-family:courier">&gt;=</span>.
+<span class="baz">=</span>,
+<span class="baz">==</span>,
+<span class="baz">&lt;</span>,
+<span class="baz">&lt;=</span>,
+<span class="baz">&gt;</span>,
+<span class="baz">&gt;=</span>.
 Use the
-<span style="font-family:courier">not</span>
+<span class="baz">not</span>
 function to test for inequality.
 (The equality operator
-<span style="font-family:courier">==</span>
+<span class="baz">==</span>
 is available for contexts in which
-<span style="font-family:courier">=</span>
+<span class="baz">=</span>
 is the assignment operator.)
 <pre class="foo">
 A = 1
@@ -1768,7 +1771,7 @@ tgamma(4)
 <a id="trace">trace</a>
 <p>
 Set
-<span style="font-family:courier">trace=1</span>
+<span class="baz">trace=1</span>
 in a script to print the script as it is evaluated.
 Useful for debugging.
 <pre class="foo">
@@ -1777,7 +1780,7 @@ trace = 1
 <p>
 Note:
 The
-<span style="font-family:courier">contract</span>
+<span class="baz">contract</span>
 function is used to obtain the trace of a matrix.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -1802,18 +1805,18 @@ Note:
 The argument list can be extended for multiple transpose operations.
 The arguments are evaluated from left to right.
 For example,
-<span style="font-family:courier">transpose(A,1,2,2,3)</span>
+<span class="baz">transpose(A,1,2,2,3)</span>
 is equivalent to
-<span style="font-family:courier">transpose(transpose(A,1,2),2,3)</span>.
+<span class="baz">transpose(transpose(A,1,2),2,3)</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="tty">tty</a>
 <p>
 Set
-<span style="font-family:courier">tty=1</span>
+<span class="baz">tty=1</span>
 to show results in string format.
 Set
-<span style="font-family:courier">tty=0</span>
+<span class="baz">tty=0</span>
 to turn off.
 Can be useful when displayed results exceed window size.
 <pre class="foo">
