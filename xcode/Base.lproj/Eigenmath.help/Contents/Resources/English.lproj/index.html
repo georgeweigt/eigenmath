@@ -603,7 +603,7 @@ Eigenvalues are obtained as shown.
 A = ((1,2),(3,4))
 A = A + transpose(A) -- symmetrize
 Q = eigenvec(A)
-D = dot(transpose(Q),A,Q) -- eigenvalues are on the diagonal of D
+D = dot(transpose(Q),A,Q) -- eigenvalues on diagonal of D
 dot(Q,D,transpose(Q))
 </pre>
 <pre style="font-family:courier">
