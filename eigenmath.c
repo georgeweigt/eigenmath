@@ -17324,7 +17324,7 @@ issmallinteger(struct atom *p)
 		return MLENGTH(p->u.q.a) == 1 && p->u.q.a[0] <= 0x7fffffff;
 
 	if (isdouble(p))
-		return p->u.d == floor(p->u.d) && fabs(p->u.d) <= 0x7fffffff;
+		return isfinite(p->u.d) && p->u.d == floor(p->u.d) && fabs(p->u.d) <= 0x7fffffff;
 
 	return 0;
 }

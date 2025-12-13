@@ -284,7 +284,7 @@ issmallinteger(p)
 		return bignum_issmallnum(p.a);
 
 	if (isdouble(p))
-		return p.d == Math.floor(p.d) && Math.abs(p.d) <= 0x7fffffff;
+		return Number.isFinite(p.d) && p.d == Math.floor(p.d) && Math.abs(p.d) <= 0x7fffffff;
 
 	return 0;
 }
