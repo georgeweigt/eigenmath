@@ -6109,22 +6109,14 @@ eval_for(struct atom *p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("for: index symbol err");
+		stopf("for: first argument is not a symbol");
 
 	push(caddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("for: index range err");
-	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("for: index range err");
-	push(p3);
 	k = pop_integer();
 
 	p1 = cddddr(p1);
@@ -11700,22 +11692,14 @@ eval_product(struct atom *p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("product: index symbol err");
+		stopf("product: first argument is not a symbol");
 
 	push(caddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("product: index range err");
-	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("product: index range err");
-	push(p3);
 	k = pop_integer();
 
 	p1 = caddddr(p1);
@@ -13565,22 +13549,14 @@ eval_sum(struct atom *p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("sum: index symbol err");
+		stopf("sum: first argument is not a symbol");
 
 	push(caddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("sum: index range err");
-	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("sum: index range err");
-	push(p3);
 	k = pop_integer();
 
 	p1 = caddddr(p1);
@@ -18224,7 +18200,7 @@ pop_integer(void)
 {
 	double d;
 	d = pop_double();
-	d = round(d);
+	d = floor(d);
 	if (!isfinite(d) || fabs(d) > 0x7fffffff)
 		stopf("integer overflow");
 	return (int) d;

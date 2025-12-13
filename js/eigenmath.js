@@ -6887,22 +6887,14 @@ eval_for(p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("for: index symbol err");
+		stopf("for: first argument is not a symbol");
 
 	push(caddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("for: index range err");
-	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("for: index range err");
-	push(p3);
 	k = pop_integer();
 
 	p1 = cddddr(p1);
@@ -10802,22 +10794,14 @@ eval_product(p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("product: index symbol err");
+		stopf("product: first argument is not a symbol");
 
 	push(caddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("product: index range err");
-	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("product: index range err");
-	push(p3);
 	k = pop_integer();
 
 	p1 = caddddr(p1);
@@ -12547,22 +12531,14 @@ eval_sum(p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("sum: index symbol err");
+		stopf("sum: first argument is not a symbol");
 
 	push(caddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("sum: index range err");
-	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("sum: index range err");
-	push(p3);
 	k = pop_integer();
 
 	p1 = caddddr(p1);
@@ -15786,7 +15762,7 @@ pop_integer()
 {
 	var d;
 	d = pop_double();
-	d = Math.round(d);
+	d = Math.floor(d);
 	if (!Number.isFinite(d) || Math.abs(d) > 0x7fffffff)
 		stopf("integer overflow");
 	return d;

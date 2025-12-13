@@ -5,22 +5,14 @@ eval_for(p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("for: index symbol err");
+		stopf("for: first argument is not a symbol");
 
 	push(caddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("for: index range err");
-	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("for: index range err");
-	push(p3);
 	k = pop_integer();
 
 	p1 = cddddr(p1);

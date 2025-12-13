@@ -22,22 +22,14 @@ eval_product(p1)
 
 	p2 = cadr(p1);
 	if (!isusersymbol(p2))
-		stopf("product: index symbol err");
+		stopf("product: first argument is not a symbol");
 
 	push(caddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("product: index range err");
-	push(p3);
 	j = pop_integer();
 
 	push(cadddr(p1));
 	evalf();
-	p3 = pop();
-	if (!issmallinteger(p3))
-		stopf("product: index range err");
-	push(p3);
 	k = pop_integer();
 
 	p1 = caddddr(p1);

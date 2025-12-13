@@ -113,7 +113,7 @@ pop_integer(void)
 {
 	double d;
 	d = pop_double();
-	d = round(d);
+	d = floor(d);
 	if (!isfinite(d) || fabs(d) > 0x7fffffff)
 		stopf("integer overflow");
 	return (int) d;
