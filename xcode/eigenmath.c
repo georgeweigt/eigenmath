@@ -15956,12 +15956,23 @@ push_bignum(int sign, uint32_t *a, uint32_t *b)
 int
 pop_integer(void)
 {
-	double d;
-	d = pop_double();
-	d = floor(d);
-	if (!isfinite(d) || fabs(d) > 0x7fffffff)
+	int n;
+	struct atom *p;
+	p = pop();
+	if (!isnum(p))
+		stopf("not a number");
+	push(p);
+	floorfunc();
+	p = pop();
+	if (!issmallinteger(p))
 		stopf("integer overflow");
-	return (int) d;
+	if (isrational(p)) {
+		n = p->u.q.a[0];
+		if (isnegativenumber(p))
+			n = -n;
+	} else
+		n = (int) p->u.d;
+	return n;
 }
 
 void

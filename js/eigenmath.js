@@ -15760,12 +15760,22 @@ pop_double()
 function
 pop_integer()
 {
-	var d;
-	d = pop_double();
-	d = Math.floor(d);
-	if (!Number.isFinite(d) || Math.abs(d) > 0x7fffffff)
+	var n, p;
+	p = pop();
+	if (!isnum(p))
+		stopf("not a number");
+	push(p);
+	floorfunc();
+	p = pop();
+	if (!issmallinteger(p))
 		stopf("integer overflow");
-	return d;
+	if (isrational(p)) {
+		n = bignum_smallnum(p.a);
+		if (isnegativenumber(p))
+			n = -n;
+	} else
+		n = p.d;
+	return n;
 }
 function
 pop()
