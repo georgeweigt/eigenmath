@@ -2,12 +2,9 @@ function
 pop_double()
 {
 	var a, b, d, p;
-
 	p = pop();
-
 	if (!isnum(p))
-		stopf("number expected");
-
+		stopf("not a number");
 	if (isdouble(p))
 		d = p.d;
 	else {
@@ -17,6 +14,5 @@ pop_double()
 		if (isnegativenumber(p))
 			d = -d;
 	}
-
 	return d;
 }

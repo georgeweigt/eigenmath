@@ -15980,22 +15980,12 @@ push_bignum(int sign, uint32_t *a, uint32_t *b)
 int
 pop_integer(void)
 {
-	int n;
-	struct atom *p;
-
-	p = pop();
-
-	if (!issmallinteger(p))
-		stopf("small integer expected");
-
-	if (isrational(p)) {
-		n = p->u.q.a[0];
-		if (isnegativenumber(p))
-			n = -n;
-	} else
-		n = (int) p->u.d;
-
-	return n;
+	double d;
+	d = pop_double();
+	d = round(d);
+	if (!isfinite(d) || fabs(d) > 0x7fffffff)
+		stopf("integer overflow");
+	return (int) d;
 }
 
 void
@@ -16013,12 +16003,9 @@ pop_double(void)
 {
 	double a, b, d;
 	struct atom *p;
-
 	p = pop();
-
 	if (!isnum(p))
-		stopf("number expected");
-
+		stopf("not a number");
 	if (isdouble(p))
 		d = p->u.d;
 	else {
@@ -16028,7 +16015,6 @@ pop_double(void)
 		if (isnegativenumber(p))
 			d = -d;
 	}
-
 	return d;
 }
 
