@@ -4,7 +4,7 @@ pop_double()
 	var a, b, d, p;
 	p = pop();
 	if (!isnum(p))
-		stopf("not a number");
+		stopf("argument is not a number");
 	if (isdouble(p))
 		d = p.d;
 	else {

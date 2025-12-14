@@ -4,7 +4,7 @@ pop_integer()
 	var n, p;
 	p = pop();
 	if (!isnum(p))
-		stopf("not a number");
+		stopf("argument is not a number");
 	push(p);
 	floorfunc();
 	p = pop();
