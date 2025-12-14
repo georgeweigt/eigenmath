@@ -18202,7 +18202,7 @@ pop_integer(void)
 	struct atom *p;
 	p = pop();
 	if (!isnum(p))
-		stopf("argument is not a number");
+		stopf("number expected, argument is not a number");
 	push(p);
 	floorfunc();
 	p = pop();
@@ -18234,7 +18234,7 @@ pop_double(void)
 	struct atom *p;
 	p = pop();
 	if (!isnum(p))
-		stopf("argument is not a number");
+		stopf("number expected, argument is not a number");
 	if (isdouble(p))
 		d = p->u.d;
 	else {
