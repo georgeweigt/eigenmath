@@ -18199,21 +18199,35 @@ int
 pop_integer(void)
 {
 	int n;
+	double d;
+	uint32_t *a;
 	struct atom *p;
 	p = pop();
 	if (!isnum(p))
 		stopf("number expected, argument is not a number");
-	push(p);
-	floorfunc();
-	p = pop();
-	if (!issmallinteger(p))
-		stopf("integer overflow");
-	if (isrational(p)) {
-		n = p->u.q.a[0];
-		if (isnegativenumber(p))
+	if (isdouble(p)) {
+		d = trunc(p->u.d);
+		if (fabs(d) > 0x7fffffff)
+			stopf("integer overflow");
+		n = (int) d;
+	} else {
+		if (isfraction(p)) {
+			a = mdiv(p->u.q.a, p->u.q.b);
+			if (MLENGTH(a) > 1 || a[0] > 0x7fffffff) {
+				mfree(a);
+				stopf("integer overflow");
+			}
+			n = (int) a[0];
+			mfree(a);
+		} else {
+			a = p->u.q.a;
+			if (MLENGTH(a) > 1 || a[0] > 0x7fffffff)
+				stopf("integer overflow");
+			n = (int) a[0];
+		}
+		if (n > 0 && p->sign == MMINUS)
 			n = -n;
-	} else
-		n = (int) p->u.d;
+	}
 	return n;
 }
 

@@ -291,6 +291,38 @@ check(infixform(binding(A)) == "A")
 A = A
 check(infixform(A) == "A")
 check(infixform(binding(A)) == "A")
+
+-- convert to integer
+
+n = 1
+check(sum(k,n,n,k) == 1)
+n = 9/10
+check(sum(k,n,n,k) == 0)
+n = 1/10
+check(sum(k,n,n,k) == 0)
+n = 0
+check(sum(k,n,n,k) == 0)
+n = -1/10
+check(sum(k,n,n,k) == 0)
+n = -9/10
+check(sum(k,n,n,k) == 0)
+n = -1
+check(sum(k,n,n,k) == -1)
+
+n = 1.0
+check(sum(k,n,n,k) == 1)
+n = 0.9
+check(sum(k,n,n,k) == 0)
+n = 0.1
+check(sum(k,n,n,k) == 0)
+n = 0
+check(sum(k,n,n,k) == 0)
+n = -0.1
+check(sum(k,n,n,k) == 0)
+n = -0.9
+check(sum(k,n,n,k) == 0)
+n = -1.0
+check(sum(k,n,n,k) == -1)
 "Testing abs"
 
 clear

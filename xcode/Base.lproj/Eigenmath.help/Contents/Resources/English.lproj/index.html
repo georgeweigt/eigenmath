@@ -7,11 +7,14 @@
 a {
  text-decoration: none;
 }
-.foo {
- font-family: courier;
+.input {
+ font-family: "Courier";
  background-color: #f0f0f0;
 }
-.baz {
+.output {
+ font-family: "Courier";
+}
+.foo {
  font-family: "Courier New";
 }
 </style>
@@ -141,11 +144,11 @@ a {
 <a id="abs">abs(<i>x</i>)</a>
 <p>
 Returns the absolute value or vector length of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 X = (x,y,z)
 abs(X)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌            ┐1/2
 │ 2    2    2│   
 │x  + y  + z │   
@@ -159,11 +162,11 @@ abs(X)
 Returns the adjunct of matrix <i>m</i>.
 Adjunct is equal to determinant times inverse.
 </p>
-<pre class="foo">
+<pre class="input">
 A = ((a,b),(c,d))
 adj(A) == det(A) inv(A)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 1
 </pre>
 
@@ -172,10 +175,10 @@ adj(A) == det(A) inv(A)
 <p>
 Returns 1 if all arguments are true (nonzero).
 Returns 0 otherwise.
-<pre class="foo">
+<pre class="input">
 and(1=1,2=2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 1
 </pre>
 
@@ -183,10 +186,10 @@ and(1=1,2=2)
 <a id="arccos">arccos(<i>x</i>)</a>
 <p>
 Returns the arc cosine of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 arccos(1/2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  1   
 ╶─╴ π
  3   
@@ -201,10 +204,10 @@ Returns the arc hyperbolic cosine of <i>x</i>.
 <a id="arcsin">arcsin(<i>x</i>)</a>
 <p>
 Returns the arc sine of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 arcsin(1/2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  1   
 ╶─╴ π
  6   
@@ -220,10 +223,10 @@ Returns the arc hyperbolic sine of <i>x</i>.
 <p>
 Returns the arc tangent of <i>y</i> over <i>x</i>.
 If <i>x</i> is omitted then <i>x</i> = 1 is used.
-<pre class="foo">
+<pre class="input">
 arctan(1,0)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  1   
 ╶─╴ π
  2   
@@ -238,10 +241,10 @@ Returns the arc hyperbolic tangent of <i>x</i>.
 <a id="arg">arg(<i>z</i>)</a>
 <p>
 Returns the angle of complex <i>z</i>.
-<pre class="foo">
+<pre class="input">
 arg(2 - 3i)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 -arctan(3,2)
 </pre>
 
@@ -251,20 +254,20 @@ arg(2 - 3i)
 The result of evaluating a symbol can differ from the symbol's binding.
 For example, the result may be expanded.
 The
-<span class="baz">binding</span>
+<span class="foo">binding</span>
 function returns the actual binding of a symbol.
-<pre class="foo">
+<pre class="input">
 p = quote((x + 1)^2)
 p
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
      2
 p = x  + 2 x + 1
 </pre>
-<pre class="foo">
+<pre class="input">
 binding(p)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
        2
 (x + 1)
 </pre>
@@ -273,15 +276,15 @@ binding(p)
 <a id="break">break</a>
 <p>
 Break out of a
-<span class="baz">loop</span>
+<span class="foo">loop</span>
 or
-<span class="baz">for</span>
+<span class="foo">for</span>
 function.
-<pre class="foo">
+<pre class="input">
 k = 0
 loop(k = k + 1, test(k == 4, break), print(k))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 k = 1
 
 k = 2
@@ -293,10 +296,10 @@ k = 3
 <a id="ceiling">ceiling(<i>x</i>)</a>
 <p>
 Returns the smallest integer greater than or equal to <i>x</i>.
-<pre class="foo">
+<pre class="input">
 ceiling(1/2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 1
 </pre>
 
@@ -305,16 +308,16 @@ ceiling(1/2)
 <p>
 If <i>x</i> is true (nonzero) then continue in a script, else stop.
 Expression <i>x</i> can include the relational operators
-<span class="baz">=</span>,
-<span class="baz">==</span>,
-<span class="baz">&lt;</span>,
-<span class="baz">&lt;=</span>,
-<span class="baz">&gt;</span>,
-<span class="baz">&gt;=</span>.
+<span class="foo">=</span>,
+<span class="foo">==</span>,
+<span class="foo">&lt;</span>,
+<span class="foo">&lt;=</span>,
+<span class="foo">&gt;</span>,
+<span class="foo">&gt;=</span>.
 Use the
-<span class="baz">not</span>
+<span class="foo">not</span>
 function to test for inequality.
-<pre class="foo">
+<pre class="input">
 A = exp(i pi)
 B = -1
 check(A == B) -- stop here if A not equal to B
@@ -324,10 +327,10 @@ check(A == B) -- stop here if A not equal to B
 <a id="choose">choose(<i>n,k</i>)</a>
 <p>
 Returns the binomial coefficient <i>n</i> choose <i>k</i>.
-<pre class="foo">
+<pre class="input">
 choose(52,5) -- number of poker hands
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 2598960
 </pre>
 
@@ -340,10 +343,10 @@ Clears all symbol definitions.
 <a id="clock">clock(z)</a>
 <p>
 Returns complex <i>z</i> in polar form with base of negative 1 instead of <i>e</i>.
-<pre class="foo">
+<pre class="input">
 clock(2 - 3i)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
             arctan(3,2) 
           -╶───────────╴
   1/2            π      
@@ -354,11 +357,11 @@ clock(2 - 3i)
 <a id="cofactor">cofactor(<i>m,i,j</i>)</a>
 <p>
 Returns the cofactor of matrix <i>m</i> for row <i>i</i> and column <i>j</i>.
-<pre class="foo">
+<pre class="input">
 A = ((a,b),(c,d))
 cofactor(A,1,2) == adj(A)[2,1]
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 1
 </pre>
 
@@ -366,10 +369,10 @@ cofactor(A,1,2) == adj(A)[2,1]
 <a id="conj">conj(<i>z</i>)</a>
 <p>
 Returns the complex conjugate of <i>z</i>.
-<pre class="foo">
+<pre class="input">
 conj(2 - 3i)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 2 + 3 i
 </pre>
 
@@ -379,13 +382,13 @@ conj(2 - 3i)
 Returns tensor <i>a</i> summed over indices <i>i</i> and <i>j</i>.
 If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
 The expression
-<span class="baz">contract(m)</span>
+<span class="foo">contract(m)</span>
 computes the trace of matrix <i>m</i>.
-<pre class="foo">
+<pre class="input">
 A = ((a,b),(c,d))
 contract(A)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 a + d
 </pre>
 
@@ -393,10 +396,10 @@ a + d
 <a id="cos">cos(<i>x</i>)</a>
 <p>
 Returns the cosine of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 cos(pi/4)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
   1   
 ╶────╴
   1/2 
@@ -407,10 +410,10 @@ cos(pi/4)
 <a id="cosh">cosh(<i>x</i>)</a>
 <p>
 Returns the hyperbolic cosine of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 expform(cosh(x))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  1             1        
 ╶─╴ exp(−x) + ╶─╴ exp(x)
  2             2        
@@ -425,32 +428,32 @@ Returns the cross product of vectors <i>u</i> and <i>v</i>.
 <a id="curl">curl(<i>v</i>)</a>
 <p>
 Returns the curl of vector <i>v</i> with respect to symbols
-<span class="baz">x</span>,
-<span class="baz">y</span>, and
-<span class="baz">z</span>.
+<span class="foo">x</span>,
+<span class="foo">y</span>, and
+<span class="foo">z</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="d">d(<i>f,x,...</i>)</a><br>
 <p>
 Returns the derivative of <i>f</i> with respect to <i>x</i> and any additional arguments.
-<pre class="foo">
+<pre class="input">
 d(sin(x),x)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 cos(x)
 </pre>
 Multiderivatives are computed by extending the argument list.
-<pre class="foo">
+<pre class="input">
 d(sin(x),x,x)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 −sin(x)
 </pre>
 A numeric argument <i>n</i> computes the <i>n</i>th derivative with respect to the previous symbol.
-<pre class="foo">
+<pre class="input">
 d(sin(x y),x,2,y,2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  2  2                                       
 x  y  sin(x y) − 4 x y cos(x y) − 2 sin(x y)
 </pre>
@@ -458,12 +461,12 @@ x  y  sin(x y) − 4 x y cos(x y) − 2 sin(x y)
 Argument <i>f</i> can be a tensor of any rank.
 Argument <i>x</i> can be a vector.
 When <i>x</i> is a vector the result is the gradient of <i>f</i>.
-<pre class="foo">
+<pre class="input">
 F = (f(),g(),h())
 X = (x,y,z)
 d(F,X)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌                                ┐
 │ d(f(),x)   d(f(),y)   d(f(),z) │
 │                                │
@@ -474,18 +477,18 @@ d(F,X)
 </pre>
 <p>
 Symbol
-<span class="baz">d</span>
+<span class="foo">d</span>
 can be used as a variable name.
 Doing so does not conflict with function
-<span class="baz">d</span>.
+<span class="foo">d</span>.
 <p>
 Symbol
-<span class="baz">d</span>
+<span class="foo">d</span>
 can be redefined as a different function.
 The function
-<span class="baz">derivative</span>,
+<span class="foo">derivative</span>,
 a synonym for
-<span class="baz">d</span>,
+<span class="foo">d</span>,
 can be used to obtain a partial derivative.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -495,10 +498,10 @@ Returns the definite integral of <i>f</i> with respect to <i>x</i>
 evaluated from <i>a</i> to <i>b</i>.
 The argument list can be extended for multiple integrals.
 The following example integrates over theta then over phi.
-<pre class="foo">
+<pre class="input">
 defint(sin(theta), theta, 0, pi, phi, 0, 2 pi)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 4 π
 </pre>
 
@@ -506,10 +509,10 @@ defint(sin(theta), theta, 0, pi, phi, 0, 2 pi)
 <a id="denominator">denominator(<i>x</i>)</a>
 <p>
 Returns the denominator of expression <i>x</i>.
-<pre class="foo">
+<pre class="input">
 denominator(a/b)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 b
 </pre>
 
@@ -517,11 +520,11 @@ b
 <a id="det">det(<i>m</i>)</a>
 <p>
 Returns the determinant of matrix <i>m</i>.
-<pre class="foo">
+<pre class="input">
 A = ((a,b),(c,d))
 det(A)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 a d - b c
 </pre>
 
@@ -530,11 +533,11 @@ a d - b c
 <p>
 Returns the dimension of the <i>n</i>th index of tensor <i>a</i>.
 Index numbering starts with 1.
-<pre class="foo">
+<pre class="input">
 A = ((1,2),(3,4),(5,6))
 dim(A,1)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 3
 </pre>
 
@@ -542,19 +545,19 @@ dim(A,1)
 <a id="div">div(<i>v</i>)</a>
 <p>
 Returns the divergence of vector <i>v</i> with respect to symbols
-<span class="baz">x</span>,
-<span class="baz">y</span>, and
-<span class="baz">z</span>.
+<span class="foo">x</span>,
+<span class="foo">y</span>, and
+<span class="foo">z</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="do">do(<i>a,b,...</i>)</a>
 <p>
 Evaluates each argument from left to right.
 Returns the result of the final argument.
-<pre class="foo">
+<pre class="input">
 do(A=1,B=2,A+B)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 3
 </pre>
 
@@ -565,13 +568,13 @@ Returns the dot product of vectors, matrices, and tensors.
 Also known as the matrix product.
 Arguments are evaluated from right to left.
 The following example solves for <i>X</i> in <i>AX</i> = <i>B</i>.
-<pre class="foo">
+<pre class="input">
 A = ((1,2),(3,4))
 B = (5,6)
 X = dot(inv(A),B)
 X
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
     ┌     ┐
     │ −4  │
     │     │
@@ -586,10 +589,10 @@ X = │  9  │
 <p>
 Draws a graph of <i>f</i>(<i>x</i>).
 Drawing ranges can be set with
-<span class="baz">xrange</span>
+<span class="foo">xrange</span>
 and
-<span class="baz">yrange</span>.
-<pre class="foo">
+<span class="foo">yrange</span>.
+<pre class="input">
 xrange = (0,1)
 yrange = (0,1)
 draw(x^2,x)
@@ -602,13 +605,13 @@ Returns eigenvectors for matrix <i>m</i>.
 Matrix <i>m</i> is required to be numerical, real, and symmetric.
 The return value is a matrix with each column an eigenvector.
 Eigenvalues are obtained as shown.
-<pre class="foo">
+<pre class="input">
 A = ((3,5),(5,3))
 Q = eigenvec(A)
 D = dot(transpose(Q),A,Q) -- eigenvalues on diagonal of D
 D
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
     ┌        ┐
     │ 8   0  │
 D = │        │
@@ -621,16 +624,16 @@ D = │        │
 <p>
 Error function of <i>x</i>.
 Returns a numerical value if <i>x</i> is a real number.
-<pre class="foo">
+<pre class="input">
 erf(1.0)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 0.842701
 </pre>
-<pre class="foo">
+<pre class="input">
 d(erf(x),x)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
       ┌   ┐ 
       │  2│ 
  2 exp│−x │ 
@@ -646,16 +649,16 @@ d(erf(x),x)
 <p>
 Complementary error function of <i>x</i>.
 Returns a numerical value if <i>x</i> is a real number.
-<pre class="foo">
+<pre class="input">
 erfc(1.0)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 0.157299
 </pre>
-<pre class="foo">
+<pre class="input">
 d(erfc(x),x)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
        ┌   ┐ 
        │  2│ 
   2 exp│−x │ 
@@ -673,21 +676,21 @@ Returns <i>f</i> evaluated with
 <i>x</i> replaced by <i>a</i>,
 <i>y</i> replaced by <i>b</i>, etc.
 All arguments can be expressions.
-<pre class="foo">
+<pre class="input">
 f = sqrt(x^2 + y^2)
 eval(f,x,3,y,4)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 5
 </pre>
 <p>
 In the following example,
-<span class="baz">eval</span>
+<span class="foo">eval</span>
 is used to replace
-<span class="baz">x</span>
+<span class="foo">x</span>
 with
-<span class="baz">cos(theta)</span>.
-<pre class="foo">
+<span class="foo">cos(theta)</span>.
+<pre class="input">
 -- associated legendre of cos theta
 P(l,m,x) = test(m &lt; 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
            1 / (2^l l!) sin(theta)^m *
@@ -695,7 +698,7 @@ P(l,m,x) = test(m &lt; 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
 
 P(2,-1)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
   1
 −╶─╴ cos(θ) sin(θ)
   2
@@ -705,10 +708,10 @@ P(2,-1)
 <a id="exp">exp(<i>x</i>)</a>
 <p>
 Returns the exponential of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 exp(i pi)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 -1
 </pre>
 
@@ -716,10 +719,10 @@ exp(i pi)
 <a id="expcos">expcos(<i>z</i>)</a>
 <p>
 Returns the cosine of <i>z</i> in exponential form.
-<pre class="foo">
+<pre class="input">
 expcos(z)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  1              1           
 ╶─╴ exp(i z) + ╶─╴ exp(−i z)
  2              2           
@@ -729,10 +732,10 @@ expcos(z)
 <a id="expcosh">expcosh(<i>z</i>)</a>
 <p>
 Returns the hyperbolic cosine of <i>z</i> in exponential form.
-<pre class="foo">
+<pre class="input">
 expcosh(z)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  1             1        
 ╶─╴ exp(−z) + ╶─╴ exp(z)
  2             2        
@@ -742,10 +745,10 @@ expcosh(z)
 <a id="expform">expform(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> with trigonometric and hyperbolic functions converted to exponentials.
-<pre class="foo">
+<pre class="input">
 expform(cos(x) + i sin(x))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 exp(i x)
 </pre>
 
@@ -753,10 +756,10 @@ exp(i x)
 <a id="expsin">expsin(<i>z</i>)</a>
 <p>
 Returns the sine of <i>z</i> in exponential form.
-<pre class="foo">
+<pre class="input">
 expsin(z)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
   1                1             
 −╶─╴ i exp(i z) + ╶─╴ i exp(−i z)
   2                2             
@@ -766,10 +769,10 @@ expsin(z)
 <a id="expsinh">expsinh(<i>z</i>)</a>
 <p>
 Returns the hyperbolic sine of <i>z</i> in exponential form.
-<pre class="foo">
+<pre class="input">
 expsinh(z)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
   1             1        
 −╶─╴ exp(−z) + ╶─╴ exp(z)
   2             2        
@@ -779,10 +782,10 @@ expsinh(z)
 <a id="exptan">exptan(<i>z</i>)</a>
 <p>
 Returns the tangent of <i>z</i> in exponential form.
-<pre class="foo">
+<pre class="input">
 exptan(z)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
        i             i exp(2 i z)  
 ╶──────────────╴ − ╶──────────────╴
  exp(2 i z) + 1     exp(2 i z) + 1 
@@ -792,10 +795,10 @@ exptan(z)
 <a id="exptanh">exptanh(<i>z</i>)</a>
 <p>
 Returns the hyperbolic tangent of <i>z</i> in exponential form.
-<pre class="foo">
+<pre class="input">
 exptanh(z)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
        1             exp(2 z)   
 −╶────────────╴ + ╶────────────╴
   exp(2 z) + 1     exp(2 z) + 1 
@@ -806,12 +809,12 @@ exptanh(z)
 <p>
 Returns the factorial of <i>n</i>.
 The expression
-<span class="baz">n!</span>
+<span class="foo">n!</span>
 can also be used.
-<pre class="foo">
+<pre class="input">
 20!
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 2432902008176640000
 </pre>
 
@@ -821,12 +824,12 @@ can also be used.
 Returns expression <i>x</i> with rational numbers and integers converted to
 floating point values.
 The symbol
-<span class="baz">pi</span>
+<span class="foo">pi</span>
 and the natural number are also converted.
-<pre class="foo">
+<pre class="input">
 float(212^17)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
           39
 3.52947 10
 </pre>
@@ -835,10 +838,10 @@ float(212^17)
 <a id="floor">floor(<i>x</i>)</a>
 <p>
 Returns the largest integer less than or equal to <i>x</i>.
-<pre class="foo">
+<pre class="input">
 floor(1/2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 0
 </pre>
 
@@ -849,19 +852,19 @@ For <i>a</i> equals <i>b</i> through <i>c</i> inclusive, evaluate the remaining 
 Arguments <i>b</i> and <i>c</i> are integers.
 Symbol <i>a</i> is advanced by plus or minus 1 in the direction of <i>c</i> each time through the loop.
 Use
-<span class="baz">break</span>
+<span class="foo">break</span>
 to break out of the loop early.
 The original value of <i>a</i> is restored after
-<span class="baz">for</span>
+<span class="foo">for</span>
 completes.
 Note that if symbol
-<span class="baz">i</span>
+<span class="foo">i</span>
 is used for <i>a</i> then the imaginary unit is overridden in the scope of
-<span class="baz">for</span>.
-<pre class="foo">
+<span class="foo">for</span>.
+<pre class="input">
 for(k,1,3,print(k))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 k = 1
 
 k = 2
@@ -873,11 +876,11 @@ k = 3
 <a id="grad">grad(<i>f</i>)</a>
 <p>
 Returns the gradient
-<span class="baz">d(f,(x,y,z))</span>.
-<pre class="foo">
+<span class="foo">d(f,(x,y,z))</span>.
+<pre class="input">
 grad(f())
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌          ┐
 │ d(f(),x) │
 │          │
@@ -893,12 +896,12 @@ grad(f())
 Returns the Hadamard (element-wise) product.
 The arguments are required to have the same dimensions.
 The Hadamard product is also accomplished by simply multiplying the arguments.
-<pre class="foo">
+<pre class="input">
 A = ((A11,A12),(A21,A22))
 B = ((B11,B12),(B21,B22))
 A B
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌                   ┐
 │ A   B     A   B   │
 │  11  11    12  12 │
@@ -912,28 +915,28 @@ A B
 <a id="i">i</a>
 <p>
 Symbol
-<span class="baz">i</span>
+<span class="foo">i</span>
 is initialized to the imaginary unit (&minus;1)<sup>1/2</sup>.
-<pre class="foo">
+<pre class="input">
 exp(i pi)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 -1
 </pre>
 <p>
 Note:
 It is OK to clear or redefine
-<span class="baz">i</span>
+<span class="foo">i</span>
 and use the symbol for something else.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="imag">imag(<i>z</i>)</a>
 <p>
 Returns the imaginary part of complex <i>z</i>.
-<pre class="foo">
+<pre class="input">
 imag(2 - 3i)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 -3
 </pre>
 
@@ -941,11 +944,11 @@ imag(2 - 3i)
 <a id="infixform">infixform(<i>x</i>)</a>
 <p>
 Converts expression <i>x</i> to a string and returns the result.
-<pre class="foo">
+<pre class="input">
 p = (x + 1)^2
 infixform(p)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 x^2 + 2 x + 1
 </pre>
 
@@ -955,12 +958,12 @@ x^2 + 2 x + 1
 Returns the inner product of vectors, matrices, and tensors.
 Also known as the matrix product.
 Arguments are evaluated from right to left.
-<pre class="foo">
+<pre class="input">
 A = ((a,b),(c,d))
 B = (x,y)
 inner(A,B)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌           ┐
 │ a x + b y │
 │           │
@@ -969,19 +972,19 @@ inner(A,B)
 </pre>
 <p>
 Note:
-<span class="baz">inner</span>
+<span class="foo">inner</span>
 and
-<span class="baz">dot</span>
+<span class="foo">dot</span>
 are the same function.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="integral">integral(<i>f,x</i>)</a>
 <p>
 Returns the integral of <i>f</i> with respect to <i>x</i>.
-<pre class="foo">
+<pre class="input">
 integral(x^2,x)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  1   3
 ╶─╴ x 
  3    
@@ -991,11 +994,11 @@ integral(x^2,x)
 <a id="inv">inv(<i>m</i>)</a>
 <p>
 Returns the inverse of matrix <i>m</i>.
-<pre class="foo">
+<pre class="input">
 A = ((1,2),(3,4))
 inv(A)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌            ┐
 │ −2     1   │
 │            │
@@ -1009,16 +1012,16 @@ inv(A)
 <a id="j">j</a>
 <p>
 Set
-<span class="baz">j=sqrt(-1)</span>
+<span class="foo">j=sqrt(-1)</span>
 to use
-<span class="baz">j</span>
+<span class="foo">j</span>
 for the imaginary unit instead of
-<span class="baz">i</span>.
-<pre class="foo">
+<span class="foo">i</span>.
+<pre class="input">
 j = sqrt(-1)
 1/sqrt(-1)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 -j
 </pre>
 
@@ -1026,12 +1029,12 @@ j = sqrt(-1)
 <a id="kronecker">kronecker(<i>a,b,...</i>)</a>
 <p>
 Returns the Kronecker product of vectors and matrices.
-<pre class="foo">
+<pre class="input">
 A = ((1,2),(3,4))
 B = ((a,b),(c,d))
 kronecker(A,B)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌                       ┐
 │  a     b    2 a   2 b │
 │                       │
@@ -1047,34 +1050,34 @@ kronecker(A,B)
 <a id="last">last</a>
 <p>
 The result of the previous calculation is stored in
-<span class="baz">last</span>.
-<pre class="foo">
+<span class="foo">last</span>.
+<pre class="input">
 212^17
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 3529471145760275132301897342055866171392
 </pre>
-<pre class="foo">
+<pre class="input">
 last^(1/17)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 212
 </pre>
 <p>
 Note:
 Symbol
-<span class="baz">last</span>
+<span class="foo">last</span>
 is an implied argument when a function has no argument list.
-<pre class="foo">
+<pre class="input">
 212^17
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 3529471145760275132301897342055866171392
 </pre>
-<pre class="foo">
+<pre class="input">
 float
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
           39
 3.52947 10
 </pre>
@@ -1083,10 +1086,10 @@ float
 <a id="lgamma">lgamma(<i>x</i>)</a>
 <p>
 Returns the log of the absolute value of the Gamma function of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 lgamma(0.5)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 0.572365
 </pre>
 
@@ -1094,10 +1097,10 @@ lgamma(0.5)
 <a id="log">log(<i>x</i>)</a>
 <p>
 Returns the natural logarithm of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 log(x^y)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 y log(x)
 </pre>
 
@@ -1106,13 +1109,13 @@ y log(x)
 <p>
 Evaluate arguments in a loop.
 Use
-<span class="baz">break</span>
+<span class="foo">break</span>
 to break out of the loop.
-<pre class="foo">
+<pre class="input">
 k = 0
 loop(k = k + 1, test(k == 4, break), print(k))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 k = 1
 
 k = 2
@@ -1124,10 +1127,10 @@ k = 3
 <a id="mag">mag(<i>z</i>)</a>
 <p>
 Returns the magnitude of complex <i>z</i>.
-<pre class="foo">
+<pre class="input">
 mag(x + i y)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌       ┐1/2
 │ 2    2│   
 │x  + y │   
@@ -1139,11 +1142,11 @@ mag(x + i y)
 <a id="minor">minor(<i>m,i,j</i>)</a>
 <p>
 Returns the minor of matrix <i>m</i> for row <i>i</i> and column <i>j</i>.
-<pre class="foo">
+<pre class="input">
 A = ((1,2,3),(4,5,6),(7,8,9))
 minor(A,1,1) == det(minormatrix(A,1,1))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 1
 </pre>
 
@@ -1151,11 +1154,11 @@ minor(A,1,1) == det(minormatrix(A,1,1))
 <a id="minormatrix">minormatrix(<i>m,i,j</i>)</a>
 <p>
 Returns a copy of matrix <i>m</i> with row <i>i</i> and column <i>j</i> removed.
-<pre class="foo">
+<pre class="input">
 A = ((1,2,3),(4,5,6),(7,8,9))
 minormatrix(A,1,1)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌       ┐
 │ 5   6 │
 │       │
@@ -1167,10 +1170,10 @@ minormatrix(A,1,1)
 <a id="mod">mod(<i>a,b</i>)</a>
 <p>
 Returns the remainder of <i>a</i> over <i>b</i>.
-<pre class="foo">
+<pre class="input">
 mod(5,3/8)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  1 
 ╶─╴
  8 
@@ -1180,10 +1183,10 @@ mod(5,3/8)
 <a id="noexpand">noexpand(<i>x</i>)</a>
 <p>
 Evaluates expression <i>x</i> without expanding products of sums.
-<pre class="foo">
+<pre class="input">
 noexpand((x + 1)^2 / (x + 1))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 x + 1
 </pre>
 
@@ -1192,10 +1195,10 @@ x + 1
 <p>
 Returns 0 if <i>x</i> is true (nonzero).
 Returns 1 otherwise.
-<pre class="foo">
+<pre class="input">
 not(1=1)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 0
 </pre>
 
@@ -1205,11 +1208,11 @@ not(1=1)
 Returns the approximate roots of polynomials with real or complex coefficients.
 Multiple roots are returned as a vector.
 See also <a href="#roots">roots</a>.
-<pre class="foo">
+<pre class="input">
 p = x^5 - 1
 nroots(p,x)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌                        ┐
 │           1            │
 │                        │
@@ -1228,16 +1231,16 @@ nroots(p,x)
 <p>
 Returns 1 if <i>x</i> is a real number.
 Returns 0 otherwise.
-<pre class="foo">
+<pre class="input">
 number(1/2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 1
 </pre>
-<pre class="foo">
+<pre class="input">
 number(x)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 0
 </pre>
 
@@ -1245,10 +1248,10 @@ number(x)
 <a id="numerator">numerator(<i>x</i>)</a>
 <p>
 Returns the numerator of expression <i>x</i>.
-<pre class="foo">
+<pre class="input">
 numerator(a/b)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 a
 </pre>
 
@@ -1257,10 +1260,10 @@ a
 <p>
 Returns 1 if at least one argument is true (nonzero).
 Returns 0 otherwise.
-<pre class="foo">
+<pre class="input">
 or(1=1,2=2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 1
 </pre>
 
@@ -1268,12 +1271,12 @@ or(1=1,2=2)
 <a id="outer">outer(<i>a,b,...</i>)</a>
 <p>
 Returns the outer product of vectors, matrices, and tensors.
-<pre class="foo">
+<pre class="input">
 A = (a,b,c)
 B = (x,y,z)
 outer(A,B)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌                 ┐
 │ a x   a y   a z │
 │                 │
@@ -1287,10 +1290,10 @@ outer(A,B)
 <a id="pi">pi</a>
 <p>
 Symbol for &#960;.
-<pre class="foo">
+<pre class="input">
 exp(i pi)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 -1
 </pre>
 
@@ -1298,10 +1301,10 @@ exp(i pi)
 <a id="polar">polar(<i>z</i>)</a>
 <p>
 Returns complex <i>z</i> in polar form.
-<pre class="foo">
+<pre class="input">
 polar(x - i y)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌       ┐1/2                    
 │ 2    2│                       
 │x  + y │    exp(-i arctan(y,x))
@@ -1313,13 +1316,13 @@ polar(x - i y)
 <a id="power">power</a>
 <p>
 Use
-<span class="baz">^</span>
+<span class="foo">^</span>
 to raise something to a power.
 Use parentheses for negative powers.
-<pre class="foo">
+<pre class="input">
 x^(-1/2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
   1   
 ╶────╴
   1/2 
@@ -1331,12 +1334,12 @@ x^(-1/2)
 <p>
 Evaluate arguments and print the results.
 Useful for printing from inside a
-<span class="baz">for</span>
+<span class="foo">for</span>
 loop.
-<pre class="foo">
+<pre class="input">
 for(j,1,3,print(j))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 j = 1
 
 j = 2
@@ -1349,31 +1352,31 @@ j = 3
 <p>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
 Returns the product of all <i>f</i>.
-<pre class="foo">
+<pre class="input">
 product(j,1,3,x + j)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  3      2
 x  + 6 x  + 11 x + 6
 </pre>
 <p>
 The original value of <i>i</i> is restored after
-<span class="baz">product</span>
+<span class="foo">product</span>
 completes.
 If symbol
-<span class="baz">i</span>
+<span class="foo">i</span>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<span class="baz">product</span>.
+<span class="foo">product</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 product(<i>y</i>)
 <p>
 Returns the product of components of <i>y</i>.
-<pre class="foo">
+<pre class="input">
 y = (1,2,3,4)
 product(y)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 24
 </pre>
 
@@ -1381,10 +1384,10 @@ product(y)
 <a id="quote">quote(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> without evaluating it first.
-<pre class="foo">
+<pre class="input">
 quote((x + 1)^2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
        2
 (x + 1)
 </pre>
@@ -1393,10 +1396,10 @@ quote((x + 1)^2)
 <a id="rand">rand()</a>
 <p>
 Returns a random floating point value from the interval [0,1).
-<pre class="foo">
+<pre class="input">
 rand()
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 0.655424
 </pre>
 
@@ -1404,11 +1407,11 @@ rand()
 <a id="rank">rank(<i>a</i>)</a>
 <p>
 Returns the number of indices that tensor <i>a</i> has.
-<pre class="foo">
+<pre class="input">
 A = ((a,b),(c,d))
 rank(A)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 2
 </pre>
 
@@ -1416,27 +1419,27 @@ rank(A)
 <a id="rationalize">rationalize(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> with everything over a common denominator.
-<pre class="foo">
+<pre class="input">
 rationalize(1/a + 1/b + 1/2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  2 a + a b + 2 b 
 ╶───────────────╴
       2 a b      
 </pre>
 <p>
 Note:
-<span class="baz">rationalize</span>
+<span class="foo">rationalize</span>
 returns an unexpanded expression.
 If the result is assigned to a symbol, evaluating the symbol will expand the result.
 Use
-<span class="baz">binding</span>
+<span class="foo">binding</span>
 to retrieve the unexpanded expression.
-<pre class="foo">
+<pre class="input">
 f = rationalize(1/a + 1/b + 1/2)
 binding(f)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  2 a + a b + 2 b 
 ╶───────────────╴
       2 a b      
@@ -1446,10 +1449,10 @@ binding(f)
 <a id="real">real(<i>z</i>)</a>
 <p>
 Returns the real part of complex <i>z</i>.
-<pre class="foo">
+<pre class="input">
 real(2 - 3i)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 2
 </pre>
 
@@ -1457,10 +1460,10 @@ real(2 - 3i)
 <a id="rect">rect(<i>z</i>)</a>
 <p>
 Returns complex <i>z</i> in rectangular form.
-<pre class="foo">
+<pre class="input">
 rect(exp(i x))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 cos(x) + i sin(x)
 </pre>
 
@@ -1470,11 +1473,11 @@ cos(x) + i sin(x)
 Returns the rational roots of a polynomial.
 Multiple roots are returned as a vector.
 See also <a href="#nroots">nroots</a>.
-<pre class="foo">
+<pre class="input">
 p = (x + 1) (x - 2)
 roots(p,x)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌    ┐
 │ −1 │
 │    │
@@ -1484,20 +1487,20 @@ roots(p,x)
 
 <p>
 If no roots are found then
-<span class="baz">nil</span>
+<span class="foo">nil</span>
 is returned.
 A
-<span class="baz">nil</span>
+<span class="foo">nil</span>
 result prints as blank so the following example uses
-<span class="baz">infixform</span>
+<span class="foo">infixform</span>
 to print
-<span class="baz">nil</span>
+<span class="foo">nil</span>
 as a string.
-<pre class="foo">
+<pre class="input">
 p = x^2 + 1
 infixform(roots(p,x))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 nil
 </pre>
 
@@ -1540,11 +1543,11 @@ Fourier rotations Q, <i>k</i> and V, <i>k</i> are applied
 to qubits 0 through <i>k</i>.
 (Q and V ignore any control prefix.)
 See also the quantum computing section of the Eigenmath manual.
-<pre class="foo">
+<pre class="input">
 psi = (1,0,0,0)
 rotate(psi,H,0)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌        ┐
 │   1    │
 │ ╶────╴ │
@@ -1567,14 +1570,14 @@ rotate(psi,H,0)
 <p>
 Run script <i>x</i> where <i>x</i> evaluates to a filename string.
 Useful for importing function libraries.
-<pre class="foo">
+<pre class="input">
 run("/Users/heisenberg/EVA2.txt")
 </pre>
 <p>
 For Eigenmath installed from the Mac App Store, run files need to be put in the directory
-<span class="baz">~/Library/Containers/com.gweigt.eigenmath/Data/</span>
+<span class="foo">~/Library/Containers/com.gweigt.eigenmath/Data/</span>
 and the filename does not require a path.
-<pre class="foo">
+<pre class="input">
 run("EVA2.txt")
 </pre>
 
@@ -1582,28 +1585,28 @@ run("EVA2.txt")
 <a id="sgn">sgn(<i>x</i>)</a>
 <p>
 Returns the sign of <i>x</i> if <i>x</i> is a real number.
-<pre class="foo">
+<pre class="input">
 sgn(0)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 0
 </pre>
-<pre class="foo">
+<pre class="input">
 sgn(1/2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 1
 </pre>
-<pre class="foo">
+<pre class="input">
 sgn(-1/2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 -1
 </pre>
-<pre class="foo">
+<pre class="input">
 sgn(-x)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 sgn(-x)
 </pre>
 
@@ -1611,10 +1614,10 @@ sgn(-x)
 <a id="simplify">simplify(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> in a simpler form.
-<pre class="foo">
+<pre class="input">
 simplify(sin(x)^2 + cos(x)^2)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 1
 </pre>
 
@@ -1622,10 +1625,10 @@ simplify(sin(x)^2 + cos(x)^2)
 <a id="sin">sin(<i>x</i>)</a>
 <p>
 Returns the sine of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 sin(pi/4)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
   1   
 ╶────╴
   1/2 
@@ -1636,10 +1639,10 @@ sin(pi/4)
 <a id="sinh">sinh(<i>x</i>)</a>
 <p>
 Returns the hyperbolic sine of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 expform(sinh(x))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
   1             1        
 −╶─╴ exp(−x) + ╶─╴ exp(x)
   2             2        
@@ -1649,10 +1652,10 @@ expform(sinh(x))
 <a id="sqrt">sqrt(<i>x</i>)</a>
 <p>
 Returns the square root of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 sqrt(10!)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
      1/2
 720 7
 </pre>
@@ -1667,31 +1670,31 @@ In a script, it does what it says.
 <p>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
 Returns the sum of all <i>f</i>.
-<pre class="foo">
+<pre class="input">
 sum(j,1,5,x^j)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  5    4    3    2
 x  + x  + x  + x  + x
 </pre>
 <p>
 The original value of <i>i</i> is restored after
-<span class="baz">sum</span>
+<span class="foo">sum</span>
 completes.
 If symbol
-<span class="baz">i</span>
+<span class="foo">i</span>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<span class="baz">sum</span>.
+<span class="foo">sum</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 sum(<i>y</i>)
 <p>
 Returns the sum of components of <i>y</i>.
-<pre class="foo">
+<pre class="input">
 y = (1,2,3,4)
 sum(y)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 10
 </pre>
 
@@ -1704,10 +1707,10 @@ Returns the tangent of <i>x</i>.
 <a id="tanh">tanh(<i>x</i>)</a>
 <p>
 Returns the hyperbolic tangent of <i>x</i>.
-<pre class="foo">
+<pre class="input">
 expform(tanh(x))
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
        1             exp(2 x)   
 −╶────────────╴ + ╶────────────╴
   exp(2 x) + 1     exp(2 x) + 1 
@@ -1718,10 +1721,10 @@ expform(tanh(x))
 <p>
 Returns the <i>n</i>th order Taylor series expansion of <i>f</i>(<i>x</i>) at <i>a</i>.
 If argument <i>a</i> is omitted then zero is used for the expansion point.
-<pre class="foo">
+<pre class="input">
 taylor(1/(1-x),x,5)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
  5    4    3    2        
 x  + x  + x  + x  + x + 1
 </pre>
@@ -1732,26 +1735,26 @@ x  + x  + x  + x  + x + 1
 If argument <i>a</i> is true (nonzero) then <i>b</i> is returned, else if <i>c</i> is true then <i>d</i> is returned, etc.
 If the number of arguments is odd then the final argument is returned if all else fails.
 Expressions can include the relational operators
-<span class="baz">=</span>,
-<span class="baz">==</span>,
-<span class="baz">&lt;</span>,
-<span class="baz">&lt;=</span>,
-<span class="baz">&gt;</span>,
-<span class="baz">&gt;=</span>.
+<span class="foo">=</span>,
+<span class="foo">==</span>,
+<span class="foo">&lt;</span>,
+<span class="foo">&lt;=</span>,
+<span class="foo">&gt;</span>,
+<span class="foo">&gt;=</span>.
 Use the
-<span class="baz">not</span>
+<span class="foo">not</span>
 function to test for inequality.
 (The equality operator
-<span class="baz">==</span>
+<span class="foo">==</span>
 is available for contexts in which
-<span class="baz">=</span>
+<span class="foo">=</span>
 is the assignment operator.)
-<pre class="foo">
+<pre class="input">
 A = 1
 B = 1
 test(A=B,"yes","no")
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 yes
 </pre>
 
@@ -1759,10 +1762,10 @@ yes
 <a id="tgamma">tgamma(<i>x</i>)</a>
 <p>
 Returns the Gamma function of <i>x</i> if <i>x</i> is a real number.
-<pre class="foo">
+<pre class="input">
 tgamma(4)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 6
 </pre>
 
@@ -1770,16 +1773,16 @@ tgamma(4)
 <a id="trace">trace</a>
 <p>
 Set
-<span class="baz">trace=1</span>
+<span class="foo">trace=1</span>
 in a script to print the script as it is evaluated.
 Useful for debugging.
-<pre class="foo">
+<pre class="input">
 trace = 1
 </pre>
 <p>
 Note:
 The
-<span class="baz">contract</span>
+<span class="foo">contract</span>
 function is used to obtain the trace of a matrix.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -1788,11 +1791,11 @@ function is used to obtain the trace of a matrix.
 Returns the transpose of tensor <i>a</i> with respect to indices <i>i</i>, <i>j</i>, etc.
 If indices are omitted then 1 and 2 are used.
 Hence a matrix can be transposed with a single argument.
-<pre class="foo">
+<pre class="input">
 A = ((a,b),(c,d))
 transpose(A)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌       ┐
 │ a   c │
 │       │
@@ -1804,25 +1807,25 @@ Note:
 The argument list can be extended for multiple transpose operations.
 The arguments are evaluated from left to right.
 For example,
-<span class="baz">transpose(A,1,2,2,3)</span>
+<span class="foo">transpose(A,1,2,2,3)</span>
 is equivalent to
-<span class="baz">transpose(transpose(A,1,2),2,3)</span>.
+<span class="foo">transpose(transpose(A,1,2),2,3)</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="tty">tty</a>
 <p>
 Set
-<span class="baz">tty=1</span>
+<span class="foo">tty=1</span>
 to show results in string format.
 Set
-<span class="baz">tty=0</span>
+<span class="foo">tty=0</span>
 to turn off.
 Can be useful when displayed results exceed window size.
-<pre class="foo">
+<pre class="input">
 tty = 1
 (x + 1)^2
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 x^2 + 2 x + 1
 </pre>
 
@@ -1830,10 +1833,10 @@ x^2 + 2 x + 1
 <a id="unit">unit(<i>n</i>)</a>
 <p>
 Returns an <i>n</i> by <i>n</i> identity matrix.
-<pre class="foo">
+<pre class="input">
 unit(3)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌           ┐
 │ 1   0   0 │
 │           │
@@ -1847,10 +1850,10 @@ unit(3)
 <a id="zero">zero(<i>a,b,...</i>)</a>
 <p>
 Returns a null tensor with dimensions <i>a</i>, <i>b</i>, etc.
-<pre class="foo">
+<pre class="input">
 zero(2,3,3)
 </pre>
-<pre style="font-family:courier">
+<pre class="output">
 ┌               ┐
 │ ┌           ┐ │
 │ │ 0   0   0 │ │

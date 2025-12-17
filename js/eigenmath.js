@@ -15760,21 +15760,26 @@ pop_double()
 function
 pop_integer()
 {
-	var n, p;
+	var a, d, n, p;
 	p = pop();
 	if (!isnum(p))
 		stopf("number expected, argument is not a number");
-	push(p);
-	floorfunc();
-	p = pop();
-	if (!issmallinteger(p))
-		stopf("integer overflow");
-	if (isrational(p)) {
-		n = bignum_smallnum(p.a);
-		if (isnegativenumber(p))
+	if (isdouble(p)) {
+		d = Math.trunc(p.d);
+		if (Math.abs(d) > 0x7fffffff)
+			stopf("integer overflow");
+		n = d;
+	} else {
+		if (isfraction(p))
+			a = bignum_div(p.a, p.b);
+		else
+			a = p.a;
+		if (!bignum_issmallnum(a))
+			stopf("integer overflow");
+		n = bignum_smallnum(a);
+		if (n > 0 && p.sign == -1)
 			n = -n;
-	} else
-		n = p.d;
+	}
 	return n;
 }
 function
