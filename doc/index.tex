@@ -230,11 +230,14 @@ conj(2 - 3i)
 
 $2 + 3 i$
 
-\subsection*{contract($a,i,j$)}
+\subsection*{contract($a,i,j,\ldots$)}
 
-Returns tensor $a$ summed over indices $i$ and $j$.
-If $i$ and $j$ are omitted then 1 and 2 are used.
-The expression {\tt contract(m)} computes the trace of matrix $m$.
+Returns the contraction of tensor $a$ with respect to indices $i$, $j$, etc.
+If $i$ and $j$ are omitted then 1 and 2 are used,
+hence {\tt contract(m)} returns the trace of matrix $m$.
+The argument list can be extended for multiple contract operations.
+The arguments are evaluated from left to right.
+For example, {\tt contract(A,1,2,2,3)} is equivalent to {\tt contract(contract(A,1,2),2,3)}.
 
 {\color{blue}
 \begin{verbatim}
@@ -1587,8 +1590,14 @@ function is used to obtain the trace of a matrix.
 \subsection*{transpose($a,i,j,\ldots$)}
 
 Returns the transpose of tensor $a$ with respect to indices $i$, $j$, etc.
-If indices are omitted then 1 and 2 are used.
-Hence a matrix can be transposed with a single argument.
+If $i$ and $j$ are omitted then 1 and 2 are used,
+hence a matrix can be transposed with a single argument.
+The argument list can be extended for multiple transpose operations.
+Arguments are evaluated from left to right.
+For example,
+\verb$transpose(A,1,2,2,3)$
+is equivalent to
+\verb$transpose(transpose(A,1,2),2,3)$
 
 {\color{blue}
 \begin{verbatim}
@@ -1604,15 +1613,6 @@ a & c
 b & d
 \end{bmatrix}
 $
-
-\bigskip
-Note:
-The argument list can be extended for multiple transpose operations.
-Arguments are evaluated from left to right.
-For example,
-\verb$transpose(A,1,2,2,3)$
-is equivalent to
-\verb$transpose(transpose(A,1,2),2,3)$
 
 \subsection*{tty}
 

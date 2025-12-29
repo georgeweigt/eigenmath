@@ -377,13 +377,18 @@ conj(2 - 3i)
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="contract">contract(<i>a,i,j</i>)</a>
+<a id="contract">contract(<i>a,i,j,...</i>)</a>
 <p>
-Returns tensor <i>a</i> summed over indices <i>i</i> and <i>j</i>.
-If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
-The expression
+Returns the contraction of tensor <i>a</i> with respect to indices <i>i</i>, <i>j</i>, etc.
+If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used, hence
 <span class="foo">contract(m)</span>
-computes the trace of matrix <i>m</i>.
+returns the trace of matrix <i>m</i>.
+The argument list can be extended for multiple contract operations.
+The arguments are evaluated from left to right.
+For example,
+<span class="foo">contract(A,1,2,2,3)</span>
+is equivalent to
+<span class="foo">contract(contract(A,1,2),2,3)</span>.
 <pre class="input">
 A = ((a,b),(c,d))
 contract(A)
@@ -1797,8 +1802,14 @@ function is used to obtain the trace of a matrix.
 <a id="transpose">transpose(<i>a,i,j,...</i>)</a>
 <p>
 Returns the transpose of tensor <i>a</i> with respect to indices <i>i</i>, <i>j</i>, etc.
-If indices are omitted then 1 and 2 are used.
-Hence a matrix can be transposed with a single argument.
+If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used,
+hence a matrix can be transposed with a single argument.
+The argument list can be extended for multiple transpose operations.
+The arguments are evaluated from left to right.
+For example,
+<span class="foo">transpose(A,1,2,2,3)</span>
+is equivalent to
+<span class="foo">transpose(transpose(A,1,2),2,3)</span>.
 <pre class="input">
 A = ((a,b),(c,d))
 transpose(A)
@@ -1810,14 +1821,6 @@ transpose(A)
 │ b   d │
 └       ┘
 </pre>
-<p>
-Note:
-The argument list can be extended for multiple transpose operations.
-The arguments are evaluated from left to right.
-For example,
-<span class="foo">transpose(A,1,2,2,3)</span>
-is equivalent to
-<span class="foo">transpose(transpose(A,1,2),2,3)</span>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="tty">tty</a>
