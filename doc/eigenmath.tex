@@ -1995,8 +1995,7 @@ $2 + 3 i$
 \subsection*{contract($a,i,j,\ldots$)}
 
 Returns the contraction of tensor $a$ with respect to indices $i$, $j$, etc.
-If $i$ and $j$ are omitted then 1 and 2 are used,
-hence {\tt contract(m)} returns the trace of matrix $m$.
+If $i$ and $j$ are omitted then 1 and 2 are used.
 The argument list can be extended for multiple contract operations.
 The arguments are evaluated from left to right.
 For example, {\tt contract(A,1,2,2,3)} is equivalent to {\tt contract(contract(A,1,2),2,3)}.
@@ -2004,7 +2003,7 @@ For example, {\tt contract(A,1,2,2,3)} is equivalent to {\tt contract(contract(A
 {\color{blue}
 \begin{verbatim}
 A = ((a,b),(c,d))
-contract(A)
+contract(A) -- trace of matrix A
 \end{verbatim}
 }
 
@@ -3335,19 +3334,9 @@ $6$
 
 \subsection*{trace}
 
-Set {\tt trace=1} in a script to print the script as it is evaluated.
+Set \verb$trace=1$ in a script to print the script as it is evaluated.
 Useful for debugging.
-
-{\color{blue}
-\begin{verbatim}
-trace = 1
-\end{verbatim}
-}
-
-Note:
-The
-\verb$contract$
-function is used to obtain the trace of a matrix.
+(To obtain the trace of a matrix, use \verb$contract$.)
 
 \subsection*{transpose($a,i,j,\ldots$)}
 

@@ -380,9 +380,7 @@ conj(2 - 3i)
 <a id="contract">contract(<i>a,i,j,...</i>)</a>
 <p>
 Returns the contraction of tensor <i>a</i> with respect to indices <i>i</i>, <i>j</i>, etc.
-If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used, hence
-<span class="foo">contract(m)</span>
-returns the trace of matrix <i>m</i>.
+If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
 The argument list can be extended for multiple contract operations.
 The arguments are evaluated from left to right.
 For example,
@@ -391,7 +389,7 @@ is equivalent to
 <span class="foo">contract(contract(A,1,2),2,3)</span>.
 <pre class="input">
 A = ((a,b),(c,d))
-contract(A)
+contract(A) -- trace of matrix A
 </pre>
 <pre class="output">
 a + d
@@ -1789,14 +1787,8 @@ Set
 <span class="foo">trace=1</span>
 in a script to print the script as it is evaluated.
 Useful for debugging.
-<pre class="input">
-trace = 1
-</pre>
-<p>
-Note:
-The
-<span class="foo">contract</span>
-function is used to obtain the trace of a matrix.
+(To obtain the trace of a matrix, use
+<span class="foo">contract</span>.)
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="transpose">transpose(<i>a,i,j,...</i>)</a>
