@@ -96,7 +96,7 @@ Lz(f) = -i hbar d(f,phi)
 
 L(f) = (Lx(f),Ly(f),Lz(f))
 
-L2(f) = -hbar^2 (d(sin(theta) d(f,theta), theta) / sin(theta) + d(f,phi,phi) / sin(theta)^2)
+L2(f) = -hbar^2 (d(f,theta,theta) + cos(theta) / sin(theta) d(f,theta) + d(f,phi,phi) / sin(theta)^2)
 
 Psi = psi(theta,phi)
 
@@ -162,6 +162,14 @@ clear
 "addition-of-angular-momentum-3-demo.txt"
 "Addition of angular momentum 3"
 
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
 Lx(f) = i hbar (sin(phi) d(f,theta) + cos(phi) cos(theta) / sin(theta) d(f,phi))
 Ly(f) = i hbar (-cos(phi) d(f,theta) + sin(phi) cos(theta) / sin(theta) d(f,phi))
 Lz(f) = -i hbar d(f,phi)
@@ -182,14 +190,6 @@ Jz(f) = Lz(f) + Sz(f)
 
 J(f) = (Jx(f),Jy(f),Jz(f))
 J2(f) = Jx(Jx(f)) + Jy(Jy(f)) + Jz(Jz(f))
-
-Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
-         P(l,m) exp(i m phi)
-
-P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-           (sin(theta)/2)^m sum(k, 0, l - m,
-           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
-           ((1 - cos(theta)) / 2)^k))
 
 "Verify eigenstates"
 
@@ -2005,6 +2005,35 @@ check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) ==
 "dirac-spinors-demo.txt"
 status
 clear
+"draw-spherical-harmonics.txt"
+# Draw |Y|^2
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) P(l,m) exp(i m phi)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+xrange = (-1,1) / 2
+yrange = (-1,1) / 2
+
+u = (sin(theta),cos(theta))
+
+y = Y(2,0)
+f = y conj(y) u
+draw(f,theta)
+
+y = Y(2,1)
+f = y conj(y) u
+draw(f,theta)
+
+y = Y(2,2)
+f = y conj(y) u
+draw(f,theta)
+"draw-spherical-harmonics.txt"
+status
+clear
 "draw.txt"
 -- Draw demo
 
@@ -2053,6 +2082,64 @@ yrange = (-2,2)
 trange = (-4,2)
 draw(f,t)
 "draw.txt"
+status
+clear
+"eigenvalues-of-angular-momentum-demo.txt"
+"Eigenvalues of angular momentum"
+
+L2(f) = -hbar^2 (d(f,theta,theta) + cos(theta) / sin(theta) d(f,theta) + d(f,phi,phi) / sin(theta)^2)
+
+Lx(f) = i hbar (sin(phi) d(f,theta) + cos(phi) cos(theta) / sin(theta) d(f,phi))
+Ly(f) = i hbar (-cos(phi) d(f,theta) + sin(phi) cos(theta) / sin(theta) d(f,phi))
+Lz(f) = -i hbar d(f,phi)
+
+Lp(f) = Lx(f) + i Ly(f)
+Lm(f) = Lx(f) - i Ly(f)
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+l = 3
+m = 2
+
+psi = Y(l,m)
+
+"Verify commutation relations"
+
+check(Lx(Ly(psi)) - Ly(Lx(psi)) == i hbar Lz(psi))
+check(Ly(Lz(psi)) - Lz(Ly(psi)) == i hbar Lx(psi))
+check(Lz(Lx(psi)) - Lx(Lz(psi)) == i hbar Ly(psi))
+
+check(L2(Lx(psi)) - Lx(L2(psi)) == 0)
+check(L2(Ly(psi)) - Ly(L2(psi)) == 0)
+check(L2(Lz(psi)) - Lz(L2(psi)) == 0)
+
+"ok"
+
+"Verify ladder operators"
+
+check(Lz(Lp(psi)) - Lp(Lz(psi)) == hbar Lp(psi))
+check(Lz(Lm(psi)) - Lm(Lz(psi)) == -hbar Lm(psi))
+
+check(Lm(Lp(psi)) == L2(psi) - Lz(Lz(psi)) - hbar Lz(psi))
+check(Lp(Lm(psi)) == L2(psi) - Lz(Lz(psi)) + hbar Lz(psi))
+
+"ok"
+
+"Verify eigenvalues"
+
+check(L2(psi) == l (l + 1) hbar^2 psi)
+check(Lz(psi) == m hbar psi)
+
+"ok"
+"eigenvalues-of-angular-momentum-demo.txt"
 status
 clear
 "electromagnetic-tensor-demo.txt"
@@ -2838,20 +2925,35 @@ check(A == B)
 "gordon-decomposition-demo.txt"
 status
 clear
-"greens-theorem-demo.txt"
-"Line integral"
-P = 1 - y
-Q = x
-x = 2 cos(t)
-y = 2 sin(t)
-defint(P d(x,t) + Q d(y,t), t, 0, 2pi)
+"greens-function-demo.txt"
+"Green's function"
 
-"Surface integral"
-x = quote(x) -- clear x
-y = quote(y) -- clear y
-h = sqrt(4 - x^2)
-defint(d(Q,x) - d(P,y), y, -h, h, x, -2, 2)
-"greens-theorem-demo.txt"
+# Note: In Eigenmath, div(grad(1/r)) == 0
+
+G = -exp(i k r) / (4 pi r)
+r = sqrt(x^2 + y^2 + z^2)
+
+"Verify equation (6)"
+check(-4 pi div(grad(G)) ==
+ dot(grad(1/r),grad(exp(i k r))) +
+ div(grad(exp(i k r))) / r +
+ dot(grad(1/r),grad(exp(i k r))) +
+ exp(i k r) div(grad(1/r))
+)
+"ok"
+
+"Verify equation (7)"
+check(dot(grad(1/r),grad(exp(i k r))) == -i k exp(i k r) / r^2)
+"ok"
+
+"Verify equation (8)"
+check(div(grad(exp(i k r))) / r == 2 i k exp(i k r) / r^2 - k^2 exp(i k r) / r)
+"ok"
+
+"Verify equation (9)"
+check(div(grad(G)) == -k^2 G)
+"ok"
+"greens-function-demo.txt"
 status
 clear
 "grover.txt"
@@ -5467,6 +5569,41 @@ check(-div(J) == conj(Psi) dt(Psi) + Psi conj(dt(Psi)))
 "probability-current-demo.txt"
 status
 clear
+"projectify-spherical-harmonic.txt"
+# Sample |Y|^2 and project onto x-z plane
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) P(l,m) exp(i m phi)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+Y = float(Y(2,0))
+
+N = 1000
+A = zero(N,2)
+pie = float(pi)
+
+for(k,1,N,
+ Theta = pie rand(),
+ Phi = 2 pie rand(),
+ a = eval(Y, theta, Theta, phi, Phi),
+ r = a conj(a),
+ x = r sin(Theta) cos(Phi),
+ y = r sin(Theta) sin(Phi),
+ z = r cos(Theta),
+ A[k] = (x,z)
+)
+
+xrange = (-1,1) / 2
+yrange = (-1,1) / 2
+trange = (1,N)
+
+draw(A[floor(k)],k)
+"projectify-spherical-harmonic.txt"
+status
+clear
 "quantum-harmonic-oscillator-demo.txt"
 "Exercise 1. Verify eigenstates and eigenvalues."
 
@@ -7261,29 +7398,6 @@ sigma = 5.67 10^(-8) "watt" "meter"^(-2) "kelvin"^(-4)
 T = 1000 "kelvin"
 A epsilon sigma T^4
 "stefan-boltzmann-law-demo.txt"
-status
-clear
-"stokes-theorem-demo.txt"
-"Surface integral"
-z = 4 - x^2 - y^2
-F = (y,z,x)
-S = (x,y,z)
-z = quote(z) -- clear z for use by curl
-f = dot(curl(F),cross(d(S,x),d(S,y)))
-x = r cos(theta)
-y = r sin(theta)
-defint(f r,r,0,2,theta,0,2pi)
-
-"Line integral"
-x = 2 cos(t)
-y = 2 sin(t)
-z = 4 - x^2 - y^2
-P = y
-Q = z
-R = x
-f = P d(x,t) + Q d(y,t) + R d(z,t)
-defint(f,t,0,2pi)
-"stokes-theorem-demo.txt"
 status
 clear
 "sum-of-three-cubes.txt"
