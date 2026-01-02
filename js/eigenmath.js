@@ -2958,16 +2958,9 @@ eval_abs(p1)
 function
 absfunc()
 {
-	var h, p1, p2, p3;
+	var i, h, n, p1, p2;
 
 	p1 = pop();
-
-	if (isnum(p1)) {
-		push(p1);
-		if (isnegativenumber(p1))
-			negate();
-		return;
-	}
 
 	if (istensor(p1)) {
 		if (p1.dim.length > 1) {
@@ -2976,30 +2969,60 @@ absfunc()
 			list(2);
 			return;
 		}
+		n = p1.dim[0];
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			absfunc();
+			dupl();
+			multiply();
+		}
+		add_terms(n);
+		sqrtfunc();
+		return;
+	}
+
+	// abs(-1) -> 1
+
+	if (isnum(p1)) {
+		push(p1);
+		if (isnegativenumber(p1))
+			negate();
+		return;
+	}
+
+	// abs(3 + 4 i) -> 5
+
+	if (iscomplexnumber(p1)) {
 		push(p1);
 		push(p1);
 		conjfunc();
-		inner();
-		push_rational(1, 2);
-		power();
+		multiply();
+		sqrtfunc();
 		return;
 	}
+
+	// abs(3 - pi) -> pi - 3
+
+	push(p1);
+	floatfunc();
+	p2 = pop();
+	if (isnum(p2)) {
+		push(p1);
+		if (isnegativenumber(p2))
+			negate();
+		return;
+	}
+
+	// abs(exp(i theta)) -> 1
 
 	push(p1);
 	push(p1);
 	conjfunc();
 	multiply();
-	push_rational(1, 2);
-	power();
-
 	p2 = pop();
-	push(p2);
-	floatfunc();
-	p3 = pop();
-	if (isdouble(p3)) {
+	if (isnum(p2)) {
 		push(p2);
-		if (isnegativenumber(p3))
-			negate();
+		sqrtfunc();
 		return;
 	}
 
