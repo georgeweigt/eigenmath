@@ -13,6 +13,7 @@ check(abs(1/x) == 1/abs(x))
 check(prefixform(abs(b - a)) == "(abs (+ a (* -1 b)))")
 check(infixform(abs((x,y))) == "(abs(x)^2 + abs(y)^2)^(1/2)")
 check(infixform(abs(3 - pi)) == "pi - 3")
+check(infixform(abs((3,4))) == "5")
 
 t = abs(2)
 check(t = 2)
