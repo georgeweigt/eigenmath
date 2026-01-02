@@ -1,13 +1,6 @@
-Build and run
-
 ```
-make
-./eigenmath demo/spontaneous-emission-rate
-```
-
-Result
-
-```
+% make
+% ./eigenmath demo/spontaneous-emission-rate
                    ┌       ┐ 
                    │       │ 
                    │  3 r  │ 
@@ -55,4 +48,6 @@ A   = ╶──────────╴
 Verify emission rate
 
 ok
+
+?^C
 ```
