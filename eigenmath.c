@@ -1989,29 +1989,6 @@ absfunc(void)
 		return;
 	}
 
-	// abs(3 + 4 i) -> 5
-
-	if (iscomplexnumber(p1)) {
-		push(p1);
-		push(p1);
-		conjfunc();
-		multiply();
-		sqrtfunc();
-		return;
-	}
-
-	// abs(3 - pi) -> pi - 3
-
-	push(p1);
-	floatfunc();
-	p2 = pop();
-	if (isnum(p2)) {
-		push(p1);
-		if (isnegativenumber(p2))
-			negate();
-		return;
-	}
-
 	// abs(exp(i theta)) -> 1
 
 	push(p1);
