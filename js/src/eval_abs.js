@@ -32,6 +32,20 @@ absfunc()
 		return;
 	}
 
+	// abs(a * b) -> abs(a) * abs(b)
+
+	if (car(p1) == symbol(MULTIPLY)) {
+		h = stack.length;
+		p1 = cdr(p1);
+		while (iscons(p1)) {
+			push(car(p1));
+			absfunc();
+			p1 = cdr(p1);
+		}
+		multiply_factors(stack.length - h);
+		return;
+	}
+
 	// abs(-1) -> 1
 
 	if (isnum(p1)) {
@@ -40,6 +54,32 @@ absfunc()
 			negate();
 		return;
 	}
+
+	// abs(-sqrt(2)) -> sqrt(2)
+
+	if (isconst(p1)) {
+		push(p1);
+		floatfunc();
+		p2 = pop();
+		if (isnum(p2)) {
+			push(p1);
+			if (isnegativenumber(p2))
+				negate();
+			return;
+		}
+	}
+
+	// abs(1 / a) -> 1 / abs(a)
+
+	if (car(p1) == symbol(POWER) && isnegativeterm(caddr(p1))) {
+		push(p1);
+		reciprocate();
+		absfunc();
+		reciprocate();
+		return;
+	}
+
+	// abs(1 + 2 i) -> sqrt(5)
 
 	// abs(exp(i theta)) -> 1
 
@@ -54,31 +94,9 @@ absfunc()
 		return;
 	}
 
-	// abs(1/a) evaluates to 1/abs(a)
+	// abs(b - a) -> abs(a - b)
 
-	if (car(p1) == symbol(POWER) && isnegativeterm(caddr(p1))) {
-		push(p1);
-		reciprocate();
-		absfunc();
-		reciprocate();
-		return;
-	}
-
-	// abs(a*b) evaluates to abs(a)*abs(b)
-
-	if (car(p1) == symbol(MULTIPLY)) {
-		h = stack.length;
-		p1 = cdr(p1);
-		while (iscons(p1)) {
-			push(car(p1));
-			absfunc();
-			p1 = cdr(p1);
-		}
-		multiply_factors(stack.length - h);
-		return;
-	}
-
-	if (isnegativeterm(p1) || (car(p1) == symbol(ADD) && isnegativeterm(cadr(p1)))) {
+	if (car(p1) == symbol(ADD) && isnegativeterm(cadr(p1))) {
 		push(p1);
 		negate();
 		p1 = pop();
