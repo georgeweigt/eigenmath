@@ -2004,7 +2004,7 @@ absfunc(void)
 		return;
 	}
 
-	// abs(-sqrt(2)) -> sqrt(2)
+	// abs(sqrt(2)) -> sqrt(2)
 
 	if (isconst(p1)) {
 		push(p1);
