@@ -1,4 +1,4 @@
-[Eigenmath Home Page](https://georgeweigt.github.io)
+[Eigenmath Home Page](https://georgeweigt.github.io/index.html)
 
 This app provides a unified environment for symbolic manipulation, numerical computation, and visualization of mathematical objects.
 This app supports a wide range of mathematical operations, including symbolic algebra, multivariable calculus, and matrix operations.
