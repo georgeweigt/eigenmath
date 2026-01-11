@@ -1026,23 +1026,26 @@ j = sqrt(-1)
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="kronecker">kronecker(<i>a,b,...</i>)</a>
 <p>
-Returns the Kronecker product of vectors and matrices.
+Returns the Kronecker product of <i>a</i>, <i>b</i>, etc.
 <pre class="input">
-A = ((1,2),(3,4))
-B = ((a,b),(c,d))
-kronecker(A,B)
+I = ((1,0),(0,1))
+A = ((a,b),(c,d))
+kronecker(I,A)
 </pre>
 <pre class="output">
-┌                       ┐
-│  a     b    2 a   2 b │
-│                       │
-│  c     d    2 c   2 d │
-│                       │
-│ 3 a   3 b   4 a   4 b │
-│                       │
-│ 3 c   3 d   4 c   4 d │
-└                       ┘
+┌               ┐
+│ a   b   0   0 │
+│               │
+│ c   d   0   0 │
+│               │
+│ 0   0   a   b │
+│               │
+│ 0   0   c   d │
+└               ┘
 </pre>
+<p>
+See also<br>
+<a href="https://georgeweigt.github.io/examples/anticommutator-example.pdf">Anticommutator example</a>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="last">last</a>
