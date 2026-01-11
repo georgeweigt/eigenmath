@@ -846,27 +846,31 @@ $-j$
 
 \subsection*{kronecker($a,b,\ldots$)}
 
-Returns the Kronecker product of vectors and matrices.
+Returns the Kronecker product of $a$, $b$, etc.
 
 {\color{blue}
 \begin{verbatim}
-A = ((1,2),(3,4))
-B = ((a,b),(c,d))
-kronecker(A,B)
+I = ((1,0),(0,1))
+A = ((a,b),(c,d))
+kronecker(I,A)
 \end{verbatim}
 }
 
 $\displaystyle
 \begin{bmatrix}
-a & b & 2a & 2b
+a & b & 0 & 0
 \\[1ex]
-c & d & 2c & 2d
+c & d & 0 & 0
 \\[1ex]
-3a & 3b & 4a & 4b
+0 & 0 & a & b
 \\[1ex]
-3c & 3d & 3c & 4d
+0 & 0 & c & d
 \end{bmatrix}
 $
+
+\bigskip
+See also\\
+\href{https://georgeweigt.github.io/examples/anticommutation-example.pdf}{Anticommutation example}
 
 \subsection*{last}
 

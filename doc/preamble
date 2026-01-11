@@ -6,6 +6,7 @@
 \usepackage{tikz}
 \usepackage{xcolor}
 \usepackage{menukeys}
+\usepackage{hyperref}
 \parindent=0pt
 \pdfinfoomitdate=1
 \pdftrailerid{}
