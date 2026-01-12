@@ -24,4 +24,4 @@ eigenmath.tex: preamble $(FILES)
 	../tools/unify $(FILES) > eigenmath.tex
 
 clean:
-	rm -f *.aux *.log *.synctex.gz *.toc
+	rm -f *.aux *.log *.out *.synctex.gz *.toc
