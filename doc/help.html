@@ -7,6 +7,9 @@
 a {
  text-decoration: none;
 }
+code {
+ font-family: "Courier New";
+}
 .input {
  font-family: "Courier";
  background-color: #f0f0f0;
@@ -237,6 +240,8 @@ Returns the arc hyperbolic tangent of <i>x</i>.
 <p>
 Returns the angle of complex <i>z</i>.
 Symbols are treated as representing real numbers.
+If <i>z</i> is a vector, matrix, or higher order tensor then
+<code>arg</code> is applied to each component.
 <pre class="input">
 arg(x + i y)
 </pre>
@@ -340,6 +345,8 @@ Clears all symbol definitions.
 <p>
 Returns complex <i>z</i> in polar form with base of negative 1 instead of <i>e</i>.
 Symbols are treated as representing real numbers.
+If <i>z</i> is a vector, matrix, or higher order tensor then
+<code>clock</code> is applied to each component.
 <pre class="input">
 clock(x + i y)
 </pre>
@@ -369,6 +376,8 @@ cofactor(A,1,2) == adj(A)[2,1]
 <p>
 Returns the complex conjugate of <i>z</i>.
 Symbols are treated as representing real numbers.
+If <i>z</i> is a vector, matrix, or higher order tensor then
+<code>conj</code> is applied to each component.
 <pre class="input">
 conj(x + i y)
 </pre>
@@ -937,6 +946,8 @@ and use the symbol for something else.
 <p>
 Returns the imaginary part of complex <i>z</i>.
 Symbols are treated as representing real numbers.
+If <i>z</i> is a vector, matrix, or higher order tensor then
+<code>imag</code> is applied to each component.
 <pre class="input">
 imag(x + i y)
 </pre>
@@ -1135,6 +1146,8 @@ k = 3
 <p>
 Returns the magnitude of complex <i>z</i>.
 Symbols are treated as representing real numbers.
+If <i>z</i> is a vector, matrix, or higher order tensor then
+<code>mag</code> is applied to each component.
 <pre class="input">
 mag(x + i y)
 </pre>
@@ -1310,6 +1323,8 @@ exp(i pi)
 <p>
 Returns complex <i>z</i> in polar form.
 Symbols are treated as representing real numbers.
+If <i>z</i> is a vector, matrix, or higher order tensor then
+<code>polar</code> is applied to each component.
 <pre class="input">
 polar(x + i y)
 </pre>
@@ -1459,6 +1474,8 @@ binding(f)
 <p>
 Returns the real part of complex <i>z</i>.
 Symbols are treated as representing real numbers.
+If <i>z</i> is a vector, matrix, or higher order tensor then
+<code>real</code> is applied to each component.
 <pre class="input">
 real(x + i y)
 </pre>
@@ -1471,6 +1488,8 @@ x
 <p>
 Returns complex <i>z</i> in rectangular form.
 Symbols are treated as representing real numbers.
+If <i>z</i> is a vector, matrix, or higher order tensor then
+<code>rect</code> is applied to each component.
 <pre class="input">
 rect(exp(i x))
 </pre>

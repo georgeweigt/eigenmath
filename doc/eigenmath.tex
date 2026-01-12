@@ -39,9 +39,10 @@ instead of somewhere else in the result window.)
 Note: The fonts Times New Roman and Times New Roman Italic need
 to be the standard macOS fonts that include special symbols and Greek letters.
 See the following link for correcting font problems.
-\begin{equation*}
-\boxed{\text{support.apple.com/guide/font-book/restore-fonts-that-came-with-your-mac-fb34862/mac}}
-\end{equation*}
+
+\bigskip
+\href{https://support.apple.com/guide/font-book/restore-fonts-that-came-with-your-mac-fb34862/mac}
+{Restore fonts that came with your Mac using Font Book}
 
 \vfill
 \copyright 2025 George Weigt, 9634295@gmail.com
@@ -407,7 +408,7 @@ $6.626\times10^{-34}\,\text{J}\,\text{s}$
 See the following link for a script with recommended physical values in SI units.
 
 \bigskip
-\verb$https://georgeweigt.github.io/examples/physical-constants.html$
+\href{https://georgeweigt.github.io/examples/physical-constants.html}{Physical constants script}
 
 \newpage
 
@@ -1857,6 +1858,8 @@ Returns the arc hyperbolic tangent of $x$.
 
 Returns the angle of complex $z$.
 Symbols are treated as representing real numbers.
+If $z$ is a vector, matrix, or higher order tensor then
+\verb$arg$ is applied to each component.
 
 {\color{blue}
 \begin{verbatim}
@@ -1960,6 +1963,8 @@ Clears all symbol definitions.
 
 Returns complex $z$ in polar form with base of negative 1 instead of $e$.
 Symbols are treated as representing real numbers.
+If $z$ is a vector, matrix, or higher order tensor then
+\verb$clock$ is applied to each component.
 
 {\color{blue}
 \begin{verbatim}
@@ -1989,6 +1994,8 @@ $1$
 
 Returns the complex conjugate of $z$.
 Symbols are treated as representing real numbers.
+If $z$ is a vector, matrix, or higher order tensor then
+\verb$conj$ is applied to each component.
 
 {\color{blue}
 \begin{verbatim}
@@ -2524,6 +2531,8 @@ Note: It is ok to clear or redefine {\tt i} and use the symbol for something els
 
 Returns the imaginary part of complex $z$.
 Symbols are treated as representing real numbers.
+If $z$ is a vector, matrix, or higher order tensor then
+\verb$imag$ is applied to each component.
 
 {\color{blue}
 \begin{verbatim}
@@ -2726,6 +2735,8 @@ $k=3$
 
 Returns the magnitude of complex $z$.
 Symbols are treated as representing real numbers.
+If $z$ is a vector, matrix, or higher order tensor then
+\verb$mag$ is applied to each component.
 
 {\color{blue}
 \begin{verbatim}
@@ -2904,6 +2915,8 @@ $-1$
 
 Returns complex $z$ in polar form.
 Symbols are treated as representing real numbers.
+If $z$ is a vector, matrix, or higher order tensor then
+\verb$polar$ is applied to each component.
 
 {\color{blue}
 \begin{verbatim}
@@ -3047,6 +3060,8 @@ $\displaystyle \frac{2a+ab+2b}{2ab}$
 
 Returns the real part of complex $z$.
 Symbols are treated as representing real numbers.
+If $z$ is a vector, matrix, or higher order tensor then
+\verb$real$ is applied to each component.
 
 {\color{blue}
 \begin{verbatim}
@@ -3060,6 +3075,8 @@ $x$
 
 Returns complex $z$ in rectangular form.
 Symbols are treated as representing real numbers.
+If $z$ is a vector, matrix, or higher order tensor then
+\verb$rect$ is applied to each component.
 
 {\color{blue}
 \begin{verbatim}
