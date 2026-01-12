@@ -1771,7 +1771,7 @@ Returns the absolute value or vector length of $x$.
 
 {\color{blue}
 \begin{verbatim}
-abs(3 + 4i)
+abs(3 + 4 i)
 \end{verbatim}
 }
 
@@ -1856,14 +1856,15 @@ Returns the arc hyperbolic tangent of $x$.
 \subsection*{arg($z$)}
 
 Returns the angle of complex $z$.
+Symbols are treated as representing real values.
 
 {\color{blue}
 \begin{verbatim}
-arg(2 - 3i)
+arg(x + i y)
 \end{verbatim}
 }
 
-$-\arctan(3,2)$
+$\arctan(y,x)$
 
 \subsection*{binding($s$)}
 
@@ -1958,14 +1959,18 @@ Clears all symbol definitions.
 \subsection*{clock($z$)}
 
 Returns complex $z$ in polar form with base of negative 1 instead of $e$.
+Symbols are treated as representing real values.
 
 {\color{blue}
 \begin{verbatim}
-clock(2 - 3i)
+clock(x + i y)
 \end{verbatim}
 }
 
-$13^{1/2}\,(-1)^{-\arctan(3,2)/\pi}$
+$\displaystyle
+(-1)^{\frac{\arctan(y,x)}{\pi}}
+\left[x^2+y^2\right]^{1/2}
+$
 
 \subsection*{cofactor($m,i,j$)}
 
@@ -1983,14 +1988,15 @@ $1$
 \subsection*{conj($z$)}
 
 Returns the complex conjugate of $z$.
+Symbols are treated as representing real values.
 
 {\color{blue}
 \begin{verbatim}
-conj(2 - 3i)
+conj(x + i y)
 \end{verbatim}
 }
 
-$2 + 3 i$
+$x - i y$
 
 \subsection*{contract($a,i,j,\ldots$)}
 
@@ -2517,14 +2523,15 @@ Note: It is ok to clear or redefine {\tt i} and use the symbol for something els
 \subsection*{imag($z$)}
 
 Returns the imaginary part of complex $z$.
+Symbols are treated as representing real values.
 
 {\color{blue}
 \begin{verbatim}
-imag(2 - 3i)
+imag(x + i y)
 \end{verbatim}
 }
 
-$-3$
+$y$
 
 \subsection*{infixform($x$)}
 
@@ -2718,7 +2725,7 @@ $k=3$
 \subsection*{mag($z$)}
 
 Returns the magnitude of complex $z$.
-Function {\tt mag} treats undefined symbols as real while {\tt abs} does not.
+Symbols are treated as representing real values.
 
 {\color{blue}
 \begin{verbatim}
@@ -2726,7 +2733,9 @@ mag(x + i y)
 \end{verbatim}
 }
 
-$\displaystyle (x^2+y^2)^{1/2}$
+$\displaystyle
+\left[x^2+y^2\right]^{1/2}
+$
 
 \subsection*{minor($m,i,j$)}
 
@@ -2894,14 +2903,17 @@ $-1$
 \subsection*{polar($z$)}
 
 Returns complex $z$ in polar form.
+Symbols are treated as representing real values.
 
 {\color{blue}
 \begin{verbatim}
-polar(x - i y)
+polar(x + i y)
 \end{verbatim}
 }
 
-$\displaystyle (x^2+y^2)^{1/2}\exp(-i\arctan(y,x))$
+$\displaystyle
+\left[x^2+y^2\right]^{1/2}\exp(i\arctan(y,x))
+$
 
 \subsection*{power}
 
@@ -3034,18 +3046,20 @@ $\displaystyle \frac{2a+ab+2b}{2ab}$
 \subsection*{real($z$)}
 
 Returns the real part of complex $z$.
+Symbols are treated as representing real values.
 
 {\color{blue}
 \begin{verbatim}
-real(2 - 3i)
+real(x + i y)
 \end{verbatim}
 }
 
-$2$
+$x$
 
 \subsection*{rect($z$)}
 
 Returns complex $z$ in rectangular form.
+Symbols are treated as representing real values.
 
 {\color{blue}
 \begin{verbatim}
@@ -3053,7 +3067,7 @@ rect(exp(i x))
 \end{verbatim}
 }
 
-$\displaystyle \cos(x)+i\sin(x)$
+$\cos(x)+i\sin(x)$
 
 \subsection*{roots($p,x$)}
 

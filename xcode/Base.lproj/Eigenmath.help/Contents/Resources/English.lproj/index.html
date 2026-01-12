@@ -145,7 +145,7 @@ a {
 <p>
 Returns the absolute value or vector length of <i>x</i>.
 <pre class="input">
-abs(3 + 4i)
+abs(3 + 4 i)
 </pre>
 <pre class="output">
 5
@@ -236,11 +236,12 @@ Returns the arc hyperbolic tangent of <i>x</i>.
 <a id="arg">arg(<i>z</i>)</a>
 <p>
 Returns the angle of complex <i>z</i>.
+Symbols are treated as representing real values.
 <pre class="input">
-arg(2 - 3i)
+arg(x + i y)
 </pre>
 <pre class="output">
--arctan(3,2)
+arctan(y,x)
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -338,14 +339,17 @@ Clears all symbol definitions.
 <a id="clock">clock(z)</a>
 <p>
 Returns complex <i>z</i> in polar form with base of negative 1 instead of <i>e</i>.
+Symbols are treated as representing real values.
 <pre class="input">
-clock(2 - 3i)
+clock(x + i y)
 </pre>
 <pre class="output">
-            arctan(3,2) 
-          -╶───────────╴
-  1/2            π      
-13    (−1)              
+     arctan(y,x)              
+    ╶───────────╴ ┌       ┐1/2
+          π       │ 2    2│   
+(−1)              │x  + y │   
+                  │       │   
+                  └       ┘   
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -364,11 +368,12 @@ cofactor(A,1,2) == adj(A)[2,1]
 <a id="conj">conj(<i>z</i>)</a>
 <p>
 Returns the complex conjugate of <i>z</i>.
+Symbols are treated as representing real values.
 <pre class="input">
-conj(2 - 3i)
+conj(x + i y)
 </pre>
 <pre class="output">
-2 + 3 i
+x - i y
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -931,11 +936,12 @@ and use the symbol for something else.
 <a id="imag">imag(<i>z</i>)</a>
 <p>
 Returns the imaginary part of complex <i>z</i>.
+Symbols are treated as representing real values.
 <pre class="input">
-imag(2 - 3i)
+imag(x + i y)
 </pre>
 <pre class="output">
--3
+y
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -1128,6 +1134,7 @@ k = 3
 <a id="mag">mag(<i>z</i>)</a>
 <p>
 Returns the magnitude of complex <i>z</i>.
+Symbols are treated as representing real numbers.
 <pre class="input">
 mag(x + i y)
 </pre>
@@ -1302,13 +1309,14 @@ exp(i pi)
 <a id="polar">polar(<i>z</i>)</a>
 <p>
 Returns complex <i>z</i> in polar form.
+Symbols are treated as representing real values.
 <pre class="input">
-polar(x - i y)
+polar(x + i y)
 </pre>
 <pre class="output">
 ┌       ┐1/2                    
 │ 2    2│                       
-│x  + y │    exp(-i arctan(y,x))
+│x  + y │    exp(i arctan(y,x))
 │       │                       
 └       ┘                       
 </pre>
@@ -1450,17 +1458,19 @@ binding(f)
 <a id="real">real(<i>z</i>)</a>
 <p>
 Returns the real part of complex <i>z</i>.
+Symbols are treated as representing real numbers.
 <pre class="input">
-real(2 - 3i)
+real(x + i y)
 </pre>
 <pre class="output">
-2
+x
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="rect">rect(<i>z</i>)</a>
 <p>
 Returns complex <i>z</i> in rectangular form.
+Symbols are treated as representing real values.
 <pre class="input">
 rect(exp(i x))
 </pre>
