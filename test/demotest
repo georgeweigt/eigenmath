@@ -495,6 +495,35 @@ TSS = sum((y - ybar)^2) -- total sum of squares
 "annihilation-desy-demo.txt"
 status
 clear
+"anticommutator-example-demo.txt"
+"Anticommutator example"
+
+sigma1 = ((0,1),(1,0))
+sigma2 = ((0,-i),(i,0))
+sigma3 = ((1,0),(0,-1))
+
+I = ((1,0),(0,1))
+
+Sigma1 = kronecker(I,sigma1)
+Sigma2 = kronecker(I,sigma2)
+Sigma3 = kronecker(I,sigma3)
+
+Sigma = (Sigma1,Sigma2,Sigma3)
+
+-- C is the anticommutator
+
+C(j,k) = dot(Sigma[j],Sigma[k]) + dot(Sigma[k],Sigma[j])
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+for(j,1,3,for(k,1,3,
+ check(C(j,k) == 2 (j == k) I)
+))
+
+"ok"
+"anticommutator-example-demo.txt"
+status
+clear
 "atomic-transitions-1-demo.txt"
 "Atomic transitions 1"
 
@@ -1831,25 +1860,34 @@ for(n,1,10,draw(delta))
 "dirac-delta-function-approximations.txt"
 status
 clear
-"dirac-equation-demo.txt"
+"dirac-equation-1-demo.txt"
+-- Fitzpatrick problem 11.11
+
+E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
+
+C = sqrt((E + m c^2) / (2 m c^2))
+
+omega1 = C (1, 0, pz c / (E + m c^2), (px + i py) c / (E + m c^2))
+omega2 = C (0, 1, (px - i py) c / (E + m c^2), -pz c / (E + m c^2))
+
+omega3 = C (pz c / (E + m c^2), (px + i py) c / (E + m c^2), 1, 0)
+omega4 = C ((px - i py) c / (E + m c^2), -pz c / (E + m c^2), 0, 1)
+
+P = (E / c, px, py, pz)
+X = (c t, x, y, z)
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+psi1 = exp(-i dot(P,gmunu,X) / hbar) omega1
+psi2 = exp(-i dot(P,gmunu,X) / hbar) omega2
+
+psi3 = exp(i dot(P,gmunu,X) / hbar) omega3
+psi4 = exp(i dot(P,gmunu,X) / hbar) omega4
+
 gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
 gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
 gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
 gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
-
-phi = px x + py y + pz z - E t
-
-E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
-
-psi1 = exp(i phi / hbar) (E/c + m c, 0, pz, px + i py)
-psi2 = exp(i phi / hbar) (0, E/c + m c, px - i py, -pz)
-psi3 = exp(i phi / hbar) (pz, px + i py, E/c - m c, 0)
-psi4 = exp(i phi / hbar) (px - i py, -pz, 0, E/c - m c)
-
-psi5 = exp(-i phi / hbar) (E/c - m c, 0, pz, px + i py)
-psi6 = exp(-i phi / hbar) (0, E/c - m c, px - i py, -pz)
-psi7 = exp(-i phi / hbar) (pz, px + i py, E/c + m c, 0)
-psi8 = exp(-i phi / hbar) (px - i py, -pz, 0, E/c + m c)
 
 D(psi) = 1/c dot(gamma0,d(psi,t)) +
          dot(gamma1,d(psi,x)) +
@@ -1862,13 +1900,111 @@ check(i hbar D(psi1) == m c psi1)
 check(i hbar D(psi2) == m c psi2)
 check(i hbar D(psi3) == m c psi3)
 check(i hbar D(psi4) == m c psi4)
-check(i hbar D(psi5) == m c psi5)
-check(i hbar D(psi6) == m c psi6)
-check(i hbar D(psi7) == m c psi7)
-check(i hbar D(psi8) == m c psi8)
 
 "ok"
-"dirac-equation-demo.txt"
+
+"Verify normalization"
+
+check(dot(psi1,conj(psi1)) == E / (m c^2))
+check(dot(psi2,conj(psi2)) == E / (m c^2))
+check(dot(psi3,conj(psi3)) == E / (m c^2))
+check(dot(psi4,conj(psi4)) == E / (m c^2))
+
+"ok"
+"dirac-equation-1-demo.txt"
+status
+clear
+"dirac-equation-2-demo.txt"
+-- Dirac equation 2
+
+psi1 = C exp(-i xi / hbar) (E/c + m c, 0, pz, px + i py)
+psi2 = C exp(-i xi / hbar) (0, E/c + m c, px - i py, -pz)
+
+psi3 = C exp(i xi / hbar) (pz, px + i py, E/c + m c, 0)
+psi4 = C exp(i xi / hbar) (px - i py, -pz, 0, E/c + m c)
+
+C = 1 / sqrt(E / c + m c)
+E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
+xi = E t - px x - py y - pz z
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+D(psi) = 1/c dot(gamma0,d(psi,t)) +
+         dot(gamma1,d(psi,x)) +
+         dot(gamma2,d(psi,y)) +
+         dot(gamma3,d(psi,z))
+
+"Verify solutions"
+
+check(i hbar D(psi1) == m c psi1)
+check(i hbar D(psi2) == m c psi2)
+check(i hbar D(psi3) == m c psi3)
+check(i hbar D(psi4) == m c psi4)
+
+"ok"
+
+"Verify normalization"
+
+check(dot(psi1,conj(psi1)) == 2 E / c)
+check(dot(psi2,conj(psi2)) == 2 E / c)
+check(dot(psi3,conj(psi3)) == 2 E / c)
+check(dot(psi4,conj(psi4)) == 2 E / c)
+
+"ok"
+"dirac-equation-2-demo.txt"
+status
+clear
+"dirac-equation-3-demo.txt"
+-- Dirac equation 3
+
+E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
+
+u1 = (E/c + m c, 0, pz, px + i py)
+u2 = (0, E/c + m c, px - i py, -pz)
+
+v1 = (pz, px + i py, E/c + m c, 0)
+v2 = (px - i py, -pz, 0, E/c + m c)
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+p = (E/c, px, py, pz)
+
+pslash = dot(p,gmunu,gamma)
+
+"Verify spinor formulas"
+
+check(dot(pslash,u1) == m c u1)
+check(dot(pslash,u2) == m c u2)
+
+check(dot(pslash,v1) == -m c v1)
+check(dot(pslash,v2) == -m c v2)
+
+"ok"
+
+"Verify completeness"
+
+adjoint(u) = dot(conj(u),gamma0)
+
+check(outer(u1,adjoint(u1)) + outer(u2,adjoint(u2)) ==
+(E/c + m c) (pslash + m c I))
+
+check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) ==
+(E/c + m c) (pslash - m c I))
+
+"ok"
+"dirac-equation-3-demo.txt"
 status
 clear
 "dirac-from-boost-demo.txt"
@@ -1955,54 +2091,6 @@ check(-hbar^2 / (2 mu) dot(P,P) - k inv(R) == Enm)
 
 "ok"
 "dirac-hydrogen-atom.txt"
-status
-clear
-"dirac-spinors-demo.txt"
-E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
-
-u1 = (E/c + m c, 0, pz, px + i py)
-u2 = (0, E/c + m c, px - i py, -pz)
-
-v1 = (pz, px + i py, E/c + m c, 0)
-v2 = (px - i py, -pz, 0, E/c + m c)
-
-I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
-
-gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-
-gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
-gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
-gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
-
-gamma = (gamma0,gamma1,gamma2,gamma3)
-
-p = (E/c, px, py, pz)
-
-pslash = dot(p,gmunu,gamma)
-
-"Verify spinor formulas"
-
-check(dot(pslash,u1) == m c u1)
-check(dot(pslash,u2) == m c u2)
-
-check(dot(pslash,v1) == -m c v1)
-check(dot(pslash,v2) == -m c v2)
-
-"ok"
-
-"Verify completeness"
-
-adjoint(u) = dot(conj(u),gamma0)
-
-check(outer(u1,adjoint(u1)) + outer(u2,adjoint(u2)) ==
-(E/c + m c) (pslash + m c I))
-
-check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) ==
-(E/c + m c) (pslash - m c I))
-
-"ok"
-"dirac-spinors-demo.txt"
 status
 clear
 "draw-spherical-harmonics.txt"
