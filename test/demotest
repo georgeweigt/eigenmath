@@ -1861,28 +1861,28 @@ for(n,1,10,draw(delta))
 status
 clear
 "dirac-equation-1-demo.txt"
--- Fitzpatrick problem 11.11
+-- Dirac equation 1
 
 E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
 
 C = sqrt((E + m c^2) / (2 m c^2))
 
-omega1 = C (1, 0, pz c / (E + m c^2), (px + i py) c / (E + m c^2))
-omega2 = C (0, 1, (px - i py) c / (E + m c^2), -pz c / (E + m c^2))
+w1 = C (1, 0, pz c / (E + m c^2), (px + i py) c / (E + m c^2))
+w2 = C (0, 1, (px - i py) c / (E + m c^2), -pz c / (E + m c^2))
 
-omega3 = C (pz c / (E + m c^2), (px + i py) c / (E + m c^2), 1, 0)
-omega4 = C ((px - i py) c / (E + m c^2), -pz c / (E + m c^2), 0, 1)
+w3 = C (pz c / (E + m c^2), (px + i py) c / (E + m c^2), 1, 0)
+w4 = C ((px - i py) c / (E + m c^2), -pz c / (E + m c^2), 0, 1)
 
 P = (E / c, px, py, pz)
 X = (c t, x, y, z)
 
 gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
 
-psi1 = exp(-i dot(P,gmunu,X) / hbar) omega1
-psi2 = exp(-i dot(P,gmunu,X) / hbar) omega2
+psi1 = exp(-i dot(P,gmunu,X) / hbar) w1
+psi2 = exp(-i dot(P,gmunu,X) / hbar) w2
 
-psi3 = exp(i dot(P,gmunu,X) / hbar) omega3
-psi4 = exp(i dot(P,gmunu,X) / hbar) omega4
+psi3 = exp(i dot(P,gmunu,X) / hbar) w3
+psi4 = exp(i dot(P,gmunu,X) / hbar) w4
 
 gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
 gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
@@ -1962,11 +1962,11 @@ clear
 
 E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
 
-u1 = (E/c + m c, 0, pz, px + i py)
-u2 = (0, E/c + m c, px - i py, -pz)
+u1 = (E/c + m c, 0, pz, px + i py) / sqrt(E/c + m c)
+u2 = (0, E/c + m c, px - i py, -pz) / sqrt(E/c + m c)
 
-v1 = (pz, px + i py, E/c + m c, 0)
-v2 = (px - i py, -pz, 0, E/c + m c)
+v1 = (pz, px + i py, E/c + m c, 0) / sqrt(E/c + m c)
+v2 = (px - i py, -pz, 0, E/c + m c) / sqrt(E/c + m c)
 
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
@@ -1983,7 +1983,7 @@ p = (E/c, px, py, pz)
 
 pslash = dot(p,gmunu,gamma)
 
-"Verify spinor formulas"
+"Verify spinors"
 
 check(dot(pslash,u1) == m c u1)
 check(dot(pslash,u2) == m c u2)
@@ -1997,11 +1997,8 @@ check(dot(pslash,v2) == -m c v2)
 
 adjoint(u) = dot(conj(u),gamma0)
 
-check(outer(u1,adjoint(u1)) + outer(u2,adjoint(u2)) ==
-(E/c + m c) (pslash + m c I))
-
-check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) ==
-(E/c + m c) (pslash - m c I))
+check(outer(u1,adjoint(u1)) + outer(u2,adjoint(u2)) == pslash + m c I)
+check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) == pslash - m c I)
 
 "ok"
 "dirac-equation-3-demo.txt"
