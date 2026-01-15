@@ -1861,17 +1861,7 @@ for(n,1,10,draw(delta))
 status
 clear
 "dirac-equation-1-demo.txt"
--- Dirac equation 1
-
-E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
-
-C = sqrt((E + m c^2) / (2 m c^2))
-
-w1 = C (1, 0, pz c / (E + m c^2), (px + i py) c / (E + m c^2))
-w2 = C (0, 1, (px - i py) c / (E + m c^2), -pz c / (E + m c^2))
-
-w3 = C (pz c / (E + m c^2), (px + i py) c / (E + m c^2), 1, 0)
-w4 = C ((px - i py) c / (E + m c^2), -pz c / (E + m c^2), 0, 1)
+"Dirac equation 1"
 
 P = (E / c, px, py, pz)
 X = (c t, x, y, z)
@@ -1884,6 +1874,20 @@ psi2 = exp(-i dot(P,gmunu,X) / hbar) w2
 psi3 = exp(i dot(P,gmunu,X) / hbar) w3
 psi4 = exp(i dot(P,gmunu,X) / hbar) w4
 
+w1 = sqrt((E + m c^2) / (2 m c^2)) *
+     (1, 0, pz c / (E + m c^2), (px + i py) c / (E + m c^2))
+
+w2 = sqrt((E + m c^2) / (2 m c^2)) *
+     (0, 1, (px - i py) c / (E + m c^2), -pz c / (E + m c^2))
+
+w3 = sqrt((E + m c^2) / (2 m c^2)) *
+     (pz c / (E + m c^2), (px + i py) c / (E + m c^2), 1, 0)
+
+w4 = sqrt((E + m c^2) / (2 m c^2)) *
+     ((px - i py) c / (E + m c^2), -pz c / (E + m c^2), 0, 1)
+
+E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
+
 gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
 gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
 gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
@@ -1894,7 +1898,7 @@ D(psi) = 1/c dot(gamma0,d(psi,t)) +
          dot(gamma2,d(psi,y)) +
          dot(gamma3,d(psi,z))
 
-"Verify solutions"
+"Verify wavefunctions"
 
 check(i hbar D(psi1) == m c psi1)
 check(i hbar D(psi2) == m c psi2)
@@ -1915,17 +1919,26 @@ check(dot(psi4,conj(psi4)) == E / (m c^2))
 status
 clear
 "dirac-equation-2-demo.txt"
--- Dirac equation 2
+"Dirac equation 2"
 
-psi1 = C exp(-i xi / hbar) (E/c + m c, 0, pz, px + i py)
-psi2 = C exp(-i xi / hbar) (0, E/c + m c, px - i py, -pz)
+psi1 = sqrt(E + m c^2) *
+       (1, 0, c pz / (E + m c^2), (px + i py) c / (E + m c^2)) *
+       exp(-i xi / hbar)
 
-psi3 = C exp(i xi / hbar) (pz, px + i py, E/c + m c, 0)
-psi4 = C exp(i xi / hbar) (px - i py, -pz, 0, E/c + m c)
+psi2 = sqrt(E + m c^2) *
+       (0, 1, (px - i py) c / (E + m c^2), -pz c / (E + m c^2)) *
+       exp(-i xi / hbar)
 
-C = 1 / sqrt(E / c + m c)
-E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
+psi3 = sqrt(E + m c^2) *
+       (pz c / (E + m c^2), (px + i py) c / (E + m c^2), 1, 0) *
+       exp(i xi / hbar)
+
+psi4 = sqrt(E + m c^2) *
+       ((px - i py) c / (E + m c^2), -pz c / (E + m c^2), 0, 1) *
+       exp(i xi / hbar)
+
 xi = E t - px x - py y - pz z
+E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
 
 gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
 gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
@@ -1937,7 +1950,7 @@ D(psi) = 1/c dot(gamma0,d(psi,t)) +
          dot(gamma2,d(psi,y)) +
          dot(gamma3,d(psi,z))
 
-"Verify solutions"
+"Verify wavefunctions"
 
 check(i hbar D(psi1) == m c psi1)
 check(i hbar D(psi2) == m c psi2)
@@ -1948,25 +1961,31 @@ check(i hbar D(psi4) == m c psi4)
 
 "Verify normalization"
 
-check(dot(psi1,conj(psi1)) == 2 E / c)
-check(dot(psi2,conj(psi2)) == 2 E / c)
-check(dot(psi3,conj(psi3)) == 2 E / c)
-check(dot(psi4,conj(psi4)) == 2 E / c)
+check(dot(psi1,conj(psi1)) == 2 E)
+check(dot(psi2,conj(psi2)) == 2 E)
+check(dot(psi3,conj(psi3)) == 2 E)
+check(dot(psi4,conj(psi4)) == 2 E)
 
 "ok"
 "dirac-equation-2-demo.txt"
 status
 clear
 "dirac-equation-3-demo.txt"
--- Dirac equation 3
+"Dirac equation 3"
+
+u1 = sqrt(E + m c^2) *
+     (1, 0, c pz / (E + m c^2), (px + i py) c / (E + m c^2))
+
+u2 = sqrt(E + m c^2) *
+     (0, 1, (px - i py) c / (E + m c^2), -pz c / (E + m c^2))
+
+v1 = sqrt(E + m c^2) *
+     (pz c / (E + m c^2), (px + i py) c / (E + m c^2), 1, 0)
+
+v2 = sqrt(E + m c^2) *
+     ((px - i py) c / (E + m c^2), -pz c / (E + m c^2), 0, 1)
 
 E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
-
-u1 = (E/c + m c, 0, pz, px + i py) / sqrt(E/c + m c)
-u2 = (0, E/c + m c, px - i py, -pz) / sqrt(E/c + m c)
-
-v1 = (pz, px + i py, E/c + m c, 0) / sqrt(E/c + m c)
-v2 = (px - i py, -pz, 0, E/c + m c) / sqrt(E/c + m c)
 
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
@@ -1993,12 +2012,22 @@ check(dot(pslash,v2) == -m c v2)
 
 "ok"
 
+"Verify normalization"
+
+check(dot(u1,conj(u1)) == 2 E)
+check(dot(u2,conj(u2)) == 2 E)
+
+check(dot(v1,conj(v1)) == 2 E)
+check(dot(v2,conj(v2)) == 2 E)
+
+"ok"
+
 "Verify completeness"
 
 adjoint(u) = dot(conj(u),gamma0)
 
-check(outer(u1,adjoint(u1)) + outer(u2,adjoint(u2)) == pslash + m c I)
-check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) == pslash - m c I)
+check(outer(u1,adjoint(u1)) + outer(u2,adjoint(u2)) == pslash c + m c^2 I)
+check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) == pslash c - m c^2 I)
 
 "ok"
 "dirac-equation-3-demo.txt"
