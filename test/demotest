@@ -1500,7 +1500,7 @@ X(P(psi(x,y,z,t))) - P(X(psi(x,y,z,t)))
 status
 clear
 "coherent-state-demo.txt"
-"Verify formulas"
+"Coherent state"
 
 E = i sqrt(nbar hbar omega / (2 epsilon0)) (exp(-i omega t) - exp(i omega t))
 B = sqrt(nbar hbar omega mu0 / 2) (exp(-i omega t) + exp(i omega t))
@@ -1514,12 +1514,16 @@ E2 = -hbar omega / (2 epsilon0) *
 B2 = hbar omega mu0 / 2 *
 (nbar exp(-2 i omega t) + nbar exp(2 i omega t) + 2 nbar + 1)
 
+"Verify equation (1)"
 check(E2 == -hbar omega / (2 epsilon0) (-4 nbar sin(omega t)^2 - 1))
+"ok"
 
+"Verify equation (2)"
 check(B2 == hbar omega mu0 / 2 (4 nbar cos(omega t)^2 + 1))
+"ok"
 
+"Verify equation (3)"
 check(epsilon0 / 2 E2 + 1 / (2 mu0) B2 == (nbar + 1/2) hbar omega)
-
 "ok"
 "coherent-state-demo.txt"
 status
@@ -1592,7 +1596,7 @@ TSS = sum((y - ybar)^2) -- total sum of squares
 status
 clear
 "compton-scattering-demo.txt"
--- Verify formulas for Compton scattering
+"Compton scattering"
 
 E = sqrt(omega^2 + m^2)
 
@@ -1795,6 +1799,8 @@ check(f sin(theta) == d(I,theta))
 status
 clear
 "constant-force-action-demo.txt"
+"Constant force action"
+
 A = (xb - xa) / T - F T / (2 m)
 B = xa
 x = F t^2 / (2 m) + A t + B
@@ -2034,6 +2040,8 @@ check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) == pslash c - m c^2 I)
 status
 clear
 "dirac-from-boost-demo.txt"
+"Dirac from boost"
+
 u0 = (1, 0, 0, 0)
 
 Lambda = ((E + m, 0, p, 0),
