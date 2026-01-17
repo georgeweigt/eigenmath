@@ -100,7 +100,10 @@
 				7FA8458F292DACA000842C3D /* run_thread.c */,
 				7FA84590292DACA000842C3D /* shipout.c */,
 			);
+			indentWidth = 8;
 			sourceTree = "<group>";
+			tabWidth = 8;
+			usesTabs = 1;
 		};
 /* End PBXGroup section */
 

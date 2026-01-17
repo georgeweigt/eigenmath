@@ -61,9 +61,25 @@ h "J" / joule
 $6.626\times10^{-34}\,\text{J}\,\text{s}$
 
 \bigskip
-See the following link for a script with recommended physical values in SI units.
+Eigenmath script for a calculation from ``The Los Alamos Primer'' by Robert Serber.
+
+{\color{blue}
+\begin{verbatim}
+-- energy released per atom
+E = 170 10^6 "eV" / "atom"
+-- convert eV to ergs
+E = E 4.8 10^(-10) / 300 "erg" / "eV"
+-- convert atoms to grams
+E = E / (3.88 10^(-22) "gram" / "atom")
+-- convert ergs to tons of TNT
+E = E / (3.6 10^16 "erg" / "tons of TNT")
+-- energy per kg of U235
+E = E 1000 "gram"
+\end{verbatim}}
+
+Result:
 
 \bigskip
-\href{https://georgeweigt.github.io/examples/physical-constants.html}{Physical constants script}
+$E=19473.1\,\text{tons of TNT}$
 
 \end{document}
