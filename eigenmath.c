@@ -48,9 +48,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // MAXBLOCKS * BLOCKSIZE * sizeof (struct atom) = 480,000,000 bytes
 
-// Symbolic expressions are built by linking structs of type "atom".
+// Arithmetic expressions are stored as trees of "struct atom".
 //
-// For example, the expression "a b + c" is built like this:
+// For example, this is the tree for "a * b + c":
 //
 //  _______      _______                                _______      _______
 // |CONS   |    |CONS   |                              |CONS   |    |SYM    |
