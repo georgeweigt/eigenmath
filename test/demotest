@@ -2042,20 +2042,28 @@ clear
 "dirac-from-boost-demo.txt"
 "Dirac from boost"
 
-u0 = (1, 0, 0, 0)
+-- Use C instead of sqrt(2 m) so simplification occurs
 
-Lambda = ((E + m, 0, p, 0),
-          (0, E + m, 0, p),
-          (p, 0, E + m, 0),
-          (0, p, 0, E + m))
+u0 = (C, 0, 0, 0)
 
-u = dot(Lambda, u0) / sqrt(E + m)
+A = ((E + m, 0, -pz, 0),
+     (0, E + m, 0, pz),
+     (pz, 0, E + m, 0),
+     (0, -pz, 0, E + m)) / sqrt(E + m) / C
+
+u = dot(A,u0)
 u
+
+"Check normalization"
+E = sqrt(pz^2 + m^2)
+check(dot(conj(u),u) == 2 E)
+E = quote(E)
+"ok"
 
 "Verify equation (1)"
 gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-pslash = m dot(Lambda,gamma0,inv(Lambda))
-check(1/m dot(pslash,Lambda) == dot(Lambda,gamma0))
+pslash = m dot(A,gamma0,inv(A))
+check(1/m dot(pslash,A) == dot(A,gamma0))
 "ok"
 
 "Verify equation (2)"
@@ -4499,19 +4507,19 @@ clear
 "los-alamos-primer.txt"
 "Energy of fission process"
 
--- energy released per atom
+# energy released per atom
 E = 170 10^6 "eV" / "atom"
 
--- convert eV to ergs
+# convert eV to ergs
 E = E 4.8 10^(-10) / 300 "erg" / "eV"
 
--- convert atoms to grams
+# convert atoms to grams
 E = E / (3.88 10^(-22) "gram" / "atom")
 
--- convert ergs to tons of TNT
+# convert ergs to tons of TNT
 E = E / (3.6 10^16 "erg" / "tons of TNT")
 
--- energy per kg of U235
+# energy per kg of U235
 E = E 1000 "gram"
 E
 
