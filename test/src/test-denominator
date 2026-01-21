@@ -14,3 +14,5 @@ T = denominator(1/a+1/b)
 check(T = a*b) 
 T = denominator(1/(x-1)/(x-2))
 check(T = x^2-3*x+2)
+
+check(denominator((a/b,c)) == (b,1))

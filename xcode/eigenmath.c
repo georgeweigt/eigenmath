@@ -3323,6 +3323,21 @@ eval_denominator(struct atom *p1)
 void
 denominator(void)
 {
+	int i, n;
+	struct atom *p1;
+	p1 = pop();
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			denominator();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+	push(p1);
 	numden();
 	pop(); // discard numerator
 }
@@ -9324,9 +9339,26 @@ eval_numerator(struct atom *p1)
 void
 numerator(void)
 {
-	numden();
-	swap();
-	pop(); // discard denominator
+	int i, n;
+	struct atom *p1;
+	p1 = pop();
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			numerator();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+	while (numden_find_divisor(p1)) {
+		push(p1);
+		numden_cancel_factor();
+		p1 = pop();
+	}
+	push(p1);
 }
 void
 eval_or(struct atom *p1)
@@ -13275,11 +13307,25 @@ eval_test(struct atom *p1)
 void
 eval_testeq(struct atom *p1)
 {
+	struct atom *p2;
 	push(cadr(p1));
 	evalf();
 	push(caddr(p1));
 	evalf();
 	subtract();
+	p1 = pop();
+	if (iszero(p1)) {
+		push_integer(1);
+		return;
+	}
+	push(p1);
+	numerator(); // try this shortcut
+	p2 = pop();
+	if (iszero(p2)) {
+		push_integer(1);
+		return;
+	}
+	push(p1);
 	simplify();
 	p1 = pop();
 	if (iszero(p1))
@@ -14672,8 +14718,8 @@ numden(void)
 		p2 = pop();
 	}
 
-	push(p2);
-	push(p1);
+	push(p2); // denominator
+	push(p1); // numerator
 }
 
 // returns 1 with divisor on stack, otherwise returns 0

@@ -2042,32 +2042,33 @@ clear
 "dirac-from-boost-demo.txt"
 "Dirac from boost"
 
--- Use C instead of sqrt(2 m) so simplification occurs
+u0 = (sqrt(2 m), 0, 0, 0)
 
-u0 = (C, 0, 0, 0)
-
-A = ((E + m, 0, -pz, 0),
-     (0, E + m, 0, pz),
+A = ((E + m, 0, pz, 0),
+     (0, E + m, 0, -pz),
      (pz, 0, E + m, 0),
-     (0, -pz, 0, E + m)) / sqrt(E + m) / C
+     (0, -pz, 0, E + m)) / sqrt(E + m) / sqrt(2 m)
 
 u = dot(A,u0)
 u
 
-"Check normalization"
+"Verify equation (2)"
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+pslash = m dot(A,gamma0,inv(A))
+check(dot(pslash,u) == m u)
+"ok"
+
+"Verify normalization"
 E = sqrt(pz^2 + m^2)
 check(dot(conj(u),u) == 2 E)
 E = quote(E)
 "ok"
 
-"Verify equation (1)"
-gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-pslash = m dot(A,gamma0,inv(A))
-check(1/m dot(pslash,A) == dot(A,gamma0))
-"ok"
-
-"Verify equation (2)"
-check(dot(pslash,u) == m u)
+"Verify matrix A"
+check(dot(A,(sqrt(2 m),0,0,0)) == (E + m, 0, pz, 0) / sqrt(E + m))
+check(dot(A,(0,sqrt(2 m),0,0)) == (0, E + m, 0, -pz) / sqrt(E + m))
+check(dot(A,(0,0,sqrt(2 m),0)) == (pz, 0, E + m, 0) / sqrt(E + m))
+check(dot(A,(0,0,0,sqrt(2 m))) == (0, -pz, 0, E + m) / sqrt(E + m))
 "ok"
 "dirac-from-boost-demo.txt"
 status

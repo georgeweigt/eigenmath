@@ -18,8 +18,8 @@ numden(void)
 		p2 = pop();
 	}
 
-	push(p2);
-	push(p1);
+	push(p2); // denominator
+	push(p1); // numerator
 }
 
 // returns 1 with divisor on stack, otherwise returns 0

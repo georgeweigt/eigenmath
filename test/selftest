@@ -3553,6 +3553,8 @@ T = denominator(1/a+1/b)
 check(T = a*b) 
 T = denominator(1/(x-1)/(x-2))
 check(T = x^2-3*x+2)
+
+check(denominator((a/b,c)) == (b,1))
 "Testing derivative"
 
 clear
@@ -5812,6 +5814,8 @@ T = numerator(a+b)
 check(T = a+b) 
 T = numerator(1/a+1/b)
 check(T = a+b)
+
+check(numerator((a/b,c)) == (a,c))
 "Testing numerics"
 
 clear
@@ -6035,6 +6039,20 @@ B = A
 check(A == B)
 B[1,1] = 1
 check(not(A == B))
+
+clear
+
+-- dirac from boost
+-- requires "shortcut" in eval_testeq()
+
+A = ((E + m, 0, pz, 0),
+     (0, E + m, 0, -pz),
+     (pz, 0, E + m, 0),
+     (0, -pz, 0, E + m)) / sqrt(E + m) / sqrt(2 m)
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+pslash = m dot(A,gamma0,inv(A))
+check(1/m dot(pslash,A) == dot(A,gamma0))
 "Testing roots"
 
 clear

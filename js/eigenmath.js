@@ -5093,6 +5093,20 @@ eval_denominator(p1)
 function
 denominator()
 {
+	var i, n, p1;
+	p1 = pop();
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			denominator();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+	push(p1);
 	numden();
 	pop(); // discard numerator
 }
@@ -10366,9 +10380,25 @@ eval_numerator(p1)
 function
 numerator()
 {
-	numden();
-	swap();
-	pop(); // discard denominator
+	var i, n, p1;
+	p1 = pop();
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			numerator();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+	while (numden_find_divisor(p1)) {
+		push(p1);
+		numden_cancel_factor();
+		p1 = pop();
+	}
+	push(p1);
 }
 function
 eval_or(p1)
@@ -12954,11 +12984,25 @@ eval_test(p1)
 function
 eval_testeq(p1)
 {
+	var p2
 	push(cadr(p1));
 	evalf();
 	push(caddr(p1));
 	evalf();
 	subtract();
+	p1 = pop();
+	if (iszero(p1)) {
+		push_integer(1);
+		return;
+	}
+	push(p1);
+	numerator(); // try this shortcut
+	p2 = pop();
+	if (iszero(p2)) {
+		push_integer(1);
+		return;
+	}
+	push(p1);
 	simplify();
 	p1 = pop();
 	if (iszero(p1))
@@ -15668,8 +15712,8 @@ numden()
 		p2 = pop();
 	}
 
-	push(p2);
-	push(p1);
+	push(p2); // denominator
+	push(p1); // numerator
 }
 
 // returns 1 with divisor on stack, otherwise returns 0

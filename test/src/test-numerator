@@ -12,3 +12,5 @@ T = numerator(a+b)
 check(T = a+b) 
 T = numerator(1/a+1/b)
 check(T = a+b)
+
+check(numerator((a/b,c)) == (a,c))
