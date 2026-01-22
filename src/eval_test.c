@@ -25,25 +25,11 @@ eval_test(struct atom *p1)
 void
 eval_testeq(struct atom *p1)
 {
-	struct atom *p2;
 	push(cadr(p1));
 	evalf();
 	push(caddr(p1));
 	evalf();
 	subtract();
-	p1 = pop();
-	if (iszero(p1)) {
-		push_integer(1);
-		return;
-	}
-	push(p1);
-	numerator(); // try this shortcut
-	p2 = pop();
-	if (iszero(p2)) {
-		push_integer(1);
-		return;
-	}
-	push(p1);
 	simplify();
 	p1 = pop();
 	if (iszero(p1))

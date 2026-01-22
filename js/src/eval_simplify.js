@@ -10,7 +10,7 @@ function
 simplify()
 {
 	var i, n;
-	var p1;
+	var p1, p2;
 
 	p1 = pop();
 
@@ -26,9 +26,65 @@ simplify()
 		return;
 	}
 
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	numerator();
+	p2 = pop();
+	if (iszero(p2)) {
+		push_integer(0);
+		return;
+	}
+
 	push(p1);
 	simplify_trig(); // do this first otherwise compton-demo runs out of memory
+	p1 = pop();
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	numerator();
+	p2 = pop();
+	if (iszero(p2)) {
+		push_integer(0);
+		return;
+	}
+
+	push(p1);
 	simplify_nib();
+	p1 = pop();
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	push(p1);
+	numerator();
+	p2 = pop();
+	if (iszero(p2)) {
+		push_integer(0);
+		return;
+	}
+
+	if (lengthf(p2) < 20) { // don't try for large formulas
+		push(p2);
+		push(p2);
+		multiply();
+		p2 = pop();
+		if (iszero(p2)) {
+			push_integer(0);
+			return;
+		}
+	}
+
+	push(p1);
 }
 
 function

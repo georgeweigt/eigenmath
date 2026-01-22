@@ -8897,6 +8897,14 @@ z = 1 - cos(theta)
 a = d(x,theta)^2 + d(z,theta)^2
 f = simplify(sqrt(a / (2 g z)))
 check(infixform(f) == "1 / g^(1/2)")
+
+clear
+T = hbar^2 kappa x^2 f(x,y,z) / (m (x^2 + y^2 + z^2)^(3/2)) + hbar^2 kappa y^2 f(x,y,z) / (m (x^2 + y^2 + z^2)^(3/2)) + hbar^2 kappa z^2 f(x,y,z) / (m (x^2 + y^2 + z^2)^(3/2)) - hbar^2 kappa f(x,y,z) / (m (x^2 + y^2 + z^2)^(1/2)) + kappa^2 x^2 f(x,y,z) / (x^2 + y^2 + z^2) + kappa^2 y^2 f(x,y,z) / (x^2 + y^2 + z^2) + kappa^2 z^2 f(x,y,z) / (x^2 + y^2 + z^2) - kappa^2 f(x,y,z)
+T = simplify(T)
+check(infixform(T) == "0")
+T = kappa^2 m x^2 (x^2 + y^2 + z^2)^(1/2) f(x,y,z) + kappa^2 m y^2 (x^2 + y^2 + z^2)^(1/2) f(x,y,z) + kappa^2 m z^2 (x^2 + y^2 + z^2)^(1/2) f(x,y,z) - kappa^2 m (x^2 + y^2 + z^2)^(3/2) f(x,y,z)
+T = simplify(T)
+check(infixform(T) == "0")
 "Testing sin"
 
 clear
