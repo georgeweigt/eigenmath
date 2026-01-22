@@ -12057,7 +12057,7 @@ simplify()
 		return;
 	}
 
-	if (lengthf(p2) < 20) { // don't try for large formulas
+	if (car(p2) == symbol(ADD) && lengthf(p2) < 10) {
 		push(p2);
 		push(p2);
 		multiply();
