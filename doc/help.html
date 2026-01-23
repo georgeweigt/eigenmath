@@ -175,7 +175,7 @@ adj(A)
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="and">and(<i>a,b,...</i>)</a>
 <p>
-Returns 1 if all arguments are not zero valued, returns 0 otherwise.
+Returns 1 if all arguments have nonzero values, returns 0 otherwise.
 Arguments can use the relational operators
 &emsp;<code>==</code>
 &emsp;<code>&lt;</code>
@@ -1223,7 +1223,7 @@ x + 1
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="not">not(<i>x</i>)</a>
 <p>
-Returns 1 if <i>x</i> is zero valued, returns 0 otherwise.
+Returns 1 if <i>x</i> has a value of zero, returns 0 otherwise.
 <pre class="input">
 not(a == b)
 </pre>
@@ -1287,7 +1287,7 @@ a
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="or">or(<i>a,b,...</i>)</a>
 <p>
-Returns 1 if any argument is not zero valued, returns 0 otherwise.
+Returns 1 if any argument has a nonzero value, returns 0 otherwise.
 Arguments can use the relational operators
 &emsp;<code>==</code>
 &emsp;<code>&lt;</code>
@@ -1783,7 +1783,7 @@ x  + x  + x  + x  + x + 1
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="test">test(<i>a,b,c,d,...</i>)</a>
 <p>
-If argument <i>a</i> is true (not zero) then <i>b</i> is returned, else if <i>c</i> is true then <i>d</i> is returned, etc.
+If argument <i>a</i> is true (nonzero) then <i>b</i> is returned, else if <i>c</i> is true then <i>d</i> is returned, etc.
 If the number of arguments is odd then the final argument is returned if all else fails.
 Arguments can use the relational operators
 &emsp;<code>==</code>

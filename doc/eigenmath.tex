@@ -1780,7 +1780,7 @@ $
 
 \subsection*{and($a,b,\ldots$)}
 
-Returns 1 if all arguments are not zero valued, returns 0 otherwise.
+Returns 1 if all arguments have nonzero values, returns 0 otherwise.
 Arguments can use the relational operators\verb$  ==  <  <=  >  >=$
 
 {\color{blue}
@@ -2780,7 +2780,7 @@ $x + 1$
 
 \subsection*{not($x$)}
 
-Returns 1 if $x$ is zero valued, returns 0 otherwise.
+Returns 1 if $x$ has a value of zero, returns 0 otherwise.
 
 {\color{blue}
 \begin{verbatim}
@@ -2851,7 +2851,7 @@ $a$
 
 \subsection*{or($a,b,\ldots$)}
 
-Returns 1 if any argument is not zero valued, returns 0 otherwise.
+Returns 1 if any argument has a nonzero value, returns 0 otherwise.
 Arguments can use the relational operators\verb$  ==  <  <=  >  >=$
 
 {\color{blue}
@@ -3312,7 +3312,7 @@ $\displaystyle -\frac{1}{\exp(2x)+1}+\frac{\exp(2x)}{\exp(2x)+1}$
 
 \subsection*{test($a,b,c,d,\ldots$)}
 
-If argument $a$ is true (not zero) then $b$ is returned, else if $c$ is true then $d$ is returned, etc.
+If argument $a$ is true (nonzero) then $b$ is returned, else if $c$ is true then $d$ is returned, etc.
 If the number of arguments is odd then the final argument is returned if all else fails.
 Arguments can use the relational operators\verb$  ==  <  <=  >  >=$
 
