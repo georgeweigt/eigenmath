@@ -1780,12 +1780,12 @@ $
 
 \subsection*{and($a,b,\ldots$)}
 
-Returns 1 if all arguments are true (nonzero).
-Returns 0 otherwise.
+Returns 1 if all arguments are not zero valued, returns 0 otherwise.
+Arguments can use the relational operators\verb$  ==  <  <=  >  >=$
 
 {\color{blue}
 \begin{verbatim}
-and(1=1,2=2)
+and(a,b)
 \end{verbatim}
 }
 
@@ -2780,16 +2780,15 @@ $x + 1$
 
 \subsection*{not($x$)}
 
-Returns 0 if $x$ is true (nonzero).
-Returns 1 otherwise.
+Returns 1 if $x$ is zero valued, returns 0 otherwise.
 
 {\color{blue}
 \begin{verbatim}
-not(1=1)
+not(a == b)
 \end{verbatim}
 }
 
-$0$
+$1$
 
 \subsection*{nroots($p,x$)}
 
@@ -2852,12 +2851,12 @@ $a$
 
 \subsection*{or($a,b,\ldots$)}
 
-Returns 1 if at least one argument is true (nonzero).
-Returns 0 otherwise.
+Returns 1 if any argument is not zero valued, returns 0 otherwise.
+Arguments can use the relational operators\verb$  ==  <  <=  >  >=$
 
 {\color{blue}
 \begin{verbatim}
-or(1=1,2=2)
+or(a,b)
 \end{verbatim}
 }
 
@@ -3313,33 +3312,17 @@ $\displaystyle -\frac{1}{\exp(2x)+1}+\frac{\exp(2x)}{\exp(2x)+1}$
 
 \subsection*{test($a,b,c,d,\ldots$)}
 
-If argument $a$ is true (nonzero) then $b$ is returned, else if $c$ is true then $d$ is returned, etc.
+If argument $a$ is true (not zero) then $b$ is returned, else if $c$ is true then $d$ is returned, etc.
 If the number of arguments is odd then the final argument is returned if all else fails.
-Expressions can include the relational operators
-\verb$=$,
-\verb$==$,
-\verb$<$,
-\verb$<=$,
-\verb$>$,
-\verb$>=$.
-Use the
-\verb$not$
-function to test for inequality.
-(The equality operator
-\verb$==$
-is available for contexts in which
-\verb$=$
-is the assignment operator.)
+Arguments can use the relational operators\verb$  ==  <  <=  >  >=$
 
 {\color{blue}
 \begin{verbatim}
-A = 1
-B = 1
-test(A=B,"yes","no")
+test(a == b, "yes", "no")
 \end{verbatim}
 }
 
-yes
+no
 
 \subsection*{tgamma($x$)}
 

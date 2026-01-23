@@ -175,10 +175,15 @@ adj(A)
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="and">and(<i>a,b,...</i>)</a>
 <p>
-Returns 1 if all arguments are true (nonzero).
-Returns 0 otherwise.
+Returns 1 if all arguments are not zero valued, returns 0 otherwise.
+Arguments can use the relational operators
+&emsp;<code>==</code>
+&emsp;<code>&lt;</code>
+&emsp;<code>&lt;=</code>
+&emsp;<code>&gt;</code>
+&emsp;<code>&gt;=</code>
 <pre class="input">
-and(1=1,2=2)
+and(a,b)
 </pre>
 <pre class="output">
 1
@@ -1218,13 +1223,12 @@ x + 1
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="not">not(<i>x</i>)</a>
 <p>
-Returns 0 if <i>x</i> is true (nonzero).
-Returns 1 otherwise.
+Returns 1 if <i>x</i> is zero valued, returns 0 otherwise.
 <pre class="input">
-not(1=1)
+not(a == b)
 </pre>
 <pre class="output">
-0
+1
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -1283,10 +1287,15 @@ a
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="or">or(<i>a,b,...</i>)</a>
 <p>
-Returns 1 if at least one argument is true (nonzero).
-Returns 0 otherwise.
+Returns 1 if any argument is not zero valued, returns 0 otherwise.
+Arguments can use the relational operators
+&emsp;<code>==</code>
+&emsp;<code>&lt;</code>
+&emsp;<code>&lt;=</code>
+&emsp;<code>&gt;</code>
+&emsp;<code>&gt;=</code>
 <pre class="input">
-or(1=1,2=2)
+or(a,b)
 </pre>
 <pre class="output">
 1
@@ -1774,30 +1783,19 @@ x  + x  + x  + x  + x + 1
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="test">test(<i>a,b,c,d,...</i>)</a>
 <p>
-If argument <i>a</i> is true (nonzero) then <i>b</i> is returned, else if <i>c</i> is true then <i>d</i> is returned, etc.
+If argument <i>a</i> is true (not zero) then <i>b</i> is returned, else if <i>c</i> is true then <i>d</i> is returned, etc.
 If the number of arguments is odd then the final argument is returned if all else fails.
-Expressions can include the relational operators
-<span class="foo">=</span>,
-<span class="foo">==</span>,
-<span class="foo">&lt;</span>,
-<span class="foo">&lt;=</span>,
-<span class="foo">&gt;</span>,
-<span class="foo">&gt;=</span>.
-Use the
-<span class="foo">not</span>
-function to test for inequality.
-(The equality operator
-<span class="foo">==</span>
-is available for contexts in which
-<span class="foo">=</span>
-is the assignment operator.)
+Arguments can use the relational operators
+&emsp;<code>==</code>
+&emsp;<code>&lt;</code>
+&emsp;<code>&lt;=</code>
+&emsp;<code>&gt;</code>
+&emsp;<code>&gt;=</code>
 <pre class="input">
-A = 1
-B = 1
-test(A=B,"yes","no")
+test(a == b, "yes", "no")
 </pre>
 <pre class="output">
-yes
+no
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
