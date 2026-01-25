@@ -304,16 +304,12 @@ dlog(struct atom *p1, struct atom *p2)
 // derivative of a generic function
 
 void
-dfunction(struct atom *p1, struct atom *p2)
+dfunction(struct atom *f, struct atom *x)
 {
-	struct atom *p3;
-
-	p3 = cdr(p1); // p3 is the argument list for the function
-
-	if (p3 == symbol(NIL) || findf(p3, p2)) {
+	if (dependent(f, x)) {
 		push_symbol(DERIVATIVE);
-		push(p1);
-		push(p2);
+		push(f);
+		push(x);
 		list(3);
 	} else
 		push_integer(0);

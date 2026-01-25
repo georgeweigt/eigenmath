@@ -107,7 +107,7 @@ void dsum(struct atom *p1, struct atom *p2);
 void dproduct(struct atom *p1, struct atom *p2);
 void dpower(struct atom *F, struct atom *X);
 void dlog(struct atom *p1, struct atom *p2);
-void dfunction(struct atom *p1, struct atom *p2);
+void dfunction(struct atom *f, struct atom *x);
 void dsin(struct atom *p1, struct atom *p2);
 void dcos(struct atom *p1, struct atom *p2);
 void dtan(struct atom *p1, struct atom *p2);

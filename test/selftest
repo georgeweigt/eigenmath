@@ -3638,7 +3638,9 @@ T = d(g(f(x)),x)
 check(T = d(g(f(x)),x))
 T = d(erf(x))-2*exp(-x^2)/sqrt(pi)
 check(T = 0)
+
 f=x^5*y^7
+
 T = d(f)
 check(T = 5*x^4*y^7)
 T = d(f,x)
@@ -3655,6 +3657,8 @@ T = d(f,2,y)
 check(T = 140*x^3*y^6)
 T = d(f,x,x,y,y)
 check(T = 840*x^3*y^5)
+
+clear
 
 -- derivative of derivative
 
@@ -3680,6 +3684,12 @@ check(infixform(d(integral(f(x,y),y,x),y)) == "integral(f(x,y),x)")
 
 check(infixform(d(integral(f(x,y),x),x,y)) == "d(f(x,y),y)")
 check(infixform(d(integral(f(x,y),x),y,x)) == "d(f(x,y),y)")
+
+-- derivative of function of function
+
+check(infixform(d(f(g()),x)) == "d(f(g()),x)")
+check(infixform(d(f(g(x)),x)) == "d(f(g(x)),x)")
+check(infixform(d(f(g(y)),x)) == "0")
 "Testing det"
 
 clear
