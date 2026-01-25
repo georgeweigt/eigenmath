@@ -216,6 +216,35 @@ for(l,1,3,for(m, -l, l - 1,
 "addition-of-angular-momentum-3-demo.txt"
 status
 clear
+"angular-momentum-1-demo.txt"
+"Angular momentum 1"
+
+px(f) = -i hbar d(f,x)
+py(f) = -i hbar d(f,y)
+pz(f) = -i hbar d(f,z)
+
+Lx(f) = y pz(f) - z py(f)
+Ly(f) = z px(f) - x pz(f)
+Lz(f) = x py(f) - y px(f)
+
+L2(f) = Lx(Lx(f)) + Ly(Ly(f)) + Lz(Lz(f))
+
+"Verify commutation relations"
+
+Y = psi(x,y,z,t)
+
+check(Lx(Ly(Y)) - Ly(Lx(Y)) == i hbar Lz(Y))
+check(Ly(Lz(Y)) - Lz(Ly(Y)) == i hbar Lx(Y))
+check(Lz(Lx(Y)) - Lx(Lz(Y)) == i hbar Ly(Y))
+
+check(Lx(L2(Y)) - L2(Lx(Y)) == 0)
+check(Ly(L2(Y)) - L2(Ly(Y)) == 0)
+check(Lz(L2(Y)) - L2(Lz(Y)) == 0)
+
+"ok"
+"angular-momentum-1-demo.txt"
+status
+clear
 "angular-momentum-formulas-1.txt"
 Y = psi(x1,x2,x3)
 
@@ -5397,230 +5426,6 @@ check(M(e7,e7)=-e0)
 
 "ok"
 "octonions.txt"
-status
-clear
-"orbital-angular-momentum-1-demo.txt"
-"Orbital angular momentum 1"
-
-X1(f) = x1 f
-X2(f) = x2 f
-X3(f) = x3 f
-
-P1(f) = -i hbar d(f,x1)
-P2(f) = -i hbar d(f,x2)
-P3(f) = -i hbar d(f,x3)
-
-L1(f) = X2(P3(f)) - X3(P2(f))
-L2(f) = X3(P1(f)) - X1(P3(f))
-L3(f) = X1(P2(f)) - X2(P1(f))
-
-Lsq(f) = L1(L1(f)) + L2(L2(f)) + L3(L3(f))
-
-psi = Psi(x1,x2,x3,t)
-
-"Verify equation (1)"
-check(X1(L3(psi)) - L3(X1(psi)) == -i hbar X2(psi))
-check(X2(L3(psi)) - L3(X2(psi)) == i hbar X1(psi))
-check(X3(L3(psi)) - L3(X3(psi)) == 0)
-"ok"
-
-"Verify equation (2)"
-check(P1(L3(psi)) - L3(P1(psi)) == -i hbar P2(psi))
-check(P2(L3(psi)) - L3(P2(psi)) == i hbar P1(psi))
-check(P3(L3(psi)) - L3(P3(psi)) == 0)
-"ok"
-
-"Verify equation (3)"
-check(L1(Lsq(psi)) - Lsq(L1(psi)) == 0)
-check(L2(Lsq(psi)) - Lsq(L2(psi)) == 0)
-check(L3(Lsq(psi)) - Lsq(L3(psi)) == 0)
-"ok"
-
-"Verify equation (4)"
-check(L2(L3(psi)) - L3(L2(psi)) == i hbar L1(psi))
-check(L3(L1(psi)) - L1(L3(psi)) == i hbar L2(psi))
-check(L1(L2(psi)) - L2(L1(psi)) == i hbar L3(psi))
-"ok"
-
-"Verify equation (5)"
-
-PxL = (P2(L3(psi)) - P3(L2(psi)),
-       P3(L1(psi)) - P1(L3(psi)),
-       P1(L2(psi)) - P2(L1(psi)))
-
-LxP = (L2(P3(psi)) - L3(P2(psi)),
-       L3(P1(psi)) - L1(P3(psi)),
-       L1(P2(psi)) - L2(P1(psi)))
-
-P = (P1(psi),P2(psi),P3(psi))
-
-check(PxL + LxP == 2 i hbar P)
-
-"ok"
-
-"Verify equation (6)"
-check(1/2 (PxL - LxP) == PxL - i hbar P)
-"ok"
-
-"Verify equation (7)"
-
-epsilon = (((0,0,0),(0,0,1),(0,-1,0)),
-           ((0,0,-1),(0,0,0),(1,0,0)),
-           ((0,1,0),(-1,0,0),(0,0,0)))
-
-S(I1,I2) = epsilon[I1,I2,1] P1(psi) + epsilon[I1,I2,2] P2(psi) + epsilon[I1,I2,3] P3(psi)
-
-check(L1(P1(psi)) - P1(L1(psi)) == i hbar S(1,1))
-check(L1(P2(psi)) - P2(L1(psi)) == i hbar S(1,2))
-check(L1(P3(psi)) - P3(L1(psi)) == i hbar S(1,3))
-
-check(L2(P1(psi)) - P1(L2(psi)) == i hbar S(2,1))
-check(L2(P2(psi)) - P2(L2(psi)) == i hbar S(2,2))
-check(L2(P3(psi)) - P3(L2(psi)) == i hbar S(2,3))
-
-check(L3(P1(psi)) - P1(L3(psi)) == i hbar S(3,1))
-check(L3(P2(psi)) - P2(L3(psi)) == i hbar S(3,2))
-check(L3(P3(psi)) - P3(L3(psi)) == i hbar S(3,3))
-
-"ok"
-"orbital-angular-momentum-1-demo.txt"
-status
-clear
-"orbital-angular-momentum-2-demo.txt"
-"Orbital angular momentum 2"
-
-Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
-         P(l,m) exp(i m phi)
-
--- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
-
-P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-           (sin(theta)/2)^m sum(k, 0, l - m,
-           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
-           ((1 - cos(theta)) / 2)^k))
-
-Lx(f) = i hbar sin(phi) d(f,theta) +
-        i hbar cos(phi) cos(theta) / sin(theta) d(f,phi)
-
-cp(l,m) = sqrt(l (l + 1) - m (m + 1))
-cm(l,m) = sqrt(l (l + 1) - m (m - 1))
-
-cp(l,m) = sqrt((l - m) (l + m + 1))
-cm(l,m) = sqrt((l + m) (l - m + 1))
-
-"Verify for azimuth = 1"
-
-Ym = (Y(1,1),Y(1,0),Y(1,-1))
-
-Mx = zero(3,3)
-for(k,1,2, Mx[k,k+1] = 1/2 cp(1, 1 - k))
-for(k,1,2, Mx[k+1,k] = 1/2 cm(1, 2 - k))
-
-check((Lx(Y(1,1)),Lx(Y(1,0)),Lx(Y(1,-1))) == hbar dot(Mx,Ym))
-
--- m = 1
-
-x = (1/2, sqrt(1/2), 1/2)
-check(dot(Mx,x) == x)
-psi = dot(x,Ym)
-check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
-check(Lx(psi) == hbar psi)
-
--- m = 0
-
-x = (-sqrt(1/2), 0, sqrt(1/2))
-check(dot(Mx,x) == 0)
-psi = dot(x,Ym)
-check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
-check(Lx(psi) == 0)
-
--- m = -1
-
-x = (-1/2, sqrt(1/2), -1/2)
-check(dot(Mx,x) == -x)
-psi = dot(x,Ym)
-check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
-check(Lx(psi) == -hbar psi)
-
-"ok"
-
-"Verify for azimuth = 2"
-
-Ym = (Y(2,2),Y(2,1),Y(2,0),Y(2,-1),Y(2,-2))
-
-Mx = zero(5,5)
-for(k,1,4, Mx[k,k+1] = 1/2 cp(2,2 - k))
-for(k,1,4, Mx[k+1,k] = 1/2 cm(2,3 - k))
-
-check((Lx(Y(2,2)),Lx(Y(2,1)),Lx(Y(2,0)),Lx(Y(2,-1)),Lx(Y(2,-2))) == hbar dot(Mx,Ym))
-
--- m = 2
-
-x = (1/4, 1/2, 1/2 sqrt(3/2), 1/2, 1/4)
-check(dot(Mx,x) == 2 x)
-psi = dot(x,Ym)
-check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
-check(Lx(psi) == 2 hbar psi)
-
--- m = -2
-
-x = (-1/4, 1/2, -1/2 sqrt(3/2), 1/2, -1/4)
-check(dot(Mx,x) == -2 x)
-psi = dot(x,Ym)
-check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
-check(Lx(psi) == -2 hbar psi)
-
--- m = 1
-
-x = (-1/2, -1/2, 0, 1/2, 1/2)
-check(dot(Mx,x) == x)
-psi = dot(x,Ym)
-check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
-check(Lx(psi) == hbar psi)
-
--- m = -1
-
-x = (-1/2, 1/2, 0, -1/2, 1/2)
-check(dot(Mx,x) == -x)
-psi = dot(x,Ym)
-check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
-check(Lx(psi) == -hbar psi)
-
--- m = 0
-
-x = (1/2 sqrt(3/2), 0, -1/2, 0, 1/2 sqrt(3/2))
-check(dot(Mx,x) == 0)
-psi = dot(x,Ym)
-check(defint(conj(psi) psi sin(theta), phi, 0, 2 pi, theta, 0, pi) == 1)
-check(Lx(psi) == 0)
-
-"ok"
-"orbital-angular-momentum-2-demo.txt"
-status
-clear
-"orbital-angular-momentum.txt"
-Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
-         P(l,m) exp(i m phi)
-
--- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
-
-P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-           (sin(theta)/2)^m sum(k, 0, l - m,
-           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
-           ((1 - cos(theta)) / 2)^k))
-
-Lz(f) = -i hbar d(f,phi)
-
--- Y is (trivially) an eigenfunction of Lz
-
--- Lz Y(l,m) = m hbar Y(l,m)
-
-Lz(Y(2,2)) == 2 hbar Y(2,2)
-Lz(Y(2,1)) == hbar Y(2,1)
-Lz(Y(2,0)) == 0
-Lz(Y(2,-1)) == -hbar Y(2,-1)
-Lz(Y(2,-2)) == -2 hbar Y(2,-2)
-"orbital-angular-momentum.txt"
 status
 clear
 "penguin-anomaly-demo.txt"
