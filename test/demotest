@@ -231,15 +231,15 @@ L2(f) = Lx(Lx(f)) + Ly(Ly(f)) + Lz(Lz(f))
 
 "Verify commutation relations"
 
-Y = psi(x,y,z,t)
+W = psi(x,y,z,t)
 
-check(Lx(Ly(Y)) - Ly(Lx(Y)) == i hbar Lz(Y))
-check(Ly(Lz(Y)) - Lz(Ly(Y)) == i hbar Lx(Y))
-check(Lz(Lx(Y)) - Lx(Lz(Y)) == i hbar Ly(Y))
+check(Lx(Ly(W)) - Ly(Lx(W)) == i hbar Lz(W))
+check(Ly(Lz(W)) - Lz(Ly(W)) == i hbar Lx(W))
+check(Lz(Lx(W)) - Lx(Lz(W)) == i hbar Ly(W))
 
-check(Lx(L2(Y)) - L2(Lx(Y)) == 0)
-check(Ly(L2(Y)) - L2(Ly(Y)) == 0)
-check(Lz(L2(Y)) - L2(Lz(Y)) == 0)
+check(Lx(L2(W)) - L2(Lx(W)) == 0)
+check(Ly(L2(W)) - L2(Ly(W)) == 0)
+check(Lz(L2(W)) - L2(Lz(W)) == 0)
 
 "ok"
 "angular-momentum-1-demo.txt"
@@ -247,6 +247,53 @@ status
 clear
 "angular-momentum-2-demo.txt"
 "Angular momentum 2"
+
+Dx(f) = sin(theta) cos(phi) d(f,r) +
+        cos(theta) cos(phi) / r d(f,theta) -
+        sin(phi) / (r sin(theta)) d(f,phi)
+
+Dy(f) = sin(theta) sin(phi) d(f,r) +
+        cos(theta) sin(phi) / r d(f,theta) +
+        cos(phi) / (r sin(theta)) d(f,phi)
+
+Dz(f) = cos(theta) d(f,r) - sin(theta) / r d(f,theta)
+
+px(f) = -i hbar Dx(f)
+py(f) = -i hbar Dy(f)
+pz(f) = -i hbar Dz(f)
+
+Lx(f) = i hbar (sin(phi) d(f,theta) +
+        cos(theta) cos(phi) / sin(theta) d(f,phi))
+
+Ly(f) = i hbar (-cos(phi) d(f,theta) +
+        cos(theta) sin(phi) / sin(theta) d(f,phi))
+
+Lz(f) = -i hbar d(f,phi)
+
+LL(f) = -hbar^2 (d(f,theta,theta) +
+        cos(theta) / sin(theta) d(f,theta) +
+        1 / sin(theta)^2 d(f,phi,phi))
+
+"Verify operators"
+
+W = psi(r,theta,phi,t)
+
+x = r sin(theta) cos(phi)
+y = r sin(theta) sin(phi)
+z = r cos(theta)
+
+check(y pz(W) - z py(W) == Lx(W))
+check(z px(W) - x pz(W) == Ly(W))
+check(x py(W) - y px(W) == Lz(W))
+
+check(Lx(Lx(W)) + Ly(Ly(W)) + Lz(Lz(W)) == LL(W))
+
+"ok"
+"angular-momentum-2-demo.txt"
+status
+clear
+"angular-momentum-3-demo.txt"
+"Angular momentum 3"
 
 L2(f) = -hbar^2 (d(f,theta,theta) + cos(theta) / sin(theta) d(f,theta) + d(f,phi,phi) / sin(theta)^2)
 
@@ -298,53 +345,6 @@ check(Lp(Lm(psi)) == L2(psi) - Lz(Lz(psi)) + hbar Lz(psi))
 
 check(L2(psi) == l (l + 1) hbar^2 psi)
 check(Lz(psi) == m hbar psi)
-
-"ok"
-"angular-momentum-2-demo.txt"
-status
-clear
-"angular-momentum-3-demo.txt"
-"Angular momentum 3"
-
-W = psi(r,theta,phi,t)
-
-Dx(f) = sin(theta) cos(phi) d(f,r) +
-        cos(theta) cos(phi) / r d(f,theta) -
-        sin(phi) / (r sin(theta)) d(f,phi)
-
-Dy(f) = sin(theta) sin(phi) d(f,r) +
-        cos(theta) sin(phi) / r d(f,theta) +
-        cos(phi) / (r sin(theta)) d(f,phi)
-
-Dz(f) = cos(theta) d(f,r) - sin(theta) / r d(f,theta)
-
-px(f) = -i hbar Dx(f)
-py(f) = -i hbar Dy(f)
-pz(f) = -i hbar Dz(f)
-
-Lx(f) = i hbar (sin(phi) d(f,theta) +
-        cos(theta) cos(phi) / sin(theta) d(f,phi))
-
-Ly(f) = i hbar (-cos(phi) d(f,theta) +
-        cos(theta) sin(phi) / sin(theta) d(f,phi))
-
-Lz(f) = -i hbar d(f,phi)
-
-LL(f) = -hbar^2 (d(f,theta,theta) +
-        cos(theta) / sin(theta) d(f,theta) +
-        1 / sin(theta)^2 d(f,phi,phi))
-
-x = r sin(theta) cos(phi)
-y = r sin(theta) sin(phi)
-z = r cos(theta)
-
-"Verify operators"
-
-check(y pz(W) - z py(W) == Lx(W))
-check(z px(W) - x pz(W) == Ly(W))
-check(x py(W) - y px(W) == Lz(W))
-
-check(Lx(Lx(W)) + Ly(Ly(W)) + Lz(Lz(W)) == LL(W))
 
 "ok"
 "angular-momentum-3-demo.txt"
