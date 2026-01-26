@@ -245,8 +245,113 @@ check(Lz(L2(Y)) - L2(Lz(Y)) == 0)
 "angular-momentum-1-demo.txt"
 status
 clear
+"angular-momentum-2-demo.txt"
+"Angular momentum 2"
+
+L2(f) = -hbar^2 (d(f,theta,theta) + cos(theta) / sin(theta) d(f,theta) + d(f,phi,phi) / sin(theta)^2)
+
+Lx(f) = i hbar (sin(phi) d(f,theta) + cos(phi) cos(theta) / sin(theta) d(f,phi))
+Ly(f) = i hbar (-cos(phi) d(f,theta) + sin(phi) cos(theta) / sin(theta) d(f,phi))
+Lz(f) = -i hbar d(f,phi)
+
+Lp(f) = Lx(f) + i Ly(f)
+Lm(f) = Lx(f) - i Ly(f)
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+l = 3
+m = 2
+
+psi = Y(l,m)
+
+"Verify commutation relations"
+
+check(Lx(Ly(psi)) - Ly(Lx(psi)) == i hbar Lz(psi))
+check(Ly(Lz(psi)) - Lz(Ly(psi)) == i hbar Lx(psi))
+check(Lz(Lx(psi)) - Lx(Lz(psi)) == i hbar Ly(psi))
+
+check(L2(Lx(psi)) - Lx(L2(psi)) == 0)
+check(L2(Ly(psi)) - Ly(L2(psi)) == 0)
+check(L2(Lz(psi)) - Lz(L2(psi)) == 0)
+
+"ok"
+
+"Verify ladder operators"
+
+check(Lz(Lp(psi)) - Lp(Lz(psi)) == hbar Lp(psi))
+check(Lz(Lm(psi)) - Lm(Lz(psi)) == -hbar Lm(psi))
+
+check(Lm(Lp(psi)) == L2(psi) - Lz(Lz(psi)) - hbar Lz(psi))
+check(Lp(Lm(psi)) == L2(psi) - Lz(Lz(psi)) + hbar Lz(psi))
+
+"ok"
+
+"Verify eigenvalues"
+
+check(L2(psi) == l (l + 1) hbar^2 psi)
+check(Lz(psi) == m hbar psi)
+
+"ok"
+"angular-momentum-2-demo.txt"
+status
+clear
+"angular-momentum-3-demo.txt"
+"Angular momentum 3"
+
+W = psi(r,theta,phi,t)
+
+Dx(f) = sin(theta) cos(phi) d(f,r) +
+        cos(theta) cos(phi) / r d(f,theta) -
+        sin(phi) / (r sin(theta)) d(f,phi)
+
+Dy(f) = sin(theta) sin(phi) d(f,r) +
+        cos(theta) sin(phi) / r d(f,theta) +
+        cos(phi) / (r sin(theta)) d(f,phi)
+
+Dz(f) = cos(theta) d(f,r) - sin(theta) / r d(f,theta)
+
+px(f) = -i hbar Dx(f)
+py(f) = -i hbar Dy(f)
+pz(f) = -i hbar Dz(f)
+
+Lx(f) = i hbar (sin(phi) d(f,theta) +
+        cos(theta) cos(phi) / sin(theta) d(f,phi))
+
+Ly(f) = i hbar (-cos(phi) d(f,theta) +
+        cos(theta) sin(phi) / sin(theta) d(f,phi))
+
+Lz(f) = -i hbar d(f,phi)
+
+LL(f) = -hbar^2 (d(f,theta,theta) +
+        cos(theta) / sin(theta) d(f,theta) +
+        1 / sin(theta)^2 d(f,phi,phi))
+
+x = r sin(theta) cos(phi)
+y = r sin(theta) sin(phi)
+z = r cos(theta)
+
+"Verify operators"
+
+check(y pz(W) - z py(W) == Lx(W))
+check(z px(W) - x pz(W) == Ly(W))
+check(x py(W) - y px(W) == Lz(W))
+
+check(Lx(Lx(W)) + Ly(Ly(W)) + Lz(Lz(W)) == LL(W))
+
+"ok"
+"angular-momentum-3-demo.txt"
+status
+clear
 "angular-momentum-formulas-1.txt"
-Y = psi(x1,x2,x3)
+-- rectangular coordinates
 
 X1(f) = x1 f
 X2(f) = x2 f
@@ -256,11 +361,12 @@ P1(f) = -i hbar d(f,x1)
 P2(f) = -i hbar d(f,x2)
 P3(f) = -i hbar d(f,x3)
 
+PP(f) = P1(P1(f)) + P2(P2(f)) + P3(P3(f))
+
 L1(f) = X2(P3(f)) - X3(P2(f))
 L2(f) = X3(P1(f)) - X1(P3(f))
 L3(f) = X1(P2(f)) - X2(P1(f))
 
-PP(f) = P1(P1(f)) + P2(P2(f)) + P3(P3(f))
 LL(f) = L1(L1(f)) + L2(L2(f)) + L3(L3(f))
 
 PXL1(f) = P2(L3(f)) - P3(L2(f))
@@ -270,26 +376,45 @@ PXL3(f) = P1(L2(f)) - P2(L1(f))
 LXP1(f) = L2(P3(f)) - L3(P2(f))
 LXP2(f) = L3(P1(f)) - L1(P3(f))
 LXP3(f) = L1(P2(f)) - L2(P1(f))
+
+"ok"
 "angular-momentum-formulas-1.txt"
 status
 clear
 "angular-momentum-formulas-2.txt"
-Y = psi(r,theta,phi)
+-- spherical coordinates
 
 X1(f) = r sin(theta) cos(phi) f
 X2(f) = r sin(theta) sin(phi) f
 X3(f) = r cos(theta) f
 
-P1(f) = i hbar d(f,phi) sin(phi) / (r sin(theta))
-P2(f) = -i hbar d(f,phi) cos(phi) / (r sin(theta))
-P3(f) = i hbar d(f,theta) / (r sin(theta))
+D1(f) = sin(theta) cos(phi) d(f,r) +
+        cos(theta) cos(phi) / r d(f,theta) -
+        sin(phi) / (r sin(theta)) d(f,phi)
 
-L1(f) = i hbar (d(f,theta) sin(phi) + d(f,phi) cos(phi) cos(theta) / sin(theta))
-L2(f) = i hbar (-d(f,theta) cos(phi) + d(f,phi) sin(phi) cos(theta) / sin(theta))
-L3(f) = -i hbar d(f,phi)
+D2(f) = sin(theta) sin(phi) d(f,r) +
+        cos(theta) sin(phi) / r d(f,theta) +
+        cos(phi) / (r sin(theta)) d(f,phi)
+
+D3(f) = cos(theta) d(f,r) - sin(theta) / r d(f,theta)
+
+P1(f) = -i hbar D1(f)
+P2(f) = -i hbar D2(f)
+P3(f) = -i hbar D3(f)
 
 PP(f) = P1(P1(f)) + P2(P2(f)) + P3(P3(f))
-LL(f) = -hbar^2 (d(sin(theta) d(f,theta),theta) / sin(theta) + d(f,phi,phi) / sin(theta)^2)
+
+L1(f) = i hbar (sin(phi) d(f,theta) +
+        cos(theta) cos(phi) / sin(theta) d(f,phi))
+
+L2(f) = i hbar (-cos(phi) d(f,theta) +
+        cos(theta) sin(phi) / sin(theta) d(f,phi))
+
+L3(f) = -i hbar d(f,phi)
+
+LL(f) = -hbar^2 (d(f,theta,theta) +
+        cos(theta) / sin(theta) d(f,theta) +
+        1 / sin(theta)^2 d(f,phi,phi))
 
 PXL1(f) = P2(L3(f)) - P3(L2(f))
 PXL2(f) = P3(L1(f)) - P1(L3(f))
@@ -299,11 +424,15 @@ LXP1(f) = L2(P3(f)) - L3(P2(f))
 LXP2(f) = L3(P1(f)) - L1(P3(f))
 LXP3(f) = L1(P2(f)) - L2(P1(f))
 
-check(L1(Y) == X2(P3(Y)) - X3(P2(Y)))
-check(L2(Y) == X3(P1(Y)) - X1(P3(Y)))
-check(L3(Y) == X1(P2(Y)) - X2(P1(Y)))
+W = psi(r,theta,phi)
 
-check(L1(L1(Y)) + L2(L2(Y)) + L3(L3(Y)) == LL(Y))
+check(X2(P3(W)) - X3(P2(W)) == L1(W))
+check(X3(P1(W)) - X1(P3(W)) == L2(W))
+check(X1(P2(W)) - X2(P1(W)) == L3(W))
+
+check(L1(L1(W)) + L2(L2(W)) + L3(L3(W)) == LL(W))
+
+"ok"
 "angular-momentum-formulas-2.txt"
 status
 clear
@@ -2304,64 +2433,6 @@ yrange = (-2,2)
 trange = (-4,2)
 draw(f,t)
 "draw.txt"
-status
-clear
-"eigenvalues-of-angular-momentum-demo.txt"
-"Eigenvalues of angular momentum"
-
-L2(f) = -hbar^2 (d(f,theta,theta) + cos(theta) / sin(theta) d(f,theta) + d(f,phi,phi) / sin(theta)^2)
-
-Lx(f) = i hbar (sin(phi) d(f,theta) + cos(phi) cos(theta) / sin(theta) d(f,phi))
-Ly(f) = i hbar (-cos(phi) d(f,theta) + sin(phi) cos(theta) / sin(theta) d(f,phi))
-Lz(f) = -i hbar d(f,phi)
-
-Lp(f) = Lx(f) + i Ly(f)
-Lm(f) = Lx(f) - i Ly(f)
-
-Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
-         P(l,m) exp(i m phi)
-
--- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
-
-P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-           (sin(theta)/2)^m sum(k, 0, l - m,
-           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
-           ((1 - cos(theta)) / 2)^k))
-
-l = 3
-m = 2
-
-psi = Y(l,m)
-
-"Verify commutation relations"
-
-check(Lx(Ly(psi)) - Ly(Lx(psi)) == i hbar Lz(psi))
-check(Ly(Lz(psi)) - Lz(Ly(psi)) == i hbar Lx(psi))
-check(Lz(Lx(psi)) - Lx(Lz(psi)) == i hbar Ly(psi))
-
-check(L2(Lx(psi)) - Lx(L2(psi)) == 0)
-check(L2(Ly(psi)) - Ly(L2(psi)) == 0)
-check(L2(Lz(psi)) - Lz(L2(psi)) == 0)
-
-"ok"
-
-"Verify ladder operators"
-
-check(Lz(Lp(psi)) - Lp(Lz(psi)) == hbar Lp(psi))
-check(Lz(Lm(psi)) - Lm(Lz(psi)) == -hbar Lm(psi))
-
-check(Lm(Lp(psi)) == L2(psi) - Lz(Lz(psi)) - hbar Lz(psi))
-check(Lp(Lm(psi)) == L2(psi) - Lz(Lz(psi)) + hbar Lz(psi))
-
-"ok"
-
-"Verify eigenvalues"
-
-check(L2(psi) == l (l + 1) hbar^2 psi)
-check(Lz(psi) == m hbar psi)
-
-"ok"
-"eigenvalues-of-angular-momentum-demo.txt"
 status
 clear
 "electromagnetic-tensor-demo.txt"
