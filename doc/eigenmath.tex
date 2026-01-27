@@ -1910,22 +1910,10 @@ $1$
 \subsection*{check($x$)}
 
 If $x$ is true (nonzero) then continue, else stop.
-Expression $x$ can include the relational operators
-\verb$=$,
-\verb$==$,
-\verb$<$,
-\verb$<=$,
-\verb$>$,
-\verb$>=$.
-Use the
-\verb$not$
-function to test for inequality.
 
 {\color{blue}
 \begin{verbatim}
-A = exp(i pi)
-B = -1
-check(A == B) -- stop here if A not equal to B
+check(exp(i pi) == -1)
 \end{verbatim}
 }
 

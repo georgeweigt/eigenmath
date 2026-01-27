@@ -316,21 +316,9 @@ ceiling(1/2)
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="check">check(<i>x</i>)</a>
 <p>
-If <i>x</i> is true (nonzero) then continue in a script, else stop.
-Expression <i>x</i> can include the relational operators
-<span class="foo">=</span>,
-<span class="foo">==</span>,
-<span class="foo">&lt;</span>,
-<span class="foo">&lt;=</span>,
-<span class="foo">&gt;</span>,
-<span class="foo">&gt;=</span>.
-Use the
-<span class="foo">not</span>
-function to test for inequality.
+If <i>x</i> is true (nonzero) then continue, else stop.
 <pre class="input">
-A = exp(i pi)
-B = -1
-check(A == B) -- stop here if A not equal to B
+check(exp(i pi) == -1)
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
