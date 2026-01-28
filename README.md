@@ -4,7 +4,7 @@ This app provides a unified environment for symbolic manipulation, numerical com
 This app supports a wide range of mathematical operations, including symbolic algebra, multivariable calculus, and matrix operations.
 
 Commands are entered at the `?` prompt.
-Press ctrl-C to exit.
+Press ctrl-C or enter `exit` to exit.
 
 ```
 % make
@@ -22,7 +22,7 @@ Press ctrl-C to exit.
      1/2    
     π       
 
-? ^C
+? exit
 %
 ```
 
@@ -78,6 +78,6 @@ Verify emission rate
 
 ok
 
-? ^C
+? exit
 %
 ```
