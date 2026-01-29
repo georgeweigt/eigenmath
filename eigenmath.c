@@ -139,11 +139,10 @@ struct tensor {
 #define CIRCEXP		(2 * BUCKETSIZE + 4)
 #define CLEAR		(2 * BUCKETSIZE + 5)
 #define CLOCK		(2 * BUCKETSIZE + 6)
-#define COFACTOR	(2 * BUCKETSIZE + 7)
-#define CONJ		(2 * BUCKETSIZE + 8)
-#define CONTRACT	(2 * BUCKETSIZE + 9)
-#define COS		(2 * BUCKETSIZE + 10)
-#define COSH		(2 * BUCKETSIZE + 11)
+#define CONJ		(2 * BUCKETSIZE + 7)
+#define CONTRACT	(2 * BUCKETSIZE + 8)
+#define COS		(2 * BUCKETSIZE + 9)
+#define COSH		(2 * BUCKETSIZE + 10)
 
 #define D_UPPER		(3 * BUCKETSIZE + 0)
 #define D_LOWER		(3 * BUCKETSIZE + 1)
@@ -479,7 +478,6 @@ void eval_check(struct atom *p1);
 void eval_clear(struct atom *p1);
 void eval_clock(struct atom *p1);
 void clockfunc(void);
-void eval_cofactor(struct atom *p1);
 void eval_conj(struct atom *p1);
 void conjfunc(void);
 void conjfunc_subst(void);
@@ -3551,39 +3549,6 @@ clockfunc(void)
 	power();
 
 	multiply();
-}
-void
-eval_cofactor(struct atom *p1)
-{
-	int i, j;
-	struct atom *p2;
-
-	push(cadr(p1));
-	evalf();
-	p2 = pop();
-
-	push(caddr(p1));
-	evalf();
-	i = pop_integer();
-
-	push(cadddr(p1));
-	evalf();
-	j = pop_integer();
-
-	if (!issquarematrix(p2))
-		stopf("cofactor: square matrix expected");
-
-	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stopf("cofactor: index err");
-
-	push(p2);
-
-	minormatrix(i, j);
-
-	det();
-
-	if ((i + j) % 2)
-		negate();
 }
 void
 eval_conj(struct atom *p1)
@@ -18515,7 +18480,6 @@ struct se {
 	{ "circexp",		CIRCEXP,	eval_expform		},
 	{ "clear",		CLEAR,		eval_clear		},
 	{ "clock",		CLOCK,		eval_clock		},
-	{ "cofactor",		COFACTOR,	eval_cofactor		},
 	{ "conj",		CONJ,		eval_conj		},
 	{ "contract",		CONTRACT,	eval_contract		},
 	{ "cos",		COS,		eval_cos		},

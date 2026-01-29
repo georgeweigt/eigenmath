@@ -35,7 +35,6 @@ var symtab = {
 "circexp":	{printname:CIRCEXP,	func:eval_expform},
 "clear":	{printname:CLEAR,	func:eval_clear},
 "clock":	{printname:CLOCK,	func:eval_clock},
-"cofactor":	{printname:COFACTOR,	func:eval_cofactor},
 "conj":		{printname:CONJ,	func:eval_conj},
 "contract":	{printname:CONTRACT,	func:eval_contract},
 "cos":		{printname:COS,		func:eval_cos},

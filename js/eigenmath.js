@@ -878,7 +878,6 @@ const CHECK = "check";
 const CIRCEXP = "circexp";
 const CLEAR = "clear";
 const CLOCK = "clock";
-const COFACTOR = "cofactor";
 const CONJ = "conj";
 const CONTRACT = "contract";
 const COS = "cos";
@@ -4519,38 +4518,6 @@ clockfunc()
 	power();
 
 	multiply();
-}
-function
-eval_cofactor(p1)
-{
-	var i, j, p2;
-
-	push(cadr(p1));
-	evalf();
-	p2 = pop();
-
-	push(caddr(p1));
-	evalf();
-	i = pop_integer();
-
-	push(cadddr(p1));
-	evalf();
-	j = pop_integer();
-
-	if (!issquarematrix(p2))
-		stopf("cofactor: square matrix expected");
-
-	if (i < 1 || i > p2.dim[0] || j < 0 || j > p2.dim[1])
-		stopf("cofactor: index err");
-
-	push(p2);
-
-	minormatrix(i, j);
-
-	det();
-
-	if ((i + j) % 2)
-		negate();
 }
 function
 eval_conj(p1)
@@ -18067,7 +18034,6 @@ var symtab = {
 "circexp":	{printname:CIRCEXP,	func:eval_expform},
 "clear":	{printname:CLEAR,	func:eval_clear},
 "clock":	{printname:CLOCK,	func:eval_clock},
-"cofactor":	{printname:COFACTOR,	func:eval_cofactor},
 "conj":		{printname:CONJ,	func:eval_conj},
 "contract":	{printname:CONTRACT,	func:eval_contract},
 "cos":		{printname:COS,		func:eval_cos},

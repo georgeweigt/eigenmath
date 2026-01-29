@@ -2742,39 +2742,6 @@ clockfunc(void)
 	multiply();
 }
 void
-eval_cofactor(struct atom *p1)
-{
-	int i, j;
-	struct atom *p2;
-
-	push(cadr(p1));
-	evalf();
-	p2 = pop();
-
-	push(caddr(p1));
-	evalf();
-	i = pop_integer();
-
-	push(cadddr(p1));
-	evalf();
-	j = pop_integer();
-
-	if (!issquarematrix(p2))
-		stopf("cofactor: square matrix expected");
-
-	if (i < 1 || i > p2->u.tensor->dim[0] || j < 0 || j > p2->u.tensor->dim[1])
-		stopf("cofactor: index err");
-
-	push(p2);
-
-	minormatrix(i, j);
-
-	det();
-
-	if ((i + j) % 2)
-		negate();
-}
-void
 eval_conj(struct atom *p1)
 {
 	push(cadr(p1));
@@ -16272,7 +16239,6 @@ struct se {
 	{ "circexp",		CIRCEXP,	eval_expform		},
 	{ "clear",		CLEAR,		eval_clear		},
 	{ "clock",		CLOCK,		eval_clock		},
-	{ "cofactor",		COFACTOR,	eval_cofactor		},
 	{ "conj",		CONJ,		eval_conj		},
 	{ "contract",		CONTRACT,	eval_contract		},
 	{ "cos",		COS,		eval_cos		},

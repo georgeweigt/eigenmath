@@ -15,7 +15,6 @@ const CHECK = "check";
 const CIRCEXP = "circexp";
 const CLEAR = "clear";
 const CLOCK = "clock";
-const COFACTOR = "cofactor";
 const CONJ = "conj";
 const CONTRACT = "contract";
 const COS = "cos";

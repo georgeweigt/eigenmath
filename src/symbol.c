@@ -107,7 +107,6 @@ struct se {
 	{ "circexp",		CIRCEXP,	eval_expform		},
 	{ "clear",		CLEAR,		eval_clear		},
 	{ "clock",		CLOCK,		eval_clock		},
-	{ "cofactor",		COFACTOR,	eval_cofactor		},
 	{ "conj",		CONJ,		eval_conj		},
 	{ "contract",		CONTRACT,	eval_contract		},
 	{ "cos",		COS,		eval_cos		},

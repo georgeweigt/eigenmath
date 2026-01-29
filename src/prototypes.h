@@ -86,7 +86,6 @@ void eval_check(struct atom *p1);
 void eval_clear(struct atom *p1);
 void eval_clock(struct atom *p1);
 void clockfunc(void);
-void eval_cofactor(struct atom *p1);
 void eval_conj(struct atom *p1);
 void conjfunc(void);
 void conjfunc_subst(void);

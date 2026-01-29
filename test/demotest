@@ -316,9 +316,9 @@ D(f) = d(f,r) er +
        d(f,theta) / r etheta +
        d(f,phi) / (r sin(theta)) ephi
 
-L = -i hbar cross(r er, D(W))
+L(f) = -i hbar cross(r er, D(f))
 
-check(L == (Lx(W), Ly(W), Lz(W)))
+check(L(W) == (Lx(W), Ly(W), Lz(W)))
 
 "ok"
 "angular-momentum-2-demo.txt"
