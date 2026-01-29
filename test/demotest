@@ -301,6 +301,26 @@ check(Ly(LL(W)) - LL(Ly(W)) == 0)
 check(Lz(LL(W)) - LL(Lz(W)) == 0)
 
 "ok"
+
+"Verify Griffith's formula"
+
+er = (sin(theta) cos(phi), sin(theta) sin(phi), cos(theta))
+etheta = (cos(theta) cos(phi), cos(theta) sin(phi), -sin(theta))
+ephi = (-sin(phi), cos(phi), 0)
+
+check(cross(er,er) = 0)
+check(cross(er,etheta) = ephi)
+check(cross(er,ephi) = -etheta)
+
+D(f) = d(f,r) er +
+       d(f,theta) / r etheta +
+       d(f,phi) / (r sin(theta)) ephi
+
+L = -i hbar cross(r er, D(W))
+
+check(L == (Lx(W), Ly(W), Lz(W)))
+
+"ok"
 "angular-momentum-2-demo.txt"
 status
 clear
