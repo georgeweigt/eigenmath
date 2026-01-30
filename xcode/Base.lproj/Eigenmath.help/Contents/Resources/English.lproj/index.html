@@ -158,7 +158,6 @@ abs(3 + 4 i)
 <a id="adj">adj(<i>m</i>)</a>
 <p>
 Returns the adjunct of matrix <i>m</i>.
-Adjunct is equal to determinant times inverse.
 </p>
 <pre class="input">
 A = ((a,b),(c,d))
@@ -170,6 +169,16 @@ adj(A)
 │         │
 │ −c   a  │
 └         ┘
+</pre>
+<pre class="input">
+inv(A) - adj(A) / det(A)
+</pre>
+<pre class="output">
+┌       ┐
+│ 0   0 │
+│       │
+│ 0   0 │
+└       ┘
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">

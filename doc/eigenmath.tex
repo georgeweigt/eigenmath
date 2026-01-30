@@ -1759,7 +1759,6 @@ $5$
 \subsection*{adj($m$)}
 
 Returns the adjunct of matrix $m$.
-Adjunct is equal to determinant times inverse.
 
 {\color{blue}
 \begin{verbatim}
@@ -1769,9 +1768,25 @@ adj(A)
 }
 
 $
-\begin{bmatrix}d&-b
+\begin{bmatrix}
+d&-b
 \\[1ex]
--c&a\end{bmatrix}
+-c&a
+\end{bmatrix}
+$
+
+{\color{blue}
+\begin{verbatim}
+inv(A) - adj(A) / det(A)
+\end{verbatim}
+}
+
+$
+\begin{bmatrix}
+0&0
+\\[1ex]
+0&0
+\end{bmatrix}
 $
 
 \subsection*{and($a,b,\ldots$)}
