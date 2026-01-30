@@ -116,6 +116,7 @@ const D_LOWER = "d";
 const I_LOWER = "i";
 const J_LOWER = "j";
 const X_LOWER = "x";
+const Z_LOWER = "z";
 
 const EXP1 = "$e";
 const SA = "$a";

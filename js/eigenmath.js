@@ -979,6 +979,7 @@ const D_LOWER = "d";
 const I_LOWER = "i";
 const J_LOWER = "j";
 const X_LOWER = "x";
+const Z_LOWER = "z";
 
 const EXP1 = "$e";
 const SA = "$a";
@@ -6555,6 +6556,66 @@ expform()
 		push(cadr(p1));
 		expform();
 		exptanh();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCCOS)) {
+		scan("-i log(z + i sqrt(1 - abs(z)^2))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		expform();
+		subst();
+		evalf();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCSIN)) {
+		scan("-i log(i z + sqrt(1 - abs(z)^2))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		expform();
+		subst();
+		evalf();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCTAN)) {
+		scan("-1/2 i log((i - z) / (i + z))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		expform();
+		subst();
+		evalf();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCCOSH)) {
+		scan("log(z + sqrt(abs(z)^2 - 1))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		expform();
+		subst();
+		evalf();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCSINH)) {
+		scan("log(z + sqrt(abs(z)^2 + 1))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		expform();
+		subst();
+		evalf();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCTANH)) {
+		scan("1/2 log((1 + z) / (1 - z))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		expform();
+		subst();
+		evalf();
 		return;
 	}
 
@@ -18135,6 +18196,7 @@ var symtab = {
 "i":		{printname:I_LOWER,	func:eval_user_symbol},
 "j":		{printname:J_LOWER,	func:eval_user_symbol},
 "x":		{printname:X_LOWER,	func:eval_user_symbol},
+"z":		{printname:Z_LOWER,	func:eval_user_symbol},
 
 "$e":		{printname:EXP1,	func:eval_user_symbol},
 "$a":		{printname:SA,		func:eval_user_symbol},

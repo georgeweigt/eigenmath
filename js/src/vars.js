@@ -136,6 +136,7 @@ var symtab = {
 "i":		{printname:I_LOWER,	func:eval_user_symbol},
 "j":		{printname:J_LOWER,	func:eval_user_symbol},
 "x":		{printname:X_LOWER,	func:eval_user_symbol},
+"z":		{printname:Z_LOWER,	func:eval_user_symbol},
 
 "$e":		{printname:EXP1,	func:eval_user_symbol},
 "$a":		{printname:SA,		func:eval_user_symbol},
