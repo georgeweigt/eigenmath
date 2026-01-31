@@ -185,7 +185,7 @@ draw_pass2(struct atom *F, struct atom *T)
 		dx = x2 - x1;
 		dy = y2 - y1;
 
-		m = sqrt(dx * dx + dy * dy);
+		m = floor(sqrt(dx * dx + dy * dy));
 
 		for (j = 1; j < m; j++) {
 			t = t1 + dt * j / m;
@@ -207,6 +207,7 @@ sample(struct atom *F, struct atom *T, double t)
 	push(F);
 	eval_nonstop();
 	floatfunc();
+	real();
 	p1 = pop();
 
 	if (istensor(p1)) {

@@ -19,6 +19,6 @@ emit_points()
 		x = "cx='" + x + "'";
 		y = "cy='" + y + "'";
 
-		outbuf += "<circle " + x + y + "r='1.5' style='stroke:black;fill:black'/>\n";
+		outbuf += "<circle " + x + y + "r='2' style='stroke:black;fill:black'/>\n";
 	}
 }
