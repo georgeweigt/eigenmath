@@ -3697,15 +3697,30 @@ darccos(struct atom *p1, struct atom *p2)
 void
 darctan(struct atom *p1, struct atom *p2)
 {
+	if (!findf(p1, p2)) {
+		push_integer(0);
+		return;
+	}
+	if (iszero(cadr(p1)) || iszero(caddr(p1))) {
+		push_symbol(DERIVATIVE);
+		push(p1);
+		push(p2);
+		list(3);
+		return;
+	}
 	push(cadr(p1));
-	push(p2);
-	derivative();
+	push(caddr(p1));
+	divide();
+	p1 = pop();
+	push(p1);
+	dupl();
+	multiply();
 	push_integer(1);
-	push(cadr(p1));
-	push_integer(2);
-	power();
 	add();
 	reciprocate();
+	push(p1);
+	push(p2);
+	derivative();
 	multiply();
 }
 
