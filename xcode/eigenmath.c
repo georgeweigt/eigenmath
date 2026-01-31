@@ -4827,11 +4827,11 @@ eval_expform(struct atom *p1)
 {
 	push(cadr(p1));
 	evalf();
-	expform();
+	expform(1);
 }
 
 void
-expform(void)
+expform(int flag)
 {
 	int h, i, n;
 	struct atom *p1, *num, *den;
@@ -4843,7 +4843,7 @@ expform(void)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			expform();
+			expform(flag);
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
@@ -4860,7 +4860,7 @@ expform(void)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			expform();
+			expform(flag);
 			p1 = cdr(p1);
 		}
 		add_terms(tos - h);
@@ -4880,13 +4880,13 @@ expform(void)
 			p1 = cdr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
-				expform();
+				expform(flag);
 				p1 = cdr(p1);
 			}
 			multiply_factors(tos - h);
 		} else {
 			push(p1);
-			expform();
+			expform(flag);
 		}
 		num = pop();
 
@@ -4896,13 +4896,13 @@ expform(void)
 			p1 = cdr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
-				expform();
+				expform(flag);
 				p1 = cdr(p1);
 			}
 			multiply_factors(tos - h);
 		} else {
 			push(p1);
-			expform();
+			expform(flag);
 		}
 		den = pop();
 
@@ -4914,113 +4914,116 @@ expform(void)
 
 	if (car(p1) == symbol(POWER)) {
 		push(cadr(p1));
-		expform();
+		expform(flag);
 		push(caddr(p1));
-		expform();
+		expform(flag);
 		power();
 		return;
 	}
 
 	if (car(p1) == symbol(COS)) {
 		push(cadr(p1));
-		expform();
+		expform(flag);
 		expcos();
 		return;
 	}
 
 	if (car(p1) == symbol(SIN)) {
 		push(cadr(p1));
-		expform();
+		expform(flag);
 		expsin();
 		return;
 	}
 
 	if (car(p1) == symbol(TAN)) {
 		push(cadr(p1));
-		expform();
+		expform(flag);
 		exptan();
 		return;
 	}
 
 	if (car(p1) == symbol(COSH)) {
 		push(cadr(p1));
-		expform();
+		expform(flag);
 		expcosh();
 		return;
 	}
 
 	if (car(p1) == symbol(SINH)) {
 		push(cadr(p1));
-		expform();
+		expform(flag);
 		expsinh();
 		return;
 	}
 
 	if (car(p1) == symbol(TANH)) {
 		push(cadr(p1));
-		expform();
+		expform(flag);
 		exptanh();
 		return;
 	}
 
-	if (car(p1) == symbol(ARCCOS)) {
-		scan("-i log(z + i sqrt(1 - abs(z)^2))");
-		push_symbol(Z_LOWER);
-		push(cadr(p1));
-		expform();
-		subst();
-		evalf();
-		return;
-	}
+	if (flag) {
 
-	if (car(p1) == symbol(ARCSIN)) {
-		scan("-i log(i z + sqrt(1 - abs(z)^2))");
-		push_symbol(Z_LOWER);
-		push(cadr(p1));
-		expform();
-		subst();
-		evalf();
-		return;
-	}
+		if (car(p1) == symbol(ARCCOS)) {
+			scan("-i log(z + i sqrt(1 - abs(z)^2))");
+			push_symbol(Z_LOWER);
+			push(cadr(p1));
+			expform(flag);
+			subst();
+			evalf();
+			return;
+		}
 
-	if (car(p1) == symbol(ARCTAN)) {
-		scan("-1/2 i log((i - z) / (i + z))");
-		push_symbol(Z_LOWER);
-		push(cadr(p1));
-		expform();
-		subst();
-		evalf();
-		return;
-	}
+		if (car(p1) == symbol(ARCSIN)) {
+			scan("-i log(i z + sqrt(1 - abs(z)^2))");
+			push_symbol(Z_LOWER);
+			push(cadr(p1));
+			expform(flag);
+			subst();
+			evalf();
+			return;
+		}
 
-	if (car(p1) == symbol(ARCCOSH)) {
-		scan("log(z + sqrt(abs(z)^2 - 1))");
-		push_symbol(Z_LOWER);
-		push(cadr(p1));
-		expform();
-		subst();
-		evalf();
-		return;
-	}
+		if (car(p1) == symbol(ARCTAN)) {
+			scan("-1/2 i log((i - z) / (i + z))");
+			push_symbol(Z_LOWER);
+			push(cadr(p1));
+			expform(flag);
+			subst();
+			evalf();
+			return;
+		}
 
-	if (car(p1) == symbol(ARCSINH)) {
-		scan("log(z + sqrt(abs(z)^2 + 1))");
-		push_symbol(Z_LOWER);
-		push(cadr(p1));
-		expform();
-		subst();
-		evalf();
-		return;
-	}
+		if (car(p1) == symbol(ARCCOSH)) {
+			scan("log(z + sqrt(abs(z)^2 - 1))");
+			push_symbol(Z_LOWER);
+			push(cadr(p1));
+			expform(flag);
+			subst();
+			evalf();
+			return;
+		}
 
-	if (car(p1) == symbol(ARCTANH)) {
-		scan("1/2 log((1 + z) / (1 - z))");
-		push_symbol(Z_LOWER);
-		push(cadr(p1));
-		expform();
-		subst();
-		evalf();
-		return;
+		if (car(p1) == symbol(ARCSINH)) {
+			scan("log(z + sqrt(abs(z)^2 + 1))");
+			push_symbol(Z_LOWER);
+			push(cadr(p1));
+			expform(flag);
+			subst();
+			evalf();
+			return;
+		}
+
+		if (car(p1) == symbol(ARCTANH)) {
+			scan("1/2 log((1 + z) / (1 - z))");
+			push_symbol(Z_LOWER);
+			push(cadr(p1));
+			expform(flag);
+			subst();
+			evalf();
+			return;
+		}
 	}
 
 	h = tos;
@@ -5028,7 +5031,7 @@ expform(void)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		expform();
+		expform(flag);
 		p1 = cdr(p1);
 	}
 	list(tos - h);
@@ -12293,7 +12296,7 @@ simplify_nib(void)
 	}
 
 	push(p1);
-	expform();
+	expform(0); // 0 means don't change arc functions
 	rect();
 	p2 = pop();
 	if (simpler(p2, p1))
@@ -12410,7 +12413,7 @@ simplify_trig(void)
 	}
 
 	push(p1);
-	expform();
+	expform(0); // 0 means don't change arc functions
 	numden();
 	swap();
 	divide();

@@ -8890,6 +8890,9 @@ check(infixform(T) == "0")
 T = kappa^2 m x^2 (x^2 + y^2 + z^2)^(1/2) f(x,y,z) + kappa^2 m y^2 (x^2 + y^2 + z^2)^(1/2) f(x,y,z) + kappa^2 m z^2 (x^2 + y^2 + z^2)^(1/2) f(x,y,z) - kappa^2 m (x^2 + y^2 + z^2)^(3/2) f(x,y,z)
 T = simplify(T)
 check(infixform(T) == "0")
+
+clear
+check(infixform(simplify((i - z) / (i + z))) == "exp(-i arctan(1,z) + i arctan(1,-z))")
 "Testing sin"
 
 clear
