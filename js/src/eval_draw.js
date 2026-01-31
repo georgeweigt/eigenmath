@@ -202,7 +202,7 @@ sample(F, T, t)
 	push(F);
 	eval_nonstop();
 	floatfunc();
-	real();
+//	real();
 	p1 = pop();
 
 	if (istensor(p1)) {

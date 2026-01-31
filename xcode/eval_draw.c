@@ -207,7 +207,7 @@ sample(struct atom *F, struct atom *T, double t)
 	push(F);
 	eval_nonstop();
 	floatfunc();
-	real();
+//	real();
 	p1 = pop();
 
 	if (istensor(p1)) {
