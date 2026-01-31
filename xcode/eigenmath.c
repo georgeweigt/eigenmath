@@ -3708,12 +3708,12 @@ darctan(struct atom *p1, struct atom *p2)
 		list(3);
 		return;
 	}
-	push(cadr(p1));
-	push(caddr(p1));
+	push(cadr(p1));		// y
+	push(caddr(p1));	// x
 	divide();
 	p1 = pop();
 	push(p1);
-	dupl();
+	push(p1);
 	multiply();
 	push_integer(1);
 	add();
