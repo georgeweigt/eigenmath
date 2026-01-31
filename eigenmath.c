@@ -5778,7 +5778,7 @@ expform(int flag)
 			scan("-i log(z + i sqrt(1 - abs(z)^2))");
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform(flag);
+			expform(1);
 			subst();
 			evalf();
 			return;
@@ -5788,27 +5788,41 @@ expform(int flag)
 			scan("-i log(i z + sqrt(1 - abs(z)^2))");
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform(flag);
+			expform(1);
 			subst();
 			evalf();
 			return;
 		}
 
 		if (car(p1) == symbol(ARCTAN)) {
-			scan("-1/2 i log((i - z) / (i + z))");
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(flag);
-			subst();
-			evalf();
-			return;
+			push(cadr(p1)); // y
+			expform(1);
+			num = pop();
+			push(caddr(p1)); // x
+			expform(1);
+			den = pop();
+			if (iszero(num) || iszero(den)) {
+				push_symbol(ARCTAN);
+				push(num);
+				push(den);
+				list(3);
+			} else {
+				scan("-1/2 i log((i - z) / (i + z))");
+				push_symbol(Z_LOWER);
+				push(num);
+				push(den);
+				divide();
+				subst();
+				evalf();
+				return;
+			}
 		}
 
 		if (car(p1) == symbol(ARCCOSH)) {
 			scan("log(z + sqrt(abs(z)^2 - 1))");
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform(flag);
+			expform(1);
 			subst();
 			evalf();
 			return;
@@ -5818,7 +5832,7 @@ expform(int flag)
 			scan("log(z + sqrt(abs(z)^2 + 1))");
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform(flag);
+			expform(1);
 			subst();
 			evalf();
 			return;
@@ -5828,7 +5842,7 @@ expform(int flag)
 			scan("1/2 log((1 + z) / (1 - z))");
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform(flag);
+			expform(1);
 			subst();
 			evalf();
 			return;
