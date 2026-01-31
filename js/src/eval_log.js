@@ -25,12 +25,6 @@ logfunc()
 		return;
 	}
 
-	if (hasdouble(p1)) {
-		push(p1);
-		floatfunc();
-		p1 = pop();
-	}
-
 	if (iszero(p1)) {
 		push_symbol(LOG);
 		push_integer(0);
@@ -38,18 +32,36 @@ logfunc()
 		return;
 	}
 
+	if (isnegativenumber(p1)) {
+		push(p1);
+		negate();
+		logfunc();
+		push(imaginaryunit);
+		if (isdouble(p1))
+			push_double(M_PI);
+		else
+			push_symbol(PI);
+		multiply();
+		add();
+		return;
+	}
+
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
-		if (d > 0.0) {
-			push_double(Math.log(d));
-			return;
-		}
+		push_double(log(d));
+		return;
+	}
+
+	if (hasdouble(p1)) {
+		push(p1);
+		floatfunc();
+		p1 = pop();
 	}
 
 	// log(z) -> log(mag(z)) + i arg(z)
 
-	if (isdouble(p1) || isdoublez(p1)) {
+	if (isdoublez(p1)) {
 		push(p1);
 		magfunc();
 		logfunc();
@@ -72,17 +84,6 @@ logfunc()
 
 	if (p1 == symbol(EXP1)) {
 		push_integer(1);
-		return;
-	}
-
-	if (isnegativenumber(p1)) {
-		push(p1);
-		negate();
-		logfunc();
-		push(imaginaryunit);
-		push_symbol(PI);
-		multiply();
-		add();
 		return;
 	}
 
