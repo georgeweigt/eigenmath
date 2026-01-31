@@ -6744,19 +6744,17 @@ expform(flag)
 			push(caddr(p1)); // x
 			expform(1);
 			den = pop();
-			if (iszero(num) || iszero(den)) {
+			if (isplusone(den)) {
+				scan("-1/2 i log((i - z) / (i + z))", 0);
+				push_symbol(Z_LOWER);
+				push(num);
+				subst();
+				evalf();
+			} else {
 				push_symbol(ARCTAN);
 				push(num);
 				push(den);
 				list(3);
-			} else {
-				scan("-1/2 i log((i - z) / (i + z))", 0);
-				push_symbol(Z_LOWER);
-				push(num);
-				push(den);
-				divide();
-				subst();
-				evalf();
 			}
 			return;
 		}
