@@ -38,7 +38,7 @@ logfunc()
 		logfunc();
 		push(imaginaryunit);
 		if (isdouble(p1))
-			push_double(M_PI);
+			push_double(Math.PI);
 		else
 			push_symbol(PI);
 		multiply();
@@ -49,7 +49,7 @@ logfunc()
 	if (isdouble(p1)) {
 		push(p1);
 		d = pop_double();
-		push_double(log(d));
+		push_double(Math.log(d));
 		return;
 	}
 
