@@ -198,7 +198,7 @@ void
 sample(struct atom *F, struct atom *T, double t)
 {
 	double x, y;
-	struct atom *p1, *p2, *p3;
+	struct atom *p1, *X, *Y;
 
 	push_double(t);
 	p1 = pop();
@@ -210,21 +210,21 @@ sample(struct atom *F, struct atom *T, double t)
 	p1 = pop();
 
 	if (istensor(p1)) {
-		p2 = p1->u.tensor->elem[0];
-		p3 = p1->u.tensor->elem[1];
+		X = p1->u.tensor->elem[0];
+		Y = p1->u.tensor->elem[1];
 	} else {
 		push_double(t);
-		p2 = pop();
-		p3 = p1;
+		X = pop();
+		Y = p1;
 	}
 
-	if (!isnum(p2) || !isnum(p3))
+	if (!isnum(X) || !isnum(Y))
 		return;
 
-	push(p2);
+	push(X);
 	x = pop_double();
 
-	push(p3);
+	push(Y);
 	y = pop_double();
 
 	if (!isfinite(x) || !isfinite(y))

@@ -3874,6 +3874,15 @@ check(infixform(T) == "1 / (exp(i theta) + exp(-i theta))")
 
 T = expform((sin(theta),0)) -- vector
 check(infixform(T) == "(-1/2 i exp(i theta) + 1/2 i exp(-i theta),0)")
+
+clear
+
+check(expform(arccos(z)) == -i log(z + i sqrt(1 - abs(z)^2)))
+check(expform(arcsin(z)) == -i log(i z + sqrt(1 - abs(z)^2)))
+check(expform(arctan(z)) == -1/2 i log((i - z) / (i + z)))
+check(expform(arccosh(z)) == log(z + sqrt(abs(z)^2 - 1)))
+check(expform(arcsinh(z)) == log(z + sqrt(abs(z)^2 + 1)))
+check(expform(arctanh(z)) == 1/2 log((1 + z) / (1 - z)))
 "Testing expsin"
 
 clear

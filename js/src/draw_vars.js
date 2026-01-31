@@ -19,4 +19,4 @@ var xmax;
 var ymin;
 var ymax;
 
-var draw_array;
+var draw_buf;

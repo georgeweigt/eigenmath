@@ -3,12 +3,12 @@ emit_points()
 {
 	var i, n, x, y;
 
-	n = draw_array.length;
+	n = draw_buf.length;
 
 	for (i = 0; i < n; i++) {
 
-		x = draw_array[i].x;
-		y = draw_array[i].y;
+		x = draw_buf[i].x;
+		y = draw_buf[i].y;
 
 		if (!inrange(x, y))
 			continue;

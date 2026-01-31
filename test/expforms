@@ -1,0 +1,17 @@
+f = expform(arccos(z)) - arccos(z)
+draw(f,z)
+
+f = expform(arcsin(z)) - arcsin(z)
+draw(f,z)
+
+f = expform(arctan(z)) - arctan(z)
+draw(f,z)
+
+f = expform(arccosh(z)) - arccosh(z)
+draw(f,z)
+
+f = expform(arcsinh(z)) - arcsinh(z)
+draw(f,z)
+
+f = expform(arctanh(z)) - arctanh(z)
+draw(f,z)
