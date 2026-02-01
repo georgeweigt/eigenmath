@@ -4816,15 +4816,8 @@ eval_expform(struct atom *p1)
 void
 expform(int flag)
 {
-	struct atom *p1;
-	p1 = pop();
-	save_symbol(symbol(I_LOWER));
-	set_symbol(symbol(I_LOWER), imaginaryunit, symbol(NIL));
-	push(p1);
-	expform_nib(flag);
-	p1 = pop();
-	restore_symbol();
-	push(p1);
+	if (isimaginaryunit(get_binding(symbol(I_LOWER))))
+		expform_nib(flag);
 }
 
 void
