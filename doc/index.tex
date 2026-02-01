@@ -559,30 +559,6 @@ exp(i pi)
 
 $-1$
 
-\subsection*{expcos($z$)}
-
-Returns the cosine of $z$ in exponential form.
-
-{\color{blue}
-\begin{verbatim}
-expcos(z)
-\end{verbatim}
-}
-
-$\displaystyle \tfrac{1}{2}\exp(iz)+\tfrac{1}{2}\exp(-iz)$
-
-\subsection*{expcosh($z$)}
-
-Returns the hyperbolic cosine of $z$ in exponential form.
-
-{\color{blue}
-\begin{verbatim}
-expcosh(z)
-\end{verbatim}
-}
-
-$\displaystyle \tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
-
 \subsection*{expform($x$)}
 
 Returns expression $x$ with trigonometric and hyperbolic functions
@@ -590,59 +566,11 @@ converted to exponentials.
 
 {\color{blue}
 \begin{verbatim}
-expform(cos(x) + i sin(x))
+expform(cos(x))
 \end{verbatim}
 }
 
-$\exp(ix)$
-
-\subsection*{expsin($z$)}
-
-Returns the sine of $z$ in exponential form.
-
-{\color{blue}
-\begin{verbatim}
-expsin(z)
-\end{verbatim}
-}
-
-$\displaystyle -\tfrac{1}{2}i\exp(iz)+\tfrac{1}{2}i\exp(-iz)$
-
-\subsection*{expsinh($z$)}
-
-Returns the hyperbolic sine of $z$ in exponential form.
-
-{\color{blue}
-\begin{verbatim}
-expsinh(z)
-\end{verbatim}
-}
-
-$\displaystyle -\tfrac{1}{2}\exp(-z)+\tfrac{1}{2}\exp(z)$
-
-\subsection*{exptan($z$)}
-
-Returns the tangent of $z$ in exponential form.
-
-{\color{blue}
-\begin{verbatim}
-exptan(z)
-\end{verbatim}
-}
-
-$\displaystyle \frac{i}{\exp(2iz)+1}-\frac{i\exp(2iz)}{\exp(2iz)+1}$
-
-\subsection*{exptanh($z$)}
-
-Returns the hyperbolic tangent of $z$ in exponential form.
-
-{\color{blue}
-\begin{verbatim}
-exptanh(z)
-\end{verbatim}
-}
-
-$\displaystyle -\frac{1}{\exp(2z)+1}+\frac{\exp(2z)}{\exp(2z)+1}$
+$\tfrac{1}{2}\exp(ix)+\frac{1}{2}\exp(-ix)$
 
 \subsection*{factorial($n$)}
 
@@ -748,18 +676,15 @@ $
 
 \subsection*{i}
 
-Symbol {\tt i} is initialized to the imaginary unit $\sqrt{-1}$.
+Symbol {\tt i} is the imaginary unit.
 
 {\color{blue}
 \begin{verbatim}
-exp(i pi)
+i^2
 \end{verbatim}
 }
 
 $-1$
-
-\bigskip
-Note: It is ok to clear or redefine {\tt i} and use the symbol for something else.
 
 \subsection*{imag($z$)}
 
@@ -843,19 +768,6 @@ $\displaystyle
 \tfrac{3}{2} & -\tfrac{1}{2}
 \end{bmatrix}
 $
-
-\subsection*{j}
-
-Set {\tt j=sqrt(-1)} to use {\tt j} for the imaginary unit instead of {\tt i}.
-
-{\color{blue}
-\begin{verbatim}
-j = sqrt(-1)
-1/sqrt(-1)
-\end{verbatim}
-}
-
-$-j$
 
 \subsection*{kronecker($a,b,\ldots$)}
 

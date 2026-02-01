@@ -25,6 +25,8 @@ code {
 <body style="font-family:ui-serif">
 <table style="font-family:'Courier';width:100%">
 <tr>
+
+
 <td>
 <a href="#abs">abs</a><br>
 <a href="#adj">adj</a><br>
@@ -43,8 +45,10 @@ code {
 <a href="#choose">choose</a><br>
 <a href="#clear">clear</a><br>
 <a href="#clock">clock</a><br>
+</td>
+
+<td>
 <a href="#conj">conj</a><br>
-</td><td>
 <a href="#contract">contract</a><br>
 <a href="#cos">cos</a><br>
 <a href="#cosh">cosh</a><br>
@@ -61,18 +65,14 @@ code {
 <a href="#draw">draw</a><br>
 <a href="#eigenvec">eigenvec</a><br>
 <a href="#erf">erf</a><br>
+</td>
+
+<td>
 <a href="#erfc">erfc</a><br>
 <a href="#eval">eval</a><br>
-</td><td>
 <a href="#exit">exit</a><br>
 <a href="#exp">exp</a><br>
-<a href="#expcos">expcos</a><br>
-<a href="#expcosh">expcosh</a><br>
 <a href="#expform">expform</a><br>
-<a href="#expsin">expsin</a><br>
-<a href="#expsinh">expsinh</a><br>
-<a href="#exptan">exptan</a><br>
-<a href="#exptanh">exptanh</a><br>
 <a href="#factorial">factorial</a><br>
 <a href="#float">float</a><br>
 <a href="#floor">floor</a><br>
@@ -82,11 +82,12 @@ code {
 <a href="#i">i</a><br>
 <a href="#imag">imag</a><br>
 <a href="#infixform">infixform</a><br>
-</td><td>
 <a href="#inner">inner</a><br>
 <a href="#integral">integral</a><br>
 <a href="#inv">inv</a><br>
-<a href="#j">j</a><br>
+</td>
+
+<td>
 <a href="#kronecker">kronecker</a><br>
 <a href="#last">last</a><br>
 <a href="#lgamma">lgamma</a><br>
@@ -101,10 +102,12 @@ code {
 <a href="#nroots">nroots</a><br>
 <a href="#number">number</a><br>
 <a href="#numerator">numerator</a><br>
-</td><td>
 <a href="#or">or</a><br>
 <a href="#outer">outer</a><br>
 <a href="#pi">pi</a><br>
+</td>
+
+<td>
 <a href="#polar">polar</a><br>
 <a href="#power">power</a><br>
 <a href="#print">print</a><br>
@@ -120,9 +123,11 @@ code {
 <a href="#run">run</a><br>
 <a href="#sgn">sgn</a><br>
 <a href="#simplify">simplify</a><br>
-</td><td>
 <a href="#sin">sin</a><br>
 <a href="#sinh">sinh</a><br>
+</td>
+
+<td>
 <a href="#sqrt">sqrt</a><br>
 <a href="#stop">stop</a><br>
 <a href="#sum">sum</a><br>
@@ -139,7 +144,9 @@ code {
 <br>
 <br>
 <br>
+<br>
 </td>
+
 </tr>
 </table>
 
@@ -727,92 +734,16 @@ exp(i pi)
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="expcos">expcos(<i>z</i>)</a>
-<p>
-Returns the cosine of <i>z</i> in exponential form.
-<pre class="input">
-expcos(z)
-</pre>
-<pre class="output">
- 1              1           
-╶─╴ exp(i z) + ╶─╴ exp(−i z)
- 2              2           
-</pre>
-
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="expcosh">expcosh(<i>z</i>)</a>
-<p>
-Returns the hyperbolic cosine of <i>z</i> in exponential form.
-<pre class="input">
-expcosh(z)
-</pre>
-<pre class="output">
- 1             1        
-╶─╴ exp(−z) + ╶─╴ exp(z)
- 2             2        
-</pre>
-
-<p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="expform">expform(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> with trigonometric and hyperbolic functions converted to exponentials.
 <pre class="input">
-expform(cos(x) + i sin(x))
+expform(cos(x))
 </pre>
 <pre class="output">
-exp(i x)
-</pre>
-
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="expsin">expsin(<i>z</i>)</a>
-<p>
-Returns the sine of <i>z</i> in exponential form.
-<pre class="input">
-expsin(z)
-</pre>
-<pre class="output">
-  1                1             
-−╶─╴ i exp(i z) + ╶─╴ i exp(−i z)
-  2                2             
-</pre>
-
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="expsinh">expsinh(<i>z</i>)</a>
-<p>
-Returns the hyperbolic sine of <i>z</i> in exponential form.
-<pre class="input">
-expsinh(z)
-</pre>
-<pre class="output">
-  1             1        
-−╶─╴ exp(−z) + ╶─╴ exp(z)
-  2             2        
-</pre>
-
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="exptan">exptan(<i>z</i>)</a>
-<p>
-Returns the tangent of <i>z</i> in exponential form.
-<pre class="input">
-exptan(z)
-</pre>
-<pre class="output">
-       i             i exp(2 i z)  
-╶──────────────╴ − ╶──────────────╴
- exp(2 i z) + 1     exp(2 i z) + 1 
-</pre>
-
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="exptanh">exptanh(<i>z</i>)</a>
-<p>
-Returns the hyperbolic tangent of <i>z</i> in exponential form.
-<pre class="input">
-exptanh(z)
-</pre>
-<pre class="output">
-       1             exp(2 z)   
-−╶────────────╴ + ╶────────────╴
-  exp(2 z) + 1     exp(2 z) + 1 
+ 1              1           
+╶─╴ exp(i x) + ╶─╴ exp(−i x)
+ 2              2           
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -925,20 +856,13 @@ A B
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="i">i</a>
 <p>
-Symbol
-<span class="foo">i</span>
-is initialized to the imaginary unit (&minus;1)<sup>1/2</sup>.
+Symbol <code>i</code> is the imaginary unit.
 <pre class="input">
-exp(i pi)
+i^2
 </pre>
 <pre class="output">
 -1
 </pre>
-<p>
-Note:
-It is OK to clear or redefine
-<span class="foo">i</span>
-and use the symbol for something else.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="imag">imag(<i>z</i>)</a>
@@ -1020,23 +944,6 @@ inv(A)
 │ ╶─╴   −╶─╴ │
 │  2      2  │
 └            ┘
-</pre>
-
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="j">j</a>
-<p>
-Set
-<span class="foo">j=sqrt(-1)</span>
-to use
-<span class="foo">j</span>
-for the imaginary unit instead of
-<span class="foo">i</span>.
-<pre class="input">
-j = sqrt(-1)
-1/sqrt(-1)
-</pre>
-<pre class="output">
--j
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
