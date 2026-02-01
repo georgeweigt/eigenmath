@@ -13,6 +13,9 @@ eval_clear(struct atom *p1)
 		usrfunc[i] = NULL;
 	}
 
+	binding[symbol(I_LOWER)->u.usym.index] = imaginaryunit;
+	usrfunc[symbol(I_LOWER)->u.usym.index] = symbol(NIL);
+
 	run_init_script();
 
 	restore_symbol();

@@ -2,11 +2,11 @@
 clear
 W = (0, 1, 2^31 - 1, 2^31, 2^31 + 1, 2^32 - 2, 2^32 - 1)
 N = zero(343)
-for(i, 1, 7, for(j, 1, 7, for(k, 1, 7,
- N[49 i + 7 j + k - 56] = 2^64 W[i] + 2^32 W[j] + W[k]
+for(I, 1, 7, for(J, 1, 7, for(K, 1, 7,
+ N[49 I + 7 J + K - 56] = 2^64 W[I] + 2^32 W[J] + W[K]
 )))
-for(i,1,343,for(j,2,343,
-  Q = floor(N[i]/N[j]),
-  R = mod(N[i],N[j]),
-  check(N[i] == N[j] Q + R)
+for(I,1,343,for(J,2,343,
+  Q = floor(N[I]/N[J]),
+  R = mod(N[I],N[J]),
+  check(N[I] == N[J] Q + R)
 ))

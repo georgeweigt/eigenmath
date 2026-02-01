@@ -19,5 +19,5 @@ check(minor(A,3,3) == A11 A22 - A12 A21)
 
 A = ((A11,A12,A13),(A21,A22,A23),(A31,A32,A33))
 B = ((0,0,0),(0,0,0),(0,0,0))
-for(i,1,3,for(j,1,3,B[j,i] = (-1)^(i + j) minor(A,i,j)))
+for(I,1,3,for(J,1,3,B[J,I] = (-1)^(I + J) minor(A,I,J)))
 check(B == adj(A))

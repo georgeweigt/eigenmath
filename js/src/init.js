@@ -27,4 +27,7 @@ init()
 	push_rational(1, 2);
 	list(3);
 	imaginaryunit = pop();
+
+	binding[symbol(I_LOWER).printname] = imaginaryunit;
+	usrfunc[symbol(I_LOWER).printname] = symbol(NIL);
 }

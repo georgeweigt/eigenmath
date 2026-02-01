@@ -2737,13 +2737,13 @@ check(A == B)
 clear
 W = (0, 1, 2^31 - 1, 2^31, 2^31 + 1, 2^32 - 2, 2^32 - 1)
 N = zero(343)
-for(i, 1, 7, for(j, 1, 7, for(k, 1, 7,
- N[49 i + 7 j + k - 56] = 2^64 W[i] + 2^32 W[j] + W[k]
+for(I, 1, 7, for(J, 1, 7, for(K, 1, 7,
+ N[49 I + 7 J + K - 56] = 2^64 W[I] + 2^32 W[J] + W[K]
 )))
-for(i,1,343,for(j,2,343,
-  Q = floor(N[i]/N[j]),
-  R = mod(N[i],N[j]),
-  check(N[i] == N[j] Q + R)
+for(I,1,343,for(J,2,343,
+  Q = floor(N[I]/N[J]),
+  R = mod(N[I],N[J]),
+  check(N[I] == N[J] Q + R)
 ))
 "Testing bug fixes"
 
@@ -3945,10 +3945,6 @@ x = 0
 y = 2
 for(k,1,9, x = sqrt(x + 2), y = 2 y / x)
 check(infixform(float(y)) == "3.14159")
-
-for(i,1,3,j=i)
-check(i = sqrt(-1))
-check(j = 3)
 
 t = 0
 A = 2 k
@@ -5647,7 +5643,7 @@ check(minor(A,3,3) == A11 A22 - A12 A21)
 
 A = ((A11,A12,A13),(A21,A22,A23),(A31,A32,A33))
 B = ((0,0,0),(0,0,0),(0,0,0))
-for(i,1,3,for(j,1,3,B[j,i] = (-1)^(i + j) minor(A,i,j)))
+for(I,1,3,for(J,1,3,B[J,I] = (-1)^(I + J) minor(A,I,J)))
 check(B == adj(A))
 "Testing minormatrix"
 
@@ -5705,20 +5701,20 @@ check(minormatrix(A,3,3) == ((1,2),(4,5)))
 A = ((A11,A12),
      (A21,A22))
 
-for(i,1,2,for(j,1,2,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+for(I,1,2,for(J,1,2,check(det(minormatrix(A,I,J)) == minor(A,I,J))))
 
 A = ((A11,A12,A13),
      (A21,A22,A23),
      (A31,A32,A33))
 
-for(i,1,3,for(j,1,3,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+for(I,1,3,for(J,1,3,check(det(minormatrix(A,I,J)) == minor(A,I,J))))
 
 A = ((A11,A12,A13,A14),
      (A21,A22,A23,A24),
      (A31,A32,A33,A34),
      (A41,A42,A43,A44))
 
-for(i,1,4,for(j,1,4,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+for(I,1,4,for(J,1,4,check(det(minormatrix(A,I,J)) == minor(A,I,J))))
 
 A = ((A11,A12,A13,A14,A15),
      (A21,A22,A23,A24,A25),
@@ -5726,7 +5722,7 @@ A = ((A11,A12,A13,A14,A15),
      (A41,A42,A43,A44,A45),
      (A51,A52,A53,A54,A55))
 
-for(i,1,5,for(j,1,5,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+for(I,1,5,for(J,1,5,check(det(minormatrix(A,I,J)) == minor(A,I,J))))
 
 A = ((A11,A12,A13,A14,A15,A16),
      (A21,A22,A23,A24,A25,A26),
@@ -5735,7 +5731,7 @@ A = ((A11,A12,A13,A14,A15,A16),
      (A51,A52,A53,A54,A55,A56),
      (A61,A62,A63,A64,A65,A66))
 
-for(i,1,6,for(j,1,6,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+for(I,1,6,for(J,1,6,check(det(minormatrix(A,I,J)) == minor(A,I,J))))
 "Testing mod"
 
 clear
@@ -9256,9 +9252,6 @@ clear
 
 check(transpose((1,2,3)) == (1,2,3))
 
-e = quote(e)
-i = quote(i)
-
 T = transpose(((a,b),(c,d)))
 check(T = ((a,c),(b,d)))
 T = transpose(((a,b),(c,d)),1,2)
@@ -9268,9 +9261,9 @@ check(T = ((a,d),(b,e),(c,f)))
 T = transpose(((a,d),(b,e),(c,f)),1,2)
 check(T = ((a,b,c),(d,e,f)))
 
-v1 = (a,b,c)
-v2 = (d,e,f)
-v3 = (g,h,i)
+v1 = (A1,B1,C1)
+v2 = (A2,B2,C2)
+v3 = (A3,B3,C3)
 
 A = outer(v1,v2,v3)
 

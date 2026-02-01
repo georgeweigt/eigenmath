@@ -54,20 +54,20 @@ check(minormatrix(A,3,3) == ((1,2),(4,5)))
 A = ((A11,A12),
      (A21,A22))
 
-for(i,1,2,for(j,1,2,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+for(I,1,2,for(J,1,2,check(det(minormatrix(A,I,J)) == minor(A,I,J))))
 
 A = ((A11,A12,A13),
      (A21,A22,A23),
      (A31,A32,A33))
 
-for(i,1,3,for(j,1,3,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+for(I,1,3,for(J,1,3,check(det(minormatrix(A,I,J)) == minor(A,I,J))))
 
 A = ((A11,A12,A13,A14),
      (A21,A22,A23,A24),
      (A31,A32,A33,A34),
      (A41,A42,A43,A44))
 
-for(i,1,4,for(j,1,4,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+for(I,1,4,for(J,1,4,check(det(minormatrix(A,I,J)) == minor(A,I,J))))
 
 A = ((A11,A12,A13,A14,A15),
      (A21,A22,A23,A24,A25),
@@ -75,7 +75,7 @@ A = ((A11,A12,A13,A14,A15),
      (A41,A42,A43,A44,A45),
      (A51,A52,A53,A54,A55))
 
-for(i,1,5,for(j,1,5,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+for(I,1,5,for(J,1,5,check(det(minormatrix(A,I,J)) == minor(A,I,J))))
 
 A = ((A11,A12,A13,A14,A15,A16),
      (A21,A22,A23,A24,A25,A26),
@@ -84,4 +84,4 @@ A = ((A11,A12,A13,A14,A15,A16),
      (A51,A52,A53,A54,A55,A56),
      (A61,A62,A63,A64,A65,A66))
 
-for(i,1,6,for(j,1,6,check(det(minormatrix(A,i,j)) == minor(A,i,j))))
+for(I,1,6,for(J,1,6,check(det(minormatrix(A,I,J)) == minor(A,I,J))))

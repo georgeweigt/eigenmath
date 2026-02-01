@@ -4,9 +4,6 @@ clear
 
 check(transpose((1,2,3)) == (1,2,3))
 
-e = quote(e)
-i = quote(i)
-
 T = transpose(((a,b),(c,d)))
 check(T = ((a,c),(b,d)))
 T = transpose(((a,b),(c,d)),1,2)
@@ -16,9 +13,9 @@ check(T = ((a,d),(b,e),(c,f)))
 T = transpose(((a,d),(b,e),(c,f)),1,2)
 check(T = ((a,b,c),(d,e,f)))
 
-v1 = (a,b,c)
-v2 = (d,e,f)
-v3 = (g,h,i)
+v1 = (A1,B1,C1)
+v2 = (A2,B2,C2)
+v3 = (A3,B3,C3)
 
 A = outer(v1,v2,v3)
 
