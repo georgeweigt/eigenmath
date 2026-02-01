@@ -1,31 +1,9 @@
 void
 eval_expcos(struct atom *p1)
 {
+	scan("1/2 exp(i z) + 1/2 exp(-i z)");
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expcos();
-}
-
-void
-expcos(void)
-{
-	struct atom *p1;
-	p1 = pop();
-
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	expfunc();
-	push_rational(1, 2);
-	multiply();
-
-	push(imaginaryunit);
-	negate();
-	push(p1);
-	multiply();
-	expfunc();
-	push_rational(1, 2);
-	multiply();
-
-	add();
 }

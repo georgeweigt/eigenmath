@@ -538,19 +538,13 @@ int powcmp(struct atom *p1, struct atom *p2);
 void eval_exp(struct atom *p1);
 void expfunc(void);
 void eval_expcos(struct atom *p1);
-void expcos(void);
 void eval_expcosh(struct atom *p1);
-void expcosh(void);
 void eval_expform(struct atom *p1);
 void expform(int flag);
 void eval_expsin(struct atom *p1);
-void expsin(void);
 void eval_expsinh(struct atom *p1);
-void expsinh(void);
 void eval_exptan(struct atom *p1);
-void exptan(void);
 void eval_exptanh(struct atom *p1);
-void exptanh(void);
 void eval_factorial(struct atom *p1);
 void factorial(void);
 void eval_float(struct atom *p1);
@@ -5596,55 +5590,20 @@ expfunc(void)
 void
 eval_expcos(struct atom *p1)
 {
+	scan("1/2 exp(i z) + 1/2 exp(-i z)");
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expcos();
-}
-
-void
-expcos(void)
-{
-	struct atom *p1;
-	p1 = pop();
-
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	expfunc();
-	push_rational(1, 2);
-	multiply();
-
-	push(imaginaryunit);
-	negate();
-	push(p1);
-	multiply();
-	expfunc();
-	push_rational(1, 2);
-	multiply();
-
-	add();
 }
 void
 eval_expcosh(struct atom *p1)
 {
+	scan("1/2 exp(-z) + 1/2 exp(z)");
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expcosh();
-}
-
-void
-expcosh(void)
-{
-	struct atom *p1;
-	p1 = pop();
-	push(p1);
-	expfunc();
-	push(p1);
-	negate();
-	expfunc();
-	add();
-	push_rational(1, 2);
-	multiply();
 }
 void
 eval_expform(struct atom *p1)
@@ -5746,44 +5705,62 @@ expform(int flag)
 	}
 
 	if (car(p1) == symbol(COS)) {
+		scan("1/2 exp(i z) + 1/2 exp(-i z)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expcos();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(SIN)) {
+		scan("-1/2 i exp(i z) + 1/2 i exp(-i z)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expsin();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(TAN)) {
+		scan("i / (exp(2 i z) + 1) - i exp(2 i z) / (exp(2 i z) + 1)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		exptan();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(COSH)) {
+		scan("1/2 exp(-z) + 1/2 exp(z)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expcosh();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(SINH)) {
+		scan("-1/2 exp(-z) + 1/2 exp(z)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expsinh();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(TANH)) {
+		scan("-1 / (exp(2 z) + 1) + exp(2 z) / (exp(2 z) + 1)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		exptanh();
+		subst();
+		evalf();
 		return;
 	}
 
@@ -5876,117 +5853,38 @@ expform(int flag)
 void
 eval_expsin(struct atom *p1)
 {
+	scan("-1/2 i exp(i z) + 1/2 i exp(-i z)");
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expsin();
-}
-
-void
-expsin(void)
-{
-	struct atom *p1;
-	p1 = pop();
-
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	expfunc();
-	push(imaginaryunit);
-	divide();
-	push_rational(1, 2);
-	multiply();
-
-	push(imaginaryunit);
-	negate();
-	push(p1);
-	multiply();
-	expfunc();
-	push(imaginaryunit);
-	divide();
-	push_rational(1, 2);
-	multiply();
-
-	subtract();
 }
 void
 eval_expsinh(struct atom *p1)
 {
+	scan("-1/2 exp(-z) + 1/2 exp(z)");
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expsinh();
 }
-
-void
-expsinh(void)
-{
-	struct atom *p1;
-	p1 = pop();
-	push(p1);
-	expfunc();
-	push(p1);
-	negate();
-	expfunc();
-	subtract();
-	push_rational(1, 2);
-	multiply();
-}
-// tan(z) = (i - i exp(2 i z)) / (exp(2 i z) + 1)
-
 void
 eval_exptan(struct atom *p1)
 {
+	scan("i / (exp(2 i z) + 1) - i exp(2 i z) / (exp(2 i z) + 1)");
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	exptan();
-}
-
-void
-exptan(void)
-{
-	struct atom *p1;
-
-	push_integer(2);
-	push(imaginaryunit);
-	multiply_factors(3);
-	expfunc();
-
-	p1 = pop();
-
-	push(imaginaryunit);
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	subtract();
-
-	push(p1);
-	push_integer(1);
-	add();
-
-	divide();
 }
 void
 eval_exptanh(struct atom *p1)
 {
+	scan("-1 / (exp(2 z) + 1) + exp(2 z) / (exp(2 z) + 1)");
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	exptanh();
-}
-
-void
-exptanh(void)
-{
-	struct atom *p1;
-	push_integer(2);
-	multiply();
-	expfunc();
-	p1 = pop();
-	push(p1);
-	push_integer(1);
-	subtract();
-	push(p1);
-	push_integer(1);
-	add();
-	divide();
 }
 void
 eval_factorial(struct atom *p1)

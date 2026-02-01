@@ -98,44 +98,62 @@ expform(int flag)
 	}
 
 	if (car(p1) == symbol(COS)) {
+		scan("1/2 exp(i z) + 1/2 exp(-i z)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expcos();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(SIN)) {
+		scan("-1/2 i exp(i z) + 1/2 i exp(-i z)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expsin();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(TAN)) {
+		scan("i / (exp(2 i z) + 1) - i exp(2 i z) / (exp(2 i z) + 1)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		exptan();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(COSH)) {
+		scan("1/2 exp(-z) + 1/2 exp(z)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expcosh();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(SINH)) {
+		scan("-1/2 exp(-z) + 1/2 exp(z)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expsinh();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(TANH)) {
+		scan("-1 / (exp(2 z) + 1) + exp(2 z) / (exp(2 z) + 1)");
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		exptanh();
+		subst();
+		evalf();
 		return;
 	}
 

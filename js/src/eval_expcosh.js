@@ -1,22 +1,9 @@
 function
 eval_expcosh(p1)
 {
+	scan("1/2 exp(-z) + 1/2 exp(z)", 0);
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expcosh();
-}
-
-function
-expcosh()
-{
-	var p1;
-	p1 = pop();
-	push(p1);
-	expfunc();
-	push(p1);
-	negate();
-	expfunc();
-	add();
-	push_rational(1, 2);
-	multiply();
 }

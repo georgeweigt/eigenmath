@@ -6540,55 +6540,20 @@ expfunc()
 function
 eval_expcos(p1)
 {
+	scan("1/2 exp(i z) + 1/2 exp(-i z)", 0);
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expcos();
-}
-
-function
-expcos()
-{
-	var p1;
-	p1 = pop();
-
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	expfunc();
-	push_rational(1, 2);
-	multiply();
-
-	push(imaginaryunit);
-	negate();
-	push(p1);
-	multiply();
-	expfunc();
-	push_rational(1, 2);
-	multiply();
-
-	add();
 }
 function
 eval_expcosh(p1)
 {
+	scan("1/2 exp(-z) + 1/2 exp(z)", 0);
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expcosh();
-}
-
-function
-expcosh()
-{
-	var p1;
-	p1 = pop();
-	push(p1);
-	expfunc();
-	push(p1);
-	negate();
-	expfunc();
-	add();
-	push_rational(1, 2);
-	multiply();
 }
 function
 eval_expform(p1)
@@ -6689,44 +6654,62 @@ expform(flag)
 	}
 
 	if (car(p1) == symbol(COS)) {
+		scan("1/2 exp(i z) + 1/2 exp(-i z)", 0);
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expcos();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(SIN)) {
+		scan("-1/2 i exp(i z) + 1/2 i exp(-i z)", 0);
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expsin();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(TAN)) {
+		scan("i / (exp(2 i z) + 1) - i exp(2 i z) / (exp(2 i z) + 1)", 0);
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		exptan();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(COSH)) {
+		scan("1/2 exp(-z) + 1/2 exp(z)", 0);
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expcosh();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(SINH)) {
+		scan("-1/2 exp(-z) + 1/2 exp(z)", 0);
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		expsinh();
+		subst();
+		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(TANH)) {
+		scan("-1 / (exp(2 z) + 1) + exp(2 z) / (exp(2 z) + 1)", 0);
+		push_symbol(Z_LOWER);
 		push(cadr(p1));
 		expform(flag);
-		exptanh();
+		subst();
+		evalf();
 		return;
 	}
 
@@ -6819,117 +6802,38 @@ expform(flag)
 function
 eval_expsin(p1)
 {
+	scan("-1/2 i exp(i z) + 1/2 i exp(-i z)", 0);
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expsin();
-}
-
-function
-expsin()
-{
-	var p1;
-	p1 = pop();
-
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	expfunc();
-	push(imaginaryunit);
-	divide();
-	push_rational(1, 2);
-	multiply();
-
-	push(imaginaryunit);
-	negate();
-	push(p1);
-	multiply();
-	expfunc();
-	push(imaginaryunit);
-	divide();
-	push_rational(1, 2);
-	multiply();
-
-	subtract();
 }
 function
 eval_expsinh(p1)
 {
+	scan("-1/2 exp(-z) + 1/2 exp(z)", 0);
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expsinh();
 }
-
-function
-expsinh()
-{
-	var p1;
-	p1 = pop();
-	push(p1);
-	expfunc();
-	push(p1);
-	negate();
-	expfunc();
-	subtract();
-	push_rational(1, 2);
-	multiply();
-}
-// tan(z) = (i - i exp(2 i z)) / (exp(2 i z) + 1)
-
 function
 eval_exptan(p1)
 {
+	scan("i / (exp(2 i z) + 1) - i exp(2 i z) / (exp(2 i z) + 1)", 0);
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	exptan();
-}
-
-function
-exptan()
-{
-	var p1;
-
-	push_integer(2);
-	push(imaginaryunit);
-	multiply_factors(3);
-	expfunc();
-
-	p1 = pop();
-
-	push(imaginaryunit);
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	subtract();
-
-	push(p1);
-	push_integer(1);
-	add();
-
-	divide();
 }
 function
 eval_exptanh(p1)
 {
+	scan("-1 / (exp(2 z) + 1) + exp(2 z) / (exp(2 z) + 1)", 0);
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	exptanh();
-}
-
-function
-exptanh()
-{
-	var p1;
-	push_integer(2);
-	multiply();
-	expfunc();
-	p1 = pop();
-	push(p1);
-	push_integer(1);
-	subtract();
-	push(p1);
-	push_integer(1);
-	add();
-	divide();
 }
 function
 eval_factorial(p1)

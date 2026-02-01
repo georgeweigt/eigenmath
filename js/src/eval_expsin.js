@@ -1,35 +1,9 @@
 function
 eval_expsin(p1)
 {
+	scan("-1/2 i exp(i z) + 1/2 i exp(-i z)", 0);
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	expsin();
-}
-
-function
-expsin()
-{
-	var p1;
-	p1 = pop();
-
-	push(imaginaryunit);
-	push(p1);
-	multiply();
-	expfunc();
-	push(imaginaryunit);
-	divide();
-	push_rational(1, 2);
-	multiply();
-
-	push(imaginaryunit);
-	negate();
-	push(p1);
-	multiply();
-	expfunc();
-	push(imaginaryunit);
-	divide();
-	push_rational(1, 2);
-	multiply();
-
-	subtract();
 }

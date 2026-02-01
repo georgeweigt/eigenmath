@@ -1,24 +1,9 @@
 function
 eval_exptanh(p1)
 {
+	scan("-1 / (exp(2 z) + 1) + exp(2 z) / (exp(2 z) + 1)", 0);
+	push_symbol(Z_LOWER);
 	push(cadr(p1));
+	subst();
 	evalf();
-	exptanh();
-}
-
-function
-exptanh()
-{
-	var p1;
-	push_integer(2);
-	multiply();
-	expfunc();
-	p1 = pop();
-	push(p1);
-	push_integer(1);
-	subtract();
-	push(p1);
-	push_integer(1);
-	add();
-	divide();
 }
