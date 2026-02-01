@@ -226,9 +226,6 @@ simplify_trig()
 {
 	var p1, p2;
 
-	if (!equal(get_binding(symbol(I_LOWER)), imaginaryunit))
-		return;
-
 	p1 = pop();
 
 	if (!iscons(p1)) {

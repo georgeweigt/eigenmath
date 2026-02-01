@@ -6569,6 +6569,20 @@ eval_expform(p1)
 function
 expform(flag)
 {
+	var p1;
+	p1 = pop();
+	save_symbol(symbol(I_LOWER));
+	set_symbol(symbol(I_LOWER), imaginaryunit, symbol(NIL));
+	push(p1);
+	expform_nib(flag);
+	p1 = pop();
+	restore_symbol();
+	push(p1);
+}
+
+function
+expform_nib(flag)
+{
 	var h, i, n, p1, num, den;
 
 	p1 = pop();
@@ -6578,7 +6592,7 @@ expform(flag)
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			expform(flag);
+			expform_nib(flag);
 			p1.elem[i] = pop();
 		}
 		push(p1);
@@ -6595,7 +6609,7 @@ expform(flag)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			expform(flag);
+			expform_nib(flag);
 			p1 = cdr(p1);
 		}
 		add_terms(stack.length - h);
@@ -6615,13 +6629,13 @@ expform(flag)
 			p1 = cdr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
-				expform(flag);
+				expform_nib(flag);
 				p1 = cdr(p1);
 			}
 			multiply_factors(stack.length - h);
 		} else {
 			push(p1);
-			expform(flag);
+			expform_nib(flag);
 		}
 		num = pop();
 
@@ -6631,13 +6645,13 @@ expform(flag)
 			p1 = cdr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
-				expform(flag);
+				expform_nib(flag);
 				p1 = cdr(p1);
 			}
 			multiply_factors(stack.length - h);
 		} else {
 			push(p1);
-			expform(flag);
+			expform_nib(flag);
 		}
 		den = pop();
 
@@ -6649,9 +6663,9 @@ expform(flag)
 
 	if (car(p1) == symbol(POWER)) {
 		push(cadr(p1));
-		expform(flag);
+		expform_nib(flag);
 		push(caddr(p1));
-		expform(flag);
+		expform_nib(flag);
 		power();
 		return;
 	}
@@ -6660,7 +6674,7 @@ expform(flag)
 		scan("1/2 exp(i z) + 1/2 exp(-i z)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform_nib(flag);
 		subst();
 		evalf();
 		return;
@@ -6670,7 +6684,7 @@ expform(flag)
 		scan("-1/2 i exp(i z) + 1/2 i exp(-i z)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform_nib(flag);
 		subst();
 		evalf();
 		return;
@@ -6680,7 +6694,7 @@ expform(flag)
 		scan("i / (exp(2 i z) + 1) - i exp(2 i z) / (exp(2 i z) + 1)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform_nib(flag);
 		subst();
 		evalf();
 		return;
@@ -6690,7 +6704,7 @@ expform(flag)
 		scan("1/2 exp(-z) + 1/2 exp(z)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform_nib(flag);
 		subst();
 		evalf();
 		return;
@@ -6700,7 +6714,7 @@ expform(flag)
 		scan("-1/2 exp(-z) + 1/2 exp(z)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform_nib(flag);
 		subst();
 		evalf();
 		return;
@@ -6710,7 +6724,7 @@ expform(flag)
 		scan("-1 / (exp(2 z) + 1) + exp(2 z) / (exp(2 z) + 1)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform_nib(flag);
 		subst();
 		evalf();
 		return;
@@ -6722,7 +6736,7 @@ expform(flag)
 			scan("-i log(z + i sqrt(1 - abs(z)^2))", 0);
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform(1);
+			expform_nib(1);
 			subst();
 			evalf();
 			return;
@@ -6732,7 +6746,7 @@ expform(flag)
 			scan("-i log(i z + sqrt(1 - abs(z)^2))", 0);
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform(1);
+			expform_nib(1);
 			subst();
 			evalf();
 			return;
@@ -6740,10 +6754,10 @@ expform(flag)
 
 		if (car(p1) == symbol(ARCTAN)) {
 			push(cadr(p1)); // y
-			expform(1);
+			expform_nib(1);
 			num = pop();
 			push(caddr(p1)); // x
-			expform(1);
+			expform_nib(1);
 			den = pop();
 			if (isplusone(den)) {
 				scan("-1/2 i log((i - z) / (i + z))", 0);
@@ -6764,7 +6778,7 @@ expform(flag)
 			scan("log(z + sqrt(abs(z)^2 - 1))", 0);
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform(1);
+			expform_nib(1);
 			subst();
 			evalf();
 			return;
@@ -6774,7 +6788,7 @@ expform(flag)
 			scan("log(z + sqrt(abs(z)^2 + 1))", 0);
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform(1);
+			expform_nib(1);
 			subst();
 			evalf();
 			return;
@@ -6784,7 +6798,7 @@ expform(flag)
 			scan("1/2 log((1 + z) / (1 - z))", 0);
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform(1);
+			expform_nib(1);
 			subst();
 			evalf();
 			return;
@@ -6796,7 +6810,7 @@ expform(flag)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		expform(flag);
+		expform_nib(flag);
 		p1 = cdr(p1);
 	}
 	list(stack.length - h);
@@ -12327,9 +12341,6 @@ function
 simplify_trig()
 {
 	var p1, p2;
-
-	if (!equal(get_binding(symbol(I_LOWER)), imaginaryunit))
-		return;
 
 	p1 = pop();
 

@@ -149,6 +149,7 @@ void eval_expcos(struct atom *p1);
 void eval_expcosh(struct atom *p1);
 void eval_expform(struct atom *p1);
 void expform(int flag);
+void expform_nib(int flag);
 void eval_expsin(struct atom *p1);
 void eval_expsinh(struct atom *p1);
 void eval_exptan(struct atom *p1);
