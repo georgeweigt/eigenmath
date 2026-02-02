@@ -3881,15 +3881,6 @@ check(infixform(T) == "1 / (exp(i theta) + exp(-i theta))")
 
 T = expform((sin(theta),0)) -- vector
 check(infixform(T) == "(-1/2 i exp(i theta) + 1/2 i exp(-i theta),0)")
-
-clear
-
-check(expform(arccos(z)) == -i log(z + i sqrt(1 - abs(z)^2)))
-check(expform(arcsin(z)) == -i log(i z + sqrt(1 - abs(z)^2)))
-check(expform(arctan(z)) == -1/2 i log((i - z) / (i + z)))
-check(expform(arccosh(z)) == log(z + sqrt(abs(z)^2 - 1)))
-check(expform(arcsinh(z)) == log(z + sqrt(abs(z)^2 + 1)))
-check(expform(arctanh(z)) == 1/2 log((1 + z) / (1 - z)))
 "Testing expsin"
 
 clear
@@ -5556,6 +5547,15 @@ check(infixform(log(2 log(0))) == "log(2) + log(log(0))")
 check(infixform(log(2.0 log(0))) == "log(log(0)) + 0.693147")
 check(infixform(log(2 + log(0))) == "log(log(0) + 2)")
 check(infixform(log(2.0 + log(0))) == "log(log(0) + 2)")
+"Testing logform"
+clear
+check(logform(arccos(z)) == -i log(z + i sqrt(1 - abs(z)^2)))
+check(logform(arcsin(z)) == -i log(i z + sqrt(1 - abs(z)^2)))
+check(logform(arctan(z)) == -1/2 i log((i - z) / (i + z)))
+check(logform(arccosh(z)) == log(z + sqrt(abs(z)^2 - 1)))
+check(logform(arcsinh(z)) == log(z + sqrt(abs(z)^2 + 1)))
+check(logform(arctanh(z)) == 1/2 log((1 + z) / (1 - z)))
+check(logform(arctan(y,x)) == arctan(y,x))
 "Testing logical operators"
 
 clear

@@ -162,6 +162,7 @@ struct se {
 	{ "last",		LAST,		NULL			},
 	{ "lgamma",		LGAMMA,		eval_lgamma		},
 	{ "log",		LOG,		eval_log		},
+	{ "logform",		LOGFORM,	eval_logform		},
 	{ "loop",		LOOP,		eval_loop		},
 
 	{ "mag",		MAG,		eval_mag		},

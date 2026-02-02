@@ -1,0 +1,9 @@
+"Testing logform"
+clear
+check(logform(arccos(z)) == -i log(z + i sqrt(1 - abs(z)^2)))
+check(logform(arcsin(z)) == -i log(i z + sqrt(1 - abs(z)^2)))
+check(logform(arctan(z)) == -1/2 i log((i - z) / (i + z)))
+check(logform(arccosh(z)) == log(z + sqrt(abs(z)^2 - 1)))
+check(logform(arcsinh(z)) == log(z + sqrt(abs(z)^2 + 1)))
+check(logform(arctanh(z)) == 1/2 log((1 + z) / (1 - z)))
+check(logform(arctan(y,x)) == arctan(y,x))
