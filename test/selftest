@@ -5556,6 +5556,7 @@ check(logform(arccosh(z)) == log(z + sqrt(abs(z)^2 - 1)))
 check(logform(arcsinh(z)) == log(z + sqrt(abs(z)^2 + 1)))
 check(logform(arctanh(z)) == 1/2 log((1 + z) / (1 - z)))
 check(logform(arctan(y,x)) == arctan(y,x))
+check(logform((1,arccos(z),1)) == (1,-i log(z + i sqrt(1 - abs(z)^2)),1))
 "Testing logical operators"
 
 clear

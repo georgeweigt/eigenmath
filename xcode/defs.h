@@ -167,7 +167,8 @@ struct tensor {
 #define LAST		(11 * BUCKETSIZE + 0)
 #define LGAMMA		(11 * BUCKETSIZE + 1)
 #define LOG		(11 * BUCKETSIZE + 2)
-#define LOOP		(11 * BUCKETSIZE + 3)
+#define LOGFORM		(11 * BUCKETSIZE + 3)
+#define LOOP		(11 * BUCKETSIZE + 4)
 
 #define MAG		(12 * BUCKETSIZE + 0)
 #define MINOR		(12 * BUCKETSIZE + 1)

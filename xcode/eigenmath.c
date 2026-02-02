@@ -4807,11 +4807,11 @@ eval_expform(struct atom *p1)
 {
 	push(cadr(p1));
 	evalf();
-	expform(1);
+	expform();
 }
 
 void
-expform(int flag)
+expform(void)
 {
 	int h, i, n;
 	struct atom *p1, *num, *den;
@@ -4823,7 +4823,7 @@ expform(int flag)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			expform(flag);
+			expform();
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
@@ -4840,7 +4840,7 @@ expform(int flag)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			expform(flag);
+			expform();
 			p1 = cdr(p1);
 		}
 		add_terms(tos - h);
@@ -4860,13 +4860,13 @@ expform(int flag)
 			p1 = cdr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
-				expform(flag);
+				expform();
 				p1 = cdr(p1);
 			}
 			multiply_factors(tos - h);
 		} else {
 			push(p1);
-			expform(flag);
+			expform();
 		}
 		num = pop();
 
@@ -4876,13 +4876,13 @@ expform(int flag)
 			p1 = cdr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
-				expform(flag);
+				expform();
 				p1 = cdr(p1);
 			}
 			multiply_factors(tos - h);
 		} else {
 			push(p1);
-			expform(flag);
+			expform();
 		}
 		den = pop();
 
@@ -4894,9 +4894,9 @@ expform(int flag)
 
 	if (car(p1) == symbol(POWER)) {
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		push(caddr(p1));
-		expform(flag);
+		expform();
 		power();
 		return;
 	}
@@ -4905,7 +4905,7 @@ expform(int flag)
 		scan("1/2 exp(sqrt(-1) z) + 1/2 exp(-sqrt(-1) z)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
@@ -4915,7 +4915,7 @@ expform(int flag)
 		scan("-1/2 sqrt(-1) exp(sqrt(-1) z) + 1/2 sqrt(-1) exp(-sqrt(-1) z)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
@@ -4925,7 +4925,7 @@ expform(int flag)
 		scan("sqrt(-1) / (exp(2 sqrt(-1) z) + 1) - sqrt(-1) exp(2 sqrt(-1) z) / (exp(2 sqrt(-1) z) + 1)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
@@ -4935,7 +4935,7 @@ expform(int flag)
 		scan("1/2 exp(-z) + 1/2 exp(z)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
@@ -4945,7 +4945,7 @@ expform(int flag)
 		scan("-1/2 exp(-z) + 1/2 exp(z)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
@@ -4955,85 +4955,10 @@ expform(int flag)
 		scan("-1 / (exp(2 z) + 1) + exp(2 z) / (exp(2 z) + 1)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
-	}
-
-	if (flag) {
-
-		if (car(p1) == symbol(ARCCOS)) {
-			scan("-sqrt(-1) log(z + sqrt(-1) sqrt(1 - abs(z)^2))");
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(1);
-			subst();
-			evalf();
-			return;
-		}
-
-		if (car(p1) == symbol(ARCSIN)) {
-			scan("-sqrt(-1) log(sqrt(-1) z + sqrt(1 - abs(z)^2))");
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(1);
-			subst();
-			evalf();
-			return;
-		}
-
-		if (car(p1) == symbol(ARCTAN)) {
-			push(cadr(p1)); // y
-			expform(1);
-			num = pop();
-			push(caddr(p1)); // x
-			expform(1);
-			den = pop();
-			if (isplusone(den)) {
-				scan("-1/2 sqrt(-1) log((sqrt(-1) - z) / (sqrt(-1) + z))");
-				push_symbol(Z_LOWER);
-				push(num);
-				subst();
-				evalf();
-			} else {
-				push_symbol(ARCTAN);
-				push(num);
-				push(den);
-				list(3);
-			}
-			return;
-		}
-
-		if (car(p1) == symbol(ARCCOSH)) {
-			scan("log(z + sqrt(abs(z)^2 - 1))");
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(1);
-			subst();
-			evalf();
-			return;
-		}
-
-		if (car(p1) == symbol(ARCSINH)) {
-			scan("log(z + sqrt(abs(z)^2 + 1))");
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(1);
-			subst();
-			evalf();
-			return;
-		}
-
-		if (car(p1) == symbol(ARCTANH)) {
-			scan("1/2 log((1 + z) / (1 - z))");
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(1);
-			subst();
-			evalf();
-			return;
-		}
 	}
 
 	h = tos;
@@ -5041,7 +4966,7 @@ expform(int flag)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		expform(flag);
+		expform();
 		p1 = cdr(p1);
 	}
 	list(tos - h);
@@ -7968,6 +7893,116 @@ logfunc(void)
 	push_symbol(LOG);
 	push(p1);
 	list(2);
+}
+void
+eval_logform(struct atom *p1)
+{
+	push(cadr(p1));
+	evalf();
+	logform();
+	evalf();
+}
+
+void
+logform(void)
+{
+	int h, i, n;
+	struct atom *p1, *x, *y;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1->u.tensor->nelem;
+		for (i = 0; i < n; i++) {
+			push(p1->u.tensor->elem[i]);
+			logform();
+			p1->u.tensor->elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(ARCCOS)) {
+		scan("-sqrt(-1) log(z + sqrt(-1) sqrt(1 - abs(z)^2))");
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		logform();
+		subst();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCSIN)) {
+		scan("-sqrt(-1) log(sqrt(-1) z + sqrt(1 - abs(z)^2))");
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		logform();
+		subst();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCTAN)) {
+		push(cadr(p1));
+		logform();
+		y = pop();
+		push(caddr(p1));
+		logform();
+		x = pop();
+		if (isplusone(x)) {
+			scan("-1/2 sqrt(-1) log((sqrt(-1) - z) / (sqrt(-1) + z))");
+			push_symbol(Z_LOWER);
+			push(y);
+			subst();
+		} else {
+			push_symbol(ARCTAN);
+			push(y);
+			push(x);
+			list(3);
+		}
+		return;
+	}
+
+	if (car(p1) == symbol(ARCCOSH)) {
+		scan("log(z + sqrt(abs(z)^2 - 1))");
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		logform();
+		subst();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCSINH)) {
+		scan("log(z + sqrt(abs(z)^2 + 1))");
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		logform();
+		subst();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCTANH)) {
+		scan("1/2 log((1 + z) / (1 - z))");
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		logform();
+		subst();
+		return;
+	}
+
+	h = tos;
+	push(car(p1));
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		logform();
+		p1 = cdr(p1);
+	}
+	list(tos - h);
 }
 void
 eval_loop(struct atom *p1)
@@ -12203,7 +12238,7 @@ simplify_nib(void)
 	}
 
 	push(p1);
-	expform(0); // 0 means don't change arc functions
+	expform();
 	rect();
 	p2 = pop();
 	if (simpler(p2, p1))
@@ -12320,7 +12355,7 @@ simplify_trig(void)
 	}
 
 	push(p1);
-	expform(0); // 0 means don't change arc functions
+	expform();
 	numden();
 	swap();
 	divide();
@@ -16267,6 +16302,7 @@ struct se {
 	{ "last",		LAST,		NULL			},
 	{ "lgamma",		LGAMMA,		eval_lgamma		},
 	{ "log",		LOG,		eval_log		},
+	{ "logform",		LOGFORM,	eval_logform		},
 	{ "loop",		LOOP,		eval_loop		},
 
 	{ "mag",		MAG,		eval_mag		},
