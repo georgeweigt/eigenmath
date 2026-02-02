@@ -12985,25 +12985,6 @@ simplify(void)
 
 	push(p1);
 	simplify_nib();
-	p2 = pop();
-
-	if (!iscons(p2)) {
-		push(p2);
-		return;
-	}
-
-	if (!equal(p1, p2)) {
-		p1 = p2;
-		push(p1);
-		numerator();
-		p2 = pop();
-		if (iszero(p2)) {
-			push_integer(0);
-			return;
-		}
-	}
-
-	push(p1);
 }
 
 void
