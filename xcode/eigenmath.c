@@ -4816,13 +4816,6 @@ eval_expform(struct atom *p1)
 void
 expform(int flag)
 {
-	if (isimaginaryunit(get_binding(symbol(I_LOWER))))
-		expform_nib(flag);
-}
-
-void
-expform_nib(int flag)
-{
 	int h, i, n;
 	struct atom *p1, *num, *den;
 
@@ -4833,7 +4826,7 @@ expform_nib(int flag)
 		n = p1->u.tensor->nelem;
 		for (i = 0; i < n; i++) {
 			push(p1->u.tensor->elem[i]);
-			expform_nib(flag);
+			expform(flag);
 			p1->u.tensor->elem[i] = pop();
 		}
 		push(p1);
@@ -4850,7 +4843,7 @@ expform_nib(int flag)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			expform_nib(flag);
+			expform(flag);
 			p1 = cdr(p1);
 		}
 		add_terms(tos - h);
@@ -4870,13 +4863,13 @@ expform_nib(int flag)
 			p1 = cdr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
-				expform_nib(flag);
+				expform(flag);
 				p1 = cdr(p1);
 			}
 			multiply_factors(tos - h);
 		} else {
 			push(p1);
-			expform_nib(flag);
+			expform(flag);
 		}
 		num = pop();
 
@@ -4886,13 +4879,13 @@ expform_nib(int flag)
 			p1 = cdr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
-				expform_nib(flag);
+				expform(flag);
 				p1 = cdr(p1);
 			}
 			multiply_factors(tos - h);
 		} else {
 			push(p1);
-			expform_nib(flag);
+			expform(flag);
 		}
 		den = pop();
 
@@ -4904,38 +4897,38 @@ expform_nib(int flag)
 
 	if (car(p1) == symbol(POWER)) {
 		push(cadr(p1));
-		expform_nib(flag);
+		expform(flag);
 		push(caddr(p1));
-		expform_nib(flag);
+		expform(flag);
 		power();
 		return;
 	}
 
 	if (car(p1) == symbol(COS)) {
-		scan("1/2 exp(i z) + 1/2 exp(-i z)");
+		scan("1/2 exp(sqrt(-1) z) + 1/2 exp(-sqrt(-1) z)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform_nib(flag);
+		expform(flag);
 		subst();
 		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(SIN)) {
-		scan("-1/2 i exp(i z) + 1/2 i exp(-i z)");
+		scan("-1/2 sqrt(-1) exp(sqrt(-1) z) + 1/2 sqrt(-1) exp(-sqrt(-1) z)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform_nib(flag);
+		expform(flag);
 		subst();
 		evalf();
 		return;
 	}
 
 	if (car(p1) == symbol(TAN)) {
-		scan("i / (exp(2 i z) + 1) - i exp(2 i z) / (exp(2 i z) + 1)");
+		scan("sqrt(-1) / (exp(2 sqrt(-1) z) + 1) - sqrt(-1) exp(2 sqrt(-1) z) / (exp(2 sqrt(-1) z) + 1)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform_nib(flag);
+		expform(flag);
 		subst();
 		evalf();
 		return;
@@ -4945,7 +4938,7 @@ expform_nib(int flag)
 		scan("1/2 exp(-z) + 1/2 exp(z)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform_nib(flag);
+		expform(flag);
 		subst();
 		evalf();
 		return;
@@ -4955,7 +4948,7 @@ expform_nib(int flag)
 		scan("-1/2 exp(-z) + 1/2 exp(z)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform_nib(flag);
+		expform(flag);
 		subst();
 		evalf();
 		return;
@@ -4965,7 +4958,7 @@ expform_nib(int flag)
 		scan("-1 / (exp(2 z) + 1) + exp(2 z) / (exp(2 z) + 1)");
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform_nib(flag);
+		expform(flag);
 		subst();
 		evalf();
 		return;
@@ -4974,20 +4967,20 @@ expform_nib(int flag)
 	if (flag) {
 
 		if (car(p1) == symbol(ARCCOS)) {
-			scan("-i log(z + i sqrt(1 - abs(z)^2))");
+			scan("-sqrt(-1) log(z + sqrt(-1) sqrt(1 - abs(z)^2))");
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform_nib(1);
+			expform(1);
 			subst();
 			evalf();
 			return;
 		}
 
 		if (car(p1) == symbol(ARCSIN)) {
-			scan("-i log(i z + sqrt(1 - abs(z)^2))");
+			scan("-sqrt(-1) log(sqrt(-1) z + sqrt(1 - abs(z)^2))");
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform_nib(1);
+			expform(1);
 			subst();
 			evalf();
 			return;
@@ -4995,13 +4988,13 @@ expform_nib(int flag)
 
 		if (car(p1) == symbol(ARCTAN)) {
 			push(cadr(p1)); // y
-			expform_nib(1);
+			expform(1);
 			num = pop();
 			push(caddr(p1)); // x
-			expform_nib(1);
+			expform(1);
 			den = pop();
 			if (isplusone(den)) {
-				scan("-1/2 i log((i - z) / (i + z))");
+				scan("-1/2 sqrt(-1) log((sqrt(-1) - z) / (sqrt(-1) + z))");
 				push_symbol(Z_LOWER);
 				push(num);
 				subst();
@@ -5019,7 +5012,7 @@ expform_nib(int flag)
 			scan("log(z + sqrt(abs(z)^2 - 1))");
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform_nib(1);
+			expform(1);
 			subst();
 			evalf();
 			return;
@@ -5029,7 +5022,7 @@ expform_nib(int flag)
 			scan("log(z + sqrt(abs(z)^2 + 1))");
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform_nib(1);
+			expform(1);
 			subst();
 			evalf();
 			return;
@@ -5039,7 +5032,7 @@ expform_nib(int flag)
 			scan("1/2 log((1 + z) / (1 - z))");
 			push_symbol(Z_LOWER);
 			push(cadr(p1));
-			expform_nib(1);
+			expform(1);
 			subst();
 			evalf();
 			return;
@@ -5051,7 +5044,7 @@ expform_nib(int flag)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		expform_nib(flag);
+		expform(flag);
 		p1 = cdr(p1);
 	}
 	list(tos - h);
