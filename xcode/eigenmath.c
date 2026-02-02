@@ -4787,7 +4787,7 @@ expfunc(void)
 void
 eval_expcos(struct atom *p1)
 {
-	scan("1/2 exp(i z) + 1/2 exp(-i z)");
+	scan("1/2 exp(sqrt(-1) z) + 1/2 exp(-sqrt(-1) z)");
 	push_symbol(Z_LOWER);
 	push(cadr(p1));
 	subst();
@@ -5050,7 +5050,7 @@ expform(int flag)
 void
 eval_expsin(struct atom *p1)
 {
-	scan("-1/2 i exp(i z) + 1/2 i exp(-i z)");
+	scan("-1/2 sqrt(-1) exp(sqrt(-1) z) + 1/2 sqrt(-1) exp(-sqrt(-1) z)");
 	push_symbol(Z_LOWER);
 	push(cadr(p1));
 	subst();
@@ -5068,7 +5068,7 @@ eval_expsinh(struct atom *p1)
 void
 eval_exptan(struct atom *p1)
 {
-	scan("i / (exp(2 i z) + 1) - i exp(2 i z) / (exp(2 i z) + 1)");
+	scan("sqrt(-1) / (exp(2 sqrt(-1) z) + 1) - sqrt(-1) exp(2 sqrt(-1) z) / (exp(2 sqrt(-1) z) + 1)");
 	push_symbol(Z_LOWER);
 	push(cadr(p1));
 	subst();

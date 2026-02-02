@@ -6540,7 +6540,7 @@ expfunc()
 function
 eval_expcos(p1)
 {
-	scan("1/2 exp(i z) + 1/2 exp(-i z)", 0);
+	scan("1/2 exp(sqrt(-1) z) + 1/2 exp(-sqrt(-1) z)", 0);
 	push_symbol(Z_LOWER);
 	push(cadr(p1));
 	subst();
@@ -6802,7 +6802,7 @@ expform(flag)
 function
 eval_expsin(p1)
 {
-	scan("-1/2 i exp(i z) + 1/2 i exp(-i z)", 0);
+	scan("-1/2 sqrt(-1) exp(sqrt(-1) z) + 1/2 sqrt(-1) exp(-sqrt(-1) z)", 0);
 	push_symbol(Z_LOWER);
 	push(cadr(p1));
 	subst();
@@ -6820,7 +6820,7 @@ eval_expsinh(p1)
 function
 eval_exptan(p1)
 {
-	scan("i / (exp(2 i z) + 1) - i exp(2 i z) / (exp(2 i z) + 1)", 0);
+	scan("sqrt(-1) / (exp(2 sqrt(-1) z) + 1) - sqrt(-1) exp(2 sqrt(-1) z) / (exp(2 sqrt(-1) z) + 1)", 0);
 	push_symbol(Z_LOWER);
 	push(cadr(p1));
 	subst();

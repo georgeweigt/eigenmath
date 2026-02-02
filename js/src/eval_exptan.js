@@ -1,7 +1,7 @@
 function
 eval_exptan(p1)
 {
-	scan("i / (exp(2 i z) + 1) - i exp(2 i z) / (exp(2 i z) + 1)", 0);
+	scan("sqrt(-1) / (exp(2 sqrt(-1) z) + 1) - sqrt(-1) exp(2 sqrt(-1) z) / (exp(2 sqrt(-1) z) + 1)", 0);
 	push_symbol(Z_LOWER);
 	push(cadr(p1));
 	subst();
