@@ -222,6 +222,8 @@ simplify_trig(void)
 		push(p1);
 }
 
+// favors eliminating denominators
+
 int
 simpler(struct atom *p1, struct atom *p2)
 {

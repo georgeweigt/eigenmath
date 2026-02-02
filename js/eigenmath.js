@@ -12321,6 +12321,8 @@ simplify_trig()
 		push(p1);
 }
 
+// favors eliminating denominators
+
 function
 simpler(p1, p2)
 {
