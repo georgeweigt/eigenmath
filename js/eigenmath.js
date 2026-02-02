@@ -916,6 +916,7 @@ const INV = "inv";
 const KRONECKER = "kronecker";
 const LGAMMA = "lgamma";
 const LOG = "log";
+const LOGFORM = "logform";
 const LOOP = "loop";
 const MAG = "mag";
 const MINOR = "minor";
@@ -6560,11 +6561,11 @@ eval_expform(p1)
 {
 	push(cadr(p1));
 	evalf();
-	expform(1);
+	expform();
 }
 
 function
-expform(flag)
+expform()
 {
 	var h, i, n, p1, num, den;
 
@@ -6575,7 +6576,7 @@ expform(flag)
 		n = p1.elem.length;
 		for (i = 0; i < n; i++) {
 			push(p1.elem[i]);
-			expform(flag);
+			expform();
 			p1.elem[i] = pop();
 		}
 		push(p1);
@@ -6592,7 +6593,7 @@ expform(flag)
 		p1 = cdr(p1);
 		while (iscons(p1)) {
 			push(car(p1));
-			expform(flag);
+			expform();
 			p1 = cdr(p1);
 		}
 		add_terms(stack.length - h);
@@ -6612,13 +6613,13 @@ expform(flag)
 			p1 = cdr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
-				expform(flag);
+				expform();
 				p1 = cdr(p1);
 			}
 			multiply_factors(stack.length - h);
 		} else {
 			push(p1);
-			expform(flag);
+			expform();
 		}
 		num = pop();
 
@@ -6628,13 +6629,13 @@ expform(flag)
 			p1 = cdr(p1);
 			while (iscons(p1)) {
 				push(car(p1));
-				expform(flag);
+				expform();
 				p1 = cdr(p1);
 			}
 			multiply_factors(stack.length - h);
 		} else {
 			push(p1);
-			expform(flag);
+			expform();
 		}
 		den = pop();
 
@@ -6646,9 +6647,9 @@ expform(flag)
 
 	if (car(p1) == symbol(POWER)) {
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		push(caddr(p1));
-		expform(flag);
+		expform();
 		power();
 		return;
 	}
@@ -6657,7 +6658,7 @@ expform(flag)
 		scan("1/2 exp(sqrt(-1) z) + 1/2 exp(-sqrt(-1) z)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
@@ -6667,7 +6668,7 @@ expform(flag)
 		scan("-1/2 sqrt(-1) exp(sqrt(-1) z) + 1/2 sqrt(-1) exp(-sqrt(-1) z)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
@@ -6677,7 +6678,7 @@ expform(flag)
 		scan("sqrt(-1) / (exp(2 sqrt(-1) z) + 1) - sqrt(-1) exp(2 sqrt(-1) z) / (exp(2 sqrt(-1) z) + 1)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
@@ -6687,7 +6688,7 @@ expform(flag)
 		scan("1/2 exp(-z) + 1/2 exp(z)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
@@ -6697,7 +6698,7 @@ expform(flag)
 		scan("-1/2 exp(-z) + 1/2 exp(z)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
@@ -6707,85 +6708,10 @@ expform(flag)
 		scan("-1 / (exp(2 z) + 1) + exp(2 z) / (exp(2 z) + 1)", 0);
 		push_symbol(Z_LOWER);
 		push(cadr(p1));
-		expform(flag);
+		expform();
 		subst();
 		evalf();
 		return;
-	}
-
-	if (flag) {
-
-		if (car(p1) == symbol(ARCCOS)) {
-			scan("-sqrt(-1) log(z + sqrt(-1) sqrt(1 - abs(z)^2))", 0);
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(1);
-			subst();
-			evalf();
-			return;
-		}
-
-		if (car(p1) == symbol(ARCSIN)) {
-			scan("-sqrt(-1) log(sqrt(-1) z + sqrt(1 - abs(z)^2))", 0);
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(1);
-			subst();
-			evalf();
-			return;
-		}
-
-		if (car(p1) == symbol(ARCTAN)) {
-			push(cadr(p1)); // y
-			expform(1);
-			num = pop();
-			push(caddr(p1)); // x
-			expform(1);
-			den = pop();
-			if (isplusone(den)) {
-				scan("-1/2 sqrt(-1) log((sqrt(-1) - z) / (sqrt(-1) + z))", 0);
-				push_symbol(Z_LOWER);
-				push(num);
-				subst();
-				evalf();
-			} else {
-				push_symbol(ARCTAN);
-				push(num);
-				push(den);
-				list(3);
-			}
-			return;
-		}
-
-		if (car(p1) == symbol(ARCCOSH)) {
-			scan("log(z + sqrt(abs(z)^2 - 1))", 0);
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(1);
-			subst();
-			evalf();
-			return;
-		}
-
-		if (car(p1) == symbol(ARCSINH)) {
-			scan("log(z + sqrt(abs(z)^2 + 1))", 0);
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(1);
-			subst();
-			evalf();
-			return;
-		}
-
-		if (car(p1) == symbol(ARCTANH)) {
-			scan("1/2 log((1 + z) / (1 - z))", 0);
-			push_symbol(Z_LOWER);
-			push(cadr(p1));
-			expform(1);
-			subst();
-			evalf();
-			return;
-		}
 	}
 
 	h = stack.length;
@@ -6793,7 +6719,7 @@ expform(flag)
 	p1 = cdr(p1);
 	while (iscons(p1)) {
 		push(car(p1));
-		expform(flag);
+		expform();
 		p1 = cdr(p1);
 	}
 	list(stack.length - h);
@@ -9176,6 +9102,115 @@ logfunc()
 	push_symbol(LOG);
 	push(p1);
 	list(2);
+}
+function
+eval_logform(p1)
+{
+	push(cadr(p1));
+	evalf();
+	logform();
+	evalf();
+}
+
+function
+logform()
+{
+	var h, i, n, p1, x, y;
+
+	p1 = pop();
+
+	if (istensor(p1)) {
+		p1 = copy_tensor(p1);
+		n = p1.elem.length;
+		for (i = 0; i < n; i++) {
+			push(p1.elem[i]);
+			logform();
+			p1.elem[i] = pop();
+		}
+		push(p1);
+		return;
+	}
+
+	if (!iscons(p1)) {
+		push(p1);
+		return;
+	}
+
+	if (car(p1) == symbol(ARCCOS)) {
+		scan("-sqrt(-1) log(z + sqrt(-1) sqrt(1 - abs(z)^2))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		logform();
+		subst();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCSIN)) {
+		scan("-sqrt(-1) log(sqrt(-1) z + sqrt(1 - abs(z)^2))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		logform();
+		subst();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCTAN)) {
+		push(cadr(p1));
+		logform();
+		y = pop();
+		push(caddr(p1));
+		logform();
+		x = pop();
+		if (isplusone(x)) {
+			scan("-1/2 sqrt(-1) log((sqrt(-1) - z) / (sqrt(-1) + z))", 0);
+			push_symbol(Z_LOWER);
+			push(y);
+			subst();
+		} else {
+			push_symbol(ARCTAN);
+			push(y);
+			push(x);
+			list(3);
+		}
+		return;
+	}
+
+	if (car(p1) == symbol(ARCCOSH)) {
+		scan("log(z + sqrt(abs(z)^2 - 1))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		logform();
+		subst();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCSINH)) {
+		scan("log(z + sqrt(abs(z)^2 + 1))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		logform();
+		subst();
+		return;
+	}
+
+	if (car(p1) == symbol(ARCTANH)) {
+		scan("1/2 log((1 + z) / (1 - z))", 0);
+		push_symbol(Z_LOWER);
+		push(cadr(p1));
+		logform();
+		subst();
+		return;
+	}
+
+	h = stack.length;
+	push(car(p1));
+	p1 = cdr(p1);
+	while (iscons(p1)) {
+		push(car(p1));
+		logform();
+		p1 = cdr(p1);
+	}
+	list(stack.length - h);
 }
 function
 eval_loop(p1)
@@ -12192,7 +12227,7 @@ simplify_nib()
 	}
 
 	push(p1);
-	expform(0); // 0 means don't change arc functions
+	expform();
 	rect();
 	p2 = pop();
 	if (simpler(p2, p1))
@@ -12309,7 +12344,7 @@ simplify_trig()
 	}
 
 	push(p1);
-	expform(0); // 0 means don't change arc functions
+	expform();
 	numden();
 	swap();
 	divide();
@@ -18052,6 +18087,7 @@ var symtab = {
 "kronecker":	{printname:KRONECKER,	func:eval_kronecker},
 "lgamma":	{printname:LGAMMA,	func:eval_lgamma},
 "log":		{printname:LOG,		func:eval_log},
+"logform":	{printname:LOGFORM,	func:eval_logform},
 "loop":		{printname:LOOP,	func:eval_loop},
 "mag":		{printname:MAG,		func:eval_mag},
 "minor":	{printname:MINOR,	func:eval_minor},

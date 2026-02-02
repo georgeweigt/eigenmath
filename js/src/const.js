@@ -53,6 +53,7 @@ const INV = "inv";
 const KRONECKER = "kronecker";
 const LGAMMA = "lgamma";
 const LOG = "log";
+const LOGFORM = "logform";
 const LOOP = "loop";
 const MAG = "mag";
 const MINOR = "minor";

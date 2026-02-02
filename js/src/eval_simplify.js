@@ -93,7 +93,7 @@ simplify_nib()
 	}
 
 	push(p1);
-	expform(0); // 0 means don't change arc functions
+	expform();
 	rect();
 	p2 = pop();
 	if (simpler(p2, p1))
@@ -210,7 +210,7 @@ simplify_trig()
 	}
 
 	push(p1);
-	expform(0); // 0 means don't change arc functions
+	expform();
 	numden();
 	swap();
 	divide();

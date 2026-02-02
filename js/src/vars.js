@@ -73,6 +73,7 @@ var symtab = {
 "kronecker":	{printname:KRONECKER,	func:eval_kronecker},
 "lgamma":	{printname:LGAMMA,	func:eval_lgamma},
 "log":		{printname:LOG,		func:eval_log},
+"logform":	{printname:LOGFORM,	func:eval_logform},
 "loop":		{printname:LOOP,	func:eval_loop},
 "mag":		{printname:MAG,		func:eval_mag},
 "minor":	{printname:MINOR,	func:eval_minor},
