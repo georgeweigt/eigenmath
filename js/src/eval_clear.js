@@ -7,9 +7,6 @@ eval_clear()
 	binding = {};
 	usrfunc = {};
 
-	binding[symbol(I_LOWER).printname] = imaginaryunit;
-	usrfunc[symbol(I_LOWER).printname] = symbol(NIL);
-
 	initscript();
 
 	restore_symbol();
