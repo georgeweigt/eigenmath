@@ -12150,42 +12150,37 @@ simplify()
 
 	push(p1);
 	simplify_trig(); // do this first otherwise compton-demo runs out of memory
-	p1 = pop();
+	p2 = pop();
 
-	if (!iscons(p1)) {
-		push(p1);
+	if (!iscons(p2)) {
+		push(p2);
 		return;
 	}
 
-	push(p1);
-	numerator();
-	p2 = pop();
-	if (iszero(p2)) {
-		push_integer(0);
-		return;
+	if (!equal(p1, p2)) {
+		p1 = p2;
+		push(p1);
+		numerator();
+		p2 = pop();
+		if (iszero(p2)) {
+			push_integer(0);
+			return;
+		}
 	}
 
 	push(p1);
 	simplify_nib();
-	p1 = pop();
-
-	if (!iscons(p1)) {
-		push(p1);
-		return;
-	}
-
-	push(p1);
-	numerator();
 	p2 = pop();
-	if (iszero(p2)) {
-		push_integer(0);
+
+	if (!iscons(p2)) {
+		push(p2);
 		return;
 	}
 
-	if (car(p2) == symbol(ADD) && lengthf(p2) < 10) {
-		push(p2);
-		push(p2);
-		multiply();
+	if (!equal(p1, p2)) {
+		p1 = p2;
+		push(p1);
+		numerator();
 		p2 = pop();
 		if (iszero(p2)) {
 			push_integer(0);
