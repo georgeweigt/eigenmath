@@ -45,7 +45,7 @@ evalf_nib(struct atom *p1)
 		max_eval_level = eval_level;
 
 	if (iscons(p1) && iskeyword(car(p1))) {
-		expanding++;
+		expanding++; // in case we are in noexpand()
 		car(p1)->u.ksym.func(p1); // call through function pointer
 		expanding--;
 		return;
