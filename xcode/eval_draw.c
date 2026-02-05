@@ -179,7 +179,7 @@ draw_pass2(struct atom *F, struct atom *T)
 		y2 = draw_buf[i + 1].y;
 
 		if (!inrange(x1, y1) && !inrange(x2, y2))
-			continue;
+			continue; // both points are outside of view rect
 
 		dt = t2 - t1;
 		dx = x2 - x1;
@@ -207,7 +207,6 @@ sample(struct atom *F, struct atom *T, double t)
 	push(F);
 	eval_nonstop();
 	floatfunc();
-//	real();
 	p1 = pop();
 
 	if (istensor(p1)) {
