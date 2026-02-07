@@ -904,6 +904,7 @@ const EXPSINH = "expsinh";
 const EXPTAN = "exptan";
 const EXPTANH = "exptanh";
 const FACTORIAL = "factorial";
+const FDIST = "fdist";
 const FLOAT = "float";
 const FLOOR = "floor";
 const FOR = "for";
@@ -955,6 +956,7 @@ const SUM = "sum";
 const TAN = "tan";
 const TANH = "tanh";
 const TAYLOR = "taylor";
+const TDIST = "tdist";
 const TEST = "test";
 const TESTEQ = "testeq";
 const TESTGE = "testge";
@@ -6801,6 +6803,51 @@ factorial()
 	push_symbol(FACTORIAL);
 	push(p1);
 	list(2);
+}
+function
+eval_fdist(p1)
+{
+	var a, b, df1, df2, t, x, p2;
+
+	push(cadr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("fdist: 1st argument is not numerical");
+	push(p2);
+	t = pop_double();
+
+	push(caddr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("fdist: 2nd argument is not numerical");
+	push(p2);
+	df1 = pop_double();
+
+	push(cadddr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("fdist: 3rd argument is not numerical");
+	push(p2);
+	df2 = pop_double();
+
+	if (t <= 0.0) {
+		push_double(0.0);
+		return;
+	}
+
+	x = t / (t + df2 / df1);
+	a = 0.5 * df1;
+	b = 0.5 * df2;
+
+	x = incbeta(a, b, x);
+
+	if (!isFinite(x))
+		stopf("fdist did not converge");
+
+	push_double(x);
 }
 function
 eval_float(p1)
@@ -13256,6 +13303,38 @@ eval_taylor(p1)
 	add_terms(stack.length - h);
 }
 function
+eval_tdist(p1)
+{
+	var a, b, df, t, x, p2;
+
+	push(cadr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("tdist: 1st argument is not numerical");
+	push(p2);
+	t = pop_double();
+
+	push(caddr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("tdist: 2nd argument is not numerical");
+	push(p2);
+	df = pop_double();
+
+	x = 0.5 * (t + Math.sqrt(t * t + df)) / Math.sqrt(t * t + df);
+	a = 0.5 * df;
+	b = 0.5 * df;
+
+	x = incbeta(a, b, x);
+
+	if (!isFinite(x))
+		stopf("tdist did not converge");
+
+	push_double(x);
+}
+function
 eval_tensor(p1)
 {
 	var i, n;
@@ -18208,6 +18287,7 @@ var symtab = {
 "exptan":	{printname:EXPTAN,	func:eval_exptan},
 "exptanh":	{printname:EXPTANH,	func:eval_exptanh},
 "factorial":	{printname:FACTORIAL,	func:eval_factorial},
+"fdist":	{printname:FDIST,	func:eval_fdist},
 "float":	{printname:FLOAT,	func:eval_float},
 "floor":	{printname:FLOOR,	func:eval_floor},
 "for":		{printname:FOR,		func:eval_for},
@@ -18259,6 +18339,7 @@ var symtab = {
 "tan":		{printname:TAN,		func:eval_tan},
 "tanh":		{printname:TANH,	func:eval_tanh},
 "taylor":	{printname:TAYLOR,	func:eval_taylor},
+"tdist":	{printname:TDIST,	func:eval_tdist},
 "test":		{printname:TEST,	func:eval_test},
 "testeq":	{printname:TESTEQ,	func:eval_testeq},
 "testge":	{printname:TESTGE,	func:eval_testge},

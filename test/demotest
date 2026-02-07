@@ -4029,85 +4029,6 @@ for(n, 1, 3, for(l, 0, n - 1, for(m, -l, l,
 "hydrogen-radius-demo.txt"
 status
 clear
-"incbeta.txt"
--- Incomplete beta function
-
--- zlib License
--- Copyright (c) 2016, 2017 Lewis Van Winkle
--- https://codeplea.com/incomplete-beta-function-c
-
-incbeta(x,a,b) = test(
- x <= 0, 0,
- x >= 1, 1,
- x > (a + 1) / (a + b + 2), 1 - incbeta1(1 - x, b, a),
- incbeta1(x,a,b)
-)
-
-incbeta1(x,a,b,c,d,f,i,m,n) = do(
- f = 1,
- c = 1,
- d = 0,
- for(i,0,200,
-  m = floor(i / 2),
-  test(
-   i == 0, n = 1,
-   mod(i,2) == 0, n = m (b - m) x / (a + 2 m - 1) / (a + 2 m),
-   n = -(a + m) (a + b + m) x / (a + 2 m) / (a + 2 m + 1)
-  ),
-  d = 1 + n d,
-  test(abs(d) < 10.0^(-30), d = 10.0^(-30)),
-  d = 1 / d,
-  c = 1 + n / c,
-  test(abs(c) < 10.0^(-30), c = 10.0^(-30)),
-  f = f c d,
-  test(abs(1 - c d) < 10.0^(-8), break)
- ),
- m = lgamma(a) + lgamma(b) - lgamma(a + b),
- x = float(x),
- m = exp(log(x) a + log(1 - x) b - m) / a,
- test(abs(1 - c d) < 10.0^(-8), m (f - 1), tgamma(0))
-)
-
-fdist(t,df1,df2) = incbeta(t / (t + df2 / df1), 0.5 df1, 0.5 df2)
-
-tdist(t,df) = incbeta(0.5 (t+sqrt(t^2+df)) / sqrt(t^2+df), 0.5 df, 0.5 df)
-
-"Check fdist and tdist"
-
-epsilon = 10.0^(-6)
-
-check(incbeta(0,0.5,0.5) == 0)
-check(incbeta(1,0.5,0.5) == 1)
-
-check(fdist(0,1,1) == 0)
-check(abs(fdist(0.1,3,2) - 0.04710751) < epsilon) -- R: pf(0.1,3,2)
-check(abs(fdist(1,3,2) - 0.464758)     < epsilon)
-check(abs(fdist(2,3,2) - 0.6495191)    < epsilon)
-check(abs(fdist(3,3,2) - 0.7400733)    < epsilon)
-check(abs(fdist(4,3,2) - 0.7935601)    < epsilon)
-
-check(abs(tdist(-3,10) - 0.006671828)  < epsilon) -- R: pt(-3,10)
-check(abs(tdist(-2,10) - 0.03669402)   < epsilon)
-check(abs(tdist(-1,10) - 0.1704466)    < epsilon)
-check(abs(tdist(0,10) - 0.5)           < epsilon)
-check(abs(tdist(1,10) - 0.8295534)     < epsilon)
-check(abs(tdist(2,10) - 0.963306)      < epsilon)
-check(abs(tdist(3,10) - 0.9933282)     < epsilon)
-
-"ok"
-
-"F distribution"
-xrange = (0,5)
-yrange = (0,1)
-draw(fdist(t,3,2),t)
-
-"t distribution"
-xrange = (-5,5)
-yrange = (0,1)
-draw(tdist(t,10),t)
-"incbeta.txt"
-status
-clear
 "inverse-erf-1.txt"
 -- stackoverflow.com/questions/27229371/inverse-error-function-in-c
 
@@ -7601,8 +7522,29 @@ A epsilon sigma T^4
 "stefan-boltzmann-law-demo.txt"
 status
 clear
-"stern-gerlach-experiment-2-demo.txt"
-"Stern-Gerlach experiment 2"
+"stern-gerlach-1-demo.txt"
+"Stern-Gerlach 1"
+
+"Verify equation (2)"
+
+W1 = exp(-i e B0 t / (2 m))
+W2 = exp(+i e B0 t / (2 m))
+
+phi1 = Phi1(x,y,z,t)
+phi2 = Phi2(x,y,z,t)
+
+psi1 = W1 phi1
+psi2 = W2 phi2
+
+check(i hbar d(psi1,t) == W1 i hbar d(phi1,t) + e hbar / (2 m) B0 psi1)
+check(i hbar d(psi2,t) == W2 i hbar d(phi2,t) - e hbar / (2 m) B0 psi2)
+
+"ok"
+"stern-gerlach-1-demo.txt"
+status
+clear
+"stern-gerlach-2-demo.txt"
+"Stern-Gerlach 2"
 
 N = 10
 
@@ -7658,7 +7600,7 @@ for(n, N / 2, N,
 
 epsilon1
 epsilon2
-"stern-gerlach-experiment-2-demo.txt"
+"stern-gerlach-2-demo.txt"
 status
 clear
 "sum-of-three-cubes.txt"
