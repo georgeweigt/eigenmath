@@ -11,6 +11,8 @@ eval_fdist(struct atom *p1)
 		stopf("fdist: 1st argument is not numerical");
 	push(p2);
 	t = pop_double();
+	if (!isfinite(t))
+		stopf("fdist: 1st argument is not finite");
 
 	push(caddr(p1));
 	evalf();
@@ -19,6 +21,8 @@ eval_fdist(struct atom *p1)
 		stopf("fdist: 2nd argument is not numerical");
 	push(p2);
 	df1 = pop_double();
+	if (!isfinite(df1))
+		stopf("fdist: 2nd argument is not finite");
 
 	push(cadddr(p1));
 	evalf();
@@ -27,6 +31,8 @@ eval_fdist(struct atom *p1)
 		stopf("fdist: 3rd argument is not numerical");
 	push(p2);
 	df2 = pop_double();
+	if (!isfinite(df2))
+		stopf("fdist: 3rd argument is not finite");
 
 	if (t <= 0.0) {
 		push_double(0.0);

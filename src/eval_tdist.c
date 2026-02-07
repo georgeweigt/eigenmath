@@ -11,6 +11,8 @@ eval_tdist(struct atom *p1)
 		stopf("tdist: 1st argument is not numerical");
 	push(p2);
 	t = pop_double();
+	if (!isfinite(t))
+		stopf("tdist: 1st argument is not finite");
 
 	push(caddr(p1));
 	evalf();
@@ -19,6 +21,8 @@ eval_tdist(struct atom *p1)
 		stopf("tdist: 2nd argument is not numerical");
 	push(p2);
 	df = pop_double();
+	if (!isfinite(df))
+		stopf("tdist: 2nd argument is not finite");
 
 	x = 0.5 * (t + sqrt(t * t + df)) / sqrt(t * t + df);
 	a = 0.5 * df;
