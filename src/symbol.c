@@ -149,6 +149,7 @@ struct se {
 	{ "I",			I_UPPER,	NULL			},
 	{ "i",			I_LOWER,	NULL			},
 	{ "imag",		IMAG,		eval_imag		},
+	{ "incbeta",		INCBETA,	eval_incbeta		},
 	{ "infixform",		INFIXFORM,	eval_infixform		},
 	{ "inner",		INNER,		eval_inner		},
 	{ "integral",		INTEGRAL,	eval_integral		},

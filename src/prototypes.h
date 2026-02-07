@@ -165,6 +165,8 @@ void eval_hadamard(struct atom *p1);
 void hadamard(void);
 void eval_imag(struct atom *p1);
 void imag(void);
+void eval_incbeta(struct atom *p1);
+double incbeta(double a, double b, double x);
 void eval_index(struct atom *p1);
 void indexfunc(struct atom *T, int h);
 void eval_infixform(struct atom *p1);

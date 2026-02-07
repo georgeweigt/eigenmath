@@ -4137,6 +4137,26 @@ T = (-1)^(-13/2.0)
 check(infixform(T)="-i")
 T = (-1)^(-15/2.0)
 check(infixform(T)="i")
+"Testing incbeta"
+clear
+
+-- https://github.com/codeplea/incbeta/blob/master/test.c
+
+check(infixform(incbeta(.1, 10, 10)) == "3.92988 10^(-6)")
+check(infixform(incbeta(.3, 10, 10)) == "0.0325534")
+check(infixform(incbeta(.5, 10, 10)) == "0.5")
+check(infixform(incbeta(.7, 10, 10)) == "0.967447")
+check(infixform(incbeta(1, 10, 10)) == "1")
+
+check(infixform(incbeta(.5, 15, 10)) == "0.153728")
+check(infixform(incbeta(.6, 15, 10)) == "0.48908")
+
+check(infixform(incbeta(.5, 10, 15)) == "0.846272")
+check(infixform(incbeta(.6, 10, 15)) == "0.978342")
+
+check(infixform(incbeta(.4, 20, 20)) == "0.102059")
+check(infixform(incbeta(.4, 40, 40)) == "0.0358103")
+check(infixform(incbeta(.7, 40, 40)) == "0.999902")
 "Testing infixform"
 clear
 check(infixform(1/x) == "1 / x")
