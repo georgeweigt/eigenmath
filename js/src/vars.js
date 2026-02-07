@@ -66,6 +66,7 @@ var symtab = {
 "for":		{printname:FOR,		func:eval_for},
 "hadamard":	{printname:HADAMARD,	func:eval_hadamard},
 "imag":		{printname:IMAG,	func:eval_imag},
+"incbeta":	{printname:INCBETA,	func:eval_incbeta},
 "infixform":	{printname:INFIXFORM,	func:eval_infixform},
 "inner":	{printname:INNER,	func:eval_inner},
 "integral":	{printname:INTEGRAL,	func:eval_integral},
