@@ -1,0 +1,10 @@
+"Testing fdist"
+clear
+-- R: pf
+check(infixform(fdist(-1,3,2)) == "0")
+check(infixform(fdist(0.1,3,2)) == "0.0471075")
+check(infixform(fdist(1,3,2)) == "0.464758")
+check(infixform(fdist(2,3,2)) == "0.649519")
+check(infixform(fdist(3,3,2)) == "0.740073")
+check(infixform(fdist(4,3,2)) == "0.79356")
+

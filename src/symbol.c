@@ -138,6 +138,7 @@ struct se {
 	{ "exptanh",		EXPTANH,	eval_exptanh		},
 
 	{ "factorial",		FACTORIAL,	eval_factorial		},
+	{ "fdist",		FDIST,		eval_fdist		},
 	{ "float",		FLOATF,		eval_float		},
 	{ "floor",		FLOOR,		eval_floor		},
 	{ "for",		FOR,		eval_for		},
@@ -220,6 +221,7 @@ struct se {
 	{ "tan",		TAN,		eval_tan		},
 	{ "tanh",		TANH,		eval_tanh		},
 	{ "taylor",		TAYLOR,		eval_taylor		},
+	{ "tdist",		TDIST,		eval_tdist		},
 	{ "test",		TEST,		eval_test		},
 	{ "testeq",		TESTEQ,		eval_testeq		},
 	{ "testge",		TESTGE,		eval_testge		},

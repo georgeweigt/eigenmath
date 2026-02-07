@@ -1,0 +1,10 @@
+"Testing tdist"
+clear
+-- R: pt
+check(infixform(tdist(-3,10)) == "0.00667183")
+check(infixform(tdist(-2,10)) == "0.036694")
+check(infixform(tdist(-1,10)) == "0.170447")
+check(infixform(tdist(0,10)) == "0.5")
+check(infixform(tdist(1,10)) == "0.829553")
+check(infixform(tdist(2,10)) == "0.963306")
+check(infixform(tdist(3,10)) == "0.993328")

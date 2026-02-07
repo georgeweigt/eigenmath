@@ -3892,6 +3892,16 @@ clear
 
 check(exptan(z)==(exp(2*i*z)-1)/(i*(exp(2*i*z)+1)))
 check(expsin(z)/expcos(z)==exptan(z))
+"Testing fdist"
+clear
+-- R: pf
+check(infixform(fdist(-1,3,2)) == "0")
+check(infixform(fdist(0.1,3,2)) == "0.0471075")
+check(infixform(fdist(1,3,2)) == "0.464758")
+check(infixform(fdist(2,3,2)) == "0.649519")
+check(infixform(fdist(3,3,2)) == "0.740073")
+check(infixform(fdist(4,3,2)) == "0.79356")
+
 "Testing float"
 
 clear
@@ -9150,6 +9160,16 @@ check(A == B)
 A = taylor(1/(5+4*cos(x)),x,6,0)
 B = 1/9+2/81*x^2+5/1458*x^4+49/131220*x^6
 check(A == B)
+"Testing tdist"
+clear
+-- R: pt
+check(infixform(tdist(-3,10)) == "0.00667183")
+check(infixform(tdist(-2,10)) == "0.036694")
+check(infixform(tdist(-1,10)) == "0.170447")
+check(infixform(tdist(0,10)) == "0.5")
+check(infixform(tdist(1,10)) == "0.829553")
+check(infixform(tdist(2,10)) == "0.963306")
+check(infixform(tdist(3,10)) == "0.993328")
 "Testing tensor arithmetic"
 
 clear

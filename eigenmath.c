@@ -170,9 +170,10 @@ struct tensor {
 #define EXPTANH		(4 * BUCKETSIZE + 12)
 
 #define FACTORIAL	(5 * BUCKETSIZE + 0)
-#define FLOATF		(5 * BUCKETSIZE + 1)
-#define FLOOR		(5 * BUCKETSIZE + 2)
-#define FOR		(5 * BUCKETSIZE + 3)
+#define FDIST		(5 * BUCKETSIZE + 1)
+#define FLOATF		(5 * BUCKETSIZE + 2)
+#define FLOOR		(5 * BUCKETSIZE + 3)
+#define FOR		(5 * BUCKETSIZE + 4)
 
 #define H_UPPER		(7 * BUCKETSIZE + 0)
 #define H_LOWER		(7 * BUCKETSIZE + 1)
@@ -252,16 +253,17 @@ struct tensor {
 #define TAN		(19 * BUCKETSIZE + 2)
 #define TANH		(19 * BUCKETSIZE + 3)
 #define TAYLOR		(19 * BUCKETSIZE + 4)
-#define TEST		(19 * BUCKETSIZE + 5)
-#define TESTEQ		(19 * BUCKETSIZE + 6)
-#define TESTGE		(19 * BUCKETSIZE + 7)
-#define TESTGT		(19 * BUCKETSIZE + 8)
-#define TESTLE		(19 * BUCKETSIZE + 9)
-#define TESTLT		(19 * BUCKETSIZE + 10)
-#define TGAMMA		(19 * BUCKETSIZE + 11)
-#define TRACE		(19 * BUCKETSIZE + 12)
-#define TRANSPOSE	(19 * BUCKETSIZE + 13)
-#define TTY		(19 * BUCKETSIZE + 14)
+#define TDIST		(19 * BUCKETSIZE + 5)
+#define TEST		(19 * BUCKETSIZE + 6)
+#define TESTEQ		(19 * BUCKETSIZE + 7)
+#define TESTGE		(19 * BUCKETSIZE + 8)
+#define TESTGT		(19 * BUCKETSIZE + 9)
+#define TESTLE		(19 * BUCKETSIZE + 10)
+#define TESTLT		(19 * BUCKETSIZE + 11)
+#define TGAMMA		(19 * BUCKETSIZE + 12)
+#define TRACE		(19 * BUCKETSIZE + 13)
+#define TRANSPOSE	(19 * BUCKETSIZE + 14)
+#define TTY		(19 * BUCKETSIZE + 15)
 
 #define U_UPPER		(20 * BUCKETSIZE + 0)
 #define U_LOWER		(20 * BUCKETSIZE + 1)
@@ -549,6 +551,7 @@ void eval_exptan(struct atom *p1);
 void eval_exptanh(struct atom *p1);
 void eval_factorial(struct atom *p1);
 void factorial(void);
+void eval_fdist(struct atom *p1);
 void eval_float(struct atom *p1);
 void floatfunc(void);
 void floatfunc_subst(void);
@@ -752,6 +755,7 @@ void tanfunc_sum(struct atom *p1);
 void eval_tanh(struct atom *p1);
 void tanhfunc(void);
 void eval_taylor(struct atom *p1);
+void eval_tdist(struct atom *p1);
 void eval_tensor(struct atom *p1);
 void promote_tensor(void);
 int compatible_dimensions(struct atom *p, struct atom *q);
@@ -5858,6 +5862,52 @@ factorial(void)
 	push_symbol(FACTORIAL);
 	push(p1);
 	list(2);
+}
+void
+eval_fdist(struct atom *p1)
+{
+	double a, b, df1, df2, t, x;
+	struct atom *p2;
+
+	push(cadr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("fdist: 1st argument is not numerical");
+	push(p2);
+	t = pop_double();
+
+	push(caddr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("fdist: 2nd argument is not numerical");
+	push(p2);
+	df1 = pop_double();
+
+	push(cadddr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("fdist: 3rd argument is not numerical");
+	push(p2);
+	df2 = pop_double();
+
+	if (t <= 0.0) {
+		push_double(0.0);
+		return;
+	}
+
+	x = t / (t + df2 / df1);
+	a = 0.5 * df1;
+	b = 0.5 * df2;
+
+	x = incbeta(a, b, x);
+
+	if (!isfinite(x))
+		stopf("fdist did not converge");
+
+	push_double(x);
 }
 void
 eval_float(struct atom *p1)
@@ -14120,6 +14170,39 @@ eval_taylor(struct atom *p1)
 	add_terms(tos - h);
 }
 void
+eval_tdist(struct atom *p1)
+{
+	double a, b, df, t, x;
+	struct atom *p2;
+
+	push(cadr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("tdist: 1st argument is not numerical");
+	push(p2);
+	t = pop_double();
+
+	push(caddr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("tdist: 2nd argument is not numerical");
+	push(p2);
+	df = pop_double();
+
+	x = 0.5 * (t + sqrt(t * t + df)) / sqrt(t * t + df);
+	a = 0.5 * df;
+	b = 0.5 * df;
+
+	x = incbeta(a, b, x);
+
+	if (!isfinite(x))
+		stopf("tdist did not converge");
+
+	push_double(x);
+}
+void
 eval_tensor(struct atom *p1)
 {
 	int i;
@@ -18649,6 +18732,7 @@ struct se {
 	{ "exptanh",		EXPTANH,	eval_exptanh		},
 
 	{ "factorial",		FACTORIAL,	eval_factorial		},
+	{ "fdist",		FDIST,		eval_fdist		},
 	{ "float",		FLOATF,		eval_float		},
 	{ "floor",		FLOOR,		eval_floor		},
 	{ "for",		FOR,		eval_for		},
@@ -18731,6 +18815,7 @@ struct se {
 	{ "tan",		TAN,		eval_tan		},
 	{ "tanh",		TANH,		eval_tanh		},
 	{ "taylor",		TAYLOR,		eval_taylor		},
+	{ "tdist",		TDIST,		eval_tdist		},
 	{ "test",		TEST,		eval_test		},
 	{ "testeq",		TESTEQ,		eval_testeq		},
 	{ "testge",		TESTGE,		eval_testge		},

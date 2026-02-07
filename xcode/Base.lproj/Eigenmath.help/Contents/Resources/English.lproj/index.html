@@ -74,6 +74,7 @@ code {
 <a href="#exp">exp</a><br>
 <a href="#expform">expform</a><br>
 <a href="#factorial">factorial</a><br>
+<a href="#fdist">fdist</a><br>
 <a href="#float">float</a><br>
 <a href="#floor">floor</a><br>
 <a href="#for">for</a><br>
@@ -81,13 +82,14 @@ code {
 <a href="#hadamard">hadamard</a><br>
 <a href="#i">i</a><br>
 <a href="#imag">imag</a><br>
+<a href="#incbeta">incbeta</a><br>
 <a href="#infixform">infixform</a><br>
 <a href="#inner">inner</a><br>
-<a href="#integral">integral</a><br>
-<a href="#inv">inv</a><br>
 </td>
 
 <td>
+<a href="#integral">integral</a><br>
+<a href="#inv">inv</a><br>
 <a href="#kronecker">kronecker</a><br>
 <a href="#last">last</a><br>
 <a href="#lgamma">lgamma</a><br>
@@ -103,11 +105,11 @@ code {
 <a href="#number">number</a><br>
 <a href="#numerator">numerator</a><br>
 <a href="#or">or</a><br>
-<a href="#outer">outer</a><br>
-<a href="#pi">pi</a><br>
 </td>
 
 <td>
+<a href="#outer">outer</a><br>
+<a href="#pi">pi</a><br>
 <a href="#polar">polar</a><br>
 <a href="#power">power</a><br>
 <a href="#print">print</a><br>
@@ -123,11 +125,11 @@ code {
 <a href="#run">run</a><br>
 <a href="#sgn">sgn</a><br>
 <a href="#simplify">simplify</a><br>
-<a href="#sin">sin</a><br>
-<a href="#sinh">sinh</a><br>
 </td>
 
 <td>
+<a href="#sin">sin</a><br>
+<a href="#sinh">sinh</a><br>
 <a href="#sqrt">sqrt</a><br>
 <a href="#stop">stop</a><br>
 <a href="#sum">sum</a><br>
@@ -141,8 +143,6 @@ code {
 <a href="#tty">tty</a><br>
 <a href="#unit">unit</a><br>
 <a href="#zero">zero</a><br>
-<br>
-<br>
 <br>
 <br>
 </td>
@@ -761,6 +761,11 @@ can also be used.
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
+<a id="fdist">fdist(<i>x,df1,df2</i>)</a>
+<p>
+Returns the probability that a random sample from an <i>F</i>-distribution is less than or equal to <i>x</i>.
+
+<p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="float">float(<i>x</i>)</a>
 <p>
 Returns expression <i>x</i> with rational numbers and integers converted to
@@ -879,6 +884,11 @@ y
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
+<a id="incbeta">incbeta(<i>x,a,b</i>)</a>
+<p>
+Returns the incomplete beta function of <i>x</i>.
+
+<p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="infixform">infixform(<i>x</i>)</a>
 <p>
 Converts expression <i>x</i> to a string and returns the result.
@@ -966,9 +976,6 @@ kronecker(I,A)
 │ 0   0   c   d │
 └               ┘
 </pre>
-<p>
-See also<br>
-<a href="https://georgeweigt.github.io/examples/anticommutator-example.pdf">Anticommutator example</a>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="last">last</a>
