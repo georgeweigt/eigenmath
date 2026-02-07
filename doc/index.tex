@@ -585,6 +585,11 @@ The expression {\tt n!} can also be used.
 
 $2432902008176640000$
 
+\subsection*{fdist($x,df_1,df_2$)}
+
+Returns the probability that a random sample from an $F$-distribution
+is less than or equal to $x$.
+
 \subsection*{float($x$)}
 
 Returns expression $x$ with rational numbers and integers converted to
@@ -1469,6 +1474,24 @@ expform(tanh(x))
 }
 
 $\displaystyle -\frac{1}{\exp(2x)+1}+\frac{\exp(2x)}{\exp(2x)+1}$
+
+\subsection*{taylor($f,x,n,a$)}
+
+Returns the $n$th order Taylor series expansion of $f(x)$ at $a$.
+If argument $a$ is omitted then zero is used for the expansion point.
+
+{\color{blue}
+\begin{verbatim}
+taylor(1/(1-x),x,5)
+\end{verbatim}
+}
+
+$x^5+x^4+x^3+x^2+x+1$
+
+\subsection*{tdist($x,df$)}
+
+Returns the probability that a random sample from a $t$-distribution
+is less than or equal to $x$.
 
 \subsection*{test($a,b,c,d,\ldots$)}
 
