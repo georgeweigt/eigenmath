@@ -10,6 +10,8 @@ eval_incbeta(p1)
 		stopf("incbeta: 1st argument is not numerical");
 	push(p2);
 	x = pop_double();
+	if (!isFinite(x))
+		stopf("incbeta: 1st argument is not finite");
 
 	push(caddr(p1));
 	evalf();
@@ -18,6 +20,8 @@ eval_incbeta(p1)
 		stopf("incbeta: 2nd argument is not numerical");
 	push(p2);
 	a = pop_double();
+	if (!isFinite(a))
+		stopf("incbeta: 2nd argument is not finite");
 
 	push(cadddr(p1));
 	evalf();
@@ -26,6 +30,8 @@ eval_incbeta(p1)
 		stopf("incbeta: 3rd argument is not numerical");
 	push(p2);
 	b = pop_double();
+	if (!isFinite(b))
+		stopf("incbeta: 3rd argument is not finite");
 
 	if (x <= 0.0) {
 		push_double(0.0);
