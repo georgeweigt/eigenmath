@@ -1,0 +1,17 @@
+f = logform(arccos(z)) - arccos(z)
+draw(f,z)
+
+f = logform(arcsin(z)) - arcsin(z)
+draw(f,z)
+
+f = logform(arctan(z)) - arctan(z)
+draw(f,z)
+
+f = logform(arccosh(z)) - arccosh(z)
+draw(f,z)
+
+f = logform(arcsinh(z)) - arcsinh(z)
+draw(f,z)
+
+f = logform(arctanh(z)) - arctanh(z)
+draw(f,z)

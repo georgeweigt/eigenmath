@@ -1036,6 +1036,24 @@ y log(x)
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
+<a id="logform">logform(<i>x</i>)</a>
+<p>
+Returns expression <i>x</i> with inverse trigonometric and
+inverse hyperbolic functions converted to logarithms.
+<pre class="input">
+logform(arccos(x))
+</pre>
+<pre class="output">
+      ┌                       ┐
+      │      ┌            ┐1/2│
+      │      │       2    │   │
+−i log│x + i │−abs(x)  + 1│   │
+      │      │            │   │
+      │      └            ┘   │
+      └                       ┘
+</pre>
+
+<p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="loop">loop(<i>a,b,c,...</i>)</a>
 <p>
 Evaluate arguments in a loop.

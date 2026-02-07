@@ -2607,6 +2607,21 @@ log(x^y)
 
 $y\log(x)$
 
+\subsection*{logform($x$)}
+
+Returns expression $x$ with inverse trigonometric and
+inverse hyperbolic functions converted to logarithms.
+
+{\color{blue}
+\begin{verbatim}
+logform(arccos(x))
+\end{verbatim}
+}
+
+$\displaystyle
+-i\log\left[x+i\left[-\operatorname{abs}(x)^2+1\right]^{1/2}\right]
+$
+
 \subsection*{loop($a,b,c,\ldots$)}
 
 Evaluate arguments in a loop. Use \verb$break$ to break out of the loop.
