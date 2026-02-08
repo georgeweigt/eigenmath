@@ -1759,6 +1759,7 @@ $5$
 \subsection*{adj($m$)}
 
 Returns the adjunct of matrix $m$.
+The inverse of $m$ equals adjunct divided by determinant.
 
 {\color{blue}
 \begin{verbatim}
@@ -1775,20 +1776,6 @@ d&-b
 \end{bmatrix}
 $
 
-{\color{blue}
-\begin{verbatim}
-inv(A) - adj(A) / det(A)
-\end{verbatim}
-}
-
-$
-\begin{bmatrix}
-0&0
-\\[1ex]
-0&0
-\end{bmatrix}
-$
-
 \subsection*{and($a,b,\ldots$)}
 
 Returns 1 if all arguments have nonzero values, returns 0 otherwise.
@@ -1801,55 +1788,6 @@ and(a,b)
 }
 
 $1$
-
-\subsection*{arccos($x$)}
-
-Returns the arc cosine of $x$.
-
-{\color{blue}
-\begin{verbatim}
-arccos(1/2)
-\end{verbatim}
-}
-
-$\tfrac{1}{3}\pi$
-
-\subsection*{arccosh($x$)}
-
-Returns the arc hyperbolic cosine of $x$.
-
-\subsection*{arcsin($x$)}
-
-Returns the arc sine of $x$.
-
-{\color{blue}
-\begin{verbatim}
-arcsin(1/2)
-\end{verbatim}
-}
-
-$\tfrac{1}{6}\pi$
-
-\subsection*{arcsinh($x$)}
-
-Returns the arc hyperbolic sine of $x$.
-
-\subsection*{arctan($y,x$)}
-
-Returns the arc tangent of $y$ over $x$.
-If $x$ is omitted then $x=1$ is used.
-
-{\color{blue}
-\begin{verbatim}
-arctan(1,0)
-\end{verbatim}
-}
-
-$\tfrac{1}{2}\pi$
-
-\subsection*{arctanh($x$)}
-
-Returns the arc hyperbolic tangent of $x$.
 
 \subsection*{arg($z$)}
 
@@ -2212,16 +2150,8 @@ $
 
 \subsection*{erf($x$)}
 
-Error function of $x$.
+Returns the error function of $x$.
 Returns a numerical value if $x$ is a real number.
-
-{\color{blue}
-\begin{verbatim}
-erf(1.0)
-\end{verbatim}
-}
-
-$0.842701$
 
 {\color{blue}
 \begin{verbatim}
@@ -2233,16 +2163,8 @@ $\displaystyle \frac{2\exp(-x^2)}{\pi^{1/2}}$
 
 \subsection*{erfc($x$)}
 
-Complementary error function of $x$.
+Returns the complementary error function of $x$.
 Returns a numerical value if $x$ is a real number.
-
-{\color{blue}
-\begin{verbatim}
-erfc(1.0)
-\end{verbatim}
-}
-
-$0.157299$
 
 {\color{blue}
 \begin{verbatim}
@@ -2252,38 +2174,18 @@ d(erfc(x),x)
 
 $\displaystyle -\frac{2\exp(-x^2)}{\pi^{1/2}}$
 
-\subsection*{eval($f,x,a,y,b,\ldots$)}
+\subsection*{eval($f,a,b,c,d,\ldots$)}
 
-Returns $f$ evaluated with $x$ replaced by $a$, $y$ replaced by $b$, etc.
-All arguments can be expressions.
-
-{\color{blue}
-\begin{verbatim}
-f = sqrt(x^2 + y^2)
-eval(f,x,3,y,4)
-\end{verbatim}
-}
-
-$5$
-
-\bigskip
-In the following example, \verb$eval$ is used to replace
-\verb$x$ with \verb$cos(theta)$.
+Returns $f$ evaluated with expression $a$ replaced by expression $b$, $c$ by $d$, etc.
 
 {\color{blue}
 \begin{verbatim}
--- associated legendre of cos theta
-P(l,m,x) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
-           1 / (2^l l!) sin(theta)^m *
-           eval(d((x^2 - 1)^l, x, l + m), x, cos(theta)))
-
-P(2,-1)
+f = exp(i x)
+eval(f,x,pi)
 \end{verbatim}
 }
 
-$\displaystyle
--\tfrac{1}{2}\cos(\theta)\sin(\theta)
-$
+$-1$
 
 \subsection*{exit}
 
@@ -2363,7 +2265,7 @@ $0$
 For $a$ equals $b$ through $c$ inclusive, evaluate the remaining arguments in a loop.
 Arguments $b$ and $c$ are integers.
 Symbol $a$ is advanced by plus or minus 1 in the direction of $c$ each time through the loop.
-Use \verb$break$ to break out of the loop early.
+Use \verb$break$ to exit the loop immediately.
 The original value of $a$ is restored after \verb$for$ completes.
 Note that if symbol \verb$i$ is used for $a$ then the imaginary unit is overridden
 in the scope of \verb$for$.
