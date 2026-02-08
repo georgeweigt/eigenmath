@@ -1,17 +1,35 @@
-f = logform(arccos(z)) - arccos(z)
+"arccos"
+f = logform(arccos(z))
+draw(f,z)
+f = f - arccos(z)
 draw(f,z)
 
-f = logform(arcsin(z)) - arcsin(z)
+"arcsin"
+f = logform(arcsin(z))
+draw(f,z)
+f = f - arcsin(z)
 draw(f,z)
 
-f = logform(arctan(z)) - arctan(z)
+"arctan"
+f = real(logform(arctan(z)))
+draw(f,z)
+f = f - arctan(z)
 draw(f,z)
 
-f = logform(arccosh(z)) - arccosh(z)
+"arccosh"
+f = logform(arccosh(z))
+draw(f,z)
+f = f - arccosh(z)
 draw(f,z)
 
-f = logform(arcsinh(z)) - arcsinh(z)
+"arcsinh"
+f = logform(arcsinh(z))
+draw(f,z)
+f = f - arcsinh(z)
 draw(f,z)
 
-f = logform(arctanh(z)) - arctanh(z)
+"arctanh"
+f = logform(arctanh(z))
+draw(f,z)
+f = f - arctanh(z)
 draw(f,z)
