@@ -114,6 +114,7 @@ var symtab = {
 "tanh":		{printname:TANH,	func:eval_tanh},
 "taylor":	{printname:TAYLOR,	func:eval_taylor},
 "tdist":	{printname:TDIST,	func:eval_tdist},
+"tdistinv":	{printname:TDISTINV,	func:eval_tdistinv},
 "test":		{printname:TEST,	func:eval_test},
 "testeq":	{printname:TESTEQ,	func:eval_testeq},
 "testge":	{printname:TESTGE,	func:eval_testge},

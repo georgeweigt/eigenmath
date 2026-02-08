@@ -8,3 +8,7 @@ check(infixform(tdist(0,10)) == "0.5")
 check(infixform(tdist(1,10)) == "0.829553")
 check(infixform(tdist(2,10)) == "0.963306")
 check(infixform(tdist(3,10)) == "0.993328")
+-- R: qt
+check(infixform(tdistinv(0.000001,10)) == "-9.752")
+check(infixform(tdistinv(0.5,10)) == "0")
+check(infixform(tdistinv(0.999999,10)) == "9.752")

@@ -222,6 +222,7 @@ struct se {
 	{ "tanh",		TANH,		eval_tanh		},
 	{ "taylor",		TAYLOR,		eval_taylor		},
 	{ "tdist",		TDIST,		eval_tdist		},
+	{ "tdistinv",		TDISTINV,	eval_tdistinv		},
 	{ "test",		TEST,		eval_test		},
 	{ "testeq",		TESTEQ,		eval_testeq		},
 	{ "testge",		TESTGE,		eval_testge		},

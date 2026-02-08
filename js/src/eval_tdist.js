@@ -1,7 +1,7 @@
 function
 eval_tdist(p1)
 {
-	var a, b, df, t, x, p2;
+	var df, t, x, p2;
 
 	push(cadr(p1));
 	evalf();
@@ -23,14 +23,20 @@ eval_tdist(p1)
 	if (!isFinite(df))
 		stopf("tdist: 2nd argument is not finite");
 
-	x = 0.5 * (t + Math.sqrt(t * t + df)) / Math.sqrt(t * t + df);
-	a = 0.5 * df;
-	b = 0.5 * df;
-
-	x = incbeta(a, b, x);
+	x = tdist(t, df);
 
 	if (!isFinite(x))
 		stopf("tdist did not converge");
 
 	push_double(x);
+}
+
+function
+tdist(t, df)
+{
+	var x, a, b;
+	x = 0.5 * (t + Math.sqrt(t * t + df)) / Math.sqrt(t * t + df);
+	a = 0.5 * df;
+	b = 0.5 * df;
+	return incbeta(a, b, x);
 }

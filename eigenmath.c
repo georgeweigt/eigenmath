@@ -254,16 +254,17 @@ struct tensor {
 #define TANH		(19 * BUCKETSIZE + 3)
 #define TAYLOR		(19 * BUCKETSIZE + 4)
 #define TDIST		(19 * BUCKETSIZE + 5)
-#define TEST		(19 * BUCKETSIZE + 6)
-#define TESTEQ		(19 * BUCKETSIZE + 7)
-#define TESTGE		(19 * BUCKETSIZE + 8)
-#define TESTGT		(19 * BUCKETSIZE + 9)
-#define TESTLE		(19 * BUCKETSIZE + 10)
-#define TESTLT		(19 * BUCKETSIZE + 11)
-#define TGAMMA		(19 * BUCKETSIZE + 12)
-#define TRACE		(19 * BUCKETSIZE + 13)
-#define TRANSPOSE	(19 * BUCKETSIZE + 14)
-#define TTY		(19 * BUCKETSIZE + 15)
+#define TDISTINV	(19 * BUCKETSIZE + 6)
+#define TEST		(19 * BUCKETSIZE + 7)
+#define TESTEQ		(19 * BUCKETSIZE + 8)
+#define TESTGE		(19 * BUCKETSIZE + 9)
+#define TESTGT		(19 * BUCKETSIZE + 10)
+#define TESTLE		(19 * BUCKETSIZE + 11)
+#define TESTLT		(19 * BUCKETSIZE + 12)
+#define TGAMMA		(19 * BUCKETSIZE + 13)
+#define TRACE		(19 * BUCKETSIZE + 14)
+#define TRANSPOSE	(19 * BUCKETSIZE + 15)
+#define TTY		(19 * BUCKETSIZE + 16)
 
 #define U_UPPER		(20 * BUCKETSIZE + 0)
 #define U_LOWER		(20 * BUCKETSIZE + 1)
@@ -756,6 +757,8 @@ void eval_tanh(struct atom *p1);
 void tanhfunc(void);
 void eval_taylor(struct atom *p1);
 void eval_tdist(struct atom *p1);
+double tdist(double t, double df);
+void eval_tdistinv(struct atom *p1);
 void eval_tensor(struct atom *p1);
 void promote_tensor(void);
 int compatible_dimensions(struct atom *p, struct atom *q);
@@ -14184,7 +14187,7 @@ eval_taylor(struct atom *p1)
 void
 eval_tdist(struct atom *p1)
 {
-	double a, b, df, t, x;
+	double df, t, x;
 	struct atom *p2;
 
 	push(cadr(p1));
@@ -14207,16 +14210,80 @@ eval_tdist(struct atom *p1)
 	if (!isfinite(df))
 		stopf("tdist: 2nd argument is not finite");
 
-	x = 0.5 * (t + sqrt(t * t + df)) / sqrt(t * t + df);
-	a = 0.5 * df;
-	b = 0.5 * df;
-
-	x = incbeta(a, b, x);
+	x = tdist(t, df);
 
 	if (!isfinite(x))
 		stopf("tdist did not converge");
 
 	push_double(x);
+}
+
+double
+tdist(double t, double df)
+{
+	double x, a, b;
+	x = 0.5 * (t + sqrt(t * t + df)) / sqrt(t * t + df);
+	a = 0.5 * df;
+	b = 0.5 * df;
+	return incbeta(a, b, x);
+}
+void
+eval_tdistinv(struct atom *p1)
+{
+	int i;
+	double a, b, c, df, x, y;
+	struct atom *p2;
+
+	push(cadr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("tdistinv: 1st argument is not numerical");
+	push(p2);
+	x = pop_double();
+	if (!isfinite(x))
+		stopf("tdistinv: 1st argument is not finite");
+
+	push(caddr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("tdistinv: 2nd argument is not numerical");
+	push(p2);
+	df = pop_double();
+	if (!isfinite(df))
+		stopf("tdistinv: 2nd argument is not finite");
+
+	if (x < 1e-12) {
+		push_double(-INFINITY);
+		return;
+	}
+
+	if (x == 0.5) {
+		push_double(0.0);
+		return;
+	}
+
+	if (x > 1.0 - 1e-12) {
+		push_double(INFINITY);
+		return;
+	}
+
+	a = -100.0;
+	b = 100.0;
+
+	for (i = 0; i < 50; i++) {
+		c = 0.5 * (a + b);
+		y = tdist(c, df);
+		if (!isfinite(y))
+			stopf("tdistinv did not converge");
+		if (y < x)
+			a = c;
+		else
+			b = c;
+	}
+
+	push_double(c);
 }
 void
 eval_tensor(struct atom *p1)
@@ -18832,6 +18899,7 @@ struct se {
 	{ "tanh",		TANH,		eval_tanh		},
 	{ "taylor",		TAYLOR,		eval_taylor		},
 	{ "tdist",		TDIST,		eval_tdist		},
+	{ "tdistinv",		TDISTINV,	eval_tdistinv		},
 	{ "test",		TEST,		eval_test		},
 	{ "testeq",		TESTEQ,		eval_testeq		},
 	{ "testge",		TESTGE,		eval_testge		},

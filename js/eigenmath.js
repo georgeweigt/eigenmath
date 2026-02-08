@@ -957,6 +957,7 @@ const TAN = "tan";
 const TANH = "tanh";
 const TAYLOR = "taylor";
 const TDIST = "tdist";
+const TDISTINV = "tdistinv";
 const TEST = "test";
 const TESTEQ = "testeq";
 const TESTGE = "testge";
@@ -13317,7 +13318,7 @@ eval_taylor(p1)
 function
 eval_tdist(p1)
 {
-	var a, b, df, t, x, p2;
+	var df, t, x, p2;
 
 	push(cadr(p1));
 	evalf();
@@ -13339,16 +13340,78 @@ eval_tdist(p1)
 	if (!isFinite(df))
 		stopf("tdist: 2nd argument is not finite");
 
-	x = 0.5 * (t + Math.sqrt(t * t + df)) / Math.sqrt(t * t + df);
-	a = 0.5 * df;
-	b = 0.5 * df;
-
-	x = incbeta(a, b, x);
+	x = tdist(t, df);
 
 	if (!isFinite(x))
 		stopf("tdist did not converge");
 
 	push_double(x);
+}
+
+function
+tdist(t, df)
+{
+	var x, a, b;
+	x = 0.5 * (t + Math.sqrt(t * t + df)) / Math.sqrt(t * t + df);
+	a = 0.5 * df;
+	b = 0.5 * df;
+	return incbeta(a, b, x);
+}
+function
+eval_tdistinv(p1)
+{
+	var i, a, b, c, df, x, y, p2;
+
+	push(cadr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("tdistinv: 1st argument is not numerical");
+	push(p2);
+	x = pop_double();
+	if (!isFinite(x))
+		stopf("tdistinv: 1st argument is not finite");
+
+	push(caddr(p1));
+	evalf();
+	p2 = pop();
+	if (!isnum(p2))
+		stopf("tdistinv: 2nd argument is not numerical");
+	push(p2);
+	df = pop_double();
+	if (!isFinite(df))
+		stopf("tdistinv: 2nd argument is not finite");
+
+	if (x < 1e-12) {
+		push_double(-Infinity);
+		return;
+	}
+
+	if (x == 0.5) {
+		push_double(0.0);
+		return;
+	}
+
+	if (x > 1.0 - 1e-12) {
+		push_double(Infinity);
+		return;
+	}
+
+	a = -100.0;
+	b = 100.0;
+
+	for (i = 0; i < 50; i++) {
+		c = 0.5 * (a + b);
+		y = tdist(c, df);
+		if (!isFinite(y))
+			stopf("tdistinv did not converge");
+		if (y < x)
+			a = c;
+		else
+			b = c;
+	}
+
+	push_double(c);
 }
 function
 eval_tensor(p1)
@@ -18356,6 +18419,7 @@ var symtab = {
 "tanh":		{printname:TANH,	func:eval_tanh},
 "taylor":	{printname:TAYLOR,	func:eval_taylor},
 "tdist":	{printname:TDIST,	func:eval_tdist},
+"tdistinv":	{printname:TDISTINV,	func:eval_tdistinv},
 "test":		{printname:TEST,	func:eval_test},
 "testeq":	{printname:TESTEQ,	func:eval_testeq},
 "testge":	{printname:TESTGE,	func:eval_testge},

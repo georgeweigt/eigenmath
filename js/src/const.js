@@ -94,6 +94,7 @@ const TAN = "tan";
 const TANH = "tanh";
 const TAYLOR = "taylor";
 const TDIST = "tdist";
+const TDISTINV = "tdistinv";
 const TEST = "test";
 const TESTEQ = "testeq";
 const TESTGE = "testge";

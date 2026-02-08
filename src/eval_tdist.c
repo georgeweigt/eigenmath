@@ -1,7 +1,7 @@
 void
 eval_tdist(struct atom *p1)
 {
-	double a, b, df, t, x;
+	double df, t, x;
 	struct atom *p2;
 
 	push(cadr(p1));
@@ -24,14 +24,20 @@ eval_tdist(struct atom *p1)
 	if (!isfinite(df))
 		stopf("tdist: 2nd argument is not finite");
 
-	x = 0.5 * (t + sqrt(t * t + df)) / sqrt(t * t + df);
-	a = 0.5 * df;
-	b = 0.5 * df;
-
-	x = incbeta(a, b, x);
+	x = tdist(t, df);
 
 	if (!isfinite(x))
 		stopf("tdist did not converge");
 
 	push_double(x);
+}
+
+double
+tdist(double t, double df)
+{
+	double x, a, b;
+	x = 0.5 * (t + sqrt(t * t + df)) / sqrt(t * t + df);
+	a = 0.5 * df;
+	b = 0.5 * df;
+	return incbeta(a, b, x);
 }

@@ -360,6 +360,8 @@ void eval_tanh(struct atom *p1);
 void tanhfunc(void);
 void eval_taylor(struct atom *p1);
 void eval_tdist(struct atom *p1);
+double tdist(double t, double df);
+void eval_tdistinv(struct atom *p1);
 void eval_tensor(struct atom *p1);
 void promote_tensor(void);
 int compatible_dimensions(struct atom *p, struct atom *q);
