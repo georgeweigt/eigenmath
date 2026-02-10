@@ -7603,6 +7603,46 @@ epsilon2
 "stern-gerlach-2-demo.txt"
 status
 clear
+"stern-gerlach-3-demo.txt"
+"Stern-Gerlach 3"
+
+alpha = 10.0
+e = 1.602176634 10^(-19)
+m = 1.79 10^(-25)
+hbar = 6.62607015 10^(-34) / float(2 pi)
+
+u = (alpha e / (2 hbar))^(1/3)
+v = alpha e hbar / (8 m^2)
+
+N = 40
+a = zero(N)
+a[1] = 1 / (3^(2/3) 1.35411793942640046318)
+a[2] = -1 / (3^(1/3) 2.67893853470774789827)
+for(n,4,N, a[n] = a[n - 3] / (n + 3 - 4) / (n + 2 - 4))
+check(infixform(a[4]) == "0.0591713")
+check(infixform(a[5]) == "-0.0215683")
+Airy = sum(n, 0, N-1, a[n + 1] x^n)
+
+t = 0.0
+t
+psi1 = eval(Airy, x, u v t^2 + u z / 1000000.0)
+psi2 = eval(Airy, x, u v t^2 - u z / 1000000.0)
+f = psi1^2 + psi2^2
+xrange = (-25,25)
+yrange = (0,1)
+draw(f,z)
+
+t = 0.1
+t
+psi1 = eval(Airy, x, u v t^2 + u z / 1000000.0)
+psi2 = eval(Airy, x, u v t^2 - u z / 1000000.0)
+f = psi1^2 + psi2^2
+xrange = (-25,25)
+yrange = (0,1)
+draw(f,z)
+"stern-gerlach-3-demo.txt"
+status
+clear
 "sum-of-three-cubes.txt"
 -- www.sciencealert.com/the-sum-of-three-cubes-problem-has-been-solved-for-42
 
