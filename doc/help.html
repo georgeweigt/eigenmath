@@ -495,24 +495,13 @@ do(A=1,B=2,A+B)
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="dot">dot(<i>a,b,...</i>)</a>
 <p>
-Returns the dot product of vectors, matrices, and tensors.
-Also known as the matrix product.
-Arguments are evaluated from right to left.
-The following example solves for <i>X</i> in <i>AX</i> = <i>B</i>.
+Returns the inner product of arguments <i>a</i>, <i>b</i>, etc.
+Arguments can have any rank and are evaluated from right to left.
 <pre class="input">
-A = ((1,2),(3,4))
-B = (5,6)
-X = dot(inv(A),B)
-X
+dot((a,b),(c,d))
 </pre>
 <pre class="output">
-    ┌     ┐
-    │ −4  │
-    │     │
-X = │  9  │
-    │ ╶─╴ │
-    │  2  │
-    └     ┘
+a c + b d
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -780,20 +769,13 @@ x^2 + 2 x + 1
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="inner">inner(<i>a,b,...</i>)</a>
 <p>
-Returns the inner product of vectors, matrices, and tensors.
-Arguments are evaluated from right to left.
-(Note: <code>inner</code> and <code>dot</code> are the same function.)
+Returns the inner product of arguments <i>a</i>, <i>b</i>, etc.
+Arguments can have any rank and are evaluated from right to left.
 <pre class="input">
-A = ((a,b),(c,d))
-B = (x,y)
-inner(A,B)
+inner((a,b),(c,d))
 </pre>
 <pre class="output">
-┌           ┐
-│ a x + b y │
-│           │
-│ c x + d y │
-└           ┘
+a c + b d
 </pre>
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">

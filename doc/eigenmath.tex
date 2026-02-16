@@ -2102,27 +2102,16 @@ $3$
 
 \subsection*{dot($a,b,\ldots$)}
 
-Returns the dot product of vectors, matrices, and tensors.
-Also known as the matrix product.
-Arguments are evaluated from right to left.
-The following example solves for $X$ in $AX=B$.
+Returns the inner product of arguments $a$, $b$, etc.
+Arguments can have any rank and are evaluated from right to left.
 
 {\color{blue}
 \begin{verbatim}
-A = ((1,2),(3,4))
-B = (5,6)
-X = dot(inv(A),B)
-X
+dot((a,b),(c,d))
 \end{verbatim}
 }
 
-$\displaystyle
-\begin{bmatrix}
--4
-\\[1ex]
-\tfrac{9}{2}
-\end{bmatrix}
-$
+$ac+bd$
 
 \subsection*{eigenvec($m$)}
 
@@ -2369,25 +2358,16 @@ infixform(p)
 
 \subsection*{inner($a,b,\ldots$)}
 
-Returns the inner product of vectors, matrices, and tensors.
-Arguments are evaluated from right to left.
-(Note: {\tt inner} and {\tt dot} are the same function.)
+Returns the inner product of arguments $a$, $b$, etc.
+Arguments can have any rank and are evaluated from right to left.
 
 {\color{blue}
 \begin{verbatim}
-A = ((a,b),(c,d))
-B = (x,y)
-inner(A,B)
+inner((a,b),(c,d))
 \end{verbatim}
 }
 
-$\displaystyle
-\begin{bmatrix}
-ax+by
-\\[1ex]
-cx+dy
-\end{bmatrix}
-$
+$ac+bd$
 
 \subsection*{integral($f,x,\ldots$)}
 
