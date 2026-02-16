@@ -628,7 +628,8 @@ infixform(p)
 \subsection*{inner($a,b,\ldots$)}
 
 Returns the inner product of vectors, matrices, and tensors.
-Also known as the matrix product.
+Arguments are evaluated from right to left.
+(Note: {\tt inner} and {\tt dot} are the same function.)
 
 {\color{blue}
 \begin{verbatim}
@@ -646,12 +647,9 @@ cx+dy
 \end{bmatrix}
 $
 
-\bigskip
-Note: {\tt inner} and {\tt dot} are the same function.
+\subsection*{integral($f,x,\ldots$)}
 
-\subsection*{integral($f,x$)}
-
-Returns the integral of $f$ with respect to $x$.
+Returns the integral of $f$ with respect to $x$ and any additional arguments.
 
 {\color{blue}
 \begin{verbatim}

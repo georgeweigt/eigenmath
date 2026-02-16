@@ -781,8 +781,8 @@ x^2 + 2 x + 1
 <a id="inner">inner(<i>a,b,...</i>)</a>
 <p>
 Returns the inner product of vectors, matrices, and tensors.
-Also known as the matrix product.
 Arguments are evaluated from right to left.
+(Note: <code>inner</code> and <code>dot</code> are the same function.)
 <pre class="input">
 A = ((a,b),(c,d))
 B = (x,y)
@@ -795,17 +795,11 @@ inner(A,B)
 │ c x + d y │
 └           ┘
 </pre>
-<p>
-Note:
-<span class="foo">inner</span>
-and
-<span class="foo">dot</span>
-are the same function.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="integral">integral(<i>f,x</i>)</a>
+<a id="integral">integral(<i>f,x,...</i>)</a>
 <p>
-Returns the integral of <i>f</i> with respect to <i>x</i>.
+Returns the integral of <i>f</i> with respect to <i>x</i> and any additional arguments.
 <pre class="input">
 integral(x^2,x)
 </pre>
