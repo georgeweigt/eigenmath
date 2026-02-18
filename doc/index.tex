@@ -250,11 +250,11 @@ A numeric argument $n$ computes the $n$th derivative with respect to the previou
 
 {\color{blue}
 \begin{verbatim}
-d(sin(x y),x,2,y,2)
+d(sin(x),x,2)
 \end{verbatim}
 }
 
-$x^2y^2\sin(xy)-4xy\cos(xy)-2\sin(xy)$
+$-\sin(x)$
 
 \bigskip
 Argument $f$ can be a tensor of any rank.
@@ -282,10 +282,9 @@ $
 \bigskip
 Symbol \verb$d$ can be used as a variable name.
 Doing so does not conflict with function \verb$d$.
-
-\bigskip
-Symbol \verb$d$ can be redefined as a different function.
-The function \verb$derivative$, a synonym for \verb$d$, can be used to obtain a partial derivative.
+Function \verb$derivative$ is a synonym for \verb$d$.
+Symbol \verb$d$ can be redefined as a different function in which case
+\verb$derivative$ is still available.
 
 \subsection*{defint($f,x,a,b,\ldots$)}
 

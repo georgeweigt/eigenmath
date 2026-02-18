@@ -376,11 +376,10 @@ d(sin(x),x,x)
 </pre>
 A numeric argument <i>n</i> computes the <i>n</i>th derivative with respect to the previous symbol.
 <pre class="input">
-d(sin(x y),x,2,y,2)
+d(sin(x),x,2)
 </pre>
 <pre class="output">
- 2  2                                       
-x  y  sin(x y) − 4 x y cos(x y) − 2 sin(x y)
+-sin(x)
 </pre>
 <p>
 Argument <i>f</i> can be a tensor of any rank.
@@ -401,20 +400,11 @@ d(F,X)
 └                                ┘
 </pre>
 <p>
-Symbol
-<code>d</code>
-can be used as a variable name.
-Doing so does not conflict with function
-<code>d</code>.
-<p>
-Symbol
-<code>d</code>
-can be redefined as a different function.
-The function
-<code>derivative</code>,
-a synonym for
-<code>d</code>,
-can be used to obtain a partial derivative.
+Symbol <code>d</code> can be used as a variable name.
+Doing so does not conflict with function <code>d</code>.
+Function <code>derivative</code> is a synonym for <code>d</code>.
+Symbol <code>d</code> can be redefined as a different function in which case
+<code>derivative</code> is still available.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="defint">defint(<i>f,x,a,b,...</i>)</a>
