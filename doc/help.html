@@ -17,14 +17,14 @@ code {
 .output {
  font-family: "Courier";
 }
-.foo {
- font-family: "Courier New";
-}
 </style>
 </head>
 <body style="font-family:ui-serif">
 <table style="font-family:'Courier';width:100%">
 <tr>
+
+
+
 
 
 <td>
@@ -214,9 +214,7 @@ arctan(y,x)
 <p>
 The result of evaluating a symbol can differ from the symbol's binding.
 For example, the result may be expanded.
-The
-<span class="foo">binding</span>
-function returns the actual binding of a symbol.
+The <code>binding</code> function returns the actual binding of a symbol.
 <pre class="input">
 p = quote((x + 1)^2)
 p
@@ -236,11 +234,7 @@ binding(p)
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="break">break</a>
 <p>
-Break out of a
-<span class="foo">loop</span>
-or
-<span class="foo">for</span>
-function.
+Break out of a <code>loop</code> or <code>for</code> function.
 <pre class="input">
 k = 0
 loop(k = k + 1, test(k == 4, break), print(k))
@@ -329,9 +323,9 @@ If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
 The argument list can be extended for multiple contract operations.
 The arguments are evaluated from left to right.
 For example,
-<span class="foo">contract(A,1,2,2,3)</span>
+<code>contract(A,1,2,2,3)</code>
 is equivalent to
-<span class="foo">contract(contract(A,1,2),2,3)</span>.
+<code>contract(contract(A,1,2),2,3)</code>.
 <pre class="input">
 A = ((a,b),(c,d))
 contract(A) -- trace of matrix A
@@ -408,18 +402,18 @@ d(F,X)
 </pre>
 <p>
 Symbol
-<span class="foo">d</span>
+<code>d</code>
 can be used as a variable name.
 Doing so does not conflict with function
-<span class="foo">d</span>.
+<code>d</code>.
 <p>
 Symbol
-<span class="foo">d</span>
+<code>d</code>
 can be redefined as a different function.
 The function
-<span class="foo">derivative</span>,
+<code>derivative</code>,
 a synonym for
-<span class="foo">d</span>,
+<code>d</code>,
 can be used to obtain a partial derivative.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
@@ -476,9 +470,9 @@ dim(A,1)
 <a id="div">div(<i>v</i>)</a>
 <p>
 Returns the divergence of vector <i>v</i> with respect to symbols
-<span class="foo">x</span>,
-<span class="foo">y</span>, and
-<span class="foo">z</span>.
+<code>x</code>,
+<code>y</code>, and
+<code>z</code>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="do">do(<i>a,b,...</i>)</a>
@@ -509,9 +503,9 @@ a c + b d
 <p>
 Draws a graph of <i>f</i>(<i>x</i>).
 Drawing ranges can be set with
-<span class="foo">xrange</span>
+<code>xrange</code>
 and
-<span class="foo">yrange</span>.
+<code>yrange</code>.
 <pre class="input">
 xrange = (0,1)
 yrange = (0,1)
@@ -624,7 +618,7 @@ expform(cos(x))
 <p>
 Returns the factorial of <i>n</i>.
 The expression
-<span class="foo">n!</span>
+<code>n!</code>
 can also be used.
 <pre class="input">
 20!
@@ -644,7 +638,7 @@ Returns the probability that a random sample from an <i>F</i>-distribution is le
 Returns expression <i>x</i> with rational numbers and integers converted to
 floating point values.
 The symbol
-<span class="foo">pi</span>
+<code>pi</code>
 and the natural number are also converted.
 <pre class="input">
 float(212^17)
@@ -689,7 +683,7 @@ k = 3
 <a id="grad">grad(<i>f</i>)</a>
 <p>
 Returns the gradient
-<span class="foo">d(f,(x,y,z))</span>.
+<code>d(f,(x,y,z))</code>.
 <pre class="input">
 grad(f())
 </pre>
@@ -834,7 +828,7 @@ kronecker(I,A)
 <a id="last">last</a>
 <p>
 The result of the previous calculation is stored in
-<span class="foo">last</span>.
+<code>last</code>.
 <pre class="input">
 212^17
 </pre>
@@ -850,7 +844,7 @@ last^(1/17)
 <p>
 Note:
 Symbol
-<span class="foo">last</span>
+<code>last</code>
 is an implied argument when a function has no argument list.
 <pre class="input">
 212^17
@@ -911,7 +905,7 @@ logform(arccos(x))
 <p>
 Evaluate arguments in a loop.
 Use
-<span class="foo">break</span>
+<code>break</code>
 to break out of the loop.
 <pre class="input">
 k = 0
@@ -1128,7 +1122,7 @@ polar(x + i y)
 <a id="power">power</a>
 <p>
 Use
-<span class="foo">^</span>
+<code>^</code>
 to raise something to a power.
 Use parentheses for negative powers.
 <pre class="input">
@@ -1146,7 +1140,7 @@ x^(-1/2)
 <p>
 Evaluate arguments and print the results.
 Useful for printing from inside a
-<span class="foo">for</span>
+<code>for</code>
 loop.
 <pre class="input">
 for(j,1,3,print(j))
@@ -1173,12 +1167,12 @@ x  + 6 x  + 11 x + 6
 </pre>
 <p>
 The original value of <i>i</i> is restored after
-<span class="foo">product</span>
+<code>product</code>
 completes.
 If symbol
-<span class="foo">i</span>
+<code>i</code>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<span class="foo">product</span>.
+<code>product</code>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 product(<i>y</i>)
@@ -1241,11 +1235,11 @@ rationalize(1/a + 1/b + 1/2)
 </pre>
 <p>
 Note:
-<span class="foo">rationalize</span>
+<code>rationalize</code>
 returns an unexpanded expression.
 If the result is assigned to a symbol, evaluating the symbol will expand the result.
 Use
-<span class="foo">binding</span>
+<code>binding</code>
 to retrieve the unexpanded expression.
 <pre class="input">
 f = rationalize(1/a + 1/b + 1/2)
@@ -1305,14 +1299,14 @@ roots(p,x)
 
 <p>
 If no roots are found then
-<span class="foo">nil</span>
+<code>nil</code>
 is returned.
 A
-<span class="foo">nil</span>
+<code>nil</code>
 result prints as blank so the following example uses
-<span class="foo">infixform</span>
+<code>infixform</code>
 to print
-<span class="foo">nil</span>
+<code>nil</code>
 as a string.
 <pre class="input">
 p = x^2 + 1
@@ -1393,7 +1387,7 @@ run("/Users/heisenberg/EVA2.txt")
 </pre>
 <p>
 For Eigenmath installed from the Mac App Store, run files need to be put in the directory
-<span class="foo">~/Library/Containers/com.gweigt.eigenmath/Data/</span>
+<code>~/Library/Containers/com.gweigt.eigenmath/Data/</code>
 and the filename does not require a path.
 <pre class="input">
 run("EVA2.txt")
@@ -1490,12 +1484,12 @@ x  + x  + x  + x  + x
 </pre>
 <p>
 The original value of <i>i</i> is restored after
-<span class="foo">sum</span>
+<code>sum</code>
 completes.
 If symbol
-<span class="foo">i</span>
+<code>i</code>
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<span class="foo">sum</span>.
+<code>sum</code>.
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 sum(<i>y</i>)
@@ -1574,11 +1568,11 @@ tgamma(4)
 <a id="trace">trace</a>
 <p>
 Set
-<span class="foo">trace=1</span>
+<code>trace=1</code>
 in a script to print the script as it is evaluated.
 Useful for debugging.
 (To obtain the trace of a matrix, use
-<span class="foo">contract</span>.)
+<code>contract</code>.)
 
 <p style="font-family:courier;font-size:2em;font-weight:bold">
 <a id="transpose">transpose(<i>a,i,j,...</i>)</a>
@@ -1589,9 +1583,9 @@ hence a matrix can be transposed with a single argument.
 The argument list can be extended for multiple transpose operations.
 The arguments are evaluated from left to right.
 For example,
-<span class="foo">transpose(A,1,2,2,3)</span>
+<code>transpose(A,1,2,2,3)</code>
 is equivalent to
-<span class="foo">transpose(transpose(A,1,2),2,3)</span>.
+<code>transpose(transpose(A,1,2),2,3)</code>.
 <pre class="input">
 A = ((a,b),(c,d))
 transpose(A)
@@ -1608,10 +1602,10 @@ transpose(A)
 <a id="tty">tty</a>
 <p>
 Set
-<span class="foo">tty=1</span>
+<code>tty=1</code>
 to show results in string format.
 Set
-<span class="foo">tty=0</span>
+<code>tty=0</code>
 to turn off.
 Can be useful when displayed results exceed window size.
 <pre class="input">
