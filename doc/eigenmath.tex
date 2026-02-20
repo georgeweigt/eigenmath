@@ -2248,15 +2248,13 @@ floor(1/2)
 
 $0$
 
-\subsection*{for($a,b,c,d,\ldots$)}
+\subsection*{for($k,a,b,c,\ldots$)}
 
-For $a$ equals $b$ through $c$ inclusive, evaluate the remaining arguments in a loop.
-Arguments $b$ and $c$ are integers.
-Symbol $a$ is advanced by plus or minus 1 in the direction of $c$ each time through the loop.
+For $k$ equals $a$ to $b$ inclusive, evaluate the remaining arguments in a loop.
+Symbol $k$ is advanced by plus or minus 1 in the direction of $b$ each time through the loop.
 Use \verb$break$ to exit the loop immediately.
-The original value of $a$ is restored after \verb$for$ completes.
-Note that if symbol \verb$i$ is used for $a$ then the imaginary unit is overridden
-in the scope of \verb$for$.
+The original value of $k$ is restored after \verb$for$ completes.
+If symbol \verb$i$ is used for $k$ then the imaginary unit is overridden in the scope of \verb$for$.
 
 {\color{blue}
 \begin{verbatim}
@@ -2744,23 +2742,20 @@ $j=2$
 
 $j=3$
 
-\subsection*{product($i,j,k,f$)}
+\subsection*{product($k,a,b,f$)}
 
-For $i$ equals $j$ through $k$ evaluate $f$.
+For $k$ equals $a$ to $b$ evaluate $f$.
 Returns the product of all $f$.
+The original value of $k$ is restored after \verb$product$ completes.
+If \verb$i$ is used for $k$ then the imaginary unit is overridden in the scope of \verb$product$.
 
 {\color{blue}
 \begin{verbatim}
-product(j,1,3,x + j)
+product(k,1,3,x+k)
 \end{verbatim}
 }
 
 $\displaystyle x^3+6x^2+11x+6$
-
-\bigskip
-The original value of $i$ is restored after {\tt product} completes.
-If symbol {\tt i} is used for index variable $i$
-then the imaginary unit is overridden in the scope of {\tt product}.
 
 \subsection*{product($y$)}
 
@@ -3056,23 +3051,20 @@ $\displaystyle 720\; 7^{1/2}$
 
 In a script, it does what it says.
 
-\subsection*{sum($i,j,k,f$)}
+\subsection*{sum($k,a,b,f$)}
 
-For $i$ equals $j$ through $k$ evaluate $f$.
+For $k$ equals $a$ to $b$ evaluate $f$.
 Returns the sum of all $f$.
+The original value of $k$ is restored after \verb$sum$ completes.
+If \verb$i$ is used for $k$ then the imaginary unit is overridden in the scope of \verb$sum$.
 
 {\color{blue}
 \begin{verbatim}
-sum(j,1,5,x^j)
+sum(k,1,3,x^k)
 \end{verbatim}
 }
 
-$\displaystyle x^5+x^4+x^3+x^2+x$
-
-\bigskip
-The original value of $i$ is restored after {\tt sum} completes.
-If symbol {\tt i} is used for index variable $i$
-then the imaginary unit is overridden in the scope of {\tt sum}.
+$x^3+x^2+x$
 
 \subsection*{sum($y$)}
 

@@ -572,13 +572,12 @@ floor(1/2)
 0
 </pre>
 
-<h2 id="for">for(<i>a,b,c,d,...</i>)</h2>
-For <i>a</i> equals <i>b</i> through <i>c</i> inclusive, evaluate the remaining arguments in a loop.
-Arguments <i>b</i> and <i>c</i> are integers.
-Symbol <i>a</i> is advanced by plus or minus 1 in the direction of <i>c</i> each time through the loop.
+<h2 id="for">for(<i>k,a,b,c,...</i>)</h2>
+For <i>k</i> equals <i>a</i> to <i>b</i> inclusive, evaluate the remaining arguments in a loop.
+Symbol <i>k</i> is advanced by plus or minus 1 in the direction of <i>b</i> each time through the loop.
 Use <code>break</code> to exit the loop immediately.
-The original value of <i>a</i> is restored after <code>for</code> completes.
-Note that if symbol <code>i</code> is used for <i>a</i> then the imaginary unit is overridden in the scope of <code>for</code>.
+The original value of <i>k</i> is restored after <code>for</code> completes.
+If <code>i</code> is used for <i>k</i> then the imaginary unit is overridden in the scope of <code>for</code>.
 <pre class="input">
 for(k,1,3,print(k))
 </pre>
@@ -998,23 +997,18 @@ j = 2
 j = 3
 </pre>
 
-<h2 id="product">product(<i>i,j,k,f</i>)</h2>
-For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
+<h2 id="product">product(<i>k,a,b,f</i>)</h2>
+For <i>k</i> equals <i>a</i> to <i>b</i> evaluate <i>f</i>.
 Returns the product of all <i>f</i>.
+The original value of <i>k</i> is restored after <code>product</code> completes.
+If <code>i</code> is used for <i>k</i> then the imaginary unit is overridden in the scope of <code>product</code>.
 <pre class="input">
-product(j,1,3,x + j)
+product(k,1,3,x+k)
 </pre>
 <pre class="output">
  3      2
 x  + 6 x  + 11 x + 6
 </pre>
-The original value of <i>i</i> is restored after
-<code>product</code>
-completes.
-If symbol
-<code>i</code>
-is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<code>product</code>.
 
 <h2>product(<i>y</i>)</h2>
 Returns the product of components of <i>y</i>.
@@ -1273,23 +1267,18 @@ sqrt(10!)
 <h2 id="stop">stop</h2>
 In a script, it does what it says.
 
-<h2 id="sum">sum(<i>i,j,k,f</i>)</h2>
-For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
+<h2 id="sum">sum(<i>k,a,b,f</i>)</h2>
+For <i>k</i> equals <i>a</i> to <i>b</i> evaluate <i>f</i>.
 Returns the sum of all <i>f</i>.
+The original value of <i>k</i> is restored after <code>sum</code> completes.
+If <code>i</code> is used for <i>k</i> then the imaginary unit is overridden in the scope of <code>sum</code>.
 <pre class="input">
-sum(j,1,5,x^j)
+sum(k,1,3,x^k)
 </pre>
 <pre class="output">
- 5    4    3    2
-x  + x  + x  + x  + x
+ 3    2
+x  + x  + x
 </pre>
-The original value of <i>i</i> is restored after
-<code>sum</code>
-completes.
-If symbol
-<code>i</code>
-is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
-<code>sum</code>.
 
 <h2>sum(<i>y</i>)</h2>
 Returns the sum of components of <i>y</i>.
