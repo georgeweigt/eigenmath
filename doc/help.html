@@ -20,7 +20,7 @@ code {
 </style>
 </head>
 <body style="font-family:ui-serif">
-<table style="font-family:'Courier';width:100%">
+<table style="width:100%">
 <tr>
 
 
@@ -149,9 +149,7 @@ code {
 </tr>
 </table>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="abs">abs(<i>x</i>)</a>
-<p>
+<h2 id="abs">abs(<i>x</i>)</h2>
 Returns the absolute value or vector length of <i>x</i>.
 <pre class="input">
 abs(3 + 4 i)
@@ -160,12 +158,9 @@ abs(3 + 4 i)
 5
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="adj">adj(<i>m</i>)</a>
-<p>
+<h2 id="adj">adj(<i>m</i>)</h2>
 Returns the adjunct of matrix <i>m</i>.
 The inverse of <i>m</i> equals adjunct divided by determinant.
-</p>
 <pre class="input">
 A = ((a,b),(c,d))
 adj(A)
@@ -178,9 +173,7 @@ adj(A)
 └         ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="and">and(<i>a,b,...</i>)</a>
-<p>
+<h2 id="and">and(<i>a,b,...</i>)</h2>
 Returns 1 if all arguments have nonzero values, returns 0 otherwise.
 Arguments can use the relational operators
 &emsp;<code>==</code>
@@ -195,9 +188,7 @@ and(a,b)
 1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="arg">arg(<i>z</i>)</a>
-<p>
+<h2 id="arg">arg(<i>z</i>)</h2>
 Returns the angle of complex <i>z</i>.
 Symbols are treated as representing real numbers.
 If <i>z</i> is a vector, matrix, or higher order tensor then
@@ -209,9 +200,7 @@ arg(x + i y)
 arctan(y,x)
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="binding">binding(<i>s</i>)</a>
-<p>
+<h2 id="binding">binding(<i>s</i>)</h2>
 The result of evaluating a symbol can differ from the symbol's binding.
 For example, the result may be expanded.
 The <code>binding</code> function returns the actual binding of a symbol.
@@ -231,9 +220,7 @@ binding(p)
 (x + 1)
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="break">break</a>
-<p>
+<h2 id="break">break</h2>
 Break out of a <code>loop</code> or <code>for</code> function.
 <pre class="input">
 k = 0
@@ -247,9 +234,7 @@ k = 2
 k = 3
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="ceiling">ceiling(<i>x</i>)</a>
-<p>
+<h2 id="ceiling">ceiling(<i>x</i>)</h2>
 Returns the smallest integer greater than or equal to <i>x</i>.
 <pre class="input">
 ceiling(1/2)
@@ -258,17 +243,13 @@ ceiling(1/2)
 1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="check">check(<i>x</i>)</a>
-<p>
+<h2 id="check">check(<i>x</i>)</h2>
 If <i>x</i> is true (nonzero) then continue, else stop.
 <pre class="input">
 check(exp(i pi) == -1)
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="choose">choose(<i>n,k</i>)</a>
-<p>
+<h2 id="choose">choose(<i>n,k</i>)</h2>
 Returns the binomial coefficient <i>n</i> choose <i>k</i>.
 <pre class="input">
 choose(52,5) -- number of poker hands
@@ -277,14 +258,10 @@ choose(52,5) -- number of poker hands
 2598960
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="clear">clear</a>
-<p>
+<h2 id="clear">clear</h2>
 Clears all symbol definitions.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="clock">clock(<i>z</i>)</a>
-<p>
+<h2 id="clock">clock(<i>z</i>)</h2>
 Returns complex <i>z</i> in polar form with base of negative 1 instead of <i>e</i>.
 Symbols are treated as representing real numbers.
 If <i>z</i> is a vector, matrix, or higher order tensor then
@@ -301,9 +278,7 @@ clock(x + i y)
                   └       ┘   
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="conj">conj(<i>z</i>)</a>
-<p>
+<h2 id="conj">conj(<i>z</i>)</h2>
 Returns the complex conjugate of <i>z</i>.
 Symbols are treated as representing real numbers.
 If <i>z</i> is a vector, matrix, or higher order tensor then
@@ -315,9 +290,7 @@ conj(x + i y)
 x - i y
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="contract">contract(<i>a,i,j,...</i>)</a>
-<p>
+<h2 id="contract">contract(<i>a,i,j,...</i>)</h2>
 Returns the contraction of tensor <i>a</i> with respect to indices <i>i</i>, <i>j</i>, etc.
 If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used.
 The argument list can be extended for multiple contract operations.
@@ -334,32 +307,22 @@ contract(A) -- trace of matrix A
 a + d
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="cos">cos(<i>x</i>)</a>
-<p>
+<h2 id="cos">cos(<i>x</i>)</h2>
 Returns the cosine of <i>x</i>.
 The inverse is <code>arccos(x)</code>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="cosh">cosh(<i>x</i>)</a>
-<p>
+<h2 id="cosh">cosh(<i>x</i>)</h2>
 Returns the hyperbolic cosine of <i>x</i>.
 The inverse is <code>arccosh(x)</code>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="cross">cross(<i>u,v</i>)</a>
-<p>
+<h2 id="cross">cross(<i>u,v</i>)</h2>
 Returns the cross product of vectors <i>u</i> and <i>v</i>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="curl">curl(<i>v</i>)</a>
-<p>
+<h2 id="curl">curl(<i>v</i>)</h2>
 Returns the curl of vector <i>v</i> with respect to symbols
 <code>x</code>, <code>y</code>, and <code>z</code>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="d">d(<i>f,x,...</i>)</a><br>
-<p>
+<h2 id="d">d(<i>f,x,...</i>)</h2><br>
 Returns the derivative of <i>f</i> with respect to <i>x</i> and any additional arguments.
 <pre class="input">
 d(sin(x),x)
@@ -381,7 +344,6 @@ d(sin(x),x,2)
 <pre class="output">
 −sin(x)
 </pre>
-<p>
 Argument <i>f</i> can be a tensor of any rank.
 Argument <i>x</i> can be a vector.
 When <i>x</i> is a vector the result is the gradient of <i>f</i>.
@@ -399,16 +361,13 @@ d(F,X)
 │ d(h(),x)   d(h(),y)   d(h(),z) │
 └                                ┘
 </pre>
-<p>
 Symbol <code>d</code> can be used as a variable name.
 Doing so does not conflict with function <code>d</code>.
 Function <code>derivative</code> is a synonym for <code>d</code>.
 Symbol <code>d</code> can be redefined as a different function in which case
 <code>derivative</code> is still available.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="defint">defint(<i>f,x,a,b,...</i>)</a>
-<p>
+<h2 id="defint">defint(<i>f,x,a,b,...</i>)</h2>
 Returns the definite integral of <i>f</i> with respect to <i>x</i>
 evaluated from <i>a</i> to <i>b</i>.
 The argument list can be extended for multiple integrals.
@@ -420,9 +379,7 @@ defint(sin(theta), theta, 0, pi, phi, 0, 2 pi)
 4 π
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="denominator">denominator(<i>x</i>)</a>
-<p>
+<h2 id="denominator">denominator(<i>x</i>)</h2>
 Returns the denominator of expression <i>x</i>.
 <pre class="input">
 denominator(a/b)
@@ -431,9 +388,7 @@ denominator(a/b)
 b
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="det">det(<i>m</i>)</a>
-<p>
+<h2 id="det">det(<i>m</i>)</h2>
 Returns the determinant of matrix <i>m</i>.
 <pre class="input">
 A = ((a,b),(c,d))
@@ -443,9 +398,7 @@ det(A)
 a d - b c
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="dim">dim(<i>a,n</i>)</a>
-<p>
+<h2 id="dim">dim(<i>a,n</i>)</h2>
 Returns the dimension of the <i>n</i>th index of tensor <i>a</i>.
 Index numbering starts with 1.
 <pre class="input">
@@ -456,17 +409,13 @@ dim(A,1)
 3
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="div">div(<i>v</i>)</a>
-<p>
+<h2 id="div">div(<i>v</i>)</h2>
 Returns the divergence of vector <i>v</i> with respect to symbols
 <code>x</code>,
 <code>y</code>, and
 <code>z</code>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="do">do(<i>a,b,...</i>)</a>
-<p>
+<h2 id="do">do(<i>a,b,...</i>)</h2>
 Evaluates each argument from left to right.
 Returns the result of the final argument.
 <pre class="input">
@@ -476,9 +425,7 @@ do(A=1,B=2,A+B)
 3
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="dot">dot(<i>a,b,...</i>)</a>
-<p>
+<h2 id="dot">dot(<i>a,b,...</i>)</h2>
 Returns the inner product of arguments <i>a</i>, <i>b</i>, etc.
 Arguments can have any rank and are evaluated from right to left.
 <pre class="input">
@@ -488,9 +435,7 @@ dot((a,b),(c,d))
 a c + b d
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="draw">draw(<i>f,x</i>)</a>
-<p>
+<h2 id="draw">draw(<i>f,x</i>)</h2>
 Draws a graph of <i>f</i>(<i>x</i>).
 Drawing ranges can be set with
 <code>xrange</code>
@@ -502,9 +447,7 @@ yrange = (0,1)
 draw(x^2,x)
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="eigenvec">eigenvec(<i>m</i>)</a>
-<p>
+<h2 id="eigenvec">eigenvec(<i>m</i>)</h2>
 Returns eigenvectors for matrix <i>m</i>.
 Matrix <i>m</i> is required to be numerical, real, and symmetric.
 The return value is a matrix with each column an eigenvector.
@@ -523,9 +466,7 @@ D = │        │
     └        ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="erf">erf(<i>x</i>)</a>
-<p>
+<h2 id="erf">erf(<i>x</i>)</h2>
 Returns the error function of <i>x</i>.
 Returns a numerical value if <i>x</i> is a real number.
 <pre class="input">
@@ -542,9 +483,7 @@ d(erf(x),x)
     π       
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="erfc">erfc(<i>x</i>)</a>
-<p>
+<h2 id="erfc">erfc(<i>x</i>)</h2>
 Returns the complementary error function of <i>x</i>.
 Returns a numerical value if <i>x</i> is a real number.
 <pre class="input">
@@ -561,9 +500,7 @@ d(erfc(x),x)
      π       
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="eval">eval(<i>f,a,b,c,d,...</i>)</a>
-<p>
+<h2 id="eval">eval(<i>f,a,b,c,d,...</i>)</h2>
 Returns <i>f</i> evaluated with expression <i>a</i> replaced by expression <i>b</i>,
 <i>c</i> by <i>d</i>, etc.
 <pre class="input">
@@ -574,14 +511,10 @@ eval(f,x,pi)
 -1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="exit">exit</a>
-<p>
+<h2 id="exit">exit</h2>
 Terminate and return to the shell (only for shell-mode Eigenmath).
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="exp">exp(<i>x</i>)</a>
-<p>
+<h2 id="exp">exp(<i>x</i>)</h2>
 Returns the exponential of <i>x</i>.
 <pre class="input">
 exp(i pi)
@@ -590,9 +523,7 @@ exp(i pi)
 -1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="expform">expform(<i>x</i>)</a>
-<p>
+<h2 id="expform">expform(<i>x</i>)</h2>
 Returns expression <i>x</i> with trigonometric and hyperbolic functions converted to exponentials.
 <pre class="input">
 expform(cos(x))
@@ -603,9 +534,7 @@ expform(cos(x))
  2              2           
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="factorial">factorial(<i>n</i>)</a>
-<p>
+<h2 id="factorial">factorial(<i>n</i>)</h2>
 Returns the factorial of <i>n</i>.
 The expression
 <code>n!</code>
@@ -617,14 +546,10 @@ can also be used.
 2432902008176640000
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="fdist">fdist(<i>x,df1,df2</i>)</a>
-<p>
+<h2 id="fdist">fdist(<i>x,df1,df2</i>)</h2>
 Returns the probability that a random sample from an <i>F</i>-distribution is less than or equal to <i>x</i>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="float">float(<i>x</i>)</a>
-<p>
+<h2 id="float">float(<i>x</i>)</h2>
 Returns expression <i>x</i> with rational numbers and integers converted to
 floating point values.
 The symbol
@@ -638,9 +563,7 @@ float(212^17)
 3.52947 10
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="floor">floor(<i>x</i>)</a>
-<p>
+<h2 id="floor">floor(<i>x</i>)</h2>
 Returns the largest integer less than or equal to <i>x</i>.
 <pre class="input">
 floor(1/2)
@@ -649,9 +572,7 @@ floor(1/2)
 0
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="for">for(<i>a,b,c,d,...</i>)</a>
-<p>
+<h2 id="for">for(<i>a,b,c,d,...</i>)</h2>
 For <i>a</i> equals <i>b</i> through <i>c</i> inclusive, evaluate the remaining arguments in a loop.
 Arguments <i>b</i> and <i>c</i> are integers.
 Symbol <i>a</i> is advanced by plus or minus 1 in the direction of <i>c</i> each time through the loop.
@@ -669,9 +590,7 @@ k = 2
 k = 3
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="grad">grad(<i>f</i>)</a>
-<p>
+<h2 id="grad">grad(<i>f</i>)</h2>
 Returns the gradient
 <code>d(f,(x,y,z))</code>.
 <pre class="input">
@@ -687,9 +606,7 @@ grad(f())
 └          ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="hadamard">hadamard(<i>a,b,...</i>)</a>
-<p>
+<h2 id="hadamard">hadamard(<i>a,b,...</i>)</h2>
 Returns the Hadamard (element-wise) product.
 The arguments are required to have the same dimensions.
 The Hadamard product is also accomplished by simply multiplying the arguments.
@@ -708,9 +625,7 @@ A B
 └                   ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="i">i</a>
-<p>
+<h2 id="i">i</h2>
 Symbol <code>i</code> is the imaginary unit.
 <pre class="input">
 i^2
@@ -719,9 +634,7 @@ i^2
 -1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="imag">imag(<i>z</i>)</a>
-<p>
+<h2 id="imag">imag(<i>z</i>)</h2>
 Returns the imaginary part of complex <i>z</i>.
 Symbols are treated as representing real numbers.
 If <i>z</i> is a vector, matrix, or higher order tensor then
@@ -733,14 +646,10 @@ imag(x + i y)
 y
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="incbeta">incbeta(<i>x,a,b</i>)</a>
-<p>
+<h2 id="incbeta">incbeta(<i>x,a,b</i>)</h2>
 Returns the incomplete beta function of <i>x</i>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="infixform">infixform(<i>x</i>)</a>
-<p>
+<h2 id="infixform">infixform(<i>x</i>)</h2>
 Converts expression <i>x</i> to a string and returns the result.
 <pre class="input">
 p = (x + 1)^2
@@ -750,9 +659,7 @@ infixform(p)
 x^2 + 2 x + 1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="inner">inner(<i>a,b,...</i>)</a>
-<p>
+<h2 id="inner">inner(<i>a,b,...</i>)</h2>
 Returns the inner product of arguments <i>a</i>, <i>b</i>, etc.
 Arguments can have any rank and are evaluated from right to left.
 <pre class="input">
@@ -762,9 +669,7 @@ inner((a,b),(c,d))
 a c + b d
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="integral">integral(<i>f,x,...</i>)</a>
-<p>
+<h2 id="integral">integral(<i>f,x,...</i>)</h2>
 Returns the integral of <i>f</i> with respect to <i>x</i> and any additional arguments.
 <pre class="input">
 integral(x^2,x)
@@ -775,9 +680,7 @@ integral(x^2,x)
  3    
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="inv">inv(<i>m</i>)</a>
-<p>
+<h2 id="inv">inv(<i>m</i>)</h2>
 Returns the inverse of matrix <i>m</i>.
 <pre class="input">
 A = ((1,2),(3,4))
@@ -793,9 +696,7 @@ inv(A)
 └            ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="kronecker">kronecker(<i>a,b,...</i>)</a>
-<p>
+<h2 id="kronecker">kronecker(<i>a,b,...</i>)</h2>
 Returns the Kronecker product of <i>a</i>, <i>b</i>, etc.
 <pre class="input">
 I = ((1,0),(0,1))
@@ -814,9 +715,7 @@ kronecker(I,A)
 └               ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="last">last</a>
-<p>
+<h2 id="last">last</h2>
 Symbol <code>last</code> holds the previous result.
 <pre class="input">
 212^17
@@ -830,7 +729,6 @@ last
 <pre class="output">
 3529471145760275132301897342055866171392
 </pre>
-<p>
 Symbol <code>last</code> is an implied argument when a function has no argument list.
 <pre class="input">
 212^17
@@ -846,9 +744,7 @@ float
 3.52947 10
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="lgamma">lgamma(<i>x</i>)</a>
-<p>
+<h2 id="lgamma">lgamma(<i>x</i>)</h2>
 Returns the log of the absolute value of the Gamma function of <i>x</i>.
 <pre class="input">
 lgamma(0.5)
@@ -857,9 +753,7 @@ lgamma(0.5)
 0.572365
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="log">log(<i>x</i>)</a>
-<p>
+<h2 id="log">log(<i>x</i>)</h2>
 Returns the natural logarithm of <i>x</i>.
 <pre class="input">
 log(x^y)
@@ -868,9 +762,7 @@ log(x^y)
 y log(x)
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="logform">logform(<i>x</i>)</a>
-<p>
+<h2 id="logform">logform(<i>x</i>)</h2>
 Returns expression <i>x</i> with inverse trigonometric and
 inverse hyperbolic functions converted to logarithms.
 <pre class="input">
@@ -886,9 +778,7 @@ logform(arccos(x))
       └                       ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="loop">loop(<i>a,b,c,...</i>)</a>
-<p>
+<h2 id="loop">loop(<i>a,b,c,...</i>)</h2>
 Evaluate arguments in a loop.
 Use
 <code>break</code>
@@ -905,9 +795,7 @@ k = 2
 k = 3
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="mag">mag(<i>z</i>)</a>
-<p>
+<h2 id="mag">mag(<i>z</i>)</h2>
 Returns the magnitude of complex <i>z</i>.
 Symbols are treated as representing real numbers.
 If <i>z</i> is a vector, matrix, or higher order tensor then
@@ -923,9 +811,7 @@ mag(x + i y)
 └       ┘   
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="minor">minor(<i>m,i,j</i>)</a>
-<p>
+<h2 id="minor">minor(<i>m,i,j</i>)</h2>
 Returns the minor of matrix <i>m</i> for row <i>i</i> and column <i>j</i>.
 <pre class="input">
 A = ((1,2,3),(4,5,6),(7,8,9))
@@ -935,9 +821,7 @@ minor(A,1,1) == det(minormatrix(A,1,1))
 1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="minormatrix">minormatrix(<i>m,i,j</i>)</a>
-<p>
+<h2 id="minormatrix">minormatrix(<i>m,i,j</i>)</h2>
 Returns a copy of matrix <i>m</i> with row <i>i</i> and column <i>j</i> removed.
 <pre class="input">
 A = ((1,2,3),(4,5,6),(7,8,9))
@@ -951,9 +835,7 @@ minormatrix(A,1,1)
 └       ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="mod">mod(<i>a,b</i>)</a>
-<p>
+<h2 id="mod">mod(<i>a,b</i>)</h2>
 Returns the remainder of <i>a</i> over <i>b</i>.
 <pre class="input">
 mod(5,3/8)
@@ -964,9 +846,7 @@ mod(5,3/8)
  8 
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="noexpand">noexpand(<i>x</i>)</a>
-<p>
+<h2 id="noexpand">noexpand(<i>x</i>)</h2>
 Evaluates expression <i>x</i> without expanding products of sums.
 <pre class="input">
 noexpand((x + 1)^2 / (x + 1))
@@ -975,9 +855,7 @@ noexpand((x + 1)^2 / (x + 1))
 x + 1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="not">not(<i>x</i>)</a>
-<p>
+<h2 id="not">not(<i>x</i>)</h2>
 Returns 1 if <i>x</i> has a value of zero, returns 0 otherwise.
 <pre class="input">
 not(a == b)
@@ -986,12 +864,9 @@ not(a == b)
 1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="nroots">nroots(<i>p,x</i>)</a>
-<p>
+<h2 id="nroots">nroots(<i>p,x</i>)</h2>
 Returns the approximate roots of polynomials with real or complex coefficients.
 Multiple roots are returned as a vector.
-See also <a href="#roots">roots</a>.
 <pre class="input">
 p = x^5 - 1
 nroots(p,x)
@@ -1010,9 +885,7 @@ nroots(p,x)
 └                        ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="number">number(<i>x</i>)</a>
-<p>
+<h2 id="number">number(<i>x</i>)</h2>
 Returns 1 if <i>x</i> is a real number.
 Returns 0 otherwise.
 <pre class="input">
@@ -1028,9 +901,7 @@ number(x)
 0
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="numerator">numerator(<i>x</i>)</a>
-<p>
+<h2 id="numerator">numerator(<i>x</i>)</h2>
 Returns the numerator of expression <i>x</i>.
 <pre class="input">
 numerator(a/b)
@@ -1039,9 +910,7 @@ numerator(a/b)
 a
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="or">or(<i>a,b,...</i>)</a>
-<p>
+<h2 id="or">or(<i>a,b,...</i>)</h2>
 Returns 1 if any argument has a nonzero value, returns 0 otherwise.
 Arguments can use the relational operators
 &emsp;<code>==</code>
@@ -1056,9 +925,7 @@ or(a,b)
 1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="outer">outer(<i>a,b,...</i>)</a>
-<p>
+<h2 id="outer">outer(<i>a,b,...</i>)</h2>
 Returns the outer product of vectors, matrices, and tensors.
 <pre class="input">
 A = (a,b,c)
@@ -1075,9 +942,7 @@ outer(A,B)
 └                 ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="pi">pi</a>
-<p>
+<h2 id="pi">pi</h2>
 Symbol for &#960;.
 <pre class="input">
 exp(i pi)
@@ -1086,9 +951,7 @@ exp(i pi)
 -1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="polar">polar(<i>z</i>)</a>
-<p>
+<h2 id="polar">polar(<i>z</i>)</h2>
 Returns complex <i>z</i> in polar form.
 Symbols are treated as representing real numbers.
 If <i>z</i> is a vector, matrix, or higher order tensor then
@@ -1104,9 +967,7 @@ polar(x + i y)
 └       ┘                       
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="power">power</a>
-<p>
+<h2 id="power">power</h2>
 Use
 <code>^</code>
 to raise something to a power.
@@ -1121,9 +982,7 @@ x^(-1/2)
  x    
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="print">print(<i>a,b,...</i>)</a>
-<p>
+<h2 id="print">print(<i>a,b,...</i>)</h2>
 Evaluate arguments and print the results.
 Useful for printing from inside a
 <code>for</code>
@@ -1139,9 +998,7 @@ j = 2
 j = 3
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="product">product(<i>i,j,k,f</i>)</a>
-<p>
+<h2 id="product">product(<i>i,j,k,f</i>)</h2>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
 Returns the product of all <i>f</i>.
 <pre class="input">
@@ -1151,7 +1008,6 @@ product(j,1,3,x + j)
  3      2
 x  + 6 x  + 11 x + 6
 </pre>
-<p>
 The original value of <i>i</i> is restored after
 <code>product</code>
 completes.
@@ -1160,9 +1016,7 @@ If symbol
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
 <code>product</code>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-product(<i>y</i>)
-<p>
+<h2>product(<i>y</i>)</h2>
 Returns the product of components of <i>y</i>.
 <pre class="input">
 y = (1,2,3,4)
@@ -1172,9 +1026,7 @@ product(y)
 24
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="quote">quote(<i>x</i>)</a>
-<p>
+<h2 id="quote">quote(<i>x</i>)</h2>
 Returns expression <i>x</i> without evaluating it first.
 <pre class="input">
 quote((x + 1)^2)
@@ -1184,9 +1036,7 @@ quote((x + 1)^2)
 (x + 1)
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="rand">rand</a>
-<p>
+<h2 id="rand">rand</h2>
 Returns a random floating point value from the interval [0,1).
 <pre class="input">
 rand
@@ -1195,9 +1045,7 @@ rand
 0.655424
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="rank">rank(<i>a</i>)</a>
-<p>
+<h2 id="rank">rank(<i>a</i>)</h2>
 Returns the number of indices that tensor <i>a</i> has.
 <pre class="input">
 A = ((a,b),(c,d))
@@ -1207,9 +1055,7 @@ rank(A)
 2
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="rationalize">rationalize(<i>x</i>)</a>
-<p>
+<h2 id="rationalize">rationalize(<i>x</i>)</h2>
 Returns expression <i>x</i> with everything over a common denominator.
 <pre class="input">
 rationalize(1/a + 1/b + 1/2)
@@ -1219,7 +1065,6 @@ rationalize(1/a + 1/b + 1/2)
 ╶───────────────╴
       2 a b      
 </pre>
-<p>
 Note:
 <code>rationalize</code>
 returns an unexpanded expression.
@@ -1237,9 +1082,7 @@ binding(f)
       2 a b      
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="real">real(<i>z</i>)</a>
-<p>
+<h2 id="real">real(<i>z</i>)</h2>
 Returns the real part of complex <i>z</i>.
 Symbols are treated as representing real numbers.
 If <i>z</i> is a vector, matrix, or higher order tensor then
@@ -1251,9 +1094,7 @@ real(x + i y)
 x
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="rect">rect(<i>z</i>)</a>
-<p>
+<h2 id="rect">rect(<i>z</i>)</h2>
 Returns complex <i>z</i> in rectangular form.
 Symbols are treated as representing real numbers.
 If <i>z</i> is a vector, matrix, or higher order tensor then
@@ -1265,12 +1106,9 @@ rect(exp(i x))
 cos(x) + i sin(x)
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="roots">roots(<i>p,x</i>)</a>
-<p>
+<h2 id="roots">roots(<i>p,x</i>)</h2>
 Returns the rational roots of a polynomial.
 Multiple roots are returned as a vector.
-See also <a href="#nroots">nroots</a>.
 <pre class="input">
 p = (x + 1) (x - 2)
 roots(p,x)
@@ -1282,8 +1120,6 @@ roots(p,x)
 │ 2  │
 └    ┘
 </pre>
-
-<p>
 If no roots are found then
 <code>nil</code>
 is returned.
@@ -1302,9 +1138,7 @@ infixform(roots(p,x))
 nil
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="rotate">rotate(<i>u,s,k,...</i>)</a>
-<p>
+<h2 id="rotate">rotate(<i>u,s,k,...</i>)</h2>
 Rotates vector <i>u</i> and returns the result.
 Vector <i>u</i> is required to have 2<sup><i>n</i></sup> elements
 where <i>n</i> is an integer from 1 to 15.
@@ -1332,7 +1166,6 @@ The available rotations are
 
 <tr><td>Z, <i>k</i></td><td>Pauli Z</td></tr>
 </table>
-<p>
 Control prefix C, <i>k</i> modifies the next rotation code so that it is
 a controlled rotation with <i>k</i> as the control qubit.
 Use two or more prefixes to specify multiple control qubits.
@@ -1363,15 +1196,12 @@ rotate(psi,H,0)
 └        ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="run">run(<i>x</i>)</a>
-<p>
+<h2 id="run">run(<i>x</i>)</h2>
 Run script <i>x</i> where <i>x</i> evaluates to a filename string.
 Useful for importing function libraries.
 <pre class="input">
 run("/Users/heisenberg/EVA2.txt")
 </pre>
-<p>
 For Eigenmath installed from the Mac App Store, run files need to be put in the directory
 <code>~/Library/Containers/com.gweigt.eigenmath/Data/</code>
 and the filename does not require a path.
@@ -1379,9 +1209,7 @@ and the filename does not require a path.
 run("EVA2.txt")
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="sgn">sgn(<i>x</i>)</a>
-<p>
+<h2 id="sgn">sgn(<i>x</i>)</h2>
 Returns the sign of <i>x</i> if <i>x</i> is a real number.
 <pre class="input">
 sgn(0)
@@ -1408,9 +1236,7 @@ sgn(-x)
 sgn(-x)
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="simplify">simplify(<i>x</i>)</a>
-<p>
+<h2 id="simplify">simplify(<i>x</i>)</h2>
 Returns expression <i>x</i> in a simpler form.
 <pre class="input">
 simplify(sin(x)^2 + cos(x)^2)
@@ -1418,7 +1244,6 @@ simplify(sin(x)^2 + cos(x)^2)
 <pre class="output">
 1
 </pre>
-<p>
 The equality operator simplifies automatically.
 <pre class="input">
 sin(x)^2 + cos(x)^2 == 1
@@ -1427,21 +1252,15 @@ sin(x)^2 + cos(x)^2 == 1
 1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="sin">sin(<i>x</i>)</a>
-<p>
+<h2 id="sin">sin(<i>x</i>)</h2>
 Returns the sine of <i>x</i>.
 The inverse is <code>arcsin(x)</code>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="sinh">sinh(<i>x</i>)</a>
-<p>
+<h2 id="sinh">sinh(<i>x</i>)</h2>
 Returns the hyperbolic sine of <i>x</i>.
 The inverse is <code>arcsinh(x)</code>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="sqrt">sqrt(<i>x</i>)</a>
-<p>
+<h2 id="sqrt">sqrt(<i>x</i>)</h2>
 Returns the square root of <i>x</i>.
 <pre class="input">
 sqrt(10!)
@@ -1451,14 +1270,10 @@ sqrt(10!)
 720 7
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="stop">stop</a>
-<p>
+<h2 id="stop">stop</h2>
 In a script, it does what it says.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="sum">sum(<i>i,j,k,f</i>)</a>
-<p>
+<h2 id="sum">sum(<i>i,j,k,f</i>)</h2>
 For <i>i</i> equals <i>j</i> through <i>k</i> evaluate <i>f</i>.
 Returns the sum of all <i>f</i>.
 <pre class="input">
@@ -1468,7 +1283,6 @@ sum(j,1,5,x^j)
  5    4    3    2
 x  + x  + x  + x  + x
 </pre>
-<p>
 The original value of <i>i</i> is restored after
 <code>sum</code>
 completes.
@@ -1477,9 +1291,7 @@ If symbol
 is used for index variable <i>i</i> then the imaginary unit is overridden in the scope of
 <code>sum</code>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-sum(<i>y</i>)
-<p>
+<h2>sum(<i>y</i>)</h2>
 Returns the sum of components of <i>y</i>.
 <pre class="input">
 y = (1,2,3,4)
@@ -1489,22 +1301,16 @@ sum(y)
 10
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="tan">tan(<i>x</i>)</a>
-<p>
+<h2 id="tan">tan(<i>x</i>)</h2>
 Returns the tangent of <i>x</i>.
 The inverse is <code>arctan(x)</code>.
 Also <code>arctan(y,x)</code> for <i>y</i> over <i>x</i>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="tanh">tanh(<i>x</i>)</a>
-<p>
+<h2 id="tanh">tanh(<i>x</i>)</h2>
 Returns the hyperbolic tangent of <i>x</i>.
 The inverse is <code>arctanh(x)</code>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="taylor">taylor(<i>f,x,n,a</i>)</a>
-<p>
+<h2 id="taylor">taylor(<i>f,x,n,a</i>)</h2>
 Returns the <i>n</i>th order Taylor series expansion of <i>f</i>(<i>x</i>) at <i>a</i>.
 If argument <i>a</i> is omitted then zero is used for the expansion point.
 <pre class="input">
@@ -1515,15 +1321,11 @@ taylor(1/(1-x),x,5)
 x  + x  + x  + x  + x + 1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="tdist">tdist(<i>x,df</i>)</a>
-<p>
+<h2 id="tdist">tdist(<i>x,df</i>)</h2>
 Returns the probability that a random sample from a <i>t</i>-distribution is less than or equal to <i>x</i>.
 The inverse is <code>tdistinv(x,df)</code>.
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="test">test(<i>a,b,c,d,...</i>)</a>
-<p>
+<h2 id="test">test(<i>a,b,c,d,...</i>)</h2>
 If argument <i>a</i> is true (nonzero) then <i>b</i> is returned, else if <i>c</i> is true then <i>d</i> is returned, etc.
 If the number of arguments is odd then the final argument is returned if all else fails.
 Arguments can use the relational operators
@@ -1539,9 +1341,7 @@ test(a == b, "yes", "no")
 no
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="tgamma">tgamma(<i>x</i>)</a>
-<p>
+<h2 id="tgamma">tgamma(<i>x</i>)</h2>
 Returns the Gamma function of <i>x</i> if <i>x</i> is a real number.
 <pre class="input">
 tgamma(4)
@@ -1550,9 +1350,7 @@ tgamma(4)
 6
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="trace">trace</a>
-<p>
+<h2 id="trace">trace</h2>
 Set
 <code>trace=1</code>
 in a script to print the script as it is evaluated.
@@ -1560,9 +1358,7 @@ Useful for debugging.
 (To obtain the trace of a matrix, use
 <code>contract</code>.)
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="transpose">transpose(<i>a,i,j,...</i>)</a>
-<p>
+<h2 id="transpose">transpose(<i>a,i,j,...</i>)</h2>
 Returns the transpose of tensor <i>a</i> with respect to indices <i>i</i>, <i>j</i>, etc.
 If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used,
 hence a matrix can be transposed with a single argument.
@@ -1584,9 +1380,7 @@ transpose(A)
 └       ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="tty">tty</a>
-<p>
+<h2 id="tty">tty</h2>
 Set
 <code>tty=1</code>
 to show results in string format.
@@ -1602,9 +1396,7 @@ tty = 1
 x^2 + 2 x + 1
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="unit">unit(<i>n</i>)</a>
-<p>
+<h2 id="unit">unit(<i>n</i>)</h2>
 Returns an <i>n</i> by <i>n</i> identity matrix.
 <pre class="input">
 unit(3)
@@ -1619,9 +1411,7 @@ unit(3)
 └           ┘
 </pre>
 
-<p style="font-family:courier;font-size:2em;font-weight:bold">
-<a id="zero">zero(<i>a,b,...</i>)</a>
-<p>
+<h2 id="zero">zero(<i>a,b,...</i>)</h2>
 Returns a null tensor with dimensions <i>a</i>, <i>b</i>, etc.
 <pre class="input">
 zero(2,3,3)
