@@ -778,10 +778,8 @@ logform(arccos(x))
 </pre>
 
 <h2 id="loop">loop(<i>a,b,c,...</i>)</h2>
-Evaluate arguments in a loop.
-Use
-<code>break</code>
-to break out of the loop.
+Evaluates arguments in a loop.
+Use <code>break</code> to break out of the loop.
 <pre class="input">
 k = 0
 loop(k = k + 1, test(k == 4, break), print(k))
@@ -1351,7 +1349,7 @@ Useful for debugging.
 Returns the transpose of tensor <i>a</i> with respect to indices <i>i</i>, <i>j</i>, etc.
 If <i>i</i> and <i>j</i> are omitted then 1 and 2 are used,
 hence a matrix can be transposed with a single argument.
-The argument list can be extended for multiple transpose operations.
+The argument list can be extended by pairs of indices for multiple transpose operations.
 The arguments are evaluated from left to right.
 For example,
 <code>transpose(A,1,2,2,3)</code>

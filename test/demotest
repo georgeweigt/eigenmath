@@ -2489,7 +2489,7 @@ draw(f,t)
 status
 clear
 "electromagnetic-tensor-demo.txt"
--- electromagnetic tensor demo
+"Electromagnetic tensor"
 
 -- u for up index, d for down index
 
@@ -2514,32 +2514,32 @@ Ez = E[3]
 X = (t,x,y,z)
 Add = d(Ad,X)
 Fdd = transpose(Add) - Add
-Fdd
 
-T = ((0, Ex, Ey, Ez),
-     (-Ex, 0, -Bz, By),
-     (-Ey, Bz, 0, -Bx),
-     (-Ez, -By, Bx, 0))
+"Verify equation (1)"
+check(Fdd == ((0,Ex,Ey,Ez),(-Ex,0,-Bz,By),(-Ey,Bz,0,-Bx),(-Ez,-By,Bx,0)))
+"ok"
 
-check(Fdd == T)
-
+"Verify equation (2)"
 Fuu = dot(guu,Fdd,guu)
-T = contract(dot(transpose(Fdd),Fuu))
-check(T == 2 dot(B,B) - 2 dot(E,E))
+check(contract(dot(transpose(Fdd),Fuu)) == 2 dot(B,B) - 2 dot(E,E))
+"ok"
 
+"Verify equation (3)"
 check(det(Fdd) == dot(B,E)^2)
 check(det(Fuu) == dot(B,E)^2)
+"ok"
 
 Ju = contract(d(Fuu,X),1,3)
 
+"Verify equation (4)"
 check(contract(d(Ju,X)) == 0)
+"ok"
 
+"Verify equation (5)"
 Jx = Ju[2]
 Jy = Ju[3]
 Jz = Ju[4]
-J = (Jx,Jy,Jz)
-check(J == curl(B) - d(E,t))
-
+check((Jx,Jy,Jz) == curl(B) - d(E,t))
 "ok"
 "electromagnetic-tensor-demo.txt"
 status
@@ -7033,18 +7033,18 @@ Sz = 1/2 hbar ((1,0),(0,-1))
 
 S = (Sx,Sy,Sz)
 
-H = g e / (2 m) dot(B,S)
+H = e / m dot(B,S)
+H
 
 "Verify equation (1)"
-c1 = a1 exp(i theta1) exp(-i g e / (4 m omega) B0 sin(omega t))
-c2 = a2 exp(i theta2) exp(i g e / (4 m omega) B0 sin(omega t))
+c1 = exp(-i e / (2 m omega) B0 sin(omega t)) / sqrt(2)
+c2 = exp(i e / (2 m omega) B0 sin(omega t)) / sqrt(2)
 s = (c1,c2)
 check(i hbar d(s,t) == dot(H,s))
 "ok"
 
 "Verify equation (2)"
-check(dot(conj(s),Sx,s) ==
-a1 a2 hbar cos(g e / (2 m omega) B0 sin(omega t) - theta1 + theta2))
+check(dot(conj(s),Sx,s) == 1/2 hbar cos(e / (m omega) B0 sin(omega t)))
 "ok"
 "spin-flip-demo.txt"
 status
@@ -7168,8 +7168,8 @@ clear
 "spin-part-2-demo.txt"
 "Spin part 2"
 
-theta = pi/3
 s = (cos(theta/2), sin(theta/2) exp(i phi))
+theta = 1/3 pi
 s
 
 "Verify expectation value"
