@@ -6,9 +6,9 @@ Eigenmath was created for doing physics problems,
 so here is an example from quantum mechanics.
 
 \bigskip
-Let
+Let $X$ and $P$ be the operators
 \begin{equation*}
-X=x,\quad P=-i\hbar\frac{\partial}{\partial x}
+X=x\qquad P=-i\hbar\frac{\partial}{\partial x}
 \end{equation*}
 
 Show that
@@ -16,7 +16,7 @@ Show that
 (XP-PX)\psi(x,t)=i\hbar\psi(x,t)
 \end{equation*}
 
-Eigenmath code:
+Eigenmath code
 {\color{blue}
 \begin{verbatim}
 X(f) = x f
@@ -24,7 +24,7 @@ P(f) = -i hbar d(f,x)
 X(P(psi(x,t))) - P(X(psi(x,t)))
 \end{verbatim}}
 
-Result:
+Result
 
 \bigskip
 $i\hbar\psi(x,t)$
@@ -32,10 +32,10 @@ $i\hbar\psi(x,t)$
 \bigskip
 In three dimensions (symbol $\otimes$ is outer product, $\nabla$ is gradient)
 \begin{equation*}
-X=\begin{pmatrix}x\\y\\z\end{pmatrix}\otimes,\quad P=-i\hbar\nabla
+X=\begin{pmatrix}x\\y\\z\end{pmatrix}\otimes\qquad P=-i\hbar\nabla
 \end{equation*}
 
-Eigenmath code:
+Eigenmath code
 {\color{blue}
 \begin{verbatim}
 X(f) = outer((x,y,z),f)
@@ -43,18 +43,18 @@ P(f) = -i hbar d(f,(x,y,z))
 X(P(psi(x,y,z,t))) - P(X(psi(x,y,z,t)))
 \end{verbatim}}
 
-Result:
+Result
 
-\bigskip
-$\begin{bmatrix}
+\begin{equation*}
+\begin{bmatrix}
 i\hbar\psi(x,y,z,t)&0&0\\
 0&i\hbar\psi(x,y,z,t)&0\\
 0&0&i\hbar\psi(x,y,z,t)
 \end{bmatrix}
-$
+\end{equation*}
 
-\bigskip
-The main takeaway is that in Eigenmath code
+\iffalse
+In Eigenmath code
 \begin{equation*}
 \frac{\partial f(x)}{\partial x}=\text{\tt d(f(x),x)}
 \end{equation*}
@@ -63,5 +63,6 @@ and
 \begin{equation*}
 \nabla f(x,y,z)=\text{\tt d(f(x,y,z),(x,y,z))}
 \end{equation*}
+\fi
 
 \end{document}
