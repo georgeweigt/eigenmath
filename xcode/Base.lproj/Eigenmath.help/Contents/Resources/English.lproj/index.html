@@ -160,7 +160,6 @@ abs(3 + 4 i)
 
 <h2 id="adj">adj(<i>m</i>)</h2>
 Returns the adjunct of matrix <i>m</i>.
-The inverse of <i>m</i> equals adjunct divided by determinant.
 <pre class="input">
 A = ((a,b),(c,d))
 adj(A)
@@ -171,6 +170,13 @@ adj(A)
 │         │
 │ −c   a  │
 └         ┘
+</pre>
+Inverse equals adjunct divided by determinant.
+<pre class="input">
+inv(A) == adj(A) / det(A)
+</pre>
+<pre class="output">
+1
 </pre>
 
 <h2 id="and">and(<i>a,b,...</i>)</h2>

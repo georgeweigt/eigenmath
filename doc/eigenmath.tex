@@ -1760,7 +1760,6 @@ $5$
 \subsection*{adj($m$)}
 
 Returns the adjunct of matrix $m$.
-The inverse of $m$ equals adjunct divided by determinant.
 
 {\color{blue}
 \begin{verbatim}
@@ -1770,12 +1769,23 @@ adj(A)
 }
 
 $
-\begin{bmatrix}
+\begin{pmatrix}
 d&-b
 \\[1ex]
 -c&a
-\end{bmatrix}
+\end{pmatrix}
 $
+
+\bigskip
+Inverse equals adjunct divided by determinant.
+
+{\color{blue}
+\begin{verbatim}
+inv(A) == adj(A) / det(A)
+\end{verbatim}
+}
+
+$1$
 
 \subsection*{and($a,b,\ldots$)}
 
@@ -2013,13 +2023,13 @@ d(F,X)
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 \operatorname{d}(f(),x) & \operatorname{d}(f(),y) &  \operatorname{d}(f(),z)
 \\[1ex]
 \operatorname{d}(g(),x) & \operatorname{d}(g(),y) &  \operatorname{d}(g(),z)
 \\[1ex]
 \operatorname{d}(h(),x) & \operatorname{d}(h(),y) &  \operatorname{d}(h(),z)
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \bigskip
@@ -2130,11 +2140,11 @@ D
 }
 
 $\displaystyle
-D=\begin{bmatrix}
+D=\begin{pmatrix}
 8 & 0
 \\[1ex]
 0 & -2
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{erf($x$)}
@@ -2280,13 +2290,13 @@ grad(f())
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 {\rm d}(f(),x)
 \\[1ex]
 {\rm d}(f(),y)
 \\[1ex]
 {\rm d}(f(),z)
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{hadamard($a,b,\ldots$)}
@@ -2301,13 +2311,13 @@ hadamard(X,X)
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 a^2
 \\[1ex]
 b^2
 \\[1ex]
 c^2
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{i}
@@ -2391,11 +2401,11 @@ inv(A)
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 -2 & 1
 \\[1ex]
 \tfrac{3}{2} & -\tfrac{1}{2}
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{kronecker($a,b,\ldots$)}
@@ -2411,7 +2421,7 @@ kronecker(I,A)
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 a & b & 0 & 0
 \\[1ex]
 c & d & 0 & 0
@@ -2419,7 +2429,7 @@ c & d & 0 & 0
 0 & 0 & a & b
 \\[1ex]
 0 & 0 & c & d
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{last}
@@ -2559,11 +2569,11 @@ minormatrix(A,1,1)
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 5 & 6
 \\[1ex]
 8 & 9
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{noexpand($x$)}
@@ -2603,7 +2613,7 @@ nroots(p,x)
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 1
 \\[1ex]
 -0.809017 + 0.587785\,i
@@ -2613,7 +2623,7 @@ $\displaystyle
 0.309017 + 0.951057\,i
 \\[1ex]
 0.309017 - 0.951057\,i
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{number($x$)}
@@ -2675,13 +2685,13 @@ outer(A,B)
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 a x & a y & a z
 \\[1ex]
 b x & b y & b z
 \\[1ex]
 c x & c y & c z
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{pi}
@@ -2881,11 +2891,11 @@ roots(p,x)
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 -1
 \\[1ex]
 2
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \bigskip
@@ -2920,7 +2930,7 @@ rotate(psi,H,0)
 }
 
 $
-\begin{bmatrix}
+\begin{pmatrix}
 \frac{1}{2^{1/2}}
 \\[1ex]
 \frac{1}{2^{1/2}}
@@ -2928,7 +2938,7 @@ $
 0
 \\[1ex]
 0
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{run($x$)}
@@ -3175,11 +3185,11 @@ transpose(A)
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 a & c
 \\[1ex]
 b & d
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{tty}
@@ -3208,13 +3218,13 @@ unit(3)
 }
 
 $\displaystyle
-\begin{bmatrix}
+\begin{pmatrix}
 1 & 0 & 0
 \\[1ex]
 0 & 1 & 0
 \\[1ex]
 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 $
 
 \subsection*{zero($a,b,\ldots$)}
@@ -3228,12 +3238,12 @@ zero(2,3,3)
 }
 
 $
-\begin{bmatrix}
-\begin{bmatrix}0&0&0\\0&0&0\\0&0&0\end{bmatrix}
+\begin{pmatrix}
+\begin{pmatrix}0&0&0\\0&0&0\\0&0&0\end{pmatrix}
 \\
 \\
-\begin{bmatrix}0&0&0\\0&0&0\\0&0&0\end{bmatrix}
-\end{bmatrix}
+\begin{pmatrix}0&0&0\\0&0&0\\0&0&0\end{pmatrix}
+\end{pmatrix}
 $
 
 \newpage
