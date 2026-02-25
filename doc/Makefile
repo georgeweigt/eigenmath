@@ -15,7 +15,7 @@ FILES =	introduction.tex syntax.tex \
 	linear-algebra.tex component-arithmetic.tex quantum-computing.tex \
 	derivative.tex template-functions.tex laplacian.tex \
 	integral.tex arc-length.tex line-integral.tex surface-area.tex \
-	surface-integral.tex index.tex tricks.tex
+	surface-integral.tex tricks.tex index.tex
 
 eigenmath.tex: preamble $(FILES)
 	make -C ../tools unify

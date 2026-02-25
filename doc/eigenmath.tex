@@ -1743,19 +1743,182 @@ $\displaystyle \tfrac{1}{48}\pi$
 
 \newpage
 
+\section{Tricks}
+
+\begin{enumerate}
+
+\item
+Use \verb$==$ to test for equality.
+In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
+
+\item
+In a script, line breaking is allowed where the scanner needs something to complete an expression.
+For example, the scanner will automatically go to the next line after an operator.
+
+\item
+Setting \verb$trace=1$ in a script causes each line to be printed just before it is evaluated.
+Useful for debugging.
+
+\item
+The last result is stored in symbol \verb$last$.
+
+\item
+Use \verb$contract(A)$ to get the mathematical trace of matrix $A$.
+
+\item
+Use \verb$binding(s)$ to get the unevaluated binding of symbol $s$.
+
+\item
+Use \verb$s=quote(s)$ to clear symbol $s$.
+
+\item
+Use \verb$float(pi)$ to get the floating point value of $\pi$.
+Set \verb$pi=float(pi)$ to evaluate expressions with a numerical value for $\pi$.
+Set \verb$pi=quote(pi)$ to make $\pi$ symbolic again.
+
+\item
+Use \verb$e=exp(1)$ to assign the natural number $e$ to symbol \verb$e$.
+
+\item
+Assign strings to unit names so they are printed normally.
+For example, setting \verb$meter="meter"$ causes symbol \verb$meter$
+to be printed as meter instead of $m_{eter}$.
+
+\item
+Use \verb$expsin$ and \verb$expcos$ instead of \verb$sin$ and \verb$cos$.
+Trigonometric simplifications occur automatically when exponentials are used.
+See also \verb$expform$ for converting an expression to exponential form.
+
+\item
+Use \verb$rect(expform(f))$ to maybe find a new form
+of trigonometric expression \verb$f$.
+
+{\color{blue}
+\begin{verbatim}
+f = cos(theta/2)^2
+rect(expform(f))
+\end{verbatim}}
+
+$\frac{1}{2}\cos(\theta)+\frac{1}{2}$
+
+\item
+Complex number functions \verb$conj$, \verb$mag$, etc.~treat undefined symbols as
+representing real numbers.
+To define symbols that represent complex numbers, use separate symbols for the
+real and imaginary parts.
+
+{\color{blue}
+\begin{verbatim}
+z = x + i y
+conj(z) z
+\end{verbatim}}
+
+$x^2+y^2$
+
+{\color{blue}
+\begin{verbatim}
+z = A exp(i theta)
+conj(z) z
+\end{verbatim}}
+
+$A^2$
+
+\item
+Use \verb$mag$ for component magnitude, \verb$abs$ for vector magnitude.
+
+{\color{blue}
+\begin{verbatim}
+y = (a, -b)
+mag(y)
+\end{verbatim}}
+
+$\begin{bmatrix}a\\b\end{bmatrix}$
+
+{\color{blue}
+\begin{verbatim}
+abs(y)
+\end{verbatim}}
+
+$\left[a^2+b^2\right]^{1/2}$
+
+\item
+Use \verb$draw(y[floor(x)],x)$ to plot the values of vector \verb$y$.
+
+{\color{blue}
+\begin{verbatim}
+y = (1,2,3,4)
+draw(y[floor(x)],x)
+\end{verbatim}}
+
+\newpage
+
+\item
+The following example demonstrates some \verb$eval$ tricks.
+(See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.)
+
+\bigskip
+Let
+\begin{equation*}
+\psi
+=\frac{\phi_1+\phi_2}{2}\exp\left(-\frac{iE_1t}{\hbar}\right)
++\frac{\phi_1-\phi_2}{2}\exp\left(-\frac{iE_2t}{\hbar}\right)
+\end{equation*}
+
+where $\phi_1$ and $\phi_2$ are orthogonal.
+Let operator $A$ have the following eigenvalues.
+\begin{align*}
+A\phi_1&=a_1\phi_1
+\\
+A\phi_2&=a_2\phi_2
+\end{align*}
+
+Verify that
+\begin{equation*}
+\langle A\rangle
+=\int\psi^*A\psi\,dx
+=\frac{a_1+a_2}{2}+\frac{a_1-a_2}{2}\cos\left(\frac{(E_1-E_2)t}{\hbar}\right)
+\end{equation*}
+
+Because $\phi_1$ and $\phi_2$ are normalized we have
+$\int\phi_1^*\phi_1\,dx=1$ and $\int\phi_2^*\phi_2\,dx=1$.
+By orthogonality we have $\int\phi_1^*\phi_2\,dx=0$.
+Hence the integral can be accomplished with \verb$eval$.
+
+{\color{blue}
+\begin{verbatim}
+phi1 = r1(x) exp(i theta1(x)) -- note that conj(phi1) phi1 == r1(x)^2
+phi2 = r2(x) exp(i theta2(x)) -- note that conj(phi2) phi2 == r2(x)^2
+
+psi = 1/2 (phi1 + phi2) exp(-i E1 t / hbar) +
+      1/2 (phi1 - phi2) exp(-i E2 t / hbar)
+
+A(f) = eval(f, phi1, a1 phi1, phi2, a2 phi2) -- eigenvalues
+
+f = conj(psi) A(psi)
+
+Abar = eval(f, r1(x)^2, 1, r2(x)^2, 1, r1(x) r2(x), 0) -- integral
+
+check(Abar == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar))
+
+"ok"
+\end{verbatim}}
+
+\end{enumerate}
+\newpage
+
 \section{Index}
 
 \subsection*{abs($x$)}
 
-Returns the absolute value or vector length of $x$.
+Returns the magnitude of scalar or vector $x$.
 
 {\color{blue}
 \begin{verbatim}
-abs(3 + 4 i)
+abs(1 + i)
 \end{verbatim}
 }
 
-$5$
+$2^{1/2}$
 
 \subsection*{adj($m$)}
 
@@ -3243,167 +3406,4 @@ $
 \end{pmatrix}
 $
 
-\newpage
-
-\section{Tricks}
-
-\begin{enumerate}
-
-\item
-Use \verb$==$ to test for equality.
-In effect, \verb$A==B$ is equivalent to \verb$simplify(A-B)==0$.
-
-\item
-In a script, line breaking is allowed where the scanner needs something to complete an expression.
-For example, the scanner will automatically go to the next line after an operator.
-
-\item
-Setting \verb$trace=1$ in a script causes each line to be printed just before it is evaluated.
-Useful for debugging.
-
-\item
-The last result is stored in symbol \verb$last$.
-
-\item
-Use \verb$contract(A)$ to get the mathematical trace of matrix $A$.
-
-\item
-Use \verb$binding(s)$ to get the unevaluated binding of symbol $s$.
-
-\item
-Use \verb$s=quote(s)$ to clear symbol $s$.
-
-\item
-Use \verb$float(pi)$ to get the floating point value of $\pi$.
-Set \verb$pi=float(pi)$ to evaluate expressions with a numerical value for $\pi$.
-Set \verb$pi=quote(pi)$ to make $\pi$ symbolic again.
-
-\item
-Use \verb$e=exp(1)$ to assign the natural number $e$ to symbol \verb$e$.
-
-\item
-Assign strings to unit names so they are printed normally.
-For example, setting \verb$meter="meter"$ causes symbol \verb$meter$
-to be printed as meter instead of $m_{eter}$.
-
-\item
-Use \verb$expsin$ and \verb$expcos$ instead of \verb$sin$ and \verb$cos$.
-Trigonometric simplifications occur automatically when exponentials are used.
-See also \verb$expform$ for converting an expression to exponential form.
-
-\item
-Use \verb$rect(expform(f))$ to maybe find a new form
-of trigonometric expression \verb$f$.
-
-{\color{blue}
-\begin{verbatim}
-f = cos(theta/2)^2
-rect(expform(f))
-\end{verbatim}}
-
-$\frac{1}{2}\cos(\theta)+\frac{1}{2}$
-
-\item
-Complex number functions \verb$conj$, \verb$mag$, etc.~treat undefined symbols as
-representing real numbers.
-To define symbols that represent complex numbers, use separate symbols for the
-real and imaginary parts.
-
-{\color{blue}
-\begin{verbatim}
-z = x + i y
-conj(z) z
-\end{verbatim}}
-
-$x^2+y^2$
-
-{\color{blue}
-\begin{verbatim}
-z = A exp(i theta)
-conj(z) z
-\end{verbatim}}
-
-$A^2$
-
-\item
-Use \verb$mag$ for component magnitude, \verb$abs$ for vector magnitude.
-
-{\color{blue}
-\begin{verbatim}
-y = (a, -b)
-mag(y)
-\end{verbatim}}
-
-$\begin{bmatrix}a\\b\end{bmatrix}$
-
-{\color{blue}
-\begin{verbatim}
-abs(y)
-\end{verbatim}}
-
-$\left[a^2+b^2\right]^{1/2}$
-
-\item
-Use \verb$draw(y[floor(x)],x)$ to plot the values of vector \verb$y$.
-
-{\color{blue}
-\begin{verbatim}
-y = (1,2,3,4)
-draw(y[floor(x)],x)
-\end{verbatim}}
-
-\newpage
-
-\item
-The following example demonstrates some \verb$eval$ tricks.
-(See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.)
-
-\bigskip
-Let
-\begin{equation*}
-\psi
-=\frac{\phi_1+\phi_2}{2}\exp\left(-\frac{iE_1t}{\hbar}\right)
-+\frac{\phi_1-\phi_2}{2}\exp\left(-\frac{iE_2t}{\hbar}\right)
-\end{equation*}
-
-where $\phi_1$ and $\phi_2$ are orthogonal.
-Let operator $A$ have the following eigenvalues.
-\begin{align*}
-A\phi_1&=a_1\phi_1
-\\
-A\phi_2&=a_2\phi_2
-\end{align*}
-
-Verify that
-\begin{equation*}
-\langle A\rangle
-=\int\psi^*A\psi\,dx
-=\frac{a_1+a_2}{2}+\frac{a_1-a_2}{2}\cos\left(\frac{(E_1-E_2)t}{\hbar}\right)
-\end{equation*}
-
-Because $\phi_1$ and $\phi_2$ are normalized we have
-$\int\phi_1^*\phi_1\,dx=1$ and $\int\phi_2^*\phi_2\,dx=1$.
-By orthogonality we have $\int\phi_1^*\phi_2\,dx=0$.
-Hence the integral can be accomplished with \verb$eval$.
-
-{\color{blue}
-\begin{verbatim}
-phi1 = r1(x) exp(i theta1(x)) -- note that conj(phi1) phi1 == r1(x)^2
-phi2 = r2(x) exp(i theta2(x)) -- note that conj(phi2) phi2 == r2(x)^2
-
-psi = 1/2 (phi1 + phi2) exp(-i E1 t / hbar) +
-      1/2 (phi1 - phi2) exp(-i E2 t / hbar)
-
-A(f) = eval(f, phi1, a1 phi1, phi2, a2 phi2) -- eigenvalues
-
-f = conj(psi) A(psi)
-
-Abar = eval(f, r1(x)^2, 1, r2(x)^2, 1, r1(x) r2(x), 0) -- integral
-
-check(Abar == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar))
-
-"ok"
-\end{verbatim}}
-
-\end{enumerate}
 \end{document}
