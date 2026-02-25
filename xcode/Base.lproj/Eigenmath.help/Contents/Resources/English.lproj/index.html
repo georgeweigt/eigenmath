@@ -275,15 +275,11 @@ Symbols are treated as representing real numbers.
 If <i>z</i> is a vector, matrix, or higher order tensor then
 <code>clock</code> is applied to each component.
 <pre class="input">
-clock(x + i y)
+clock(1 + i)
 </pre>
 <pre class="output">
-     arctan(y,x)              
-    ╶───────────╴ ┌       ┐1/2
-          π       │ 2    2│   
-(−1)              │x  + y │   
-                  │       │   
-                  └       ┘   
+ 1/2     1/4
+2    (−1)   
 </pre>
 
 <h2 id="conj">conj(<i>z</i>)</h2>
