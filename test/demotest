@@ -1762,6 +1762,8 @@ t
 status
 clear
 "canonical-commutation-relation-demo.txt"
+"Canonical commutation relation"
+
 X(f) = x f
 P(f) = -i hbar d(f,x)
 X(P(psi(x,t))) - P(X(psi(x,t)))

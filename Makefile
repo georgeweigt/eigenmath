@@ -5,6 +5,7 @@ eigenmath: eigenmath.c
 
 eigenmath.c: src/LICENSE src/defs.h src/prototypes.h src/*.c
 	cat src/LICENSE src/defs.h src/prototypes.h src/*.c > eigenmath.c
+
 all:
 	make -C doc
 	make -C src
