@@ -959,14 +959,14 @@ Symbols are treated as representing real numbers.
 If <i>z</i> is a vector, matrix, or higher order tensor then
 <code>polar</code> is applied to each component.
 <pre class="input">
-polar(x + i y)
+polar(1 + i)
 </pre>
 <pre class="output">
-┌       ┐1/2                    
-│ 2    2│                       
-│x  + y │    exp(i arctan(y,x))
-│       │                       
-└       ┘                       
+        ┌       ┐
+ 1/2    │ 1     │
+2    exp│╶─╴ i π│
+        │ 4     │
+        └       ┘
 </pre>
 
 <h2 id="power">power</h2>
