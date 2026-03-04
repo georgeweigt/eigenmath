@@ -472,34 +472,31 @@ $\tfrac{1}{2}\exp(ix)+\frac{1}{2}\exp(-ix)$
 \subsection*{factorial($n$)}
 
 Returns the factorial of $n$.
-The expression {\tt n!} can also be used.
+The expression \verb$n!$ can also be used.
 
 {\color{blue}
 \begin{verbatim}
-20!
+10!
 \end{verbatim}
 }
 
-$2432902008176640000$
+$3628800$
 
 \subsection*{fdist($x,df_1,df_2$)}
 
-Returns the probability that a random sample from an $F$-distribution
-is less than or equal to $x$.
+Returns the probability that a random sample from an $F$-distribution is less than or equal to $x$.
 
 \subsection*{float($x$)}
 
-Returns expression $x$ with rational numbers and integers converted to
-floating point values.
-The symbol {\tt pi} and the natural number are also converted.
+Returns expression $x$ with numbers converted to floating point values.
 
 {\color{blue}
 \begin{verbatim}
-float(212^17)
+float(pi)
 \end{verbatim}
 }
 
-$\displaystyle 3.52947\times 10^{39}$
+$3.14159$
 
 \subsection*{floor($x$)}
 
@@ -535,7 +532,7 @@ $k=3$
 
 \subsection*{grad($f$)}
 
-Returns the gradient \verb$d(f,(x,y,z))$.
+Returns the gradient of $f$.
 
 {\color{blue}
 \begin{verbatim}
@@ -555,22 +552,38 @@ $
 
 \subsection*{hadamard($a,b,\ldots$)}
 
-Returns the Hadamard (element-wise) product.
+Returns the Hadamard (element-wise) product of arguments.
 
 {\color{blue}
 \begin{verbatim}
-X = (a,b,c)
-hadamard(X,X)
+x = (a,b)
+y = (c,d)
+hadamard(x,y)
 \end{verbatim}
 }
 
-$\displaystyle
+$
 \begin{pmatrix}
-a^2
+a c
 \\[1ex]
-b^2
+b d
+\end{pmatrix}
+$
+
+\bigskip
+Can also be accomplished this way.
+
+{\color{blue}
+\begin{verbatim}
+x y
+\end{verbatim}
+}
+
+$
+\begin{pmatrix}
+a c
 \\[1ex]
-c^2
+b d
 \end{pmatrix}
 $
 

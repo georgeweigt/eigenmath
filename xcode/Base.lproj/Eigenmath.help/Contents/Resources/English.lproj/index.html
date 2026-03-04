@@ -541,31 +541,24 @@ expform(cos(x))
 
 <h2 id="factorial">factorial(<i>n</i>)</h2>
 Returns the factorial of <i>n</i>.
-The expression
-<code>n!</code>
-can also be used.
+The expression <code>n!</code> can also be used.
 <pre class="input">
-20!
+10!
 </pre>
 <pre class="output">
-2432902008176640000
+3628800
 </pre>
 
 <h2 id="fdist">fdist(<i>x,df1,df2</i>)</h2>
 Returns the probability that a random sample from an <i>F</i>-distribution is less than or equal to <i>x</i>.
 
 <h2 id="float">float(<i>x</i>)</h2>
-Returns expression <i>x</i> with rational numbers and integers converted to
-floating point values.
-The symbol
-<code>pi</code>
-and the natural number are also converted.
+Returns expression <i>x</i> with numbers converted to floating point values.
 <pre class="input">
-float(212^17)
+float(pi)
 </pre>
 <pre class="output">
-          39
-3.52947 10
+3.14159
 </pre>
 
 <h2 id="floor">floor(<i>x</i>)</h2>
@@ -595,8 +588,7 @@ k = 3
 </pre>
 
 <h2 id="grad">grad(<i>f</i>)</h2>
-Returns the gradient
-<code>d(f,(x,y,z))</code>.
+Returns the gradient of <i>f</i>.
 <pre class="input">
 grad(f())
 </pre>
@@ -611,22 +603,29 @@ grad(f())
 </pre>
 
 <h2 id="hadamard">hadamard(<i>a,b,...</i>)</h2>
-Returns the Hadamard (element-wise) product.
-The arguments are required to have the same dimensions.
-The Hadamard product is also accomplished by simply multiplying the arguments.
+Returns the Hadamard (element-wise) product of arguments.
 <pre class="input">
-A = ((A11,A12),(A21,A22))
-B = ((B11,B12),(B21,B22))
-A B
+x = (a,b)
+y = (c,d)
+hadamard(x,y)
 </pre>
 <pre class="output">
-┌                   ┐
-│ A   B     A   B   │
-│  11  11    12  12 │
-│                   │
-│ A   B     A   B   │
-│  21  21    22  22 │
-└                   ┘
+┌     ┐
+│ a c │
+│     │
+│ b d │
+└     ┘
+</pre>
+Can also be accomplished this way.
+<pre class="input">
+x y
+</pre>
+<pre class="output">
+┌     ┐
+│ a c │
+│     │
+│ b d │
+└     ┘
 </pre>
 
 <h2 id="i">i</h2>
