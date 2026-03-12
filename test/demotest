@@ -2657,6 +2657,55 @@ check(div(grad(G)) == -k^2 G)
 "greens-function-demo.txt"
 status
 clear
+"harmonic-oscillator-1-demo.txt"
+"Harmonic oscillator 1"
+
+psi(n) = C(n) exp(m omega x^2 / (2 hbar) - i omega t (n + 1/2)) *
+         d(exp(-m omega x^2 / hbar), x, n)
+
+C(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4)
+
+"Verify wave functions solve Schrodinger equation"
+
+psi0 = psi(0)
+psi1 = psi(1)
+psi2 = psi(2)
+psi3 = psi(3)
+psi4 = psi(4)
+
+Hhat(f) = -hbar^2 / (2 m) d(f,x,x) + 1/2 m omega^2 x^2 f
+
+check(i hbar d(psi0,t) == Hhat(psi0))
+check(i hbar d(psi1,t) == Hhat(psi1))
+check(i hbar d(psi2,t) == Hhat(psi2))
+check(i hbar d(psi3,t) == Hhat(psi3))
+check(i hbar d(psi4,t) == Hhat(psi4))
+
+"ok"
+
+"Verify for time-independent Schrodinger equation"
+
+psi(n) = C(n) exp(m omega x^2 / (2 hbar)) *
+         d(exp(-m omega x^2 / hbar), x, n)
+
+psi0 = psi(0)
+psi1 = psi(1)
+psi2 = psi(2)
+psi3 = psi(3)
+psi4 = psi(4)
+
+E(n) = hbar omega (n + 1/2)
+
+check(Hhat(psi0) == E(0) psi0)
+check(Hhat(psi1) == E(1) psi1)
+check(Hhat(psi2) == E(2) psi2)
+check(Hhat(psi3) == E(3) psi3)
+check(Hhat(psi4) == E(4) psi4)
+
+"ok"
+"harmonic-oscillator-1-demo.txt"
+status
+clear
 "harmonic-oscillator-action-demo.txt"
 A = (xb - xa cos(omega T)) / sin(omega T)
 B = xa
@@ -4223,6 +4272,30 @@ check(F == -1/8 cos(theta)^3 - 3/8 cos(theta) + 1/2)
 "muon-pair-production-demo.txt"
 status
 clear
+"particle-in-a-box-demo.txt"
+"Particle in a box"
+
+psi = (A sin(k x) + B cos(k x)) exp(-i omega t)
+omega = hbar k^2 / (2 m)
+
+"Verify Schrodinger equation"
+check(i hbar d(psi,t) == -hbar^2 / (2 m) d(psi,x,x))
+"ok"
+
+"Verify boundary conditions"
+B = 0
+k = pi / a
+check(eval(psi,x,0) == 0)
+check(eval(psi,x,a) == 0)
+"ok"
+
+"Verify normalization"
+A = sqrt(2 / a)
+check(defint(conj(psi) psi, x, 0, a) == 1)
+"ok"
+"particle-in-a-box-demo.txt"
+status
+clear
 "penguin-anomaly-demo.txt"
 "Probability of exactly 75 heads"
 f(k) = choose(n,k) p^k (1-p)^(n-k)
@@ -4397,134 +4470,6 @@ check(-div(J) == conj(Psi) dt(Psi) + Psi conj(dt(Psi)))
 
 "ok"
 "probability-current-demo.txt"
-status
-clear
-"quantum-harmonic-oscillator-demo.txt"
-"Exercise 1. Verify eigenstates and eigenvalues."
-
-Hhat(f) = phat(phat(f)) / (2 m) + V f
-phat(f) = -i hbar d(f,x)
-V = m omega^2 x^2 / 2
-
-psi(n) = C(n) exp(-m omega x^2 / (2 hbar)) H(n, x sqrt(m omega / hbar))
-C(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4)
-H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
-
-E(n) = hbar omega (n + 1/2)
-
-check(Hhat(psi(0)) == E(0) psi(0))
-check(Hhat(psi(1)) == E(1) psi(1))
-check(Hhat(psi(2)) == E(2) psi(2))
-check(Hhat(psi(3)) == E(3) psi(3))
-check(Hhat(psi(4)) == E(4) psi(4))
-
-"ok"
-
-"Exercise 2. Verify ladder operators."
-
-clear
-
-psi(n) = C(n) exp(-m omega x^2 / (2 hbar)) H(n, x sqrt(m omega / hbar))
-C(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4)
-H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
-
-ahat(f) = sqrt(m omega / (2 hbar)) (x f + i phat(f) / (m omega))
-ahat1(f) = sqrt(m omega / (2 hbar)) (x f - i phat(f) / (m omega))
-phat(f) = -i hbar d(f,x)
-
-check(ahat(psi(0)) == 0)
-check(ahat(psi(1)) == psi(0))
-check(ahat(psi(2)) == sqrt(2) psi(1))
-check(ahat(psi(3)) == sqrt(3) psi(2))
-check(ahat(psi(4)) == 2 psi(3))
-
-check(ahat1(psi(0)) == psi(1))
-check(ahat1(psi(1)) == sqrt(2) psi(2))
-check(ahat1(psi(2)) == sqrt(3) psi(3))
-check(ahat1(psi(3)) == 2 psi(4))
-check(ahat1(psi(4)) == sqrt(5) psi(5))
-
--- number operator
-
-Nhat(f) = ahat1(ahat(f))
-
-check(Nhat(psi(0)) == 0)
-check(Nhat(psi(1)) == psi(1))
-check(Nhat(psi(2)) == 2 psi(2))
-check(Nhat(psi(3)) == 3 psi(3))
-check(Nhat(psi(4)) == 4 psi(4))
-
-"ok"
-
-"Exercise 3. Verify probability."
-
-clear
-
-psi(n) = C(n) exp(-m omega x^2 / (2 hbar)) H(n, x sqrt(m omega / hbar))
-C(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4)
-H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
-
--- dummy values ok because of normalization constant
-
-m = 1
-omega = 1
-hbar = 1
-
-Psi = (psi(2) + psi(3)) / sqrt(2)
-
-f = conj(Psi) Psi
-
-Pr = float(defint(f, x, 0, 100.0))
-
-check(infixform(Pr) == "0.845494")
-
-"ok"
-
-"Exercise 4."
-
-clear
-
-e = 1.602176634 10^(-19) coulomb     -- elementary charge
-h = 6.62607015 10^(-34) joule second -- Planck constant
-hbar = h / float(2 pi)               -- reduced Planck constant
-
-electronvolt = e joule / coulomb
-joule = kilogram meter^2 / second^2
-kilogram = "kilogram"
-meter = "meter"
-second = "second"
-
-m = 6.64 10^(-27) kilogram
-V = 1 electronvolt
-L = 10^(-6) meter
-
-omega = sqrt(2 V / m) / L
-omega
-
-psi(n) = C(n) exp(-m omega x^2 / (2 hbar)) H(n, x sqrt(m omega / hbar))
-C(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4)
-H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
-
-Psi = (psi(2) + psi(3)) / sqrt(2)
-infty = 100.0 meter
-
-xbar = float(defint(x conj(Psi) Psi, x, -infty, infty))
-xbar
-
-Hhat(f) = phat(phat(f)) / (2 m) + V f
-phat(f) = -i hbar d(f,x)
-V = m omega^2 x^2 / 2
-
-Ebar = float(defint(conj(Psi) Hhat(Psi), x, -infty, infty))
-Ebar = Ebar / electronvolt "electronvolt" -- convert joule to electronvolt
-Ebar
-
-E(n) = hbar omega (n + 1/2)
-
-"Expected eigenvalue"
-
-1/2 (E(2) + E(3)) / electronvolt "electronvolt"
-"quantum-harmonic-oscillator-demo.txt"
 status
 clear
 "rotating-wave-approximation-demo.txt"
