@@ -2663,7 +2663,9 @@ clear
 psi(n) = C(n) exp(m omega x^2 / (2 hbar) - i omega t (n + 1/2)) *
          d(exp(-m omega x^2 / hbar), x, n)
 
-C(n) = 1 / sqrt(2^n n!) (m omega / (pi hbar))^(1/4)
+C(n) = 1 / sqrt(2^n n!) *
+       (m omega / (pi hbar))^(1/4) *
+       (hbar / (m omega))^(n/2)
 
 "Verify wave functions solve Schrodinger equation"
 
@@ -2704,6 +2706,58 @@ check(Hhat(psi4) == E(4) psi4)
 
 "ok"
 "harmonic-oscillator-1-demo.txt"
+status
+clear
+"harmonic-oscillator-2-demo.txt"
+"Harmonic oscillator 2"
+
+psi(n) = (-1)^n C(n) exp(m omega x^2 / (2 hbar)) *
+         d(exp(-m omega x^2 / hbar), x, n)
+
+C(n) = 1 / sqrt(2^n n!) *
+       (m omega / (pi hbar))^(1/4) *
+       (hbar / (m omega))^(n/2)
+
+psi0 = psi(0)
+psi1 = psi(1)
+psi2 = psi(2)
+psi3 = psi(3)
+psi4 = psi(4)
+
+"Verify step-up operator"
+
+ahat1(f) = sqrt(hbar / (2 m omega)) (f m omega x / hbar - d(f,x))
+
+check(ahat1(psi0) == sqrt(1) psi1)
+check(ahat1(psi1) == sqrt(2) psi2)
+check(ahat1(psi2) == sqrt(3) psi3)
+check(ahat1(psi3) == sqrt(4) psi4)
+
+"ok"
+
+"Verify step-down operator"
+
+ahat(f) = sqrt(hbar / (2 m omega)) (f m omega x / hbar + d(f,x))
+
+check(ahat(psi1) == sqrt(1) psi0)
+check(ahat(psi2) == sqrt(2) psi1)
+check(ahat(psi3) == sqrt(3) psi2)
+check(ahat(psi4) == sqrt(4) psi3)
+
+"ok"
+
+"Verify number operator"
+
+N(f) = ahat1(ahat(f))
+
+check(N(psi0) == 0 psi0)
+check(N(psi1) == 1 psi1)
+check(N(psi2) == 2 psi2)
+check(N(psi3) == 3 psi3)
+check(N(psi4) == 4 psi4)
+
+"ok"
+"harmonic-oscillator-2-demo.txt"
 status
 clear
 "harmonic-oscillator-action-demo.txt"
