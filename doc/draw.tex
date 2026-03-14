@@ -3,10 +3,11 @@
 \section*{Draw}
 
 Function \verb$draw(f,x)$ draws a graph of $f$ of $x$.
+If the second argument is omitted then the default is \verb$x$.
 
 {\color{blue}
 \begin{verbatim}
-draw(x^2,x)
+draw(x^2)
 \end{verbatim}}
 
 % -2,2        2,2
@@ -41,7 +42,7 @@ The vectors \verb$xrange$ and \verb$yrange$ control the scale of the graph.
 \begin{verbatim}
 xrange = (-1,1)
 yrange = (0,2)
-draw(x^2,x)
+draw(x^2)
 \end{verbatim}}
 
 \begin{center}
