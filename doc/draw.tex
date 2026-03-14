@@ -2,15 +2,37 @@
 
 \section*{Draw}
 
-\verb$draw(f,x)$ draws a graph of function $f$ of $x$.
+Function \verb$draw(f,x)$ draws a graph of $f$ of $x$.
 
 {\color{blue}
 \begin{verbatim}
 draw(x^2,x)
 \end{verbatim}}
 
+% -2,2        2,2
+% *-------------*
+% |             |
+% |             |
+% |             |
+% |             |
+% |             |
+% *-------------*
+% -2,-2       2,-2
+
 \begin{center}
-\includegraphics[scale=0.4]{parabola1.png}
+\begin{tikzpicture}
+\draw (-2,-2) -- (2,-2);
+\draw (-2,0) -- (2,0);
+\draw (-2,2) -- (2,2);
+\draw (-2,-2) -- (-2,2);
+\draw (0,-2) -- (0,2);
+\draw (2,-2) -- (2,2);
+\draw (-2,-2.3) node {\scriptsize$-10$};
+\draw (2,-2.3) node {\scriptsize$10$};
+\draw (-2.4,2) node {\scriptsize$\phantom+10$};
+\draw (-2.4,-2) node {\scriptsize$-10$};
+\draw [ultra thick] (-.6325,2) parabola bend (0,0) (.6325,2);
+\end{tikzpicture}
 \end{center}
 
 The vectors \verb$xrange$ and \verb$yrange$ control the scale of the graph.
@@ -23,8 +45,22 @@ draw(x^2)
 \end{verbatim}}
 
 \begin{center}
-\includegraphics[scale=0.4]{parabola2.png}
+\begin{tikzpicture}
+\draw (-2,-2) -- (2,-2);
+%\draw (-2,0) -- (2,0);
+\draw (-2,2) -- (2,2);
+\draw (-2,-2) -- (-2,2);
+\draw (0,-2) -- (0,2);
+\draw (2,-2) -- (2,2);
+\draw (-2,-2.3) node {\scriptsize$-1$};
+\draw (2,-2.3) node {\scriptsize$1$};
+\draw (-2.4,2) node {\scriptsize$\phantom{+0}2$};
+\draw (-2.4,-2) node {\scriptsize$\phantom{-0}0$};
+\draw [ultra thick] (-2,0) parabola bend (0,-2) (2,0);
+\end{tikzpicture}
 \end{center}
+
+\newpage
 
 Parametric drawing occurs when a function returns a vector.
 The vector \verb$trange$ controls the parametric range.
@@ -41,7 +77,19 @@ draw(f,theta)
 \end{verbatim}}
 
 \begin{center}
-\includegraphics[scale=0.4]{circle1.png}
+\begin{tikzpicture}
+\draw (-2,-2) -- (2,-2);
+\draw (-2,0) -- (2,0);
+\draw (-2,2) -- (2,2);
+\draw (-2,-2) -- (-2,2);
+\draw (0,-2) -- (0,2);
+\draw (2,-2) -- (2,2);
+\draw (-2,-2.3) node {\scriptsize$-10$};
+\draw (2,-2.3) node {\scriptsize$10$};
+\draw (-2.4,2) node {\scriptsize$\phantom+10$};
+\draw (-2.4,-2) node {\scriptsize$-10$};
+\draw [ultra thick] (0,0) circle [radius=1];
+\end{tikzpicture}
 \end{center}
 
 In the following example, \verb$trange$ is reduced
@@ -55,39 +103,19 @@ draw(f,theta)
 \end{verbatim}}
 
 \begin{center}
-\includegraphics[scale=0.4]{circle2.png}
-\end{center}
-
-Draw a lemniscate.
-
-{\color{blue}
-\begin{verbatim}
-trange = (-pi,pi)
-X = cos(t) / (1 + sin(t)^2)
-Y = sin(t) cos(t) / (1 + sin(t)^2)
-f = 5 (X,Y)
-draw(f,t)
-\end{verbatim}}
-
-\begin{center}
-\includegraphics[scale=0.4]{lemniscate.png}
-\end{center}
-
-Draw a cardioid.
-
-{\color{blue}
-\begin{verbatim}
-r = (1 + cos(t)) / 2
-u = (cos(t),sin(t))
-f = r u
-xrange = (-1,1)
-yrange = (-1,1)
-trange = (0,2pi)
-draw(f,t)
-\end{verbatim}}
-
-\begin{center}
-\includegraphics[scale=0.4]{cardioid.png}
+\begin{tikzpicture}
+\draw (-2,-2) -- (2,-2);
+\draw (-2,0) -- (2,0);
+\draw (-2,2) -- (2,2);
+\draw (-2,-2) -- (-2,2);
+\draw (0,-2) -- (0,2);
+\draw (2,-2) -- (2,2);
+\draw (-2,-2.3) node {\scriptsize$-10$};
+\draw (2,-2.3) node {\scriptsize$10$};
+\draw (-2.4,2) node {\scriptsize$\phantom+10$};
+\draw (-2.4,-2) node {\scriptsize$-10$};
+\draw [ultra thick] (1,0) arc (0:90:1);
+\end{tikzpicture}
 \end{center}
 
 \end{document}
