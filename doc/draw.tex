@@ -3,7 +3,7 @@
 \section*{Draw}
 
 Function \verb$draw(f,x)$ draws a graph of $f$ of $x$.
-If the second argument is omitted then the default is \verb$x$.
+The second argument can be omitted in which case literal \verb$x$ is the default symbol.
 
 {\color{blue}
 \begin{verbatim}
@@ -63,7 +63,7 @@ draw(x^2)
 
 \newpage
 
-Parametric drawing occurs when $f$ is a vector in $\mathbb R^2$.
+Parametric drawing occurs when $f$ is a vector.
 Symbol \verb$trange$ controls the parameter range.
 The default is \verb$trange=(-pi,pi)$.
 In the following example, \verb$draw$ varies \verb$theta$
