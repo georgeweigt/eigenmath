@@ -2711,10 +2711,10 @@ clear
 "harmonic-oscillator-2-demo.txt"
 "Harmonic oscillator 2"
 
-psi(n) = (-1)^n C(n) exp(m omega x^2 / (2 hbar)) *
+psi(n) = C(n) exp(m omega x^2 / (2 hbar)) *
          d(exp(-m omega x^2 / hbar), x, n)
 
-C(n) = 1 / sqrt(2^n n!) *
+C(n) = (-1)^n / sqrt(2^n n!) *
        (m omega / (pi hbar))^(1/4) *
        (hbar / (m omega))^(n/2)
 
