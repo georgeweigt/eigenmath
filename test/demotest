@@ -2799,87 +2799,39 @@ check(S == m / 2 omega ((xb^2 + xa^2) cos(omega T) - 2 xb xa) / sin(omega T))
 status
 clear
 "harmonic-oscillator-coherent-state-demo.txt"
-"Exercise 1. Verify wave function."
+"Harmonic oscillator coherent state"
 
-psi(n) = 1 / sqrt(2^n n!) *
-         (m omega / (pi hbar))^(1/4) *
-         H(n, sqrt(m omega / hbar) (x - xbar)) *
-         exp(-m omega / (2 hbar) (x - xbar)^2) *
+psi(n) = K(n) exp(m omega / (2 hbar) (x - xbar)^2) *
          exp(i / hbar pbar (x - xbar / 2)) *
-         exp(-i (n + 1/2) omega t)
+         exp(-i (n + 1/2) omega t) *
+         d(exp(-m omega (x - xbar)^2 / hbar), x, n)
 
-H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
-
-xbar = sqrt(2 hbar / m / omega) r cos(omega t + theta)
-pbar = -sqrt(2 m hbar omega) r sin(omega t + theta)
-
-Hhat(f) = phat(phat(f)) / (2 m) + V f
-phat(f) = -i hbar d(f,x)
-V = m omega^2 x^2 / 2
-
-check(i hbar d(psi(0),t) == Hhat(psi(0)))
-check(i hbar d(psi(1),t) == Hhat(psi(1)))
-check(i hbar d(psi(2),t) == Hhat(psi(2)))
-check(i hbar d(psi(3),t) == Hhat(psi(3)))
-check(i hbar d(psi(4),t) == Hhat(psi(4)))
-
-"ok"
-
-"Exercise 2. Verify normalization."
-
-clear
-
-psi(n) = 1 / sqrt(2^n n!) *
-         (m omega / (pi hbar))^(1/4) *
-         H(n, sqrt(m omega / hbar) (x - xbar)) *
-         exp(-m omega / (2 hbar) (x - xbar)^2) *
-         exp(i / hbar pbar (x - xbar / 2)) *
-         exp(-i (n + 1/2) omega t)
-
-H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
-
-xbar = sqrt(2 hbar / m / omega) r cos(omega t + theta)
-pbar = -sqrt(2 m hbar omega) r sin(omega t + theta)
-
-f = conj(psi(1)) psi(1)
-
-A = m omega / hbar
-B = 2 sqrt(2 m omega / hbar) r cos(omega t + theta)
-C = -2 r^2 cos(omega t + theta)^2
-
-G2 = sqrt(pi / A) / (2 A) (1 + B^2 / (2 A)) exp(B^2 / (4 A) + C)
-G1 = sqrt(pi / A) (B / (2 A)) exp(B^2 / (4 A) + C)
-G0 = sqrt(pi / A) exp(B^2 / (4 A) + C)
-
-C2 = 2 m^(3/2) omega^(3/2) hbar^(-3/2) pi^(-1/2)
-C1 = (-4) sqrt(2 / pi) m omega r / hbar cos(omega t + theta)
-C0 = 4 sqrt(m omega / (pi hbar)) r^2 cos(omega t + theta)^2
-
-check(f == (C2 x^2 + C1 x + C0) exp(-A x^2 + B x + C))
-
-I = C2 G2 + C1 G1 + C0 G0 -- gaussian integral
-
-check(I == 1)
-
-"ok"
-
-"Exercise 3. Verify uncertainty."
-
-clear
-
-psi(n) = 1 / sqrt(2^n n!) *
-         (m omega / (pi hbar))^(1/4) *
-         H(n, sqrt(m omega / hbar) (x - xbar)) *
-         exp(-m omega / (2 hbar) (x - xbar)^2) *
-         exp(i / hbar pbar (x - xbar / 2)) *
-         exp(-i (n + 1/2) omega t)
-
-H(n,y,z) = (-1)^n exp(y^2) eval(d(exp(-z^2),z,n),z,y)
+K(n) = (-1)^n / sqrt(2^n n!) *
+       (m omega / (pi hbar))^(1/4) *
+       (hbar / (m omega))^(n/2)
 
 xbar = sqrt(2 hbar / m / omega) r cos(omega t + theta)
 pbar = -sqrt(2 m hbar omega) r sin(omega t + theta)
 
 psi0 = psi(0)
+psi1 = psi(1)
+psi2 = psi(2)
+psi3 = psi(3)
+psi4 = psi(4)
+
+Hhat(f) = phat(phat(f)) / (2 m) + V f
+phat(f) = -i hbar d(f,x)
+V = m omega^2 x^2 / 2
+
+"Verify wave functions"
+
+check(i hbar d(psi0,t) == Hhat(psi0))
+check(i hbar d(psi1,t) == Hhat(psi1))
+check(i hbar d(psi2,t) == Hhat(psi2))
+check(i hbar d(psi3,t) == Hhat(psi3))
+check(i hbar d(psi4,t) == Hhat(psi4))
+
+"ok"
 
 A = m omega / hbar
 B = 2 sqrt(2 m omega / hbar) r cos(omega t + theta)
@@ -2889,23 +2841,21 @@ G2 = sqrt(pi / A) / (2 A) (1 + B^2 / (2 A)) exp(B^2 / (4 A) + C)
 G1 = sqrt(pi / A) (B / (2 A)) exp(B^2 / (4 A) + C)
 G0 = sqrt(pi / A) exp(B^2 / (4 A) + C)
 
--- expectation of x
+-- X is expectation of x
 
 f = conj(psi0) x psi0
 C1 = sqrt(m omega / (hbar pi))
 check(f == C1 x exp(-A x^2 + B x + C))
 X = C1 G1 -- gaussian integral
 
--- expectation of x^2
+-- X2 is expectation of x^2
 
 f = conj(psi0) x^2 psi0
 C2 = sqrt(m omega / (hbar pi))
 check(f == C2 x^2 exp(-A x^2 + B x + C))
 X2 = C2 G2 -- gaussian integral
 
--- expectation of p
-
-phat(f) = -i hbar d(f,x)
+-- P is expectation of p
 
 f = conj(psi0) phat(psi0)
 
@@ -2918,7 +2868,7 @@ check(f == (C1 x + C0) exp(-A x^2 + B x + C))
 
 P = C1 G1 + C0 G0 -- gaussian integral
 
--- expectation of p^2
+-- P2 is expectation of p^2
 
 f = conj(psi0) phat(phat(psi0))
 
@@ -2935,7 +2885,7 @@ check(f == (C2 x^2 + C1 x + C0) exp(-A x^2 + B x + C))
 
 P2 = C2 G2 + C1 G1 + C0 G0 -- gaussian integral
 
--- verify
+"Verify uncertainty"
 
 check(X2 - X^2 == hbar / (2 m omega))
 
