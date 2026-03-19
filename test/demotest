@@ -1649,6 +1649,44 @@ r
 "bohr-radius-demo.txt"
 status
 clear
+"born-approximation-1-demo.txt"
+"Born approximation 1"
+
+phi = -Z alpha hbar c / (2 E (1 - cos(theta)))
+
+E = 1/2 m v^2
+hbar = 1
+c = 1
+
+"Verify equation (1) with Lancaster and Blundell equation (40.4)"
+check(conj(phi) phi == Z^2 alpha^2 / (4 m^2 v^4 sin(theta/2)^4))
+"ok"
+"born-approximation-1-demo.txt"
+status
+clear
+"born-approximation-2-demo.txt"
+"Born approximation 2"
+
+"Verify equation (3)"
+
+A = 1 / (4 pi^2 x) r sin(x r) / (k^2 - r^2)
+B = i / (8 pi^2 x) r (exp(i x r) - exp(-i x r)) / (r^2 - k^2)
+
+check(A == B)
+
+"ok"
+
+"Verify equation (4)"
+
+A = i pi exp(i k x)
+B = -i pi exp(i k x)
+
+check(i / (8 pi^2 x) (A - B) == -exp(i k x) / (4 pi x))
+
+"ok"
+"born-approximation-2-demo.txt"
+status
+clear
 "canonical-commutation-relation-demo.txt"
 "Canonical commutation relation"
 
@@ -4500,6 +4538,8 @@ check(d(cb,t) == -i / (2 hbar) ca Vba exp(i (omega0 - omega) t))
 status
 clear
 "rutherford-scattering-1-demo.txt"
+"Rutherford scattering 1"
+
 "Verify equation (1)"
 f = exp(i p r / hbar - epsilon r) - exp(-i p r / hbar - epsilon r)
 F = integral(f,r)
@@ -4509,40 +4549,40 @@ check(I == -1 / (i p / hbar - epsilon) - 1 / (i p / hbar + epsilon))
 
 "Verify equation (2)"
 epsilon = 0
-f = -m Z e^2 / (4 pi epsilon0 hbar^2) hbar / (i p) I
-check(f == -m Z e^2 / (2 pi epsilon0 p^2))
-e = sqrt(4 pi epsilon0 alpha hbar c)
-p = sqrt(4 m E (1 - cos(theta)))
+f = -m Z alpha c / hbar hbar / (i p) I
+check(f == -2 m Z alpha hbar c / p^2)
+p = sqrt(4 m E (cos(theta) - 1))
 dsigma = conj(f) f
-check(dsigma == Z^2 alpha^2 (hbar c)^2 / (4 E^2 (1 - cos(theta))^2))
+check(dsigma == (Z alpha hbar c / (2 E (cos(theta) - 1)))^2)
 "ok"
 
 "Verify equation (3)"
-check(dsigma == Z^2 alpha^2 (hbar c)^2 / (16 E^2 sin(theta/2)^4))
+check(dsigma == (Z alpha hbar c / (2 E))^2 / (4 sin(theta/2)^4))
 "ok"
 "rutherford-scattering-1-demo.txt"
 status
 clear
 "rutherford-scattering-2-demo.txt"
+"Rutherford scattering 2"
+
 "Verify equation (1)"
 f = exp(i p / hbar r - r / a) - exp(-i p / hbar r - r / a)
 F = integral(f,r)
 I = 0 - eval(F,r,0)
 check(I == -1 / (i p / hbar - 1 / a) - 1 / (i p / hbar + 1 / a))
-f = -m Z e^2 / (4 pi epsilon0 hbar^2) hbar / (i p) I
-check(f == -m Z e^2 / (2 pi epsilon0 (p^2 + (hbar / a)^2)))
+f = -m Z alpha c / hbar hbar / (i p) I
+check(f == -2 m Z alpha hbar c / (p^2 + (hbar / a)^2))
 "ok"
 
 "Verify equation (2)"
-e = sqrt(4 pi epsilon0 alpha hbar c)
-p = sqrt(4 m E (1 - cos(theta)))
-check(f == -2 m Z alpha hbar c / (4 m E (1 - cos(theta)) + (hbar/a)^2))
+p = sqrt(4 m E (cos(theta) - 1))
+check(f == -2 m Z alpha hbar c / (4 m E (cos(theta) - 1) + (hbar/a)^2))
 "ok"
 "rutherford-scattering-2-demo.txt"
 status
 clear
 "rutherford-scattering-3-demo.txt"
--- Verify formulas for Rutherford scattering
+"Rutherford scattering 3"
 
 E = sqrt(p^2 + m^2)
 
@@ -4575,30 +4615,31 @@ gamma = (gamma0,gamma1,gamma2,gamma3)
 u21bar = dot(conj(u22),gamma0) -- adjoint of u21
 u22bar = dot(conj(u22),gamma0) -- adjoint of u22
 
-M11 = dot(u21bar, gamma0, u11)
-M12 = dot(u21bar, gamma0, u12)
-M21 = dot(u22bar, gamma0, u11)
-M22 = dot(u22bar, gamma0, u12)
+M11 = Z alpha / q^2 dot(u21bar, gamma0, u11)
+M12 = Z alpha / q^2 dot(u21bar, gamma0, u12)
+M21 = Z alpha / q^2 dot(u22bar, gamma0, u11)
+M22 = Z alpha / q^2 dot(u22bar, gamma0, u12)
 
 M = 1/2 (conj(M11) M11 + conj(M12) M12 + conj(M21) M21 + conj(M22) M22)
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
 
-f = 1/2 contract(dot(pslash2 + m I, gamma0, pslash1 + m I, gamma0))
+f = 1/2 (Z alpha / q^2)^2 *
+    contract(dot(pslash2 + m I, gamma0, pslash1 + m I, gamma0))
 
-check(f == M)
+check(M == f)
 
 "ok"
 
 "Verify probability density"
 
-check(f == 2 (E^2 + m^2 + p^2 cos(theta)))
+check(f == 2 (Z alpha / q^2)^2 (E^2 + m^2 + p^2 cos(theta)))
 
 q = p1 - p2
-q4 = dot(q,gmunu,q)^2
-check(q4 == 16 p^4 sin(theta/2)^4)
-check(q4 == 4 p^4 (cos(theta) - 1)^2)
+q2 = dot(q,gmunu,q)
+check(q2 == 2 p^2 (cos(theta) - 1))
+check(q2^2 == 16 p^4 sin(theta/2)^4)
 
 -- verify integral
 
