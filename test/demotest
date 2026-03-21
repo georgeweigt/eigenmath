@@ -1685,6 +1685,18 @@ check(i / (8 pi^2 x) (A - B) == -exp(i k x) / (4 pi x))
 "born-approximation-2-demo.txt"
 status
 clear
+"born-approximation-3-demo.txt"
+"Born approximation 3"
+
+x = (x1,x2,x3)
+y = (y1,y2,y3)
+
+check(dot(x-y,x-y) == dot(x,x) - 2 dot(x,y) + dot(y,y))
+
+"ok"
+"born-approximation-3-demo.txt"
+status
+clear
 "canonical-commutation-relation-demo.txt"
 "Canonical commutation relation"
 
