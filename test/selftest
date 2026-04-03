@@ -3373,6 +3373,8 @@ clear
 
 check(cos(-x) == cos(x))
 check(cos(arctan(y,x)) == x (x^2 + y^2)^(-1/2))
+check(cos(arccos(x)) == x)
+check(cos(-arccos(x)) == x)
 check(cos(arcsin(x)) == sqrt(1 - x^2))
 check(cos((x,y)) == (cos(x),cos(y)))
 
@@ -8933,6 +8935,8 @@ clear
 
 check(sin(-x) == -sin(x))
 check(sin(arctan(y,x)) == y (x^2 + y^2)^(-1/2))
+check(sin(arcsin(x)) == x)
+check(sin(-arcsin(x)) == -x)
 check(sin(arccos(x)) == sqrt(1 - x^2))
 check(sin((x,y)) == (sin(x),sin(y)))
 

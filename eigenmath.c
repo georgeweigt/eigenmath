@@ -3819,6 +3819,13 @@ cosfunc(void)
 		return;
 	}
 
+	// cos(arccos(x)) = x
+
+	if (car(p1) == symbol(ARCCOS)) {
+		push(cadr(p1));
+		return;
+	}
+
 	// cos(arcsin(x)) = sqrt(1 - x^2)
 
 	if (car(p1) == symbol(ARCSIN)) {
@@ -13511,6 +13518,13 @@ sinfunc(void)
 		push_rational(-1, 2);
 		power();
 		multiply();
+		return;
+	}
+
+	// sin(arcsin(x)) = x
+
+	if (car(p1) == symbol(ARCSIN)) {
+		push(cadr(p1));
 		return;
 	}
 

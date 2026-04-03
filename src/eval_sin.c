@@ -89,6 +89,13 @@ sinfunc(void)
 		return;
 	}
 
+	// sin(arcsin(x)) = x
+
+	if (car(p1) == symbol(ARCSIN)) {
+		push(cadr(p1));
+		return;
+	}
+
 	// sin(arccos(x)) = sqrt(1 - x^2)
 
 	if (car(p1) == symbol(ARCCOS)) {
