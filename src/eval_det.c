@@ -76,7 +76,7 @@ det(void)
 	h = tos;
 
 	for (m = 0; m < n; m++) {
-		if (iszero(p1->u.tensor->elem[m]))
+		if (iseqzero(p1->u.tensor->elem[m]))
 			continue;
 		k = 0;
 		for (i = 1; i < n; i++)

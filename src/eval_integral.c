@@ -1182,7 +1182,7 @@ integral_search_nib(int h, struct atom *F, struct atom *I, struct atom *C)
 			push(C);			// condition ok?
 			evalf();
 			p1 = pop();
-			if (iszero(p1))
+			if (iseqzero(p1))
 				continue;		// no, go to next j
 
 			push(F);			// F = I?
@@ -1190,7 +1190,7 @@ integral_search_nib(int h, struct atom *F, struct atom *I, struct atom *C)
 			evalf();
 			subtract();
 			p1 = pop();
-			if (iszero(p1))
+			if (iseqzero(p1))
 				return 1;		// yes
 		}
 	}

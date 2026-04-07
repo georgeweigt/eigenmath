@@ -101,7 +101,7 @@ findroot(int h, int n)
 
 	// check constant term
 
-	if (iszero(stack[h])) {
+	if (iseqzero(stack[h])) {
 		push_integer(0); // root is zero
 		return 1;
 	}
@@ -151,7 +151,7 @@ findroot(int h, int n)
 
 			PA = pop(); // polynomial evaluated at A
 
-			if (iszero(PA)) {
+			if (iseqzero(PA)) {
 				tos = p; // pop all
 				push(A);
 				return 1; // root on stack
@@ -167,7 +167,7 @@ findroot(int h, int n)
 
 			PA = pop(); // polynomial evaluated at A
 
-			if (iszero(PA)) {
+			if (iseqzero(PA)) {
 				tos = p; // pop all
 				push(A);
 				return 1; // root on stack
@@ -283,7 +283,7 @@ reduce(int h, int n, struct atom *A)
 		stack[h + i - 1] = pop();
 	}
 
-	if (!iszero(stack[h]))
+	if (!iseqzero(stack[h]))
 		stopf("roots: residual error"); // not a root
 
 	// move
@@ -315,7 +315,7 @@ coeffs(struct atom *P, struct atom *X)
 		subtract();
 		P = pop();
 
-		if (iszero(P))
+		if (iseqzero(P))
 			break;
 
 		push(P);

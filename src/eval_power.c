@@ -94,14 +94,14 @@ power(void)
 
 	// expr^0
 
-	if (iszero(EXPO)) {
+	if (iseqzero(EXPO)) {
 		push_integer(1);
 		return;
 	}
 
 	// 0^expr
 
-	if (iszero(BASE)) {
+	if (iseqzero(BASE)) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
@@ -236,14 +236,14 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 
 	// n^0
 
-	if (iszero(EXPO)) {
+	if (iseqzero(EXPO)) {
 		push_integer(1);
 		return;
 	}
 
 	// 0^n
 
-	if (iszero(BASE)) {
+	if (iseqzero(BASE)) {
 		if (isnegativenumber(EXPO)) {
 			if (shuntflag)
 				errorflag = 1;
@@ -552,7 +552,7 @@ normalize_clock_rational(struct atom *EXPO)
 	switch (n) {
 
 	case 0:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
@@ -563,7 +563,7 @@ normalize_clock_rational(struct atom *EXPO)
 		break;
 
 	case 1:
-		if (iszero(R))
+		if (iseqzero(R))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -579,7 +579,7 @@ normalize_clock_rational(struct atom *EXPO)
 		break;
 
 	case 2:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -593,7 +593,7 @@ normalize_clock_rational(struct atom *EXPO)
 		break;
 
 	case 3:
-		if (iszero(R)) {
+		if (iseqzero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);
@@ -814,7 +814,7 @@ normalize_polar_term_rational(struct atom *R)
 	switch (n % 4) {
 
 	case 0:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
@@ -829,7 +829,7 @@ normalize_polar_term_rational(struct atom *R)
 		break;
 
 	case 1:
-		if (iszero(R))
+		if (iseqzero(R))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -847,7 +847,7 @@ normalize_polar_term_rational(struct atom *R)
 		break;
 
 	case 2:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -865,7 +865,7 @@ normalize_polar_term_rational(struct atom *R)
 		break;
 
 	case 3:
-		if (iszero(R)) {
+		if (iseqzero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);

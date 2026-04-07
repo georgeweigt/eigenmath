@@ -74,6 +74,8 @@ setq_indexed(struct atom *p1)
 	set_symbol(S, LVAL, symbol(NIL));
 }
 
+// LVAL indices are on the stack
+
 void
 set_component(struct atom *LVAL, struct atom *RVAL, int h)
 {
@@ -101,7 +103,7 @@ set_component(struct atom *LVAL, struct atom *RVAL, int h)
 		k = k * LVAL->u.tensor->dim[i] + t - 1;
 	}
 
-	tos = h; // pop all
+	tos = h; // pop all indices
 
 	if (istensor(RVAL)) {
 		m = RVAL->u.tensor->ndim;
@@ -114,9 +116,12 @@ set_component(struct atom *LVAL, struct atom *RVAL, int h)
 		for (i = 0; i < m; i++)
 			LVAL->u.tensor->elem[m * k + i] = RVAL->u.tensor->elem[i];
 	} else {
-		if (n != LVAL->u.tensor->ndim)
-			stopf("index error");
-		LVAL->u.tensor->elem[k] = RVAL;
+		// fill tensor with scalar value
+		m = 1;
+		for (i = n; i < LVAL->u.tensor->ndim; i++)
+			m *= LVAL->u.tensor->dim[i];
+		for (i = 0; i < m; i++)
+			LVAL->u.tensor->elem[m * k + i] = RVAL;
 	}
 }
 

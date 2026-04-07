@@ -92,7 +92,7 @@ multiply_scalar_factors(int h)
 
 	COEF = combine_numerical_factors(h, one);
 
-	if (iszero(COEF) || h == tos) {
+	if (iseqzero(COEF) || h == tos) {
 		tos = h; // pop all
 		push(COEF);
 		return;
@@ -108,7 +108,7 @@ multiply_scalar_factors(int h)
 
 	COEF = combine_numerical_factors(h, COEF);
 
-	if (iszero(COEF) || h == tos) {
+	if (iseqzero(COEF) || h == tos) {
 		tos = h; // pop all
 		push(COEF);
 		return;
@@ -427,7 +427,7 @@ multiply_rationals(struct atom *p1, struct atom *p2)
 	int sign;
 	uint32_t *a, *b, *c;
 
-	if (iszero(p1) || iszero(p2)) {
+	if (iseqzero(p1) || iseqzero(p2)) {
 		push_integer(0);
 		return;
 	}
@@ -543,7 +543,7 @@ reduce_radical_rational(int h, struct atom *COEF)
 		if (isnegativenumber(EXPO)) {
 			mod_integers(NUMER, BASE);
 			p2 = pop();
-			if (iszero(p2)) {
+			if (iseqzero(p2)) {
 				push(NUMER);
 				push(BASE);
 				divide();
@@ -560,7 +560,7 @@ reduce_radical_rational(int h, struct atom *COEF)
 		} else {
 			mod_integers(DENOM, BASE);
 			p2 = pop();
-			if (iszero(p2)) {
+			if (iseqzero(p2)) {
 				push(DENOM);
 				push(BASE);
 				divide();

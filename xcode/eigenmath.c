@@ -1391,7 +1391,7 @@ combine_terms(int h)
 	int i;
 	sort_terms(h);
 	for (i = h; i < tos; i++) {
-		if (iszero(stack[i])) {
+		if (iseqzero(stack[i])) {
 			slice(i, 1); // remove
 			i--; // use same index again
 		} else if (i + 1 < tos && combine_terms_nib(i)) {
@@ -1454,7 +1454,7 @@ combine_terms_nib(int i)
 
 	coeff1 = pop();
 
-	if (iszero(coeff1)) {
+	if (iseqzero(coeff1)) {
 		stack[i] = coeff1;
 		return 1;
 	}
@@ -1636,12 +1636,12 @@ add_rationals(struct atom *p1, struct atom *p2)
 	int sign;
 	uint32_t *a, *ab, *b, *ba, *c;
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push(p2);
 		return;
 	}
 
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push(p1);
 		return;
 	}
@@ -1798,7 +1798,7 @@ eval_and(struct atom *p1)
 		push(car(p1));
 		evalp();
 		p2 = pop();
-		if (iszero(p2)) {
+		if (iseqzero(p2)) {
 			push_integer(0);
 			return;
 		}
@@ -1885,7 +1885,7 @@ arccos(void)
 
 	// arccos(0) = 1/2 pi
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();
@@ -2076,7 +2076,7 @@ arcsin(void)
 
 	// arcsin(0) = 0
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -2155,7 +2155,7 @@ arcsinh(void)
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push(p1);
 		return;
 	}
@@ -2225,7 +2225,7 @@ arctan(void)
 
 	// arctan(z) = -1/2 i log((i - z) / (i + z))
 
-	if (!iszero(X) && (isdoublez(X) || isdoublez(Y))) {
+	if (!iseqzero(X) && (isdoublez(X) || isdoublez(Y))) {
 		push(Y);
 		push(X);
 		divide();
@@ -2273,7 +2273,7 @@ arctan_numbers(struct atom *X, struct atom *Y)
 	double x, y;
 	struct atom *T;
 
-	if (iszero(X) && iszero(Y)) {
+	if (iseqzero(X) && iseqzero(Y)) {
 		push_integer(0);
 		return;
 	}
@@ -2295,7 +2295,7 @@ arctan_numbers(struct atom *X, struct atom *Y)
 
 	// X and Y are rational numbers
 
-	if (iszero(Y)) {
+	if (iseqzero(Y)) {
 		if (isnegativenumber(X)) {
 			push_symbol(PI);
 			negate();
@@ -2304,7 +2304,7 @@ arctan_numbers(struct atom *X, struct atom *Y)
 		return;
 	}
 
-	if (iszero(X)) {
+	if (iseqzero(X)) {
 		if (isnegativenumber(Y))
 			push_rational(-1, 2);
 		else
@@ -2434,7 +2434,7 @@ arctanh(void)
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -2575,11 +2575,11 @@ arg_nib(void)
 		push(p1);
 		imag();
 		y = pop();
-		if (iszero(y)) {
+		if (iseqzero(y)) {
 			push_integer(0);
 			return;
 		}
-		if (iszero(x)) {
+		if (iseqzero(x)) {
 			push_rational(1, 2);
 			push_symbol(PI);
 			multiply();
@@ -2670,7 +2670,7 @@ eval_check(struct atom *p1)
 	push(cadr(p1));
 	evalp();
 	p1 = pop();
-	if (iszero(p1))
+	if (iseqzero(p1))
 		stopf("check");
 	push_symbol(NIL); // no result is printed
 }
@@ -3210,7 +3210,7 @@ coshfunc(void)
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(1);
 		return;
 	}
@@ -3708,7 +3708,7 @@ darctan(struct atom *p1, struct atom *p2)
 		push_integer(0);
 		return;
 	}
-	if (iszero(cadr(p1)) || iszero(caddr(p1))) {
+	if (iseqzero(cadr(p1)) || iseqzero(caddr(p1))) {
 		push_symbol(DERIVATIVE);
 		push(p1);
 		push(p2);
@@ -4093,7 +4093,7 @@ det(void)
 	h = tos;
 
 	for (m = 0; m < n; m++) {
-		if (iszero(p1->u.tensor->elem[m]))
+		if (iseqzero(p1->u.tensor->elem[m]))
 			continue;
 		k = 0;
 		for (i = 1; i < n; i++)
@@ -7482,7 +7482,7 @@ integral_search_nib(int h, struct atom *F, struct atom *I, struct atom *C)
 			push(C);			// condition ok?
 			evalf();
 			p1 = pop();
-			if (iszero(p1))
+			if (iseqzero(p1))
 				continue;		// no, go to next j
 
 			push(F);			// F = I?
@@ -7490,7 +7490,7 @@ integral_search_nib(int h, struct atom *F, struct atom *I, struct atom *C)
 			evalf();
 			subtract();
 			p1 = pop();
-			if (iszero(p1))
+			if (iseqzero(p1))
 				return 1;		// yes
 		}
 	}
@@ -7974,7 +7974,7 @@ logfunc(void)
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_symbol(LOG);
 		push_integer(0);
 		list(2);
@@ -8322,11 +8322,11 @@ magfunc_nib(void)
 		push(p1);
 		imag();
 		y = pop();
-		if (iszero(y)) {
+		if (iseqzero(y)) {
 			push(x);
 			return;
 		}
-		if (iszero(x)) {
+		if (iseqzero(x)) {
 			push(y);
 			return;
 		}
@@ -8495,7 +8495,7 @@ modfunc(void)
 		return;
 	}
 
-	if (!isnum(p1) || !isnum(p2) || iszero(p2)) {
+	if (!isnum(p1) || !isnum(p2) || iseqzero(p2)) {
 		push_symbol(MOD);
 		push(p1);
 		push(p2);
@@ -8639,7 +8639,7 @@ multiply_scalar_factors(int h)
 
 	COEF = combine_numerical_factors(h, one);
 
-	if (iszero(COEF) || h == tos) {
+	if (iseqzero(COEF) || h == tos) {
 		tos = h; // pop all
 		push(COEF);
 		return;
@@ -8655,7 +8655,7 @@ multiply_scalar_factors(int h)
 
 	COEF = combine_numerical_factors(h, COEF);
 
-	if (iszero(COEF) || h == tos) {
+	if (iseqzero(COEF) || h == tos) {
 		tos = h; // pop all
 		push(COEF);
 		return;
@@ -8974,7 +8974,7 @@ multiply_rationals(struct atom *p1, struct atom *p2)
 	int sign;
 	uint32_t *a, *b, *c;
 
-	if (iszero(p1) || iszero(p2)) {
+	if (iseqzero(p1) || iseqzero(p2)) {
 		push_integer(0);
 		return;
 	}
@@ -9090,7 +9090,7 @@ reduce_radical_rational(int h, struct atom *COEF)
 		if (isnegativenumber(EXPO)) {
 			mod_integers(NUMER, BASE);
 			p2 = pop();
-			if (iszero(p2)) {
+			if (iseqzero(p2)) {
 				push(NUMER);
 				push(BASE);
 				divide();
@@ -9107,7 +9107,7 @@ reduce_radical_rational(int h, struct atom *COEF)
 		} else {
 			mod_integers(DENOM, BASE);
 			p2 = pop();
-			if (iszero(p2)) {
+			if (iseqzero(p2)) {
 				push(DENOM);
 				push(BASE);
 				divide();
@@ -9199,7 +9199,7 @@ eval_not(struct atom *p1)
 	push(cadr(p1));
 	evalp();
 	p1 = pop();
-	if (iszero(p1))
+	if (iseqzero(p1))
 		push_integer(1);
 	else
 		push_integer(0);
@@ -9557,7 +9557,7 @@ eval_or(struct atom *p1)
 		push(car(p1));
 		evalp();
 		p2 = pop();
-		if (!iszero(p2)) {
+		if (!iseqzero(p2)) {
 			push_integer(1);
 			return;
 		}
@@ -9774,14 +9774,14 @@ power(void)
 
 	// expr^0
 
-	if (iszero(EXPO)) {
+	if (iseqzero(EXPO)) {
 		push_integer(1);
 		return;
 	}
 
 	// 0^expr
 
-	if (iszero(BASE)) {
+	if (iseqzero(BASE)) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
@@ -9916,14 +9916,14 @@ power_numbers(struct atom *BASE, struct atom *EXPO)
 
 	// n^0
 
-	if (iszero(EXPO)) {
+	if (iseqzero(EXPO)) {
 		push_integer(1);
 		return;
 	}
 
 	// 0^n
 
-	if (iszero(BASE)) {
+	if (iseqzero(BASE)) {
 		if (isnegativenumber(EXPO)) {
 			if (shuntflag)
 				errorflag = 1;
@@ -10232,7 +10232,7 @@ normalize_clock_rational(struct atom *EXPO)
 	switch (n) {
 
 	case 0:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
@@ -10243,7 +10243,7 @@ normalize_clock_rational(struct atom *EXPO)
 		break;
 
 	case 1:
-		if (iszero(R))
+		if (iseqzero(R))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -10259,7 +10259,7 @@ normalize_clock_rational(struct atom *EXPO)
 		break;
 
 	case 2:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -10273,7 +10273,7 @@ normalize_clock_rational(struct atom *EXPO)
 		break;
 
 	case 3:
-		if (iszero(R)) {
+		if (iseqzero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);
@@ -10494,7 +10494,7 @@ normalize_polar_term_rational(struct atom *R)
 	switch (n % 4) {
 
 	case 0:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
@@ -10509,7 +10509,7 @@ normalize_polar_term_rational(struct atom *R)
 		break;
 
 	case 1:
-		if (iszero(R))
+		if (iseqzero(R))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -10527,7 +10527,7 @@ normalize_polar_term_rational(struct atom *R)
 		break;
 
 	case 2:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -10545,7 +10545,7 @@ normalize_polar_term_rational(struct atom *R)
 		break;
 
 	case 3:
-		if (iszero(R)) {
+		if (iseqzero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);
@@ -11069,7 +11069,7 @@ print_result(void)
 
 	p1 = get_binding(symbol(TTY));
 
-	if (p1 == symbol(TTY) || iszero(p1)) {
+	if (p1 == symbol(TTY) || iseqzero(p1)) {
 		push(p2);
 		display();
 	} else
@@ -11454,7 +11454,7 @@ findroot(int h, int n)
 
 	// check constant term
 
-	if (iszero(stack[h])) {
+	if (iseqzero(stack[h])) {
 		push_integer(0); // root is zero
 		return 1;
 	}
@@ -11504,7 +11504,7 @@ findroot(int h, int n)
 
 			PA = pop(); // polynomial evaluated at A
 
-			if (iszero(PA)) {
+			if (iseqzero(PA)) {
 				tos = p; // pop all
 				push(A);
 				return 1; // root on stack
@@ -11520,7 +11520,7 @@ findroot(int h, int n)
 
 			PA = pop(); // polynomial evaluated at A
 
-			if (iszero(PA)) {
+			if (iseqzero(PA)) {
 				tos = p; // pop all
 				push(A);
 				return 1; // root on stack
@@ -11636,7 +11636,7 @@ reduce(int h, int n, struct atom *A)
 		stack[h + i - 1] = pop();
 	}
 
-	if (!iszero(stack[h]))
+	if (!iseqzero(stack[h]))
 		stopf("roots: residual error"); // not a root
 
 	// move
@@ -11668,7 +11668,7 @@ coeffs(struct atom *P, struct atom *X)
 		subtract();
 		P = pop();
 
-		if (iszero(P))
+		if (iseqzero(P))
 			break;
 
 		push(P);
@@ -12118,6 +12118,8 @@ setq_indexed(struct atom *p1)
 	set_symbol(S, LVAL, symbol(NIL));
 }
 
+// LVAL indices are on the stack
+
 void
 set_component(struct atom *LVAL, struct atom *RVAL, int h)
 {
@@ -12145,7 +12147,7 @@ set_component(struct atom *LVAL, struct atom *RVAL, int h)
 		k = k * LVAL->u.tensor->dim[i] + t - 1;
 	}
 
-	tos = h; // pop all
+	tos = h; // pop all indices
 
 	if (istensor(RVAL)) {
 		m = RVAL->u.tensor->ndim;
@@ -12158,9 +12160,12 @@ set_component(struct atom *LVAL, struct atom *RVAL, int h)
 		for (i = 0; i < m; i++)
 			LVAL->u.tensor->elem[m * k + i] = RVAL->u.tensor->elem[i];
 	} else {
-		if (n != LVAL->u.tensor->ndim)
-			stopf("index error");
-		LVAL->u.tensor->elem[k] = RVAL;
+		// fill tensor with scalar value
+		m = 1;
+		for (i = n; i < LVAL->u.tensor->ndim; i++)
+			m *= LVAL->u.tensor->dim[i];
+		for (i = 0; i < m; i++)
+			LVAL->u.tensor->elem[m * k + i] = RVAL;
 	}
 }
 
@@ -12332,7 +12337,7 @@ sgnfunc(void)
 		return;
 	}
 
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push_integer(0);
 		return;
 	}
@@ -12378,7 +12383,7 @@ simplify(void)
 	push(p1);
 	numerator();
 	p2 = pop();
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push_integer(0);
 		return;
 	}
@@ -12397,7 +12402,7 @@ simplify(void)
 		push(p1);
 		numerator();
 		p2 = pop();
-		if (iszero(p2)) {
+		if (iseqzero(p2)) {
 			push_integer(0);
 			return;
 		}
@@ -12507,7 +12512,7 @@ simplify_nib(void)
 			subtract();
 			p3 = pop();
 
-			if (iszero(p3)) {
+			if (iseqzero(p3)) {
 				push(R);
 				return;
 			}
@@ -12912,7 +12917,7 @@ sinhfunc(void)
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -13288,7 +13293,7 @@ tanhfunc(void)
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -13361,7 +13366,7 @@ eval_taylor(struct atom *p1)
 		if (findf(F, symbol(DERIVATIVE)))
 			stopf("taylor: derivative err");
 
-		if (iszero(F))
+		if (iseqzero(F))
 			break;
 
 		push(C);	// c = c * (x - a)
@@ -13628,7 +13633,7 @@ eval_test(struct atom *p1)
 		push(car(p1));
 		evalp();
 		p2 = pop();
-		if (!iszero(p2)) {
+		if (!iseqzero(p2)) {
 			push(cadr(p1));
 			evalf();
 			return;
@@ -13648,7 +13653,7 @@ eval_testeq(struct atom *p1)
 	subtract();
 	simplify();
 	p1 = pop();
-	if (iszero(p1))
+	if (iseqzero(p1))
 		push_integer(1);
 	else
 		push_integer(0);
@@ -13700,7 +13705,7 @@ cmp_args(struct atom *p1)
 	subtract();
 	floatfunc();
 	p1 = pop();
-	if (iszero(p1))
+	if (iseqzero(p1))
 		return 0;
 	if (!isnum(p1))
 		stopf("arithmetic comparison: not a number");
@@ -14150,7 +14155,7 @@ factor_factor(void)
 		return;
 	}
 
-	if (!isrational(INPUT) || iszero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
+	if (!isrational(INPUT) || iseqzero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
 		push(INPUT);
 		return;
 	}
@@ -15181,7 +15186,7 @@ outbuf_putc(int c)
 	outbuf[outbuf_index] = '\0';
 }
 int
-iszero(struct atom *p)
+iseqzero(struct atom *p)
 {
 	int i;
 	if (isrational(p))
@@ -15190,7 +15195,7 @@ iszero(struct atom *p)
 		return p->u.d == 0.0;
 	if (istensor(p)) {
 		for (i = 0; i < p->u.tensor->nelem; i++)
-			if (!iszero(p->u.tensor->elem[i]))
+			if (!iseqzero(p->u.tensor->elem[i]))
 				return 0;
 		return 1;
 	}
@@ -15589,7 +15594,7 @@ scan_input(char *s)
 	s = scan(s);
 	trace2 = s;
 	p1 = get_binding(symbol(TRACE));
-	if (p1 != symbol(TRACE) && !iszero(p1))
+	if (p1 != symbol(TRACE) && !iseqzero(p1))
 		print_trace(BLUE);
 	return s;
 }
@@ -16205,7 +16210,7 @@ static_reciprocate(void)
 
 	// save divide by zero error for runtime
 
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push(p1);
 		push_symbol(POWER);
 		push(p2);

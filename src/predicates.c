@@ -1,5 +1,5 @@
 int
-iszero(struct atom *p)
+iseqzero(struct atom *p)
 {
 	int i;
 	if (isrational(p))
@@ -8,7 +8,7 @@ iszero(struct atom *p)
 		return p->u.d == 0.0;
 	if (istensor(p)) {
 		for (i = 0; i < p->u.tensor->nelem; i++)
-			if (!iszero(p->u.tensor->elem[i]))
+			if (!iseqzero(p->u.tensor->elem[i]))
 				return 0;
 		return 1;
 	}

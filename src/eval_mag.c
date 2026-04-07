@@ -95,11 +95,11 @@ magfunc_nib(void)
 		push(p1);
 		imag();
 		y = pop();
-		if (iszero(y)) {
+		if (iseqzero(y)) {
 			push(x);
 			return;
 		}
-		if (iszero(x)) {
+		if (iseqzero(x)) {
 			push(y);
 			return;
 		}

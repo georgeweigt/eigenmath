@@ -145,7 +145,7 @@ combine_terms(int h)
 	int i;
 	sort_terms(h);
 	for (i = h; i < tos; i++) {
-		if (iszero(stack[i])) {
+		if (iseqzero(stack[i])) {
 			slice(i, 1); // remove
 			i--; // use same index again
 		} else if (i + 1 < tos && combine_terms_nib(i)) {
@@ -208,7 +208,7 @@ combine_terms_nib(int i)
 
 	coeff1 = pop();
 
-	if (iszero(coeff1)) {
+	if (iseqzero(coeff1)) {
 		stack[i] = coeff1;
 		return 1;
 	}
@@ -390,12 +390,12 @@ add_rationals(struct atom *p1, struct atom *p2)
 	int sign;
 	uint32_t *a, *ab, *b, *ba, *c;
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push(p2);
 		return;
 	}
 
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push(p1);
 		return;
 	}

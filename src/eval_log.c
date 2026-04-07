@@ -27,7 +27,7 @@ logfunc(void)
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_symbol(LOG);
 		push_integer(0);
 		list(2);

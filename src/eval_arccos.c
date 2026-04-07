@@ -77,7 +77,7 @@ arccos(void)
 
 	// arccos(0) = 1/2 pi
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();

@@ -7,7 +7,7 @@ eval_or(struct atom *p1)
 		push(car(p1));
 		evalp();
 		p2 = pop();
-		if (!iszero(p2)) {
+		if (!iseqzero(p2)) {
 			push_integer(1);
 			return;
 		}

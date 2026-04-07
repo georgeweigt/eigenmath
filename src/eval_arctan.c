@@ -44,7 +44,7 @@ arctan(void)
 
 	// arctan(z) = -1/2 i log((i - z) / (i + z))
 
-	if (!iszero(X) && (isdoublez(X) || isdoublez(Y))) {
+	if (!iseqzero(X) && (isdoublez(X) || isdoublez(Y))) {
 		push(Y);
 		push(X);
 		divide();
@@ -92,7 +92,7 @@ arctan_numbers(struct atom *X, struct atom *Y)
 	double x, y;
 	struct atom *T;
 
-	if (iszero(X) && iszero(Y)) {
+	if (iseqzero(X) && iseqzero(Y)) {
 		push_integer(0);
 		return;
 	}
@@ -114,7 +114,7 @@ arctan_numbers(struct atom *X, struct atom *Y)
 
 	// X and Y are rational numbers
 
-	if (iszero(Y)) {
+	if (iseqzero(Y)) {
 		if (isnegativenumber(X)) {
 			push_symbol(PI);
 			negate();
@@ -123,7 +123,7 @@ arctan_numbers(struct atom *X, struct atom *Y)
 		return;
 	}
 
-	if (iszero(X)) {
+	if (iseqzero(X)) {
 		if (isnegativenumber(Y))
 			push_rational(-1, 2);
 		else

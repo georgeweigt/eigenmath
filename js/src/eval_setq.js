@@ -111,9 +111,12 @@ set_component(LVAL, RVAL, h)
 		for (i = 0; i < m; i++)
 			LVAL.elem[m * k + i] = RVAL.elem[i];
 	} else {
-		if (n != LVAL.dim.length)
-			stopf("index error");
-		LVAL.elem[k] = RVAL;
+		// fill tensor with scalar value
+		m = 1;
+		for (i = n; i < LVAL.dim.length; i++)
+			m *= LVAL.dim[i];
+		for (i = 0; i < m; i++)
+			LVAL.elem[m * k + i] = RVAL;
 	}
 }
 

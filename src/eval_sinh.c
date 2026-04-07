@@ -49,7 +49,7 @@ sinhfunc(void)
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(0);
 		return;
 	}

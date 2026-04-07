@@ -413,7 +413,7 @@ void numden_cancel_factor(void);
 void outbuf_init(void);
 void outbuf_puts(char *s);
 void outbuf_putc(int c);
-int iszero(struct atom *p);
+int iseqzero(struct atom *p);
 int isequaln(struct atom *p, int n);
 int isequalq(struct atom *p, int a, int b);
 int isplusone(struct atom *p);
