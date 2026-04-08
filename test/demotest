@@ -216,8 +216,8 @@ for(l,1,3,for(m, -l, l - 1,
 "addition-of-angular-momentum-3-demo.txt"
 status
 clear
-"alpha-decay-demo.txt"
-"Alpha decay"
+"alpha-decay-1-demo.txt"
+"Alpha decay 1"
 
 "Verify equation (1)"
 check(integral(cos(u)^2,u) == 1/2 u + 1/4 sin(2 u))
@@ -227,6 +227,14 @@ check(integral(cos(u)^2,u) == 1/2 u + 1/4 sin(2 u))
 u1 = arcsin(sqrt(r1/r2))
 u2 = 1/2 pi
 check(defint(cos(u)^2,u,u1,u2) == 1/4 pi - 1/2 arcsin(sqrt(r1/r2)) - 1/4 sin(2 arcsin(sqrt(r1/r2))))
+"ok"
+
+"Verify equation (3)"
+gamma = 2 sqrt(2 m E) / hbar (1/4 pi r2 - sqrt(r1 r2))
+r2 = 2 Z alpha hbar c / E
+C1 = sqrt(2 m) pi alpha c
+C2 = 4 sqrt(m alpha c / hbar)
+check(gamma == C1 Z / sqrt(E) - C2 sqrt(Z r1))
 "ok"
 
 -- CODATA Internationally recommended 2022 values
@@ -276,25 +284,123 @@ E
 E = (M238 - M234 - M4) c^2
 
 A = 238.0
-Z = 92.0
+Z = 90.0
 
 r1 = A^(1/3) 1.2 10^(-15) meter
-r2 = 2 (Z - 2) alpha hbar c / E
+r2 = 2 Z alpha hbar c / E
 
 r1
 r2
 
-pi = float(pi)
-
 m = 4.001506179129 u
 
-gamma = sqrt(2 m E) / hbar r2 *
-        (pi/2 - arcsin(sqrt(r1/r2)) - sqrt(r1/r2) sqrt(1 - r1/r2))
+C1 = sqrt(2 m) float(pi) alpha c
+C2 = 4 sqrt(m alpha c / hbar)
+
+gamma = C1 Z / sqrt(E) - C2 sqrt(Z r1)
 gamma
 
 T = exp(-2 gamma)
 T
-"alpha-decay-demo.txt"
+"alpha-decay-1-demo.txt"
+status
+clear
+"alpha-decay-2-demo.txt"
+"Alpha decay 2"
+
+M238 = 238.0507884
+M234 = 234.0435998
+M4 = 4.00260325413
+
+E = (M238 - M234 - M4) 931.49410372
+E
+
+Z = 90
+
+tau12 = exp(3.682 Z / sqrt(E) - 120.8) "s"
+tau12
+
+tau12 = tau12 / (365.25 24 60 60) "yr" / "s"
+tau12
+"alpha-decay-2-demo.txt"
+status
+clear
+"alpha-decay-3-demo.txt"
+"Alpha decay 3"
+
+-- Uranium masses
+
+MU = (
+226.029339,
+228.031369,
+230.0339401,
+232.0371548,
+234.0409503,
+236.0455661,
+238.050787618)
+
+-- Thorium masses
+
+MTh = (
+222.018468,
+224.021466,
+226.0249037,
+228.0287397,
+230.0331323,
+232.0380536,
+234.0435998)
+
+-- Helium mass
+
+MHe = 4.00260325413
+
+E = MU - MTh - MHe
+E = 931.49410372 E -- convert to MeV
+E
+
+Z = 90
+
+-- design matrix
+
+X = zero(2,7)
+X[1] = X[1] + 1
+X[2] = Z / sqrt(E)
+
+years = 365.25 24 60 60
+days = 24 60 60
+mins = 60
+
+-- observed half-life in seconds
+
+tau = (
+0.269,            -- U226
+9.1 mins,         -- U228
+20.23 days,       -- U230
+68.9 years,       -- U232
+2.455 10^5 years, -- U234
+2.342 10^7 years, -- U236
+4.463 10^9 years) -- U238
+
+Y = log(tau)
+Y
+
+-- ordinary least squares
+
+beta = dot(inv(dot(X,transpose(X))),X,Y)
+beta
+
+Yhat = beta[1] + beta[2] X[2]
+Yhat
+
+"Coefficient of determination (R squared)"
+
+Ybar = sum(Y) / dim(Y)
+
+RSS = sum((Y - Yhat)^2) -- residual sum of squares
+TSS = sum((Y - Ybar)^2) -- total sum of squares
+
+1 - RSS / TSS
+"alpha-decay-3-demo.txt"
 status
 clear
 "angular-momentum-1-demo.txt"
