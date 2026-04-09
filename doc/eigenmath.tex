@@ -856,6 +856,97 @@ A\operatorname{det}B-\operatorname{adj}B=0
 
 \newpage
 
+\section{Linear regression}
+
+Response variable $Y$ is log of half-life for uranium ($Z=90$)
+and thorium ($Z=88$).
+Note: $Z$ is atomic number of daughter nucleus.
+\begin{equation*}
+\begin{matrix}
+Y & A & Z & E
+\\[1ex]
+6.30 & 228 & 90 & 6.80
+\\
+14.4 & 230 & 90 & 5.99
+\\
+21.5 & 232 & 90 & 5.41
+\\
+29.7 & 234 & 90 & 4.86
+\\
+34.2 & 236 & 90 & 4.57
+\\
+39.5 & 238 & 90 & 4.27
+\\
+7.52 & 226 & 88 & 6.45
+\\
+17.9 & 228 & 88 & 5.52
+\\
+28.5 & 230 & 88 & 4.77
+\\
+40.6 & 232 & 88 & 4.08
+\end{matrix}
+\end{equation*}
+
+Geiger–Nuttall regression model.
+\begin{equation*}
+\hat Y=\beta_2\frac{Z}{\sqrt E}+\beta_1Z^{2/3}+\beta_0
+\end{equation*}
+
+By ordinary least squares the best coefficients for the above data are
+\begin{align*}
+\beta_2&=3.7
+\\
+\beta_1&=-3.058
+\\
+\beta_0&=-60.14
+\end{align*}
+
+\iffalse
+The regression formula yields the following predicted values.
+\begin{equation*}
+\begin{matrix}
+Y & \hat Y
+\\[1ex]
+6.30 & 6.15
+\\
+14.4 & 14.5
+\\
+21.5 & 21.6
+\\
+29.7 & 29.5
+\\
+34.2 & 34.2
+\\
+39.5 & 39.6
+\\
+7.52 & 7.57
+\\
+17.9 & 17.9
+\\
+28.5 & 28.4
+\\
+40.6 & 40.6
+\end{matrix}
+\end{equation*}
+\fi
+
+Eigenmath code for ordinary least squares.
+
+\begin{verbatim}
+X = zero(3,10)
+X[1] = Z / sqrt(E)
+X[2] = Z^(2/3)
+X[3] = X[3] + 1
+
+beta = dot(inv(dot(X,transpose(X))),X,Y)
+
+Yhat = dot(beta,X)
+\end{verbatim}
+
+\href{https://georgeweigt.github.io/examples/linear-regression-demo.html}{Eigenmath script}
+
+\newpage
+
 \section{Component arithmetic}
 
 Tensor plus scalar adds scalar to each tensor component.

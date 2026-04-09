@@ -328,44 +328,6 @@ clear
 "alpha-decay-3-demo.txt"
 "Alpha decay 3"
 
--- Uranium masses
-
-MU = (
-226.029339,
-228.031369,
-230.0339401,
-232.0371548,
-234.0409503,
-236.0455661,
-238.050787618)
-
--- Thorium masses
-
-MTh = (
-222.018468,
-224.021466,
-226.0249037,
-228.0287397,
-230.0331323,
-232.0380536,
-234.0435998)
-
--- Helium mass
-
-MHe = 4.00260325413
-
-E = MU - MTh - MHe
-E = 931.49410372 E -- convert to MeV
-E
-
-Z = 90
-
--- design matrix
-
-X = zero(2,7)
-X[1] = X[1] + 1
-X[2] = Z / sqrt(E)
-
 years = 365.25 24 60 60
 days = 24 60 60
 mins = 60
@@ -373,23 +335,74 @@ mins = 60
 -- observed half-life in seconds
 
 tau = (
-0.269,            -- U226
 9.1 mins,         -- U228
 20.23 days,       -- U230
 68.9 years,       -- U232
 2.455 10^5 years, -- U234
 2.342 10^7 years, -- U236
-4.463 10^9 years) -- U238
+4.463 10^9 years, -- U238
+30.70 mins,       -- Th226
+1.9125 years,     -- Th228
+7.54 10^4 years,  -- Th230
+1.40 10^10 years) -- Th232
 
 Y = log(tau)
 Y
+
+-- atomic number of daughter nucleus
+
+Z = (90,90,90,90,90,90,88,88,88,88)
+Z = float(Z)
+
+-- parent mass
+
+M1 = (
+228.031369,  -- U228
+230.0339401, -- U230
+232.0371548, -- U232
+234.0409503, -- U234
+236.0455661, -- U236
+238.0507876, -- U238
+226.0249037, -- Th226
+228.0287397, -- Th228
+230.0331323, -- Th230
+232.0380536) -- Th232
+
+-- daughter mass
+
+M2 = (
+224.021466,  -- Th224
+226.0249037, -- Th226
+228.0287397, -- Th228
+230.0331323, -- Th230
+232.0380536, -- Th232
+234.0435998, -- Th234
+222.0153734, -- 222Ra
+224.0202104, -- 224Ra
+226.0254082, -- 226Ra
+228.0310686) -- 228Ra
+
+-- helium mass
+
+M3 = 4.00260325413
+
+E = M1 - M2 - M3
+E = 931.49410372 E -- convert to MeV
+E
+
+-- design matrix
+
+X = zero(3,10)
+X[1] = Z / sqrt(E)
+X[2] = Z^(2/3)
+X[3] = X[3] + 1
 
 -- ordinary least squares
 
 beta = dot(inv(dot(X,transpose(X))),X,Y)
 beta
 
-Yhat = beta[1] + beta[2] X[2]
+Yhat = dot(beta,X)
 Yhat
 
 "Coefficient of determination (R squared)"
@@ -3951,6 +3964,62 @@ check(y == 2 alpha / (alpha / n - n))
 
 "ok"
 "lhopitals-rule-demo.txt"
+status
+clear
+"linear-regression-demo.txt"
+"Linear regression"
+
+Y = (
+6.30, -- U228
+14.4, -- U230
+21.5, -- U232
+29.7, -- U234
+34.2, -- U236
+39.5, -- U238
+7.52, -- Th226
+17.9, -- Th228
+28.5, -- Th230
+40.6) -- Th232
+
+Z = (90,90,90,90,90,90,88,88,88,88)
+Z = float(Z)
+
+E = (
+6.80,
+5.99,
+5.41,
+4.86,
+4.57,
+4.27,
+6.45,
+5.52,
+4.77,
+4.08)
+
+-- design matrix
+
+X = zero(3,10)
+X[1] = Z / sqrt(E)
+X[2] = Z^(2/3)
+X[3] = X[3] + 1
+
+-- ordinary least squares
+
+beta = dot(inv(dot(X,transpose(X))),X,Y)
+beta
+
+Yhat = dot(beta,X)
+Yhat
+
+"Coefficient of determination (R squared)"
+
+Ybar = sum(Y) / dim(Y)
+
+RSS = sum((Y - Yhat)^2) -- residual sum of squares
+TSS = sum((Y - Ybar)^2) -- total sum of squares
+
+1 - RSS / TSS
+"linear-regression-demo.txt"
 status
 clear
 "matrix-mechanics-1-demo.txt"
