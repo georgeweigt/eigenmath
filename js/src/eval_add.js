@@ -141,7 +141,7 @@ combine_terms(h)
 	var i;
 	sort_terms(h);
 	for (i = h; i < stack.length; i++) {
-		if (iszero(stack[i])) {
+		if (iseqzero(stack[i])) {
 			stack.splice(i, 1); // remove
 			i--; // use same index again
 		} else if (i + 1 < stack.length && combine_terms_nib(i)) {
@@ -203,7 +203,7 @@ combine_terms_nib(i)
 
 	coeff1 = pop();
 
-	if (iszero(coeff1)) {
+	if (iseqzero(coeff1)) {
 		stack[i] = coeff1;
 		return 1;
 	}
@@ -378,12 +378,12 @@ add_rationals(p1, p2)
 {
 	var a, ab, b, ba, d, sign;
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push(p2);
 		return;
 	}
 
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push(p1);
 		return;
 	}

@@ -238,7 +238,7 @@ bignum_gcd(u, v)
 		return bignum_int(u);
 	}
 
-	while (!bignum_iszero(v)) {
+	while (!bignum_iseqzero(v)) {
 		r = bignum_mod(u, v);
 		u = v;
 		v = r;
@@ -584,7 +584,7 @@ bignum_norm(u)
 }
 
 function
-bignum_iszero(u)
+bignum_iseqzero(u)
 {
 	return bignum_equal(u, 0);
 }
@@ -642,7 +642,7 @@ push_bignum(sign, a, b)
 {
 	// normalize zero
 
-	if (bignum_iszero(a)) {
+	if (bignum_iseqzero(a)) {
 		sign = 1;
 		if (!bignum_equal(b, 1))
 			b = bignum_int(1);
@@ -822,7 +822,7 @@ coeffs(P, X)
 		subtract();
 		P = pop();
 
-		if (iszero(P))
+		if (iseqzero(P))
 			break;
 
 		push(P);
@@ -3159,7 +3159,7 @@ combine_terms(h)
 	var i;
 	sort_terms(h);
 	for (i = h; i < stack.length; i++) {
-		if (iszero(stack[i])) {
+		if (iseqzero(stack[i])) {
 			stack.splice(i, 1); // remove
 			i--; // use same index again
 		} else if (i + 1 < stack.length && combine_terms_nib(i)) {
@@ -3221,7 +3221,7 @@ combine_terms_nib(i)
 
 	coeff1 = pop();
 
-	if (iszero(coeff1)) {
+	if (iseqzero(coeff1)) {
 		stack[i] = coeff1;
 		return 1;
 	}
@@ -3396,12 +3396,12 @@ add_rationals(p1, p2)
 {
 	var a, ab, b, ba, d, sign;
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push(p2);
 		return;
 	}
 
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push(p1);
 		return;
 	}
@@ -3565,7 +3565,7 @@ eval_and(p1)
 		push(car(p1));
 		evalp();
 		p2 = pop();
-		if (iszero(p2)) {
+		if (iseqzero(p2)) {
 			push_integer(0);
 			return;
 		}
@@ -3650,7 +3650,7 @@ arccos()
 
 	// arccos(0) = 1/2 pi
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_rational(1, 2);
 		push_symbol(PI);
 		multiply();
@@ -3837,7 +3837,7 @@ arcsin()
 
 	// arcsin(0) = 0
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -3914,7 +3914,7 @@ arcsinh()
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push(p1);
 		return;
 	}
@@ -3983,7 +3983,7 @@ arctan()
 
 	// arctan(z) = -1/2 i log((i - z) / (i + z))
 
-	if (!iszero(X) && (isdoublez(X) || isdoublez(Y))) {
+	if (!iseqzero(X) && (isdoublez(X) || isdoublez(Y))) {
 		push(Y);
 		push(X);
 		divide();
@@ -4030,7 +4030,7 @@ arctan_numbers(X, Y)
 {
 	var x, y, T;
 
-	if (iszero(X) && iszero(Y)) {
+	if (iseqzero(X) && iseqzero(Y)) {
 		push_integer(0);
 		return;
 	}
@@ -4052,7 +4052,7 @@ arctan_numbers(X, Y)
 
 	// X and Y are rational numbers
 
-	if (iszero(Y)) {
+	if (iseqzero(Y)) {
 		if (isnegativenumber(X)) {
 			push_symbol(PI);
 			negate();
@@ -4061,7 +4061,7 @@ arctan_numbers(X, Y)
 		return;
 	}
 
-	if (iszero(X)) {
+	if (iseqzero(X)) {
 		if (isnegativenumber(Y))
 			push_rational(-1, 2);
 		else
@@ -4189,7 +4189,7 @@ arctanh()
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -4328,11 +4328,11 @@ arg_nib()
 		push(p1);
 		imag();
 		y = pop();
-		if (iszero(y)) {
+		if (iseqzero(y)) {
 			push_integer(0);
 			return;
 		}
-		if (iszero(x)) {
+		if (iseqzero(x)) {
 			push_rational(1, 2);
 			push_symbol(PI);
 			multiply();
@@ -4420,7 +4420,7 @@ eval_check(p1)
 	push(cadr(p1));
 	evalp();
 	p1 = pop();
-	if (iszero(p1))
+	if (iseqzero(p1))
 		stopf("check");
 	push_symbol(NIL); // no result is printed
 }
@@ -4942,7 +4942,7 @@ coshfunc()
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(1);
 		return;
 	}
@@ -5437,7 +5437,7 @@ darctan(p1, p2)
 		push_integer(0);
 		return;
 	}
-	if (iszero(cadr(p1)) || iszero(caddr(p1))) {
+	if (iseqzero(cadr(p1)) || iseqzero(caddr(p1))) {
 		push_symbol(DERIVATIVE);
 		push(p1);
 		push(p2);
@@ -5814,7 +5814,7 @@ det()
 	h = stack.length;
 
 	for (m = 0; m < n; m++) {
-		if (iszero(p1.elem[m]))
+		if (iseqzero(p1.elem[m]))
 			continue;
 		k = 0;
 		for (i = 1; i < n; i++)
@@ -8703,7 +8703,7 @@ integral_search_nib(h, F, I, C)
 			push(C);			// condition ok?
 			evalf();
 			p1 = pop();
-			if (iszero(p1))
+			if (iseqzero(p1))
 				continue;		// no, go to next j
 
 			push(F);			// F = I?
@@ -8711,7 +8711,7 @@ integral_search_nib(h, F, I, C)
 			evalf();
 			subtract();
 			p1 = pop();
-			if (iszero(p1))
+			if (iseqzero(p1))
 				return 1;		// yes
 		}
 	}
@@ -9188,7 +9188,7 @@ logfunc()
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_symbol(LOG);
 		push_integer(0);
 		list(2);
@@ -9532,11 +9532,11 @@ magfunc_nib()
 		push(p1);
 		imag();
 		y = pop();
-		if (iszero(y)) {
+		if (iseqzero(y)) {
 			push(x);
 			return;
 		}
-		if (iszero(x)) {
+		if (iseqzero(x)) {
 			push(y);
 			return;
 		}
@@ -9698,7 +9698,7 @@ modfunc()
 		return;
 	}
 
-	if (!isnum(p1) || !isnum(p2) || iszero(p2)) {
+	if (!isnum(p1) || !isnum(p2) || iseqzero(p2)) {
 		push_symbol(MOD);
 		push(p1);
 		push(p2);
@@ -9838,7 +9838,7 @@ multiply_scalar_factors(h)
 
 	COEF = combine_numerical_factors(h, one);
 
-	if (iszero(COEF) || h == stack.length) {
+	if (iseqzero(COEF) || h == stack.length) {
 		stack.length = h; // pop all
 		push(COEF);
 		return;
@@ -9854,7 +9854,7 @@ multiply_scalar_factors(h)
 
 	COEF = combine_numerical_factors(h, COEF);
 
-	if (iszero(COEF) || h == stack.length) {
+	if (iseqzero(COEF) || h == stack.length) {
 		stack.length = h; // pop all
 		push(COEF);
 		return;
@@ -10159,7 +10159,7 @@ multiply_rationals(p1, p2)
 {
 	var a, b, d, sign;
 
-	if (iszero(p1) || iszero(p2)) {
+	if (iseqzero(p1) || iseqzero(p2)) {
 		push_integer(0);
 		return;
 	}
@@ -10275,7 +10275,7 @@ reduce_radical_rational(h, COEF)
 		if (isnegativenumber(EXPO)) {
 			mod_integers(NUMER, BASE);
 			p2 = pop();
-			if (iszero(p2)) {
+			if (iseqzero(p2)) {
 				push(NUMER);
 				push(BASE);
 				divide();
@@ -10292,7 +10292,7 @@ reduce_radical_rational(h, COEF)
 		} else {
 			mod_integers(DENOM, BASE);
 			p2 = pop();
-			if (iszero(p2)) {
+			if (iseqzero(p2)) {
 				push(DENOM);
 				push(BASE);
 				divide();
@@ -10401,7 +10401,7 @@ eval_not(p1)
 	push(cadr(p1));
 	evalp();
 	p1 = pop();
-	if (iszero(p1))
+	if (iseqzero(p1))
 		push_integer(1);
 	else
 		push_integer(0);
@@ -10759,7 +10759,7 @@ eval_or(p1)
 		push(car(p1));
 		evalp();
 		p2 = pop();
-		if (!iszero(p2)) {
+		if (!iseqzero(p2)) {
 			push_integer(1);
 			return;
 		}
@@ -10967,14 +10967,14 @@ power()
 
 	// expr^0
 
-	if (iszero(EXPO)) {
+	if (iseqzero(EXPO)) {
 		push_integer(1);
 		return;
 	}
 
 	// 0^expr
 
-	if (iszero(BASE)) {
+	if (iseqzero(BASE)) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);
@@ -11142,7 +11142,7 @@ print_result()
 
 	p1 = get_binding(symbol(TTY));
 
-	if (p1 == symbol(TTY) || iszero(p1)) {
+	if (p1 == symbol(TTY) || iseqzero(p1)) {
 		push(p2);
 		display();
 	} else
@@ -11523,7 +11523,7 @@ findroot(h, n)
 
 	// check constant term
 
-	if (iszero(stack[h])) {
+	if (iseqzero(stack[h])) {
 		push_integer(0); // root is zero
 		return 1;
 	}
@@ -11573,7 +11573,7 @@ findroot(h, n)
 
 			PA = pop(); // polynomial evaluated at A
 
-			if (iszero(PA)) {
+			if (iseqzero(PA)) {
 				stack.length = p; // pop all
 				push(A);
 				return 1; // root on stack
@@ -11589,7 +11589,7 @@ findroot(h, n)
 
 			PA = pop(); // polynomial evaluated at A
 
-			if (iszero(PA)) {
+			if (iseqzero(PA)) {
 				stack.length = p; // pop all
 				push(A);
 				return 1; // root on stack
@@ -11705,7 +11705,7 @@ reduce(h, n, A)
 		stack[h + i - 1] = pop();
 	}
 
-	if (!iszero(stack[h]))
+	if (!iseqzero(stack[h]))
 		stopf("roots: residual error"); // not a root
 
 	// move
@@ -12325,7 +12325,7 @@ sgnfunc()
 		return;
 	}
 
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push_integer(0);
 		return;
 	}
@@ -12371,7 +12371,7 @@ simplify()
 	push(p1);
 	numerator();
 	p2 = pop();
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push_integer(0);
 		return;
 	}
@@ -12390,7 +12390,7 @@ simplify()
 		push(p1);
 		numerator();
 		p2 = pop();
-		if (iszero(p2)) {
+		if (iseqzero(p2)) {
 			push_integer(0);
 			return;
 		}
@@ -12500,7 +12500,7 @@ simplify_nib()
 			subtract();
 			p3 = pop();
 
-			if (iszero(p3)) {
+			if (iseqzero(p3)) {
 				push(R);
 				return;
 			}
@@ -12901,7 +12901,7 @@ sinhfunc()
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -13235,7 +13235,7 @@ tanhfunc()
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push_integer(0);
 		return;
 	}
@@ -13307,7 +13307,7 @@ eval_taylor(p1)
 		if (findf(F, symbol(DERIVATIVE)))
 			stopf("taylor: derivative err");
 
-		if (iszero(F))
+		if (iseqzero(F))
 			break;
 
 		push(C);	// c = c * (x - a)
@@ -13463,7 +13463,7 @@ eval_test(p1)
 		push(car(p1));
 		evalp();
 		p2 = pop();
-		if (!iszero(p2)) {
+		if (!iseqzero(p2)) {
 			push(cadr(p1));
 			evalf();
 			return;
@@ -13483,7 +13483,7 @@ eval_testeq(p1)
 	subtract();
 	simplify();
 	p1 = pop();
-	if (iszero(p1))
+	if (iseqzero(p1))
 		push_integer(1);
 	else
 		push_integer(0);
@@ -13535,7 +13535,7 @@ cmp_args(p1)
 	subtract();
 	floatfunc();
 	p1 = pop();
-	if (iszero(p1))
+	if (iseqzero(p1))
 		return 0;
 	if (!isnum(p1))
 		stopf("arithmetic comparison: not a number");
@@ -13995,7 +13995,7 @@ factor_factor()
 		return;
 	}
 
-	if (!isrational(INPUT) || iszero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
+	if (!isrational(INPUT) || iseqzero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
 		push(INPUT);
 		return;
 	}
@@ -15995,7 +15995,7 @@ normalize_polar_term_rational(R)
 	switch (n % 4) {
 
 	case 0:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
@@ -16010,7 +16010,7 @@ normalize_polar_term_rational(R)
 		break;
 
 	case 1:
-		if (iszero(R))
+		if (iseqzero(R))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -16028,7 +16028,7 @@ normalize_polar_term_rational(R)
 		break;
 
 	case 2:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -16046,7 +16046,7 @@ normalize_polar_term_rational(R)
 		break;
 
 	case 3:
-		if (iszero(R)) {
+		if (iseqzero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);
@@ -16617,7 +16617,7 @@ normalize_clock_rational(EXPO)
 	switch (n) {
 
 	case 0:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
@@ -16628,7 +16628,7 @@ normalize_clock_rational(EXPO)
 		break;
 
 	case 1:
-		if (iszero(R))
+		if (iseqzero(R))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -16644,7 +16644,7 @@ normalize_clock_rational(EXPO)
 		break;
 
 	case 2:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -16658,7 +16658,7 @@ normalize_clock_rational(EXPO)
 		break;
 
 	case 3:
-		if (iszero(R)) {
+		if (iseqzero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);
@@ -16804,14 +16804,14 @@ power_numbers(BASE, EXPO)
 
 	// n^0
 
-	if (iszero(EXPO)) {
+	if (iseqzero(EXPO)) {
 		push_integer(1);
 		return;
 	}
 
 	// 0^n
 
-	if (iszero(BASE)) {
+	if (iseqzero(BASE)) {
 		if (isnegativenumber(EXPO)) {
 			if (shuntflag)
 				errorflag = 1;
@@ -16964,7 +16964,7 @@ power_numbers_factor(BASE, EXPO)
 
 	// process q
 
-	if (!bignum_iszero(q)) {
+	if (!bignum_iseqzero(q)) {
 
 		a = bignum_pow(BASE.a, q);
 		b = bignum_int(1);
@@ -17088,16 +17088,16 @@ power_sum(BASE, EXPO)
 	}
 }
 function
-iszero(p)
+iseqzero(p)
 {
 	var i;
 	if (isrational(p))
-		return bignum_iszero(p.a);
+		return bignum_iseqzero(p.a);
 	if (isdouble(p))
 		return p.d == 0;
 	if (istensor(p)) {
 		for (i = 0; i < p.elem.length; i++)
-			if (!iszero(p.elem[i]))
+			if (!iseqzero(p.elem[i]))
 				return 0;
 		return 1;
 	}
@@ -18186,7 +18186,7 @@ static_reciprocate()
 
 	// save divide by zero error for runtime
 
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push(p1);
 		push_symbol(POWER);
 		push(p2);
@@ -18317,7 +18317,7 @@ trace_input()
 {
 	var p1;
 	p1 = get_binding(symbol(TRACE));
-	if (p1 != symbol(TRACE) && !iszero(p1))
+	if (p1 != symbol(TRACE) && !iseqzero(p1))
 		printbuf(instring.substring(trace1, trace2), BLUE);
 }
 var inbuf;

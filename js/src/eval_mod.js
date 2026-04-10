@@ -29,7 +29,7 @@ modfunc()
 		return;
 	}
 
-	if (!isnum(p1) || !isnum(p2) || iszero(p2)) {
+	if (!isnum(p1) || !isnum(p2) || iseqzero(p2)) {
 		push_symbol(MOD);
 		push(p1);
 		push(p2);

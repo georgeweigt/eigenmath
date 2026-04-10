@@ -1,14 +1,14 @@
 function
-iszero(p)
+iseqzero(p)
 {
 	var i;
 	if (isrational(p))
-		return bignum_iszero(p.a);
+		return bignum_iseqzero(p.a);
 	if (isdouble(p))
 		return p.d == 0;
 	if (istensor(p)) {
 		for (i = 0; i < p.elem.length; i++)
-			if (!iszero(p.elem[i]))
+			if (!iseqzero(p.elem[i]))
 				return 0;
 		return 1;
 	}

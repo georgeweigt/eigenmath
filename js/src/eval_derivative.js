@@ -389,7 +389,7 @@ darctan(p1, p2)
 		push_integer(0);
 		return;
 	}
-	if (iszero(cadr(p1)) || iszero(caddr(p1))) {
+	if (iseqzero(cadr(p1)) || iseqzero(caddr(p1))) {
 		push_symbol(DERIVATIVE);
 		push(p1);
 		push(p2);

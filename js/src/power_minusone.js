@@ -72,7 +72,7 @@ normalize_clock_rational(EXPO)
 	switch (n) {
 
 	case 0:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
@@ -83,7 +83,7 @@ normalize_clock_rational(EXPO)
 		break;
 
 	case 1:
-		if (iszero(R))
+		if (iseqzero(R))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -99,7 +99,7 @@ normalize_clock_rational(EXPO)
 		break;
 
 	case 2:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -113,7 +113,7 @@ normalize_clock_rational(EXPO)
 		break;
 
 	case 3:
-		if (iszero(R)) {
+		if (iseqzero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);

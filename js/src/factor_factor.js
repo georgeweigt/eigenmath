@@ -47,7 +47,7 @@ factor_factor()
 		return;
 	}
 
-	if (!isrational(INPUT) || iszero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
+	if (!isrational(INPUT) || iseqzero(INPUT) || isplusone(INPUT) || isminusone(INPUT)) {
 		push(INPUT);
 		return;
 	}

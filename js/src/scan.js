@@ -538,7 +538,7 @@ static_reciprocate()
 
 	// save divide by zero error for runtime
 
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push(p1);
 		push_symbol(POWER);
 		push(p2);

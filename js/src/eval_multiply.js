@@ -88,7 +88,7 @@ multiply_scalar_factors(h)
 
 	COEF = combine_numerical_factors(h, one);
 
-	if (iszero(COEF) || h == stack.length) {
+	if (iseqzero(COEF) || h == stack.length) {
 		stack.length = h; // pop all
 		push(COEF);
 		return;
@@ -104,7 +104,7 @@ multiply_scalar_factors(h)
 
 	COEF = combine_numerical_factors(h, COEF);
 
-	if (iszero(COEF) || h == stack.length) {
+	if (iseqzero(COEF) || h == stack.length) {
 		stack.length = h; // pop all
 		push(COEF);
 		return;
@@ -409,7 +409,7 @@ multiply_rationals(p1, p2)
 {
 	var a, b, d, sign;
 
-	if (iszero(p1) || iszero(p2)) {
+	if (iseqzero(p1) || iseqzero(p2)) {
 		push_integer(0);
 		return;
 	}
@@ -525,7 +525,7 @@ reduce_radical_rational(h, COEF)
 		if (isnegativenumber(EXPO)) {
 			mod_integers(NUMER, BASE);
 			p2 = pop();
-			if (iszero(p2)) {
+			if (iseqzero(p2)) {
 				push(NUMER);
 				push(BASE);
 				divide();
@@ -542,7 +542,7 @@ reduce_radical_rational(h, COEF)
 		} else {
 			mod_integers(DENOM, BASE);
 			p2 = pop();
-			if (iszero(p2)) {
+			if (iseqzero(p2)) {
 				push(DENOM);
 				push(BASE);
 				divide();

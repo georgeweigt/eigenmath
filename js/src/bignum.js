@@ -34,7 +34,7 @@ bignum_norm(u)
 }
 
 function
-bignum_iszero(u)
+bignum_iseqzero(u)
 {
 	return bignum_equal(u, 0);
 }
@@ -92,7 +92,7 @@ push_bignum(sign, a, b)
 {
 	// normalize zero
 
-	if (bignum_iszero(a)) {
+	if (bignum_iseqzero(a)) {
 		sign = 1;
 		if (!bignum_equal(b, 1))
 			b = bignum_int(1);

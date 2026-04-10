@@ -12,7 +12,7 @@ eval_test(p1)
 		push(car(p1));
 		evalp();
 		p2 = pop();
-		if (!iszero(p2)) {
+		if (!iseqzero(p2)) {
 			push(cadr(p1));
 			evalf();
 			return;
@@ -32,7 +32,7 @@ eval_testeq(p1)
 	subtract();
 	simplify();
 	p1 = pop();
-	if (iszero(p1))
+	if (iseqzero(p1))
 		push_integer(1);
 	else
 		push_integer(0);
@@ -84,7 +84,7 @@ cmp_args(p1)
 	subtract();
 	floatfunc();
 	p1 = pop();
-	if (iszero(p1))
+	if (iseqzero(p1))
 		return 0;
 	if (!isnum(p1))
 		stopf("arithmetic comparison: not a number");

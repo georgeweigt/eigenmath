@@ -75,7 +75,7 @@ det()
 	h = stack.length;
 
 	for (m = 0; m < n; m++) {
-		if (iszero(p1.elem[m]))
+		if (iseqzero(p1.elem[m]))
 			continue;
 		k = 0;
 		for (i = 1; i < n; i++)

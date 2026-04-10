@@ -21,7 +21,7 @@ coeffs(P, X)
 		subtract();
 		P = pop();
 
-		if (iszero(P))
+		if (iseqzero(P))
 			break;
 
 		push(P);

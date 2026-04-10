@@ -40,7 +40,7 @@ sgnfunc()
 		return;
 	}
 
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push_integer(0);
 		return;
 	}

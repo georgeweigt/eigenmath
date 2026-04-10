@@ -34,7 +34,7 @@ simplify()
 	push(p1);
 	numerator();
 	p2 = pop();
-	if (iszero(p2)) {
+	if (iseqzero(p2)) {
 		push_integer(0);
 		return;
 	}
@@ -53,7 +53,7 @@ simplify()
 		push(p1);
 		numerator();
 		p2 = pop();
-		if (iszero(p2)) {
+		if (iseqzero(p2)) {
 			push_integer(0);
 			return;
 		}
@@ -163,7 +163,7 @@ simplify_nib()
 			subtract();
 			p3 = pop();
 
-			if (iszero(p3)) {
+			if (iseqzero(p3)) {
 				push(R);
 				return;
 			}

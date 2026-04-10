@@ -101,7 +101,7 @@ findroot(h, n)
 
 	// check constant term
 
-	if (iszero(stack[h])) {
+	if (iseqzero(stack[h])) {
 		push_integer(0); // root is zero
 		return 1;
 	}
@@ -151,7 +151,7 @@ findroot(h, n)
 
 			PA = pop(); // polynomial evaluated at A
 
-			if (iszero(PA)) {
+			if (iseqzero(PA)) {
 				stack.length = p; // pop all
 				push(A);
 				return 1; // root on stack
@@ -167,7 +167,7 @@ findroot(h, n)
 
 			PA = pop(); // polynomial evaluated at A
 
-			if (iszero(PA)) {
+			if (iseqzero(PA)) {
 				stack.length = p; // pop all
 				push(A);
 				return 1; // root on stack
@@ -283,7 +283,7 @@ reduce(h, n, A)
 		stack[h + i - 1] = pop();
 	}
 
-	if (!iszero(stack[h]))
+	if (!iseqzero(stack[h]))
 		stopf("roots: residual error"); // not a root
 
 	// move

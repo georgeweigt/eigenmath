@@ -92,14 +92,14 @@ power()
 
 	// expr^0
 
-	if (iszero(EXPO)) {
+	if (iseqzero(EXPO)) {
 		push_integer(1);
 		return;
 	}
 
 	// 0^expr
 
-	if (iszero(BASE)) {
+	if (iseqzero(BASE)) {
 		push_symbol(POWER);
 		push(BASE);
 		push(EXPO);

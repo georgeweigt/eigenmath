@@ -113,11 +113,11 @@ arg_nib()
 		push(p1);
 		imag();
 		y = pop();
-		if (iszero(y)) {
+		if (iseqzero(y)) {
 			push_integer(0);
 			return;
 		}
-		if (iszero(x)) {
+		if (iseqzero(x)) {
 			push_rational(1, 2);
 			push_symbol(PI);
 			multiply();

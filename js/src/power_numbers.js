@@ -7,14 +7,14 @@ power_numbers(BASE, EXPO)
 
 	// n^0
 
-	if (iszero(EXPO)) {
+	if (iseqzero(EXPO)) {
 		push_integer(1);
 		return;
 	}
 
 	// 0^n
 
-	if (iszero(BASE)) {
+	if (iseqzero(BASE)) {
 		if (isnegativenumber(EXPO)) {
 			if (shuntflag)
 				errorflag = 1;
@@ -167,7 +167,7 @@ power_numbers_factor(BASE, EXPO)
 
 	// process q
 
-	if (!bignum_iszero(q)) {
+	if (!bignum_iseqzero(q)) {
 
 		a = bignum_pow(BASE.a, q);
 		b = bignum_int(1);

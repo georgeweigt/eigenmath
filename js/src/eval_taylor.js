@@ -46,7 +46,7 @@ eval_taylor(p1)
 		if (findf(F, symbol(DERIVATIVE)))
 			stopf("taylor: derivative err");
 
-		if (iszero(F))
+		if (iseqzero(F))
 			break;
 
 		push(C);	// c = c * (x - a)

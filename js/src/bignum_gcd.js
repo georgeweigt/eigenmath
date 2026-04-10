@@ -14,7 +14,7 @@ bignum_gcd(u, v)
 		return bignum_int(u);
 	}
 
-	while (!bignum_iszero(v)) {
+	while (!bignum_iseqzero(v)) {
 		r = bignum_mod(u, v);
 		u = v;
 		v = r;

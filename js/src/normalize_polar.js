@@ -79,7 +79,7 @@ normalize_polar_term_rational(R)
 	switch (n % 4) {
 
 	case 0:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(1);
 		else {
 			push_symbol(POWER);
@@ -94,7 +94,7 @@ normalize_polar_term_rational(R)
 		break;
 
 	case 1:
-		if (iszero(R))
+		if (iseqzero(R))
 			push(imaginaryunit);
 		else {
 			push_symbol(MULTIPLY);
@@ -112,7 +112,7 @@ normalize_polar_term_rational(R)
 		break;
 
 	case 2:
-		if (iszero(R))
+		if (iseqzero(R))
 			push_integer(-1);
 		else {
 			push_symbol(MULTIPLY);
@@ -130,7 +130,7 @@ normalize_polar_term_rational(R)
 		break;
 
 	case 3:
-		if (iszero(R)) {
+		if (iseqzero(R)) {
 			push_symbol(MULTIPLY);
 			push_integer(-1);
 			push(imaginaryunit);

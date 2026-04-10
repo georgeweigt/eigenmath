@@ -48,7 +48,7 @@ arcsinh()
 		return;
 	}
 
-	if (iszero(p1)) {
+	if (iseqzero(p1)) {
 		push(p1);
 		return;
 	}
