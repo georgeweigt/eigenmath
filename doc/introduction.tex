@@ -53,19 +53,53 @@ i\hbar\psi(x,y,z,t)&0&0\\[1ex]
 \end{pmatrix}
 \end{equation*}
 
+In momentum space
+\begin{equation*}
+X=i\hbar\frac{\partial}{\partial p}
+\qquad
+P=p
+\end{equation*}
+
+Eigenmath code
+{\color{blue}
+\begin{verbatim}
+X(f) = i hbar d(f,p)
+P(f) = p f
+X(P(psi(p,t))) - P(X(psi(p,t)))
+\end{verbatim}}
+
+Result
+
+\bigskip
+$i\hbar\psi(p,t)$
+
+\bigskip
+In three dimensions
+\begin{equation*}
+X=i\hbar\nabla_p
+\qquad
+P=\begin{pmatrix}p_x\\p_y\\p_z\end{pmatrix}\otimes
+\end{equation*}
+
+Eigenmath code
+{\color{blue}
+\begin{verbatim}
+X(f) = i hbar d(f,(px,py,pz))
+P(f) = outer((px,py,pz),f)
+X(P(psi(px,py,pz,t))) - P(X(psi(px,py,pz,t)))
+\end{verbatim}}
+
+Result
+
+\begin{equation*}
+\begin{pmatrix}
+i\hbar\psi(p_x,p_y,p_z,t)&0&0\\[1ex]
+0&i\hbar\psi(p_x,p_y,p_z,t)&0\\[1ex]
+0&0&i\hbar\psi(p_x,p_y,p_z,t)
+\end{pmatrix}
+\end{equation*}
+
 \bigskip
 \href{https://georgeweigt.github.io/examples/canonical-commutation-relation-demo.html}{Eigenmath script}
-
-\iffalse
-In Eigenmath code
-\begin{equation*}
-\frac{\partial f(x)}{\partial x}=\text{\tt d(f(x),x)}
-\end{equation*}
-
-and
-\begin{equation*}
-\nabla f(x,y,z)=\text{\tt d(f(x,y,z),(x,y,z))}
-\end{equation*}
-\fi
 
 \end{document}
