@@ -1907,6 +1907,16 @@ X(P(psi(x,t))) - P(X(psi(x,t)))
 X(f) = outer((x,y,z),f)
 P(f) = -i hbar d(f,(x,y,z))
 X(P(psi(x,y,z,t))) - P(X(psi(x,y,z,t)))
+
+"Momentum space"
+
+X(f) = i hbar d(f,p)
+P(f) = p f
+X(P(psi(p,t))) - P(X(psi(p,t)))
+
+X(f) = i hbar d(f,(px,py,pz))
+P(f) = outer((px,py,pz),f)
+X(P(psi(px,py,pz,t))) - P(X(psi(px,py,pz,t)))
 "canonical-commutation-relation-demo.txt"
 status
 clear
