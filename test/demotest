@@ -1852,14 +1852,15 @@ clear
 "born-approximation-1-demo.txt"
 "Born approximation 1"
 
-f = -Z alpha hbar c / (2 E (1 - cos(theta)))
+psi = exp(i k r) / r f
+f = Z alpha hbar c / (2 E (1 - cos(theta)))
 
+"Verify equivalence with Lancaster and Blundell equation (40.4)"
 E = 1/2 m v^2
 hbar = 1
 c = 1
-
-"Verify equation (1) is equivalent to Lancaster and Blundell equation (40.4)"
-check(conj(f) f == Z^2 alpha^2 / (4 m^2 v^4 sin(theta/2)^4))
+dsigma = conj(psi) psi r^2
+check(dsigma == Z^2 alpha^2 / (4 m^2 v^4 sin(theta/2)^4))
 "ok"
 "born-approximation-1-demo.txt"
 status
