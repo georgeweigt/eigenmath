@@ -392,10 +392,9 @@ E
 
 -- design matrix
 
-X = zero(3,10)
+X = zero(2,10)
 X[1] = Z / sqrt(E)
 X[2] = Z^(2/3)
-X[3] = X[3] + 1
 
 -- ordinary least squares
 
