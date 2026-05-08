@@ -17,110 +17,6 @@
 
 \section{Introduction}
 
-Eigenmath was created for doing physics problems,
-so here is an example from quantum mechanics.
-
-\bigskip
-Let $X$ and $P$ be the operators
-\begin{equation*}
-X=x\qquad P=-i\hbar\frac{\partial}{\partial x}
-\end{equation*}
-
-Show that
-\begin{equation*}
-(XP-PX)\psi(x,t)=i\hbar\psi(x,t)
-\end{equation*}
-
-Eigenmath code
-{\color{blue}
-\begin{verbatim}
-X(f) = x f
-P(f) = -i hbar d(f,x)
-X(P(psi(x,t))) - P(X(psi(x,t)))
-\end{verbatim}}
-
-Result
-
-\bigskip
-$i\hbar\psi(x,t)$
-
-\bigskip
-In three dimensions (symbol $\otimes$ is outer product, $\nabla$ is gradient)
-\begin{equation*}
-X=\begin{pmatrix}x\\y\\z\end{pmatrix}\otimes\qquad P=-i\hbar\nabla
-\end{equation*}
-
-Eigenmath code
-{\color{blue}
-\begin{verbatim}
-X(f) = outer((x,y,z),f)
-P(f) = -i hbar d(f,(x,y,z))
-X(P(psi(x,y,z,t))) - P(X(psi(x,y,z,t)))
-\end{verbatim}}
-
-Result
-
-\begin{equation*}
-\begin{pmatrix}
-i\hbar\psi(x,y,z,t)&0&0\\[1ex]
-0&i\hbar\psi(x,y,z,t)&0\\[1ex]
-0&0&i\hbar\psi(x,y,z,t)
-\end{pmatrix}
-\end{equation*}
-
-In momentum space
-\begin{equation*}
-X=i\hbar\frac{\partial}{\partial p}
-\qquad
-P=p
-\end{equation*}
-
-Eigenmath code
-{\color{blue}
-\begin{verbatim}
-X(f) = i hbar d(f,p)
-P(f) = p f
-X(P(psi(p,t))) - P(X(psi(p,t)))
-\end{verbatim}}
-
-Result
-
-\bigskip
-$i\hbar\psi(p,t)$
-
-\bigskip
-In three dimensions
-\begin{equation*}
-X=i\hbar\nabla_p
-\qquad
-P=\begin{pmatrix}p_x\\p_y\\p_z\end{pmatrix}\otimes
-\end{equation*}
-
-Eigenmath code
-{\color{blue}
-\begin{verbatim}
-X(f) = i hbar d(f,(px,py,pz))
-P(f) = outer((px,py,pz),f)
-X(P(psi(px,py,pz,t))) - P(X(psi(px,py,pz,t)))
-\end{verbatim}}
-
-Result
-
-\begin{equation*}
-\begin{pmatrix}
-i\hbar\psi(p_x,p_y,p_z,t)&0&0\\[1ex]
-0&i\hbar\psi(p_x,p_y,p_z,t)&0\\[1ex]
-0&0&i\hbar\psi(p_x,p_y,p_z,t)
-\end{pmatrix}
-\end{equation*}
-
-\bigskip
-\href{https://georgeweigt.github.io/examples/canonical-commutation-relation-demo.html}{Eigenmath script}
-
-\newpage
-
-\section{Syntax}
-
 Arithmetic operators have the expected precedence of
 multiplication and division before addition and subtraction.
 Subexpressions in parentheses have highest precedence.
@@ -179,47 +75,93 @@ $e$ && {\tt exp(1)} & {\it base of natural logarithm}
 
 \newpage
 
-Parentheses are required around negative exponents.
-For example,
-
-{\color{blue}
-\begin{verbatim}
-10^(-3)
-\end{verbatim}
-}
-
-instead of
-
-{\color{blue}
-\begin{verbatim}
-10^-3
-\end{verbatim}
-}
-
-In general, parentheses are always required when the exponent
-is an expression.
-For example, \verb$x^1/2$ is evaluated as $(x^1)/2$ which
-is probably not the desired result.
-
-{\color{blue}
-\begin{verbatim}
-x^1/2
-\end{verbatim}
-}
-
-$\displaystyle \tfrac{1}{2}x$
+In the following examples, {\tt\color{blue}blue text} is user input.
 
 \bigskip
-
-Using \verb$x^(1/2)$ yields the desired result.
-
+Example 1. Use a caret for exponent.
+\begin{quote}
 {\color{blue}
 \begin{verbatim}
-x^(1/2)
-\end{verbatim}
-}
+212^17
+\end{verbatim}}
+$3529471145760275132301897342055866171392$
+\end{quote}
 
-$\displaystyle x^{1/2}$
+\bigskip
+Example 2. Parentheses are required for negative exponents.
+\begin{quote}
+{\color{blue}
+\begin{verbatim}
+212^(-17)
+\end{verbatim}}
+$\displaystyle\frac{1}{3529471145760275132301897342055866171392}$
+\end{quote}
+
+\bigskip
+Example 3. Symbols are defined with an equals sign.
+\begin{quote}
+{\color{blue}
+\begin{verbatim}
+N = 212^17
+N
+\end{verbatim}}
+$N=3529471145760275132301897342055866171392$
+\end{quote}
+
+\bigskip
+Example 4. Solve for $x$ in $Ax=b$ where
+\begin{equation*}
+A=\begin{pmatrix}
+3 & 7
+\\[1ex]
+1 & -9
+\end{pmatrix},
+\qquad
+b=\begin{pmatrix}
+16
+\\[1ex]
+-22
+\end{pmatrix}
+\end{equation*}
+%
+\begin{quote}
+{\color{blue}
+\begin{verbatim}
+A = ((3,7),(1,-9))
+b = (16,-22)
+dot(inv(A),b)
+\end{verbatim}}
+%
+$\displaystyle
+\begin{pmatrix}
+-\frac{5}{17}
+\\[1ex]
+\frac{41}{17}
+\end{pmatrix}
+$
+\end{quote}
+
+\bigskip
+Example 5. Show that $(XP-PX)\psi=i\hbar\psi$.
+\begin{quote}
+{\color{blue}
+\begin{verbatim}
+X(f) = x f
+P(f) = -i hbar d(f,x)
+X(P(psi(x))) - P(X(psi(x)))
+\end{verbatim}}
+$i\hbar\psi(x)$
+\end{quote}
+
+\bigskip
+Example 6. Count the number of poker hands.
+\begin{quote}
+{\color{blue}
+\begin{verbatim}
+choose(52,5)
+\end{verbatim}}
+$2598960$
+\end{quote}
 
 \newpage
 

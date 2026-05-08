@@ -2,104 +2,150 @@
 
 \section*{Introduction}
 
-Eigenmath was created for doing physics problems,
-so here is an example from quantum mechanics.
+Arithmetic operators have the expected precedence of
+multiplication and division before addition and subtraction.
+Subexpressions in parentheses have highest precedence.
+
+\begin{center}
+\begin{tabular}{clll}
+{\it Math} & & {\it Eigenmath} & {\it Comment}
+\\
+\\
+$a=b$ & & \verb$a == b$ & {\it test for equality}
+\\[1ex]
+$-a$ & & {\tt -a} & {\it negation}
+\\[1ex]
+$a+b$ & & {\tt a+b} & {\it addition}
+\\[1ex]
+$a-b$ & & {\tt a-b} & {\it subtraction}
+\\[1ex]
+$ab$ & & {\tt a b} & {\it multiplication, also} \verb$a*b$
+\\
+\\
+$\displaystyle\frac{a}{b}$ & & {\tt a/b} & {\it division}
+\\
+\\
+$\displaystyle\frac{a}{bc}$ & & {\tt a/b/c} & {\it division is left-associative}
+\\
+\\
+$a^2$ & & {\tt a{\char94}2} & {\it power}
+\\
+\\
+$\sqrt{a}$ & & \verb$sqrt(a)$ & {\it square root, also} \verb$a^(1/2)$
+\\
+\\
+$a\,(b+c)$ & & {\tt a (b+c)} & {\it space is required}
+\\
+\\
+$f(a)$ & & {\tt f(a)} & {\it function}
+\\
+\\
+$\begin{pmatrix}a\\ b\\ c\end{pmatrix}$ & & {\tt (a,b,c)} & {\it vector}
+\\
+\\
+$\begin{pmatrix}a&b\\ c&d\end{pmatrix}$ & & {\tt ((a,b),(c,d))} & {\it matrix}
+\\
+\\
+$F^1{}_2$ & & {\tt F[1,2]} & {\it tensor component access}
+\\
+\\
+ & & \verb$"hello, world"$ & {\it string literal}
+\\
+\\
+$\pi$ & & {\tt pi} &
+\\[1ex]
+$e$ && {\tt exp(1)} & {\it base of natural logarithm}
+\end{tabular}
+\end{center}
+
+\newpage
+
+In the following examples, {\tt\color{blue}blue text} is user input.
 
 \bigskip
-Let $X$ and $P$ be the operators
-\begin{equation*}
-X=x\qquad P=-i\hbar\frac{\partial}{\partial x}
-\end{equation*}
+Example 1. Use a caret for exponent.
+\begin{quote}
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}}
+$3529471145760275132301897342055866171392$
+\end{quote}
 
-Show that
-\begin{equation*}
-(XP-PX)\psi(x,t)=i\hbar\psi(x,t)
-\end{equation*}
+\bigskip
+Example 2. Parentheses are required for negative exponents.
+\begin{quote}
+{\color{blue}
+\begin{verbatim}
+212^(-17)
+\end{verbatim}}
+$\displaystyle\frac{1}{3529471145760275132301897342055866171392}$
+\end{quote}
 
-Eigenmath code
+\bigskip
+Example 3. Symbols are defined with an equals sign.
+\begin{quote}
+{\color{blue}
+\begin{verbatim}
+N = 212^17
+N
+\end{verbatim}}
+$N=3529471145760275132301897342055866171392$
+\end{quote}
+
+\bigskip
+Example 4. Solve for $x$ in $Ax=b$ where
+\begin{equation*}
+A=\begin{pmatrix}
+3 & 7
+\\[1ex]
+1 & -9
+\end{pmatrix},
+\qquad
+b=\begin{pmatrix}
+16
+\\[1ex]
+-22
+\end{pmatrix}
+\end{equation*}
+%
+\begin{quote}
+{\color{blue}
+\begin{verbatim}
+A = ((3,7),(1,-9))
+b = (16,-22)
+dot(inv(A),b)
+\end{verbatim}}
+%
+$\displaystyle
+\begin{pmatrix}
+-\frac{5}{17}
+\\[1ex]
+\frac{41}{17}
+\end{pmatrix}
+$
+\end{quote}
+
+\bigskip
+Example 5. Show that $(XP-PX)\psi=i\hbar\psi$.
+\begin{quote}
 {\color{blue}
 \begin{verbatim}
 X(f) = x f
 P(f) = -i hbar d(f,x)
-X(P(psi(x,t))) - P(X(psi(x,t)))
+X(P(psi(x))) - P(X(psi(x)))
 \end{verbatim}}
-
-Result
-
-\bigskip
-$i\hbar\psi(x,t)$
+$i\hbar\psi(x)$
+\end{quote}
 
 \bigskip
-In three dimensions (symbol $\otimes$ is outer product, $\nabla$ is gradient)
-\begin{equation*}
-X=\begin{pmatrix}x\\y\\z\end{pmatrix}\otimes\qquad P=-i\hbar\nabla
-\end{equation*}
-
-Eigenmath code
+Example 6. Count the number of poker hands.
+\begin{quote}
 {\color{blue}
 \begin{verbatim}
-X(f) = outer((x,y,z),f)
-P(f) = -i hbar d(f,(x,y,z))
-X(P(psi(x,y,z,t))) - P(X(psi(x,y,z,t)))
+choose(52,5)
 \end{verbatim}}
-
-Result
-
-\begin{equation*}
-\begin{pmatrix}
-i\hbar\psi(x,y,z,t)&0&0\\[1ex]
-0&i\hbar\psi(x,y,z,t)&0\\[1ex]
-0&0&i\hbar\psi(x,y,z,t)
-\end{pmatrix}
-\end{equation*}
-
-In momentum space
-\begin{equation*}
-X=i\hbar\frac{\partial}{\partial p}
-\qquad
-P=p
-\end{equation*}
-
-Eigenmath code
-{\color{blue}
-\begin{verbatim}
-X(f) = i hbar d(f,p)
-P(f) = p f
-X(P(psi(p,t))) - P(X(psi(p,t)))
-\end{verbatim}}
-
-Result
-
-\bigskip
-$i\hbar\psi(p,t)$
-
-\bigskip
-In three dimensions
-\begin{equation*}
-X=i\hbar\nabla_p
-\qquad
-P=\begin{pmatrix}p_x\\p_y\\p_z\end{pmatrix}\otimes
-\end{equation*}
-
-Eigenmath code
-{\color{blue}
-\begin{verbatim}
-X(f) = i hbar d(f,(px,py,pz))
-P(f) = outer((px,py,pz),f)
-X(P(psi(px,py,pz,t))) - P(X(psi(px,py,pz,t)))
-\end{verbatim}}
-
-Result
-
-\begin{equation*}
-\begin{pmatrix}
-i\hbar\psi(p_x,p_y,p_z,t)&0&0\\[1ex]
-0&i\hbar\psi(p_x,p_y,p_z,t)&0\\[1ex]
-0&0&i\hbar\psi(p_x,p_y,p_z,t)
-\end{pmatrix}
-\end{equation*}
-
-\bigskip
-\href{https://georgeweigt.github.io/examples/canonical-commutation-relation-demo.html}{Eigenmath script}
+$2598960$
+\end{quote}
 
 \end{document}
