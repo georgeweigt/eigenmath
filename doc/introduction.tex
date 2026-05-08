@@ -63,72 +63,44 @@ $e$ && {\tt exp(1)} & {\it base of natural logarithm}
 In the following examples, {\tt\color{blue}blue text} is user input.
 
 \bigskip
-Example 1. Use a caret for exponent.
-\begin{quote}
+{\bf Example 1.} Use a caret for exponent.
 {\color{blue}
 \begin{verbatim}
 212^17
 \end{verbatim}}
 $3529471145760275132301897342055866171392$
-\end{quote}
 
 \bigskip
-Example 2. Parentheses are required for negative exponents.
-\begin{quote}
+{\bf Example 2.} Parentheses are required for negative exponents.
 {\color{blue}
 \begin{verbatim}
 212^(-17)
 \end{verbatim}}
-$\displaystyle\frac{1}{3529471145760275132301897342055866171392}$
-\end{quote}
+$\frac{1}{3529471145760275132301897342055866171392}$
 
 \bigskip
-Example 3. Symbols are defined with an equals sign.
-\begin{quote}
+{\bf Example 3.} Symbols are defined with an equals sign.
 {\color{blue}
 \begin{verbatim}
 N = 212^17
 N
 \end{verbatim}}
 $N=3529471145760275132301897342055866171392$
-\end{quote}
 
 \bigskip
-Example 4. Solve for $x$ in $Ax=b$ where
-\begin{equation*}
-A=\begin{pmatrix}
-3 & 7
-\\[1ex]
-1 & -9
-\end{pmatrix},
-\qquad
-b=\begin{pmatrix}
-16
-\\[1ex]
--22
-\end{pmatrix}
-\end{equation*}
-%
-\begin{quote}
+{\bf Example 4.} Solve for $x$ in $Ax=b$ where
+$A=\begin{pmatrix}3 & 7\\1 & -9\end{pmatrix}$ and
+$b=\begin{pmatrix}16\\-22\end{pmatrix}$.
 {\color{blue}
 \begin{verbatim}
 A = ((3,7),(1,-9))
 b = (16,-22)
 dot(inv(A),b)
 \end{verbatim}}
-%
-$\displaystyle
-\begin{pmatrix}
--\frac{5}{17}
-\\[1ex]
-\frac{41}{17}
-\end{pmatrix}
-$
-\end{quote}
+$\begin{pmatrix}-\frac{5}{17}\\[1ex]\frac{41}{17}\end{pmatrix}$
 
 \bigskip
-Example 5. Show that $(XP-PX)\psi=i\hbar\psi$.
-\begin{quote}
+{\bf Example 5.} Show that $(XP-PX)\psi=i\hbar\psi$.
 {\color{blue}
 \begin{verbatim}
 X(f) = x f
@@ -136,16 +108,13 @@ P(f) = -i hbar d(f,x)
 X(P(psi(x))) - P(X(psi(x)))
 \end{verbatim}}
 $i\hbar\psi(x)$
-\end{quote}
 
 \bigskip
-Example 6. Count the number of poker hands.
-\begin{quote}
+{\bf Example 6.} Count the number of poker hands.
 {\color{blue}
 \begin{verbatim}
 choose(52,5)
 \end{verbatim}}
 $2598960$
-\end{quote}
 
 \end{document}
