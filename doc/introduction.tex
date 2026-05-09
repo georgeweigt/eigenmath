@@ -2,64 +2,6 @@
 
 \section*{Introduction}
 
-Arithmetic operators have the expected precedence of
-multiplication and division before addition and subtraction.
-Subexpressions in parentheses have highest precedence.
-
-\begin{center}
-\begin{tabular}{clll}
-{\it Math} & & {\it Eigenmath} & {\it Comment}
-\\
-\\
-$a=b$ & & \verb$a == b$ & {\it test for equality}
-\\[1ex]
-$-a$ & & {\tt -a} & {\it negation}
-\\[1ex]
-$a+b$ & & {\tt a+b} & {\it addition}
-\\[1ex]
-$a-b$ & & {\tt a-b} & {\it subtraction}
-\\[1ex]
-$ab$ & & {\tt a b} & {\it multiplication, also} \verb$a*b$
-\\
-\\
-$\displaystyle\frac{a}{b}$ & & {\tt a/b} & {\it division}
-\\
-\\
-$\displaystyle\frac{a}{bc}$ & & {\tt a/b/c} & {\it division is left-associative}
-\\
-\\
-$a^2$ & & {\tt a{\char94}2} & {\it power}
-\\
-\\
-$\sqrt{a}$ & & \verb$sqrt(a)$ & {\it square root, also} \verb$a^(1/2)$
-\\
-\\
-$a\,(b+c)$ & & {\tt a (b+c)} & {\it space is required}
-\\
-\\
-$f(a)$ & & {\tt f(a)} & {\it function}
-\\
-\\
-$\begin{pmatrix}a\\ b\\ c\end{pmatrix}$ & & {\tt (a,b,c)} & {\it vector}
-\\
-\\
-$\begin{pmatrix}a&b\\ c&d\end{pmatrix}$ & & {\tt ((a,b),(c,d))} & {\it matrix}
-\\
-\\
-$F^1{}_2$ & & {\tt F[1,2]} & {\it tensor component access}
-\\
-\\
- & & \verb$"hello, world"$ & {\it string literal}
-\\
-\\
-$\pi$ & & {\tt pi} &
-\\[1ex]
-$e$ && {\tt exp(1)} & {\it base of natural logarithm}
-\end{tabular}
-\end{center}
-
-\newpage
-
 In the following examples, {\tt\color{blue}blue text} is user input.
 
 \bigskip
@@ -74,33 +16,20 @@ $3529471145760275132301897342055866171392$
 {\bf Example 2.} Parentheses are required for negative exponents.
 {\color{blue}
 \begin{verbatim}
-212^(-17)
+x^(-2)
 \end{verbatim}}
-$\frac{1}{3529471145760275132301897342055866171392}$
+$\displaystyle\frac{1}{x^2}$
 
 \bigskip
-{\bf Example 3.} Symbols are defined with an equals sign.
+{\bf Example 3.} Find the derivative of $\sin(x)$.
 {\color{blue}
 \begin{verbatim}
-N = 212^17
-N
+d(sin(x),x)
 \end{verbatim}}
-$N=3529471145760275132301897342055866171392$
+$\cos(x)$
 
 \bigskip
-{\bf Example 4.} Solve for $x$ in $Ax=b$ where
-$A=\begin{pmatrix}3 & 7\\1 & -9\end{pmatrix}$ and
-$b=\begin{pmatrix}16\\-22\end{pmatrix}$.
-{\color{blue}
-\begin{verbatim}
-A = ((3,7),(1,-9))
-b = (16,-22)
-dot(inv(A),b)
-\end{verbatim}}
-$\begin{pmatrix}-\frac{5}{17}\\[1ex]\frac{41}{17}\end{pmatrix}$
-
-\bigskip
-{\bf Example 5.} Show that $(XP-PX)\psi=i\hbar\psi$.
+{\bf Example 4.} Show that $(XP-PX)\psi=i\hbar\psi$.
 {\color{blue}
 \begin{verbatim}
 X(f) = x f
@@ -110,11 +39,20 @@ X(P(psi(x))) - P(X(psi(x)))
 $i\hbar\psi(x)$
 
 \bigskip
-{\bf Example 6.} Count the number of poker hands.
+{\bf Example 5.} Find $(XP-PX)\psi$ in three dimensions.
 {\color{blue}
 \begin{verbatim}
-choose(52,5)
+X(f) = outer((x,y,z),f)
+P(f) = -i hbar d(f,(x,y,z))
+X(P(psi(x,y,z))) - P(X(psi(x,y,z)))
 \end{verbatim}}
-$2598960$
+$\begin{bmatrix}
+i\hbar\psi(x,y,z) & 0 & 0
+\\[1ex]
+0 & i\hbar\psi(x,y,z) & 0
+\\[1ex]
+0 & 0 & i\hbar\psi(x,y,z)
+\end{bmatrix}
+$
 
 \end{document}

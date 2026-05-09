@@ -17,6 +17,63 @@
 
 \section{Introduction}
 
+In the following examples, {\tt\color{blue}blue text} is user input.
+
+\bigskip
+{\bf Example 1.} Use a caret for exponent.
+{\color{blue}
+\begin{verbatim}
+212^17
+\end{verbatim}}
+$3529471145760275132301897342055866171392$
+
+\bigskip
+{\bf Example 2.} Parentheses are required for negative exponents.
+{\color{blue}
+\begin{verbatim}
+x^(-2)
+\end{verbatim}}
+$\displaystyle\frac{1}{x^2}$
+
+\bigskip
+{\bf Example 3.} Find the derivative of $\sin(x)$.
+{\color{blue}
+\begin{verbatim}
+d(sin(x),x)
+\end{verbatim}}
+$\cos(x)$
+
+\bigskip
+{\bf Example 4.} Show that $(XP-PX)\psi=i\hbar\psi$.
+{\color{blue}
+\begin{verbatim}
+X(f) = x f
+P(f) = -i hbar d(f,x)
+X(P(psi(x))) - P(X(psi(x)))
+\end{verbatim}}
+$i\hbar\psi(x)$
+
+\bigskip
+{\bf Example 5.} Find $(XP-PX)\psi$ in three dimensions.
+{\color{blue}
+\begin{verbatim}
+X(f) = outer((x,y,z),f)
+P(f) = -i hbar d(f,(x,y,z))
+X(P(psi(x,y,z))) - P(X(psi(x,y,z)))
+\end{verbatim}}
+$\begin{bmatrix}
+i\hbar\psi(x,y,z) & 0 & 0
+\\[1ex]
+0 & i\hbar\psi(x,y,z) & 0
+\\[1ex]
+0 & 0 & i\hbar\psi(x,y,z)
+\end{bmatrix}
+$
+
+\newpage
+
+\section{Syntax}
+
 Arithmetic operators have the expected precedence of
 multiplication and division before addition and subtraction.
 Subexpressions in parentheses have highest precedence.
@@ -30,9 +87,9 @@ $a=b$ & & \verb$a == b$ & {\it test for equality}
 \\[1ex]
 $-a$ & & {\tt -a} & {\it negation}
 \\[1ex]
-$a+b$ & & {\tt a+b} & {\it addition}
+$a+b$ & & {\tt a + b} & {\it addition}
 \\[1ex]
-$a-b$ & & {\tt a-b} & {\it subtraction}
+$a-b$ & & {\tt a - b} & {\it subtraction}
 \\[1ex]
 $ab$ & & {\tt a b} & {\it multiplication, also} \verb$a*b$
 \\
@@ -75,62 +132,47 @@ $e$ && {\tt exp(1)} & {\it base of natural logarithm}
 
 \newpage
 
-In the following examples, {\tt\color{blue}blue text} is user input.
+Parentheses are required around negative exponents.
+For example,
 
-\bigskip
-{\bf Example 1.} Use a caret for exponent.
 {\color{blue}
 \begin{verbatim}
-212^17
-\end{verbatim}}
-$3529471145760275132301897342055866171392$
+10^(-3)
+\end{verbatim}
+}
 
-\bigskip
-{\bf Example 2.} Parentheses are required for negative exponents.
+instead of
+
 {\color{blue}
 \begin{verbatim}
-212^(-17)
-\end{verbatim}}
-$\frac{1}{3529471145760275132301897342055866171392}$
+10^-3
+\end{verbatim}
+}
 
-\bigskip
-{\bf Example 3.} Symbols are defined with an equals sign.
+In general, parentheses are always required when the exponent
+is an expression.
+For example, \verb$x^1/2$ is evaluated as $(x^1)/2$ which
+is probably not the desired result.
+
 {\color{blue}
 \begin{verbatim}
-N = 212^17
-N
-\end{verbatim}}
-$N=3529471145760275132301897342055866171392$
+x^1/2
+\end{verbatim}
+}
+
+$\displaystyle \tfrac{1}{2}x$
 
 \bigskip
-{\bf Example 4.} Solve for $x$ in $Ax=b$ where
-$A=\begin{pmatrix}3 & 7\\1 & -9\end{pmatrix}$ and
-$b=\begin{pmatrix}16\\-22\end{pmatrix}$.
-{\color{blue}
-\begin{verbatim}
-A = ((3,7),(1,-9))
-b = (16,-22)
-dot(inv(A),b)
-\end{verbatim}}
-$\begin{pmatrix}-\frac{5}{17}\\[1ex]\frac{41}{17}\end{pmatrix}$
 
-\bigskip
-{\bf Example 5.} Show that $(XP-PX)\psi=i\hbar\psi$.
-{\color{blue}
-\begin{verbatim}
-X(f) = x f
-P(f) = -i hbar d(f,x)
-X(P(psi(x))) - P(X(psi(x)))
-\end{verbatim}}
-$i\hbar\psi(x)$
+Using \verb$x^(1/2)$ yields the desired result.
 
-\bigskip
-{\bf Example 6.} Count the number of poker hands.
 {\color{blue}
 \begin{verbatim}
-choose(52,5)
-\end{verbatim}}
-$2598960$
+x^(1/2)
+\end{verbatim}
+}
+
+$\displaystyle x^{1/2}$
 
 \newpage
 

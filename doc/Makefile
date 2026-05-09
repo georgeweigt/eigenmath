@@ -9,7 +9,7 @@ default:
 	make eigenmath.pdf
 	make screenshot.pdf
 
-FILES =	introduction.tex \
+FILES =	introduction.tex syntax.tex \
 	symbols.tex units-of-measure.tex function-definitions.tex \
 	arithmetic.tex complex-numbers.tex draw.tex \
 	linear-algebra.tex linear-regression.tex \
