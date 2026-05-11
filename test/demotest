@@ -4437,8 +4437,8 @@ check(H0(F) + H1(F) + H2(F) == E F)
 "mott-problem-demo.txt"
 status
 clear
-"muon-pair-production-demo.txt"
-"Muon pair production"
+"muon-pair-production-1-demo.txt"
+"Muon pair production 1"
 
 p = sqrt(E^2 - m^2)
 rho = sqrt(E^2 - M^2)
@@ -4523,20 +4523,19 @@ check(f == S)
 
 "Verify average density"
 
-s = dot(p1 + p2, gmunu, p1 + p2)
-
-check(4 s^2 == 64 E^4)
-
 check(f / (64 E^4) == 1 + cos(theta)^2 + (m^2 + M^2) / E^2 sin(theta)^2 + m^2 M^2 cos(theta)^2 / E^4)
 
+s = dot(p1 + p2, gmunu, p1 + p2)
+check(s == 4 E^2)
+
 "ok"
-"muon-pair-production-demo.txt"
+"muon-pair-production-1-demo.txt"
 status
 clear
-"muon-pair-production-slac-data-demo.txt"
-"Muon pair production SLAC data"
+"muon-pair-production-2-demo.txt"
+"Muon pair production 2"
 
--- www.hepdata.net/record/ins216031 (Table 1, 29.0 GeV)
+-- hepdata.net/record/ins216031, Table 1, 29 GeV
 
 x = (
 -0.925,
@@ -4609,7 +4608,7 @@ RSS = sum((y - yhat)^2) -- residual sum of squares
 TSS = sum((y - ybar)^2) -- total sum of squares
 
 1 - RSS / TSS
-"muon-pair-production-slac-data-demo.txt"
+"muon-pair-production-2-demo.txt"
 status
 clear
 "particle-in-a-box-demo.txt"
