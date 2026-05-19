@@ -9423,9 +9423,14 @@ magfunc_nib()
 
 	p1 = pop();
 
-	if (isnum(p1)) {
+	if (isnegativenumber(p1)) {
 		push(p1);
-		absfunc();
+		negate();
+		return;
+	}
+
+	if (!iscons(p1)) {
+		push(p1);
 		return;
 	}
 
@@ -9489,8 +9494,6 @@ magfunc_nib()
 		sqrtfunc();
 		return;
 	}
-
-	// real
 
 	push(p1);
 }
@@ -17314,23 +17317,6 @@ issmallinteger(p)
 	if (isdouble(p))
 		return Number.isFinite(p.d) && p.d == Math.floor(p.d) && Math.abs(p.d) <= 0x7fffffff;
 
-	return 0;
-}
-
-function
-isconst(p)
-{
-	if (isnum(p) || p == symbol(PI) || p == symbol(EXP1))
-		return 1;
-	if (iscons(p)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (!isconst(car(p)))
-				return 0;
-			p = cdr(p);
-		}
-		return 1;
-	}
 	return 0;
 }
 function

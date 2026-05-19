@@ -8212,9 +8212,14 @@ magfunc_nib(void)
 
 	p1 = pop();
 
-	if (isnum(p1)) {
+	if (isnegativenumber(p1)) {
 		push(p1);
-		absfunc();
+		negate();
+		return;
+	}
+
+	if (!iscons(p1)) {
+		push(p1);
 		return;
 	}
 
@@ -8278,8 +8283,6 @@ magfunc_nib(void)
 		sqrtfunc();
 		return;
 	}
-
-	// real
 
 	push(p1);
 }
@@ -15433,23 +15436,6 @@ dependent(struct atom *f, struct atom *x)
 		f = cdr(f);
 	}
 
-	return 0;
-}
-
-int
-isconst(struct atom *p)
-{
-	if (isnum(p) || p == symbol(PI) || p == symbol(EXP1))
-		return 1;
-	if (iscons(p)) {
-		p = cdr(p);
-		while (iscons(p)) {
-			if (!isconst(car(p)))
-				return 0;
-			p = cdr(p);
-		}
-		return 1;
-	}
 	return 0;
 }
 void
