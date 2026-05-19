@@ -288,3 +288,20 @@ issmallinteger(p)
 
 	return 0;
 }
+
+function
+isconst(p)
+{
+	if (isnum(p) || p == symbol(PI) || p == symbol(EXP1))
+		return 1;
+	if (iscons(p)) {
+		p = cdr(p);
+		while (iscons(p)) {
+			if (!isconst(car(p)))
+				return 0;
+			p = cdr(p);
+		}
+		return 1;
+	}
+	return 0;
+}
