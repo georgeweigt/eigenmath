@@ -14,6 +14,9 @@ This app supports a wide range of mathematical operations, including symbolic al
         │ 4     │
         └       ┘
 
+? d(sin(x),x)
+cos(x)
+
 ? exit
 %
 ```
