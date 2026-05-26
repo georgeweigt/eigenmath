@@ -5,7 +5,7 @@ eigenmath.pdf: eigenmath.tex
 	pdflatex eigenmath
 	pdflatex eigenmath
 
-FILES =	screenshot.tex introduction.tex syntax.tex \
+FILES =	introduction.tex syntax.tex \
 	symbols.tex units-of-measure.tex function-definitions.tex \
 	arithmetic.tex complex-numbers.tex draw.tex \
 	linear-algebra.tex linear-regression.tex \
