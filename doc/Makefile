@@ -1,9 +1,9 @@
 .PHONY: clean
 
 eigenmath.pdf: eigenmath.tex
-	pdflatex eigenmath
-	pdflatex eigenmath
-	pdflatex eigenmath
+	pdflatex eigenmath.tex
+	pdflatex eigenmath.tex
+	pdflatex eigenmath.tex
 
 FILES =	introduction.tex syntax.tex \
 	symbols.tex units-of-measure.tex function-definitions.tex \
