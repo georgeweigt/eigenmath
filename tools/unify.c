@@ -11,8 +11,6 @@ main(int argc, char *argv[])
 {
 	int i;
 	system("cat preamble");
-	puts("\\renewcommand{\\contentsname}{}");
-	puts("\\tableofcontents");
 	for (i = 1; i < argc; i++)
 		emit(argv[i]);
 	puts("\\end{document}");

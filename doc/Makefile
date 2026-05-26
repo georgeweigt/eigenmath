@@ -1,15 +1,11 @@
-.PHONY: default clean
+.PHONY: clean
 
-%.pdf: %.tex preamble
-	pdflatex $<
-	if [ -e $*.toc ] ; then pdflatex $< ; pdflatex $< ; fi
+eigenmath.pdf: eigenmath.tex
+	pdflatex eigenmath
+	pdflatex eigenmath
+	pdflatex eigenmath
 
-default:
-	make eigenmath.tex
-	make eigenmath.pdf
-	make screenshot.pdf
-
-FILES =	introduction.tex syntax.tex \
+FILES =	screenshot.tex introduction.tex syntax.tex \
 	symbols.tex units-of-measure.tex function-definitions.tex \
 	arithmetic.tex complex-numbers.tex draw.tex \
 	linear-algebra.tex linear-regression.tex \
@@ -18,7 +14,7 @@ FILES =	introduction.tex syntax.tex \
 	integral.tex arc-length.tex line-integral.tex surface-area.tex \
 	surface-integral.tex tricks.tex index.tex
 
-eigenmath.tex: preamble $(FILES)
+eigenmath.tex: $(FILES)
 	make -C ../tools unify
 	../tools/unify $(FILES) > eigenmath.tex
 
