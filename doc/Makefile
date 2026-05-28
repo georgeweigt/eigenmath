@@ -15,8 +15,7 @@ FILES =	introduction.tex syntax.tex \
 	surface-integral.tex tricks.tex index.tex
 
 eigenmath.tex: $(FILES)
-	make -C ../tools unify
-	../tools/unify $(FILES) > eigenmath.tex
+	(cat preamble ; for FILE in $(FILES) ; do sed "1d;\$$d" $$FILE ; done ; echo "\\end{document}") > eigenmath.tex
 
 clean:
 	rm -f *.aux *.log *.out *.synctex.gz *.toc
