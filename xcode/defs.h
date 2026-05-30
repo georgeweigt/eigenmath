@@ -17,33 +17,38 @@
 #define STRBUFLEN 1000
 #define MAXDIM 24
 
-// MAXBLOCKS * BLOCKSIZE = 20,000,000 atoms
+/*
 
-// MAXBLOCKS * BLOCKSIZE * sizeof (struct atom) = 480,000,000 bytes
+Symbol names are hashed on the first letter with space for BUCKETSIZE names per letter.
 
-// Arithmetic expressions are stored as trees of "struct atom".
-//
-// For example, this is the tree for "a * b + c":
-//
-//  _______      _______                                _______      _______
-// |CONS   |    |CONS   |                              |CONS   |    |SYM    |
-// |car cdr|--->|car cdr|----------------------------->|car cdr|--->|"nil"  |
-// |_|_____|    |_|_____|                              |_|_____|    |_______|
-//   |            |                                      |
-//   |            |                                     _v_____
-//   |            |                                    |SYM    |
-//   |            |                                    |"c"    |
-//   |            |                                    |_______|
-//   |            |
-//  _v_____      _v_____      _______      _______      _______
-// |SYM    |    |CONS   |    |CONS   |    |CONS   |    |SYM    |
-// |"add"  |    |car cdr|--->|car cdr|--->|car cdr|--->|"nil"  |
-// |_______|    |_|_____|    |_|_____|    |_|_____|    |_______|
-//                |            |            |
-//               _v_____      _v_____      _v_____
-//              |SYM    |    |SYM    |    |SYM    |
-//              |"mul"  |    |"a"    |    |"b"    |
-//              |_______|    |_______|    |_______|
+Memory is malloc'd as needed in blocks of BLOCKSIZE * sizeof (struct atom), up to MAXBLOCKS.
+
+For a 64-bit machine sizeof (struct atom) is 24 bytes so a BLOCKSIZE of 10,000 results in a malloc size of 240,000 bytes.
+
+Arithmetic expressions are stored as binary trees using "struct atom".
+
+For example, this is the tree for "a * b + c"
+
+  _______      _______                                _______      _______
+ |CONS   |    |CONS   |                              |CONS   |    |SYM    |
+ |car cdr|--->|car cdr|----------------------------->|car cdr|--->|"nil"  |
+ |_|_____|    |_|_____|                              |_|_____|    |_______|
+   |            |                                      |
+   |            |                                     _v_____
+   |            |                                    |SYM    |
+   |            |                                    |"c"    |
+   |            |                                    |_______|
+   |            |
+  _v_____      _v_____      _______      _______      _______
+ |SYM    |    |CONS   |    |CONS   |    |CONS   |    |SYM    |
+ |"add"  |    |car cdr|--->|car cdr|--->|car cdr|--->|"nil"  |
+ |_______|    |_|_____|    |_|_____|    |_|_____|    |_______|
+                |            |            |
+               _v_____      _v_____      _v_____
+              |SYM    |    |SYM    |    |SYM    |
+              |"mul"  |    |"a"    |    |"b"    |
+              |_______|    |_______|    |_______|
+*/
 
 struct atom {
 	union {
