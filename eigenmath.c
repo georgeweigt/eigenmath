@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define STRBUFLEN 1000
 #define MAXDIM 24
 
-/*
+/* Notes
 
 Symbol names are hashed on the first letter with space for BUCKETSIZE names per letter.
 

@@ -17,7 +17,7 @@
 #define STRBUFLEN 1000
 #define MAXDIM 24
 
-/*
+/* Notes
 
 Symbol names are hashed on the first letter with space for BUCKETSIZE names per letter.
 
