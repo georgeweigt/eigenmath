@@ -730,7 +730,6 @@ void rotate_z(struct atom *PSI, uint32_t c, int n);
 void rotate_q(struct atom *PSI, int n);
 void rotate_v(struct atom *PSI, int n);
 void eval_run(struct atom *p1);
-char * read_file(char *filename);
 void eval_setq(struct atom *p1);
 void setq_indexed(struct atom *p1);
 void set_component(struct atom *LVAL, struct atom *RVAL, int h);
@@ -881,6 +880,7 @@ int issquarematrix(struct atom *p);
 int issmallinteger(struct atom *p);
 int dependent(struct atom *f, struct atom *x);
 int isconst(struct atom *p);
+char * readfile(char *filename);
 void run(char *buf);
 void run_buf(char *buf);
 char * scan_input(char *s);
@@ -12805,7 +12805,7 @@ eval_run(struct atom *p1)
 		stopf("run: file name expected");
 
 	p2 = alloc_str();
-	buf = read_file(p1->u.str);
+	buf = readfile(p1->u.str);
 	if (buf == NULL)
 		stopf("run: cannot read file");
 	p2->u.str = buf;
@@ -12815,56 +12815,6 @@ eval_run(struct atom *p1)
 	pop(); // buf is freed on next gc
 
 	push_symbol(NIL); // return value
-}
-
-char *
-read_file(char *filename)
-{
-	int fd, n;
-	char *buf;
-	off_t t;
-
-#ifndef O_BINARY
-#define O_BINARY 0
-#endif
-
-	fd = open(filename, O_RDONLY | O_BINARY);
-
-	if (fd < 0)
-		return NULL;
-
-	t = lseek(fd, 0, SEEK_END);
-
-	if (t < 0 || t > 0x1000000) { // 16 MB max
-		close(fd);
-		return NULL;
-	}
-
-	if (lseek(fd, 0, SEEK_SET)) {
-		close(fd);
-		return NULL;
-	}
-
-	n = (int) t;
-
-	buf = malloc(n + 1);
-
-	if (buf == NULL) {
-		close(fd);
-		return NULL;
-	}
-
-	if (read(fd, buf, n) != n) {
-		free(buf);
-		close(fd);
-		return NULL;
-	}
-
-	close(fd);
-
-	buf[n] = '\0';
-
-	return buf;
 }
 void
 eval_setq(struct atom *p1)
@@ -17233,7 +17183,7 @@ void
 run_infile(char *infile)
 {
 	char *buf;
-	buf = read_file(infile);
+	buf = readfile(infile);
 	if (buf == NULL) {
 		fprintf(stderr, "cannot read %s\n", infile);
 		exit(1);
@@ -17769,6 +17719,55 @@ isconst(struct atom *p)
 		return 1;
 	}
 	return 0;
+}
+char *
+readfile(char *filename)
+{
+	int fd, n;
+	char *buf;
+	off_t t;
+
+#ifndef O_BINARY
+#define O_BINARY 0
+#endif
+
+	fd = open(filename, O_RDONLY | O_BINARY);
+
+	if (fd < 0)
+		return NULL;
+
+	t = lseek(fd, 0, SEEK_END);
+
+	if (t < 0 || t > 0x1000000) { // 16 MB max
+		close(fd);
+		return NULL;
+	}
+
+	if (lseek(fd, 0, SEEK_SET)) {
+		close(fd);
+		return NULL;
+	}
+
+	n = (int) t;
+
+	buf = malloc(n + 1);
+
+	if (buf == NULL) {
+		close(fd);
+		return NULL;
+	}
+
+	if (read(fd, buf, n) != n) {
+		free(buf);
+		close(fd);
+		return NULL;
+	}
+
+	close(fd);
+
+	buf[n] = '\0';
+
+	return buf;
 }
 void
 run(char *buf)

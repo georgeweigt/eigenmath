@@ -11984,7 +11984,7 @@ eval_run(struct atom *p1)
 		stopf("run: file name expected");
 
 	p2 = alloc_str();
-	buf = read_file(p1->u.str);
+	buf = readfile(p1->u.str);
 	if (buf == NULL)
 		stopf("run: cannot read file");
 	p2->u.str = buf;
@@ -11994,56 +11994,6 @@ eval_run(struct atom *p1)
 	pop(); // buf is freed on next gc
 
 	push_symbol(NIL); // return value
-}
-
-char *
-read_file(char *filename)
-{
-	int fd, n;
-	char *buf;
-	off_t t;
-
-#ifndef O_BINARY
-#define O_BINARY 0
-#endif
-
-	fd = open(filename, O_RDONLY | O_BINARY);
-
-	if (fd < 0)
-		return NULL;
-
-	t = lseek(fd, 0, SEEK_END);
-
-	if (t < 0 || t > 0x1000000) { // 16 MB max
-		close(fd);
-		return NULL;
-	}
-
-	if (lseek(fd, 0, SEEK_SET)) {
-		close(fd);
-		return NULL;
-	}
-
-	n = (int) t;
-
-	buf = malloc(n + 1);
-
-	if (buf == NULL) {
-		close(fd);
-		return NULL;
-	}
-
-	if (read(fd, buf, n) != n) {
-		free(buf);
-		close(fd);
-		return NULL;
-	}
-
-	close(fd);
-
-	buf[n] = '\0';
-
-	return buf;
 }
 void
 eval_setq(struct atom *p1)
@@ -15516,6 +15466,55 @@ isconst(struct atom *p)
 		return 1;
 	}
 	return 0;
+}
+char *
+readfile(char *filename)
+{
+	int fd, n;
+	char *buf;
+	off_t t;
+
+#ifndef O_BINARY
+#define O_BINARY 0
+#endif
+
+	fd = open(filename, O_RDONLY | O_BINARY);
+
+	if (fd < 0)
+		return NULL;
+
+	t = lseek(fd, 0, SEEK_END);
+
+	if (t < 0 || t > 0x1000000) { // 16 MB max
+		close(fd);
+		return NULL;
+	}
+
+	if (lseek(fd, 0, SEEK_SET)) {
+		close(fd);
+		return NULL;
+	}
+
+	n = (int) t;
+
+	buf = malloc(n + 1);
+
+	if (buf == NULL) {
+		close(fd);
+		return NULL;
+	}
+
+	if (read(fd, buf, n) != n) {
+		free(buf);
+		close(fd);
+		return NULL;
+	}
+
+	close(fd);
+
+	buf[n] = '\0';
+
+	return buf;
 }
 void
 run(char *buf)
