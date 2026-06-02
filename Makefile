@@ -9,7 +9,6 @@ eigenmath.c: src/LICENSE src/defs.h src/prototypes.h src/*.c
 all:
 	make -C src
 	make eigenmath
-#
 	make -C doc
 	make -C js
 	make -C test
