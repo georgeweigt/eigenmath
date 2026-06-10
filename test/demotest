@@ -4752,20 +4752,20 @@ check(M conj(M) == pi a^5 / l^3)
 
 "Verify equation (7)"
 Eb = hbar^2 k^2 / (2 m)
-m = hbar / (alpha a c)
-check(sqrt(2 m^3 Eb) / hbar^3 == k / (alpha a hbar c))
+m = hbar / (a alpha c)
+check(sqrt(2 m^3 Eb) / hbar^3 == k / (a alpha hbar c))
 "ok"
 
 "Verify equation (8)"
 R = 2 pi / hbar M conj(M) rho
-rho = (l / (2 pi))^3 k / (alpha a hbar c)
-check(R == k / (4 pi alpha hbar^2 c) a^4)
+rho = (l / (2 pi))^3 k / (a alpha hbar c)
+check(R == k a^4 / (4 pi alpha hbar^2 c))
 "ok"
 
 "Verify equation (9)"
 joule = kilogram meter^2 / second^2
 newton = kilogram meter / second^2
-check(1 / (meter (joule second)^2 meter/second) newton^2 meter^4 == 1/second)
+check(1/meter meter^4 / ((joule second)^2 meter/second) newton^2 == 1/second)
 "ok"
 "photoelectric-effect-demo.txt"
 status
