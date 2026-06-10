@@ -4711,6 +4711,65 @@ check(cb2 == T)
 "perturbation-example-demo.txt"
 status
 clear
+"photoelectric-effect-demo.txt"
+"Photoelectric effect"
+
+"Verify equation (1)"
+A = (Ax(),Ay(),Az())
+PA = -i hbar div(A psi())
+AP = dot(A, -i hbar grad(psi()))
+check(PA + AP == 2 AP - i hbar psi() div(A))
+"ok"
+
+"Verify equation (2)"
+kr = kx x + ky y + kz z
+E = E0 sin(kr - omega t) (e1,e2,e3)
+A = -E0 / omega cos(kr - omega t) (e1,e2,e3)
+check(E == -d(A,t))
+"ok"
+
+"Verify equation (3)"
+f = exp(i k r u - r/a)
+I = defint(f, u, -1, 1)
+check(I = (exp(i k r - r/a) - exp(-i k r - r/a)) / (i k r))
+"ok"
+
+"Verify equation (4)"
+f = (exp(i k r - r/a) - exp(-i k r - r/a)) r^2
+I = integral(f,r)
+I = 0 - eval(I,r,0)
+check(I == -2 / (i k - 1/a)^3 + 2 / (-i k - 1/a)^3)
+"ok"
+
+"Verify equation (5)"
+check(I/k == i a^4 (16 / (a^2 k^2 + 1)^3 - 4 / (a^2 k^2 + 1)^2))
+"ok"
+
+"Verify equation (6)"
+M = -pi / sqrt(pi a^3 l^3) i a^4
+check(M conj(M) == pi a^5 / l^3)
+"ok"
+
+"Verify equation (7)"
+Eb = hbar^2 k^2 / (2 m)
+m = hbar / (alpha a c)
+check(sqrt(2 m^3 Eb) / hbar^3 == k / (alpha a hbar c))
+"ok"
+
+"Verify equation (8)"
+R = 2 pi / hbar M conj(M) rho
+rho = (l / (2 pi))^3 k / (alpha a hbar c)
+check(R == k / (4 pi alpha hbar^2 c) a^4)
+"ok"
+
+"Verify equation (9)"
+joule = kilogram meter^2 / second^2
+newton = kilogram meter / second^2
+check(1 / (meter (joule second)^2 meter/second) newton^2 meter^4 == 1/second)
+"ok"
+"photoelectric-effect-demo.txt"
+status
+clear
 "physical-constants.txt"
 -- CODATA Internationally recommended 2022 values
 -- https://physics.nist.gov/cuu/Constants/
