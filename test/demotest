@@ -2549,51 +2549,64 @@ nu
 status
 clear
 "fermi-golden-rule-demo.txt"
--- Verify formulas for Fermi's golden rule
+"Fermi's golden rule"
+
+"Verify equation (1)"
+
+Psi = c1(t) psi1(r) exp(-i omega1 t) +
+      c2(t) psi2(r) exp(-i omega2 t)
+
+check(i hbar d(Psi, t) ==
+i hbar d(c1(t),t) psi1(r) exp(-i omega1 t) +
+hbar omega1 c1(t) psi1(r) exp(-i omega1 t) +
+i hbar d(c2(t),t) psi2(r) exp(-i omega2 t) +
+hbar omega2 c2(t) psi2(r) exp(-i omega2 t))
+
+"ok"
+
+"Verify equation (2)"
 
 Delta = omega2 - omega1
 
-f = expcos(omega t + phi) exp(i Delta t)
-I = defint(f,t,0,t)
+f = cos(omega t + phi) exp(i Delta t)
+I = defint(expform(f), t, 0, t)
+
 c2 = 2 M21 / (i hbar) I
 
-c21 = -M21 / hbar *
-      (exp(i (Delta - omega) t) - 1) / (Delta - omega) *
-      exp(-i phi)
+T1 = -M21 / hbar *
+     (exp(i (Delta - omega) t) - 1) / (Delta - omega) *
+     exp(-i phi)
 
-c22 = -M21 / hbar *
-      (exp(i (Delta + omega) t) - 1) / (Delta + omega) *
-      exp(i phi)
+T2 = -M21 / hbar *
+     (exp(i (Delta + omega) t) - 1) / (Delta + omega) *
+     exp(i phi)
 
-"Verify integral (1)"
-check(c2 == c21 + c22)
-check(f == d(I,t))
+check(c2 == T1 + T2)
+
 "ok"
 
-c2 = c21
-
-sinc(x) = expsin(x) / x
-
-c2prime = -i t / hbar M21 *
-          exp(i (Delta - omega) / 2 t - i phi) *
-          sinc((Delta - omega) / 2 t)
-
-"Verify sinc form (2)"
-check(c2 == c2prime)
+"Verify equation (3)"
+check(exp(i x) - 1 == 2 i sin(x/2) exp(i x/2))
 "ok"
 
-sinc = quote(sinc) -- clear sinc def
+"Verify equation (4)"
 
-c2 = -i t / hbar M21 *
-     exp(i (Delta - omega) / 2 t - i phi) *
-     sinc((Delta - omega) / 2 t)
+c2 = -M21 / hbar *
+     (exp(i (Delta - omega) t) - 1) / (Delta - omega) *
+     exp(-i phi)
+
+sinc(x) = sin(x) / x
+
+check(c2 == -i t M21 / hbar sinc(1/2 (Delta - omega) t) exp(1/2 i (Delta - omega) t) exp(-i phi))
+
+"ok"
+
+"Verify equation (5)"
 
 P = conj(c2) c2
 
-Pprime = t^2 / hbar^2 M21^2 sinc((Delta - omega) / 2 t)^2
+check(P == t^2 / hbar^2 M21^2 sinc((Delta - omega) / 2 t)^2)
 
-"Verify equation (3)"
-check(P == Pprime)
 "ok"
 "fermi-golden-rule-demo.txt"
 status
