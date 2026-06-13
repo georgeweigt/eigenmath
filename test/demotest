@@ -1267,49 +1267,6 @@ beta
 "balmers-formula-demo.txt"
 status
 clear
-"barrier-potential-demo.txt"
-psi1 = A exp(i k x) + B exp(-i k x)
-psi2 = C exp(i kappa x) + D exp(-i kappa x)
-psi3 = F exp(i k x)
-
-k = sqrt(2 m E) / hbar
-kappa = sqrt(2 m (E - V0)) / hbar
-
-"Verify C and D"
-C = (kappa + k) F exp(i k a - i kappa a) / (2 kappa)
-D = (kappa - k) F exp(i k a + i kappa a) / (2 kappa)
-check(eval(psi2,x,a) == eval(psi3,x,a))
-check(eval(d(psi2,x),x,a) == eval(d(psi3,x),x,a))
-check(-hbar^2 / (2 m) d(psi2,x,x) + V0 psi2 == E psi2)
-"ok"
-
-"Verify A and B"
-A = (k + kappa) C exp( i k a - i kappa a) / (2 k) +
-    (k - kappa) D exp( i k a + i kappa a) / (2 k)
-B = (k - kappa) C exp(-i k a - i kappa a) / (2 k) +
-    (k + kappa) D exp(-i k a + i kappa a) / (2 k)
-check(eval(psi1,x,-a) == eval(psi2,x,-a))
-check(eval(d(psi1,x),x,-a) == eval(d(psi2,x),x,-a))
-check(-hbar^2 / (2 m) d(psi1,x,x) == E psi1)
-"ok"
-
-T1 = A/F conj(A/F)
-K = E / (V0 - E) + V0 / E + 1
-
-"Verify equation (5)"
-check(T1 == 1 + K/8 (cos(4 a sqrt(2 m (E - V0)) / hbar) - 1))
-"ok"
-
-"Verify equation (6)"
-check(T1 == 1 + K/4 sinh(2 i a / hbar sqrt(2 m (E - V0)))^2)
-"ok"
-
-"Verify equation (7)"
-check(T1 == 1 + V0^2 / (4 E (V0 - E)) sinh(2 i a / hbar sqrt(2 m (E - V0)))^2)
-"ok"
-"barrier-potential-demo.txt"
-status
-clear
 "bells-theorem-demo.txt"
 "Exercise 1. Verify equation (2)."
 
@@ -5878,6 +5835,61 @@ xrange = (-25,25)
 yrange = (0,1)
 draw(f,z)
 "stern-gerlach-3-demo.txt"
+status
+clear
+"tunneling-demo.txt"
+"Tunneling"
+
+psi1 = A exp(i k x) + B exp(-i k x)
+psi2 = C exp(i kappa x) + D exp(-i kappa x)
+psi3 = F exp(i k x)
+
+"Verify C and D"
+C = (kappa + k) F exp(i k a - i kappa a) / (2 kappa)
+D = (kappa - k) F exp(i k a + i kappa a) / (2 kappa)
+check(eval(psi2,x,a) == eval(psi3,x,a))
+check(eval(d(psi2,x),x,a) == eval(d(psi3,x),x,a))
+"ok"
+
+"Verify A and B"
+A = (k + kappa) C exp( i k a - i kappa a) / (2 k) +
+    (k - kappa) D exp( i k a + i kappa a) / (2 k)
+B = (k - kappa) C exp(-i k a - i kappa a) / (2 k) +
+    (k + kappa) D exp(-i k a + i kappa a) / (2 k)
+check(eval(psi1,x,-a) == eval(psi2,x,-a))
+check(eval(d(psi1,x),x,-a) == eval(d(psi2,x),x,-a))
+"ok"
+
+"Verify equation (5)"
+check(A / F ==
+(k + kappa)^2 exp(2 i a (k - kappa)) / (4 k kappa) -
+(k - kappa)^2 exp(2 i a (k + kappa)) / (4 k kappa))
+"ok"
+
+T1 = A/F conj(A/F)
+
+k = sqrt(2 m E) / hbar
+kappa = sqrt(2 m (E - V0)) / hbar
+
+K = E / (V0 - E) + V0 / E + 1
+
+"Verify equation (6)"
+check(T1 == 1 + K/8 (cos(4 a sqrt(2 m (E - V0)) / hbar) - 1))
+"ok"
+
+"Verify equation (7)"
+check(T1 == 1 + K/4 sinh(2 i a / hbar sqrt(2 m (E - V0)))^2)
+"ok"
+
+"Verify equation (8)"
+check(T1 == 1 + V0^2 / (4 E (V0 - E)) sinh(2 i a / hbar sqrt(2 m (E - V0)))^2)
+"ok"
+
+"Verify equation (9)"
+joule = kilogram meter^2 / second^2
+check(meter / (joule second) sqrt(kilogram joule) == 1)
+"ok"
+"tunneling-demo.txt"
 status
 clear
 "two-spins-demo.txt"
