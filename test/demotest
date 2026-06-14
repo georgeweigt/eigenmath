@@ -5841,35 +5841,35 @@ clear
 "Tunneling"
 
 psi1 = A exp(i k x) + B exp(-i k x)
-psi2 = C exp(i kappa x) + D exp(-i kappa x)
+psi2 = C exp(i beta x) + D exp(-i beta x)
 psi3 = F exp(i k x)
 
 "Verify C and D"
-C = (kappa + k) F exp(i k a - i kappa a) / (2 kappa)
-D = (kappa - k) F exp(i k a + i kappa a) / (2 kappa)
+C = (beta + k) F exp(i k a - i beta a) / (2 beta)
+D = (beta - k) F exp(i k a + i beta a) / (2 beta)
 check(eval(psi2,x,a) == eval(psi3,x,a))
 check(eval(d(psi2,x),x,a) == eval(d(psi3,x),x,a))
 "ok"
 
 "Verify A and B"
-A = (k + kappa) C exp( i k a - i kappa a) / (2 k) +
-    (k - kappa) D exp( i k a + i kappa a) / (2 k)
-B = (k - kappa) C exp(-i k a - i kappa a) / (2 k) +
-    (k + kappa) D exp(-i k a + i kappa a) / (2 k)
+A = (k + beta) C exp( i k a - i beta a) / (2 k) +
+    (k - beta) D exp( i k a + i beta a) / (2 k)
+B = (k - beta) C exp(-i k a - i beta a) / (2 k) +
+    (k + beta) D exp(-i k a + i beta a) / (2 k)
 check(eval(psi1,x,-a) == eval(psi2,x,-a))
 check(eval(d(psi1,x),x,-a) == eval(d(psi2,x),x,-a))
 "ok"
 
 "Verify equation (5)"
 check(A / F ==
-(k + kappa)^2 exp(2 i a (k - kappa)) / (4 k kappa) -
-(k - kappa)^2 exp(2 i a (k + kappa)) / (4 k kappa))
+(k + beta)^2 exp(2 i a (k - beta)) / (4 k beta) -
+(k - beta)^2 exp(2 i a (k + beta)) / (4 k beta))
 "ok"
 
-T1 = A/F conj(A/F)
-
 k = sqrt(2 m E) / hbar
-kappa = sqrt(2 m (E - V0)) / hbar
+beta = sqrt(2 m (E - V0)) / hbar
+
+T1 = A/F conj(A/F)
 
 K = E / (V0 - E) + V0 / E + 1
 
