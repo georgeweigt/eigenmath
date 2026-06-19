@@ -872,6 +872,15 @@ A\operatorname{det}B-\operatorname{adj}B=0
 
 \section{Linear regression}
 
+Let $Y$ be a response vector with $n$ rows.
+Let $p$ be the number of model parameters.
+Then for design matrix $X$ with $n$ rows and $p$ columns the ordinary least squares
+estimate of model parameters $\beta$ is
+\begin{equation*}
+\beta=(X^TX)^{-1}X^TY
+\end{equation*}
+
+Example.
 Response variable $Y$ is log of half-life for uranium ($Z=90$)
 and thorium ($Z=88$).
 Note: $Z$ is atomic number of daughter nucleus.
@@ -903,48 +912,14 @@ Y & A & Z & E
 
 Geiger–Nuttall regression model.
 \begin{equation*}
-\hat Y=\beta_2\frac{Z}{\sqrt E}+\beta_1Z^{2/3}+\beta_0
+\hat Y=\beta_1\frac{Z}{\sqrt E}+\beta_2Z^{2/3}+\beta_3
 \end{equation*}
 
-By ordinary least squares the best coefficients for the above data are
-\begin{align*}
-\beta_2&=3.7
-\\
-\beta_1&=-3.058
-\\
-\beta_0&=-60.14
-\end{align*}
-
-\iffalse
-The regression formula yields the following predicted values.
+The Eigenmath code for ordinary least squares sets up the design matrix
+as $p\times n$ hence the ordinary least squares formula is
 \begin{equation*}
-\begin{matrix}
-Y & \hat Y
-\\[1ex]
-6.30 & 6.15
-\\
-14.4 & 14.5
-\\
-21.5 & 21.6
-\\
-29.7 & 29.5
-\\
-34.2 & 34.2
-\\
-39.5 & 39.6
-\\
-7.52 & 7.57
-\\
-17.9 & 17.9
-\\
-28.5 & 28.4
-\\
-40.6 & 40.6
-\end{matrix}
+\beta=(XX^T)^{-1}XY
 \end{equation*}
-\fi
-
-Eigenmath code for ordinary least squares.
 
 {\color{blue}
 \begin{verbatim}
@@ -956,8 +931,7 @@ X[3] = X[3] + 1
 beta = dot(inv(dot(X,transpose(X))),X,Y)
 
 Yhat = dot(beta,X)
-\end{verbatim}
-}
+\end{verbatim}}
 
 \href{https://georgeweigt.github.io/examples/linear-regression-demo.html}{Eigenmath script}
 

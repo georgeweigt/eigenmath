@@ -83,6 +83,63 @@ check(L1(L1(W)) + L2(L2(W)) + L3(L3(W)) == LL(W))
 "ok"
 "angular-momentum-formulas-2.txt"
 clear
+"bernstein-vazirani.txt"
+-- Bernstein-Vazirani algorithm
+
+-- See qiskit.org/textbook/ch-algorithms/bernstein-vazirani.html
+ 
+"Secret value: 5"
+
+U(psi) = rotate(psi,
+  C,0,X,3, -- cnot, control 0, target 3
+  C,2,X,3) -- cnot, control 2, target 3
+
+psi = zero(16)
+psi[1] = 1
+
+psi = rotate(psi,H,0,H,1,H,2,H,3,Z,3)
+
+psi = U(psi)
+
+psi = rotate(psi,H,0,H,1,H,2)
+
+-- result is a probability distribution
+
+P = psi conj(psi)
+
+-- qubit 3 is don't care
+
+for(k,1,8, P[k] = P[k] + P[k + 8])
+
+xrange = (0,8)
+yrange = (0,1)
+draw(P[ceiling(x)],x)
+
+M = zero(2,8) -- 2 rows, 8 columns
+
+for(k,1,8, M[1,k] = P[k], M[2,k] = k - 1)
+M
+
+"Row 1 is the probability of observing the value in row 2"
+"bernstein-vazirani.txt"
+clear
+"birthday-problem.txt"
+"Birthday problem"
+
+-- Product method
+p = product(k,1,23,(365-k+1)/365)
+check(infixform(float(p)) == "0.492703")
+
+-- Factorial method
+p = 365! / (365 - 23)! / 365^23
+check(infixform(float(p)) == "0.492703")
+
+-- Probability of at least one shared birthday
+check(infixform(1.0 - p) == "0.507297")
+
+"ok"
+"birthday-problem.txt"
+clear
 "brachistochrone-problem.txt"
 -- https://mathworld.wolfram.com/BrachistochroneProblem.html
 
@@ -107,6 +164,51 @@ B
 t = defint(sqrt(f), theta, thetaA, thetaB)
 t
 "brachistochrone-problem.txt"
+clear
+"circular-polarization.txt"
+"Circular polarization"
+--Simple example of clockwise (right hand) circular polarization.
+--Both E and B rotate clockwise while remaining at right angles to each other.
+--To see the rotation, suppose you are standing at location z=0 at time t=0.
+--You observe E=(0,1,0), that is, E pointing to 12 o'clock.
+--Now increase t a little bit by just waiting.
+--What happens is the y component decreases and the x component increases.
+--So now, instead of pointing straight up, E points to the right a little.
+--Keep waiting and eventually observe E=(1,0,0), E pointing to 3 o'clock.
+--E has rotated a quarter turn.
+--Let t run freely and the rotation continues.
+E = (sin(t+z), cos(t+z), 0)
+B = (cos(t+z), -sin(t+z), 0)
+--Check Maxwell's equations.
+check(div(E) = 0)
+check(curl(E) + d(B,t) = 0)
+check(div(B) = 0)
+check(curl(B) - d(E,t) = 0)
+check(dot(E,B) = 0)
+--Already shown to be true by Maxwell above but do this anyway...
+check(dot(E,B) = 0)              --Check right angle
+check(dot(E,E) - dot(B,B) = 0)   --Check equal length
+"circular-polarization.txt"
+clear
+"cross-product-proof.txt"
+A = (A1(x,y,z),A2(x,y,z),A3(x,y,z))
+B = (B1(x,y,z),B2(x,y,z),B3(x,y,z))
+psi = psi0(x,y,z)
+
+phat(f) = (d(f,x),d(f,y),d(f,z))
+
+pcross(f) = (d(f[3],y) - d(f[2],z),
+             d(f[1],z) - d(f[3],x),
+             d(f[2],x) - d(f[1],y))
+
+"p x (A psi) = (p x A) psi + (p psi) x A"
+check(pcross(A psi) == pcross(A) psi + cross(phat(psi),A))
+"ok"
+
+"(p x A + A x p) psi = psi (curl A)"
+check(pcross(A psi) + cross(A,phat(psi)) == psi curl(A))
+"ok"
+"cross-product-proof.txt"
 clear
 "derivative-of-spherical-harmonic.txt"
 "Verify Mathematica formula for derivative of spherical harmonic"
@@ -285,6 +387,26 @@ yrange = (-2,2)
 trange = (-4,2)
 draw(f,t)
 "draw.txt"
+clear
+"elliptical-polarization.txt"
+"Elliptical polarization"
+--Simple example of clockwise (right hand) elliptical polarization.
+--As in "circular polarization" except E and B trace out ellipses.
+--Becomes linear polarization for EX=0 or EY=0.
+--Becomes circular polarization for EX=EY.
+--Note that at any given time E and B have the same length.
+E = (EX sin(t+z), EY cos(t+z), 0)
+B = (EY cos(t+z), -EX sin(t+z), 0)
+--Check Maxwell's equations.
+check(div(E) = 0)
+check(curl(E) + d(B,t) = 0)
+check(div(B) = 0)
+check(curl(B) - d(E,t) = 0)
+check(dot(E,B) = 0)
+--Already shown to be true by Maxwell above but do this anyway...
+check(dot(E,B) = 0)              --Check right angle
+check(dot(E,E) - dot(B,B) = 0)   --Check equal length
+"elliptical-polarization.txt"
 clear
 "equivalent-quantum-circuits-1.txt"
 # Show that the following quantum circuits are equivalent
@@ -626,7 +748,7 @@ check(UADD(ket0011) == ket1011)
 "ok"
 "full-adder-without-toffoli.txt"
 clear
-"grover.txt"
+"grover-1.txt"
 -- https://arxiv.org/abs/1703.10535
 
 Q0 = 0
@@ -660,7 +782,43 @@ p = psi conj(psi)
 b = ("000","100","010","110","001","101","011","111")
 
 transpose((b,p))
-"grover.txt"
+"grover-1.txt"
+clear
+"grover-2.txt"
+-- Grover search algorithm
+
+-- See qiskit.org/textbook/ch-algorithms/grover.html
+
+I = unit(256) -- 256 x 256 identity matrix
+
+"Location in database (range 1 to 256)"
+
+w = 250
+w
+
+Uf = I
+Uf[w,w] = -1
+
+psi = zero(256) -- zero vector (256 elements)
+psi[1] = 1
+
+psi = float(psi) -- floating point is faster
+
+psi = rotate(psi,H,0,H,1,H,2,H,3,H,4,H,5,H,6,H,7)
+
+Us = 2 outer(psi,psi) - I
+
+for(k,1,10,
+  psi = dot(Uf,psi),
+  psi = dot(Us,psi)
+)
+
+P = psi conj(psi)
+
+"Probability of success after 10 iterations"
+
+P[w]
+"grover-2.txt"
 clear
 "hydrogen-atom-radial-pdf.txt"
 -- Draw radial probability density for hydrogen atom electron
@@ -1295,6 +1453,84 @@ check(M(e7,e7)=-e0)
 
 "ok"
 "octonions.txt"
+clear
+"order-finding-demo.txt"
+-- Find r such that 7^r mod 15 = 1
+
+-- See qiskit.org/textbook/ch-algorithms/shor.html
+
+-- 7 mod 15 (from qiskit code)
+
+U(psi,k) = rotate(psi,
+
+  C,k,W,10,11,  -- conditional swap bits 10 and 11
+  C,k,W,9,10,   -- conditional swap bits 9 and 10
+  C,k,W,8,9,    -- conditional swap bits 8 and 9
+  C,k,X,8,      -- conditional not bit 8
+  C,k,X,9,      -- conditional not bit 9
+  C,k,X,10,     -- conditional not bit 10
+  C,k,X,11)     -- conditional not bit 11
+
+-- 12 quantum bits have 2^12 = 4096 eigenstates
+
+psi = zero(4096)
+
+-- initial state is eigenstate zero
+
+psi[1] = 1
+
+-- start computing
+
+psi = rotate(psi,
+
+  H,0,   -- hadamard bit 0
+  H,1,   -- hadamard bit 1
+  H,2,   -- hadamard bit 2
+  H,3,   -- hadamard bit 3
+  H,4,   -- hadamard bit 4
+  H,5,   -- hadamard bit 5
+  H,6,   -- hadamard bit 6
+  H,7,   -- hadamard bit 7
+  X,8)   -- not bit 8
+
+-- U^(2^0) U^(2^1) U^(2^2) ... U^(2^7)
+
+for(k,1,1,   psi = U(psi,0))
+for(k,1,2,   psi = U(psi,1))
+for(k,1,4,   psi = U(psi,2))
+for(k,1,8,   psi = U(psi,3))
+for(k,1,16,  psi = U(psi,4))
+for(k,1,32,  psi = U(psi,5))
+for(k,1,64,  psi = U(psi,6))
+for(k,1,128, psi = U(psi,7))
+
+-- inverse QFT on bits 0-7
+
+psi = rotate(psi,V,7)
+
+-- result is a probability distribution
+
+P = psi conj(psi)
+
+-- qubits 8-11 are don't care
+
+for(k,1,2048, P[k] = P[k] + P[k + 2048])
+for(k,1,1024, P[k] = P[k] + P[k + 1024])
+for(k,1, 512, P[k] = P[k] + P[k +  512])
+for(k,1, 256, P[k] = P[k] + P[k +  256])
+
+"Row 1 is the probability of observing the phase in row 2"
+
+n = 0
+for(k,1,256,test(P[k],n=n+1))
+test(n<2,n=2)
+M = zero(2,n) -- 2 rows, n columns
+n = 1
+for(k,1,256,test(P[k],do(M[1,n]=float(P[k]),M[2,n]=(k-1)/256,n=n+1)))
+M
+
+"Observing 1/4 or 3/4 turns gives the correct answer r = 4"
+"order-finding-demo.txt"
 clear
 "physical-constants.txt"
 -- CODATA Internationally recommended 2022 values
