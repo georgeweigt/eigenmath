@@ -2236,17 +2236,22 @@ gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
 gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
 gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
 
-D(psi) = 1/c dot(gamma0,d(psi,t)) +
-         dot(gamma1,d(psi,x)) +
-         dot(gamma2,d(psi,y)) +
-         dot(gamma3,d(psi,z))
+D(psi) = dot(gamma0,d(psi,t)) +
+         c dot(gamma1,d(psi,x)) +
+         c dot(gamma2,d(psi,y)) +
+         c dot(gamma3,d(psi,z))
 
 "Verify wavefunctions"
 
-check(i hbar D(psi1) == m c psi1)
-check(i hbar D(psi2) == m c psi2)
-check(i hbar D(psi3) == m c psi3)
-check(i hbar D(psi4) == m c psi4)
+check(i hbar D(psi1) == m c^2 psi1)
+check(i hbar D(psi2) == m c^2 psi2)
+check(i hbar D(psi3) == m c^2 psi3)
+check(i hbar D(psi4) == m c^2 psi4)
+
+check(i hbar d(psi1,t) == E psi1)
+check(i hbar d(psi2,t) == E psi2)
+check(i hbar d(psi3,t) == -E psi3)
+check(i hbar d(psi4,t) == -E psi4)
 
 "ok"
 
@@ -2288,17 +2293,22 @@ gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
 gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
 gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
 
-D(psi) = 1/c dot(gamma0,d(psi,t)) +
-         dot(gamma1,d(psi,x)) +
-         dot(gamma2,d(psi,y)) +
-         dot(gamma3,d(psi,z))
+D(psi) = dot(gamma0,d(psi,t)) +
+         c dot(gamma1,d(psi,x)) +
+         c dot(gamma2,d(psi,y)) +
+         c dot(gamma3,d(psi,z))
 
 "Verify wavefunctions"
 
-check(i hbar D(psi1) == m c psi1)
-check(i hbar D(psi2) == m c psi2)
-check(i hbar D(psi3) == m c psi3)
-check(i hbar D(psi4) == m c psi4)
+check(i hbar D(psi1) == m c^2 psi1)
+check(i hbar D(psi2) == m c^2 psi2)
+check(i hbar D(psi3) == m c^2 psi3)
+check(i hbar D(psi4) == m c^2 psi4)
+
+check(i hbar d(psi1,t) == E psi1)
+check(i hbar d(psi2,t) == E psi2)
+check(i hbar d(psi3,t) == -E psi3)
+check(i hbar d(psi4,t) == -E psi4)
 
 "ok"
 
