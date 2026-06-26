@@ -7,7 +7,7 @@ eigenmath.c: src/LICENSE src/defs.h src/prototypes.h src/*.c
 	cat src/LICENSE src/defs.h src/prototypes.h src/*.c > eigenmath.c
 
 all:
-	make -C src
+	make -C src prototypes.h
 	make eigenmath
 	make -C doc
 	make -C js
