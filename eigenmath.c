@@ -17738,7 +17738,7 @@ readfile(char *filename)
 
 	t = lseek(fd, 0, SEEK_END);
 
-	if (t < 0 || t > 0x1000000) { // 16 MB max
+	if (t < 0 || t > 1000000) {
 		close(fd);
 		return NULL;
 	}
