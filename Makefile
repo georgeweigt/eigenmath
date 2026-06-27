@@ -17,4 +17,5 @@ all:
 	make -C xcode
 
 clean:
-	rm -f eigenmath src/eigenmath tools/make-prototypes tools/wcheck
+	make -C tools clean
+	rm -f eigenmath src/eigenmath
