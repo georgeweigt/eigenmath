@@ -8,7 +8,7 @@ Lz(f) = -i hbar (x d(f,y) - y d(f,x))
 L(f) = (Lx(f),Ly(f),Lz(f))
 L2(f) = Lx(Lx(f)) + Ly(Ly(f)) + Lz(Lz(f))
 
-LxL(f) = (Ly(Lz(f)) - Lz(Ly(f)),
+LXL(f) = (Ly(Lz(f)) - Lz(Ly(f)),
           Lz(Lx(f)) - Lx(Lz(f)),
           Lx(Ly(f)) - Ly(Lx(f)))
 
@@ -19,7 +19,7 @@ Sz(f) = hbar / 2 dot(((1,0),(0,-1)),f)
 S(f) = (Sx(f),Sy(f),Sz(f))
 S2(f) = Sx(Sx(f)) + Sy(Sy(f)) + Sz(Sz(f))
 
-SxS(f) = (Sy(Sz(f)) - Sz(Sy(f)),
+SXS(f) = (Sy(Sz(f)) - Sz(Sy(f)),
           Sz(Sx(f)) - Sx(Sz(f)),
           Sx(Sy(f)) - Sy(Sx(f)))
 
@@ -30,7 +30,7 @@ Jz(f) = Lz(f) + Sz(f)
 J(f) = (Jx(f),Jy(f),Jz(f))
 J2(f) = Jx(Jx(f)) + Jy(Jy(f)) + Jz(Jz(f))
 
-JxJ(f) = (Jy(Jz(f)) - Jz(Jy(f)),
+JXJ(f) = (Jy(Jz(f)) - Jz(Jy(f)),
           Jz(Jx(f)) - Jx(Jz(f)),
           Jx(Jy(f)) - Jy(Jx(f)))
 
@@ -41,9 +41,9 @@ chi = (c1(theta,phi),
 
 Psi = psi(x,y,z) chi
 
-check(LxL(Psi) == i hbar L(Psi))
-check(SxS(Psi) == i hbar S(Psi))
-check(JxJ(Psi) == i hbar J(Psi))
+check(LXL(Psi) == i hbar L(Psi))
+check(SXS(Psi) == i hbar S(Psi))
+check(JXJ(Psi) == i hbar J(Psi))
 
 "Verify equation (1)"
 LS(f) = contract(L(S(Psi)))
