@@ -14,7 +14,7 @@ eval_eval(struct atom *p1)
 	}
 }
 
-// arithmetic subst
+// arithmetic subst (different from classic textual subst)
 
 void
 asubst(void)
@@ -52,6 +52,17 @@ asubst(void)
 
 	if (!iscons(p1)) {
 		push(p1);
+		return;
+	}
+
+	// leave unevaluated if target is derivative or integral
+
+	if ((car(p1) == symbol(DERIVATIVE) || car(p1) == symbol(INTEGRAL)) && findf(p1, p2)) {
+		push(symbol(EVAL));
+		push(p1);
+		push(p2);
+		push(p3);
+		list(4);
 		return;
 	}
 
@@ -96,6 +107,8 @@ asubst(void)
 
 	push(p1);
 }
+
+// so that eval(a+b+c,b+c,d) -> a+d
 
 int
 addcmp(struct atom *p1, struct atom *p2)

@@ -30,7 +30,7 @@ eval_taylor(p1)
 	push(F);	// f(a)
 	push(X);
 	push(A);
-	subst();
+	asubst();
 	evalf();
 
 	push_integer(1);
@@ -43,8 +43,8 @@ eval_taylor(p1)
 		derivative();
 		F = pop();
 
-		if (findf(F, symbol(DERIVATIVE)))
-			stopf("taylor: derivative err");
+//		if (findf(F, symbol(DERIVATIVE)))
+//			stopf("taylor: derivative err");
 
 		if (iseqzero(F))
 			break;
@@ -59,7 +59,7 @@ eval_taylor(p1)
 		push(F);	// f(a)
 		push(X);
 		push(A);
-		subst();
+		asubst();
 		evalf();
 
 		push(C);
