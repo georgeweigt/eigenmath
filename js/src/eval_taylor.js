@@ -43,9 +43,6 @@ eval_taylor(p1)
 		derivative();
 		F = pop();
 
-		if (findf(F, symbol(DERIVATIVE)))
-			stopf("taylor: derivative err");
-
 		if (iseqzero(F))
 			break;
 
