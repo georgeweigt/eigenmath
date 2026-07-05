@@ -17,6 +17,3 @@ check(A == B)
 A = taylor(1/(5+4*cos(x)),x,6,0)
 B = 1/9+2/81*x^2+5/1458*x^4+49/131220*x^6
 check(A == B)
-
-f = U(t + epsilon, t0)
-check(taylor(f,epsilon,2) == U(t,t0) + epsilon U(t,t0) + 1/2 epsilon^2 U(t,t0))
