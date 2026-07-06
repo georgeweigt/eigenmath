@@ -13317,7 +13317,6 @@ eval_taylor(struct atom *p1)
 	push(X);
 	push(A);
 	asubst();
-	evalf();
 
 	push_integer(1);
 	C = pop();
@@ -13328,12 +13327,6 @@ eval_taylor(struct atom *p1)
 		push(X);
 		derivative();
 		F = pop();
-
-//		if (findf(F, symbol(DERIVATIVE)))
-//			stopf("taylor: derivative err");
-
-		if (iseqzero(F))
-			break;
 
 		push(C);	// c = c * (x - a)
 		push(X);
@@ -13346,7 +13339,6 @@ eval_taylor(struct atom *p1)
 		push(X);
 		push(A);
 		asubst();
-		evalf();
 
 		push(C);
 		multiply();
