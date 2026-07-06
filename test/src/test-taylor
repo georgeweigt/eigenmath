@@ -17,3 +17,6 @@ check(A == B)
 A = taylor(1/(5+4*cos(x)),x,6,0)
 B = 1/9+2/81*x^2+5/1458*x^4+49/131220*x^6
 check(A == B)
+
+f = U(t+e,a)
+check(infixform(taylor(f,e,2)) == "1/2 e^2 eval(d(d(U(e + t,a),e),e),e,0) + e eval(d(U(e + t,a),e),e,0) + U(t,a)")
