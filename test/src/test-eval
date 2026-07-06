@@ -33,3 +33,8 @@ A(f) = eval(f, phi1, a1 phi1, phi2, a2 phi2) -- eigenvalues
 f = conj(psi) A(psi)
 Abar = eval(f, r1(x)^2, 1, r2(x)^2, 1, r1(x) r2(x), 0) -- integral
 check(Abar == (a1 + a2) / 2 + (a1 - a2) / 2 cos((E1 - E2) t / hbar))
+
+check(infixform(eval(d(U(t),t),t,0)) == "eval(d(U(t),t),t,0)")
+check(infixform(eval(d(U(t),t),x,0)) == "d(U(t),t)")
+check(infixform(eval(integral(U(t),t),t,0)) == "eval(integral(U(t),t),t,0)")
+check(infixform(eval(integral(U(t),t),x,0)) == "integral(U(t),t)")
