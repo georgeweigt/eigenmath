@@ -63,7 +63,7 @@ scan_nib(s, k)
 	scan_stmt();
 
 	if (token != T_NEWLINE && token != T_END)
-		scan_error("expected newline");
+		scan_error("syntax");
 
 	return scan_index;
 }
@@ -236,7 +236,7 @@ scan_factor()
 		break;
 
 	default:
-		scan_error("expected operand");
+		scan_error("syntax");
 		break;
 	}
 

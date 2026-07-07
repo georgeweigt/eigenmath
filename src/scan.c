@@ -65,7 +65,7 @@ scan_nib(char *s)
 		return NULL;
 	scan_stmt();
 	if (token != T_NEWLINE && token != T_END)
-		scan_error("syntax err"); // unexpected token, for example, 1:2
+		scan_error("syntax");
 	return scan_str;
 }
 
@@ -230,7 +230,7 @@ scan_factor(void)
 		break;
 
 	default:
-		scan_error("syntax err");
+		scan_error("syntax");
 		break;
 	}
 
