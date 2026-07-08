@@ -36,10 +36,9 @@ JXJ(f) = (Jy(Jz(f)) - Jz(Jy(f)),
 
 # theta and phi are the spin direction
 
-chi = (c1(theta,phi),
-       c2(theta,phi))
+chi = (chi1(theta,phi,t),chi2(theta,phi,t))
 
-Psi = psi(x,y,z) chi
+Psi = psi(x,y,z,t) chi
 
 check(LXL(Psi) == i hbar L(Psi))
 check(SXS(Psi) == i hbar S(Psi))
@@ -2206,6 +2205,28 @@ clear
 "dirac-equation-1-demo.txt"
 "Dirac equation 1"
 
+alphax = ((0,0,0,1),(0,0,1,0),(0,1,0,0),(1,0,0,0))
+alphay = ((0,0,0,-i),(0,0,i,0),(0,-i,0,0),(i,0,0,0))
+alphaz = ((0,0,1,0),(0,0,0,-1),(1,0,0,0),(0,-1,0,0))
+
+beta = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gammat = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gammax = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gammay = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gammaz = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+check(dot(beta,alphax) == gammax)
+check(dot(beta,alphay) == gammay)
+check(dot(beta,alphaz) == gammaz)
+
+"ok"
+"dirac-equation-1-demo.txt"
+status
+clear
+"dirac-equation-2-demo.txt"
+"Dirac equation 2"
+
 P = (E / c, px, py, pz)
 X = (c t, x, y, z)
 
@@ -2263,11 +2284,11 @@ check(dot(psi3,conj(psi3)) == E / (m c^2))
 check(dot(psi4,conj(psi4)) == E / (m c^2))
 
 "ok"
-"dirac-equation-1-demo.txt"
+"dirac-equation-2-demo.txt"
 status
 clear
-"dirac-equation-2-demo.txt"
-"Dirac equation 2"
+"dirac-equation-3-demo.txt"
+"Dirac equation 3"
 
 psi1 = sqrt(E + m c^2) *
        (1, 0, c pz / (E + m c^2), (px + i py) c / (E + m c^2)) *
@@ -2320,11 +2341,11 @@ check(dot(psi3,conj(psi3)) == 2 E)
 check(dot(psi4,conj(psi4)) == 2 E)
 
 "ok"
-"dirac-equation-2-demo.txt"
+"dirac-equation-3-demo.txt"
 status
 clear
-"dirac-equation-3-demo.txt"
-"Dirac equation 3"
+"dirac-equation-4-demo.txt"
+"Dirac equation 4"
 
 u1 = sqrt(E + m c^2) *
      (1, 0, c pz / (E + m c^2), (px + i py) c / (E + m c^2))
@@ -2383,7 +2404,7 @@ check(outer(u1,adjoint(u1)) + outer(u2,adjoint(u2)) == pslash c + m c^2 I)
 check(outer(v1,adjoint(v1)) + outer(v2,adjoint(v2)) == pslash c - m c^2 I)
 
 "ok"
-"dirac-equation-3-demo.txt"
+"dirac-equation-4-demo.txt"
 status
 clear
 "dirac-from-boost-demo.txt"
