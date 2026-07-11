@@ -48,8 +48,7 @@ Trigonometric simplifications occur automatically when exponentials are used.
 See also \verb$expform$ for converting an expression to exponential form.
 
 \item
-Use \verb$rect(expform(f))$ to maybe find a new form
-of trigonometric expression \verb$f$.
+In some cases \verb$rect(expform(f))$ can be used find a new form of expression \verb$f$.
 
 {\color{blue}
 \begin{verbatim}
@@ -58,6 +57,25 @@ rect(expform(f))
 \end{verbatim}}
 
 $\frac{1}{2}\cos(\theta)+\frac{1}{2}$
+
+\item
+Plot the values of vector \verb$y$.
+
+{\color{blue}
+\begin{verbatim}
+y = (1,2,3,4)
+draw(y[floor(x)],x)
+\end{verbatim}}
+
+\item
+Find $\int_{-\infty}^\infty|f(x)|^2\,dx$ where $f(x)$ is a harmonic oscillator wavefunction.
+
+{\color{blue}
+\begin{verbatim}
+I(f) = 2 eval(integral(conj(f) f, x),
+       exp(-m omega x^2 / hbar), 0,
+       erf(sqrt(m omega / hbar) x), 1)
+\end{verbatim}}
 
 \item
 Complex number functions \verb$conj$, \verb$mag$, etc.~treat undefined symbols as
@@ -80,33 +98,6 @@ conj(z) z
 \end{verbatim}}
 
 $A^2$
-
-\item
-Use \verb$mag$ for component magnitude, \verb$abs$ for vector magnitude.
-
-{\color{blue}
-\begin{verbatim}
-y = (a, -b)
-mag(y)
-\end{verbatim}}
-
-$\begin{bmatrix}a\\b\end{bmatrix}$
-
-{\color{blue}
-\begin{verbatim}
-abs(y)
-\end{verbatim}}
-
-$\left[a^2+b^2\right]^{1/2}$
-
-\item
-Use \verb$draw(y[floor(x)],x)$ to plot the values of vector \verb$y$.
-
-{\color{blue}
-\begin{verbatim}
-y = (1,2,3,4)
-draw(y[floor(x)],x)
-\end{verbatim}}
 
 \newpage
 
