@@ -2908,49 +2908,72 @@ clear
 "harmonic-oscillator-1-demo.txt"
 "Harmonic oscillator 1"
 
-psi(n) = C(n) exp(m omega x^2 / (2 hbar) - i omega t (n + 1/2)) *
+H(f) = -hbar^2 / (2 m) d(f,x,x) + 1/2 m omega^2 x^2 f
+
+psi(n) = C(n) exp(-i E(n) t / hbar) *
+         exp(m omega x^2 / (2 hbar)) *
          d(exp(-m omega x^2 / hbar), x, n)
 
 C(n) = (-1)^n / sqrt(2^n n!) *
        (m omega / (pi hbar))^(1/4) *
        (hbar / (m omega))^(n/2)
 
-"Verify wave functions solve Schrodinger equation"
-
-psi0 = psi(0)
-psi1 = psi(1)
-psi2 = psi(2)
-psi3 = psi(3)
-psi4 = psi(4)
-
-Hhat(f) = -hbar^2 / (2 m) d(f,x,x) + 1/2 m omega^2 x^2 f
-
-check(i hbar d(psi0,t) == Hhat(psi0))
-check(i hbar d(psi1,t) == Hhat(psi1))
-check(i hbar d(psi2,t) == Hhat(psi2))
-check(i hbar d(psi3,t) == Hhat(psi3))
-check(i hbar d(psi4,t) == Hhat(psi4))
-
-"ok"
-
-"Verify for time-independent Schrodinger equation"
-
-psi(n) = C(n) exp(m omega x^2 / (2 hbar)) *
-         d(exp(-m omega x^2 / hbar), x, n)
-
-psi0 = psi(0)
-psi1 = psi(1)
-psi2 = psi(2)
-psi3 = psi(3)
-psi4 = psi(4)
-
 E(n) = hbar omega (n + 1/2)
 
-check(Hhat(psi0) == E(0) psi0)
-check(Hhat(psi1) == E(1) psi1)
-check(Hhat(psi2) == E(2) psi2)
-check(Hhat(psi3) == E(3) psi3)
-check(Hhat(psi4) == E(4) psi4)
+psi0 = psi(0)
+psi1 = psi(1)
+psi2 = psi(2)
+psi3 = psi(3)
+psi4 = psi(4)
+
+E0 = E(0)
+E1 = E(1)
+E2 = E(2)
+E3 = E(3)
+E4 = E(4)
+
+"Verify wavefunctions"
+
+check(i hbar d(psi0,t) == H(psi0))
+check(i hbar d(psi1,t) == H(psi1))
+check(i hbar d(psi2,t) == H(psi2))
+check(i hbar d(psi3,t) == H(psi3))
+check(i hbar d(psi4,t) == H(psi4))
+
+check(E0 psi0 == H(psi0))
+check(E1 psi1 == H(psi1))
+check(E2 psi2 == H(psi2))
+check(E3 psi3 == H(psi3))
+check(E4 psi4 == H(psi4))
+
+-- integral of |f|^2 from minus infinity to plus infinity
+
+I(f) = 2 eval(integral(conj(f) f, x),
+       exp(-m omega x^2 / hbar), 0,
+       erf(sqrt(m omega / hbar) x), 1)
+
+check(I(psi0) == 1)
+check(I(psi1) == 1)
+check(I(psi2) == 1)
+check(I(psi3) == 1)
+check(I(psi4) == 1)
+
+-- time-independent wavefunctions
+
+phi(n) = C(n) exp(m omega x^2 / (2 hbar)) *
+         d(exp(-m omega x^2 / hbar), x, n)
+
+phi0 = phi(0)
+phi1 = phi(1)
+phi2 = phi(2)
+phi3 = phi(3)
+phi4 = phi(4)
+
+check(E0 phi0 == H(phi0))
+check(E1 phi1 == H(phi1))
+check(E2 phi2 == H(phi2))
+check(E3 phi3 == H(phi3))
+check(E4 phi4 == H(phi4))
 
 "ok"
 "harmonic-oscillator-1-demo.txt"
@@ -6019,6 +6042,80 @@ R = x
 f = P d(x,t) + Q d(y,t) + R d(z,t)
 defint(f, t, 0, 2 pi)
 "stokes-theorem-demo.txt"
+status
+clear
+"time-independent-schrodinger-equation-demo.txt"
+"Time-independent Schrodinger equation"
+
+H(f) = -hbar^2 / (2 m) d(f,x,x) + 1/2 m omega^2 x^2 f
+
+psi(n) = C(n) exp(-i E(n) t / hbar) *
+         exp(m omega x^2 / (2 hbar)) *
+         d(exp(-m omega x^2 / hbar), x, n)
+
+C(n) = (-1)^n / sqrt(2^n n!) *
+       (m omega / (pi hbar))^(1/4) *
+       (hbar / (m omega))^(n/2)
+
+E(n) = hbar omega (n + 1/2)
+
+psi0 = psi(0)
+psi1 = psi(1)
+psi2 = psi(2)
+psi3 = psi(3)
+psi4 = psi(4)
+
+E0 = E(0)
+E1 = E(1)
+E2 = E(2)
+E3 = E(3)
+E4 = E(4)
+
+"Verify wavefunctions"
+
+check(i hbar d(psi0,t) == H(psi0))
+check(i hbar d(psi1,t) == H(psi1))
+check(i hbar d(psi2,t) == H(psi2))
+check(i hbar d(psi3,t) == H(psi3))
+check(i hbar d(psi4,t) == H(psi4))
+
+check(E0 psi0 == H(psi0))
+check(E1 psi1 == H(psi1))
+check(E2 psi2 == H(psi2))
+check(E3 psi3 == H(psi3))
+check(E4 psi4 == H(psi4))
+
+-- integral of |f|^2 from minus infinity to plus infinity
+
+I(f) = 2 eval(integral(conj(f) f, x),
+       exp(-m omega x^2 / hbar), 0,
+       erf(sqrt(m omega / hbar) x), 1)
+
+check(I(psi0) == 1)
+check(I(psi1) == 1)
+check(I(psi2) == 1)
+check(I(psi3) == 1)
+check(I(psi4) == 1)
+
+-- time-independent wavefunctions
+
+phi(n) = C(n) exp(m omega x^2 / (2 hbar)) *
+         d(exp(-m omega x^2 / hbar), x, n)
+
+phi0 = phi(0)
+phi1 = phi(1)
+phi2 = phi(2)
+phi3 = phi(3)
+phi4 = phi(4)
+
+check(E0 phi0 == H(phi0))
+check(E1 phi1 == H(phi1))
+check(E2 phi2 == H(phi2))
+check(E3 phi3 == H(phi3))
+check(E4 phi4 == H(phi4))
+
+"ok"
+"time-independent-schrodinger-equation-demo.txt"
 status
 clear
 "tunneling-demo.txt"
