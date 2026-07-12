@@ -1900,13 +1900,13 @@ draw(y[floor(x)],x)
 \end{verbatim}}
 
 \item
-Find $\int_{-\infty}^\infty|f(x)|^2\,dx$ where $f(x)$ is a harmonic oscillator wavefunction.
+Find $I=\int_{-\infty}^\infty|f(x)|^2\,dx$ where $f(x)$ is a harmonic oscillator wavefunction.
 
 {\color{blue}
 \begin{verbatim}
-I(f) = 2 eval(integral(conj(f) f, x),
-       exp(-m omega x^2 / hbar), 0,
-       erf(sqrt(m omega / hbar) x), 1)
+I = 2 eval(integral(conj(f) f, x),
+    exp(-m omega x^2 / hbar), 0,     -- subst 0 for exponential
+    erf(sqrt(m omega / hbar) x), 1)  -- subst 1 for erf
 \end{verbatim}}
 
 \item
