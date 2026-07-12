@@ -6087,8 +6087,8 @@ check(i hbar d(Psi,t) == H(Psi))
 -- integral of |f|^2 from minus infinity to plus infinity
 
 I(f) = 2 eval(integral(conj(f) f, x),
-       exp(-m omega x^2 / hbar), 0,
-       erf(sqrt(m omega / hbar) x), 1)
+       exp(-m omega x^2 / hbar), 0,     -- subst 0 for this exp
+       erf(sqrt(m omega / hbar) x), 1)  -- subst 1 for this erf
 
 check(I(Psi) == 1)
 

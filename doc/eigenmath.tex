@@ -1905,8 +1905,8 @@ Find $I=\int_{-\infty}^\infty|f(x)|^2\,dx$ where $f(x)$ is a harmonic oscillator
 {\color{blue}
 \begin{verbatim}
 I = 2 eval(integral(conj(f) f, x),
-    exp(-m omega x^2 / hbar), 0,     -- subst 0 for exponential
-    erf(sqrt(m omega / hbar) x), 1)  -- subst 1 for erf
+    exp(-m omega x^2 / hbar), 0,     -- subst 0 for this exp
+    erf(sqrt(m omega / hbar) x), 1)  -- subst 1 for this erf
 \end{verbatim}}
 
 \item
