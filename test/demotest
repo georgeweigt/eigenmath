@@ -2960,20 +2960,17 @@ check(I(psi4) == 1)
 
 -- time-independent wavefunctions
 
-phi(n) = C(n) exp(m omega x^2 / (2 hbar)) *
-         d(exp(-m omega x^2 / hbar), x, n)
+psi0 = psi0 / exp(-i E0 t / hbar)
+psi1 = psi1 / exp(-i E1 t / hbar)
+psi2 = psi2 / exp(-i E2 t / hbar)
+psi3 = psi3 / exp(-i E3 t / hbar)
+psi4 = psi4 / exp(-i E4 t / hbar)
 
-phi0 = phi(0)
-phi1 = phi(1)
-phi2 = phi(2)
-phi3 = phi(3)
-phi4 = phi(4)
-
-check(E0 phi0 == H(phi0))
-check(E1 phi1 == H(phi1))
-check(E2 phi2 == H(phi2))
-check(E3 phi3 == H(phi3))
-check(E4 phi4 == H(phi4))
+check(E0 psi0 == H(psi0))
+check(E1 psi1 == H(psi1))
+check(E2 psi2 == H(psi2))
+check(E3 psi3 == H(psi3))
+check(E4 psi4 == H(psi4))
 
 "ok"
 "harmonic-oscillator-1-demo.txt"
@@ -3523,8 +3520,81 @@ check(err(A3d2p, 6.465 10^7 / second) < 0.0001)
 "hydrogen-alpha-line-demo.txt"
 status
 clear
-"hydrogen-eigenfunctions-demo.txt"
-"Verify hydrogen eigenfunctions"
+"hydrogen-atom-1-demo.txt"
+"Hydrogen atom 1"
+
+H(f) = -hbar^2 D(f) / (2 mu) - e^2 / (4 pi epsilon0 r) f
+
+D(f) = 1/r^2 d(r^2 d(f,r), r) +
+       1/(r^2 sin(theta)) d(sin(theta) d(f,theta), theta) +
+       1/(r sin(theta))^2 d(f,phi,2)
+
+psi(n,l,m) = R(n,l) Y(l,m)
+
+R(n,l) = 2 / n^2 *
+         a0^(-3/2) *
+         sqrt((n - l - 1)! / (n + l)!) *
+         (2 r / (n a0))^l *
+         L(2 r / (n a0), n - l - 1, 2 l + 1) *
+         exp(-r / (n a0))
+
+a0 = 4 pi epsilon0 hbar^2 / (mu e^2)
+
+-- associated Laguerre polynomial (k is a local var)
+
+L(x,n,m,k) = (n + m)! sum(k, 0, n, (-x)^k / ((n - k)! (m + k)! k!))
+
+-- spherical harmonic
+
+Y(l,m) = (-1)^m sqrt((2 l + 1) / (4 pi) (l - m)! / (l + m)!) *
+         P(l,m) exp(i m phi)
+
+-- associated Legendre of cos theta (arxiv.org/abs/1805.12125)
+
+P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
+           (sin(theta)/2)^m sum(k, 0, l - m,
+           (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
+           ((1 - cos(theta)) / 2)^k))
+
+E(n) = -mu / (2 hbar^2) (e^2 / (4 pi epsilon0))^2 / n^2
+
+E1 = E(1)
+E2 = E(2)
+E3 = E(3)
+
+"Verify eigenfunctions"
+
+-- n = 1, 2, 3, ...
+-- l = 0, 1, ..., n - 1
+-- m = -l, ..., 0, ..., l
+
+f = psi(1,0,0)
+check(H(f) == E1 f)
+
+f = psi(2,0,0)
+check(H(f) == E2 f)
+
+f = psi(2,1,0)
+check(H(f) == E2 f)
+
+f = psi(2,1,1)
+check(H(f) == E2 f)
+
+f = psi(2,1,-1)
+check(H(f) == E2 f)
+
+"ok"
+"hydrogen-atom-1-demo.txt"
+status
+clear
+"hydrogen-atom-2-demo.txt"
+"Hydrogen atom 2"
+
+H(f) = -hbar^2 D(f) / (2 mu) - hbar^2 / (mu a0 r) f
+
+D(f) = 1/r^2 d(r^2 d(f,r), r) +
+       1/(r^2 sin(theta)) d(sin(theta) d(f,theta), theta) +
+       1/(r sin(theta))^2 d(f,phi,2)
 
 psi(n,l,m) = R(n,l) Y(l,m)
 
@@ -3551,27 +3621,61 @@ P(l,m,k) = test(m < 0, (-1)^m (l + m)! / (l - m)! P(l,-m),
            (-1)^k (l + m + k)! / (l - m - k)! / (m + k)! / k! *
            ((1 - cos(theta)) / 2)^k))
 
--- Hamiltonian
+E(n) = -1 / (2 mu) (hbar / a0)^2 / n^2
 
-H(f) = -hbar^2 D(f) / (2 mu) - hbar^2 / (mu a0 r) f
+E1 = E(1)
+E2 = E(2)
+E3 = E(3)
 
--- Laplacian
+"Verify eigenfunctions"
 
-D(f) = 1/r^2 d(r^2 d(f,r), r) +
-       1/(r^2 sin(theta)) d(sin(theta) d(f,theta), theta) +
-       1/(r sin(theta))^2 d(f,phi,2)
+-- n = 1, 2, 3, ...
+-- l = 0, 1, ..., n - 1
+-- m = -l, ..., 0, ..., l
 
--- E(n) returns the nth energy eigenvalue
+f = psi(1,0,0)
+check(H(f) == E1 f)
 
-E(n) = -hbar^2 / (2 n^2 mu a0^2)
+f = psi(2,0,0)
+check(H(f) == E2 f)
 
-for(n, 1, 3, for(l, 0, n - 1, for(m, -l, l,
- f = psi(n,l,m),
- check(H(f) == E(n) f)
-)))
+f = psi(2,1,0)
+check(H(f) == E2 f)
+
+f = psi(2,1,1)
+check(H(f) == E2 f)
+
+f = psi(2,1,-1)
+check(H(f) == E2 f)
 
 "ok"
-"hydrogen-eigenfunctions-demo.txt"
+"hydrogen-atom-2-demo.txt"
+status
+clear
+"hydrogen-atom-statistics-demo.txt"
+"Hydrogen atom statistics"
+
+psi = exp(-r / a0) / sqrt(pi a0^3)
+
+"Verify integrals"
+
+f = 4 pi psi conj(psi) r^2
+F = 4 / a0^3 exp(-2 r / a0) (-1/2 a0 r^2 - 1/2 a0^2 r - 1/4 a0^3)
+
+check(integral(f,r) == F)
+
+Pr = 1 - (2 a^2 / a0^2 + 2 a / a0 + 1) exp(-2 a / a0)
+
+check(defint(f,r,0,a) == Pr)
+
+"ok"
+
+"Pr(a < a0)"
+
+float(eval(Pr, a, a0))
+
+check(infixform(last) == "0.323324")
+"hydrogen-atom-statistics-demo.txt"
 status
 clear
 "hydrogen-energy-four-ways-demo.txt"
