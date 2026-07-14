@@ -3663,6 +3663,7 @@ f = 4 pi psi conj(psi) r^2
 F = 4 / a0^3 exp(-2 r / a0) (-1/2 a0 r^2 - 1/2 a0^2 r - 1/4 a0^3)
 
 check(integral(f,r) == F)
+check(d(F,r) == f)
 
 Pr = 1 - (2 a^2 / a0^2 + 2 a / a0 + 1) exp(-2 a / a0)
 
