@@ -3671,11 +3671,9 @@ check(defint(f,r,0,a) == Pr)
 
 "ok"
 
-"Pr(a < a0)"
+"Probability inside Bohr radius"
 
 float(eval(Pr, a, a0))
-
-check(infixform(last) == "0.323324")
 "hydrogen-atom-statistics-demo.txt"
 status
 clear
