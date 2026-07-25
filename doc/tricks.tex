@@ -67,14 +67,16 @@ y = (1,2,3,4)
 draw(y[floor(x)],x)
 \end{verbatim}}
 
-\item
-Find $I=\int_{-\infty}^\infty|f(x)|^2\,dx$ where $f(x)$ is a harmonic oscillator wavefunction.
+\newpage
 
+\item
+Sometimes you can square both sides to get an equality.
 {\color{blue}
 \begin{verbatim}
-I = 2 eval(integral(conj(f) f, x),
-    exp(-m omega x^2 / hbar), 0,     -- subst 0 for this exp
-    erf(sqrt(m omega / hbar) x), 1)  -- subst 1 for this erf
+A = cos(1/2 theta)
+B = sqrt(1/2 (cos(theta) + 1))
+check(A^2 == B^2)
+"ok"
 \end{verbatim}}
 
 \item
@@ -100,18 +102,34 @@ conj(z) z
 $A^2$
 
 \item
-Sometimes you can square both sides to get an equality.
+Use \verb$eval$ to find
+$\int_{-\infty}^\infty|f(x)|^2\,dx$ where $f(x)$ is a harmonic oscillator eigenfunction.
+
 {\color{blue}
 \begin{verbatim}
-A = cos(1/2 theta)
-B = sqrt(1/2 (cos(theta) + 1))
-A^2 == B^2
+psi(n) = C(n) exp(-i E(n) t / hbar) *
+         exp(m omega x^2 / (2 hbar)) *
+         d(exp(-m omega x^2 / hbar), x, n)
+
+C(n) = (-1)^n / sqrt(2^n n!) *
+       (m omega / (pi hbar))^(1/4) *
+       (hbar / (m omega))^(n/2)
+
+E(n) = hbar omega (n + 1/2)
+
+f = psi(1)
+
+EXP = exp(-m omega x^2 / hbar)
+ERF = erf(sqrt(m omega / hbar) x)
+2 eval(integral(conj(f) f, x), EXP, 0, ERF, 1)
 \end{verbatim}}
+
+$1$
 
 \newpage
 
 \item
-The following example demonstrates some \verb$eval$ tricks.
+Another \verb$eval$ example.
 (See exercise 4-10 of {\it Quantum Mechanics} by Richard Fitzpatrick.)
 
 \bigskip
