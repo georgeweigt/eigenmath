@@ -1907,9 +1907,10 @@ Sometimes you can square both sides to get an equality.
 \begin{verbatim}
 A = cos(1/2 theta)
 B = sqrt(1/2 (cos(theta) + 1))
-check(A^2 == B^2)
-"ok"
+A^2 == B^2
 \end{verbatim}}
+
+$1$
 
 \item
 Complex number functions \verb$conj$, \verb$mag$, etc.~treat undefined symbols as
@@ -1934,9 +1935,8 @@ conj(z) z
 $A^2$
 
 \item
-Use \verb$eval$ to show
-$\int_{-\infty}^\infty|f(x)|^2\,dx=1$
-where $f(x)$ is a harmonic oscillator eigenfunction.
+Use \verb$eval$ to verify
+$\int_{-\infty}^\infty|f(x)|^2\,dx=1$.
 
 {\color{blue}
 \begin{verbatim}
