@@ -37,7 +37,12 @@ char *instring;
 	return YES;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+-(BOOL)applicationSupportsSecureRestorableState:(NSApplication *)sender
+{
+	return YES;
+}
+
+-(void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	// Insert code here to initialize your application
 	if (@available(macOS 10.14, *))
