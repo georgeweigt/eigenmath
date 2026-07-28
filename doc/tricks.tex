@@ -122,7 +122,8 @@ f = psi(1)
 
 EXP = exp(-m omega x^2 / hbar)
 ERF = erf(sqrt(m omega / hbar) x)
-2 eval(integral(conj(f) f, x), EXP, 0, ERF, 1)
+
+2 * eval(integral(conj(f) f, x), EXP, 0, ERF, 1)
 \end{verbatim}}
 
 $1$
