@@ -1951,11 +1951,12 @@ C(n) = (-1)^n / sqrt(2^n n!) *
 E(n) = hbar omega (n + 1/2)
 
 f = psi(1)
+F = integral(conj(f) f, x)
 
 EXP = exp(-m omega x^2 / hbar)
 ERF = erf(sqrt(m omega / hbar) x)
 
-2 * eval(integral(conj(f) f, x), EXP, 0, ERF, 1)
+eval(F, EXP, 0, ERF, 1) - eval(F, EXP, 0, ERF, -1)
 \end{verbatim}}
 
 $1$
