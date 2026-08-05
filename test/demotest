@@ -227,51 +227,36 @@ C2 = 4 sqrt(m alpha c / hbar)
 check(gamma == C1 Z / sqrt(E) - C2 sqrt(Z r1))
 "ok"
 
--- CODATA Internationally recommended 2022 values
--- https://physics.nist.gov/cuu/Constants/
--- c, e, h, and k are exact values
-
-a0 = 5.29177210544 10^(-11) meter
-alpha = 7.2973525643 10^(-3)
-c = 299792458.0 meter / second
-e = 1.602176634 10^(-19) coulomb
-epsilon0 = 8.8541878188 10^(-12) farad / meter
-h = 6.62607015 10^(-34) joule second
-hbar = h / float(2 pi)
-k = 1.380649 10^(-23) joule / kelvin
-me = 9.1093837139 10^(-31) kilogram
-mp = 1.67262192595 10^(-27) kilogram
-mu0 = 1.25663706127 10^(-6) newton / ampere^2
-
--- derived units
-
-coulomb = ampere second
-farad = coulomb / volt
 joule = kilogram meter^2 / second^2
-newton = kilogram meter / second^2
-tesla = kilogram / second^2 / ampere
-volt = joule / coulomb
-
--- base units (for printing)
-
-ampere = "ampere"
-kelvin = "kelvin"
 kilogram = "kilogram"
 meter = "meter"
 second = "second"
 
-u = 1.66053906892 10^(-27) kilogram
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
 
-M238 = 238.0507884 u
-M234 = 234.0435998 u
-M4 = 4.00260325413 u
+-- mass of alpha particle
+m = 6.6446573450 * 10^(-27) kilogram
 
--- electron masses cancel
+C1 = sqrt(2 m) float(pi) alpha c
+C2 = 4 sqrt(m alpha c / hbar)
 
-E = (M238 - M234 - M4) 931.49410372 "MeV" / u
+C1
+C2
+
+M1 = 238.0507876 -- U238
+M2 = 234.0435998 -- Th234
+M3 = 4.002603254 -- helium (electron masses cancel)
+
+-- energy of alpha particle in MeV
+E = (M1 - M2 - M3) 931.49410372 "MeV"
 E
 
-E = (M238 - M234 - M4) c^2
+-- energy of alpha particle in joules
+u = 1.66053906892 10^(-27) kilogram
+E = (M1 - M2 - M3) u c^2
 
 A = 238.0
 Z = 90.0
@@ -282,11 +267,6 @@ r2 = 2 Z alpha hbar c / E
 r1
 r2
 
-m = 4.001506179129 u
-
-C1 = sqrt(2 m) float(pi) alpha c
-C2 = 4 sqrt(m alpha c / hbar)
-
 gamma = C1 Z / sqrt(E) - C2 sqrt(Z r1)
 gamma
 
@@ -295,22 +275,72 @@ T
 clear
 "Alpha decay 2"
 
-M238 = 238.0507884
-M234 = 234.0435998
-M4 = 4.00260325413
+joule = kilogram meter^2 / second^2
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
 
-E = (M238 - M234 - M4) 931.49410372
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+
+-- mass of alpha particle
+m = 6.6446573450 * 10^(-27) kilogram
+
+C1 = sqrt(2 m) float(pi) alpha c
+C2 = 4 sqrt(m alpha c / hbar)
+
+M1 = 238.0507876 -- U238
+M2 = 234.0435998 -- Th234
+M3 = 4.002603254 -- helium (electron masses cancel)
+
+-- energy of alpha particle in MeV
+E = (M1 - M2 - M3) 931.49410372 "MeV"
 E
 
-Z = 90
+-- energy of alpha particle in joules
+u = 1.66053906892 10^(-27) kilogram
+E = (M1 - M2 - M3) u c^2
 
-tau12 = exp(3.7 Z / sqrt(E) - 6.1 Z^(2/3)) "s"
-tau12
+-- fermi radius
+r0 = 1.2 10^(-15) meter
 
-tau12 = tau12 / (365.25 24 60 60) "yr" / "s"
-tau12
+A = 238.0
+Z = 90.0
+
+r1 = r0 A^(1/3)
+r1
+gamma = C1 Z / sqrt(E) - C2 sqrt(Z r1)
+tau = 2 log(2.0) / 843 r1 / sqrt(E/m) exp(2 gamma)
+tau
+
+tau = tau / (365.25 24 60 60) "yr" / second
+tau
 clear
 "Alpha decay 3"
+
+joule = kilogram meter^2 / second^2
+kilogram = "kilogram"
+meter = "meter"
+second = "second"
+
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+
+-- mass of alpha particle
+m = 6.6446573450 * 10^(-27) kilogram
+
+C1 = sqrt(2 m) float(pi) alpha c
+C2 = 4 sqrt(m alpha c / hbar)
+
+A = (228,230,232,234,236,238,226,228,230,232)
+A = float(A)
+
+Z = (90,90,90,90,90,90,88,88,88,88)
+Z = float(Z)
 
 years = 365.25 24 60 60
 days = 24 60 60
@@ -329,14 +359,6 @@ tau = (
 1.9125 years,     -- Th228
 7.54 10^4 years,  -- Th230
 1.40 10^10 years) -- Th232
-
-Y = log(tau)
-Y
-
--- atomic number of daughter nucleus
-
-Z = (90,90,90,90,90,90,88,88,88,88)
-Z = float(Z)
 
 -- parent mass
 
@@ -366,29 +388,34 @@ M2 = (
 226.0254082, -- 226Ra
 228.0310686) -- 228Ra
 
--- helium mass
-
+-- helium mass (electron masses cancel)
 M3 = 4.00260325413
 
-E = M1 - M2 - M3
-E = 931.49410372 E -- convert to MeV
-E
+-- energy of alpha particle in joules
+u = 1.66053906892 10^(-27) kilogram
+E = (M1 - M2 - M3) u c^2
 
--- design matrix
+-- fermi radius
+r0 = 1.2 10^(-15) meter
 
-X = zero(2,10)
-X[1] = Z / sqrt(E)
-X[2] = Z^(2/3)
+r1 = r0 A^(1/3)
+gamma = C1 Z / sqrt(E) - C2 sqrt(Z r1)
+t = 2 log(2.0) r1 / sqrt(E / m) / second
 
--- ordinary least squares
+y = -log(tau) + log(t) + 2 gamma
 
-beta = dot(inv(dot(X,transpose(X))),X,Y)
+ybar = sum(y) / dim(y)
+ybar
+
+beta = exp(ybar)
 beta
 
-Yhat = dot(beta,X)
+Yhat = log(t / beta) + 2 gamma
 Yhat
 
 "Coefficient of determination (R squared)"
+
+Y = log(tau)
 
 Ybar = sum(Y) / dim(Y)
 
