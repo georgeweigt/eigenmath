@@ -5839,6 +5839,17 @@ R = x
 f = P d(x,t) + Q d(y,t) + R d(z,t)
 defint(f, t, 0, 2 pi)
 clear
+"Time evolution operator"
+
+U = exp(-i / hbar integral(H(t),t))
+
+i hbar d(U,t)
+H(t) U
+
+"Verify equation (3)"
+check(i hbar d(U,t) == H(t) U)
+"ok"
+clear
 "Time-independent Schrodinger equation"
 
 -- harmonic oscillator
