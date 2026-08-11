@@ -4122,8 +4122,8 @@ check(fM == 4 pi v^2 fMB)
 clear
 "Maxwell equations"
 
-E = E0 (sin(k z - omega t), 0, 0)
-B = E0/c (0, sin(k z - omega t), 0)
+E = E0 sin(k z - omega t) (1,0,0)
+B = E0/c sin(k z - omega t) (0,1,0)
 k = omega/c
 
 check(div(E) == 0)
@@ -4132,7 +4132,7 @@ check(div(B) == 0)
 check(curl(E) == -d(B,t))
 check(curl(B) == 1/c^2 d(E,t))
 
-A = -E0/omega (cos(k z - omega t), 0, 0)
+A = -E0/omega cos(k z - omega t) (1,0,0)
 
 check(E == -d(A,t))
 check(B == curl(A))
@@ -5860,13 +5860,12 @@ defint(f, t, 0, 2 pi)
 clear
 "Time evolution operator"
 
-U = exp(-i / hbar integral(H(t),t))
+U = exp(-i / hbar integral(H(x,t),t))
 
 i hbar d(U,t)
-H(t) U
 
 "Verify equation (1)"
-check(i hbar d(U,t) == H(t) U)
+check(i hbar d(U,t) == H(x,t) U)
 "ok"
 clear
 "Time-independent Schrodinger equation"
