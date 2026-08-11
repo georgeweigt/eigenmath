@@ -4120,6 +4120,25 @@ check(fM == 4 pi v^2 fMB)
 
 "ok"
 clear
+"Maxwell equations"
+
+E = E0 (sin(k z - omega t), 0, 0)
+B = E0/c (0, sin(k z - omega t), 0)
+k = omega/c
+
+check(div(E) == 0)
+check(div(B) == 0)
+
+check(curl(E) == -d(B,t))
+check(curl(B) == 1/c^2 d(E,t))
+
+A = -E0/omega (cos(k z - omega t), 0, 0)
+
+check(E == -d(A,t))
+check(B == curl(A))
+
+"ok"
+clear
 -- Verify formulas for Moller scattering
 
 E = sqrt(p^2 + m^2)
@@ -5846,7 +5865,7 @@ U = exp(-i / hbar integral(H(t),t))
 i hbar d(U,t)
 H(t) U
 
-"Verify equation (3)"
+"Verify equation (1)"
 check(i hbar d(U,t) == H(t) U)
 "ok"
 clear
