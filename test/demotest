@@ -2888,6 +2888,45 @@ check(N(psi4) == 4 psi4)
 
 "ok"
 clear
+"Harmonic oscillator 3"
+
+aplus = sqrt(hbar / (2 m omega)) (m omega x / hbar - i p / hbar)
+aminus = sqrt(hbar / (2 m omega)) (m omega x / hbar + i p / hbar)
+
+"Verify equation (1)"
+check(x == sqrt(hbar / (2 m omega)) (aplus + aminus))
+"ok"
+
+"Verify equation (2)"
+check(p == i sqrt(m hbar omega / 2) (aplus - aminus))
+"ok"
+clear
+"Harmonic oscillator 4"
+
+N = 4
+
+a1 = zero(N,N)
+a2 = zero(N,N)
+
+for(k,0,N-1,for(j,0,N-1,
+ a1[k+1,j+1] = sqrt(j + 1) (k == j + 1),
+ a2[k+1,j+1] = sqrt(j) (k == j - 1)
+))
+
+X = sqrt(hbar / (2 m omega)) (a1 + a2)
+P = i sqrt(m hbar omega / 2) (a1 - a2)
+
+H = dot(P,P) / (2 m) + 1/2 m omega^2 dot(X,X)
+
+H[N,N] = (N - 1 + 1/2) hbar omega -- correction
+H
+
+C = 1/sqrt(2) (1,1,0,0)
+
+"Verify equation (1)"
+check(dot(conj(C),X,C) == sqrt(hbar / (2 m omega)))
+"ok"
+clear
 A = (xb - xa cos(omega T)) / sin(omega T)
 B = xa
 x = A sin(omega t) + B cos(omega t)
