@@ -748,6 +748,51 @@ check(UADD(ket0011) == ket1011)
 "ok"
 "full-adder-without-toffoli.txt"
 clear
+"greens-theorem.txt"
+-- Surface integral
+P = 2x^3 - y^3
+Q = x^3 + y^3
+f = d(Q,x) - d(P,y)
+x = r cos(theta)
+y = r sin(theta)
+check(defint(f r, r, 0, 1, theta, 0, 2 pi) == 3/2 pi)
+
+-- Line integral
+x = cos(t)
+y = sin(t)
+P = 2x^3 - y^3
+Q = x^3 + y^3
+f = P d(x,t) + Q d(y,t)
+f = expform(f)
+check(defint(f, t, 0, 2 pi) == 3/2 pi)
+
+-- Line integral
+clear
+P = 1 - y
+Q = x
+x = 2 cos(t)
+y = 2 sin(t)
+check(defint(P d(x,t) + Q d(y,t), t, 0, 2 pi) == 8 pi)
+
+-- Surface integral
+clear
+P = 1 - y
+Q = x
+h = sqrt(4 - x^2)
+check(defint(d(Q,x) - d(P,y), y, -h, h, x, -2, 2) == 8 pi)
+
+-- use polar coordinates
+P = 1 - y
+Q = x
+f = d(Q,x) - d(P,y) -- do before change of coordinates
+x = r cos(theta)
+y = r sin(theta)
+check(defint(f r, r, 0, 2, theta, 0, 2 pi) == 8 pi)
+
+-- integrate over theta first
+check(defint(f r, theta, 0, 2 pi, r, 0, 2) == 8 pi)
+"greens-theorem.txt"
+clear
 "grover-1.txt"
 -- https://arxiv.org/abs/1703.10535
 
@@ -2454,7 +2499,7 @@ B
 "sort.txt"
 clear
 "stokes-theorem.txt"
-"Surface integral"
+-- Surface integral
 z = 4 - x^2 - y^2
 F = (y,z,x)
 S = (x,y,z)
@@ -2464,7 +2509,7 @@ x = r cos(theta)
 y = r sin(theta)
 check(defint(f r, r, 0, 2, theta, 0, 2 pi) == -4 pi)
 
-"Line integral"
+-- Line integral
 x = 2 cos(t)
 y = 2 sin(t)
 z = 4 - x^2 - y^2
