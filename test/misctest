@@ -2453,6 +2453,28 @@ check(sum(A) == sum(B))
 B
 "sort.txt"
 clear
+"stokes-theorem.txt"
+"Surface integral"
+z = 4 - x^2 - y^2
+F = (y,z,x)
+S = (x,y,z)
+z = quote(z) -- clear z for use by curl
+f = dot(curl(F),cross(d(S,x),d(S,y)))
+x = r cos(theta)
+y = r sin(theta)
+check(defint(f r, r, 0, 2, theta, 0, 2 pi) == -4 pi)
+
+"Line integral"
+x = 2 cos(t)
+y = 2 sin(t)
+z = 4 - x^2 - y^2
+P = y
+Q = z
+R = x
+f = P d(x,t) + Q d(y,t) + R d(z,t)
+check(defint(f, t, 0, 2 pi) == -4 pi)
+"stokes-theorem.txt"
+clear
 "sum-of-three-cubes.txt"
 -- www.sciencealert.com/the-sum-of-three-cubes-problem-has-been-solved-for-42
 

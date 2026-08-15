@@ -2916,10 +2916,11 @@ for(k,0,N-1,for(j,0,N-1,
 X = sqrt(hbar / (2 m omega)) (a1 + a2)
 P = i sqrt(m hbar omega / 2) (a1 - a2)
 
-H = dot(P,P) / (2 m) + 1/2 m omega^2 dot(X,X)
+"Commutator"
+dot(X,P) - dot(P,X)
 
-H[N,N] = (N - 1 + 1/2) hbar omega -- correction
-H
+"Hamiltonian"
+dot(P,P) / (2 m) + 1/2 m omega^2 dot(X,X)
 
 C = 1/sqrt(2) (1,1,0,0)
 
@@ -5901,26 +5902,6 @@ f = psi1^2 + psi2^2
 xrange = (-25,25)
 yrange = (0,1)
 draw(f,z)
-clear
-"Surface integral"
-z = 4 - x^2 - y^2
-F = (y,z,x)
-S = (x,y,z)
-z = quote(z) -- clear z for use by curl
-f = dot(curl(F),cross(d(S,x),d(S,y)))
-x = r cos(theta)
-y = r sin(theta)
-defint(f r, r, 0, 2, theta, 0, 2 pi)
-
-"Line integral"
-x = 2 cos(t)
-y = 2 sin(t)
-z = 4 - x^2 - y^2
-P = y
-Q = z
-R = x
-f = P d(x,t) + Q d(y,t) + R d(z,t)
-defint(f, t, 0, 2 pi)
 clear
 "Time evolution operator"
 
