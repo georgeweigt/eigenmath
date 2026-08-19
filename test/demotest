@@ -3626,6 +3626,27 @@ check(C == D)
 
 "ok"
 clear
+"Klein-Gordon equation"
+
+E = sqrt(px^2 c^2 + py^2 c^2 + pz^2 c^2 + m^2 c^4)
+
+P = (E/c, px, py, pz)
+X = (c t, x, y, z)
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+PX = dot(P,gmunu,X)
+
+psi = A exp(-i/hbar PX) + B exp(i/hbar PX)
+
+D(f) = -d(f,t,t) + c^2 d(f,x,x) + c^2 d(f,y,y) + c^2 d(f,z,z)
+
+"Verify psi"
+
+check(hbar^2 D(psi) == m^2 c^4 psi)
+
+"ok"
+clear
 -- Klein-Nishina formula
 
 E = sqrt(omega^2 + m^2)
