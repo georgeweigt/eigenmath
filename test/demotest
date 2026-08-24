@@ -1618,6 +1618,28 @@ TSS = sum((y - ybar)^2) -- total sum of squares
 
 1 - RSS / TSS
 clear
+"Bloch sphere"
+
+s = (cos(theta/2), sin(theta/2) exp(i phi))
+
+Sx = 1/2 hbar ((0,1),(1,0))
+Sy = 1/2 hbar ((0,-i),(i,0))
+Sz = 1/2 hbar ((1,0),(0,-1))
+
+check(dot(conj(s),Sx,s) == 1/2 hbar sin(theta) cos(phi))
+check(dot(conj(s),Sy,s) == 1/2 hbar sin(theta) sin(phi))
+check(dot(conj(s),Sz,s) == 1/2 hbar cos(theta))
+
+chi = (cos(theta/2) exp(i phi1), sin(theta/2) exp(i phi2))
+
+s = exp(-i phi1) chi
+
+check(dot(conj(chi),Sx,chi) == dot(conj(s),Sx,s))
+check(dot(conj(chi),Sy,chi) == dot(conj(s),Sy,s))
+check(dot(conj(chi),Sz,chi) == dot(conj(s),Sz,s))
+
+"ok"
+clear
 "Bohr model"
 
 E = -alpha^2 m c^2 / (2 n^2)
@@ -2344,6 +2366,20 @@ check(dot(A,(sqrt(2 m),0,0,0)) == (E + m, 0, pz, 0) / sqrt(E + m))
 check(dot(A,(0,sqrt(2 m),0,0)) == (0, E + m, 0, -pz) / sqrt(E + m))
 check(dot(A,(0,0,sqrt(2 m),0)) == (pz, 0, E + m, 0) / sqrt(E + m))
 check(dot(A,(0,0,0,sqrt(2 m))) == (0, -pz, 0, E + m) / sqrt(E + m))
+"ok"
+clear
+"Dirac spinor normalization"
+
+E = sqrt(px^2 + py^2 + pz^2 + m^2)
+
+"Verify equation (1)"
+u = sqrt(E + m) (1, 0, pz / (E + m), (px + i py) / (E + m))
+check(dot(conj(u),u) == 2 E)
+"ok"
+
+"Verify equation (2)"
+u = (1, 0, pz / (E + m), (px + i py) / (E + m))
+check(dot(conj(u),u) == (px^2 + py^2 + pz^2) / (E + m)^2 + 1)
 "ok"
 clear
 "Electromagnetic tensor"
