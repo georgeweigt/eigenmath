@@ -1856,71 +1856,7 @@ check(B2 == hbar omega mu0 / 2 (4 nbar cos(omega t)^2 + 1))
 check(epsilon0 / 2 E2 + 1 / (2 mu0) B2 == (nbar + 1/2) hbar omega)
 "ok"
 clear
--- Compton scattering data from CERN LEP
-
--- arxiv.org/abs/hep-ex/0504012
-
--- Data from Table 4, page 11.
-
--- x is cos(theta)
-
-x = (
--0.74,
--0.60,
--0.47,
--0.34,
--0.20,
--0.07,
-0.06,
-0.20,
-0.33,
-0.46,
-0.60,
-0.73)
-
--- y is cross section
-
-y = (
-13380,
-7720,
-6360,
-4600,
-4310,
-3700,
-3640,
-3340,
-3500,
-3010,
-3310,
-3330) "picobarn"
-
-"Predicted values"
-
-alpha = 7.2973525643 10^(-3)
-c = 299792458.0 meter / second
-h = 6.62607015 10^(-34) joule second
-hbar = h / float(2 pi)
-eV = 1.602176634 10^(-19) joule
-
-s = (40.0 10^9 eV)^2
-
-C1 = float(pi) alpha^2 / s
-C2 = (h c)^2 -- should be hbar instead of h, error in arxiv paper?
-C3 = 10^40 "picobarn" / meter^2 -- convert square meters to picobarns
-
-yhat = C1 ((x + 1) / 2 + 2 / (x + 1)) C2 C3
-yhat
-
-"Coefficient of determination (R squared)"
-
-ybar = sum(y) / dim(y)
-
-RSS = sum((y - yhat)^2) -- residual sum of squares
-TSS = sum((y - ybar)^2) -- total sum of squares
-
-1 - RSS / TSS
-clear
-"Compton scattering"
+"Compton scattering 1"
 
 E = sqrt(omega^2 + m^2)
 
@@ -2119,6 +2055,91 @@ I = -cos(theta) / R^2 +
 check(f sin(theta) == d(I,theta))
 
 "ok"
+clear
+"Compton scattering 2"
+
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+me = 9.1093837139 10^(-31) kilogram
+
+joule = kilogram meter^2 / second^2
+
+-- Compton data
+
+theta = (45,90,135)
+
+-- convert to radians
+
+theta = theta 2 float(pi) / 360
+
+-- Compton equation
+
+yhat = h / (me c) (1 - cos(theta)) 10^10 "angstrom" / meter
+yhat
+clear
+-- Compton scattering data from CERN LEP
+
+-- arxiv.org/abs/hep-ex/0504012
+
+-- Data from Table 4, page 11.
+
+-- x is cos(theta)
+
+x = (
+-0.74,
+-0.60,
+-0.47,
+-0.34,
+-0.20,
+-0.07,
+0.06,
+0.20,
+0.33,
+0.46,
+0.60,
+0.73)
+
+-- y is cross section
+
+y = (
+13380,
+7720,
+6360,
+4600,
+4310,
+3700,
+3640,
+3340,
+3500,
+3010,
+3310,
+3330) "picobarn"
+
+"Predicted values"
+
+alpha = 7.2973525643 10^(-3)
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+hbar = h / float(2 pi)
+eV = 1.602176634 10^(-19) joule
+
+s = (40.0 10^9 eV)^2
+
+C1 = float(pi) alpha^2 / s
+C2 = (h c)^2 -- should be hbar instead of h, error in arxiv paper?
+C3 = 10^40 "picobarn" / meter^2 -- convert square meters to picobarns
+
+yhat = C1 ((x + 1) / 2 + 2 / (x + 1)) C2 C3
+yhat
+
+"Coefficient of determination (R squared)"
+
+ybar = sum(y) / dim(y)
+
+RSS = sum((y - yhat)^2) -- residual sum of squares
+TSS = sum((y - ybar)^2) -- total sum of squares
+
+1 - RSS / TSS
 clear
 "Constant force action"
 
@@ -2380,6 +2401,52 @@ check(dot(conj(u),u) == 2 E)
 "Verify equation (2)"
 u = (1, 0, pz / (E + m), (px + i py) / (E + m))
 check(dot(conj(u),u) == (px^2 + py^2 + pz^2) / (E + m)^2 + 1)
+"ok"
+clear
+"Ehrenfest theorem"
+
+-- harmonic oscillator
+
+psi(n) = C(n) exp(-i E(n) t / hbar) *
+         exp(m omega x^2 / (2 hbar)) *
+         d(exp(-m omega x^2 / hbar), x, n)
+
+C(n) = (-1)^n / sqrt(2^n n!) *
+       (m omega / (pi hbar))^(1/4) *
+       (hbar / (m omega))^(n/2)
+
+E(n) = hbar omega (n + 1/2)
+
+-- Psi has nonzero expectation for p and x
+
+Psi = (psi(1) + psi(2)) / sqrt(2)
+
+EXP = exp(-m omega x^2 / hbar)
+ERF = erf(sqrt(m omega / hbar) x)
+
+-- check normalization of Psi
+
+I = integral(conj(Psi) Psi, x)
+-- evaluate I from minus infinity to plus infinity
+I = eval(I, EXP, 0, ERF, 1) - eval(I, EXP, 0, ERF, -1)
+check(I == 1)
+
+-- xbar is expectation value for x
+
+I = integral(conj(Psi) x Psi, x)
+-- evaluate I from minus infinity to plus infinity
+xbar = eval(I, EXP, 0, ERF, 1) - eval(I, EXP, 0, ERF, -1)
+xbar
+
+-- pbar is expectation value for p
+
+I = integral(conj(Psi) (-i hbar) d(Psi,x), x)
+-- evaluate I from minus infinity to plus infinity
+pbar = eval(I, EXP, 0, ERF, 1) - eval(I, EXP, 0, ERF, -1)
+pbar
+
+"Verify momentum formula"
+check(pbar == m d(xbar,t))
 "ok"
 clear
 "Electromagnetic tensor"
