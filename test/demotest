@@ -2126,7 +2126,7 @@ eV = 1.602176634 10^(-19) joule
 s = (40.0 10^9 eV)^2
 
 C1 = float(pi) alpha^2 / s
-C2 = (h c)^2 -- should be hbar instead of h, error in arxiv paper?
+C2 = (h c)^2 -- why h and not hbar?
 C3 = 10^40 "picobarn" / meter^2 -- convert square meters to picobarns
 
 yhat = C1 ((x + 1) / 2 + 2 / (x + 1)) C2 C3
@@ -5497,6 +5497,22 @@ dt = (y - y1) / (v1 d1) + (y - y2) / (v2 d2)
 
 check(d(t,y) == dt)
 
+"ok"
+clear
+"Sommerfeld model"
+
+E = m c^2 (1 + (alpha / (n - k + sqrt(k^2 - alpha^2)))^2)^(-1/2)
+E = taylor(E,alpha,4)
+E
+
+"Verify equation (1)"
+check(E == m c^2 (1 - alpha^2 / (2 n^2) - alpha^4 / (2 k n^3) + 3 alpha^4 / (8 n^4)))
+"ok"
+
+E = E - m c^2
+
+"Verify equation (2)"
+check(E == -alpha^2 m c^2 / (2 n^2) (1 + alpha^2 / n (1 / k - 3 / (4 n))))
 "ok"
 clear
 "Verify spherical harmonics"
