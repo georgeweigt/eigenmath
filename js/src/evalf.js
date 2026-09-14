@@ -2,12 +2,12 @@ function
 evalf()
 {
 	eval_level++;
-	evalf_nib();
+	eval_nib();
 	eval_level--;
 }
 
 function
-evalf_nib()
+eval_nib()
 {
 	var p1;
 
@@ -47,4 +47,14 @@ evalf_nib()
 	}
 
 	push(p1); // rational, double, or string
+}
+
+// evaluate '=' as '=='
+
+function
+evalp()
+{
+	predicate++;
+	evalf();
+	predicate--;
 }

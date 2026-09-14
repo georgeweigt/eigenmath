@@ -12059,6 +12059,11 @@ eval_setq(p1)
 {
 	var p2;
 
+	if (predicate) {
+		eval_testeq(p1);
+		return;
+	}
+
 	push_symbol(NIL); // return value
 
 	if (caadr(p1) == symbol(INDEX)) {
@@ -13844,12 +13849,12 @@ function
 evalf()
 {
 	eval_level++;
-	evalf_nib();
+	eval_nib();
 	eval_level--;
 }
 
 function
-evalf_nib()
+eval_nib()
 {
 	var p1;
 
@@ -13890,16 +13895,15 @@ evalf_nib()
 
 	push(p1); // rational, double, or string
 }
+
+// evaluate '=' as '=='
+
 function
 evalp()
 {
-	var p1 = pop();
-	if (car(p1) == symbol(SETQ))
-		eval_testeq(p1);
-	else {
-		push(p1);
-		evalf();
-	}
+	predicate++;
+	evalf();
+	predicate--;
 }
 // N is bignum, M is rational
 
@@ -15459,6 +15463,7 @@ function
 init()
 {
 	eval_level = 0;
+	predicate = 0;
 	expanding = 1;
 	drawing = 0;
 	shuntflag = 0;
@@ -18339,6 +18344,7 @@ var one;
 var minusone;
 var imaginaryunit;
 var eval_level;
+var predicate;
 var expanding;
 var drawing;
 var shuntflag;

@@ -3,6 +3,11 @@ eval_setq(struct atom *p1)
 {
 	struct atom *p2;
 
+	if (predicate) {
+		eval_testeq(p1);
+		return;
+	}
+
 	push_symbol(NIL); // return value
 
 	if (caadr(p1) == symbol(INDEX)) {
