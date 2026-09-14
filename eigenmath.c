@@ -14881,7 +14881,7 @@ evalp(void)
 		p1 = pop();
 	}
 	push(p1);
-	evalg();
+	evalf();
 }
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 

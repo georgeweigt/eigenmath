@@ -90,5 +90,5 @@ evalp(void)
 		p1 = pop();
 	}
 	push(p1);
-	evalg();
+	evalf();
 }

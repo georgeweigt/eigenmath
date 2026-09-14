@@ -13897,12 +13897,15 @@ function
 evalp()
 {
 	var p1 = pop();
-	if (car(p1) == symbol(SETQ))
-		eval_testeq(p1);
-	else {
-		push(p1);
-		evalf();
+	if (car(p1) == symbol(SETQ)) {
+		push_symbol(TESTEQ);
+		push(cadr(p1));
+		push(caddr(p1));
+		list(3);
+		p1 = pop();
 	}
+	push(p1);
+	evalf();
 }
 // N is bignum, M is rational
 
