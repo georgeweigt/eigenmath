@@ -9,7 +9,6 @@ var one;
 var minusone;
 var imaginaryunit;
 var eval_level;
-var predicate;
 var expanding;
 var drawing;
 var shuntflag;
