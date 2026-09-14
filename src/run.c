@@ -7,7 +7,7 @@ run(char *buf)
 	tos = 0;
 	interrupt = 0;
 	eval_level = 0;
-	gc_level = 0;
+	fcount = 0;
 	expanding = 1;
 	drawing = 0;
 	shuntflag = 0;

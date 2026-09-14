@@ -2694,7 +2694,7 @@ eval_clear(struct atom *p1)
 	restore_symbol();
 	restore_symbol();
 
-	if (gc_level == eval_level)
+	if (fcount == 0)
 		gc();
 
 	push_symbol(NIL); // result
@@ -13968,6 +13968,16 @@ eval_zero(struct atom *p1)
 
 	push(p1);
 }
+// call evalf instead of evalg to evaluate without garbage collection
+
+void
+evalf(void)
+{
+	fcount++;
+	evalg();
+	fcount--;
+}
+
 // all automatic variables must be visible to the garbage collector
 
 // otherwise, use evalf
@@ -13975,25 +13985,13 @@ eval_zero(struct atom *p1)
 void
 evalg(void)
 {
-	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
-		gc();
-	gc_level++;
-	evalf();
-	gc_level--;
-}
-
-// call evalf instead of evalg to evaluate without garbage collection
-
-// calls to evalg in the scope of evalf do no garbage collection either
-
-void
-evalf(void)
-{
 	struct atom *p;
+	if (fcount == 0 && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
+		gc();
 	eval_level++;
 	p = pop();
 	push(p); // make visible to garbage collector
-	evalf_nib(p);
+	eval_nib(p);
 	p = pop();
 	pop(); // remove
 	push(p);
@@ -14001,7 +13999,7 @@ evalf(void)
 }
 
 void
-evalf_nib(struct atom *p1)
+eval_nib(struct atom *p1)
 {
 	if (interrupt)
 		stopf("interrupt");
@@ -14953,7 +14951,7 @@ struct atom *minusone;
 struct atom *imaginaryunit;
 
 int eval_level;
-int gc_level;
+int fcount;
 int expanding;
 int drawing;
 int interrupt;
@@ -15530,7 +15528,7 @@ run(char *buf)
 	tos = 0;
 	interrupt = 0;
 	eval_level = 0;
-	gc_level = 0;
+	fcount = 0;
 	expanding = 1;
 	drawing = 0;
 	shuntflag = 0;

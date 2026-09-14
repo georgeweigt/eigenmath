@@ -15,7 +15,7 @@ struct atom *minusone;
 struct atom *imaginaryunit;
 
 int eval_level;
-int gc_level;
+int fcount;
 int expanding;
 int drawing;
 int interrupt;

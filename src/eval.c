@@ -1,3 +1,13 @@
+// call evalf instead of evalg to evaluate without garbage collection
+
+void
+evalf(void)
+{
+	fcount++;
+	evalg();
+	fcount--;
+}
+
 // all automatic variables must be visible to the garbage collector
 
 // otherwise, use evalf
@@ -5,25 +15,13 @@
 void
 evalg(void)
 {
-	if (gc_level == eval_level && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
-		gc();
-	gc_level++;
-	evalf();
-	gc_level--;
-}
-
-// call evalf instead of evalg to evaluate without garbage collection
-
-// calls to evalg in the scope of evalf do no garbage collection either
-
-void
-evalf(void)
-{
 	struct atom *p;
+	if (fcount == 0 && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
+		gc();
 	eval_level++;
 	p = pop();
 	push(p); // make visible to garbage collector
-	evalf_nib(p);
+	eval_nib(p);
 	p = pop();
 	pop(); // remove
 	push(p);
@@ -31,7 +29,7 @@ evalf(void)
 }
 
 void
-evalf_nib(struct atom *p1)
+eval_nib(struct atom *p1)
 {
 	if (interrupt)
 		stopf("interrupt");
