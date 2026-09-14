@@ -12013,11 +12013,6 @@ eval_setq(struct atom *p1)
 {
 	struct atom *p2;
 
-	if (predicate) {
-		eval_testeq(p1);
-		return;
-	}
-
 	push_symbol(NIL); // return value
 
 	if (caadr(p1) == symbol(INDEX)) {
@@ -14055,9 +14050,17 @@ eval_nib(struct atom *p1)
 void
 evalp(void)
 {
-	predicate++;
-	evalf();
-	predicate--;
+	struct atom *p1;
+	p1 = pop();
+	if (car(p1) == symbol(SETQ)) {
+		push_symbol(TESTEQ);
+		push(cadr(p1));
+		push(caddr(p1));
+		list(3);
+		p1 = pop();
+	}
+	push(p1);
+	evalg();
 }
 // factors N or N^M where N and M are rational numbers, returns factors on stack
 
@@ -14949,7 +14952,6 @@ struct atom *imaginaryunit;
 
 int eval_level;
 int fcount;
-int predicate;
 int expanding;
 int drawing;
 int interrupt;
@@ -15527,7 +15529,6 @@ run(char *buf)
 	interrupt = 0;
 	eval_level = 0;
 	fcount = 0;
-	predicate = 0;
 	expanding = 1;
 	drawing = 0;
 	shuntflag = 0;

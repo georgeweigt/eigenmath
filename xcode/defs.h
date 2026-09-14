@@ -348,7 +348,6 @@ extern struct atom *minusone;
 extern struct atom *imaginaryunit;
 extern int eval_level;
 extern int fcount;
-extern int predicate;
 extern int expanding;
 extern int drawing;
 extern int interrupt;

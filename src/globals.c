@@ -16,7 +16,6 @@ struct atom *imaginaryunit;
 
 int eval_level;
 int fcount;
-int predicate;
 int expanding;
 int drawing;
 int interrupt;

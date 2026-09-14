@@ -8,7 +8,6 @@ run(char *buf)
 	interrupt = 0;
 	eval_level = 0;
 	fcount = 0;
-	predicate = 0;
 	expanding = 1;
 	drawing = 0;
 	shuntflag = 0;

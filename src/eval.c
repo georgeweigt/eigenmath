@@ -80,7 +80,15 @@ eval_nib(struct atom *p1)
 void
 evalp(void)
 {
-	predicate++;
-	evalf();
-	predicate--;
+	struct atom *p1;
+	p1 = pop();
+	if (car(p1) == symbol(SETQ)) {
+		push_symbol(TESTEQ);
+		push(cadr(p1));
+		push(caddr(p1));
+		list(3);
+		p1 = pop();
+	}
+	push(p1);
+	evalg();
 }
