@@ -13843,52 +13843,48 @@ eval_zero(p1)
 function
 evalf()
 {
+	var p;
 	eval_level++;
-	eval_nib();
+	p = pop();
+	if (iskeyword(p)) {
+		push(p);
+		push_symbol(LAST); // default arg
+		list(2);
+		p = pop();
+	}
+	eval_nib(p);
 	eval_level--;
 }
 
 function
-eval_nib()
+eval_nib(p)
 {
-	var p1;
-
 	if (eval_level > 1000)
 		stopf("evaluation depth exceeded, possibly due to recursive function or circular symbol definition");
 
-	p1 = pop();
-
-	if (iscons(p1) && iskeyword(car(p1))) {
+	if (iscons(p) && iskeyword(car(p))) {
 		expanding++;
-		car(p1).func(p1);
+		car(p).func(p);
 		expanding--;
 		return;
 	}
 
-	if (iscons(p1) && isusersymbol(car(p1))) {
-		eval_user_function(p1);
+	if (iscons(p) && isusersymbol(car(p))) {
+		eval_user_function(p);
 		return;
 	}
 
-	if (iskeyword(p1)) { // bare keyword
-		push(p1);
-		push_symbol(LAST); // default arg
-		list(2);
-		evalf();
+	if (isusersymbol(p)) {
+		eval_user_symbol(p);
 		return;
 	}
 
-	if (isusersymbol(p1)) {
-		eval_user_symbol(p1);
+	if (istensor(p)) {
+		eval_tensor(p);
 		return;
 	}
 
-	if (istensor(p1)) {
-		eval_tensor(p1);
-		return;
-	}
-
-	push(p1); // rational, double, or string
+	push(p); // rational, double, or string
 }
 
 // evaluate '=' as '=='
@@ -13896,15 +13892,16 @@ eval_nib()
 function
 evalp()
 {
-	var p1 = pop();
-	if (car(p1) == symbol(SETQ)) {
+	var p;
+	p = pop();
+	if (car(p) == symbol(SETQ)) {
 		push_symbol(TESTEQ);
-		push(cadr(p1));
-		push(caddr(p1));
+		push(cadr(p));
+		push(caddr(p));
 		list(3);
-		p1 = pop();
+		p = pop();
 	}
-	push(p1);
+	push(p);
 	evalf();
 }
 // N is bignum, M is rational

@@ -382,7 +382,7 @@ void eval_user_symbol(struct atom *p1);
 void eval_zero(struct atom *p1);
 void evalf(void);
 void evalg(void);
-void eval_nib(struct atom *p1);
+void eval_nib(struct atom *p);
 void evalp(void);
 void factor_factor(void);
 void factor_bignum(uint32_t *N, struct atom *M);

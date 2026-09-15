@@ -784,7 +784,7 @@ void eval_user_symbol(struct atom *p1);
 void eval_zero(struct atom *p1);
 void evalf(void);
 void evalg(void);
-void eval_nib(struct atom *p1);
+void eval_nib(struct atom *p);
 void evalp(void);
 void factor_factor(void);
 void factor_bignum(uint32_t *N, struct atom *M);
@@ -14811,6 +14811,12 @@ evalg(void)
 		gc();
 	eval_level++;
 	p = pop();
+	if (iskeyword(p)) {
+		push(p);
+		push_symbol(LAST); // default arg
+		list(2);
+		p = pop();
+	}
 	push(p); // make visible to garbage collector
 	eval_nib(p);
 	p = pop();
@@ -14820,7 +14826,7 @@ evalg(void)
 }
 
 void
-eval_nib(struct atom *p1)
+eval_nib(struct atom *p)
 {
 	if (interrupt)
 		stopf("interrupt");
@@ -14833,37 +14839,29 @@ eval_nib(struct atom *p1)
 	if (eval_level > max_eval_level)
 		max_eval_level = eval_level;
 
-	if (iscons(p1) && iskeyword(car(p1))) {
+	if (iscons(p) && iskeyword(car(p))) {
 		expanding++; // in case we are in noexpand()
-		car(p1)->u.ksym.func(p1); // call through function pointer
+		car(p)->u.ksym.func(p); // call through function pointer
 		expanding--;
 		return;
 	}
 
-	if (iscons(p1) && isusersymbol(car(p1))) {
-		eval_user_function(p1);
+	if (iscons(p) && isusersymbol(car(p))) {
+		eval_user_function(p);
 		return;
 	}
 
-	if (iskeyword(p1)) { // bare keyword
-		push(p1);
-		push_symbol(LAST); // default arg
-		list(2);
-		evalg();
+	if (isusersymbol(p)) {
+		eval_user_symbol(p);
 		return;
 	}
 
-	if (isusersymbol(p1)) {
-		eval_user_symbol(p1);
+	if (istensor(p)) {
+		eval_tensor(p);
 		return;
 	}
 
-	if (istensor(p1)) {
-		eval_tensor(p1);
-		return;
-	}
-
-	push(p1); // rational, double, or string
+	push(p); // rational, double, or string
 }
 
 // evaluate '=' as '=='
@@ -14871,16 +14869,16 @@ eval_nib(struct atom *p1)
 void
 evalp(void)
 {
-	struct atom *p1;
-	p1 = pop();
-	if (car(p1) == symbol(SETQ)) {
+	struct atom *p;
+	p = pop();
+	if (car(p) == symbol(SETQ)) {
 		push_symbol(TESTEQ);
-		push(cadr(p1));
-		push(caddr(p1));
+		push(cadr(p));
+		push(caddr(p));
 		list(3);
-		p1 = pop();
+		p = pop();
 	}
-	push(p1);
+	push(p);
 	evalf();
 }
 // factors N or N^M where N and M are rational numbers, returns factors on stack
