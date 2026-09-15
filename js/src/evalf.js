@@ -2,12 +2,14 @@ function
 evalf()
 {
 	var p = pop();
+
 	if (iskeyword(p)) {
 		push(p);
 		push_symbol(LAST); // default arg
 		list(2);
 		p = pop();
 	}
+
 	eval_level++;
 	eval_nib(p);
 	eval_level--;
