@@ -13843,15 +13843,14 @@ eval_zero(p1)
 function
 evalf()
 {
-	var p;
-	eval_level++;
-	p = pop();
+	var p = pop();
 	if (iskeyword(p)) {
 		push(p);
 		push_symbol(LAST); // default arg
 		list(2);
 		p = pop();
 	}
+	eval_level++;
 	eval_nib(p);
 	eval_level--;
 }
@@ -13892,8 +13891,7 @@ eval_nib(p)
 function
 evalp()
 {
-	var p;
-	p = pop();
+	var p = pop();
 	if (car(p) == symbol(SETQ)) {
 		push_symbol(TESTEQ);
 		push(cadr(p));

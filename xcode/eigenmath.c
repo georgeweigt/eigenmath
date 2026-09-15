@@ -13988,7 +13988,6 @@ evalg(void)
 	struct atom *p;
 	if (fcount == 0 && alloc_count > MAXBLOCKS * BLOCKSIZE / 10)
 		gc();
-	eval_level++;
 	p = pop();
 	if (iskeyword(p)) {
 		push(p);
@@ -13997,11 +13996,12 @@ evalg(void)
 		p = pop();
 	}
 	push(p); // make visible to garbage collector
+	eval_level++;
 	eval_nib(p);
+	eval_level--;
 	p = pop();
 	pop(); // remove
 	push(p);
-	eval_level--;
 }
 
 void
