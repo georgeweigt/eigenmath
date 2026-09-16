@@ -13968,7 +13968,7 @@ eval_zero(struct atom *p1)
 
 	push(p1);
 }
-// call evalf instead of evalg to evaluate without garbage collection
+// evaluate without garbage collection
 
 void
 evalf(void)
@@ -14025,8 +14025,8 @@ eval_nib(struct atom *p)
 		max_eval_level = eval_level;
 
 	if (iscons(p) && iskeyword(car(p))) {
-		expanding++; // in case we are in noexpand()
-		car(p)->u.ksym.func(p); // call through function pointer
+		expanding++;
+		car(p)->u.ksym.func(p);
 		expanding--;
 		return;
 	}
