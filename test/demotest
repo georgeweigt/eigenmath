@@ -4137,6 +4137,25 @@ TSS = sum((Y - Ybar)^2) -- total sum of squares
 
 1 - RSS / TSS
 clear
+"Lorentz invariance"
+
+X = (2,0,0,3)
+
+g = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+check(dot(X,g,X) < 0)
+
+beta = X[1] / X[4]
+gamma = 1 / sqrt(1 - beta^2)
+
+beta
+
+Lambda = ((gamma,0,0,-beta gamma),(0,1,0,0),(0,0,1,0),(-beta gamma,0,0,gamma))
+Lambda
+
+"Transformed vector"
+dot(Lambda,X)
+clear
 -- Matrix mechanics 1
 
 N = 10
