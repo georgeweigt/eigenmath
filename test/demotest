@@ -4608,6 +4608,70 @@ check(H0(F) + H1(F) + H2(F) == E F)
 
 "ok"
 clear
+"Mott scattering"
+
+"Verify equation (1)"
+f = 1 / (r exp(epsilon r)) exp(i / hbar q r cos(theta)) r^2 sin(theta)
+-- integrate over r
+F = integral(f,r)
+EXP = exp(i / hbar q r cos(theta) - epsilon r)
+F = eval(F,EXP,0) - eval(F,r,0)
+F = eval(F,epsilon,0)
+-- integrate over theta
+F = defint(F, theta, 0, pi)
+F = eval(F, q, 2 p sin(theta/2))
+-- integrate over phi
+F = 2 pi F
+check(F == pi hbar^2 / (p^2 sin(theta/2)^2))
+"ok"
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+
+p2 = (E,
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
+
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3]) / sqrt(E + m)
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4]) / sqrt(E + m)
+
+u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
+u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
+
+check(dot(conj(u11),u11) == 2 E)
+check(dot(conj(u12),u12) == 2 E)
+check(dot(conj(u21),u21) == 2 E)
+check(dot(conj(u22),u22) == 2 E)
+
+M1 = dot(conj(u21),u11)
+M2 = dot(conj(u21),u12)
+M3 = dot(conj(u22),u11)
+M4 = dot(conj(u22),u12)
+
+"Verify equation (2)"
+check(1/2 (conj(M1) M1 + conj(M2) M2 + conj(M3) M3 + conj(M4) M4) ==
+4 m^2 + 4 p^2 cos(theta/2)^2)
+"ok"
+
+M = (Z alpha pi hbar^2 / (p^2 sin(theta/2)^2))^2 *
+    (4 m^2 + 4 p^2 cos(theta/2)^2)
+
+M = M / (2 E V)^2
+
+dsigma = (E V / (2 pi hbar^2))^2 M
+
+"Verify equation (3)"
+check(dsigma ==
+(Z alpha / (4 p^2 sin(theta/2)^2))^2 (4 m^2 + 4 p^2 cos(theta/2)^2))
+"ok"
+
+"Verify equation (4)"
+check(dsigma ==
+(Z alpha m / (2 p^2 sin(theta/2)^2))^2 (1 + (p/m)^2 cos(theta/2)^2))
+"ok"
+clear
 "Muon pair production 1"
 
 p = sqrt(E^2 - m^2)
@@ -5275,23 +5339,12 @@ check(M == f)
 
 "Verify probability density"
 
-check(f == 2 (Z alpha / q^2)^2 (E^2 + m^2 + p^2 cos(theta)))
+check(f == (Z alpha / q^2)^2 (4 m^2 + 2 p^2 (cos(theta) + 1)))
 
 q = p1 - p2
 q2 = dot(q,gmunu,q)
 check(q2 == 2 p^2 (cos(theta) - 1))
 check(q2^2 == 16 p^4 sin(theta/2)^4)
-
--- verify integral
-
-f = 1 / (cos(theta) - 1)^2
-I = 1 / (cos(theta) - 1)
-check(f sin(theta) == d(I,theta))
-
--- verify cdf
-
-F = (I - eval(I,theta,a)) / (eval(I,theta,pi) - eval(I,theta,a))
-check(F == 2 (cos(a) - cos(theta)) / ((1 + cos(a)) (1 - cos(theta))))
 
 "ok"
 clear
