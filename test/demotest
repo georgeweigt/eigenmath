@@ -1295,7 +1295,7 @@ check(abs(S3) > 2)
 
 "ok"
 clear
--- Verify formulas for Bhabha scattering
+"Bhabha scattering 1"
 
 E = sqrt(p^2 + m^2)
 
@@ -1312,17 +1312,17 @@ p4 = (E,
       -p sin(theta) sin(phi),
       -p cos(theta))
 
-v11 = (p1[4], p1[2] + i p1[3], E + m, 0) / sqrt(E + m)
-v12 = (p1[2] - i p1[3], -p1[4], 0, E + m) / sqrt(E + m)
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3]) / sqrt(E + m)
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4]) / sqrt(E + m)
 
-u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
-u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
+v21 = (p2[4], p2[2] + i p2[3], E + m, 0) / sqrt(E + m)
+v22 = (p2[2] - i p2[3], -p2[4], 0, E + m) / sqrt(E + m)
 
-v31 = (p3[4], p3[2] + i p3[3], E + m, 0) / sqrt(E + m)
-v32 = (p3[2] - i p3[3], -p3[4], 0, E + m) / sqrt(E + m)
+u31 = (E + m, 0, p3[4], p3[2] + i p3[3]) / sqrt(E + m)
+u32 = (0, E + m, p3[2] - i p3[3], -p3[4]) / sqrt(E + m)
 
-u41 = (E + m, 0, p4[4], p4[2] + i p4[3]) / sqrt(E + m)
-u42 = (0, E + m, p4[2] - i p4[3], -p4[4]) / sqrt(E + m)
+v41 = (p4[4], p4[2] + i p4[3], E + m, 0) / sqrt(E + m)
+v42 = (p4[2] - i p4[3], -p4[4], 0, E + m) / sqrt(E + m)
 
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
@@ -1338,41 +1338,131 @@ gamma = (gamma0,gamma1,gamma2,gamma3)
 gammaT = transpose(gamma)
 gammaL = transpose(dot(gmunu,gamma))
 
-"Verify Casimir trick"
+u1 = (u11,u12)
+v2 = (v21,v22)
+u3 = (u31,u32)
+v4 = (v41,v42)
 
-v1 = (v11,v12)
-u2 = (u21,u22)
-v3 = (v31,v32)
-u4 = (u41,u42)
+v2bar = dot(conj(v2),gamma0)
+u3bar = dot(conj(u3),gamma0)
 
-v1bar = dot(conj(v1),gamma0) -- adjoint of v1
-u4bar = dot(conj(u4),gamma0) -- adjoint of u4
-
-M1(a,b,c,d) = -e^2 dot(
- dot(v1bar[a],gammaT,v3[c]),
- dot(u4bar[d],gammaL,u2[b])
+M1(a,b,c,d) = dot(
+ dot(v2bar[b],gammaT,v4[d]),
+ dot(u3bar[c],gammaL,u1[a])
 )
 
-M2(a,b,c,d) = e^2 dot(
- dot(v1bar[a],gammaT,u2[b]),
- dot(u4bar[d],gammaL,v3[c])
+M2(a,b,c,d) = dot(
+ dot(u3bar[c],gammaT,v4[d]),
+ dot(v2bar[b],gammaL,u1[a])
 )
 
-M11 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+MM11 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
  M1(a,b,c,d) conj(M1(a,b,c,d))
 ))))
 
-M12 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+MM12 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
  M1(a,b,c,d) conj(M2(a,b,c,d))
 ))))
 
-M21 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+MM21 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
  M2(a,b,c,d) conj(M1(a,b,c,d))
 ))))
 
-M22 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+MM22 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
  M2(a,b,c,d) conj(M2(a,b,c,d))
 ))))
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+f11 = 8 s^2 + 8 u^2 - 64 m^2 s - 64 m^2 u + 192 m^4
+f12 = -8 u^2 + 64 m^2 u - 96 m^4
+f22 = 8 t^2 + 8 u^2 - 64 m^2 t - 64 m^2 u + 192 m^4
+
+"Verify formulas"
+
+check(MM11 == f11)
+check(MM12 == f12)
+check(MM22 == f22)
+
+check(MM11 - MM12 - MM21 + MM22 == f11 - 2 f12 + f22)
+
+m = 0
+
+check(f11 == 8 s^2 + 8 u^2)
+check(f12 == -8 u^2)
+check(f22 == 8 t^2 + 8 u^2)
+
+check(s == 4 E^2)
+check(t == -2 E^2 (1 - cos(theta)))
+check(u == -2 E^2 (1 + cos(theta)))
+
+a = (1 + cos(theta/2)^4) / sin(theta/2)^4
+b = -2 cos(theta/2)^4 / sin(theta/2)^2
+c = (1 + cos(theta)^2) / 2
+
+check(a == (s^2 + u^2) / t^2)
+check(b == 2 u^2 / (s t))
+check(c == (t^2 + u^2) / s^2)
+
+check(1/4 (f11 / t^2 - 2 f12 / (s t) + f22 / s^2) == 2 (a + b + c))
+
+check(2 (a + b + c) == ((cos(theta)^2 + 3) / (cos(theta) - 1))^2)
+
+"ok"
+clear
+"Bhabha scattering 2"
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
+
+p4 = (E,
+      -p sin(theta) cos(phi),
+      -p sin(theta) sin(phi),
+      -p cos(theta))
+
+check(p4 + p3 - p2 - p1 == 0)
+
+"ok"
+clear
+"Bhabha scattering 3"
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
+
+p4 = (E,
+      -p sin(theta) cos(phi),
+      -p sin(theta) sin(phi),
+      -p cos(theta))
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
@@ -1384,90 +1474,73 @@ X2 = pslash2 + m I
 X3 = pslash3 - m I
 X4 = pslash4 + m I
 
-T1 = contract(dot(X1,gammaT,X3,gammaT),1,4)
-T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+T1 = contract(dot(X2,gammaT,X4,gammaT),1,4)
+T2 = contract(dot(X3,gammaL,X1,gammaL),1,4)
 f11 = contract(dot(T1,transpose(T2)))
 
-T = contract(dot(X1,gammaT,X2,gammaT,X4,gammaL,X3,gammaL),1,6)
-f12 = -contract(T,1,3,1,2)
+T = contract(dot(X2,gammaT,X4,gammaT,X3,gammaL,X1,gammaL),1,6)
+f12 = contract(T,1,3,1,2)
 
-T1 = contract(dot(X1,gammaT,X2,gammaT),1,4)
-T2 = contract(dot(X4,gammaL,X3,gammaL),1,4)
+T1 = contract(dot(X3,gammaT,X4,gammaT),1,4)
+T2 = contract(dot(X2,gammaL,X1,gammaL),1,4)
 f22 = contract(dot(T1,transpose(T2)))
 
-check(e^4 f11 == M11)
-check(e^4 f12 == M12)
-check(e^4 f12 == M21)
-check(e^4 f22 == M22)
-
-"ok"
-
-"Verify probability density"
-
-p12 = dot(p1,gmunu,p2)
-p13 = dot(p1,gmunu,p3)
-p14 = dot(p1,gmunu,p4)
-
-check(f11 == 32 p12^2 + 32 p14^2 - 64 p12 m^2 + 64 p14 m^2)
-check(f12 == 32 p14^2 + 64 p14 m^2)
-check(f22 == 32 p13^2 + 32 p14^2 + 64 p13 m^2 + 64 p14 m^2)
+"Verify Casimir trick"
 
 s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
 
-check(f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4)
-check(f12 == 8 u^2 - 64 u m^2 + 96 m^4)
-check(f22 == 8 t^2 + 8 u^2 - 64 t m^2 - 64 u m^2 + 192 m^4)
+check(f11 == 8 s^2 + 8 u^2 - 64 m^2 s - 64 m^2 u + 192 m^4)
+check(f12 == -8 u^2 + 64 m^2 u - 96 m^4)
+check(f22 == 8 t^2 + 8 u^2 - 64 m^2 t - 64 m^2 u + 192 m^4)
 
-check(s == 2 p12 + 2 m^2)
-check(t == -2 p13 + 2 m^2)
-check(u == -2 p14 + 2 m^2)
+"ok"
+clear
+"Bhabha scattering 4"
 
-check(p12 == 1/2 s - m^2)
-check(p13 == -1/2 t + m^2)
-check(p14 == -1/2 u + m^2)
+E = sqrt(p^2 + m^2)
 
-d11 = t^2
-d12 = s t
-d22 = s^2
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
 
-f = e^4 (f11/d11 + 2 f12/d12 + f22/d22) / 4
+p3 = (E,
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
 
--- high energy approximation
+p4 = (E,
+      -p sin(theta) cos(phi),
+      -p sin(theta) sin(phi),
+      -p cos(theta))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+f11 = 32 p12^2 + 32 p14^2 - 64 m^2 p12 + 64 m^2 p14
+f12 = -32 p14^2 - 64 m^2 p14
+f22 = 32 p13^2 + 32 p14^2 + 64 m^2 p13 + 64 m^2 p14
+
+"Verify formulas"
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(f11 == 8 s^2 + 8 u^2 - 64 m^2 s - 64 m^2 u + 192 m^4)
+check(f12 == -8 u^2 + 64 m^2 u - 96 m^4)
+check(f22 == 8 t^2 + 8 u^2 - 64 m^2 t - 64 m^2 u + 192 m^4)
 
 m = 0
 
-check(f11 == 8 u^2 + 8 s^2)
-check(f12 == 8 u^2)
-check(f22 == 8 u^2 + 8 t^2)
-
-check(s == 4 E^2)
-check(t == -2 E^2 (1 - cos(theta)))
-check(u == -2 E^2 (1 + cos(theta)))
-
-T11 = 1/8 f11 / t^2
-T12 = 1/8 2 f12 / (s t)
-T22 = 1/8 f22 / s^2
-
-check(2 T11 == (2 (1 + cos(theta))^2 + 8) / (1 - cos(theta))^2)
-check(2 T12 == -2 (1 + cos(theta))^2 / (1 - cos(theta)))
-check(2 T22 == 1 + cos(theta)^2)
-
-check(f == 2 e^4 (T11 + T12 + T22))
-check(f == e^4 ((cos(theta)^2 + 3) / (cos(theta) - 1))^2)
+check(32 p12^2 == 8 s^2)
+check(32 p13^2 == 8 t^2)
+check(32 p14^2 == 8 u^2)
 
 m = quote(m)
-
--- verify integral
-
-f = (cos(theta)^2 + 3)^2 / (cos(theta) - 1)^2
-I = 16 / (cos(theta) - 1) -
-    1/3 cos(theta)^3 -
-    cos(theta)^2 -
-    9 cos(theta) -
-    16 log(1 - cos(theta))
-check(f sin(theta) == d(I,theta))
 
 "ok"
 clear
@@ -1860,24 +1933,27 @@ clear
 
 E = sqrt(omega^2 + m^2)
 
-p1 = (omega, 0, 0, omega)
-p2 = (E, 0, 0, -omega)
+p1 = (E, 0, 0, omega)
+p2 = (omega, 0, 0, -omega)
 
-p3 = (omega,
+p3 = (E,
       omega sin(theta) cos(phi),
       omega sin(theta) sin(phi),
       omega cos(theta))
 
-p4 = (E,
+p4 = (omega,
       -omega sin(theta) cos(phi),
       -omega sin(theta) sin(phi),
       -omega cos(theta))
 
-u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
-u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
+u11 = (E + m, 0, p1[4], p1[2] + i p1[3]) / sqrt(E + m)
+u12 = (0, E + m, p1[2] - i p1[3], -p1[4]) / sqrt(E + m)
 
-u41 = (E + m, 0, p4[4], p4[2] + i p4[3]) / sqrt(E + m)
-u42 = (0, E + m, p4[2] - i p4[3], -p4[4]) / sqrt(E + m)
+u31 = (E + m, 0, p3[4], p3[2] + i p3[3]) / sqrt(E + m)
+u32 = (0, E + m, p3[2] - i p3[3], -p3[4]) / sqrt(E + m)
+
+u1 = (u11,u12)
+u3 = (u31,u32)
 
 I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
 
@@ -1891,127 +1967,105 @@ gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
 gamma = (gamma0,gamma1,gamma2,gamma3)
 
 gammaT = transpose(gamma)
-gammaL = transpose(dot(gmunu,gamma))
 
-q1 = p1 + p2
-q2 = p4 - p1
+q1 = dot(p1 + p2, gmunu, gamma)
+q2 = dot(p1 - p4, gmunu, gamma)
 
-qslash1 = dot(q1,gmunu,gamma)
-qslash2 = dot(q2,gmunu,gamma)
+K1 = dot(-i e gammaT, q1 + m I, -i e gammaT)
+K2 = dot(-i e gammaT, q2 + m I, -i e gammaT)
 
-"Verify Casimir trick"
+u3bar = dot(conj(u3),gamma0)
 
-u41bar = dot(conj(u41),gamma0) -- adjoint of u41
-u42bar = dot(conj(u42),gamma0) -- adjoint of u42
+M1(a,b) = dot(u3bar[b], K1, u1[a])
+M2(a,b) = dot(u3bar[b], K2, u1[a])
 
-M111 = dot(u41bar, -i e gammaT, qslash1 + m I, -i e gammaT, u21)
-M112 = dot(u41bar, -i e gammaT, qslash1 + m I, -i e gammaT, u22)
-M121 = dot(u42bar, -i e gammaT, qslash1 + m I, -i e gammaT, u21)
-M122 = dot(u42bar, -i e gammaT, qslash1 + m I, -i e gammaT, u22)
+MM11 = sum(a,1,2,sum(b,1,2,
+ contract(dot(M1(a,b), gmunu, transpose(conj(M1(a,b))), gmunu))
+))
 
-M211 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
-M212 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
-M221 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
-M222 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
+MM12 = sum(a,1,2,sum(b,1,2,
+ contract(dot(M1(a,b), gmunu, conj(M2(a,b)), gmunu))
+))
 
-P1111 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu))
-P1112 = contract(dot(M112, gmunu, transpose(conj(M112)), gmunu))
-P1121 = contract(dot(M121, gmunu, transpose(conj(M121)), gmunu))
-P1122 = contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
+MM21 = sum(a,1,2,sum(b,1,2,
+ contract(dot(M2(a,b), gmunu, conj(M1(a,b)), gmunu))
+))
 
-P1211 = contract(dot(M111, gmunu, conj(M211), gmunu))
-P1212 = contract(dot(M112, gmunu, conj(M212), gmunu))
-P1221 = contract(dot(M121, gmunu, conj(M221), gmunu))
-P1222 = contract(dot(M122, gmunu, conj(M222), gmunu))
-
-P2111 = contract(dot(M211, gmunu, conj(M111), gmunu))
-P2112 = contract(dot(M212, gmunu, conj(M112), gmunu))
-P2121 = contract(dot(M221, gmunu, conj(M121), gmunu))
-P2122 = contract(dot(M222, gmunu, conj(M122), gmunu))
-
-P2211 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu))
-P2212 = contract(dot(M212, gmunu, transpose(conj(M212)), gmunu))
-P2221 = contract(dot(M221, gmunu, transpose(conj(M221)), gmunu))
-P2222 = contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
-
-pslash2 = dot(p2,gmunu,gamma)
-pslash4 = dot(p4,gmunu,gamma)
-
-P2 = pslash2 + m I
-P4 = pslash4 + m I
-
-Q1 = qslash1 + m I
-Q2 = qslash2 + m I
-
-T = dot(P2,gammaT,Q1,gammaT,P4,gammaL,Q1,gammaL)
-f11 = contract(T,3,4,2,3,1,2)
-
-T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q1,gammaL)
-f12 = contract(T,3,5,2,3,1,2)
-
-T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
-f22 = contract(T,3,4,2,3,1,2)
-
-check(e^4 f11 == P1111 + P1112 + P1121 + P1122)
-check(e^4 f12 == P1211 + P1212 + P1221 + P1222)
-check(e^4 f12 == P2111 + P2112 + P2121 + P2122)
-check(e^4 f22 == P2211 + P2212 + P2221 + P2222)
-
-"ok"
-
-"Verify probability density"
-
-p12 = dot(p1,gmunu,p2)
-p13 = dot(p1,gmunu,p3)
-p14 = dot(p1,gmunu,p4)
-
-check(f11 == 32 p12 p14 + 32 p12 m^2 + 32 m^4)
-check(f12 == 16 p12 m^2 - 16 p14 m^2 + 32 m^4)
-check(f22 == 32 p12 p14 - 32 p14 m^2 + 32 m^4)
+MM22 = sum(a,1,2,sum(b,1,2,
+ contract(dot(M2(a,b), gmunu, transpose(conj(M2(a,b))), gmunu))
+))
 
 s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
 
-check(s == 2 E omega + 2 omega^2 + m^2)
-check(t == 2 omega^2 (cos(theta) - 1))
-check(u == -2 E omega - 2 omega^2 cos(theta) + m^2)
+f11 = -8 s u + 24 m^2 s + 8 m^2 u + 8 m^4
+f12 = 8 m^2 s + 8 m^2 u + 16 m^4
+f22 = -8 s u + 8 m^2 s + 24 m^2 u + 8 m^4
 
-check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
-check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
-check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
+"Verify formulas"
 
-check(s == 2 p12 + m^2)
-check(t == -2 p13)
-check(u == -2 p14 + m^2)
+check(MM11 == e^4 f11)
+check(MM12 == e^4 f12)
+check(MM22 == e^4 f22)
 
-d11 = (s - m^2)^2
-d12 = (s - m^2) (u - m^2)
-d22 = (u - m^2)^2
-
-f = 1/4 e^4 (f11/d11 + 2 f12/d12 + f22/d22)
-
--- high energy approximation
+check(MM11 + MM12 + MM21 + MM22 == e^4 (f11 + 2 f12 + f22))
 
 m = 0
 
-check(s == 4 omega^2)
-check(u == -2 omega^2 (cos(theta) + 1))
+check(s == 4 E^2)
+check(t == -2 E^2 (1 - cos(theta)))
+check(u == -2 E^2 (1 + cos(theta)))
 
-check(f == 2 e^4 ((cos(theta) + 1) / 2 + 2 / (cos(theta) + 1)))
+check(f11 == -8 s u)
+check(f12 == 0)
+check(f22 == -8 s u)
+
+MM = 1/4 e^4 (f11 / s^2 + 2 f12 / (s u) + f22 / u^2)
+
+check(MM == -2 e^4 (u / s + s / u))
 
 m = quote(m)
 
 "ok"
+clear
+"Compton scattering 2"
 
-"Verify lab frame"
+E = sqrt(omega^2 + m^2)
 
-Lambda = ((E/m,0,0,omega/m),(0,1,0,0),(0,0,1,0),(omega/m,0,0,E/m))
+p1 = (E, 0, 0, omega)
+p2 = (omega, 0, 0, -omega)
+
+p3 = (E,
+      omega sin(theta) cos(phi),
+      omega sin(theta) sin(phi),
+      omega cos(theta))
+
+p4 = (omega,
+      -omega sin(theta) cos(phi),
+      -omega sin(theta) sin(phi),
+      -omega cos(theta))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+f11 = -8 s u + 24 m^2 s + 8 m^2 u + 8 m^4
+f12 = 8 m^2 s + 8 m^2 u + 16 m^4
+f22 = -8 s u + 8 m^2 s + 24 m^2 u + 8 m^4
+
+"Verify formulas"
+
+Lambda = ((E/m,0,0,-omega/m),(0,1,0,0),(0,0,1,0),(omega/m,0,0,-E/m))
 
 p1 = dot(Lambda,p1)
 p2 = dot(Lambda,p2)
 p3 = dot(Lambda,p3)
 p4 = dot(Lambda,p4)
+
+check(p1 == (m,0,0,0))
 
 check(s == dot(p1 + p2, gmunu, p1 + p2))
 check(t == dot(p1 - p3, gmunu, p1 - p3))
@@ -2027,55 +2081,22 @@ check(f22 == 32 p12 p14 - 32 p14 m^2 + 32 m^4)
 
 -- verify s, t, and u in the lab frame
 
-omegaL = dot(p1, (1,0,0,0))
-omegaLp = dot(p3, (1,0,0,0))
-
-check(omegaL == omega^2 / m + omega E / m)
-check(omegaLp == omega^2 cos(theta) / m + omega E / m)
+omegaL = dot(p2,(1,0,0,0))
+omegaLp = dot(p4,(1,0,0,0))
 
 check(s == m^2 + 2 m omegaL)
 check(t == 2 m (omegaLp - omegaL))
 check(u == m^2 - 2 m omegaLp)
 
-check(f == 2 e^4 (omegaL/omegaLp + omegaLp/omegaL + (m/omegaL - m/omegaLp + 1)^2 - 1))
+d11 = (s - m^2)^2
+d12 = (s - m^2) (u - m^2)
+d22 = (u - m^2)^2
 
--- verify integral
+MM = 1/4 e^4 (f11/d11 + 2 f12/d12 + f22/d22)
 
-R = hbar omega / (m c^2)
-
-omegap = omega / (1 + R (1 - cos(theta)))
-
-f = (omegap / omega)^2 (omega / omegap + omegap / omega - sin(theta)^2)
-
-I = -cos(theta) / R^2 +
-    log(1 + R (1 - cos(theta))) (1/R - 2/R^2 - 2/R^3) -
-    1 / (2 R (1 + R (1 - cos(theta)))^2) +
-    1 / (1 + R (1 - cos(theta))) (-2/R^2 - 1/R^3)
-
-check(f sin(theta) == d(I,theta))
+check(MM == 2 e^4 (omegaL/omegaLp + omegaLp/omegaL + (m/omegaL - m/omegaLp + 1)^2 - 1))
 
 "ok"
-clear
-"Compton scattering 2"
-
-c = 299792458.0 meter / second
-h = 6.62607015 10^(-34) joule second
-me = 9.1093837139 10^(-31) kilogram
-
-joule = kilogram meter^2 / second^2
-
--- Compton data
-
-theta = (45,90,135)
-
--- convert to radians
-
-theta = theta 2 float(pi) / 360
-
--- Compton equation
-
-yhat = h / (me c) (1 - cos(theta)) 10^10 "angstrom" / meter
-yhat
 clear
 -- Compton scattering data from CERN LEP
 
@@ -2141,6 +2162,27 @@ TSS = sum((y - ybar)^2) -- total sum of squares
 
 1 - RSS / TSS
 clear
+"Compton scattering data"
+
+c = 299792458.0 meter / second
+h = 6.62607015 10^(-34) joule second
+me = 9.1093837139 10^(-31) kilogram
+
+joule = kilogram meter^2 / second^2
+
+-- Compton data
+
+theta = (45,90,135)
+
+-- convert to radians
+
+theta = theta 2 float(pi) / 360
+
+-- Compton equation
+
+yhat = h / (me c) (1 - cos(theta)) 10^10 "angstrom" / meter
+yhat
+clear
 "Constant force action"
 
 A = (xb - xa) / T - F T / (2 m)
@@ -2163,6 +2205,20 @@ check(v == F t / m + (xb - xa) / T - F T / (2 m))
 
 "Verify equation (3)"
 check(S == m (xb - xa)^2 / (2 T) + F T (xb + xa) / 2 - F^2 T^3 / (24 m))
+"ok"
+clear
+"Verify crossing symmetry"
+
+M1 = (s^2 + u^2) / t^2 + 2 u^2 / (s t) + (t^2 + u^2) / s^2
+
+M2 = (s^2 + u^2) / t^2 + 2 s^2 / (t u) + (s^2 + t^2) / u^2
+
+X1 = eval(M1, s,S, u,s, S,u)
+X2 = eval(M2, s,S, u,s, S,u)
+
+check(M1 == X2)
+check(M2 == X1)
+
 "ok"
 clear
 "Dirac equation 1"
@@ -3750,196 +3806,6 @@ check(hbar^2 D(psi) == m^2 c^4 psi)
 
 "ok"
 clear
--- Klein-Nishina formula
-
-E = sqrt(omega^2 + m^2)
-
-p1 = (omega, 0, 0, omega)
-p2 = (E, 0, 0, -omega)
-
-p3 = (omega,
-      omega sin(theta) cos(phi),
-      omega sin(theta) sin(phi),
-      omega cos(theta))
-
-p4 = (E,
-      -omega sin(theta) cos(phi),
-      -omega sin(theta) sin(phi),
-      -omega cos(theta))
-
-u21 = (E + m, 0, p2[4], p2[2] + i p2[3]) / sqrt(E + m)
-u22 = (0, E + m, p2[2] - i p2[3], -p2[4]) / sqrt(E + m)
-
-u41 = (E + m, 0, p4[4], p4[2] + i p4[3]) / sqrt(E + m)
-u42 = (0, E + m, p4[2] - i p4[3], -p4[4]) / sqrt(E + m)
-
-I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
-
-gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
-
-gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
-gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
-gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
-gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
-
-gamma = (gamma0,gamma1,gamma2,gamma3)
-
-gammaT = transpose(gamma)
-gammaL = transpose(dot(gmunu,gamma))
-
-q1 = p1 + p2
-q2 = p4 - p1
-
-qslash1 = dot(q1,gmunu,gamma)
-qslash2 = dot(q2,gmunu,gamma)
-
-"Verify equation (1)"
-
-u41bar = dot(conj(u41),gamma0) -- adjoint of u41
-u42bar = dot(conj(u42),gamma0) -- adjoint of u42
-
-M111 = dot(u41bar, -i e gammaT, qslash1 + m I, -i e gammaT, u21)
-M112 = dot(u41bar, -i e gammaT, qslash1 + m I, -i e gammaT, u22)
-M121 = dot(u42bar, -i e gammaT, qslash1 + m I, -i e gammaT, u21)
-M122 = dot(u42bar, -i e gammaT, qslash1 + m I, -i e gammaT, u22)
-
-M211 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
-M212 = dot(u41bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
-M221 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u21)
-M222 = dot(u42bar, -i e gammaT, qslash2 + m I, -i e gammaT, u22)
-
-P1111 = contract(dot(M111, gmunu, transpose(conj(M111)), gmunu))
-P1112 = contract(dot(M112, gmunu, transpose(conj(M112)), gmunu))
-P1121 = contract(dot(M121, gmunu, transpose(conj(M121)), gmunu))
-P1122 = contract(dot(M122, gmunu, transpose(conj(M122)), gmunu))
-
-P1211 = contract(dot(M111, gmunu, conj(M211), gmunu))
-P1212 = contract(dot(M112, gmunu, conj(M212), gmunu))
-P1221 = contract(dot(M121, gmunu, conj(M221), gmunu))
-P1222 = contract(dot(M122, gmunu, conj(M222), gmunu))
-
-P2111 = contract(dot(M211, gmunu, conj(M111), gmunu))
-P2112 = contract(dot(M212, gmunu, conj(M112), gmunu))
-P2121 = contract(dot(M221, gmunu, conj(M121), gmunu))
-P2122 = contract(dot(M222, gmunu, conj(M122), gmunu))
-
-P2211 = contract(dot(M211, gmunu, transpose(conj(M211)), gmunu))
-P2212 = contract(dot(M212, gmunu, transpose(conj(M212)), gmunu))
-P2221 = contract(dot(M221, gmunu, transpose(conj(M221)), gmunu))
-P2222 = contract(dot(M222, gmunu, transpose(conj(M222)), gmunu))
-
-pslash2 = dot(p2,gmunu,gamma)
-pslash4 = dot(p4,gmunu,gamma)
-
-P2 = pslash2 + m I
-P4 = pslash4 + m I
-
-Q1 = qslash1 + m I
-Q2 = qslash2 + m I
-
-T = dot(P2,gammaT,Q1,gammaT,P4,gammaL,Q1,gammaL)
-f11 = contract(T,3,4,2,3,1,2)
-
-T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q1,gammaL)
-f12 = contract(T,3,5,2,3,1,2)
-
-T = dot(P2,gammaT,Q2,gammaT,P4,gammaL,Q2,gammaL)
-f22 = contract(T,3,4,2,3,1,2)
-
-check(e^4 f11 == P1111 + P1112 + P1121 + P1122)
-check(e^4 f12 == P1211 + P1212 + P1221 + P1222)
-check(e^4 f12 == P2111 + P2112 + P2121 + P2122)
-check(e^4 f22 == P2211 + P2212 + P2221 + P2222)
-
-"ok"
-
-"Verify equation (2)"
-
-p12 = dot(p1,gmunu,p2)
-p13 = dot(p1,gmunu,p3)
-p14 = dot(p1,gmunu,p4)
-
-check(f11 == 32 p12 p14 + 32 p12 m^2 + 32 m^4)
-check(f12 == 16 p12 m^2 - 16 p14 m^2 + 32 m^4)
-check(f22 == 32 p12 p14 - 32 p14 m^2 + 32 m^4)
-
-"ok"
-
-"Verify equation (3)"
-
-s = dot(p1 + p2, gmunu, p1 + p2)
-t = dot(p1 - p3, gmunu, p1 - p3)
-u = dot(p1 - p4, gmunu, p1 - p4)
-
-check(s == 2 E omega + 2 omega^2 + m^2)
-check(t == 2 omega^2 (cos(theta) - 1))
-check(u == -2 E omega - 2 omega^2 cos(theta) + m^2)
-
-check(f11 == -8 s u + 24 s m^2 + 8 u m^2 + 8 m^4)
-check(f12 == 8 s m^2 + 8 u m^2 + 16 m^4)
-check(f22 == -8 s u + 8 s m^2 + 24 u m^2 + 8 m^4)
-
-check(s == 2 p12 + m^2)
-check(t == -2 p13)
-check(u == -2 p14 + m^2)
-
-"ok"
-
-"Verify equation (4)"
-
-Lambda = ((E/m,0,0,omega/m),(0,1,0,0),(0,0,1,0),(omega/m,0,0,E/m))
-
-p1 = dot(Lambda,p1)
-p2 = dot(Lambda,p2)
-p3 = dot(Lambda,p3)
-p4 = dot(Lambda,p4)
-
-check(s == dot(p1 + p2, gmunu, p1 + p2))
-check(t == dot(p1 - p3, gmunu, p1 - p3))
-check(u == dot(p1 - p4, gmunu, p1 - p4))
-
-"ok"
-
-"Verify equation (2) for boosted momentum vectors"
-
-p12 = dot(p1,gmunu,p2)
-p13 = dot(p1,gmunu,p3)
-p14 = dot(p1,gmunu,p4)
-
-check(f11 == 32 p12 p14 + 32 p12 m^2 + 32 m^4)
-check(f12 == 16 p12 m^2 - 16 p14 m^2 + 32 m^4)
-check(f22 == 32 p12 p14 - 32 p14 m^2 + 32 m^4)
-
-"ok"
-
-"Verify equation (5)"
-
-omegaL = dot(p1, (1,0,0,0))
-omegaLp = dot(p3, (1,0,0,0))
-
-check(omegaL == omega^2 / m + omega E / m)
-check(omegaLp == omega^2 cos(theta) / m + omega E / m)
-
-check(s == m^2 + 2 m omegaL)
-check(t == 2 m (omegaLp - omegaL))
-check(u == m^2 - 2 m omegaLp)
-
-"ok"
-
-"Verify equation (6)"
-
-d11 = (s - m^2)^2
-d12 = (s - m^2) (u - m^2)
-d22 = (u - m^2)^2
-
-fcom = 1/4 e^4 (f11/d11 + 2 f12/d12 + f22/d22)
-
-flab = 2 e^4 (omegaL/omegaLp + omegaLp/omegaL + (m/omegaL - m/omegaLp + 1)^2 - 1)
-
-check(fcom == flab)
-
-"ok"
-clear
 "Verify Laguerre polynomials"
 
 -- use eval to substitute arbitrary expression x for y (y is a local var)
@@ -4347,7 +4213,7 @@ check(B == curl(A))
 
 "ok"
 clear
--- Verify formulas for Moller scattering
+"Moller scattering 1"
 
 E = sqrt(p^2 + m^2)
 
@@ -4390,41 +4256,131 @@ gamma = (gamma0,gamma1,gamma2,gamma3)
 gammaT = transpose(gamma)
 gammaL = transpose(dot(gmunu,gamma))
 
-"Verify Casimir trick"
-
 u1 = (u11,u12)
 u2 = (u21,u22)
 u3 = (u31,u32)
 u4 = (u41,u42)
 
-u3bar = dot(conj(u3),gamma0) -- adjoint of u3
-u4bar = dot(conj(u4),gamma0) -- adjoint of u4
+u3bar = dot(conj(u3),gamma0)
+u4bar = dot(conj(u4),gamma0)
 
-M1(a,b,c,d) = e^2 dot(
- dot(u3bar[c],gammaT,u1[a]),
- dot(u4bar[d],gammaL,u2[b])
+M1(a,b,c,d) = dot(
+ dot(u4bar[d],gammaT,u2[b]),
+ dot(u3bar[c],gammaL,u1[a])
 )
 
-M2(a,b,c,d) = -e^2 dot(
- dot(u4bar[d],gammaT,u1[a]),
- dot(u3bar[c],gammaL,u2[b])
+M2(a,b,c,d) = dot(
+ dot(u3bar[c],gammaT,u2[b]),
+ dot(u4bar[d],gammaL,u1[a])
 )
 
-M11 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+MM11 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
  M1(a,b,c,d) conj(M1(a,b,c,d))
 ))))
 
-M12 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+MM12 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
  M1(a,b,c,d) conj(M2(a,b,c,d))
 ))))
 
-M21 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+MM21 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
  M2(a,b,c,d) conj(M1(a,b,c,d))
 ))))
 
-M22 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
+MM22 = sum(a,1,2,sum(b,1,2,sum(c,1,2,sum(d,1,2,
  M2(a,b,c,d) conj(M2(a,b,c,d))
 ))))
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+f11 = 8 s^2 + 8 u^2 - 64 m^2 s - 64 m^2 u + 192 m^4
+f12 = -8 s^2 + 64 m^2 s - 96 m^4
+f22 = 8 s^2 + 8 t^2 - 64 m^2 s - 64 m^2 t + 192 m^4
+
+"Verify formulas"
+
+check(MM11 == f11)
+check(MM12 == f12)
+check(MM22 == f22)
+
+check(MM11 - MM12 - MM21 + MM22 == f11 - 2 f12 + f22)
+
+m = 0
+
+check(f11 == 8 s^2 + 8 u^2)
+check(f12 == -8 s^2)
+check(f22 == 8 s^2 + 8 t^2)
+
+check(s == 4 E^2)
+check(t == -2 E^2 (1 - cos(theta)))
+check(u == -2 E^2 (1 + cos(theta)))
+
+a = (1 + cos(theta/2)^4) / sin(theta/2)^4
+b = 2 / (sin(theta/2)^2 cos(theta/2)^2)
+c = (1 + sin(theta/2)^4) / cos(theta/2)^4
+
+check(a == (s^2 + u^2) / t^2)
+check(b == 2 s^2 / (t u))
+check(c == (s^2 + t^2) / u^2)
+
+check(1/4 (f11 / t^2 - 2 f12 / (t u) + f22 / u^2) == 2 (a + b + c))
+
+check(2 (a + b + c) == 4 (cos(theta)^2 + 3)^2 / sin(theta)^4)
+
+"ok"
+clear
+"Moller scattering 2"
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
+
+p4 = (E,
+      -p sin(theta) cos(phi),
+      -p sin(theta) sin(phi),
+      -p cos(theta))
+
+check(p4 + p3 - p2 - p1 == 0)
+
+"ok"
+clear
+"Moller scattering 3"
+
+E = sqrt(p^2 + m^2)
+
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
+
+p3 = (E,
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
+
+p4 = (E,
+      -p sin(theta) cos(phi),
+      -p sin(theta) sin(phi),
+      -p cos(theta))
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
 
 pslash1 = dot(p1,gmunu,gamma)
 pslash2 = dot(p2,gmunu,gamma)
@@ -4436,90 +4392,73 @@ X2 = pslash2 + m I
 X3 = pslash3 + m I
 X4 = pslash4 + m I
 
-T1 = contract(dot(X3,gammaT,X1,gammaT),1,4)
-T2 = contract(dot(X4,gammaL,X2,gammaL),1,4)
+T1 = contract(dot(X4,gammaT,X2,gammaT),1,4)
+T2 = contract(dot(X3,gammaL,X1,gammaL),1,4)
 f11 = contract(dot(T1,transpose(T2)))
 
-T = contract(dot(X3,gammaT,X1,gammaT,X4,gammaL,X2,gammaL),1,6)
-f12 = -contract(contract(T,1,3))
+T = contract(dot(X4,gammaT,X2,gammaT,X3,gammaL,X1,gammaL),1,6)
+f12 = contract(T,1,3,1,2)
 
-T1 = contract(dot(X4,gammaT,X1,gammaT),1,4)
-T2 = contract(dot(X3,gammaL,X2,gammaL),1,4)
+T1 = contract(dot(X3,gammaT,X2,gammaT),1,4)
+T2 = contract(dot(X4,gammaL,X1,gammaL),1,4)
 f22 = contract(dot(T1,transpose(T2)))
 
-check(e^4 f11 == M11)
-check(e^4 f12 == M12)
-check(e^4 f12 == M21)
-check(e^4 f22 == M22)
-
-"ok"
-
-"Verify probability density"
-
-p12 = dot(p1,gmunu,p2)
-p13 = dot(p1,gmunu,p3)
-p14 = dot(p1,gmunu,p4)
-
-check(f11 == 32 p12^2 + 32 p14^2 - 64 p12 m^2 + 64 p14 m^2)
-check(f12 == 32 p12^2 - 64 p12 m^2)
-check(f22 == 32 p12^2 + 32 p13^2 - 64 p12 m^2 + 64 p13 m^2)
+"Verify Casimir trick"
 
 s = dot(p1 + p2, gmunu, p1 + p2)
 t = dot(p1 - p3, gmunu, p1 - p3)
 u = dot(p1 - p4, gmunu, p1 - p4)
 
-check(s == 4 p^2 + 4 m^2)
-check(t == 2 p^2 (cos(theta) - 1))
-check(u == -2 p^2 (cos(theta) + 1))
+check(f11 == 8 s^2 + 8 u^2 - 64 m^2 s - 64 m^2 u + 192 m^4)
+check(f12 == -8 s^2 + 64 m^2 s - 96 m^4)
+check(f22 == 8 s^2 + 8 t^2 - 64 m^2 s - 64 m^2 t + 192 m^4)
 
-check(f11 == 8 s^2 + 8 u^2 - 64 s m^2 - 64 u m^2 + 192 m^4)
-check(f12 == 8 s^2 - 64 s m^2 + 96 m^4)
-check(f22 == 8 s^2 + 8 t^2 - 64 s m^2 - 64 t m^2 + 192 m^4)
+"ok"
+clear
+"Moller scattering 4"
 
-check(s == 2 p12 + 2 m^2)
-check(t == -2 p13 + 2 m^2)
-check(u == -2 p14 + 2 m^2)
+E = sqrt(p^2 + m^2)
 
-check(p12 == 1/2 s - m^2)
-check(p13 == -1/2 t + m^2)
-check(p14 == -1/2 u + m^2)
+p1 = (E, 0, 0, p)
+p2 = (E, 0, 0, -p)
 
-d11 = t^2
-d12 = t u
-d22 = u^2
+p3 = (E,
+      p sin(theta) cos(phi),
+      p sin(theta) sin(phi),
+      p cos(theta))
 
-f = 1/4 e^4 (f11/d11 + 2 f12/d12 + f22/d22)
+p4 = (E,
+      -p sin(theta) cos(phi),
+      -p sin(theta) sin(phi),
+      -p cos(theta))
 
--- high energy approximation
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+f11 = 32 p12^2 + 32 p14^2 - 64 m^2 p12 + 64 m^2 p14
+f12 = -32 p12^2 + 64 m^2 p12
+f22 = 32 p12^2 + 32 p13^2 - 64 m^2 p12 + 64 m^2 p13
+
+"Verify formulas"
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(f11 == 8 s^2 + 8 u^2 - 64 m^2 s - 64 m^2 u + 192 m^4)
+check(f12 == -8 s^2 + 64 m^2 s - 96 m^4)
+check(f22 == 8 s^2 + 8 t^2 - 64 m^2 s - 64 m^2 t + 192 m^4)
 
 m = 0
 
-check(f11 == 8 s^2 + 8 u^2)
-check(f12 == 8 s^2)
-check(f22 == 8 s^2 + 8 t^2)
-
-check(s == 4 E^2)
-check(t == -2 E^2 (1 - cos(theta)))
-check(u == -2 E^2 (1 + cos(theta)))
-
-T11 = 1/8 f11 / t^2
-T12 = 1/8 2 f12 / (t u)
-T22 = 1/8 f22 / u^2
-
-check(T11 == (1 + cos(theta/2)^4) / sin(theta/2)^4)
-check(T12 == 2 / (sin(theta/2)^2 cos(theta/2)^2))
-check(T22 == (1 + sin(theta/2)^4) / cos(theta/2)^4)
-
-check(f == 2 e^4 (T11 + T12 + T22))
-check(f == 4 e^4 (cos(theta)^2 + 3)^2 / sin(theta)^4)
+check(32 p12^2 == 8 s^2)
+check(32 p13^2 == 8 t^2)
+check(32 p14^2 == 8 u^2)
 
 m = quote(m)
-
--- verify integral
-
-f = (cos(theta)^2 + 3)^2 / sin(theta)^4
-I = -8 cos(theta) / sin(theta)^2 - cos(theta)
-check(f sin(theta) == d(I,theta))
 
 "ok"
 clear
