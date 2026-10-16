@@ -2177,6 +2177,109 @@ check(MM == 2 e^4 (omegaL/omegaLp + omegaLp/omegaL + (m/omegaL - m/omegaLp + 1)^
 "/Users/georgeweigt/github/georgeweigt.github.io/examples/compton-scattering-2-demo.txt"
 status
 clear
+"Compton scattering 3"
+
+"Verify Casimir trick"
+
+E = sqrt(omega^2 + m^2)
+
+p1 = (E, 0, 0, omega)
+p2 = (omega, 0, 0, -omega)
+
+p3 = (E,
+      omega sin(theta) cos(phi),
+      omega sin(theta) sin(phi),
+      omega cos(theta))
+
+p4 = (omega,
+      -omega sin(theta) cos(phi),
+      -omega sin(theta) sin(phi),
+      -omega cos(theta))
+
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+
+gamma = (gamma0,gamma1,gamma2,gamma3)
+
+gammaT = transpose(gamma)
+gammaL = transpose(dot(gmunu,gamma))
+
+P1 = dot(p1,gmunu,gamma) + m I
+P3 = dot(p3,gmunu,gamma) + m I
+
+Q1 = dot(p1 + p2, gmunu, gamma) + m I
+Q2 = dot(p1 - p4, gmunu, gamma) + m I
+
+T1 = contract(dot(Q1,gammaT,P3,gammaL),2,3)
+T2 = contract(dot(Q1,gammaT,P1,gammaL),2,3)
+f11 = contract(dot(T1,T2))
+
+T = contract(dot(Q2,gammaT,P3,gammaT,Q1,gammaL),2,4)
+f12 = contract(dot(T,P1,gammaL),2,3,1,2)
+
+T1 = contract(dot(Q2,gammaT,P3,gammaL),2,3)
+T2 = contract(dot(Q2,gammaT,P1,gammaL),2,3)
+f22 = contract(dot(T1,T2))
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(f11 == -8 s u + 24 m^2 s + 8 m^2 u + 8 m^4)
+check(f12 == 8 m^2 s + 8 m^2 u + 16 m^4)
+check(f22 == -8 s u + 8 m^2 s + 24 m^2 u + 8 m^4)
+
+"ok"
+"/Users/georgeweigt/github/georgeweigt.github.io/examples/compton-scattering-3-demo.txt"
+status
+clear
+"Compton scattering 4"
+
+"Verify formulas"
+
+E = sqrt(omega^2 + m^2)
+
+p1 = (E, 0, 0, omega)
+p2 = (omega, 0, 0, -omega)
+
+p3 = (E,
+      omega sin(theta) cos(phi),
+      omega sin(theta) sin(phi),
+      omega cos(theta))
+
+p4 = (omega,
+      -omega sin(theta) cos(phi),
+      -omega sin(theta) sin(phi),
+      -omega cos(theta))
+
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+
+p12 = dot(p1,gmunu,p2)
+p13 = dot(p1,gmunu,p3)
+p14 = dot(p1,gmunu,p4)
+
+f11 = 32 p12 p14 + 32 m^2 p12 + 32 m^4
+f12 = 16 m^2 p12 - 16 m^2 p14 + 32 m^4
+f22 = 32 p12 p14 - 32 m^2 p14 + 32 m^4
+
+s = dot(p1 + p2, gmunu, p1 + p2)
+t = dot(p1 - p3, gmunu, p1 - p3)
+u = dot(p1 - p4, gmunu, p1 - p4)
+
+check(f11 == -8 s u + 24 m^2 s + 8 m^2 u + 8 m^4)
+check(f12 == 8 m^2 s + 8 m^2 u + 16 m^4)
+check(f22 == -8 s u + 8 m^2 s + 24 m^2 u + 8 m^4)
+
+"ok"
+"/Users/georgeweigt/github/georgeweigt.github.io/examples/compton-scattering-4-demo.txt"
+status
+clear
 -- Compton scattering data from CERN LEP
 
 -- arxiv.org/abs/hep-ex/0504012
