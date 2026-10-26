@@ -188,11 +188,26 @@ scan_power(void)
 {
 	scan_factor();
 	if (token == '^') {
-		get_token_skip_newlines();
 		push_symbol(POWER);
 		swap();
-		scan_power();
-		list(3);
+		get_token_skip_newlines();
+		switch (token) {
+		case '+':
+			get_token_skip_newlines();
+			scan_power();
+			list(3);
+			break;
+		case '-':
+			get_token_skip_newlines();
+			scan_power();
+			static_negate();
+			list(3);
+			break;
+		default:
+			scan_power();
+			list(3);
+			break;
+		}
 	}
 }
 

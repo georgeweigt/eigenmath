@@ -17846,15 +17846,27 @@ function
 scan_power()
 {
 	scan_factor();
-
 	if (token == T_ASCIICIRCUM) {
-
-		get_token_skip_newlines();
-
 		push_symbol(POWER);
 		swap();
-		scan_power();
-		list(3);
+		get_token_skip_newlines();
+		switch (token) {
+		case T_PLUS:
+			get_token_skip_newlines();
+			scan_power();
+			list(3);
+			break;
+		case T_HYPHEN:
+			get_token_skip_newlines();
+			scan_power();
+			static_negate();
+			list(3);
+			break;
+		default:
+			scan_power();
+			list(3);
+			break;
+		}
 	}
 }
 
